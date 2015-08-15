@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Melia.Login.Network.Helpers
+namespace Melia.Shared.Network.Helpers
 {
 	public static class CharacterHelper
 	{

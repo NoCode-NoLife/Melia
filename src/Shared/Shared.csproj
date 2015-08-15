@@ -58,6 +58,7 @@
     <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
+    <Compile Include="Network\Helpers\CharacterHelper.cs" />
     <Compile Include="Network\Op.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Packet.cs" />

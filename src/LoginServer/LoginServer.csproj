@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginServer.cs" />
-    <Compile Include="Network\Helpers\CharacterHelper.cs" />
     <Compile Include="Network\LoginConnection.cs" />
     <Compile Include="Network\LoginPacketHandler.cs" />
     <Compile Include="Network\LoginPacketSender.cs" />
