@@ -317,13 +317,12 @@ namespace Melia.Login.Network
 			Log.Debug("index: {0}", index);
 
 			packet = new Packet(Op.BC_START_GAMEOK);
-			packet.PutInt(0); // Zone id?
+			packet.PutInt(101); // Zone id?
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
 			packet.PutInt(0);
 			packet.PutByte(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutLong(0);
 			packet.PutByte(0); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
 			packet.PutByte(0); // Used if ^ is !0
 			conn.Send(packet);
