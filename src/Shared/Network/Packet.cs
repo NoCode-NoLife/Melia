@@ -134,6 +134,27 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads null-terminated string from buffer and returns it as UTF8.
+		/// </summary>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public string GetString()
+		{
+			for (int i = _ptr; i < _buffer.Length; ++i)
+			{
+				if (_buffer[i] == 0)
+				{
+					var val = Encoding.UTF8.GetString(_buffer, _ptr, i - _ptr);
+					_ptr += val.Length + 1;
+					this.Length += val.Length + 1;
+					return val;
+				}
+			}
+
+			throw new Exception("String not null-terminated.");
+		}
+
+		/// <summary>
 		/// Reads struct from buffer.
 		/// </summary>
 		/// <typeparam name="TStruct"></typeparam>
