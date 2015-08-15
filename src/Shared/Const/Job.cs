@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Melia.Shared.Const
+{
+	public enum Job : short
+	{
+		Swordsman = 1001,
+		Highlander = 1002,
+		Peltasta = 1003,
+		Hoplite = 1004,
+		Centurion = 1005,
+		Barbarian = 1006,
+		Cataphract = 1007,
+		Corsair = 1008,
+		Doppelsoeldner = 1009,
+		Rodelero = 1010,
+		Squire = 1011,
+		Murmillo = 1012,
+		Shinobi = 1013,
+
+		Wizard = 2001,
+		FireMage = 2002,
+		FrostMage = 2003,
+		Psychokino = 2004,
+		Alchemist = 2005,
+		Sorcerer = 2006,
+		Linker = 2007,
+		Chronomancer = 2008,
+		Necromancer = 2009,
+		Thaumaturge = 2010,
+		Warlock = 2011,
+		Mimic = 2012,
+		Daoshi = 2013,
+
+		Archer = 3001,
+		Hunter = 3002,
+		QuarrelShooter = 3003,
+		Ranger = 3004,
+		Sapper = 3005,
+		Wugushi = 3006,
+		Hackapell = 3007,
+		Scout = 3008,
+		Rogue = 3009,
+		SchwarzeReiter = 3010,
+		Fletcher = 3011,
+		PiedPiper = 3012,
+		Appraiser = 3013,
+		Falconer = 3014,
+
+		Cleric = 4001,
+		Priest = 4002,
+		Krivi = 4003,
+		Bokor = 4004,
+		Druid = 4005,
+		Sadhu = 4006,
+		Dievdirbys = 4007,
+		Oracle = 4008,
+		Monk = 4009,
+		Pardoner = 4010,
+		Paladin = 4011,
+		Chaplain = 4012,
+		Shepherd = 4013,
+
+		GM = 9001,
+	}
+}
