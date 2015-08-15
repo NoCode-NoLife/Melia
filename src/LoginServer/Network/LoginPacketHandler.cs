@@ -142,7 +142,7 @@ namespace Melia.Login.Network
 
 			var xx = new Packet(Op.BC_NORMAL);
 			xx.PutInt(0xB);
-			xx.PutBinFromHex("00 00 00 00 64 00 00 00 00 00 00 00 00");
+			xx.PutBinFromHex("00 00 00 00 00 64 00 00 00 00 00 00 00 00");
 			conn.Send(xx);
 		}
 
@@ -330,19 +330,19 @@ namespace Melia.Login.Network
 			// _BYTE byte20;
 			packet = new Packet(Op.BC_START_GAMEOK);
 			packet.PutInt(0); // Zone id?
-			packet.PutInt(0x7F000001); // 127.0.0.1
-			packet.PutInt(11000); // Port
+			packet.PutInt(0x0100007F); // 127.0.0.1
+			packet.PutInt(2001); // Port
 			packet.PutInt(0);
 			packet.PutByte(0);
-			packet.PutInt(0x7F000001);
-			packet.PutInt(11000);
+			packet.PutInt(0);
+			packet.PutInt(0);
 			packet.PutByte(1); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
 			packet.PutByte(0); // Used if ^ is !0
 			conn.Send(packet);
 
 			packet = new Packet(Op.BC_SERVER_ENTRY);
-			packet.PutInt(0x7F000001);
-			packet.PutInt(0x7F000001);
+			packet.PutInt(0x0100007F);
+			packet.PutInt(0x0100007F);
 			packet.PutShort(11000);
 			packet.PutShort(11020);
 			conn.Send(packet);

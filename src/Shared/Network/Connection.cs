@@ -121,7 +121,10 @@ namespace Melia.Shared.Network
 				{
 					var packetLength = BitConverter.ToUInt16(_buffer, read);
 					if (packetLength > length)
+					{
+						Log.Debug(BitConverter.ToString(_buffer, read, length - read));
 						throw new Exception("Packet length greater than buffer length (" + packetLength + " > " + length + ").");
+					}
 
 					// Read packet from buffer
 					var packetBuffer = new byte[packetLength];
