@@ -20,43 +20,60 @@ namespace Melia.Channel.Network
 		public static readonly ChannelPacketHandler Instance = new ChannelPacketHandler();
 
 		/// <summary>
-		/// Sent when clicking [Enter] on login screen.
+		/// Sent after connecting to channel.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [03 00] [00 00 00 00] [0A 06 00 00] 61 73 64 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 15 69 6E CB F1 C9 6E 68 94 B7 79 45 6D 33 0E 00 01 C0 A8 B2 14 52 93 3A 5C F0 16 79
+		/// [Debug] - Recv: [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
 		/// </example>
-		//[PacketHandler(Op.CB_LOGIN)]
-		//public void CB_LOGIN(LoginConnection conn, Packet packet)
-		//{
-		//	var username = packet.GetString(33);
-		//	var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
-		//	var unkByte1 = packet.GetByte();
-		//	var unkByte2 = packet.GetByte();
-		//	var ip = packet.GetInt();
+		[PacketHandler(Op.CZ_CONNECT)]
+		public void CZ_LOGIN(ChannelConnection conn, Packet packet)
+		{
+			// struct cz_login
+			// {
+			//     struct header packet_head;
+			//     short len; //? 1059
+			//     short w1;
+			//     int64 id;
+			//     int d1;
+			//     int d2;
+			//     char str[33];
+			//     int d3;
+			//     short w2;
+			//     byte b1;
+			//     byte b2;
+			//     byte b3;
+			var len = packet.GetShort(); // ? 1059
+			var unkShort1 = packet.GetShort();
+			var sessionId = packet.GetLong();
+			var unkInt1 = packet.GetInt();
+			var unkInt2 = packet.GetInt();
+			var accountName = packet.GetString(); // ?
+			var unkByte1 = packet.GetByte();
+			var unkShort2 = packet.GetShort(); // 3276
+			// ...
 
-		//	// Create new account
-		//	if (username.StartsWith("new__") || username.StartsWith("new//"))
-		//	{
-		//		username = username.Substring("new__".Length);
-		//		if (!LoginServer.Instance.Database.AccountExists(username))
-		//			LoginServer.Instance.Database.CreateAccount(username, password);
-		//	}
+			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
 
-		//	// Check username and password
-		//	if (!LoginServer.Instance.Database.CheckAccount(username, password))
-		//	{
-		//		Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
-		//		conn.Kill();
-		//		return;
-		//	}
+			//packet = new Packet(Op.ZC_CONNECT_OK);
+			//packet.PutEmptyBin(500);
+			//conn.Send(packet);
 
-		//	conn.Account = LoginServer.Instance.Database.GetAccount(username);
+			var characters = conn.Account.GetCharacters();
 
-		//	Log.Info("User '{0}' logged in.", conn.Account.Name);
+			packet = new Packet(Op.ZC_CONNECT_OK);
+			packet.PutByte(1);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutEmptyBin(10);
 
-		//	Send.BC_LOGINOK(conn);
-		//}
+			packet.PutShort(0); // count v ?
+			//packet.PutEmptyBin(0);
+
+			packet.AddCharacter(characters[0]);
+
+			conn.Send(packet);
+		}
 	}
 }

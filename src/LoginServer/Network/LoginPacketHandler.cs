@@ -317,7 +317,7 @@ namespace Melia.Login.Network
 			Log.Debug("index: {0}", index);
 
 			packet = new Packet(Op.BC_START_GAMEOK);
-			packet.PutInt(101); // Zone id?
+			packet.PutInt(100); // Zone id?
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
 			packet.PutInt(0);

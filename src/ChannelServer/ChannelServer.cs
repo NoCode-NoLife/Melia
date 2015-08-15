@@ -39,7 +39,7 @@ namespace Melia.Channel
 			this.InitDatabase();
 
 			// Packet handlers
-			//LoginPacketHandler.Instance.RegisterMethods();
+			ChannelPacketHandler.Instance.RegisterMethods();
 
 			// Server
 			var mgr = new ConnectionManager<ChannelConnection>(2001);

@@ -18,7 +18,7 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_LOGINOK);
 			packet.PutShort(0);
 			packet.PutLong(conn.SessionId);
-			packet.PutString("foobar", 17);
+			packet.PutString(conn.Account.Name, 17);
 			packet.PutInt(0); // hotkey?
 			packet.PutBin(new byte[80]);
 
