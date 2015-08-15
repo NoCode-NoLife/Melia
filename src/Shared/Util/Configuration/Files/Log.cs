@@ -12,13 +12,13 @@
 		{
 			this.Require("system/conf/log.conf");
 
-			//this.Archive = this.GetBool("archive", true);
-			//this.Hide = (LogLevel)this.GetInt("cmd_hide", (int)(LogLevel.Debug));
+			this.Archive = this.GetBool("archive", true);
+			this.Hide = (LogLevel)this.GetInt("cmd_hide", (int)(LogLevel.Debug));
 
-			//if (this.Archive)
-			//	Log.Archive = "log/archive/";
-			//Log.LogFile = string.Format("log/{0}.txt", System.AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "").Replace(".vshost", ""));
-			//Log.Hide |= this.Hide;
+			if (this.Archive)
+				Log.Archive = "log/archive/";
+			Log.LogFile = string.Format("log/{0}.txt", System.AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "").Replace(".vshost", ""));
+			Log.Hide |= this.Hide;
 		}
 	}
 }
