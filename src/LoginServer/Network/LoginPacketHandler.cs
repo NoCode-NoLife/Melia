@@ -331,8 +331,8 @@ namespace Melia.Login.Network
 			packet = new Packet(Op.BC_SERVER_ENTRY);
 			packet.PutInt(0x0100007F);
 			packet.PutInt(0x0100007F);
-			packet.PutShort(11000);
-			packet.PutShort(11020);
+			packet.PutShort(2002);
+			packet.PutShort(2003);
 			conn.Send(packet);
 		}
 	}

@@ -29,7 +29,7 @@ namespace Melia.Login
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Login Server", ConsoleColor.Magenta);
+			Cmd.WriteHeader("Login", ConsoleColor.Magenta);
 			Cmd.LoadingTitle();
 
 			// Conf

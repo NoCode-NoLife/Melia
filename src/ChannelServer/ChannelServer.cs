@@ -29,7 +29,7 @@ namespace Melia.Channel
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Channel Server", ConsoleColor.DarkGreen);
+			Cmd.WriteHeader("Channel", ConsoleColor.DarkGreen);
 			Cmd.LoadingTitle();
 
 			// Conf

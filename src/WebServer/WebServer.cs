@@ -35,7 +35,7 @@ namespace Melia.Web
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Web Server", ConsoleColor.DarkRed);
+			Cmd.WriteHeader("Web", ConsoleColor.DarkRed);
 			Cmd.LoadingTitle();
 
 			// Conf
