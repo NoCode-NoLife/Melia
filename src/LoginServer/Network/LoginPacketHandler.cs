@@ -140,10 +140,10 @@ namespace Melia.Login.Network
 			//xx.PutShort(0);
 			//conn.Send(xx);
 
-			var xx = new Packet(Op.BC_NORMAL);
-			xx.PutInt(0xB);
-			xx.PutBinFromHex("00 00 00 00 00 64 00 00 00 00 00 00 00 00");
-			conn.Send(xx);
+			//var xx = new Packet(Op.BC_NORMAL);
+			//xx.PutInt(0xB);
+			//xx.PutBinFromHex("00 00 00 00 00 64 00 00 00 00 00 00 00 00");
+			//conn.Send(xx);
 		}
 
 		/// <summary>
@@ -316,18 +316,6 @@ namespace Melia.Login.Network
 			Log.Debug("unkShort: {0}", unkShort);
 			Log.Debug("index: {0}", index);
 
-
-			// _WORD word0;
-			// _BYTE gap2[4];
-			// _DWORD dword6;
-			// _DWORD dwordA;
-			// _DWORD dwordE;
-			// _DWORD dword12;
-			// _BYTE byte16;
-			// _DWORD dword17;
-			// _DWORD dword1B;
-			// _BYTE byte1F;
-			// _BYTE byte20;
 			packet = new Packet(Op.BC_START_GAMEOK);
 			packet.PutInt(0); // Zone id?
 			packet.PutInt(0x0100007F); // 127.0.0.1
