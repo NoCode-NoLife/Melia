@@ -336,7 +336,7 @@ namespace Melia.Login.Network
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutByte(1); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
+			packet.PutByte(0); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
 			packet.PutByte(0); // Used if ^ is !0
 			conn.Send(packet);
 
