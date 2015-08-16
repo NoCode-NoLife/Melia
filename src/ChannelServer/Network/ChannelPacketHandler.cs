@@ -121,12 +121,12 @@ namespace Melia.Channel.Network
 			}
 
 			packet.PutEmptyBin(3);
-			packet.PutInt(1);
-			packet.PutInt(2);
-			packet.PutInt(3);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
 			packet.PutInt(100);  // Exp
 			packet.PutInt(1000); // MaxExp
-			packet.PutInt(4);
+			packet.PutInt(0);
 
 			packet.PutLong(character.Id);
 
@@ -189,8 +189,8 @@ namespace Melia.Channel.Network
 			//_QWORD qword12;
 			packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
 			packet.PutFloat(1);
-			packet.PutFloat(2);
-			packet.PutFloat(3);
+			packet.PutFloat(1);
+			packet.PutFloat(1);
 			packet.PutLong(DateTime.Now.ToFileTime());
 			conn.Send(packet);
 
