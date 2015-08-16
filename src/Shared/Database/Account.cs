@@ -33,6 +33,12 @@ namespace Melia.Shared.Database
 				return _characters.FirstOrDefault(a => a.Index == index);
 		}
 
+		public Character GetCharacterById(long id)
+		{
+			lock (_characters)
+				return _characters.FirstOrDefault(a => a.Id == id);
+		}
+
 		public void AddCharacter(Character character)
 		{
 			lock (_characters)

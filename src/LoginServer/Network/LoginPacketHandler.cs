@@ -311,18 +311,21 @@ namespace Melia.Login.Network
 			var unkShort = packet.GetShort(); // channel?
 			var index = packet.GetByte();
 
+			var character = conn.Account.GetCharacterByIndex(index);
+
 			// Debug
 			Log.Debug("CB_START_GAME");
 			Log.Debug("unkShort: {0}", unkShort);
 			Log.Debug("index: {0}", index);
+			Log.Debug("character: {0}", character.Name);
 
 			packet = new Packet(Op.BC_START_GAMEOK);
-			packet.PutInt(100); // Zone id?
+			packet.PutInt(0); // Zone id?
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
-			packet.PutInt(0);
-			packet.PutByte(0);
-			packet.PutLong(0);
+			packet.PutInt(1001);
+			packet.PutByte(index);
+			packet.PutLong(character.Id);
 			packet.PutByte(0); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
 			packet.PutByte(0); // Used if ^ is !0
 			conn.Send(packet);

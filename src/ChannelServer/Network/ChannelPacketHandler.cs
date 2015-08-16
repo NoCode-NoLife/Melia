@@ -28,7 +28,7 @@ namespace Melia.Channel.Network
 		/// [Debug] - Recv: [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
 		/// </example>
 		[PacketHandler(Op.CZ_CONNECT)]
-		public void CZ_LOGIN(ChannelConnection conn, Packet packet)
+		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
 			// struct cz_login
 			// {
@@ -47,23 +47,37 @@ namespace Melia.Channel.Network
 			var len = packet.GetShort(); // ? 1059
 			var unkShort1 = packet.GetShort();
 			var sessionId = packet.GetLong();
-			var unkInt1 = packet.GetInt();
-			var unkInt2 = packet.GetInt();
+			var characterId = packet.GetLong();
 			var accountName = packet.GetString(); // ?
 			var unkByte1 = packet.GetByte();
 			var unkShort2 = packet.GetShort(); // 3276
+			var unkShort3 = packet.GetShort(); // 336
+			var unkShort4 = packet.GetShort(); // 3276
+			var unkShort5 = packet.GetShort(); // 8972
 			// ...
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
+			var character = conn.Account.GetCharacterById(characterId);
 
 			//packet = new Packet(Op.ZC_CONNECT_OK);
 			//packet.PutEmptyBin(500);
 			//conn.Send(packet);
 
-			var characters = conn.Account.GetCharacters();
+			//packet = new Packet(Op.ZC_CONNECT_FAILED);
+			//packet.PutString("test",12);
+			//conn.Send(packet);
+			//conn.Kill();
+
+			//packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
+			//packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ");
+			//conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_MOVE_ZONE);
+			//packet.PutByte(1);
+			//conn.Send(packet);
 
 			packet = new Packet(Op.ZC_CONNECT_OK);
-			packet.PutByte(1);
+			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.PutEmptyBin(10);
@@ -71,8 +85,38 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // count v ?
 			//packet.PutEmptyBin(0);
 
-			packet.AddCharacter(characters[0]);
+			packet.AddCharacter(character);
 
+			conn.Send(packet);
+		}
+
+		// [FE 0B] [01 00 00 00] [08 01 00 00] | F3 C0 A9 C2 72 F2
+		[PacketHandler(Op.CZ_GAME_READY)]
+		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
+		{
+			var characters = conn.Account.GetCharacters();
+
+			packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
+			//packet.AddCharacter(characters[0]);
+			//conn.Send(packet);
+		}
+
+		// [59 0C] [02 00 00 00] [65 00 00 00] 02 00 00 00 00 00 00 00 | E7 B1 5E C8 25 CB	
+		[PacketHandler(Op.CZ_CAMPINFO)]
+		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
+		{
+			var sessionId = packet.GetLong();
+
+			packet = new Packet(Op.ZC_CAMPINFO); // Size: 18 (12)
+			packet.PutEmptyBin(12);
 			conn.Send(packet);
 		}
 	}
