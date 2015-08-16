@@ -15,12 +15,21 @@ namespace Melia.Login.Network
 	{
 		public static void BC_LOGINOK(LoginConnection conn)
 		{
+			// _BYTE gap0[6];
+			// _WORD word6;
+			// _DWORD dword8;
+			// _DWORD dwordC;
+			// char char10;
+			// _BYTE gap11[32];
+			// _DWORD dword31;
+			// char char35;
+
 			var packet = new Packet(Op.BC_LOGINOK);
 			packet.PutShort(0);
 			packet.PutLong(conn.SessionId);
-			packet.PutString(conn.Account.Name, 17);
+			packet.PutString(conn.Account.Name, 33);
 			packet.PutInt(0); // hotkey?
-			packet.PutBin(new byte[80]);
+			packet.PutString("test string", 64);
 
 			conn.Send(packet);
 		}
