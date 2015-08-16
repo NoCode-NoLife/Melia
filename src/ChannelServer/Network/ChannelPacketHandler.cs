@@ -228,6 +228,12 @@ namespace Melia.Channel.Network
 			//packet.PutByte(0);
 			//conn.Send(packet);
 
+			packet = new Packet(Op.ZC_MYPC_ENTER); // Size: 18 (12)
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			conn.Send(packet);
+
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
 			//packet.AddCharacter(conn.SelectedCharacter);
 			//conn.Send(packet);
