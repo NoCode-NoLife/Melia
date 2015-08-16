@@ -56,7 +56,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte(character.Index);
 
 			packet.PutByte(0);
-			packet.PutShort(1001); // Zone id?
+			packet.PutShort(2088); // Zone id?
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);

@@ -144,6 +144,16 @@ namespace Melia.Login.Network
 			//xx.PutInt(0xB);
 			//xx.PutBinFromHex("00 00 00 00 00 64 00 00 00 00 00 00 00 00");
 			//conn.Send(xx);
+
+			//packet = new Packet(Op.BC_SINGLE_INFO);
+			//packet.PutEmptyBin(255 - 6);
+			//packet.PutInt(10);
+			//packet.PutInt(20);
+			//packet.PutInt(30);
+			//packet.PutByte(1);
+			//packet.PutString("singleinfo test", 40);
+			//packet.PutByte(1);
+			//conn.Send(packet);
 		}
 
 		/// <summary>
@@ -323,11 +333,11 @@ namespace Melia.Login.Network
 			packet.PutInt(0); // Zone id?
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
-			packet.PutInt(1001);
-			packet.PutByte(index);
+			packet.PutInt(2088);
+			packet.PutByte(0);
 			packet.PutLong(character.Id);
-			packet.PutByte(0); // connect? (goes back to login if 0, keeps trying to connect if address not reachable)
-			packet.PutByte(0); // Used if ^ is !0
+			packet.PutByte(0); // Only connects if 0
+			packet.PutByte(0); // Passed to a function if ^ is 0
 			conn.Send(packet);
 
 			packet = new Packet(Op.BC_SERVER_ENTRY);
