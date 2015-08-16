@@ -57,7 +57,7 @@ namespace Melia.Channel.Network
 			// ...
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
-			var character = conn.Account.GetCharacterById(characterId);
+			conn.SelectedCharacter = conn.Account.GetCharacterById(characterId);
 
 			//packet = new Packet(Op.ZC_CONNECT_OK);
 			//packet.PutEmptyBin(500);
@@ -85,7 +85,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // count v ?
 			//packet.PutEmptyBin(0);
 
-			packet.AddCharacter(character);
+			packet.AddCharacter(conn.SelectedCharacter);
 
 			conn.Send(packet);
 		}
@@ -105,7 +105,7 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
-			//packet.AddCharacter(characters[0]);
+			//packet.AddCharacter(conn.SelectedCharacter);
 			//conn.Send(packet);
 		}
 
