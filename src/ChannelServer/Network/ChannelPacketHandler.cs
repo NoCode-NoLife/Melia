@@ -25,7 +25,7 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [Debug] - Recv: [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
+		/// [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
 		/// </example>
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
@@ -58,6 +58,7 @@ namespace Melia.Channel.Network
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
 			conn.SelectedCharacter = conn.Account.GetCharacterById(characterId);
+			var character = conn.SelectedCharacter;
 
 			//packet = new Packet(Op.ZC_CONNECT_OK);
 			//packet.PutEmptyBin(500);
@@ -68,14 +69,6 @@ namespace Melia.Channel.Network
 			//conn.Send(packet);
 			//conn.Kill();
 
-			//packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
-			//packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_MOVE_ZONE);
-			//packet.PutByte(1);
-			//conn.Send(packet);
-
 			packet = new Packet(Op.ZC_CONNECT_OK);
 			packet.PutByte(0);
 			packet.PutInt(0);
@@ -85,12 +78,135 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // count v ?
 			//packet.PutEmptyBin(0);
 
-			packet.AddCharacter(conn.SelectedCharacter);
+			packet.PutInt(100); // not 0!
+			packet.PutInt(0);
+
+			// CommanderInfo
+			{
+				packet.PutString(character.Name, 65);
+				packet.PutString("", 64);
+				packet.PutEmptyBin(7);
+				packet.PutLong(0);
+				packet.PutShort(character.Stance);
+				packet.PutShort(0);
+				packet.PutShort((short)character.Job);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte(0);
+				packet.PutInt(character.Level);
+
+				// Items
+				// Defaults are literally empty items, NoHat, NoWeapon, etc.
+				packet.PutInt(0x00000002); // Hat
+				packet.PutInt(0x00000002); // Hat
+				packet.PutInt(0x00000004); // Outer
+				packet.PutInt(0x00000008); // Shirt
+				packet.PutInt(0x00000006); // Gloves
+				packet.PutInt(0x00000007); // Boots
+				packet.PutInt(0x00002710); // Helmet
+				packet.PutInt(0x00002AF8); // Armband
+				packet.PutInt(0x0098967C); // Weapon
+				packet.PutInt(0x0098967C); // Weapon
+				packet.PutInt(0x00000004); // Outer
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000004); // Outer
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x00000009); // Ring
+				packet.PutInt(0x0000000A); // Neck
+
+				packet.PutByte(character.Hair);
+			}
+
+			//packet.PutEmptyBin(27);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			packet.PutLong(character.Id);
+
+			//packet.PutEmptyBin(32);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0); // 
+			packet.PutByte(0); // if set to something a movement and move stop
+			packet.PutByte(0); // packet are sent on loading stuck, no other
+			packet.PutByte(0); // reaction to other bytes being anything but 0
+			packet.PutByte(0); // 
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			packet.PutByte(0);
+			packet.PutEmptyBin(3);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
 
 			conn.Send(packet);
 		}
 
-		// [FE 0B] [01 00 00 00] [08 01 00 00] | F3 C0 A9 C2 72 F2
+		/// <summary>
+		/// Sent mid-loading, after pc's enter world.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [FE 0B] [01 00 00 00] [08 01 00 00] | F3 C0 A9 C2 72 F2
+		/// </example>
 		[PacketHandler(Op.CZ_GAME_READY)]
 		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
 		{
@@ -104,12 +220,37 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			conn.Send(packet);
 
+			// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
+			//packet = new Packet(Op.ZC_MOVE_ZONE);
+			//packet.PutByte(0);
+			//conn.Send(packet);
+
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
 			//packet.AddCharacter(conn.SelectedCharacter);
 			//conn.Send(packet);
 		}
 
-		// [59 0C] [02 00 00 00] [65 00 00 00] 02 00 00 00 00 00 00 00 | E7 B1 5E C8 25 CB	
+		/// <summary>
+		/// Sent as response to ZC_MOVE_ZONE with 0 byte.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [BC 0B] [03 00 00 00] [C4 00 00 00] | FC 11 D0 A5 72 F2
+		/// </example>
+		//[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
+		//public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
+		//{
+		//}
+
+		/// <summary>
+		/// Sent at the end of the loading screen.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [59 0C] [02 00 00 00] [65 00 00 00] 02 00 00 00 00 00 00 00 | E7 B1 5E C8 25 CB	
+		/// </example>
 		[PacketHandler(Op.CZ_CAMPINFO)]
 		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
 		{
