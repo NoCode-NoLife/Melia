@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 
 namespace Melia.Shared.Database
 {
+	/// <summary>
+	/// Base class for simplified MySQL commands.
+	/// </summary>
 	public abstract class SimpleCommand : IDisposable
 	{
 		protected MySqlCommand _mc;
 		protected Dictionary<string, object> _set;
 
+		/// <summary>
+		/// Initializes internal objects.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="conn"></param>
+		/// <param name="trans"></param>
 		protected SimpleCommand(string command, MySqlConnection conn, MySqlTransaction trans = null)
 		{
 			_mc = new MySqlCommand(command, conn, trans);
@@ -38,8 +47,15 @@ namespace Melia.Shared.Database
 			_set[field] = value;
 		}
 
+		/// <summary>
+		/// Executes command.
+		/// </summary>
+		/// <returns></returns>
 		public abstract int Execute();
 
+		/// <summary>
+		/// Disposes internal, wrapped objects.
+		/// </summary>
 		public void Dispose()
 		{
 			_mc.Dispose();
@@ -70,6 +86,12 @@ namespace Melia.Shared.Database
 	/// </example>
 	public class UpdateCommand : SimpleCommand
 	{
+		/// <summary>
+		/// Creates new update command.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="conn"></param>
+		/// <param name="trans"></param>
 		public UpdateCommand(string command, MySqlConnection conn, MySqlTransaction trans = null)
 			: base(command, conn, trans)
 		{
@@ -123,6 +145,12 @@ namespace Melia.Shared.Database
 		/// </summary>
 		public long LastId { get { return _mc.LastInsertedId; } }
 
+		/// <summary>
+		/// Creates new insert command.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="conn"></param>
+		/// <param name="transaction"></param>
 		public InsertCommand(string command, MySqlConnection conn, MySqlTransaction transaction = null)
 			: base(command, conn, transaction)
 		{
