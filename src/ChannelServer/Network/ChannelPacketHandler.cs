@@ -131,29 +131,29 @@ namespace Melia.Channel.Network
 			packet.PutLong(character.Id);
 
 			//packet.PutEmptyBin(32);
-			packet.PutByte(1);
 			packet.PutByte(0);
-			packet.PutByte(2);
 			packet.PutByte(0);
-			packet.PutByte(3);
 			packet.PutByte(0);
-			packet.PutByte(4);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutInt(500);  // Min HP
 			packet.PutInt(1000);  // Max HP
 			packet.PutShort(50);  // Min SP
 			packet.PutShort(100); // Max SP
-			packet.PutByte(9);
+			packet.PutByte(0); // Affects STA somehow
+			packet.PutByte(0); // Affects STA somehow
+			packet.PutByte(1); // Affects STA somehow
+			packet.PutByte(0); // Affects STA somehow
 			packet.PutByte(0);
-			packet.PutByte(10);
 			packet.PutByte(0);
-			packet.PutByte(11);
 			packet.PutByte(0);
-			packet.PutByte(12);
 			packet.PutByte(0);
-			packet.PutByte(13);
 			packet.PutByte(0);
-			packet.PutByte(14);
+			packet.PutByte(0);
+			packet.PutByte(0);
 			packet.PutByte(0);
 
 			packet.PutByte(0);
