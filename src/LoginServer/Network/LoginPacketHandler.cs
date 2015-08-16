@@ -169,11 +169,13 @@ namespace Melia.Login.Network
 		{
 			var name = packet.GetString(64);
 
-			// TODO: Check validity
+			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => Char.IsWhiteSpace(a)));
+			var result = valid ? TeamNameChangeResult.Okay : TeamNameChangeResult.TeamChangeFailed;
 
-			conn.Account.TeamName = name;
+			if (result == TeamNameChangeResult.Okay)
+				conn.Account.TeamName = name;
 
-			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
+			Send.BC_BARRACKNAME_CHANGE(conn, result);
 		}
 
 		/// <summary>
