@@ -146,26 +146,33 @@ namespace Melia.Shared.Network
 					var packet = new Packet(packetBuffer);
 
 					// Check size from table?
-
-					// Check login state
-					if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
+					var size = Op.GetSize(packet.Op);
+					if (size != 0 && packet.Length < size)
 					{
-						if (this.Account == null)
+						Log.Warning("Invalid packet size for '{0:X4}' ({1} < {2}), from '{3}'. Ignoring packet.", packet.Op, packet.Length, size, this.Address);
+					}
+					else
+					{
+						// Check login state
+						if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
 						{
-							Log.Warning("Non-login packet sent before being logged in, from '{0}'. Killing connection.", this.Address);
-							this.Kill();
-							return;
+							if (this.Account == null)
+							{
+								Log.Warning("Non-login packet ({0:X4}) sent before being logged in, from '{1}'. Killing connection.", packet.Op, this.Address);
+								this.Kill();
+								return;
+							}
 						}
-					}
 
-					// Handle
-					try
-					{
-						this.HandlePacket(packet);
-					}
-					catch (Exception ex)
-					{
-						Log.Exception(ex, "Error while handling packet '{0:X4}'.", packet.Op);
+						// Handle
+						try
+						{
+							this.HandlePacket(packet);
+						}
+						catch (Exception ex)
+						{
+							Log.Exception(ex, "Error while handling packet '{0:X4}'.", packet.Op);
+						}
 					}
 				}
 
