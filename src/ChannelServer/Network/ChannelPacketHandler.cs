@@ -81,7 +81,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(100); // not 0!
 			packet.PutInt(0);
 
-			// CommanderInfo
+			// CommanderInfo (237)
 			{
 				packet.PutString(character.Name, 65);
 				packet.PutString("", 64);
@@ -231,17 +231,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with 0 byte.
+		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
 		/// [BC 0B] [03 00 00 00] [C4 00 00 00] | FC 11 D0 A5 72 F2
 		/// </example>
-		//[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
-		//public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
-		//{
-		//}
+		[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
+		public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
+		{
+			// _BYTE gap0[6];
+			// _DWORD dword6;
+			// _DWORD dwordA;
+			// _DWORD dwordE;
+			// _DWORD dword12;
+			// float float16;
+			// float float1A;
+			// _BYTE gap1E[26];
+			// _BYTE byte38;
+			// Makes the client connect to the given zone server
+			//packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
+			//packet.PutInt(0);
+			//packet.PutInt(0x0100007F); // 127.0.0.1
+			//packet.PutInt(2001); // Port
+			//packet.PutInt(2088);
+			//packet.PutFloat(0);
+			//packet.PutFloat(0);
+			//packet.PutByte(0);
+			//packet.PutByte(0);
+			//conn.Send(packet);
+		}
 
 		/// <summary>
 		/// Sent at the end of the loading screen.

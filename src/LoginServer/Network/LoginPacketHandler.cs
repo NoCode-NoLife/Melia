@@ -332,7 +332,7 @@ namespace Melia.Login.Network
 			Log.Debug("character: {0}", character.Name);
 
 			packet = new Packet(Op.BC_START_GAMEOK);
-			packet.PutInt(0); // Zone id?
+			packet.PutInt(0);
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
 			packet.PutInt(2088);
