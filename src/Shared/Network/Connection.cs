@@ -147,6 +147,18 @@ namespace Melia.Shared.Network
 
 					// Check size from table?
 
+					// Check login state
+					if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
+					{
+						if (this.Account == null)
+						{
+							Log.Warning("Non-login packet sent before being logged in, from '{0}'. Killing connection.", this.Address);
+							this.Kill();
+							return;
+						}
+					}
+
+					// Handle
 					try
 					{
 						this.HandlePacket(packet);
