@@ -194,6 +194,10 @@ namespace Melia.Shared.Network
 			// Calculate length
 			var length = (size == 0 ? sizeof(short) + sizeof(int) + sizeof(short) + packet.Length : size);
 
+			// Check table length
+			if (size != 0 && length < sizeof(short) + sizeof(int) + packet.Length)
+				throw new Exception("Packet is bigger than specified in the packet size table.");
+
 			// Create packet
 			var buffer = new byte[length];
 			Buffer.BlockCopy(BitConverter.GetBytes((short)packet.Op), 0, buffer, 0, sizeof(short));

@@ -9,7 +9,7 @@ namespace Melia.Shared.Network
 {
 	public class Packet
 	{
-		private const int DefaultSize = 2000;
+		private const int DefaultSize = 1024;
 
 		private byte[] _buffer;
 		private int _ptr;
@@ -49,11 +49,35 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Throws if not enough bytes are left to read a value with the given length.
+		/// </summary>
+		/// <param name="needed"></param>
+		/// <returns></returns>
+		private void AssertGotEnough(int needed)
+		{
+			if (_ptr + needed > this.Length)
+				throw new InvalidOperationException("Not enough bytes left to read a '" + needed + "' byte value.");
+		}
+
+		/// <summary>
+		/// Increases buffer size if more space is needed to fit the given
+		/// amount of bytes.
+		/// </summary>
+		/// <param name="needed"></param>
+		private void EnsureSpace(int needed)
+		{
+			if (_ptr + needed > this.Length)
+				Array.Resize(ref _buffer, _buffer.Length + DefaultSize);
+		}
+
+		/// <summary>
 		/// Reads byte from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public byte GetByte()
 		{
+			this.AssertGotEnough(1);
+
 			var val = _buffer[_ptr];
 			_ptr += sizeof(byte);
 			this.Length += sizeof(byte);
@@ -67,6 +91,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public short GetShort()
 		{
+			this.AssertGotEnough(2);
+
 			var val = BitConverter.ToInt16(_buffer, _ptr);
 			_ptr += sizeof(short);
 			this.Length += sizeof(short);
@@ -80,6 +106,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public int GetInt()
 		{
+			this.AssertGotEnough(4);
+
 			var val = BitConverter.ToInt32(_buffer, _ptr);
 			_ptr += sizeof(int);
 			this.Length += sizeof(int);
@@ -93,6 +121,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public long GetLong()
 		{
+			this.AssertGotEnough(8);
+
 			var val = BitConverter.ToInt64(_buffer, _ptr);
 			_ptr += sizeof(long);
 			this.Length += sizeof(long);
@@ -106,6 +136,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public float GetFloat()
 		{
+			this.AssertGotEnough(4);
+
 			var val = BitConverter.ToSingle(_buffer, _ptr);
 			_ptr += sizeof(float);
 			this.Length += sizeof(float);
@@ -120,6 +152,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public string GetString(int length)
 		{
+			this.AssertGotEnough(length);
+
 			var val = Encoding.UTF8.GetString(_buffer, _ptr, length);
 
 			// Relatively fast way to get rid of null bytes.
@@ -183,6 +217,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public byte[] GetBin(int length)
 		{
+			this.AssertGotEnough(length);
+
 			var val = new byte[length];
 			Buffer.BlockCopy(_buffer, _ptr, val, 0, length);
 			_ptr += length;
@@ -207,6 +243,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutByte(byte val)
 		{
+			this.EnsureSpace(1);
+
 			_buffer[_ptr++] = (byte)(val);
 			this.Length += sizeof(byte);
 		}
@@ -226,6 +264,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutShort(int val)
 		{
+			this.EnsureSpace(2);
+
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
 			_buffer[_ptr++] = (byte)(val >> (8 * 1));
 			this.Length += sizeof(short);
@@ -237,6 +277,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutInt(int val)
 		{
+			this.EnsureSpace(4);
+
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
 			_buffer[_ptr++] = (byte)(val >> (8 * 1));
 			_buffer[_ptr++] = (byte)(val >> (8 * 2));
@@ -246,6 +288,8 @@ namespace Melia.Shared.Network
 
 		public void PutLong(long val)
 		{
+			this.EnsureSpace(8);
+
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
 			_buffer[_ptr++] = (byte)(val >> (8 * 1));
 			_buffer[_ptr++] = (byte)(val >> (8 * 2));
@@ -263,6 +307,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutFloat(float val)
 		{
+			this.EnsureSpace(4);
+
 			var bVal = BitConverter.GetBytes(val);
 			_buffer[_ptr++] = bVal[0];
 			_buffer[_ptr++] = bVal[1];
@@ -281,6 +327,8 @@ namespace Melia.Shared.Network
 		/// <param name="length"></param>
 		public void PutString(string val, int length)
 		{
+			this.EnsureSpace(length);
+
 			if (val == null)
 				val = "";
 
@@ -306,10 +354,11 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutBin(params byte[] val)
 		{
-			var length = val.Length;
-			Buffer.BlockCopy(val, 0, _buffer, _ptr, length);
-			_ptr += length;
-			this.Length += length;
+			this.EnsureSpace(val.Length);
+
+			Buffer.BlockCopy(val, 0, _buffer, _ptr, val.Length);
+			_ptr += val.Length;
+			this.Length += val.Length;
 		}
 
 		/// <summary>
@@ -318,7 +367,13 @@ namespace Melia.Shared.Network
 		/// <param name="hex"></param>
 		public void PutBinFromHex(string hex)
 		{
+			if (hex == null)
+				throw new ArgumentNullException("hex");
+
 			hex = hex.Trim().Replace(" ", "").Replace("-", "");
+
+			if (hex == "")
+				return;
 
 			var val =
 				Enumerable.Range(0, hex.Length)
@@ -335,6 +390,9 @@ namespace Melia.Shared.Network
 		/// <param name="amount"></param>
 		public void PutEmptyBin(int amount)
 		{
+			if (amount <= 0)
+				return;
+
 			this.PutBin(new byte[amount]);
 		}
 
