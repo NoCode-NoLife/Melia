@@ -50,6 +50,7 @@
     <Compile Include="Const\Job.cs" />
     <Compile Include="Const\Message.cs" />
     <Compile Include="Const\Misc.cs" />
+    <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />

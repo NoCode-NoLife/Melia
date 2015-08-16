@@ -6,7 +6,7 @@ namespace Melia.Shared.Const.Structs
 	public struct BC_START_GAMEOK
 	{
 		//public short Op;
-		//public short Checksum;
+		//public int Checksum;
 		public int field_0; //?
 		public int serverIP;
 		public int port;

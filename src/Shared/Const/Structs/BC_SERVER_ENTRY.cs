@@ -11,7 +11,7 @@ namespace Melia.Shared.Const.Structs
 		//WORD PORT2?
 
 		//public short Op;
-		//public short Checksum;
+		//public int Checksum;
 		public int Ip1;
 		public int Ip2;
 		public ushort Port1;
