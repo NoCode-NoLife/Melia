@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Melia.Shared.Const
 {
+	/// <summary>
+	/// Used in BC_MESSAGE.
+	/// </summary>
 	public enum MsgType : byte
 	{
 		Text = 0,
@@ -31,8 +34,11 @@ namespace Melia.Shared.Const
 		InsufficientCharacterPoints = 20,
 		AccountBlocked1 = 21,
 		AccountBlocked2 = 22,
-
+		InventoryFull = 23,
+		StartingMapNotAvailable = 24,
+		UnableToDeletePartyLeader = 25,
 		NotCBTUser = 26,
+		RatedEsrbTeen = 27,
 
 		// ...
 	}
