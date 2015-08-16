@@ -212,12 +212,15 @@ namespace Melia.Channel.Network
 		{
 			var characters = conn.Account.GetCharacters();
 
+			//float float6;
+			//float floatA;
+			//float floatE;
+			//_QWORD qword12;
 			packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutFloat(1);
+			packet.PutFloat(2);
+			packet.PutFloat(3);
+			packet.PutLong(DateTime.Now.ToFileTime());
 			conn.Send(packet);
 
 			// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
