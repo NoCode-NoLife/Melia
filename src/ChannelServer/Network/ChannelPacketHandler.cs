@@ -139,14 +139,11 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutInt(500);  // Min HP
+			packet.PutInt(500);   // Min HP
 			packet.PutInt(1000);  // Max HP
 			packet.PutShort(50);  // Min SP
 			packet.PutShort(100); // Max SP
-			packet.PutByte(0); // Affects STA somehow
-			packet.PutByte(0); // Affects STA somehow
-			packet.PutByte(1); // Affects STA somehow
-			packet.PutByte(0); // Affects STA somehow
+			packet.PutInt(10000); // STA
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutByte(0);
