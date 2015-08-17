@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace Melia.Shared.Network
 {
@@ -1169,6 +1170,17 @@ namespace Melia.Shared.Network
 			if (!_sizes.TryGetValue(op, out size))
 				return -1;
 			return size;
+		}
+
+		public static string GetName(int op)
+		{
+			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
+			{
+				if ((int)field.GetValue(null) == op)
+					return field.Name;
+			}
+
+			return "?";
 		}
 	}
 }

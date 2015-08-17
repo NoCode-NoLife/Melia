@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -132,7 +133,11 @@ namespace Melia.Shared.Network
 					read += sizeof(short) + packetLength;
 					_crypto.Decrypt(packetBuffer, 0, packetLength);
 
+					// Get packet
+					var packet = new Packet(packetBuffer);
+
 					// Debug
+					var opName = Op.GetName(packet.Op);
 					var recvStr = BitConverter.ToString(packetBuffer).Replace("-", " ");
 					recvStr = recvStr.Insert(0, "[");
 					recvStr = recvStr.Insert(6, "]");
@@ -140,10 +145,7 @@ namespace Melia.Shared.Network
 					recvStr = recvStr.Insert(20, "]");
 					recvStr = recvStr.Insert(22, "[");
 					recvStr = recvStr.Insert(34, "]");
-					Log.Debug("Recv: {0}", recvStr);
-
-					// Handle
-					var packet = new Packet(packetBuffer);
+					Log.Debug("Recv: {0} {1}", opName, recvStr);
 
 					// Check size from table?
 					var size = Op.GetSize(packet.Op);
@@ -232,6 +234,7 @@ namespace Melia.Shared.Network
 			packet.Build(ref buffer, offset);
 
 			// Debug
+			var opName = Op.GetName(packet.Op);
 			var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
 			sendStr = sendStr.Insert(0, "[");
 			sendStr = sendStr.Insert(6, "]");
@@ -242,7 +245,7 @@ namespace Melia.Shared.Network
 				sendStr = sendStr.Insert(22, "[");
 				sendStr = sendStr.Insert(28, "]");
 			}
-			Log.Debug("Send: {0}", sendStr);
+			Log.Debug("Send: {0} {1}", opName, sendStr);
 
 			//Send
 			_socket.Send(buffer);
