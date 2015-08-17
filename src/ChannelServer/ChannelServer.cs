@@ -1,4 +1,5 @@
-﻿using Melia.Channel.Network;
+﻿using Melia.Channel.Database;
+using Melia.Channel.Network;
 using Melia.Channel.Util;
 using Melia.Shared;
 using Melia.Shared.Database;
@@ -17,6 +18,11 @@ namespace Melia.Channel
 	public class ChannelServer : Server
 	{
 		public static readonly ChannelServer Instance = new ChannelServer();
+
+		/// <summary>
+		/// Login server's database.
+		/// </summary>
+		public ChannelDb Database { get; private set; }
 
 		/// <summary>
 		/// Channel's console commands.
@@ -42,7 +48,8 @@ namespace Melia.Channel
 			this.LoadConf();
 
 			// Database
-			this.InitDatabase();
+			this.Database = new ChannelDb();
+			this.InitDatabase(this.Database);
 
 			// GM Commands
 			this.GmCommands = new GmCommands();

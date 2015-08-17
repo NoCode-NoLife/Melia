@@ -52,7 +52,6 @@
     <Compile Include="Const\Misc.cs" />
     <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />
-    <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
     <Compile Include="Database\MySqlDataReaderExtension.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
-    <Compile Include="Network\Helpers\CharacterHelper.cs" />
     <Compile Include="Network\Op.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Packet.cs" />
@@ -77,7 +75,6 @@
     <Compile Include="Util\Configuration\Files\Log.cs" />
     <Compile Include="Util\FileReader.cs" />
     <Compile Include="Util\Log.cs" />
-    <Compile Include="World\Character.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

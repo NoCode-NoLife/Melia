@@ -18,11 +18,6 @@ namespace Melia.Shared
 		private bool _running;
 
 		/// <summary>
-		/// Server database
-		/// </summary>
-		public MeliaDb Database { get; private set; }
-
-		/// <summary>
 		/// Configuration
 		/// </summary>
 		public Conf Conf { get; private set; }
@@ -42,13 +37,12 @@ namespace Melia.Shared
 		/// <summary>
 		/// Initializes database connection with data from Conf.
 		/// </summary>
-		protected void InitDatabase()
+		protected void InitDatabase(MeliaDb db)
 		{
 			try
 			{
 				Log.Info("Initializing database...");
-				this.Database = new MeliaDb();
-				this.Database.Init(this.Conf.Database.Host, this.Conf.Database.User, this.Conf.Database.Pass, this.Conf.Database.Db);
+				db.Init(this.Conf.Database.Host, this.Conf.Database.User, this.Conf.Database.Pass, this.Conf.Database.Db);
 			}
 			catch (Exception ex)
 			{

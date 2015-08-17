@@ -1,8 +1,8 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Login.Database;
+using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
-using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,29 +29,30 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(LoginConnection conn, Packet packet)
 		{
-			var username = packet.GetString(33);
+			var accountName = packet.GetString(33);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
 			var unkByte1 = packet.GetByte();
 			var unkByte2 = packet.GetByte();
 			var ip = packet.GetInt();
 
 			// Create new account
-			if (username.StartsWith("new__") || username.StartsWith("new//"))
+			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
 			{
-				username = username.Substring("new__".Length);
-				if (!LoginServer.Instance.Database.AccountExists(username))
-					LoginServer.Instance.Database.CreateAccount(username, password);
+				accountName = accountName.Substring("new__".Length);
+				if (!LoginServer.Instance.Database.AccountExists(accountName))
+					LoginServer.Instance.Database.CreateAccount(accountName, password);
 			}
 
 			// Check username and password
-			if (!LoginServer.Instance.Database.CheckAccount(username, password))
+			if (!LoginServer.Instance.Database.CheckAccount(accountName, password))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
 				conn.Close();
 				return;
 			}
 
-			conn.Account = LoginServer.Instance.Database.GetAccount(username);
+			conn.Account = Account.LoadFromDb(accountName);
+			conn.LoggedIn = true;
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 
@@ -239,8 +240,7 @@ namespace Melia.Login.Network
 			character.Y = y;
 			character.Z = z;
 
-			LoginServer.Instance.Database.CreateCharacter(conn.Account.Id, character);
-			conn.Account.AddCharacter(character);
+			conn.Account.CreateCharacter(character);
 
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
@@ -267,12 +267,16 @@ namespace Melia.Login.Network
 				return;
 			}
 
+			// Delete
+			if (!conn.Account.DeleteCharacter(character))
+			{
+				Log.Warning("Deleting '{0}' from account '{1}' failed.", character.Name, conn.Account.Name);
+				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
+				return;
+			}
+
 			// Debug
 			Log.Debug("CB_COMMANDER_DESTROY: {0}", index);
-
-			// Delete
-			LoginServer.Instance.Database.DeleteCharacter(character.Id);
-			conn.Account.RemoveCharacter(character);
 
 			Send.BC_COMMANDER_DESTROY(conn, index);
 		}

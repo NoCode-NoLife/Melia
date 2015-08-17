@@ -27,6 +27,11 @@ namespace Melia.Shared.Network
 		public ConnectionState State { get; protected set; }
 
 		/// <summary>
+		/// True if logged in.
+		/// </summary>
+		public bool LoggedIn { get; set; }
+
+		/// <summary>
 		/// Remote address.
 		/// </summary>
 		public string Address { get; protected set; }
@@ -40,11 +45,6 @@ namespace Melia.Shared.Network
 		/// Session id for this connection.
 		/// </summary>
 		public long SessionId { get; set; }
-
-		/// <summary>
-		/// Account associated with this connection.
-		/// </summary>
-		public Account Account { get; set; }
 
 		/// <summary>
 		/// Creates new connection.
@@ -164,7 +164,7 @@ namespace Melia.Shared.Network
 						// Check login state
 						if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
 						{
-							if (this.Account == null)
+							if (!this.LoggedIn)
 							{
 								Log.Warning("Non-login packet ({0:X4}) sent before being logged in, from '{1}'. Killing connection.", packet.Op, this.Address);
 								this.Close();

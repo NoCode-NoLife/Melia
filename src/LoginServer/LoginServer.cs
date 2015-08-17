@@ -1,4 +1,5 @@
-﻿using Melia.Login.Network;
+﻿using Melia.Login.Database;
+using Melia.Login.Network;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
@@ -16,6 +17,11 @@ namespace Melia.Login
 	public class LoginServer : Server
 	{
 		public static readonly LoginServer Instance = new LoginServer();
+
+		/// <summary>
+		/// Login server's database.
+		/// </summary>
+		public LoginDb Database { get; private set; }
 
 		/// <summary>
 		/// Login's console commands.
@@ -36,7 +42,8 @@ namespace Melia.Login
 			this.LoadConf();
 
 			// Database
-			this.InitDatabase();
+			this.Database = new LoginDb();
+			this.InitDatabase(this.Database);
 
 			// Packet handlers
 			LoginPacketHandler.Instance.RegisterMethods();

@@ -1,11 +1,10 @@
-﻿using Melia.Shared.World;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Melia.Shared.Database
+namespace Melia.Login.Database
 {
 	/// <summary>
 	/// A player's account.
@@ -23,11 +22,6 @@ namespace Melia.Shared.Database
 		/// Account name
 		/// </summary>
 		public string Name { get; set; }
-
-		/// <summary>
-		/// Account password (MD5 hash)
-		/// </summary>
-		public string Password { get; set; }
 
 		/// <summary>
 		/// Account's team name
@@ -78,7 +72,7 @@ namespace Melia.Shared.Database
 		/// Adds character to account object and assigns it an index.
 		/// </summary>
 		/// <param name="character"></param>
-		public void AddCharacter(Character character)
+		private void AddCharacter(Character character)
 		{
 			lock (_characters)
 			{
@@ -99,10 +93,64 @@ namespace Melia.Shared.Database
 		/// Removes character from account object.
 		/// </summary>
 		/// <param name="character"></param>
-		public void RemoveCharacter(Character character)
+		private void RemoveCharacter(Character character)
 		{
 			lock (_characters)
 				_characters.Remove(character);
+		}
+
+		/// <summary>
+		/// Loads account with given name from database, incl. characters,
+		/// and returns it.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <returns></returns>
+		public static Account LoadFromDb(string accountName)
+		{
+			var account = LoginServer.Instance.Database.GetAccount(accountName);
+			if (account == null)
+				return null;
+
+			var characters = LoginServer.Instance.Database.GetCharacters(account.Id);
+			foreach (var character in characters)
+				account.AddCharacter(character);
+
+			return account;
+		}
+
+		/// <summary>
+		/// Removes character from account and deletes it from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool DeleteCharacter(Character character)
+		{
+			if (!_characters.Contains(character))
+				return false;
+
+			this.RemoveCharacter(character);
+
+			return LoginServer.Instance.Database.DeleteCharacter(character.Id);
+		}
+
+		/// <summary>
+		/// Adds character to account and the database.
+		/// </summary>
+		/// <param name="character"></param>
+		public void CreateCharacter(Character character)
+		{
+			LoginServer.Instance.Database.CreateCharacter(this.Id, character);
+			this.AddCharacter(character);
+		}
+
+		/// <summary>
+		/// Saves account and characters in database.
+		/// </summary>
+		public void Save()
+		{
+			LoginServer.Instance.Database.SaveAccount(this);
+			foreach (var character in _characters)
+				LoginServer.Instance.Database.SaveCharacter(character);
 		}
 	}
 }

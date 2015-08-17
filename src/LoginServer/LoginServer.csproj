@@ -36,6 +36,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,7 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Account.cs" />
+    <Compile Include="Database\Character.cs" />
+    <Compile Include="Database\LoginDb.cs" />
     <Compile Include="LoginServer.cs" />
+    <Compile Include="Network\Helpers\CharacterHelper.cs" />
     <Compile Include="Network\LoginConnection.cs" />
     <Compile Include="Network\LoginPacketHandler.cs" />
     <Compile Include="Network\LoginPacketSender.cs" />

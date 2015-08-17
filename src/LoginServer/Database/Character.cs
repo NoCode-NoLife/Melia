@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Melia.Shared.World
+namespace Melia.Login.Database
 {
 	public class Character
 	{
@@ -20,8 +20,7 @@ namespace Melia.Shared.World
 		public float Y { get; set; }
 		public float Z { get; set; }
 
-		public byte Index { get; set; } // ?
-		public int WorldId { get; set; } // ?
+		public byte Index { get; set; }
 
 		public int Stance
 		{
@@ -45,22 +44,6 @@ namespace Melia.Shared.World
 		public Character()
 		{
 			this.Level = 1;
-			this.WorldId = 1337;
-		}
-
-		public float GetSpeed()
-		{
-			return 50;
-		}
-
-		public float GetJumpStrength()
-		{
-			return 300;
-		}
-
-		public int GetJumpType()
-		{
-			return 1;
 		}
 	}
 }

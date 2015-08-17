@@ -1,9 +1,7 @@
 ﻿using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
-using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
-using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +55,9 @@ namespace Melia.Channel.Network
 			// ...
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
-			conn.SelectedCharacter = conn.Account.GetCharacterById(characterId);
+			conn.SelectedCharacter = ChannelServer.Instance.Database.GetCharacter(characterId);
+			conn.LoggedIn = true;
+
 			var character = conn.SelectedCharacter;
 
 			//packet = new Packet(Op.ZC_CONNECT_OK);
