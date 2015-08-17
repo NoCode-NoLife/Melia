@@ -293,12 +293,26 @@ namespace Melia.Channel.Network
 			if (!ChannelServer.Instance.GmCommands.Process(conn, character, msg))
 			{
 				packet = new Packet(Op.ZC_CHAT);
-				// This makes the message appear for yourself, but the character
-				// name and portrait in the chat log are missing.
-				//packet.PutEmptyBin(152);
 				packet.PutInt(character.WorldId);
+				//char field_0[64];
+				//char field_1[65];
+				//char gap;
+				//__int16 field_2;
+				//int field_3;
+				//char field_4;
+				//char field_5;
+				//char gap2[2];
+				//int some_id;
+				packet.PutString("test team name", 64);
+				packet.PutString("test name", 65);
+				packet.PutByte((byte)character.Gender);
+				packet.PutShort((short)character.Job);
+				packet.PutInt(character.Level);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte((byte)character.Hair);
+				packet.PutEmptyBin(2);
 				packet.PutInt(0);
-				packet.PutEmptyBin(152 - 8);
+				packet.PutFloat(10);  // display time in seconds
 				packet.PutString(msg);
 				conn.Send(packet);
 
