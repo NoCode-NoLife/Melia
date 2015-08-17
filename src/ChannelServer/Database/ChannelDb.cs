@@ -64,11 +64,12 @@ namespace Melia.Channel.Database
 		/// </summary>
 		/// <param name="characterId"></param>
 		/// <returns></returns>
-		public Character GetCharacter(long characterId)
+		public Character GetCharacter(long accountId, long characterId)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `characterId` = @characterId", conn))
+			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
 			{
+				mc.Parameters.AddWithValue("@accountId", accountId);
 				mc.Parameters.AddWithValue("@characterId", characterId);
 
 				using (var reader = mc.ExecuteReader())

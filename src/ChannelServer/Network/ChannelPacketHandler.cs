@@ -24,24 +24,23 @@ namespace Melia.Channel.Network
 		/// <param name="packet"></param>
 		/// <example>
 		/// [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
+		/// 
+		///  struct header packet_head;
+		///  short len; //? 1059
+		///  short w1;
+		///  int64 id;
+		///  int d1;
+		///  int d2;
+		///  char str[33];
+		///  int d3;
+		///  short w2;
+		///  byte b1;
+		///  byte b2;
+		///  byte b3;
 		/// </example>
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
-			// struct cz_login
-			// {
-			//     struct header packet_head;
-			//     short len; //? 1059
-			//     short w1;
-			//     int64 id;
-			//     int d1;
-			//     int d2;
-			//     char str[33];
-			//     int d3;
-			//     short w2;
-			//     byte b1;
-			//     byte b2;
-			//     byte b3;
 			var len = packet.GetShort(); // ? 1059
 			var unkShort1 = packet.GetShort();
 			var sessionId = packet.GetLong();
@@ -54,21 +53,31 @@ namespace Melia.Channel.Network
 			var unkShort5 = packet.GetShort(); // 8972
 			// ...
 
+			// TODO: Check session id or something.
+
+			// Get account
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
-			conn.SelectedCharacter = ChannelServer.Instance.Database.GetCharacter(characterId);
+			if (conn.Account == null)
+			{
+				Log.Warning("Stopped attempt to login with invalid account '{0}'. Closing connection.", accountName);
+				conn.Close();
+				return;
+			}
+
+			// Get character
+			var character = ChannelServer.Instance.Database.GetCharacter(conn.Account.Id, characterId);
+			if (character == null)
+			{
+				// Don't punish, could be used to auto-ban other people.
+				Log.Warning("User '{0}' tried to use a non-existing character, '{1}'. Closing connection.", accountName, characterId);
+				conn.Close();
+				return;
+			}
+
+			conn.SelectedCharacter = character;
 			conn.LoggedIn = true;
 
-			var character = conn.SelectedCharacter;
-
-			//packet = new Packet(Op.ZC_CONNECT_OK);
-			//packet.PutEmptyBin(500);
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_CONNECT_FAILED);
-			//packet.PutString("test",12);
-			//conn.Send(packet);
-			//conn.Kill();
-
+			// Response
 			packet = new Packet(Op.ZC_CONNECT_OK);
 			packet.PutByte(0);
 			packet.PutInt(0);
