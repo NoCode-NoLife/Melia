@@ -342,7 +342,7 @@ namespace Melia.Login.Network
 			packet.PutInt(0);
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
-			packet.PutInt(2088);
+			packet.PutInt(character.ZoneId);
 			packet.PutByte(0);
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0

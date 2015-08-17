@@ -112,6 +112,7 @@ namespace Melia.Login.Database
 			{
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("teamName", character.TeamName);
+				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);
 				cmd.Set("z", character.Z);
@@ -145,6 +146,7 @@ namespace Melia.Login.Database
 						character.Gender = (Gender)reader.GetByte("gender");
 						character.Hair = reader.GetByte("hair");
 						character.Level = reader.GetInt32("level");
+						character.ZoneId = reader.GetInt32("zone");
 						character.X = reader.GetFloat("x");
 						character.Y = reader.GetFloat("y");
 						character.Z = reader.GetFloat("z");

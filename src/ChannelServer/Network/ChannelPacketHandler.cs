@@ -133,8 +133,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.X);
 			packet.PutFloat(character.Y);
 			packet.PutFloat(character.Z);
-			packet.PutInt(100);  // Exp
-			packet.PutInt(1000); // MaxExp
+			packet.PutInt(character.Exp);
+			packet.PutInt(character.MaxExp);
 			packet.PutInt(0);
 
 			packet.PutLong(character.Id);
@@ -148,11 +148,11 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutInt(500);   // Min HP
-			packet.PutInt(1000);  // Max HP
-			packet.PutShort(50);  // Min SP
-			packet.PutShort(100); // Max SP
-			packet.PutInt(10000); // STA
+			packet.PutInt(character.Hp);
+			packet.PutInt(character.MaxHp);
+			packet.PutShort(character.Sp);
+			packet.PutShort(character.MaxSp);
+			packet.PutInt(character.Stamina);
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutByte(0);
@@ -243,7 +243,7 @@ namespace Melia.Channel.Network
 			//packet.PutInt(0);
 			//packet.PutInt(0x0100007F); // 127.0.0.1
 			//packet.PutInt(2001); // Port
-			//packet.PutInt(2088);
+			//packet.PutInt(2088); // Zone id
 			//packet.PutFloat(30); // Camera X angle
 			//packet.PutFloat(0); // Camera Y angle
 			//packet.PutByte(0);

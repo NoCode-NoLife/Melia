@@ -85,9 +85,17 @@ namespace Melia.Channel.Database
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetByte("hair");
 					character.Level = reader.GetInt32("level");
+					character.ZoneId = reader.GetInt32("zone");
 					character.X = reader.GetFloat("x");
 					character.Y = reader.GetFloat("y");
 					character.Z = reader.GetFloat("z");
+					character.Exp = reader.GetInt32("exp");
+					character.MaxExp = reader.GetInt32("maxExp");
+					character.Hp = reader.GetInt32("hp");
+					character.MaxHp = reader.GetInt32("maxHp");
+					character.Sp = reader.GetInt32("sp");
+					character.MaxSp = reader.GetInt32("maxSp");
+					character.Stamina = reader.GetInt32("stamina");
 
 					return character;
 				}
@@ -105,6 +113,7 @@ namespace Melia.Channel.Database
 			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 			{
 				cmd.AddParameter("@characterId", character.Id);
+				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);
 				cmd.Set("z", character.Z);

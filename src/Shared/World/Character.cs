@@ -45,6 +45,11 @@ namespace Melia.Shared.World
 		public int Level { get; set; }
 
 		/// <summary>
+		/// The zone the character is in.
+		/// </summary>
+		public int ZoneId { get; set; }
+
+		/// <summary>
 		/// X position.
 		/// </summary>
 		public float X { get; set; }
@@ -58,6 +63,41 @@ namespace Melia.Shared.World
 		/// Z position.
 		/// </summary>
 		public float Z { get; set; }
+
+		/// <summary>
+		/// Current experience points.
+		/// </summary>
+		public int Exp { get; set; }
+
+		/// <summary>
+		/// Current maximum experience points.
+		/// </summary>
+		public int MaxExp { get; set; }
+
+		/// <summary>
+		/// Health points.
+		/// </summary>
+		public int Hp { get; set; }
+
+		/// <summary>
+		/// Maximum health points.
+		/// </summary>
+		public int MaxHp { get; set; }
+
+		/// <summary>
+		/// Health points.
+		/// </summary>
+		public int Sp { get; set; }
+
+		/// <summary>
+		/// Maximum health points.
+		/// </summary>
+		public int MaxSp { get; set; }
+
+		/// <summary>
+		/// Stamina points.
+		/// </summary>
+		public int Stamina { get; set; }
 
 		/// <summary>
 		/// Returns stance, based on job and other factors.
