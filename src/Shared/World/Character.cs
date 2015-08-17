@@ -9,15 +9,49 @@ namespace Melia.Shared.World
 {
 	public abstract class Character
 	{
+		/// <summary>
+		/// Character's id.
+		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// Character's name.
+		/// </summary>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// Character's job.
+		/// </summary>
 		public Job Job { get; set; }
+
+		/// <summary>
+		/// Character's gender.
+		/// </summary>
 		public Gender Gender { get; set; }
+
+		/// <summary>
+		/// Character's hair style.
+		/// </summary>
 		public byte Hair { get; set; }
+
+		/// <summary>
+		/// Character's level.
+		/// </summary>
 		public int Level { get; set; }
 
+		/// <summary>
+		/// X position.
+		/// </summary>
 		public float X { get; set; }
+
+		/// <summary>
+		/// Y position.
+		/// </summary>
 		public float Y { get; set; }
+
+		/// <summary>
+		/// Z position.
+		/// </summary>
 		public float Z { get; set; }
 
 		/// <summary>

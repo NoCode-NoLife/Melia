@@ -12,7 +12,7 @@ namespace Melia.Login.Database
 	/// </summary>
 	public class Account
 	{
-		private List<Character> _characters { get; set; }
+		private List<Character> _characters;
 
 		/// <summary>
 		/// Account id
