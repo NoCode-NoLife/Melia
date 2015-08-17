@@ -62,19 +62,19 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutInt(0);
 			packet.PutInt(0);
 
-			// Destination?
-			packet.PutFloat(character.X);
-			packet.PutFloat(character.Y);
-			packet.PutFloat(character.Z);
-			packet.PutFloat(0);	// Vector direction
-			packet.PutFloat(0); // Vector direction
-
 			// Position?
 			packet.PutFloat(character.X);
 			packet.PutFloat(character.Y);
 			packet.PutFloat(character.Z);
 			packet.PutFloat(0);	// Vector direction
 			packet.PutFloat(0); // Vector direction
+
+			// ?
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
 
 			packet.PutInt(0);
 		}
