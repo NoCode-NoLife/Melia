@@ -207,11 +207,11 @@ namespace Melia.Channel.Network
 			//packet.PutByte(0);
 			conn.Send(packet);
 
-			//packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
-			//packet.PutInt(0);
-			//packet.PutFloat(0);
-			//packet.PutFloat(0);
-			//conn.Send(packet);
+			packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
+			packet.PutInt(100); // id
+			packet.PutFloat(50); // running speed
+			packet.PutFloat(0); // ?
+			conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
 			//packet.AddCharacter(conn.SelectedCharacter);
