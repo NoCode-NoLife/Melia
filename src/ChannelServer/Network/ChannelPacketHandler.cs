@@ -362,6 +362,9 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
+		/// <example>
+		/// [0B 0C] [33 4A 00 00] [6E 00 00 00] 00 | 7B 0D 5C 04 70
+		/// </example>
 		[PacketHandler(Op.CZ_JUMP)]
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
@@ -372,7 +375,7 @@ namespace Melia.Channel.Network
 			packet = new Packet(Op.ZC_JUMP);
 			packet.PutInt(character.WorldId);
 			packet.PutFloat(character.GetJumpStrength());
-			packet.PutInt(character.GetJumpType());   
+			packet.PutInt(character.GetJumpType());
 			packet.PutByte(1);  // 1 or 0
 			conn.Send(packet);
 		}
