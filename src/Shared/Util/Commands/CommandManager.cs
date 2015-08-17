@@ -39,7 +39,7 @@ namespace Melia.Shared.Util.Commands
 		/// arg0 arg1 arg2 -- 3 args: "arg0", "arg1", and "arg2"
 		/// arg0 arg1 "arg2 arg3" -- 3 args: "arg0", "arg1", and "arg2 arg3"
 		/// </example>
-		protected IList<string> ParseLine(string line)
+		protected string[] ParseLine(string line)
 		{
 			var args = new List<string>();
 			var quote = false;
@@ -58,7 +58,7 @@ namespace Melia.Shared.Util.Commands
 					quote = !quote;
 			}
 
-			return args;
+			return args.ToArray();
 		}
 
 		/// <summary>

@@ -53,7 +53,7 @@ namespace Melia.Shared.Util.Commands
 				var line = Console.ReadLine();
 
 				var args = this.ParseLine(line);
-				if (args.Count == 0)
+				if (args.Length == 0)
 					continue;
 
 				var command = this.GetCommand(args[0]);

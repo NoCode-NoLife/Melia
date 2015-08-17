@@ -1,4 +1,5 @@
 ﻿using Melia.Channel.Network;
+using Melia.Channel.Util;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
@@ -23,6 +24,11 @@ namespace Melia.Channel
 		public ConsoleCommands ConsoleCommands { get; private set; }
 
 		/// <summary>
+		/// GM commands.
+		/// </summary>
+		public GmCommands GmCommands { get; private set; }
+
+		/// <summary>
 		/// Starts the server.
 		/// </summary>
 		public override void Run()
@@ -37,6 +43,9 @@ namespace Melia.Channel
 
 			// Database
 			this.InitDatabase();
+
+			// GM Commands
+			this.GmCommands = new GmCommands();
 
 			// Packet handlers
 			ChannelPacketHandler.Instance.RegisterMethods();
