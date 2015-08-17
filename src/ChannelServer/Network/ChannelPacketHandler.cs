@@ -326,5 +326,22 @@ namespace Melia.Channel.Network
 
 			Log.Debug("CZ_CHAT_LOG - Chat, {0}: {1}", conn.SelectedCharacter.Name, msg);
 		}
+
+		/// <summary>
+		/// Sent when choosing Select Character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [01 0C] [1F 00 00 00] [12 00 00 00] 00 | 63 D6 14 F1 60
+		/// </example>
+		[PacketHandler(Op.CZ_MOVE_BARRACK)]
+		public void CZ_MOVE_BARRACK(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+
+			packet = new Packet(Op.ZC_MOVE_BARRACK);
+			conn.Send(packet);
+		}
 	}
 }
