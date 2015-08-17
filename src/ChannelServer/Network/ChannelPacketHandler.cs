@@ -356,5 +356,25 @@ namespace Melia.Channel.Network
 			packet = new Packet(Op.ZC_LOGOUT_OK);
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sent when character jumps.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_JUMP)]
+		public void CZ_JUMP(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			packet = new Packet(Op.ZC_JUMP);
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(1); // Jump strength/speed?
+			packet.PutInt(1);   // Jump type?
+			packet.PutByte(1);  // 1 or 0
+			conn.Send(packet);
+		}
 	}
 }
