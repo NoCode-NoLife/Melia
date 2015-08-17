@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Account.cs" />
-    <Compile Include="Database\Character.cs" />
+    <Compile Include="World\Character.cs" />
     <Compile Include="Database\LoginDb.cs" />
     <Compile Include="LoginServer.cs" />
     <Compile Include="Network\Helpers\CharacterHelper.cs" />

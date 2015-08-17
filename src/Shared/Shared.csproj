@@ -52,6 +52,7 @@
     <Compile Include="Const\Misc.cs" />
     <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />
+    <Compile Include="World\Character.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
     <Compile Include="Database\MySqlDataReaderExtension.cs" />

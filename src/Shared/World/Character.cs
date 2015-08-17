@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Melia.Login.Database
+namespace Melia.Shared.World
 {
-	public class Character
+	public abstract class Character
 	{
 		public long Id { get; set; }
 		public string Name { get; set; }
@@ -20,8 +20,9 @@ namespace Melia.Login.Database
 		public float Y { get; set; }
 		public float Z { get; set; }
 
-		public byte Index { get; set; }
-
+		/// <summary>
+		/// Returns stance, based on job and other factors.
+		/// </summary>
 		public int Stance
 		{
 			get
@@ -39,11 +40,6 @@ namespace Melia.Login.Database
 
 				throw new Exception("Unknown job class.");
 			}
-		}
-
-		public Character()
-		{
-			this.Level = 1;
 		}
 	}
 }
