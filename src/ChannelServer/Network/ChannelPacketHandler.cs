@@ -84,7 +84,7 @@ namespace Melia.Channel.Network
 			// CommanderInfo (237)
 			{
 				packet.PutString(character.Name, 65);
-				packet.PutString("", 64);
+				packet.PutString(conn.Account.TeamName, 64);
 				packet.PutEmptyBin(7);
 				packet.PutLong(0);
 				packet.PutShort(character.Stance);
@@ -200,6 +200,11 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
+			conn.Send(packet);
+
+			packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
+			packet.PutInt(0);
+			//packet.PutByte(0);
 			conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
