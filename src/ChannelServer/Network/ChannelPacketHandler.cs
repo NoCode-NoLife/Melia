@@ -305,9 +305,9 @@ namespace Melia.Channel.Network
 				//int some_id;
 				packet.PutString("test team name", 64);
 				packet.PutString("test name", 65);
-				packet.PutByte((byte)character.Gender);
+				packet.PutByte(0);
 				packet.PutShort((short)character.Job);
-				packet.PutInt(character.Level);
+				packet.PutInt(0);
 				packet.PutByte((byte)character.Gender);
 				packet.PutByte((byte)character.Hair);
 				packet.PutEmptyBin(2);
