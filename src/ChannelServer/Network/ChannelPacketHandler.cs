@@ -348,5 +348,22 @@ namespace Melia.Channel.Network
 			packet = new Packet(Op.ZC_MOVE_BARRACK);
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sent when choosing Logout.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [00 0C] [0A 00 00 00] [06 00 00 00] 00 | 63 D6 14 F1 60
+		/// </example>
+		[PacketHandler(Op.CZ_LOGOUT)]
+		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+
+			packet = new Packet(Op.ZC_LOGOUT_OK);
+			conn.Send(packet);
+		}
 	}
 }
