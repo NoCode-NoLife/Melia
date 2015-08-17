@@ -14,5 +14,10 @@ namespace Melia.Login.Network
 		{
 			LoginPacketHandler.Instance.Handle(this, packet);
 		}
+
+		protected override void CleanUp()
+		{
+			LoginServer.Instance.Database.SaveAccount(this.Account);
+		}
 	}
 }

@@ -29,8 +29,6 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_LOGOUTOK);
 
-			LoginServer.Instance.Database.SaveAccount(conn.Account);
-
 			conn.Send(packet);
 		}
 
