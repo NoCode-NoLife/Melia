@@ -121,9 +121,9 @@ namespace Melia.Channel.Network
 			}
 
 			packet.PutEmptyBin(3);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutFloat(0);  // X
+			packet.PutFloat(0);  // Z
+			packet.PutFloat(0);  // Y
 			packet.PutInt(100);  // Exp
 			packet.PutInt(1000); // MaxExp
 			packet.PutInt(0);
