@@ -345,7 +345,7 @@ namespace Melia.Shared.Network
 		public void PutString(string val)
 		{
 			val += '\0';
-			this.PutString(val, val.Length);
+			this.PutString(val, Encoding.UTF8.GetByteCount(val));
 		}
 
 		/// <summary>
