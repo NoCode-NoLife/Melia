@@ -188,10 +188,10 @@ namespace Melia.Channel.Network
 			//float floatE;
 			//_QWORD qword12;
 			packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
+			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
 			packet.PutFloat(1);
 			packet.PutFloat(1);
-			packet.PutFloat(1);
-			packet.PutLong(DateTime.Now.ToFileTime());
+			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
 			conn.Send(packet);
 
 			// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
