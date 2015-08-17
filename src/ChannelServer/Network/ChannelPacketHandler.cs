@@ -56,7 +56,6 @@ namespace Melia.Channel.Network
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
 			conn.SelectedCharacter = ChannelServer.Instance.Database.GetCharacter(characterId);
-			conn.SelectedCharacter.TeamName = conn.Account.TeamName;
 			conn.LoggedIn = true;
 
 			var character = conn.SelectedCharacter;

@@ -15,11 +15,6 @@ namespace Melia.Channel.World
 		public int WorldId { get; set; }
 
 		/// <summary>
-		/// Character's team name.
-		/// </summary>
-		public string TeamName { get; set; }
-
-		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

@@ -172,7 +172,12 @@ namespace Melia.Login.Network
 			var result = valid ? TeamNameChangeResult.Okay : TeamNameChangeResult.TeamChangeFailed;
 
 			if (result == TeamNameChangeResult.Okay)
+			{
 				conn.Account.TeamName = name;
+
+				foreach (var character in conn.Account.GetCharacters())
+					character.TeamName = name;
+			}
 
 			Send.BC_BARRACKNAME_CHANGE(conn, result);
 		}

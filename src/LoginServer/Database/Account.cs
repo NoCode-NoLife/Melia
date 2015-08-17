@@ -15,17 +15,17 @@ namespace Melia.Login.Database
 		private List<Character> _characters;
 
 		/// <summary>
-		/// Account id
+		/// Account id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Account name
+		/// Account name.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account's team name
+		/// Account's team name.
 		/// </summary>
 		public string TeamName { get; set; }
 
@@ -70,7 +70,7 @@ namespace Melia.Login.Database
 		}
 
 		/// <summary>
-		/// Adds character to account object and assigns it an index.
+		/// Adds character to account object and assigns index and team name.
 		/// </summary>
 		/// <param name="character"></param>
 		private void AddCharacter(Character character)
@@ -85,6 +85,8 @@ namespace Melia.Login.Database
 						break;
 					}
 				}
+
+				character.TeamName = this.TeamName;
 
 				_characters.Add(character);
 			}

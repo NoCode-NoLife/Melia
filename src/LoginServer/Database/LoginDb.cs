@@ -111,6 +111,7 @@ namespace Melia.Login.Database
 			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 			{
 				cmd.AddParameter("@characterId", character.Id);
+				cmd.Set("teamName", character.TeamName);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);
 				cmd.Set("z", character.Z);

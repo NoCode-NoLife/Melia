@@ -20,6 +20,11 @@ namespace Melia.Shared.World
 		public string Name { get; set; }
 
 		/// <summary>
+		/// Character's team name.
+		/// </summary>
+		public string TeamName { get; set; }
+
+		/// <summary>
 		/// Character's job.
 		/// </summary>
 		public Job Job { get; set; }
