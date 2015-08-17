@@ -202,6 +202,12 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			conn.Send(packet);
 
+			//packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
+			//packet.PutInt(0);
+			//packet.PutFloat(0);
+			//packet.PutFloat(0);
+			//conn.Send(packet);
+
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
 			//packet.AddCharacter(conn.SelectedCharacter);
 			//conn.Send(packet);
@@ -256,6 +262,61 @@ namespace Melia.Channel.Network
 			packet = new Packet(Op.ZC_CAMPINFO); // Size: 18 (12)
 			packet.PutEmptyBin(12);
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent when chatting publically.
+		/// </summary>
+		/// <remarks>
+		/// Sent together with CZ_CHAT_LOG.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [1E 0C] [08 00 00 00] [98 01 00 00] 14 00 74 65 73 74 31 32 33 00 |? 32 B8 E6 39
+		/// </example>
+		[PacketHandler(Op.CZ_CHAT)]
+		public void CZ_CHAT(ChannelConnection conn, Packet packet)
+		{
+			var len = packet.GetShort(); // length of dynamic packet without length from header
+			var msg = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+
+			Log.Debug("CZ_CHAT_LOG - {0}: {1}", character.Name, msg);
+
+			packet = new Packet(Op.ZC_CHAT);
+
+			// This makes the message appear, but the character name and
+			// portrait in the chat log are missing.
+			//packet.PutEmptyBin(152);
+			packet.PutInt(100); // nothing happens if !100?
+			packet.PutInt(0);
+			packet.PutEmptyBin(152 - 8);
+
+			packet.PutString(msg);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent when chatting.
+		/// </summary>
+		/// <remarks>
+		/// Sent together with CZ_CHAT.
+		/// When whispering only this one is sent?
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [1F 0C] [09 00 00 00] [98 01 00 00] 14 00 74 65 73 74 31 32 33 00 |? 53 82 83 79
+		/// </example>
+		[PacketHandler(Op.CZ_CHAT_LOG)]
+		public void CZ_CHAT_LOG(ChannelConnection conn, Packet packet)
+		{
+			var len = packet.GetShort();
+			var msg = packet.GetString();
+
+			Log.Debug("CZ_CHAT_LOG - Chat, {0}: {1}", conn.SelectedCharacter.Name, msg);
 		}
 	}
 }
