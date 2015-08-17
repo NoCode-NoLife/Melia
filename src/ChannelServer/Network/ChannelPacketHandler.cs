@@ -371,8 +371,8 @@ namespace Melia.Channel.Network
 
 			packet = new Packet(Op.ZC_JUMP);
 			packet.PutInt(character.WorldId);
-			packet.PutFloat(1); // Jump strength/speed?
-			packet.PutInt(1);   // Jump type?
+			packet.PutFloat(character.GetJumpStrength());
+			packet.PutInt(character.GetJumpType());   
 			packet.PutByte(1);  // 1 or 0
 			conn.Send(packet);
 		}

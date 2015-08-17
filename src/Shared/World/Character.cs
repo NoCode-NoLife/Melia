@@ -52,5 +52,15 @@ namespace Melia.Shared.World
 		{
 			return 50;
 		}
+
+		public float GetJumpStrength()
+		{
+			return 300;
+		}
+
+		public int GetJumpType()
+		{
+			return 1;
+		}
 	}
 }
