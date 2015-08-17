@@ -18,6 +18,9 @@ namespace Melia.Shared.Network
 		private Socket _socket;
 		private TOSCrypto _crypto;
 
+		private object _cleanUpLock = new object();
+		private bool _cleanedUp;
+
 		/// <summary>
 		/// State of the connection.
 		/// </summary>
@@ -27,6 +30,11 @@ namespace Melia.Shared.Network
 		/// Remote address.
 		/// </summary>
 		public string Address { get; protected set; }
+
+		/// <summary>
+		/// Raised when connection is closed.
+		/// </summary>
+		public event EventHandler Closed;
 
 		/// <summary>
 		/// Session id for this connection.
@@ -47,7 +55,7 @@ namespace Melia.Shared.Network
 			_backBuffer = new byte[ushort.MaxValue];
 			_crypto = new TOSCrypto();
 
-			this.State = ConnectionState.Connected;
+			this.State = ConnectionState.Open;
 			this.Address = "?:?";
 		}
 
@@ -62,24 +70,30 @@ namespace Melia.Shared.Network
 				throw new InvalidOperationException("Socket is already set.");
 
 			_socket = socket;
-			this.Address = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
+			this.Address = ((IPEndPoint)socket.RemoteEndPoint).ToString();
 		}
 
 		/// <summary>
-		/// Kills connection.
+		/// Closes the connection.
 		/// </summary>
-		public void Kill()
+		public void Close()
 		{
-			try { _socket.Disconnect(false); }
-			catch { }
+			if (this.State == ConnectionState.Closed)
+			{
+				Log.Warning("Attempted closing of an already closed connection.");
+				return;
+			}
+
+			this.State = ConnectionState.Closed;
+
 			try { _socket.Shutdown(SocketShutdown.Both); }
 			catch { }
-			try { _socket.Close(2); }
+			try { _socket.Close(); }
 			catch { }
 
-			this.State = ConnectionState.Disconnected;
+			this.OnClosed();
 
-			Log.Info("Killed connection from '{0}'.", this.Address);
+			Log.Info("Closed connection from '{0}'.", this.Address);
 		}
 
 		/// <summary>
@@ -98,23 +112,15 @@ namespace Melia.Shared.Network
 		{
 			try
 			{
-				SocketError error;
-				var length = _socket.EndReceive(result, out error);
+				var length = _socket.EndReceive(result);
 				var read = 0;
 
-				// Client disconnected?
+				// Client disconnected
 				if (length == 0)
 				{
-					this.State = ConnectionState.Disconnected;
-					Log.Info("Connection closed from '{0}'.", this.Address);
-					return;
-				}
-
-				// Lost connection?
-				if (error != SocketError.Success)
-				{
-					this.State = ConnectionState.Disconnected;
-					Log.Info("Connection lost from '{0}'.", this.Address);
+					this.State = ConnectionState.Closed;
+					this.OnClosed();
+					Log.Info("Connection was closed from '{0}'.", this.Address);
 					return;
 				}
 
@@ -161,7 +167,7 @@ namespace Melia.Shared.Network
 							if (this.Account == null)
 							{
 								Log.Warning("Non-login packet ({0:X4}) sent before being logged in, from '{1}'. Killing connection.", packet.Op, this.Address);
-								this.Kill();
+								this.Close();
 								return;
 							}
 						}
@@ -180,13 +186,49 @@ namespace Melia.Shared.Network
 
 				this.BeginReceive();
 			}
+			catch (SocketException)
+			{
+				this.State = ConnectionState.Closed;
+				this.OnClosed();
+				Log.Info("Lost connection from '{0}'.", this.Address);
+
+			}
 			catch (ObjectDisposedException)
 			{
 			}
 			catch (Exception ex)
 			{
-				Log.Exception(ex, "Error while reading receiving packet.");
+				Log.Exception(ex, "Error while receiving packet.");
 			}
+		}
+
+		/// <summary>
+		/// To be called when connection is closed, calls event
+		/// and CleanUp.
+		/// </summary>
+		private void OnClosed()
+		{
+			var ev = this.Closed;
+			if (ev != null)
+				ev(this, null);
+
+			lock (_cleanUpLock)
+			{
+				if (!_cleanedUp)
+					this.CleanUp();
+				else
+					Log.Warning("Trying to clean already cleaned connection.");
+
+				_cleanedUp = true;
+			}
+		}
+
+		/// <summary>
+		/// Called when the connection is closed.
+		/// </summary>
+		protected virtual void CleanUp()
+		{
+			Log.Debug("CLEAN UP");
 		}
 
 		/// <summary>
@@ -204,7 +246,7 @@ namespace Melia.Shared.Network
 		/// <param name="packet"></param>
 		public void Send(Packet packet)
 		{
-			if (_socket == null || this.State == ConnectionState.Disconnected)
+			if (_socket == null || this.State == ConnectionState.Closed)
 				return;
 
 			// Get size from table
@@ -254,7 +296,7 @@ namespace Melia.Shared.Network
 
 	public enum ConnectionState
 	{
-		Disconnected,
-		Connected,
+		Closed,
+		Open,
 	}
 }

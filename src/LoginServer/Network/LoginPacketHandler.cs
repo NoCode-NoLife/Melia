@@ -47,7 +47,7 @@ namespace Melia.Login.Network
 			if (!LoginServer.Instance.Database.CheckAccount(username, password))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
-				conn.Kill();
+				conn.Close();
 				return;
 			}
 
@@ -70,7 +70,7 @@ namespace Melia.Login.Network
 		public void CB_LOGIN_BY_PASSPORT(LoginConnection conn, Packet packet)
 		{
 			Send.BC_MESSAGE(conn, "Passport login not supported.");
-			conn.Kill();
+			conn.Close();
 		}
 
 		/// <summary>
@@ -84,9 +84,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_LOGOUT)]
 		public void CB_LOGOUT(LoginConnection conn, Packet packet)
 		{
-			if (conn.Account == null)
-				return;
-
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
 			// Client closes connection without this as well, but it waits a
@@ -203,7 +200,7 @@ namespace Melia.Login.Network
 			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
 			{
 				Log.Warning("User '{0}' tried to create character with invalid job '{1}'.", conn.Account.Name, job);
-				conn.Kill();
+				conn.Close();
 				return;
 			}
 
@@ -211,7 +208,7 @@ namespace Melia.Login.Network
 			if (gender < Gender.Male || gender > Gender.Female)
 			{
 				Log.Warning("User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
-				conn.Kill();
+				conn.Close();
 				return;
 			}
 
