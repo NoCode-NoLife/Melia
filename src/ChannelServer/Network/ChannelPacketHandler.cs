@@ -56,6 +56,7 @@ namespace Melia.Channel.Network
 
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
 			conn.SelectedCharacter = ChannelServer.Instance.Database.GetCharacter(characterId);
+			conn.SelectedCharacter.TeamName = conn.Account.TeamName;
 			conn.LoggedIn = true;
 
 			var character = conn.SelectedCharacter;
@@ -84,7 +85,7 @@ namespace Melia.Channel.Network
 			// CommanderInfo (237)
 			{
 				packet.PutString(character.Name, 65);
-				packet.PutString(conn.Account.TeamName, 64);
+				packet.PutString(character.TeamName, 64);
 				packet.PutEmptyBin(7);
 				packet.PutLong(0);
 				packet.PutShort(character.Stance);
