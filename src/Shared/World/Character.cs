@@ -21,6 +21,7 @@ namespace Melia.Shared.World
 		public float Z { get; set; }
 
 		public byte Index { get; set; } // ?
+		public int WorldId { get; set; } // ?
 
 		public int Stance
 		{
@@ -44,6 +45,12 @@ namespace Melia.Shared.World
 		public Character()
 		{
 			this.Level = 1;
+			this.WorldId = 1337;
+		}
+
+		public float GetSpeed()
+		{
+			return 50;
 		}
 	}
 }

@@ -78,7 +78,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // count v ?
 			//packet.PutEmptyBin(0);
 
-			packet.PutInt(100); // not 0!
+			packet.PutInt(character.WorldId);
 			packet.PutInt(0);
 
 			// CommanderInfo (237)
@@ -178,7 +178,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_GAME_READY)]
 		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
 		{
-			var characters = conn.Account.GetCharacters();
+			var character = conn.SelectedCharacter;
 
 			//float float6;
 			//float floatA;
@@ -208,8 +208,8 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 
 			packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
-			packet.PutInt(100); // id
-			packet.PutFloat(50); // running speed
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0); // ?
 			conn.Send(packet);
 
@@ -287,7 +287,7 @@ namespace Melia.Channel.Network
 				// This makes the message appear for yourself, but the character
 				// name and portrait in the chat log are missing.
 				//packet.PutEmptyBin(152);
-				packet.PutInt(100); // nothing happens if !100?
+				packet.PutInt(character.WorldId);
 				packet.PutInt(0);
 				packet.PutEmptyBin(152 - 8);
 				packet.PutString(msg);
