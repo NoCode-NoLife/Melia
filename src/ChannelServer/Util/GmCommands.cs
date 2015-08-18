@@ -25,6 +25,7 @@ namespace Melia.Channel.Util
 			Add("test", "", HandleTest);
 			Add("where", "", HandleWhere);
 			Add("jump", "<x> <y> <z>", HandleJump);
+			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
 		}
 
 		/// <summary>
@@ -115,13 +116,72 @@ namespace Melia.Channel.Util
 			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
 				return CommandResult.InvalidArgument;
 
+			character.X = x;
+			character.Y = y;
+			character.Z = z;
+
 			var packet = new Packet(Op.ZC_SET_POS); // 22 (16)
 			packet.PutInt(character.WorldId);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
+			packet.PutFloat(character.X);
+			packet.PutFloat(character.Y);
+			packet.PutFloat(character.Z);
 			conn.Send(packet);
 
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleWarp(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 5)
+				return CommandResult.InvalidArgument;
+
+			int zoneId;
+			if (!int.TryParse(args[1], out zoneId))
+				return CommandResult.InvalidArgument;
+
+			float x, y, z;
+			if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+				return CommandResult.InvalidArgument;
+
+			character.X = x;
+			character.Y = y;
+			character.Z = z;
+
+			if (character.ZoneId == zoneId)
+			{
+				var packet = new Packet(Op.ZC_SET_POS);
+				packet.PutInt(character.WorldId);
+				packet.PutFloat(character.X);
+				packet.PutFloat(character.Y);
+				packet.PutFloat(character.Z);
+				conn.Send(packet);
+
+				return CommandResult.Okay;
+			}
+			else
+			{
+				character.ZoneId = zoneId;
+
+				var packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
+				//_BYTE gap0[6];
+				//_DWORD dword6;
+				//_DWORD dwordA;
+				//_DWORD dwordE;
+				//_DWORD dword12;
+				//float float16;
+				//float float1A;
+				//_BYTE gap1E[26];
+				//_BYTE byte38;
+				packet.PutInt(0);
+				packet.PutInt(0x0100007F); // 127.0.0.1
+				packet.PutInt(2001); // Port
+				packet.PutInt(zoneId); // Zone id
+				packet.PutFloat(30); // Camera X angle
+				packet.PutFloat(45); // Camera Y angle
+				packet.PutEmptyBin(26);
+				packet.PutByte(0);
+				conn.Send(packet);
+			}
 			return CommandResult.Okay;
 		}
 	}
