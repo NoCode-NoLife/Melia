@@ -402,5 +402,64 @@ namespace Melia.Channel.Network
 			packet.PutByte(1);  // 1 or 0
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sent repeatedly while moving.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [09 0C] [1F 00 00 00] [59 07 00 00] 00 3A E4 9C 42 99 EB 14 43 D2 A4 B4 41 00 00 80 BF 1F 5A 67 33 01 00 00 00 00 00 5D 3C DE 45 | C1 D1 C0 D9 8C C0 0F
+		/// </example>
+		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
+		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte(); // 0
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var vectorX = packet.GetFloat(); // 0.7071068
+			var vectorY = packet.GetFloat(); // 0.7071068
+			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
+			var unkFloat = packet.GetFloat(); // 7111.545
+
+			Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
+
+			var character = conn.SelectedCharacter;
+
+			character.X = x;
+			character.Y = y;
+			character.Z = z;
+			character.IsMoving = true;
+		}
+
+		/// <summary>
+		/// Sent repeatedly while moving.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [0F 0C] [24 00 00 00] [3F 06 00 00] 00 EF C4 79 42 D4 EC 14 43 EF 0A 29 42 F3 04 35 3F F3 04 35 3F 18 46 DE 45 | 7D 34 0C CF 24
+		/// </example>
+		[PacketHandler(Op.CZ_MOVE_STOP)]
+		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte(); // 0
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var vectorX = packet.GetFloat(); // 0.7071068
+			var vectorY = packet.GetFloat(); // 0.7071068
+			var unkFloat = packet.GetFloat(); // 7112.762
+
+			Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
+
+			var character = conn.SelectedCharacter;
+
+			character.X = x;
+			character.Y = y;
+			character.Z = z;
+			character.IsMoving = false;
+		}
 	}
 }

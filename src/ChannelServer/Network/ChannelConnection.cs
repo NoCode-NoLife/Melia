@@ -36,6 +36,8 @@ namespace Melia.Channel.Network
 		/// </summary>
 		protected override void CleanUp()
 		{
+			if (this.SelectedCharacter != null)
+				ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
 		}
 	}
 }

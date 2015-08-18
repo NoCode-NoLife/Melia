@@ -65,6 +65,11 @@ namespace Melia.Shared.World
 		public float Z { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the character is moving.
+		/// </summary>
+		public bool IsMoving { get; set; }
+
+		/// <summary>
 		/// Current experience points.
 		/// </summary>
 		public int Exp { get; set; }
