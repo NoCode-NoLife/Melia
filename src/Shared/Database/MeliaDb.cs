@@ -130,15 +130,16 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns true if a character with the given name exists.
+		/// Returns true if a character with the given name exists on account.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public bool CharacterExists(string name)
+		public bool CharacterExists(long accountId, string name)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT `characterId` FROM `characters` WHERE `name` = @name", conn))
+			using (var mc = new MySqlCommand("SELECT `characterId` FROM `characters` WHERE `accountId` = @accountId AND `name` = @name", conn))
 			{
+				mc.Parameters.AddWithValue("@accountId", accountId);
 				mc.Parameters.AddWithValue("@name", name);
 
 				using (var reader = mc.ExecuteReader())

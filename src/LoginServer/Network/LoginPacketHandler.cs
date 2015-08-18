@@ -233,7 +233,7 @@ namespace Melia.Login.Network
 			}
 
 			// Check name
-			if (LoginServer.Instance.Database.CharacterExists(name))
+			if (LoginServer.Instance.Database.CharacterExists(conn.Account.Id, name))
 			{
 				Send.BC_MESSAGE(conn, MsgType.NameAlreadyExists);
 				return;
