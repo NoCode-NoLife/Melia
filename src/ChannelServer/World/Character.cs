@@ -15,6 +15,11 @@ namespace Melia.Channel.World
 		public int WorldId { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the character is sitting.
+		/// </summary>
+		public bool IsSitting { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

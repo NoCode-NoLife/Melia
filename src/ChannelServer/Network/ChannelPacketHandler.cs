@@ -213,7 +213,7 @@ namespace Melia.Channel.Network
 
 			packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
 			packet.PutInt(0);
-			//packet.PutByte(0);
+			//...
 			conn.Send(packet);
 
 			packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
@@ -221,6 +221,10 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0); // ?
 			conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_JOB_EXP_UP);
+			//packet.PutInt(30);
+			//conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
 			//packet.AddCharacter(conn.SelectedCharacter);
@@ -464,6 +468,27 @@ namespace Melia.Channel.Network
 			character.Y = y;
 			character.Z = z;
 			character.IsMoving = false;
+		}
+
+		/// <summary>
+		/// Sent when trying to sit down.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [10 0C] [08 00 00 00] [14 00 00 00] | D5 47 39 10 2B 7F
+		/// </example>
+		[PacketHandler(Op.CZ_REST_SIT)]
+		public void CZ_REST_SIT(ChannelConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			character.IsSitting = !character.IsSitting;
+
+			packet = new Packet(Op.ZC_REST_SIT);
+			packet.PutInt(character.WorldId);
+			packet.PutByte(0);
+			conn.Send(packet); // broadcast
 		}
 	}
 }
