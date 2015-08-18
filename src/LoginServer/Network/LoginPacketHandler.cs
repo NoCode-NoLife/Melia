@@ -239,16 +239,6 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Debug
-			Log.Debug("CB_COMMANDER_CREATE");
-			Log.Debug("Name: {0}", name);
-			Log.Debug("Job: {0}", job);
-			Log.Debug("Gender: {0}", gender);
-			Log.Debug("Hair style: {0}", hair);
-			Log.Debug("X: {0}", x);
-			Log.Debug("Y: {0}", y);
-			Log.Debug("Z: {0}", z);
-
 			// Create
 			var character = new Character();
 			character.Name = name;
@@ -294,9 +284,6 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Debug
-			Log.Debug("CB_COMMANDER_DESTROY: {0}", index);
-
 			Send.BC_COMMANDER_DESTROY(conn, index);
 		}
 
@@ -315,12 +302,6 @@ namespace Melia.Login.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-
-			// Debug
-			Log.Debug("CB_COMMANDER_MOVE");
-			Log.Debug("X: {0}", x);
-			Log.Debug("Y: {0}", y);
-			Log.Debug("Z: {0}", z);
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
@@ -344,12 +325,6 @@ namespace Melia.Login.Network
 			var index = packet.GetByte();
 
 			var character = conn.Account.GetCharacterByIndex(index);
-
-			// Debug
-			Log.Debug("CB_START_GAME");
-			Log.Debug("unkShort: {0}", unkShort);
-			Log.Debug("index: {0}", index);
-			Log.Debug("character: {0}", character.Name);
 
 			packet = new Packet(Op.BC_START_GAMEOK);
 			packet.PutInt(0);
