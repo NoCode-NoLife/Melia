@@ -145,5 +145,39 @@ namespace Melia.Shared.Database
 					return reader.HasRows;
 			}
 		}
+
+		/// <summary>
+		/// Returns true if team name exists.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool TeamNameExists(string teamName)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT `accountId` FROM `accounts` WHERE `teamName` = @teamName", conn))
+			{
+				mc.Parameters.AddWithValue("@teamName", teamName);
+
+				using (var reader = mc.ExecuteReader())
+					return reader.HasRows;
+			}
+		}
+
+		/// <summary>
+		/// Changes team name for account.
+		/// </summary>
+		/// <param name="account"></param>
+		/// <returns></returns>
+		public bool UpdateTeamName(long accountId, string teamName)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+				cmd.Set("teamName", teamName);
+
+				return cmd.Execute() > 0;
+			}
+		}
 	}
 }

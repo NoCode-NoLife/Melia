@@ -168,13 +168,31 @@ namespace Melia.Login.Network
 		{
 			var name = packet.GetString(64);
 
+			// Don't do anything if nothing's changed
+			if (name == conn.Account.TeamName)
+				return;
+
+			// Check validity
 			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => Char.IsWhiteSpace(a)));
-			var result = valid ? TeamNameChangeResult.Okay : TeamNameChangeResult.TeamChangeFailed;
+			if (!valid)
+			{
+				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamChangeFailed);
+				return;
+			}
 
-			if (result == TeamNameChangeResult.Okay)
-				conn.Account.TeamName = name;
+			// Check availability
+			var exists = LoginServer.Instance.Database.TeamNameExists(name);
+			if (exists)
+			{
+				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamNameAlreadyExist);
+				return;
+			}
 
-			Send.BC_BARRACKNAME_CHANGE(conn, result);
+			// Set team name
+			conn.Account.TeamName = name;
+			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
+
+			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
 		}
 
 		/// <summary>
