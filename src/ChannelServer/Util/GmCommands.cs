@@ -176,7 +176,7 @@ namespace Melia.Channel.Util
 				packet.PutInt(0x0100007F); // 127.0.0.1
 				packet.PutInt(2001); // Port
 				packet.PutInt(zoneId); // Zone id
-				packet.PutFloat(30); // Camera X angle
+				packet.PutFloat(38); // Camera X angle
 				packet.PutFloat(45); // Camera Y angle
 				packet.PutEmptyBin(26);
 				packet.PutByte(0);
