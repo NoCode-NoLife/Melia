@@ -359,6 +359,8 @@ namespace Melia.Channel.Network
 		{
 			var unkByte = packet.GetByte();
 
+			Log.Info("User '{0}' is leaving for character selection.", conn.Account.Name);
+
 			packet = new Packet(Op.ZC_MOVE_BARRACK);
 			conn.Send(packet);
 		}
@@ -375,6 +377,8 @@ namespace Melia.Channel.Network
 		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
+
+			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
 			packet = new Packet(Op.ZC_LOGOUT_OK);
 			conn.Send(packet);
