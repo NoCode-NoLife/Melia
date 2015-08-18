@@ -99,7 +99,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [06 00] [01 00 00 00] [07 00 00 00] 00 43 07 5D A9 B7
+		/// [06 00] [01 00 00 00] [07 00 00 00] 00 | 43 07 5D A9 B7
 		/// </example>
 		[PacketHandler(Op.CB_START_BARRACK)]
 		public void CB_START_BARRACK(LoginConnection conn, Packet packet)
@@ -172,12 +172,7 @@ namespace Melia.Login.Network
 			var result = valid ? TeamNameChangeResult.Okay : TeamNameChangeResult.TeamChangeFailed;
 
 			if (result == TeamNameChangeResult.Okay)
-			{
 				conn.Account.TeamName = name;
-
-				foreach (var character in conn.Account.GetCharacters())
-					character.TeamName = name;
-			}
 
 			Send.BC_BARRACKNAME_CHANGE(conn, result);
 		}

@@ -25,9 +25,18 @@ namespace Melia.Login.Database
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account's team name.
+		/// Gets or sets account's team name, also updates all characters.
 		/// </summary>
-		public string TeamName { get; set; }
+		public string TeamName
+		{
+			get { return _teamName; }
+			set
+			{
+				_teamName = value;
+				lock (_characters) _characters.ForEach(a => a.TeamName = value);
+			}
+		}
+		private string _teamName;
 
 		/// <summary>
 		/// Creates new account.
