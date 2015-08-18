@@ -24,6 +24,7 @@ namespace Melia.Channel.Util
 		{
 			Add("test", "", HandleTest);
 			Add("where", "", HandleWhere);
+			Add("jump", "<x> <y> <z>", HandleJump);
 		}
 
 		/// <summary>
@@ -100,6 +101,25 @@ namespace Melia.Channel.Util
 			packet.PutInt(0);
 			packet.PutFloat(10);  // display time in seconds
 			packet.PutString(msg);
+			conn.Send(packet);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleJump(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 4)
+				return CommandResult.InvalidArgument;
+
+			float x, y, z;
+			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+				return CommandResult.InvalidArgument;
+
+			var packet = new Packet(Op.ZC_SET_POS); // 22 (16)
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutFloat(z);
 			conn.Send(packet);
 
 			return CommandResult.Okay;
