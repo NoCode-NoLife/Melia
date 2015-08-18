@@ -244,6 +244,15 @@ namespace Melia.Channel.Network
 		{
 			// Makes the client connect to the given zone server
 			//packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
+			//   _BYTE gap0[6];
+			//   _DWORD dword6;
+			//   _DWORD dwordA;
+			//   _DWORD dwordE;
+			//   _DWORD dword12;
+			//   float float16;
+			//   float float1A;
+			//   _BYTE gap1E[26];
+			//   _BYTE byte38;
 			//packet.PutInt(0);
 			//packet.PutInt(0x0100007F); // 127.0.0.1
 			//packet.PutInt(2001); // Port
@@ -318,7 +327,7 @@ namespace Melia.Channel.Network
 				packet.PutInt(0);
 				packet.PutFloat(10);  // display time in seconds
 				packet.PutString(msg);
-				conn.Send(packet);
+				conn.Send(packet); // broadcast
 
 				//packet = new Packet(Op.ZC_SYSTEM_MSG);
 				//packet.PutInt(0);

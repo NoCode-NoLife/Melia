@@ -1,9 +1,11 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.World;
+using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +23,7 @@ namespace Melia.Channel.Util
 		public GmCommands()
 		{
 			Add("test", "", HandleTest);
+			Add("where", "", HandleWhere);
 		}
 
 		/// <summary>
@@ -76,6 +79,29 @@ namespace Melia.Channel.Util
 		private CommandResult HandleTest(ChannelConnection conn, Character character, string command, string[] args)
 		{
 			Log.Debug("test!!");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleWhere(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			var msg = string.Format("You are here: {0} - {1}, {2}, {3}", character.ZoneId, character.X.ToString(CultureInfo.InvariantCulture), character.Y.ToString(CultureInfo.InvariantCulture), character.Z.ToString(CultureInfo.InvariantCulture));
+
+			var packet = new Packet(Op.ZC_CHAT);
+			packet.PutInt(character.WorldId);
+			packet.PutString("test team name", 64);
+			packet.PutString("test name", 65);
+			packet.PutByte(0);
+			packet.PutShort((short)character.Job);
+			packet.PutInt(0);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutEmptyBin(2);
+			packet.PutInt(0);
+			packet.PutFloat(10);  // display time in seconds
+			packet.PutString(msg);
+			conn.Send(packet);
+
 			return CommandResult.Okay;
 		}
 	}
