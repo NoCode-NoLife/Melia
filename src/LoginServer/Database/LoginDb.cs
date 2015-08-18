@@ -75,9 +75,9 @@ namespace Melia.Login.Database
 				cmd.Set("job", character.Job);
 				cmd.Set("gender", character.Gender);
 				cmd.Set("hair", character.Hair);
-				cmd.Set("x", character.X);
-				cmd.Set("y", character.Y);
-				cmd.Set("z", character.Z);
+				cmd.Set("bx", character.X);
+				cmd.Set("by", character.Y);
+				cmd.Set("bz", character.Z);
 
 				cmd.Execute();
 				character.Id = cmd.LastId;
@@ -113,9 +113,9 @@ namespace Melia.Login.Database
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("teamName", character.TeamName);
 				cmd.Set("zone", character.ZoneId);
-				cmd.Set("x", character.X);
-				cmd.Set("y", character.Y);
-				cmd.Set("z", character.Z);
+				cmd.Set("bx", character.X);
+				cmd.Set("by", character.Y);
+				cmd.Set("bz", character.Z);
 
 				cmd.Execute();
 			}
@@ -147,9 +147,9 @@ namespace Melia.Login.Database
 						character.Hair = reader.GetByte("hair");
 						character.Level = reader.GetInt32("level");
 						character.ZoneId = reader.GetInt32("zone");
-						character.X = reader.GetFloat("x");
-						character.Y = reader.GetFloat("y");
-						character.Z = reader.GetFloat("z");
+						character.X = reader.GetFloat("bx");
+						character.Y = reader.GetFloat("by");
+						character.Z = reader.GetFloat("bz");
 
 						result.Add(character);
 					}
