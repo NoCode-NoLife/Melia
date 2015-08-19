@@ -28,26 +28,26 @@ namespace Melia.Login.Network.Helpers
 
 			// Items
 			// Defaults are literally empty items, NoHat, NoWeapon, etc.
-			packet.PutInt(0x00000002); // Hat
-			packet.PutInt(0x00000002); // Hat
-			packet.PutInt(0x00000004); // Outer
-			packet.PutInt(0x00000008); // Shirt
-			packet.PutInt(0x00000006); // Gloves
-			packet.PutInt(0x00000007); // Boots
-			packet.PutInt(0x00002710); // Helmet
-			packet.PutInt(0x00002AF8); // Armband
-			packet.PutInt(0x0098967C); // Weapon
-			packet.PutInt(0x0098967C); // Weapon
-			packet.PutInt(0x00000004); // Outer
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000004); // Outer
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x00000009); // Ring
-			packet.PutInt(0x0000000A); // Neck
+			packet.PutInt(2); // Hair Acc
+			packet.PutInt(2); // Subsidiary Acc
+			packet.PutInt(4); // Outer?
+			packet.PutInt(8); // Top
+			packet.PutInt(6); // Gloves
+			packet.PutInt(7); // Shoes
+			packet.PutInt(10000); // Helmet? (headless)
+			packet.PutInt(11000); // Armband
+			packet.PutInt(9999996); // L Weapon
+			packet.PutInt(9999996); // R Weapon
+			packet.PutInt(4); // Costume
+			packet.PutInt(9); // Ring?
+			packet.PutInt(9); // Ring?
+			packet.PutInt(4); // Outer?
+			packet.PutInt(9); // Pants
+			packet.PutInt(9); // Ring?
+			packet.PutInt(9); // Ring?
+			packet.PutInt(9); // Bracelet 1
+			packet.PutInt(9); // Bracelet 2
+			packet.PutInt(10); // Necklace
 
 			packet.PutByte(character.Hair);
 			packet.PutByte(0);

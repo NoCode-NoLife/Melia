@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Melia.Shared.Const;
 
 namespace Melia.Shared.Data.Database
 {
@@ -10,7 +11,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public int Category { get; set; }
+		public InventoryCategory Category { get; set; }
 		public int Weight { get; set; }
 		public int MaxStack { get; set; }
 	}
@@ -28,7 +29,7 @@ namespace Melia.Shared.Data.Database
 
 			info.Id = entry.ReadInt("itemId");
 			info.ClassName = entry.ReadString("className");
-			info.Category = entry.ReadInt("category");
+			info.Category = (InventoryCategory)entry.ReadInt("category");
 			info.Weight = entry.ReadInt("weight");
 			info.MaxStack = entry.ReadInt("maxStack");
 
