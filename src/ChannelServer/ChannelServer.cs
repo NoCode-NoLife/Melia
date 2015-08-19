@@ -51,6 +51,9 @@ namespace Melia.Channel
 			this.Database = new ChannelDb();
 			this.InitDatabase(this.Database);
 
+			// Data
+			this.LoadData(DataToLoad.All, true);
+
 			// GM Commands
 			this.GmCommands = new GmCommands();
 

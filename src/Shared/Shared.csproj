@@ -35,8 +35,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MsgPack">
+      <HintPath>..\..\lib\MsgPack.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\lib\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,6 +60,15 @@
     <Compile Include="Const\Structs\CB_LOGIN.cs" />
     <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />
+    <Compile Include="Data\MeliaData.cs" />
+    <Compile Include="Data\CsvReader.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\DatabaseCsv.cs" />
+    <Compile Include="Data\DatabaseDat.cs" />
+    <Compile Include="Data\DatabaseJson.cs" />
+    <Compile Include="Data\Database\Items.cs" />
+    <Compile Include="Data\Exceptions.cs" />
+    <Compile Include="Data\Extensions.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
@@ -78,6 +94,7 @@
     <Compile Include="Util\FileReader.cs" />
     <Compile Include="Util\Log.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
