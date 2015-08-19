@@ -20,12 +20,18 @@ namespace Melia.Channel.World
 		public bool IsSitting { get; set; }
 
 		/// <summary>
+		/// The character's inventory.
+		/// </summary>
+		public Inventory Inventory { get; protected set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
 		{
 			this.Level = 1;
 			this.WorldId = 1337;
+			this.Inventory = new Inventory(this);
 		}
 
 		/// <summary>

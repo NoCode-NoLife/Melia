@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Channel.World;
+using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
@@ -103,28 +104,9 @@ namespace Melia.Channel.Network
 				packet.PutByte(0);
 				packet.PutInt(character.Level);
 
-				// Items
-				// Defaults are literally empty items, NoHat, NoWeapon, etc.
-				packet.PutInt(0x00000002); // Hat
-				packet.PutInt(0x00000002); // Hat
-				packet.PutInt(0x00000004); // Outer
-				packet.PutInt(0x00000008); // Shirt
-				packet.PutInt(0x00000006); // Gloves
-				packet.PutInt(0x00000007); // Boots
-				packet.PutInt(0x00002710); // Helmet
-				packet.PutInt(0x00002AF8); // Armband
-				packet.PutInt(0x0098967C); // Weapon
-				packet.PutInt(0x0098967C); // Weapon
-				packet.PutInt(0x00000004); // Outer
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000004); // Outer
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x00000009); // Ring
-				packet.PutInt(0x0000000A); // Neck
+				// Equipment
+				foreach (var id in character.Inventory.GetEquipIds())
+					packet.PutInt(id);
 
 				packet.PutByte(character.Hair);
 			}
@@ -220,6 +202,34 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.WorldId);
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0); // ?
+			conn.Send(packet);
+
+
+			character.Inventory.Add(new Item(640045));
+			character.Inventory.Add(new Item(609904));
+			character.Inventory.Add(new Item(628001));
+			character.Inventory.Add(new Item(628002));
+			character.Inventory.Add(new Item(628005));
+			character.Inventory.Add(new Item(628006));
+			character.Inventory.Add(new Item(645484));
+			var items = character.Inventory.GetItems();
+
+			packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
+			packet.PutInt(items.Count);
+			packet.PutShort(0); // Compression
+			foreach (var item in items)
+			{
+				packet.PutInt(item.Value.Id);
+				packet.PutShort(0); // Size of the object at the end
+				packet.PutEmptyBin(2);
+				packet.PutLong(item.Value.WorldId);
+				packet.PutInt(item.Value.Amount);
+				packet.PutInt(item.Value.Price);
+				packet.PutInt(item.Key);
+				packet.PutInt(1); // ?
+				//packet.PutEmptyBin(0);
+			}
+
 			conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_JOB_EXP_UP);
