@@ -509,5 +509,61 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			conn.Send(packet); // broadcast
 		}
+
+		/// <summary>
+		/// Sent when equipping an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_EQUIP)]
+		public void CZ_ITEM_EQUIP(ChannelConnection conn, Packet packet)
+		{
+			var worldId = packet.GetLong();
+			var slot = (EquipSlot)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+			var item = character.Inventory.GetItem(worldId);
+
+			character.Inventory.Equip(slot, item);
+			var equip = character.Inventory.GetEquip();
+
+			packet = new Packet(Op.ZC_ITEM_REMOVE);
+			packet.PutLong(item.WorldId);
+			packet.PutInt(1);
+			packet.PutByte(5);
+			packet.PutByte(0);
+			conn.Send(packet);
+
+			packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
+			foreach (var equipItem in equip)
+			{
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutShort(0); // Object size
+				packet.PutEmptyBin(2);
+				packet.PutLong(equipItem.Value.WorldId);
+				packet.PutInt((int)equipItem.Key);
+				packet.PutInt(0);
+				//packet.PutEmptyBin(0); // Object
+			}
+			conn.Send(packet);
+
+			packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
+			packet.PutShort(character.WorldId);
+			packet.PutEmptyBin(2);
+			packet.PutString(character.Name, 65);
+			packet.PutString(character.TeamName, 64);
+			packet.PutEmptyBin(7);
+			packet.PutLong(0);
+			packet.PutShort(character.Stance);
+			packet.PutShort(0);
+			packet.PutShort((short)character.Job);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte(0);
+			packet.PutInt(character.Level);
+			foreach (var equipItem in equip)
+				packet.PutInt(equipItem.Value.Id);
+			packet.PutByte(character.Hair);
+			conn.Send(packet);
+		}
 	}
 }

@@ -9,12 +9,24 @@ namespace Melia.Channel.World
 {
 	public class Inventory
 	{
+		/// <summary>
+		/// Ids of the items equipped by default.
+		/// (Literally empty items, NoHat, NoWeapon, etc.)
+		/// </summary>
+		/// <remarks>
+		/// Hair Acc, Subsidiary Acc, Outer?, Top, Gloves, Shoes,
+		/// Helmet? (headless), Armband, L Weapon, R Weapon, Costume,
+		/// Ring?, Ring?, Outer?, Pants, Ring?, Ring?, Bracelet 1,
+		/// Bracelet 2, Necklace
+		/// </remarks>
+		public static readonly int[] DefaultItems = new int[] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10 };
+
 		private Character _character;
 
 		private object _syncLock = new object();
 		private Dictionary<int, Item> _items;
 		private Dictionary<InventoryCategory, int> _nextFreeIndex;
-		private Item[] _equip;
+		private Dictionary<EquipSlot, Item> _equip;
 
 		/// <summary>
 		/// Creates new inventory for character.
@@ -23,7 +35,10 @@ namespace Melia.Channel.World
 		{
 			_items = new Dictionary<int, Item>();
 			_nextFreeIndex = new Dictionary<InventoryCategory, int>();
-			_equip = new Item[20];
+
+			_equip = new Dictionary<EquipSlot, Item>(20);
+			foreach (EquipSlot slot in Enum.GetValues(typeof(EquipSlot)))
+				_equip.Add(slot, new Item(DefaultItems[(int)slot]));
 
 			_character = character;
 		}
@@ -34,44 +49,20 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public int[] GetEquipIds()
 		{
-			// Defaults are literally empty items, NoHat, NoWeapon, etc.
-			var result = new List<int>();
-			result.Add(2); // Hair Acc
-			result.Add(2); // Subsidiary Acc
-			result.Add(4); // Outer?
-			result.Add(8); // Top
-			result.Add(6); // Gloves
-			result.Add(7); // Shoes
-			result.Add(10000); // Helmet? (headless)
-			result.Add(11000); // Armband
-			result.Add(9999996); // L Weapon
-			result.Add(9999996); // R Weapon
-			result.Add(4); // Costume
-			result.Add(9); // Ring?
-			result.Add(9); // Ring?
-			result.Add(4); // Outer?
-			result.Add(9); // Pants
-			result.Add(9); // Ring?
-			result.Add(9); // Ring?
-			result.Add(9); // Bracelet 1
-			result.Add(9); // Bracelet 2
-			result.Add(10); // Necklace
-
-			// Replace defaults with the actual ids.
-			lock (_syncLock)
-			{
-				for (int i = 0; i < _equip.Length; ++i)
-				{
-					var item = _equip[i];
-					if (item != null)
-						result[i] = item.Id;
-				}
-			}
-
 			// TODO: Cache.
-			// TODO: Could be optimized on expense of simplicity?
 
-			return result.ToArray();
+			lock (_syncLock)
+				return _equip.OrderBy(a => a.Key).Select(a => a.Value.Id).ToArray();
+		}
+
+		/// <summary>
+		/// Returns dictionary of equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public Dictionary<EquipSlot, Item> GetEquip()
+		{
+			lock (_syncLock)
+				return _equip.ToDictionary(a => a.Key, a => a.Value);
 		}
 
 		/// <summary>
@@ -92,6 +83,17 @@ namespace Melia.Channel.World
 		{
 			lock (_syncLock)
 				return _items.ToDictionary(a => a.Key, a => a.Value.WorldId);
+		}
+
+		/// <summary>
+		/// Returns item by world id, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="worldId"></param>
+		/// <returns></returns>
+		public Item GetItem(long worldId)
+		{
+			lock (_syncLock)
+				return _items.Values.FirstOrDefault(a => a.WorldId == worldId);
 		}
 
 		/// <summary>
@@ -139,6 +141,17 @@ namespace Melia.Channel.World
 				id = _items.Where(a => a.Value.Data.Category == category).Max(a => a.Key) + 1;
 
 			_nextFreeIndex[category] = id;
+		}
+
+		/// <summary>
+		/// Puts item into given slot.
+		/// </summary>
+		/// <param name="slot"></param>
+		/// <param name="item"></param>
+		public void Equip(EquipSlot slot, Item item)
+		{
+			lock (_syncLock)
+				_equip[slot] = item;
 		}
 	}
 }
