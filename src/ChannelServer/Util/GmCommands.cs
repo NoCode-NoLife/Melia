@@ -28,6 +28,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id>", HandleItem);
+			Add("madhatter", "", HandleGetAllHats);
 		}
 
 		/// <summary>
@@ -156,6 +157,26 @@ namespace Melia.Channel.Util
 			var item = new Item(itemId);
 
 			character.Inventory.Add(item, InventoryAddType.PickUp);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleGetAllHats(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			var added = 0;
+			for (int itemId = 628001; itemId <= 628099; ++itemId)
+			{
+				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+					continue;
+
+				if (!character.Inventory.HasItem(itemId))
+				{
+					character.Inventory.Add(new Item(itemId), InventoryAddType.PickUp);
+					added++;
+				}
+			}
+
+			Send.ZC_SYSTEM_MSG(character, "Added {0} hats to inventory.", added);
 
 			return CommandResult.Okay;
 		}

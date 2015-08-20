@@ -134,6 +134,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns true if item exists in inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public bool HasItem(int itemId)
+		{
+			lock (_syncLock)
+				return _items.SelectMany(a => a.Value).Any(a => a.Id == itemId);
+		}
+
+		/// <summary>
 		/// Returns item by world id, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
