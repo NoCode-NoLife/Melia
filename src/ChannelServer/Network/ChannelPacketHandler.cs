@@ -214,6 +214,7 @@ namespace Melia.Channel.Network
 			character.Inventory.Add(new Item(628006));
 			character.Inventory.Add(new Item(645484));
 			var items = character.Inventory.GetItems();
+			var equip = character.Inventory.GetEquip();
 
 			packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
 			packet.PutInt(items.Count);
@@ -229,6 +230,19 @@ namespace Melia.Channel.Network
 				packet.PutInt(item.Key);
 				packet.PutInt(1); // ?
 				//packet.PutEmptyBin(0);
+			}
+			conn.Send(packet);
+
+			packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
+			foreach (var equipItem in equip)
+			{
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutShort(0); // Object size
+				packet.PutEmptyBin(2);
+				packet.PutLong(equipItem.Value.WorldId);
+				packet.PutInt((int)equipItem.Key);
+				packet.PutInt(0);
+				//packet.PutEmptyBin(0); // Object
 			}
 			conn.Send(packet);
 
