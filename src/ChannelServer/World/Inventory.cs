@@ -239,8 +239,6 @@ namespace Melia.Channel.World
 		/// <param name="item"></param>
 		public void SetEquipSilent(EquipSlot slot, Item item)
 		{
-			var cat = item.Data.Category;
-
 			lock (_syncLock)
 				_equip[slot] = item;
 		}
