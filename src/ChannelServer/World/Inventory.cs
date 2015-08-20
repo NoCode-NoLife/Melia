@@ -247,6 +247,15 @@ namespace Melia.Channel.World
 			if (item == null)
 				return InventoryResult.ItemNotFound;
 
+			// Unequip existing item first.
+			var collision = false;
+			lock (_syncLock)
+				collision = (!DefaultItems.Contains(_equip[slot].Id));
+
+			if (collision)
+				this.Unquip(slot);
+
+			// Equip new item
 			lock (_syncLock)
 			{
 				_equip[slot] = item;
@@ -254,6 +263,7 @@ namespace Melia.Channel.World
 				_itemsWorldIndex.Remove(item.WorldId);
 			}
 
+			// Update client
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
