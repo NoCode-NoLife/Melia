@@ -148,6 +148,20 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns item by world id, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="worldId"></param>
+		/// <returns></returns>
+		public Item GetItem(EquipSlot slot)
+		{
+			Item item;
+			lock (_syncLock)
+				_equip.TryGetValue(slot, out item);
+
+			return item;
+		}
+
+		/// <summary>
 		/// Adds item to inventory without updating the character's client.
 		/// </summary>
 		/// <param name="item"></param>
@@ -183,34 +197,56 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Puts item into given slot.
+		/// Moves item with the given id into the given slot.
 		/// </summary>
 		/// <param name="slot"></param>
 		/// <param name="item"></param>
-		public EquipResult Equip(EquipSlot slot, long worldId)
+		public InventoryResult Equip(EquipSlot slot, long worldId)
 		{
 			if (!Enum.IsDefined(typeof(EquipSlot), slot))
-				return EquipResult.InvalidSlot;
+				return InventoryResult.InvalidSlot;
 
 			var item = this.GetItem(worldId);
 			if (item == null)
-				return EquipResult.ItemNotFound;
+				return InventoryResult.ItemNotFound;
 
 			lock (_syncLock)
 			{
 				_equip[slot] = item;
 				_items[item.Data.Category].Remove(item);
+				_itemsWorldIndex.Remove(item.WorldId);
 			}
-
-			var equip = this.GetEquip();
-			var indices = this.GetIndices(item.Data.Category);
 
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
 
-			return EquipResult.Success;
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Moves item from given slot into inventory.
+		/// </summary>
+		/// <param name="slot"></param>
+		public InventoryResult Unquip(EquipSlot slot)
+		{
+			if (!Enum.IsDefined(typeof(EquipSlot), slot))
+				return InventoryResult.InvalidSlot;
+
+			var item = this.GetItem(slot);
+			if (item == null || DefaultItems.Contains(item.Id))
+				return InventoryResult.ItemNotFound;
+
+			lock (_syncLock)
+				_equip[slot] = new Item(DefaultItems[(int)item.Data.Category]);
+
+			Send.ZC_ITEM_EQUIP_LIST(_character);
+			Send.ZC_UPDATED_PCAPPEARANCE(_character);
+
+			this.Add(item);
+
+			return InventoryResult.Success;
 		}
 
 		/// <summary>
@@ -236,7 +272,7 @@ namespace Melia.Channel.World
 		}
 	}
 
-	public enum EquipResult
+	public enum InventoryResult
 	{
 		Success,
 		ItemNotFound,

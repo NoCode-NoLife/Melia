@@ -328,19 +328,47 @@ namespace Melia.Channel.Network
 			var slot = (EquipSlot)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var item = character.Inventory.GetItem(worldId);
-
 			var result = character.Inventory.Equip(slot, worldId);
 
-			if (result == EquipResult.ItemNotFound)
+			if (result == InventoryResult.ItemNotFound)
 			{
 				Log.Warning("User '{0}' tried to equip item he doesn't have ({1}).", conn.Account.Name, worldId);
 				return;
 			}
 
-			if (result == EquipResult.InvalidSlot)
+			if (result == InventoryResult.InvalidSlot)
 			{
 				Log.Warning("User '{0}' tried to equip item in invalid slot ({1}).", conn.Account.Name, worldId);
+				return;
+			}
+		}
+
+		/// <summary>
+		/// Sent when uequipping an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// 
+		/// </example>
+		[PacketHandler(Op.CZ_ITEM_UNEQUIP)]
+		public void CZ_ITEM_UNEQUIP(ChannelConnection conn, Packet packet)
+		{
+			var slot = (EquipSlot)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			var result = character.Inventory.Unquip(slot);
+
+			if (result == InventoryResult.ItemNotFound)
+			{
+				Log.Warning("User '{0}' tried to unequip non-existent item from {1}.", conn.Account.Name, slot);
+				return;
+			}
+
+			if (result == InventoryResult.InvalidSlot)
+			{
+				Log.Warning("User '{0}' tried to unequip item from invalid slot ({1}).", conn.Account.Name, slot);
 				return;
 			}
 		}
