@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace Melia.Channel.World
 		private Character _character;
 
 		private object _syncLock = new object();
-		private Dictionary<int, Item> _items;
-		private Dictionary<InventoryCategory, int> _nextFreeIndex;
+		private Dictionary<InventoryCategory, List<Item>> _items;
+		private Dictionary<long, Item> _itemsWorldIndex;
 		private Dictionary<EquipSlot, Item> _equip;
 
 		/// <summary>
@@ -34,12 +35,15 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Inventory(Character character)
 		{
-			_items = new Dictionary<int, Item>();
-			_nextFreeIndex = new Dictionary<InventoryCategory, int>();
+			_items = new Dictionary<InventoryCategory, List<Item>>();
+			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
+				_items.Add(category, new List<Item>());
 
 			_equip = new Dictionary<EquipSlot, Item>(20);
 			foreach (EquipSlot slot in Enum.GetValues(typeof(EquipSlot)))
 				_equip.Add(slot, new Item(DefaultItems[(int)slot]));
+
+			_itemsWorldIndex = new Dictionary<long, Item>();
 
 			_character = character;
 		}
@@ -72,8 +76,18 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public IDictionary<int, Item> GetItems()
 		{
+			var result = new Dictionary<int, Item>();
+
 			lock (_syncLock)
-				return _items.ToDictionary(a => a.Key, a => a.Value);
+			{
+				foreach (var category in _items)
+				{
+					for (int i = 0; i < category.Value.Count; ++i)
+						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i]);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -82,8 +96,18 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public IDictionary<int, long> GetIndices()
 		{
+			var result = new Dictionary<int, long>();
+
 			lock (_syncLock)
-				return _items.ToDictionary(a => a.Key, a => a.Value.WorldId);
+			{
+				foreach (var category in _items)
+				{
+					for (int i = 0; i < category.Value.Count; ++i)
+						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i].WorldId);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -93,8 +117,11 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public Item GetItem(long worldId)
 		{
+			Item item;
 			lock (_syncLock)
-				return _items.Values.FirstOrDefault(a => a.WorldId == worldId);
+				_itemsWorldIndex.TryGetValue(worldId, out item);
+
+			return item;
 		}
 
 		/// <summary>
@@ -103,45 +130,16 @@ namespace Melia.Channel.World
 		/// <param name="item"></param>
 		public void Add(Item item)
 		{
+			var cat = item.Data.Category;
+
 			lock (_syncLock)
 			{
-				var nextFreeId = this.GetNextFreeId(item.Data.Category);
-				_items.Add(nextFreeId, item);
-				this.UpdateNextFreeId(item.Data.Category, nextFreeId + 1);
+				if (!_items.ContainsKey(cat))
+					throw new ArgumentException("Unknown item category.");
+
+				_items[cat].Add(item);
+				_itemsWorldIndex[item.WorldId] = item;
 			}
-		}
-
-		/// <summary>
-		/// Returns next free index in inventory category.
-		/// </summary>
-		/// <remarks>
-		/// Not thread-safe, use from locked methods only!
-		/// Update the free id list if you use the returned one!
-		/// </remarks>
-		/// <param name="category"></param>
-		/// <returns></returns>
-		private int GetNextFreeId(InventoryCategory category)
-		{
-			if (!_nextFreeIndex.ContainsKey(category))
-				return (int)category * 5000 + 1;
-
-			return _nextFreeIndex[category];
-		}
-
-		/// <summary>
-		/// Updates the next free id in inventory category.
-		/// </summary>
-		/// <remarks>
-		/// Not thread-safe, use from locked methods only!
-		/// </remarks>
-		/// <param name="category"></param>
-		/// <param name="id">Leave as -1 to accurately calculate the id.</param>
-		private void UpdateNextFreeId(InventoryCategory category, int id = -1)
-		{
-			if (id == -1)
-				id = _items.Where(a => a.Value.Data.Category == category).Max(a => a.Key) + 1;
-
-			_nextFreeIndex[category] = id;
 		}
 
 		/// <summary>
@@ -159,9 +157,12 @@ namespace Melia.Channel.World
 				return EquipResult.ItemNotFound;
 
 			lock (_syncLock)
+			{
 				_equip[slot] = item;
+				_items[item.Data.Category].Remove(item);
+			}
 
-			var equip = _character.Inventory.GetEquip();
+			var equip = this.GetEquip();
 
 			var packet = new Packet(Op.ZC_ITEM_REMOVE);
 			packet.PutLong(item.WorldId);
@@ -202,6 +203,28 @@ namespace Melia.Channel.World
 			_character.Connection.Send(packet);
 
 			return EquipResult.Success;
+		}
+
+		/// <summary>
+		/// Logs the entire inventory and the equipment.
+		/// </summary>
+		public void Debug()
+		{
+			Log.Debug("<Debug> -----------------------------");
+
+			Log.Debug("Inventory");
+			foreach (var category in _items)
+			{
+				Log.Debug("  {0}", category.Key);
+				for (int i = 0; i < category.Value.Count; ++i)
+					Log.Debug("    {0} : {1}", (int)category.Key * 5000 + 1 + i, category.Value[i].Data.ClassName);
+			}
+
+			Log.Debug("Equip");
+			foreach (var item in _equip.ToDictionary(a => a.Key, a => a.Value))
+				Log.Debug("    {0} : {1}", item.Key, item.Value.Data.ClassName);
+
+			Log.Debug("</Debug> ----------------------------");
 		}
 	}
 
