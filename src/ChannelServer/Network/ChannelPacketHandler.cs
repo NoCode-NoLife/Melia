@@ -75,6 +75,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			character.Connection = conn;
 			conn.SelectedCharacter = character;
 			conn.LoggedIn = true;
 
@@ -229,7 +230,6 @@ namespace Melia.Channel.Network
 				packet.PutInt(1); // ?
 				//packet.PutEmptyBin(0);
 			}
-
 			conn.Send(packet);
 
 			//packet = new Packet(Op.ZC_JOB_EXP_UP);
@@ -524,46 +524,19 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 			var item = character.Inventory.GetItem(worldId);
 
-			character.Inventory.Equip(slot, item);
-			var equip = character.Inventory.GetEquip();
+			var result = character.Inventory.Equip(slot, worldId);
 
-			packet = new Packet(Op.ZC_ITEM_REMOVE);
-			packet.PutLong(item.WorldId);
-			packet.PutInt(1);
-			packet.PutByte(5);
-			packet.PutByte(0);
-			conn.Send(packet);
-
-			packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
-			foreach (var equipItem in equip)
+			if (result == EquipResult.ItemNotFound)
 			{
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(0); // Object size
-				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.WorldId);
-				packet.PutInt((int)equipItem.Key);
-				packet.PutInt(0);
-				//packet.PutEmptyBin(0); // Object
+				Log.Warning("User '{0}' tried to equip item he doesn't have ({1}).", conn.Account.Name, worldId);
+				return;
 			}
-			conn.Send(packet);
 
-			packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
-			packet.PutShort(character.WorldId);
-			packet.PutEmptyBin(2);
-			packet.PutString(character.Name, 65);
-			packet.PutString(character.TeamName, 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(0);
-			packet.PutShort(character.Stance);
-			packet.PutShort(0);
-			packet.PutShort((short)character.Job);
-			packet.PutByte((byte)character.Gender);
-			packet.PutByte(0);
-			packet.PutInt(character.Level);
-			foreach (var equipItem in equip)
-				packet.PutInt(equipItem.Value.Id);
-			packet.PutByte(character.Hair);
-			conn.Send(packet);
+			if (result == EquipResult.InvalidSlot)
+			{
+				Log.Warning("User '{0}' tried to equip item in invalid slot ({1}).", conn.Account.Name, worldId);
+				return;
+			}
 		}
 	}
 }

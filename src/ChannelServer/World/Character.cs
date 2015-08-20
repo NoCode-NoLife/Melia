@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.Const;
+using Melia.Shared.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace Melia.Channel.World
 {
 	public class Character : Shared.World.Character
 	{
+		/// <summary>
+		/// Connection this character uses.
+		/// </summary>
+		public Connection Connection { get; set; }
+
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
