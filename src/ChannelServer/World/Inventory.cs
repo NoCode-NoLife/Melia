@@ -111,6 +111,28 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns a dictionary with all indices for inventory category,
+		/// Key being the item's index.
+		/// </summary>
+		/// <returns></returns>
+		public IDictionary<int, long> GetIndices(InventoryCategory category)
+		{
+			var result = new Dictionary<int, long>();
+
+			lock (_syncLock)
+			{
+				if (!_items.ContainsKey(category))
+					throw new ArgumentException("Unknown item category.");
+
+				var items = _items[category];
+				for (int i = 0; i < items.Count; ++i)
+					result.Add((int)category * 5000 + 1 + i, items[i].WorldId);
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns item by world id, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
@@ -163,7 +185,7 @@ namespace Melia.Channel.World
 			}
 
 			var equip = this.GetEquip();
-			var indices = this.GetIndices();
+			var indices = this.GetIndices(item.Data.Category);
 
 			var packet = new Packet(Op.ZC_ITEM_REMOVE);
 			packet.PutLong(item.WorldId);
