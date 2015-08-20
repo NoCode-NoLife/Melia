@@ -24,7 +24,7 @@ namespace Melia.Shared.Const
 		PetArmor = 14,
 	}
 
-	public enum EquipSlot
+	public enum EquipSlot : byte
 	{
 		HairAccessory,
 		SubsidiaryAccessory,

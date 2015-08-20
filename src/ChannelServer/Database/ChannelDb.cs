@@ -100,9 +100,7 @@ namespace Melia.Channel.Database
 				}
 			}
 
-			var items = this.GetCharacterItems(character.Id);
-			foreach (var item in items)
-				character.Inventory.AddSilent(item);
+			this.LoadCharacterItems(character);
 
 			return character;
 		}
@@ -132,18 +130,16 @@ namespace Melia.Channel.Database
 		}
 
 		/// <summary>
-		/// Returns items for given character.
+		/// Load character's items.
 		/// </summary>
 		/// <param name="characterId"></param>
 		/// <returns></returns>
-		public List<Item> GetCharacterItems(long characterId)
+		private void LoadCharacterItems(Character character)
 		{
-			var result = new List<Item>();
-
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", characterId);
+				mc.Parameters.AddWithValue("@characterId", character.Id);
 
 				using (var reader = mc.ExecuteReader())
 				{
@@ -151,13 +147,17 @@ namespace Melia.Channel.Database
 					{
 						var itemId = reader.GetInt32("itemId");
 						var amount = reader.GetInt32("amount");
+						var equipSlot = (EquipSlot)reader.GetByte("equipSlot");
 
-						result.Add(new Item(itemId, amount));
+						var item = new Item(itemId, amount);
+
+						if (!Enum.IsDefined(typeof(EquipSlot), equipSlot))
+							character.Inventory.AddSilent(item);
+						else
+							character.Inventory.SetEquipSilent(equipSlot, item);
 					}
 				}
 			}
-
-			return result;
 		}
 
 		/// <summary>
@@ -185,6 +185,20 @@ namespace Melia.Channel.Database
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
 						cmd.Set("sort", i++);
+						cmd.Set("equipSlot", 0x7F);
+
+						cmd.Execute();
+					}
+				}
+
+				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem)))
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", item.Value.Id);
+						cmd.Set("amount", item.Value.Amount);
+						cmd.Set("equipSlot", (byte)item.Key);
 
 						cmd.Execute();
 					}

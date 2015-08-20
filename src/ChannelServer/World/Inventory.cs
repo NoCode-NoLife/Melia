@@ -42,7 +42,7 @@ namespace Melia.Channel.World
 
 			_equip = new Dictionary<EquipSlot, Item>(20);
 			foreach (EquipSlot slot in Enum.GetValues(typeof(EquipSlot)))
-				_equip.Add(slot, new Item(DefaultItems[(int)slot]));
+				_equip.Add(slot, new DummyEquipItem(slot));
 
 			_itemsWorldIndex = new Dictionary<long, Item>();
 
@@ -234,6 +234,18 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Puts item into equip slot without updating the client.
+		/// </summary>
+		/// <param name="item"></param>
+		public void SetEquipSilent(EquipSlot slot, Item item)
+		{
+			var cat = item.Data.Category;
+
+			lock (_syncLock)
+				_equip[slot] = item;
+		}
+
+		/// <summary>
 		/// Moves item with the given id into the given slot.
 		/// </summary>
 		/// <param name="slot"></param>
@@ -250,7 +262,7 @@ namespace Melia.Channel.World
 			// Unequip existing item first.
 			var collision = false;
 			lock (_syncLock)
-				collision = (!DefaultItems.Contains(_equip[slot].Id));
+				collision = !(_equip[slot] is DummyEquipItem);
 
 			if (collision)
 				this.Unquip(slot);
@@ -282,11 +294,11 @@ namespace Melia.Channel.World
 				return InventoryResult.InvalidSlot;
 
 			var item = this.GetItem(slot);
-			if (item == null || DefaultItems.Contains(item.Id))
+			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
 			lock (_syncLock)
-				_equip[slot] = new Item(DefaultItems[(int)slot]);
+				_equip[slot] = new DummyEquipItem(slot);
 
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
@@ -303,7 +315,7 @@ namespace Melia.Channel.World
 		public InventoryResult Delete(long worldId)
 		{
 			var item = this.GetItem(worldId);
-			if (item == null || DefaultItems.Contains(item.Id))
+			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
 			lock (_syncLock)
@@ -401,5 +413,13 @@ namespace Melia.Channel.World
 		ItemNotFound,
 		InvalidSlot,
 		InvalidOperation,
+	}
+
+	public class DummyEquipItem : Item
+	{
+		public DummyEquipItem(EquipSlot slot)
+			: base(Inventory.DefaultItems[(int)slot], 1)
+		{
+		}
 	}
 }
