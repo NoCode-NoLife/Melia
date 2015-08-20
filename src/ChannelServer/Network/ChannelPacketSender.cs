@@ -283,10 +283,18 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character)
+		{
+			ZC_ITEM_INVENTORY_INDEX_LIST(character, character.Inventory.GetIndices());
+		}
+
 		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character, InventoryCategory category)
 		{
-			var indices = character.Inventory.GetIndices(category);
+			ZC_ITEM_INVENTORY_INDEX_LIST(character, character.Inventory.GetIndices(category));
+		}
 
+		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character, IDictionary<int, long> indices)
+		{
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_INDEX_LIST);
 
 			packet.PutInt(indices.Count);

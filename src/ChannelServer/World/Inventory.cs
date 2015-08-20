@@ -334,6 +334,24 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Sorts inventory by item id.
+		/// </summary>
+		public void Sort()
+		{
+			lock (_syncLock)
+			{
+				var items = new Dictionary<InventoryCategory, List<Item>>();
+
+				foreach (var category in _items.Keys)
+					items[category] = _items[category].OrderBy(a => a.Id).ToList();
+
+				_items = items;
+			}
+
+			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character);
+		}
+
+		/// <summary>
 		/// Logs the entire inventory and the equipment.
 		/// </summary>
 		public void Debug()

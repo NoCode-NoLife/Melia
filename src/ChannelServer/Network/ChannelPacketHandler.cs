@@ -349,7 +349,7 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// 
+		/// [29 0C] [0A 00 00 00] [2E 00 00 00] 11 | A9 D6 37 E5 55
 		/// </example>
 		[PacketHandler(Op.CZ_ITEM_UNEQUIP)]
 		public void CZ_ITEM_UNEQUIP(ChannelConnection conn, Packet packet)
@@ -357,7 +357,6 @@ namespace Melia.Channel.Network
 			var slot = (EquipSlot)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-
 			var result = character.Inventory.Unquip(slot);
 
 			if (result == InventoryResult.ItemNotFound)
@@ -392,7 +391,6 @@ namespace Melia.Channel.Network
 			var unkLong = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-
 			var result = character.Inventory.Delete(worldId);
 
 			if (result == InventoryResult.ItemNotFound)
@@ -403,26 +401,12 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// 
+		/// Sent when dragging an item on top of another one in the same category.
 		/// </summary>
-		/// <remarks>
-		/// struct CZ_SWAP_ETC_INV_CHANGE_INDEX
-		/// {
-		/// 	__int16 OP;
-		/// 	int idx;
-		/// 	int CRC;
-		/// 
-		/// 	char invType;
-		/// 	QWORD GUID1;
-		/// 	int invIndex1;
-		/// 	QWORD GUID2;
-		/// 	int invIndex2;
-		/// };
-		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [E2 0C] [08 00 00 00] [F6 01 00 00] 00 04 00 00 00 00 00 50 00 11 27 00 00 04 00 00 00 00 00 50 00 11 27 00 00 BA A6 FE 2C 3D
+		/// [E2 0C] [08 00 00 00] [F6 01 00 00] 00 04 00 00 00 00 00 50 00 11 27 00 00 04 00 00 00 00 00 50 00 11 27 00 00 | BA A6 FE 2C 3D
 		/// </example>
 		[PacketHandler(Op.CZ_SWAP_ETC_INV_CHANGE_INDEX)]
 		public void CZ_SWAP_ETC_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
@@ -434,7 +418,6 @@ namespace Melia.Channel.Network
 			var index2 = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-
 			var result = character.Inventory.Swap(worldId1, worldId2);
 
 			if (result == InventoryResult.ItemNotFound)
@@ -448,6 +431,26 @@ namespace Melia.Channel.Network
 				Log.Warning("User '{0}' tried to swap two items from different categories ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
 				return;
 			}
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [E4 0C] [08 00 00 00] [F8 00 00 00] 00 | 58 EA 0F 1E 8B
+		/// </example>
+		[PacketHandler(Op.CZ_SORT_INV_CHANGE_INDEX)]
+		public void CZ_SORT_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			// TODO: Add cooldown?
+
+			character.Inventory.Sort();
 		}
 	}
 }
