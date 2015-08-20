@@ -250,6 +250,30 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Moves item from given slot into inventory.
+		/// </summary>
+		/// <param name="slot"></param>
+		public InventoryResult Delete(long worldId)
+		{
+			var item = this.GetItem(worldId);
+			if (item == null || DefaultItems.Contains(item.Id))
+				return InventoryResult.ItemNotFound;
+
+			lock (_syncLock)
+			{
+				if (!_items[item.Data.Category].Remove(item))
+					return InventoryResult.ItemNotFound;
+
+				_itemsWorldIndex.Remove(item.WorldId);
+			}
+
+			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
 		/// Logs the entire inventory and the equipment.
 		/// </summary>
 		public void Debug()

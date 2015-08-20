@@ -372,5 +372,34 @@ namespace Melia.Channel.Network
 				return;
 			}
 		}
+
+		/// <summary>
+		/// Sent when uequipping an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [22 0C] [4C 00 00 00] [58 00 00 00] 20 00 01 00 00 00  1A 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
+		/// [22 0C] [09 00 00 00] [34 00 00 00] 20 00 01 00 00 00  33 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
+		/// [22 0C] [0A 00 00 00] [30 00 00 00] 20 00 01 00 00 00  34 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
+		/// </example>
+		[PacketHandler(Op.CZ_ITEM_DELETE)]
+		public void CZ_ITEM_DELETE(ChannelConnection conn, Packet packet)
+		{
+			var unkShort = packet.GetShort();
+			var unkInt = packet.GetInt();
+			var worldId = packet.GetLong();
+			var unkLong = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+
+			var result = character.Inventory.Delete(worldId);
+
+			if (result == InventoryResult.ItemNotFound)
+			{
+				Log.Warning("User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
+				return;
+			}
+		}
 	}
 }
