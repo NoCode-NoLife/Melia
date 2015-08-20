@@ -27,27 +27,8 @@ namespace Melia.Login.Network.Helpers
 			packet.PutInt(character.Level);
 
 			// Items
-			// Defaults are literally empty items, NoHat, NoWeapon, etc.
-			packet.PutInt(2); // Hair Acc
-			packet.PutInt(2); // Subsidiary Acc
-			packet.PutInt(4); // Outer?
-			packet.PutInt(8); // Top
-			packet.PutInt(6); // Gloves
-			packet.PutInt(7); // Shoes
-			packet.PutInt(10000); // Helmet? (headless)
-			packet.PutInt(11000); // Armband
-			packet.PutInt(9999996); // L Weapon
-			packet.PutInt(9999996); // R Weapon
-			packet.PutInt(4); // Costume
-			packet.PutInt(9); // Ring?
-			packet.PutInt(9); // Ring?
-			packet.PutInt(4); // Outer?
-			packet.PutInt(9); // Pants
-			packet.PutInt(9); // Ring?
-			packet.PutInt(9); // Ring?
-			packet.PutInt(9); // Bracelet 1
-			packet.PutInt(9); // Bracelet 2
-			packet.PutInt(10); // Necklace
+			foreach (var itemId in character.Equipment)
+				packet.PutInt(itemId);
 
 			packet.PutByte(character.Hair);
 			packet.PutByte(0);

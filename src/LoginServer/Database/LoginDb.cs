@@ -131,27 +131,48 @@ namespace Melia.Login.Database
 			var result = new List<Character>();
 
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId", conn))
 			{
-				mc.Parameters.AddWithValue("@accountId", accountId);
-
-				using (var reader = mc.ExecuteReader())
+				using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId", conn))
 				{
-					while (reader.Read())
-					{
-						var character = new Character();
-						character.Id = reader.GetInt64("characterId");
-						character.Name = reader.GetStringSafe("name");
-						character.Job = (Job)reader.GetInt16("job");
-						character.Gender = (Gender)reader.GetByte("gender");
-						character.Hair = reader.GetByte("hair");
-						character.Level = reader.GetInt32("level");
-						character.ZoneId = reader.GetInt32("zone");
-						character.X = reader.GetFloat("bx");
-						character.Y = reader.GetFloat("by");
-						character.Z = reader.GetFloat("bz");
+					mc.Parameters.AddWithValue("@accountId", accountId);
 
-						result.Add(character);
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var character = new Character();
+							character.Id = reader.GetInt64("characterId");
+							character.Name = reader.GetStringSafe("name");
+							character.Job = (Job)reader.GetInt16("job");
+							character.Gender = (Gender)reader.GetByte("gender");
+							character.Hair = reader.GetByte("hair");
+							character.Level = reader.GetInt32("level");
+							character.ZoneId = reader.GetInt32("zone");
+							character.X = reader.GetFloat("bx");
+							character.Y = reader.GetFloat("by");
+							character.Z = reader.GetFloat("bz");
+
+							result.Add(character);
+						}
+					}
+				}
+
+				foreach (var character in result)
+				{
+					using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId AND `equipSlot` != 127", conn))
+					{
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+
+						using (var reader = mc.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								var itemId = reader.GetInt32("itemId");
+								var equipSlot = reader.GetByte("equipSlot");
+
+								character.Equipment[equipSlot] = itemId;
+							}
+						}
 					}
 				}
 			}
