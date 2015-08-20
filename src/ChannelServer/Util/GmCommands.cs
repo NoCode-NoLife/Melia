@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.World;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
@@ -154,7 +155,7 @@ namespace Melia.Channel.Util
 
 			var item = new Item(itemId);
 
-			character.Inventory.Add(item);
+			character.Inventory.Add(item, InventoryAddType.PickUp);
 
 			return CommandResult.Okay;
 		}

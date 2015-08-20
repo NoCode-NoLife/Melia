@@ -61,4 +61,10 @@ namespace Melia.Shared.Const
 		Inventory = 0,
 		Warehouse = 1,
 	}
+
+	public enum InventoryAddType : byte
+	{
+		PickUp = 3, // ?
+		NotNew = 4,
+	}
 }

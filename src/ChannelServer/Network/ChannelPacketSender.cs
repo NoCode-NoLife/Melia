@@ -324,7 +324,7 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet); // Broadcast
 		}
 
-		public static void ZC_ITEM_ADD(Character character, Item item, int index)
+		public static void ZC_ITEM_ADD(Character character, Item item, int index, InventoryAddType addType)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
@@ -333,7 +333,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
 			packet.PutShort(0); // Size of the object at the end
-			packet.PutByte(0);
+			packet.PutByte((byte)addType);
 			packet.PutFloat(0); // Notification delay
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);

@@ -187,11 +187,11 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="item"></param>
 		/// <return>Index of the item.</return>
-		public int Add(Item item)
+		public int Add(Item item, InventoryAddType addType)
 		{
 			var index = this.AddSilent(item);
 
-			Send.ZC_ITEM_ADD(_character, item, index);
+			Send.ZC_ITEM_ADD(_character, item, index, addType);
 
 			return index;
 		}
@@ -239,12 +239,12 @@ namespace Melia.Channel.World
 				return InventoryResult.ItemNotFound;
 
 			lock (_syncLock)
-				_equip[slot] = new Item(DefaultItems[(int)item.Data.Category]);
+				_equip[slot] = new Item(DefaultItems[(int)slot]);
 
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
 
-			this.Add(item);
+			this.Add(item, InventoryAddType.NotNew);
 
 			return InventoryResult.Success;
 		}
