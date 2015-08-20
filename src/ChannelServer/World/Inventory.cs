@@ -152,6 +152,32 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="worldId"></param>
 		/// <returns></returns>
+		public Item GetItemByIndex(int index)
+		{
+			if (index < 5001 || index > 75000)
+				throw new ArgumentOutOfRangeException("index");
+
+			var category = (InventoryCategory)(index / 5000);
+			var subIndex = index - (int)category * 5000 - 1;
+
+			Item item;
+			lock (_syncLock)
+			{
+				var list = _items[category];
+				if (list.Count < subIndex)
+					return null;
+
+				item = list[subIndex];
+			}
+
+			return item;
+		}
+
+		/// <summary>
+		/// Returns item by world id, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="worldId"></param>
+		/// <returns></returns>
 		public Item GetItem(EquipSlot slot)
 		{
 			Item item;
@@ -274,6 +300,40 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Swaps the two items with each other.
+		/// </summary>
+		/// <param name="worldId1"></param>
+		/// <param name="worldId2"></param>
+		/// <returns></returns>
+		public InventoryResult Swap(long worldId1, long worldId2)
+		{
+			var item1 = this.GetItem(worldId1);
+			var item2 = this.GetItem(worldId2);
+
+			if (item1 == null || item2 == null)
+				return InventoryResult.ItemNotFound;
+
+			if (item1.Data.Category != item2.Data.Category)
+				return InventoryResult.InvalidOperation;
+
+			var category = item1.Data.Category;
+
+			lock (_syncLock)
+			{
+				var list = _items[category];
+				var index1 = list.IndexOf(item1);
+				var index2 = list.IndexOf(item2);
+
+				list[index1] = item2;
+				list[index2] = item1;
+			}
+
+			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, category);
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
 		/// Logs the entire inventory and the equipment.
 		/// </summary>
 		public void Debug()
@@ -301,5 +361,6 @@ namespace Melia.Channel.World
 		Success,
 		ItemNotFound,
 		InvalidSlot,
+		InvalidOperation,
 	}
 }

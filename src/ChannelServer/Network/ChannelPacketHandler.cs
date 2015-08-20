@@ -401,5 +401,53 @@ namespace Melia.Channel.Network
 				return;
 			}
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <remarks>
+		/// struct CZ_SWAP_ETC_INV_CHANGE_INDEX
+		/// {
+		/// 	__int16 OP;
+		/// 	int idx;
+		/// 	int CRC;
+		/// 
+		/// 	char invType;
+		/// 	QWORD GUID1;
+		/// 	int invIndex1;
+		/// 	QWORD GUID2;
+		/// 	int invIndex2;
+		/// };
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [E2 0C] [08 00 00 00] [F6 01 00 00] 00 04 00 00 00 00 00 50 00 11 27 00 00 04 00 00 00 00 00 50 00 11 27 00 00 BA A6 FE 2C 3D
+		/// </example>
+		[PacketHandler(Op.CZ_SWAP_ETC_INV_CHANGE_INDEX)]
+		public void CZ_SWAP_ETC_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
+		{
+			var invType = (InventoryType)packet.GetByte();
+			var worldId1 = packet.GetLong();
+			var index1 = packet.GetInt();
+			var worldId2 = packet.GetLong();
+			var index2 = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			var result = character.Inventory.Swap(worldId1, worldId2);
+
+			if (result == InventoryResult.ItemNotFound)
+			{
+				Log.Warning("User '{0}' tried to delete non-existent item ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
+				return;
+			}
+
+			if (result == InventoryResult.InvalidOperation)
+			{
+				Log.Warning("User '{0}' tried to swap two items from different categories ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
+				return;
+			}
+		}
 	}
 }
