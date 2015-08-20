@@ -26,6 +26,7 @@ namespace Melia.Channel.Util
 			Add("where", "", HandleWhere);
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
+			Add("item", "<item id>", HandleItem);
 		}
 
 		/// <summary>
@@ -67,10 +68,12 @@ namespace Melia.Channel.Util
 			if (result == CommandResult.Fail)
 			{
 				//msg(conn, "Failed to execute command.");
+				Log.Debug("Failed to execute command.");
 			}
 			else if (result == CommandResult.InvalidArgument)
 			{
 				//msg(conn, "Invalid argument, usage: " + string.Format("{0}{1} {2}", '/', commandName, command.Usage));
+				Log.Debug("Invalid argument, usage: {0}{1} {2}", '/', commandName, command.Usage);
 			}
 
 			return true;
@@ -182,6 +185,22 @@ namespace Melia.Channel.Util
 				packet.PutByte(0);
 				conn.Send(packet);
 			}
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleItem(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			int itemId;
+			if (!int.TryParse(args[1], out itemId))
+				return CommandResult.InvalidArgument;
+
+			var item = new Item(itemId);
+
+			character.Inventory.Add(item);
+
 			return CommandResult.Okay;
 		}
 	}

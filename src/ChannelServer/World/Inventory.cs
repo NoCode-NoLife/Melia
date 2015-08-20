@@ -147,10 +147,11 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Adds item to inventory.
+		/// Adds item to inventory without updating the character's client.
 		/// </summary>
 		/// <param name="item"></param>
-		public void Add(Item item)
+		/// <return>Index of the item.</return>
+		public int AddSilent(Item item)
 		{
 			var cat = item.Data.Category;
 
@@ -161,7 +162,34 @@ namespace Melia.Channel.World
 
 				_items[cat].Add(item);
 				_itemsWorldIndex[item.WorldId] = item;
+
+				return (int)cat * 5000 + _items[cat].Count;
 			}
+		}
+
+		/// <summary>
+		/// Adds item to inventory and updates client.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <return>Index of the item.</return>
+		public int Add(Item item)
+		{
+			var index = this.AddSilent(item);
+
+			var packet = new Packet(Op.ZC_ITEM_ADD);
+			packet.PutLong(item.WorldId);
+			packet.PutInt(item.Amount);
+			packet.PutInt(index);
+			packet.PutInt(item.Id);
+			packet.PutShort(0); // Size of the object at the end
+			packet.PutByte(0);
+			packet.PutFloat(0); // Notification delay
+			packet.PutByte(0); // InvType
+			packet.PutByte(0);
+			//packet.PutEmptyBin(0);
+			_character.Connection.Send(packet);
+
+			return index;
 		}
 
 		/// <summary>
@@ -254,7 +282,7 @@ namespace Melia.Channel.World
 
 			Log.Debug("Equip");
 			foreach (var item in _equip.ToDictionary(a => a.Key, a => a.Value))
-				Log.Debug("    {0} : {1}", item.Key, item.Value.Data.ClassName);
+				Log.Debug("  {0} : {1}", item.Key, item.Value.Data.ClassName);
 
 			Log.Debug("</Debug> ----------------------------");
 		}
