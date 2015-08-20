@@ -26,7 +26,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns the amount of the item.
 		/// </summary>
-		public int Amount { get; private set; }
+		public int Amount { get; set; }
 
 		/// <summary>
 		/// Item's world id...?

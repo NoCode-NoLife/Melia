@@ -205,14 +205,6 @@ namespace Melia.Channel.Network
 			packet.PutFloat(0); // ?
 			conn.Send(packet);
 
-
-			character.Inventory.AddSilent(new Item(640045));
-			character.Inventory.AddSilent(new Item(609904));
-			character.Inventory.AddSilent(new Item(628001));
-			character.Inventory.AddSilent(new Item(628002));
-			character.Inventory.AddSilent(new Item(628005));
-			character.Inventory.AddSilent(new Item(628006));
-			character.Inventory.AddSilent(new Item(645484));
 			var items = character.Inventory.GetItems();
 			var equip = character.Inventory.GetEquip();
 

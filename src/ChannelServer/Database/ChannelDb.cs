@@ -66,6 +66,8 @@ namespace Melia.Channel.Database
 		/// <returns></returns>
 		public Character GetCharacter(long accountId, long characterId)
 		{
+			var character = new Character();
+
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
 			{
@@ -77,7 +79,6 @@ namespace Melia.Channel.Database
 					if (!reader.Read())
 						return null;
 
-					var character = new Character();
 					character.Id = reader.GetInt64("characterId");
 					character.Name = reader.GetStringSafe("name");
 					character.TeamName = reader.GetStringSafe("teamName");
@@ -96,10 +97,14 @@ namespace Melia.Channel.Database
 					character.Sp = reader.GetInt32("sp");
 					character.MaxSp = reader.GetInt32("maxSp");
 					character.Stamina = reader.GetInt32("stamina");
-
-					return character;
 				}
 			}
+
+			var items = this.GetCharacterItems(character.Id);
+			foreach (var item in items)
+				character.Inventory.AddSilent(item);
+
+			return character;
 		}
 
 		/// <summary>
@@ -121,7 +126,72 @@ namespace Melia.Channel.Database
 				cmd.Execute();
 			}
 
+			this.SaveCharacterItems(character);
+
 			return false;
+		}
+
+		/// <summary>
+		/// Returns items for given character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		public List<Item> GetCharacterItems(long characterId)
+		{
+			var result = new List<Item>();
+
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", characterId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var itemId = reader.GetInt32("itemId");
+						var amount = reader.GetInt32("amount");
+
+						result.Add(new Item(itemId, amount));
+					}
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns items for given character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		public void SaveCharacterItems(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `items` WHERE `characterId` = @characterId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				var i = 0;
+				foreach (var item in character.Inventory.GetItems().OrderBy(a => a.Key))
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", item.Value.Id);
+						cmd.Set("amount", item.Value.Amount);
+						cmd.Set("sort", i++);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
 		}
 	}
 }
