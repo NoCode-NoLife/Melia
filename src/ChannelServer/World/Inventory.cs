@@ -163,6 +163,7 @@ namespace Melia.Channel.World
 			}
 
 			var equip = this.GetEquip();
+			var indices = this.GetIndices();
 
 			var packet = new Packet(Op.ZC_ITEM_REMOVE);
 			packet.PutLong(item.WorldId);
@@ -181,6 +182,15 @@ namespace Melia.Channel.World
 				packet.PutInt((int)equipItem.Key);
 				packet.PutInt(0);
 				//packet.PutEmptyBin(0); // Object
+			}
+			_character.Connection.Send(packet);
+
+			packet = new Packet(Op.ZC_ITEM_INVENTORY_INDEX_LIST);
+			packet.PutInt(indices.Count);
+			foreach (var index in indices)
+			{
+				packet.PutLong(index.Value);
+				packet.PutInt(index.Key);
 			}
 			_character.Connection.Send(packet);
 
