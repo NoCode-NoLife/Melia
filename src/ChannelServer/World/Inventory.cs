@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Channel.Network;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using System;
@@ -176,18 +177,7 @@ namespace Melia.Channel.World
 		{
 			var index = this.AddSilent(item);
 
-			var packet = new Packet(Op.ZC_ITEM_ADD);
-			packet.PutLong(item.WorldId);
-			packet.PutInt(item.Amount);
-			packet.PutInt(index);
-			packet.PutInt(item.Id);
-			packet.PutShort(0); // Size of the object at the end
-			packet.PutByte(0);
-			packet.PutFloat(0); // Notification delay
-			packet.PutByte(0); // InvType
-			packet.PutByte(0);
-			//packet.PutEmptyBin(0);
-			_character.Connection.Send(packet);
+			Send.ZC_ITEM_ADD(_character, item, index);
 
 			return index;
 		}
@@ -215,52 +205,10 @@ namespace Melia.Channel.World
 			var equip = this.GetEquip();
 			var indices = this.GetIndices(item.Data.Category);
 
-			var packet = new Packet(Op.ZC_ITEM_REMOVE);
-			packet.PutLong(item.WorldId);
-			packet.PutInt(1);
-			packet.PutByte(5);
-			packet.PutByte(0);
-			_character.Connection.Send(packet);
-
-			packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
-			foreach (var equipItem in equip)
-			{
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(0); // Object size
-				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.WorldId);
-				packet.PutInt((int)equipItem.Key);
-				packet.PutInt(0);
-				//packet.PutEmptyBin(0); // Object
-			}
-			_character.Connection.Send(packet);
-
-			packet = new Packet(Op.ZC_ITEM_INVENTORY_INDEX_LIST);
-			packet.PutInt(indices.Count);
-			foreach (var index in indices)
-			{
-				packet.PutLong(index.Value);
-				packet.PutInt(index.Key);
-			}
-			_character.Connection.Send(packet);
-
-			packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
-			packet.PutShort(_character.WorldId);
-			packet.PutEmptyBin(2);
-			packet.PutString(_character.Name, 65);
-			packet.PutString(_character.TeamName, 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(0);
-			packet.PutShort(_character.Stance);
-			packet.PutShort(0);
-			packet.PutShort((short)_character.Job);
-			packet.PutByte((byte)_character.Gender);
-			packet.PutByte(0);
-			packet.PutInt(_character.Level);
-			foreach (var equipItem in equip)
-				packet.PutInt(equipItem.Value.Id);
-			packet.PutByte(_character.Hair);
-			_character.Connection.Send(packet);
+			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
+			Send.ZC_ITEM_EQUIP_LIST(_character);
+			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
+			Send.ZC_UPDATED_PCAPPEARANCE(_character);
 
 			return EquipResult.Success;
 		}

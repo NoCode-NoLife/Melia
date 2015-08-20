@@ -1,8 +1,10 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Channel.World;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +13,394 @@ namespace Melia.Channel.Network
 {
 	public static class Send
 	{
-		//public static void BC_LOGINOK(LoginConnection conn)
-		//{
-		//	var packet = new Packet(Op.BC_LOGINOK);
-		//	packet.PutShort(0);
-		//	packet.PutLong(conn.SessionId);
-		//	packet.PutString("foobar", 17);
-		//	packet.PutInt(0); // hotkey?
-		//	packet.PutBin(new byte[80]);
+		// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
+		//packet = new Packet(Op.ZC_MOVE_ZONE);
+		//packet.PutByte(0);
+		//conn.Send(packet);
 
-		//	conn.Send(packet);
-		//}
+		//packet = new Packet(Op.ZC_JOB_EXP_UP);
+		//packet.PutInt(30);
+		//conn.Send(packet);
+
+		public static void ZC_CONNECT_OK(ChannelConnection conn, Character character)
+		{
+			var packet = new Packet(Op.ZC_CONNECT_OK);
+
+			packet.PutByte(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutEmptyBin(10);
+
+			packet.PutShort(0); // count v ?
+			//packet.PutEmptyBin(0);
+
+			packet.PutInt(character.WorldId);
+			packet.PutInt(0);
+
+			// CommanderInfo (237)
+			{
+				packet.PutString(character.Name, 65);
+				packet.PutString(character.TeamName, 64);
+				packet.PutEmptyBin(7);
+				packet.PutLong(0);
+				packet.PutShort(character.Stance);
+				packet.PutShort(0);
+				packet.PutShort((short)character.Job);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte(0);
+				packet.PutInt(character.Level);
+
+				// Equipment
+				foreach (var id in character.Inventory.GetEquipIds())
+					packet.PutInt(id);
+
+				packet.PutByte(character.Hair);
+			}
+
+			packet.PutEmptyBin(3);
+			packet.PutFloat(character.X);
+			packet.PutFloat(character.Y);
+			packet.PutFloat(character.Z);
+			packet.PutInt(character.Exp);
+			packet.PutInt(character.MaxExp);
+			packet.PutInt(0);
+
+			packet.PutLong(character.Id);
+
+			//packet.PutEmptyBin(32);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutInt(character.Hp);
+			packet.PutInt(character.MaxHp);
+			packet.PutShort(character.Sp);
+			packet.PutShort(character.MaxSp);
+			packet.PutInt(character.Stamina);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			packet.PutByte(0);
+			packet.PutEmptyBin(3);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_START_GAME(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_START_GAME);
+
+			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
+			packet.PutFloat(1);
+			packet.PutFloat(1);
+			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_MYPC_ENTER(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MYPC_ENTER);
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_QUICK_SLOT_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
+
+			packet.PutInt(0);
+			//...
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_MOVE_SPEED(Character character)
+		{
+			var packet = new Packet(Op.ZC_MOVE_SPEED);
+
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(0);
+
+			character.Connection.Send(packet); // Broadcast?
+		}
+
+		public static void ZC_ITEM_INVENTORY_LIST(Character character)
+		{
+			var items = character.Inventory.GetItems();
+
+			var packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
+
+			packet.PutInt(items.Count);
+			packet.PutShort(0); // Compression
+			foreach (var item in items)
+			{
+				packet.PutInt(item.Value.Id);
+				packet.PutShort(0); // Size of the object at the end
+				packet.PutEmptyBin(2);
+				packet.PutLong(item.Value.WorldId);
+				packet.PutInt(item.Value.Amount);
+				packet.PutInt(item.Value.Price);
+				packet.PutInt(item.Key);
+				packet.PutInt(1); // ?
+				//packet.PutEmptyBin(0);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_ITEM_EQUIP_LIST(Character character)
+		{
+			var equip = character.Inventory.GetEquip();
+
+			var packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
+
+			foreach (var equipItem in equip)
+			{
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutShort(0); // Object size
+				packet.PutEmptyBin(2);
+				packet.PutLong(equipItem.Value.WorldId);
+				packet.PutInt((int)equipItem.Key);
+				packet.PutInt(0);
+				//packet.PutEmptyBin(0); // Object
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_CHAT(Character character, string message)
+		{
+			//char field_0[64];
+			//char field_1[65];
+			//char gap;
+			//__int16 field_2;
+			//int field_3;
+			//char field_4;
+			//char field_5;
+			//char gap2[2];
+			//int some_id;
+
+			var packet = new Packet(Op.ZC_CHAT);
+
+			packet.PutInt(character.WorldId);
+			packet.PutString("test team name", 64); // ?
+			packet.PutString("test name", 65); // ?
+			packet.PutByte(0);
+			packet.PutShort((short)character.Job);
+			packet.PutInt(0);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutEmptyBin(2);
+			packet.PutInt(0);
+			packet.PutFloat(10); // Display time in seconds
+			packet.PutString(message);
+
+			character.Connection.Send(packet); // broadcast
+		}
+
+		public static void ZC_SYSTEM_MSG(Character character, string format, params object[] args)
+		{
+			ZC_SYSTEM_MSG(character, string.Format(format, args));
+		}
+
+		public static void ZC_SYSTEM_MSG(Character character, string message)
+		{
+			// TODO: Get ZC_SYSTEM_MSG
+
+			var packet = new Packet(Op.ZC_CHAT);
+
+			packet.PutInt(character.WorldId);
+			packet.PutString("test team name", 64); // ?
+			packet.PutString("test name", 65); // ?
+			packet.PutByte(0);
+			packet.PutShort((short)character.Job);
+			packet.PutInt(0);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutEmptyBin(2);
+			packet.PutInt(0);
+			packet.PutFloat(10); // Display time in seconds
+			packet.PutString(message);
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_JUMP(Character character)
+		{
+			var packet = new Packet(Op.ZC_JUMP);
+
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(character.GetJumpStrength());
+			packet.PutInt(character.GetJumpType());
+			packet.PutByte(1);  // 1 or 0
+
+			character.Connection.Send(packet); // Broadcast
+		}
+
+		public static void ZC_REST_SIT(Character character)
+		{
+			var packet = new Packet(Op.ZC_REST_SIT);
+
+			packet.PutInt(character.WorldId);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet); // broadcast
+		}
+
+		public static void ZC_ITEM_REMOVE(Character character, long worldId, int amount, InventoryItemRemoveMsg msg, InventoryType invType)
+		{
+			var packet = new Packet(Op.ZC_ITEM_REMOVE);
+
+			packet.PutLong(worldId);
+			packet.PutInt(amount);
+			packet.PutByte((byte)msg);
+			packet.PutByte((byte)invType);
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character, InventoryCategory category)
+		{
+			var indices = character.Inventory.GetIndices(category);
+
+			var packet = new Packet(Op.ZC_ITEM_INVENTORY_INDEX_LIST);
+
+			packet.PutInt(indices.Count);
+			foreach (var index in indices)
+			{
+				packet.PutLong(index.Value);
+				packet.PutInt(index.Key);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
+		{
+			var equip = character.Inventory.GetEquip();
+
+			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
+
+			packet.PutShort(character.WorldId);
+			packet.PutEmptyBin(2);
+			packet.PutString(character.Name, 65);
+			packet.PutString(character.TeamName, 64);
+			packet.PutEmptyBin(7);
+			packet.PutLong(0);
+			packet.PutShort(character.Stance);
+			packet.PutShort(0);
+			packet.PutShort((short)character.Job);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte(0);
+			packet.PutInt(character.Level);
+			foreach (var equipItem in equip)
+				packet.PutInt(equipItem.Value.Id);
+			packet.PutByte(character.Hair);
+
+			character.Connection.Send(packet); // Broadcast
+		}
+
+		public static void ZC_ITEM_ADD(Character character, Item item, int index)
+		{
+			var packet = new Packet(Op.ZC_ITEM_ADD);
+
+			packet.PutLong(item.WorldId);
+			packet.PutInt(item.Amount);
+			packet.PutInt(index);
+			packet.PutInt(item.Id);
+			packet.PutShort(0); // Size of the object at the end
+			packet.PutByte(0);
+			packet.PutFloat(0); // Notification delay
+			packet.PutByte(0); // InvType
+			packet.PutByte(0);
+			//packet.PutEmptyBin(0);
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_MOVE_BARRACK(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MOVE_BARRACK);
+			conn.Send(packet);
+		}
+
+		public static void ZC_LOGOUT_OK(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_LOGOUT_OK);
+			conn.Send(packet);
+		}
+
+		public static void ZC_CAMPINFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_CAMPINFO); // Size: 18 (12)
+			packet.PutEmptyBin(12);
+			conn.Send(packet);
+		}
+
+		public static void ZC_SET_POS(Character character)
+		{
+			var packet = new Packet(Op.ZC_SET_POS);
+
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(character.X);
+			packet.PutFloat(character.Y);
+			packet.PutFloat(character.Z);
+
+			character.Connection.Send(packet); // Broadcast
+		}
+
+		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int zoneId)
+		{
+			//_BYTE gap0[6];
+			//_DWORD dword6;
+			//_DWORD dwordA;
+			//_DWORD dwordE;
+			//_DWORD dword12;
+			//float float16;
+			//float float1A;
+			//_BYTE gap1E[26];
+			//_BYTE byte38;
+
+			var packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
+
+			packet.PutInt(0);
+			packet.PutInt(BitConverter.ToInt32(IPAddress.Parse(ip).GetAddressBytes(), 0));
+			packet.PutInt(port);
+			packet.PutInt(zoneId); // Zone id
+			packet.PutFloat(38); // Camera X angle
+			packet.PutFloat(45); // Camera Y angle
+			packet.PutEmptyBin(26);
+			packet.PutByte(0);
+
+			conn.Send(packet);
+		}
+
+		public static void DUMMY(ChannelConnection conn)
+		{
+		}
 	}
 }

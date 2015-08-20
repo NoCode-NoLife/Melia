@@ -25,19 +25,6 @@ namespace Melia.Channel.Network
 		/// <param name="packet"></param>
 		/// <example>
 		/// [B9 0B] [00 00 00 00] [E4 66 00 00] 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
-		/// 
-		///  struct header packet_head;
-		///  short len; //? 1059
-		///  short w1;
-		///  int64 id;
-		///  int d1;
-		///  int d2;
-		///  char str[33];
-		///  int d3;
-		///  short w2;
-		///  byte b1;
-		///  byte b2;
-		///  byte b3;
 		/// </example>
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
@@ -79,84 +66,7 @@ namespace Melia.Channel.Network
 			conn.SelectedCharacter = character;
 			conn.LoggedIn = true;
 
-			// Response
-			packet = new Packet(Op.ZC_CONNECT_OK);
-			packet.PutByte(0);
-			packet.PutInt(0);
-			packet.PutByte(0);
-			packet.PutEmptyBin(10);
-
-			packet.PutShort(0); // count v ?
-			//packet.PutEmptyBin(0);
-
-			packet.PutInt(character.WorldId);
-			packet.PutInt(0);
-
-			// CommanderInfo (237)
-			{
-				packet.PutString(character.Name, 65);
-				packet.PutString(character.TeamName, 64);
-				packet.PutEmptyBin(7);
-				packet.PutLong(0);
-				packet.PutShort(character.Stance);
-				packet.PutShort(0);
-				packet.PutShort((short)character.Job);
-				packet.PutByte((byte)character.Gender);
-				packet.PutByte(0);
-				packet.PutInt(character.Level);
-
-				// Equipment
-				foreach (var id in character.Inventory.GetEquipIds())
-					packet.PutInt(id);
-
-				packet.PutByte(character.Hair);
-			}
-
-			packet.PutEmptyBin(3);
-			packet.PutFloat(character.X);
-			packet.PutFloat(character.Y);
-			packet.PutFloat(character.Z);
-			packet.PutInt(character.Exp);
-			packet.PutInt(character.MaxExp);
-			packet.PutInt(0);
-
-			packet.PutLong(character.Id);
-
-			//packet.PutEmptyBin(32);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutInt(character.Hp);
-			packet.PutInt(character.MaxHp);
-			packet.PutShort(character.Sp);
-			packet.PutShort(character.MaxSp);
-			packet.PutInt(character.Stamina);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-
-			packet.PutByte(0);
-			packet.PutEmptyBin(3);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-
-			conn.Send(packet);
+			Send.ZC_CONNECT_OK(conn, character);
 		}
 
 		/// <summary>
@@ -172,79 +82,12 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			//float float6;
-			//float floatA;
-			//float floatE;
-			//_QWORD qword12;
-			packet = new Packet(Op.ZC_START_GAME); // Size: 26 (20)
-			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
-			packet.PutFloat(1);
-			packet.PutFloat(1);
-			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
-			conn.Send(packet);
-
-			// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
-			//packet = new Packet(Op.ZC_MOVE_ZONE);
-			//packet.PutByte(0);
-			//conn.Send(packet);
-
-			packet = new Packet(Op.ZC_MYPC_ENTER); // Size: 18 (12)
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			conn.Send(packet);
-
-			packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
-			packet.PutInt(0);
-			//...
-			conn.Send(packet);
-
-			packet = new Packet(Op.ZC_MOVE_SPEED); // Size: 18 (12)
-			packet.PutInt(character.WorldId);
-			packet.PutFloat(character.GetSpeed());
-			packet.PutFloat(0); // ?
-			conn.Send(packet);
-
-			var items = character.Inventory.GetItems();
-			var equip = character.Inventory.GetEquip();
-
-			packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
-			packet.PutInt(items.Count);
-			packet.PutShort(0); // Compression
-			foreach (var item in items)
-			{
-				packet.PutInt(item.Value.Id);
-				packet.PutShort(0); // Size of the object at the end
-				packet.PutEmptyBin(2);
-				packet.PutLong(item.Value.WorldId);
-				packet.PutInt(item.Value.Amount);
-				packet.PutInt(item.Value.Price);
-				packet.PutInt(item.Key);
-				packet.PutInt(1); // ?
-				//packet.PutEmptyBin(0);
-			}
-			conn.Send(packet);
-
-			packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
-			foreach (var equipItem in equip)
-			{
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(0); // Object size
-				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.WorldId);
-				packet.PutInt((int)equipItem.Key);
-				packet.PutInt(0);
-				//packet.PutEmptyBin(0); // Object
-			}
-			conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_JOB_EXP_UP);
-			//packet.PutInt(30);
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_ENTER_PC); // Size: 370 (364)
-			//packet.AddCharacter(conn.SelectedCharacter);
-			//conn.Send(packet);
+			Send.ZC_START_GAME(conn);
+			Send.ZC_MYPC_ENTER(conn);
+			Send.ZC_QUICK_SLOT_LIST(conn);
+			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_ITEM_INVENTORY_LIST(character);
+			Send.ZC_ITEM_EQUIP_LIST(character);
 		}
 
 		/// <summary>
@@ -293,9 +136,7 @@ namespace Melia.Channel.Network
 		{
 			var sessionId = packet.GetLong();
 
-			packet = new Packet(Op.ZC_CAMPINFO); // Size: 18 (12)
-			packet.PutEmptyBin(12);
-			conn.Send(packet);
+			Send.ZC_CAMPINFO(conn);
 		}
 
 		/// <summary>
@@ -317,41 +158,8 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			Log.Debug("CZ_CHAT_LOG - {0}: {1}", character.Name, msg);
-
 			if (!ChannelServer.Instance.GmCommands.Process(conn, character, msg))
-			{
-				packet = new Packet(Op.ZC_CHAT);
-				packet.PutInt(character.WorldId);
-				//char field_0[64];
-				//char field_1[65];
-				//char gap;
-				//__int16 field_2;
-				//int field_3;
-				//char field_4;
-				//char field_5;
-				//char gap2[2];
-				//int some_id;
-				packet.PutString("test team name", 64);
-				packet.PutString("test name", 65);
-				packet.PutByte(0);
-				packet.PutShort((short)character.Job);
-				packet.PutInt(0);
-				packet.PutByte((byte)character.Gender);
-				packet.PutByte((byte)character.Hair);
-				packet.PutEmptyBin(2);
-				packet.PutInt(0);
-				packet.PutFloat(10);  // display time in seconds
-				packet.PutString(msg);
-				conn.Send(packet); // broadcast
-
-				//packet = new Packet(Op.ZC_SYSTEM_MSG);
-				//packet.PutInt(0);
-				//packet.PutByte(1); // 0 = client message, using the above as id?
-				//packet.PutByte(0);
-				//// ...
-				//conn.Send(packet);
-			}
+				Send.ZC_CHAT(character, msg);
 		}
 
 		/// <summary>
@@ -371,8 +179,6 @@ namespace Melia.Channel.Network
 		{
 			var len = packet.GetShort();
 			var msg = packet.GetString();
-
-			Log.Debug("CZ_CHAT_LOG - Chat, {0}: {1}", conn.SelectedCharacter.Name, msg);
 		}
 
 		/// <summary>
@@ -390,8 +196,7 @@ namespace Melia.Channel.Network
 
 			Log.Info("User '{0}' is leaving for character selection.", conn.Account.Name);
 
-			packet = new Packet(Op.ZC_MOVE_BARRACK);
-			conn.Send(packet);
+			Send.ZC_MOVE_BARRACK(conn);
 		}
 
 		/// <summary>
@@ -409,8 +214,7 @@ namespace Melia.Channel.Network
 
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
-			packet = new Packet(Op.ZC_LOGOUT_OK);
-			conn.Send(packet);
+			Send.ZC_LOGOUT_OK(conn);
 		}
 
 		/// <summary>
@@ -428,12 +232,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			packet = new Packet(Op.ZC_JUMP);
-			packet.PutInt(character.WorldId);
-			packet.PutFloat(character.GetJumpStrength());
-			packet.PutInt(character.GetJumpType());
-			packet.PutByte(1);  // 1 or 0
-			conn.Send(packet);
+			Send.ZC_JUMP(character);
 		}
 
 		/// <summary>
@@ -464,6 +263,8 @@ namespace Melia.Channel.Network
 			character.Y = y;
 			character.Z = z;
 			character.IsMoving = true;
+
+			// Broadcast
 		}
 
 		/// <summary>
@@ -493,6 +294,8 @@ namespace Melia.Channel.Network
 			character.Y = y;
 			character.Z = z;
 			character.IsMoving = false;
+
+			// Broadcast
 		}
 
 		/// <summary>
@@ -510,10 +313,7 @@ namespace Melia.Channel.Network
 
 			character.IsSitting = !character.IsSitting;
 
-			packet = new Packet(Op.ZC_REST_SIT);
-			packet.PutInt(character.WorldId);
-			packet.PutByte(0);
-			conn.Send(packet); // broadcast
+			Send.ZC_REST_SIT(character);
 		}
 
 		/// <summary>

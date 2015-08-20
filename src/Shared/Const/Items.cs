@@ -47,4 +47,18 @@ namespace Melia.Shared.Const
 		Bracelet2,
 		Necklace,
 	}
+
+	public enum InventoryItemRemoveMsg : byte
+	{
+		Given = 0, // 0,1,2,6,10
+		Destroyed = 3,
+		Equipped = 5,
+		Used = 7, // 7,8
+	}
+
+	public enum InventoryType : byte
+	{
+		Inventory = 0,
+		Warehouse = 1,
+	}
 }
