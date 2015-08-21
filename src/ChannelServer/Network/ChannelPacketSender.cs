@@ -407,6 +407,30 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		public static void ZC_PC(Character character, PcUpdateType updateType, object newValue)
+		{
+			var packet = new Packet(Op.ZC_PC);
+			packet.PutInt((int)character.WorldId);
+			packet.PutInt((int)updateType);
+
+			if (updateType == PcUpdateType.Name)
+			{
+				packet.PutShort(0);
+				packet.PutEmptyBin(2);
+				packet.PutInt(0);
+				packet.PutShort(65);
+				packet.PutString((string)newValue, 65);
+			}
+			else if (updateType == PcUpdateType.Job)
+			{
+				packet.PutShort((short)newValue);
+				packet.PutEmptyBin(2);
+				packet.PutInt(0);
+			}
+
+			character.Connection.Send(packet); // Broadcast
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

@@ -116,6 +116,7 @@ namespace Melia.Channel.Database
 			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 			{
 				cmd.AddParameter("@characterId", character.Id);
+				cmd.Set("name", character.Name);
 				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);

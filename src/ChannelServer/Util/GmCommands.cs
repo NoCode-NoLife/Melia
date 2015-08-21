@@ -29,6 +29,7 @@ namespace Melia.Channel.Util
 			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id>", HandleItem);
 			Add("madhatter", "", HandleGetAllHats);
+			Add("name", "<new name>", HandleName);
 		}
 
 		/// <summary>
@@ -177,6 +178,30 @@ namespace Melia.Channel.Util
 			}
 
 			Send.ZC_SYSTEM_MSG(character, "Added {0} hats to inventory.", added);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleName(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			var newName = args[1];
+			if (newName == character.Name)
+				return CommandResult.Okay;
+
+			// TODO: Can you rename any time, without cooldown?
+
+			// TODO: Keep a list of all account characters after all?
+			if (ChannelServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
+			{
+				Send.ZC_SYSTEM_MSG(character, "Name already exists.");
+				return CommandResult.Okay;
+			}
+
+			character.Name = newName;
+			Send.ZC_PC(character, PcUpdateType.Name, newName);
 
 			return CommandResult.Okay;
 		}
