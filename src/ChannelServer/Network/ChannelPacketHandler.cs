@@ -537,5 +537,69 @@ namespace Melia.Channel.Network
 		{
 			// packed?
 		}
+
+		/// <summary>
+		/// Sent when clicking a pose.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [1D 0C] [0F 00 00 00] [92 03 00 00] 01 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 00 D4 DB 42 E4 8E
+		/// [1D 0C] [10 00 00 00] [9D 03 00 00] 11 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 BA 12 97 70 4C 98
+		/// [1D 0C] [11 00 00 00] [C2 03 00 00] 0F 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 E2 CE 60 30 BF F4
+		/// </example>
+		[PacketHandler(Op.CZ_POSE)]
+		public void CZ_POSE(ChannelConnection conn, Packet packet)
+		{
+			var pose = packet.GetInt();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var unkByte = packet.GetByte();
+			var unkShort = packet.GetShort();
+
+			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
+
+			packet = new Packet(Op.ZC_POSE);
+			packet.PutInt((int)conn.SelectedCharacter.WorldId);
+			packet.PutInt(pose);
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutFloat(z);
+			packet.PutFloat(1);	   // Direction
+			packet.PutFloat(0.1f); // Direction
+
+			conn.Send(packet); // Broadcast
+		}
+
+		/// <summary>
+		/// Sent to rotate the character. 
+		/// </summary>
+		/// <remarks>
+		/// Direction is not a "normal" vector, it controls head
+		/// and body separately somehow.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [1A 0C] [40 00 00 00] [E4 01 00 00] 00 00 80 BF 00 00 80 BF | D5 11 C4 EC 56 9E
+		/// </example>
+		[PacketHandler(Op.CZ_ROTATE)]
+		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
+		{
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+
+			Log.Debug("CZ_ROTATE: {0}; {1}", x, y);
+
+			packet = new Packet(Op.ZC_ROTATE);
+			packet.PutInt((int)conn.SelectedCharacter.WorldId);
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			conn.Send(packet); // Broadcast
+		}
 	}
 }
