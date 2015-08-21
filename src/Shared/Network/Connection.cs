@@ -179,7 +179,7 @@ namespace Melia.Shared.Network
 						}
 						catch (Exception ex)
 						{
-							Log.Exception(ex, "Error while handling packet '{0:X4}'.", packet.Op);
+							Log.Exception(ex, "Error while handling packet '{0:X4}', {1}.", packet.Op, Op.GetName(packet.Op));
 						}
 					}
 				}

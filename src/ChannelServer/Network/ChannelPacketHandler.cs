@@ -255,6 +255,8 @@ namespace Melia.Channel.Network
 			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
 			var unkFloat = packet.GetFloat(); // 7111.545
 
+			// TODO: Sanity checks.
+
 			Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
 
 			var character = conn.SelectedCharacter;
@@ -285,6 +287,8 @@ namespace Melia.Channel.Network
 			var vectorX = packet.GetFloat(); // 0.7071068
 			var vectorY = packet.GetFloat(); // 0.7071068
 			var unkFloat = packet.GetFloat(); // 7112.762
+
+			// TODO: Sanity checks.
 
 			Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
 
@@ -464,6 +468,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ON_AIR)]
 		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
 		{
+			// TODO: Sanity checks.
+
 			conn.SelectedCharacter.IsGrounded = false;
 		}
 
@@ -478,6 +484,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ON_GROUND)]
 		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
 		{
+			// TODO: Sanity checks.
+
 			conn.SelectedCharacter.IsGrounded = true;
 		}
 
@@ -496,6 +504,8 @@ namespace Melia.Channel.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+
+			// TODO: Sanity checks.
 
 			Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
 
