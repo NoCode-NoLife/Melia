@@ -5,6 +5,8 @@ using Melia.Shared.Network;
 using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -514,6 +516,23 @@ namespace Melia.Channel.Network
 			conn.SelectedCharacter.Z = z;
 
 			// Broadcast?
+		}
+
+		/// <summary>
+		/// Sent on logout to save hotkeys
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [CB 0C] [0C 00 00 00] [FD 07 00 00] 31 00  21 00 00 00  5B C0 30 E0 80 D9 7B 2A 27 83 38 D8 19 01 03 EE 98 51 07 0C 92 10 60 44 76 07 13 32 87 19 99 03 00 2B 60 F3 A0 4C AE E4
+		/// [CB 0C] [0A 00 00 00] [8A 04 00 00] 31 00  21 00 00 00  5B C0 30 E0 80 39 68 2A 27 43 12 D8 19 01 03 EE 98 51 07 0C 92 10 60 44 76 07 13 32 87 19 99 03 00 9E 2D E1 C7 E1 6E 46
+		/// [CB 0C] [0A 00 00 00] [89 05 00 00] 31 00  21 00 00 00  5B C0 30 E0 80 39 70 2A 27 C3 4A B0 33 02 06 DC 31 A3 0E 18 24 21 C0 88 EC 0E 26 64 0E 33 32 07 00 6C 53 FB F5 76 21 C1
+		/// [CB 0C] [0A 00 00 00] [53 06 00 00] 31 00  21 00 00 00  5B C0 30 B8 00 73 F4 54 4E 86 9F 60 37 05 0C 2E 97 8D BA 86 AE 21 C0 88 6C 1B 13 32 87 19 99 03 00 5A 4B F4 1C 0E 39 EC
+		/// </example>
+		[PacketHandler(Op.CZ_QUICKSLOT_LIST)]
+		public void CZ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
+		{
+			// packed?
 		}
 	}
 }
