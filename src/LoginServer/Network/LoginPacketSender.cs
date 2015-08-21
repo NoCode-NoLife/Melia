@@ -1,4 +1,7 @@
-﻿using Melia.Login.Database;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
 using Melia.Login.World;
 using Melia.Shared.Const;

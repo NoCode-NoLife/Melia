@@ -1,4 +1,7 @@
-﻿using Melia.Shared.Database;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using Melia.Shared.Database;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
 using System;
