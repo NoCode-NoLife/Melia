@@ -117,6 +117,7 @@ namespace Melia.Channel.Database
 			{
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("name", character.Name);
+				cmd.Set("job", (short)character.Job);
 				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);

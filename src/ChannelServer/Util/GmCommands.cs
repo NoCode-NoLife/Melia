@@ -30,6 +30,7 @@ namespace Melia.Channel.Util
 			Add("item", "<item id>", HandleItem);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("name", "<new name>", HandleName);
+			Add("job", "<job id>", HandleJob);
 		}
 
 		/// <summary>
@@ -202,6 +203,28 @@ namespace Melia.Channel.Util
 
 			character.Name = newName;
 			Send.ZC_PC(character, PcUpdateType.Name, newName);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleJob(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			short jobId;
+			if (!short.TryParse(args[1], out jobId))
+				return CommandResult.InvalidArgument;
+
+			if (!Enum.IsDefined(typeof(Job), jobId))
+			{
+				Send.ZC_SYSTEM_MSG(character, "Unknown job.");
+				return CommandResult.Okay;
+			}
+
+			character.Job = (Job)jobId;
+			Send.ZC_PC(character, PcUpdateType.Job, (short)jobId);
+			Send.ZC_UPDATED_PCAPPEARANCE(character);
 
 			return CommandResult.Okay;
 		}
