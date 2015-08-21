@@ -26,6 +26,11 @@ namespace Melia.Channel.World
 		public bool IsSitting { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the character is standing on the ground.
+		/// </summary>
+		public bool IsGrounded { get; set; }
+
+		/// <summary>
 		/// The character's inventory.
 		/// </summary>
 		public Inventory Inventory { get; protected set; }

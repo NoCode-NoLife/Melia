@@ -452,5 +452,58 @@ namespace Melia.Channel.Network
 
 			character.Inventory.Sort();
 		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
+		/// </example>
+		[PacketHandler(Op.CZ_ON_AIR)]
+		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
+		{
+			conn.SelectedCharacter.IsGrounded = false;
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
+		/// </example>
+		[PacketHandler(Op.CZ_ON_GROUND)]
+		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
+		{
+			conn.SelectedCharacter.IsGrounded = true;
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [13 0C] [0A 00 00 00] [78 03 00 00] 00 00 80 C3 C3 BC AD 6B 43 00 00 95 C3 | D8
+		/// </example>
+		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
+		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+
+			Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
+
+			conn.SelectedCharacter.X = x;
+			conn.SelectedCharacter.Y = y;
+			conn.SelectedCharacter.Z = z;
+
+			// Broadcast?
+		}
 	}
 }
