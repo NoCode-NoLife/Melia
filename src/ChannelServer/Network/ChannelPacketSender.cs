@@ -31,7 +31,7 @@ namespace Melia.Channel.Network
 
 			packet.PutByte(0);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 
 			packet.PutShort(0); // count v ?
