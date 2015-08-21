@@ -1,4 +1,7 @@
-﻿namespace Melia.Shared.Util.Configuration.Files
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+namespace Melia.Shared.Util.Configuration.Files
 {
 	/// <summary>
 	/// Represents database.conf

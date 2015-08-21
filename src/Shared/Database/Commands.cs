@@ -1,4 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;

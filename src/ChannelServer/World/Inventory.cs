@@ -1,4 +1,7 @@
-﻿using Melia.Channel.Network;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;

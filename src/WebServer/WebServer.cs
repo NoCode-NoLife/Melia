@@ -1,4 +1,7 @@
-﻿using Melia.Shared;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using Melia.Shared;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.Util.Configuration;
