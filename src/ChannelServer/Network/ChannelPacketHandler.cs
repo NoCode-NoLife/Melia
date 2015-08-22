@@ -577,7 +577,8 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <remarks>
 		/// Direction is not a "normal" vector, it controls head
-		/// and body separately somehow.
+		/// and body together, which can turn in slightly different
+		/// directions.
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
