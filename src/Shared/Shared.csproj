@@ -63,6 +63,7 @@
     <Compile Include="Const\Structs\CB_LOGIN.cs" />
     <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />
+    <Compile Include="Data\Database\Maps.cs" />
     <Compile Include="Data\MeliaData.cs" />
     <Compile Include="Data\CsvReader.cs" />
     <Compile Include="Data\Database.cs" />

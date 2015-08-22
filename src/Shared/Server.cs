@@ -81,6 +81,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.ItemDb, "db/items.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Maps) != 0)
+				{
+					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -173,6 +178,7 @@ namespace Melia.Shared
 	public enum DataToLoad
 	{
 		Items = 0x01,
+		Maps = 0x02,
 
 		All = 0x7FFFFFFF,
 	}

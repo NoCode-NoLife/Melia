@@ -11,5 +11,6 @@ namespace Melia.Shared.Data
 	public class MeliaData
 	{
 		public ItemDb ItemDb = new ItemDb();
+		public MapDb MapDb = new MapDb();
 	}
 }
