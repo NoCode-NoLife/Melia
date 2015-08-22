@@ -159,6 +159,12 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out itemId))
 				return CommandResult.InvalidArgument;
 
+			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+			{
+				Send.ZC_SYSTEM_MSG(character, "Item doesn't exist.");
+				return CommandResult.Okay;
+			}
+
 			var item = new Item(itemId);
 
 			character.Inventory.Add(item, InventoryAddType.PickUp);
