@@ -248,6 +248,7 @@ namespace Melia.Login.Network
 			character.Job = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.ZoneId = 1002;
 			character.X = x;
 			character.Y = y;
 			character.Z = z;

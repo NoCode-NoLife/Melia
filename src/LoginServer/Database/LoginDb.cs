@@ -78,6 +78,7 @@ namespace Melia.Login.Database
 				cmd.Set("job", character.Job);
 				cmd.Set("gender", character.Gender);
 				cmd.Set("hair", character.Hair);
+				cmd.Set("zone", character.ZoneId);
 				cmd.Set("bx", character.X);
 				cmd.Set("by", character.Y);
 				cmd.Set("bz", character.Z);
