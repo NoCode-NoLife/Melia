@@ -120,16 +120,29 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWarp(ChannelConnection conn, Character character, string command, string[] args)
 		{
-			if (args.Length < 5)
+			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
 			int zoneId;
-			if (!int.TryParse(args[1], out zoneId))
-				return CommandResult.InvalidArgument;
+			float x = 0, y = 0, z = 0;
 
-			float x, y, z;
-			if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
-				return CommandResult.InvalidArgument;
+			if (!int.TryParse(args[1], out zoneId))
+			{
+				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
+				if (data == null)
+				{
+					Send.ZC_SYSTEM_MSG(character, "Map not found.");
+					return CommandResult.Okay;
+				}
+
+				zoneId = data.Id;
+			}
+
+			if (args.Length >= 5)
+			{
+				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+					return CommandResult.InvalidArgument;
+			}
 
 			character.X = x;
 			character.Y = y;
@@ -161,7 +174,7 @@ namespace Melia.Channel.Util
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 			{
-				Send.ZC_SYSTEM_MSG(character, "Item doesn't exist.");
+				Send.ZC_SYSTEM_MSG(character, "Item not found.");
 				return CommandResult.Okay;
 			}
 
