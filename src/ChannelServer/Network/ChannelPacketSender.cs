@@ -25,6 +25,31 @@ namespace Melia.Channel.Network
 		//packet.PutInt(30);
 		//conn.Send(packet);
 
+		//var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
+		//packet.PutInt(character.WorldId);
+		//packet.PutInt(character.Hp );
+		//packet.PutInt(character.MaxHp );
+		//packet.PutShort(character.Sp);
+		//packet.PutShort(character.MaxSp);
+		//packet.PutInt(X);
+		//conn.Send(packet);
+
+		//var p = new Packet(Op.ZC_PARTY_INFO);
+		//p.PutByte(0); // party type - 0: normal party, 1: guild info
+		//p.PutByte(0);
+		//// PARTY_INFO
+		//{
+		//	p.PutLong(conn.SelectedCharacter.Id);  //?
+		//	p.PutLong(666);  // partyID
+		//	p.PutString("Mah Party", 56);
+		//	p.PutLong(conn.SelectedCharacter.Id);
+		//	p.PutString("John Connor", 56);
+		//	p.PutInt(1);
+		//}
+		//// properties
+		//p.PutShort(0); //size
+		//conn.Send(p);
+
 		public static void ZC_CONNECT_OK(ChannelConnection conn, Character character)
 		{
 			var packet = new Packet(Op.ZC_CONNECT_OK);
