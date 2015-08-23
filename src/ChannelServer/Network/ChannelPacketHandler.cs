@@ -87,12 +87,13 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			Send.ZC_START_GAME(conn);
-			Send.ZC_MYPC_ENTER(conn);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			Send.ZC_ITEM_EQUIP_LIST(character);
+
+			Send.ZC_START_GAME(conn);
+			Send.ZC_MYPC_ENTER(conn);
 		}
 
 		/// <summary>
