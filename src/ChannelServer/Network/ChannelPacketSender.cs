@@ -54,7 +54,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_CONNECT_OK);
 
-			packet.PutByte(0);
+			packet.PutByte(0); // 1 closes the client (fail?)
 			packet.PutInt(0);
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
