@@ -45,7 +45,7 @@ namespace Melia.Channel.Network
 				packet.PutString(character.Name, 65);
 				packet.PutString(character.TeamName, 64);
 				packet.PutEmptyBin(7);
-				packet.PutLong(0);
+				packet.PutLong(0); // AID ?
 				packet.PutShort(character.Stance);
 				packet.PutShort(0);
 				packet.PutShort((short)character.Job);
@@ -71,27 +71,16 @@ namespace Melia.Channel.Network
 			packet.PutLong(character.Id);
 
 			//packet.PutEmptyBin(32);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutLong(0); // PCEtc GUID?
+
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
 			packet.PutShort(character.Sp);
 			packet.PutShort(character.MaxSp);
 			packet.PutInt(character.Stamina);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutInt(character.Stamina); // MaxStamina
+			packet.PutShort(0); // Shield
+			packet.PutShort(0); // MaxShield
 
 			packet.PutByte(0);
 			packet.PutEmptyBin(3);
