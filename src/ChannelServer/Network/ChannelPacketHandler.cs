@@ -38,12 +38,12 @@ namespace Melia.Channel.Network
 			var unkShort1 = packet.GetShort();
 			var sessionId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var accountName = packet.GetString(); // ?
+			var accountName = packet.GetString(33); // ?
+			var zoneId = packet.GetInt();
+			var unkShort2 = packet.GetShort();
 			var unkByte1 = packet.GetByte();
-			var unkShort2 = packet.GetShort(); // 3276
-			var unkShort3 = packet.GetShort(); // 336
-			var unkShort4 = packet.GetShort(); // 3276
-			var unkShort5 = packet.GetShort(); // 8972
+			var unkByte2 = packet.GetByte();
+			var unkByte3 = packet.GetByte();
 			// ...
 
 			// TODO: Check session id or something.
@@ -88,11 +88,11 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_START_GAME(conn);
-			Send.ZC_MYPC_ENTER(conn);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			Send.ZC_ITEM_EQUIP_LIST(character);
+			Send.ZC_MYPC_ENTER(conn);
 		}
 
 		/// <summary>
