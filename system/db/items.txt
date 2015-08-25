@@ -3270,8 +3270,8 @@
 { itemId: 291010, className: "PETAR01_110", name: "컴패니언 플레이트 아머", category: 14, weight: 60, maxStack: 1},
 { itemId: 291011, className: "PETAR01_111", name: "컴패니언 풀 플레이트 아머", category: 14, weight: 50, maxStack: 1},
 
-
-{ itemId: 900011, className: "Vis", name: "Vis", category: 15, weight: 0, maxStack: 2147483640},
-
-
+// Others
+//---------------------------------------------------------------------------
+{ itemId: 900011, className: "Vis", name: "Silver", category: 15, weight: 0, maxStack: 2147483647},
+{ itemId: 900012, className: "Feso", name: "Gold", category: 15, weight: 0, maxStack: 2147483647},
 ]
