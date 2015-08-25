@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Melia.Shared.Const;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Melia.Channel.World
@@ -9,22 +11,27 @@ namespace Melia.Channel.World
 	public class Monster
 	{
 		/// <summary>
-		/// Index in world collection?
-		/// </summary>
-		public int Handle { get; set; }
-
-		/// <summary>
 		/// Dirty temp hack for unique handles
 		/// </summary>
-		public static int HandleCounter = 0xF0000;
+		public static int _handle = 0xF0000;
+
+		/// <summary>
+		/// Index in world collection?
+		/// </summary>
+		public int Handle { get; private set; }
 
 		/// <summary>
 		/// Monster ID in database.
 		/// </summary>
-		public int ClassID;
+		public int Id { get; set; }
 
 		/// <summary>
-		/// Monsters's level.
+		/// What kind of NPC the monster is.
+		/// </summary>
+		public NpcType NpcType { get; set; }
+
+		/// <summary>
+		/// Level.
 		/// </summary>
 		public int Level { get; set; }
 
@@ -46,12 +53,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Direction vector.
 		/// </summary>
-		public float vectorX { get; set; }
+		public float VectorX { get; set; }
 
 		/// <summary>
 		/// Direction vector.
 		/// </summary>
-		public float vectorY { get; set; }
+		public float VectorY { get; set; }
 
 		/// <summary>
 		/// AoE Defense Ratio
@@ -59,26 +66,27 @@ namespace Melia.Channel.World
 		public int SDR { get; set; }
 
 		/// <summary>
-		/// Maximum health points.
-		/// </summary>
-		public int MaxHp { get; set; }
-
-		/// <summary>
 		/// Health points.
 		/// </summary>
 		public int Hp { get; set; }
 
 		/// <summary>
-		/// Creates new monster.
+		/// Maximum health points.
 		/// </summary>
-		public Monster(int classID)
+		public int MaxHp { get; set; }
+
+		/// <summary>
+		/// Creates new NPC.
+		/// </summary>
+		public Monster(int id, NpcType type)
 		{
-			this.Handle = HandleCounter++;
-			this.ClassID = classID;
+			this.Handle = Interlocked.Increment(ref _handle);
+
+			this.Id = id;
+			this.NpcType = type;
 			this.Level = 1;
 			this.SDR = 1;
 			this.MaxHp = this.Hp = 100;
 		}
-
 	}
 }

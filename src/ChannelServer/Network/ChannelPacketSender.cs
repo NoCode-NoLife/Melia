@@ -87,8 +87,8 @@ namespace Melia.Channel.Network
 
 			packet.PutEmptyBin(3);
 			packet.PutFloat(character.X);
-			packet.PutFloat(character.Y);
 			packet.PutFloat(character.Z);
+			packet.PutFloat(character.Y);
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
 			packet.PutInt(0);
@@ -152,9 +152,9 @@ namespace Melia.Channel.Network
 			packet.PutFloat(monster.X);
 			packet.PutFloat(monster.Z);
 			packet.PutFloat(monster.Y);
-			packet.PutFloat(monster.vectorX);
-			packet.PutFloat(monster.vectorY);
-			packet.PutByte(2); // 0~2,  0: friendly?, 1: monster, 2: NPC
+			packet.PutFloat(monster.VectorX);
+			packet.PutFloat(monster.VectorY);
+			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
 			packet.PutByte(0); // bool ?
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
@@ -162,13 +162,13 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			// MONSTER
 			{
-				packet.PutInt(monster.ClassID);
+				packet.PutInt(monster.Id);
 				packet.PutInt(0);
 				packet.PutInt(0);
 				packet.PutShort(0); // MaxShield?
 				packet.PutEmptyBin(2);
-				packet.PutInt(monster.Level); // level (confirmed)
-				packet.PutInt(monster.SDR); // sdr (confirmed)
+				packet.PutInt(monster.Level);
+				packet.PutInt(monster.SDR);
 				packet.PutByte(0);
 				packet.PutEmptyBin(3);
 			}
@@ -443,8 +443,8 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(character.WorldId);
 			packet.PutFloat(character.X);
-			packet.PutFloat(character.Y);
 			packet.PutFloat(character.Z);
+			packet.PutFloat(character.Y);
 
 			character.Connection.Send(packet); // Broadcast
 		}

@@ -214,8 +214,8 @@ namespace Melia.Login.Network
 			var job = (Job)packet.GetShort();
 			var gender = (Gender)packet.GetByte();
 			var x = packet.GetFloat();
-			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+			var y = packet.GetFloat();
 			var hair = packet.GetByte();
 			var unkInt1 = packet.GetInt();
 
@@ -304,8 +304,8 @@ namespace Melia.Login.Network
 		{
 			var index = packet.GetByte();
 			var x = packet.GetFloat();
-			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+			var y = packet.GetFloat();
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);

@@ -31,7 +31,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id>", HandleItem);
-			Add("spawn", "<class id>", HandleSpawn);
+			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("name", "<new name>", HandleName);
 			Add("job", "<job id>", HandleJob);
@@ -96,7 +96,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, string command, string[] args)
 		{
-			Send.ZC_SYSTEM_MSG(character, "You are here: {0} - {1}, {2}, {3}", character.ZoneId, character.X.ToString(CultureInfo.InvariantCulture), character.Y.ToString(CultureInfo.InvariantCulture), character.Z.ToString(CultureInfo.InvariantCulture));
+			Send.ZC_SYSTEM_MSG(character, "You are here: {0} - X:{1}, Y:{2}, Z:{3}", character.ZoneId, character.X.ToString(CultureInfo.InvariantCulture), character.Y.ToString(CultureInfo.InvariantCulture), character.Z.ToString(CultureInfo.InvariantCulture));
 
 			return CommandResult.Okay;
 		}
@@ -191,18 +191,15 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int monsterId;
-			if (!int.TryParse(args[1], out monsterId))
+			int id;
+			if (!int.TryParse(args[1], out id))
 				return CommandResult.InvalidArgument;
 
-			var monster = new Monster(monsterId);
+			var monster = new Monster(id, NpcType.NPC);
 
 			monster.X = character.X;
 			monster.Y = character.Y;
 			monster.Z = character.Z + 100;
-			monster.vectorX = character.vectorX;
-			monster.vectorY = character.vectorY;
-			monster.Level = 1;
 
 			Send.ZC_ENTER_MONSTER(conn, monster);
 

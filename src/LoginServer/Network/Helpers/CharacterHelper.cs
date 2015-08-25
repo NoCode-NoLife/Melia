@@ -49,8 +49,8 @@ namespace Melia.Login.Network.Helpers
 
 			// Position?
 			packet.PutFloat(character.X);
-			packet.PutFloat(character.Y);
 			packet.PutFloat(character.Z);
+			packet.PutFloat(character.Y);
 			packet.PutFloat(0);	// Vector direction
 			packet.PutFloat(0); // Vector direction
 

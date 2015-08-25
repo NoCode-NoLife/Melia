@@ -70,12 +70,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Direction vector.
 		/// </summary>
-		public float vectorX { get; set; }
+		public float VectorX { get; set; }
 
 		/// <summary>
 		/// Direction vector.
 		/// </summary>
-		public float vectorY { get; set; }
+		public float VectorY { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the character is moving.

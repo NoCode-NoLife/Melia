@@ -303,8 +303,8 @@ namespace Melia.Channel.Network
 			character.X = x;
 			character.Y = y;
 			character.Z = z;
-			character.vectorX = vectorX;
-			character.vectorY = vectorY;
+			character.VectorX = vectorX;
+			character.VectorY = vectorY;
 			character.IsMoving = false;
 
 			// Broadcast
