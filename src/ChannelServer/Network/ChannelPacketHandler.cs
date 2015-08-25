@@ -254,8 +254,8 @@ namespace Melia.Channel.Network
 		{
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
-			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+			var y = packet.GetFloat();
 			var vectorX = packet.GetFloat(); // 0.7071068
 			var vectorY = packet.GetFloat(); // 0.7071068
 			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
@@ -288,8 +288,8 @@ namespace Melia.Channel.Network
 		{
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
-			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+			var y = packet.GetFloat();
 			var vectorX = packet.GetFloat(); // 0.7071068
 			var vectorY = packet.GetFloat(); // 0.7071068
 			var unkFloat = packet.GetFloat(); // 7112.762
