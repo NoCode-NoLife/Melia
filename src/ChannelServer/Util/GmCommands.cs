@@ -31,6 +31,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id>", HandleItem);
+			Add("spawn", "<class id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("name", "<new name>", HandleName);
 			Add("job", "<job id>", HandleJob);
@@ -181,6 +182,27 @@ namespace Melia.Channel.Util
 			var item = new Item(itemId);
 
 			character.Inventory.Add(item, InventoryAddType.PickUp);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleSpawn(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			int monsterId;
+			if (!int.TryParse(args[1], out monsterId))
+				return CommandResult.InvalidArgument;
+
+			var monster = new Monster(monsterId);
+
+			monster.X = character.X;
+			monster.Y = character.Y;
+			monster.Z = 100;
+			monster.vectorX = 100;
+
+			Send.ZC_ENTER_MONSTER(conn, monster);
 
 			return CommandResult.Okay;
 		}

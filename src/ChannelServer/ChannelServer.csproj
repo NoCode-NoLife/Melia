@@ -59,6 +59,7 @@
     <Compile Include="World\Character.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
+    <Compile Include="World\Monster.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
