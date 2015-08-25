@@ -199,8 +199,10 @@ namespace Melia.Channel.Util
 
 			monster.X = character.X;
 			monster.Y = character.Y;
-			monster.Z = 100;
-			monster.vectorX = 100;
+			monster.Z = character.Z + 100;
+			monster.vectorX = character.vectorX;
+			monster.vectorY = character.vectorY;
+			monster.Level = 1;
 
 			Send.ZC_ENTER_MONSTER(conn, monster);
 

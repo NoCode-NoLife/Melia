@@ -154,41 +154,41 @@ namespace Melia.Channel.Network
 			packet.PutFloat(monster.Y);
 			packet.PutFloat(monster.vectorX);
 			packet.PutFloat(monster.vectorY);
-			packet.PutByte(6);
-			packet.PutByte(7);
-			packet.PutInt(8);
-			packet.PutInt(9);
-			packet.PutShort(10);
-			packet.PutInt(11);
+			packet.PutByte(2); // 0~2,  0: friendly?, 1: monster, 2: NPC
+			packet.PutByte(0); // bool ?
+			packet.PutInt(monster.Hp);
+			packet.PutInt(monster.MaxHp);
+			packet.PutShort(0);
+			packet.PutInt(0);
 			// MONSTER
 			{
 				packet.PutInt(monster.ClassID);
-				packet.PutInt(12);
-				packet.PutInt(monster.MaxHp); // MaxHP?
-				packet.PutShort(14); // MaxShield?
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutShort(0); // MaxShield?
 				packet.PutEmptyBin(2);
 				packet.PutInt(monster.Level); // level (confirmed)
 				packet.PutInt(monster.SDR); // sdr (confirmed)
-				packet.PutByte(16); // TeamID? 0~2
+				packet.PutByte(0);
 				packet.PutEmptyBin(3);
 			}
-			packet.PutInt(17);
-			packet.PutInt(18);
-			packet.PutShort(0); // parameters size
+			packet.PutInt(0); // NPC state ?
+			packet.PutInt(0);
+			//packet.PutShort(0); // parameters size
 			// it was, like this in IDA o.o
-			// packet.PutByte(0); // parameters size
-			// packet.PutByte(0);
+			packet.PutByte(0); // parameters size
+			packet.PutByte(0); // ??
 
 			packet.PutShort(0); // Name (confirmed)
-			packet.PutEmptyBin(0);
+			packet.PutString("", 0);
 			packet.PutShort(0); // UniqueName (confirmed)
-			packet.PutEmptyBin(0);
+			packet.PutString("", 0);
 			packet.PutShort(0); // str1  if string is set - HP isn't shown
-			packet.PutEmptyBin(0);
+			packet.PutString("", 0);
 			packet.PutShort(0); // str2
-			packet.PutEmptyBin(0);
+			packet.PutString("", 0);
 			packet.PutShort(0); // str3
-			packet.PutEmptyBin(0);
+			packet.PutString("", 0);
 
 			packet.PutEmptyBin(0); // parameters
 

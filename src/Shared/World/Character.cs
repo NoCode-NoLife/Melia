@@ -68,6 +68,16 @@ namespace Melia.Shared.World
 		public float Z { get; set; }
 
 		/// <summary>
+		/// Direction vector.
+		/// </summary>
+		public float vectorX { get; set; }
+
+		/// <summary>
+		/// Direction vector.
+		/// </summary>
+		public float vectorY { get; set; }
+
+		/// <summary>
 		/// Gets or sets whether the character is moving.
 		/// </summary>
 		public bool IsMoving { get; set; }

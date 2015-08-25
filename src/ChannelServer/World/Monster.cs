@@ -63,7 +63,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int MaxHp { get; set; }
 
-
+		/// <summary>
+		/// Health points.
+		/// </summary>
+		public int Hp { get; set; }
 
 		/// <summary>
 		/// Creates new monster.
@@ -74,7 +77,7 @@ namespace Melia.Channel.World
 			this.ClassID = classID;
 			this.Level = 1;
 			this.SDR = 1;
-			this.MaxHp = 100;
+			this.MaxHp = this.Hp = 100;
 		}
 
 	}
