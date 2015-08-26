@@ -100,6 +100,11 @@ namespace Melia.Channel.Database
 					character.Sp = reader.GetInt32("sp");
 					character.MaxSp = reader.GetInt32("maxSp");
 					character.Stamina = reader.GetInt32("stamina");
+					character.Strength = reader.GetFloat("str");
+					character.Vitality = reader.GetFloat("con");
+					character.Intelligence = reader.GetFloat("int");
+					character.Spirit = reader.GetFloat("spr");
+					character.Agility = reader.GetFloat("dex");
 				}
 			}
 
@@ -121,10 +126,25 @@ namespace Melia.Channel.Database
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("name", character.Name);
 				cmd.Set("job", (short)character.Job);
+				cmd.Set("gender", (byte)character.Gender);
+				cmd.Set("hair", character.Hair);
+				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.X);
 				cmd.Set("y", character.Y);
 				cmd.Set("z", character.Z);
+				cmd.Set("exp", character.Exp);
+				cmd.Set("maxExp", character.MaxExp);
+				cmd.Set("hp", character.Hp);
+				cmd.Set("maxHp", character.MaxHp);
+				cmd.Set("sp", character.Sp);
+				cmd.Set("maxSp", character.MaxSp);
+				cmd.Set("stamina", character.Stamina);
+				cmd.Set("str", character.Strength);
+				cmd.Set("con", character.Vitality);
+				cmd.Set("int", character.Intelligence);
+				cmd.Set("spr", character.Spirit);
+				cmd.Set("dex", character.Agility);
 
 				cmd.Execute();
 			}
