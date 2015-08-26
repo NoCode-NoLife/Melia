@@ -40,11 +40,56 @@ namespace Melia.Channel.World
 		public Inventory Inventory { get; protected set; }
 
 		/// <summary>
+		/// Gets or sets character's strength (STR).
+		/// </summary>
+		public float Strength { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's vitality (CON).
+		/// </summary>
+		public float Vitality { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's intelligence (INT).
+		/// </summary>
+		public float Intelligence { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's spirit (SPR/MNA).
+		/// </summary>
+		public float Spirit { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's agility (DEX).
+		/// </summary>
+		public float Agility { get; set; }
+
+		/// <summary>
+		/// Returns combined weight of all items the character is currently carrying.
+		/// </summary>
+		public float NowWeight { get { return this.Inventory.GetNowWeight(); } }
+
+		/// <summary>
+		/// Returns maximum weight the character can carry.
+		/// </summary>
+		public float MaxWeight { get { return 200; } }
+
+		/// <summary>
+		/// Returns ratio between NowWeight and MaxWeight.
+		/// </summary>
+		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
 		{
 			this.Level = 1;
+			this.Strength = 1;
+			this.Vitality = 1;
+			this.Intelligence = 1;
+			this.Spirit = 1;
+			this.Agility = 1;
 			this.WorldId = 1337;
 			this.Inventory = new Inventory(this);
 		}
