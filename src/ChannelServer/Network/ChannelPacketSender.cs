@@ -501,12 +501,17 @@ namespace Melia.Channel.Network
 
 		public static void ZC_OBJECT_PROPERTY_Init(Character character)
 		{
-			ZC_OBJECT_PROPERTY(character.Connection, character,
+			ZC_OBJECT_PROPERTY(character,
 				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
 				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
 				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
 				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight
 			);
+		}
+
+		public static void ZC_OBJECT_PROPERTY(Character character, params short[] properties)
+		{
+			ZC_OBJECT_PROPERTY(character.Connection, character, properties);
 		}
 
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, Character character, params short[] properties)

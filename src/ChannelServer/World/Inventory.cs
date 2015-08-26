@@ -232,6 +232,7 @@ namespace Melia.Channel.World
 			var index = this.AddSilent(item);
 
 			Send.ZC_ITEM_ADD(_character, item, index, addType);
+			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
 			return index;
 		}
@@ -329,6 +330,7 @@ namespace Melia.Channel.World
 
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
+			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
 			return InventoryResult.Success;
 		}
@@ -391,9 +393,16 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public float GetNowWeight()
 		{
+			var result = 0f;
+
 			// TODO: Cache.
 			lock (_syncLock)
-				return _items.SelectMany(a => a.Value).Sum(a => a.Data.Weight);
+			{
+				result += _items.SelectMany(a => a.Value).Sum(a => a.Data.Weight);
+				result += _equip.Values.Where(a => !(a is DummyEquipItem)).Sum(a => a.Data.Weight);
+			}
+
+			return result;
 		}
 
 		/// <summary>
