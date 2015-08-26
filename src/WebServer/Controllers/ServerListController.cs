@@ -17,17 +17,8 @@ namespace Melia.Web.Controllers
 	{
 		public void Index(Request req, Response res)
 		{
-			//<?xml version="1.0" encoding="UTF-8"?>
-			//<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by MintPC (Mi) -->
-			//<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Jung (IMCGames Co., Ltd) -->
-			//<serverlist>
-			//	<statistics Ip="192.168.0.202" Port="10001"/>
-			//	<server GROUP_ID="100" TRAFFIC="0" ENTER_LIMIT="100" NAME="localhost" Server0_IP="127.0.0.1" Server0_Port="2000"/>
-			//	<server GROUP_ID="101" TRAFFIC="0" ENTER_LIMIT="100" NAME="localhost 2" Server0_IP="127.0.0.1" Server0_Port="2000"/>
-			//</serverlist>
-
-			using (StringWriter str = new Utf8StringWriter())
-			using (XmlTextWriter xml = new XmlTextWriter(str))
+			using (var str = new Utf8StringWriter())
+			using (var xml = new XmlTextWriter(str))
 			{
 				xml.WriteStartDocument();
 				xml.WriteWhitespace("\n");
