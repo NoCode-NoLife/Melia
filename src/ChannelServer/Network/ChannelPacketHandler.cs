@@ -605,5 +605,22 @@ namespace Melia.Channel.Network
 
 			conn.Send(packet); // Broadcast
 		}
+
+		/// <summary>
+		/// Sent when "clicking" an NPC.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [08 0C] [53 00 00 00] [49 00 00 00] 01 00 0F 00 00 | 65
+		/// </example>
+		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
+		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+			var handle = packet.GetInt();
+
+			// ...
+		}
 	}
 }
