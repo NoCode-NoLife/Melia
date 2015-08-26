@@ -91,6 +91,7 @@ namespace Melia.Channel.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			Send.ZC_ITEM_EQUIP_LIST(character);
+			Send.ZC_OBJECT_PROPERTY_Init(character);
 
 			Send.ZC_START_GAME(conn);
 			Send.ZC_MYPC_ENTER(conn);

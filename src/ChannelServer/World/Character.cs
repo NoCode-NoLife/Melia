@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using System;
@@ -16,7 +17,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
-		public Connection Connection { get; set; }
+		public ChannelConnection Connection { get; set; }
 
 		/// <summary>
 		/// Index in world collection?
