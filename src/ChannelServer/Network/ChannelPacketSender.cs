@@ -499,6 +499,49 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet); // Broadcast
 		}
 
+		public static void ZC_OBJECT_PROPERTY_Init(Character character)
+		{
+			ZC_OBJECT_PROPERTY(character.Connection, character,
+				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
+				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
+				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight
+			);
+		}
+
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, Character character, params short[] properties)
+		{
+			if (properties == null || properties.Length == 0)
+				return;
+
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+			packet.PutLong(character.Id);
+			foreach (var property in properties)
+			{
+				packet.PutShort(property);
+				switch (property)
+				{
+					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
+					case ObjectProperty.PC.MHP: packet.PutFloat(character.MaxHp); break;
+					case ObjectProperty.PC.SP: packet.PutFloat(character.Sp); break;
+					case ObjectProperty.PC.MSP: packet.PutFloat(character.MaxSp); break;
+
+					case ObjectProperty.PC.STR: packet.PutFloat(character.Strength); break;
+					case ObjectProperty.PC.CON: packet.PutFloat(character.Vitality); break;
+					case ObjectProperty.PC.INT: packet.PutFloat(character.Intelligence); break;
+					case ObjectProperty.PC.MNA: packet.PutFloat(character.Spirit); break;
+					case ObjectProperty.PC.DEX: packet.PutFloat(character.Agility); break;
+
+					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
+					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
+
+					default: throw new ArgumentException("Unknown property '" + property + "'.");
+				}
+			}
+
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

@@ -386,6 +386,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns combined weight of all items in the inventory.
+		/// </summary>
+		/// <returns></returns>
+		public float GetNowWeight()
+		{
+			// TODO: Cache.
+			lock (_syncLock)
+				return _items.SelectMany(a => a.Value).Sum(a => a.Data.Weight);
+		}
+
+		/// <summary>
 		/// Logs the entire inventory and the equipment.
 		/// </summary>
 		public void Debug()
