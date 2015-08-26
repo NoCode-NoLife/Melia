@@ -204,7 +204,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [07 00] [03 00 00 00] [9F 04 00 00] 01 5A 65 72 6F 6E 6F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E9 03 01 00 00 98 41 C9 1F DE 41 00 00 E8 41 15 00 00 00 00
+		/// [07 00] [03 00 00 00] [9F 04 00 00] 01 5A 65 72 6F 6E 6F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E9 03 01 00 00 98 41 C9 1F DE 41 00 00 E8 41 15 | 00 00 00 00
 		/// </example>
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
 		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
@@ -217,7 +217,6 @@ namespace Melia.Login.Network
 			var z = packet.GetFloat();
 			var y = packet.GetFloat();
 			var hair = packet.GetByte();
-			var unkInt1 = packet.GetInt();
 
 			// Check job
 			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
