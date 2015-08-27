@@ -241,14 +241,32 @@ namespace Melia.Login.Network
 				return;
 			}
 
+			// Get job data
+			var jobData = LoginServer.Instance.Data.JobDb.Find(job);
+			if (jobData == null)
+			{
+				Log.Error("CB_COMMANDER_CREATE: Job '{0}' not found.", job);
+				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+				return;
+			}
+
+			// Get map data
+			var mapData = LoginServer.Instance.Data.MapDb.Find(jobData.StartMap);
+			if (mapData == null)
+			{
+				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", jobData.StartMap);
+				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+				return;
+			}
+
 			// Create
 			var character = new Character();
 			character.Name = name;
 			character.Job = job;
 			character.Gender = gender;
 			character.Hair = hair;
-			character.ZoneId = 1002;
-			character.Position = new Shared.World.Position(0, 0, 0);
+			character.ZoneId = mapData.Id;
+			character.Position = new Shared.World.Position(jobData.StartX, jobData.StartY, jobData.StartZ);
 			character.BarrackPosition = new Shared.World.Position(bx, by, bz);
 
 			conn.Account.CreateCharacter(character);
