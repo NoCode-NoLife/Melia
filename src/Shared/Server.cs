@@ -82,6 +82,11 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.ItemDb, "db/items.txt", reload);
 				}
 
+				if ((toLoad & DataToLoad.Jobs) != 0)
+				{
+					this.LoadDb(this.Data.JobDb, "db/jobs.txt", reload);
+				}
+
 				if ((toLoad & DataToLoad.Maps) != 0)
 				{
 					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
@@ -179,6 +184,7 @@ namespace Melia.Shared
 	{
 		Items = 0x01,
 		Maps = 0x02,
+		Jobs = 0x04,
 
 		All = 0x7FFFFFFF,
 	}

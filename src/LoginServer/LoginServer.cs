@@ -48,6 +48,9 @@ namespace Melia.Login
 			this.Database = new LoginDb();
 			this.InitDatabase(this.Database);
 
+			// Data
+			this.LoadData(DataToLoad.All, true);
+
 			// Packet handlers
 			LoginPacketHandler.Instance.RegisterMethods();
 
