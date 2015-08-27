@@ -183,8 +183,8 @@ namespace Melia.Channel.Network
 			packet.PutString("", 0);
 			packet.PutShort(0); // UniqueName (confirmed)
 			packet.PutString("", 0);
-			packet.PutShort(0); // str1  if string is set - HP isn't shown
-			packet.PutString("", 0);
+			packet.PutShort(20); // str1  if string is set - HP isn't shown
+			packet.PutString("asdf", 5);
 			packet.PutShort(0); // str2
 			packet.PutString("", 0);
 			packet.PutShort(0); // str3

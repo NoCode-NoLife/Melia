@@ -352,6 +352,23 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Writes string to buffer, without null terminator, but prefixed
+		/// with a short describing its length.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutStringWithLength(string val)
+		{
+			if (string.IsNullOrWhiteSpace(val))
+				this.PutShort(0);
+			else
+			{
+				var bytes = Encoding.UTF8.GetBytes(val);
+				this.PutShort(bytes.Length);
+				this.PutBin(bytes);
+			}
+		}
+
+		/// <summary>
 		/// Writes bytes to buffer.
 		/// </summary>
 		/// <param name="val"></param>

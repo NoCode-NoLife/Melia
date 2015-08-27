@@ -605,6 +605,95 @@ namespace Melia.Channel.Network
 			var handle = packet.GetInt();
 
 			// ...
+
+			var strings = new string[]
+			{
+				"SIAUL_WEST_WEST_FOREST_dlg1",
+				// SIAUL_WEST_WEST_FOREST_dlg1_Caption, QUEST_20150317_000047, Knight Titas
+				// SIAUL_WEST_WEST_FOREST_dlg1_Caption_Text_2, QUEST_LV_0100_20150428_006701, )} {nl} If you have time, Please tell our troops to assemble.{nl}If you don't want to, you may just go ahead to Klaipeda.
+
+				"SIAUL_WEST_WEST_FOREST",
+				// SIAUL_WEST_KNIGHT_Name_QuestGroup, QUEST_20150317_001236, Talk To Knight Titas
+				// SIAUL_WEST_WEST_FOREST_Name_0, QUEST_LV_0100_20150717_007623, To Knight Titas (2)
+
+				"@dicID_^*$QUEST_LV_0100_20150428_006795$*^", // Alright, I will tell the troops to assemble
+				"@dicID_^*$QUEST_LV_0100_20150317_002369$*^", // Reject
+
+
+
+				//"SIAUL_WEST_CAMP_MANAGER_basic1",
+				//"{img minimap_1_MAIN 16 16}@dicID_^*$QUEST_LV_0100_20150717_007623$*^",
+				//"@dicID_^*$ETC_20150317_004891$*^",
+				//null,
+				//null,
+				//null,
+				//null,
+				//null,
+				//null,
+				//null,
+				//null,
+				//null,
+				//"!@#ScpArgMsg$Auto_JongLyo#@!",
+			};
+
+			//packet = new Packet(Op.ZC_DIALOG_SELECT);
+
+			//packet.PutInt(handle);
+			//packet.PutShort(strings.Length);
+			//foreach (var str in strings)
+			//	packet.PutStringWithLength(str);
+
+			//conn.Send(packet);
+
+			// {/} reset?
+			// {np} new paragraph?
+			// {nl} new line
+			// {s35} size
+			// {img F3 40 40} image <key> <width?> <height?>
+			// !@#ScpArgMsg$...#@! clientmessage.xml reference? (... = key?)
+
+			packet = new Packet(Op.ZC_DIALOG_OK);
+			packet.PutInt(0); // handle?
+			packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent when selecting a dialog option.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [44 0C] [13 00 00 00] [41 00 00 00] 02 | E8 E0 26 3A 29
+		/// </example>
+		[PacketHandler(Op.CZ_DIALOG_SELECT)]
+		public void CZ_DIALOG_SELECT(ChannelConnection conn, Packet packet)
+		{
+			var option = packet.GetByte();
+
+			// ...
+
+			packet = new Packet(Op.ZC_DIALOG_CLOSE);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent to continue dialog?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [43 0C] [0B 00 00 00] [45 00 00 00] 01 00 00 00 | F0 14
+		/// </example>
+		[PacketHandler(Op.CZ_DIALOG_ACK)]
+		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
+		{
+			var unkInt = packet.GetInt();
+
+			// ...
+
+			packet = new Packet(Op.ZC_DIALOG_CLOSE);
+			conn.Send(packet);
 		}
 	}
 }
