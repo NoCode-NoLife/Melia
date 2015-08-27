@@ -34,9 +34,9 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class JobDb : DatabaseJsonIndexed<int, JobData>
 	{
-		public JobData Find(string className)
+		public JobData Find(Job job)
 		{
-			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
+			return this.Find((int)job);
 		}
 
 		protected override void ReadEntry(JObject entry)

@@ -120,5 +120,44 @@ namespace Melia.Channel.World
 		{
 			return 1;
 		}
+
+		/// <summary>
+		/// Starts movement.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="d1"></param>
+		/// <param name="d2"></param>
+		public void Move(float x, float y, float z, float d1, float d2)
+		{
+			this.SetPosition(x, y, z);
+			this.IsMoving = true;
+		}
+
+		/// <summary>
+		/// Stops movement.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="d1"></param>
+		/// <param name="d2"></param>
+		public void StopMove(float x, float y, float z, float d1, float d2)
+		{
+			this.SetPosition(x, y, z);
+			this.IsMoving = false;
+		}
+
+		/// <summary>
+		/// Sets position.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public void SetPosition(float x, float y, float z)
+		{
+			this.Position = new Shared.World.Position(x, y, z);
+		}
 	}
 }

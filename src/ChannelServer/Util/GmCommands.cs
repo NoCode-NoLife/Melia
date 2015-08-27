@@ -96,7 +96,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, string command, string[] args)
 		{
-			Send.ZC_SYSTEM_MSG(character, "You are here: {0} - X:{1}, Y:{2}, Z:{3}", character.ZoneId, character.X.ToString(CultureInfo.InvariantCulture), character.Y.ToString(CultureInfo.InvariantCulture), character.Z.ToString(CultureInfo.InvariantCulture));
+			Send.ZC_SYSTEM_MSG(character, "You are here: {0} - {1}", character.ZoneId, character.Position);
 
 			return CommandResult.Okay;
 		}
@@ -110,9 +110,7 @@ namespace Melia.Channel.Util
 			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
 				return CommandResult.InvalidArgument;
 
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
+			character.Position = new Shared.World.Position(x, y, z);
 
 			Send.ZC_SET_POS(character);
 
@@ -145,9 +143,7 @@ namespace Melia.Channel.Util
 					return CommandResult.InvalidArgument;
 			}
 
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
+			character.Position = new Shared.World.Position(x, y, z);
 
 			if (character.ZoneId == zoneId)
 			{
@@ -197,9 +193,7 @@ namespace Melia.Channel.Util
 
 			var monster = new Monster(id, NpcType.NPC);
 
-			monster.X = character.X;
-			monster.Y = character.Y;
-			monster.Z = character.Z + 100;
+			monster.Position = new Shared.World.Position(character.Position);
 
 			Send.ZC_ENTER_MONSTER(conn, monster);
 

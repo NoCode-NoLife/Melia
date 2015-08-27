@@ -86,9 +86,9 @@ namespace Melia.Channel.Network
 			}
 
 			packet.PutEmptyBin(3);
-			packet.PutFloat(character.X);
-			packet.PutFloat(character.Z);
-			packet.PutFloat(character.Y);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
 			packet.PutInt(0);
@@ -149,9 +149,9 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
 
 			packet.PutInt(monster.Handle);
-			packet.PutFloat(monster.X);
-			packet.PutFloat(monster.Z);
-			packet.PutFloat(monster.Y);
+			packet.PutFloat(monster.Position.X);
+			packet.PutFloat(monster.Position.Y);
+			packet.PutFloat(monster.Position.Z);
 			packet.PutFloat(monster.VectorX);
 			packet.PutFloat(monster.VectorY);
 			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
@@ -442,9 +442,9 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SET_POS);
 
 			packet.PutInt(character.WorldId);
-			packet.PutFloat(character.X);
-			packet.PutFloat(character.Z);
-			packet.PutFloat(character.Y);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
 
 			character.Connection.Send(packet); // Broadcast
 		}

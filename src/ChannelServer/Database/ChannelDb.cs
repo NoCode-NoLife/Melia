@@ -90,9 +90,6 @@ namespace Melia.Channel.Database
 					character.Hair = reader.GetByte("hair");
 					character.Level = reader.GetInt32("level");
 					character.ZoneId = reader.GetInt32("zone");
-					character.X = reader.GetFloat("x");
-					character.Y = reader.GetFloat("y");
-					character.Z = reader.GetFloat("z");
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.Hp = reader.GetInt32("hp");
@@ -105,6 +102,11 @@ namespace Melia.Channel.Database
 					character.Intelligence = reader.GetFloat("int");
 					character.Spirit = reader.GetFloat("spr");
 					character.Agility = reader.GetFloat("dex");
+
+					var x = reader.GetFloat("x");
+					var y = reader.GetFloat("y");
+					var z = reader.GetFloat("z");
+					character.Position = new Shared.World.Position(x, y, z);
 				}
 			}
 
@@ -130,9 +132,9 @@ namespace Melia.Channel.Database
 				cmd.Set("hair", character.Hair);
 				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.ZoneId);
-				cmd.Set("x", character.X);
-				cmd.Set("y", character.Y);
-				cmd.Set("z", character.Z);
+				cmd.Set("x", character.Position.X);
+				cmd.Set("y", character.Position.Y);
+				cmd.Set("z", character.Position.Z);
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("hp", character.Hp);

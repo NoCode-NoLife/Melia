@@ -53,19 +53,9 @@ namespace Melia.Shared.World
 		public int ZoneId { get; set; }
 
 		/// <summary>
-		/// X position.
+		/// Character's position.
 		/// </summary>
-		public float X { get; set; }
-
-		/// <summary>
-		/// Y position.
-		/// </summary>
-		public float Y { get; set; }
-
-		/// <summary>
-		/// Z position.
-		/// </summary>
-		public float Z { get; set; }
+		public Position Position { get; set; }
 
 		/// <summary>
 		/// Direction vector.

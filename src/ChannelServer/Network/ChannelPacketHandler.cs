@@ -255,10 +255,10 @@ namespace Melia.Channel.Network
 		{
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
-			var z = packet.GetFloat();
 			var y = packet.GetFloat();
-			var vectorX = packet.GetFloat(); // 0.7071068
-			var vectorY = packet.GetFloat(); // 0.7071068
+			var z = packet.GetFloat();
+			var d1 = packet.GetFloat(); // 0.7071068
+			var d2 = packet.GetFloat(); // 0.7071068
 			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
 			var unkFloat = packet.GetFloat(); // 7111.545
 
@@ -266,12 +266,7 @@ namespace Melia.Channel.Network
 
 			Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
 
-			var character = conn.SelectedCharacter;
-
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
-			character.IsMoving = true;
+			conn.SelectedCharacter.Move(x, y, z, d1, d2);
 
 			// Broadcast
 		}
@@ -289,24 +284,17 @@ namespace Melia.Channel.Network
 		{
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
-			var z = packet.GetFloat();
 			var y = packet.GetFloat();
-			var vectorX = packet.GetFloat(); // 0.7071068
-			var vectorY = packet.GetFloat(); // 0.7071068
+			var z = packet.GetFloat();
+			var d1 = packet.GetFloat(); // 0.7071068
+			var d2 = packet.GetFloat(); // 0.7071068
 			var unkFloat = packet.GetFloat(); // 7112.762
 
 			// TODO: Sanity checks.
 
 			Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
 
-			var character = conn.SelectedCharacter;
-
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
-			character.VectorX = vectorX;
-			character.VectorY = vectorY;
-			character.IsMoving = false;
+			conn.SelectedCharacter.StopMove(x, y, z, d1, d2);
 
 			// Broadcast
 		}
@@ -518,9 +506,7 @@ namespace Melia.Channel.Network
 
 			Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
 
-			conn.SelectedCharacter.X = x;
-			conn.SelectedCharacter.Y = y;
-			conn.SelectedCharacter.Z = z;
+			conn.SelectedCharacter.SetPosition(x, y, z);
 
 			// Broadcast?
 		}

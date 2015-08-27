@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Shared.Const;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,24 @@ namespace Melia.Login.World
 {
 	public class Character : Shared.World.Character
 	{
+		/// <summary>
+		/// Index of character in character list.
+		/// </summary>
 		public byte Index { get; set; }
 
+		/// <summary>
+		/// Ids of equipped items (20).
+		/// </summary>
 		public int[] Equipment { get; private set; }
 
+		/// <summary>
+		/// Character's position in barracks.
+		/// </summary>
+		public Position BarrackPosition { get; set; }
+
+		/// <summary>
+		/// Creates new character.
+		/// </summary>
 		public Character()
 		{
 			this.Level = 1;

@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.Const;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,19 +37,9 @@ namespace Melia.Channel.World
 		public int Level { get; set; }
 
 		/// <summary>
-		/// X position.
+		/// Monster's position.
 		/// </summary>
-		public float X { get; set; }
-
-		/// <summary>
-		/// Y position.
-		/// </summary>
-		public float Y { get; set; }
-
-		/// <summary>
-		/// Z position.
-		/// </summary>
-		public float Z { get; set; }
+		public Position Position { get; set; }
 
 		/// <summary>
 		/// Direction vector.

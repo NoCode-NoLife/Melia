@@ -76,6 +76,7 @@
     <Compile Include="Data\Database\Items.cs" />
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Util\Extensions.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Util\Configuration\Files\Log.cs" />
     <Compile Include="Util\FileReader.cs" />
     <Compile Include="Util\Log.cs" />
+    <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

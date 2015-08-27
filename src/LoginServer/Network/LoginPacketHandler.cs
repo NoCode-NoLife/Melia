@@ -213,9 +213,9 @@ namespace Melia.Login.Network
 			var name = packet.GetString(65);
 			var job = (Job)packet.GetShort();
 			var gender = (Gender)packet.GetByte();
-			var x = packet.GetFloat();
-			var z = packet.GetFloat();
-			var y = packet.GetFloat();
+			var bx = packet.GetFloat();
+			var by = packet.GetFloat();
+			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
 
 			// Check job
@@ -248,9 +248,8 @@ namespace Melia.Login.Network
 			character.Gender = gender;
 			character.Hair = hair;
 			character.ZoneId = 1002;
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
+			character.Position = new Shared.World.Position(0, 0, 0);
+			character.BarrackPosition = new Shared.World.Position(bx, by, bz);
 
 			conn.Account.CreateCharacter(character);
 
@@ -303,8 +302,8 @@ namespace Melia.Login.Network
 		{
 			var index = packet.GetByte();
 			var x = packet.GetFloat();
-			var z = packet.GetFloat();
 			var y = packet.GetFloat();
+			var z = packet.GetFloat();
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
@@ -315,9 +314,7 @@ namespace Melia.Login.Network
 			}
 
 			// Move
-			character.X = x;
-			character.Y = y;
-			character.Z = z;
+			character.BarrackPosition = new Shared.World.Position(x, y, z);
 		}
 
 		// [09 00] [15 00 00 00] [1D 00 00 00] 00 00 01 | 69 7D E4
