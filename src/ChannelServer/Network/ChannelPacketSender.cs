@@ -531,11 +531,11 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.SP: packet.PutFloat(character.Sp); break;
 					case ObjectProperty.PC.MSP: packet.PutFloat(character.MaxSp); break;
 
-					case ObjectProperty.PC.STR: packet.PutFloat(character.Strength); break;
-					case ObjectProperty.PC.CON: packet.PutFloat(character.Vitality); break;
-					case ObjectProperty.PC.INT: packet.PutFloat(character.Intelligence); break;
-					case ObjectProperty.PC.MNA: packet.PutFloat(character.Spirit); break;
-					case ObjectProperty.PC.DEX: packet.PutFloat(character.Agility); break;
+					case ObjectProperty.PC.STR: packet.PutFloat(character.Str); break;
+					case ObjectProperty.PC.CON: packet.PutFloat(character.Con); break;
+					case ObjectProperty.PC.INT: packet.PutFloat(character.Int); break;
+					case ObjectProperty.PC.MNA: packet.PutFloat(character.Spr); break;
+					case ObjectProperty.PC.DEX: packet.PutFloat(character.Dex); break;
 
 					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
 					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;

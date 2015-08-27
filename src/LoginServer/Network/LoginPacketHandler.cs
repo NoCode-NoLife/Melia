@@ -266,9 +266,19 @@ namespace Melia.Login.Network
 			character.Job = job;
 			character.Gender = gender;
 			character.Hair = hair;
+
 			character.ZoneId = mapData.Id;
 			character.Position = new Position(jobData.StartX, jobData.StartY, jobData.StartZ);
 			character.BarrackPosition = new Position(bx, by, bz);
+
+			character.Hp = character.MaxHp = 100;
+			character.Sp = character.MaxSp = 50;
+			character.Stamina = 50000;
+			character.Str = jobData.Str;
+			character.Con = jobData.Con;
+			character.Int = jobData.Int;
+			character.Spr = jobData.Spr;
+			character.Dex = jobData.Dex;
 
 			conn.Account.CreateCharacter(character);
 

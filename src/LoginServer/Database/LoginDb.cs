@@ -79,6 +79,7 @@ namespace Melia.Login.Database
 				cmd.Set("job", character.Job);
 				cmd.Set("gender", character.Gender);
 				cmd.Set("hair", character.Hair);
+
 				cmd.Set("zone", character.ZoneId);
 				cmd.Set("x", character.Position.X);
 				cmd.Set("y", character.Position.Y);
@@ -86,6 +87,17 @@ namespace Melia.Login.Database
 				cmd.Set("bx", character.BarrackPosition.X);
 				cmd.Set("by", character.BarrackPosition.Y);
 				cmd.Set("bz", character.BarrackPosition.Z);
+
+				cmd.Set("hp", character.Hp);
+				cmd.Set("maxHp", character.MaxHp);
+				cmd.Set("sp", character.Sp);
+				cmd.Set("maxSp", character.MaxSp);
+				cmd.Set("stamina", character.Stamina);
+				cmd.Set("str", character.Str);
+				cmd.Set("con", character.Con);
+				cmd.Set("int", character.Int);
+				cmd.Set("spr", character.Spr);
+				cmd.Set("dex", character.Dex);
 
 				cmd.Execute();
 				character.Id = cmd.LastId;

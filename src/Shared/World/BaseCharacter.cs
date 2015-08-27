@@ -103,6 +103,31 @@ namespace Melia.Shared.World
 		public int Stamina { get; set; }
 
 		/// <summary>
+		/// Gets or sets character's strength (STR).
+		/// </summary>
+		public float Str { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's vitality (CON).
+		/// </summary>
+		public float Con { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's intelligence (INT).
+		/// </summary>
+		public float Int { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's spirit (SPR/MNA).
+		/// </summary>
+		public float Spr { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's agility (DEX).
+		/// </summary>
+		public float Dex { get; set; }
+
+		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
 		public int Stance
