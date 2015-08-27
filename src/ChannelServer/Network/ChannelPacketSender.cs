@@ -152,8 +152,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(monster.Position.X);
 			packet.PutFloat(monster.Position.Y);
 			packet.PutFloat(monster.Position.Z);
-			packet.PutFloat(monster.VectorX);
-			packet.PutFloat(monster.VectorY);
+			packet.PutFloat(monster.Direction.X);
+			packet.PutFloat(monster.Direction.Y);
 			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
 			packet.PutByte(0); // bool ?
 			packet.PutInt(monster.Hp);
@@ -545,6 +545,19 @@ namespace Melia.Channel.Network
 			}
 
 			conn.Send(packet);
+		}
+
+		public static void ZC_ROTATE(Character character)
+		{
+			var packet = new Packet(Op.ZC_ROTATE);
+
+			packet.PutInt(character.WorldId);
+			packet.PutFloat(character.Direction.X);
+			packet.PutFloat(character.Direction.Y);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet); // Broadcast
 		}
 
 		public static void DUMMY(ChannelConnection conn)

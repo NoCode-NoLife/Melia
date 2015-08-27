@@ -548,6 +548,8 @@ namespace Melia.Channel.Network
 			var unkByte = packet.GetByte();
 			var unkShort = packet.GetShort();
 
+			// TODO: Sanity checks.
+
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
 			packet = new Packet(Op.ZC_POSE);
@@ -556,8 +558,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
-			packet.PutFloat(1);	   // Direction
-			packet.PutFloat(0.1f); // Direction
+			packet.PutFloat(conn.SelectedCharacter.Direction.X);
+			packet.PutFloat(conn.SelectedCharacter.Direction.Y);
 
 			conn.Send(packet); // Broadcast
 		}
@@ -583,14 +585,9 @@ namespace Melia.Channel.Network
 
 			Log.Debug("CZ_ROTATE: {0}; {1}", x, y);
 
-			packet = new Packet(Op.ZC_ROTATE);
-			packet.PutInt((int)conn.SelectedCharacter.WorldId);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			conn.SelectedCharacter.SetDirection(x, y);
 
-			conn.Send(packet); // Broadcast
+			Send.ZC_ROTATE(conn.SelectedCharacter);
 		}
 
 		/// <summary>

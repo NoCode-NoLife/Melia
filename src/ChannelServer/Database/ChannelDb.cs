@@ -108,6 +108,7 @@ namespace Melia.Channel.Database
 					var y = reader.GetFloat("y");
 					var z = reader.GetFloat("z");
 					character.Position = new Position(x, y, z);
+					character.Direction = new Direction(-0.707107f, 0.707107f);
 				}
 			}
 

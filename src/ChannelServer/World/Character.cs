@@ -111,11 +111,12 @@ namespace Melia.Channel.World
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		/// <param name="d1"></param>
-		/// <param name="d2"></param>
-		public void Move(float x, float y, float z, float d1, float d2)
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+		public void Move(float x, float y, float z, float dx, float dy)
 		{
 			this.SetPosition(x, y, z);
+			this.SetDirection(dx, dy);
 			this.IsMoving = true;
 		}
 
@@ -125,23 +126,13 @@ namespace Melia.Channel.World
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		/// <param name="d1"></param>
-		/// <param name="d2"></param>
-		public void StopMove(float x, float y, float z, float d1, float d2)
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+		public void StopMove(float x, float y, float z, float dx, float dy)
 		{
 			this.SetPosition(x, y, z);
+			this.SetDirection(dx, dy);
 			this.IsMoving = false;
-		}
-
-		/// <summary>
-		/// Sets position.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public void SetPosition(float x, float y, float z)
-		{
-			this.Position = new Position(x, y, z);
 		}
 	}
 }

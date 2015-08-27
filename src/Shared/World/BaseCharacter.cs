@@ -58,14 +58,9 @@ namespace Melia.Shared.World
 		public Position Position { get; set; }
 
 		/// <summary>
-		/// Direction vector.
+		/// Character's direction.
 		/// </summary>
-		public float VectorX { get; set; }
-
-		/// <summary>
-		/// Direction vector.
-		/// </summary>
-		public float VectorY { get; set; }
+		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// Current experience points.
@@ -147,6 +142,27 @@ namespace Melia.Shared.World
 
 				throw new Exception("Unknown job class.");
 			}
+		}
+
+		/// <summary>
+		/// Sets character's position.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public void SetPosition(float x, float y, float z)
+		{
+			this.Position = new Position(x, y, z);
+		}
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetDirection(float x, float y)
+		{
+			this.Direction = new Direction(x, y);
 		}
 	}
 }

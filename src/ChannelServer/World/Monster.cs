@@ -42,14 +42,9 @@ namespace Melia.Channel.World
 		public Position Position { get; set; }
 
 		/// <summary>
-		/// Direction vector.
+		/// Monster's direction.
 		/// </summary>
-		public float VectorX { get; set; }
-
-		/// <summary>
-		/// Direction vector.
-		/// </summary>
-		public float VectorY { get; set; }
+		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// AoE Defense Ratio

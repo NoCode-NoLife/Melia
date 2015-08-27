@@ -194,7 +194,8 @@ namespace Melia.Channel.Util
 
 			var monster = new Monster(id, NpcType.NPC);
 
-			monster.Position = new Position(character.Position);
+			monster.Position = character.Position;
+			monster.Direction = character.Direction;
 
 			Send.ZC_ENTER_MONSTER(conn, monster);
 
