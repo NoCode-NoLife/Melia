@@ -553,7 +553,7 @@ namespace Melia.Channel.Network
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
 			packet = new Packet(Op.ZC_POSE);
-			packet.PutInt((int)conn.SelectedCharacter.WorldId);
+			packet.PutInt((int)conn.SelectedCharacter.Handle);
 			packet.PutInt(pose);
 			packet.PutFloat(x);
 			packet.PutFloat(y);

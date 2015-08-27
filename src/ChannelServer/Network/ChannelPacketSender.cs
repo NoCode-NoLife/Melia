@@ -62,7 +62,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // count v ?
 			//packet.PutEmptyBin(0);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutInt(0);
 
 			// CommanderInfo (237)
@@ -209,7 +209,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0);
 
@@ -274,7 +274,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_CHAT);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutString("test team name", 64); // ?
 			packet.PutString("test name", 65); // ?
 			packet.PutByte(0);
@@ -301,7 +301,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_CHAT);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutString("test team name", 64); // ?
 			packet.PutString("test name", 65); // ?
 			packet.PutByte(0);
@@ -321,7 +321,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_JUMP);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(character.GetJumpStrength());
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(1);  // 1 or 0
@@ -333,7 +333,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_REST_SIT);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutByte(0);
 
 			character.Connection.Send(packet); // broadcast
@@ -381,7 +381,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
-			packet.PutShort(character.WorldId);
+			packet.PutShort(character.Handle);
 			packet.PutEmptyBin(2);
 			packet.PutString(character.Name, 65);
 			packet.PutString(character.TeamName, 64);
@@ -441,7 +441,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
@@ -478,7 +478,7 @@ namespace Melia.Channel.Network
 		public static void ZC_PC(Character character, PcUpdateType updateType, object newValue)
 		{
 			var packet = new Packet(Op.ZC_PC);
-			packet.PutInt((int)character.WorldId);
+			packet.PutInt((int)character.Handle);
 			packet.PutInt((int)updateType);
 
 			if (updateType == PcUpdateType.Name)
@@ -551,7 +551,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
 
-			packet.PutInt(character.WorldId);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.X);
 			packet.PutFloat(character.Direction.Y);
 			packet.PutByte(0);

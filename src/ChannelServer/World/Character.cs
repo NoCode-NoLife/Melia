@@ -23,7 +23,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
-		public int WorldId { get; set; }
+		public int Handle { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the character is moving.
@@ -74,7 +74,7 @@ namespace Melia.Channel.World
 			this.Int = 1;
 			this.Spr = 1;
 			this.Dex = 1;
-			this.WorldId = 1337;
+			this.Handle = 1337;
 			this.Inventory = new Inventory(this);
 		}
 
