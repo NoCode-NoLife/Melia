@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Login.World
 {
-	public class Character : Shared.World.Character
+	public class Character : Shared.World.BaseCharacter
 	{
 		/// <summary>
 		/// Index of character in character list.

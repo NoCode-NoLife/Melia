@@ -7,6 +7,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -110,7 +111,7 @@ namespace Melia.Channel.Util
 			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
 				return CommandResult.InvalidArgument;
 
-			character.Position = new Shared.World.Position(x, y, z);
+			character.Position = new Position(x, y, z);
 
 			Send.ZC_SET_POS(character);
 
@@ -143,7 +144,7 @@ namespace Melia.Channel.Util
 					return CommandResult.InvalidArgument;
 			}
 
-			character.Position = new Shared.World.Position(x, y, z);
+			character.Position = new Position(x, y, z);
 
 			if (character.ZoneId == zoneId)
 			{
@@ -193,7 +194,7 @@ namespace Melia.Channel.Util
 
 			var monster = new Monster(id, NpcType.NPC);
 
-			monster.Position = new Shared.World.Position(character.Position);
+			monster.Position = new Position(character.Position);
 
 			Send.ZC_ENTER_MONSTER(conn, monster);
 

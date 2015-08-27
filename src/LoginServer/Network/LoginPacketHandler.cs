@@ -7,6 +7,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -266,8 +267,8 @@ namespace Melia.Login.Network
 			character.Gender = gender;
 			character.Hair = hair;
 			character.ZoneId = mapData.Id;
-			character.Position = new Shared.World.Position(jobData.StartX, jobData.StartY, jobData.StartZ);
-			character.BarrackPosition = new Shared.World.Position(bx, by, bz);
+			character.Position = new Position(jobData.StartX, jobData.StartY, jobData.StartZ);
+			character.BarrackPosition = new Position(bx, by, bz);
 
 			conn.Account.CreateCharacter(character);
 
@@ -332,7 +333,7 @@ namespace Melia.Login.Network
 			}
 
 			// Move
-			character.BarrackPosition = new Shared.World.Position(x, y, z);
+			character.BarrackPosition = new Position(x, y, z);
 		}
 
 		// [09 00] [15 00 00 00] [1D 00 00 00] 00 00 01 | 69 7D E4

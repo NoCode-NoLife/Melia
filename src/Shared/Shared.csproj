@@ -77,7 +77,7 @@
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Util\Extensions.cs" />
-    <Compile Include="World\Character.cs" />
+    <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
     <Compile Include="Database\MySqlDataReaderExtension.cs" />

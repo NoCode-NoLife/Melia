@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Shared.World
 {
-	public abstract class Character
+	public abstract class BaseCharacter
 	{
 		/// <summary>
 		/// Character's id.
@@ -66,11 +66,6 @@ namespace Melia.Shared.World
 		/// Direction vector.
 		/// </summary>
 		public float VectorY { get; set; }
-
-		/// <summary>
-		/// Gets or sets whether the character is moving.
-		/// </summary>
-		public bool IsMoving { get; set; }
 
 		/// <summary>
 		/// Current experience points.

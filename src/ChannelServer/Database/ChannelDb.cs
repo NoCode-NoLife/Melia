@@ -4,6 +4,7 @@
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
+using Melia.Shared.World;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -106,7 +107,7 @@ namespace Melia.Channel.Database
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
 					var z = reader.GetFloat("z");
-					character.Position = new Shared.World.Position(x, y, z);
+					character.Position = new Position(x, y, z);
 				}
 			}
 

@@ -4,6 +4,7 @@
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.Character
+	public class Character : Shared.World.BaseCharacter
 	{
 		/// <summary>
 		/// Connection this character uses.
@@ -23,6 +24,11 @@ namespace Melia.Channel.World
 		/// Index in world collection?
 		/// </summary>
 		public int WorldId { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the character is moving.
+		/// </summary>
+		public bool IsMoving { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the character is sitting.
@@ -157,7 +163,7 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		public void SetPosition(float x, float y, float z)
 		{
-			this.Position = new Shared.World.Position(x, y, z);
+			this.Position = new Position(x, y, z);
 		}
 	}
 }

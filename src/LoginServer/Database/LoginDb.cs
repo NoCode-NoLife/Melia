@@ -4,6 +4,7 @@
 using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
+using Melia.Shared.World;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -159,7 +160,7 @@ namespace Melia.Login.Database
 							var bx = reader.GetFloat("bx");
 							var by = reader.GetFloat("by");
 							var bz = reader.GetFloat("bz");
-							character.BarrackPosition = new Shared.World.Position(bx, by, bz);
+							character.BarrackPosition = new Position(bx, by, bz);
 
 							result.Add(character);
 						}
