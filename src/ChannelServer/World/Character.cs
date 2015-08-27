@@ -54,9 +54,10 @@ namespace Melia.Channel.World
 		/// Returns maximum weight the character can carry.
 		/// </summary>
 		/// <remarks>
-		/// Reference: https://forum.treeofsavior.com/t/guide-bonus-stat-points-spreadsheet/35417/2
+		/// Reference: calc_property_pc.lua
+		/// 5000 + MaxWeightBonus + (Con * 5) + (Str * 5)
 		/// </remarks>
-		public float MaxWeight { get { return (this.Str * 5 + this.Con * 5); } }
+		public float MaxWeight { get { return (5000 + this.Str * 5 + this.Con * 5); } }
 
 		/// <summary>
 		/// Returns ratio between NowWeight and MaxWeight.
