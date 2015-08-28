@@ -659,10 +659,26 @@ namespace Melia.Channel.Network
 			packet.PutInt(0); // handle?
 			packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
 			conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_DIALOG_NEXT);
+			//packet.PutInt(0); // handle?
+			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
+			//conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_DIALOG_STRINGINPUT);
+			//packet.PutInt(0); // handle?
+			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
+			//conn.Send(packet);
+
+			//packet = new Packet(Op.ZC_DIALOG_NUMBERRANGE);
+			//packet.PutInt(0); // handle?
+			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
+			//conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Sent when selecting a dialog option.
+		/// Sent when selecting a dialog option or entering a number into a
+		/// number range dialog.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -692,6 +708,26 @@ namespace Melia.Channel.Network
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
 			var unkInt = packet.GetInt();
+
+			// ...
+
+			packet = new Packet(Op.ZC_DIALOG_CLOSE);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent after entering a string in an input dialog.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [45 0C] [0B 00 00 00] [C4 0D 00 00] 74 68 61 74 27 73 20 72 69 67 68 00 00 00 00 00 04 CF E5 33 05 01 FF 07 00 00 00 00 80 0B D0 2A 00 60 57 2A 00 70 57 2A 20 C8 8B 35 04 00 00 00 20 3C 84 43 07 0A C3 43 A0 B2 49 0F C0 A9 49 0F 08 00 00 00 FC 68 1D 43 00 CA 8B 35 00 60 EF 43 40 3C 84 43 07 0A 53 43 A0 B2 49 0F C0 A9 49 0F 08 00 00 00 00 00 00 00 A0 CA 8B 35 00 00 00 00 60 3C 84 43 07 0A 00 00 A0 B2 49 0F C0 A9 49 0F F0 90 A8 77 0D 4C
+		/// </example>
+		[PacketHandler(Op.CZ_DIALOG_STRINGINPUT)]
+		public void CZ_DIALOG_STRINGINPUT(ChannelConnection conn, Packet packet)
+		{
+			var input = packet.GetString(16);
+			//var unkBin = packet.GetBin(138 - 16 - 10);
 
 			// ...
 
