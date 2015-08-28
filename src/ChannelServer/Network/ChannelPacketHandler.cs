@@ -645,12 +645,15 @@ namespace Melia.Channel.Network
 
 			//conn.Send(packet);
 
-			// {/} reset?
+			// {/} reset
 			// {np} new paragraph?
 			// {nl} new line
 			// {s35} size
 			// {img F3 40 40} image <key> <width?> <height?>
 			// !@#ScpArgMsg$...#@! clientmessage.xml reference? (... = key?)
+			// {b} bold
+			// {ol} outline
+			// {ds} drop shadow
 
 			packet = new Packet(Op.ZC_DIALOG_OK);
 			packet.PutInt(0); // handle?
