@@ -1,0 +1,40 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_OBJECT_PROPERTY.bt
+// Author: Tachiorz
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+typedef struct 
+{
+    short id;
+    if (id == 4496)
+        lpString val;
+    else
+        float val;
+}
+property <read=propertyRead, optimize=false>;
+
+string propertyRead(property &p)
+{
+    local char ret[];
+    local char val_type[];
+    
+    if (p.id == 4496) 
+        SPrintf(ret, "%d : %s ", p.id, p.val.text);
+    else
+        SPrintf(ret, "%d : %.0f" , p.id, p.val);
+    
+    return ret;
+}
+
+short op;
+int sequence;
+short size;
+
+int64 characterId;
+property properties[(size-16)/6];

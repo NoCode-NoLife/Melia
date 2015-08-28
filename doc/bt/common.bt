@@ -1,0 +1,35 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: common.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+// Length-prefixed string
+typedef struct
+{
+    short length;
+    if(length > 0)
+      char text[length];
+}
+lpString <read=lpStringRead>;
+
+string lpStringRead(lpString &v)
+{
+    return v.text;
+}
+
+// Key:Value type with two length-prefixed strings
+typedef struct
+{
+    lpString key;
+    lpString value;
+}
+msgParameter <read=msgParameterRead>;
+
+string msgParameterRead(msgParameter &v)
+{
+    return v.key.text + " : " + v.value.text;
+}

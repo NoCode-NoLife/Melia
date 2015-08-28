@@ -1,0 +1,44 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: BC_IES_MODIFY_LIST.bt
+// Author: Tachiorz
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+short size;
+
+short ies_cnt; // ?
+struct IES
+{
+    lpString IES_name;
+    short row_cnt;
+    struct row
+    {
+        int ClassID;
+        short col_cnt; // ?
+        struct col
+        {
+            lpString ColumnName;
+            short patch_cnt;
+            struct
+            {
+                int i;
+                lpString s1;
+                lpString Version;
+                lpString Author;
+                lpString Date;
+                lpString editMethod; // ?
+            }
+            patches[patch_cnt] <optimize=false>;
+        }
+        cols[col_cnt] <optimize=false>;
+    }
+    rows[row_cnt] <optimize=false>;
+}
+ies[ies_cnt] <optimize=false>;

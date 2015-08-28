@@ -1,0 +1,50 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_ENTER_MONSTER.bt
+// Author: exec
+// Revision: 1
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+short size;
+
+int handle;
+float x,y,z;
+float dx, dy;
+byte type;
+byte b1; // bool?
+int hp, maxHp;
+short s1;
+int i1;
+
+// MONSTER
+int monsterId;
+int i2;
+int i3;
+short s2; // max shield?
+char bin1[2];
+int level;
+float sdr;
+byte b2;
+char bin2[3];
+
+int i4; // npc state?
+int i5;
+byte b3;
+byte b4;
+
+short nameLen;
+char name[nameLen];
+short unameLen;
+char uname[unameLen];
+short str1Len;
+char str1[str1Len];
+short str2Len;
+char str2[str2Len];
+short str3Len;
+char str3[str3Len];
+
+char bin3[6];

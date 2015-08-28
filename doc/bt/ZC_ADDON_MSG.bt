@@ -1,0 +1,18 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_ADDON_MSG.bt
+// Author: Tachiorz
+// Revision: 1
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+short size;
+
+byte len;
+float f;
+byte notUsed;
+char functionName[len];
+char buffer[size-(len+14)];
