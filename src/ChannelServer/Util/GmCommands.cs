@@ -76,11 +76,11 @@ namespace Melia.Channel.Util
 			var result = command.Func(conn, character, message, args);
 			if (result == CommandResult.Fail)
 			{
-				Send.ZC_SYSTEM_MSG(character, "Failed to execute command.");
+				Send.ZC_CHAT(character, "Failed to execute command.");
 			}
 			else if (result == CommandResult.InvalidArgument)
 			{
-				Send.ZC_SYSTEM_MSG(character, "Invalid argument, usage: {0}{1} {2}", '/', commandName, command.Usage);
+				Send.ZC_CHAT(character, "Invalid argument, usage: {0}{1} {2}", '/', commandName, command.Usage);
 			}
 
 			return true;
@@ -97,7 +97,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, string command, string[] args)
 		{
-			Send.ZC_SYSTEM_MSG(character, "You are here: {0} - {1}", character.ZoneId, character.Position);
+			Send.ZC_CHAT(character, "You are here: {0} - {1}", character.ZoneId, character.Position);
 
 			return CommandResult.Okay;
 		}
@@ -131,7 +131,7 @@ namespace Melia.Channel.Util
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
 				{
-					Send.ZC_SYSTEM_MSG(character, "Map not found.");
+					Send.ZC_CHAT(character, "Map not found.");
 					return CommandResult.Okay;
 				}
 
@@ -172,7 +172,7 @@ namespace Melia.Channel.Util
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 			{
-				Send.ZC_SYSTEM_MSG(character, "Item not found.");
+				Send.ZC_CHAT(character, "Item not found.");
 				return CommandResult.Okay;
 			}
 
@@ -217,7 +217,7 @@ namespace Melia.Channel.Util
 				}
 			}
 
-			Send.ZC_SYSTEM_MSG(character, "Added {0} hats to inventory.", added);
+			Send.ZC_CHAT(character, "Added {0} hats to inventory.", added);
 
 			return CommandResult.Okay;
 		}
@@ -236,7 +236,7 @@ namespace Melia.Channel.Util
 			// TODO: Keep a list of all account characters after all?
 			if (ChannelServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
 			{
-				Send.ZC_SYSTEM_MSG(character, "Name already exists.");
+				Send.ZC_CHAT(character, "Name already exists.");
 				return CommandResult.Okay;
 			}
 
@@ -257,7 +257,7 @@ namespace Melia.Channel.Util
 
 			if (!Enum.IsDefined(typeof(Job), jobId))
 			{
-				Send.ZC_SYSTEM_MSG(character, "Unknown job.");
+				Send.ZC_CHAT(character, "Unknown job.");
 				return CommandResult.Okay;
 			}
 

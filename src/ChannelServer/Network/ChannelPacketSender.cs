@@ -260,6 +260,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		public static void ZC_CHAT(Character character, string format, params object[] args)
+		{
+			ZC_CHAT(character, string.Format(format, args));
+		}
+
 		public static void ZC_CHAT(Character character, string message)
 		{
 			//char field_0[64];
@@ -290,29 +295,18 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet); // broadcast
 		}
 
-		public static void ZC_SYSTEM_MSG(Character character, string format, params object[] args)
+		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, params MsgParameter[] parameters)
 		{
-			ZC_SYSTEM_MSG(character, string.Format(format, args));
-		}
+			var packet = new Packet(Op.ZC_SYSTEM_MSG);
 
-		public static void ZC_SYSTEM_MSG(Character character, string message)
-		{
-			// TODO: Get ZC_SYSTEM_MSG
-
-			var packet = new Packet(Op.ZC_CHAT);
-
-			packet.PutInt(character.Handle);
-			packet.PutString("test team name", 64); // ?
-			packet.PutString("test name", 65); // ?
-			packet.PutByte(0);
-			packet.PutShort((short)character.Job);
-			packet.PutInt(0);
-			packet.PutByte((byte)character.Gender);
-			packet.PutByte((byte)character.Hair);
-			packet.PutEmptyBin(2);
-			packet.PutInt(0);
-			packet.PutFloat(10); // Display time in seconds
-			packet.PutString(message);
+			packet.PutInt(clientMessage);
+			packet.PutByte((byte)parameters.Length);
+			packet.PutByte(1); // type? 0 = also show in red letters on the screen
+			foreach (var parameter in parameters)
+			{
+				packet.PutStringWithLength(parameter.Key);
+				packet.PutStringWithLength(parameter.Value);
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -562,6 +556,18 @@ namespace Melia.Channel.Network
 
 		public static void DUMMY(ChannelConnection conn)
 		{
+		}
+	}
+
+	public class MsgParameter
+	{
+		public string Key { get; protected set; }
+		public string Value { get; protected set; }
+
+		public MsgParameter(string key, string value)
+		{
+			this.Key = key;
+			this.Value = value;
 		}
 	}
 }
