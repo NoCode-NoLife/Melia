@@ -260,7 +260,7 @@ namespace Melia.Channel.Network
 			var d1 = packet.GetFloat(); // 0.7071068
 			var d2 = packet.GetFloat(); // 0.7071068
 			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
-			var unkFloat = packet.GetFloat(); // 7111.545
+			var unkFloat = packet.GetFloat(); // 7111.545 timestamp?
 
 			// TODO: Sanity checks.
 
@@ -288,7 +288,7 @@ namespace Melia.Channel.Network
 			var z = packet.GetFloat();
 			var d1 = packet.GetFloat(); // 0.7071068
 			var d2 = packet.GetFloat(); // 0.7071068
-			var unkFloat = packet.GetFloat(); // 7112.762
+			var unkFloat = packet.GetFloat(); // 7112.762 timestamp?
 
 			// TODO: Sanity checks.
 

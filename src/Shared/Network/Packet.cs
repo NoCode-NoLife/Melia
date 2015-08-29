@@ -360,7 +360,7 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutStringWithLength(string val)
 		{
-			if (val[val.Length - 1] != '\0')
+			if (val.Length > 0 && val[val.Length - 1] != '\0')
 				val += '\0';
 
 			if (string.IsNullOrWhiteSpace(val))
