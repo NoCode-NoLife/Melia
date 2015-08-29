@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -440,6 +442,27 @@ namespace Melia.Shared.Network
 			Marshal.FreeHGlobal(ptr);
 
 			this.PutBin(arr);
+		}
+
+		/// <summary>
+		/// Compresses and writes bytes to buffer.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutZlib(byte[] val)
+		{
+			MemoryStream ms = new MemoryStream();
+			DeflateStream ds = new DeflateStream(ms, CompressionMode.Compress);
+			ds.Write(val, 0, val.Length);
+			ds.Flush();
+			ds.Close();
+			var compressedVal = ms.ToArray();
+			this.PutShort(0xFA8D); // zlib header
+			this.PutShort(compressedVal.Length);
+			this.EnsureSpace(compressedVal.Length);
+			Buffer.BlockCopy(compressedVal, 0, _buffer, _ptr, compressedVal.Length);
+			_ptr += compressedVal.Length;
+			this.Length += compressedVal.Length;
+			ms.Close();
 		}
 
 		/// <summary>

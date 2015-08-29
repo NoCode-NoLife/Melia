@@ -111,6 +111,7 @@ namespace Melia.Login.Network
 			var unkByte = packet.GetByte();
 
 			Send.BC_COMMANDER_LIST(conn);
+			Send.BC_NORMAL_ZONE_TRAFFIC(conn);
 		}
 
 		/// <summary>
