@@ -17,26 +17,26 @@ namespace Melia.Login.Network.Helpers
 	{
 		public static void AddCharacter(this Packet packet, Character character)
 		{
-			// Commander.
-			//todo: Used in ZC_CONNECT_OK (etc?) Move to Shared
+			// Commander
+			// TODO: Used in ZC_CONNECT_OK (etc?), ove to Shared?
 			{
-			packet.PutString(character.Name, 65);
-			packet.PutString("", 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(0); // Account ID
-			packet.PutShort(character.Stance);
-			packet.PutShort(0);
-			packet.PutShort((short)character.Job);
-			packet.PutByte((byte)character.Gender);
-			packet.PutByte(0);
-			packet.PutInt(character.Level);
+				packet.PutString(character.Name, 65);
+				packet.PutString("", 64);
+				packet.PutEmptyBin(7);
+				packet.PutLong(0); // Account ID
+				packet.PutShort(character.Stance);
+				packet.PutShort(0);
+				packet.PutShort((short)character.Job);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte(0);
+				packet.PutInt(character.Level);
 
-			// Items
-			foreach (var itemId in character.Equipment)
-				packet.PutInt(itemId);
+				// Items
+				foreach (var itemId in character.Equipment)
+					packet.PutInt(itemId);
 
-			packet.PutShort(character.Hair);
-			packet.PutShort(0); // Pose
+				packet.PutShort(character.Hair);
+				packet.PutShort(0); // Pose
 			}
 			packet.PutLong(character.Id); // socialInfoId ?
 			packet.PutShort(character.Index);
