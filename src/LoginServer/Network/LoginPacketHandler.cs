@@ -210,7 +210,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
 		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
 		{
-			var unkByte1 = packet.GetByte();
+			var charPosition = packet.GetByte();
 			var name = packet.GetString(65);
 			var job = (Job)packet.GetShort();
 			var gender = (Gender)packet.GetByte();

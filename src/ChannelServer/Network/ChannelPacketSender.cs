@@ -54,7 +54,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_CONNECT_OK);
 
-			packet.PutByte(0); // 1 closes the client (fail?)
+			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(0);
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
@@ -65,12 +65,12 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(0);
 
-			// CommanderInfo (237)
+			// Commander
 			{
 				packet.PutString(character.Name, 65);
 				packet.PutString(character.TeamName, 64);
 				packet.PutEmptyBin(7);
-				packet.PutLong(0); // AID ?
+				packet.PutLong(0); // Account ID
 				packet.PutShort(character.Stance);
 				packet.PutShort(0);
 				packet.PutShort((short)character.Job);
@@ -82,21 +82,19 @@ namespace Melia.Channel.Network
 				foreach (var id in character.Inventory.GetEquipIds())
 					packet.PutInt(id);
 
-				packet.PutByte(character.Hair);
+				packet.PutShort(character.Hair);
+				packet.PutShort(0); // Pose
 			}
 
-			packet.PutEmptyBin(3);
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
-			packet.PutInt(0);
+			packet.PutInt(character.Handle);
 
 			packet.PutLong(character.Id);
-
-			//packet.PutEmptyBin(32);
-			packet.PutLong(0); // PCEtc GUID?
+			packet.PutLong(0); // PCEtc GUID? socialInfoId
 
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
@@ -126,8 +124,8 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_START_GAME);
 
 			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
-			packet.PutFloat(1);
-			packet.PutFloat(1);
+			packet.PutFloat(1); // serverAppTimeOffset
+			packet.PutFloat(1); // globalAppTimeOffset
 			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
 
 			conn.Send(packet);
@@ -137,9 +135,9 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_MYPC_ENTER);
 
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutFloat(0); // X
+			packet.PutFloat(0); // Y
+			packet.PutFloat(0); // Z
 
 			conn.Send(packet);
 		}
@@ -159,12 +157,12 @@ namespace Melia.Channel.Network
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
 			packet.PutShort(0);
-			packet.PutInt(0);
+			packet.PutFloat(0);
 			// MONSTER
 			{
 				packet.PutInt(monster.Id);
 				packet.PutInt(0);
-				packet.PutInt(0);
+				packet.PutInt(monster.MaxHp);
 				packet.PutShort(0); // MaxShield?
 				packet.PutEmptyBin(2);
 				packet.PutInt(monster.Level);
@@ -172,23 +170,18 @@ namespace Melia.Channel.Network
 				packet.PutByte(0);
 				packet.PutEmptyBin(3);
 			}
-			packet.PutInt(0); // NPC state ?
+			packet.PutInt(0); // GenType
 			packet.PutInt(0);
 			//packet.PutShort(0); // parameters size
 			// it was, like this in IDA o.o
 			packet.PutByte(0); // parameters size
 			packet.PutByte(0); // ??
 
-			packet.PutShort(0); // Name (confirmed)
-			packet.PutString("", 0);
-			packet.PutShort(0); // UniqueName (confirmed)
-			packet.PutString("", 0);
-			packet.PutShort(20); // str1  if string is set - HP isn't shown
-			packet.PutString("asdf", 5);
-			packet.PutShort(0); // str2
-			packet.PutString("", 0);
-			packet.PutShort(0); // str3
-			packet.PutString("", 0);
+			packet.PutStringWithLength(""); // Name
+			packet.PutStringWithLength(""); // UniqueName
+			packet.PutStringWithLength("asdf"); // if string is set - HP isn't shown, and talking activated
+			packet.PutStringWithLength(""); // str2
+			packet.PutStringWithLength(""); // str3
 
 			packet.PutEmptyBin(0); // parameters
 
@@ -200,6 +193,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
 
 			packet.PutInt(0);
+			packet.PutShort(0);
 			//...
 
 			conn.Send(packet);

@@ -23,8 +23,8 @@ namespace Melia.Login.Network
 			packet.PutShort(0);
 			packet.PutLong(conn.SessionId);
 			packet.PutString(conn.Account.Name, 33);
-			packet.PutInt(0); // hotkey?
-			packet.PutString("test string", 64);
+			packet.PutInt(0); // accountPrivileges?
+			packet.PutString("test string", 64); // sessionKey (*695ADFDD9FD07E69927F1F2F81BF415D966D344A)
 
 			conn.Send(packet);
 		}
@@ -46,14 +46,19 @@ namespace Melia.Login.Network
 			packet.PutByte((byte)characters.Length);
 			packet.PutString(conn.Account.TeamName, 64);
 
-			packet.PutShort(0); // count v ?
-			//packet.PutEmptyBin(0);
+			packet.PutShort(18); // Account properties size
+			packet.PutShort(3732); // Medal
+			packet.PutFloat(500);
+			packet.PutShort(3733); // ReceiveGiftMedal
+			packet.PutFloat(5);
+			packet.PutShort(3735); // GiftMedal
+			packet.PutFloat(10);
 
 			foreach (var character in characters)
 			{
 				packet.AddCharacter(character);
 
-				// Item descriptions, short->length
+				// Item properties, short->length
 				packet.PutShort(0);
 				packet.PutShort(0);
 				packet.PutShort(0);
