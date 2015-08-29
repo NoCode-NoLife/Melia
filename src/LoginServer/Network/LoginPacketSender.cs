@@ -8,6 +8,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -127,6 +128,33 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_COMMANDER_DESTROY);
 			packet.PutByte(index);
 
+			conn.Send(packet);
+		}
+
+		public static void BC_NORMAL_ZONE_TRAFFIC(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0xB); //SubOp
+
+			var subPct = new Packet(Op.BC_NORMAL);
+			var characters = conn.Account.GetCharacters();
+			var mapAvailableCount = characters.Length;
+			subPct.PutShort(150); // zoneMaxPcCount
+			subPct.PutShort(mapAvailableCount);
+			for (var i = 0; i < mapAvailableCount; ++i)
+			{
+				var zoneServerCount = 2;
+				subPct.PutShort(characters[i].ZoneId);
+				subPct.PutShort(zoneServerCount); // zoneServerCount
+				for (var zone = 0; zone < zoneServerCount; ++zone)
+				{
+					subPct.PutShort(zone);
+					subPct.PutShort(100); // currentPlayersCount
+				}
+			}
+			var buffer = new byte[subPct.Length];
+			subPct.Build(ref buffer, 0);
+			packet.PutZlib(buffer);
 			conn.Send(packet);
 		}
 	}
