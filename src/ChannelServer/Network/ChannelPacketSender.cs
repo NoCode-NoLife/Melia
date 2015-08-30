@@ -199,6 +199,41 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		public static void ZC_SKILL_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_ABILITY_LIST);
+			packet.PutInt(character.Handle);
+			packet.PutShort(0); // count
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_ABILITY_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_ABILITY_LIST);
+
+			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001};
+
+			packet.PutInt(character.Handle);
+			packet.PutShort(abilities.Length); // count
+			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
+			//var zlibPct = new Packet(Op.ZC_ABILITY_LIST);
+			foreach(var ability in abilities)
+			{
+				packet.PutLong(0); // Some kind of GUID? o.O
+				packet.PutInt(ability);
+				packet.PutShort(6); // properties size (some abilities doesn't have properties, like weapon wielding)
+				packet.PutShort(255); // ?
+				packet.PutShort(25); //Level
+				packet.PutFloat(10);
+			}
+			//var buffer = new byte[zlibPct.Length];
+			//zlibPct.Build(ref buffer, 0);
+			//packet.PutZlib(buffer);
+			character.Connection.Send(packet);
+		}
+
+
 		public static void ZC_MOVE_SPEED(Character character)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
