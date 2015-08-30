@@ -179,7 +179,7 @@ namespace Melia.Channel.Network
 
 			packet.PutStringWithLength(""); // Name
 			packet.PutStringWithLength(""); // UniqueName
-			packet.PutStringWithLength("asdf"); // if string is set - HP isn't shown, and talking activated
+			packet.PutStringWithLength(""); // if string is set - HP isn't shown, and talking activated
 			packet.PutStringWithLength(""); // str2
 			packet.PutStringWithLength(""); // str3
 
@@ -204,6 +204,24 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 			packet.PutInt(character.Handle);
 			packet.PutShort(0); // count
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_SKILL_ADD(Character character, int skillId)
+		{
+			var packet = new Packet(Op.ZC_SKILL_ADD);
+
+			packet.PutEmptyBin(18); // ?
+			packet.PutInt(skillId);
+			packet.PutShort(6); // properties size
+			packet.PutShort(0xF570); // ? F570h
+			packet.PutInt(0); // ?
+			packet.PutShort(0xF520); // ? F520h
+			packet.PutShort(0);
+			// Properties
+			packet.PutShort(4031); // Level
+			packet.PutFloat(1);
 
 			character.Connection.Send(packet);
 		}

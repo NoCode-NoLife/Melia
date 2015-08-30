@@ -97,6 +97,10 @@ namespace Melia.Channel.Network
 
 			Send.ZC_START_GAME(conn);
 			Send.ZC_MYPC_ENTER(conn);
+
+			// Basic skills added for new character
+			Send.ZC_SKILL_ADD(character, 100);
+			Send.ZC_SKILL_ADD(character, 1);
 		}
 
 		/// <summary>
