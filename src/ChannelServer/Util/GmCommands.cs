@@ -192,7 +192,7 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out id))
 				return CommandResult.InvalidArgument;
 
-			var monster = new Monster(id, NpcType.NPC);
+			var monster = new Monster(id, NpcType.Monster);
 
 			monster.Position = character.Position;
 			monster.Direction = character.Direction;
