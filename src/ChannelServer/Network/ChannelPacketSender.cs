@@ -230,13 +230,13 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 
-			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001};
+			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001 };
 
 			packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length); // count
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
 			//var zlibPct = new Packet(Op.ZC_ABILITY_LIST);
-			foreach(var ability in abilities)
+			foreach (var ability in abilities)
 			{
 				packet.PutLong(0); // Some kind of GUID? o.O
 				packet.PutInt(ability);

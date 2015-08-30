@@ -69,6 +69,17 @@ namespace Melia.Channel.Network
 
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
+
+			// Get map
+			var map = ChannelServer.Instance.World.GetMap(character.ZoneId);
+			if (map == null)
+			{
+				Log.Warning("CZ_GAME_READY: User '{0}' logged on with invalid map '{1}'.", conn.Account.Name, character.ZoneId);
+				conn.Close();
+				return;
+			}
+
+			map.AddCharacter(character);
 			conn.LoggedIn = true;
 
 			Send.ZC_CONNECT_OK(conn, character);
@@ -101,6 +112,11 @@ namespace Melia.Channel.Network
 			// Basic skills added for new character
 			Send.ZC_SKILL_ADD(character, 100);
 			Send.ZC_SKILL_ADD(character, 1);
+
+			// Spawn monsters
+			var monsters = character.Map.GetMonsters();
+			foreach (var monster in monsters)
+				Send.ZC_ENTER_MONSTER(conn, monster);
 		}
 
 		/// <summary>

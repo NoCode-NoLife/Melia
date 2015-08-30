@@ -4,6 +4,7 @@
 using Melia.Channel.Database;
 using Melia.Channel.Network;
 using Melia.Channel.Util;
+using Melia.Channel.World;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
@@ -38,6 +39,19 @@ namespace Melia.Channel
 		public GmCommands GmCommands { get; private set; }
 
 		/// <summary>
+		/// The world~
+		/// </summary>
+		public WorldManager World { get; private set; }
+
+		/// <summary>
+		/// Creates new channel server.
+		/// </summary>
+		private ChannelServer()
+		{
+			this.World = new WorldManager();
+		}
+
+		/// <summary>
 		/// Starts the server.
 		/// </summary>
 		public override void Run()
@@ -62,6 +76,11 @@ namespace Melia.Channel
 
 			// Packet handlers
 			ChannelPacketHandler.Instance.RegisterMethods();
+
+			// World
+			Log.Info("Initializing world...");
+			this.World.Initialize();
+			Log.Info("  done loading {0} maps.", this.World.Count);
 
 			// Server
 			var mgr = new ConnectionManager<ChannelConnection>(2001);

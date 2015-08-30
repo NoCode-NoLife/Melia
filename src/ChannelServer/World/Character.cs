@@ -25,6 +25,12 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int Handle { get; set; }
 
+		private Map _map = Map.Limbo;
+		/// <summary>
+		/// The map the character is currently on.
+		/// </summary>
+		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
+
 		/// <summary>
 		/// Gets or sets whether the character is moving.
 		/// </summary>

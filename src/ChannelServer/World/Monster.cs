@@ -12,14 +12,15 @@ namespace Melia.Channel.World
 	public class Monster
 	{
 		/// <summary>
-		/// Dirty temp hack for unique handles
-		/// </summary>
-		public static int _handle = 0xF0000;
-
-		/// <summary>
 		/// Index in world collection?
 		/// </summary>
 		public int Handle { get; private set; }
+
+		private Map _map = Map.Limbo;
+		/// <summary>
+		/// The map the monster is currently on.
+		/// </summary>
+		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
 
 		/// <summary>
 		/// Monster ID in database.
@@ -66,7 +67,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Monster(int id, NpcType type)
 		{
-			this.Handle = Interlocked.Increment(ref _handle);
+			this.Handle = ChannelServer.Instance.World.CreateHandle();
 
 			this.Id = id;
 			this.NpcType = type;
