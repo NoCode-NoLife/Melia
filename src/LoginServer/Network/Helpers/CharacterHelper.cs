@@ -40,7 +40,7 @@ namespace Melia.Login.Network.Helpers
 			}
 			packet.PutLong(character.Id); // socialInfoId ?
 			packet.PutShort(character.Index);
-			packet.PutShort(character.ZoneId);
+			packet.PutShort(character.MapId);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0); // maxXP ?

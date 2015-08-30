@@ -268,7 +268,7 @@ namespace Melia.Login.Network
 			character.Gender = gender;
 			character.Hair = hair;
 
-			character.ZoneId = mapData.Id;
+			character.MapId = mapData.Id;
 			character.Position = new Position(jobData.StartX, jobData.StartY, jobData.StartZ);
 			character.BarrackPosition = new Position(bx, by, bz);
 
@@ -360,7 +360,7 @@ namespace Melia.Login.Network
 			packet.PutInt(0);
 			packet.PutInt(0x0100007F); // 127.0.0.1
 			packet.PutInt(2001); // Port
-			packet.PutInt(character.ZoneId);
+			packet.PutInt(character.MapId);
 			packet.PutByte(0);
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0

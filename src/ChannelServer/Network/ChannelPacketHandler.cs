@@ -71,10 +71,10 @@ namespace Melia.Channel.Network
 			conn.SelectedCharacter = character;
 
 			// Get map
-			var map = ChannelServer.Instance.World.GetMap(character.ZoneId);
+			var map = ChannelServer.Instance.World.GetMap(character.MapId);
 			if (map == null)
 			{
-				Log.Warning("CZ_GAME_READY: User '{0}' logged on with invalid map '{1}'.", conn.Account.Name, character.ZoneId);
+				Log.Warning("CZ_GAME_READY: User '{0}' logged on with invalid map '{1}'.", conn.Account.Name, character.MapId);
 				conn.Close();
 				return;
 			}

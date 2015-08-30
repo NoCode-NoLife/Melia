@@ -30,7 +30,7 @@ namespace Melia.Channel.Util
 			Add("test", "", HandleTest);
 			Add("where", "", HandleWhere);
 			Add("jump", "<x> <y> <z>", HandleJump);
-			Add("warp", "<zone id> <x> <y> <z>", HandleWarp);
+			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id>", HandleItem);
 			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
@@ -97,7 +97,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, string command, string[] args)
 		{
-			Send.ZC_CHAT(character, "You are here: {0} - {1}", character.ZoneId, character.Position);
+			Send.ZC_CHAT(character, "You are here: {0} - {1}", character.MapId, character.Position);
 
 			return CommandResult.Okay;
 		}
@@ -123,10 +123,10 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int zoneId;
+			int mapId;
 			float x = 0, y = 0, z = 0;
 
-			if (!int.TryParse(args[1], out zoneId))
+			if (!int.TryParse(args[1], out mapId))
 			{
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
@@ -135,7 +135,7 @@ namespace Melia.Channel.Util
 					return CommandResult.Okay;
 				}
 
-				zoneId = data.Id;
+				mapId = data.Id;
 			}
 
 			if (args.Length >= 5)
@@ -146,7 +146,7 @@ namespace Melia.Channel.Util
 
 			character.Position = new Position(x, y, z);
 
-			if (character.ZoneId == zoneId)
+			if (character.MapId == mapId)
 			{
 				Send.ZC_SET_POS(character);
 
@@ -154,9 +154,9 @@ namespace Melia.Channel.Util
 			}
 			else
 			{
-				character.ZoneId = zoneId;
+				character.MapId = mapId;
 
-				Send.ZC_MOVE_ZONE_OK(conn, "127.0.0.1", 2001, zoneId);
+				Send.ZC_MOVE_ZONE_OK(conn, "127.0.0.1", 2001, mapId);
 			}
 			return CommandResult.Okay;
 		}

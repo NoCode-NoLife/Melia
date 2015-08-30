@@ -144,7 +144,7 @@ namespace Melia.Login.Network
 			for (var i = 0; i < mapAvailableCount; ++i)
 			{
 				var zoneServerCount = 2;
-				subPct.PutShort(characters[i].ZoneId);
+				subPct.PutShort(characters[i].MapId);
 				subPct.PutShort(zoneServerCount); // zoneServerCount
 				for (var zone = 0; zone < zoneServerCount; ++zone)
 				{

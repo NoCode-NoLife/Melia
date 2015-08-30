@@ -490,7 +490,7 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet); // Broadcast
 		}
 
-		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int zoneId)
+		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int mapId)
 		{
 			//_BYTE gap0[6];
 			//_DWORD dword6;
@@ -507,7 +507,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt(BitConverter.ToInt32(IPAddress.Parse(ip).GetAddressBytes(), 0));
 			packet.PutInt(port);
-			packet.PutInt(zoneId); // Zone id
+			packet.PutInt(mapId);
 			packet.PutFloat(38); // Camera X angle
 			packet.PutFloat(45); // Camera Y angle
 			packet.PutEmptyBin(26);

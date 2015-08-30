@@ -48,9 +48,9 @@ namespace Melia.Shared.World
 		public int Level { get; set; }
 
 		/// <summary>
-		/// The zone the character is in.
+		/// The map the character is in.
 		/// </summary>
-		public int ZoneId { get; set; }
+		public int MapId { get; set; }
 
 		/// <summary>
 		/// Character's position.

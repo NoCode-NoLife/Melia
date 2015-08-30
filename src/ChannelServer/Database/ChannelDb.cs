@@ -90,7 +90,7 @@ namespace Melia.Channel.Database
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetByte("hair");
 					character.Level = reader.GetInt32("level");
-					character.ZoneId = reader.GetInt32("zone");
+					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.Hp = reader.GetInt32("hp");
@@ -133,7 +133,7 @@ namespace Melia.Channel.Database
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
 				cmd.Set("level", character.Level);
-				cmd.Set("zone", character.ZoneId);
+				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
 				cmd.Set("y", character.Position.Y);
 				cmd.Set("z", character.Position.Z);

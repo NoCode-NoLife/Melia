@@ -129,8 +129,8 @@ namespace Melia.Login.Database
 			var characters = LoginServer.Instance.Database.GetCharacters(account.Id);
 			foreach (var character in characters)
 			{
-				if (character.ZoneId == 0)
-					character.ZoneId = 1001;
+				if (character.MapId == 0)
+					character.MapId = 1001;
 
 				account.AddCharacter(character);
 			}
