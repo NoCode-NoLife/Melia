@@ -33,6 +33,17 @@ namespace Melia.Channel.World
 		public NpcType NpcType { get; set; }
 
 		/// <summary>
+		/// Monster's name, leave empty for default.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Name of dialog function to call on trigger,
+		/// leave empty for no dialog hotkey display.
+		/// </summary>
+		public string DialogName { get; set; }
+
+		/// <summary>
 		/// Level.
 		/// </summary>
 		public int Level { get; set; }

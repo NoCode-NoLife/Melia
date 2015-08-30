@@ -626,7 +626,12 @@ namespace Melia.Channel.Network
 			var unkByte = packet.GetByte();
 			var handle = packet.GetInt();
 
-			// ...
+			var monster = conn.SelectedCharacter.Map.GetMonster(handle);
+			if (monster == null)
+			{
+				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to unknown monster.", conn.Account.Name);
+				return;
+			}
 
 			var strings = new string[]
 			{

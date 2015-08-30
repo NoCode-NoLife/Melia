@@ -3,6 +3,7 @@
 
 using Melia.Channel.Database;
 using Melia.Channel.Network;
+using Melia.Channel.Scripting;
 using Melia.Channel.Util;
 using Melia.Channel.World;
 using Melia.Shared;
@@ -44,11 +45,17 @@ namespace Melia.Channel
 		public WorldManager World { get; private set; }
 
 		/// <summary>
+		/// Channel's script manager.
+		/// </summary>
+		public ScriptManager ScriptManager { get; private set; }
+
+		/// <summary>
 		/// Creates new channel server.
 		/// </summary>
 		private ChannelServer()
 		{
 			this.World = new WorldManager();
+			this.ScriptManager = new ScriptManager();
 		}
 
 		/// <summary>
@@ -81,6 +88,11 @@ namespace Melia.Channel
 			Log.Info("Initializing world...");
 			this.World.Initialize();
 			Log.Info("  done loading {0} maps.", this.World.Count);
+
+			// Script manager
+			Log.Info("Loading scripts...");
+			this.ScriptManager.Initialize();
+			Log.Info("  done loading scripts.");
 
 			// Server
 			var mgr = new ConnectionManager<ChannelConnection>(2001);

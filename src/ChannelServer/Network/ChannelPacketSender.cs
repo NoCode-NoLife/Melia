@@ -177,9 +177,9 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // parameters size
 			packet.PutByte(0); // ??
 
-			packet.PutStringWithLength(""); // Name
+			packet.PutStringWithLength(monster.Name);
 			packet.PutStringWithLength(""); // UniqueName
-			packet.PutStringWithLength(""); // if string is set - HP isn't shown, and talking activated
+			packet.PutStringWithLength(monster.DialogName); // if string is set - HP isn't shown, and talking activated
 			packet.PutStringWithLength(""); // str2
 			packet.PutStringWithLength(""); // str3
 

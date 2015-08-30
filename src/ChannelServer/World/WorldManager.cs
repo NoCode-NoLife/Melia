@@ -13,19 +13,21 @@ namespace Melia.Channel.World
 	public class WorldManager
 	{
 		private int _handles = 0;
-		private Dictionary<int, Map> _maps;
+		private Dictionary<int, Map> _mapsId;
+		private Dictionary<string, Map> _mapsName;
 
 		/// <summary>
 		/// Returns the amount of maps in the world.
 		/// </summary>
-		public int Count { get { lock (_maps) return _maps.Count; } }
+		public int Count { get { lock (_mapsId) return _mapsId.Count; } }
 
 		/// <summary>
 		/// Creates new world manager.
 		/// </summary>
 		public WorldManager()
 		{
-			_maps = new Dictionary<int, Map>();
+			_mapsId = new Dictionary<int, Map>();
+			_mapsName = new Dictionary<string, Map>();
 		}
 
 		/// <summary>
@@ -47,7 +49,9 @@ namespace Melia.Channel.World
 		{
 			foreach (var entry in ChannelServer.Instance.Data.MapDb.Entries.Values)
 			{
-				_maps.Add(entry.Id, new Map(entry.Id));
+				var map = new Map(entry.Id, entry.ClassName);
+				_mapsId.Add(map.Id, map);
+				_mapsName.Add(map.Name, map);
 			}
 		}
 
@@ -58,8 +62,20 @@ namespace Melia.Channel.World
 		public Map GetMap(int mapId)
 		{
 			Map result;
-			lock (_maps)
-				_maps.TryGetValue(mapId, out result);
+			lock (_mapsId)
+				_mapsId.TryGetValue(mapId, out result);
+			return result;
+		}
+
+		/// <summary>
+		/// Returns map by name, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="mapName"></param>
+		public Map GetMap(string mapName)
+		{
+			Map result;
+			lock (_mapsName)
+				_mapsName.TryGetValue(mapName, out result);
 			return result;
 		}
 	}

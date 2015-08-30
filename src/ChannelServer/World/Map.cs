@@ -17,6 +17,11 @@ namespace Melia.Channel.World
 		private Dictionary<int, Monster> _monsters;
 
 		/// <summary>
+		/// Map name.
+		/// </summary>
+		public string Name { get; protected set; }
+
+		/// <summary>
 		/// Map id.
 		/// </summary>
 		public int Id { get; protected set; }
@@ -29,12 +34,13 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Creates new map.
 		/// </summary>
-		public Map(int id)
+		public Map(int id, string name)
 		{
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
 
 			this.Id = id;
+			this.Name = name;
 		}
 
 		/// <summary>
@@ -153,7 +159,7 @@ namespace Melia.Channel.World
 	public class Limbo : Map
 	{
 		public Limbo()
-			: base(0)
+			: base(0, "__limbo__")
 		{
 		}
 
