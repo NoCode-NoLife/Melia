@@ -13,6 +13,8 @@ using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.World;
 using Melia.Channel.Network;
+using System.Runtime.CompilerServices;
+using Melia.Shared.Network;
 
 namespace Melia.Channel.Scripting
 {
@@ -34,6 +36,7 @@ namespace Melia.Channel.Scripting
 
 			Register(debug);
 			Register(addnpc);
+			Register(msg);
 		}
 
 		/// <summary>
@@ -70,7 +73,88 @@ namespace Melia.Channel.Scripting
 
 			Melua.luaL_loadfile(GL, filePath);
 			if (Melua.lua_pcall(GL, 0, 0, 0) != 0)
-				Log.Error("Failed to load '{0}'.\n{1}", filePath, Melua.lua_tostring(GL, -1));
+				Log.Error("ScriptManager.LoadFile: Failed to load '{0}'.\n{1}", filePath, Melua.lua_tostring(GL, -1));
+		}
+
+		/// <summary>
+		/// Returns a script state for the connection.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <returns></returns>
+		public IntPtr GetState(ChannelConnection conn)
+		{
+			var NL = Melua.lua_newthread(GL);
+			unsafe
+			{
+				var ptr = (int*)NL.ToPointer();
+				ptr -= 8;
+				*ptr = conn.Index;
+			}
+			return NL;
+		}
+
+		/// <summary>
+		/// Calls function with connection's script state.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="functionName"></param>
+		public void Call(ChannelConnection conn, string functionName)
+		{
+			var NL = conn.ScriptState;
+
+			Melua.lua_getglobal(NL, functionName);
+			if (Melua.lua_isnil(NL, -1))
+			{
+				Log.Error("ScriptManager.Call: Function '{0}' not found.", functionName);
+				return;
+			}
+
+			if (Melua.lua_pcall(NL, 0, 0, 0) != 0)
+				Log.Error("ScriptManager.Call: Error while executing '{0}' for {1}.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(GL, -1));
+		}
+
+		/// <summary>
+		/// Returns true if enough arguments are on the stack,
+		/// otherwise it logs an error an returns false.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <param name="expected"></param>
+		/// <returns></returns>
+		private bool CheckArgumentCount(IntPtr L, int expected, [CallerMemberName]string caller = "")
+		{
+			var argc = Melua.lua_gettop(L);
+			if (argc < expected)
+			{
+				Log.Error("{0}: Too few arguments, expected {1}, got {2}.", caller, expected, argc);
+				return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns connection associated with state.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private ChannelConnection GetConnectionFromState(IntPtr L)
+		{
+			var index = 0;
+			unsafe
+			{
+				var ptr = (int*)L.ToPointer();
+				ptr -= 8;
+				index = *ptr;
+			}
+
+			if (index == 0)
+				throw new ArgumentException("No index found in state.");
+
+			var conn = ChannelServer.Instance.ConnectionManager.Connections[index];
+			if (conn == null)
+				throw new Exception("No connection found for index.");
+
+			return conn;
 		}
 
 		//-----------------------------------------------------------------//
@@ -79,6 +163,9 @@ namespace Melia.Channel.Scripting
 
 		private int debug(IntPtr L)
 		{
+			if (!this.CheckArgumentCount(L, 1))
+				return 0;
+
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 			Log.Debug(msg);
@@ -88,12 +175,8 @@ namespace Melia.Channel.Scripting
 
 		private int addnpc(IntPtr L)
 		{
-			var argc = Melua.lua_gettop(L);
-			if (argc < 7)
-			{
-				Log.Error("addnpc: Too few arguments, expected 7, got {0}.", argc);
+			if (!this.CheckArgumentCount(L, 7))
 				return 0;
-			}
 
 			var monsterId = Melua.luaL_checkinteger(L, 1);
 			var name = Melua.luaL_checkstring(L, 2);
@@ -118,6 +201,21 @@ namespace Melia.Channel.Scripting
 			monster.Position = new Position(x, y, z);
 
 			map.AddMonster(monster);
+
+			return 0;
+		}
+
+		private int msg(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 1))
+				return 0;
+
+			var msg = Melua.luaL_checkstring(L, 1);
+
+			Melua.lua_pop(L, 1);
+
+			var conn = this.GetConnectionFromState(L);
+			Send.ZC_DIALOG_OK(conn, msg);
 
 			return 0;
 		}

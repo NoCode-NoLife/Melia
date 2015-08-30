@@ -45,6 +45,11 @@ namespace Melia.Shared.Network
 		public event EventHandler Closed;
 
 		/// <summary>
+		/// Connection's index on the connection manager's list.
+		/// </summary>
+		public int Index { get; set; }
+
+		/// <summary>
 		/// Session id for this connection.
 		/// </summary>
 		public long SessionId { get; set; }

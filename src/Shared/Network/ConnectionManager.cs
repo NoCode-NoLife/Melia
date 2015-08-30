@@ -34,12 +34,25 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public string Address { get { return string.Format("{0}:{1}", this.Host, this.Port); } }
 
+		public TConnection[] Connections;
+
+		/// <summary>
+		/// Initializes connection manager.
+		/// </summary>
+		/// <param name="host"></param>
+		/// <param name="port"></param>
+		private ConnectionManager()
+		{
+			this.Connections = new TConnection[1024];
+		}
+
 		/// <summary>
 		/// Creates new connection manager.
 		/// </summary>
 		/// <param name="host"></param>
 		/// <param name="port"></param>
 		public ConnectionManager(string host, int port)
+			: this()
 		{
 			this.Host = host;
 			this.Port = port;
@@ -50,9 +63,8 @@ namespace Melia.Shared.Network
 		/// </summary>
 		/// <param name="port"></param>
 		public ConnectionManager(int port)
+			: this("0.0.0.0", port)
 		{
-			this.Host = "0.0.0.0";
-			this.Port = port;
 		}
 
 		/// <summary>
@@ -105,8 +117,10 @@ namespace Melia.Shared.Network
 				var connectionSocket = _socket.EndAccept(result);
 
 				var connection = new TConnection();
+				this.AssignId(connection);
 				connection.SessionId = 2;
 				connection.SetSocket(connectionSocket);
+				connection.Closed += this.OnConnectionClosed;
 				connection.BeginReceive();
 
 				Log.Info("Connection established from {0}", connection.Address);
@@ -122,6 +136,44 @@ namespace Melia.Shared.Network
 			{
 				this.BeginAccept();
 			}
+		}
+
+		/// <summary>
+		/// Raised when a connection closes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnConnectionClosed(object sender, EventArgs e)
+		{
+			var conn = sender as TConnection;
+
+			lock (this.Connections)
+			{
+				this.Connections[conn.Index] = null;
+				conn.Index = 0;
+			}
+		}
+
+		/// <summary>
+		/// Assigns an index to conn, that can be used to index Connections.
+		/// </summary>
+		/// <param name="conn"></param>
+		private void AssignId(TConnection conn)
+		{
+			lock (this.Connections)
+			{
+				for (int i = 100; i < this.Connections.Length; ++i)
+				{
+					if (this.Connections[i] == null)
+					{
+						conn.Index = i;
+						this.Connections[i] = conn;
+						return;
+					}
+				}
+			}
+
+			throw new Exception("No index available in connection list.");
 		}
 	}
 }

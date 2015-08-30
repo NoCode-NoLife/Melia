@@ -21,6 +21,11 @@ namespace Melia.Channel.Network
 		public Account Account { get; set; }
 
 		/// <summary>
+		/// Gets or set connection's script state.
+		/// </summary>
+		public IntPtr ScriptState { get; set; }
+
+		/// <summary>
 		/// Active character.
 		/// </summary>
 		public Character SelectedCharacter { get; set; }

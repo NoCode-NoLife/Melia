@@ -50,6 +50,11 @@ namespace Melia.Channel
 		public ScriptManager ScriptManager { get; private set; }
 
 		/// <summary>
+		/// Connection acceptor and manager.
+		/// </summary>
+		public ConnectionManager<ChannelConnection> ConnectionManager { get; private set; }
+
+		/// <summary>
 		/// Creates new channel server.
 		/// </summary>
 		private ChannelServer()
@@ -95,12 +100,12 @@ namespace Melia.Channel
 			Log.Info("  done loading scripts.");
 
 			// Server
-			var mgr = new ConnectionManager<ChannelConnection>(2001);
-			mgr.Start();
+			this.ConnectionManager = new ConnectionManager<ChannelConnection>(2001);
+			this.ConnectionManager.Start();
 
 			// Ready
 			Cmd.RunningTitle();
-			Log.Status("Server ready, listening on {0}.", mgr.Address);
+			Log.Status("Server ready, listening on {0}.", this.ConnectionManager.Address);
 
 			// Commands
 			this.ConsoleCommands = new ConsoleCommands();

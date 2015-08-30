@@ -80,6 +80,7 @@ namespace Melia.Channel.Network
 			}
 
 			map.AddCharacter(character);
+			conn.ScriptState = ChannelServer.Instance.ScriptManager.GetState(conn);
 			conn.LoggedIn = true;
 
 			Send.ZC_CONNECT_OK(conn, character);
@@ -623,8 +624,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
 		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte();
 			var handle = packet.GetInt();
+			var unkByte = packet.GetByte();
 
 			var monster = conn.SelectedCharacter.Map.GetMonster(handle);
 			if (monster == null)
@@ -633,74 +634,13 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var strings = new string[]
+			if (string.IsNullOrWhiteSpace(monster.DialogName))
 			{
-				"SIAUL_WEST_WEST_FOREST_dlg1",
-				// SIAUL_WEST_WEST_FOREST_dlg1_Caption, QUEST_20150317_000047, Knight Titas
-				// SIAUL_WEST_WEST_FOREST_dlg1_Caption_Text_2, QUEST_LV_0100_20150428_006701, )} {nl} If you have time, Please tell our troops to assemble.{nl}If you don't want to, you may just go ahead to Klaipeda.
+				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to a monster without dialog.", conn.Account.Name);
+				return;
+			}
 
-				"SIAUL_WEST_WEST_FOREST",
-				// SIAUL_WEST_KNIGHT_Name_QuestGroup, QUEST_20150317_001236, Talk To Knight Titas
-				// SIAUL_WEST_WEST_FOREST_Name_0, QUEST_LV_0100_20150717_007623, To Knight Titas (2)
-
-				"@dicID_^*$QUEST_LV_0100_20150428_006795$*^", // Alright, I will tell the troops to assemble
-				"@dicID_^*$QUEST_LV_0100_20150317_002369$*^", // Reject
-
-
-
-				//"SIAUL_WEST_CAMP_MANAGER_basic1",
-				//"{img minimap_1_MAIN 16 16}@dicID_^*$QUEST_LV_0100_20150717_007623$*^",
-				//"@dicID_^*$ETC_20150317_004891$*^",
-				//null,
-				//null,
-				//null,
-				//null,
-				//null,
-				//null,
-				//null,
-				//null,
-				//null,
-				//"!@#ScpArgMsg$Auto_JongLyo#@!",
-			};
-
-			//packet = new Packet(Op.ZC_DIALOG_SELECT);
-
-			//packet.PutInt(handle);
-			//packet.PutShort(strings.Length);
-			//foreach (var str in strings)
-			//	packet.PutStringWithLength(str);
-
-			//conn.Send(packet);
-
-			// {/} reset
-			// {np} new paragraph?
-			// {nl} new line
-			// {s35} size
-			// {img F3 40 40} image <key> <width?> <height?>
-			// !@#ScpArgMsg$...#@! clientmessage.xml reference? (... = key?)
-			// {b} bold
-			// {ol} outline
-			// {ds} drop shadow
-
-			packet = new Packet(Op.ZC_DIALOG_OK);
-			packet.PutInt(0); // handle?
-			packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
-			conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_DIALOG_NEXT);
-			//packet.PutInt(0); // handle?
-			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_DIALOG_STRINGINPUT);
-			//packet.PutInt(0); // handle?
-			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_DIALOG_NUMBERRANGE);
-			//packet.PutInt(0); // handle?
-			//packet.PutString("SIAUL_WEST_RESIDENT1_basic2");
-			//conn.Send(packet);
+			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
 		}
 
 		/// <summary>
