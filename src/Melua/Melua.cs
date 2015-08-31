@@ -19,6 +19,19 @@ namespace MeluaLib
 		public const int LUA_ENVIRONINDEX = -10001;
 		public const int LUA_GLOBALSINDEX = -10002;
 
+		public const int LUA_YIELD = 1;
+
+		public const int LUA_TNONE = -1;
+		public const int LUA_TNIL = 0;
+		public const int LUA_TBOOLEAN = 1;
+		public const int LUA_TLIGHTUSERDATA = 2;
+		public const int LUA_TNUMBER = 3;
+		public const int LUA_TSTRING = 4;
+		public const int LUA_TTABLE = 5;
+		public const int LUA_TFUNCTION = 6;
+		public const int LUA_TUSERDATA = 7;
+		public const int LUA_TTHREAD = 8;
+
 		public delegate int LuaNativeFunction(IntPtr L);
 
 		// LUALIB_API lua_State *luaL_newstate(void)
@@ -36,10 +49,6 @@ namespace MeluaLib
 		// static int luaL_loadfile(lua_State*L,const char*filename)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int luaL_loadfile(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string filename);
-
-		// LUA_API int lua_resume (lua_State *L, int nargs)
-		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-		public static extern int lua_resume(IntPtr L, int nargs);
 
 		// static int lua_pcall(lua_State*L,int nargs,int nresults,int errfunc)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -73,6 +82,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushstring(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string s);
 
+		// static void lua_pushinteger(lua_State*L,lua_Integer n)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushinteger(IntPtr L, int n);
+
 		// static void lua_pushnumber(lua_State*L,lua_Number n)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushnumber(IntPtr L, double n);
@@ -100,6 +113,18 @@ namespace MeluaLib
 		// static lua_Integer luaL_checkinteger(lua_State*L,int numArg)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int luaL_checkinteger(IntPtr L, int numArg);
+
+		// LUA_API int  (lua_yield) (lua_State *L, int nresults);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_yield(IntPtr L, int nresults);
+
+		// LUA_API int  (lua_resume) (lua_State *L, int narg);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_resume(IntPtr L, int narg);
+
+		// LUA_API int  (lua_status) (lua_State *L);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_status(IntPtr L);
 
 		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
 		public static int luaL_loadstring(IntPtr L, string s)
@@ -162,6 +187,21 @@ namespace MeluaLib
 		public static string luaL_checkstring(IntPtr L, int n)
 		{
 			var ptr = luaL_checklstring(L, n, IntPtr.Zero);
+
+			// Output 200 bytes of memory, briefly used to debug a problem where
+			// Lua apparently wrote other information into the string's memory...
+			// bug went away after getting rid of LUAI_EXTRASPACE.
+			//unsafe
+			//{
+			//	var p = (byte*)ptr.ToPointer();
+			//	var buf = new byte[200];
+			//	for (int i = 0; i < buf.Length; ++i)
+			//	{
+			//		buf[i] = *(p + i);
+			//	}
+			//	Console.WriteLine(BitConverter.ToString(buf));
+			//}
+
 			var val = Marshal.PtrToStringAnsi(ptr);
 			return val;
 		}

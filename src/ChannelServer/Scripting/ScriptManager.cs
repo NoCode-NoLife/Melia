@@ -44,6 +44,10 @@ namespace Melia.Channel.Scripting
 			Register(debug);
 			Register(addnpc);
 			Register(msg);
+			Register(select);
+			Register(close);
+			Register(input);
+			Register(numinput);
 		}
 
 		/// <summary>
@@ -267,7 +271,78 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			Send.ZC_DIALOG_OK(conn, msg);
 
+			return Melua.lua_yield(L, 0);
+		}
+
+		private int select(IntPtr L)
+		{
+			var argc = Melua.lua_gettop(L);
+
+			if (argc == 0)
+			{
+				Log.Warning("select: No arguments.");
+				Melua.lua_pushinteger(L, 0);
+				return 1;
+			}
+
+			var args = new string[argc];
+			for (int i = 1; i <= argc; ++i)
+				args[i - 1] = Melua.luaL_checkstring(L, i);
+
+			Melua.lua_pop(L, argc);
+
+			var conn = this.GetConnectionFromState(L);
+			Send.ZC_DIALOG_SELECT(conn, args);
+
+			return Melua.lua_yield(L, 1);
+		}
+
+		private int input(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 1))
+				return 0;
+
+			var msg = Melua.luaL_checkstring(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var conn = this.GetConnectionFromState(L);
+			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
+
+			return Melua.lua_yield(L, 1);
+		}
+
+		private int numinput(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 1))
+				return 0;
+
+			var msg = Melua.luaL_checkstring(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var conn = this.GetConnectionFromState(L);
+			Send.ZC_DIALOG_NUMBERRANGE(conn, msg);
+
+			return Melua.lua_yield(L, 1);
+		}
+
+		private int close(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			Send.ZC_DIALOG_CLOSE(conn);
+
 			return 0;
+		}
+	}
+
+	public class ScriptState
+	{
+		public ChannelConnection Connection { get; private set; }
+		public IntPtr NL { get; private set; }
+
+		public ScriptState(ChannelConnection conn, IntPtr NL)
+		{
+			this.Connection = conn;
+			this.NL = NL;
 		}
 	}
 }
