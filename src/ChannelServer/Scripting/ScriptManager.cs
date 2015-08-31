@@ -20,9 +20,15 @@ namespace Melia.Channel.Scripting
 {
 	public class ScriptManager
 	{
-		private IntPtr GL;
+		private const string List = "system/scripts/scripts.txt";
 
+		private IntPtr GL;
 		private List<Melua.LuaNativeFunction> _functions;
+
+		/// <summary>
+		/// Amount of scripts currently loaded.
+		/// </summary>
+		public int Count { get; protected set; }
 
 		/// <summary>
 		/// Creates new script manager.
@@ -32,7 +38,6 @@ namespace Melia.Channel.Scripting
 			_functions = new List<Melua.LuaNativeFunction>();
 
 			GL = Melua.luaL_newstate();
-			Melua.luaL_openlibs(GL);
 
 			Register(debug);
 			Register(addnpc);
@@ -54,9 +59,22 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Loads all scripts.
 		/// </summary>
-		public void Initialize()
+		public void Load()
 		{
-			this.LoadFile("system/scripts/test.lua");
+			// TODO: Remove NPCs before reloading.
+			this.Count = 0;
+
+			using (var fr = new FileReader(List))
+			{
+				foreach (var line in fr)
+				{
+					var dir = Path.GetDirectoryName(line.File);
+					var filePath = Path.Combine(dir, line.Value);
+
+					this.LoadFile(filePath);
+					this.Count++;
+				}
+			}
 		}
 
 		/// <summary>

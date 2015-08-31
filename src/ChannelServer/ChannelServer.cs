@@ -96,8 +96,8 @@ namespace Melia.Channel
 
 			// Script manager
 			Log.Info("Loading scripts...");
-			this.ScriptManager.Initialize();
-			Log.Info("  done loading scripts.");
+			this.ScriptManager.Load();
+			Log.Info("  done loading {0} scripts.", this.ScriptManager.Count);
 
 			// Server
 			this.ConnectionManager = new ConnectionManager<ChannelConnection>(2001);
