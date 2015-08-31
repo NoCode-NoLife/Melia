@@ -6,7 +6,7 @@ There are several codes you can use in most texts, like the chat and NPC's
 dialogs. This is a list of some known ones.
 
 {/} Reset
-Assumingly resets formatting.
+Resets some formatting, but not color or size.
 
 {np} New paragraph
 Continues NPC dialog on another page, the NPC's name stays the same.
@@ -32,3 +32,8 @@ Text gets a black outline.
 
 {ds} Drop shadow
 Text gets a black drop shadow.
+
+{gr gradation2} ?
+
+{#hex} Color
+Changes text color. Default dialog color appears to be #111111.
