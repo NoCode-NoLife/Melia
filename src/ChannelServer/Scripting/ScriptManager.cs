@@ -24,6 +24,7 @@ namespace Melia.Channel.Scripting
 
 		private IntPtr GL;
 		private List<Melua.LuaNativeFunction> _functions;
+		private Dictionary<IntPtr, ScriptState> _states;
 
 		/// <summary>
 		/// Amount of scripts currently loaded.
@@ -36,6 +37,7 @@ namespace Melia.Channel.Scripting
 		public ScriptManager()
 		{
 			_functions = new List<Melua.LuaNativeFunction>();
+			_states = new Dictionary<IntPtr, ScriptState>();
 
 			GL = Melua.luaL_newstate();
 
@@ -99,16 +101,13 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <returns></returns>
-		public IntPtr GetState(ChannelConnection conn)
+		public ScriptState CreateScriptState(ChannelConnection conn)
 		{
 			var NL = Melua.lua_newthread(GL);
-			unsafe
-			{
-				var ptr = (int*)NL.ToPointer();
-				ptr -= 8;
-				*ptr = conn.Index;
-			}
-			return NL;
+			var state = new ScriptState(conn, NL);
+			lock (_states)
+				_states.Add(NL, state);
+			return state;
 		}
 
 		/// <summary>
@@ -118,7 +117,7 @@ namespace Melia.Channel.Scripting
 		/// <param name="functionName"></param>
 		public void Call(ChannelConnection conn, string functionName)
 		{
-			var NL = conn.ScriptState;
+			var NL = conn.ScriptState.NL;
 
 			Melua.lua_getglobal(NL, functionName);
 			if (Melua.lua_isnil(NL, -1))
@@ -157,22 +156,11 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private ChannelConnection GetConnectionFromState(IntPtr L)
 		{
-			var index = 0;
-			unsafe
-			{
-				var ptr = (int*)L.ToPointer();
-				ptr -= 8;
-				index = *ptr;
-			}
+			ScriptState state;
+			if (!_states.TryGetValue(L, out state))
+				throw new Exception("No matching connection found.");
 
-			if (index == 0)
-				throw new ArgumentException("No index found in state.");
-
-			var conn = ChannelServer.Instance.ConnectionManager.Connections[index];
-			if (conn == null)
-				throw new Exception("No connection found for index.");
-
-			return conn;
+			return state.Connection;
 		}
 
 		//-----------------------------------------------------------------//

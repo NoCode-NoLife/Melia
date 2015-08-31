@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Channel.Database;
+using Melia.Channel.Scripting;
 using Melia.Channel.World;
 using Melia.Shared.Network;
 using System;
@@ -23,7 +24,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Gets or set connection's script state.
 		/// </summary>
-		public IntPtr ScriptState { get; set; }
+		public ScriptState ScriptState { get; set; }
 
 		/// <summary>
 		/// Active character.

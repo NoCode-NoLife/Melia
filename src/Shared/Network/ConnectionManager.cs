@@ -34,8 +34,6 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public string Address { get { return string.Format("{0}:{1}", this.Host, this.Port); } }
 
-		public TConnection[] Connections;
-
 		/// <summary>
 		/// Initializes connection manager.
 		/// </summary>
@@ -43,7 +41,6 @@ namespace Melia.Shared.Network
 		/// <param name="port"></param>
 		private ConnectionManager()
 		{
-			this.Connections = new TConnection[1024];
 		}
 
 		/// <summary>
@@ -117,7 +114,6 @@ namespace Melia.Shared.Network
 				var connectionSocket = _socket.EndAccept(result);
 
 				var connection = new TConnection();
-				this.AssignId(connection);
 				connection.SessionId = 2;
 				connection.SetSocket(connectionSocket);
 				connection.Closed += this.OnConnectionClosed;
@@ -145,35 +141,6 @@ namespace Melia.Shared.Network
 		/// <param name="e"></param>
 		private void OnConnectionClosed(object sender, EventArgs e)
 		{
-			var conn = sender as TConnection;
-
-			lock (this.Connections)
-			{
-				this.Connections[conn.Index] = null;
-				conn.Index = 0;
-			}
-		}
-
-		/// <summary>
-		/// Assigns an index to conn, that can be used to index Connections.
-		/// </summary>
-		/// <param name="conn"></param>
-		private void AssignId(TConnection conn)
-		{
-			lock (this.Connections)
-			{
-				for (int i = 100; i < this.Connections.Length; ++i)
-				{
-					if (this.Connections[i] == null)
-					{
-						conn.Index = i;
-						this.Connections[i] = conn;
-						return;
-					}
-				}
-			}
-
-			throw new Exception("No index available in connection list.");
 		}
 	}
 }
