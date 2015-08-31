@@ -211,6 +211,26 @@ namespace Melia.Channel.Scripting
 			return state.Connection;
 		}
 
+		/// <summary>
+		/// Replaces custom codes in msg.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
+		private void HandleCustomCode(ChannelConnection conn, ref string msg)
+		{
+			// {pcname} Character name
+			if (msg.IndexOf("{pcname}") != -1)
+				msg = msg.Replace("{pcname}", conn.SelectedCharacter.Name);
+
+			// {teamname} Character team name
+			if (msg.IndexOf("{teamname}") != -1)
+				msg = msg.Replace("{teamname}", conn.SelectedCharacter.TeamName);
+
+			// {fullname} Character name + team name
+			if (msg.IndexOf("{fullname}") != -1)
+				msg = msg.Replace("{fullname}", conn.SelectedCharacter.Name + " " + conn.SelectedCharacter.TeamName);
+		}
+
 		//-----------------------------------------------------------------//
 		// SCRIPT FUNCTIONS												   //
 		//-----------------------------------------------------------------//
@@ -269,6 +289,8 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pop(L, 1);
 
 			var conn = this.GetConnectionFromState(L);
+			this.HandleCustomCode(conn, ref msg);
+
 			Send.ZC_DIALOG_OK(conn, msg);
 
 			return Melua.lua_yield(L, 0);
@@ -285,13 +307,17 @@ namespace Melia.Channel.Scripting
 				return 1;
 			}
 
+			var conn = this.GetConnectionFromState(L);
 			var args = new string[argc];
 			for (int i = 1; i <= argc; ++i)
-				args[i - 1] = Melua.luaL_checkstring(L, i);
+			{
+				var arg = Melua.luaL_checkstring(L, i);
+				this.HandleCustomCode(conn, ref arg);
+				args[i - 1] = arg;
+			}
 
 			Melua.lua_pop(L, argc);
 
-			var conn = this.GetConnectionFromState(L);
 			Send.ZC_DIALOG_SELECT(conn, args);
 
 			return Melua.lua_yield(L, 1);
@@ -306,6 +332,8 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pop(L, 1);
 
 			var conn = this.GetConnectionFromState(L);
+			this.HandleCustomCode(conn, ref msg);
+
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
 
 			return Melua.lua_yield(L, 1);
@@ -320,6 +348,8 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pop(L, 1);
 
 			var conn = this.GetConnectionFromState(L);
+			this.HandleCustomCode(conn, ref msg);
+
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg);
 
 			return Melua.lua_yield(L, 1);
