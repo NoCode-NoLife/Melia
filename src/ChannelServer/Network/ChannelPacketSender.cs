@@ -142,6 +142,57 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		public static void ZC_ENTER_PC(Character character)
+		{
+			var packet = new Packet(Op.ZC_ENTER_PC);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutShort(0);
+			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
+			packet.PutByte(0); // Pose
+			packet.PutFloat(31); // Move speed
+			packet.PutInt(0);
+			packet.PutInt(character.Hp);
+			packet.PutInt(character.MaxHp);
+			packet.PutShort(character.Sp);
+			packet.PutShort(character.MaxSp);
+			packet.PutInt(character.Stamina);
+			packet.PutInt(character.Stamina); // MaxStamina
+			packet.PutByte(0);
+			packet.PutShort(0);
+			packet.PutInt(-1); // titleAchievmentId
+			packet.PutInt(0);
+			packet.PutByte(0);
+			// Commander
+			{
+				packet.PutString(character.Name, 65);
+				packet.PutString(character.TeamName, 64);
+				packet.PutEmptyBin(7);
+				packet.PutLong(character.Connection.SessionId); // Account ID
+				packet.PutShort(character.Stance);
+				packet.PutShort(0);
+				packet.PutShort((short)character.Job);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte(0);
+				packet.PutInt(character.Level);
+
+				// Equipment
+				foreach (var id in character.Inventory.GetEquipIds())
+					packet.PutInt(id);
+
+				packet.PutShort(character.Hair);
+				packet.PutShort(0); // Pose
+			}
+			packet.PutString("None", 49); // Party name
+
+			character.Connection.Send(packet);
+		}
+
 		public static void ZC_ENTER_MONSTER(ChannelConnection conn, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
