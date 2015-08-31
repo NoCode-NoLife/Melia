@@ -199,11 +199,77 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		private static void AddSkill(this Packet packet, int skillId)
+		{
+			packet.PutLong(0); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
+			packet.PutInt(skillId);
+			packet.PutShort(6 * 1); // properties size
+			packet.PutEmptyBin(2); // alignment
+			packet.PutInt(0); // ?
+			packet.PutShort(0); // ?
+			packet.PutEmptyBin(2); // alignment
+			// Properties
+			packet.PutShort(4031); // Level
+			packet.PutFloat(1);
+			/*
+			packet.PutShort(4020); // 
+			packet.PutFloat(0);
+			packet.PutShort(4024); // 
+			packet.PutFloat(0);
+			packet.PutShort(4023); // 
+			packet.PutFloat(100);
+			packet.PutShort(4021); // 
+			packet.PutFloat(40);
+			packet.PutShort(4030); // 
+			packet.PutFloat(24);
+			packet.PutShort(4105); // 
+			packet.PutFloat(0);
+			packet.PutShort(4147); // 
+			packet.PutFloat(0);
+			packet.PutShort(4157); // 
+			packet.PutFloat(3);
+			packet.PutShort(4068); // 
+			packet.PutFloat(0);
+			packet.PutShort(4062); // 
+			packet.PutFloat(1);
+			packet.PutShort(4161); // 
+			packet.PutFloat(0);
+			packet.PutShort(4118); // 
+			packet.PutFloat(0);
+			packet.PutShort(4102); // 
+			packet.PutFloat(100);
+			packet.PutShort(4184); // 
+			packet.PutFloat(0);
+			packet.PutShort(4043); // 
+			packet.PutFloat(25);
+			packet.PutShort(4183); // 
+			packet.PutFloat(0);
+			packet.PutShort(4058); // 
+			packet.PutFloat(0);
+			packet.PutShort(4185); // 
+			packet.PutFloat(0);
+			packet.PutShort(4186); // 
+			packet.PutFloat(1);
+			 * */
+		}
+
 		public static void ZC_SKILL_LIST(Character character)
 		{
-			var packet = new Packet(Op.ZC_ABILITY_LIST);
+			var packet = new Packet(Op.ZC_SKILL_LIST);
+			var skills = new[] { 1, 101, 105, 108, 20, 3, 100, 10002, 10003 };
+
 			packet.PutInt(character.Handle);
-			packet.PutShort(0); // count
+			packet.PutShort(skills.Length); // count
+
+			packet.PutShort(0); // No compression
+			//var zlibPct = new Packet(Op.ZC_SKILL_LIST);
+			foreach (var skill in skills)
+			{
+				packet.AddSkill(skill);
+			}
+			//var buffer = new byte[zlibPct.Length];
+			//zlibPct.Build(ref buffer, 0);
+			//packet.PutZlib(buffer);
 
 			character.Connection.Send(packet);
 		}
@@ -212,16 +278,10 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
-			packet.PutEmptyBin(18); // ?
-			packet.PutInt(skillId);
-			packet.PutShort(6); // properties size
-			packet.PutShort(0xF570); // ? F570h
-			packet.PutInt(0); // ?
-			packet.PutShort(0xF520); // ? F520h
-			packet.PutShort(0);
-			// Properties
-			packet.PutShort(4031); // Level
-			packet.PutFloat(1);
+			packet.PutByte(0); // REGISTER_QUICK_SKILL ?
+			packet.PutByte(0); // SKILL_LIST_GET ?
+			packet.PutLong(0); // ?
+			packet.AddSkill(skillId);
 
 			character.Connection.Send(packet);
 		}
