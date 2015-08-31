@@ -662,10 +662,7 @@ namespace Melia.Channel.Network
 		{
 			var option = packet.GetByte();
 
-			// ...
-
-			packet = new Packet(Op.ZC_DIALOG_CLOSE);
-			conn.Send(packet);
+			ChannelServer.Instance.ScriptManager.Resume(conn, option);
 		}
 
 		/// <summary>
@@ -681,10 +678,7 @@ namespace Melia.Channel.Network
 		{
 			var unkInt = packet.GetInt();
 
-			// ...
-
-			packet = new Packet(Op.ZC_DIALOG_CLOSE);
-			conn.Send(packet);
+			ChannelServer.Instance.ScriptManager.Resume(conn);
 		}
 
 		/// <summary>
@@ -701,10 +695,7 @@ namespace Melia.Channel.Network
 			var input = packet.GetString(16);
 			//var unkBin = packet.GetBin(138 - 16 - 10);
 
-			// ...
-
-			packet = new Packet(Op.ZC_DIALOG_CLOSE);
-			conn.Send(packet);
+			ChannelServer.Instance.ScriptManager.Resume(conn, input);
 		}
 	}
 }

@@ -126,8 +126,52 @@ namespace Melia.Channel.Scripting
 				return;
 			}
 
-			if (Melua.lua_pcall(NL, 0, 0, 0) != 0)
-				Log.Error("ScriptManager.Call: Error while executing '{0}' for {1}.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(GL, -1));
+			var result = Melua.lua_resume(NL, 0);
+
+			// Log error if result is not success or yield
+			if (result != 0 && result != Melua.LUA_YIELD)
+				Log.Error("ScriptManager.Call: Error while executing '{0}' for {1}.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
+
+			// Close dialog if end of function was reached
+			if (result == 0)
+				Send.ZC_DIALOG_CLOSE(conn);
+		}
+
+		/// <summary>
+		/// Resumes script after yielding.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="argument"></param>
+		public void Resume(ChannelConnection conn, params object[] arguments)
+		{
+			var NL = conn.ScriptState.NL;
+			var argc = (arguments != null ? arguments.Length : 0);
+
+			if (argc != 0)
+			{
+				foreach (var arg in arguments)
+				{
+					if (arg is byte) Melua.lua_pushinteger(NL, (byte)arg);
+					else if (arg is short) Melua.lua_pushinteger(NL, (short)arg);
+					else if (arg is int) Melua.lua_pushinteger(NL, (int)arg);
+					else if (arg is string) Melua.lua_pushstring(NL, (string)arg);
+					else
+					{
+						Log.Warning("ScriptManager.Resume: Invalid argument type '{0}'.", arg.GetType().Name);
+						Melua.lua_pushinteger(NL, 0);
+					}
+				}
+			}
+
+			var result = Melua.lua_resume(NL, argc);
+
+			// Log error if result is not success or yield
+			if (result != 0 && result != Melua.LUA_YIELD)
+				Log.Error("ScriptManager.Call: Error while resuming script for {0}.\n{1}", conn.Account.Name, Melua.lua_tostring(NL, -1));
+
+			// Close dialog if end of function was reached
+			if (result == 0)
+				Send.ZC_DIALOG_CLOSE(conn);
 		}
 
 		/// <summary>
@@ -174,6 +218,7 @@ namespace Melia.Channel.Scripting
 
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
+
 			Log.Debug(msg);
 
 			return 0;
@@ -192,7 +237,7 @@ namespace Melia.Channel.Scripting
 			var z = (float)Melua.luaL_checknumber(L, 6);
 			var dialog = Melua.luaL_checkstring(L, 7);
 
-			Melua.lua_pop(L, 6);
+			Melua.lua_pop(L, 7);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
@@ -217,7 +262,6 @@ namespace Melia.Channel.Scripting
 				return 0;
 
 			var msg = Melua.luaL_checkstring(L, 1);
-
 			Melua.lua_pop(L, 1);
 
 			var conn = this.GetConnectionFromState(L);
