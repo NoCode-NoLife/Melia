@@ -131,6 +131,19 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		public static void ZC_START_INFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_START_INFO);
+
+			packet.PutInt(1); // ?
+			packet.PutShort((short)conn.SelectedCharacter.Job);
+			packet.PutInt(0); // ?
+			packet.PutInt(0); // ?
+			packet.PutShort(1); // ?
+
+			conn.Send(packet);
+		}
+
 		public static void ZC_MYPC_ENTER(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_MYPC_ENTER);

@@ -99,28 +99,25 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			Send.ZC_QUICK_SLOT_LIST(conn);
-			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
-			Send.ZC_ITEM_EQUIP_LIST(character);
-			Send.ZC_SKILL_LIST(character);
-			Send.ZC_ABILITY_LIST(character);
-			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_OPTION_LIST(character);
+			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
 			Send.ZC_CHAT_MACRO_LIST(character);
 			Send.ZC_UI_INFO_LIST(character);
 			Send.ZC_NPC_STATE_LIST(character);
+			Send.ZC_START_INFO(conn);
+			Send.ZC_ITEM_EQUIP_LIST(character);
+			Send.ZC_SKILL_LIST(character);
+			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
-			Send.ZC_JOB_PTS(character);
-			Send.ZC_OBJECT_PROPERTY_Init(character);
+			Send.ZC_QUICK_SLOT_LIST(conn);
 
 			Send.ZC_START_GAME(conn);
+			Send.ZC_OBJECT_PROPERTY_Init(character);
 			Send.ZC_MYPC_ENTER(conn);
-
-			// Basic skills added for new character
-			Send.ZC_SKILL_ADD(character, 100);
-			Send.ZC_SKILL_ADD(character, 1);
+			Send.ZC_JOB_PTS(character);
+			Send.ZC_MOVE_SPEED(character);
 
 			// Spawn monsters
 			var monsters = character.Map.GetMonsters();
