@@ -1,0 +1,34 @@
+// Aura
+// Documentation
+//---------------------------------------------------------------------------
+
+There are several codes you can use in most texts, like the chat and NPC's
+dialogs. This is a list of some known ones.
+
+{/} Reset
+Assumingly resets formatting.
+
+{np} New paragraph
+Continues NPC dialog on another page, the NPC's name stays the same.
+
+{nl} New line
+A line break.
+
+{s35} Size
+Changes the text's size, with the number being the size.
+
+{img ...} Image
+Displays in-line image.
+Example: {img minimap_1_MAIN 16 16}
+
+!@#ScpArgMsg$...#@! Client message?
+Assumingly a reference to clientmessage.xml, with "..." being the key.
+
+{b} Bold
+Everything that follows is bold.
+
+{ol} Outline
+Text gets a black outline.
+
+{ds} Drop shadow
+Text gets a black drop shadow.
