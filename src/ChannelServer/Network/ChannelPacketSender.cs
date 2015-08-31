@@ -286,6 +286,81 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		public static void ZC_SKILLMAP_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_SKILLMAP_LIST);
+
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_OPTION_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_OPTION_LIST);
+
+			packet.PutByte(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_ACHIEVE_POINT_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_ACHIEVE_POINT_LIST);
+
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_CHAT_MACRO_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_CHAT_MACRO_LIST);
+
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_UI_INFO_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_UI_INFO_LIST);
+
+			packet.PutInt(0); // ?
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_NPC_STATE_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
+
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_COOLDOWN_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_COOLDOWN_LIST);
+
+			packet.PutLong(0); // socialInfoId ?
+			packet.PutInt(0); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_JOB_PTS(Character character)
+		{
+			var packet = new Packet(Op.ZC_JOB_PTS);
+
+			packet.PutShort((short)character.Job);
+			packet.PutShort(1);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void ZC_ABILITY_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_ABILITY_LIST);

@@ -105,6 +105,14 @@ namespace Melia.Channel.Network
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
+			Send.ZC_SKILLMAP_LIST(character);
+			Send.ZC_OPTION_LIST(character);
+			Send.ZC_ACHIEVE_POINT_LIST(character);
+			Send.ZC_CHAT_MACRO_LIST(character);
+			Send.ZC_UI_INFO_LIST(character);
+			Send.ZC_NPC_STATE_LIST(character);
+			Send.ZC_COOLDOWN_LIST(character);
+			Send.ZC_JOB_PTS(character);
 			Send.ZC_OBJECT_PROPERTY_Init(character);
 
 			Send.ZC_START_GAME(conn);
