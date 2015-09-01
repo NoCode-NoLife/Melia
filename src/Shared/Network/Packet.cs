@@ -448,21 +448,32 @@ namespace Melia.Shared.Network
 		/// Compresses and writes bytes to buffer.
 		/// </summary>
 		/// <param name="val"></param>
-		public void PutZlib(byte[] val)
+		/// <param name="length"></param>
+		public void PutZlib(byte[] val, int length = -1)
 		{
-			MemoryStream ms = new MemoryStream();
-			DeflateStream ds = new DeflateStream(ms, CompressionMode.Compress);
-			ds.Write(val, 0, val.Length);
-			ds.Flush();
-			ds.Close();
-			var compressedVal = ms.ToArray();
-			this.PutShort(0xFA8D); // zlib header
-			this.PutShort(compressedVal.Length);
-			this.EnsureSpace(compressedVal.Length);
-			Buffer.BlockCopy(compressedVal, 0, _buffer, _ptr, compressedVal.Length);
-			_ptr += compressedVal.Length;
-			this.Length += compressedVal.Length;
-			ms.Close();
+			if (length == -1)
+				length = val.Length;
+
+			using (var ms = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+					ds.Write(val, 0, length);
+
+				var compressedVal = ms.ToArray();
+
+				this.PutShort(0xFA8D); // zlib header
+				this.PutShort(compressedVal.Length);
+				this.PutBin(compressedVal);
+			}
+		}
+
+		/// <summary>
+		/// Compresses and writes bytes from packet to buffer.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutZlib(Packet packet)
+		{
+			this.PutZlib(packet._buffer, packet.Length);
 		}
 
 		/// <summary>

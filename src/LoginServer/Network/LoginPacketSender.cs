@@ -154,9 +154,7 @@ namespace Melia.Login.Network
 				}
 			}
 
-			var buffer = new byte[subPct.Length];
-			subPct.Build(ref buffer, 0);
-			packet.PutZlib(buffer);
+			packet.PutZlib(subPct);
 
 			conn.Send(packet);
 		}
