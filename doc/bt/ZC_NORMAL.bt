@@ -1,0 +1,36 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_NORMAL.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+short size;
+
+int type;
+int handle;
+
+// Lv up effect
+if(type == 0x11)
+{
+    short s1;
+    short s2;
+    float effectSize;
+    int i1;
+    byte bin1[4];
+    float f2;
+    byte bin2[4];
+}
+// Class lv up effect
+else if(type == 0x14)
+{
+    byte b1;
+    int i1;
+    byte b2;
+    float effectSize;
+    byte bin[8];
+}
