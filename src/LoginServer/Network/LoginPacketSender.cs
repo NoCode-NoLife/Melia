@@ -133,28 +133,31 @@ namespace Melia.Login.Network
 
 		public static void BC_NORMAL_ZONE_TRAFFIC(LoginConnection conn)
 		{
-			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0xB); //SubOp
-
-			var subPct = new Packet(Op.BC_NORMAL);
 			var characters = conn.Account.GetCharacters();
 			var mapAvailableCount = characters.Length;
+			var zoneServerCount = 2;
+
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0B); //SubOp
+
+			var subPct = new Packet(Op.BC_NORMAL);
 			subPct.PutShort(150); // zoneMaxPcCount
 			subPct.PutShort(mapAvailableCount);
 			for (var i = 0; i < mapAvailableCount; ++i)
 			{
-				var zoneServerCount = 2;
 				subPct.PutShort(characters[i].MapId);
-				subPct.PutShort(zoneServerCount); // zoneServerCount
+				subPct.PutShort(zoneServerCount);
 				for (var zone = 0; zone < zoneServerCount; ++zone)
 				{
 					subPct.PutShort(zone);
-					subPct.PutShort(100); // currentPlayersCount
+					subPct.PutShort(1); // currentPlayersCount
 				}
 			}
+
 			var buffer = new byte[subPct.Length];
 			subPct.Build(ref buffer, 0);
 			packet.PutZlib(buffer);
+
 			conn.Send(packet);
 		}
 	}
