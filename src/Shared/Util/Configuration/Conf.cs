@@ -18,12 +18,18 @@ namespace Melia.Shared.Util.Configuration
 		public DatabaseConfFile Database { get; private set; }
 
 		/// <summary>
+		/// database.conf
+		/// </summary>
+		public CommandsConfFile Commands { get; private set; }
+
+		/// <summary>
 		/// Initilizes default confs.
 		/// </summary>
 		public Conf()
 		{
 			this.Log = new LogConfFile();
 			this.Database = new DatabaseConfFile();
+			this.Commands = new CommandsConfFile();
 		}
 
 		/// <summary>
@@ -33,6 +39,7 @@ namespace Melia.Shared.Util.Configuration
 		{
 			this.Log.Load();
 			this.Database.Load();
+			this.Commands.Load();
 		}
 	}
 }

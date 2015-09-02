@@ -76,6 +76,7 @@
     <Compile Include="Data\Database\Items.cs" />
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Util\Configuration\Files\Commands.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />

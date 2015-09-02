@@ -90,5 +90,24 @@ namespace Melia.Channel.World
 					map.RemoveScriptedEntities();
 			}
 		}
+
+		/// <summary>
+		/// Returns the first character found with the given team name,
+		/// or null if none were found.
+		/// </summary>
+		public Character GetCharacterByTeamName(string teamName)
+		{
+			lock (_mapsId)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					var character = map.GetCharacterByTeamName(teamName);
+					if (character != null)
+						return character;
+				}
+			}
+
+			return null;
+		}
 	}
 }

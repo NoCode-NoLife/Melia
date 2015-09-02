@@ -30,6 +30,12 @@ namespace Melia.Channel.Database
 		public string TeamName { get; set; }
 
 		/// <summary>
+		/// The account's authority level, used to determine if a character
+		/// can use a specific GM command.
+		/// </summary>
+		public int Authority { get { return 100; } }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()

@@ -83,6 +83,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns first character found by team name, or null if none exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Character GetCharacterByTeamName(string teamName)
+		{
+			lock (_characters)
+				return _characters.Values.FirstOrDefault(a => a.TeamName == teamName);
+		}
+
+		/// <summary>
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
