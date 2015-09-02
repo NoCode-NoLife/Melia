@@ -241,6 +241,15 @@ namespace Melia.Channel.Scripting
 		// SCRIPT FUNCTIONS												   //
 		//-----------------------------------------------------------------//
 
+		/// <summary>
+		/// Prints and logs debug message.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string message
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int debug(IntPtr L)
 		{
 			if (!this.CheckArgumentCount(L, 1))
@@ -254,6 +263,21 @@ namespace Melia.Channel.Scripting
 			return 0;
 		}
 
+		/// <summary>
+		/// Adds NPC to world.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int monsterId
+		/// - string name
+		/// - string mapName
+		/// - number x
+		/// - number y
+		/// - number z
+		/// - string dialogFunctionName
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int addnpc(IntPtr L)
 		{
 			if (!this.CheckArgumentCount(L, 7))
@@ -286,15 +310,25 @@ namespace Melia.Channel.Scripting
 			return 0;
 		}
 
+		/// <summary>
+		/// Sends dialog message to client.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string message
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int msg(IntPtr L)
 		{
 			if (!this.CheckArgumentCount(L, 1))
 				return 0;
 
+			var conn = this.GetConnectionFromState(L);
+
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			var conn = this.GetConnectionFromState(L);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_OK(conn, msg);
@@ -302,10 +336,27 @@ namespace Melia.Channel.Scripting
 			return Melua.lua_yield(L, 0);
 		}
 
+		/// <summary>
+		/// Sends dialog select message to client, showing a message and a
+		/// list of options to select from.
+		/// </summary>
+		/// <remarks>
+		/// Select can take an arbitrary amount of options.
+		/// 
+		/// Parameters:
+		/// - string message
+		/// - string option...
+		/// 
+		/// Result:
+		/// The number of the selected option, starting from 1.
+		/// Returns 0 on error.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int select(IntPtr L)
 		{
+			// Check arguments and return 0 on error
 			var argc = Melua.lua_gettop(L);
-
 			if (argc == 0)
 			{
 				Log.Warning("select: No arguments.");
@@ -314,6 +365,9 @@ namespace Melia.Channel.Scripting
 			}
 
 			var conn = this.GetConnectionFromState(L);
+
+			// Get arguments, first argument is the message, everything afterwards
+			// is one option to select from.
 			var args = new string[argc];
 			for (int i = 1; i <= argc; ++i)
 			{
@@ -329,15 +383,37 @@ namespace Melia.Channel.Scripting
 			return Melua.lua_yield(L, 1);
 		}
 
+		/// <summary>
+		/// Sends dialog input message, showing a message and a text field,
+		/// for the user to put in a string.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string message
+		/// 
+		/// Result:
+		/// The string put in by the user.
+		/// Returns empty string on error.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int input(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
+			// Check arguments and return empty string on error
+			var argc = Melua.lua_gettop(L);
+			if (argc == 0)
+			{
+				Log.Warning("input: No arguments.");
+				Melua.lua_pushstring(L, "");
+				return 1;
+			}
 
+			var conn = this.GetConnectionFromState(L);
+
+			// Get message
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			var conn = this.GetConnectionFromState(L);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
@@ -345,15 +421,40 @@ namespace Melia.Channel.Scripting
 			return Melua.lua_yield(L, 1);
 		}
 
+		/// <summary>
+		/// Sends dialog numberrange message, showing a message and a small text field,
+		/// for the user to put in a number.
+		/// </summary>
+		/// <remarks>
+		/// NUMBERRANGE uses CZ_DIALOG_SELECT for its response,
+		/// which means the number range is that of a byte, 0~255.
+		/// 
+		/// Parameters:
+		/// - string message
+		/// 
+		/// Result:
+		/// The number put in by the user.
+		/// Returns empty string on error.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int numinput(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
+			// Check arguments and return 0 on error
+			var argc = Melua.lua_gettop(L);
+			if (argc == 0)
+			{
+				Log.Warning("numinput: No arguments.");
+				Melua.lua_pushinteger(L, 0);
+				return 1;
+			}
 
+			var conn = this.GetConnectionFromState(L);
+
+			// Get message
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			var conn = this.GetConnectionFromState(L);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg);
@@ -361,9 +462,16 @@ namespace Melia.Channel.Scripting
 			return Melua.lua_yield(L, 1);
 		}
 
+		/// <summary>
+		/// Instructs client to close the dialog window.
+		/// Does not stop the script's execution.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
 		private int close(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
+
 			Send.ZC_DIALOG_CLOSE(conn);
 
 			return 0;
