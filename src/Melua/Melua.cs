@@ -50,6 +50,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int luaL_loadfile(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
+		// LUA_API void lua_call (lua_State *L, int nargs, int nresults)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_call(IntPtr L, int nargs, int nresults);
+
 		// static int lua_pcall(lua_State*L,int nargs,int nresults,int errfunc)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int lua_pcall(IntPtr L, int nargs, int nresults, int errfunc);
@@ -126,6 +130,16 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int lua_status(IntPtr L);
 
+		// LUA_API void lua_pushvalue (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushvalue(IntPtr L, int idx);
+
+		// LUA_API void lua_insert (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_insert(IntPtr L, int idx);
+
+
+
 		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
 		public static int luaL_loadstring(IntPtr L, string s)
 		{
@@ -180,7 +194,26 @@ namespace MeluaLib
 		// #define lua_isnil(L,n)(lua_type(L,(n))==0)
 		public static bool lua_isnil(IntPtr L, int n)
 		{
-			return lua_type(L, n) == 0;
+			return (lua_type(L, n) == LUA_TNIL);
+		}
+
+		// int lua_isstring (lua_State *L, int index);
+		public static bool lua_isstring(IntPtr L, int index)
+		{
+			var type = lua_type(L, index);
+			return (type == LUA_TSTRING || type == LUA_TNUMBER);
+		}
+
+		// #define lua_istable(L,n)	(lua_type(L, (n)) == LUA_TTABLE)
+		public static bool lua_istable(IntPtr L, int n)
+		{
+			return (lua_type(L, n) == LUA_TTABLE);
+		}
+
+		// #define lua_isfunction(L,n)	(lua_type(L, (n)) == LUA_TFUNCTION)
+		public static bool lua_isfunction(IntPtr L, int n)
+		{
+			return (lua_type(L, n) == LUA_TFUNCTION);
 		}
 
 		// #define luaL_checkstring(L,n)(luaL_checklstring(L,(n),NULL))
