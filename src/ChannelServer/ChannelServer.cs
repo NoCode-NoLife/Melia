@@ -95,9 +95,7 @@ namespace Melia.Channel
 			Log.Info("  done loading {0} maps.", this.World.Count);
 
 			// Script manager
-			Log.Info("Loading scripts...");
 			this.ScriptManager.Load();
-			Log.Info("  done loading {0} scripts.", this.ScriptManager.LoadedCount);
 
 			// Server
 			this.ConnectionManager = new ConnectionManager<ChannelConnection>(2001);

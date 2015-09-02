@@ -324,12 +324,10 @@ namespace Melia.Channel.Util
 		private CommandResult HandleReloadScripts(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			Send.ZC_CHAT(character, "Reloading scripts...");
-			Log.Info("Reloading scripts...");
 
 			ChannelServer.Instance.ScriptManager.Reload();
 
 			Send.ZC_CHAT(character, "Done.");
-			Log.Info("  done loading {0} scripts.", ChannelServer.Instance.ScriptManager.LoadedCount);
 
 			return CommandResult.Okay;
 		}

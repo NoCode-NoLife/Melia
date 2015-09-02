@@ -32,6 +32,11 @@ namespace Melia.Channel.Scripting
 		public int LoadedCount { get; protected set; }
 
 		/// <summary>
+		/// Amount of all scripts in script list.
+		/// </summary>
+		public int TotalCount { get; protected set; }
+
+		/// <summary>
 		/// Creates new script manager.
 		/// </summary>
 		public ScriptManager()
@@ -70,6 +75,8 @@ namespace Melia.Channel.Scripting
 		{
 			this.LoadedCount = 0;
 
+			Log.Info("Loading scripts...");
+
 			using (var fr = new FileReader(List))
 			{
 				foreach (var line in fr)
@@ -79,8 +86,12 @@ namespace Melia.Channel.Scripting
 
 					if (this.LoadFile(filePath))
 						this.LoadedCount++;
+
+					this.TotalCount++;
 				}
 			}
+
+			Log.Info("  done loading {0} scripts (of {1}).", this.LoadedCount, this.TotalCount);
 		}
 
 		/// <summary>
