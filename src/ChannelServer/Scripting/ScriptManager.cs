@@ -165,6 +165,12 @@ namespace Melia.Channel.Scripting
 						Melua.lua_pushinteger(NL, 0);
 					}
 				}
+
+				// If arguments were passed, we can assume we're coming from
+				// a selection handler, which's window don't disappear when
+				// sending the next message. So let's close it before
+				// continuing.
+				Send.ZC_DIALOG_CLOSE(conn);
 			}
 
 			var result = Melua.lua_resume(NL, argc);
