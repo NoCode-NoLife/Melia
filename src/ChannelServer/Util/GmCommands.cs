@@ -36,6 +36,7 @@ namespace Melia.Channel.Util
 			Add("madhatter", "", HandleGetAllHats);
 			Add("name", "<new name>", HandleName);
 			Add("job", "<job id>", HandleJob);
+			Add("reloadscripts", "", HandleReloadScripts);
 		}
 
 		/// <summary>
@@ -264,6 +265,15 @@ namespace Melia.Channel.Util
 			character.Job = (Job)jobId;
 			Send.ZC_PC(character, PcUpdateType.Job, (short)jobId);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleReloadScripts(ChannelConnection conn, Character character, string command, string[] args)
+		{
+			Log.Info("Reloading scripts...");
+			ChannelServer.Instance.ScriptManager.Reload();
+			Log.Info("  done loading {0} scripts.", ChannelServer.Instance.ScriptManager.Count);
 
 			return CommandResult.Okay;
 		}

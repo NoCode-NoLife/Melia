@@ -85,6 +85,15 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Removes all scripted entities and reloads all scripts.
+		/// </summary>
+		public void Reload()
+		{
+			ChannelServer.Instance.World.RemoveScriptedEntities();
+			this.Load();
+		}
+
+		/// <summary>
 		/// Loads file from given path.
 		/// </summary>
 		/// <param name="filePath"></param>

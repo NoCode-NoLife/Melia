@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Channel.Network;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using System;
@@ -142,6 +143,19 @@ namespace Melia.Channel.World
 		{
 			lock (_monsters)
 				return _monsters.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Removes all scripted entities, like NPCs.
+		/// </summary>
+		public void RemoveScriptedEntities()
+		{
+			var toRemove = new List<Monster>();
+			lock (_monsters)
+				toRemove.AddRange(_monsters.Values.Where(a => a.NpcType == NpcType.NPC));
+
+			foreach (var monster in toRemove)
+				this.RemoveMonster(monster);
 		}
 
 		/// <summary>

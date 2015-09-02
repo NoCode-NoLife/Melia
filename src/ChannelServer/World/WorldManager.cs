@@ -78,5 +78,17 @@ namespace Melia.Channel.World
 				_mapsName.TryGetValue(mapName, out result);
 			return result;
 		}
+
+		/// <summary>
+		/// Removes all scripted entities, like NPCs.
+		/// </summary>
+		public void RemoveScriptedEntities()
+		{
+			lock (_mapsId)
+			{
+				foreach (var map in _mapsId.Values)
+					map.RemoveScriptedEntities();
+			}
+		}
 	}
 }
