@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Channel.Network.Helpers;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
@@ -206,48 +207,27 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_ENTER_MONSTER on monster's map.
+		/// </summary>
+		/// <param name="monster"></param>
+		public static void ZC_ENTER_MONSTER(Monster monster)
+		{
+			var packet = new Packet(Op.ZC_ENTER_MONSTER);
+			packet.AddMonster(monster);
+
+			monster.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_ENTER_MONSTER to connection.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="monster"></param>
 		public static void ZC_ENTER_MONSTER(ChannelConnection conn, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
-
-			packet.PutInt(monster.Handle);
-			packet.PutFloat(monster.Position.X);
-			packet.PutFloat(monster.Position.Y);
-			packet.PutFloat(monster.Position.Z);
-			packet.PutFloat(monster.Direction.X);
-			packet.PutFloat(monster.Direction.Y);
-			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
-			packet.PutByte(0); // bool ?
-			packet.PutInt(monster.Hp);
-			packet.PutInt(monster.MaxHp);
-			packet.PutShort(0);
-			packet.PutFloat(0);
-			// MONSTER
-			{
-				packet.PutInt(monster.Id);
-				packet.PutInt(0);
-				packet.PutInt(monster.MaxHp);
-				packet.PutShort(0); // MaxShield?
-				packet.PutEmptyBin(2);
-				packet.PutInt(monster.Level);
-				packet.PutInt(monster.SDR);
-				packet.PutByte(0);
-				packet.PutEmptyBin(3);
-			}
-			packet.PutInt(0); // GenType
-			packet.PutInt(0);
-			//packet.PutShort(0); // parameters size
-			// it was, like this in IDA o.o
-			packet.PutByte(0); // parameters size
-			packet.PutByte(0); // ??
-
-			packet.PutStringWithLength(monster.Name);
-			packet.PutStringWithLength(""); // UniqueName
-			packet.PutStringWithLength(monster.DialogName); // if string is set - HP isn't shown, and talking activated
-			packet.PutStringWithLength(""); // str2
-			packet.PutStringWithLength(""); // str3
-
-			packet.PutEmptyBin(0); // parameters
+			packet.AddMonster(monster);
 
 			conn.Send(packet);
 		}
@@ -859,6 +839,17 @@ namespace Melia.Channel.Network
 			packet.PutString(msg);
 
 			conn.Send(packet);
+		}
+
+		// TODO: We could use an interface for entities, characters probably
+		//   use this packet as well.
+		public static void ZC_LEAVE(Monster monster)
+		{
+			var packet = new Packet(Op.ZC_LEAVE);
+
+			packet.PutInt(monster.Handle);
+
+			monster.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

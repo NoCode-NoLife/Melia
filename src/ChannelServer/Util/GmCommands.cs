@@ -197,7 +197,7 @@ namespace Melia.Channel.Util
 			monster.Position = character.Position;
 			monster.Direction = character.Direction;
 
-			Send.ZC_ENTER_MONSTER(conn, monster);
+			character.Map.AddMonster(monster);
 
 			return CommandResult.Okay;
 		}
