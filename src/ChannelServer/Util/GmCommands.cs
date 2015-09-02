@@ -329,7 +329,7 @@ namespace Melia.Channel.Util
 			ChannelServer.Instance.ScriptManager.Reload();
 
 			Send.ZC_CHAT(character, "Done.");
-			Log.Info("  done loading {0} scripts.", ChannelServer.Instance.ScriptManager.Count);
+			Log.Info("  done loading {0} scripts.", ChannelServer.Instance.ScriptManager.LoadedCount);
 
 			return CommandResult.Okay;
 		}

@@ -29,7 +29,7 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Amount of scripts currently loaded.
 		/// </summary>
-		public int Count { get; protected set; }
+		public int LoadedCount { get; protected set; }
 
 		/// <summary>
 		/// Creates new script manager.
@@ -68,8 +68,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Load()
 		{
-			// TODO: Remove NPCs before reloading.
-			this.Count = 0;
+			this.LoadedCount = 0;
 
 			using (var fr = new FileReader(List))
 			{
@@ -78,8 +77,8 @@ namespace Melia.Channel.Scripting
 					var dir = Path.GetDirectoryName(line.File);
 					var filePath = Path.Combine(dir, line.Value);
 
-					this.LoadFile(filePath);
-					this.Count++;
+					if (this.LoadFile(filePath))
+						this.LoadedCount++;
 				}
 			}
 		}
@@ -97,17 +96,31 @@ namespace Melia.Channel.Scripting
 		/// Loads file from given path.
 		/// </summary>
 		/// <param name="filePath"></param>
-		private void LoadFile(string filePath)
+		/// <returns></returns>
+		private bool LoadFile(string filePath)
 		{
 			if (!File.Exists(filePath))
 			{
 				Log.Error("ScriptManager.LoadFile: File '{0}' not found.", filePath);
-				return;
+				return false;
 			}
 
-			Melua.luaL_loadfile(GL, filePath);
+			// Load file
+			var result = Melua.luaL_loadfile(GL, filePath);
+			if (result != 0)
+			{
+				Log.Error("ScriptManager.LoadFile: Failed to compile '{0}' (Error code: {1}).\n{2}", filePath, result, Melua.lua_tostring(GL, -1));
+				return false;
+			}
+
+			// Execute it
 			if (Melua.lua_pcall(GL, 0, 0, 0) != 0)
+			{
 				Log.Error("ScriptManager.LoadFile: Failed to load '{0}'.\n{1}", filePath, Melua.lua_tostring(GL, -1));
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>
