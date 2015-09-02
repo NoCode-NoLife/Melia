@@ -32,6 +32,7 @@ namespace MeluaLib
 		public const int LUA_TUSERDATA = 7;
 		public const int LUA_TTHREAD = 8;
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl‌)]
 		public delegate int LuaNativeFunction(IntPtr L);
 
 		// LUALIB_API lua_State *luaL_newstate(void)
