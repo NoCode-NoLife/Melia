@@ -21,9 +21,13 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MapDb : DatabaseJsonIndexed<int, MapData>
 	{
+		private Dictionary<string, MapData> _nameIndex = new Dictionary<string, MapData>();
+
 		public MapData Find(string className)
 		{
-			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
+			MapData result;
+			_nameIndex.TryGetValue(className, out result);
+			return result;
 		}
 
 		protected override void ReadEntry(JObject entry)
@@ -36,6 +40,7 @@ namespace Melia.Shared.Data.Database
 			info.ClassName = entry.ReadString("className");
 
 			this.Entries[info.Id] = info;
+			_nameIndex[info.ClassName] = info;
 		}
 	}
 }
