@@ -28,11 +28,11 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("itemId", "className");
+			entry.AssertNotMissing("mapId", "className");
 
 			var info = new MapData();
 
-			info.Id = entry.ReadInt("itemId");
+			info.Id = entry.ReadInt("mapId");
 			info.ClassName = entry.ReadString("className");
 
 			this.Entries[info.Id] = info;
