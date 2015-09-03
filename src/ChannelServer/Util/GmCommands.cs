@@ -196,19 +196,13 @@ namespace Melia.Channel.Util
 					return CommandResult.InvalidArgument;
 			}
 
-			target.Position = new Position(x, y, z);
-
-			if (target.MapId == mapId)
+			try
 			{
-				Send.ZC_SET_POS(target);
-
-				return CommandResult.Okay;
+				target.Warp(mapId, x, y, z);
 			}
-			else
+			catch (ArgumentException)
 			{
-				target.MapId = mapId;
-
-				Send.ZC_MOVE_ZONE_OK(conn, "127.0.0.1", 2001, mapId);
+				Send.ZC_CHAT(character, "Map not found.");
 			}
 
 			return CommandResult.Okay;

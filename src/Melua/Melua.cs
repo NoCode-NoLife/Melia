@@ -147,6 +147,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_createtable(IntPtr L, int narray, int nrec);
 
+		// int lua_error (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_error(IntPtr L);
+
 
 
 		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)

@@ -4,6 +4,7 @@
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
@@ -139,6 +140,51 @@ namespace Melia.Channel.World
 			this.SetPosition(x, y, z);
 			this.SetDirection(dx, dy);
 			this.IsMoving = false;
+		}
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
+		public void Warp(string mapName, float x, float y, float z)
+		{
+			var map = ChannelServer.Instance.Data.MapDb.Find(mapName);
+			if (map == null)
+				throw new ArgumentException("Map '" + mapName + "' not found in data.");
+
+			this.Warp(map.Id, x, y, z);
+		}
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <exception cref="ArgumentException">Thrown if map doesn't exist in world.</exception>
+		public void Warp(int mapId, float x, float y, float z)
+		{
+			var map = ChannelServer.Instance.World.GetMap(mapId);
+			if (map == null)
+				throw new ArgumentException("Map with id '" + mapId + "' doesn't exist in world.");
+
+			this.Position = new Position(x, y, z);
+
+			if (this.MapId == mapId)
+			{
+				Send.ZC_SET_POS(this);
+			}
+			else
+			{
+				this.MapId = mapId;
+
+				Send.ZC_MOVE_ZONE_OK(this.Connection, "127.0.0.1", 2001, mapId);
+			}
 		}
 	}
 }

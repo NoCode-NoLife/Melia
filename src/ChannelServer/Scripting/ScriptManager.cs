@@ -63,6 +63,8 @@ namespace Melia.Channel.Scripting
 			Register(getnpc);
 
 			Register(gettime);
+
+			Register(warp);
 		}
 
 		/// <summary>
@@ -716,6 +718,45 @@ namespace Melia.Channel.Scripting
 			Melua.lua_settable(L, -3);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Warps player to given location.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string mapName
+		/// - number x
+		/// - number y
+		/// - number z
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int warp(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 4))
+				return 0;
+
+			var conn = this.GetConnectionFromState(L);
+
+			var mapName = Melua.luaL_checkstring(L, 1);
+			var x = (float)Melua.luaL_checknumber(L, 2);
+			var y = (float)Melua.luaL_checknumber(L, 3);
+			var z = (float)Melua.luaL_checknumber(L, 4);
+
+			Melua.lua_pop(L, 4);
+
+			try
+			{
+				conn.SelectedCharacter.Warp(mapName, x, y, z);
+			}
+			catch (ArgumentException ex)
+			{
+				Melua.lua_pushstring(L, ex.Message);
+				Melua.lua_error(L);
+			}
+
+			return 0;
 		}
 	}
 
