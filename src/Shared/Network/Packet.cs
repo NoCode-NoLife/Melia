@@ -349,7 +349,11 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutString(string val)
 		{
-			if (val.Length > 0 && val[val.Length - 1] != '\0')
+			if (val == null)
+				val = "";
+
+			// Append terminator
+			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
 			this.PutString(val, Encoding.UTF8.GetByteCount(val));
@@ -362,7 +366,7 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutStringWithLength(string val)
 		{
-			if (val.Length > 0 && val[val.Length - 1] != '\0')
+			if (val != null && val.Length > 0 && val[val.Length - 1] != '\0')
 				val += '\0';
 
 			if (string.IsNullOrWhiteSpace(val))
