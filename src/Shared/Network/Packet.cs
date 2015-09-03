@@ -85,7 +85,6 @@ namespace Melia.Shared.Network
 
 			var val = _buffer[_ptr];
 			_ptr += sizeof(byte);
-			this.Length += sizeof(byte);
 
 			return val;
 		}
@@ -100,7 +99,6 @@ namespace Melia.Shared.Network
 
 			var val = BitConverter.ToInt16(_buffer, _ptr);
 			_ptr += sizeof(short);
-			this.Length += sizeof(short);
 
 			return val;
 		}
@@ -115,7 +113,6 @@ namespace Melia.Shared.Network
 
 			var val = BitConverter.ToInt32(_buffer, _ptr);
 			_ptr += sizeof(int);
-			this.Length += sizeof(int);
 
 			return val;
 		}
@@ -130,7 +127,6 @@ namespace Melia.Shared.Network
 
 			var val = BitConverter.ToInt64(_buffer, _ptr);
 			_ptr += sizeof(long);
-			this.Length += sizeof(long);
 
 			return val;
 		}
@@ -145,7 +141,6 @@ namespace Melia.Shared.Network
 
 			var val = BitConverter.ToSingle(_buffer, _ptr);
 			_ptr += sizeof(float);
-			this.Length += sizeof(float);
 
 			return val;
 		}
@@ -167,7 +162,6 @@ namespace Melia.Shared.Network
 				val = val.Substring(0, nullIndex);
 
 			_ptr += length;
-			this.Length += length;
 
 			return val;
 		}
@@ -185,7 +179,6 @@ namespace Melia.Shared.Network
 				{
 					var val = Encoding.UTF8.GetString(_buffer, _ptr, i - _ptr);
 					_ptr += val.Length + 1;
-					this.Length += val.Length + 1;
 					return val;
 				}
 			}
@@ -227,7 +220,6 @@ namespace Melia.Shared.Network
 			var val = new byte[length];
 			Buffer.BlockCopy(_buffer, _ptr, val, 0, length);
 			_ptr += length;
-			this.Length += length;
 
 			return val;
 		}
