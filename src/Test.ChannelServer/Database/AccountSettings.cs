@@ -29,5 +29,25 @@ namespace Melia.Test.Channel.Database
 
 			Assert.Equal("23 1 46 1 43 2", settings.ToString());
 		}
+
+		[Fact]
+		public void InvalidOptionSet()
+		{
+			var settings = new AccountSettings();
+
+			Assert.Throws<ArgumentException>(() => { settings.Set((Option)123456, 1); });
+		}
+
+		[Fact]
+		public void InvalidOptionParse()
+		{
+			Assert.Throws<ArgumentException>(() => { var settings = new AccountSettings("12345 1 3 1 23 1"); });
+		}
+
+		[Fact]
+		public void InvalidSettings()
+		{
+			Assert.Throws<ArgumentException>(() => { var settings = new AccountSettings("3 1 23"); });
+		}
 	}
 }

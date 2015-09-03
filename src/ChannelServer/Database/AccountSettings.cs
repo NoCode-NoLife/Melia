@@ -71,7 +71,7 @@ namespace Melia.Channel.Database
 			// Don't add option if it doesn't exist in the enum, someone could
 			// flood the database with invalid values.
 			if (!Enum.IsDefined(typeof(Option), option))
-				return;
+				throw new ArgumentException("Unknown option '" + option + "'.");
 
 			// Set option
 			lock (_options)
