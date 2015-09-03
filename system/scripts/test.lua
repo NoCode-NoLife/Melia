@@ -1,5 +1,5 @@
 
-addnpc(57223, "Some Npc", "f_siauliai_west", -867, 322, 151, "testnpc")
+addnpc(57223, "Some Npc", "f_siauliai_west", -867, 322, 151, 135, "testnpc")
 
 function testnpc()
 	local name = "???*@*"

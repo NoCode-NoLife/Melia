@@ -34,5 +34,19 @@ namespace Melia.Shared.World
 			this.X = dir.X;
 			this.Y = dir.Y;
 		}
+
+		/// <summary>
+		/// Creates direction from degree, e.g. 0~360,
+		/// going anti-clockwise, 0 being down.
+		/// </summary>
+		/// <param name="degree"></param>
+		public Direction(double degree)
+		{
+			degree -= 45;
+			degree *= Math.PI / 180.0;
+
+			this.X = (float)Math.Cos(degree);
+			this.Y = (float)Math.Sin(degree);
+		}
 	}
 }

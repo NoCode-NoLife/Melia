@@ -336,7 +336,7 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addnpc(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 7))
+			if (!this.CheckArgumentCount(L, 8))
 				return 0;
 
 			var monsterId = Melua.luaL_checkinteger(L, 1);
@@ -345,9 +345,10 @@ namespace Melia.Channel.Scripting
 			var x = (float)Melua.luaL_checknumber(L, 4);
 			var y = (float)Melua.luaL_checknumber(L, 5);
 			var z = (float)Melua.luaL_checknumber(L, 6);
-			var dialog = Melua.luaL_checkstring(L, 7);
+			var direction = Melua.luaL_checkinteger(L, 7);
+			var dialog = Melua.luaL_checkstring(L, 8);
 
-			Melua.lua_pop(L, 7);
+			Melua.lua_pop(L, 8);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
@@ -360,6 +361,7 @@ namespace Melia.Channel.Scripting
 			monster.Name = name;
 			monster.DialogName = dialog;
 			monster.Position = new Position(x, y, z);
+			monster.Direction = new Direction(direction);
 
 			map.AddMonster(monster);
 
