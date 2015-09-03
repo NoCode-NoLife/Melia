@@ -356,7 +356,7 @@ namespace Melia.Shared.Network
 			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			this.PutString(val, Encoding.UTF8.GetByteCount(val));
+			this.PutBin(Encoding.UTF8.GetBytes(val));
 		}
 
 		/// <summary>
