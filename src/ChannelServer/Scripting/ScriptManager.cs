@@ -487,10 +487,12 @@ namespace Melia.Channel.Scripting
 		/// 
 		/// Parameters:
 		/// - string message
+		/// - int min (optional, defaults to 0)
+		/// - int max (optional, defaults to 255)
 		/// 
 		/// Result:
 		/// The number put in by the user.
-		/// Returns empty string on error.
+		/// Returns 0 on error.
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
@@ -507,13 +509,21 @@ namespace Melia.Channel.Scripting
 
 			var conn = this.GetConnectionFromState(L);
 
-			// Get message
+			int min = 0, max = 255;
+
+			// Get arguments
 			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			if (argc >= 3)
+			{
+				min = Melua.luaL_checkinteger(L, 2);
+				max = Melua.luaL_checkinteger(L, 3);
+			}
+
+			Melua.lua_pop(L, argc);
 
 			this.HandleCustomCode(conn, ref msg);
 
-			Send.ZC_DIALOG_NUMBERRANGE(conn, msg);
+			Send.ZC_DIALOG_NUMBERRANGE(conn, msg, min, max);
 
 			return Melua.lua_yield(L, 1);
 		}

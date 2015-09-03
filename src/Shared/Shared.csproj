@@ -78,6 +78,7 @@
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />
     <Compile Include="Util\Extensions.cs" />
+    <Compile Include="Util\Math2.cs" />
     <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />

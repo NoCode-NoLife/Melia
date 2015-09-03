@@ -5,6 +5,7 @@ using Melia.Channel.Network.Helpers;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -831,12 +832,34 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		public static void ZC_DIALOG_NUMBERRANGE(ChannelConnection conn, string msg)
+		/// <summary>
+		/// Sends ZC_DIALOG_NUMBERRANGE over connection.
+		/// </summary>
+		/// <remarks>
+		/// Due to number range using CZ_DIALOG_SELECT for its response,
+		/// the max range is 0~255, since that packet only holds a
+		/// byte. The dialog window for this packet seems a little
+		/// unfinished, and I didn't see any packets for it yet,
+		/// it can be assumed that this feature, albeit working,
+		/// isn't 100% done yet.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		public static void ZC_DIALOG_NUMBERRANGE(ChannelConnection conn, string msg, int min = 0, int max = 255)
 		{
+			min = Math2.Clamp(0, 255, min);
+			max = Math2.Clamp(0, 255, max);
+			if (max < min)
+				max = min;
+
 			var packet = new Packet(Op.ZC_DIALOG_NUMBERRANGE);
 
 			packet.PutInt(0); // handle?
-			packet.PutString(msg);
+			packet.PutString(msg, 128);
+			packet.PutInt(min);
+			packet.PutInt(max);
 
 			conn.Send(packet);
 		}
