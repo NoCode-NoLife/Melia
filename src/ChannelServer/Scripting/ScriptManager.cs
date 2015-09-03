@@ -569,9 +569,9 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///		name,
-		///		teamName,
-		///		level,
+		///		string  name,     -- Character's name
+		///		string  teamName, -- Character's team name
+		///		integer level,    -- Character's level
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
@@ -620,8 +620,8 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///		name,
-		///		dialogName,
+		///		string name,        -- NPCs name
+		///		string dialogName,  -- Name of NPCs main dialog function
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
@@ -650,17 +650,17 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///		year,
-		///		month,
-		///		day,
-		///		weekday,
-		///		yearday,
-		///		hour,
-		///		min,
-		///		sec,
-		///		msec,
-		///		isdst,
-		///		unixts,
+		///		integer year,     -- Current year
+		///		integer month,    -- Current month
+		///		integer day,      -- Current day
+		///		integer weekday,  -- Day of the week (0-6), starting on Sunday
+		///		integer yearday,  -- Day of the current year
+		///		integer hour,     -- Current hours (0-23)
+		///		integer min,      -- Current minutes (0-59)
+		///		integer sec,      -- Current seconds (0-59)
+		///		integer msec,     -- Current milliseconds (0-999)
+		///		boolean isdst,    -- Is Daylight Saving Time?
+		///		integer unixts,   -- Unix timestamp
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
