@@ -585,8 +585,24 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushstring(L, character.TeamName);
 			Melua.lua_settable(L, -3);
 
+			Melua.lua_pushstring(L, "gender");
+			Melua.lua_pushinteger(L, (int)character.Gender);
+			Melua.lua_settable(L, -3);
+
 			Melua.lua_pushstring(L, "level");
 			Melua.lua_pushinteger(L, character.Level);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "hp");
+			Melua.lua_pushinteger(L, character.Hp);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "maxHp");
+			Melua.lua_pushinteger(L, character.MaxHp);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "maxSp");
+			Melua.lua_pushinteger(L, character.MaxSp);
 			Melua.lua_settable(L, -3);
 
 			return 1;
