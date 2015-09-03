@@ -645,6 +645,8 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			conn.ScriptState.CurrentNpc = monster;
+
 			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
 		}
 

@@ -58,6 +58,7 @@ namespace Melia.Channel.Scripting
 			Register(numinput);
 
 			Register(getpc);
+			Register(getnpc);
 		}
 
 		/// <summary>
@@ -176,7 +177,10 @@ namespace Melia.Channel.Scripting
 
 			// Close dialog if end of function was reached
 			if (result == 0)
+			{
 				Send.ZC_DIALOG_CLOSE(conn);
+				conn.ScriptState.CurrentNpc = null;
+			}
 		}
 
 		/// <summary>
@@ -219,7 +223,11 @@ namespace Melia.Channel.Scripting
 
 			// Close dialog if end of function was reached
 			if (result == 0)
+			{
+				// TODO: Don't send twice after a select.
 				Send.ZC_DIALOG_CLOSE(conn);
+				conn.ScriptState.CurrentNpc = null;
+			}
 		}
 
 		/// <summary>
@@ -583,12 +591,43 @@ namespace Melia.Channel.Scripting
 
 			return 1;
 		}
+
+		/// <summary>
+		/// Returns a table with information about the NPC.
+		/// </summary>
+		/// <remarks>
+		/// Result:
+		/// {
+		///		name,
+		///		dialogName,
+		/// }
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int getnpc(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.ScriptState.CurrentNpc;
+
+			Melua.lua_newtable(L);
+
+			Melua.lua_pushstring(L, "name");
+			Melua.lua_pushstring(L, character.Name);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "dialogName");
+			Melua.lua_pushstring(L, character.DialogName);
+			Melua.lua_settable(L, -3);
+
+			return 1;
+		}
 	}
 
 	public class ScriptState
 	{
 		public ChannelConnection Connection { get; private set; }
 		public IntPtr NL { get; private set; }
+		public Monster CurrentNpc { get; set; }
 
 		public ScriptState(ChannelConnection conn, IntPtr NL)
 		{
