@@ -151,15 +151,15 @@ namespace Melia.Shared.Network
 					var packet = new Packet(packetBuffer);
 
 					// Debug
-					var opName = Op.GetName(packet.Op);
-					var recvStr = BitConverter.ToString(packetBuffer).Replace("-", " ");
-					recvStr = recvStr.Insert(0, "[");
-					recvStr = recvStr.Insert(6, "]");
-					recvStr = recvStr.Insert(8, "[");
-					recvStr = recvStr.Insert(20, "]");
-					recvStr = recvStr.Insert(22, "[");
-					recvStr = recvStr.Insert(34, "]");
-					Log.Debug("Recv: {0} {1}", opName, recvStr);
+					//var opName = Op.GetName(packet.Op);
+					//var recvStr = BitConverter.ToString(packetBuffer).Replace("-", " ");
+					//recvStr = recvStr.Insert(0, "[");
+					//recvStr = recvStr.Insert(6, "]");
+					//recvStr = recvStr.Insert(8, "[");
+					//recvStr = recvStr.Insert(20, "]");
+					//recvStr = recvStr.Insert(22, "[");
+					//recvStr = recvStr.Insert(34, "]");
+					//Log.Debug("Recv: {0} {1}", opName, recvStr);
 
 					// Check size from table?
 					var size = Op.GetSize(packet.Op);
@@ -284,18 +284,20 @@ namespace Melia.Shared.Network
 			packet.Build(ref buffer, offset);
 
 			// Debug
-			var opName = Op.GetName(packet.Op);
-			var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
-			sendStr = sendStr.Insert(0, "[");
-			sendStr = sendStr.Insert(6, "]");
-			sendStr = sendStr.Insert(8, "[");
-			sendStr = sendStr.Insert(20, "]");
-			if (size == 0)
-			{
-				sendStr = sendStr.Insert(22, "[");
-				sendStr = sendStr.Insert(28, "]");
-			}
-			Log.Debug("Send: {0} {1}", opName, sendStr);
+			//var opName = Op.GetName(packet.Op);
+			//var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
+			//sendStr = sendStr.Insert(0, "[");
+			//sendStr = sendStr.Insert(6, "]");
+			//sendStr = sendStr.Insert(8, "[");
+			//sendStr = sendStr.Insert(20, "]");
+			//if (size == 0)
+			//{
+			//	sendStr = sendStr.Insert(22, "[");
+			//	sendStr = sendStr.Insert(28, "]");
+			//}
+			//Log.Debug("Send: {0} {1}", opName, sendStr);
+
+			//Log.Debug("Send:\n{0}", packet.ToString());
 
 			//Send
 			_socket.Send(buffer);

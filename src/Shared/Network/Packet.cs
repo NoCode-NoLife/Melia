@@ -484,5 +484,56 @@ namespace Melia.Shared.Network
 
 			return _buffer;
 		}
+
+		/// <summary>
+		/// Returns buffer as formatted hex string.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			var sb = new StringBuilder();
+			var buffer = _buffer;
+			var length = this.Length;
+			var tableSize = Network.Op.GetSize(this.Op);
+			var opName = Network.Op.GetName(this.Op);
+
+			sb.AppendLine("".PadLeft(78, '-'));
+			sb.AppendFormat("Op: {0:X4} {1}, Size: {2}", this.Op, opName, length);
+			if (tableSize != 0)
+				sb.AppendFormat(" (Table: {0}, Garbage: {1})", tableSize, length - tableSize);
+			sb.AppendLine();
+			sb.AppendLine("".PadLeft(78, '-'));
+
+			for (int i = 0; i < length; i += 16)
+			{
+				int k = 0;
+				for (int j = 0; j < 16; ++j, ++k)
+				{
+					if (i + j > length - 1)
+						break;
+					sb.Append(buffer[i + j].ToString("X2") + ' ');
+				}
+
+				sb.Append("".PadLeft((16 - k) * 3, ' '));
+
+				for (int j = 0; j < 16; ++j)
+				{
+					if (i + j > length - 1)
+						break;
+
+					var b = buffer[i + j];
+					if (b >= 32 && b <= 126)
+						sb.Append((char)b);
+					else
+						sb.Append('.');
+				}
+
+				sb.AppendLine();
+			}
+
+			sb.AppendLine("".PadLeft(78, '-'));
+
+			return sb.ToString().Trim();
+		}
 	}
 }

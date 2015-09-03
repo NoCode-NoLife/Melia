@@ -76,7 +76,7 @@ namespace Melia.Shared.Network
 		/// <param name="packet"></param>
 		protected virtual void OnUnknownPacket(TConnection conn, Packet packet)
 		{
-			Log.Debug("PacketHandler: No handler found for '{0:X4}', {1}.", packet.Op, Op.GetName(packet.Op));
+			Log.Debug("PacketHandler: No handler found for '{0:X4}', {1}.\n{2}", packet.Op, Op.GetName(packet.Op), packet.ToString());
 		}
 
 		/// <summary>
