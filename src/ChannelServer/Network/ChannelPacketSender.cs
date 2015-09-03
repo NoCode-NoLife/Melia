@@ -530,8 +530,8 @@ namespace Melia.Channel.Network
 			packet.PutByte(1); // type? 0 = also show in red letters on the screen
 			foreach (var parameter in parameters)
 			{
-				packet.PutStringWithLength(parameter.Key);
-				packet.PutStringWithLength(parameter.Value);
+				packet.PutLpString(parameter.Key);
+				packet.PutLpString(parameter.Value);
 			}
 
 			character.Connection.Send(packet);
@@ -810,7 +810,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0); // handle?
 			packet.PutShort(arguments.Length);
 			foreach (var arg in arguments)
-				packet.PutStringWithLength(arg);
+				packet.PutLpString(arg);
 
 			conn.Send(packet);
 		}

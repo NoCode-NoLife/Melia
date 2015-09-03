@@ -46,11 +46,11 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutByte(0); // parameters size
 			packet.PutByte(0); // ??
 
-			packet.PutStringWithLength(monster.Name);
-			packet.PutStringWithLength(""); // UniqueName
-			packet.PutStringWithLength(monster.DialogName); // if string is set - HP isn't shown, and talking activated
-			packet.PutStringWithLength(""); // str2
-			packet.PutStringWithLength(""); // str3
+			packet.PutLpString(monster.Name);
+			packet.PutLpString(""); // UniqueName
+			packet.PutLpString(monster.DialogName); // if string is set - HP isn't shown, and talking activated
+			packet.PutLpString(""); // str2
+			packet.PutLpString(""); // str3
 
 			packet.PutEmptyBin(0); // parameters
 		}

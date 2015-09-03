@@ -364,7 +364,7 @@ namespace Melia.Shared.Network
 		/// with a short describing its length.
 		/// </summary>
 		/// <param name="val"></param>
-		public void PutStringWithLength(string val)
+		public void PutLpString(string val)
 		{
 			if (val != null && val.Length > 0 && val[val.Length - 1] != '\0')
 				val += '\0';
