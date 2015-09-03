@@ -95,6 +95,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushnumber(IntPtr L, double n);
 
+		// LUA_API void lua_pushboolean (lua_State *L, int b)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushboolean(IntPtr L, bool b);
+
 		// static void lua_settable(lua_State*L,int idx)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_settable(IntPtr L, int idx);

@@ -22,6 +22,8 @@ namespace Melia.Channel.Scripting
 	{
 		private const string List = "system/scripts/scripts.txt";
 
+		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
+
 		private IntPtr GL;
 		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
@@ -59,6 +61,8 @@ namespace Melia.Channel.Scripting
 
 			Register(getpc);
 			Register(getnpc);
+
+			Register(gettime);
 		}
 
 		/// <summary>
@@ -633,6 +637,82 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "dialogName");
 			Melua.lua_pushstring(L, character.DialogName);
+			Melua.lua_settable(L, -3);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns table, containing information about the current date/time.
+		/// </summary>
+		/// <remarks>
+		/// Result:
+		/// {
+		///		year,
+		///		month,
+		///		day,
+		///		weekday,
+		///		yearday,
+		///		hour,
+		///		min,
+		///		sec,
+		///		msec,
+		///		isdst,
+		///		unixts,
+		/// }
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int gettime(IntPtr L)
+		{
+			var now = DateTime.Now;
+
+			// TODO: Could a general table generation like this be cached?
+
+			Melua.lua_newtable(L);
+
+			Melua.lua_pushstring(L, "year");
+			Melua.lua_pushinteger(L, now.Year);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "month");
+			Melua.lua_pushinteger(L, now.Month);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "day");
+			Melua.lua_pushinteger(L, now.Day);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "weekday");
+			Melua.lua_pushinteger(L, (int)now.DayOfWeek);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "yearday");
+			Melua.lua_pushinteger(L, now.DayOfYear);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "hour");
+			Melua.lua_pushinteger(L, now.Hour);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "min");
+			Melua.lua_pushinteger(L, now.Minute);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "sec");
+			Melua.lua_pushinteger(L, now.Second);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "msec");
+			Melua.lua_pushinteger(L, now.Millisecond);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "isdst");
+			Melua.lua_pushboolean(L, now.IsDaylightSavingTime());
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "unixts");
+			Melua.lua_pushinteger(L, (int)(now.ToUniversalTime().Subtract(UnixEpoch)).TotalSeconds);
 			Melua.lua_settable(L, -3);
 
 			return 1;
