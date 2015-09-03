@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Shared.Const;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,10 +37,16 @@ namespace Melia.Channel.Database
 		public int Authority { get { return 100; } }
 
 		/// <summary>
+		/// The account's settings.
+		/// </summary>
+		public AccountSettings Settings { get; private set; }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
 		{
+			this.Settings = new AccountSettings();
 		}
 
 		/// <summary>

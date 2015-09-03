@@ -340,13 +340,13 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
-		public static void ZC_OPTION_LIST(Character character)
+		public static void ZC_OPTION_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_OPTION_LIST);
 
-			packet.PutByte(0); // ?
+			packet.PutString(conn.Account.Settings.ToString());
 
-			character.Connection.Send(packet);
+			conn.Send(packet);
 		}
 
 		public static void ZC_ACHIEVE_POINT_LIST(Character character)

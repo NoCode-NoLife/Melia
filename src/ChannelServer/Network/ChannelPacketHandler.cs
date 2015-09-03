@@ -100,7 +100,7 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_ITEM_INVENTORY_LIST(character);
-			Send.ZC_OPTION_LIST(character);
+			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
 			Send.ZC_CHAT_MACRO_LIST(character);
@@ -696,6 +696,23 @@ namespace Melia.Channel.Network
 			//var unkBin = packet.GetBin(138 - 16 - 10);
 
 			ChannelServer.Instance.ScriptManager.Resume(conn, input);
+		}
+
+		/// <summary>
+		/// Sent when changing an option in the settings.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [BD 0C] [08 00 00 00] [E8 00 00 00] 2B 00 00 00 02 00 00 00 | 3C BE 92 68 C2 09
+		/// </example>
+		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
+		public void CZ_CHANGE_CONFIG(ChannelConnection conn, Packet packet)
+		{
+			var option = (Option)packet.GetInt();
+			var value = packet.GetInt();
+
+			conn.Account.Settings.Set(option, value);
 		}
 	}
 }

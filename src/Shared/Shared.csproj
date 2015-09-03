@@ -61,7 +61,7 @@
     <Compile Include="Const\Misc.cs" />
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\ObjectProperty.cs" />
-    <Compile Include="Const\Options.cs" />
+    <Compile Include="Const\Option.cs" />
     <Compile Include="Const\Structs\CB_LOGIN.cs" />
     <Compile Include="Const\Structs\BC_LOGINOK.cs" />
     <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />

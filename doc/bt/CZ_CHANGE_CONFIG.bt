@@ -1,0 +1,15 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_CHANGE_CONFIG.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int option;
+int value;

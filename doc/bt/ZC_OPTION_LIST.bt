@@ -1,0 +1,14 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_OPTION_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+short size;
+
+string s1; // format: <option> <value> <option> <value>...

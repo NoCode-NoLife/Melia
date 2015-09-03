@@ -30,7 +30,7 @@ namespace Melia.Channel.Database
 			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", account.Id);
-				cmd.Set("teamName", account.TeamName);
+				cmd.Set("settings", account.Settings.ToString());
 
 				return cmd.Execute() > 0;
 			}
@@ -57,6 +57,7 @@ namespace Melia.Channel.Database
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
+					account.Settings.Parse(reader.GetStringSafe("settings"));
 
 					return account;
 				}
