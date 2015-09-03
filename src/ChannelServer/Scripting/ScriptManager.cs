@@ -48,12 +48,16 @@ namespace Melia.Channel.Scripting
 
 			Register(print);
 			Register(logdebug);
+
 			Register(addnpc);
+
 			Register(msg);
 			Register(select);
 			Register(close);
 			Register(input);
 			Register(numinput);
+
+			Register(getpc);
 		}
 
 		/// <summary>
@@ -543,6 +547,41 @@ namespace Melia.Channel.Scripting
 			Send.ZC_DIALOG_CLOSE(conn);
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Returns a table with information about the player.
+		/// </summary>
+		/// <remarks>
+		/// Result:
+		/// {
+		///		name,
+		///		teamName,
+		///		level,
+		/// }
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int getpc(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			Melua.lua_newtable(L);
+
+			Melua.lua_pushstring(L, "name");
+			Melua.lua_pushstring(L, character.Name);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "teamName");
+			Melua.lua_pushstring(L, character.TeamName);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "level");
+			Melua.lua_pushinteger(L, character.Level);
+			Melua.lua_settable(L, -3);
+
+			return 1;
 		}
 	}
 

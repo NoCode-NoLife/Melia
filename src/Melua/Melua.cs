@@ -139,6 +139,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_insert(IntPtr L, int idx);
 
+		// LUA_API void lua_createtable (lua_State *L, int narray, int nrec)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_createtable(IntPtr L, int narray, int nrec);
+
 
 
 		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
@@ -238,6 +242,12 @@ namespace MeluaLib
 
 			var val = Marshal.PtrToStringAnsi(ptr);
 			return val;
+		}
+
+		// #define lua_newtable(L)		lua_createtable(L, 0, 0)
+		public static void lua_newtable(IntPtr L)
+		{
+			lua_createtable(L, 0, 0);
 		}
 	}
 }
