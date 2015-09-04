@@ -85,6 +85,7 @@ namespace Melia.Channel.Scripting
 		public void Load()
 		{
 			this.LoadedCount = 0;
+			this.TotalCount = 0;
 
 			Log.Info("Loading scripts...");
 
