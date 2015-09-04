@@ -12,7 +12,7 @@ typedef struct
 {
     short length;
     if(length > 0)
-      char text[length];
+        char text[length];
 }
 lpString <read=lpStringRead>;
 
