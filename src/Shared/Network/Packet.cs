@@ -358,17 +358,16 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutLpString(string val)
 		{
-			if (val != null && val.Length > 0 && val[val.Length - 1] != '\0')
+			if (val == null)
+				val = "";
+
+			// Append terminator
+			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			if (string.IsNullOrWhiteSpace(val))
-				this.PutShort(0);
-			else
-			{
-				var bytes = Encoding.UTF8.GetBytes(val);
-				this.PutShort(bytes.Length);
-				this.PutBin(bytes);
-			}
+			var bytes = Encoding.UTF8.GetBytes(val);
+			this.PutShort(bytes.Length);
+			this.PutBin(bytes);
 		}
 
 		/// <summary>
