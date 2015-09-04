@@ -729,5 +729,24 @@ namespace Melia.Channel.Network
 
 			conn.Account.Settings.Set(option, value);
 		}
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <remarks>
+		/// This packet is spammed near the warp from Siauliai to Kaipeda,
+		/// purpose unknown. I guess it expects some kind of response,
+		/// more research required.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// 96 0D 0D 00 00 00 B2 00 00 00 | 1C 00 00 00 | D1 E0
+		/// </example>
+		[PacketHandler(Op.CZ_REVEAL_NPC_STATE)]
+		public void CZ_REVEAL_NPC_STATE(ChannelConnection conn, Packet packet)
+		{
+			var unkInt = packet.GetInt();
+		}
 	}
 }
