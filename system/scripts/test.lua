@@ -2,8 +2,8 @@
 addnpc(57223, "Some Npc", "f_siauliai_west", -867, 322, 151, 135, "testnpc")
 
 -- West Siauliai <> Klaipeda
-addwarp("@dicID_^*$ETC_20150317_001144$*^", "WS_SIAULST1_KLAPEDA", 22, "f_siauliai_west", 1691, 210, -755, "c_Klaipe", -136, -1, -1035)
-addwarp("@dicID_^*$ETC_20150317_001151$*^", "WS_KLAPEDA_SIAULST1", -45, "c_Klaipe", -209, -1, -1189, "f_siauliai_west", 1591, 210, -739)
+addwarp("WS_SIAULST1_KLAPEDA", 22, "f_siauliai_west", 1691, 210, -755, "c_Klaipe", -136, -1, -1035)
+addwarp("WS_KLAPEDA_SIAULST1", -45, "c_Klaipe", -209, -1, -1189, "f_siauliai_west", 1591, 210, -739)
 
 function testnpc()
 	local name = "???*@*"

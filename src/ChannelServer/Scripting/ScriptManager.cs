@@ -407,45 +407,60 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addwarp(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 11))
+			if (!this.CheckArgumentCount(L, 10))
 				return 0;
 
-			var name = Melua.luaL_checkstring(L, 1);
-			var warpName = Melua.luaL_checkstring(L, 2);
-			var direction = Melua.luaL_checknumber(L, 3);
-			var fromMapName = Melua.luaL_checkstring(L, 4);
-			var fromX = (float)Melua.luaL_checknumber(L, 5);
-			var fromY = (float)Melua.luaL_checknumber(L, 6);
-			var fromZ = (float)Melua.luaL_checknumber(L, 7);
-			var toMapName = Melua.luaL_checkstring(L, 8);
-			var toX = (float)Melua.luaL_checknumber(L, 9);
-			var toY = (float)Melua.luaL_checknumber(L, 10);
-			var toZ = (float)Melua.luaL_checknumber(L, 11);
+			var warpName = Melua.luaL_checkstring(L, 1);
+			var direction = Melua.luaL_checknumber(L, 2);
+			var fromMapName = Melua.luaL_checkstring(L, 3);
+			var fromX = (float)Melua.luaL_checknumber(L, 4);
+			var fromY = (float)Melua.luaL_checknumber(L, 5);
+			var fromZ = (float)Melua.luaL_checknumber(L, 6);
+			var toMapName = Melua.luaL_checkstring(L, 7);
+			var toX = (float)Melua.luaL_checknumber(L, 8);
+			var toY = (float)Melua.luaL_checknumber(L, 9);
+			var toZ = (float)Melua.luaL_checknumber(L, 10);
 
-			Melua.lua_pop(L, 11);
+			Melua.lua_pop(L, 10);
 
-			var fromMap = ChannelServer.Instance.World.GetMap(fromMapName);
-			if (fromMap == null)
+			// Check "from" map data
+			var fromMapData = ChannelServer.Instance.Data.MapDb.Find(fromMapName);
+			if (fromMapData == null)
 			{
-				Log.Error("addwarp: Map '{0}' not found.", fromMapName);
+				Log.Error("addwarp: Map '{0}' not found in data.", fromMapName);
 				return 0;
 			}
 
-			var toMap = ChannelServer.Instance.World.GetMap(toMapName);
-			if (toMap == null)
+			// Check map in world
+			var map = ChannelServer.Instance.World.GetMap(fromMapData.Id);
+			if (map == null)
 			{
-				Log.Error("addwarp: Map '{0}' not found.", toMapName);
+				Log.Error("addwarp: Map '{0}' not found in world.", fromMapName);
 				return 0;
 			}
 
+			// Check "to" map data
+			var toMapData = ChannelServer.Instance.Data.MapDb.Find(toMapName);
+			if (toMapData == null)
+			{
+				Log.Error("addwarp: Map '{0}' not found in data.", toMapName);
+				return 0;
+			}
+
+			// Get name, preferably a localization key
+			var name = toMapName;
+			if (toMapData.LocalKey != "?")
+				name = "@dicID_^*$" + toMapData.LocalKey + "$*^";
+
+			// Create a warping monster...
 			var monster = new Monster(40001, NpcType.NPC);
 			monster.Name = name;
 			monster.WarpName = warpName;
 			monster.Position = new Position(fromX, fromY, fromZ);
 			monster.Direction = new Direction(direction);
-			monster.WarpLocation = new Location(toMap.Id, toX, toY, toZ);
+			monster.WarpLocation = new Location(toMapData.Id, toX, toY, toZ);
 
-			fromMap.AddMonster(monster);
+			map.AddMonster(monster);
 
 			return 0;
 		}
