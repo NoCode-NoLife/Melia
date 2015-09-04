@@ -324,7 +324,7 @@ namespace Melia.Channel.Network
 
 			//Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
 
-			conn.SelectedCharacter.StopMove(x, y, z, d1, d2);
+			character.StopMove(x, y, z, d1, d2);
 			// Broadcast (from within?)
 
 			// In the packets I don't see any indication for a client-side trigger,
@@ -335,9 +335,23 @@ namespace Melia.Channel.Network
 			var warpNpc = character.Map.GetNearbyWarp(character.Position);
 			if (warpNpc != null)
 			{
-				//Log.Debug("warp to " + warp.WarpLocation);
-				character.Warp(warpNpc.WarpLocation);
+				// Wait 1s to see if the character actually wants to warp
+				// (indicated by him not moving). Official behavior unknown,
+				// as I have never played the game =<
+				var pos = character.Position;
+				Task.Delay(1000).ContinueWith(t =>
+				{
+					// Cancel if character moved in that time
+					if (character.Position != pos)
+						return;
+
+					//Log.Debug("warp to " + warp.WarpLocation);
+					character.Warp(warpNpc.WarpLocation);
+				});
 			}
+
+			// Could ZC_ENTER_HOOK be a notification to the client that it's
+			// in a "trigger area" now?
 		}
 
 		/// <summary>

@@ -875,6 +875,20 @@ namespace Melia.Channel.Network
 			monster.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Enables/disables control over character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="enabled"></param>
+		public static void ZC_ENABLE_CONTROL(ChannelConnection conn, bool enabled)
+		{
+			var packet = new Packet(Op.ZC_ENABLE_CONTROL);
+			packet.PutInt(0);
+			packet.PutByte(enabled);
+
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
