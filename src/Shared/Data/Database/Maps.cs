@@ -14,6 +14,8 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
+		public string EngName { get; set; }
+		public string LocalKey { get; set; }
 	}
 
 	/// <summary>
@@ -32,12 +34,14 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("mapId", "className");
+			entry.AssertNotMissing("mapId", "className", "engName", "localKey");
 
 			var info = new MapData();
 
 			info.Id = entry.ReadInt("mapId");
 			info.ClassName = entry.ReadString("className");
+			info.EngName = entry.ReadString("engName");
+			info.LocalKey = entry.ReadString("localKey");
 
 			this.Entries[info.Id] = info;
 			_nameIndex[info.ClassName] = info;
