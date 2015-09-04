@@ -292,7 +292,7 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
+			//Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
 
 			conn.SelectedCharacter.Move(x, y, z, d1, d2);
 
@@ -318,13 +318,83 @@ namespace Melia.Channel.Network
 			var d2 = packet.GetFloat(); // 0.7071068
 			var unkFloat = packet.GetFloat(); // 7112.762 timestamp?
 
+			var character = conn.SelectedCharacter;
+
 			// TODO: Sanity checks.
 
-			Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
+			//Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
 
 			conn.SelectedCharacter.StopMove(x, y, z, d1, d2);
+			// Broadcast (from within?)
 
-			// Broadcast
+			// In the packets I don't see any indication for a client-side trigger,
+			// so I guess the server has to check for warps and initiate it all
+			// on its own. Seems a little weird... but oh well.
+			// If this is a thing, we probably should have some kind of "trigger"
+			// system. -- exec
+			var warpNpc = character.Map.GetNearbyWarp(character.Position);
+			if (warpNpc != null)
+			{
+				//Log.Debug("warp to " + warp.WarpLocation);
+				character.Warp(warpNpc.WarpLocation);
+			}
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
+		/// </example>
+		[PacketHandler(Op.CZ_ON_AIR)]
+		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
+		{
+			// TODO: Sanity checks.
+
+			conn.SelectedCharacter.IsGrounded = false;
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
+		/// </example>
+		[PacketHandler(Op.CZ_ON_GROUND)]
+		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
+		{
+			// TODO: Sanity checks.
+
+			conn.SelectedCharacter.IsGrounded = true;
+		}
+
+		/// <summary>
+		/// Sent when clicken the Arrange Inventory button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [13 0C] [0A 00 00 00] [78 03 00 00] 00 00 80 C3 C3 BC AD 6B 43 00 00 95 C3 | D8
+		/// </example>
+		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
+		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+
+			// TODO: Sanity checks.
+
+			//Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
+
+			conn.SelectedCharacter.SetPosition(x, y, z);
+
+			// Broadcast?
 		}
 
 		/// <summary>
@@ -483,63 +553,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		/// <example>
-		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
-		/// </example>
-		[PacketHandler(Op.CZ_ON_AIR)]
-		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
-		{
-			// TODO: Sanity checks.
-
-			conn.SelectedCharacter.IsGrounded = false;
-		}
-
-		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		/// <example>
-		/// [12 0C] [06 00 00 00] [18 00 00 00] | 7B 90 AC BC 3B 98
-		/// </example>
-		[PacketHandler(Op.CZ_ON_GROUND)]
-		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
-		{
-			// TODO: Sanity checks.
-
-			conn.SelectedCharacter.IsGrounded = true;
-		}
-
-		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		/// <example>
-		/// [13 0C] [0A 00 00 00] [78 03 00 00] 00 00 80 C3 C3 BC AD 6B 43 00 00 95 C3 | D8
-		/// </example>
-		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
-		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
-		{
-			var unkByte = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-
-			// TODO: Sanity checks.
-
-			Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
-
-			conn.SelectedCharacter.SetPosition(x, y, z);
-
-			// Broadcast?
-		}
-
-		/// <summary>
 		/// Sent on logout to save hotkeys
 		/// </summary>
 		/// <param name="conn"></param>
@@ -611,7 +624,7 @@ namespace Melia.Channel.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 
-			Log.Debug("CZ_ROTATE: {0}; {1}", x, y);
+			//Log.Debug("CZ_ROTATE: {0}; {1}", x, y);
 
 			conn.SelectedCharacter.SetDirection(x, y);
 

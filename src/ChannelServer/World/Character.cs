@@ -162,6 +162,15 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
+		/// <param name="loc"></param>
+		public void Warp(Location loc)
+		{
+			this.Warp(loc.MapId, loc.X, loc.Y, loc.Z);
+		}
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
 		/// <param name="mapId"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>

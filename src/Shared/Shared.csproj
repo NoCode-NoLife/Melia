@@ -104,6 +104,7 @@
     <Compile Include="Util\FileReader.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="World\Direction.cs" />
+    <Compile Include="World\Location.cs" />
     <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup />

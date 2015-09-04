@@ -44,6 +44,25 @@ namespace Melia.Channel.World
 		public string DialogName { get; set; }
 
 		/// <summary>
+		/// Warp identifier?
+		/// </summary>
+		/// <remarks>
+		/// Purpose unknown, doesn't seem to affect anything.
+		/// Examples: WS_KLAPEDA_HIGHLANDER, WS_SIAULST1_KLAPEDA
+		/// </remarks>
+		public string WarpName { get; set; }
+
+		/// <summary>
+		/// Returns true if WarpName is not empty.
+		/// </summary>
+		public bool IsWarp { get { return !string.IsNullOrWhiteSpace(this.WarpName); } }
+
+		/// <summary>
+		/// Location to warp to.
+		/// </summary>
+		public Location WarpLocation { get; set; }
+
+		/// <summary>
 		/// Level.
 		/// </summary>
 		public int Level { get; set; }

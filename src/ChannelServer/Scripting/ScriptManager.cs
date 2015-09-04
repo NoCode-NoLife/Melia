@@ -52,6 +52,7 @@ namespace Melia.Channel.Scripting
 			Register(logdebug);
 
 			Register(addnpc);
+			Register(addwarp);
 
 			Register(msg);
 			Register(select);
@@ -383,6 +384,68 @@ namespace Melia.Channel.Scripting
 			monster.Direction = new Direction(direction);
 
 			map.AddMonster(monster);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Adds warp to world.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string name
+		/// - string warpName
+		/// - number direction
+		/// - number fromX
+		/// - number fromY
+		/// - number fromZ
+		/// - number toX
+		/// - number toY
+		/// - number toZ
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int addwarp(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 11))
+				return 0;
+
+			var name = Melua.luaL_checkstring(L, 1);
+			var warpName = Melua.luaL_checkstring(L, 2);
+			var direction = Melua.luaL_checknumber(L, 3);
+			var fromMapName = Melua.luaL_checkstring(L, 4);
+			var fromX = (float)Melua.luaL_checknumber(L, 5);
+			var fromY = (float)Melua.luaL_checknumber(L, 6);
+			var fromZ = (float)Melua.luaL_checknumber(L, 7);
+			var toMapName = Melua.luaL_checkstring(L, 8);
+			var toX = (float)Melua.luaL_checknumber(L, 9);
+			var toY = (float)Melua.luaL_checknumber(L, 10);
+			var toZ = (float)Melua.luaL_checknumber(L, 11);
+
+			Melua.lua_pop(L, 11);
+
+			var fromMap = ChannelServer.Instance.World.GetMap(fromMapName);
+			if (fromMap == null)
+			{
+				Log.Error("addwarp: Map '{0}' not found.", fromMapName);
+				return 0;
+			}
+
+			var toMap = ChannelServer.Instance.World.GetMap(toMapName);
+			if (toMap == null)
+			{
+				Log.Error("addwarp: Map '{0}' not found.", toMapName);
+				return 0;
+			}
+
+			var monster = new Monster(40001, NpcType.NPC);
+			monster.Name = name;
+			monster.WarpName = warpName;
+			monster.Position = new Position(fromX, fromY, fromZ);
+			monster.Direction = new Direction(direction);
+			monster.WarpLocation = new Location(toMap.Id, toX, toY, toZ);
+
+			fromMap.AddMonster(monster);
 
 			return 0;
 		}

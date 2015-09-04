@@ -5,6 +5,7 @@ using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,6 +168,19 @@ namespace Melia.Channel.World
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
+		}
+
+		/// <summary>
+		/// Returns warp NPC that should be used when at given position.
+		/// </summary>
+		/// <param name="character"></param>
+		public Monster GetNearbyWarp(Position pos)
+		{
+			// TODO: Not very efficient with a lot of monsters, we might want
+			//   to add more dedicated dictionaries and/or a quad tree.
+
+			lock (_monsters)
+				return _monsters.Values.FirstOrDefault(a => a.IsWarp && a.Position.InRange(pos, 35));
 		}
 
 		/// <summary>

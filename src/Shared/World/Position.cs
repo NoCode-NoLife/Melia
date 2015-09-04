@@ -1,4 +1,7 @@
-﻿using Melia.Shared.Util;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +74,16 @@ namespace Melia.Shared.World
 		public double Get3DDistance(Position otherPos)
 		{
 			return Math.Sqrt(Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2));
+		}
+
+		/// <summary>
+		/// Returns if other position is within given range.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public bool InRange(Position otherPos, int range)
+		{
+			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
 
 		/// <summary>

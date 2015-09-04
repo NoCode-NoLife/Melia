@@ -35,12 +35,13 @@ namespace Melia.Channel.Network.Helpers
 				packet.PutShort(0); // MaxShield?
 				packet.PutEmptyBin(2);
 				packet.PutInt(monster.Level);
-				packet.PutInt(monster.SDR);
+				packet.PutFloat(monster.SDR);
 				packet.PutByte(0);
 				packet.PutEmptyBin(3);
 			}
 			packet.PutInt(0); // GenType
 			packet.PutInt(0);
+
 			//packet.PutShort(0); // parameters size
 			// it was, like this in IDA o.o
 			packet.PutByte(0); // parameters size
@@ -48,8 +49,8 @@ namespace Melia.Channel.Network.Helpers
 
 			packet.PutLpString(monster.Name);
 			packet.PutLpString(""); // UniqueName
-			packet.PutLpString(monster.DialogName); // if string is set - HP isn't shown, and talking activated
-			packet.PutLpString(""); // str2
+			packet.PutLpString(monster.DialogName); // (if string is set - HP isn't shown, and talking activated)
+			packet.PutLpString(monster.WarpName);
 			packet.PutLpString(""); // str3
 
 			packet.PutEmptyBin(0); // parameters
