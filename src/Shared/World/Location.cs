@@ -106,7 +106,7 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return string.Format("{0}, {1}, {2}, {2}", MapId, X.ToInvariant(), Y.ToInvariant(), Z.ToInvariant());
+			return string.Format("{0}, {1}, {2}, {3}", MapId, X.ToInvariant(), Y.ToInvariant(), Z.ToInvariant());
 		}
 	}
 }
