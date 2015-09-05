@@ -20,7 +20,9 @@ namespace Melia.Channel.Scripting
 {
 	public class ScriptManager
 	{
-		private const string List = "system/scripts/scripts.txt";
+		private const string SystemRoot = "system/scripts/";
+		private const string UserRoot = "user/scripts/";
+		private const string List = SystemRoot + "scripts.txt";
 
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 
@@ -45,26 +47,39 @@ namespace Melia.Channel.Scripting
 		{
 			_functions = new List<Melua.LuaNativeFunction>();
 			_states = new Dictionary<IntPtr, ScriptState>();
+		}
 
+		/// <summary>
+		/// Initializes scripting environment.
+		/// </summary>
+		public void Initialize()
+		{
 			GL = Melua.luaL_newstate();
+			Melua.openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
+			// Functions
+			// --------------------------------------------------------------
+			// Output
 			Register(print);
 			Register(logdebug);
 
+			// Setup
 			Register(addnpc);
 			Register(addwarp);
 
+			// Dialog
 			Register(msg);
 			Register(select);
 			Register(close);
 			Register(input);
 			Register(numinput);
 
+			// Information
 			Register(getpc);
 			Register(getnpc);
-
 			Register(gettime);
 
+			// Action
 			Register(warp);
 		}
 
@@ -85,6 +100,14 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Load()
 		{
+			// We could use Lua's require system to load everything,
+			// but relative paths don't work with that. Additionally,
+			// we'd have to clear the require cache on reload,
+			// so it actually loads files again. The way it is,
+			// we don't have yet another include mechanism, we have control
+			// over the amount of loaded files, we don't need calls to
+			// require, and we have relative paths.
+
 			this.LoadedCount = 0;
 			this.TotalCount = 0;
 

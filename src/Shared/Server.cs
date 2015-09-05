@@ -156,7 +156,7 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Tries to find aura root folder and changes the working directory to it.
+		/// Tries to find root folder and changes the working directory to it.
 		/// Exits if not successful.
 		/// </summary>
 		public void NavigateToRoot()

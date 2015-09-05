@@ -151,13 +151,40 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int lua_error(IntPtr L);
 
+		// LUALIB_API int luaopen_base (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_base(IntPtr L);
+
+		// LUALIB_API int luaopen_package (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_package(IntPtr L);
+
+		// LUALIB_API int luaopen_table (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_table(IntPtr L);
+
+		// LUALIB_API int luaopen_io (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_io(IntPtr L);
+
+		// LUALIB_API int luaopen_os (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_os(IntPtr L);
+
+		// LUALIB_API int luaopen_string (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_string(IntPtr L);
+
+		// LUALIB_API int luaopen_math (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_math(IntPtr L);
+
+		// LUALIB_API int luaopen_debug (lua_State *L)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int luaopen_debug(IntPtr L);
 
 
-		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
-		public static int luaL_loadstring(IntPtr L, string s)
-		{
-			return luaL_loadbuffer(L, s, s.Length, s);
-		}
+
 
 		// #define luaL_dostring(L, s) (luaL_loadstring(L, s) || lua_pcall(L, 0, LUA_MULTRET, 0))
 		public static int luaL_dostring(IntPtr L, string s)
@@ -256,6 +283,83 @@ namespace MeluaLib
 		public static void lua_newtable(IntPtr L)
 		{
 			lua_createtable(L, 0, 0);
+		}
+
+
+
+
+		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
+		public static int luaL_loadstring(IntPtr L, string s)
+		{
+			return luaL_loadbuffer(L, s, s.Length, s);
+		}
+
+
+
+		/// <summary>
+		/// Custom function, calls the specified standard lib open functions.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <param name="libsToLoad"></param>
+		public static void openlib(IntPtr L, params LuaLib[] libsToLoad)
+		{
+			foreach (var lib in libsToLoad)
+			{
+				string name;
+				LuaNativeFunction func;
+
+				switch (lib)
+				{
+					case LuaLib.Base:
+						name = "";
+						func = luaopen_base;
+						break;
+					case LuaLib.Package:
+						name = "package";
+						func = luaopen_package;
+						break;
+					case LuaLib.Table:
+						name = "table";
+						func = luaopen_table;
+						break;
+					case LuaLib.IO:
+						name = "io";
+						func = luaopen_io;
+						break;
+					case LuaLib.OS:
+						name = "os";
+						func = luaopen_os;
+						break;
+					case LuaLib.String:
+						name = "string";
+						func = luaopen_string;
+						break;
+					case LuaLib.Math:
+						name = "math";
+						func = luaopen_math;
+						break;
+					case LuaLib.Debug:
+						name = "debug";
+						func = luaopen_debug;
+						break;
+
+					default:
+						throw new Exception("Unknown lua lib '" + lib + "'.");
+				}
+
+				lua_pushcfunction(L, func);
+				lua_pushstring(L, name);
+				lua_call(L, 1, 0);
+			}
+		}
+
+		/// <summary>
+		/// Custom function, calls all standard lib open functions.
+		/// </summary>
+		/// <param name="L"></param>
+		public static void openlibs(IntPtr L)
+		{
+			openlib(L, LuaLib.Base, LuaLib.Package, LuaLib.Table, LuaLib.IO, LuaLib.OS, LuaLib.String, LuaLib.Math, LuaLib.Debug);
 		}
 	}
 }
