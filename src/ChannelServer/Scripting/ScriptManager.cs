@@ -838,17 +838,4 @@ namespace Melia.Channel.Scripting
 			return 0;
 		}
 	}
-
-	public class ScriptState
-	{
-		public ChannelConnection Connection { get; private set; }
-		public IntPtr NL { get; private set; }
-		public Monster CurrentNpc { get; set; }
-
-		public ScriptState(ChannelConnection conn, IntPtr NL)
-		{
-			this.Connection = conn;
-			this.NL = NL;
-		}
-	}
 }
