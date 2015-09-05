@@ -4,4 +4,4 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-test.lua
+f_siauliai_west.lua
