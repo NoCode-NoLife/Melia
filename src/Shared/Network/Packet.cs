@@ -495,25 +495,31 @@ namespace Melia.Shared.Network
 			var length = this.Length;
 			var tableSize = Network.Op.GetSize(this.Op);
 			var opName = Network.Op.GetName(this.Op);
+			var spacer = "".PadLeft(78, '-');
 
-			sb.AppendLine("".PadLeft(78, '-'));
+			sb.AppendLine(spacer);
 			sb.AppendFormat("Op: {0:X4} {1}, Size: {2}", this.Op, opName, length);
 			if (tableSize != 0)
 				sb.AppendFormat(" (Table: {0}, Garbage: {1})", tableSize, length - tableSize);
 			sb.AppendLine();
-			sb.AppendLine("".PadLeft(78, '-'));
+			sb.AppendLine(spacer);
 
 			for (int i = 0; i < length; i += 16)
 			{
+				sb.AppendFormat("{0:X4}   ", i);
+
 				int k = 0;
 				for (int j = 0; j < 16; ++j, ++k)
 				{
 					if (i + j > length - 1)
 						break;
 					sb.Append(buffer[i + j].ToString("X2") + ' ');
+					if (j == 7)
+						sb.Append(' ');
 				}
 
 				sb.Append("".PadLeft((16 - k) * 3, ' '));
+				sb.Append("  ");
 
 				for (int j = 0; j < 16; ++j)
 				{
@@ -530,7 +536,7 @@ namespace Melia.Shared.Network
 				sb.AppendLine();
 			}
 
-			sb.AppendLine("".PadLeft(78, '-'));
+			sb.AppendLine(spacer);
 
 			return sb.ToString().Trim();
 		}
