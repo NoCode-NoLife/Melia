@@ -204,7 +204,10 @@ namespace Melia.Channel.Scripting
 
 			// Log error if result is not success or yield
 			if (result != 0 && result != Melua.LUA_YIELD)
+			{
 				Log.Error("ScriptManager.Call: Error while executing '{0}' for {1}.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
+				result = 0; // Set to 0 to close dialog on error
+			}
 
 			// Close dialog if end of function was reached
 			if (result == 0)
@@ -250,7 +253,10 @@ namespace Melia.Channel.Scripting
 
 			// Log error if result is not success or yield
 			if (result != 0 && result != Melua.LUA_YIELD)
+			{
 				Log.Error("ScriptManager.Call: Error while resuming script for {0}.\n{1}", conn.Account.Name, Melua.lua_tostring(NL, -1));
+				result = 0; // Set to 0 to close dialog on error
+			}
 
 			// Close dialog if end of function was reached
 			if (result == 0)
