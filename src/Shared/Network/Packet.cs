@@ -18,6 +18,7 @@ namespace Melia.Shared.Network
 
 		private byte[] _buffer;
 		private int _ptr;
+		private Packet _zlibPacket;
 
 		/// <summary>
 		/// Length of the packet.
@@ -240,6 +241,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutByte(byte val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutByte(val);
+				return;
+			}
+
 			this.EnsureSpace(1);
 
 			_buffer[_ptr++] = (byte)(val);
@@ -252,6 +259,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutByte(bool val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutByte(val);
+				return;
+			}
+
 			this.PutByte(val ? (byte)1 : (byte)0);
 		}
 
@@ -261,6 +274,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutShort(int val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutShort(val);
+				return;
+			}
+
 			this.EnsureSpace(2);
 
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
@@ -274,6 +293,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutInt(int val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutInt(val);
+				return;
+			}
+
 			this.EnsureSpace(4);
 
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
@@ -285,6 +310,12 @@ namespace Melia.Shared.Network
 
 		public void PutLong(long val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutLong(val);
+				return;
+			}
+
 			this.EnsureSpace(8);
 
 			_buffer[_ptr++] = (byte)(val >> (8 * 0));
@@ -304,6 +335,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutFloat(float val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutFloat(val);
+				return;
+			}
+
 			this.EnsureSpace(4);
 
 			var bVal = BitConverter.GetBytes(val);
@@ -324,6 +361,12 @@ namespace Melia.Shared.Network
 		/// <param name="length"></param>
 		public void PutString(string val, int length)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutString(val, length);
+				return;
+			}
+
 			this.EnsureSpace(length);
 
 			if (val == null)
@@ -341,6 +384,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutString(string val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutString(val);
+				return;
+			}
+
 			if (val == null)
 				val = "";
 
@@ -358,6 +407,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutLpString(string val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutLpString(val);
+				return;
+			}
+
 			if (val == null)
 				val = "";
 
@@ -376,6 +431,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutBin(params byte[] val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutBin(val);
+				return;
+			}
+
 			this.EnsureSpace(val.Length);
 
 			Buffer.BlockCopy(val, 0, _buffer, _ptr, val.Length);
@@ -389,6 +450,12 @@ namespace Melia.Shared.Network
 		/// <param name="hex"></param>
 		public void PutBinFromHex(string hex)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutBinFromHex(hex);
+				return;
+			}
+
 			if (hex == null)
 				throw new ArgumentNullException("hex");
 
@@ -412,6 +479,12 @@ namespace Melia.Shared.Network
 		/// <param name="amount"></param>
 		public void PutEmptyBin(int amount)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutEmptyBin(amount);
+				return;
+			}
+
 			if (amount <= 0)
 				return;
 
@@ -424,6 +497,12 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutBin(object val)
 		{
+			if (_zlibPacket != null)
+			{
+				_zlibPacket.PutBin(val);
+				return;
+			}
+
 			var type = val.GetType();
 			if (!type.IsValueType || type.IsPrimitive)
 				throw new Exception("PutBin only takes byte[] and structs.");
@@ -440,19 +519,47 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
-		/// Compresses and writes bytes to buffer.
+		/// Every Put call after this is being written to a separate buffer,
+		/// that is written to this packet at the call of EndZlib.
 		/// </summary>
-		/// <param name="val"></param>
-		/// <param name="length"></param>
-		public void PutZlib(byte[] val, int length = -1)
+		/// <remarks>
+		/// Creates a second packet behind the scenes, that is used as
+		/// temporary buffer. Put calls go to that packet until EndZlib is
+		/// called. Once that happens, the temp packet buffer gets compressed
+		/// and written into this packet.
+		/// </remarks>
+		public void BeginZlib()
 		{
-			if (length == -1)
-				length = val.Length;
+			if (_zlibPacket != null)
+				throw new InvalidOperationException("End previous Zlib before starting the next one.");
+
+			_zlibPacket = new Packet(this.Op);
+		}
+
+		/// <summary>
+		/// Ends zlib, writing everything between this and the Begin call to
+		/// the packet, packed.
+		/// </summary>
+		public void EndZlib()
+		{
+			if (_zlibPacket == null)
+				throw new InvalidOperationException("Zlib is not active.");
+
+			var buffer = _zlibPacket._buffer;
+			var len = _zlibPacket.Length;
+			_zlibPacket = null;
+
+			// TODO: While this implementation works, with a second packet as
+			//   buffer, I feel it could be implemented better. If we just save
+			//   the start position on Begin we don't need the temp packet or
+			//   a redirect there from every Put method. On the other hand,
+			//   this would technically allow for nested zlibs, should that
+			//   ever be needed.
 
 			using (var ms = new MemoryStream())
 			{
 				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
-					ds.Write(val, 0, length);
+					ds.Write(buffer, 0, len);
 
 				var compressedVal = ms.ToArray();
 
@@ -460,15 +567,6 @@ namespace Melia.Shared.Network
 				this.PutShort(compressedVal.Length);
 				this.PutBin(compressedVal);
 			}
-		}
-
-		/// <summary>
-		/// Compresses and writes bytes from packet to buffer.
-		/// </summary>
-		/// <param name="val"></param>
-		public void PutZlib(Packet packet)
-		{
-			this.PutZlib(packet._buffer, packet.Length);
 		}
 
 		/// <summary>

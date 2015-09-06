@@ -140,21 +140,20 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(0x0B); //SubOp
 
-			var subPct = new Packet(Op.BC_NORMAL);
-			subPct.PutShort(150); // zoneMaxPcCount
-			subPct.PutShort(mapAvailableCount);
+			packet.BeginZlib();
+			packet.PutShort(150); // zoneMaxPcCount
+			packet.PutShort(mapAvailableCount);
 			for (var i = 0; i < mapAvailableCount; ++i)
 			{
-				subPct.PutShort(characters[i].MapId);
-				subPct.PutShort(zoneServerCount);
+				packet.PutShort(characters[i].MapId);
+				packet.PutShort(zoneServerCount);
 				for (var zone = 0; zone < zoneServerCount; ++zone)
 				{
-					subPct.PutShort(zone);
-					subPct.PutShort(1); // currentPlayersCount
+					packet.PutShort(zone);
+					packet.PutShort(1); // currentPlayersCount
 				}
 			}
-
-			packet.PutZlib(subPct);
+			packet.EndZlib();
 
 			conn.Send(packet);
 		}
