@@ -25,7 +25,7 @@ float i1;
 // MONSTER
 int monsterId;
 int i2;
-int i3;
+int maxHp;
 short s2; // max shield?
 char bin1[2];
 int level;
@@ -44,4 +44,4 @@ lpString dialogName;
 lpString warpName; // ?
 lpString str3;
 
-char bin3[6];
+char bin3[b3];
