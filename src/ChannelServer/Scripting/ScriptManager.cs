@@ -261,8 +261,12 @@ namespace Melia.Channel.Scripting
 			// Close dialog if end of function was reached
 			if (result == 0)
 			{
-				// TODO: Don't send twice after a select.
-				Send.ZC_DIALOG_CLOSE(conn);
+				// Only close from here if the end was reached after an
+				// argument-less resume, since close is already called
+				// from the argument handling to get rid of the selection
+				// dialog.
+				if (argc == 0)
+					Send.ZC_DIALOG_CLOSE(conn);
 				conn.ScriptState.CurrentNpc = null;
 			}
 		}
