@@ -91,6 +91,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Servers) != 0)
+				{
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -185,6 +190,7 @@ namespace Melia.Shared
 		Items = 0x01,
 		Maps = 0x02,
 		Jobs = 0x04,
+		Servers = 0x08,
 
 		All = 0x7FFFFFFF,
 	}
