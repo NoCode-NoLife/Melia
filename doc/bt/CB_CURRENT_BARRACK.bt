@@ -11,7 +11,7 @@ short op;
 int sequence;
 int checksum;
 
-long sessionId;
+int64 sessionId;
 byte nr; // 1 based "index" in the character list
 float x;
 float y;
