@@ -1,0 +1,15 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CB_BUY_THEMA.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int i1;
+int mapId;
