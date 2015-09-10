@@ -33,3 +33,34 @@ string msgParameterRead(msgParameter &v)
 {
     return v.key.text + " : " + v.value.text;
 }
+
+// Position in 3D space
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+}
+position <read=positionRead>;
+
+string positionRead(position &v)
+{
+    local string result;
+    SPrintf(result, "X: %f, Y: %f, Z: %f", v.x, v.y, v.z);
+    return result;
+}
+
+// 2D direction
+typedef struct
+{
+    float x;
+    float y;
+}
+direction <read=directionRead>;
+
+string directionRead(direction &v)
+{
+    local string result;
+    SPrintf(result, "X: %f, Y: %f", v.x, v.y);
+    return result;
+}

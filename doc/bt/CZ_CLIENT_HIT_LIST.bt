@@ -1,0 +1,27 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_CLIENT_HIT_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt";
+
+short op;
+int sequence;
+int checksum;
+
+short size;
+int i1;
+int i2; // count?
+
+position attackerPos;
+position targetPos;
+direction targetDir;
+
+byte b1[13]; // 01 00...
+
+int targetHandle;
+//count = number of handles?
