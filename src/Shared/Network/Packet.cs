@@ -625,7 +625,8 @@ namespace Melia.Shared.Network
 						break;
 
 					var b = buffer[i + j];
-					if (b >= 32 && b <= 126)
+					// Only display ANSI characters, and no curly braces.
+					if (b >= 32 && b <= 126 && b != 123 && b != 125)
 						sb.Append((char)b);
 					else
 						sb.Append('.');
