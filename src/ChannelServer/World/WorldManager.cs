@@ -12,14 +12,21 @@ namespace Melia.Channel.World
 {
 	public class WorldManager
 	{
+		public const int HeartbeatTime = 1000;
+		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
+
 		private int _handles = 0;
+
 		private Dictionary<int, Map> _mapsId;
 		private Dictionary<string, Map> _mapsName;
+		private object _mapsLock = new object();
+
+		private Timer _heartbeatTimer;
 
 		/// <summary>
 		/// Returns the amount of maps in the world.
 		/// </summary>
-		public int Count { get { lock (_mapsId) return _mapsId.Count; } }
+		public int Count { get { lock (_mapsLock) return _mapsId.Count; } }
 
 		/// <summary>
 		/// Creates new world manager.
@@ -28,6 +35,31 @@ namespace Melia.Channel.World
 		{
 			_mapsId = new Dictionary<int, Map>();
 			_mapsName = new Dictionary<string, Map>();
+		}
+
+		/// <summary>
+		/// Initializes heartbeat timer.
+		/// </summary>
+		private void SetUpHeartbeat()
+		{
+			var now = DateTime.Now;
+
+			// Start timer on the next HeartbeatTime
+			// (eg on the next full 500 ms) and run it regularly afterwards.
+			_heartbeatTimer = new Timer(Heartbeat, null, HeartbeatTime - (now.Ticks / 10000 % HeartbeatTime), HeartbeatTime);
+		}
+
+		/// <summary>
+		/// Handles regularly occuring events and raises time events.
+		/// </summary>
+		/// <remarks>
+		/// On the first call all time events are raised,
+		/// because lastHeartbeat is 0, and the events depend on the time
+		/// since the last heartbeat. This also ensures that they aren't
+		/// called multiple times.
+		/// </remarks>
+		private void Heartbeat(object _)
+		{
 		}
 
 		/// <summary>
@@ -43,7 +75,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Loads maps from data.
+		/// Initializes world.
 		/// </summary>
 		public void Initialize()
 		{
@@ -53,6 +85,8 @@ namespace Melia.Channel.World
 				_mapsId.Add(map.Id, map);
 				_mapsName.Add(map.Name, map);
 			}
+
+			this.SetUpHeartbeat();
 		}
 
 		/// <summary>
@@ -62,7 +96,7 @@ namespace Melia.Channel.World
 		public Map GetMap(int mapId)
 		{
 			Map result;
-			lock (_mapsId)
+			lock (_mapsLock)
 				_mapsId.TryGetValue(mapId, out result);
 			return result;
 		}
@@ -74,7 +108,7 @@ namespace Melia.Channel.World
 		public Map GetMap(string mapName)
 		{
 			Map result;
-			lock (_mapsName)
+			lock (_mapsLock)
 				_mapsName.TryGetValue(mapName, out result);
 			return result;
 		}
@@ -84,7 +118,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void RemoveScriptedEntities()
 		{
-			lock (_mapsId)
+			lock (_mapsLock)
 			{
 				foreach (var map in _mapsId.Values)
 					map.RemoveScriptedEntities();
@@ -97,7 +131,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Character GetCharacterByTeamName(string teamName)
 		{
-			lock (_mapsId)
+			lock (_mapsLock)
 			{
 				foreach (var map in _mapsId.Values)
 				{
