@@ -93,6 +93,11 @@ namespace Melia.Channel.World
 		public int MaxHp { get; set; }
 
 		/// <summary>
+		/// At this time the monster will be removed from the map.
+		/// </summary>
+		public DateTime DisappearTime { get; set; }
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
@@ -104,6 +109,7 @@ namespace Melia.Channel.World
 			this.Level = 1;
 			this.SDR = 1;
 			this.MaxHp = this.Hp = 100;
+			this.DisappearTime = DateTime.MaxValue;
 		}
 	}
 }

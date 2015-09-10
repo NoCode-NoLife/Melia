@@ -60,6 +60,19 @@ namespace Melia.Channel.World
 		/// </remarks>
 		private void Heartbeat(object _)
 		{
+			this.UpdateEntities();
+		}
+
+		/// <summary>
+		/// Updates all entities on all maps.
+		/// </summary>
+		private void UpdateEntities()
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+					map.UpdateEntities();
+			}
 		}
 
 		/// <summary>

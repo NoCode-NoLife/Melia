@@ -47,6 +47,21 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Updates all entities, e.g. removes dead monsters.
+		/// </summary>
+		public void UpdateEntities()
+		{
+			var now = DateTime.Now;
+
+			List<Monster> toDisappear;
+			lock (_monsters)
+				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
+
+			foreach (var monster in toDisappear)
+				Send.ZC_LEAVE(monster);
+		}
+
+		/// <summary>
 		/// Adds character to map.
 		/// </summary>
 		/// <param name="character"></param>
