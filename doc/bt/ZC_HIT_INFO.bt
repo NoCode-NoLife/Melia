@@ -1,0 +1,20 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_HIT_INFO.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int targetHandle;
+int attackerHandle; // ?
+int i1;
+int damage;
+int hp;
+int i4;
+int64 l1; // ?
+byte b1[22]; // 18 00...
