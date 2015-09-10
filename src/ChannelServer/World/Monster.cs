@@ -1,4 +1,6 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Channel.Network;
+using Melia.Shared.Const;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
@@ -85,7 +87,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Health points.
 		/// </summary>
-		public int Hp { get; set; }
+		public int Hp
+		{
+			get { return _hp; }
+			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
+		}
+		private int _hp;
 
 		/// <summary>
 		/// Maximum health points.
@@ -108,8 +115,34 @@ namespace Melia.Channel.World
 			this.NpcType = type;
 			this.Level = 1;
 			this.SDR = 1;
-			this.MaxHp = this.Hp = 100;
+			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
+		}
+
+		/// <summary>
+		/// Makes monster take damage and kills it if the HP reach 0.
+		/// </summary>
+		/// <param name="damage"></param>
+		/// <param name="from"></param>
+		public void TakeDamage(int damage, Character from)
+		{
+			this.Hp -= damage;
+
+			Send.ZC_HIT_INFO(from, this, damage);
+
+			if (this.Hp == 0)
+				this.Kill(from);
+		}
+
+		/// <summary>
+		/// Kills monster.
+		/// </summary>
+		/// <param name="killer"></param>
+		public void Kill(Character killer)
+		{
+			this.DisappearTime = DateTime.Now.AddSeconds(2);
+
+			Send.ZC_DEAD(this.Map, this);
 		}
 	}
 }

@@ -871,6 +871,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(monster.Handle);
+			packet.PutShort(0);
 
 			monster.Map.Broadcast(packet);
 		}
@@ -887,6 +888,44 @@ namespace Melia.Channel.Network
 			packet.PutByte(enabled);
 
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts ZC_DEAD on map, which kills the given entities visually.
+		/// </summary>
+		/// <param name="monsters">List of monsters to kill visually.</param>
+		public static void ZC_DEAD(Map map, params Monster[] monsters)
+		{
+			if (monsters == null || monsters.Length == 0)
+				throw new ArgumentException("Monster list is empty.");
+
+			var packet = new Packet(Op.ZC_DEAD);
+			foreach (var monster in monsters)
+				packet.PutInt(monster.Handle);
+			packet.PutInt(0);
+
+			map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Informs players about a hit that occured, and about the target's
+		/// new hp, after damage was applied.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="damage"></param>
+		public static void ZC_HIT_INFO(Character attacker, Monster target, int damage)
+		{
+			var packet = new Packet(Op.ZC_HIT_INFO);
+			packet.PutInt(target.Handle);
+			packet.PutInt(attacker.Handle);
+			packet.PutInt(100);
+			packet.PutInt(damage);
+			packet.PutInt(target.Hp);
+			packet.PutInt(2);
+			packet.PutBinFromHex("01 00 00 60 06 68 03 00   18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+
+			target.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

@@ -755,12 +755,54 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// 96 0D 0D 00 00 00 B2 00 00 00 | 1C 00 00 00 | D1 E0
+		/// [96 0D] [0D 00 00 00] [B2 00 00 00] 1C 00 00 00 | D1 E0
 		/// </example>
 		[PacketHandler(Op.CZ_REVEAL_NPC_STATE)]
 		public void CZ_REVEAL_NPC_STATE(ChannelConnection conn, Packet packet)
 		{
 			var unkInt = packet.GetInt();
+		}
+
+		/// <summary>
+		/// Sent when attacking enemies.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [49 0D] [3C 00 00 00] [1F 0D 00 00] [45 00] 00 00 00 00 01 00 00 00 65 EB 54 C4 E5 56 A1 43 4E 9B 9A 43 34 D9 4D C4 E5 56 A1 43 B1 BF A8 43 F3 04 35 3F F2 04 35 3F 01 00 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 | 91 27 2D
+		/// </example>
+		[PacketHandler(Op.CZ_CLIENT_HIT_LIST)]
+		public void CZ_CLIENT_HIT_LIST(ChannelConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var unkInt = packet.GetInt();
+			var count = packet.GetInt(); // ?
+			var attackerX = packet.GetFloat();
+			var attackerY = packet.GetFloat();
+			var attackerZ = packet.GetFloat();
+			var targetX = packet.GetFloat();
+			var targetY = packet.GetFloat();
+			var targetZ = packet.GetFloat();
+			var targetDx = packet.GetFloat();
+			var targetDy = packet.GetFloat();
+			var unkBin = packet.GetBin(13); // 01 00 00 00 00 00 00 00 00 00 00 00 00
+
+			var character = conn.SelectedCharacter;
+
+			for (int i = 0; i < count; ++i)
+			{
+				var targetHandle = packet.GetInt();
+
+				// Get target
+				var target = character.Map.GetMonster(targetHandle);
+				if (target == null)
+				{
+					Log.Warning("User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
+					continue;
+				}
+
+				target.TakeDamage(20, character);
+			}
 		}
 	}
 }
