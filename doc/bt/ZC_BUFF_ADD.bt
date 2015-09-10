@@ -1,0 +1,23 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_BUFF_ADD.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt";
+
+short op;
+int sequence;
+short size;
+
+int handle;
+int i1;
+int i2;
+int i3;
+int i4;
+int i5;
+lpString str1;
+int i6;
