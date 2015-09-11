@@ -110,6 +110,13 @@ namespace Melia.Login.Network
 		{
 			var unkByte = packet.GetByte();
 
+			packet = new Packet(Op.BC_SERVER_ENTRY);
+			packet.PutInt(0x0100007F);
+			packet.PutInt(0x0100007F);
+			packet.PutShort(2002);
+			packet.PutShort(2003);
+			conn.Send(packet);
+
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZONE_TRAFFIC(conn);
 		}
@@ -365,13 +372,6 @@ namespace Melia.Login.Network
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0
 			packet.PutByte(0); // Passed to a function if ^ is 0
-			conn.Send(packet);
-
-			packet = new Packet(Op.BC_SERVER_ENTRY);
-			packet.PutInt(0x0100007F);
-			packet.PutInt(0x0100007F);
-			packet.PutShort(2002);
-			packet.PutShort(2003);
 			conn.Send(packet);
 		}
 	}

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeluaLib", "src\Melua\Melua
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.ChannelServer", "src\Test.ChannelServer\Test.ChannelServer.csproj", "{B818F174-3151-4FC3-99EB-2DA2A8465A50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialServer", "src\SocialServer\SocialServer.csproj", "{A9A9FCE2-06EC-46B8-BCE1-9F8FD5BB61AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9A9FCE2-06EC-46B8-BCE1-9F8FD5BB61AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A9FCE2-06EC-46B8-BCE1-9F8FD5BB61AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A9FCE2-06EC-46B8-BCE1-9F8FD5BB61AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A9FCE2-06EC-46B8-BCE1-9F8FD5BB61AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -135,6 +135,7 @@ namespace Melia.Shared.Network
 				while (read < length)
 				{
 					var packetLength = BitConverter.ToUInt16(_buffer, read);
+					Log.Debug(BitConverter.ToString(_buffer, read, length - read));
 					if (packetLength > length)
 					{
 						Log.Debug(BitConverter.ToString(_buffer, read, length - read));

@@ -45,4 +45,5 @@ exit
 :NO_ARGS
 start start-login
 start start-channel
+start start-social
 start start-web

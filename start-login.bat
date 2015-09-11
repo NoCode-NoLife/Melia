@@ -1,3 +1,3 @@
 @echo off
 
-start-server LoginServer
+start-all LoginServer

@@ -1,3 +1,3 @@
 @echo off
 
-start-server ChannelServer
+start-all ChannelServer
