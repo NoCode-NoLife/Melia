@@ -1,0 +1,18 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CS_LOGIN.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int checksum;
+
+char name[33];
+byte password[16];
+
+byte b1; // ?
+int i1; // ?
+int i2; // ?
