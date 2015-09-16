@@ -41,6 +41,7 @@ namespace Melia.Channel.Util
 			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
+			Add("levelup", "<levels>", HandleLevelUp);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -322,6 +323,21 @@ namespace Melia.Channel.Util
 			ChannelServer.Instance.ScriptManager.Reload();
 
 			Send.ZC_CHAT(character, "Done.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleLevelUp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			int levels;
+			if (!int.TryParse(args[1], out levels) || levels < 1 || levels > 10)
+				return CommandResult.InvalidArgument;
+
+			for (int i = 0; i < levels; ++i)
+				target.LevelUp();
 
 			return CommandResult.Okay;
 		}

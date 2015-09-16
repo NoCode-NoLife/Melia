@@ -104,12 +104,13 @@ namespace Melia.Channel.Database
 					character.Int = reader.GetFloat("int");
 					character.Spr = reader.GetFloat("spr");
 					character.Dex = reader.GetFloat("dex");
+					character.StatByLevel = reader.GetFloat("statByLevel");
 
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
 					var z = reader.GetFloat("z");
 					character.Position = new Position(x, y, z);
-					character.Direction = new Direction(-0.707107f, 0.707107f);
+					character.Direction = new Direction(0);
 				}
 			}
 
@@ -150,6 +151,7 @@ namespace Melia.Channel.Database
 				cmd.Set("int", character.Int);
 				cmd.Set("spr", character.Spr);
 				cmd.Set("dex", character.Dex);
+				cmd.Set("statByLevel", character.StatByLevel);
 
 				cmd.Execute();
 			}

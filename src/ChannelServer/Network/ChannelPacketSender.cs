@@ -761,6 +761,8 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
 					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
 
+					case ObjectProperty.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
+
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
 			}
@@ -926,6 +928,49 @@ namespace Melia.Channel.Network
 			packet.PutBinFromHex("01 00 00 60 06 68 03 00   18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
 
 			target.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates character's level.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_PC_LEVELUP(Character character)
+		{
+			var packet = new Packet(Op.ZC_PC_LEVELUP);
+			packet.PutInt(character.Handle);
+			packet.PutInt(character.Level);
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_NORMAL_LevelUp(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x11);
+			packet.PutInt(character.Handle);
+			packet.PutShort(8351);
+			packet.PutShort(39);
+			packet.PutFloat(6); // Effect size
+			packet.PutInt(2);
+			packet.PutEmptyBin(4);
+			packet.PutFloat(1);
+			packet.PutEmptyBin(4);
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_NORMAL_ClassLevelUp(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x14);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutInt(2);
+			packet.PutByte(1);
+			packet.PutFloat(6); // Effect size
+			packet.PutEmptyBin(8);
+
+			character.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)
