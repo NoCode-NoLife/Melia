@@ -24,6 +24,8 @@ namespace Melia.Channel.Scripting
 		private const string UserRoot = "user/scripts/";
 		private const string List = SystemRoot + "scripts.txt";
 
+		private const string NpcNameSeperator = "*@*";
+
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 
 		private IntPtr GL;
@@ -325,6 +327,18 @@ namespace Melia.Channel.Scripting
 				msg = msg.Replace("{fullname}", conn.SelectedCharacter.Name + " " + conn.SelectedCharacter.TeamName);
 		}
 
+		/// <summary>
+		/// Prepends NPC name code to msg if no name is set for the msg.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
+		private void AttachNpcName(ChannelConnection conn, ref string msg)
+		{
+			// Prepend NPC name
+			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
+				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
+		}
+
 		//-----------------------------------------------------------------//
 		// SCRIPT FUNCTIONS												   //
 		//-----------------------------------------------------------------//
@@ -518,6 +532,7 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
+			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_OK(conn, msg);
@@ -567,6 +582,8 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
+			this.AttachNpcName(conn, ref args[0]);
+
 			Send.ZC_DIALOG_SELECT(conn, args);
 
 			return Melua.lua_yield(L, 1);
@@ -603,6 +620,7 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
+			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
@@ -654,6 +672,7 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
+			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
 
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg, min, max);
