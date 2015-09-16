@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
@@ -128,6 +129,10 @@ namespace Melia.Channel.World
 		{
 			this.Hp -= damage;
 
+			// Sending this to the attacker causes a double attack effect,
+			// because the client plays the effect automatically as well.
+			// TODO: Find out how officials update the monster's HP without
+			//   this packet.
 			Send.ZC_HIT_INFO(from, this, damage);
 
 			if (this.Hp == 0)
