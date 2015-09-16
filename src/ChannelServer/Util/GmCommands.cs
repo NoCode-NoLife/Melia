@@ -151,7 +151,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			Send.ZC_CHAT(character, "You are here: {0} - {1}", target.MapId, target.Position);
+			Send.ZC_CHAT(character, "You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
 
 			return CommandResult.Okay;
 		}
