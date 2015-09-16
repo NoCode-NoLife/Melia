@@ -15,7 +15,7 @@ int checksum;
 
 short size;
 int i1;
-int i2; // count?
+int count; // ?
 
 position attackerPos;
 position targetPos;
@@ -23,5 +23,4 @@ direction targetDir;
 
 byte b1[13]; // 01 00...
 
-int targetHandle;
-//count = number of handles?
+int targetHandles[count];
