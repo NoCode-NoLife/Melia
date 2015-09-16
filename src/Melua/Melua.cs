@@ -32,8 +32,27 @@ namespace MeluaLib
 		public const int LUA_TUSERDATA = 7;
 		public const int LUA_TTHREAD = 8;
 
+		// Event codes
+		public const int LUA_HOOKCALL = 0;
+		public const int LUA_HOOKRET = 1;
+		public const int LUA_HOOKLINE = 2;
+		public const int LUA_HOOKCOUNT = 3;
+		public const int LUA_HOOKTAILRET = 4;
+
+		// Event masks
+		public const int LUA_MASKCALL = (1 << LUA_HOOKCALL);
+		public const int LUA_MASKRET = (1 << LUA_HOOKRET);
+		public const int LUA_MASKLINE = (1 << LUA_HOOKLINE);
+		public const int LUA_MASKCOUNT = (1 << LUA_HOOKCOUNT);
+
+
+
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl‌)]
 		public delegate int LuaNativeFunction(IntPtr L);
+
+		// typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl‌)]
+		public delegate void lua_Hook(IntPtr L, IntPtr ar);
 
 		// LUALIB_API lua_State *luaL_newstate(void)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -183,6 +202,18 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int luaopen_debug(IntPtr L);
 
+		// LUA_API int lua_sethook (lua_State *L, lua_Hook func, int mask, int count)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_sethook(IntPtr L, lua_Hook func, int mask, int count);
+
+		// LUALIB_API void luaL_where (lua_State *L, int level)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void luaL_where(IntPtr L, int level);
+
+		// LUA_API void lua_concat (lua_State *L, int n)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_concat(IntPtr L, int n);
+
 
 
 
@@ -190,6 +221,12 @@ namespace MeluaLib
 		public static int luaL_dostring(IntPtr L, string s)
 		{
 			return (luaL_loadstring(L, s) != 0 || lua_pcall(L, 0, LUA_MULTRET, 0) != 0) ? 1 : 0;
+		}
+
+		// #define luaL_dofile(L, fn) (luaL_loadfile(L, fn) || lua_pcall(L, 0, LUA_MULTRET, 0))
+		public static int luaL_dofile(IntPtr L, string fn)
+		{
+			return (luaL_loadfile(L, fn) != 0 || lua_pcall(L, 0, LUA_MULTRET, 0) != 0) ? 1 : 0;
 		}
 
 		// #define lua_register(L,n,f) (lua_pushcfunction(L, (f)), lua_setglobal(L, (n)))
@@ -301,7 +338,7 @@ namespace MeluaLib
 		/// </summary>
 		/// <param name="L"></param>
 		/// <param name="libsToLoad"></param>
-		public static void openlib(IntPtr L, params LuaLib[] libsToLoad)
+		public static void melua_openlib(IntPtr L, params LuaLib[] libsToLoad)
 		{
 			foreach (var lib in libsToLoad)
 			{
@@ -357,9 +394,26 @@ namespace MeluaLib
 		/// Custom function, calls all standard lib open functions.
 		/// </summary>
 		/// <param name="L"></param>
-		public static void openlibs(IntPtr L)
+		public static void melua_openlibs(IntPtr L)
 		{
-			openlib(L, LuaLib.Base, LuaLib.Package, LuaLib.Table, LuaLib.IO, LuaLib.OS, LuaLib.String, LuaLib.Math, LuaLib.Debug);
+			melua_openlib(L, LuaLib.Base, LuaLib.Package, LuaLib.Table, LuaLib.IO, LuaLib.OS, LuaLib.String, LuaLib.Math, LuaLib.Debug);
+		}
+
+		/// <summary>
+		/// C# version of luaL_error.
+		/// </summary>
+		/// <remarks>
+		/// Original: LUALIB_API int luaL_error (lua_State *L, const char *fmt, ...)
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public static int melua_error(IntPtr L, string format, params object[] args)
+		{
+			luaL_where(L, 1);
+			lua_pushstring(L, string.Format(format, args));
+			lua_concat(L, 2);
+			return lua_error(L);
 		}
 	}
 }

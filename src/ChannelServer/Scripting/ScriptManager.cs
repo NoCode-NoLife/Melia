@@ -55,7 +55,7 @@ namespace Melia.Channel.Scripting
 		public void Initialize()
 		{
 			GL = Melua.luaL_newstate();
-			Melua.openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
+			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
 			// Functions
 			// --------------------------------------------------------------
