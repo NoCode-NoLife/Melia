@@ -76,6 +76,11 @@ namespace Melia.Channel.World
 		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
 
 		/// <summary>
+		/// Returns ratio between NowWeight and MaxWeight.
+		/// </summary>
+		public float Speed { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -88,6 +93,7 @@ namespace Melia.Channel.World
 			this.Dex = 1;
 			this.Handle = 1337;
 			this.Inventory = new Inventory(this);
+			this.Speed = 31;
 		}
 
 		/// <summary>
@@ -96,7 +102,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public float GetSpeed()
 		{
-			return 50;
+			return this.Speed;
 		}
 
 		/// <summary>

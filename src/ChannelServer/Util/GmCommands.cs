@@ -42,6 +42,7 @@ namespace Melia.Channel.Util
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
 			Add("levelup", "<levels>", HandleLevelUp);
+			Add("speed", "<speed>", HandleSpeed);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -338,6 +339,21 @@ namespace Melia.Channel.Util
 
 			for (int i = 0; i < levels; ++i)
 				target.LevelUp();
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleSpeed(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			float speed;
+			if (!float.TryParse(args[1], out speed))
+				return CommandResult.InvalidArgument;
+
+			target.Speed = speed;
+			Send.ZC_MOVE_SPEED(target);
 
 			return CommandResult.Okay;
 		}
