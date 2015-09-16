@@ -237,5 +237,26 @@ namespace Melia.Channel.World
 			//packet.PutBinFromHex("0F 11 00");
 			//conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Grants exp to character and handles level ups.
+		/// </summary>
+		/// <param name="exp"></param>
+		public void GiveExp(int exp, int jobExp, Monster monster)
+		{
+			this.Exp += exp;
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, 0, monster);
+			Send.ZC_EXP_UP(this, exp);
+
+			while (this.Exp >= this.MaxExp)
+			{
+				this.Exp -= this.MaxExp;
+				this.MaxExp += (int)(this.MaxExp * 0.1f); // + 10%
+
+				Send.ZC_MAX_EXP_CHANGED(this, exp);
+
+				this.LevelUp();
+			}
+		}
 	}
 }

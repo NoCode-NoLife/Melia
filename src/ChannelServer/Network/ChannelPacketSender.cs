@@ -895,6 +895,9 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_DEAD on map, which kills the given entities visually.
 		/// </summary>
+		/// <remarks>
+		/// I think this is wrong... it's probably not a list.
+		/// </remarks>
 		/// <param name="monsters">List of monsters to kill visually.</param>
 		public static void ZC_DEAD(Map map, params Monster[] monsters)
 		{
@@ -969,6 +972,43 @@ namespace Melia.Channel.Network
 			packet.PutByte(1);
 			packet.PutFloat(6); // Effect size
 			packet.PutEmptyBin(8);
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_MAX_EXP_CHANGED(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
+			packet.PutInt(exp);
+			packet.PutInt(character.Exp);
+			packet.PutInt(character.MaxExp);
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int jobExp, Monster monster)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
+			packet.PutInt(exp);
+			packet.PutInt(jobExp);
+			packet.PutInt(monster.Handle);
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_EXP_UP(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP);
+			packet.PutInt(exp);
+			packet.PutInt(0); // jobExp?
+
+			character.Map.Broadcast(packet);
+		}
+
+		public static void ZC_JOB_EXP_UP(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_JOB_EXP_UP);
+			packet.PutInt(exp);
 
 			character.Map.Broadcast(packet);
 		}
