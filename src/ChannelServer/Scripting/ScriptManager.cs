@@ -81,6 +81,7 @@ namespace Melia.Channel.Scripting
 
 			// Action
 			Register(warp);
+			Register(resetstats);
 		}
 
 		/// <summary>
@@ -867,6 +868,37 @@ namespace Melia.Channel.Scripting
 				Melua.lua_pushstring(L, ex.Message);
 				Melua.lua_error(L);
 			}
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Resets the player's stat points
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int resetstats(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			character.StatByLevel += character.Str - 1;
+			character.StatByLevel += character.Con - 1;
+			character.StatByLevel += character.Int - 1;
+			character.StatByLevel += character.Spr - 1;
+			character.StatByLevel += character.Dex - 1;
+			character.UsedStat = 0;
+
+			character.Str = 1;
+			character.Con = 1;
+			character.Int = 1;
+			character.Spr = 1;
+			character.Dex = 1;
+
+			Send.ZC_OBJECT_PROPERTY(character,
+				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
+			);
 
 			return 0;
 		}
