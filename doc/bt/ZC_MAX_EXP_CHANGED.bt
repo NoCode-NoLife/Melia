@@ -1,0 +1,15 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_MAX_EXP_CHANGED.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int expAcquired;
+int exp;
+int maxExp;
