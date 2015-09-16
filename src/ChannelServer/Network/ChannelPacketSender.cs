@@ -1077,6 +1077,28 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Shows emoticon for entity.
+		/// </summary>
+		/// <remarks>
+		/// Couldn't find a list in the client data yet.
+		/// Known emoticons:
+		/// - 60008: Explamation mark bubble
+		/// - 60009: Hearts
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="emoticons"></param>
+		/// <param name="duration"></param>
+		public static void ZC_SHOW_EMOTICON(IEntity entity, int emoticons, int duration)
+		{
+			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(emoticons);
+			packet.PutInt(duration);
+
+			entity.Map.Broadcast(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
