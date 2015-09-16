@@ -58,9 +58,24 @@ namespace Melia.Channel.World
 		public float NowWeight { get { return this.Inventory.GetNowWeight(); } }
 
 		/// <summary>
+		/// Stat points.
+		/// </summary>
+		public float StatPoints { get { return (this.StatByLevel + this.StatByBonus - this.UsedStat); } }
+
+		/// <summary>
 		/// Stat points acquired by leveling?
 		/// </summary>
 		public float StatByLevel { get; set; }
+
+		/// <summary>
+		/// Stat points acquired by leveling?
+		/// </summary>
+		public float StatByBonus { get; set; }
+
+		/// <summary>
+		/// Amount of stat points spent.
+		/// </summary>
+		public float UsedStat { get; set; }
 
 		/// <summary>
 		/// Returns maximum weight the character can carry.

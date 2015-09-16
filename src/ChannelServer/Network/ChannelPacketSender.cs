@@ -726,7 +726,8 @@ namespace Melia.Channel.Network
 				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
 				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
 				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight
+				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight,
+				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
 			);
 		}
 
@@ -762,6 +763,8 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
 
 					case ObjectProperty.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
+					case ObjectProperty.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
+					case ObjectProperty.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
@@ -946,6 +949,10 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Plays level up effect.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_NORMAL_LevelUp(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -962,6 +969,10 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Plays class level up effect.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_NORMAL_ClassLevelUp(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -976,6 +987,11 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Updates exp and max exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
 		public static void ZC_MAX_EXP_CHANGED(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
@@ -986,6 +1002,13 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Notification about acquired exp from killing a monster?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
+		/// <param name="jobExp"></param>
+		/// <param name="monster"></param>
 		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int jobExp, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
@@ -996,6 +1019,11 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Adds exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
 		public static void ZC_EXP_UP(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
@@ -1005,12 +1033,48 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Adds job exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
 		public static void ZC_JOB_EXP_UP(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
 			packet.PutInt(exp);
 
 			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Executes Lua addon function.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="msg"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg)
+		{
+			var packet = new Packet(Op.ZC_ADDON_MSG);
+			packet.PutByte((byte)(msg.Length + 1));
+			packet.PutFloat(0);
+			packet.PutByte(1);
+			packet.PutString(msg);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="property"></param>
+		/// <param name="value"></param>
+		public static void ZC_PC_PROP_UPDATE(Character character, short property, byte value)
+		{
+			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
+			packet.PutShort(property);
+			packet.PutByte(value); // ?
+
+			character.Connection.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

@@ -804,5 +804,61 @@ namespace Melia.Channel.Network
 				target.TakeDamage(target.MaxHp / 4, character);
 			}
 		}
+
+		/// <summary>
+		/// Sent when attacking enemies.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// [94 0C] [42 01 00 00] [C0 00 00 00] [26 00] 01 00 05 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00
+		/// </example>
+		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
+		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
+		{
+			Log.Debug(packet);
+			var size = packet.GetShort();
+			var unkShort = packet.GetShort();
+			var count = packet.GetInt();
+			if (count != 5)
+				throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
+
+			var character = conn.SelectedCharacter;
+
+			for (int i = 0; i < count; ++i)
+			{
+				var stat = packet.GetInt();
+				if (stat == 0)
+					continue;
+
+				if (character.StatPoints < stat)
+				{
+					Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+					break;
+				}
+
+				character.UsedStat += stat;
+
+				switch (i)
+				{
+					case 0: character.Str += stat; break;
+					case 1: character.Con += stat; break;
+					case 2: character.Int += stat; break;
+					case 3: character.Spr += stat; break;
+					case 4: character.Dex += stat; break;
+				}
+			}
+
+			Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+
+			// Official doesn't update UsedStat with this packet =<
+			Send.ZC_OBJECT_PROPERTY(character,
+				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+				ObjectProperty.PC.UsedStat
+			);
+
+			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
+			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
+		}
 	}
 }
