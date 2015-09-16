@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter
+	public class Character : Shared.World.BaseCharacter, IEntity
 	{
 		/// <summary>
 		/// Connection this character uses.

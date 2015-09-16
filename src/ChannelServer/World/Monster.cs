@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Monster
+	public class Monster : IEntity
 	{
 		/// <summary>
 		/// Index in world collection?

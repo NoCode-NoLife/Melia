@@ -901,15 +901,15 @@ namespace Melia.Channel.Network
 		/// <remarks>
 		/// I think this is wrong... it's probably not a list.
 		/// </remarks>
-		/// <param name="monsters">List of monsters to kill visually.</param>
-		public static void ZC_DEAD(Map map, params Monster[] monsters)
+		/// <param name="entities">List of entities to kill visually.</param>
+		public static void ZC_DEAD(Map map, params IEntity[] entities)
 		{
-			if (monsters == null || monsters.Length == 0)
+			if (entities == null || entities.Length == 0)
 				throw new ArgumentException("Monster list is empty.");
 
 			var packet = new Packet(Op.ZC_DEAD);
-			foreach (var monster in monsters)
-				packet.PutInt(monster.Handle);
+			foreach (var entity in entities)
+				packet.PutInt(entity.Handle);
 			packet.PutInt(0);
 
 			map.Broadcast(packet);
@@ -922,7 +922,7 @@ namespace Melia.Channel.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_HIT_INFO(Character attacker, Monster target, int damage)
+		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 			packet.PutInt(target.Handle);
