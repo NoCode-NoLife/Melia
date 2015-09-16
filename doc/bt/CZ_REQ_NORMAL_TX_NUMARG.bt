@@ -1,0 +1,17 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_REQ_NORMAL_TX_NUMARG.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+short size;
+short s1; // type?
+int count;
+int stats[count];
