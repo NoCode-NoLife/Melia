@@ -801,7 +801,7 @@ namespace Melia.Channel.Network
 					continue;
 				}
 
-				target.TakeDamage(20, character);
+				target.TakeDamage(target.MaxHp / 4, character);
 			}
 		}
 	}
