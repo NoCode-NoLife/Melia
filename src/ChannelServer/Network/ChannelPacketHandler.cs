@@ -816,7 +816,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
-			Log.Debug(packet);
 			var size = packet.GetShort();
 			var unkShort = packet.GetShort();
 			var count = packet.GetInt();
