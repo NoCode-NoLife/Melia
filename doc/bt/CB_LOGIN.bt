@@ -1,0 +1,18 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CB_LOGIN.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+char accountName[33];
+byte md5password[16];
+byte b1;
+byte b2;
+int ip;
