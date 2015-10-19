@@ -1,0 +1,15 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_EXP_UP_BY_MONSTER.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int exp;
+int jobExp;
+int monsterHandle;

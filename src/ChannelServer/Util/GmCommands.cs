@@ -41,6 +41,8 @@ namespace Melia.Channel.Util
 			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
+			Add("levelup", "<levels>", HandleLevelUp);
+			Add("speed", "<speed>", HandleSpeed);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -149,7 +151,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			Send.ZC_CHAT(character, "You are here: {0} - {1}", target.MapId, target.Position);
+			Send.ZC_CHAT(character, "You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
 
 			return CommandResult.Okay;
 		}
@@ -322,6 +324,36 @@ namespace Melia.Channel.Util
 			ChannelServer.Instance.ScriptManager.Reload();
 
 			Send.ZC_CHAT(character, "Done.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleLevelUp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			int levels;
+			if (!int.TryParse(args[1], out levels) || levels < 1 || levels > 10)
+				return CommandResult.InvalidArgument;
+
+			for (int i = 0; i < levels; ++i)
+				target.LevelUp();
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleSpeed(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			float speed;
+			if (!float.TryParse(args[1], out speed))
+				return CommandResult.InvalidArgument;
+
+			target.Speed = speed;
+			Send.ZC_MOVE_SPEED(target);
 
 			return CommandResult.Okay;
 		}

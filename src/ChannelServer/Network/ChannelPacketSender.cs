@@ -244,60 +244,6 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		private static void AddSkill(this Packet packet, int skillId)
-		{
-			packet.PutLong(0); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
-			packet.PutInt(skillId);
-			packet.PutShort(6 * 1); // properties size
-			packet.PutEmptyBin(2); // alignment
-			packet.PutInt(0); // ?
-			packet.PutShort(0); // ?
-			packet.PutEmptyBin(2); // alignment
-			// Properties
-			packet.PutShort(4031); // Level
-			packet.PutFloat(1);
-			/*
-			packet.PutShort(4020); // 
-			packet.PutFloat(0);
-			packet.PutShort(4024); // 
-			packet.PutFloat(0);
-			packet.PutShort(4023); // 
-			packet.PutFloat(100);
-			packet.PutShort(4021); // 
-			packet.PutFloat(40);
-			packet.PutShort(4030); // 
-			packet.PutFloat(24);
-			packet.PutShort(4105); // 
-			packet.PutFloat(0);
-			packet.PutShort(4147); // 
-			packet.PutFloat(0);
-			packet.PutShort(4157); // 
-			packet.PutFloat(3);
-			packet.PutShort(4068); // 
-			packet.PutFloat(0);
-			packet.PutShort(4062); // 
-			packet.PutFloat(1);
-			packet.PutShort(4161); // 
-			packet.PutFloat(0);
-			packet.PutShort(4118); // 
-			packet.PutFloat(0);
-			packet.PutShort(4102); // 
-			packet.PutFloat(100);
-			packet.PutShort(4184); // 
-			packet.PutFloat(0);
-			packet.PutShort(4043); // 
-			packet.PutFloat(25);
-			packet.PutShort(4183); // 
-			packet.PutFloat(0);
-			packet.PutShort(4058); // 
-			packet.PutFloat(0);
-			packet.PutShort(4185); // 
-			packet.PutFloat(0);
-			packet.PutShort(4186); // 
-			packet.PutFloat(1);
-			 * */
-		}
-
 		public static void ZC_SKILL_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_LIST);
@@ -726,7 +672,8 @@ namespace Melia.Channel.Network
 				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
 				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
 				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight
+				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight,
+				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
 			);
 		}
 
@@ -760,6 +707,10 @@ namespace Melia.Channel.Network
 
 					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
 					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
+
+					case ObjectProperty.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
+					case ObjectProperty.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
+					case ObjectProperty.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
@@ -893,15 +844,18 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_DEAD on map, which kills the given entities visually.
 		/// </summary>
-		/// <param name="monsters">List of monsters to kill visually.</param>
-		public static void ZC_DEAD(Map map, params Monster[] monsters)
+		/// <remarks>
+		/// I think this is wrong... it's probably not a list.
+		/// </remarks>
+		/// <param name="entities">List of entities to kill visually.</param>
+		public static void ZC_DEAD(Map map, params IEntity[] entities)
 		{
-			if (monsters == null || monsters.Length == 0)
+			if (entities == null || entities.Length == 0)
 				throw new ArgumentException("Monster list is empty.");
 
 			var packet = new Packet(Op.ZC_DEAD);
-			foreach (var monster in monsters)
-				packet.PutInt(monster.Handle);
+			foreach (var entity in entities)
+				packet.PutInt(entity.Handle);
 			packet.PutInt(0);
 
 			map.Broadcast(packet);
@@ -914,7 +868,7 @@ namespace Melia.Channel.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_HIT_INFO(Character attacker, Monster target, int damage)
+		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 			packet.PutInt(target.Handle);
@@ -926,6 +880,169 @@ namespace Melia.Channel.Network
 			packet.PutBinFromHex("01 00 00 60 06 68 03 00   18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
 
 			target.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates character's level.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_PC_LEVELUP(Character character)
+		{
+			var packet = new Packet(Op.ZC_PC_LEVELUP);
+			packet.PutInt(character.Handle);
+			packet.PutInt(character.Level);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays level up effect.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_LevelUp(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x11);
+			packet.PutInt(character.Handle);
+			packet.PutShort(8351);
+			packet.PutShort(39);
+			packet.PutFloat(6); // Effect size
+			packet.PutInt(2);
+			packet.PutEmptyBin(4);
+			packet.PutFloat(1);
+			packet.PutEmptyBin(4);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays class level up effect.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_ClassLevelUp(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x14);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutInt(2);
+			packet.PutByte(1);
+			packet.PutFloat(6); // Effect size
+			packet.PutEmptyBin(8);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates exp and max exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
+		public static void ZC_MAX_EXP_CHANGED(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
+			packet.PutInt(exp);
+			packet.PutInt(character.Exp);
+			packet.PutInt(character.MaxExp);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Notification about acquired exp from killing a monster?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
+		/// <param name="jobExp"></param>
+		/// <param name="monster"></param>
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int jobExp, Monster monster)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
+			packet.PutInt(exp);
+			packet.PutInt(jobExp);
+			packet.PutInt(monster.Handle);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Adds exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
+		public static void ZC_EXP_UP(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP);
+			packet.PutInt(exp);
+			packet.PutInt(0); // jobExp?
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Adds job exp.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="exp"></param>
+		public static void ZC_JOB_EXP_UP(Character character, int exp)
+		{
+			var packet = new Packet(Op.ZC_JOB_EXP_UP);
+			packet.PutInt(exp);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Executes Lua addon function.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="msg"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg)
+		{
+			var packet = new Packet(Op.ZC_ADDON_MSG);
+			packet.PutByte((byte)(msg.Length + 1));
+			packet.PutFloat(0);
+			packet.PutByte(1);
+			packet.PutString(msg);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="property"></param>
+		/// <param name="value"></param>
+		public static void ZC_PC_PROP_UPDATE(Character character, short property, byte value)
+		{
+			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
+			packet.PutShort(property);
+			packet.PutByte(value); // ?
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Shows emoticon for entity.
+		/// </summary>
+		/// <remarks>
+		/// Couldn't find a list in the client data yet.
+		/// Known emoticons:
+		/// - 60008: Explamation mark bubble
+		/// - 60009: Hearts
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="emoticons"></param>
+		/// <param name="duration"></param>
+		public static void ZC_SHOW_EMOTICON(IEntity entity, int emoticons, int duration)
+		{
+			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(emoticons);
+			packet.PutInt(duration);
+
+			entity.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

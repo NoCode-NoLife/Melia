@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Monster
+	public class Monster : IEntity
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -128,6 +129,10 @@ namespace Melia.Channel.World
 		{
 			this.Hp -= damage;
 
+			// Sending this to the attacker causes a double attack effect,
+			// because the client plays the effect automatically as well.
+			// TODO: Find out how officials update the monster's HP without
+			//   this packet.
 			Send.ZC_HIT_INFO(from, this, damage);
 
 			if (this.Hp == 0)
@@ -141,6 +146,7 @@ namespace Melia.Channel.World
 		public void Kill(Character killer)
 		{
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
+			killer.GiveExp(500, 0, this);
 
 			Send.ZC_DEAD(this.Map, this);
 		}

@@ -133,7 +133,7 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return string.Format("{0}, {1}, {2}", X.ToInvariant(), Y.ToInvariant(), Z.ToInvariant());
+			return string.Format("X: {0}, Y: {1}, Z: {2}", X.ToInvariant(), Y.ToInvariant(), Z.ToInvariant());
 		}
 	}
 }
