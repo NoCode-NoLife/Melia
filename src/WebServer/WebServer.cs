@@ -76,7 +76,7 @@ namespace Melia.Web
 				Log.Info("StaticConfigURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/");
 				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
-			catch (HttpListenerException)
+			catch (NHttp.NHttpException)
 			{
 				Log.Error("Failed to start web server.");
 				Log.Info("The port might already be in use, make sure no other application, like other web servers or Skype, are using it, or set a different port in web.conf.");
