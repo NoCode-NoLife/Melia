@@ -631,7 +631,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
 
 			packet.PutInt(0);
-			packet.PutInt(BitConverter.ToInt32(IPAddress.Parse(ip).GetAddressBytes(), 0));
+			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(mapId);
 			packet.PutFloat(38); // Camera X angle

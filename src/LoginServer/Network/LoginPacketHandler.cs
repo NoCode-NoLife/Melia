@@ -347,32 +347,28 @@ namespace Melia.Login.Network
 			character.BarrackPosition = new Position(x, y, z);
 		}
 
-		// [09 00] [15 00 00 00] [1D 00 00 00] 00 00 01 | 69 7D E4
+		/// <summary>
+		/// Sent clicking Start Game, to connect to the selected channel.
+		/// </summary>
+		/// <example>
+		/// [09 00] [15 00 00 00] [1D 00 00 00] 00 00 01 | 69 7D E4
+		/// </example>
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(LoginConnection conn, Packet packet)
 		{
 			var unkShort = packet.GetShort(); // channel?
 			var index = packet.GetByte();
 
+			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
+			if (character == null)
+			{
+				Log.Warning("User '{0}' tried log in with an invalid character ({1}).", conn.Account.Name, index);
+				return;
+			}
 
-			packet = new Packet(Op.BC_START_GAMEOK);
-			packet.PutInt(0);
-			packet.PutInt(0x0100007F); // 127.0.0.1
-			packet.PutInt(2001); // Port
-			packet.PutInt(character.MapId);
-			packet.PutByte(0);
-			packet.PutLong(character.Id);
-			packet.PutByte(0); // Only connects if 0
-			packet.PutByte(0); // Passed to a function if ^ is 0
-			conn.Send(packet);
-
-			packet = new Packet(Op.BC_SERVER_ENTRY);
-			packet.PutInt(0x0100007F);
-			packet.PutInt(0x0100007F);
-			packet.PutShort(2002);
-			packet.PutShort(2003);
-			conn.Send(packet);
+			Send.BC_START_GAMEOK(conn, character, "127.0.0.1", 2001);
+			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 2002, "127.0.0.1", 2003);
 		}
 	}
 }

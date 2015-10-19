@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 
 namespace Melia.Shared.Util
 {
@@ -88,6 +89,19 @@ namespace Melia.Shared.Util
 		public static string ToInvariant(this double f, string format = "g")
 		{
 			return f.ToString(format, CultureInfo.InvariantCulture);
+		}
+
+		/// <summary>
+		/// Returns IP address as integer.
+		/// </summary>
+		/// <example>
+		/// IPAddress.Parse("127.0.0.1").ToInt32(); // 0x0100007F
+		/// </example>
+		/// <param name="ipAddress"></param>
+		/// <returns></returns>
+		public static int ToInt32(this IPAddress ipAddress)
+		{
+			return BitConverter.ToInt32(ipAddress.GetAddressBytes(), 0);
 		}
 	}
 }

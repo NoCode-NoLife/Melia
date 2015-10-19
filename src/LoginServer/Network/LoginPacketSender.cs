@@ -6,10 +6,12 @@ using Melia.Login.Network.Helpers;
 using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -154,6 +156,34 @@ namespace Melia.Login.Network
 				}
 			}
 			packet.EndZlib();
+
+			conn.Send(packet);
+		}
+
+		public static void BC_START_GAMEOK(LoginConnection conn, Character character, string ip, int port)
+		{
+			var packet = new Packet(Op.BC_START_GAMEOK);
+
+			packet.PutInt(0);
+			packet.PutInt(IPAddress.Parse(ip).ToInt32());
+			packet.PutInt(port);
+			packet.PutInt(character.MapId);
+			packet.PutByte(0);
+			packet.PutLong(character.Id);
+			packet.PutByte(0); // Only connects if 0
+			packet.PutByte(0); // Passed to a function if ^ is 0
+
+			conn.Send(packet);
+		}
+
+		public static void BC_SERVER_ENTRY(LoginConnection conn, string ip1, int port1, string ip2, int port2)
+		{
+			var packet = new Packet(Op.BC_SERVER_ENTRY);
+
+			packet.PutInt(IPAddress.Parse(ip1).ToInt32());
+			packet.PutInt(IPAddress.Parse(ip2).ToInt32());
+			packet.PutShort(port1);
+			packet.PutShort(port2);
 
 			conn.Send(packet);
 		}
