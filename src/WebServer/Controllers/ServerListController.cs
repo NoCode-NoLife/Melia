@@ -17,6 +17,10 @@ namespace Melia.Web.Controllers
 	{
 		public void Index(Request req, Response res)
 		{
+			// TODO: Server Groups
+
+			var serverData = WebServer.Instance.Data.ServerDb.FindLogin(1);
+
 			using (var str = new Utf8StringWriter())
 			using (var xml = new XmlTextWriter(str))
 			{
@@ -30,9 +34,9 @@ namespace Melia.Web.Controllers
 					xml.WriteAttributeString("GROUP_ID", "100");
 					xml.WriteAttributeString("TRAFFIC", "0");
 					xml.WriteAttributeString("ENTER_LIMIT", "100");
-					xml.WriteAttributeString("NAME", "localhost");
-					xml.WriteAttributeString("Server0_IP", "127.0.0.1");
-					xml.WriteAttributeString("Server0_Port", "2000");
+					xml.WriteAttributeString("NAME", "Melia");
+					xml.WriteAttributeString("Server0_IP", serverData.Ip);
+					xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
 					xml.WriteEndElement();
 					xml.WriteWhitespace("\n");
 				}
