@@ -138,12 +138,13 @@ namespace Melia.Login.Network
 			var characters = conn.Account.GetCharacters();
 			var mapAvailableCount = characters.Length;
 			var zoneServerCount = 2;
+			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(0x0B); //SubOp
 
 			packet.BeginZlib();
-			packet.PutShort(150); // zoneMaxPcCount
+			packet.PutShort(zoneMaxPcCount);
 			packet.PutShort(mapAvailableCount);
 			for (var i = 0; i < mapAvailableCount; ++i)
 			{

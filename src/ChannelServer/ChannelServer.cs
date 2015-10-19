@@ -98,8 +98,17 @@ namespace Melia.Channel
 			this.ScriptManager.Initialize();
 			this.ScriptManager.Load();
 
+			// Get channel data
+			var serverId = 1;
+			var serverData = this.Data.ServerDb.FindChannel(serverId);
+			if (serverData == null)
+			{
+				Log.Error("Server data not found. ({0})", serverId);
+				Cmd.Exit(1);
+			}
+
 			// Server
-			this.ConnectionManager = new ConnectionManager<ChannelConnection>(2001);
+			this.ConnectionManager = new ConnectionManager<ChannelConnection>(serverData.Port);
 			this.ConnectionManager.Start();
 
 			// Ready

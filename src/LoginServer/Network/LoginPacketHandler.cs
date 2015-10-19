@@ -356,7 +356,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(LoginConnection conn, Packet packet)
 		{
-			var unkShort = packet.GetShort(); // channel?
+			var channel = packet.GetShort();
 			var index = packet.GetByte();
 
 			// Get character
@@ -367,7 +367,19 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_START_GAMEOK(conn, character, "127.0.0.1", 2001);
+			// Get channel
+			// TODO: Create a manager server that keeps track of the channels,
+			//   their statuses, etc, broadcast that list to login and the
+			//   channels, and use in places like this.
+			var channelId = 1;
+			var channelServer = LoginServer.Instance.Data.ServerDb.FindChannel(channelId);
+			if (channelServer == null)
+			{
+				Log.Error("Channel with id '{0}' not found.", channelId);
+				return;
+			}
+
+			Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 2002, "127.0.0.1", 2003);
 		}
 	}
