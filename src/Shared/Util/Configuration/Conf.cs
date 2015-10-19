@@ -10,7 +10,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <summary>
 		/// log.conf
 		/// </summary>
-		public LogConfFile Log { get; protected set; }
+		public LogConfFile Log { get; private set; }
 
 		/// <summary>
 		/// database.conf
@@ -23,6 +23,11 @@ namespace Melia.Shared.Util.Configuration
 		public CommandsConfFile Commands { get; private set; }
 
 		/// <summary>
+		/// web.conf
+		/// </summary>
+		public WebConfFile Web { get; private set; }
+
+		/// <summary>
 		/// Initilizes default confs.
 		/// </summary>
 		public Conf()
@@ -30,6 +35,7 @@ namespace Melia.Shared.Util.Configuration
 			this.Log = new LogConfFile();
 			this.Database = new DatabaseConfFile();
 			this.Commands = new CommandsConfFile();
+			this.Web = new WebConfFile();
 		}
 
 		/// <summary>
@@ -40,6 +46,7 @@ namespace Melia.Shared.Util.Configuration
 			this.Log.Load();
 			this.Database.Load();
 			this.Commands.Load();
+			this.Web.Load();
 		}
 	}
 }

@@ -70,11 +70,11 @@ namespace Melia.Web
 
 			try
 			{
-				this.App.Listen(8080);
+				this.App.Listen(this.Conf.Web.Port);
 
-				Log.Info("ServerListURL: *:{0}/{1}", 8080, "toscdn/patch/serverlist.xml");
-				Log.Info("StaticConfigURL: *:{0}/{1}", 8080, "toscdn/patch/");
-				Log.Status("Server ready, listening on 0.0.0.0:{0}.", 8080);
+				Log.Info("ServerListURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/serverlist.xml");
+				Log.Info("StaticConfigURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/");
+				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
 			catch (HttpListenerException)
 			{
