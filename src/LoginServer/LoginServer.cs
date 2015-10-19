@@ -54,8 +54,17 @@ namespace Melia.Login
 			// Packet handlers
 			LoginPacketHandler.Instance.RegisterMethods();
 
+			// Get server data
+			var serverId = 1;
+			var serverData = this.Data.ServerDb.FindLogin(serverId);
+			if (serverData == null)
+			{
+				Log.Error("Server data not found. ({0})", serverId);
+				Cmd.Exit(1);
+			}
+
 			// Server
-			var mgr = new ConnectionManager<LoginConnection>(2000);
+			var mgr = new ConnectionManager<LoginConnection>(serverData.Port);
 			mgr.Start();
 
 			// Ready
