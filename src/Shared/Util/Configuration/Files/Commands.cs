@@ -57,7 +57,7 @@ namespace Melia.Shared.Util.Configuration.Files
 		}
 
 		/// <summary>
-		/// Returns auth for command, or a new auth with auth levels being 100
+		/// Returns auth for command, or a new auth with auth levels being 99
 		/// if the command wasn't found in the config.
 		/// </summary>
 		/// <param name="command"></param>
@@ -69,7 +69,7 @@ namespace Melia.Shared.Util.Configuration.Files
 			CommandAuthConf result;
 			this.Auth.TryGetValue(command, out result);
 			if (result == null)
-				result = new CommandAuthConf(100, 100);
+				result = new CommandAuthConf(99, 99);
 
 			return result;
 		}

@@ -43,6 +43,7 @@ namespace Melia.Channel.Util
 			Add("job", "<job id>", HandleJob);
 			Add("levelup", "<levels>", HandleLevelUp);
 			Add("speed", "<speed>", HandleSpeed);
+			Add("iteminfo", "<name>", HandleItemInfo);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -354,6 +355,32 @@ namespace Melia.Channel.Util
 
 			target.Speed = speed;
 			Send.ZC_MOVE_SPEED(target);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleItemInfo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			var search = command.Substring(command.IndexOf(" ")).Trim();
+			var items = ChannelServer.Instance.Data.ItemDb.FindAll(search);
+			if (items.Count == 0)
+			{
+				Send.ZC_CHAT(sender, "No items found for '{0}'.", search);
+				return CommandResult.Okay;
+			}
+
+			var eItems = items.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
+			var max = 20;
+			for (int i = 0; eItems.MoveNext() && i < max; ++i)
+			{
+				var item = eItems.Current;
+				Send.ZC_CHAT(sender, "{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
+			}
+
+			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
 
 			return CommandResult.Okay;
 		}
