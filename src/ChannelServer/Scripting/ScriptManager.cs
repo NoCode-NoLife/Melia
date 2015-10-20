@@ -301,8 +301,9 @@ namespace Melia.Channel.Scripting
 		private ChannelConnection GetConnectionFromState(IntPtr L)
 		{
 			ScriptState state;
-			if (!_states.TryGetValue(L, out state))
-				throw new Exception("No matching connection found.");
+			lock (_states)
+				if (!_states.TryGetValue(L, out state))
+					throw new Exception("No matching connection found.");
 
 			return state.Connection;
 		}
