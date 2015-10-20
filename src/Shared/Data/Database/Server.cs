@@ -41,13 +41,14 @@ namespace Melia.Shared.Data.Database
 
 			var type = entry.ReadString("type");
 
+			ServerData data = null;
+
 			switch (type)
 			{
 				case "Login":
-					var loginData = new ServerData();
-					this.ReadDefault(entry, loginData);
+					data = new ServerData();
+					this.ReadDefault(entry, data);
 
-					this.Entries.Add(loginData);
 					break;
 
 				case "Channel":
@@ -57,12 +58,18 @@ namespace Melia.Shared.Data.Database
 					this.ReadDefault(entry, channelData);
 					channelData.Maps = entry.ReadString("maps");
 
-					this.Entries.Add(channelData);
+					data = channelData;
+
 					break;
 
 				default:
 					throw new DatabaseErrorException("Invalid server type '" + type + "'.");
 			}
+
+			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))
+				throw new DatabaseErrorException(string.Format("Duplicate: {0}, {1}", data.Type, data.Id));
+
+			this.Entries.Add(data);
 		}
 
 		private void ReadDefault(JObject entry, ServerData data)
