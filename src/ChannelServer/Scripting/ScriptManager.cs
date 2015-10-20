@@ -709,7 +709,9 @@ namespace Melia.Channel.Scripting
 		///		integer level,    -- Character's level
 		///		integer hp,       -- Character's HP
 		///		integer maxHp,    -- Character's max HP
+		///		integer sp,       -- Character's SP
 		///		integer maxSp,    -- Character's max SP
+		///		integer stamina,  -- Character's stamina
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
@@ -745,8 +747,16 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, character.MaxHp);
 			Melua.lua_settable(L, -3);
 
+			Melua.lua_pushstring(L, "sp");
+			Melua.lua_pushinteger(L, character.Sp);
+			Melua.lua_settable(L, -3);
+
 			Melua.lua_pushstring(L, "maxSp");
 			Melua.lua_pushinteger(L, character.MaxSp);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "stamina");
+			Melua.lua_pushinteger(L, character.Stamina);
 			Melua.lua_settable(L, -3);
 
 			return 1;
