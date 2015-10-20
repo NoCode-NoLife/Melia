@@ -83,12 +83,12 @@ namespace Melia.Shared.World
 		public int MaxHp { get; set; }
 
 		/// <summary>
-		/// Health points.
+		/// Spell points.
 		/// </summary>
 		public int Sp { get; set; }
 
 		/// <summary>
-		/// Maximum health points.
+		/// Maximum spell points.
 		/// </summary>
 		public int MaxSp { get; set; }
 

@@ -246,7 +246,7 @@ namespace Melia.Channel.Scripting
 				}
 
 				// If arguments were passed, we can assume we're coming from
-				// a selection handler, which's window don't disappear when
+				// a selection handler, which's windows don't disappear when
 				// sending the next message. So let's close it before
 				// continuing.
 				Send.ZC_DIALOG_CLOSE(conn);
@@ -276,7 +276,7 @@ namespace Melia.Channel.Scripting
 
 		/// <summary>
 		/// Returns true if enough arguments are on the stack,
-		/// otherwise it logs an error an returns false.
+		/// otherwise it logs an error and returns false.
 		/// </summary>
 		/// <param name="L"></param>
 		/// <param name="expected"></param>
@@ -442,12 +442,13 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - string name
 		/// - string warpName
 		/// - number direction
+		/// - string fromMapName
 		/// - number fromX
 		/// - number fromY
 		/// - number fromZ
+		/// - string toMapName
 		/// - number toX
 		/// - number toY
 		/// - number toZ
@@ -550,7 +551,7 @@ namespace Melia.Channel.Scripting
 		/// 
 		/// Parameters:
 		/// - string message
-		/// - string option...
+		/// - string options...
 		/// 
 		/// Result:
 		/// The number of the selected option, starting from 1.
@@ -704,7 +705,11 @@ namespace Melia.Channel.Scripting
 		/// {
 		///		string  name,     -- Character's name
 		///		string  teamName, -- Character's team name
+		///		integer gender,   -- Character's gender
 		///		integer level,    -- Character's level
+		///		integer hp,       -- Character's HP
+		///		integer maxHp,    -- Character's max HP
+		///		integer maxSp,    -- Character's max SP
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
