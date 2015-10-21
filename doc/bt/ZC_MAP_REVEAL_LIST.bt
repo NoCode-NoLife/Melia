@@ -1,0 +1,17 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_MAP_REVEAL_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+short size;
+
+short s1;
+mapRevealData dataSets[(size-8)/sizeof(mapRevealData)];

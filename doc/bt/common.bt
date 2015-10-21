@@ -64,3 +64,18 @@ string directionRead(direction &v)
     SPrintf(result, "X: %f, Y: %f", v.x, v.y);
     return result;
 }
+
+// Map data used in revealing
+typedef struct
+{
+    int mapId;
+    byte data[132];
+}
+mapRevealData <read=mapRevealDataRead>;
+
+string mapRevealDataRead(mapRevealData &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.mapId);
+    return result;
+}
