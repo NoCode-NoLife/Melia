@@ -62,9 +62,6 @@
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\ObjectProperty.cs" />
     <Compile Include="Const\Option.cs" />
-    <Compile Include="Const\Structs\CB_LOGIN.cs" />
-    <Compile Include="Const\Structs\BC_LOGINOK.cs" />
-    <Compile Include="Const\Structs\ZC_MOVE_SPEED.cs" />
     <Compile Include="Data\Database\Jobs.cs" />
     <Compile Include="Data\Database\Maps.cs" />
     <Compile Include="Data\Database\Server.cs" />
@@ -92,8 +89,6 @@
     <Compile Include="Network\Op.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Packet.cs" />
-    <Compile Include="Const\Structs\BC_SERVER_ENTRY.cs" />
-    <Compile Include="Const\Structs\BC_START_GAMEOK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Util\Cmd.cs" />
