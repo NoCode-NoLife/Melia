@@ -48,6 +48,9 @@ namespace Melia.Channel.Util
 			// Dev
 			Add("test", "", HandleTest);
 			Add("reloadscripts", "", HandleReloadScripts);
+
+			// Aliases
+			AddAlias("iteminfo", "ii");
 		}
 
 		/// <summary>
@@ -59,6 +62,26 @@ namespace Melia.Channel.Util
 		public void Add(string name, string usage, GmCommandFunc func)
 		{
 			this.Add(new GmCommand(name, usage, "", func));
+		}
+
+		/// <summary>
+		/// Adds alias for command.
+		/// </summary>
+		/// <example>
+		/// AddAlias("iteminfo", "ii"); // Allow iteminfo to be called with ii
+		/// </example>
+		/// <param name="commandName"></param>
+		/// <param name="alias"></param>
+		public void AddAlias(string commandName, string alias)
+		{
+			var command = this.GetCommand(commandName);
+			if (command == null)
+			{
+				Log.Error("GmCommands.AddAlias: Command '{0}' not found.", commandName);
+				return;
+			}
+
+			_commands[alias] = command;
 		}
 
 		/// <summary>
