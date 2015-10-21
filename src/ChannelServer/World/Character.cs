@@ -218,7 +218,16 @@ namespace Melia.Channel.World
 			{
 				this.MapId = mapId;
 
-				Send.ZC_MOVE_ZONE_OK(this.Connection, "127.0.0.1", 2001, mapId);
+				// Get channel
+				var channelId = 1;
+				var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
+				if (channelServer == null)
+				{
+					Log.Error("Channel with id '{0}' not found.", channelId);
+					return;
+				}
+
+				Send.ZC_MOVE_ZONE_OK(this.Connection, channelServer.Ip, channelServer.Port, mapId);
 			}
 		}
 
