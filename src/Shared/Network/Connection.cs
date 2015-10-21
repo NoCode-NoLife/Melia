@@ -167,6 +167,17 @@ namespace Melia.Shared.Network
 					{
 						Log.Warning("Invalid packet size for '{0:X4}' ({1} < {2}), from '{3}'. Ignoring packet.", packet.Op, packet.Length, size, this.Address);
 					}
+					// Check padding
+					// Packets have a padding at the end, since the encryption
+					// requires multiples of 8. If this padding is greater
+					// then 7, it means a packet got bigger and we need to
+					// update the packet size table.
+					// This should never happen, as long as the packet size
+					// table is up-to-date.
+					else if (size != 0 && packet.Length - size > 7)
+					{
+						Log.Warning("Invalid padding for '{0:X4}' ({1}, {2}), from '{3}'. Ignoring packet.", packet.Op, packet.Length, size, this.Address);
+					}
 					else
 					{
 						// Check login state
