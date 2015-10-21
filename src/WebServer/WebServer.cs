@@ -44,6 +44,9 @@ namespace Melia.Web
 			// Conf
 			this.LoadConf();
 
+			// Data
+			this.LoadData(DataToLoad.Servers, true);
+
 			// Web server
 			this.StartWebServer();
 
