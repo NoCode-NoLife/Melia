@@ -562,6 +562,7 @@ namespace Melia.Channel.Network
 		public void CZ_SORT_INV(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
+			var order = packet.GetByte(); // [iCBT2, 2015-10-21] ?
 
 			var character = conn.SelectedCharacter;
 
