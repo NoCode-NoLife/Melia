@@ -535,7 +535,7 @@ namespace Melia.Channel.Network
 
 			if (result == InventoryResult.ItemNotFound)
 			{
-				Log.Warning("User '{0}' tried to delete non-existent item ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
+				Log.Warning("User '{0}' tried to swap non-existent item(s) ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
 				return;
 			}
 
