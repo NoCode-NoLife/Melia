@@ -160,6 +160,7 @@ namespace Melia.Shared.Network
 					//recvStr = recvStr.Insert(22, "[");
 					//recvStr = recvStr.Insert(34, "]");
 					//Log.Debug("Recv: {0} {1}", opName, recvStr);
+					//Log.Debug("Recv:\n{0}", packet.ToString());
 
 					// Check size from table?
 					var size = Op.GetSize(packet.Op);
@@ -274,11 +275,19 @@ namespace Melia.Shared.Network
 				throw new ArgumentException("Size for op '" + packet.Op.ToString("X4") + "' unknown.");
 
 			// Calculate length
-			var length = (size == 0 ? sizeof(short) + sizeof(int) + sizeof(short) + packet.Length : size);
+			var fixHeaderSize = (sizeof(short) + sizeof(int) + packet.Length);
+			var dynHeaderSize = (sizeof(short) + sizeof(int) + sizeof(short) + packet.Length);
+			var length = (size == 0 ? dynHeaderSize : size);
 
 			// Check table length
-			if (size != 0 && length < sizeof(short) + sizeof(int) + packet.Length)
-				throw new Exception("Packet is bigger than specified in the packet size table.");
+			if (size != 0)
+			{
+				if (length < sizeof(short) + sizeof(int) + packet.Length)
+					throw new Exception("Packet is bigger than specified in the packet size table.");
+
+				if (size != sizeof(short) + sizeof(int) + packet.Length)
+					Log.Warning("Packet size doesn't match packet table size. (op: {0:X4}, size: {1}, expected: {2})", packet.Op, fixHeaderSize, size);
+			}
 
 			// Create packet
 			var buffer = new byte[length];
