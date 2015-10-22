@@ -549,13 +549,17 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Sent when clicken the Arrange Inventory button.
 		/// </summary>
+		/// <remarks>
+		/// Named "CZ_SORT_INV_CHANGE_INDEX" (0xCE4) in iCBT1, size 11.
+		/// Name changed to "CZ_SORT_INV" in iCBT2 (pre-launch), one byte added.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
 		/// [E4 0C] [08 00 00 00] [F8 00 00 00] 00 | 58 EA 0F 1E 8B
 		/// </example>
-		[PacketHandler(Op.CZ_SORT_INV_CHANGE_INDEX)]
-		public void CZ_SORT_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
+		[PacketHandler(Op.CZ_SORT_INV)]
+		public void CZ_SORT_INV(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
 
