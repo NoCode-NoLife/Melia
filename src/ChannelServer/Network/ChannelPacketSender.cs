@@ -532,19 +532,7 @@ namespace Melia.Channel.Network
 
 			packet.PutShort(character.Handle);
 			packet.PutEmptyBin(2);
-			packet.PutString(character.Name, 65);
-			packet.PutString(character.TeamName, 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(0);
-			packet.PutShort(character.Stance);
-			packet.PutShort(0);
-			packet.PutShort((short)character.Job);
-			packet.PutByte((byte)character.Gender);
-			packet.PutByte(0);
-			packet.PutInt(character.Level);
-			foreach (var equipItem in equip)
-				packet.PutInt(equipItem.Value.Id);
-			packet.PutByte(character.Hair);
+			packet.AddCommander(character);
 
 			character.Connection.Send(packet); // Broadcast
 		}
