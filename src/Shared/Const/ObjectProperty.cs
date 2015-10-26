@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Melia.Shared.Const
 {
 	// Last update: iCBT2 (pre-launch)
+	// No changes in i10671 (2015-10-26, iCBT2 1 day before launch)
 	public static class ObjectProperty
 	{
 		public static class PC
