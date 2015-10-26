@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Shared.Const;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Login.World
 {
-	public class Character : Shared.World.BaseCharacter
+	public class Character : Shared.World.BaseCharacter, ICommander
 	{
 		/// <summary>
 		/// Index of character in character list.
@@ -35,6 +36,15 @@ namespace Melia.Login.World
 		{
 			this.Level = 1;
 			this.Equipment = new int[20] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10 };
+		}
+
+		/// <summary>
+		/// Returns ids of equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public int[] GetEquipIds()
+		{
+			return this.Equipment;
 		}
 	}
 }

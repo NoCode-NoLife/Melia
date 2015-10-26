@@ -4,6 +4,7 @@
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter, IEntity
+	public class Character : Shared.World.BaseCharacter, IEntity, ICommander
 	{
 		/// <summary>
 		/// Connection this character uses.
@@ -287,6 +288,15 @@ namespace Melia.Channel.World
 
 				this.LevelUp();
 			}
+		}
+
+		/// <summary>
+		/// Returns ids of equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public int[] GetEquipIds()
+		{
+			return this.Inventory.GetEquipIds();
 		}
 	}
 }
