@@ -8,7 +8,7 @@ namespace Melia.Shared.Network
 {
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 65
+		public const int CB_LOGIN = 0x03; // Size: 66
 		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1052
 		public const int CB_LOGOUT = 0x05; // Size: 10
 		public const int CB_START_BARRACK = 0x06; // Size: 11
@@ -22,10 +22,10 @@ namespace Melia.Shared.Network
 		public const int BC_LOGIN_PACKET_RECEIVED = 0x0E; // Size: 6
 		public const int BC_LOGOUTOK = 0x0F; // Size: 6
 		public const int BC_COMMANDER_LIST = 0x10; // Size: 0
-		public const int BC_COMMANDER_CREATE = 0x11; // Size: 318
+		public const int BC_COMMANDER_CREATE = 0x11; // Size: 326
 		public const int BC_COMMANDER_DESTROY = 0x12; // Size: 7
 		public const int BC_START_GAMEOK = 0x13; // Size: 33
-		public const int BC_SINGLE_INFO = 0x14; // Size: 309
+		public const int BC_SINGLE_INFO = 0x14; // Size: 317
 		public const int BC_MESSAGE = 0x15; // Size: 0
 		public const int BC_ECHO = 0x16; // Size: 26
 		public const int BC_MYPAGE_MAP = 0x17; // Size: 0
@@ -91,10 +91,10 @@ namespace Melia.Shared.Network
 		public const int ZC_MOVE_ZONE = 0xBBB; // Size: 7
 		public const int CZ_MOVE_ZONE_OK = 0xBBC; // Size: 10
 		public const int ZC_CONNECT_FAILED = 0xBBD; // Size: 0
-		public const int ZC_ENTER_PC = 0xBBE; // Size: 400
+		public const int ZC_ENTER_PC = 0xBBE; // Size: 408
 		public const int ZC_ENTER_MONSTER = 0xBBF; // Size: 0
-		public const int ZC_ENTER_DUMMYPC = 0xBC0; // Size: 292
-		public const int ZC_UPDATED_DUMMYPC = 0xBC1; // Size: 250
+		public const int ZC_ENTER_DUMMYPC = 0xBC0; // Size: 300
+		public const int ZC_UPDATED_DUMMYPC = 0xBC1; // Size: 258
 		public const int ZC_ENTER_ITEM = 0xBC2; // Size: 103
 		public const int ZC_LEAVE = 0xBC3; // Size: 12
 		public const int ZC_MOVE_PATH = 0xBC4; // Size: 42
@@ -112,7 +112,7 @@ namespace Melia.Shared.Network
 		public const int ZC_SET_POS = 0xBD0; // Size: 22
 		public const int ZC_FILE_MOVE = 0xBD1; // Size: 46
 		public const int CZ_LEAVE_TO_DUNGEON = 0xBD2; // Size: 10
-		public const int ZC_UPDATED_PCAPPEARANCE = 0xBD3; // Size: 250
+		public const int ZC_UPDATED_PCAPPEARANCE = 0xBD3; // Size: 258
 		public const int ZC_UPDATED_MONSTERAPPEARANCE = 0xBD4; // Size: 0
 		public const int ZC_CHAT = 0xBD5; // Size: 0
 		public const int ZC_CHAT_WITH_TEXTCODE = 0xBD6; // Size: 14
@@ -595,7 +595,7 @@ namespace Melia.Shared.Network
 
 		static Op()
 		{
-			_sizes[Op.CB_LOGIN] = 65;
+			_sizes[Op.CB_LOGIN] = 66;
 			_sizes[Op.CB_LOGIN_BY_PASSPORT] = 1052;
 			_sizes[Op.CB_LOGOUT] = 10;
 			_sizes[Op.CB_START_BARRACK] = 11;
@@ -609,10 +609,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.BC_LOGIN_PACKET_RECEIVED] = 6;
 			_sizes[Op.BC_LOGOUTOK] = 6;
 			_sizes[Op.BC_COMMANDER_LIST] = 0;
-			_sizes[Op.BC_COMMANDER_CREATE] = 318;
+			_sizes[Op.BC_COMMANDER_CREATE] = 326;
 			_sizes[Op.BC_COMMANDER_DESTROY] = 7;
 			_sizes[Op.BC_START_GAMEOK] = 33;
-			_sizes[Op.BC_SINGLE_INFO] = 309;
+			_sizes[Op.BC_SINGLE_INFO] = 317;
 			_sizes[Op.BC_MESSAGE] = 0;
 			_sizes[Op.BC_ECHO] = 26;
 			_sizes[Op.BC_MYPAGE_MAP] = 0;
@@ -678,10 +678,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_MOVE_ZONE] = 7;
 			_sizes[Op.CZ_MOVE_ZONE_OK] = 10;
 			_sizes[Op.ZC_CONNECT_FAILED] = 0;
-			_sizes[Op.ZC_ENTER_PC] = 400;
+			_sizes[Op.ZC_ENTER_PC] = 408;
 			_sizes[Op.ZC_ENTER_MONSTER] = 0;
-			_sizes[Op.ZC_ENTER_DUMMYPC] = 292;
-			_sizes[Op.ZC_UPDATED_DUMMYPC] = 250;
+			_sizes[Op.ZC_ENTER_DUMMYPC] = 300;
+			_sizes[Op.ZC_UPDATED_DUMMYPC] = 258;
 			_sizes[Op.ZC_ENTER_ITEM] = 103;
 			_sizes[Op.ZC_LEAVE] = 12;
 			_sizes[Op.ZC_MOVE_PATH] = 42;
@@ -699,7 +699,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_SET_POS] = 22;
 			_sizes[Op.ZC_FILE_MOVE] = 46;
 			_sizes[Op.CZ_LEAVE_TO_DUNGEON] = 10;
-			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 250;
+			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 258;
 			_sizes[Op.ZC_UPDATED_MONSTERAPPEARANCE] = 0;
 			_sizes[Op.ZC_CHAT] = 0;
 			_sizes[Op.ZC_CHAT_WITH_TEXTCODE] = 14;
