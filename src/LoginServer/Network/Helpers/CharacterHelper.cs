@@ -37,6 +37,12 @@ namespace Melia.Login.Network.Helpers
 
 				packet.PutShort(character.Hair);
 				packet.PutShort(0); // Pose
+
+				// [i10671, 2015-10-26 iCBT2] ?
+				{
+					packet.PutInt(0);
+					packet.PutInt(0);
+				}
 			}
 			packet.PutLong(character.Id); // socialInfoId ?
 			packet.PutShort(character.Index);

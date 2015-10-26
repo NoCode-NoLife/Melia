@@ -86,6 +86,12 @@ namespace Melia.Channel.Network
 
 				packet.PutShort(character.Hair);
 				packet.PutShort(0); // Pose
+
+				// [i10671, 2015-10-26 iCBT2] ?
+				{
+					packet.PutInt(0);
+					packet.PutInt(0);
+				}
 			}
 
 			packet.PutFloat(character.Position.X);
