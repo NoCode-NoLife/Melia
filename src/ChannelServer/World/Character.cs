@@ -69,7 +69,7 @@ namespace Melia.Channel.World
 		public float StatByLevel { get; set; }
 
 		/// <summary>
-		/// Stat points acquired by leveling?
+		/// Bonus stat points?
 		/// </summary>
 		public float StatByBonus { get; set; }
 
