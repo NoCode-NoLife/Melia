@@ -6,6 +6,36 @@ using System.Reflection;
 
 namespace Melia.Shared.Network
 {
+	/// <summary>
+	/// Packet op code enum
+	/// </summary>
+	/// <remarks>
+	/// History:
+	/// i10622 (2015-10-22, iCBT2 pre-launch)
+	/// - Several size changes
+	/// - New:
+	///   - BC_LOGIN_PACKET_RECEIVED
+	///   - CZ_INV_ITEM_LOCK
+	///   - ZC_NEAR_PARTY_LIST
+	///   - CZ_SYSTEM_LOG_SAVE_TO_MONGODB
+	///   - CZ_REQ_UPDATE_CONTENTS_SESSION
+	///   - CZ_REQ_FRIENDLY_FIGHT
+	///   - CZ_CART_POSITION
+	///   - CZ_REQ_RIDE_CART
+	/// - Removed:
+	///   - CZ_SORT_INV_CHANGE_INDEX
+	///   - CS_PC_INTERACTION
+	///   - CS_PC_INTERACTION_HISTORY
+	/// - Renamed:
+	///   - CZ_SORT_ETC_INV_CHANGE_INDEX to CZ_SORT_INV
+	/// 
+	/// i10671 (2015-10-26, iCBT2 launch)
+	/// - A few packet size changes, most noticible change:
+	///   8 new bytes in commander.
+	/// 
+	/// i10690 (2015-10-28)
+	/// - No changes
+	/// </remarks>
 	public static class Op
 	{
 		public const int CB_LOGIN = 0x03; // Size: 66
