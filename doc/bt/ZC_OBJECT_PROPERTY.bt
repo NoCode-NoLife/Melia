@@ -53,6 +53,7 @@ int getPropertyType(int id)
     switch(id) {
         case 41: 
         case 4591:
+        case 7118:
             return OBJP_STRING;
             break;
         case 4601:
