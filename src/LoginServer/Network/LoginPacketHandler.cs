@@ -121,44 +121,11 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		/// <example>
-		/// [4E 00] [02 00 00 00] [F1 00 00 00] 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 CB
+		/// [4E 00] [02 00 00 00] [F1 00 00 00] 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 | CB
 		/// </example>
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
-			//_BYTE gap0[255];
-			//_DWORD dwordFF;
-			//_DWORD dword103;
-			//_DWORD dword107;
-			//char char10B;
-			//_BYTE gap10C[40];
-			//_BYTE byte134;
-			//var res = new Packet(Op.BC_SINGLE_INFO);
-			//for (int i = 0; i < 309-6; ++i)
-			//	res.PutByte(5);
-			//conn.Send(res);
-
-			// _BYTE gap0[8];
-			// _QWORD qword8;
-			//var xx = new Packet(Op.BC_ACCOUNT_PROP);
-			//xx.PutLong(1);
-			//xx.PutShort(0);
-			//conn.Send(xx);
-
-			//var xx = new Packet(Op.BC_NORMAL);
-			//xx.PutInt(0xB);
-			//xx.PutBinFromHex("00 00 00 00 00 64 00 00 00 00 00 00 00 00");
-			//conn.Send(xx);
-
-			//packet = new Packet(Op.BC_SINGLE_INFO);
-			//packet.PutEmptyBin(255 - 6);
-			//packet.PutInt(10);
-			//packet.PutInt(20);
-			//packet.PutInt(30);
-			//packet.PutByte(1);
-			//packet.PutString("singleinfo test", 40);
-			//packet.PutByte(1);
-			//conn.Send(packet);
 		}
 
 		/// <summary>
