@@ -49,13 +49,15 @@ namespace Melia.Login.Network
 			packet.PutByte((byte)characters.Length);
 			packet.PutString(conn.Account.TeamName, 64);
 
-			packet.PutShort(18); // Account properties size
+			packet.PutShort(4 * 6); // Account properties size
 			packet.PutShort(ObjectProperty.Account.Medal);
 			packet.PutFloat(500);
 			packet.PutShort(ObjectProperty.Account.ReceiveGiftMedal);
 			packet.PutFloat(5);
 			packet.PutShort(ObjectProperty.Account.GiftMedal);
 			packet.PutFloat(10);
+			packet.PutShort(ObjectProperty.Account.SelectedBarrack);
+			packet.PutFloat(11);
 
 			foreach (var character in characters)
 			{
