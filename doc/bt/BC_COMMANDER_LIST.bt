@@ -1,0 +1,102 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: BC_COMMANDER_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    short size;
+    
+    local int i;
+    for(i=0; i<size/6; ++i)
+    {
+        short id;
+        float value;
+    }
+}
+AccountProperties;
+
+typedef struct
+{
+    short size;
+    if(size > 0)
+        byte properties[size]; // todo, short:val list
+}
+ItemProperties;
+
+typedef struct
+{
+    // COMMANDER
+    char name[65];
+    char teamName[64];
+    byte bin1[7];
+    int64 accountId;
+    short stance;
+    short s1;
+    short job;
+    byte gender;
+    byte b1;
+    int level;
+    int equipIds[20];
+    short hair;
+    short pose;
+    int i6; // // [i10671, 2015-10-26 iCBT2]
+    int i7; // // [i10671, 2015-10-26 iCBT2]
+    // COMMANDER
+
+    int64 l2; // socialInfoId?
+    short index;
+    short mapId;
+    int i1;
+    int i2;
+    int i3; // max xp?
+    int i4;
+
+    float x;
+    float y;
+    float z;
+    float d1; // direction?
+    float d2; // direction?
+
+    float x2;
+    float y2;
+    float z2;
+    float d12;
+    float d22;
+
+    int i5;
+
+    ItemProperties itemProperties[20] <optimize=false>;
+    
+    // maybe job history?
+    short jobIdCount;
+    short jobId2[jobIdCount];
+}
+Character;
+
+short op;
+int sequence;
+short size;
+
+int64 l1; // session id?
+byte b1;
+byte characterCount;
+char teamName[64];
+
+AccountProperties properties;
+
+Character character[characterCount] <optimize=false>;
+
+short s1;
+// ...
+
+// 02 00
+// 0B 00 00 00 // 11,0 ?
+// 01 00 0C 00 // 1,12 ?
+// 00 00 00 00
