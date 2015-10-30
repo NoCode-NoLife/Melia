@@ -112,6 +112,7 @@ namespace Melia.Login.Network
 
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 2002, "127.0.0.1", 2003);
 		}
 
 		/// <summary>
@@ -380,7 +381,6 @@ namespace Melia.Login.Network
 			}
 
 			Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
-			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 2002, "127.0.0.1", 2003);
 		}
 	}
 }
