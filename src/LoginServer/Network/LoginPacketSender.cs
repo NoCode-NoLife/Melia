@@ -50,11 +50,11 @@ namespace Melia.Login.Network
 			packet.PutString(conn.Account.TeamName, 64);
 
 			packet.PutShort(18); // Account properties size
-			packet.PutShort(3732); // Medal
+			packet.PutShort(ObjectProperty.Account.Medal);
 			packet.PutFloat(500);
-			packet.PutShort(3733); // ReceiveGiftMedal
+			packet.PutShort(ObjectProperty.Account.ReceiveGiftMedal);
 			packet.PutFloat(5);
-			packet.PutShort(3735); // GiftMedal
+			packet.PutShort(ObjectProperty.Account.GiftMedal);
 			packet.PutFloat(10);
 
 			foreach (var character in characters)

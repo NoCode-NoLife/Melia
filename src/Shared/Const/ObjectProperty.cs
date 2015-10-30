@@ -20,6 +20,16 @@ namespace Melia.Shared.Const
 	/// </remarks>
 	public static class ObjectProperty
 	{
+		public static class Account
+		{
+			public const short MaxPVPGrade = 6299;
+			public const short Medal = 6300;
+			public const short SelectedBarrack = 6301;
+			public const short GiftMedal = 6302;
+			public const short Medal_Get_Date = 6303;
+			public const short ReceiveGiftMedal = 6304;
+		}
+
 		public static class PC
 		{
 			public const short Name = 6862;
