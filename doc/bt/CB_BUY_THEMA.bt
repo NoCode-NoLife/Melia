@@ -12,4 +12,5 @@ int sequence;
 int checksum;
 
 int i1;
-int mapId;
+int newMapId;
+int oldMapId;
