@@ -26,7 +26,7 @@ namespace Melia.Login.Network
 			packet.PutShort(0);
 			packet.PutLong(conn.SessionId);
 			packet.PutString(conn.Account.Name, 33);
-			packet.PutInt(0); // accountPrivileges?
+			packet.PutInt(3); // accountPrivileges? <= 3 enables a kind of debug context menu
 			packet.PutString("test string", 64); // sessionKey (*695ADFDD9FD07E69927F1F2F81BF415D966D344A)
 
 			conn.Send(packet);
