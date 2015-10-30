@@ -10,6 +10,7 @@ namespace Melia.Shared.Data
 	/// </summary>
 	public class MeliaData
 	{
+		public BarrackDb BarrackDb = new BarrackDb();
 		public ItemDb ItemDb = new ItemDb();
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();

@@ -96,6 +96,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Barracks) != 0)
+				{
+					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -191,6 +196,7 @@ namespace Melia.Shared
 		Maps = 0x02,
 		Jobs = 0x04,
 		Servers = 0x08,
+		Barracks = 0x10,
 
 		All = 0x7FFFFFFF,
 	}

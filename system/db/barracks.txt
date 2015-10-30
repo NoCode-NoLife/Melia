@@ -1,0 +1,9 @@
+// Melia
+// Database file
+//---------------------------------------------------------------------------
+
+[
+{ mapId: 11, name: "Cozy Lodge", price: 0, characters: 5 },
+{ mapId: 12, name: "Pyromancer Room", price: 5, characters: 7 },
+{ mapId: 13, name: "Banquet Hall", price: 5, characters: 10 },
+]
