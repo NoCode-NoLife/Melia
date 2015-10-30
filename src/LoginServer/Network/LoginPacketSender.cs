@@ -146,7 +146,7 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_NORMAL_ZONE_TRAFFIC(LoginConnection conn)
+		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters();
 			var mapAvailableCount = characters.Length;
