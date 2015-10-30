@@ -49,15 +49,7 @@ namespace Melia.Login.Network
 			packet.PutByte((byte)characters.Length);
 			packet.PutString(conn.Account.TeamName, 64);
 
-			packet.PutShort(4 * 6); // Account properties size
-			packet.PutShort(ObjectProperty.Account.Medal);
-			packet.PutFloat(500);
-			packet.PutShort(ObjectProperty.Account.ReceiveGiftMedal);
-			packet.PutFloat(5);
-			packet.PutShort(ObjectProperty.Account.GiftMedal);
-			packet.PutFloat(10);
-			packet.PutShort(ObjectProperty.Account.SelectedBarrack);
-			packet.PutFloat(11);
+			packet.AddAccountProperties(conn.Account);
 
 			foreach (var character in characters)
 			{
@@ -198,6 +190,28 @@ namespace Melia.Login.Network
 			packet.PutInt(IPAddress.Parse(ip2).ToInt32());
 			packet.PutShort(port1);
 			packet.PutShort(port2);
+
+			conn.Send(packet);
+		}
+
+		public static void BC_ACCOUNT_PROP(LoginConnection conn, Account account)
+		{
+			var packet = new Packet(Op.BC_ACCOUNT_PROP);
+
+			packet.PutLong(account.Id);
+			packet.AddAccountProperties(account);
+
+			conn.Send(packet);
+		}
+
+		public static void BC_NORMAL_Run(LoginConnection conn, string str)
+		{
+			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
+
+			var packet = new Packet(Op.BC_NORMAL);
+
+			packet.PutInt(0x0E);
+			packet.PutLpString(str);
 
 			conn.Send(packet);
 		}

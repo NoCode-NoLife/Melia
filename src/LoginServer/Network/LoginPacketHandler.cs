@@ -349,5 +349,37 @@ namespace Melia.Login.Network
 
 			Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
 		}
+
+		/// <summary>
+		/// Sent when clicking Purchase on a barrack.
+		/// </summary>
+		/// <example>
+		/// [4C 00] [15 00 00 00] [5E 00 00 00] 00 00 00 00 0C 00 00 00 0B 00 00 00 | 0E 30
+		/// </example>
+		[PacketHandler(Op.CB_BUY_THEMA)]
+		public void CB_BUY_THEMA(LoginConnection conn, Packet packet)
+		{
+			var unkInt = packet.GetInt();
+			var newMapId = packet.GetInt();
+			var oldMapId = packet.GetInt();
+
+			// Get barrack
+			var barrackData = LoginServer.Instance.Data.BarrackDb.Find(newMapId);
+			if (barrackData == null)
+				return;
+
+			// Check medals
+			if (conn.Account.Medals < barrackData.Price)
+			{
+				Log.Warning("User '{0}' tried to buy barrack without having the necessary coins.");
+				return;
+			}
+
+			conn.Account.Medals -= barrackData.Price;
+			conn.Account.SelectedBarrack = newMapId;
+
+			Send.BC_ACCOUNT_PROP(conn, conn.Account);
+			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+		}
 	}
 }

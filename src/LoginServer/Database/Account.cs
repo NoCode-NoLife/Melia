@@ -42,11 +42,24 @@ namespace Melia.Login.Database
 		private string _teamName;
 
 		/// <summary>
+		/// Amount of medals (iCoins).
+		/// </summary>
+		public int Medals { get; set; }
+
+		/// <summary>
+		/// Id of the barrack map.
+		/// </summary>
+		public int SelectedBarrack { get; set; }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
 		{
 			_characters = new List<Character>();
+
+			this.Medals = 500;
+			this.SelectedBarrack = 11;
 		}
 
 		/// <summary>
