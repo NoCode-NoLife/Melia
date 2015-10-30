@@ -1,0 +1,17 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: BC_LOGINOK.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+short s1; // map id?
+int64 l1; // session id?
+char accountName[33]; // l1 as string?
+int i1; // accountPrivileges?
+char sessionKey[64]; // ?
