@@ -35,6 +35,16 @@ namespace Melia.Shared.Network
 	/// 
 	/// i10690 (2015-10-28)
 	/// - No changes
+	/// 
+	/// i10707 (2015-10-29)
+	/// - No changes
+	/// 
+	/// i10725 (2015-11-03)
+	/// - New:
+	///   - CB_CHECK_CLIENT_INTEGRITY
+	///   - CZ_DUMMYPC_SKILL_POS
+	/// - Size changes:
+	///   - BC_LOGINOK: 117 -> 121
 	/// </remarks>
 	public static class Op
 	{
@@ -44,22 +54,23 @@ namespace Melia.Shared.Network
 		public const int CB_START_BARRACK = 0x06; // Size: 11
 		public const int CB_COMMANDER_CREATE = 0x07; // Size: 92
 		public const int CB_COMMANDER_DESTROY = 0x08; // Size: 11
-		public const int CB_START_GAME = 0x09; // Size: 13
-		public const int CB_BARRACKNAME_CHANGE = 0x0A; // Size: 74
-		public const int CB_COMMANDER_MOVE = 0x0B; // Size: 31
-		public const int CB_ECHO = 0x0C; // Size: 30
-		public const int BC_LOGINOK = 0x0D; // Size: 117
-		public const int BC_LOGIN_PACKET_RECEIVED = 0x0E; // Size: 6
-		public const int BC_LOGOUTOK = 0x0F; // Size: 6
-		public const int BC_COMMANDER_LIST = 0x10; // Size: 0
-		public const int BC_COMMANDER_CREATE = 0x11; // Size: 326
-		public const int BC_COMMANDER_DESTROY = 0x12; // Size: 7
-		public const int BC_START_GAMEOK = 0x13; // Size: 33
-		public const int BC_SINGLE_INFO = 0x14; // Size: 317
-		public const int BC_MESSAGE = 0x15; // Size: 0
-		public const int BC_ECHO = 0x16; // Size: 26
-		public const int BC_MYPAGE_MAP = 0x17; // Size: 0
-		public const int BC_BARRACKNAME_CHANGE = 0x18; // Size: 75
+		public const int CB_CHECK_CLIENT_INTEGRITY = 0x09; // Size: 74
+		public const int CB_START_GAME = 0x0A; // Size: 13
+		public const int CB_BARRACKNAME_CHANGE = 0x0B; // Size: 74
+		public const int CB_COMMANDER_MOVE = 0x0C; // Size: 31
+		public const int CB_ECHO = 0x0D; // Size: 30
+		public const int BC_LOGINOK = 0x0E; // Size: 121
+		public const int BC_LOGIN_PACKET_RECEIVED = 0x0F; // Size: 6
+		public const int BC_LOGOUTOK = 0x10; // Size: 6
+		public const int BC_COMMANDER_LIST = 0x11; // Size: 0
+		public const int BC_COMMANDER_CREATE = 0x12; // Size: 326
+		public const int BC_COMMANDER_DESTROY = 0x13; // Size: 7
+		public const int BC_START_GAMEOK = 0x14; // Size: 33
+		public const int BC_SINGLE_INFO = 0x15; // Size: 317
+		public const int BC_MESSAGE = 0x16; // Size: 0
+		public const int BC_ECHO = 0x17; // Size: 26
+		public const int BC_MYPAGE_MAP = 0x18; // Size: 0
+		public const int BC_BARRACKNAME_CHANGE = 0x19; // Size: 75
 		public const int CB_IES_MODIFY_INFO = 0x46; // Size: 0
 		public const int BC_IES_MODIFY_INFO = 0x47; // Size: 0
 		public const int BC_IES_MODIFY_LIST = 0x48; // Size: 0
@@ -620,6 +631,7 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_FRIENDLY_FIGHT = 0xDB1; // Size: 15
 		public const int CZ_CART_POSITION = 0xDB2; // Size: 26
 		public const int CZ_REQ_RIDE_CART = 0xDB3; // Size: 18
+		public const int CZ_DUMMYPC_SKILL_POS = 0xDB4; // Size: 26
 
 		private static Dictionary<int, int> _sizes = new Dictionary<int, int>();
 
@@ -631,11 +643,12 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_START_BARRACK] = 11;
 			_sizes[Op.CB_COMMANDER_CREATE] = 92;
 			_sizes[Op.CB_COMMANDER_DESTROY] = 11;
+			_sizes[Op.CB_CHECK_CLIENT_INTEGRITY] = 74;
 			_sizes[Op.CB_START_GAME] = 13;
 			_sizes[Op.CB_BARRACKNAME_CHANGE] = 74;
 			_sizes[Op.CB_COMMANDER_MOVE] = 31;
 			_sizes[Op.CB_ECHO] = 30;
-			_sizes[Op.BC_LOGINOK] = 117;
+			_sizes[Op.BC_LOGINOK] = 121;
 			_sizes[Op.BC_LOGIN_PACKET_RECEIVED] = 6;
 			_sizes[Op.BC_LOGOUTOK] = 6;
 			_sizes[Op.BC_COMMANDER_LIST] = 0;
@@ -1207,6 +1220,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REQ_FRIENDLY_FIGHT] = 15;
 			_sizes[Op.CZ_CART_POSITION] = 26;
 			_sizes[Op.CZ_REQ_RIDE_CART] = 18;
+			_sizes[Op.CZ_DUMMYPC_SKILL_POS] = 26;
 		}
 
 		public static int GetSize(int op)
