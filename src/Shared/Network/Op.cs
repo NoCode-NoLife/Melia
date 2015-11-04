@@ -45,6 +45,9 @@ namespace Melia.Shared.Network
 	///   - CZ_DUMMYPC_SKILL_POS
 	/// - Size changes:
 	///   - BC_LOGINOK: 117 -> 121
+	/// 
+	/// i10749 (2015-11-04)
+	/// - No changes
 	/// </remarks>
 	public static class Op
 	{
