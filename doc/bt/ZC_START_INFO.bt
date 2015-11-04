@@ -1,0 +1,24 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_START_INFO.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct
+{
+    short job;
+    int i1;
+    int i2;
+    short s1;
+}
+Entry;
+
+short op;
+int sequence;
+
+short size;
+int count;
+Entry entries[count];

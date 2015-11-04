@@ -119,11 +119,13 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_START_INFO);
 
-			packet.PutInt(1); // ?
-			packet.PutShort((short)conn.SelectedCharacter.Job);
-			packet.PutInt(0); // ?
-			packet.PutInt(0); // ?
-			packet.PutShort(1); // ?
+			packet.PutInt(1); // count
+			{
+				packet.PutShort((short)conn.SelectedCharacter.Job);
+				packet.PutInt(0); // 1270153646, 2003304878
+				packet.PutInt(0);
+				packet.PutShort(1);
+			}
 
 			conn.Send(packet);
 		}
