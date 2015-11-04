@@ -25,14 +25,14 @@ namespace Melia.Shared.Network.Helpers
 			for (int i = 0; i < equipIds.Length; ++i)
 				packet.PutInt(equipIds[i]);
 
-			packet.PutShort(commander.Hair);
-			packet.PutShort(0); // Pose
-
 			// [i10671, 2015-10-26 iCBT2] ?
 			{
 				packet.PutInt(0);
 				packet.PutInt(0);
 			}
+
+			packet.PutShort(commander.Hair);
+			packet.PutShort(0); // Pose
 		}
 	}
 

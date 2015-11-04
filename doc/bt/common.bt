@@ -93,9 +93,9 @@ typedef struct
     byte b1;
     int level;
     int equipIds[20];
+    int i6; // [i10671, 2015-10-26 iCBT2]
+    int i7; // [i10671, 2015-10-26 iCBT2]
     short hair;
     short pose;
-    int i6; // // [i10671, 2015-10-26 iCBT2]
-    int i7; // // [i10671, 2015-10-26 iCBT2]
 }
 COMMANDER;
