@@ -18,8 +18,14 @@ namespace Melia.Shared.Const
 	/// - PC changed from a 4k to a 6k range.
 	/// - Several additions/removals
 	/// 
-	/// i10671 (2015-10-26)	- No changes
-	/// i10690 (2015-10-28)	- No changes
+	/// i10671 (2015-10-26)
+	/// i10690 (2015-10-28)
+	///  - No changes
+	/// 
+	/// i10725 (2015-11-03)
+	/// - New:
+	///   - Account.ChatStopTime
+	///   - Account.TradeStopTime
 	/// </remarks>
 	public static class ObjectProperty
 	{
@@ -31,6 +37,8 @@ namespace Melia.Shared.Const
 			public const short GiftMedal = 6302;
 			public const short Medal_Get_Date = 6303;
 			public const short ReceiveGiftMedal = 6304;
+			public const short ChatStopTime = 8476;
+			public const short TradeStopTime = 8477;
 		}
 
 		public static class PC
