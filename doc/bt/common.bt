@@ -79,3 +79,23 @@ string mapRevealDataRead(mapRevealData &v)
     SPrintf(result, "%d", v.mapId);
     return result;
 }
+
+typedef struct
+{
+    char name[65];
+    char teamName[64];
+    byte bin[7];
+    int64 accountId;
+    short stance;
+    short s1;
+    short job;
+    byte gender;
+    byte b1;
+    int level;
+    int equipIds[20];
+    short hair;
+    short pose;
+    int i6; // // [i10671, 2015-10-26 iCBT2]
+    int i7; // // [i10671, 2015-10-26 iCBT2]
+}
+COMMANDER;

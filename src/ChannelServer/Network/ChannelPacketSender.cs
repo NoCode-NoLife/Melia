@@ -62,11 +62,10 @@ namespace Melia.Channel.Network
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 
-			packet.PutShort(0); // count v ?
-			//packet.PutEmptyBin(0);
+			packet.PutLpString("*B4BDDD1B8A071EEAFFE0608640867C8E9DAAD734");
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(0);
+			packet.PutInt(335544321);
 
 			packet.AddCommander(character);
 
@@ -75,10 +74,10 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.Z);
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
-			packet.PutInt(character.Handle);
+			packet.PutInt(1406353664);
 
 			packet.PutLong(character.Id);
-			packet.PutLong(0); // PCEtc GUID? socialInfoId
+			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
 
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
@@ -88,17 +87,6 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Stamina); // MaxStamina
 			packet.PutShort(0); // Shield
 			packet.PutShort(0); // MaxShield
-
-			packet.PutByte(0);
-			packet.PutEmptyBin(3);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
 
 			conn.Send(packet);
 		}

@@ -1,0 +1,46 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_CONNECT_OK.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+
+short size;
+byte gameMode;
+int i1;
+byte privileges;
+byte bin1[10];
+
+short count;
+byte bin2[count];
+
+int handle1;
+int i2;
+
+COMMANDER commander;
+
+float x;
+float y;
+float z;
+int exp;
+int maxExp;
+int i3;
+
+int64 characterId;
+int64 socialInfoId;
+
+int hp;
+int maxHp;
+short sp;
+short maxSp;
+int stamina;
+int maxStamina;
+short shield;
+short maxShield;
