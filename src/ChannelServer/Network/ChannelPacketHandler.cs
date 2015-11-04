@@ -99,24 +99,33 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
+			// ZC_IES_MODIFY_LIST
 			Send.ZC_ITEM_INVENTORY_LIST(character);
+			// ZC_NORMAL
 			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
 			Send.ZC_CHAT_MACRO_LIST(character);
 			Send.ZC_UI_INFO_LIST(character);
 			Send.ZC_NPC_STATE_LIST(character);
+			// ZC_HELP_LIST
+			// ZC_MYPAGE_MAP
+			// ZC_GUESTPAGE_MAP
 			Send.ZC_START_INFO(conn);
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
 			Send.ZC_QUICK_SLOT_LIST(conn);
-
+			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY_Init(character);
+			// ZC_SKILL_LIST
 			Send.ZC_LOGIN_TIME(character);
 			Send.ZC_MYPC_ENTER(character);
+			// ZC_NORMAL...
+			// ZC_OBJECT_PROPERTY...
+			// ZC_SKILL_ADD...
 			Send.ZC_JOB_PTS(character);
 			Send.ZC_MOVE_SPEED(character);
 
