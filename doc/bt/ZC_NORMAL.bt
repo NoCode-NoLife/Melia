@@ -7,16 +7,18 @@
 // Purpose:
 //--------------------------------------
 
+#include "common.bt"
+
 short op;
 int sequence;
 short size;
 
 int type;
-int handle;
 
 // Lv up effect
 if(type == 0x11)
 {
+    int handle;
     short s1;
     short s2;
     float effectSize;
@@ -28,9 +30,21 @@ if(type == 0x11)
 // Class lv up effect
 else if(type == 0x14)
 {
+    int handle;
     byte b1;
     int i1;
     byte b2;
     float effectSize;
     byte bin[8];
+}
+else if(type == 0xE5)
+{
+    typedef struct
+    {
+        lpString str;
+        int val;
+    } entry;
+
+    int count;
+    entry entries[count] <optimize=false>;
 }
