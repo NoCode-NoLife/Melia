@@ -1,0 +1,26 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: BC_MESSAGE.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+short size;
+
+byte b1;
+int i1;
+int i2;
+int i3;
+int i4;
+int i5;
+int i6;
+int i7;
+int i8;
+int i9;
+int i10;
+string message;
