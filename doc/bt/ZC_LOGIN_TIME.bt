@@ -1,0 +1,13 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_LOGIN_TIME.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int64 timestamp;

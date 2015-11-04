@@ -103,5 +103,16 @@ namespace Melia.Shared.Util
 		{
 			return BitConverter.ToInt32(ipAddress.GetAddressBytes(), 0);
 		}
+
+		/// <summary>
+		/// Returns DateTime as 32-bit unix timestamp.
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static int ToUnixTimeSeconds(this DateTime dt)
+		{
+			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			return (int)(dt.ToUniversalTime() - epoch).TotalSeconds;
+		}
 	}
 }

@@ -1005,6 +1005,14 @@ namespace Melia.Channel.Network
 			entity.Map.Broadcast(packet);
 		}
 
+		public static void ZC_LOGIN_TIME(Character character)
+		{
+			var packet = new Packet(Op.ZC_LOGIN_TIME);
+			packet.PutLong(DateTime.Now.ToUnixTimeSeconds() * 1000);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
