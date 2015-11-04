@@ -15,3 +15,4 @@ int64 l1; // session id?
 char accountName[33]; // l1 as string?
 int i1; // accountPrivileges?
 char sessionKey[64]; // ?
+int i2; // [i10725 (2015-11-03)] ?
