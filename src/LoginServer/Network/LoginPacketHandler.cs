@@ -381,5 +381,24 @@ namespace Melia.Login.Network
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
 			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
 		}
+
+		/// <summary>
+		/// Sent upon login, contains checksum of client files.
+		/// </summary>
+		/// <example>
+		/// 0000   09 00 01 00 00 00 12 04  00 00 39 64 34 39 61 35   ..........9d49a5
+		/// 0010   33 36 34 38 32 63 33 33  38 39 33 31 66 31 32 62   36482c338931f12b
+		/// 0020   36 30 38 65 33 31 37 61  30 65 00 00 00 00 00 00   608e317a0e......
+		/// 0030   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
+		/// 0040   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
+		/// </example>
+		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
+		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
+		{
+			var checksum = packet.GetString(64);
+
+			// Ignore for now.
+			// TODO: Add option for accepted checksums.
+		}
 	}
 }
