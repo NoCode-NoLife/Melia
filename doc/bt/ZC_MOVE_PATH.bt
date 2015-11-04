@@ -1,0 +1,22 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_MOVE_PATH.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int id;
+
+int i1;
+int i2;
+int i3;
+int i4;
+int i5;
+int i6;
+float f1;
+float f2;
