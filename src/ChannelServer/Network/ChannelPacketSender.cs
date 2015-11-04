@@ -130,15 +130,15 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		public static void ZC_MYPC_ENTER(ChannelConnection conn)
+		public static void ZC_MYPC_ENTER(Character character)
 		{
 			var packet = new Packet(Op.ZC_MYPC_ENTER);
 
-			packet.PutFloat(0); // X
-			packet.PutFloat(0); // Y
-			packet.PutFloat(0); // Z
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		public static void ZC_ENTER_PC(Character character)
