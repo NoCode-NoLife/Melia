@@ -3,6 +3,7 @@
 
 namespace Melia.Shared.Const
 {
+	// TODO: config.ies has all values, incl. defaults. Make a db as well?
 	public enum Option
 	{
 		ShowExpAquired = 3,
