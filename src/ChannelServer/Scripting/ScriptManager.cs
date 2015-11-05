@@ -84,6 +84,7 @@ namespace Melia.Channel.Scripting
 			// Action
 			Register(warp);
 			Register(resetstats);
+			Register(changehair);
 		}
 
 		/// <summary>
@@ -712,6 +713,7 @@ namespace Melia.Channel.Scripting
 		///		integer sp,       -- Character's SP
 		///		integer maxSp,    -- Character's max SP
 		///		integer stamina,  -- Character's stamina
+		///		integer hair,     -- Character's hair
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
@@ -757,6 +759,10 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "stamina");
 			Melua.lua_pushinteger(L, character.Stamina);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "hair");
+			Melua.lua_pushinteger(L, character.Hair);
 			Melua.lua_settable(L, -3);
 
 			return 1;
@@ -934,6 +940,33 @@ namespace Melia.Channel.Scripting
 				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
 				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
 			);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Changes the player's hairstyle.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int hairId
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int changehair(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 1))
+				return 0;
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var hairId = Melua.luaL_checkinteger(L, 1);
+
+			Melua.lua_pop(L, 1);
+
+			character.Hair = (byte)hairId;
+			Send.ZC_UPDATED_PCAPPEARANCE(character);
 
 			return 0;
 		}
