@@ -1,0 +1,37 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_SKILL_HIT_INFO.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct
+{
+    short s1;
+    short s2;
+    int targetHandle;
+    int damage;
+    int hp;
+    int i3;
+    
+    short s3;
+    byte b1;
+    if(s3 == 0) // normal hit?
+        byte bin[33];
+    else // skill?
+    {
+        //byte bin[80];
+    }
+}
+hit;
+
+short op;
+int sequence;
+
+short size;
+int attackerHandle;
+
+byte count;
+hit hits[count] <optimize=false>;

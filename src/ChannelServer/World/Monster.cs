@@ -129,11 +129,10 @@ namespace Melia.Channel.World
 		{
 			this.Hp -= damage;
 
-			// Sending this to the attacker causes a double attack effect,
-			// because the client plays the effect automatically as well.
-			// TODO: Find out how officials update the monster's HP without
-			//   this packet.
-			Send.ZC_HIT_INFO(from, this, damage);
+			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
+			// use SKILL, and this doesn't create a double hit effect like
+			// the other.
+			Send.ZC_SKILL_HIT_INFO(from, this, damage);
 
 			if (this.Hp == 0)
 				this.Kill(from);

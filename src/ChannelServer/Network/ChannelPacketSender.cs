@@ -843,6 +843,29 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Informs players about a hit that occured, and about the target's
+		/// new hp, after damage was applied.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="damage"></param>
+		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, int damage)
+		{
+			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
+			packet.PutInt(attacker.Handle);
+			packet.PutByte(1); // Count?
+			packet.PutShort(26057);
+			packet.PutShort(5236);
+			packet.PutInt(target.Handle);
+			packet.PutInt(damage);
+			packet.PutInt(target.Hp);
+			packet.PutInt(2);
+			packet.PutBinFromHex("00 00 01 E3 A0 D0 03 00 00 A0 60 FC 4A 01 00 00 64 00 02 01 00 00 01 5C 00 00 00 00 00 00 00 03 00 00 00 60");
+
+			target.Map.Broadcast(packet);
+		}
+
+		/// <summary>
 		/// Updates character's level.
 		/// </summary>
 		/// <param name="conn"></param>
