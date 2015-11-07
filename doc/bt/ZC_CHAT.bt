@@ -1,0 +1,25 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_CHAT.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+short size;
+int handle;
+char teamName[64];
+char name[65];
+byte b1;
+short job;
+int i1;
+byte gender;
+byte hair;
+byte bin1[2];
+int i2;
+float displayTime;
+string message;
