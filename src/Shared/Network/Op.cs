@@ -34,8 +34,6 @@ namespace Melia.Shared.Network
 	///   8 new bytes in commander.
 	/// 
 	/// i10690 (2015-10-28)
-	/// - No changes
-	/// 
 	/// i10707 (2015-10-29)
 	/// - No changes
 	/// 
@@ -47,7 +45,9 @@ namespace Melia.Shared.Network
 	///   - BC_LOGINOK: 117 -> 121
 	/// 
 	/// i10749 (2015-11-04)
-	/// - No changes
+	/// i10789 (2015-11-0X)
+	/// i10791 (2015-11-10)
+	///  - No changes
 	/// </remarks>
 	public static class Op
 	{

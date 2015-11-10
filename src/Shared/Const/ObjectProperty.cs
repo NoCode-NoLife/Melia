@@ -26,6 +26,11 @@ namespace Melia.Shared.Const
 	/// - New:
 	///   - Account.ChatStopTime
 	///   - Account.TradeStopTime
+	///   
+	/// i10749 (2015-11-04)
+	/// i10789 (2015-11-0X)
+	/// i10791 (2015-11-10)
+	///  - No changes
 	/// </remarks>
 	public static class ObjectProperty
 	{
