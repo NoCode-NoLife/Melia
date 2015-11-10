@@ -24,6 +24,9 @@ namespace Melia.Shared.Const
 		Squire = 1011,
 		Murmillo = 1012,
 		Shinobi = 1013,
+		Fencer = 1014,
+		Dragoon = 1015,
+		Templar = 1016,
 
 		Wizard = 2001,
 		FireMage = 2002,
@@ -38,6 +41,9 @@ namespace Melia.Shared.Const
 		Warlock = 2011,
 		Mimic = 2012,
 		Daoshi = 2013,
+		Sage = 2014,
+		Warlock = 2015,
+		Featherfoot = 2016,
 
 		Archer = 3001,
 		Hunter = 3002,
@@ -53,6 +59,8 @@ namespace Melia.Shared.Const
 		PiedPiper = 3012,
 		Appraiser = 3013,
 		Falconer = 3014,
+		Cannoneer = 3015,
+		Musketeer = 3016,
 
 		Cleric = 4001,
 		Priest = 4002,
@@ -67,6 +75,8 @@ namespace Melia.Shared.Const
 		Paladin = 4011,
 		Chaplain = 4012,
 		Shepherd = 4013,
+		PlagueDoctor = 4014,
+		Kabbalist = 4015,
 
 		GM = 9001,
 	}

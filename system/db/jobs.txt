@@ -9,7 +9,7 @@
 { jobId: 1002, className: "Char1_2",  initial: "HLD", name: "Highlander", rank: 2, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1003, className: "Char1_3",  initial: "PEL", name: "Peltasta", rank: 2, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1004, className: "Char1_4",  initial: "HOP", name: "Hoplite", rank: 3, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
-{ jobId: 1005, className: "Char1_5",  initial: "CEN", name: "Centurion", rank: 6, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
+{ jobId: 1005, className: "Char1_5",  initial: "CEN", name: "Centurion", rank: 200, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1006, className: "Char1_6",  initial: "BAR", name: "Barbarian", rank: 3, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1007, className: "Char1_7",  initial: "CAT", name: "Cataphract", rank: 4, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1008, className: "Char1_8",  initial: "COS", name: "Corsair", rank: 5, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
@@ -17,7 +17,10 @@
 { jobId: 1010, className: "Char1_10", initial: "ROD", name: "Rodelero", rank: 4, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1011, className: "Char1_11", initial: "SQR", name: "Squire", rank: 5, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 { jobId: 1012, className: "Char1_12", initial: "MUR", name: "Murmillo", rank: 8, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
-{ jobId: 1013, className: "Char1_13", initial: "SNB", name: "Shinobi", rank: 11, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
+{ jobId: 1013, className: "Char1_13", initial: "SNB", name: "Shinobi", rank: 7, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
+{ jobId: 1014, className: "Char1_14", initial: "FNC", name: "Fencer", rank: 6, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
+{ jobId: 1015, className: "Char1_15", initial: "FNC", name: "Dragoon", rank: 8, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
+{ jobId: 1016, className: "Char1_16", initial: "FNC", name: "Templar", rank: 8, str: 7, con: 8, int: 2, spr: 3, dex: 5, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10000 },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -33,7 +36,10 @@
 { jobId: 2010, className: "Char2_10", initial: "THA", name: "Thaumaturge", rank: 4, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
 { jobId: 2011, className: "Char2_11", initial: "WRC", name: "Warlock", rank: 4, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
 { jobId: 2012, className: "Char2_12", initial: "MMC", name: "Mimic", rank: 11, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
-{ jobId: 2013, className: "Char2_13", initial: "DAO", name: "Daoshi", rank: 7, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
+{ jobId: 2013, className: "Char2_13", initial: "DAO", name: "Daoshi", rank: 11, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
+{ jobId: 2014, className: "Char2_14", initial: "SAG", name: "Sage", rank: 7, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
+{ jobId: 2015, className: "Char2_15", initial: "WAR", name: "Warlock", rank: 7, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
+{ jobId: 2016, className: "Char2_16", initial: "FTF", name: "Featherfoot", rank: 8, str: 3, con: 3, int: 8, spr: 7, dex: 4, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10005 },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -51,6 +57,8 @@
 { jobId: 3012, className: "Char3_12", initial: "PDP", name: "PiedPiper", rank: 8, str: 6, con: 3, int: 3, spr: 4, dex: 8, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10002 },
 { jobId: 3013, className: "Char3_13", initial: "APP", name: "Appraiser", rank: 8, str: 6, con: 3, int: 3, spr: 4, dex: 8, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10002 },
 { jobId: 3014, className: "Char3_14", initial: "FAL", name: "Falconer", rank: 6, str: 6, con: 3, int: 3, spr: 4, dex: 8, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10002 },
+{ jobId: 3015, className: "Char3_15", initial: "CNN", name: "Cannoneer", rank: 7, str: 6, con: 3, int: 3, spr: 4, dex: 8, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10002 },
+{ jobId: 3016, className: "Char3_16", initial: "MSK", name: "Musketeer", rank: 7, str: 6, con: 3, int: 3, spr: 4, dex: 8, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10002 },
 
 // Cleric
 //---------------------------------------------------------------------------
@@ -67,6 +75,8 @@
 { jobId: 4011, className: "Char4_11", initial: "PLD", name: "Paladin", rank: 4, str: 5, con: 6, int: 4, spr: 7, dex: 3, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10003 },
 { jobId: 4012, className: "Char4_12", initial: "CHA", name: "Chaplain", rank: 8, str: 5, con: 6, int: 4, spr: 7, dex: 3, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10003 },
 { jobId: 4013, className: "Char4_13", initial: "SHP", name: "Shepherd", rank: 9, str: 5, con: 6, int: 4, spr: 7, dex: 3, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10003 },
+{ jobId: 4014, className: "Char4_14", initial: "PGD", name: "Plague Doctor", rank: 7, str: 5, con: 6, int: 4, spr: 7, dex: 3, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10003 },
+{ jobId: 4015, className: "Char4_15", initial: "KBL", name: "Kabbalist", rank: 7, str: 5, con: 6, int: 4, spr: 7, dex: 3, startMap: "f_siauliai_west", startX: -628, startY: 260, startZ: -1025, barrackStance: 10003 },
 
 // GM
 //---------------------------------------------------------------------------
