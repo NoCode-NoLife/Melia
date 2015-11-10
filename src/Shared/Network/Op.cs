@@ -12,7 +12,6 @@ namespace Melia.Shared.Network
 	/// <remarks>
 	/// History:
 	/// i10622 (2015-10-22, iCBT2 pre-launch)
-	/// - Several size changes
 	/// - New:
 	///   - BC_LOGIN_PACKET_RECEIVED
 	///   - CZ_INV_ITEM_LOCK
@@ -28,10 +27,24 @@ namespace Melia.Shared.Network
 	///   - CS_PC_INTERACTION_HISTORY
 	/// - Renamed:
 	///   - CZ_SORT_ETC_INV_CHANGE_INDEX to CZ_SORT_INV
+	/// - Size changes:
+	///   - CB_BUY_THEMA: 18 -> 22
+	///   - ZC_ENTER_PC: 370 -> 400
+	///   - CZ_SKILL_GROUND: 57 -> 61
+	///   - CZ_REQ_NORMAL_TX: 29 -> 45
+	///   - CZ_SORT_ETC_INV_CHANGE_INDEX (CZ_SORT_INV): 11 -> 12
 	/// 
 	/// i10671 (2015-10-26, iCBT2 launch)
-	/// - A few packet size changes, most noticible change:
-	///   8 new bytes in commander.
+	/// - Notes
+	///   - 8 new byte in COMMANDER, before hair
+	/// - Size changes:
+	///   - CB_LOGIN: 65 -> 66
+	///   - BC_COMMANDER_CREATE: 318 -> 326
+	///   - BC_SINGLE_INFO: 309 -> 317
+	///   - ZC_ENTER_PC: 400 -> 408
+	///   - ZC_ENTER_DUMMYPC: 292 -> 300
+	///   - ZC_UPDATED_DUMMYPC: 250 -> 258
+	///   - ZC_UPDATED_PCAPPEARANCE: 250 -> 258
 	/// 
 	/// i10690 (2015-10-28)
 	/// i10707 (2015-10-29)
