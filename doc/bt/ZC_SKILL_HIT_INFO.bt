@@ -15,15 +15,19 @@ typedef struct
     int damage;
     int hp;
     int i3;
-    
     short s3;
     byte b1;
-    if(s3 == 0) // normal hit?
-        byte bin[33];
-    else // skill?
-    {
-        //byte bin[80];
-    }
+    byte bin1[29];
+    short s4;
+    short s5;
+
+    // ?
+    if(bin1[5] != 0)
+        byte bin2[60];
+
+    // ?
+    if(s4 != 0)
+        byte bin3[s4];
 }
 hit;
 
