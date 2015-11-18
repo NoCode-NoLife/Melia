@@ -38,11 +38,11 @@ namespace Melia.Shared.Const
 		Chronomancer = 2008,
 		Necromancer = 2009,
 		Thaumaturge = 2010,
-		Warlock = 2011,
+		Warlock1 = 2011,
 		Mimic = 2012,
 		Daoshi = 2013,
 		Sage = 2014,
-		Warlock = 2015,
+		Warlock2 = 2015,
 		Featherfoot = 2016,
 
 		Archer = 3001,
