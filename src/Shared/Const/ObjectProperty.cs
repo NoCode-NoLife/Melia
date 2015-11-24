@@ -31,7 +31,8 @@ namespace Melia.Shared.Const
 	/// i10789 (2015-11-0X)
 	/// i10791 (2015-11-10)
 	/// i10842 (2015-11-17)
-	///  - No changes
+	/// i10873 (2015-11-24)
+	/// - No changes
 	/// </remarks>
 	public static class ObjectProperty
 	{

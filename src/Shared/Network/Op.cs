@@ -72,6 +72,9 @@ namespace Melia.Shared.Network
 	/// - Size changes:
 	///   - CS_REQ_MARKET_LIST (CZ_REQ_MARKET_LIST): 158 -> 162
 	///   - CS_REQ_MY_SELL_LIST (CZ_REQ_MY_SELL_LIST): 10 -> 14
+	///   
+	/// i10873 (2015-11-24)
+	/// - No changes
 	/// </remarks>
 	public static class Op
 	{
