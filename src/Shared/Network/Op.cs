@@ -74,6 +74,7 @@ namespace Melia.Shared.Network
 	///   - CS_REQ_MY_SELL_LIST (CZ_REQ_MY_SELL_LIST): 10 -> 14
 	///   
 	/// i10873 (2015-11-24)
+	/// i10911 (2015-12-01)
 	/// - No changes
 	/// </remarks>
 	public static class Op
