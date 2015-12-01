@@ -67,6 +67,12 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(335544321);
 
+			// [i10911? (2015-12-01)]
+			// Not sure when exactly this was added, skipped a few updates.
+			{
+				packet.PutShort(0);
+			}
+
 			packet.AddCommander(character);
 
 			packet.PutFloat(character.Position.X);

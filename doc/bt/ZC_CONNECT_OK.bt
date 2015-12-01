@@ -19,10 +19,11 @@ byte privileges;
 byte bin1[10];
 
 short count;
-byte bin2[count];
+char sessionKey[count];
 
 int handle1;
 int i2;
+short s1; // [i10911? (2015-12-01)]
 
 COMMANDER commander;
 
