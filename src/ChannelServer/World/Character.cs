@@ -92,7 +92,7 @@ namespace Melia.Channel.World
 		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
 
 		/// <summary>
-		/// Returns ratio between NowWeight and MaxWeight.
+		/// Character's current speed.
 		/// </summary>
 		public float Speed { get; set; }
 
