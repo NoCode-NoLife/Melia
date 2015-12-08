@@ -75,6 +75,7 @@ namespace Melia.Shared.Network
 	///   
 	/// i10873 (2015-11-24)
 	/// i10911 (2015-12-01)
+	/// i10939 (2015-12-08)
 	/// - No changes
 	/// </remarks>
 	public static class Op
