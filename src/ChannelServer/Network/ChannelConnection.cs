@@ -46,8 +46,11 @@ namespace Melia.Channel.Network
 		protected override void CleanUp()
 		{
 			this.Account.Save();
+
 			if (this.SelectedCharacter != null)
 				ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
+
+			ChannelServer.Instance.ScriptManager.RemoveScriptState(this.ScriptState);
 		}
 	}
 }

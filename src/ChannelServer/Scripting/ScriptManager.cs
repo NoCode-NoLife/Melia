@@ -189,6 +189,22 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Removes script state from the manager.
+		/// </summary>
+		/// <param name="state"></param>
+		/// <returns></returns>
+		public void RemoveScriptState(ScriptState state)
+		{
+			if (state == null)
+				return;
+
+			lock (_states)
+				_states.Remove(state.NL);
+
+			// Apparently there is no lua_closethread()?
+		}
+
+		/// <summary>
 		/// Calls function with connection's script state.
 		/// </summary>
 		/// <param name="conn"></param>

@@ -67,9 +67,6 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			character.Connection = conn;
-			conn.SelectedCharacter = character;
-
 			// Get map
 			var map = ChannelServer.Instance.World.GetMap(character.MapId);
 			if (map == null)
@@ -78,6 +75,9 @@ namespace Melia.Channel.Network
 				conn.Close();
 				return;
 			}
+
+			character.Connection = conn;
+			conn.SelectedCharacter = character;
 
 			map.AddCharacter(character);
 			conn.ScriptState = ChannelServer.Instance.ScriptManager.CreateScriptState(conn);
