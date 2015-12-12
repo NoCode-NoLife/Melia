@@ -304,6 +304,8 @@ namespace Melia.Login.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
+			var d1 = packet.GetFloat();	// ?
+			var d2 = packet.GetFloat();	// ?
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
