@@ -18,8 +18,7 @@ int i1;
 byte privileges;
 byte bin1[10];
 
-short count;
-char sessionKey[count];
+lpString sessionKey;
 
 int handle1;
 int i2;

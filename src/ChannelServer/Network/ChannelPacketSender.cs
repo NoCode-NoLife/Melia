@@ -58,14 +58,14 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_CONNECT_OK);
 
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
-			packet.PutInt(0);
+			packet.PutInt(1292150020);
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 
 			packet.PutLpString(conn.SessionKey);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(335544321);
+			packet.PutInt(3);
 
 			// [i10911? (2015-12-01)]
 			// Not sure when exactly this was added, skipped a few updates.
@@ -80,7 +80,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.Z);
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
-			packet.PutInt(1406353664);
+			packet.PutInt(0);
 
 			packet.PutLong(character.Id);
 			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
