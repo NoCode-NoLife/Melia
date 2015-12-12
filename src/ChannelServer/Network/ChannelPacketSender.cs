@@ -62,7 +62,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 
-			packet.PutLpString("*B4BDDD1B8A071EEAFFE0608640867C8E9DAAD734");
+			packet.PutLpString(conn.SessionKey);
 
 			packet.PutInt(character.Handle);
 			packet.PutInt(335544321);
@@ -166,7 +166,7 @@ namespace Melia.Channel.Network
 				packet.PutString(character.Name, 65);
 				packet.PutString(character.TeamName, 64);
 				packet.PutEmptyBin(7);
-				packet.PutLong(character.Connection.SessionId); // Account ID
+				packet.PutLong(character.Connection.Account.Id);
 				packet.PutShort(character.Stance);
 				packet.PutShort(0);
 				packet.PutShort((short)character.Job);

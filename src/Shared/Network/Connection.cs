@@ -50,9 +50,9 @@ namespace Melia.Shared.Network
 		public int Index { get; set; }
 
 		/// <summary>
-		/// Session id for this connection.
+		/// Session key for this connection.
 		/// </summary>
-		public long SessionId { get; set; }
+		public string SessionKey { get; set; }
 
 		/// <summary>
 		/// Creates new connection.

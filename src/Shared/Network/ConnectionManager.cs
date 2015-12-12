@@ -114,7 +114,7 @@ namespace Melia.Shared.Network
 				var connectionSocket = _socket.EndAccept(result);
 
 				var connection = new TConnection();
-				connection.SessionId = 2;
+				connection.SessionKey = "*D013B3FD81CA0B73A9AE654C7CF161D5AF0349B1";
 				connection.SetSocket(connectionSocket);
 				connection.Closed += this.OnConnectionClosed;
 				connection.BeginReceive();

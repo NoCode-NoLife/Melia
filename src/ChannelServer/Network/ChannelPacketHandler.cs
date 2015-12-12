@@ -36,7 +36,7 @@ namespace Melia.Channel.Network
 		{
 			var len = packet.GetShort(); // ? 1059
 			var unkShort1 = packet.GetShort();
-			var sessionId = packet.GetLong();
+			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
 			var accountName = packet.GetString(33); // ?
 			var zoneId = packet.GetInt();
@@ -46,7 +46,7 @@ namespace Melia.Channel.Network
 			var unkByte3 = packet.GetByte();
 			// ...
 
-			// TODO: Check session id or something.
+			// TODO: Check session key or something.
 
 			// Get account
 			conn.Account = ChannelServer.Instance.Database.GetAccount(accountName);
@@ -179,7 +179,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CAMPINFO)]
 		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
 		{
-			var sessionId = packet.GetLong();
+			var accountId = packet.GetLong();
 
 			Send.ZC_CAMPINFO(conn);
 		}

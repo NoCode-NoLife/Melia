@@ -30,10 +30,10 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_LOGINOK);
 			packet.PutShort(0);
-			packet.PutLong(conn.SessionId);
+			packet.PutLong(conn.Account.Id);
 			packet.PutString(conn.Account.Name, 33);
 			packet.PutInt(3); // accountPrivileges? <= 3 enables a kind of debug context menu
-			packet.PutString("test string", 64); // sessionKey (*695ADFDD9FD07E69927F1F2F81BF415D966D344A)
+			packet.PutString(conn.SessionKey, 64);
 			packet.PutInt(4475); // [i10725 (2015-11-03)] ?
 
 			conn.Send(packet);
@@ -51,7 +51,7 @@ namespace Melia.Login.Network
 			var characters = conn.Account.GetCharacters();
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
-			packet.PutLong(conn.SessionId);
+			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
 			packet.PutByte((byte)characters.Length);
 			packet.PutString(conn.Account.TeamName, 64);
