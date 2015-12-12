@@ -112,9 +112,9 @@ namespace Melia.Login.Network
 		{
 			var unkByte = packet.GetByte();
 
+			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
-			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 2002, "127.0.0.1", 2003);
 		}
 
 		/// <summary>
