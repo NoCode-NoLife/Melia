@@ -11,6 +11,9 @@
 /user/db/*
 !/user/db/items-example.txt
 
+/user/scripts/*
+!/user/scripts/scripts_custom-example.txt
+
 #################
 ## Visual Studio
 #################
