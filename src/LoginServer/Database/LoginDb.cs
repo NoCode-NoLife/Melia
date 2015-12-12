@@ -93,6 +93,7 @@ namespace Melia.Login.Database
 				cmd.Set("sp", character.Sp);
 				cmd.Set("maxSp", character.MaxSp);
 				cmd.Set("stamina", character.Stamina);
+				cmd.Set("maxStamina", character.MaxStamina);
 				cmd.Set("str", character.Str);
 				cmd.Set("con", character.Con);
 				cmd.Set("int", character.Int);

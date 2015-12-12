@@ -98,6 +98,11 @@ namespace Melia.Shared.World
 		public int Stamina { get; set; }
 
 		/// <summary>
+		/// Maximum stamina points.
+		/// </summary>
+		public int MaxStamina { get; set; }
+
+		/// <summary>
 		/// Gets or sets character's strength (STR).
 		/// </summary>
 		public float Str { get; set; }

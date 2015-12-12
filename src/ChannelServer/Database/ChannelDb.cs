@@ -99,6 +99,7 @@ namespace Melia.Channel.Database
 					character.Sp = reader.GetInt32("sp");
 					character.MaxSp = reader.GetInt32("maxSp");
 					character.Stamina = reader.GetInt32("stamina");
+					character.MaxStamina = reader.GetInt32("maxStamina");
 					character.Str = reader.GetFloat("str");
 					character.Con = reader.GetFloat("con");
 					character.Int = reader.GetFloat("int");
@@ -148,6 +149,7 @@ namespace Melia.Channel.Database
 				cmd.Set("sp", character.Sp);
 				cmd.Set("maxSp", character.MaxSp);
 				cmd.Set("stamina", character.Stamina);
+				cmd.Set("maxStamina", character.MaxStamina);
 				cmd.Set("str", character.Str);
 				cmd.Set("con", character.Con);
 				cmd.Set("int", character.Int);

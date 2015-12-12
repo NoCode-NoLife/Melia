@@ -90,7 +90,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(character.Sp);
 			packet.PutShort(character.MaxSp);
 			packet.PutInt(character.Stamina);
-			packet.PutInt(character.Stamina); // MaxStamina
+			packet.PutInt(character.MaxStamina);
 			packet.PutShort(0); // Shield
 			packet.PutShort(0); // MaxShield
 

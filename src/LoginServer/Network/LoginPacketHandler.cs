@@ -244,7 +244,7 @@ namespace Melia.Login.Network
 
 			character.Hp = character.MaxHp = 100;
 			character.Sp = character.MaxSp = 50;
-			character.Stamina = 50000;
+			character.Stamina = character.MaxStamina = 25000;
 			character.Str = jobData.Str;
 			character.Con = jobData.Con;
 			character.Int = jobData.Int;
