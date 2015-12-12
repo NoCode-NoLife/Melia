@@ -64,14 +64,14 @@ namespace Melia.Channel.Network
 
 			packet.PutLpString(conn.SessionKey);
 
-			packet.PutInt(character.Handle);
-			packet.PutInt(3);
-
 			// [i10911? (2015-12-01)]
 			// Not sure when exactly this was added, skipped a few updates.
 			{
-				packet.PutShort(0);
+				packet.PutShort(0xFB31); // ?
 			}
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(0);
 
 			packet.AddCommander(character);
 
