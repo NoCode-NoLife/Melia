@@ -107,9 +107,9 @@ namespace Melia.Channel.World
 			this.Int = 1;
 			this.Spr = 1;
 			this.Dex = 1;
-			this.Handle = 1337;
+			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
-			this.Speed = 31;
+			this.Speed = 30;
 		}
 
 		/// <summary>
