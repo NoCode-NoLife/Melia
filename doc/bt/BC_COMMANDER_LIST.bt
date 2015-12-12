@@ -68,7 +68,7 @@ short op;
 int sequence;
 short size;
 
-int64 l1; // session id?
+int64 accountId;
 byte b1;
 byte characterCount;
 char teamName[64];
@@ -78,9 +78,9 @@ AccountProperties properties;
 Character character[characterCount] <optimize=false>;
 
 short s1;
-// ...
+if (s1 != 0)
+    byte bin1[(4+2) * s1];
 
 // 02 00
-// 0B 00 00 00 // 11,0 ?
-// 01 00 0C 00 // 1,12 ?
-// 00 00 00 00
+// 0B 00 00 00 01 00
+// 0C 00 00 00 00 00

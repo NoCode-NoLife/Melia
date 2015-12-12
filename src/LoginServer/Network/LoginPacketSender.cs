@@ -95,7 +95,7 @@ namespace Melia.Login.Network
 			}
 
 			// Null terminated list of some kind?
-			// Example of != 0: 02 00 | 0B 00 00 00 01 00 0C 00 00 00 00 00
+			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
 
 			conn.Send(packet);
