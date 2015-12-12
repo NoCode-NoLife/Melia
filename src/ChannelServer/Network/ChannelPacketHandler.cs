@@ -34,17 +34,17 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
-			var len = packet.GetShort(); // ? 1059
-			var unkShort1 = packet.GetShort();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
+
+			// When using passprt login, this is the account id as string,
+			// and it's 18 (?) bytes long.
 			var accountName = packet.GetString(33); // ?
-			var zoneId = packet.GetInt();
-			var unkShort2 = packet.GetShort();
-			var unkByte1 = packet.GetByte();
-			var unkByte2 = packet.GetByte();
-			var unkByte3 = packet.GetByte();
-			// ...
+
+			var unk = packet.GetBin(1037);
+			var sessionKey = packet.GetString(64);
 
 			// TODO: Check session key or something.
 
