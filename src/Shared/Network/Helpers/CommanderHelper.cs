@@ -12,7 +12,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutString(commander.Name, 65);
 			packet.PutString(commander.TeamName, 64);
 			packet.PutEmptyBin(7);
-			packet.PutLong(0); // Account ID
+			packet.PutLong(commander.AccountId);
 			packet.PutShort(commander.Stance);
 			packet.PutShort(0);
 			packet.PutShort((short)commander.Job);
@@ -38,6 +38,7 @@ namespace Melia.Shared.Network.Helpers
 
 	public interface ICommander
 	{
+		long AccountId { get; }
 		string Name { get; }
 		string TeamName { get; }
 		int Stance { get; }

@@ -18,6 +18,11 @@ namespace Melia.Shared.World
 		public long Id { get; set; }
 
 		/// <summary>
+		/// Id of the character's account.
+		/// </summary>
+		public long AccountId { get; set; }
+
+		/// <summary>
 		/// Character's name.
 		/// </summary>
 		public string Name { get; set; }

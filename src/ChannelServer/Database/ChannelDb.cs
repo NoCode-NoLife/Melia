@@ -85,6 +85,7 @@ namespace Melia.Channel.Database
 						return null;
 
 					character.Id = reader.GetInt64("characterId");
+					character.AccountId = accountId;
 					character.Name = reader.GetStringSafe("name");
 					character.TeamName = reader.GetStringSafe("teamName");
 					character.Job = (Job)reader.GetInt16("job");
