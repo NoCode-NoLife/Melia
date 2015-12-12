@@ -1,0 +1,20 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: BC_START_GAMEOK.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int i1; // some ip?
+int ip;
+int port;
+int mapId;
+byte b1;
+int64 characterId;
+byte b2;
+byte b3;

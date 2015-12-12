@@ -184,7 +184,7 @@ namespace Melia.Login.Network
 			packet.PutByte(0);
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0
-			packet.PutByte(0); // Passed to a function if ^ is 0
+			packet.PutByte(1); // Passed to a function if ^ is 0
 
 			conn.Send(packet);
 		}
