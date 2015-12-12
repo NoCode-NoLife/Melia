@@ -292,7 +292,7 @@ namespace Melia.Shared.Network
 			// Create packet
 			var buffer = new byte[length];
 			Buffer.BlockCopy(BitConverter.GetBytes((short)packet.Op), 0, buffer, 0, sizeof(short));
-			Buffer.BlockCopy(BitConverter.GetBytes(0), 0, buffer, sizeof(short), sizeof(int)); // checksum?
+			Buffer.BlockCopy(BitConverter.GetBytes(-1), 0, buffer, sizeof(short), sizeof(int)); // checksum?
 
 			var offset = 6;
 			if (size == 0)
