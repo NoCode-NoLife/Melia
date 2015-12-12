@@ -10,9 +10,9 @@
 short op;
 int sequence;
 
-short s1; // map id?
-int64 l1; // session id?
-char accountName[33]; // l1 as string?
-int i1; // accountPrivileges?
+short s1;
+int64 accountId;
+char accountName[33]; // accountId as string?
+int accountPrivileges;
 char sessionKey[64]; // ?
 int i2; // [i10725 (2015-11-03)] ?
