@@ -99,7 +99,7 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			// ZC_IES_MODIFY_LIST
+			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			// ZC_NORMAL
 			Send.ZC_OPTION_LIST(conn);

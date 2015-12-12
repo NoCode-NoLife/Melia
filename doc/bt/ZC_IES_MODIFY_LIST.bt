@@ -1,0 +1,56 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_IES_MODIFY_LIST.bt
+// Author: Tachiorz, exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt";
+
+typedef struct
+{
+    int i1;
+    lpString s1;
+    lpString version;
+    lpString author;
+    lpString date;
+    lpString method;
+}
+IesPatch;
+
+typedef struct
+{
+    lpString colName;
+    short patchCount;
+    if(patchCount > 0)
+        IesPatch patches[patchCount] <optimize=false>;
+}
+IesCol;
+
+typedef struct
+{
+    int classId;
+    short colCount;
+    if(colCount != 0)
+        IesCol columns[colCount] <optimize=false>;
+}
+IesRow;
+
+typedef struct
+{
+    lpString name;
+    short rowCount;
+    if(rowCount != 0)
+        IesRow rows[rowCount] <optimize=false>;
+}
+Ies;
+
+short op;
+int sequence;
+
+short size;
+short count;
+if(count != 0)
+    Ies iess[count] <optimize=false>;

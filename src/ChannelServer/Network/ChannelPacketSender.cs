@@ -1032,6 +1032,50 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		public static void ZC_IES_MODIFY_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_IES_MODIFY_LIST);
+
+			packet.PutShort(1); // count
+			{
+				packet.PutLpString("SharedConst");
+				packet.PutShort(2); // row count
+				{
+					packet.PutInt(250);
+					packet.PutShort(1); // col count
+					{
+						packet.PutLpString("Value");
+						packet.PutShort(1); // patch count
+						{
+							packet.PutInt(10);
+							packet.PutLpString("1");
+							packet.PutLpString("8.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2015-11-2");
+							packet.PutLpString("Change By Tool");
+						}
+					}
+
+					packet.PutInt(251);
+					packet.PutShort(1); // col count
+					{
+						packet.PutLpString("Value");
+						packet.PutShort(1); // patch count
+						{
+							packet.PutInt(9);
+							packet.PutLpString("1");
+							packet.PutLpString("8.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2015-11-2");
+							packet.PutLpString("Change By Tool");
+						}
+					}
+				}
+			}
+
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
