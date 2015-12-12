@@ -19,7 +19,7 @@ namespace Melia.Login.Network.Helpers
 		public static void AddCharacter(this Packet packet, Character character)
 		{
 			packet.AddCommander(character);
-			packet.PutLong(character.Id); // socialInfoId ?
+			packet.PutLong(character.Id);
 			packet.PutShort(character.Index);
 			packet.PutShort(character.MapId);
 			packet.PutInt(0);
@@ -35,9 +35,9 @@ namespace Melia.Login.Network.Helpers
 			packet.PutFloat(0); // Vector direction
 
 			// ?
-			packet.PutFloat(0); // X
-			packet.PutFloat(0); // Y
-			packet.PutFloat(0); // Z
+			packet.PutFloat(character.BarrackPosition.X);
+			packet.PutFloat(character.BarrackPosition.Y);
+			packet.PutFloat(character.BarrackPosition.Z);
 			packet.PutFloat(0); // Vector direction
 			packet.PutFloat(0); // Vector direction
 

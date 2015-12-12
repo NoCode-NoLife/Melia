@@ -34,7 +34,7 @@ typedef struct
 {
     COMMANDER commander;
 
-    int64 l2; // socialInfoId?
+    int64 characterId;
     short index;
     short mapId;
     int i1;
