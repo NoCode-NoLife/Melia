@@ -20,6 +20,12 @@ namespace Melia.Login.Network
 {
 	public static class Send
 	{
+		public static void BC_LOGIN_PACKET_RECEIVED(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_LOGIN_PACKET_RECEIVED);
+			conn.Send(packet);
+		}
+
 		public static void BC_LOGINOK(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_LOGINOK);

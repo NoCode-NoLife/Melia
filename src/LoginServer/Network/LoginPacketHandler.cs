@@ -40,6 +40,8 @@ namespace Melia.Login.Network
 			var unkByte2 = packet.GetByte();
 			var ip = packet.GetInt();
 
+			Send.BC_LOGIN_PACKET_RECEIVED(conn);
+
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
 			{
