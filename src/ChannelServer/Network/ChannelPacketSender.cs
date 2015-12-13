@@ -574,25 +574,21 @@ namespace Melia.Channel.Network
 
 		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int mapId)
 		{
-			//_BYTE gap0[6];
-			//_DWORD dword6;
-			//_DWORD dwordA;
-			//_DWORD dwordE;
-			//_DWORD dword12;
-			//float float16;
-			//float float1A;
-			//_BYTE gap1E[26];
-			//_BYTE byte38;
+			var packet = new Packet(Op.ZC_MOVE_ZONE_OK);
 
-			var packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
-
-			packet.PutInt(0);
+			packet.PutInt(210004);
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(mapId);
 			packet.PutFloat(38); // Camera X angle
 			packet.PutFloat(45); // Camera Y angle
-			packet.PutEmptyBin(26);
+			packet.PutFloat(200);
+			packet.PutFloat(2200);
+			packet.PutFloat(1000);
+			packet.PutInt(26);
+			packet.PutInt(20);
+			packet.PutInt(59);
+			packet.PutShort(0);
 			packet.PutByte(0);
 
 			conn.Send(packet);

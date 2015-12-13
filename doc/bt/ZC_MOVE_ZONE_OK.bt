@@ -7,14 +7,22 @@
 // Purpose:
 //--------------------------------------
 
+#include "common.bt";
+
 short op;
 int sequence;
 
 int i1;
-int ip;
+IP ip;
 int port;
 int mapId;
 float cameraX;
 float cameraY;
+float f1;
+float f2;
+float f3;
+int i2;
+int i3;
+int i4;
+short s1;
 byte b1;
-byte b2;

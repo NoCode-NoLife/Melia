@@ -99,3 +99,19 @@ typedef struct
     short pose;
 }
 COMMANDER;
+
+typedef struct
+{
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
+}
+IP <read=IPRead>;
+
+string IPRead(IP &v)
+{
+    local string result;
+    SPrintf(result, "%d.%d.%d.%d", v.b1, v.b2, v.b3, v.b4);
+    return result;
+}
