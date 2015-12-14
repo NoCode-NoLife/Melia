@@ -1,0 +1,25 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_WAREHOUSE_CMD.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef enum <byte>
+{
+    IN,
+    OUT,
+}
+WAREHOUSE_DIRECTION;
+
+short op;
+int sequence;
+int checksum;
+
+int64 worldId; // ?
+int i1;
+int amount;
+WAREHOUSE_DIRECTION direction; // 0=in, 1=out?
+int i2;

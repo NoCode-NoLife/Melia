@@ -1,0 +1,14 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_REQ_ITEM_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+byte type; // 1=storage ?

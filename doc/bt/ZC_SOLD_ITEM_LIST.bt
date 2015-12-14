@@ -1,0 +1,33 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_SOLD_ITEM_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct
+{
+    int id;
+    short propertiesSize;
+    short b1;
+    int64 worldId;
+    int amount;
+    int price;
+    int index;
+    int i1;
+    if (propertiesSize > 0)
+        byte properties[propertiesSize];
+}
+Item;
+
+short op;
+int sequence;
+
+short size;
+byte b1;
+int count; // ?
+byte b2;
+if (count > 0)
+    Item items[count] <optimize=false>;
