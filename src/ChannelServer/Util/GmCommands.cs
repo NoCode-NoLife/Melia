@@ -44,6 +44,7 @@ namespace Melia.Channel.Util
 			Add("levelup", "<levels>", HandleLevelUp);
 			Add("speed", "<speed>", HandleSpeed);
 			Add("iteminfo", "<name>", HandleItemInfo);
+			Add("go", "<destination>", HandleGo);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -404,6 +405,24 @@ namespace Melia.Channel.Util
 			}
 
 			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleGo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+			{
+				Send.ZC_CHAT(sender, "Destinations: klaipeda, orsha");
+				return CommandResult.InvalidArgument;
+			}
+
+			if (args[1].StartsWith("klaip"))
+				target.Warp("c_Klaipe", -75, 148, -24);
+			else if (args[1].StartsWith("ors"))
+				target.Warp("c_orsha", 271, 176, 292);
+			else
+				Send.ZC_CHAT(sender, "Unknown destination.");
 
 			return CommandResult.Okay;
 		}
