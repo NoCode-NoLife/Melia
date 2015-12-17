@@ -17,6 +17,8 @@ namespace Melia.Channel.World
 {
 	public class Character : Shared.World.BaseCharacter, IEntity, ICommander
 	{
+		private bool _warping;
+
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
@@ -31,6 +33,10 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// The map the character is currently on.
 		/// </summary>
+		/// <remarks>
+		/// Since every map change includes a reconnect, the map reference
+		/// will only ever be set once, upon connection.
+		/// </remarks>
 		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
 
 		/// <summary>
@@ -218,18 +224,36 @@ namespace Melia.Channel.World
 			else
 			{
 				this.MapId = mapId;
+				_warping = true;
 
-				// Get channel
-				var channelId = 1;
-				var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
-				if (channelServer == null)
-				{
-					Log.Error("Channel with id '{0}' not found.", channelId);
-					return;
-				}
-
-				Send.ZC_MOVE_ZONE_OK(this.Connection, channelServer.Ip, channelServer.Port, mapId);
+				Send.ZC_MOVE_ZONE(this.Connection);
 			}
+		}
+
+		/// <summary>
+		/// Finalizes warp, after client announced readiness.
+		/// </summary>
+		public void FinalizeWarp()
+		{
+			// Check permission
+			if (!_warping)
+			{
+				Log.Warning("Character.FinalizeWarp: Player '{0}' tried to warp without permission.", this.AccountId);
+				return;
+			}
+
+			_warping = false;
+
+			// Get channel
+			var channelId = 1;
+			var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
+			if (channelServer == null)
+			{
+				Log.Error("Channel with id '{0}' not found.", channelId);
+				return;
+			}
+
+			Send.ZC_MOVE_ZONE_OK(this.Connection, channelServer.Ip, channelServer.Port, this.MapId);
 		}
 
 		/// <summary>

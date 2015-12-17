@@ -594,6 +594,14 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		public static void ZC_MOVE_ZONE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MOVE_ZONE);
+			packet.PutByte(0);
+
+			conn.Send(packet);
+		}
+
 		public static void ZC_PC(Character character, PcUpdateType updateType, object newValue)
 		{
 			var packet = new Packet(Op.ZC_PC);

@@ -146,26 +146,9 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
 		public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
 		{
-			// Makes the client connect to the given zone server
-			//packet = new Packet(Op.ZC_MOVE_ZONE_OK); // Size: 57 (51)
-			//   _BYTE gap0[6];
-			//   _DWORD dword6;
-			//   _DWORD dwordA;
-			//   _DWORD dwordE;
-			//   _DWORD dword12;
-			//   float float16;
-			//   float float1A;
-			//   _BYTE gap1E[26];
-			//   _BYTE byte38;
-			//packet.PutInt(0);
-			//packet.PutInt(0x0100007F); // 127.0.0.1
-			//packet.PutInt(2001); // Port
-			//packet.PutInt(2088); // Zone id
-			//packet.PutFloat(30); // Camera X angle
-			//packet.PutFloat(0); // Camera Y angle
-			//packet.PutByte(0);
-			//packet.PutByte(0);
-			//conn.Send(packet);
+			var character = conn.SelectedCharacter;
+
+			character.FinalizeWarp();
 		}
 
 		/// <summary>
