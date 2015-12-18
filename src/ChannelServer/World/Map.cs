@@ -16,6 +16,11 @@ namespace Melia.Channel.World
 {
 	public class Map
 	{
+		/// <summary>
+		/// Range a character can see.
+		/// </summary>
+		public const int VisibleRange = 500;
+
 		private Dictionary<int, Character> _characters;
 		private Dictionary<int, Monster> _monsters;
 
@@ -51,6 +56,15 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void UpdateEntities()
 		{
+			this.Disappearances();
+			this.UpdateVisibility();
+		}
+
+		/// <summary>
+		/// Auto-removes entities according to their DisappearTime.
+		/// </summary>
+		private void Disappearances()
+		{
 			var now = DateTime.Now;
 
 			List<Monster> toDisappear;
@@ -59,6 +73,18 @@ namespace Melia.Channel.World
 
 			foreach (var monster in toDisappear)
 				this.RemoveMonster(monster);
+		}
+
+		/// <summary>
+		/// Runs visibility updates for all characters on this map.
+		/// </summary>
+		private void UpdateVisibility()
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+					character.LookAround();
+			}
 		}
 
 		/// <summary>
@@ -173,6 +199,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all monsters in visible range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public Monster[] GetVisibleMonsters(Character character)
+		{
+			lock (_monsters)
+				return _monsters.Values.Where(a => character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+		}
+
+		/// <summary>
 		/// Removes all scripted entities, like NPCs.
 		/// </summary>
 		public void RemoveScriptedEntities()
@@ -195,7 +232,7 @@ namespace Melia.Channel.World
 			//   to add more dedicated dictionaries and/or a quad tree.
 
 			lock (_monsters)
-				return _monsters.Values.FirstOrDefault(a => a.IsWarp && a.Position.InRange(pos, 35));
+				return _monsters.Values.FirstOrDefault(a => a.IsWarp && a.Position.InRange2D(pos, 35));
 		}
 
 		/// <summary>

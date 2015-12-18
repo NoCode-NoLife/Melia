@@ -77,13 +77,23 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
-		/// Returns if other position is within given range.
+		/// Returns true if other position is within given range in 2D space.
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange(Position otherPos, int range)
+		public bool InRange2D(Position otherPos, int range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
+		}
+
+		/// <summary>
+		/// Returns true if other position is within given range in 3D space.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public bool InRange3D(Position otherPos, int range)
+		{
+			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
 
 		/// <summary>

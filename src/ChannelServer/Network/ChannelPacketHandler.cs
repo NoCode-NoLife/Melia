@@ -129,10 +129,7 @@ namespace Melia.Channel.Network
 			Send.ZC_JOB_PTS(character);
 			Send.ZC_MOVE_SPEED(character);
 
-			// Spawn monsters
-			var monsters = character.Map.GetMonsters();
-			foreach (var monster in monsters)
-				Send.ZC_ENTER_MONSTER(conn, monster);
+			character.OpenEyes();
 		}
 
 		/// <summary>

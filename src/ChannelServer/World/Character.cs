@@ -19,6 +19,9 @@ namespace Melia.Channel.World
 	{
 		private bool _warping;
 
+		private object _lookAroundLock = new object();
+		private Monster[] _visibleMonsters = new Monster[0];
+
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
@@ -101,6 +104,12 @@ namespace Melia.Channel.World
 		/// Character's current speed.
 		/// </summary>
 		public float Speed { get; set; }
+
+		/// <summary>
+		/// Specifies whether the character currently updates the visible
+		/// entities around the character.
+		/// </summary>
+		public bool EyesOpen { get; private set; }
 
 		/// <summary>
 		/// Creates new character.
@@ -321,6 +330,58 @@ namespace Melia.Channel.World
 		public int[] GetEquipIds()
 		{
 			return this.Inventory.GetEquipIds();
+		}
+
+		/// <summary>
+		/// Updates visible entities around character.
+		/// </summary>
+		public void LookAround()
+		{
+			if (!this.EyesOpen)
+				return;
+
+			lock (_lookAroundLock)
+			{
+				var currentlyVisible = this.Map.GetVisibleMonsters(this);
+
+				// Show new monsters
+				var appear = currentlyVisible.Except(_visibleMonsters);
+				foreach (var monster in appear)
+					Send.ZC_ENTER_MONSTER(this.Connection, monster);
+
+				// Hide monster that disappeared
+				var disappear = _visibleMonsters.Except(currentlyVisible);
+				foreach (var monster in disappear)
+					Send.ZC_LEAVE(this.Connection, monster);
+
+				// Save list for next run
+				_visibleMonsters = currentlyVisible;
+			}
+		}
+
+		/// <summary>
+		/// Starts auto-updates of visible entities.
+		/// </summary>
+		public void OpenEyes()
+		{
+			this.EyesOpen = true;
+			this.LookAround();
+		}
+
+		/// <summary>
+		/// Stops auto-updates of visible entities.
+		/// </summary>
+		public void CloseEyes()
+		{
+			this.EyesOpen = false;
+
+			lock (_lookAroundLock)
+			{
+				foreach (var monster in _visibleMonsters)
+					Send.ZC_LEAVE(this.Connection, monster);
+
+				_visibleMonsters = new Monster[0];
+			}
 		}
 	}
 }

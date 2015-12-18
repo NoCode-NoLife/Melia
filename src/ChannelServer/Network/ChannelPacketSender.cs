@@ -769,8 +769,14 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		// TODO: We could use an interface for entities, characters probably
-		//   use this packet as well.
+		/// <summary>
+		/// Broadcasts ZC_LEAVE on monster's map, making it disappear.
+		/// </summary>
+		/// <remarks>
+		/// TODO: We could use an interface for entities, characters probably
+		///   use this packet as well.
+		/// </remarks>
+		/// <param name="monster"></param>
 		public static void ZC_LEAVE(Monster monster)
 		{
 			var packet = new Packet(Op.ZC_LEAVE);
@@ -779,6 +785,21 @@ namespace Melia.Channel.Network
 			packet.PutShort(0);
 
 			monster.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_LEAVE to conn, making it disappear.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="monster"></param>
+		public static void ZC_LEAVE(ChannelConnection conn, Monster monster)
+		{
+			var packet = new Packet(Op.ZC_LEAVE);
+
+			packet.PutInt(monster.Handle);
+			packet.PutShort(0);
+
+			conn.Send(packet);
 		}
 
 		/// <summary>
