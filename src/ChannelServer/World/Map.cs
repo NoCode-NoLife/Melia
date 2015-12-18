@@ -58,7 +58,7 @@ namespace Melia.Channel.World
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
 			foreach (var monster in toDisappear)
-				Send.ZC_LEAVE(monster);
+				this.RemoveMonster(monster);
 		}
 
 		/// <summary>
