@@ -474,6 +474,8 @@ namespace Melia.Channel.Network
 		public static void ZC_ITEM_EQUIP_LIST(Character character)
 		{
 			var equip = character.Inventory.GetEquip();
+			if (equip.Count != Items.EquipSlotCount)
+				throw new InvalidOperationException("Incorrect amount of equipment (" + equip.Count + ").");
 
 			var packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
 
@@ -650,8 +652,6 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
 		{
-			var equip = character.Inventory.GetEquip();
-
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
 			packet.PutShort(character.Handle);
