@@ -102,6 +102,20 @@ COMMANDER;
 
 typedef struct
 {
+    int monsterId;
+    int i1;
+    int maxHp;
+    short s1;
+    short s2;
+    int level;
+    float sdr;
+    byte b1;
+    byte bin2[3];
+}
+MONSTER;
+
+typedef struct
+{
     byte b1;
     byte b2;
     byte b3;

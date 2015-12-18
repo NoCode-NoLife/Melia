@@ -1,36 +1,24 @@
 //--------------------------------------
 //--- 010 Editor v6.0.2 Binary Template
 //
-// File: ZC_ENTER_MONSTER.bt
+// File: ZC_UPDATED_MONSTERAPPEARANCE.bt
 // Author: exec
 // Revision:
 // Purpose:
 //--------------------------------------
 
-#include "common.bt";
+#include "common.bt"
 
 short op;
 int sequence;
+
 short size;
-
 int handle;
-float x,y,z;
-float dx, dy;
-byte type;
-byte b1; // bool?
-int hp, maxHp;
-short s1;
-float i1;
 MONSTER monster;
-int i4; // npc state?
+int i2;
 int namesSize;
-byte propertiesSize;
-byte b4;
-
 lpString name;
 lpString uniqueName;
 lpString dialogName;
-lpString warpName; // ?
+lpString warpName;
 lpString str3;
-
-byte properties[propertiesSize];
