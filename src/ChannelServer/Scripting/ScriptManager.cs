@@ -293,25 +293,6 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Returns true if enough arguments are on the stack,
-		/// otherwise it logs an error and returns false.
-		/// </summary>
-		/// <param name="L"></param>
-		/// <param name="expected"></param>
-		/// <returns></returns>
-		private bool CheckArgumentCount(IntPtr L, int expected, [CallerMemberName]string caller = "")
-		{
-			var argc = Melua.lua_gettop(L);
-			if (argc < expected)
-			{
-				Log.Error("{0}: Too few arguments, expected {1}, got {2}.", caller, expected, argc);
-				return false;
-			}
-
-			return true;
-		}
-
-		/// <summary>
 		/// Returns connection associated with state.
 		/// </summary>
 		/// <param name="L"></param>
@@ -373,9 +354,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int print(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
-
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
@@ -395,9 +373,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int logdebug(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
-
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
@@ -423,9 +398,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addnpc(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 8))
-				return 0;
-
 			var monsterId = Melua.luaL_checkinteger(L, 1);
 			var name = Melua.luaL_checkstring(L, 2);
 			var mapName = Melua.luaL_checkstring(L, 3);
@@ -475,9 +447,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addwarp(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 10))
-				return 0;
-
 			var warpName = Melua.luaL_checkstring(L, 1);
 			var direction = Melua.luaL_checknumber(L, 2);
 			var fromMapName = Melua.luaL_checkstring(L, 3);
@@ -544,9 +513,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int msg(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
-
 			var conn = this.GetConnectionFromState(L);
 
 			var msg = Melua.luaL_checkstring(L, 1);
@@ -905,9 +871,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int warp(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 4))
-				return 0;
-
 			var conn = this.GetConnectionFromState(L);
 
 			var mapName = Melua.luaL_checkstring(L, 1);
@@ -972,9 +935,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int changehair(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 1))
-				return 0;
-
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
@@ -1003,9 +963,6 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int spawn(IntPtr L)
 		{
-			if (!this.CheckArgumentCount(L, 5))
-				return 0;
-
 			var monsterId = Melua.luaL_checkinteger(L, 1);
 			var mapName = Melua.luaL_checkstring(L, 2);
 			var x = (float)Melua.luaL_checknumber(L, 3);
