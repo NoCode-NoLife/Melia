@@ -34,8 +34,8 @@ byte b2;
 char bin2[3];
 
 int i4; // npc state?
-int i5;
-byte b3;
+int namesSize;
+byte propertiesSize;
 byte b4;
 
 lpString name;
@@ -44,4 +44,4 @@ lpString dialogName;
 lpString warpName; // ?
 lpString str3;
 
-char bin3[b3];
+byte properties[propertiesSize];
