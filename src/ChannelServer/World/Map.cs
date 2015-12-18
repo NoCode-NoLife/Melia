@@ -247,6 +247,22 @@ namespace Melia.Channel.World
 					character.Connection.Send(packet);
 			}
 		}
+
+		/// <summary>
+		/// Broadcasts packet to all characters on map, that are within
+		/// visible range of source.
+		/// </summary>
+		/// <param name="packet">Packet to send.</param>
+		/// <param name="source">Reference entity for visible range to send in.</param>
+		/// <param name="includeSource">Send to source as well?</param>
+		public virtual void Broadcast(Packet packet, IEntity source, bool includeSource = true)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values.Where(a => (includeSource || a != source) && a.Position.InRange2D(source.Position, VisibleRange)))
+					character.Connection.Send(packet);
+			}
+		}
 	}
 
 	/// <summary>
