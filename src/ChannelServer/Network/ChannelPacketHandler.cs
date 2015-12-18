@@ -597,20 +597,13 @@ namespace Melia.Channel.Network
 			var unkByte = packet.GetByte();
 			var unkShort = packet.GetShort();
 
+			var character = conn.SelectedCharacter;
+
 			// TODO: Sanity checks.
 
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
-			packet = new Packet(Op.ZC_POSE);
-			packet.PutInt((int)conn.SelectedCharacter.Handle);
-			packet.PutInt(pose);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
-			packet.PutFloat(conn.SelectedCharacter.Direction.X);
-			packet.PutFloat(conn.SelectedCharacter.Direction.Y);
-
-			conn.Send(packet); // Broadcast
+			Send.ZC_POSE(character, pose);
 		}
 
 		/// <summary>

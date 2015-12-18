@@ -1332,6 +1332,29 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_POSE in range of character, putting them into the
+		/// given pose.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_POSE(Character character, int pose)
+		{
+			var pos = character.Position;
+			var dir = character.Direction;
+
+			var packet = new Packet(Op.ZC_POSE);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(pose);
+			packet.PutFloat(pos.X);
+			packet.PutFloat(pos.Y);
+			packet.PutFloat(pos.Z);
+			packet.PutFloat(dir.X);
+			packet.PutFloat(dir.Y);
+
+			character.Map.Broadcast(packet, character);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
