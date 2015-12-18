@@ -115,3 +115,46 @@ string IPRead(IP &v)
     SPrintf(result, "%d.%d.%d.%d", v.b1, v.b2, v.b3, v.b4);
     return result;
 }
+
+typedef struct
+{
+    int id;
+    short propertiesSize;
+    short b1;
+    int64 worldId;
+    int amount;
+    int price;
+    int index;
+    int i1;
+    if (propertiesSize > 0)
+        byte properties[propertiesSize];
+}
+Item;
+
+string ItemRead(Item &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}
+
+typedef struct
+{
+    int id;
+    short propertiesSize;
+    short b1;
+    int64 worldId;
+    byte slot;
+    byte bin1[3];
+    int i1;
+    if (propertiesSize > 0)
+        byte properties[propertiesSize];
+}
+EquipItem;
+
+string EquipItemRead(EquipItem &v)
+{
+    local string result;
+    SPrintf(result, "%d : %d", v.slot, v.id);
+    return result;
+}

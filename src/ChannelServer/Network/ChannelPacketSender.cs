@@ -403,7 +403,8 @@ namespace Melia.Channel.Network
 				packet.PutShort(0); // Object size
 				packet.PutEmptyBin(2);
 				packet.PutLong(equipItem.Value.WorldId);
-				packet.PutInt((int)equipItem.Key);
+				packet.PutByte((byte)equipItem.Key);
+				packet.PutEmptyBin(3);
 				packet.PutInt(0);
 				//packet.PutEmptyBin(0); // Object
 			}

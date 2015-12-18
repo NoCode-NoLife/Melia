@@ -1,7 +1,7 @@
 //--------------------------------------
 //--- 010 Editor v6.0.2 Binary Template
 //
-// File: ZC_SOLD_ITEM_LIST.bt
+// File: ZC_ITEM_EQUIP_LIST.bt
 // Author: exec
 // Revision:
 // Purpose:
@@ -13,8 +13,5 @@ short op;
 int sequence;
 
 short size;
-byte b1;
-int count; // ?
-byte b2;
-if (count > 0)
-    Item items[count] <optimize=false>;
+while(!FEof())
+    EquipItem item;
