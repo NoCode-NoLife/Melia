@@ -411,10 +411,7 @@ namespace Melia.Channel.Scripting
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
-			{
-				Log.Error("addnpc: Map '{0}' not found.", mapName);
-				return 0;
-			}
+				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
@@ -463,26 +460,21 @@ namespace Melia.Channel.Scripting
 			// Check "from" map data
 			var fromMapData = ChannelServer.Instance.Data.MapDb.Find(fromMapName);
 			if (fromMapData == null)
-			{
-				Log.Error("addwarp: Map '{0}' not found in data.", fromMapName);
-				return 0;
-			}
+				return Melua.melua_error(L, "Map '{0}' not found in data.", fromMapName);
 
 			// Check map in world
 			var map = ChannelServer.Instance.World.GetMap(fromMapData.Id);
 			if (map == null)
-			{
-				Log.Error("addwarp: Map '{0}' not found in world.", fromMapName);
-				return 0;
-			}
+				return Melua.melua_error(L, "Map '{0}' not found in world.", fromMapName);
 
 			// Check "to" map data
 			var toMapData = ChannelServer.Instance.Data.MapDb.Find(toMapName);
 			if (toMapData == null)
-			{
-				Log.Error("addwarp: Map '{0}' not found in data.", toMapName);
-				return 0;
-			}
+				return Melua.melua_error(L, "Map '{0}' not found in data.", toMapName);
+
+			// It would be pointless to check the "to map in world" here,
+			// since the target map could easily be on an entirely different
+			// server. *This* channel may not have that map.
 
 			// Get name, preferably a localization key
 			var name = toMapName;
