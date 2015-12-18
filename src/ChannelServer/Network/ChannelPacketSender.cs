@@ -1051,8 +1051,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_DEAD in visible range of entity,
-		/// which kills them visually.
+		/// Broadcasts ZC_DEAD in range of entity, which kills it visually.
 		/// </summary>
 		/// <param name="entity">Entity to kill visually.</param>
 		public static void ZC_DEAD(IEntity entity)

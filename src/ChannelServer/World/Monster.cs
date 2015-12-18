@@ -147,7 +147,7 @@ namespace Melia.Channel.World
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(500, 0, this);
 
-			Send.ZC_DEAD(this.Map, this);
+			Send.ZC_DEAD(this);
 		}
 	}
 }
