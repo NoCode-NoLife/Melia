@@ -71,4 +71,18 @@ namespace Melia.Shared.Const
 		PickUp = 3, // ?
 		NotNew = 4,
 	}
+
+	public static class Items
+	{
+		/// <summary>
+		/// Ammount of equip slots.
+		/// </summary>
+		public const int EquipSlotCount = 20;
+
+		/// <summary>
+		/// Ids of the items equipped by default.
+		/// (Literally empty items, NoHat, NoWeapon, etc.)
+		/// </summary>
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10 };
+	}
 }

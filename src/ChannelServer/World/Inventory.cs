@@ -15,18 +15,6 @@ namespace Melia.Channel.World
 {
 	public class Inventory
 	{
-		/// <summary>
-		/// Ids of the items equipped by default.
-		/// (Literally empty items, NoHat, NoWeapon, etc.)
-		/// </summary>
-		/// <remarks>
-		/// Hair Acc, Subsidiary Acc, Outer?, Top, Gloves, Shoes,
-		/// Helmet? (headless), Armband, L Weapon, R Weapon, Costume,
-		/// Ring?, Ring?, Outer?, Pants, Ring?, Ring?, Bracelet 1,
-		/// Bracelet 2, Necklace
-		/// </remarks>
-		public static readonly int[] DefaultItems = new int[] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10 };
-
 		private Character _character;
 
 		private object _syncLock = new object();
@@ -43,8 +31,8 @@ namespace Melia.Channel.World
 			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
 				_items.Add(category, new List<Item>());
 
-			_equip = new Dictionary<EquipSlot, Item>(20);
-			foreach (EquipSlot slot in Enum.GetValues(typeof(EquipSlot)))
+			_equip = new Dictionary<EquipSlot, Item>(Items.EquipSlotCount);
+			for (EquipSlot slot = 0; slot < (EquipSlot)Items.EquipSlotCount; ++slot)
 				_equip.Add(slot, new DummyEquipItem(slot));
 
 			_itemsWorldIndex = new Dictionary<long, Item>();
@@ -61,7 +49,7 @@ namespace Melia.Channel.World
 			// TODO: Cache.
 
 			lock (_syncLock)
-				return _equip.OrderBy(a => a.Key).Select(a => a.Value.Id).ToArray();
+				return _equip.Where(a => (int)a.Key <= Items.EquipSlotCount).OrderBy(a => a.Key).Select(a => a.Value.Id).ToArray();
 		}
 
 		/// <summary>
@@ -439,7 +427,7 @@ namespace Melia.Channel.World
 	public class DummyEquipItem : Item
 	{
 		public DummyEquipItem(EquipSlot slot)
-			: base(Inventory.DefaultItems[(int)slot], 1)
+			: base(Items.DefaultItems[(int)slot], 1)
 		{
 		}
 	}

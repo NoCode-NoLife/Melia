@@ -8,8 +8,6 @@ namespace Melia.Shared.Network.Helpers
 {
 	public static class CommanderHelper
 	{
-		public const int EquipSlotCount = 20;
-
 		public static void AddCommander(this Packet packet, ICommander commander)
 		{
 			packet.PutString(commander.Name, 65);
@@ -25,7 +23,7 @@ namespace Melia.Shared.Network.Helpers
 
 			// Items
 			var equipIds = commander.GetEquipIds();
-			if (equipIds.Length != EquipSlotCount)
+			if (equipIds.Length != Items.EquipSlotCount)
 				throw new InvalidOperationException("Incorrect amount of equipment (" + equipIds.Length + ").");
 
 			for (int i = 0; i < equipIds.Length; ++i)

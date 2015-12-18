@@ -64,7 +64,7 @@ namespace Melia.Login.Network
 				packet.AddCharacter(character);
 
 				// Equip properties, short->length
-				for (int i = 0; i < CommanderHelper.EquipSlotCount; ++i)
+				for (int i = 0; i < Items.EquipSlotCount; ++i)
 					packet.PutShort(0);
 
 				// Job history?

@@ -35,7 +35,7 @@ namespace Melia.Login.World
 		public Character()
 		{
 			this.Level = 1;
-			this.Equipment = new int[CommanderHelper.EquipSlotCount] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10 };
+			this.Equipment = Items.DefaultItems.ToArray();
 		}
 
 		/// <summary>
