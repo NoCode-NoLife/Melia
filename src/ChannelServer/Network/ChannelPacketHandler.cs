@@ -274,18 +274,16 @@ namespace Melia.Channel.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat(); // 0.7071068
-			var d2 = packet.GetFloat(); // 0.7071068
-			var unkBin = packet.GetBin(6); // 01 00 00 00 00 00
-			var unkFloat = packet.GetFloat(); // 7111.545 timestamp?
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
+			var unkBin = packet.GetBin(6);
+			var unkFloat = packet.GetFloat(); // timestamp?
+
+			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
 
-			//Log.Debug("CZ_KEYBOARD_MOVE: {0}; {1}; {2}", x, y, z);
-
-			conn.SelectedCharacter.Move(x, y, z, d1, d2);
-
-			// Broadcast
+			character.Move(x, y, z, dx, dy, unkFloat);
 		}
 
 		/// <summary>

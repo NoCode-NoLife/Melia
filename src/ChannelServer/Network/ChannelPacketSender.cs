@@ -1355,6 +1355,30 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
+		/// characters about the movement.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="?"></param>
+		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+		{
+			var packet = new Packet(Op.ZC_MOVE_DIR);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutFloat(z);
+			packet.PutFloat(dx);
+			packet.PutFloat(dy);
+			packet.PutByte(0);
+			packet.PutFloat(character.GetSpeed());
+			packet.PutByte(1);
+			packet.PutFloat(unkFloat);
+
+			character.Map.Broadcast(packet, character);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

@@ -163,11 +163,13 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-		public void Move(float x, float y, float z, float dx, float dy)
+		public void Move(float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			this.SetPosition(x, y, z);
 			this.SetDirection(dx, dy);
 			this.IsMoving = true;
+
+			Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
 		}
 
 		/// <summary>
