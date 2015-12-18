@@ -6,6 +6,7 @@ using Melia.Login.Network.Helpers;
 using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
@@ -62,27 +63,9 @@ namespace Melia.Login.Network
 			{
 				packet.AddCharacter(character);
 
-				// Item properties, short->length
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
+				// Equip properties, short->length
+				for (int i = 0; i < CommanderHelper.EquipSlotCount; ++i)
+					packet.PutShort(0);
 
 				// Job history?
 				// While this short existed in iCBT1, it might not have
