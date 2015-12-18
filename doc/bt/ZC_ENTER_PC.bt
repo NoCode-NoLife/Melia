@@ -1,0 +1,50 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_ENTER_PC.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+
+int handle;
+float x;
+float y;
+float z;
+float f1;
+int i1;
+short s1;
+int64 socialInfoId;
+byte pose; // ?
+float moveSpeed;
+int i2;
+int hp;
+int maxHp;
+short sp;
+short maxSp;
+int stamina;
+int maxStamina;
+byte b1;
+short s2;
+int titleAchievementId;
+int i3;
+byte b2;
+COMMANDER commander;
+char partyName[49];
+
+// [i10622 (2015-10-22)] ?
+{
+    short s3;
+    int i4;
+    int i5;
+    int i6;
+    int i7;
+    int i8;
+    int i9;
+    int i10;
+}

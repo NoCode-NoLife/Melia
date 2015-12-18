@@ -148,40 +148,33 @@ namespace Melia.Channel.Network
 			packet.PutShort(0);
 			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
 			packet.PutByte(0); // Pose
-			packet.PutFloat(31); // Move speed
+			packet.PutFloat(character.GetSpeed());
 			packet.PutInt(0);
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
 			packet.PutShort(character.Sp);
 			packet.PutShort(character.MaxSp);
 			packet.PutInt(character.Stamina);
-			packet.PutInt(character.Stamina); // MaxStamina
+			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
 			packet.PutShort(0);
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
-			// Commander
-			{
-				packet.PutString(character.Name, 65);
-				packet.PutString(character.TeamName, 64);
-				packet.PutEmptyBin(7);
-				packet.PutLong(character.Connection.Account.Id);
-				packet.PutShort(character.Stance);
-				packet.PutShort(0);
-				packet.PutShort((short)character.Job);
-				packet.PutByte((byte)character.Gender);
-				packet.PutByte(0);
-				packet.PutInt(character.Level);
-
-				// Equipment
-				foreach (var id in character.Inventory.GetEquipIds())
-					packet.PutInt(id);
-
-				packet.PutShort(character.Hair);
-				packet.PutShort(0); // Pose
-			}
+			packet.AddCommander(character);
 			packet.PutString("None", 49); // Party name
+
+			// [i10622 (2015-10-22)] ?
+			{
+				packet.PutShort(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
 
 			character.Connection.Send(packet);
 		}
