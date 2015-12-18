@@ -388,11 +388,9 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			//Log.Debug("CZ_MOVEMENT_INFO: {0}; {1}; {2}", x, y, z);
-
 			conn.SelectedCharacter.SetPosition(x, y, z);
 
-			// Broadcast?
+			// Is there a broadcast for this?
 		}
 
 		/// <summary>
