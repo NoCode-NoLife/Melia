@@ -21,6 +21,7 @@ namespace Melia.Channel.World
 
 		private object _lookAroundLock = new object();
 		private Monster[] _visibleMonsters = new Monster[0];
+		private Character[] _visibleCharacters = new Character[0];
 
 		/// <summary>
 		/// Connection this character uses.
@@ -342,20 +343,35 @@ namespace Melia.Channel.World
 
 			lock (_lookAroundLock)
 			{
-				var currentlyVisible = this.Map.GetVisibleMonsters(this);
+				// Get lists
+				var currentlyVisibleMonsters = this.Map.GetVisibleMonsters(this);
+				var currentlyVisibleCharacters = this.Map.GetVisibleCharacters(this);
 
-				// Show new monsters
-				var appear = currentlyVisible.Except(_visibleMonsters);
-				foreach (var monster in appear)
+				// Appears
+				var appearMonsters = currentlyVisibleMonsters.Except(_visibleMonsters);
+				var appearCharacters = currentlyVisibleCharacters.Except(_visibleCharacters);
+
+				// Disappears
+				var disappearMonsters = _visibleMonsters.Except(currentlyVisibleMonsters);
+				var disappearCharacters = _visibleCharacters.Except(currentlyVisibleCharacters);
+
+				// Monsters
+				foreach (var monster in appearMonsters)
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-				// Hide monster that disappeared
-				var disappear = _visibleMonsters.Except(currentlyVisible);
-				foreach (var monster in disappear)
+				foreach (var monster in disappearMonsters)
 					Send.ZC_LEAVE(this.Connection, monster);
 
-				// Save list for next run
-				_visibleMonsters = currentlyVisible;
+				// Characters
+				foreach (var character in appearCharacters)
+					Send.ZC_ENTER_PC(this.Connection, character);
+
+				foreach (var character in disappearCharacters)
+					Send.ZC_LEAVE(this.Connection, character);
+
+				// Save lists for next run
+				_visibleMonsters = currentlyVisibleMonsters;
+				_visibleCharacters = currentlyVisibleCharacters;
 			}
 		}
 

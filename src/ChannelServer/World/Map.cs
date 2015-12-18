@@ -188,6 +188,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all characters in visible range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public Character[] GetVisibleCharacters(Character character)
+		{
+			lock (_characters)
+				return _characters.Values.Where(a => a != character && character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+		}
+
+		/// <summary>
 		/// Returns all monsters on this map.
 		/// </summary>
 		/// <param name="handle"></param>
