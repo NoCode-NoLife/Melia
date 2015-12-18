@@ -85,6 +85,7 @@ namespace Melia.Channel.Scripting
 			Register(warp);
 			Register(resetstats);
 			Register(changehair);
+			Register(spawn);
 		}
 
 		/// <summary>
@@ -983,6 +984,44 @@ namespace Melia.Channel.Scripting
 
 			character.Hair = (byte)hairId;
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Spawns monster.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int    monsterId
+		/// - string mapName
+		/// - float  x
+		/// - float  y
+		/// - float  z
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int spawn(IntPtr L)
+		{
+			if (!this.CheckArgumentCount(L, 5))
+				return 0;
+
+			var monsterId = Melua.luaL_checkinteger(L, 1);
+			var mapName = Melua.luaL_checkstring(L, 2);
+			var x = (float)Melua.luaL_checknumber(L, 3);
+			var y = (float)Melua.luaL_checknumber(L, 4);
+			var z = (float)Melua.luaL_checknumber(L, 5);
+
+			Melua.lua_pop(L, 5);
+
+			var map = ChannelServer.Instance.World.GetMap(mapName);
+			if (map == null)
+				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
+
+			var monster = new Monster(monsterId, NpcType.Monster);
+			monster.Position = new Position(x, y, z);
+
+			map.AddMonster(monster);
 
 			return 0;
 		}
