@@ -120,7 +120,6 @@ namespace Melia.Channel.Network
 			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY_Init(character);
-			// ZC_SKILL_LIST
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
