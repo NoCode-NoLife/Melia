@@ -53,6 +53,12 @@ namespace Melia.Channel.Network
 		//p.PutShort(0); //size
 		//conn.Send(p);
 
+		/// <summary>
+		/// Sends ZC_CONNECT_OK to connection, verifying the connection and
+		/// giving information about the character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		public static void ZC_CONNECT_OK(ChannelConnection conn, Character character)
 		{
 			var packet = new Packet(Op.ZC_CONNECT_OK);
@@ -97,6 +103,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_START_GAME to connection, which assumingly is the signal
+		/// for the client to switch from load to map screen.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_START_GAME(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_START_GAME);
@@ -109,6 +120,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_START_INFO to connection.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_START_INFO(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_START_INFO);
@@ -124,6 +139,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_MYPC_ENTER to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_MYPC_ENTER(Character character)
 		{
 			var packet = new Packet(Op.ZC_MYPC_ENTER);
@@ -135,6 +154,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Makes character appear on connection's client, by sending ZC_ENTER_PC.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		public static void ZC_ENTER_PC(ChannelConnection conn, Character character)
 		{
 			var packet = new Packet(Op.ZC_ENTER_PC);
@@ -204,6 +228,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_QUICK_SLOT_LIST to connection, containing the
+		/// list of hotkeys?
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_QUICK_SLOT_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
@@ -215,6 +244,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_SKILL_LIST to character, containing a list
+		/// of all the character's skills.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_SKILL_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_LIST);
@@ -224,18 +258,19 @@ namespace Melia.Channel.Network
 			packet.PutShort(skills.Length); // count
 
 			packet.PutShort(0); // No compression
-			//var zlibPct = new Packet(Op.ZC_SKILL_LIST);
+			//packet.BeginZlib();
 			foreach (var skill in skills)
-			{
 				packet.AddSkill(skill);
-			}
-			//var buffer = new byte[zlibPct.Length];
-			//zlibPct.Build(ref buffer, 0);
-			//packet.PutZlib(buffer);
+			//packet.EndZlib();
 
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
 		public static void ZC_SKILL_ADD(Character character, int skillId)
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
@@ -248,6 +283,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_SKILLMAP_LIST to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_SKILLMAP_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILLMAP_LIST);
@@ -257,6 +296,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_OPTION_LIST to connection, containing the saved
+		/// account options, like "Show Exp Aquired".
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_OPTION_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_OPTION_LIST);
@@ -266,6 +310,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_ACHIEVE_POINT_LIST to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ACHIEVE_POINT_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_ACHIEVE_POINT_LIST);
@@ -275,6 +323,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_CHAT_MACRO_LIST to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_CHAT_MACRO_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_CHAT_MACRO_LIST);
@@ -284,6 +336,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_UI_INFO_LIST to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_UI_INFO_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_UI_INFO_LIST);
@@ -294,6 +350,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_NPC_STATE_LIST to character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_NPC_STATE_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
@@ -303,6 +363,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_COOLDOWN_LIST to character, containing list of all
+		/// cooldowns?
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_COOLDOWN_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_LIST);
@@ -313,6 +378,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_JOB_PTS to character, updating their job points.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_JOB_PTS(Character character)
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
@@ -323,6 +392,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_ABILITY_LIST to character, containing a list of all
+		/// their abilities.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ABILITY_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
@@ -348,6 +422,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_MOVE_SPEED(Character character)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
@@ -359,6 +437,11 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_LIST to character, containing a list of
+		/// all items in their inventory.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ITEM_INVENTORY_LIST(Character character)
 		{
 			var items = character.Inventory.GetItems();
@@ -383,6 +466,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_LIST to character, containing a list of
+		/// all their equipment.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ITEM_EQUIP_LIST(Character character)
 		{
 			var equip = character.Inventory.GetEquip();
@@ -404,11 +492,22 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_CHAT in range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
 		public static void ZC_CHAT(Character character, string format, params object[] args)
 		{
 			ZC_CHAT(character, string.Format(format, args));
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_CHAT in range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
 		public static void ZC_CHAT(Character character, string message)
 		{
 			var packet = new Packet(Op.ZC_CHAT);
@@ -429,6 +528,12 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Send ZC_SYSTEM_MSG to character.
+		/// </summary>
+		/// <param name="character">Character to send packet to.</param>
+		/// <param name="clientMessage">Id of the message to use.</param>
+		/// <param name="parameters">Optional list of message parameters.</param>
 		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, params MsgParameter[] parameters)
 		{
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
@@ -445,6 +550,10 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_JUMP in range of character, making them jump.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_JUMP(Character character)
 		{
 			var packet = new Packet(Op.ZC_JUMP);
@@ -457,6 +566,10 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_REST_SIT in range of character, making them sit down.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_REST_SIT(Character character)
 		{
 			var packet = new Packet(Op.ZC_REST_SIT);
@@ -467,6 +580,15 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_REMOVE to character, which removes the given item
+		/// or amount from the inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="worldId"></param>
+		/// <param name="amount"></param>
+		/// <param name="msg"></param>
+		/// <param name="invType"></param>
 		public static void ZC_ITEM_REMOVE(Character character, long worldId, int amount, InventoryItemRemoveMsg msg, InventoryType invType)
 		{
 			var packet = new Packet(Op.ZC_ITEM_REMOVE);
@@ -479,16 +601,34 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_INDEX_LIST to character, containing a list
+		/// of indices for all items in the inventory. This updates their order.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character)
 		{
 			ZC_ITEM_INVENTORY_INDEX_LIST(character, character.Inventory.GetIndices());
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_INDEX_LIST to character, containing a list
+		/// of indices for all items in the given category of the inventory.
+		/// This updates their order.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="category"></param>
 		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character, InventoryCategory category)
 		{
 			ZC_ITEM_INVENTORY_INDEX_LIST(character, character.Inventory.GetIndices(category));
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_INDEX_LIST to character, containing a list
+		/// of indices for items in an inventory. This updates their order.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="indices"></param>
 		public static void ZC_ITEM_INVENTORY_INDEX_LIST(Character character, IDictionary<int, long> indices)
 		{
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_INDEX_LIST);
@@ -503,6 +643,11 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_UPDATED_PCAPPEARANCE in range of character, updating
+		/// their appearance.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
 		{
 			var equip = character.Inventory.GetEquip();
@@ -516,6 +661,13 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_ITEM_ADD to character, adding the item to the inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <param name="index"></param>
+		/// <param name="addType"></param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, InventoryAddType addType)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
@@ -534,18 +686,32 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_MOVE_BARRACK to connection, informing client that it's
+		/// save to disconnect?
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_MOVE_BARRACK(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_MOVE_BARRACK);
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_LOGOUT_OK to connection, informing client that it's
+		/// save to disconnect?
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_LOGOUT_OK(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_LOGOUT_OK);
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_CAMPINFO to connection.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_CAMPINFO(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_CAMPINFO); // Size: 18 (12)
@@ -553,6 +719,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of character, updating its position.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_SET_POS(Character character)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
@@ -565,6 +735,14 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_MOVE_ZONE_OK to connection, telling the client where to
+		/// connect to, and which map to load.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="ip"></param>
+		/// <param name="port"></param>
+		/// <param name="mapId"></param>
 		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int mapId)
 		{
 			var packet = new Packet(Op.ZC_MOVE_ZONE_OK);
@@ -587,6 +765,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_MOVE_ZONE to connection, telling client to prepare for
+		/// a warp.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_MOVE_ZONE(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_MOVE_ZONE);
@@ -595,6 +778,12 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_PC in range of character, updating certain information.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="updateType"></param>
+		/// <param name="newValue"></param>
 		public static void ZC_PC(Character character, PcUpdateType updateType, object newValue)
 		{
 			var packet = new Packet(Op.ZC_PC);
@@ -619,6 +808,11 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_OBJECT_PROPERTY to character, containing a list of some
+		/// default properties always needed after connecting.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_OBJECT_PROPERTY_Init(Character character)
 		{
 			ZC_OBJECT_PROPERTY(character,
@@ -630,11 +824,24 @@ namespace Melia.Channel.Network
 			);
 		}
 
+		/// <summary>
+		/// Sends ZC_OBJECT_PROPERTY to character, containing a list of the
+		/// given properties.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="properties"></param>
 		public static void ZC_OBJECT_PROPERTY(Character character, params short[] properties)
 		{
 			ZC_OBJECT_PROPERTY(character.Connection, character, properties);
 		}
 
+		/// <summary>
+		/// Sends ZC_OBJECT_PROPERTY to connection, containing a list of the
+		/// given properties, using values from character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="properties"></param>
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, Character character, params short[] properties)
 		{
 			if (properties == null || properties.Length == 0)
@@ -672,6 +879,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_ROTATE in range of character.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_ROTATE(Character character)
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
@@ -685,6 +896,11 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_OK to connection, containing a dialog message.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
 		public static void ZC_DIALOG_OK(ChannelConnection conn, string msg)
 		{
 			var packet = new Packet(Op.ZC_DIALOG_OK);
@@ -695,6 +911,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_NEXT to connection, containing a dialog message.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
 		public static void ZC_DIALOG_NEXT(ChannelConnection conn, string msg)
 		{
 			var packet = new Packet(Op.ZC_DIALOG_OK);
@@ -705,6 +926,12 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_SELECT to connection, containing a dialog message
+		/// and a list of selectable options.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="arguments"></param>
 		public static void ZC_DIALOG_SELECT(ChannelConnection conn, params string[] arguments)
 		{
 			if (arguments == null || arguments.Length == 0)
@@ -720,12 +947,23 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_CLOSE to connection, which closes the currently
+		/// open dialog.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_DIALOG_CLOSE(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_DIALOG_CLOSE);
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_STRINGINPUT to connection, containing a dialog
+		/// message, and requesting putting in a string.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
 		public static void ZC_DIALOG_STRINGINPUT(ChannelConnection conn, string msg)
 		{
 			var packet = new Packet(Op.ZC_DIALOG_STRINGINPUT);
@@ -737,7 +975,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_DIALOG_NUMBERRANGE over connection.
+		/// Sends ZC_DIALOG_NUMBERRANGE over connection, containing a dialog
+		/// message, and requesting putting in a number.
 		/// </summary>
 		/// <remarks>
 		/// Due to number range using CZ_DIALOG_SELECT for its response,
@@ -921,7 +1160,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(6); // Effect size
 			packet.PutEmptyBin(8);
 
-			character.Connection.Send(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -936,7 +1175,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
 
-			character.Map.Broadcast(packet, character);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -1000,7 +1239,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// ?
+		/// Sends ZC_PC_PROP_UPDATE to character, updating a property.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="property"></param>
@@ -1036,6 +1275,11 @@ namespace Melia.Channel.Network
 			entity.Map.Broadcast(packet, entity);
 		}
 
+		/// <summary>
+		/// Sends ZC_LOGIN_TIME to connection.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="now"></param>
 		public static void ZC_LOGIN_TIME(ChannelConnection conn, DateTime now)
 		{
 			var packet = new Packet(Op.ZC_LOGIN_TIME);
@@ -1044,6 +1288,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_IES_MODIFY_LIST to connection, containing a list of
+		/// modifications for IES files.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_IES_MODIFY_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_IES_MODIFY_LIST);

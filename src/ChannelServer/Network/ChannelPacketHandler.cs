@@ -121,7 +121,7 @@ namespace Melia.Channel.Network
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY_Init(character);
 			// ZC_SKILL_LIST
-			Send.ZC_LOGIN_TIME(character);
+			Send.ZC_LOGIN_TIME(conn);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
 			// ZC_OBJECT_PROPERTY...
