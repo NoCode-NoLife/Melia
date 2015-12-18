@@ -297,22 +297,19 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_STOP)]
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte(); // 0
+			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat(); // 0.7071068
-			var d2 = packet.GetFloat(); // 0.7071068
-			var unkFloat = packet.GetFloat(); // 7112.762 timestamp?
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
+			var unkFloat = packet.GetFloat(); // timestamp?
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
 
-			//Log.Debug("CZ_MOVE_STOP: {0}; {1}; {2}", x, y, z);
-
-			character.StopMove(x, y, z, d1, d2);
-			// Broadcast (from within?)
+			character.StopMove(x, y, z, dx, dy);
 
 			// In the packets I don't see any indication for a client-side trigger,
 			// so I guess the server has to check for warps and initiate it all

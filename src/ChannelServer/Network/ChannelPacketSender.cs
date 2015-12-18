@@ -1379,6 +1379,27 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Broadcasts ZC_MOVE_STOP in range of character, informing other
+		/// characters about the movement stop.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
+		{
+			var packet = new Packet(Op.ZC_MOVE_STOP);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutFloat(z);
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet, character);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

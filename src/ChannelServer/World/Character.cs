@@ -185,6 +185,8 @@ namespace Melia.Channel.World
 			this.SetPosition(x, y, z);
 			this.SetDirection(dx, dy);
 			this.IsMoving = false;
+
+			Send.ZC_MOVE_STOP(this, x, y, z);
 		}
 
 		/// <summary>
