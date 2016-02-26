@@ -35,6 +35,14 @@ namespace Melia.Shared.Const
 	/// i10911 (2015-12-01)
 	/// i10939 (2015-12-08)
 	/// - No changes
+	/// 
+	/// i11025 (2016-02-26, pre-OBT)
+	/// - New:
+	///   - Account.PremiumMedal
+	///   - PC.LearnAbilityID1 ~ 5
+	///   - PC.LearnAbilityTime1 ~ 5
+	///   - PC.LearnAbilityTime_1 ~ 5
+	///   - PC.LearnAbilityID_1 ~ 5
 	/// </remarks>
 	public static class ObjectProperty
 	{
@@ -48,6 +56,7 @@ namespace Melia.Shared.Const
 			public const short ReceiveGiftMedal = 6304;
 			public const short ChatStopTime = 8476;
 			public const short TradeStopTime = 8477;
+			public const short PremiumMedal = 10021;
 		}
 
 		public static class PC
@@ -411,6 +420,26 @@ namespace Melia.Shared.Const
 			public const short CategoryType = 7218;
 			public const short MaxHateCount = 7219;
 			public const short MSPD_Bonus = 7505;
+			public const short LearnAbilityID5 = 9262;
+			public const short LearnAbilityID3 = 9263;
+			public const short LearnAbilityID1 = 9264;
+			public const short LearnAbilityID4 = 9265;
+			public const short LearnAbilityID2 = 9266;
+			public const short LearnAbilityTime2 = 9267;
+			public const short LearnAbilityTime3 = 9268;
+			public const short LearnAbilityTime4 = 9269;
+			public const short LearnAbilityTime1 = 9270;
+			public const short LearnAbilityTime5 = 9271;
+			public const short LearnAbilityTime_4 = 9275;
+			public const short LearnAbilityTime_2 = 9276;
+			public const short LearnAbilityTime_5 = 9277;
+			public const short LearnAbilityID_2 = 9278;
+			public const short LearnAbilityID_5 = 9279;
+			public const short LearnAbilityTime_3 = 9280;
+			public const short LearnAbilityTime_1 = 9281;
+			public const short LearnAbilityID_4 = 9282;
+			public const short LearnAbilityID_3 = 9283;
+			public const short LearnAbilityID_1 = 9284;
 		}
 	}
 }
