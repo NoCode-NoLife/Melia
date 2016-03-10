@@ -43,6 +43,16 @@ namespace Melia.Shared.Const
 	///   - PC.LearnAbilityTime1 ~ 5
 	///   - PC.LearnAbilityTime_1 ~ 5
 	///   - PC.LearnAbilityID_1 ~ 5
+	/// 
+	/// i11037 (2016-03-0X, pre-OBT)
+	/// - New:
+	///   - Account.TradeCount
+	///   - Account.TokenItemType
+	///   - Account.MaxAccountWarehouseCount
+	///   - Account.AccountWareHouseExtend
+	///   - PC.[...]Factor_PC_BM
+	///   - PC.[...]Factor_PC_NT
+	///   - PC.[...]Factor_PC
 	/// </remarks>
 	public static class ObjectProperty
 	{
@@ -57,6 +67,10 @@ namespace Melia.Shared.Const
 			public const short ChatStopTime = 8476;
 			public const short TradeStopTime = 8477;
 			public const short PremiumMedal = 10021;
+			public const short TradeCount = 11069;
+			public const short TokenItemType = 11070;
+			public const short MaxAccountWarehouseCount = 11583;
+			public const short AccountWareHouseExtend = 11584;
 		}
 
 		public static class PC
@@ -440,6 +454,72 @@ namespace Melia.Shared.Const
 			public const short LearnAbilityID_4 = 9282;
 			public const short LearnAbilityID_3 = 9283;
 			public const short LearnAbilityID_1 = 9284;
+			public const short SlashDefFactor_PC_BM = 11418;
+			public const short PoisonAtkFactor_PC_BM = 11419;
+			public const short HolyDefFactor_PC_BM = 11420;
+			public const short EarthAtkFactor_PC_BM = 11421;
+			public const short DarkDefFactor_PC_BM = 11422;
+			public const short StrikeDefFactor_PC_BM = 11423;
+			public const short AriesAtkFactor_PC_BM = 11424;
+			public const short MissileDefFactor_PC_BM = 11425;
+			public const short SlashAtkFactor_PC_BM = 11426;
+			public const short FireDefFactor_PC_BM = 11427;
+			public const short StrikeAtkFactor_PC_BM = 11428;
+			public const short IceDefFactor_PC_BM = 11429;
+			public const short MissileAtkFactor_PC_BM = 11430;
+			public const short LightningDefFactor_PC_BM = 11431;
+			public const short FireAtkFactor_PC_BM = 11432;
+			public const short PoisonDefFactor_PC_BM = 11433;
+			public const short IceAtkFactor_PC_BM = 11434;
+			public const short EarthDefFactor_PC_BM = 11435;
+			public const short LightningAtkFactor_PC_BM = 11436;
+			public const short HolyAtkFactor_PC_BM = 11437;
+			public const short DarkAtkFactor_PC_BM = 11438;
+			public const short AriesDefFactor_PC_BM = 11439;
+			public const short LightningAtkFactor_PC_NT = 11462;
+			public const short PoisonAtkFactor_PC_NT = 11463;
+			public const short EarthAtkFactor_PC_NT = 11464;
+			public const short HolyAtkFactor_PC_NT = 11465;
+			public const short DarkAtkFactor_PC_NT = 11466;
+			public const short FireDefFactor_PC_NT = 11467;
+			public const short AriesAtkFactor_PC_NT = 11468;
+			public const short IceDefFactor_PC_NT = 11469;
+			public const short SlashAtkFactor_PC_NT = 11470;
+			public const short LightningDefFactor_PC_NT = 11471;
+			public const short StrikeAtkFactor_PC_NT = 11472;
+			public const short PoisonDefFactor_PC_NT = 11473;
+			public const short MissileAtkFactor_PC_NT = 11474;
+			public const short EarthDefFactor_PC_NT = 11475;
+			public const short FireAtkFactor_PC_NT = 11476;
+			public const short HolyDefFactor_PC_NT = 11477;
+			public const short IceAtkFactor_PC_NT = 11478;
+			public const short AriesDefFactor_PC_NT = 11479;
+			public const short SlashDefFactor_PC_NT = 11480;
+			public const short StrikeDefFactor_PC_NT = 11481;
+			public const short MissileDefFactor_PC_NT = 11482;
+			public const short DarkDefFactor_PC_NT = 11483;
+			public const short AriesDefFactor_PC = 11484;
+			public const short SlashDefFactor_PC = 11485;
+			public const short StrikeDefFactor_PC = 11486;
+			public const short MissileDefFactor_PC = 11487;
+			public const short FireDefFactor_PC = 11488;
+			public const short StrikeAtkFactor_PC = 11489;
+			public const short HolyAtkFactor_PC = 11490;
+			public const short HolyDefFactor_PC = 11491;
+			public const short SlashAtkFactor_PC = 11492;
+			public const short EarthAtkFactor_PC = 11493;
+			public const short EarthDefFactor_PC = 11494;
+			public const short IceAtkFactor_PC = 11495;
+			public const short PoisonDefFactor_PC = 11496;
+			public const short AriesAtkFactor_PC = 11497;
+			public const short PoisonAtkFactor_PC = 11498;
+			public const short LightningDefFactor_PC = 11499;
+			public const short DarkAtkFactor_PC = 11500;
+			public const short MissileAtkFactor_PC = 11501;
+			public const short DarkDefFactor_PC = 11502;
+			public const short IceDefFactor_PC = 11503;
+			public const short FireAtkFactor_PC = 11504;
+			public const short LightningAtkFactor_PC = 11505;
 		}
 	}
 }
