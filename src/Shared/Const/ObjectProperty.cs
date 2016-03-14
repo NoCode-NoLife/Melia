@@ -53,6 +53,10 @@ namespace Melia.Shared.Const
 	///   - PC.[...]Factor_PC_BM
 	///   - PC.[...]Factor_PC_NT
 	///   - PC.[...]Factor_PC
+	/// 
+	/// i11087 (2016-03-0X, pre-OBT)
+	/// - New:
+	///   - PC.MaxWeight_BM
 	/// </remarks>
 	public static class ObjectProperty
 	{
@@ -520,6 +524,7 @@ namespace Melia.Shared.Const
 			public const short IceDefFactor_PC = 11503;
 			public const short FireAtkFactor_PC = 11504;
 			public const short LightningAtkFactor_PC = 11505;
+			public const short MaxWeight_BM = 12545;
 		}
 	}
 }

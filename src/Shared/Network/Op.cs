@@ -161,6 +161,9 @@ namespace Melia.Shared.Network
 	///   - ZC_SEND_PREMIUM_STATE: 12 -> 16
 	///   - ZC_SYNC_START: 10 -> 14
 	///   - CZ_PVP_ZONE_CMD: 22 -> 26
+	/// 
+	/// i11087 (2016-03-0X, pre-OBT)
+	/// - No changes
 	/// </remarks>
 	public static class Op
 	{
