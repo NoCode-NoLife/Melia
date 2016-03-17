@@ -787,7 +787,8 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_CancelGachaCube = 0xE28; // Size: 10
 		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE29; // Size: 0
 
-		private static Dictionary<int, int> _sizes = new Dictionary<int, int>();
+		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
+		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
 
 		static Op()
 		{
@@ -1410,6 +1411,9 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT] = 31;
 			_sizes[Op.CZ_REQ_CancelGachaCube] = 10;
 			_sizes[Op.CZ_WAREHOUSE_TAKE_LIST] = 0;
+
+			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
+				_names[(int)field.GetValue(null)] = field.Name;
 		}
 
 		public static int GetSize(int op)
@@ -1422,13 +1426,10 @@ namespace Melia.Shared.Network
 
 		public static string GetName(int op)
 		{
-			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
-			{
-				if ((int)field.GetValue(null) == op)
-					return field.Name;
-			}
-
-			return "?";
+			string name;
+			if (!_names.TryGetValue(op, out name))
+				return "?";
+			return name;
 		}
 	}
 }
