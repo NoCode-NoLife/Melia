@@ -70,8 +70,8 @@ namespace Melia.Channel
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Channel", ConsoleColor.DarkGreen);
-			Cmd.LoadingTitle();
+			CliUtil.WriteHeader("Channel", ConsoleColor.DarkGreen);
+			CliUtil.LoadingTitle();
 
 			// Conf
 			this.LoadConf();
@@ -104,7 +104,7 @@ namespace Melia.Channel
 			if (serverData == null)
 			{
 				Log.Error("Server data not found. ({0})", serverId);
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 
 			// Server
@@ -112,7 +112,7 @@ namespace Melia.Channel
 			this.ConnectionManager.Start();
 
 			// Ready
-			Cmd.RunningTitle();
+			CliUtil.RunningTitle();
 			Log.Status("Server ready, listening on {0}.", this.ConnectionManager.Address);
 
 			// Commands

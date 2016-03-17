@@ -64,7 +64,7 @@ namespace Melia.Shared
 			catch (Exception ex)
 			{
 				Log.Error("Failed to initialize database: {0}", ex.Message);
-				Cmd.Exit(1, true);
+				CliUtil.Exit(1, true);
 			}
 		}
 
@@ -105,17 +105,17 @@ namespace Melia.Shared
 			catch (DatabaseErrorException ex)
 			{
 				Log.Error(ex.ToString());
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 			catch (FileNotFoundException ex)
 			{
 				Log.Error(ex.Message);
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 			catch (Exception ex)
 			{
 				Log.Exception(ex, "Error while loading data.");
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 		}
 
@@ -161,7 +161,7 @@ namespace Melia.Shared
 			catch (Exception ex)
 			{
 				Log.Error("Failed to load configuration: {0}", ex.Message);
-				Cmd.Exit(1, true);
+				CliUtil.Exit(1, true);
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace Melia.Shared
 			}
 
 			Log.Error("Unable to find root directory, that contains system and user folders.");
-			Cmd.Exit(1);
+			CliUtil.Exit(1);
 		}
 	}
 

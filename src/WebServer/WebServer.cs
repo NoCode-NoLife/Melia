@@ -38,8 +38,8 @@ namespace Melia.Web
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Web", ConsoleColor.DarkRed);
-			Cmd.LoadingTitle();
+			CliUtil.WriteHeader("Web", ConsoleColor.DarkRed);
+			CliUtil.LoadingTitle();
 
 			// Conf
 			this.LoadConf();
@@ -50,7 +50,7 @@ namespace Melia.Web
 			// Web server
 			this.StartWebServer();
 
-			Cmd.RunningTitle();
+			CliUtil.RunningTitle();
 
 			// Commands
 			this.ConsoleCommands = new ConsoleCommands();
@@ -83,7 +83,7 @@ namespace Melia.Web
 			{
 				Log.Error("Failed to start web server.");
 				Log.Info("The port might already be in use, make sure no other application, like other web servers or Skype, are using it, or set a different port in web.conf.");
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 		}
 	}

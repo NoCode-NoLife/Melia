@@ -38,8 +38,8 @@ namespace Melia.Login
 		{
 			base.Run();
 
-			Cmd.WriteHeader("Login", ConsoleColor.Magenta);
-			Cmd.LoadingTitle();
+			CliUtil.WriteHeader("Login", ConsoleColor.Magenta);
+			CliUtil.LoadingTitle();
 
 			// Conf
 			this.LoadConf();
@@ -60,7 +60,7 @@ namespace Melia.Login
 			if (serverData == null)
 			{
 				Log.Error("Server data not found. ({0})", serverId);
-				Cmd.Exit(1);
+				CliUtil.Exit(1);
 			}
 
 			// Server
@@ -68,7 +68,7 @@ namespace Melia.Login
 			mgr.Start();
 
 			// Ready
-			Cmd.RunningTitle();
+			CliUtil.RunningTitle();
 			Log.Status("Server ready, listening on {0}.", mgr.Address);
 
 			// Commands

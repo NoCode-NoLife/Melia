@@ -20,7 +20,7 @@ namespace Melia.Web
 			catch (Exception ex)
 			{
 				Log.Error("Error on startup: {0}", ex.Message);
-				Cmd.Exit(1, true);
+				CliUtil.Exit(1, true);
 			}
 		}
 	}

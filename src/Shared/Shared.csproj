@@ -93,7 +93,7 @@
     <Compile Include="Network\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Util\Cmd.cs" />
+    <Compile Include="Util\CliUtil.cs" />
     <Compile Include="Util\Commands\CommandManager.cs" />
     <Compile Include="Util\Commands\ConsoleCommands.cs" />
     <Compile Include="Util\Configuration\Conf.cs" />

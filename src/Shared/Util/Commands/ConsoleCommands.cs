@@ -102,7 +102,7 @@ namespace Melia.Shared.Util.Commands
 
 		protected virtual CommandResult HandleExit(string command, IList<string> args)
 		{
-			Cmd.Exit(0, false);
+			CliUtil.Exit(0, false);
 
 			return CommandResult.Okay;
 		}

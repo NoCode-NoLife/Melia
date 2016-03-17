@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Shared.Util
 {
-	public static class Cmd
+	public static class CliUtil
 	{
 		private const string TitlePrefix = "Melia : ";
 
