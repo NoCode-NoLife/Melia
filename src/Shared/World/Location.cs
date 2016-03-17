@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Shared.Util;
+using System.Globalization;
 
 namespace Melia.Shared.World
 {
@@ -101,7 +101,7 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return string.Format("{0}, {1}, {2}, {3}", MapId, X.ToInvariant(), Y.ToInvariant(), Z.ToInvariant());
+			return string.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}, {3}", MapId, X, Y, Z);
 		}
 	}
 }
