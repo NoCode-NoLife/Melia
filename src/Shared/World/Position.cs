@@ -28,7 +28,7 @@ namespace Melia.Shared.World
 		public readonly float Z;
 
 		/// <summary>
-		/// Returns position with X and Y being 0.
+		/// Returns new position with X, Y, and Z being 0.
 		/// </summary>
 		public static Position Zero { get { return new Position(0, 0, 0); } }
 
