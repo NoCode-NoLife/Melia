@@ -5432,6 +5432,7 @@
 { itemId: 661108, className: "JOB_RUNECASTER_6_1_ITEM_2", name: "Malstatue's Magic Fragment", category: 12, weight: 0, maxStack: 32767 },
 { itemId: 661109, className: "JOB_RUNECASTER_6_1_ITEM_3", name: "Velaphid's Cold Blood", category: 12, weight: 0, maxStack: 32767 },
 { itemId: 661110, className: "JOB_RUNECASTER_6_1_ITEM_4", name: "Pumpleflap's Robust Horn", category: 12, weight: 0, maxStack: 32767 },
+{ itemId: 661134, className: "steam_JOB_HOGLAN_COUPON", name: "호글란 교환권", category: 12, weight: 0, maxStack: 1 },
 { itemId: 662000, className: "FORMINE_ARMOR_BAG01", name: "Leather Front Plate", category: 12, weight: 0, maxStack: 1 },
 { itemId: 662001, className: "FORMINE_ARMOR_SCAPULAR", name: "Leafy Shoulder", category: 12, weight: 0, maxStack: 1 },
 { itemId: 662002, className: "FORMINE_ARMOR_BAG02", name: "Leather Back Plate", category: 12, weight: 0, maxStack: 1 },
