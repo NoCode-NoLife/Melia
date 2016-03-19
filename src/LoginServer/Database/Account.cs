@@ -161,6 +161,10 @@ namespace Melia.Login.Database
 			if (!_characters.Contains(character))
 				return false;
 
+			// If the deletion on the db fails, the character shouldn't
+			// have been shown to begin with and should be removed.
+			// If it doesn't fail, the removal is valid as well,
+			// do this regardless of the query result.
 			this.RemoveCharacter(character);
 
 			return LoginServer.Instance.Database.DeleteCharacter(character.Id);
