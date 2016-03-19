@@ -426,16 +426,9 @@ namespace Melia.Channel.Network
 			var result = character.Inventory.Equip(slot, worldId);
 
 			if (result == InventoryResult.ItemNotFound)
-			{
-				Log.Warning("User '{0}' tried to equip item he doesn't have ({1}).", conn.Account.Name, worldId);
-				return;
-			}
-
-			if (result == InventoryResult.InvalidSlot)
-			{
-				Log.Warning("User '{0}' tried to equip item in invalid slot ({1}).", conn.Account.Name, worldId);
-				return;
-			}
+				Log.Warning("CZ_ITEM_EQUIP: User '{0}' tried to equip item he doesn't have ({1}).", conn.Account.Name, worldId);
+			else if (result == InventoryResult.InvalidSlot)
+				Log.Warning("CZ_ITEM_EQUIP: User '{0}' tried to equip item in invalid slot ({1}).", conn.Account.Name, worldId);
 		}
 
 		/// <summary>
@@ -455,16 +448,9 @@ namespace Melia.Channel.Network
 			var result = character.Inventory.Unquip(slot);
 
 			if (result == InventoryResult.ItemNotFound)
-			{
-				Log.Warning("User '{0}' tried to unequip non-existent item from {1}.", conn.Account.Name, slot);
-				return;
-			}
-
-			if (result == InventoryResult.InvalidSlot)
-			{
-				Log.Warning("User '{0}' tried to unequip item from invalid slot ({1}).", conn.Account.Name, slot);
-				return;
-			}
+				Log.Warning("CZ_ITEM_UNEQUIP: User '{0}' tried to unequip non-existent item from {1}.", conn.Account.Name, slot);
+			else if (result == InventoryResult.InvalidSlot)
+				Log.Warning("CZ_ITEM_UNEQUIP: User '{0}' tried to unequip item from invalid slot ({1}).", conn.Account.Name, slot);
 		}
 
 		/// <summary>
@@ -489,10 +475,7 @@ namespace Melia.Channel.Network
 			var result = character.Inventory.Delete(worldId);
 
 			if (result == InventoryResult.ItemNotFound)
-			{
-				Log.Warning("User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
-				return;
-			}
+				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
 		}
 
 		/// <summary>
@@ -517,16 +500,9 @@ namespace Melia.Channel.Network
 			var result = character.Inventory.Swap(worldId1, worldId2);
 
 			if (result == InventoryResult.ItemNotFound)
-			{
-				Log.Warning("User '{0}' tried to swap non-existent item(s) ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
-				return;
-			}
-
-			if (result == InventoryResult.InvalidOperation)
-			{
-				Log.Warning("User '{0}' tried to swap two items from different categories ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
-				return;
-			}
+				Log.Warning("CZ_SWAP_ETC_INV_CHANGE_INDEX: User '{0}' tried to swap non-existent item(s) ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
+			else if (result == InventoryResult.InvalidOperation)
+				Log.Warning("CZ_SWAP_ETC_INV_CHANGE_INDEX: User '{0}' tried to swap two items from different categories ({1}, {2}).", conn.Account.Name, worldId1, worldId2);
 		}
 
 		/// <summary>

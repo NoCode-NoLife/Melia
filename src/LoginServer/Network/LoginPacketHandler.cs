@@ -194,7 +194,7 @@ namespace Melia.Login.Network
 			// Check job
 			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
 			{
-				Log.Warning("User '{0}' tried to create character with invalid job '{1}'.", conn.Account.Name, job);
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid job '{1}'.", conn.Account.Name, job);
 				conn.Close();
 				return;
 			}
@@ -202,7 +202,7 @@ namespace Melia.Login.Network
 			// Check gender
 			if (gender < Gender.Male || gender > Gender.Female)
 			{
-				Log.Warning("User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
 				conn.Close();
 				return;
 			}
@@ -274,7 +274,7 @@ namespace Melia.Login.Network
 			var character = conn.Account.GetCharacterByIndex(index);
 			if (character == null)
 			{
-				Log.Warning("User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -282,7 +282,7 @@ namespace Melia.Login.Network
 			// Delete
 			if (!conn.Account.DeleteCharacter(character))
 			{
-				Log.Warning("Deleting '{0}' from account '{1}' failed.", character.Name, conn.Account.Name);
+				Log.Warning("CB_COMMANDER_DESTROY: Deleting '{0}' from account '{1}' failed.", character.Name, conn.Account.Name);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -312,7 +312,7 @@ namespace Melia.Login.Network
 			var character = conn.Account.GetCharacterByIndex(index);
 			if (character == null)
 			{
-				Log.Warning("User '{0}' tried to move invalid character ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_MOVE: User '{0}' tried to move invalid character ({1}).", conn.Account.Name, index);
 				return;
 			}
 
@@ -336,7 +336,7 @@ namespace Melia.Login.Network
 			var character = conn.Account.GetCharacterByIndex(index);
 			if (character == null)
 			{
-				Log.Warning("User '{0}' tried log in with an invalid character ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_START_GAME: User '{0}' tried log in with an invalid character ({1}).", conn.Account.Name, index);
 				return;
 			}
 
@@ -376,7 +376,7 @@ namespace Melia.Login.Network
 			// Check medals
 			if (conn.Account.Medals < barrackData.Price)
 			{
-				Log.Warning("User '{0}' tried to buy barrack without having the necessary coins.");
+				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy barrack without having the necessary coins.");
 				return;
 			}
 
