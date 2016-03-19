@@ -617,12 +617,10 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
+			var d1 = packet.GetFloat();
+			var d2 = packet.GetFloat();
 
-			conn.SelectedCharacter.SetDirection(x, y);
-
-			Send.ZC_ROTATE(conn.SelectedCharacter);
+			conn.SelectedCharacter.Rotate(d1, d2);
 		}
 
 		/// <summary>
