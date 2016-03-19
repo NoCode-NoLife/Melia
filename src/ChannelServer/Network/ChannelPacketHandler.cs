@@ -87,7 +87,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent mid-loading, after pc's enter world.
+		/// Sent mid-loading, after the player entered the world.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -206,7 +206,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when choosing Select Character.
+		/// Sent when clicking [Select Character].
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -224,7 +224,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when choosing Logout.
+		/// Sent when clicking [Logout].
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -287,7 +287,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent repeatedly while moving.
+		/// Sent when stopping movement.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -339,7 +339,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
+		/// Sent when the character is in the air (jumping/falling).
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -355,7 +355,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
+		/// Sent when landing on the ground, after being in the air.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -371,7 +371,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when clicken the Arrange Inventory button.
+		/// Sent repeatedly during jumping.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -468,7 +468,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when uequipping an item.
+		/// Sent when removing an item from the inventory.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -496,7 +496,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when dragging an item on top of another one in the same category.
+		/// Sent when dragging an item on top of another one in the same
+		/// category to switch their positions.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -533,7 +534,8 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <remarks>
 		/// Named "CZ_SORT_INV_CHANGE_INDEX" (0xCE4) in iCBT1, size 11.
-		/// Name changed to "CZ_SORT_INV" in iCBT2 (pre-launch), one byte added.
+		/// Name changed to "CZ_SORT_INV" in iCBT2 (pre-launch),
+		/// one byte added, presumedly for the order.
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -554,7 +556,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent on logout to save hotkeys
+		/// Sent on logout to save hotkeys.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -617,8 +619,6 @@ namespace Melia.Channel.Network
 		{
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
-
-			//Log.Debug("CZ_ROTATE: {0}; {1}", x, y);
 
 			conn.SelectedCharacter.SetDirection(x, y);
 
@@ -786,7 +786,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent when attacking enemies.
+		/// Sent when distributing stat points.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>

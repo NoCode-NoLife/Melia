@@ -67,7 +67,8 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent when clicking [Enter] on login screen.
+		/// Sent when clicking [Enter] on login screen if no login mask
+		/// is used.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -257,7 +258,7 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent for deleting a character.
+		/// Sent when deleting a character.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -320,7 +321,7 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent clicking Start Game, to connect to the selected channel.
+		/// Sent when clicking [Start Game], to connect to the selected channel.
 		/// </summary>
 		/// <example>
 		/// ([09 00] [15 00 00 00] [1D 00 00 00]) 00 00 01 | 69 7D E4
@@ -355,7 +356,7 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent when clicking Purchase on a barrack.
+		/// Sent when clicking [Purchase] on a barrack.
 		/// </summary>
 		/// <example>
 		/// ([4C 00] [15 00 00 00] [5E 00 00 00]) 00 00 00 00 0C 00 00 00 0B 00 00 00 | 0E 30
@@ -387,7 +388,7 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent upon login, contains checksum of client files.
+		/// Sent upon login, contains checksum of client files?
 		/// </summary>
 		/// <example>
 		/// 0000   09 00 01 00 00 00 12 04  00 00 39 64 34 39 61 35   ..........9d49a5
