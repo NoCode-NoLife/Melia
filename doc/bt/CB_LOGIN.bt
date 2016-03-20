@@ -15,4 +15,5 @@ char accountName[33];
 byte md5password[16];
 byte b1;
 byte b2;
+byte b3; // [i10671 (2015-10-26)] ?
 int ip;

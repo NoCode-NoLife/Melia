@@ -38,6 +38,7 @@ namespace Melia.Login.Network
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
 			var unkByte1 = packet.GetByte();
 			var unkByte2 = packet.GetByte();
+			var unkByte3 = packet.GetByte(); // [i10671 (2015-10-26)] ?
 			var ip = packet.GetInt();
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
