@@ -7,11 +7,13 @@
 // Purpose:
 //--------------------------------------
 
+#include "common.bt"
+
 short op;
 int sequence;
 
 int i1; // some ip?
-int ip;
+IP ip;
 int port;
 int mapId;
 byte b1;
