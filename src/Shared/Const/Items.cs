@@ -28,10 +28,17 @@ namespace Melia.Shared.Const
 		Unknown = 15,
 	}
 
+	/// <remarks>
+	/// We're using this enum to save which slot an item is equipped on,
+	/// should the values change, the values in the database would be
+	/// incorrect. Should this enum change again, we should think about
+	/// saving the slots as string or creating an intermediary enum.
+	/// </remarks>
 	public enum EquipSlot : byte
 	{
 		HairAccessory,
 		SubsidiaryAccessory,
+		Hair, // [i11025 (2016-02-26)]
 		_Outer1,
 		Top,
 		Costume,
@@ -50,7 +57,6 @@ namespace Melia.Shared.Const
 		Bracelet1,
 		Bracelet2,
 		Necklace,
-		Hair, // [i11025 (2016-02-26)]
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -87,6 +93,6 @@ namespace Melia.Shared.Const
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 4, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 12101 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2 };
 	}
 }
