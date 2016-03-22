@@ -48,7 +48,10 @@ namespace Melia.Channel.Network
 			this.Account.Save();
 
 			if (this.SelectedCharacter != null)
+			{
+				this.SelectedCharacter.Map.RemoveCharacter(this.SelectedCharacter);
 				ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
+			}
 
 			ChannelServer.Instance.ScriptManager.RemoveScriptState(this.ScriptState);
 		}
