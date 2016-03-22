@@ -4,15 +4,18 @@
 -- Allows changing the player's hair style.
 ----- Notes -----------------------------------------------------------------
 -- There are no separate style and color settings, every hair style exists
--- X times, with different colors. While the NPC could split them, it would
--- only work while the client sticks to a strict "X styles Y colors" system.
+-- X times, with different colors. Unfortunately there is no strict X styles
+-- Y colors convention, some styles have 1 color, some 4, some 5, and
+-- the number of available styles differs between genders as well. Splitting
+-- into style and color would be bothersome and could break any time.
 -----------------------------------------------------------------------------
 
 addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "stylist")
 
 function stylist()
 	local pc = getpc()
-	local min, max = 1, 50
+	local min = 1
+	local max = pc.gender == GENDER_MALE and 71 or 82
 	local style = pc.hair
 
 	function setStyle(val)
