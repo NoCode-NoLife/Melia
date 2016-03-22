@@ -12,7 +12,7 @@ addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "stylist")
 
 function stylist()
 	local pc = getpc()
-	local min, max = 1, 82
+	local min, max = 1, 50
 	local style = pc.hair
 
 	function setStyle(val)
