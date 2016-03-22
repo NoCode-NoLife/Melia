@@ -4,6 +4,8 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
+global/const.lua
+
 warps/f_siauliai_west.lua
 
 custom/stat_resetter.lua
