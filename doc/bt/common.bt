@@ -7,6 +7,9 @@
 // Purpose:
 //--------------------------------------
 
+// [i11025 (2016-02-26)] 20->21, Hair slot?
+const int EquipSlotCount = 21;
+
 // Length-prefixed string
 typedef struct
 {
@@ -92,11 +95,13 @@ typedef struct
     byte gender;
     byte b1;
     int level;
-    int equipIds[20];
+    int equipIds[EquipSlotCount];
     int i6; // [i10671, 2015-10-26 iCBT2]
     int i7; // [i10671, 2015-10-26 iCBT2]
     short hair;
     short pose;
+
+    int i8; // [i11025 (2016-02-26)]
 }
 COMMANDER;
 

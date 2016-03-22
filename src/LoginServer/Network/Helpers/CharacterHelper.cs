@@ -20,7 +20,15 @@ namespace Melia.Login.Network.Helpers
 		{
 			packet.AddCommander(character);
 			packet.PutLong(character.Id);
-			packet.PutShort(character.Index);
+
+			// [i11025 (2016-02-26)]
+			// Index was previously stored as a short, now there seem
+			// to be two byte, with the first being the index.
+			{
+				packet.PutByte(character.Index);
+				packet.PutByte(181);
+			}
+
 			packet.PutShort(character.MapId);
 			packet.PutInt(0);
 			packet.PutInt(0);

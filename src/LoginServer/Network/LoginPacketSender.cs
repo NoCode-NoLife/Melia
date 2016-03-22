@@ -75,6 +75,11 @@ namespace Melia.Login.Network
 				packet.PutShort(0); // count
 				// loop
 				//   short jobId
+
+				// [i11025 (2016-02-26)] ?
+				{
+					packet.PutInt(0);
+				}
 			}
 
 			// Null terminated list of some kind?

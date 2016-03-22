@@ -12,13 +12,8 @@
 typedef struct
 {
     short size;
-    
-    local int i;
-    for(i=0; i<size/6; ++i)
-    {
-        short id;
-        float value;
-    }
+    if(size > 0)
+        byte properties[size]; // todo, short:val list
 }
 AccountProperties;
 
@@ -35,7 +30,13 @@ typedef struct
     COMMANDER commander;
 
     int64 characterId;
-    short index;
+
+    // [i11025 (2016-02-26)]
+    // Index was previously stored as a short, now there seem
+    // to be two byte, with the first being the index.
+    byte index;
+    byte b1;
+
     short mapId;
     int i1;
     int i2;
@@ -56,11 +57,13 @@ typedef struct
 
     int i5;
 
-    ItemProperties itemProperties[20] <optimize=false>;
+    ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
     
     // maybe job history?
     short jobIdCount;
     short jobId2[jobIdCount];
+
+    int i6; // [i11025 (2016-02-26)]
 }
 Character;
 
