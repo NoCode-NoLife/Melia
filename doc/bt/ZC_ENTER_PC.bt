@@ -27,6 +27,7 @@ int hp;
 int maxHp;
 short sp;
 short maxSp;
+int i4; // [i11025 (2016-02-26)]
 int stamina;
 int maxStamina;
 byte b1;
@@ -35,16 +36,17 @@ int titleAchievementId;
 int i3;
 byte b2;
 COMMANDER commander;
-char partyName[49];
+
+// [i11025 (2016-02-26)] Removed?
+//char partyName[49];
 
 // [i10622 (2015-10-22)] ?
-{
-    short s3;
-    int i4;
-    int i5;
-    int i6;
-    int i7;
-    int i8;
-    int i9;
-    int i10;
-}
+// [i11025 (2016-02-26)] Removed?
+//short s3;
+//int i4;
+//int i5;
+//int i6;
+//int i7;
+//int i8;
+//int i9;
+//int i10;

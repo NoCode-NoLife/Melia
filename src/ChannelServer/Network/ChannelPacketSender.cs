@@ -178,6 +178,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.MaxHp);
 			packet.PutShort(character.Sp);
 			packet.PutShort(character.MaxSp);
+			packet.PutInt(0); // [i11025 (2016-02-26)]
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
@@ -186,18 +187,21 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.AddCommander(character);
-			packet.PutString("None", 49); // Party name
+
+			// [i11025 (2016-02-26)] Removed?
+			//packet.PutString("None", 49); // Party name
 
 			// [i10622 (2015-10-22)] ?
+			// [i11025 (2016-02-26)] Removed?
 			{
-				packet.PutShort(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
+				//packet.PutShort(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
+				//packet.PutInt(0);
 			}
 
 			conn.Send(packet);
