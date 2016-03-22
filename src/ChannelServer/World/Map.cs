@@ -143,8 +143,6 @@ namespace Melia.Channel.World
 		{
 			monster.Map = this;
 
-			Send.ZC_ENTER_MONSTER(monster);
-
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
 		}
@@ -157,8 +155,6 @@ namespace Melia.Channel.World
 		{
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
-
-			Send.ZC_LEAVE(monster);
 
 			monster.Map = null;
 		}
