@@ -20,7 +20,9 @@ byte bin1[10];
 
 lpString sessionKey;
 
-short s1; // [i10911? (2015-12-01)]
+// [i109XX (2015-12-01)] Added
+// [i11025 (2016-02-26)] Removed?
+//short s1;
 
 int handle1;
 int i2;
