@@ -21,4 +21,10 @@ namespace Melia.Shared.Const
 		/// </summary>
 		Job = 2,
 	}
+
+	public enum StartingCity
+	{
+		Klaipeda = 1,
+		Orsha = 2,
+	}
 }

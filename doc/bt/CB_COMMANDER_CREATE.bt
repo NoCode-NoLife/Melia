@@ -1,0 +1,22 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CB_COMMANDER_CREATE.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+byte position;
+char name[65];
+short job;
+byte gender;
+float x;
+float y;
+float z;
+byte hair;
+int startingCity; // i11025 (2016-02-26)

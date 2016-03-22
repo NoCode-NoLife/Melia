@@ -191,6 +191,15 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
+			var startingCity = (StartingCity)packet.GetInt();
+
+			// Check starting city
+			if (!Enum.IsDefined(typeof(StartingCity), startingCity))
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character in invalid starting city '{1}'.", conn.Account.Name, startingCity);
+				Send.BC_MESSAGE(conn, MsgType.CreateCharFail);
+				return;
+			}
 
 			// Check job
 			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
