@@ -21,6 +21,7 @@ byte b1; // bool?
 int hp, maxHp;
 short s1;
 float i1;
+short s2; // [i11025 (2016-02-26)]
 MONSTER monster;
 int i4; // npc state?
 int namesSize;
@@ -33,4 +34,5 @@ lpString dialogName;
 lpString warpName; // ?
 lpString str3;
 
-byte properties[propertiesSize];
+if(propertiesSize > 0)
+    byte properties[propertiesSize];

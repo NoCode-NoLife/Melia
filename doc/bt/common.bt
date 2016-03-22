@@ -110,8 +110,11 @@ typedef struct
     int monsterId;
     int i1;
     int maxHp;
-    short s1;
-    short s2;
+
+    // [i11025 (2016-02-26)] Removed?
+    //short s1;
+    //short s2;
+
     int level;
     float sdr;
     byte b1;

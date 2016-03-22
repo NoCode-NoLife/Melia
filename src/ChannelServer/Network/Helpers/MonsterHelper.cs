@@ -27,13 +27,24 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(monster.MaxHp);
 			packet.PutShort(0);
 			packet.PutFloat(0);
+
+			// [i11025 (2016-02-26)] ?
+			{
+				packet.PutShort(16832);
+			}
+
 			// MONSTER
 			{
 				packet.PutInt(monster.Id);
 				packet.PutInt(0);
 				packet.PutInt(monster.MaxHp);
-				packet.PutShort(0); // MaxShield?
-				packet.PutEmptyBin(2);
+
+				// [i11025 (2016-02-26)] Removed?
+				{
+					//packet.PutShort(0); // MaxShield?
+					//packet.PutEmptyBin(2);
+				}
+
 				packet.PutInt(monster.Level);
 				packet.PutFloat(monster.SDR);
 				packet.PutByte(0);
