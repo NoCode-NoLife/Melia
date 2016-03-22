@@ -299,7 +299,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Moves item from given slot into inventory.
+		/// Deletes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
 		public InventoryResult Delete(long worldId)
@@ -413,6 +413,37 @@ namespace Melia.Channel.World
 				Log.Debug("  {0} : {1}", item.Key, item.Value.Data.ClassName);
 
 			Log.Debug("</Debug> ----------------------------");
+		}
+
+		/// <summary>
+		/// Removes all items from inventory.
+		/// </summary>
+		public InventoryResult Clear()
+		{
+			var modifiedCategories = new HashSet<InventoryCategory>();
+			var items = this.GetItems();
+
+			// Remove items
+			foreach (var item in items.Values)
+			{
+				lock (_syncLock)
+				{
+					_items[item.Data.Category].Remove(item);
+					_itemsWorldIndex.Remove(item.WorldId);
+				}
+
+				modifiedCategories.Add(item.Data.Category);
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+			}
+
+			// Update categories
+			foreach (var category in modifiedCategories)
+				Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, category);
+
+			// Update weight
+			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+
+			return InventoryResult.Success;
 		}
 	}
 

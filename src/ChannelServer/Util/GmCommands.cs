@@ -45,6 +45,7 @@ namespace Melia.Channel.Util
 			Add("speed", "<speed>", HandleSpeed);
 			Add("iteminfo", "<name>", HandleItemInfo);
 			Add("go", "<destination>", HandleGo);
+			Add("clearinv", "", HandleClearInventory);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -423,6 +424,15 @@ namespace Melia.Channel.Util
 				target.Warp("c_orsha", 271, 176, 292);
 			else
 				Send.ZC_CHAT(sender, "Unknown destination.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleClearInventory(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			target.Inventory.Clear();
+
+			Send.ZC_CHAT(sender, "Inventory cleared.");
 
 			return CommandResult.Okay;
 		}
