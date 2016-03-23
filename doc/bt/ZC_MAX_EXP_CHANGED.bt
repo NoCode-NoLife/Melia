@@ -13,3 +13,4 @@ int sequence;
 int expAcquired;
 int exp;
 int maxExp;
+int i1; // [i11037 (2016-03-0X)]

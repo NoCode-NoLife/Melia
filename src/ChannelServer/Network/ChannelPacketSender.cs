@@ -1174,6 +1174,12 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
 
+			// [i11037 (2016-03-0X)] ?
+			// acq 43, exp 36, max 462, ? 316
+			{
+				packet.PutInt(0);
+			}
+
 			character.Connection.Send(packet);
 		}
 
