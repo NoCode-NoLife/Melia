@@ -1020,7 +1020,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(entity.Handle);
-			packet.PutShort(0);
+			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
 
 			entity.Map.Broadcast(packet);
 		}
@@ -1035,7 +1035,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(entity.Handle);
-			packet.PutShort(0);
+			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
 
 			conn.Send(packet);
 		}
