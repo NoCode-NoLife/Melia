@@ -400,7 +400,11 @@ namespace Melia.Channel.World
 				foreach (var monster in _visibleMonsters)
 					Send.ZC_LEAVE(this.Connection, monster);
 
+				foreach (var character in _visibleCharacters)
+					Send.ZC_LEAVE(this.Connection, character);
+
 				_visibleMonsters = new Monster[0];
+				_visibleCharacters = new Character[0];
 			}
 		}
 
