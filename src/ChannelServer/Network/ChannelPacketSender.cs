@@ -538,6 +538,12 @@ namespace Melia.Channel.Network
 			packet.PutByte((byte)character.Hair);
 			packet.PutEmptyBin(2);
 			packet.PutInt(0); // 628051
+
+			// [i11257 (2016-03-25)] ?
+			{
+				packet.PutInt(1004);
+			}
+
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutString(message);
 

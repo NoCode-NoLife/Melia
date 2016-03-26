@@ -21,5 +21,6 @@ byte gender;
 byte hair;
 byte bin1[2];
 int i2;
+int i3; // [i11257 (2016-03-25)]
 float displayTime;
 string message;
