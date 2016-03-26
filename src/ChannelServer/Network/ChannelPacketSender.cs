@@ -924,6 +924,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Broadcasts ZC_HEAD_ROTATE in range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_HEAD_ROTATE(Character character)
+		{
+			var packet = new Packet(Op.ZC_HEAD_ROTATE);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(character.HeadDirection.Cos);
+			packet.PutFloat(character.HeadDirection.Sin);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Sends ZC_DIALOG_OK to connection, containing a dialog message.
 		/// </summary>
 		/// <param name="conn"></param>

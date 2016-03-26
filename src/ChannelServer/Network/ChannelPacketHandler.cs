@@ -584,18 +584,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent to rotate the character. 
+		/// Sent to rotate the character's body. 
 		/// </summary>
-		/// <remarks>
-		/// Direction is not a "normal" vector, it controls head
-		/// and body together, which can turn in slightly different
-		/// directions.
-		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([1A 0C] [40 00 00 00] [E4 01 00 00]) 00 00 80 BF 00 00 80 BF | D5 11 C4 EC 56 9E
-		/// </example>
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
@@ -603,6 +595,20 @@ namespace Melia.Channel.Network
 			var d2 = packet.GetFloat();
 
 			conn.SelectedCharacter.Rotate(d1, d2);
+		}
+
+		/// <summary>
+		/// Sent to rotate the character's head. 
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_HEAD_ROTATE)]
+		public void CZ_HEAD_ROTATE(ChannelConnection conn, Packet packet)
+		{
+			var d1 = packet.GetFloat();
+			var d2 = packet.GetFloat();
+
+			conn.SelectedCharacter.RotateHead(d1, d2);
 		}
 
 		/// <summary>

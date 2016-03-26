@@ -68,6 +68,11 @@ namespace Melia.Shared.World
 		public Direction Direction { get; set; }
 
 		/// <summary>
+		/// Character's head's direction.
+		/// </summary>
+		public Direction HeadDirection { get; set; }
+
+		/// <summary>
 		/// Current experience points.
 		/// </summary>
 		public int Exp { get; set; }
@@ -173,6 +178,16 @@ namespace Melia.Shared.World
 		public void SetDirection(float x, float y)
 		{
 			this.Direction = new Direction(x, y);
+		}
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetHeadDirection(float x, float y)
+		{
+			this.HeadDirection = new Direction(x, y);
 		}
 	}
 }
