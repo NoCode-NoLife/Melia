@@ -10,18 +10,18 @@ namespace Melia.Shared.World
 	/// </summary>
 	public struct Direction
 	{
-		public readonly float X;
-		public readonly float Y;
+		public readonly float Cos;
+		public readonly float Sin;
 
 		/// <summary>
 		/// Creates new direction from values.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public Direction(float x, float y)
+		/// <param name="cos"></param>
+		/// <param name="sin"></param>
+		public Direction(float cos, float sin)
 		{
-			this.X = x;
-			this.Y = y;
+			this.Cos = cos;
+			this.Sin = sin;
 		}
 
 		/// <summary>
@@ -30,8 +30,8 @@ namespace Melia.Shared.World
 		/// <param name="dir"></param>
 		public Direction(Direction dir)
 		{
-			this.X = dir.X;
-			this.Y = dir.Y;
+			this.Cos = dir.Cos;
+			this.Sin = dir.Sin;
 		}
 
 		/// <summary>
@@ -44,8 +44,8 @@ namespace Melia.Shared.World
 			degree -= 45;
 			degree *= Math.PI / 180.0;
 
-			this.X = (float)Math.Cos(degree);
-			this.Y = (float)Math.Sin(degree);
+			this.Cos = (float)Math.Cos(degree);
+			this.Sin = (float)Math.Sin(degree);
 		}
 	}
 }

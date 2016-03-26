@@ -915,8 +915,8 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ROTATE);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.X);
-			packet.PutFloat(character.Direction.Y);
+			packet.PutFloat(character.Direction.Cos);
+			packet.PutFloat(character.Direction.Sin);
 			packet.PutByte(0);
 			packet.PutByte(0);
 
@@ -1382,8 +1382,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(pos.X);
 			packet.PutFloat(pos.Y);
 			packet.PutFloat(pos.Z);
-			packet.PutFloat(dir.X);
-			packet.PutFloat(dir.Y);
+			packet.PutFloat(dir.Cos);
+			packet.PutFloat(dir.Sin);
 
 			character.Map.Broadcast(packet, character);
 		}
