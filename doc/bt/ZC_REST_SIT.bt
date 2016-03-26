@@ -1,0 +1,15 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_REST_SIT.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int checksum;
+
+int handle;
+byte b1;
+byte b2; // [i11257 (2016-03-25)]
