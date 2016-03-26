@@ -17,6 +17,7 @@ byte gameMode;
 int i1;
 byte privileges;
 byte bin1[10];
+byte b1; // [i11257 (2016-03-25)]
 
 lpString sessionKey;
 

@@ -68,6 +68,11 @@ namespace Melia.Channel.Network
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 
+			// [i11257 (2016-03-25)] ?
+			{
+				packet.PutByte(0);
+			}
+
 			packet.PutLpString(conn.SessionKey);
 
 			// [i109XX (2015-12-01)]
