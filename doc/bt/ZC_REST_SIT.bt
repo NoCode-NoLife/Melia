@@ -12,4 +12,4 @@ int checksum;
 
 int handle;
 byte b1;
-byte b2; // [i11257 (2016-03-25)]
+byte isSitting; // [i11257 (2016-03-25)]

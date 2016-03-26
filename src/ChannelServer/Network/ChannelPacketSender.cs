@@ -593,9 +593,11 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutByte(0);
 
-			// [i11257 (2016-03-25)] ?
+			// [i11257 (2016-03-25)]
+			// If this is set incorrectly, the character "freezes" and
+			// doesn't animate while running around anymore.
 			{
-				packet.PutByte(0);
+				packet.PutByte(character.IsSitting);
 			}
 
 			character.Map.Broadcast(packet, character);
