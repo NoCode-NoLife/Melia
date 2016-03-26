@@ -1,0 +1,39 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_ITEM_INVENTORY_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct
+{
+    int itemId;
+    short propertiesSize;
+    byte empty[2];
+    int64 worldId;
+    int amount;
+    int price;
+    int index;
+    int i1;
+    if(propertiesSize > 0)
+        byte properties[propertiesSize];
+}
+Item;
+
+short op;
+int sequence;
+
+short size;
+int itemCount;
+short compression;
+
+if(compression != 0)
+{
+    byte compressedData[size-6-8];
+}
+else
+{
+    Item items[itemCount] <optimize=false>;
+}
