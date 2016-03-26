@@ -588,7 +588,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutByte(0);
 
-			// // [i11257 (2016-03-25)] ?
+			// [i11257 (2016-03-25)] ?
 			{
 				packet.PutByte(0);
 			}
