@@ -372,7 +372,10 @@ namespace Melia.Channel.World
 				_items = items;
 			}
 
-			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character);
+			// Sending ZC_ITEM_INVENTORY_INDEX_LIST stopped working at some
+			// point after the iCBT2, officials send a full list now.
+			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character);
+			Send.ZC_ITEM_INVENTORY_LIST(_character);
 		}
 
 		/// <summary>
