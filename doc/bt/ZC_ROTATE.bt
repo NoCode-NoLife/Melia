@@ -1,0 +1,17 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_HEAD_ROTATE.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int handle;
+float d1;
+float d2;
+byte b1;
+byte b2;
