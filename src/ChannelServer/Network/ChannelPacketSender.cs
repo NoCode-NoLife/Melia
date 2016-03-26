@@ -438,6 +438,11 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0);
 
+			// [i11257 (2016-03-25)]
+			{
+				packet.PutByte(0);
+			}
+
 			character.Map.Broadcast(packet, character);
 		}
 
