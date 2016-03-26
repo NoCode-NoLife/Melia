@@ -819,5 +819,16 @@ namespace Melia.Channel.Network
 			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
 			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 		}
+
+		/// <summary>
+		/// Sent once a minute to check ping?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHECK_PING)]
+		public void CZ_CHECK_PING(ChannelConnection conn, Packet packet)
+		{
+			// No parameters, no response.
+		}
 	}
 }
