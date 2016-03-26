@@ -95,4 +95,14 @@ namespace Melia.Shared.Const
 		/// </summary>
 		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2 };
 	}
+
+	public enum InventoryOrder : byte
+	{
+		Price = 2,
+		Grade = 0,
+		Weight = 1,
+		Name = 3,
+
+		Id = 0xFF,
+	}
 }

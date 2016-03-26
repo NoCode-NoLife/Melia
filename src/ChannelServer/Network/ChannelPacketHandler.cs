@@ -521,14 +521,20 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SORT_INV)]
 		public void CZ_SORT_INV(ChannelConnection conn, Packet packet)
 		{
+			var order = InventoryOrder.Id;
+
 			var unkByte = packet.GetByte();
-			var order = packet.GetByte(); // [iCBT2, 2015-10-21] ?
+
+			// [i10622 (2015-10-22)]
+			{
+				order = (InventoryOrder)packet.GetByte();
+			}
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: Add cooldown?
 
-			character.Inventory.Sort();
+			character.Inventory.Sort(order);
 		}
 
 		/// <summary>

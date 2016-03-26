@@ -360,14 +360,26 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Sorts inventory by item id.
 		/// </summary>
-		public void Sort()
+		/// <param name="order"></param>
+		public void Sort(InventoryOrder order)
 		{
 			lock (_syncLock)
 			{
 				var items = new Dictionary<InventoryCategory, List<Item>>();
 
 				foreach (var category in _items.Keys)
-					items[category] = _items[category].OrderBy(a => a.Id).ToList();
+				{
+					switch (order)
+					{
+						case InventoryOrder.Name:
+							items[category] = _items[category].OrderBy(a => a.Data.Name).ToList();
+							break;
+
+						default:
+							items[category] = _items[category].OrderBy(a => a.Id).ToList();
+							break;
+					}
+				}
 
 				_items = items;
 			}
