@@ -23,6 +23,11 @@ namespace Melia.Login.Network.Helpers
 		{
 			packet.PutShort(4 * 6); // Account properties size
 
+			// [i11257 (2016-03-25)] ?
+			{
+				packet.PutShort(1004);
+			}
+
 			packet.PutShort(ObjectProperty.Account.Medal);
 			packet.PutFloat(account.Medals);
 

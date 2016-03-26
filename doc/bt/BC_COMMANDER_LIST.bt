@@ -12,6 +12,8 @@
 typedef struct
 {
     short size;
+    short s1; // [i11257 (2016-03-25)]
+
     if(size > 0)
         byte properties[size]; // todo, short:val list
 }
