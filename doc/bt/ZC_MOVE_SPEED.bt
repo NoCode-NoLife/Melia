@@ -1,0 +1,16 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_MOVE_SPEED.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int handle;
+float speed;
+float f1;
+byte b1; // [i11257 (2016-03-25)]
