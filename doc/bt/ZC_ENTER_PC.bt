@@ -16,8 +16,8 @@ int handle;
 float x;
 float y;
 float z;
-float f1;
-int i1;
+float dcos;
+float dsin;
 short s1;
 int64 socialInfoId;
 byte pose; // ?
@@ -40,7 +40,7 @@ COMMANDER commander;
 // [i11025 (2016-02-26)] Removed?
 //char partyName[49];
 
-// [i10622 (2015-10-22)] ?
+// [i10622 (2015-10-22)] Added
 // [i11025 (2016-02-26)] Removed?
 //short s3;
 //int i4;

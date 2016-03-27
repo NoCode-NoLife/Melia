@@ -172,8 +172,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
-			packet.PutFloat(1);
-			packet.PutInt(0);
+			packet.PutFloat(character.Direction.Cos);
+			packet.PutFloat(character.Direction.Sin);
 			packet.PutShort(0);
 			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
 			packet.PutByte(0); // Pose
