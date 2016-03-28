@@ -18,23 +18,10 @@ namespace Melia.Shared.Const
 	/// - PC changed from a 4k to a 6k range.
 	/// - Several additions/removals
 	/// 
-	/// i10671 (2015-10-26)
-	/// i10690 (2015-10-28)
-	///  - No changes
-	/// 
 	/// i10725 (2015-11-03)
 	/// - New:
 	///   - Account.ChatStopTime
 	///   - Account.TradeStopTime
-	///   
-	/// i10749 (2015-11-04)
-	/// i10789 (2015-11-0X)
-	/// i10791 (2015-11-10)
-	/// i10842 (2015-11-17)
-	/// i10873 (2015-11-24)
-	/// i10911 (2015-12-01)
-	/// i10939 (2015-12-08)
-	/// - No changes
 	/// 
 	/// i11025 (2016-02-26, pre-OBT)
 	/// - New:

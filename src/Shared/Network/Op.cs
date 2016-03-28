@@ -46,10 +46,6 @@ namespace Melia.Shared.Network
 	///   - ZC_UPDATED_DUMMYPC: 250 -> 258
 	///   - ZC_UPDATED_PCAPPEARANCE: 250 -> 258
 	/// 
-	/// i10690 (2015-10-28)
-	/// i10707 (2015-10-29)
-	/// - No changes
-	/// 
 	/// i10725 (2015-11-03)
 	/// - New:
 	///   - CB_CHECK_CLIENT_INTEGRITY
@@ -57,11 +53,6 @@ namespace Melia.Shared.Network
 	/// - Size changes:
 	///   - BC_LOGINOK: 117 -> 121
 	/// 
-	/// i10749 (2015-11-04)
-	/// i10789 (2015-11-0X)
-	/// i10791 (2015-11-10)
-	/// - No changes
-	///  
 	/// i10842 (2015-11-17)
 	/// - Notes:
 	///   - A few ops were moved in this update, which caused almost all of
@@ -72,11 +63,6 @@ namespace Melia.Shared.Network
 	/// - Size changes:
 	///   - CS_REQ_MARKET_LIST (CZ_REQ_MARKET_LIST): 158 -> 162
 	///   - CS_REQ_MY_SELL_LIST (CZ_REQ_MY_SELL_LIST): 10 -> 14
-	///   
-	/// i10873 (2015-11-24)
-	/// i10911 (2015-12-01)
-	/// i10939 (2015-12-08)
-	/// - No changes
 	/// 
 	/// i11025 (2016-02-26, pre-OBT)
 	/// - New:
@@ -161,9 +147,6 @@ namespace Melia.Shared.Network
 	///   - ZC_SEND_PREMIUM_STATE: 12 -> 16
 	///   - ZC_SYNC_START: 10 -> 14
 	///   - CZ_PVP_ZONE_CMD: 22 -> 26
-	/// 
-	/// i11087-11208 (2016-03-XX, pre-OBT)
-	/// - No changes
 	/// 
 	/// i11257 (2016-03-25, pre-OBT)
 	/// - New:
