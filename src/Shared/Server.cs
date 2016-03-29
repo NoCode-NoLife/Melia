@@ -92,6 +92,11 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
 				}
 
+				if ((toLoad & DataToLoad.Monsters) != 0)
+				{
+					this.LoadDb(this.Data.MonsterDb, "db/monsters.txt", reload);
+				}
+
 				if ((toLoad & DataToLoad.Servers) != 0)
 				{
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt", reload);
@@ -197,6 +202,7 @@ namespace Melia.Shared
 		Jobs = 0x04,
 		Servers = 0x08,
 		Barracks = 0x10,
+		Monsters = 0x20,
 
 		All = 0x7FFFFFFF,
 	}

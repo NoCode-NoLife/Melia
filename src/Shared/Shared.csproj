@@ -63,6 +63,7 @@
     <Compile Include="Const\ObjectProperty.cs" />
     <Compile Include="Const\Option.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\Monsters.cs" />
     <Compile Include="Data\Database\Jobs.cs" />
     <Compile Include="Data\Database\Maps.cs" />
     <Compile Include="Data\Database\Server.cs" />
