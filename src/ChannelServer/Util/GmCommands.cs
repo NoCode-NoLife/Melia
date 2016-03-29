@@ -270,6 +270,13 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out id))
 				return CommandResult.InvalidArgument;
 
+			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
+			if (monsterData == null)
+			{
+				Send.ZC_CHAT(character, "Monster not found.");
+				return CommandResult.Okay;
+			}
+
 			var monster = new Monster(id, NpcType.Monster);
 
 			monster.Position = target.Position;
