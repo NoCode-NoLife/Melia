@@ -1,0 +1,24 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_ITEM_ADD.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+short size;
+int64 worldId;
+int amount;
+int index;
+int itemId;
+short propertiesSize;
+byte addType;
+float notificationDelay;
+byte invType;
+byte bin1[2];
+if(propertiesSize > 0)
+    byte properties[propertiesSize];

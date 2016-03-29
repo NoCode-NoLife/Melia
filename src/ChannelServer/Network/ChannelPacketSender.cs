@@ -707,8 +707,8 @@ namespace Melia.Channel.Network
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0); // Notification delay
 			packet.PutByte(0); // InvType
-			packet.PutByte(0);
-			//packet.PutEmptyBin(0);
+			packet.PutEmptyBin(2);
+			//packet.PutEmptyBin(0); // properties
 
 			character.Connection.Send(packet);
 		}
