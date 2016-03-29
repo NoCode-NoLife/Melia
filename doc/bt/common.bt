@@ -158,10 +158,10 @@ Character;
 
 typedef struct
 {
-    byte b1;
-    byte b2;
-    byte b3;
-    byte b4;
+    ubyte b1;
+    ubyte b2;
+    ubyte b3;
+    ubyte b4;
 }
 IP <read=IPRead>;
 
