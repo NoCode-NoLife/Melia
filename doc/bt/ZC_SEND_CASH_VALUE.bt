@@ -1,0 +1,55 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_SEND_CASH_VALUE.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    lpString key;
+    float value;
+}
+KeyValueLpStrFloat <read=KeyValueLpStrFloatRead>;
+
+string KeyValueLpStrFloatRead(KeyValueLpStrFloat &v)
+{
+    local string result;
+    SPrintf(result, "%s : %f", v.key.text, v.value);
+    return result;
+}
+
+typedef struct
+{
+    int key;
+    float value;
+}
+KeyValueIntFloat <read=KeyValueIntFloatRead>;
+
+string KeyValueIntFloatRead(KeyValueIntFloat &v)
+{
+    local string result;
+    SPrintf(result, "%d : %f", v.key, v.value);
+    return result;
+}
+
+short op;
+int sequence;
+
+short size;
+
+int count1;
+KeyValueLpStrFloat values1[count1] <optimize=false>;
+
+int count2;
+KeyValueLpStrFloat values2[count2] <optimize=false>;
+
+int count3;
+KeyValueLpStrFloat values3[count3] <optimize=false>;
+
+int count4;
+KeyValueIntFloat values4[count3] <optimize=false>;
