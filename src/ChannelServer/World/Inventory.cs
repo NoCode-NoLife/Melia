@@ -41,7 +41,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns list of ids of equipped items, in the order of EquipmentSlotType.
+		/// Returns list of ids of equipped items, in the order of EquipSlot.
 		/// </summary>
 		/// <returns></returns>
 		public int[] GetEquipIds()
@@ -125,7 +125,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns true if item exists in inventory.
+		/// Returns true if and items with the given id exist in the inventory.
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <returns></returns>
@@ -150,7 +150,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns item by world id, or null if it doesn't exist.
+		/// Returns item by index, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
 		/// <returns></returns>
@@ -176,7 +176,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns item by world id, or null if it doesn't exist.
+		/// Returns item in given equip slot, or null if there is none.
 		/// </summary>
 		/// <param name="worldId"></param>
 		/// <returns></returns>
@@ -240,6 +240,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="slot"></param>
 		/// <param name="item"></param>
+		/// <returns></returns>
 		public InventoryResult Equip(EquipSlot slot, long worldId)
 		{
 			if (!Enum.IsDefined(typeof(EquipSlot), slot))
@@ -278,6 +279,7 @@ namespace Melia.Channel.World
 		/// Moves item from given slot into inventory.
 		/// </summary>
 		/// <param name="slot"></param>
+		/// <returns></returns>
 		public InventoryResult Unquip(EquipSlot slot)
 		{
 			if (!Enum.IsDefined(typeof(EquipSlot), slot))
@@ -358,7 +360,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Sorts inventory by item id.
+		/// Sorts inventory by given order.
 		/// </summary>
 		/// <param name="order"></param>
 		public void Sort(InventoryOrder order)
