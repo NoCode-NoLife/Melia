@@ -24,4 +24,9 @@ switch(type)
 
     case 0x0E:
         lpString function; // ? (THEMA_BUY_SUCCESS)
+        break;
+
+    case 0x14: // Login queue
+        int currentPosition;
+        break;
 }
