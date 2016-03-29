@@ -4,6 +4,7 @@
 using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
@@ -28,7 +29,7 @@ namespace Melia.Channel.Util
 		public GmCommands()
 		{
 			// The required authority levels for commands can be specified
-			// in the configuration  file "commands.conf".
+			// in the configuration file "commands.conf".
 
 			// Normal
 			Add("where", "", HandleWhere);
@@ -44,6 +45,7 @@ namespace Melia.Channel.Util
 			Add("levelup", "<levels>", HandleLevelUp);
 			Add("speed", "<speed>", HandleSpeed);
 			Add("iteminfo", "<name>", HandleItemInfo);
+			Add("monsterinfo", "<name>", HandleMonsterInfo);
 			Add("go", "<destination>", HandleGo);
 			Add("clearinv", "", HandleClearInventory);
 
@@ -53,6 +55,7 @@ namespace Melia.Channel.Util
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
+			AddAlias("monsterinfo", "mi");
 		}
 
 		/// <summary>
@@ -406,6 +409,32 @@ namespace Melia.Channel.Util
 			}
 
 			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleMonsterInfo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			var search = command.Substring(command.IndexOf(" ")).Trim();
+			var monsters = ChannelServer.Instance.Data.MonsterDb.FindAll(search);
+			if (monsters.Count == 0)
+			{
+				Send.ZC_CHAT(sender, "No monsters found for '{0}'.", search);
+				return CommandResult.Okay;
+			}
+
+			var entries = monsters.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
+			var max = 20;
+			for (int i = 0; entries.MoveNext() && i < max; ++i)
+			{
+				var current = entries.Current;
+				Send.ZC_CHAT(sender, "{0}: {1}", current.Id, current.Name);
+			}
+
+			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", monsters.Count, max);
 
 			return CommandResult.Okay;
 		}
