@@ -25,7 +25,9 @@ namespace Melia.Shared.Const
 		Quest = 12,
 		PetWeapon = 13,
 		PetArmor = 14,
-		Unknown = 15,
+		Unused = 15,
+		Etc = 16,
+		Premium = 17,
 	}
 
 	/// <remarks>
