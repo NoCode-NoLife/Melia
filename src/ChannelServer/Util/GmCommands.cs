@@ -116,7 +116,7 @@ namespace Melia.Channel.Util
 			var command = this.GetCommand(commandName);
 			if (command == null)
 			{
-				Send.ZC_CHAT(character, "Command not found.");
+				this.SystemMessage(character, "Command not found.");
 				return true;
 			}
 
@@ -126,7 +126,7 @@ namespace Melia.Channel.Util
 			{
 				if (args.Length < 2)
 				{
-					Send.ZC_CHAT(character, "Char commands require a target.");
+					this.SystemMessage(character, "Char commands require a target.");
 					return true;
 				}
 
@@ -134,7 +134,7 @@ namespace Melia.Channel.Util
 				target = ChannelServer.Instance.World.GetCharacterByTeamName(targetName);
 				if (target == null)
 				{
-					Send.ZC_CHAT(character, "Target not found.");
+					this.SystemMessage(character, "Target not found.");
 					return true;
 				}
 
@@ -148,13 +148,13 @@ namespace Melia.Channel.Util
 			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(args[0]);
 			if ((!isCharCommand && auth.Auth < 0) || (isCharCommand && auth.CharAuth < 0))
 			{
-				Send.ZC_CHAT(character, "This command has been disabled.");
+				this.SystemMessage(character, "This command has been disabled.");
 				return true;
 			}
 
 			if ((!isCharCommand && conn.Account.Authority < auth.Auth) || (isCharCommand && conn.Account.Authority < auth.CharAuth))
 			{
-				Send.ZC_CHAT(character, "Your authority level is too low to use this command.");
+				this.SystemMessage(character, "Your authority level is too low to use this command.");
 				return true;
 			}
 
@@ -162,14 +162,27 @@ namespace Melia.Channel.Util
 			var result = command.Func(conn, character, target, message, args);
 			if (result == CommandResult.Fail)
 			{
-				Send.ZC_CHAT(character, "Failed to execute command.");
+				this.SystemMessage(character, "Failed to execute command.");
 			}
 			else if (result == CommandResult.InvalidArgument)
 			{
-				Send.ZC_CHAT(character, "Invalid argument, usage: {0}{1} {2}", ChannelServer.Instance.Conf.Commands.Prefix, commandName, command.Usage);
+				this.SystemMessage(character, "Invalid argument, usage: {0}{1} {2}", ChannelServer.Instance.Conf.Commands.Prefix, commandName, command.Usage);
 			}
 
 			return true;
+		}
+
+		/// <summary>
+		/// Sends system message to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		private void SystemMessage(Character character, string format, params object[] args)
+		{
+			// Since there doesn't seem to be a custom system message packet,
+			// we'll misuse chat for now.
+			Send.ZC_CHAT(character.Connection, character, string.Format(format, args));
 		}
 
 		//-------------------------------------------------------------------
@@ -183,7 +196,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			Send.ZC_CHAT(character, "You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+			this.SystemMessage(character, "You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
 
 			return CommandResult.Okay;
 		}
@@ -217,7 +230,7 @@ namespace Melia.Channel.Util
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
 				{
-					Send.ZC_CHAT(character, "Map not found.");
+					this.SystemMessage(character, "Map not found.");
 					return CommandResult.Okay;
 				}
 
@@ -236,7 +249,7 @@ namespace Melia.Channel.Util
 			}
 			catch (ArgumentException)
 			{
-				Send.ZC_CHAT(character, "Map not found.");
+				this.SystemMessage(character, "Map not found.");
 			}
 
 			return CommandResult.Okay;
@@ -253,7 +266,7 @@ namespace Melia.Channel.Util
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 			{
-				Send.ZC_CHAT(character, "Item not found.");
+				this.SystemMessage(character, "Item not found.");
 				return CommandResult.Okay;
 			}
 
@@ -276,7 +289,7 @@ namespace Melia.Channel.Util
 			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
 			if (monsterData == null)
 			{
-				Send.ZC_CHAT(character, "Monster not found.");
+				this.SystemMessage(character, "Monster not found.");
 				return CommandResult.Okay;
 			}
 
@@ -305,7 +318,7 @@ namespace Melia.Channel.Util
 				}
 			}
 
-			Send.ZC_CHAT(target, "Added {0} hats to inventory.", added);
+			this.SystemMessage(target, "Added {0} hats to inventory.", added);
 
 			return CommandResult.Okay;
 		}
@@ -324,7 +337,7 @@ namespace Melia.Channel.Util
 			// TODO: Keep a list of all account characters after all?
 			if (ChannelServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
 			{
-				Send.ZC_CHAT(character, "Name already exists.");
+				this.SystemMessage(character, "Name already exists.");
 				return CommandResult.Okay;
 			}
 
@@ -345,7 +358,7 @@ namespace Melia.Channel.Util
 
 			if (!Enum.IsDefined(typeof(Job), jobId))
 			{
-				Send.ZC_CHAT(character, "Unknown job.");
+				this.SystemMessage(character, "Unknown job.");
 				return CommandResult.Okay;
 			}
 
@@ -358,11 +371,11 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleReloadScripts(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			Send.ZC_CHAT(character, "Reloading scripts...");
+			this.SystemMessage(character, "Reloading scripts...");
 
 			ChannelServer.Instance.ScriptManager.Reload();
 
-			Send.ZC_CHAT(character, "Done.");
+			this.SystemMessage(character, "Done.");
 
 			return CommandResult.Okay;
 		}
@@ -406,7 +419,7 @@ namespace Melia.Channel.Util
 			var items = ChannelServer.Instance.Data.ItemDb.FindAll(search);
 			if (items.Count == 0)
 			{
-				Send.ZC_CHAT(sender, "No items found for '{0}'.", search);
+				this.SystemMessage(sender, "No items found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
@@ -415,10 +428,10 @@ namespace Melia.Channel.Util
 			for (int i = 0; eItems.MoveNext() && i < max; ++i)
 			{
 				var item = eItems.Current;
-				Send.ZC_CHAT(sender, "{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
+				this.SystemMessage(sender, "{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 			}
 
-			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
+			this.SystemMessage(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
 
 			return CommandResult.Okay;
 		}
@@ -432,7 +445,7 @@ namespace Melia.Channel.Util
 			var monsters = ChannelServer.Instance.Data.MonsterDb.FindAll(search);
 			if (monsters.Count == 0)
 			{
-				Send.ZC_CHAT(sender, "No monsters found for '{0}'.", search);
+				this.SystemMessage(sender, "No monsters found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
@@ -441,10 +454,10 @@ namespace Melia.Channel.Util
 			for (int i = 0; entries.MoveNext() && i < max; ++i)
 			{
 				var current = entries.Current;
-				Send.ZC_CHAT(sender, "{0}: {1}", current.Id, current.Name);
+				this.SystemMessage(sender, "{0}: {1}", current.Id, current.Name);
 			}
 
-			Send.ZC_CHAT(sender, "Results: {0} (Max. {1} shown)", monsters.Count, max);
+			this.SystemMessage(sender, "Results: {0} (Max. {1} shown)", monsters.Count, max);
 
 			return CommandResult.Okay;
 		}
@@ -453,7 +466,7 @@ namespace Melia.Channel.Util
 		{
 			if (args.Length < 2)
 			{
-				Send.ZC_CHAT(sender, "Destinations: klaipeda, orsha");
+				this.SystemMessage(sender, "Destinations: klaipeda, orsha");
 				return CommandResult.InvalidArgument;
 			}
 
@@ -462,7 +475,7 @@ namespace Melia.Channel.Util
 			else if (args[1].StartsWith("ors"))
 				target.Warp("c_orsha", 271, 176, 292);
 			else
-				Send.ZC_CHAT(sender, "Unknown destination.");
+				this.SystemMessage(sender, "Unknown destination.");
 
 			return CommandResult.Okay;
 		}
@@ -471,7 +484,7 @@ namespace Melia.Channel.Util
 		{
 			target.Inventory.Clear();
 
-			Send.ZC_CHAT(sender, "Inventory cleared.");
+			this.SystemMessage(sender, "Inventory cleared.");
 
 			return CommandResult.Okay;
 		}

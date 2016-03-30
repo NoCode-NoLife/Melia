@@ -552,6 +552,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends ZC_CHAT to connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
+		public static void ZC_CHAT(ChannelConnection conn, Character character, string message)
+		{
+			var packet = new Packet(Op.ZC_CHAT);
+
+			packet.PutInt(character.Handle);
+			packet.PutString(character.TeamName, 64);
+			packet.PutString(character.Name, 65);
+			packet.PutByte(0); // -11, -60, -1, -19, 1
+			packet.PutShort((short)character.Job);
+			packet.PutInt(0); // 1, 10, 11
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutEmptyBin(2);
+			packet.PutInt(0); // 628051
+
+			// [i11257 (2016-03-25)] ?
+			{
+				packet.PutInt(1004);
+			}
+
+			packet.PutFloat(0); // Display time in seconds, min cap 5s
+			packet.PutString(message);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Send ZC_SYSTEM_MSG to character.
 		/// </summary>
 		/// <param name="character">Character to send packet to.</param>
