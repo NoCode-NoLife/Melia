@@ -75,6 +75,7 @@ namespace Melia.Channel.Scripting
 			Register(close);
 			Register(input);
 			Register(numinput);
+			Register(openshop);
 
 			// Information
 			Register(getpc);
@@ -973,6 +974,31 @@ namespace Melia.Channel.Scripting
 			map.AddMonster(monster);
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Instructs client to open the shop with the given name
+		/// and stops script until shop is closed.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string shopName
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int openshop(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+
+			var shopName = Melua.luaL_checkstring(L, 1);
+			if (shopName.Length > 32)
+				shopName = shopName.Substring(0, 32);
+
+			Melua.lua_pop(L, 1);
+
+			Send.ZC_DIALOG_TRADE(conn, shopName);
+
+			return Melua.lua_yield(L, 0);
 		}
 	}
 }
