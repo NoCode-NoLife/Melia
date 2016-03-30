@@ -186,7 +186,10 @@ namespace Melia.Channel.World
 			this.SetDirection(dx, dy);
 			this.IsMoving = false;
 
-			Send.ZC_MOVE_STOP(this, x, y, z);
+			// Sending ZC_MOVE_STOP works as well, but it doesn't have
+			// a direction, so the character stops and looks north
+			// on other's screens.
+			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 		}
 
 		/// <summary>

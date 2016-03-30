@@ -7,6 +7,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1450,6 +1451,30 @@ namespace Melia.Channel.Network
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutByte(0);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Broadcasts ZC_PC_MOVE_STOP in range of character, informing other
+		/// characters about the movement stop.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public static void ZC_PC_MOVE_STOP(Character character, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutByte(1);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutFloat(4238.274f); // ?
 
 			character.Map.Broadcast(packet, character);
 		}

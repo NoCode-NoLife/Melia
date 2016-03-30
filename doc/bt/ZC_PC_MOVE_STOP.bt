@@ -1,0 +1,20 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_PC_MOVE_STOP.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+short op;
+int sequence;
+
+int handle;
+float x;
+float y;
+float z;
+byte b1;
+float dcos;
+float dsin;
+float f1;
