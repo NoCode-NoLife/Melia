@@ -249,6 +249,9 @@ namespace Melia.Channel.Scripting
 			var NL = conn.ScriptState.NL;
 			var argc = (arguments != null ? arguments.Length : 0);
 
+			// Reset current shop in case we came from one.
+			conn.ScriptState.CurrentShop = null;
+
 			if (argc != 0)
 			{
 				foreach (var arg in arguments)
@@ -999,6 +1002,7 @@ namespace Melia.Channel.Scripting
 			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
 				return Melua.melua_error(L, "Shop '{0}' not found.", shopName);
 
+			conn.ScriptState.CurrentShop = shopName;
 			Send.ZC_DIALOG_TRADE(conn, shopName);
 
 			return Melua.lua_yield(L, 0);

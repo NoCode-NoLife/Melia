@@ -14,6 +14,11 @@ namespace Melia.Channel.Scripting
 		public IntPtr NL { get; private set; }
 		public Monster CurrentNpc { get; set; }
 
+		/// <summary>
+		/// Name of the shop currently open, null if there is no shop.
+		/// </summary>
+		public string CurrentShop { get; set; }
+
 		public ScriptState(ChannelConnection conn, IntPtr NL)
 		{
 			this.Connection = conn;
