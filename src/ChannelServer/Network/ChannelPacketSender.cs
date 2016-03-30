@@ -1425,7 +1425,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(z);
 			packet.PutFloat(dx);
 			packet.PutFloat(dy);
-			packet.PutByte(0);
+			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
 			packet.PutFloat(character.GetSpeed());
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
