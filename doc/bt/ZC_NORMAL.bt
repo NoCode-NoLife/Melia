@@ -37,6 +37,14 @@ else if(type == 0x14)
     float effectSize;
     byte bin[8];
 }
+// NPC chat bubble
+else if(type == 0x51)
+{
+    int handle;
+    lpString dialogKey; // ?
+    int i2; // disappear delay?
+    int i3; // disappear delay?
+}
 else if(type == 0xE5)
 {
     typedef struct
