@@ -105,17 +105,20 @@ namespace Melia.Channel.Util
 			message = message.Trim();
 
 			var args = this.ParseLine(message);
-			if (args.Length == 0 || !args[0].StartsWith("/"))
+			if (args.Length == 0 || (!args[0].StartsWith("/") && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix) && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix2)))
 				return false;
 
 			// Get command name
 			var isCharCommand = args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix2);
-			var commandName = args[0].TrimStart(ChannelServer.Instance.Conf.Commands.Prefix);
+			var commandName = args[0].TrimStart('/', ChannelServer.Instance.Conf.Commands.Prefix[0]);
 
 			// Get command
 			var command = this.GetCommand(commandName);
 			if (command == null)
+			{
+				Send.ZC_CHAT(character, "Command not found.");
 				return true;
+			}
 
 			// Get target
 			var target = character;

@@ -10,7 +10,7 @@ namespace Melia.Shared.Util.Configuration.Files
 		/// <summary>
 		/// Prefix for normal commands.
 		/// </summary>
-		public char Prefix { get; protected set; }
+		public string Prefix { get; protected set; }
 
 		/// <summary>
 		/// Prefix for character commands.
@@ -27,8 +27,8 @@ namespace Melia.Shared.Util.Configuration.Files
 			this.Require("system/conf/commands.conf");
 
 			// Prefix
-			this.Prefix = this.GetString("prefix", "/")[0];
-			this.Prefix2 = new string(this.Prefix, 2);
+			this.Prefix = this.GetString("prefix", "/").Substring(0, 1);
+			this.Prefix2 = this.Prefix + this.Prefix;
 
 			// Commands
 			this.Auth = new Dictionary<string, CommandAuthConf>();
