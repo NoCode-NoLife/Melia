@@ -996,6 +996,9 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, 1);
 
+			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
+				return Melua.melua_error(L, "Shop '{0}' not found.", shopName);
+
 			Send.ZC_DIALOG_TRADE(conn, shopName);
 
 			return Melua.lua_yield(L, 0);
