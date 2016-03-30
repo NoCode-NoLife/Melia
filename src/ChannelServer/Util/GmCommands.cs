@@ -115,7 +115,7 @@ namespace Melia.Channel.Util
 			// Get command
 			var command = this.GetCommand(commandName);
 			if (command == null)
-				return false;
+				return true;
 
 			// Get target
 			var target = character;
