@@ -106,6 +106,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Shops) != 0)
+				{
+					this.LoadDb(this.Data.ShopDb, "db/shops.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -203,6 +208,7 @@ namespace Melia.Shared
 		Servers = 0x08,
 		Barracks = 0x10,
 		Monsters = 0x20,
+		Shops = 0x40,
 
 		All = 0x7FFFFFFF,
 	}
