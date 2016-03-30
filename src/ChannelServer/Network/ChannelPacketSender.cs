@@ -1385,6 +1385,7 @@ namespace Melia.Channel.Network
 		/// given pose.
 		/// </summary>
 		/// <param name="conn"></param>
+		/// <param name="pose"></param>
 		public static void ZC_POSE(Character character, int pose)
 		{
 			var pos = character.Position;
@@ -1408,7 +1409,12 @@ namespace Melia.Channel.Network
 		/// characters about the movement.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="?"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+		/// <param name="unkFloat"></param>
 		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
