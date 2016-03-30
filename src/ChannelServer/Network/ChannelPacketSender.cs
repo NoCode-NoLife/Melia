@@ -1510,6 +1510,21 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends ZC_DIALOG_TRADE to connection, containing the name of the
+		/// shop to open.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="shopName"></param>
+		public static void ZC_DIALOG_TRADE(ChannelConnection conn, string shopName)
+		{
+			var packet = new Packet(Op.ZC_DIALOG_TRADE);
+
+			packet.PutString(shopName, 33);
+
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
