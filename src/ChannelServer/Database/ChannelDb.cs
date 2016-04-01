@@ -57,6 +57,7 @@ namespace Melia.Channel.Database
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
+					account.Authority = reader.GetInt32("authority");
 					account.Settings.Parse(reader.GetStringSafe("settings"));
 
 					return account;

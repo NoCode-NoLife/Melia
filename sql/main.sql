@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `name` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `teamName` varchar(64) NOT NULL,
+  `authority` int(11) NOT NULL DEFAULT '0',
   `settings` varchar(512) NOT NULL DEFAULT '',
   PRIMARY KEY (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
