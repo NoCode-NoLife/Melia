@@ -75,8 +75,8 @@ namespace Melia.Web
 			{
 				this.App.Listen(this.Conf.Web.Port);
 
-				Log.Info("ServerListURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/serverlist.xml");
-				Log.Info("StaticConfigURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/");
+				Log.Info("ServerListURL: http://*:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/serverlist.xml");
+				Log.Info("StaticConfigURL: http://*:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/");
 				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
 			catch (NHttp.NHttpException)
