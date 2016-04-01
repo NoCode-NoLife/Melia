@@ -137,7 +137,7 @@ namespace Melia.Login.Network
 		{
 			var characters = conn.Account.GetCharacters();
 			var mapAvailableCount = characters.Length;
-			var zoneServerCount = 2;
+			var zoneServerCount = 1;
 			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
