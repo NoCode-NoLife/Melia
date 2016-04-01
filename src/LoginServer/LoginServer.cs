@@ -3,6 +3,7 @@
 
 using Melia.Login.Database;
 using Melia.Login.Network;
+using Melia.Login.Util;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
@@ -72,7 +73,7 @@ namespace Melia.Login
 			Log.Status("Server ready, listening on {0}.", mgr.Address);
 
 			// Commands
-			this.ConsoleCommands = new ConsoleCommands();
+			this.ConsoleCommands = new LoginConsoleCommands();
 			this.ConsoleCommands.Wait();
 		}
 	}

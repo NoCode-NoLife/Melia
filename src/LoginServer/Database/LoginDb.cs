@@ -203,5 +203,23 @@ namespace Melia.Login.Database
 
 			return result;
 		}
+
+		/// <summary>
+		/// Changes the given account's auth level.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public bool ChangeAuth(string accountName, int level)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `name` = @accountName", conn))
+			{
+				cmd.AddParameter("@accountName", accountName);
+				cmd.Set("authority", level);
+
+				return (cmd.Execute() > 0);
+			}
+		}
 	}
 }
