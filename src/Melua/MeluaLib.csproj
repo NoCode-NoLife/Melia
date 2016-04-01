@@ -53,6 +53,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="liblua51.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="lua51.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
