@@ -12,6 +12,7 @@ namespace Melia.Login.Util
 		public LoginConsoleCommands()
 		{
 			this.Add("auth", "<account> <level>", "Changes authority level of account", HandleAuth);
+			this.Add("passwd", "<account> <password>", "Changes password of account", HandlePasswd);
 		}
 
 		private CommandResult HandleAuth(string command, IList<string> args)
@@ -41,6 +42,28 @@ namespace Melia.Login.Util
 
 			return CommandResult.Okay;
 		}
+
+		private CommandResult HandlePasswd(string command, IList<string> args)
+		{
+			if (args.Count < 3)
+			{
+				return CommandResult.InvalidArgument;
+			}
+
+			var accountName = args[1];
+			var password = args[2];
+
+			if (!LoginServer.Instance.Database.AccountExists(accountName))
+			{
+				Log.Error("Please specify an existing account.");
+				return CommandResult.Okay;
+			}
+
+			LoginServer.Instance.Database.SetAccountPassword(accountName, password);
+
+			Log.Info("Password change for {0} complete.", accountName);
+
+			return CommandResult.Okay;
 		}
 	}
 }

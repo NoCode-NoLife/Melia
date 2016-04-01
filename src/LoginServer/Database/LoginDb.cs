@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -219,6 +220,26 @@ namespace Melia.Login.Database
 				cmd.Set("authority", level);
 
 				return (cmd.Execute() > 0);
+			}
+		}
+
+		/// <summary>
+		/// Changes the given account's password.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="password"></param>
+		public void SetAccountPassword(string accountName, string password)
+		{
+			var md5 = MD5.Create();
+			var hashedPassword = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
+
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("UPDATE `accounts` SET `password` = @password WHERE `name` = @accountName", conn))
+			{
+				mc.Parameters.AddWithValue("@accountName", accountName);
+				mc.Parameters.AddWithValue("@password", hashedPassword);
+
+				mc.ExecuteNonQuery();
 			}
 		}
 	}
