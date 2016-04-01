@@ -783,8 +783,9 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var unkShort = packet.GetShort();
+			var type = packet.GetShort(); // 1 - statpints, 2 - skillpoints
 			var count = packet.GetInt();
+			//Throws exception when trying distributing skill points (count 6)
 			if (count != 5)
 				throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
 
