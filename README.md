@@ -1,6 +1,8 @@
 Melia
 ==============================
 
+[![Join the chat at https://gitter.im/aura-project/melia](https://badges.gitter.im/aura-project/melia.svg)](https://gitter.im/aura-project/melia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Melia is an open-source MMORPG server software for the international client of Tree of Savior.
 It's solely being developed for educational purposes, learning about programming, MMORPGs,
 maintaining huge projects, working with other people, and improving knowledge.
