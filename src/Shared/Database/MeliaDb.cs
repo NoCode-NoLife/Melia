@@ -123,9 +123,9 @@ namespace Melia.Shared.Database
 					cmd.Execute();
 					return true;
 				}
-				catch
+				catch (Exception ex)
 				{
-					Log.Error("Failed to create account '{0}'.", name);
+					Log.Exception(ex, "Failed to create account '{0}'.", name);
 				}
 			}
 
