@@ -6,8 +6,9 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `name` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `teamName` varchar(64) NOT NULL,
+  `settings` varchar(512) NOT NULL DEFAULT '',
   PRIMARY KEY (`accountId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `characters` (
   `characterId` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -31,15 +32,19 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `maxHp` int(11) NOT NULL DEFAULT '100',
   `sp` int(11) NOT NULL DEFAULT '50',
   `maxSp` int(11) NOT NULL DEFAULT '50',
-  `stamina` int(11) NOT NULL DEFAULT '50000',
+  `stamina` int(11) NOT NULL DEFAULT '25000',
+  `maxStamina` int(11) NOT NULL DEFAULT '25000',
   `str` float NOT NULL DEFAULT '1',
   `con` float NOT NULL DEFAULT '1',
   `int` float NOT NULL DEFAULT '1',
   `spr` float NOT NULL DEFAULT '1',
   `dex` float NOT NULL DEFAULT '1',
+  `statByLevel` float NOT NULL DEFAULT '0',
+  `statByBonus` float NOT NULL DEFAULT '0',
+  `usedStat` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`characterId`),
   KEY `accountId` (`accountId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `items` (
   `itemUniqueId` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -50,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `equipSlot` tinyint(4) NOT NULL DEFAULT '127',
   PRIMARY KEY (`itemUniqueId`),
   KEY `characterId` (`characterId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 ALTER TABLE `characters`
