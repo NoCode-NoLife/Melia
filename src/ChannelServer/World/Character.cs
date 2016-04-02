@@ -261,6 +261,8 @@ namespace Melia.Channel.World
 
 			_warping = false;
 
+			ChannelServer.Instance.Database.SaveCharacter(this);
+
 			// Get channel
 			var channelId = 1;
 			var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
