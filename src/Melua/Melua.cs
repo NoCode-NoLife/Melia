@@ -214,6 +214,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_concat(IntPtr L, int n);
 
+		// lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_atpanic(IntPtr L, LuaNativeFunction panicf);
+
 
 
 
