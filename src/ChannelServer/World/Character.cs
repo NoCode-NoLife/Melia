@@ -7,7 +7,6 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using Melia.Channel.World.Creatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +22,6 @@ namespace Melia.Channel.World
 		private object _lookAroundLock = new object();
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
-		public CreatureSkills Skills { get;  set; }
 
 		/// <summary>
 		/// Connection this character uses.
@@ -128,7 +126,6 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Speed = 30;
-			this.Skills = new CreatureSkills(this);
 		}
 
 		/// <summary>
