@@ -59,6 +59,10 @@ namespace Melia.Channel.Scripting
 			GL = Melua.luaL_newstate();
 			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
+			var func = new Melua.LuaNativeFunction(OnPanic);
+			_functions.Add(func);
+			Melua.lua_atpanic(GL, func);
+
 			// Functions
 			// --------------------------------------------------------------
 			// Output
@@ -86,6 +90,24 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
+		}
+
+		/// <summary>
+		/// Called if Lua panics.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int OnPanic(IntPtr L)
+		{
+			var error = string.Format("unprotected error in call to Lua API ({0})", Melua.lua_tostring(L, -1));
+
+			// Throwing an exception to get out of here, which should stop
+			// Lua from exiting the host process, causes a stack overflow
+			// for some reason.
+			//throw new Exception("Lua panic: " + error);
+
+			Log.Error("Lua panic: " + error);
+			return 0;
 		}
 
 		/// <summary>

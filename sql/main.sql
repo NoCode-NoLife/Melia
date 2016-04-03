@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `accountId` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `teamName` varchar(64) NOT NULL,
+  `teamName` varchar(64) NULL,
   `authority` int(11) NOT NULL DEFAULT '0',
   `settings` varchar(512) NOT NULL DEFAULT '',
   PRIMARY KEY (`accountId`)
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `characterId` bigint(20) NOT NULL AUTO_INCREMENT,
   `accountId` bigint(20) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `teamName` varchar(32) NOT NULL,
+  `teamName` varchar(32) NULL,
   `job` smallint(6) NOT NULL,
   `gender` tinyint(4) NOT NULL,
   `hair` tinyint(4) NOT NULL,
