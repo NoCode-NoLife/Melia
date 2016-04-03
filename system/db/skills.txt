@@ -1,0 +1,14 @@
+// Melia
+// Database file
+//---------------------------------------------------------------------------
+//TODO: get full skill list from client(?)
+//add max lvl, mana(?) cost, jobId, other conditions?
+[
+	{ skillId: 10001, className: "test_skill", name: "test skill 1" },
+	{ skillId: 10003, className: "test_skill", name: "test skill 2" },
+	{ skillId: 10009, className: "test_skill", name: "test skill 3" },
+	{ skillId: 10012, className: "test_skill", name: "test skill 4" },
+	{ skillId: 10013, className: "test_skill", name: "test skill 5" },
+	{ skillId: 10014, className: "test_skill", name: "test skill 6" },
+	{ skillId: 101001, className: "test_skill", name: "test skill 7" },
+]

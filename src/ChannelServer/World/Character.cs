@@ -58,15 +58,20 @@ namespace Melia.Channel.World
 		/// </summary>
 		public bool IsGrounded { get; set; }
 
-		/// <summary>
-		/// The character's inventory.
-		/// </summary>
-		public Inventory Inventory { get; protected set; }
+        /// <summary>
+        /// The character's inventory.
+        /// </summary>
+        public Inventory Inventory { get; protected set; }
 
-		/// <summary>
-		/// Returns combined weight of all items the character is currently carrying.
-		/// </summary>
-		public float NowWeight { get { return this.Inventory.GetNowWeight(); } }
+        /// <summary>
+        /// The character's skills list.
+        /// </summary>
+        public Skills Skills { get; protected set; }
+
+        /// <summary>
+        /// Returns combined weight of all items the character is currently carrying.
+        /// </summary>
+        public float NowWeight { get { return this.Inventory.GetNowWeight(); } }
 
 		/// <summary>
 		/// Stat points.
@@ -124,8 +129,9 @@ namespace Melia.Channel.World
 			this.Spr = 1;
 			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
-			this.Inventory = new Inventory(this);
-			this.Speed = 30;
+            this.Inventory = new Inventory(this);
+            this.Skills = new Skills(this);
+            this.Speed = 30;
 		}
 
 		/// <summary>

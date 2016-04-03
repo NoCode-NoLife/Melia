@@ -411,20 +411,20 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 
-			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001 };
+			//var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001 };
 
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Length); // count
+			packet.PutShort(character.Skills.Length()); // count
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
 			//packet.BeginZlib();
-			foreach (var ability in abilities)
+			foreach (var ability in character.Skills.GetSkills())
 			{
 				packet.PutLong(0); // Some kind of GUID? o.O
-				packet.PutInt(ability);
+				packet.PutInt(ability.Value.Id);
 				packet.PutShort(6); // properties size (some abilities doesn't have properties, like weapon wielding)
 				packet.PutShort(255); // ?
-				packet.PutShort(25); //Level
+				packet.PutShort(ability.Value.Level); //Level
 				packet.PutFloat(10);
 			}
 			//packet.EndZlib();
