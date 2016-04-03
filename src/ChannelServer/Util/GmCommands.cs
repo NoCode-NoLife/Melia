@@ -145,7 +145,7 @@ namespace Melia.Channel.Util
 			}
 
 			// Check authority, commands with auth < 0 are disabled.
-			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(args[0]);
+			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(commandName);
 			if ((!isCharCommand && auth.Auth < 0) || (isCharCommand && auth.CharAuth < 0))
 			{
 				this.SystemMessage(character, "This command has been disabled.");
