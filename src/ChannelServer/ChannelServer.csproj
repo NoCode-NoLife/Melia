@@ -62,8 +62,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptState.cs" />
+    <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\Character.cs" />
+    <Compile Include="World\Creatures\CreatureSkills.cs" />
     <Compile Include="World\Entity.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
