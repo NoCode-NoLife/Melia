@@ -31,6 +31,9 @@ namespace Melia.Channel.Util
 			// The required authority levels for commands can be specified
 			// in the configuration file "commands.conf".
 
+			// Official
+			Add("requpdateequip", "", HandleReqUpdateEquip);
+
 			// Normal
 			Add("where", "", HandleWhere);
 			Add("name", "<new name>", HandleName);
@@ -485,6 +488,14 @@ namespace Melia.Channel.Util
 			target.Inventory.Clear();
 
 			this.SystemMessage(sender, "Inventory cleared.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleReqUpdateEquip(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			// Command is sent when the inventory is opened, purpose unknown,
+			// officials don't seem to send anything back.
 
 			return CommandResult.Okay;
 		}
