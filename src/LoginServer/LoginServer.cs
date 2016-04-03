@@ -12,6 +12,7 @@ using Melia.Shared.Util.Commands;
 using Melia.Shared.Util.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +50,9 @@ namespace Melia.Login
 			this.Database = new LoginDb();
 			this.InitDatabase(this.Database);
 
+			// Check if there are any updates
+			this.CheckDatabaseUpdates();
+
 			// Data
 			this.LoadData(DataToLoad.All, true);
 
@@ -75,6 +79,25 @@ namespace Melia.Login
 			// Commands
 			this.ConsoleCommands = new LoginConsoleCommands();
 			this.ConsoleCommands.Wait();
+		}
+
+		private void CheckDatabaseUpdates()
+		{
+			Log.Info("Checking for updates...");
+
+			var files = Directory.GetFiles("sql");
+			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
+				this.RunUpdate(Path.GetFileName(filePath));
+		}
+
+		private void RunUpdate(string updateFile)
+		{
+			if (LoginServer.Instance.Database.CheckUpdate(updateFile))
+				return;
+
+			Log.Info("Update '{0}' found, executing...", updateFile);
+
+			LoginServer.Instance.Database.RunUpdate(updateFile);
 		}
 	}
 }
