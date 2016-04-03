@@ -238,6 +238,7 @@ namespace Melia.Channel.Database
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
+						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", (byte)item.Key);
 
 						cmd.Execute();
