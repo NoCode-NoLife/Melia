@@ -15,6 +15,7 @@ namespace Melia.Shared.Data
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
-		public ServerDb ServerDb = new ServerDb();
-	}
+        public ServerDb ServerDb = new ServerDb();
+        public SkillDb SkillDb = new SkillDb();
+    }
 }

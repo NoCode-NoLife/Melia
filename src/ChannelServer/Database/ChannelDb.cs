@@ -119,9 +119,10 @@ namespace Melia.Channel.Database
 				}
 			}
 
-			this.LoadCharacterItems(character);
+            this.LoadCharacterItems(character);
+            this.LoadCharacterSkills(character);
 
-			return character;
+            return character;
 		}
 
 		/// <summary>
@@ -164,9 +165,10 @@ namespace Melia.Channel.Database
 				cmd.Execute();
 			}
 
-			this.SaveCharacterItems(character);
+            this.SaveCharacterItems(character);
+            this.SaveCharacterSkills(character);
 
-			return false;
+            return false;
 		}
 
 		/// <summary>
@@ -200,12 +202,41 @@ namespace Melia.Channel.Database
 			}
 		}
 
-		/// <summary>
-		/// Returns items for given character.
+        /// <summary>
+		/// Load character's skills.
 		/// </summary>
 		/// <param name="characterId"></param>
 		/// <returns></returns>
-		public void SaveCharacterItems(Character character)
+		private void LoadCharacterSkills(Character character)
+        {
+            using (var conn = this.GetConnection())
+            using (var mc = new MySqlCommand("SELECT concat(jobId, skillId) as skill_id, skillId, jobId, level  FROM `skills` WHERE `characterId` = @characterId", conn))
+            {
+                mc.Parameters.AddWithValue("@characterId", character.Id);
+
+                using (var reader = mc.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var id = reader.GetInt32("skill_id");
+                        var skillId = reader.GetInt32("skillId");
+                        var jobId = reader.GetInt32("jobId");
+                        var level = reader.GetInt32("level");
+
+                        var skill = new Skill(jobId, skillId, level);
+
+                        character.Skills.Add(id, skill);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save items for given character.
+        /// </summary>
+        /// <param name="characterId"></param>
+        /// <returns></returns>
+        public void SaveCharacterItems(Character character)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
@@ -247,5 +278,40 @@ namespace Melia.Channel.Database
 				trans.Commit();
 			}
 		}
-	}
+
+        /// <summary>
+        /// Save items for given character.
+        /// </summary>
+        /// <param name="characterId"></param>
+        /// <returns></returns>
+        public void SaveCharacterSkills(Character character)
+        {
+            using (var conn = this.GetConnection())
+            using (var trans = conn.BeginTransaction())
+            {
+                // maybe we should not delete all data from DB everytime, and just update? :)
+                using (var mc = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
+                {
+                    mc.Parameters.AddWithValue("@characterId", character.Id);
+                    mc.ExecuteNonQuery();
+                }
+
+                var i = 0;
+                foreach (var skill in character.Skills.GetSkills().OrderBy(a => a.Key))
+                {
+                    using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn))
+                    {
+                        cmd.Set("characterId", character.Id);
+                        cmd.Set("jobId", skill.Value.JobId);
+                        cmd.Set("skillId", skill.Value.Id);
+                        cmd.Set("level", skill.Value.Level);
+
+                        cmd.Execute();
+                    }
+                }
+
+                trans.Commit();
+            }
+        }
+    }
 }

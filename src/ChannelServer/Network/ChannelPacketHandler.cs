@@ -806,49 +806,72 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var type = packet.GetShort(); // 1 - statpints, 2 - skillpoints
-			var count = packet.GetInt();
-			//Throws exception when trying distributing skill points (count 6)
-			if (count != 5)
-				throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
+			var type = packet.GetShort(); // 1 - statponts, 2 - skillpoints
+            var count = packet.GetInt();
 
-			var character = conn.SelectedCharacter;
+            var character = conn.SelectedCharacter;
 
-			for (int i = 0; i < count; ++i)
-			{
-				var stat = packet.GetInt();
-				if (stat == 0)
-					continue;
+            if (type == 2)
+            {
+                var job = packet.GetInt(); // jobId for which skills learned
 
-				if (character.StatPoints < stat)
-				{
-					Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
-					break;
-				}
+                if ((count - 1) != 5)
+                    throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 skills."); // is this always 5 skills?
 
-				character.UsedStat += stat;
+                for (int i = 0; i < count-1; ++i) // usually 5 skills
+                {
+                    var skill_level = packet.GetInt();
+                    if(skill_level > 0)
+                    {
+                        character.Skills.Learn(job, i, skill_level);
+                    }
+                }
+            }
 
-				switch (i)
-				{
-					case 0: character.Str += stat; break;
-					case 1: character.Con += stat; break;
-					case 2: character.Int += stat; break;
-					case 3: character.Spr += stat; break;
-					case 4: character.Dex += stat; break;
-				}
-			}
+            if (type == 1)
+            {
+			    //Throws exception when trying distributing skill points (count 6)
+			    if (count != 5)
+				    throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
 
-			Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+			    for (int i = 0; i < count; ++i)
+			    {
+				    var stat = packet.GetInt();
+				    if (stat == 0)
+					    continue;
 
-			// Official doesn't update UsedStat with this packet =<
-			Send.ZC_OBJECT_PROPERTY(character,
-				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-				ObjectProperty.PC.UsedStat
-			);
+				    if (character.StatPoints < stat)
+				    {
+					    Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+					    break;
+				    }
 
-			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
-			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
-		}
+				    character.UsedStat += stat;
+
+				    switch (i)
+				    {
+					    case 0: character.Str += stat; break;
+					    case 1: character.Con += stat; break;
+					    case 2: character.Int += stat; break;
+					    case 3: character.Spr += stat; break;
+					    case 4: character.Dex += stat; break;
+				    }
+			    }
+
+			    Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+
+			    // Official doesn't update UsedStat with this packet =<
+			    Send.ZC_OBJECT_PROPERTY(character,
+				    ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+				    ObjectProperty.PC.UsedStat
+			    );
+
+                //Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
+                //Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
+            }
+
+
+        }
 
 		/// <summary>
 		/// Sent once a minute to check ping?
