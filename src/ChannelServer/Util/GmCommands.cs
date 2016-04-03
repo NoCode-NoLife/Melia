@@ -48,6 +48,7 @@ namespace Melia.Channel.Util
 			Add("monsterinfo", "<name>", HandleMonsterInfo);
 			Add("go", "<destination>", HandleGo);
 			Add("clearinv", "", HandleClearInventory);
+			Add("touchHeal", "", HandleTestHealSkill);
 
 			// Dev
 			Add("test", "", HandleTest);
@@ -488,7 +489,16 @@ namespace Melia.Channel.Util
 
 			return CommandResult.Okay;
 		}
-	}
+
+		private CommandResult HandleTestHealSkill(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			Send.ZC_HEAL_INFO(target, 10, 100);
+			Send.ZC_UPDATE_ALL_STATUS(target, 190, 200, 60, 120);
+			Send.ZC_NORMAL_ParticleEffect(target, 1234, 1);
+
+			return CommandResult.Okay;
+		}
+    }
 
 	public class GmCommand : Command<GmCommandFunc>
 	{

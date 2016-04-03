@@ -783,47 +783,81 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var unkShort = packet.GetShort();
-			var count = packet.GetInt();
-			if (count != 5)
-				throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
-
+			var txType = packet.GetShort();
 			var character = conn.SelectedCharacter;
 
-			for (int i = 0; i < count; ++i)
+			switch (txType)
 			{
-				var stat = packet.GetInt();
-				if (stat == 0)
-					continue;
+				case 1:
+					var count = packet.GetInt();
+					if (count != 5)
+						throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
 
-				if (character.StatPoints < stat)
-				{
-					Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+					for (int i = 0; i < count; ++i)
+					{
+						var stat = packet.GetInt();
+
+						Log.Warning("stat{1}: {0}", stat, i);
+
+						if (stat == 0)
+							continue;
+
+
+						if (character.StatPoints < stat)
+						{
+							Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+							continue;
+							//break;
+						}
+
+						character.UsedStat += stat;
+
+						switch (i)
+						{
+						case 0: character.Str += stat; break;
+						case 1: character.Con += stat; break;
+						case 2: character.Int += stat; break;
+						case 3: character.Spr += stat; break;
+						case 4: character.Dex += stat; break;
+						}
+					}
+
+					Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+
+					// Official doesn't update UsedStat with this packet =<
+					Send.ZC_OBJECT_PROPERTY(character,
+					ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+					ObjectProperty.PC.UsedStat
+					);
+					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
+					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 					break;
-				}
+			case 2:
+				/// TODO
+				var jobId = packet.GetInt();
 
-				character.UsedStat += stat;
-
-				switch (i)
+				for (int skillIndex = 0; skillIndex < 4; ++skillIndex)
 				{
-					case 0: character.Str += stat; break;
-					case 1: character.Con += stat; break;
-					case 2: character.Int += stat; break;
-					case 3: character.Spr += stat; break;
-					case 4: character.Dex += stat; break;
+					var points = packet.GetInt();
+
+					Log.Warning("points{1}: {0}", points, skillIndex);
+
+					if (points == 0)
+						continue;
+
+
+					/// TODO
+					// Fake add skill - Heal for Cleric
+					if (character.Skills.Learn(jobId, skillIndex, points))
+					{
+						Send.ZC_SKILL_ADD(character, (int)Skills.SkillId.Heal);
+					}
 				}
+				break;
+			default:
+				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
+				break;
 			}
-
-			Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
-
-			// Official doesn't update UsedStat with this packet =<
-			Send.ZC_OBJECT_PROPERTY(character,
-				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-				ObjectProperty.PC.UsedStat
-			);
-
-			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
-			//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 		}
 
 		/// <summary>
@@ -835,6 +869,72 @@ namespace Melia.Channel.Network
 		public void CZ_CHECK_PING(ChannelConnection conn, Packet packet)
 		{
 			// No parameters, no response.
+		}
+
+		/// <summary>
+		/// This packet is used to cast skills in the ground
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// 
+		/// </example>
+		[PacketHandler(Op.CZ_SKILL_GROUND)]
+		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
+		{
+			var unk1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var unk2 = packet.GetInt();
+			var x1 = packet.GetFloat();
+			var y1 = packet.GetFloat();
+			var z1 = packet.GetFloat();
+			var x2 = packet.GetFloat();
+			var y2 = packet.GetFloat();
+			var z2 = packet.GetFloat();
+			var cos = packet.GetFloat();
+			var sin = packet.GetFloat();
+			var unk3 = packet.GetInt();
+			var unk6 = packet.GetByte();
+			var unk7 = packet.GetByte();
+
+			Log.Warning("CZ_SKILL_GROUND");
+			Log.Warning("unk1: {0}", unk1);
+			Log.Warning("skillId: {0}", skillId);
+			Log.Warning("unk2: {0}", unk2);
+			Log.Warning("Pos1: {0},{1},{2}", x1, x1, z1);
+			Log.Warning("Pos2: {0},{1},{2}", x2, y2, z2);
+			Log.Warning("Dir: {0},{1}", cos, sin);
+			Log.Warning("unk3: {0}", unk3);
+			Log.Warning("unk6: {0}", unk6);
+			Log.Warning("unk7: {0}", unk7);
+
+			var character = conn.SelectedCharacter;
+
+			// Check parameters
+			var packetPosition1 = new Shared.World.Position(x1, y1, z1);
+			var packetPosition2 = new Shared.World.Position(x2, y2, z2);
+			var skillPosition = new Shared.World.Position(x1, y1, z1 - 20);
+			var packetDirection = new Shared.World.Direction(cos, sin);
+
+			// Player in Attack state
+			Send.ZC_PC_ATKSTATE(character, true);
+
+			// Update caster's SP
+			Send.ZC_UPDATE_SP(character, 10);
+
+			// Skill is ready to be casted ?
+			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
+
+			// Create skill in client
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, packetDirection, true);
+
+			// Unkown Normal
+			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, packetDirection);
+
+			// Set range of effect
+			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, packetDirection);
+
+			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 		}
 	}
 }
