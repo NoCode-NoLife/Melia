@@ -678,10 +678,10 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
-			var unkInt = packet.GetInt();
+			var type = packet.GetInt(); // 1 - Close from dialog, 0 - Close with escape
 
-			// Check state
-			if (conn.ScriptState.CurrentNpc == null)
+            // Check state
+            if (conn.ScriptState.CurrentNpc == null)
 			{
 				// Don't log, can happen due to key spamming at the end
 				// of a dialog.
@@ -689,7 +689,15 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn);
+            if(type == 1)
+            {
+                ChannelServer.Instance.ScriptManager.Resume(conn);
+            }
+            else
+            {
+                Send.ZC_DIALOG_CLOSE(conn);
+                conn.ScriptState.CurrentNpc = null;
+            }
 		}
 
 		/// <summary>
