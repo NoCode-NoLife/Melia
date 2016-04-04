@@ -260,24 +260,43 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleItem(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			if (args.Length < 3)
+			if(args.Length < 2)
 				return CommandResult.InvalidArgument;
-
+			
 			int itemId;
 			int amount;
-			if (!int.TryParse(args[1], out itemId)|| (!int.TryParse(args[2], out amount)) || (amount <= 0))
-				return CommandResult.InvalidArgument;
-
-			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+			
+			if(args.Length == 2)
 			{
-				this.SystemMessage(character, "Item not found.");
+				if (!int.TryParse(args[1], out itemId))
+					return CommandResult.InvalidArgument;
+
+				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+				{
+					this.SystemMessage(character, "Item not found.");
+					return CommandResult.Okay;
+				}
+				
+				var item = new Item(itemId);
+				target.Inventory.Add(item, InventoryAddType.PickUp);
 				return CommandResult.Okay;
 			}
+			if (args.Length == 3)
+			{
+				if (!int.TryParse(args[1], out itemId) || (!int.TryParse(args[2], out amount)))
+					return CommandResult.InvalidArgument;
 
-			var item = new Item(itemId, amount);
-
-			target.Inventory.Add(item, InventoryAddType.PickUp);
-
+				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+				{
+					this.SystemMessage(character, "Item not found.");
+					return CommandResult.Okay;
+				}
+				
+				var item = new Item(itemId,amount);
+				target.Inventory.Add(item, InventoryAddType.PickUp);
+				return CommandResult.Okay;
+			}
+			
 			return CommandResult.Okay;
 		}
 
