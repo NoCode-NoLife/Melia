@@ -136,6 +136,16 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns available item index for stacking.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public long GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
+		{
+			return _items[cat].FindIndex(a => a.Id == itemId && a.Amount+amount <= a.Data.MaxStack);
+		}
+
+		/// <summary>
 		/// Returns item by world id, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
@@ -203,10 +213,28 @@ namespace Melia.Channel.World
 				if (!_items.ContainsKey(cat))
 					throw new ArgumentException("Unknown item category.");
 
-				_items[cat].Add(item);
-				_itemsWorldIndex[item.WorldId] = item;
+				var subIndex = -1;
 
-				return (int)cat * 5000 + _items[cat].Count;
+				if (item.Data.MaxStack > 1 && this.HasItem(item.Id))
+				{
+					long world_index = this.GetStackableItemIndex(cat, item.Id, item.Amount);
+					subIndex = (int) world_index;
+				}
+				
+				if (subIndex != -1 && _items[cat].Count > subIndex)
+				{
+					_items[cat][subIndex].Amount += item.Amount;
+					_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+
+					return subIndex;
+				}
+				else
+				{
+					_items[cat].Add(item);
+					_itemsWorldIndex[item.WorldId] = item;
+
+					return (int)cat * 5000 + _items[cat].Count;
+				}
 			}
 		}
 
@@ -218,8 +246,13 @@ namespace Melia.Channel.World
 		public int Add(Item item, InventoryAddType addType)
 		{
 			var index = this.AddSilent(item);
+			
+			Item tmp_item;
 
-			Send.ZC_ITEM_ADD(_character, item, index, addType);
+			tmp_item = _items[item.Data.Category][index];
+			tmp_item.Amount = item.Amount;
+
+			Send.ZC_ITEM_ADD(_character, tmp_item, index, addType);
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
 			return index;
