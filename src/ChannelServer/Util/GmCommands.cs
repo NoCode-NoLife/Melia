@@ -41,7 +41,7 @@ namespace Melia.Channel.Util
 			// GMs
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
-			Add("item", "<item id> <amount>", HandleItem);
+			Add("item", "<item id> [amount]", HandleItem);
 			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
@@ -260,43 +260,33 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleItem(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			if(args.Length < 2)
+			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
-			
+
 			int itemId;
-			int amount;
-			
-			if(args.Length == 2)
-			{
-				if (!int.TryParse(args[1], out itemId))
-					return CommandResult.InvalidArgument;
+			int amount = 1;
 
-				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
-				{
-					this.SystemMessage(character, "Item not found.");
-					return CommandResult.Okay;
-				}
-				
-				var item = new Item(itemId);
-				target.Inventory.Add(item, InventoryAddType.PickUp);
+			// Get and check id
+			if (!int.TryParse(args[1], out itemId))
+				return CommandResult.InvalidArgument;
+
+			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+			{
+				this.SystemMessage(character, "Item not found.");
 				return CommandResult.Okay;
 			}
-			if (args.Length == 3)
-			{
-				if (!int.TryParse(args[1], out itemId) || (!int.TryParse(args[2], out amount)))
-					return CommandResult.InvalidArgument;
 
-				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
-				{
-					this.SystemMessage(character, "Item not found.");
-					return CommandResult.Okay;
-				}
-				
-				var item = new Item(itemId,amount);
-				target.Inventory.Add(item, InventoryAddType.PickUp);
-				return CommandResult.Okay;
+			// Get amount
+			if (args.Length > 2)
+			{
+				if (!int.TryParse(args[2], out amount))
+					return CommandResult.InvalidArgument;
 			}
-			
+
+			// Create and add item
+			var item = new Item(itemId, amount);
+			target.Inventory.Add(item, InventoryAddType.PickUp);
+
 			return CommandResult.Okay;
 		}
 
