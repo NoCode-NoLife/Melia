@@ -6,6 +6,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -893,7 +894,7 @@ namespace Melia.Channel.Network
 			var z2 = packet.GetFloat();
 			var cos = packet.GetFloat();
 			var sin = packet.GetFloat();
-			var unk3 = packet.GetInt();
+			var unk3 = packet.GetInt(); // This seems to be "target actorId"
 			var unk6 = packet.GetByte();
 			var unk7 = packet.GetByte();
 
@@ -911,16 +912,17 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// Check parameters
-			var packetPosition1 = new Shared.World.Position(x1, y1, z1);
-			var packetPosition2 = new Shared.World.Position(x2, y2, z2);
-			var skillPosition = new Shared.World.Position(x1, y1, z1 - 20);
-			var packetDirection = new Shared.World.Direction(cos, sin);
+			var packetPosition1 = new Position(x1, y1, z1);
+			var packetPosition2 = new Position(x2, y2, z2);
+			var skillPosition = new Position(x1, y1, z1 - 20);
+			var packetDirection = new Direction(cos, sin);
 
 			// Player in Attack state
 			Send.ZC_PC_ATKSTATE(character, true);
 
 			// Update caster's SP
-			Send.ZC_UPDATE_SP(character, 10);
+			short consumedSp = 10;
+			Send.ZC_UPDATE_SP(character, consumedSp);
 
 			// Skill is ready to be casted ?
 			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
@@ -934,6 +936,7 @@ namespace Melia.Channel.Network
 			// Set range of effect
 			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, packetDirection);
 
+			// Broadcast action to all?
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 		}
 	}

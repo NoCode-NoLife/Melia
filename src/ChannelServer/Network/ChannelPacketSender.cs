@@ -1275,11 +1275,12 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		public static void ZC_EXP_UP(Character character, int exp)
+		/// <param name="jobExperience"></param>
+		public static void ZC_EXP_UP(Character character, int exp, int jobExperience)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
-			packet.PutInt(0); // jobExp?
+			packet.PutInt(jobExperience); // jobExp?
 
 			character.Connection.Send(packet);
 		}
@@ -1559,8 +1560,10 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(0.707f); // Direction
-			packet.PutFloat(0.707f); // Direction
+			//packet.PutFloat(direction.Cos); // Direction (commented out for now)
+			//packet.PutFloat(direction.Sin); // Direction (commented out for now)
+			packet.PutFloat(0.707f); // Direction TESTING PURPOSES
+			packet.PutFloat(0.707f); // Direction TESTIGN PURPOSES
 			packet.PutInt(0);
 			packet.PutFloat(distance);
 			packet.PutInt(actorId); 
@@ -1598,7 +1601,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unkown purposes when casting skills
+		/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="id"></param>
@@ -1609,16 +1612,18 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x1c);
 			packet.PutByte(0);
-			packet.PutBinFromHex("9F D2 42 0B");
-			packet.PutInt(id); // Used to be skillId, but observed 00 00 00 00 now
+			packet.PutBinFromHex("9F D2 42 0B"); // This is not a fixed value, check more packets
+			packet.PutInt(id); // Target ActorId (seems to be)
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(0.707f);
-			packet.PutFloat(0.707f);
-			packet.PutInt(0); // Unk
-			packet.PutInt(0); // Unk
-			packet.PutInt(0); // Unk
+			// packet.PutFloat(direction.Cos); // Commented out for testing purposes
+			// packet.PutFloat(direction.Sin); // Commented out for testing purposes
+			packet.PutFloat(0.707f); // Direction TEST PURPOSES
+			packet.PutFloat(0.707f); // Direction TEST PURPOSES
+			packet.PutFloat(0); // Unk
+			packet.PutFloat(0); // Unk
+			packet.PutFloat(0); // Unk
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1694,6 +1699,23 @@ namespace Melia.Channel.Network
 			packet.PutInt(maxHP);
 			packet.PutInt(currentSP);
 			packet.PutInt(maxSP);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Increases player experience by killing monsters
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="experience"></param>
+		/// <param name="jobExperience"></param>
+		/// <param name="monsterActorId"></param>
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int experience, int jobExperience, int monsterActorId)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
+			packet.PutInt(experience);
+			packet.PutInt(jobExperience);
+			packet.PutInt(monsterActorId);
 
 			character.Map.Broadcast(packet, character);
 		}
