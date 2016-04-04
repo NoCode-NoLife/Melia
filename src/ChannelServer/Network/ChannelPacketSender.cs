@@ -1573,10 +1573,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			//packet.PutFloat(direction.Cos); // Direction (commented out for now)
-			//packet.PutFloat(direction.Sin); // Direction (commented out for now)
-			packet.PutFloat(0.707f); // Direction TESTING PURPOSES
-			packet.PutFloat(0.707f); // Direction TESTIGN PURPOSES
+			packet.PutFloat(direction.Cos); // Direction (commented out for now)
+			packet.PutFloat(direction.Sin); // Direction (commented out for now)
 			packet.PutInt(0);
 			packet.PutFloat(distance);
 			packet.PutInt(actorId); 
@@ -1630,10 +1628,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			// packet.PutFloat(direction.Cos); // Commented out for testing purposes
-			// packet.PutFloat(direction.Sin); // Commented out for testing purposes
-			packet.PutFloat(0.707f); // Direction TEST PURPOSES
-			packet.PutFloat(0.707f); // Direction TEST PURPOSES
+			packet.PutFloat(direction.Cos); // Commented out for testing purposes
+			packet.PutFloat(direction.Sin); // Commented out for testing purposes
 			packet.PutFloat(0); // Unk
 			packet.PutFloat(0); // Unk
 			packet.PutFloat(0); // Unk
@@ -1658,8 +1654,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(0.707f);
-			packet.PutFloat(0.707f);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
 			packet.PutFloat(0); // Height min ?
 			packet.PutFloat(0.174533f); // Height max ?
 

@@ -940,6 +940,8 @@ namespace Melia.Channel.Network
 			var skillPosition = new Position(x1, y1, z1 - 20);
 			var packetDirection = new Direction(cos, sin);
 
+			var skillDirection = new Direction(0.707f, 0.707f);
+
 			// Player in Attack state
 			Send.ZC_PC_ATKSTATE(character, true);
 
@@ -951,13 +953,13 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
 
 			// Create skill in client
-			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, packetDirection, true);
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
 
 			// Unkown Normal
-			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, packetDirection);
+			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
 
 			// Set range of effect
-			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, packetDirection);
+			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
 
 			// Broadcast action to all?
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
