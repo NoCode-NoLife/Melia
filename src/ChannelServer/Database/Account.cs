@@ -34,7 +34,7 @@ namespace Melia.Channel.Database
 		/// The account's authority level, used to determine if a character
 		/// can use a specific GM command.
 		/// </summary>
-		public int Authority { get { return 100; } }
+		public int Authority { get; set; }
 
 		/// <summary>
 		/// The account's settings.

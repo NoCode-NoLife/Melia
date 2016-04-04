@@ -658,6 +658,13 @@ namespace Melia.Channel.Network
 		{
 			var option = packet.GetByte();
 
+			// Check state
+			if (conn.ScriptState.CurrentNpc == null)
+			{
+				Log.Debug("CZ_DIALOG_SELECT: Null NPC.");
+				return;
+			}
+
 			ChannelServer.Instance.ScriptManager.Resume(conn, option);
 		}
 
@@ -673,6 +680,15 @@ namespace Melia.Channel.Network
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
 			var unkInt = packet.GetInt();
+
+			// Check state
+			if (conn.ScriptState.CurrentNpc == null)
+			{
+				// Don't log, can happen due to key spamming at the end
+				// of a dialog.
+				//Log.Debug("CZ_DIALOG_ACK: Null NPC.");
+				return;
+			}
 
 			ChannelServer.Instance.ScriptManager.Resume(conn);
 		}
@@ -690,6 +706,13 @@ namespace Melia.Channel.Network
 		{
 			var input = packet.GetString(16);
 			//var unkBin = packet.GetBin(138 - 16 - 10);
+
+			// Check state
+			if (conn.ScriptState.CurrentNpc == null)
+			{
+				Log.Debug("CZ_DIALOG_STRINGINPUT: Null NPC.");
+				return;
+			}
 
 			ChannelServer.Instance.ScriptManager.Resume(conn, input);
 		}

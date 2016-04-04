@@ -45,6 +45,12 @@ else if(type == 0x51)
     int i2; // disappear delay?
     int i3; // disappear delay?
 }
+// ?
+else if(type == 0x139)
+{
+    lpString sessionKey;
+}
+// ?
 else if(type == 0xE5)
 {
     typedef struct

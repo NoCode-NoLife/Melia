@@ -31,6 +31,9 @@ namespace Melia.Channel.Util
 			// The required authority levels for commands can be specified
 			// in the configuration file "commands.conf".
 
+			// Official
+			Add("requpdateequip", "", HandleReqUpdateEquip);
+
 			// Normal
 			Add("where", "", HandleWhere);
 			Add("name", "<new name>", HandleName);
@@ -149,7 +152,7 @@ namespace Melia.Channel.Util
 			}
 
 			// Check authority, commands with auth < 0 are disabled.
-			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(args[0]);
+			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(commandName);
 			if ((!isCharCommand && auth.Auth < 0) || (isCharCommand && auth.CharAuth < 0))
 			{
 				this.SystemMessage(character, "This command has been disabled.");
@@ -519,6 +522,14 @@ namespace Melia.Channel.Util
 			Send.ZC_JOB_EXP_UP(target, jobExp);
 			// Send.ZC_SKILL_HIT_INFO(target, target, 10);
 			// Send.ZC_EXP_UP_BY_MONSTER(target, exp, jobExp, 1234);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleReqUpdateEquip(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			// Command is sent when the inventory is opened, purpose unknown,
+			// officials don't seem to send anything back.
 
 			return CommandResult.Okay;
 		}

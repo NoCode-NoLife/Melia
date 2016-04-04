@@ -47,11 +47,11 @@ namespace MeluaLib
 
 
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl‌)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int LuaNativeFunction(IntPtr L);
 
 		// typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl‌)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void lua_Hook(IntPtr L, IntPtr ar);
 
 		// LUALIB_API lua_State *luaL_newstate(void)
@@ -213,6 +213,10 @@ namespace MeluaLib
 		// LUA_API void lua_concat (lua_State *L, int n)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_concat(IntPtr L, int n);
+
+		// lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_atpanic(IntPtr L, LuaNativeFunction panicf);
 
 
 

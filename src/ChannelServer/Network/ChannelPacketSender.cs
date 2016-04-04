@@ -1378,32 +1378,45 @@ namespace Melia.Channel.Network
 				packet.PutLpString("SharedConst");
 				packet.PutShort(2); // row count
 				{
-					packet.PutInt(250);
-					packet.PutShort(1); // col count
-					{
-						packet.PutLpString("Value");
-						packet.PutShort(1); // patch count
-						{
-							packet.PutInt(10);
-							packet.PutLpString("1");
-							packet.PutLpString("8.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2015-11-2");
-							packet.PutLpString("Change By Tool");
-						}
-					}
-
 					packet.PutInt(251);
 					packet.PutShort(1); // col count
 					{
 						packet.PutLpString("Value");
-						packet.PutShort(1); // patch count
+						packet.PutShort(5); // patch count
 						{
-							packet.PutInt(9);
-							packet.PutLpString("1");
-							packet.PutLpString("8.00");
+							packet.PutInt(6);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
 							packet.PutLpString("YEJI");
-							packet.PutLpString("2015-11-2");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(5);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(4);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(3);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(2);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
 							packet.PutLpString("Change By Tool");
 						}
 					}
