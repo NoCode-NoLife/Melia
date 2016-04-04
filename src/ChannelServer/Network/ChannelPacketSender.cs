@@ -727,12 +727,12 @@ namespace Melia.Channel.Network
 		/// <param name="item"></param>
 		/// <param name="index"></param>
 		/// <param name="addType"></param>
-		public static void ZC_ITEM_ADD(Character character, Item item, int index, InventoryAddType addType)
+		public static void ZC_ITEM_ADD(Character character, Item item, int index, InventoryAddType addType, int diff)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
 			packet.PutLong(item.WorldId);
-			packet.PutInt(item.Amount);
+			packet.PutInt(diff);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
 			packet.PutShort(0); // Size of the object at the end
