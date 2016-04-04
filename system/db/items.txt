@@ -2055,7 +2055,7 @@
 { itemId: 640005, className: "Drug_SP1", name: "Small SP Potion", category: 6, weight: 10, maxStack: 32767 },
 { itemId: 640006, className: "Drug_SP2", name: "SP Potion", category: 6, weight: 15, maxStack: 32767 },
 { itemId: 640007, className: "Drug_SP3", name: "Large SP Potion", category: 6, weight: 20, maxStack: 32767 },
-{ itemId: 640008, className: "Drug_STA1", name: "Stamina Pill", category: 6, weight: 10, maxStack: 32767 },
+{ itemId: 640008, className: "Drug_STA1", name: "Stamina Pill", category: 6, weight: 10, maxStack: 10 },
 { itemId: 640009, className: "Drug_STA2", name: "Stamina Pill", category: 6, weight: 15, maxStack: 32767 },
 { itemId: 640010, className: "Drug_STA3", name: "STA Pill (Large)", category: 6, weight: 20, maxStack: 32767 },
 { itemId: 640011, className: "Drug_HPSP1", name: "Small Recovery Potion", category: 6, weight: 15, maxStack: 32767 },

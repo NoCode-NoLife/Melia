@@ -38,6 +38,8 @@ namespace Melia.Channel.World
 			_itemsWorldIndex = new Dictionary<long, Item>();
 
 			_character = character;
+
+			this.Debug();
 		}
 
 		/// <summary>
@@ -142,7 +144,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public long GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
 		{
-			return _items[cat].FindIndex(a => a.Id == itemId && a.Amount+amount <= a.Data.MaxStack);
+			return _items[cat].FindIndex(a => a.Id == itemId && a.Amount < a.Data.MaxStack);
 		}
 
 		/// <summary>
@@ -204,37 +206,79 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="item"></param>
 		/// <return>Index of the item.</return>
-		public int AddSilent(Item item)
+		public List<int> AddSilent(Item item)
 		{
 			var cat = item.Data.Category;
-
 			lock (_syncLock)
 			{
+				List<int> items_updated = new List<int>();
+
 				if (!_items.ContainsKey(cat))
 					throw new ArgumentException("Unknown item category.");
 
 				var subIndex = -1;
+				var expected_amount = item.Amount;
 
 				if (item.Data.MaxStack > 1 && this.HasItem(item.Id))
 				{
-					long world_index = this.GetStackableItemIndex(cat, item.Id, item.Amount);
-					subIndex = (int) world_index;
-				}
-				
-				if (subIndex != -1 && _items[cat].Count > subIndex)
-				{
-					_items[cat][subIndex].Amount += item.Amount;
-					_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+					int item_index = subIndex;
+					while (expected_amount > 0)
+					{
+						long world_index = this.GetStackableItemIndex(cat, item.Id, item.Amount);
+						subIndex = (int)world_index;
+						if (subIndex != -1 && _items[cat].Count > subIndex)
+						{
+							var possible_add_to_current_stack = _items[cat][subIndex].Data.MaxStack - _items[cat][subIndex].Amount;
+							Log.Debug("possible add {0}  - expected {1}", possible_add_to_current_stack, expected_amount);
 
-					return subIndex;
+							if(expected_amount > possible_add_to_current_stack)
+							{
+								_items[cat][subIndex].Amount += possible_add_to_current_stack;
+								_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+
+								Log.Debug("added PART to stack {0} - {1}pcs", subIndex, possible_add_to_current_stack);
+
+								expected_amount -= possible_add_to_current_stack;
+								item.Amount -= possible_add_to_current_stack;
+							}
+							else
+							{
+								_items[cat][subIndex].Amount += expected_amount;
+								_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+
+								Log.Debug("added ALL to stack {0} - {1}pcs", subIndex, expected_amount);
+
+								expected_amount -= expected_amount;
+								item.Amount -= expected_amount;
+							}
+
+							item_index = subIndex;
+							items_updated.Add(item_index);
+						}
+						else
+						{
+							// Hope that we cant get at once more than MaxStack of item, so here we skip checking amount if added item
+							_items[cat].Add(item);
+							_itemsWorldIndex[item.WorldId] = item;
+							Log.Debug("add new");
+
+							expected_amount -= expected_amount;
+							item_index = _items[cat].Count - 1;
+							items_updated.Add(item_index);
+						}
+						subIndex = -1;
+					}
 				}
 				else
 				{
 					_items[cat].Add(item);
 					_itemsWorldIndex[item.WorldId] = item;
-
-					return (int)cat * 5000 + _items[cat].Count;
+					Log.Debug("add new");
+					items_updated.Add(_items[cat].Count - 1);
+					//items.Add(items[cat].Count - 1);
 				}
+
+				return items_updated;
 			}
 		}
 
@@ -245,17 +289,39 @@ namespace Melia.Channel.World
 		/// <return>Index of the item.</return>
 		public int Add(Item item, InventoryAddType addType)
 		{
-			var index = this.AddSilent(item);
-			
-			Item tmp_item;
+			//this.Debug();
+			for (int i = 0; i < _items[item.Data.Category].Count; ++i)
+				Log.Debug("BEFORE    {0} ({1}) : {2} {3}pcs", (int)item.Data.Category * 5000 + 1 + i, i, _items[item.Data.Category][i].Data.ClassName, _items[item.Data.Category][i].Amount);
 
-			tmp_item = _items[item.Data.Category][index];
-			tmp_item.Amount = item.Amount;
+			List<int> indexes = this.AddSilent(item);
 
-			Send.ZC_ITEM_ADD(_character, tmp_item, index, addType);
+			int last_index = indexes.Last();
+
+			//this.Debug();
+			for (int i = 0; i < _items[item.Data.Category].Count; ++i)
+				Log.Debug("AFTER    {0} ({1}) : {2} {3}pcs", (int)item.Data.Category * 5000 + 1 + i, i, _items[item.Data.Category][i].Data.ClassName, _items[item.Data.Category][i].Amount);
+
+			foreach (int index in indexes)
+			{
+				Log.Debug("index: {0}", index);
+				// For some reason sending directly item in ZC_ITEM_ADD crashing client(but it worked before my code)
+				// So i added tmp var for sending with changed amount(not all stack amount)
+				Item tmp_item;
+
+				tmp_item = _items[item.Data.Category][index];
+				addType = InventoryAddType.NotNew;
+
+				if (index == last_index)
+				{
+					tmp_item.Amount = item.Amount;
+					addType = InventoryAddType.PickUp;
+				}
+
+				Send.ZC_ITEM_ADD(_character, tmp_item, (int)item.Data.Category * 5000 + 1 + index, addType);
+			}
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
-			return index;
+			return last_index;
 		}
 
 		/// <summary>
@@ -455,7 +521,7 @@ namespace Melia.Channel.World
 			{
 				Log.Debug("  {0}", category.Key);
 				for (int i = 0; i < category.Value.Count; ++i)
-					Log.Debug("    {0} : {1}", (int)category.Key * 5000 + 1 + i, category.Value[i].Data.ClassName);
+					Log.Debug("    {0} ({1}) : {2} {3}pcs", (int)category.Key * 5000 + 1 + i, i, category.Value[i].Data.ClassName, category.Value[i].Amount);
 			}
 
 			Log.Debug("Equip");
