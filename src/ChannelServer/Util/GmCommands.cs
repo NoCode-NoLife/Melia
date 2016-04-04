@@ -48,11 +48,14 @@ namespace Melia.Channel.Util
 			Add("monsterinfo", "<name>", HandleMonsterInfo);
 			Add("go", "<destination>", HandleGo);
 			Add("clearinv", "", HandleClearInventory);
-			Add("touchHeal", "", HandleTestHealSkill);
+			Add("addexp", "<exp> <jobExp>", HandleAddExperience);
 
 			// Dev
 			Add("test", "", HandleTest);
 			Add("reloadscripts", "", HandleReloadScripts);
+
+			// Testing purposes
+			Add("touchHeal", "", HandleTestHealSkill);
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
@@ -498,7 +501,28 @@ namespace Melia.Channel.Util
 
 			return CommandResult.Okay;
 		}
-    }
+
+		private CommandResult HandleAddExperience(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 3)
+				return CommandResult.InvalidArgument;
+
+			int exp;
+			if (!int.TryParse(args[1], out exp))
+				return CommandResult.InvalidArgument;
+
+			int jobExp;
+			if (!int.TryParse(args[2], out jobExp))
+				return CommandResult.InvalidArgument;
+
+			Send.ZC_EXP_UP(target, exp, jobExp);
+			Send.ZC_JOB_EXP_UP(target, jobExp);
+			// Send.ZC_SKILL_HIT_INFO(target, target, 10);
+			// Send.ZC_EXP_UP_BY_MONSTER(target, exp, jobExp, 1234);
+
+			return CommandResult.Okay;
+		}
+	}
 
 	public class GmCommand : Command<GmCommandFunc>
 	{
