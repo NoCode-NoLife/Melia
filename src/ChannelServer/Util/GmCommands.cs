@@ -41,7 +41,7 @@ namespace Melia.Channel.Util
 			// GMs
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
-			Add("item", "<item id>", HandleItem);
+			Add("item", "<item id> [amount]", HandleItem);
 			Add("spawn", "<monster id>", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
@@ -264,6 +264,9 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 
 			int itemId;
+			int amount = 1;
+
+			// Get and check id
 			if (!int.TryParse(args[1], out itemId))
 				return CommandResult.InvalidArgument;
 
@@ -273,8 +276,15 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			var item = new Item(itemId);
+			// Get amount
+			if (args.Length > 2)
+			{
+				if (!int.TryParse(args[2], out amount))
+					return CommandResult.InvalidArgument;
+			}
 
+			// Create and add item
+			var item = new Item(itemId, amount);
 			target.Inventory.Add(item, InventoryAddType.PickUp);
 
 			return CommandResult.Okay;

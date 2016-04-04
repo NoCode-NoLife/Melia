@@ -16,6 +16,8 @@ namespace Melia.Channel.World
 	{
 		private static long _worldId = 0x0050000000000000;
 
+		private int _amount;
+
 		/// <summary>
 		/// Returns the item's id.
 		/// </summary>
@@ -27,9 +29,17 @@ namespace Melia.Channel.World
 		public ItemData Data { get; private set; }
 
 		/// <summary>
-		/// Returns the amount of the item.
+		/// Gets or sets the item's amount, does not update the client.
 		/// </summary>
-		public int Amount { get; set; }
+		public int Amount
+		{
+			get { return _amount; }
+			set
+			{
+				var max = (this.Data != null ? this.Data.MaxStack : 1);
+				_amount = Math2.Clamp(1, max, value);
+			}
+		}
 
 		/// <summary>
 		/// Item's world id...?
@@ -51,12 +61,12 @@ namespace Melia.Channel.World
 		/// <param name="amount"></param>
 		public Item(int itemId, int amount = 1)
 		{
+			// Set id and load data, so we have data to work with.
 			this.Id = itemId;
-			this.Amount = Math.Max(1, amount);
-			this.WorldId = Interlocked.Increment(ref _worldId);
-			this.Price = 1;
-
 			this.LoadData();
+
+			this.WorldId = Interlocked.Increment(ref _worldId);
+			this.Amount = amount;
 		}
 
 		/// <summary>
