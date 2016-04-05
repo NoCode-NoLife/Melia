@@ -1,3 +1,7 @@
+addnpc(40001,"Tenet Garden","f_katyn_13_3",522,198,-1938,45,"DummyCall")
+addnpc(40001,"Dvasia Peak","f_katyn_13_3",-2252,197,1338,225,"DummyCall")
+addnpc(40001,"Septyni Glen","f_katyn_13_3",-937,197,-2022,225,"DummyCall")
+addnpc(40001,"Letas Stream","f_katyn_13_3",-52,201,2609,135,"DummyCall")
 addnpc(20026,"The quest for the hidden trigger(for skill checks)","f_katyn_13_3",-227.26,198.2,-1965.17,45,"DummyCall")
 addnpc(20023,"Sword Master","f_katyn_13_3",-403,198.2,-1878.91,45,"DummyCall")
 addnpc(20022,"Archer Master","f_katyn_13_3",-313.73,198.2,-2113.53,45,"DummyCall")

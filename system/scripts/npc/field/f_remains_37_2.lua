@@ -1,0 +1,8 @@
+addnpc(147469,"First Tree","f_remains_37_2",-1777.89,-39.58,66.47,45,"DummyCall")
+addnpc(147469,"Second Tree","f_remains_37_2",-1641.72,-39.58,365.78,45,"DummyCall")
+addnpc(147469,"Third Tree","f_remains_37_2",-1332.29,-39.58,-31.04,45,"DummyCall")
+addnpc(20026,"REMAINS37_2_SQ_080_The trigger to create a session","f_remains_37_2",-1521.22,-39.58,64.42,45,"DummyCall")
+addnpc(147366,"Field Gen x","f_remains_37_2",-1517.24,-39.58,142.74,45,"DummyCall")
+addnpc(147362,"Field Gen x","f_remains_37_2",1836.616,-92.30966,-425.5205,45,"DummyCall")
+addnpc(147362,"Field Gen x","f_remains_37_2",-761.6555,98.89569,1600.826,45,"DummyCall")
+addnpc(147392,"Lv1 Treasure Chest","f_remains_37_2",-426.58,2.6,394.91,-90,"DummyCall")

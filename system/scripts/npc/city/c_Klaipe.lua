@@ -1,4 +1,3 @@
---[NPC]
 addnpc(20115,"[Item Merchant]{nl}           Mirina","c_Klaipe",510.7029,-1.292879,-349.3194,45,"DummyCall")
 addnpc(20111,"[Equipment Merchant]{nl}                 Dunkel","c_Klaipe",394,-1,-475,45,"DummyCall")
 addnpc(20104,"[Accessory Merchant]{nl}                Ronesa","c_Klaipe",268.7077,-1.343773,-610.9401,45,"DummyCall")
@@ -39,8 +38,7 @@ addnpc(154018,"[Storage Keeper]{nl}                  Rita","c_Klaipe",262.0322,7
 addnpc(57224,"[Oracle Master]{nl}Apolonjia Barbora","c_Klaipe",-893.4678,240.3878,74.93089,45,"DummyCall")
 addnpc(154039,"Statue of Goddess Ausrine","c_Klaipe",-206.574,148.8251,98.63973,0,"DummyCall")
 addnpc(20068,"[TP Trader]{nl}   Leticia","c_Klaipe",285,79,78,45,"DummyCall")
-addnpc(47239,"[Dievdirbys Master]{nl}      Sculptor Tesla","c_Klaipe",-751.0155,260.8254,-362.2574,-90,"DummyCall")
 
 function DummyCall()
-	msg("Soon")
+	msg("Dummy")
 end

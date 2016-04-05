@@ -1,0 +1,6 @@
+addnpc(20029,"[Highlander Master]{nl}       Douglas Black","c_highlander",6,0,59,45,"DummyCall")
+addnpc(20026,"Highlander Hidden Quest","c_highlander",83.49036,0.7928,69.78707,45,"DummyCall")
+addnpc(57253,"Practice Post (Fire)","c_highlander",-32,0,-31,45,"DummyCall")
+addnpc(57254,"Practice Post (Poison)","c_highlander",28,0,-31,45,"DummyCall")
+addnpc(57255,"Practice Post (Lightning)","c_highlander",146,0,92,45,"DummyCall")
+addnpc(57256,"Practice Post (Earth)","c_highlander",142,0,28,45,"DummyCall")
