@@ -465,7 +465,7 @@ namespace Melia.Channel.World
 				}
 
 				modifiedCategories.Add(item.Data.Category);
-				Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			}
 
 			// Update categories
