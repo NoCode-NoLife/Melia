@@ -136,6 +136,21 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns amount of items with the given id in the inventory.
+		/// </summary>
+		/// <remarks>
+		/// Stacks count as the amount of items in the stack.
+		/// E.g.: One stack with 10 HP potions results in a count of 10.
+		/// </remarks>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public int CountItem(int itemId)
+		{
+			lock (_syncLock)
+				return _items.SelectMany(a => a.Value).Sum(a => a.Amount);
+		}
+
+		/// <summary>
 		/// Returns item by world id, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
