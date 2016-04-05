@@ -1,0 +1,5 @@
+addnpc(20026,"The quest for the hidden trigger(for skill checks)","f_katyn_13_2",-227.26,198.2,-1965.17,45,"DummyCall")
+addnpc(20023,"Sword Master","f_katyn_13_2",-403,198.2,-1878.91,45,"DummyCall")
+addnpc(20022,"Archer Master","f_katyn_13_2",-313.73,198.2,-2113.53,45,"DummyCall")
+addnpc(20021,"Wizard Master","f_katyn_13_2",-312.74,198.2,-1747.03,-29.48,"DummyCall")
+addnpc(20112,"Cleric Master","f_katyn_13_2",-192.13,198.2,-2135.66,45,"DummyCall")

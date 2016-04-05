@@ -1,0 +1,6 @@
+addnpc(151037,"Mercenary Post Manager Rota","c_request_1",-46,0,-96,45,"DummyCall")
+addnpc(20117,"Receptionist Brandon","c_request_1",-30.97364,6.803148,-11.82858,-57,"DummyCall")
+addnpc(154054,"Receptionist Liam","c_request_1",-30.97364,6.803148,-11.82858,-57,"DummyCall")
+addnpc(147372,"Request Bulletin Board","c_request_1",-104,4,-20,45,"DummyCall")
+addnpc(147484,"Receptionist Ramda","c_request_1",84.53972,0.2498,-165.2381,107,"DummyCall")
+addnpc(151039,"Receptionist Donnes","c_request_1",106,0,-15,-57,"DummyCall")
