@@ -85,6 +85,10 @@ namespace Melia.Channel.Scripting
 			Register(getnpc);
 			Register(gettime);
 
+			// Inventory
+			Register(hasitem);
+			Register(countitem);
+
 			// Action
 			Register(warp);
 			Register(resetstats);
@@ -995,6 +999,58 @@ namespace Melia.Channel.Scripting
 			map.AddMonster(monster);
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Returns true if character has items with the given id.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// 
+		/// Result:
+		/// - bool hasItem?
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int hasitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var result = character.Inventory.HasItem(itemId);
+			Melua.lua_pushboolean(L, result);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns amount of items with the given id in character's inventory.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// 
+		/// Result:
+		/// - int amount
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int countitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var result = character.Inventory.CountItem(itemId);
+			Melua.lua_pushinteger(L, result);
+
+			return 1;
 		}
 	}
 }
