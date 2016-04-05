@@ -140,9 +140,9 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <returns></returns>
-		public long GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
+		public int GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
 		{
-			return _items[cat].FindIndex(a => a.Id == itemId && a.Amount < a.Data.MaxStack);
+			return (int)_items[cat].FindIndex(a => a.Id == itemId && a.Amount < a.Data.MaxStack);
 		}
 
 		/// <summary>
@@ -204,71 +204,62 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="item"></param>
 		/// <return>Index of the item.</return>
-		public List<object> AddSilent(Item item)
+		public Dictionary<int, int> AddSilent(Item item)
 		{
 			var cat = item.Data.Category;
 			lock (_syncLock)
 			{
-				List<object> items_updated = new List<object>();
+				Dictionary<int, int> itemsUpdated = new Dictionary<int, int>();
 
 				if (!_items.ContainsKey(cat))
 					throw new ArgumentException("Unknown item category.");
 
-				var subIndex = -1;
-				var expected_amount = item.Amount;
+				var inventoryIndex = -1;
+				var expectedAmount = item.Amount;
 
 				if (item.Data.MaxStack > 1 && this.HasItem(item.Id))
 				{
-					int item_index = subIndex;
-					while (expected_amount > 0)
+					int itemIndex = inventoryIndex;
+					while (expectedAmount > 0)
 					{
-						long inventory_index = this.GetStackableItemIndex(cat, item.Id, item.Amount);
-						subIndex = (int)inventory_index;
-						if (subIndex != -1 && _items[cat].Count > subIndex)
+						inventoryIndex = this.GetStackableItemIndex(cat, item.Id, item.Amount);
+						if (inventoryIndex != -1 && _items[cat].Count > inventoryIndex)
 						{
-							var possible_add_to_current_stack = _items[cat][subIndex].Data.MaxStack - _items[cat][subIndex].Amount;
+							var spaceInStack = _items[cat][inventoryIndex].Data.MaxStack - _items[cat][inventoryIndex].Amount;
 
-							if(expected_amount > possible_add_to_current_stack)
+							if (expectedAmount > spaceInStack)
 							{
-								_items[cat][subIndex].Amount += possible_add_to_current_stack;
-								_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+								_items[cat][inventoryIndex].Amount += spaceInStack;
+								_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
 
-								expected_amount -= possible_add_to_current_stack;
-								item.Amount -= possible_add_to_current_stack;
+								expectedAmount -= spaceInStack;
+								item.Amount -= spaceInStack;
 							}
 							else
 							{
-								possible_add_to_current_stack = expected_amount;
-								_items[cat][subIndex].Amount += possible_add_to_current_stack;
-								_itemsWorldIndex[_items[cat][subIndex].WorldId] = _items[cat][subIndex];
+								spaceInStack = expectedAmount;
+								_items[cat][inventoryIndex].Amount += spaceInStack;
+								_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
 
-								expected_amount -= possible_add_to_current_stack;
-								item.Amount -= possible_add_to_current_stack;
+								expectedAmount -= spaceInStack;
+								item.Amount -= spaceInStack;
 							}
 
-							item_index = subIndex;
-							items_updated.Add(new { index = item_index, diff = possible_add_to_current_stack });
+							itemIndex = inventoryIndex;
+							itemsUpdated[itemIndex] = spaceInStack;
 						}
-						else
-						{
-							_items[cat].Add(item);
-							_itemsWorldIndex[item.WorldId] = item;
-
-							item_index = _items[cat].Count - 1;
-							items_updated.Add(new { index = item_index, diff = expected_amount });
-							expected_amount -= expected_amount;
-						}
-						subIndex = -1;
+						inventoryIndex = -1;
 					}
 				}
-				else
+				
+				if (item.Amount > 0) // Check if item have some pcs after stacking cycle
 				{
 					_items[cat].Add(item);
 					_itemsWorldIndex[item.WorldId] = item;
-					items_updated.Add(new { index = _items[cat].Count - 1, diff = item.Amount });
+					itemsUpdated[_items[cat].Count - 1] = item.Amount;
 				}
 
-				return items_updated;
+				return itemsUpdated;
 			}
 		}
 
@@ -279,17 +270,17 @@ namespace Melia.Channel.World
 		/// <return>Index of the item.</return>
 		public int Add(Item item, InventoryAddType addType)
 		{
-			List<object> indexes = this.AddSilent(item);
+			Dictionary<int, int> indexes = this.AddSilent(item);
 
-			object last_item = indexes.Last();
-			int last_index = (int)last_item.GetType().GetProperty("index").GetValue(last_item);
+			var lastItem = indexes.Last();
+			int lastIndex = lastItem.Key;
 
-			foreach (object item_object in indexes)
+			foreach (var itemObject in indexes)
 			{
-				int index = (int)item_object.GetType().GetProperty("index").GetValue(item_object);
-				int diff = (int)item_object.GetType().GetProperty("diff").GetValue(item_object);
+				int index = itemObject.Key;
+				int diff = itemObject.Value;
 				
-				if (index == last_index)
+				if (index == lastIndex)
 				{
 					addType = InventoryAddType.PickUp;
 				}
@@ -302,7 +293,7 @@ namespace Melia.Channel.World
 			}
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
-			return last_index;
+			return lastIndex;
 		}
 
 		/// <summary>
