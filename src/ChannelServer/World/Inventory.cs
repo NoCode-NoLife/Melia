@@ -125,7 +125,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns true if and items with the given id exist in the inventory.
+		/// Returns true if an item with the given id exist in the inventory.
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <returns></returns>
