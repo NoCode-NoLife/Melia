@@ -147,7 +147,7 @@ namespace Melia.Channel.World
 		public int CountItem(int itemId)
 		{
 			lock (_syncLock)
-				return _items.SelectMany(a => a.Value).Sum(a => a.Amount);
+				return _items.SelectMany(a => a.Value).Where(a => a.Id == itemId).Sum(a => a.Amount);
 		}
 
 		/// <summary>
