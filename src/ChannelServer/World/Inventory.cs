@@ -241,25 +241,18 @@ namespace Melia.Channel.World
 						inventoryIndex = this.GetStackableItemIndex(cat, item.Id, item.Amount);
 						if (inventoryIndex != -1 && _items[cat].Count > inventoryIndex)
 						{
-							var spaceInStack = _items[cat][inventoryIndex].Data.MaxStack - _items[cat][inventoryIndex].Amount;
+							var spaceInStack = item.Data.MaxStack - _items[cat][inventoryIndex].Amount;
 
-							if (expectedAmount > spaceInStack)
-							{
-								_items[cat][inventoryIndex].Amount += spaceInStack;
-								_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
-
-								expectedAmount -= spaceInStack;
-								item.Amount -= spaceInStack;
-							}
-							else
+							if (expectedAmount <= spaceInStack)
 							{
 								spaceInStack = expectedAmount;
-								_items[cat][inventoryIndex].Amount += spaceInStack;
-								_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
-
-								expectedAmount -= spaceInStack;
-								item.Amount -= spaceInStack;
 							}
+
+							_items[cat][inventoryIndex].Amount += spaceInStack;
+							_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
+
+							expectedAmount -= spaceInStack;
+							item.Amount -= spaceInStack;
 
 							itemIndex = inventoryIndex;
 							itemsUpdated[itemIndex] = spaceInStack;
