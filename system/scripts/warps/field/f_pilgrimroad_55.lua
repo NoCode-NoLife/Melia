@@ -1,0 +1,6 @@
+addwarp("PILGRIM55_CATHEDRAL54",105,"f_pilgrimroad_55",1614.564,242.4188,40.79414,"d_cathedral_54",-1717,3,-563)
+addwarp("PILGRIM55_CATHEDRAL54_RE",124,"f_pilgrimroad_55",-576.0657,331.8564,776.1403,"d_cathedral_54",-1478,3,1000)
+addwarp("REMAINS37_ROKAS31",0,"f_pilgrimroad_55",-1292,989,-2944,"f_rokas_31",553,107,-1337)
+addwarp("REMAINS37_REMAINS38",131,"f_pilgrimroad_55",564,1428,3367,"f_remains_38",-1382,326,-2101)
+addwarp("REMAINS37_PCATHEDRAL1",315,"f_pilgrimroad_55",485,1121,-2623,"p_cathedral_1",55,0,191)
+addwarp("REMAINS37_REMAINS37_1",115,"f_pilgrimroad_55",-72.25984,1296.627,2797.046,"f_remains_37_1",2061,315,-689)
