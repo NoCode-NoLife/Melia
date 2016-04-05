@@ -1,5 +1,3 @@
-addnpc(40001,"Absenta Reservoir","f_castle_65_2",1518.875,-8.393936,-757.2734,47,"DummyCall")
-addnpc(40001,"Delmore Manor","f_castle_65_2",-2031.778,-8.345245,812.2982,-134,"DummyCall")
 addnpc(155113,"Mage Melchioras","f_castle_65_2",291.2146,81.94332,-266.9242,-50,"DummyCall")
 addnpc(155094,"Revelator Mihail","f_castle_65_2",353.9705,81.94332,-262.9122,-32,"DummyCall")
 addnpc(155094,"Revelator Mihail","f_castle_65_2",328.5318,81.7554,196.9516,171,"DummyCall")

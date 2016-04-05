@@ -7,8 +7,6 @@ addnpc(151029,"Supply Box","d_underfortress_66",1802.241,217.2803,499.5822,140,"
 addnpc(151029,"Supply Box","d_underfortress_66",1887.613,217.2803,441.2185,45,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_66",1250,136.59,-205,11,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_66",1932.612,217.2803,285.0096,185,"DummyCall")
-addnpc(40001,"Sentry Bailey","d_underfortress_66",1286.9,90.98642,-310.5479,-42,"DummyCall")
-addnpc(40001,"Resident Quarter","d_underfortress_66",-603.3459,163.2954,-85.16348,-131,"DummyCall")
 addnpc(10032,"The guard that fell behind","d_underfortress_66",-704.6179,269.9763,-515.9953,104,"DummyCall")
 addnpc(10032,"The guard that fell behind","d_underfortress_66",-193.5704,269.9763,-529.5256,45,"DummyCall")
 addnpc(10032,"The guard that fell behind","d_underfortress_66",155.6169,269.9763,-1265.672,153,"DummyCall")

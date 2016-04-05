@@ -1,7 +1,3 @@
-addnpc(40001,"Zachariel Crossroads","d_zachariel_32",40001,30,261,-2378,"DummyCall")
-addnpc(40001,"Royal Mausoleum 2F","d_zachariel_32",40001,32,309,2908,"DummyCall")
-addnpc(40001,"Ramstis Ridge","d_zachariel_32",40001,-1418,241,-2154,"DummyCall")
-addnpc(40001,"Tiltas Valley","d_zachariel_32",40001,1080,243,-2147,"DummyCall")
 addnpc(40064,"Power Source Dedication Container","d_zachariel_32",11120,57,336,377,"DummyCall")
 addnpc(40064,"Power Source Dedication Container","d_zachariel_32",11120,43,336,-25,"DummyCall")
 addnpc(45136,"Tree Root Crystal","d_zachariel_32",11120,-42,252,-1078,"DummyCall")

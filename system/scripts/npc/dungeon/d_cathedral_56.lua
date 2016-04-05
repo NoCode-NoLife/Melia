@@ -1,4 +1,3 @@
-addnpc(40001,"Grand Corridor","d_cathedral_56",2216.753,0,471.9221,49,"DummyCall")
 addnpc(151033,"Bishop Aurelius' Spirit","d_cathedral_56",2149.983,0.4988,583.7394,8,"DummyCall")
 addnpc(147312,"Torn Page","d_cathedral_56",1737.574,0,726.4625,13,"DummyCall")
 addnpc(147312,"Torn Page","d_cathedral_56",1864.347,0.4988,116.6427,-12,"DummyCall")
@@ -30,7 +29,6 @@ addnpc(151022,"Cursed Orb","d_cathedral_56",-1597.06,0.4988,-356.9529,159,"Dummy
 addnpc(151022,"Cursed Orb","d_cathedral_56",-1514.441,0.4988,-566.8978,-61,"DummyCall")
 addnpc(147362,"Field Gen x","d_cathedral_56",2148.417,0.4988,483.0188,45,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","d_cathedral_56",-21.49,0.6,-18.27,45,"DummyCall")
-addnpc(40001,"Grand Corridor","d_cathedral_56",2216.753,0,471.9221,49,"DummyCall")
 addnpc(151033,"Bishop Aurelius' Spirit","d_cathedral_56",2149.983,0.4988,583.7394,8,"DummyCall")
 addnpc(147312,"Torn Page","d_cathedral_56",1737.574,0,726.4625,13,"DummyCall")
 addnpc(147312,"Torn Page","d_cathedral_56",1864.347,0.4988,116.6427,-12,"DummyCall")

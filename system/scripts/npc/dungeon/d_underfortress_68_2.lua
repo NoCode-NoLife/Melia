@@ -5,5 +5,4 @@ addnpc(47121,"Sicarius Magic Circle","d_underfortress_68_2",-1011.5,70.59944,-16
 addnpc(47121,"Sicarius Magic Circle","d_underfortress_68_2",1153.845,170.8876,-111.9792,45,"DummyCall")
 addnpc(151003,"Life Intensive Device","d_underfortress_68_2",-74.95103,70.2952,-760.6068,45,"DummyCall")
 addnpc(151003,"Demonic Power Intensive Device","d_underfortress_68_2",574.6874,70.2952,-779.8019,45,"DummyCall")
-addnpc(40001,"Sicarius 1F","d_underfortress_68_2",-1111.805,226.0502,-88.86646,221,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","d_underfortress_68_2",174.68,70.4,-851.87,180,"DummyCall")

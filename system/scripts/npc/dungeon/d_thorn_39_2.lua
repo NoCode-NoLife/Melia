@@ -1,6 +1,3 @@
-addnpc(40001,"Spring Light Woods","d_thorn_39_2",-2053.881,-245.5255,-1604.47,-45,"DummyCall")
-addnpc(40001,"Viltis Forest","d_thorn_39_2",-75.92445,-118.3517,-1810.932,-85,"DummyCall")
-addnpc(40001,"Laukyme Swamp","d_thorn_39_2",-2372.47,0.4277,1310.14,218,"DummyCall")
 addnpc(147405,"Hunter Tracking Leader Mintz","d_thorn_39_2",14.35386,-78.29043,864.4207,-52,"DummyCall")
 addnpc(155043,"Senior Monk Potos","d_thorn_39_2",-1331.267,-119.5394,259.0499,28,"DummyCall")
 addnpc(155044,"Monk Wiley","d_thorn_39_2",-1369.406,-119.5394,461.5731,-44,"DummyCall")

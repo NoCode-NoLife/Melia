@@ -1,5 +1,4 @@
 addnpc(147449,"Grita","d_firetower_43",-2555,525,-190,-15,"DummyCall")
-addnpc(40001,"Mage Tower 2F","d_firetower_43",-2473,494,-294,20,"DummyCall")
 addnpc(147500,"Mage Tower 4F","d_firetower_43",1808.94,526.84,694.11,45,"DummyCall")
 addnpc(151050,"Sealed Stone","d_firetower_43",-460,322,-831,45,"DummyCall")
 addnpc(151050,"Sealed Stone","d_firetower_43",1306,432,-910,45,"DummyCall")

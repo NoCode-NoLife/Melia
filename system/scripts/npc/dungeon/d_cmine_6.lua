@@ -1,6 +1,3 @@
-addnpc(40001,"Crystal Mine 2F","d_cmine_6",-2147,360,-1590,207,"DummyCall")
-addnpc(40001,"Closed Area","d_cmine_6",170.2973,183.1937,-161.5383,70,"DummyCall")
-addnpc(40001,"Outside the Closed Area","d_cmine_6",1625,289,2069,-112,"DummyCall")
 addnpc(151014,"Crystal Wall of the Closed Area","d_cmine_6",129.08,183.64,-112.43,-41,"DummyCall")
 addnpc(151009,"Miner","d_cmine_6",-1187.67,303.49,104.16,-17,"DummyCall")
 addnpc(151012,"Girl","d_cmine_6",-1206.57,303.49,87.32,27,"DummyCall")

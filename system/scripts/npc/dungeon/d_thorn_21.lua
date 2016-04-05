@@ -1,4 +1,3 @@
-addnpc(40001,"Sirdgela Forest","d_thorn_21",40001,-412,221,8,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_thorn_21",11120,72.77144,221.2254,5.612289,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_thorn_21",11120,921.461,332.3606,163.803,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_thorn_21",11120,1247.637,331.9713,90.39395,"DummyCall")
@@ -44,7 +43,6 @@ addnpc(147389,"Believer Bronius","d_thorn_21",0,3652.089,400.7516,-188.2299,"Dum
 addnpc(147366,"Field Gen x","d_thorn_21",0,5836.896,333.2023,-141.57,"DummyCall")
 addnpc(147366,"Field Gen x","d_thorn_21",0,2560.942,122.08,-1217.193,"DummyCall")
 addnpc(147366,"Field Gen x","d_thorn_21",0,3107.056,332.3721,1181.158,"DummyCall")
-addnpc(40001,"Sunset Flag Forest","d_thorn_21",0,985,208,-1505,"DummyCall")
 addnpc(147386,"Believer Samantha","d_thorn_21",0,692.3442,222.5578,-899.9255,"DummyCall")
 addnpc(147398,"Believer Kazis","d_thorn_21",0,1497.871,331.9713,196.3502,"DummyCall")
 addnpc(147397,"Believer Jurga","d_thorn_21",0,-110.9604,221.2254,161.2125,"DummyCall")

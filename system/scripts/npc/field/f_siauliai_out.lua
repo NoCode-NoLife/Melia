@@ -1,7 +1,4 @@
-addnpc(40001,"Eastern Woods","f_siauliai_out",500,37,-2241,-64.98,"DummyCall")
-addnpc(40001,"Crystal Mine","f_siauliai_out",-213,245,-17,-120,"DummyCall")
 addnpc(20026,"Crystal Mine unseal track","f_siauliai_out",-213,245,-17,-120,"DummyCall")
-addnpc(40001,"Srautas Gorge","f_siauliai_out",1832,43,-578,40,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_siauliai_out",190.5049,42.7921,-1214.24,-45,"DummyCall")
 addnpc(20025,"Hidden house of Krivis","f_siauliai_out",-152.3597,151.8962,-215.2353,45,"DummyCall")
 addnpc(46212,"Relief Box","f_siauliai_out",-1086,42,-1522,130,"DummyCall")

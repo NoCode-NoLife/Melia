@@ -1,4 +1,3 @@
-addnpc(40001,"Dina Bee Farm","f_siauliai_47_4",1478,225,343,46,"DummyCall")
 addnpc(151024,"Bichiu Altar","f_siauliai_47_4",-227.36,148.22,-960.28,-45,"DummyCall")
 addnpc(151024,"Gaudeji Altar ","f_siauliai_47_4",-260.58,148.22,-979.75,15,"DummyCall")
 addnpc(147499,"Lamar","f_siauliai_47_4",1370,149,-695,-15,"DummyCall")

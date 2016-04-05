@@ -29,7 +29,6 @@ addnpc(147500,"Anti-gravity Magic Circle","d_startower_60_1",-1875.505,-13.6018,
 addnpc(147392,"Mysterious Box of Legwyn Family","d_startower_60_1",-229.3618,75.8448,1267.745,225,"DummyCall")
 addnpc(151045,"Magic Astral Lamp","d_startower_60_1",1786.096,-106.1569,-450.3302,45,"DummyCall")
 addnpc(151046,"Giant Star Stone","d_startower_60_1",1728.265,-106.157,734.7443,-45,"DummyCall")
-addnpc(40001,"Forest of Prayer","d_startower_60_1",-81.22099,-92.9196,-2128.663,225,"DummyCall")
 addnpc(147366,"Gate Entrance x","d_startower_60_1",-38.83996,-106.1569,-2278.133,45,"DummyCall")
 addnpc(147366,"Gate Entrance x","d_startower_60_1",-1848.947,75.8448,1280.544,45,"DummyCall")
 addnpc(147366,"Gate Entrance x","d_startower_60_1",-1881.415,-13.6018,1049.811,45,"DummyCall")

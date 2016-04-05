@@ -1,5 +1,3 @@
-addnpc(40001,"Paupys Crossing","d_prison_62_1",-573.2256,325.8499,-1387.141,225,"DummyCall")
-addnpc(40001,"Ashaq Underground Prison 2F","d_prison_62_1",-563.5114,326.1425,355.3305,135,"DummyCall")
 addnpc(155044,"Priest Pranas","d_prison_62_1",-600.8414,325.6651,-177.6949,45,"DummyCall")
 addnpc(147403,"Chaser Torvana","d_prison_62_1",-370.7415,325.4491,-142.4711,-43,"DummyCall")
 addnpc(147406,"Chaser Daramaus","d_prison_62_1",-373.3052,325.8085,-196.5345,128,"DummyCall")

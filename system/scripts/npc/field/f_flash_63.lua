@@ -1,5 +1,3 @@
-addnpc(40001,"Roxona Market","f_flash_63",-100,435,1555,135,"DummyCall")
-addnpc(40001,"Verkti Square","f_flash_63",-875,510,-378,315,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_flash_63",-99.65971,435.358,1297.89,-45,"DummyCall")
 addnpc(154021,"[Knights of Kaliss]{nl}Chronomancer Sabina","f_flash_63",-1061.378,511.1575,140.2957,148,"DummyCall")
 addnpc(10033,"[Royal Army]{nl} Nomabis","f_flash_63",-133.004,435.358,1427.027,-39,"DummyCall")
@@ -46,5 +44,4 @@ addnpc(147364,"Gate Entrance x","f_flash_63",-872.7717,511.1575,-388.9532,45,"Du
 addnpc(147364,"Gate Entrance x","f_flash_63",-80.44366,435.358,1459.657,45,"DummyCall")
 addnpc(147364,"Gate Entrance x","f_flash_63",-78.80817,435.358,1333.99,45,"DummyCall")
 addnpc(147364,"Gate Entrance x","f_flash_63",-1073.021,511.1575,164.216,45,"DummyCall")
-addnpc(40001,"Vedas Plateau","f_flash_63",452.1687,435.358,1631.381,87,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_flash_63",-735.61,511.26,189.44,-45,"DummyCall")

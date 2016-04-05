@@ -1,5 +1,3 @@
-addnpc(40001,"Rukas Plateau","f_rokas_31",1019,148,-1097,0,"DummyCall")
-addnpc(40001,"Zachariel Crossroads","f_rokas_31",-1773,215,-116,218,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_31",1329,148,-429,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_31",602,326,354,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_31",-622,215,-314,18,"DummyCall")
@@ -21,7 +19,6 @@ addnpc(147366,"Field Gen x","f_rokas_31",961.0912,148.1685,-951.2369,45,"DummyCa
 addnpc(147363,"Field Gen x","f_rokas_31",1137.24,148.17,-502.44,45,"DummyCall")
 addnpc(147362,"Field Gen x","f_rokas_31",1407.99,284.07,652.19,45,"DummyCall")
 addnpc(147362,"Field Gen x","f_rokas_31",1593.11,284.07,446.59,45,"DummyCall")
-addnpc(40001,"Escanciu Village","f_rokas_31",-209,347,893,135,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_rokas_31",825.83,148.17,-989.87,45,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_31",-501.57,215.75,7.04,45,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_31",-118.13,348.69,639,45,"DummyCall")

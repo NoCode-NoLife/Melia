@@ -1,6 +1,3 @@
-addnpc(40001,"Gele Plateau","f_gele_57_4",-509.8248,-107.0824,-1593.792,-40,"DummyCall")
-addnpc(40001,"Tenet Garden","f_gele_57_4",199.4143,284.1678,1157.455,135,"DummyCall")
-addnpc(40001,"Veja Ravine","f_gele_57_4",-1357.6,172.8364,-739.9471,-99,"DummyCall")
 addnpc(147413,"Tree Guard Post Barrier","f_gele_57_4",249,-21,-733,45,"DummyCall")
 addnpc(147413,"Pumpura Hill Barrier","f_gele_57_4",823,122,90,45,"DummyCall")
 addnpc(147380,"Destroyed Barrier Piece ","f_gele_57_4",-568.3183,-12.9178,-914.6847,45,"DummyCall")
@@ -41,6 +38,5 @@ addnpc(147362,"Field Gen x","f_gele_57_4",199.8917,284.1678,1163.188,45,"DummyCa
 addnpc(147366,"Field Gen x","f_gele_57_4",283.7517,281.9593,539.5409,45,"DummyCall")
 addnpc(147366,"Field Gen x","f_gele_57_4",92.34354,350.0658,-176.3521,45,"DummyCall")
 addnpc(147362,"Field Gen x","f_gele_57_4",-1313.142,168.4398,-670.6988,45,"DummyCall")
-addnpc(40001,"Thaumas Trail","f_gele_57_4",1494.618,-109.2913,-711.321,45,"DummyCall")
 addnpc(147364,"Field Gen x","f_gele_57_4",1495.091,-109.2913,-708.5871,45,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_gele_57_4",1150.08,217.61,817.83,45,"DummyCall")

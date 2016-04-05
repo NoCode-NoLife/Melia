@@ -1,5 +1,3 @@
-addnpc(40001,"Crystal Mine 3F","d_cmine_8",-2956,73,-328,206,"DummyCall")
-addnpc(40001,"Crystal Mine Lot 2 - 2F","d_cmine_8",972,-93,1375,135,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_cmine_8",-1560,71,-11,45,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_cmine_8",-1052,-63,-1160,45,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_cmine_8",36,8,-194,45,"DummyCall")

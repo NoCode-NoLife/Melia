@@ -1,5 +1,3 @@
-addnpc(40001,"Vieta Gorge","f_huevillage_58_4",418.0233,-86.7077,-1834.006,-50,"DummyCall")
-addnpc(40001,"Septyni Glen","f_huevillage_58_4",-1129.885,22.14493,-29.77028,162,"DummyCall")
 addnpc(147408,"Andale Village Priest","f_huevillage_58_4",438.8962,-117.4459,-598.1819,45,"DummyCall")
 addnpc(147396,"Andale Village Headman","f_huevillage_58_4",562.931,-117.3718,-844.8317,45,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",1106.01,-86.70766,-482.9238,45,"DummyCall")
@@ -48,7 +46,6 @@ addnpc(47486,"Caro","f_huevillage_58_4",1906.931,-86.70766,-739.2008,45,"DummyCa
 addnpc(147366,"Field Gen x","f_huevillage_58_4",-242.5046,-116.7212,307.2094,45,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",-842.3743,-2.914215,-646.389,45,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",-344.104,-116.7209,-572.1367,45,"DummyCall")
-addnpc(40001,"Tenants' Farm","f_huevillage_58_4",-223.0459,-88.07333,-1545.6,-39,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",1148.064,-86.70765,-341.0403,45,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",1024.764,-86.7077,-862.1282,45,"DummyCall")
 addnpc(47486,"Caro","f_huevillage_58_4",-967.9277,23.28656,-439.4487,45,"DummyCall")

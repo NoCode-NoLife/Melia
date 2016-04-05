@@ -1,7 +1,4 @@
 addnpc(45132,"Tree Root Crystal","f_katyn_13",1091.251,139.095,-971.4561,45,"DummyCall")
-addnpc(40001,"Karolis Springs","f_katyn_13",91.85896,249.4645,-1597.516,-45,"DummyCall")
-addnpc(40001,"Pelke Shrine Ruins","f_katyn_13",2241.357,248.1873,1140.637,70,"DummyCall")
-addnpc(40001,"Gateway of the Great King","f_katyn_13",-1489.632,503.5217,2365.628,135,"DummyCall")
 addnpc(48004,"Guide Owl","f_katyn_13",-1937.02,396.3694,-1180.278,-45,"DummyCall")
 addnpc(151077,"Liaison Officer Mardas","f_katyn_13",-128.543,249.4645,-936.373,0,"DummyCall")
 addnpc(20026,"Evil Aura","f_katyn_13",-331.65,250.5442,279.2071,45,"DummyCall")

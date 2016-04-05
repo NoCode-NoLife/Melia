@@ -1,5 +1,3 @@
-addnpc(40001,"Feretory Hills","f_pilgrimroad_36_2",-1874,125,-1345,-124.38,"DummyCall")
-addnpc(40001,"Sutatis Trade Route","f_pilgrimroad_36_2",991.4526,185.8888,1720.131,140,"DummyCall")
 addnpc(154052,"Pardoner Erikas","f_pilgrimroad_36_2",-1219.034,125.4098,-1658.298,45,"DummyCall")
 addnpc(154051,"Squire Williya","f_pilgrimroad_36_2",-1162.229,125.4098,-1679.45,210,"DummyCall")
 addnpc(154053,"Gailus Legwyn","f_pilgrimroad_36_2",-510.813,0.1919056,-723.6839,-28,"DummyCall")

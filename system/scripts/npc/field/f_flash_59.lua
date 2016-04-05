@@ -1,5 +1,3 @@
-addnpc(40001,"Coastal Fortress","f_flash_59",-159.4244,407.6,-2051.354,-42,"DummyCall")
-addnpc(40001,"Inner Fortress District","f_flash_59",2241.041,410.9541,-1197.672,45,"DummyCall")
 addnpc(156023,"Svitrigaila","f_flash_59",-231.9707,407.5999,-954.7818,-33,"DummyCall")
 addnpc(147364,"There is no regeneration of monsters","f_flash_59",-248.9047,407.1871,-935.7498,45,"DummyCall")
 addnpc(154023,"Petrified Soldier","f_flash_59",-0.2210999,285.162,-585.1302,-43,"DummyCall")

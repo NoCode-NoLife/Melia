@@ -1,4 +1,3 @@
-addnpc(40001,"Nahash Forest","f_farm_47_1",-1460.112,10.93515,1176.225,215,"DummyCall")
 addnpc(147364,"No Field Gen","f_farm_47_1",-1459.947,10.93515,1175.967,45,"DummyCall")
 addnpc(156030,"Kabbalist Lutas","f_farm_47_1",146.2341,224.3551,447.2502,45,"DummyCall")
 addnpc(156030,"Kabbalist Lutas","f_farm_47_1",-567.0117,172.6379,2054.977,225,"DummyCall")

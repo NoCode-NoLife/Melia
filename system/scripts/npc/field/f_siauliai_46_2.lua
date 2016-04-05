@@ -1,5 +1,3 @@
-addnpc(40001,"Fasika Plateau","f_siauliai_46_2",0,-624,262,-1875,"DummyCall")
-addnpc(40001,"Vera Coast","f_siauliai_46_2",0,-1352.522,261.9619,-111.1866,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_siauliai_46_2",0,-1776.323,261.9619,-982.201,"DummyCall")
 addnpc(147372,"Scarecrow","f_siauliai_46_2",0,1714.453,389.8096,934.5892,"DummyCall")
 addnpc(156024,"Lucienne Winterspoon","f_siauliai_46_2",0,-1548.812,261.9619,-956.882,"DummyCall")

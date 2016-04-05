@@ -1,6 +1,3 @@
-addnpc(40001,"Baron Allerno ","f_farm_47_2",1527.472,6.3046,-1336.256,-21,"DummyCall")
-addnpc(40001,"Aqueduct Bridge Area","f_farm_47_2",-1546.429,-41.2164,-34.85143,222,"DummyCall")
-addnpc(40001,"Cobalt Forest","f_farm_47_2",235.616,1.4482,1471.119,133,"DummyCall")
 addnpc(155036,"Leader Horacius","f_farm_47_2",-779.2629,-41.2164,-472.164,45,"DummyCall")
 addnpc(147481,"Tauras","f_farm_47_2",-369.1054,-41.21638,203.5685,-42,"DummyCall")
 addnpc(147473,"Albina","f_farm_47_2",413.7454,6.3046,-329.0145,45,"DummyCall")

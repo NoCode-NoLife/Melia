@@ -57,7 +57,6 @@ addnpc(154060,"Firewood","f_siauliai_35_1",-866.8481,74.8518,1209.555,45,"DummyC
 addnpc(154060,"Firewood","f_siauliai_35_1",-343.0114,74.8518,1183.323,45,"DummyCall")
 addnpc(154060,"Firewood","f_siauliai_35_1",-676.3331,74.8518,898.0013,45,"DummyCall")
 addnpc(47223,"Firewood","f_siauliai_35_1",-482,75,1531,-103,"DummyCall")
-addnpc(40001,"Orsha","f_siauliai_35_1",2353.054,25.3504,392.2148,69,"DummyCall")
 addnpc(147366,"Gate Entrance x","f_siauliai_35_1",305.0279,25.3504,-279.9912,45,"DummyCall")
 addnpc(147366,"Gate Entrance x","f_siauliai_35_1",-2559.198,115.9076,-1687.223,45,"DummyCall")
 addnpc(147366,"Gate Entrance x","f_siauliai_35_1",-1851.037,65.41323,-1255.377,45,"DummyCall")

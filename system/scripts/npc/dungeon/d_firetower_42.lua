@@ -4,7 +4,6 @@ addnpc(47398,"Voodoo Doll","d_firetower_42",-147.9846,73.164,-661.0316,45,"Dummy
 addnpc(47398,"Voodoo Doll","d_firetower_42",1889.128,28.4253,-1414.159,45,"DummyCall")
 addnpc(47398,"Voodoo Doll","d_firetower_42",995.329,71.2507,85.54171,45,"DummyCall")
 addnpc(147500,"Mage Tower 1F","d_firetower_42",2547.029,71.5563,-125.3858,45,"DummyCall")
-addnpc(40001,"Mage Tower 3F","d_firetower_42",-933,2,-2391,50,"DummyCall")
 addnpc(147449,"Grita","d_firetower_42",2458,70,-53,0,"DummyCall")
 addnpc(20026,"Flame Vapor","d_firetower_42",1931,25,-1195,45,"DummyCall")
 addnpc(20026,"Flame Vapor","d_firetower_42",2018,25,-1558,45,"DummyCall")

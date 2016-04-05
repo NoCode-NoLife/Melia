@@ -1,7 +1,3 @@
-addnpc(40001,"Glade Hillroad","d_thorn_39_3",3191.466,-2.6014,169.0617,126,"DummyCall")
-addnpc(40001,"Tyla Monastery","d_thorn_39_3",-1937.176,124.8062,1262.35,197,"DummyCall")
-addnpc(40001,"Uskis Arable Land","d_thorn_39_3",1285.156,181.1645,-2261.436,-43,"DummyCall")
-addnpc(40001,"Mokusul Chamber","d_thorn_39_3",74.70003,-7.9863,-1006.845,209,"DummyCall")
 addnpc(155042,"Senior Monk Goss","d_thorn_39_3",1341.82,80.3404,-530.0268,-3,"DummyCall")
 addnpc(147404,"Hunter Natasha","d_thorn_39_3",1560.039,80.3404,-492.4253,-43,"DummyCall")
 addnpc(155046,"Monk Jones","d_thorn_39_3",1232.263,80.3404,-778.3516,45,"DummyCall")

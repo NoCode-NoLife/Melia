@@ -1,6 +1,3 @@
-addnpc(40001,"King's Plateau","f_rokas_36_1",40001,940,107,-953,"DummyCall")
-addnpc(40001,"Royal Mausoleum 1F","f_rokas_36_1",40001,-1271,274,760,"DummyCall")
-addnpc(40001,"Stele Road","f_rokas_36_1",40001,470,107,-1354,"DummyCall")
 addnpc(41441,"Hogma Captain","f_rokas_36_1",400621,-661.9323,235.6906,51.65171,"DummyCall")
 addnpc(45134,"Tree Root Crystal","f_rokas_36_1",11120,-30,107,-444,"DummyCall")
 addnpc(47413,"Rexipher","f_rokas_36_1",20123,656,107,-1166,"DummyCall")

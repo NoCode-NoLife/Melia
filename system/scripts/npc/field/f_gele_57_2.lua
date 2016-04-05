@@ -1,5 +1,3 @@
-addnpc(40001,"Miners' Village","f_gele_57_2",-1662,168,-1176,225,"DummyCall")
-addnpc(40001,"Gele Plateau","f_gele_57_2",640,267,1489,135,"DummyCall")
 addnpc(147406,"Watcher Gilbert","f_gele_57_2",-352,168,-564,45,"DummyCall")
 addnpc(57571,"Panto","f_gele_57_2",-1399.758,276.3425,-44.12083,45,"DummyCall")
 addnpc(47204,"Grass Dummy","f_gele_57_2",-1385.33,276.34,683.5,45,"DummyCall")

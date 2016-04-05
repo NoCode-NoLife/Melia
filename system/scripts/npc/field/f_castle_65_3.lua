@@ -1,6 +1,3 @@
-addnpc(40001,"Delmore Hamlet","f_castle_65_3",2234.639,1.219482,-155.3014,44,"DummyCall")
-addnpc(40001,"Delmore Outskirts","f_castle_65_3",-1341.433,187.3789,169.3732,223,"DummyCall")
-addnpc(40001,"Feretory Hills","f_castle_65_3",1128.304,51.82474,2440.078,134,"DummyCall")
 addnpc(155113,"Mage Melchioras","f_castle_65_3",1149.069,-10.51855,-281.3019,32,"DummyCall")
 addnpc(155094,"Revelator Mihail","f_castle_65_3",1188.846,-10.51855,-350.1032,76,"DummyCall")
 addnpc(11282,"Follower Bigs","f_castle_65_3",1424.451,-10.51855,-2.292876,-49,"DummyCall")

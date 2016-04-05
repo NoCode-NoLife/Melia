@@ -1,5 +1,3 @@
-addnpc(40001,"Tiltas Valley","f_rokas_30",2612,469,819,135,"DummyCall")
-addnpc(40001,"King's Plateau","f_rokas_30",-1413,617,-2079,-107,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_30",2292,472,107,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_30",1089,471,275,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_30",-725,682,516,18,"DummyCall")
@@ -21,7 +19,6 @@ addnpc(153053,"Zachariel's Epitaph","f_rokas_30",1073.307,657.8233,-819.9244,-18
 addnpc(153053,"Zachariel's Epitaph","f_rokas_30",1343,470,311,-18,"DummyCall")
 addnpc(153053,"Zachariel's Epitaph","f_rokas_30",-680,681,360,-18,"DummyCall")
 addnpc(153053,"Zachariel's Epitaph","f_rokas_30",-332,680,-398,-18,"DummyCall")
-addnpc(40001,"Mullers Passage","f_rokas_30",-2114,782,1614,135,"DummyCall")
 addnpc(47190,"Epitaph","f_rokas_30",-484.457,617.1353,-2083.193,60,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_30",1098.351,657.8989,-691.6019,45,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_30",2539.802,468.4164,802.6813,45,"DummyCall")

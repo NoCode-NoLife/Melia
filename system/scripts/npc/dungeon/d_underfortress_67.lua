@@ -1,6 +1,4 @@
-addnpc(40001,"Drill Ground of Confliction","d_underfortress_67",31.74275,287.775,-1661.218,-78,"DummyCall")
 addnpc(147362,"Field Gen x","d_underfortress_67",60.31936,287.775,-1616.72,45,"DummyCall")
-addnpc(40001,"Storage Quarter","d_underfortress_67",350.6508,178.9258,545.6928,131,"DummyCall")
 addnpc(147362,"Field Gen x","d_underfortress_67",347.6227,197.042,476.2216,45,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_67",95.13548,287.775,-1444.122,45,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_67",-821.046,59.18683,-1075.802,126,"DummyCall")
@@ -15,4 +13,3 @@ addnpc(155023,"Mushroom","d_underfortress_67",1845.789,426.1689,-1411.205,45,"Du
 addnpc(155023,"Mushroom","d_underfortress_67",1155.378,203.5717,-852.9885,54,"DummyCall")
 addnpc(11283,"The soldier with the resentment","d_underfortress_67",1776,370.92,802,-45,"DummyCall")
 addnpc(155023,"Mushroom","d_underfortress_67",1282.825,449.2484,-327.5097,45,"DummyCall")
-addnpc(40001,"Ruklys Hall of Fame","d_underfortress_67",884.1856,185.1662,2.983585,-68,"DummyCall")

@@ -1,5 +1,3 @@
-addnpc(40001,"Tenet Garden","d_chapel_57_5",-1258,1,1163,135,"DummyCall")
-addnpc(40001,"Tenet Church 1F","d_chapel_57_5",627,1,-565,135,"DummyCall")
 addnpc(147399,"Follower Tomas","d_chapel_57_5",-489,-38,618,-45,"DummyCall")
 addnpc(147400,"Follower Tiberius","d_chapel_57_5",140.07,-39.42,588.18,-45,"DummyCall")
 addnpc(147400,"Follower Vaidas","d_chapel_57_5",-359.66,0.55,-94.15,-11,"DummyCall")

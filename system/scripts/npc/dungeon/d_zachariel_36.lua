@@ -1,5 +1,3 @@
-addnpc(40001,"Royal Mausoleum 3F","d_zachariel_36",1631,93,-1277,148,"DummyCall")
-addnpc(40001,"Royal Mausoleum 5F","d_zachariel_36",-202,-75,692,-11.31,"DummyCall")
 addnpc(20026,"Hidden Quest NPC Summon","d_zachariel_36",732,-51,850,45,"DummyCall")
 addnpc(47254,"Royal Mausoleum Blueprint","d_zachariel_36",1154,-52,-1341,-35,"DummyCall")
 addnpc(47252,"Royal Mausoleum Blueprint","d_zachariel_36",1161.14,-52.88,-292.09,-29,"DummyCall")

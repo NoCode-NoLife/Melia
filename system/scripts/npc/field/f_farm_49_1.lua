@@ -1,5 +1,3 @@
-addnpc(40001,"Baron Allerno ","f_farm_49_1",1034.62,204.7459,56.88991,45,"DummyCall")
-addnpc(40001,"Aqueduct Bridge Area","f_farm_49_1",-2181.688,-9.4181,430.9418,-126,"DummyCall")
 addnpc(147405,"Baron Secretary Arunas","f_farm_49_1",741.5431,204.7459,222.3735,-89,"DummyCall")
 addnpc(147425,"Wizard Rimas","f_farm_49_1",-525.8115,71.5415,615.8725,-59,"DummyCall")
 addnpc(155017,"Baron Allerno","f_farm_49_1",-476.3035,71.5415,613.97,-90,"DummyCall")

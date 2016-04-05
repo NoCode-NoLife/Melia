@@ -1,6 +1,3 @@
-addnpc(40001,"Myrkiti Farm","f_farm_47_3",2559.683,221.8898,-1202.66,67,"DummyCall")
-addnpc(40001,"Tenants' Farm","f_farm_47_3",1888.028,-43.0284,1061.506,47,"DummyCall")
-addnpc(40001,"Greene Manor","f_farm_47_3",-1805.981,-62.9897,977.8495,-132,"DummyCall")
 addnpc(152001,"Joana","f_farm_47_3",-89.58499,39.7504,149.7564,45,"DummyCall")
 addnpc(152000,"Varas","f_farm_47_3",39.35529,0.7131,1243.887,45,"DummyCall")
 addnpc(20117,"Jugas","f_farm_47_3",1408.876,0.7131,1969.615,-47,"DummyCall")

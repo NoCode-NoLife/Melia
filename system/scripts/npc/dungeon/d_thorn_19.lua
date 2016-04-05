@@ -1,6 +1,3 @@
-addnpc(40001,"Spring Light Woods","d_thorn_19",215,611,3115,180,"DummyCall")
-addnpc(40001,"Septyni Glen","d_thorn_19",-286,622,-3924,214,"DummyCall")
-addnpc(40001,"Sirdgela Forest","d_thorn_19",1980.25,623.04,-1018.94,-124,"DummyCall")
 addnpc(47121,"Altar of Harmony","d_thorn_19",108,674,311,45,"DummyCall")
 addnpc(20041,"The Second Gateway (1) Trigger","d_thorn_19",-861,765,-2339,45,"DummyCall")
 addnpc(45132,"Tree Root Crystal","d_thorn_19",7,623,-3309,45,"DummyCall")
@@ -79,5 +76,4 @@ addnpc(147392,"Lv1 Treasure Chest","d_thorn_19",1761.78,458.62,1590.11,135,"Dumm
 addnpc(147362,"Field Gen x","d_thorn_19",2041.999,623.0006,-999.2534,45,"DummyCall")
 addnpc(147362,"Field Gen x","d_thorn_19",249.0103,608.9124,3077.87,45,"DummyCall")
 addnpc(147362,"Field Gen x","d_thorn_19",-226.7293,622.5322,-3937.319,45,"DummyCall")
-addnpc(40001,"Thorn Forest Guild Mission","d_thorn_19",1466.946,514.8805,-3231.437,135,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","d_thorn_19",627,600,1910,-45,"DummyCall")

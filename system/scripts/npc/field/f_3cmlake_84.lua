@@ -11,7 +11,6 @@ addnpc(147414,"Obelisk of Questions","f_3cmlake_84",-892.1785,367.8268,1045.036,
 addnpc(147414,"Obelisk of Questions","f_3cmlake_84",-1554.345,302.9059,-1099.722,45,"DummyCall")
 addnpc(147414,"Obelisk of Questions","f_3cmlake_84",-2450.003,304.4203,-488.2531,45,"DummyCall")
 addnpc(147482,"Town Youth","f_3cmlake_84",-37.28901,312.4104,129.6924,-59,"DummyCall")
-addnpc(40001,"Absenta Reservoir","f_3cmlake_84",-1801.169,360.1826,216.6266,-134,"DummyCall")
 addnpc(147483,"Napalis","f_3cmlake_84",-309.6982,312.4104,-45.74639,55,"DummyCall")
 addnpc(147481,"Samsonas","f_3cmlake_84",-248.9662,312.4104,-109.7372,97,"DummyCall")
 addnpc(147361,"Field Gen x","f_3cmlake_84",-1552.916,302.9059,-1099.667,45,"DummyCall")
@@ -19,5 +18,4 @@ addnpc(147361,"Field Gen x","f_3cmlake_84",-2449.896,304.4203,-488.9017,45,"Dumm
 addnpc(147361,"Field Gen x","f_3cmlake_84",-1264.937,303.5778,1442.241,45,"DummyCall")
 addnpc(147361,"Field Gen x","f_3cmlake_84",-876.7419,367.8268,1041.809,45,"DummyCall")
 addnpc(147361,"Field Gen x","f_3cmlake_84",810.9026,307.7971,-141.365,45,"DummyCall")
-addnpc(40001,"Letas Stream","f_3cmlake_84",894.5733,309.0929,-36.48208,45,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_3cmlake_84",-664,303,819,315,"DummyCall")

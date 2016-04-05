@@ -1,6 +1,3 @@
-addnpc(40001,"Woods of the Linked Bridges","f_siauliai_15_re",2706.208,171.9151,-608.4064,45,"DummyCall")
-addnpc(40001,"Koru Jungle","f_siauliai_15_re",-1475.452,84.8867,855.1358,-122,"DummyCall")
-addnpc(40001,"Ashaq Underground Prison 1F","f_siauliai_15_re",509.8523,84.8867,1657.525,63,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_siauliai_15_re",558.7085,209.7152,707.2426,24,"DummyCall")
 addnpc(147399,"Chaser Talbasi","f_siauliai_15_re",2324.01,171.9151,-643.3492,45,"DummyCall")
 addnpc(147400,"Chaser Sendal","f_siauliai_15_re",-227.3777,84.8867,365.4719,-36,"DummyCall")

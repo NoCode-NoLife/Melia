@@ -1,5 +1,3 @@
-addnpc(40001,"Inner Enceinte District","d_underfortress_65",585.64,602.314,-2290.492,-67,"DummyCall")
-addnpc(40001,"Drill Ground of Confliction","d_underfortress_65",-437.928,337.3494,1978.133,170,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_65",695.9851,599.8887,-1597.089,152,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_65",-537.0524,174.7112,-693.9525,-15,"DummyCall")
 addnpc(153040,"[Amanda Tomb Robbers]{nl}    Amanda","d_underfortress_65",582.7185,238.7984,170.6073,-77,"DummyCall")
@@ -20,4 +18,3 @@ addnpc(47201,"Thunderous Herb","d_underfortress_65",11.47386,99.20197,-982.937,4
 addnpc(147459,"Resounding Bomb ","d_underfortress_65",-660.9693,252.2664,94.89284,45,"DummyCall")
 addnpc(147459,"Resounding Bomb ","d_underfortress_65",1166.35,99.20209,-703.4342,45,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","d_underfortress_65",537.7255,602.314,-1996.485,0,"DummyCall")
-addnpc(40001,"Sventimas Exile","d_underfortress_65",-1661.972,113.4736,1215.049,123,"DummyCall")

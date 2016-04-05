@@ -1,4 +1,3 @@
-addnpc(40001,"Roxona Reconstruction Agency West Building","d_firetower_61_2",-1891.504,267.6633,-1702.749,-45,"DummyCall")
 addnpc(147306,"Demons' Sealed Sphere","d_firetower_61_2",-31,143,-1505,131,"DummyCall")
 addnpc(46214,"Blue Magical Crystal","d_firetower_61_2",-1012.631,333.5295,664.6173,45,"DummyCall")
 addnpc(46214,"Red Magical Crystal","d_firetower_61_2",-1005.352,333.5295,569.2304,45,"DummyCall")

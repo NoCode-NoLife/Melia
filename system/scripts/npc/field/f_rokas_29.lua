@@ -1,6 +1,4 @@
 addnpc(147336,"Broken device","f_rokas_29",-337,1187,299,180,"DummyCall")
-addnpc(40001,"Akmens Ridge","f_rokas_29",-717,1121,-1692,-130,"DummyCall")
-addnpc(40001,"Rukas Plateau","f_rokas_29",-1892,1298,-545,214,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_29",-715.7043,1184.534,-768.0276,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_29",-289,1185,101,18,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_29",1201,1159,708,18,"DummyCall")
@@ -35,5 +33,4 @@ addnpc(45136,"Tree Root Crystal","f_rokas_29",1251.39,1271.932,2108.475,45,"Dumm
 addnpc(45136,"Tree Root Crystal","f_rokas_29",1638.431,1161.33,1597.004,45,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_29",177.4644,1158.623,-337.2842,45,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_rokas_29",849.9878,1159.5,-481.844,45,"DummyCall")
-addnpc(40001,"Royal Mausoleum Workers Lodge","f_rokas_29",1191.129,1007.385,2320.436,207,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_rokas_29",630.55,1156.98,-159.62,225,"DummyCall")

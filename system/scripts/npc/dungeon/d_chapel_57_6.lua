@@ -1,6 +1,3 @@
-addnpc(40001,"Tenet Church B1","d_chapel_57_6",744,-73,-320,-45,"DummyCall")
-addnpc(40001,"Tenet Garden","d_chapel_57_6",-1766.533,0.4177,422.5722,225,"DummyCall")
-addnpc(40001,"Tenet Church 2F","d_chapel_57_6",-1481,31,179,-45,"DummyCall")
 addnpc(147400,"Follower Vaidutis","d_chapel_57_6",961,-79,-114,-45,"DummyCall")
 addnpc(147399,"Follower Donatas","d_chapel_57_6",-1674,1,374,65.14,"DummyCall")
 addnpc(147358,"Central Altar","d_chapel_57_6",-523,10,446,0,"DummyCall")

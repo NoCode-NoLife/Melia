@@ -1,5 +1,3 @@
-addnpc(40001,"Orsha","f_siauliai_16",3388.76,878.1721,100.2132,45,"DummyCall")
-addnpc(40001,"Paupys Crossing","f_siauliai_16",-3510.328,741.8563,-91.57547,221,"DummyCall")
 addnpc(20059,"Agent Cherasia","f_siauliai_16",3095.084,878.1721,99.48274,32,"DummyCall")
 addnpc(20060,"Agent Moren","f_siauliai_16",359.7859,878.2284,-132.5833,206,"DummyCall")
 addnpc(147406,"Chaser Ulysses","f_siauliai_16",-2625.064,741.8563,-66.99532,-55,"DummyCall")

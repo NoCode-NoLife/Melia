@@ -1,6 +1,4 @@
 addnpc(45132,"Tree Root Crystal","f_katyn_12",1084.538,200.9586,-189.959,45,"DummyCall")
-addnpc(40001,"Dadan Jungle","f_katyn_12",4560.204,73.8079,-1508.193,45,"DummyCall")
-addnpc(40001,"Letas Stream","f_katyn_12",-2196.182,244.3048,467.24,225,"DummyCall")
 addnpc(151077,"Liaison Officer Mardas","f_katyn_12",3710.092,73.8079,-1275.394,45,"DummyCall")
 addnpc(20135,"Owl Chief Sculpture","f_katyn_12",1942.889,200.9586,-530.4468,46,"DummyCall")
 addnpc(12081,"Carve Owl","f_katyn_12",2726.456,73.8079,-1027.672,-45,"DummyCall")

@@ -1,4 +1,3 @@
-addnpc(40001,"Storage Quarter","d_underfortress_69",2245.019,566.9573,24.88506,59,"DummyCall")
 addnpc(147363,"Field Gen x","d_underfortress_69",2215.243,566.564,47.14974,45,"DummyCall")
 addnpc(147366,"Field Gen x","d_underfortress_69",-2592.031,751.4979,86.91229,45,"DummyCall")
 addnpc(147366,"Field Gen x","d_underfortress_69",-2112.576,769.7769,39.89876,45,"DummyCall")

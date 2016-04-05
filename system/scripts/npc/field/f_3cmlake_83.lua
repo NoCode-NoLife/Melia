@@ -1,4 +1,3 @@
-addnpc(40001,"Royal Mausoleum 4F","f_3cmlake_83",40001,-2503.118,327.4222,-5801.417,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_3cmlake_83",11120,-2596,332,-4632,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_3cmlake_83",11120,-2412,334,-2644,"DummyCall")
 addnpc(45136,"Tree Root Crystal","f_3cmlake_83",11120,-2468,363,-998,"DummyCall")

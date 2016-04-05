@@ -1,5 +1,3 @@
-addnpc(40001,"Glade Hillroad","d_thorn_39_1",-744.733,1216.375,1666.92,111,"DummyCall")
-addnpc(40001,"Sirdgela Forest","d_thorn_39_1",1206.221,1277.403,-2884.05,-63,"DummyCall")
 addnpc(155043,"Senior Monk Marko","d_thorn_39_1",107.13,1216.375,204.33,-6,"DummyCall")
 addnpc(147404,"Hunter Natasha","d_thorn_39_1",214.4155,1216.375,-118.2462,46,"DummyCall")
 addnpc(147406,"Hunter Bastille","d_thorn_39_1",-2064.477,1031.446,495.6368,-62,"DummyCall")

@@ -1,4 +1,3 @@
-addnpc(40001,"Laukyme Swamp","d_abbey_39_4",1445.681,72.8178,-1638.636,-44,"DummyCall")
 addnpc(155042,"Senior Monk Goss","d_abbey_39_4",1330.995,72.8178,-707.3923,-3,"DummyCall")
 addnpc(155043,"Senior Monk Marko","d_abbey_39_4",1330.722,72.8178,-819.3446,45,"DummyCall")
 addnpc(155043,"Senior Monk Potos","d_abbey_39_4",1429.365,72.8178,-778.4216,-31,"DummyCall")

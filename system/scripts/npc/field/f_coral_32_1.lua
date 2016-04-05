@@ -1,6 +1,3 @@
-addnpc(40001,"Delmore Manor","f_coral_32_1",-1782.135,0.5546865,-1543.984,-42,"DummyCall")
-addnpc(40001,"Bellai Rainforest","f_coral_32_1",-158.1526,275.2019,1714.325,125,"DummyCall")
-addnpc(40001,"Topes Fortress 1F","f_coral_32_1",1129.019,332.7553,296.992,140,"DummyCall")
 addnpc(155095,"Revelator Yane","f_coral_32_1",-1690.171,0.5545447,-452.1599,-2,"DummyCall")
 addnpc(155094,"Revelator Mihail","f_coral_32_1",-1713.322,0.5542239,-502.7861,30,"DummyCall")
 addnpc(155096,"Revelator Connor","f_coral_32_1",-1633.754,0.5549917,-429.8759,-52,"DummyCall")

@@ -1,6 +1,4 @@
 addnpc(152016,"Old piles of bones","f_coral_32_2",-400.4377,141.2642,533.9971,45,"DummyCall")
-addnpc(40001,"Igti Coast","f_coral_32_2",-346.6219,231.4162,910.3648,173,"DummyCall")
-addnpc(40001,"Alemeth Forest","f_coral_32_2",-154.7327,141.5051,-1693.304,-37,"DummyCall")
 addnpc(147311,"Soggy Book","f_coral_32_2",266.56,273.59,16,45,"DummyCall")
 addnpc(147482,"Refugee Salyamonas","f_coral_32_2",-212.2708,236.2519,-1119.156,-100,"DummyCall")
 addnpc(147483,"Refugee Relyn","f_coral_32_2",-298.1054,236.2519,-1186.083,88,"DummyCall")

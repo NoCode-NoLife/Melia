@@ -1,4 +1,3 @@
-addnpc(40001,"Tenet Church 1F","d_chapel_57_7",-683,36,-831,135,"DummyCall")
 addnpc(147390,"Follower Algis","d_chapel_57_7",110,165,-579,135,"DummyCall")
 addnpc(147358,"Sventove Central Altar","d_chapel_57_7",-27,48,-137,0,"DummyCall")
 addnpc(147357,"Malda Altar","d_chapel_57_7",1516,48,-104,0,"DummyCall")

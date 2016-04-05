@@ -1,5 +1,3 @@
-addnpc(40001,"Verkti Square","f_flash_61",1231.594,150.1205,-103.5576,52,"DummyCall")
-addnpc(40001,"Ruklys Street","f_flash_61",1004.703,195.4855,1643.674,81,"DummyCall")
 addnpc(47200,"Wild Flower","f_flash_61",1015.149,150.1205,-546.2615,45,"DummyCall")
 addnpc(10033,"[Royal Army]{nl}  Gofden","f_flash_61",823.3633,150.1205,-92.51371,-16,"DummyCall")
 addnpc(154020,"[Knights of Kaliss]{nl}Cryomancer Kostas","f_flash_61",252.6245,317.4724,-807.0753,-29,"DummyCall")
@@ -69,5 +67,4 @@ addnpc(147366,"Gate Entrance x","f_flash_61",1038.237,150.1205,-49.81234,45,"Dum
 addnpc(147363,"Gate Entrance x","f_flash_61",196.2077,317.4725,-785.52,45,"DummyCall")
 addnpc(147363,"Gate Entrance x","f_flash_61",-346.4517,231.5688,453.9175,45,"DummyCall")
 addnpc(147364,"Field Gen x","f_flash_61",-1376.064,152.0693,712.7085,45,"DummyCall")
-addnpc(40001,"Stogas Plateau","f_flash_61",-1377.118,152.0693,715.1829,180,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_flash_61",-920.79,300.74,1251.18,-90,"DummyCall")

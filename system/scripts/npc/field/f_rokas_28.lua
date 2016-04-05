@@ -1,4 +1,3 @@
-addnpc(40001,"Overlong Bridge Valley","f_rokas_28",-177,1196,-3637,-47,"DummyCall")
 addnpc(152002,"Archaeologist Dezic","f_rokas_28",-435.5592,1196.784,-2988.451,-24,"DummyCall")
 addnpc(20128,"Mercenary Glen","f_rokas_28",151,1196,-2362,90,"DummyCall")
 addnpc(20102,"Technician Heinen","f_rokas_28",-195,1295,-1683,45,"DummyCall")
@@ -9,7 +8,6 @@ addnpc(47106,"Canyon Barrier Device","f_rokas_28",504,1196,-2380,-45,"DummyCall"
 addnpc(47109,"Western Barrier","f_rokas_28",763.7963,1340.339,238.6514,45,"DummyCall")
 addnpc(47109,"Eastern Barrier","f_rokas_28",1134.333,1340.339,341.3253,45,"DummyCall")
 addnpc(47109,"Northern Barrier","f_rokas_28",983.7975,1340.339,606.2197,45,"DummyCall")
-addnpc(40001,"Tiltas Valley","f_rokas_28",-173,1295,-1189,194,"DummyCall")
 addnpc(20150,"William","f_rokas_28",337,1295,-1527,3,"DummyCall")
 addnpc(20109,"Cyneburg","f_rokas_28",888,1209,-1158,-7,"DummyCall")
 addnpc(47109,"Western Barrier","f_rokas_28",-819,1295,-2247,1,"DummyCall")

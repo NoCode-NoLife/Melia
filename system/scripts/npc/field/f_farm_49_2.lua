@@ -1,5 +1,3 @@
-addnpc(40001,"Aqueduct Bridge Area","f_farm_49_2",2378,254.8407,909,61,"DummyCall")
-addnpc(40001,"Shaton Farm","f_farm_49_2",-979.0124,-0.4225,1136.139,81,"DummyCall")
 addnpc(155019,"Druid Ellie","f_farm_49_2",1655.224,254.8407,928.549,-35,"DummyCall")
 addnpc(155001,"The Mysterious Tree","f_farm_49_2",1664.037,254.8407,891.9929,-25,"DummyCall")
 addnpc(147481,"Farmer Darcy","f_farm_49_2",1555.487,254.8407,616.0322,45,"DummyCall")

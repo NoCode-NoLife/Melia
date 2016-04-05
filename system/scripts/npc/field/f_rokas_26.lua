@@ -1,6 +1,3 @@
-addnpc(40001,"Gateway of the Great King","f_rokas_26",-2368,268,-1192,-94,"DummyCall")
-addnpc(40001,"Overlong Bridge Valley","f_rokas_26",2769,71,-1105,45,"DummyCall")
-addnpc(40001,"Sanctum","f_rokas_26",2049,164,-286,165,"DummyCall")
 addnpc(47102,"Sanctum's 1st Seal","f_rokas_26",-1941,511,912,8,"DummyCall")
 addnpc(20118,"1st Disciple of Gustas","f_rokas_26",-2300,268,-421,8,"DummyCall")
 addnpc(20041,"Bramble","f_rokas_26",-252.03,267.94,572.88,8,"DummyCall")

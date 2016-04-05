@@ -17,8 +17,6 @@ addnpc(57235,"[Rodelero Master]{nl} Kamiya","c_orsha",-464.48,280.14,371.74,-20,
 addnpc(147327,"[Cataphract Master]{nl}    Memet Culag","c_orsha",934.65,73.98,146.95,26,"DummyCall")
 addnpc(155088,"[Paladin Submaster]{nl}        Silvia Naimon","c_orsha",942.27,73.98,475.77,50,"DummyCall")
 addnpc(155044,"Priest Pranas","c_orsha",915.74,176.36,708.51,-24,"DummyCall")
-addnpc(40001,"Lemprasa Pond","c_orsha",-1422.59,472.79,368.31,213,"DummyCall")
-addnpc(40001,"Woods of the Linked Bridges","c_orsha",1443.58,21.82,343.89,45,"DummyCall")
 addnpc(20059,"Lord's Guard","c_orsha",40.71,176.27,713.98,-31,"DummyCall")
 addnpc(57226,"[Sadhu Master]{nl}Agota Hanska","c_orsha",1130.38,21.82,361.98,48,"DummyCall")
 addnpc(155062,"[Swordsman Submaster]{nl}              Codill","c_orsha",236.57,176.41,648.6,-44,"DummyCall")

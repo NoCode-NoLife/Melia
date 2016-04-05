@@ -1,5 +1,3 @@
-addnpc(40001,"Apsimesti Crossroads","d_firetower_61_1",-300.3336,177.5569,-2322.191,-45,"DummyCall")
-addnpc(40001,"Roxona Reconstruction Agency East Building","d_firetower_61_1",-113.8056,249.2654,2144.53,135,"DummyCall")
 addnpc(147307,"Portal Power Generator","d_firetower_61_1",1368.903,134.5462,-943.2156,1,"DummyCall")
 addnpc(147306,"Schilt Amplifier","d_firetower_61_1",913.2559,134.6578,-1418.379,45,"DummyCall")
 addnpc(154025,"Petrification Detector Sample","d_firetower_61_1",849.6886,134.6578,-1418.38,31,"DummyCall")

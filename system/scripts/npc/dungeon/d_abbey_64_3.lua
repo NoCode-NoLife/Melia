@@ -1,5 +1,3 @@
-addnpc(40001,"Novaha Assembly Hall","d_abbey_64_3",1663.04,399.358,-28.59275,45,"DummyCall")
-addnpc(40001,"Novaha Institute","d_abbey_64_3",-1967.758,0.0009765625,71.18753,223,"DummyCall")
 addnpc(153119,"Traveling Merchant Rose","d_abbey_64_3",920.0567,399.358,-114.0447,144,"DummyCall")
 addnpc(153110,"Edmundas","d_abbey_64_3",-13.76144,982.5371,-1335.677,121,"DummyCall")
 addnpc(153119,"Traveling Merchant Rose","d_abbey_64_3",11,982.54,-1272,-49,"DummyCall")

@@ -1,7 +1,5 @@
 addnpc(153139,"Old Manager","d_underfortress_68",-151.6544,341.7304,-1001.35,45,"DummyCall")
 addnpc(147503,"The platform of confessions","d_underfortress_68",-107.1163,341.805,-978.6709,45,"DummyCall")
-addnpc(40001,"Resident Quarter","d_underfortress_68",-2897.62,484.5271,-1228.351,217,"DummyCall")
-addnpc(40001,"Fortress Battlegrounds","d_underfortress_68",1746.333,344.1927,1810.33,155,"DummyCall")
 addnpc(147362,"Field Gen x","d_underfortress_68",-2833.717,484.5271,-1248.313,45,"DummyCall")
 addnpc(147362,"Field Gen x","d_underfortress_68",1766.122,344.1927,1754.646,45,"DummyCall")
 addnpc(41327,"Green Infroholder Egg","d_underfortress_68",-1228.438,483.9489,-932.3874,45,"DummyCall")

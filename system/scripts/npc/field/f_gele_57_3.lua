@@ -1,5 +1,3 @@
-addnpc(40001,"Srautas Gorge","f_gele_57_3",35,375,-1102,-45,"DummyCall")
-addnpc(40001,"Nefritas Cliff","f_gele_57_3",100,375,1532,135,"DummyCall")
 addnpc(147405,"Watcher Basil","f_gele_57_3",-137.5469,375.3896,-432.8909,-29,"DummyCall")
 addnpc(20026,"Mission of Paladin Master Q","f_gele_57_3",-79.04425,375.3896,-871.4721,45,"DummyCall")
 addnpc(40095,"Demon Corrupted Land","f_gele_57_3",417.8377,418.7272,454.5295,45,"DummyCall")
@@ -17,5 +15,4 @@ addnpc(147366,"Field Gen x","f_gele_57_3",-10.04869,375.3896,1183.469,45,"DummyC
 addnpc(40070,"To the other side","f_gele_57_3",-89.34569,375.3896,-396.8012,-45,"DummyCall")
 addnpc(40070,"To the other side","f_gele_57_3",-135.2215,375.3896,1019.43,-45,"DummyCall")
 addnpc(147395,"Lv5 Treasure Chest","f_gele_57_3",-659,418.99,-72.39,45,"DummyCall")
-addnpc(40001,"Grynas Trails","f_gele_57_3",1579.198,503.8573,-335.6334,78,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_gele_57_3",-1049.22,418.99,-641.81,45,"DummyCall")

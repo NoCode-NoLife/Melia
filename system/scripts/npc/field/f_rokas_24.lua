@@ -1,5 +1,3 @@
-addnpc(40001,"Sunset Flag Forest","f_rokas_24",930,123,-3045,-45,"DummyCall")
-addnpc(40001,"Ramstis Ridge","f_rokas_24",904,261,1240,131,"DummyCall")
 addnpc(40120,"Statue of Goddess Vakarine","f_rokas_24",913,123,-1882,-45,"DummyCall")
 addnpc(20108,"Liaison Officer Niels","f_rokas_24",476,163,-2042,-45,"DummyCall")
 addnpc(20158,"Historian Viode","f_rokas_24",1598,16,-185,45,"DummyCall")
@@ -92,6 +90,4 @@ addnpc(155068,"[Cataphract Master]{nl}           Dirk Drigg","f_rokas_24",487.18
 addnpc(147435,"[Thaumaturge Master]{nl}         Larisa","f_rokas_24",520.5836,123.9266,-2178.955,45,"DummyCall")
 addnpc(57234,"[Scout Master]{nl}    Recon Rimgaile","f_rokas_24",578.6595,238.9312,-1665.212,-45,"DummyCall")
 addnpc(155081,"[Wugushi Submaster]{nl}          May Patt","f_rokas_24",480.5107,238.9312,-1726.219,45,"DummyCall")
-addnpc(40001,"Canyon Guild Mission","f_rokas_24",-1884.987,892.9741,2120.469,225,"DummyCall")
 addnpc(147392,"Lv1 Treasure Chest","f_rokas_24",-677.85,724.39,-2528,45,"DummyCall")
-addnpc(40001,"Letas Stream","f_rokas_24",1652.514,123.9272,-1050.812,45,"DummyCall")
