@@ -379,4 +379,8 @@ warps/field/f_tableland_70.lua
 warps/field/f_tableland_71.lua
 warps/field/f_tableland_72.lua
 warps/field/f_tableland_73.lua
+<<<<<<< HEAD
 warps/field/f_tableland_74.lua
+=======
+warps/field/f_tableland_74.lua
+>>>>>>> origin/master

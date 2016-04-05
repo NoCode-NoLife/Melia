@@ -439,7 +439,7 @@ namespace Melia.Channel.Scripting
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
-            if (name.StartsWith("ETC_") || name.StartsWith("QUEST_") || name.StartsWith("QUEST_LV_0100_") || name.StartsWith("QUEST_LV_0200_") || name.StartsWith("QUEST_LV_0300_") || name.StartsWith("QUEST_JOBSTEP_") || name.StartsWith("QUEST_UNUSED_"))
+            if (name.StartsWith("ETC_") || name.StartsWith("QUEST_"))
                 name = "@dicID_^*$" + name + "$*^";
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
