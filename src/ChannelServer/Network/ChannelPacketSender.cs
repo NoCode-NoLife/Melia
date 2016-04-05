@@ -941,18 +941,18 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_ROTATE in range of character.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_ROTATE(Character character)
+		/// <param name="entity"></param>
+		public static void ZC_ROTATE(IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutByte(0);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1460,22 +1460,22 @@ namespace Melia.Channel.Network
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+		public static void ZC_MOVE_DIR(IEntity entity, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutFloat(dx);
 			packet.PutFloat(dy);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(entity.Speed);
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

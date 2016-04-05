@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using Melia.Shared.World;
+
 namespace Melia.Shared.Util
 {
 	/// <summary>
@@ -70,5 +73,22 @@ namespace Melia.Shared.Util
 		{
 			return (val >= min && val <= max);
 		}
-	}
+
+        /// <summary>
+        /// Calculate rotation toward target
+        /// </summary>
+        /// <param name="rotated"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static Direction AngleBetweenTwoEntity(Position source, Position target)
+        {
+            float dy = source.X - target.X;
+            float dx = source.Z - target.Z;
+            double angle = Math.Atan2(-dx, -dy) * 180.0 / Math.PI;
+            return new Direction(
+                (float)Math.Cos((angle / 180D) * Math.PI),
+                (float)Math.Sin((angle / 180D) * Math.PI)
+            );
+        }
+    }
 }

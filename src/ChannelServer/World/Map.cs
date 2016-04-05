@@ -58,6 +58,7 @@ namespace Melia.Channel.World
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
+		    this.MonsterUpdate();
 		}
 
 		/// <summary>
@@ -86,6 +87,17 @@ namespace Melia.Channel.World
 					character.LookAround();
 			}
 		}
+
+	    private void MonsterUpdate()
+	    {
+	        lock (_monsters)
+	        {
+	            foreach (var monster in _monsters.Values)
+	            {
+                    monster.MoveTowardTarget();
+	            }
+	        }
+	    }
 
 		/// <summary>
 		/// Adds character to map.

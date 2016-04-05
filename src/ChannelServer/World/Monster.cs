@@ -75,15 +75,55 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Position Position { get; set; }
 
-		/// <summary>
-		/// Monster's direction.
-		/// </summary>
-		public Direction Direction { get; set; }
+        /// <summary>
+        /// Set monster's position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        private void SetPosition(float x, float y, float z)
+        {
+            this.Position = new Position(x, y, z);
+        }
 
-		/// <summary>
-		/// AoE Defense Ratio
-		/// </summary>
-		public int SDR { get; set; }
+        /// <summary>
+        /// Set monster's position
+        /// </summary>
+        /// <param name="position"></param>
+        private void SetPosition(Position position)
+        {
+            this.Position = new Position(position);
+        }
+
+        /// <summary>
+        /// Set monster's direction
+        /// </summary>
+        public Direction Direction { get; set; }
+
+        /// <summary>
+        /// Set monster's direction
+        /// </summary>
+        /// <param name="d1"></param>
+        /// <param name="d2"></param>
+        private void SetDirection(float d1, float d2)
+        {
+            this.Direction = new Direction(d1, d2);
+        }
+
+        /// <summary>
+        /// Monster's direction.
+        /// </summary>
+        public void SetDirection(Direction direction)
+	    {
+	        this.Direction = direction;
+	    }
+
+        /// <summary>
+        /// AoE Defense Ratio
+        /// </summary>
+        public int SDR { get; set; }
+
+	    public IEntity Target { get; set; }
 
 		/// <summary>
 		/// Health points.
@@ -95,20 +135,30 @@ namespace Melia.Channel.World
 		}
 		private int _hp;
 
-		/// <summary>
-		/// Maximum health points.
-		/// </summary>
-		public int MaxHp { get; set; }
+        /// <summary>
+        /// Maximum health points.
+        /// </summary>
+        public int MaxHp { get; set; }
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; }
 
-		/// <summary>
-		/// Creates new NPC.
-		/// </summary>
-		public Monster(int id, NpcType type)
+        /// <summary>
+        /// Monster walking speed
+        /// </summary>
+        public float Speed { get; set; }
+
+        /// <summary>
+        /// Is monster moving at that moment?
+        /// </summary>
+        private bool IsMoving { get; set; }
+
+        /// <summary>
+        /// Creates new NPC.
+        /// </summary>
+        public Monster(int id, NpcType type)
 		{
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 
@@ -118,6 +168,7 @@ namespace Melia.Channel.World
 			this.SDR = 1;
 			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
+            this.Speed = 30;
 		}
 
 		/// <summary>
@@ -127,6 +178,7 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		public void TakeDamage(int damage, Character from)
 		{
+		    this.Target = from;
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
@@ -149,5 +201,77 @@ namespace Melia.Channel.World
 
 			Send.ZC_DEAD(this);
 		}
-	}
+
+        /// <summary>
+		/// Sets direction and updates clients.
+		/// </summary>
+		/// <param name="d1"></param>
+		/// <param name="d2"></param>
+		public void Rotate(float d1, float d2)
+        {
+            if (this.Hp <= 0) return;
+
+            this.SetDirection(d1, d2);
+            Send.ZC_ROTATE(this);
+        }
+        
+        /// <summary>
+        /// Sets direction toward target and updates clients.
+        /// </summary>
+        public void RotateTowardTarget()
+        {
+            if (this.Hp <= 0) return;
+
+            if (this.Target == null) return;
+            this.SetDirection(
+                Shared.Util.Math2.AngleBetweenTwoEntity(
+                    this.Position, this.Target.Position
+                    ));
+            Send.ZC_ROTATE(this);
+        }
+
+        /// <summary>
+		/// Starts movement.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+        // Cause float unkFloat is... unknown I gonna
+        // pass zero, cause it seems to work fine.
+        public void Move(float x, float y, float z, float dx, float dy)
+        {
+            if (this.Hp <= 0) return;
+
+            this.SetPosition(x, y, z);
+            this.SetDirection(dx, dy);
+            this.IsMoving = true;
+
+            Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, 0);
+        }
+
+        /// <summary>
+        /// Sets direction toward target and updates clients.
+        /// </summary>
+        public void MoveTowardTarget()
+        {
+            if (this.Target == null && this.Hp <= 0) return;
+
+            this.SetPosition(this.Target.Position);
+            this.SetDirection(
+                Shared.Util.Math2.AngleBetweenTwoEntity(
+                    this.Position, this.Target.Position
+            ));
+            Send.ZC_MOVE_DIR(
+                this,
+                this.Target.Position.X,
+                this.Target.Position.Y,
+                this.Target.Position.Z,
+                this.Direction.Cos,
+                this.Direction.Sin,
+                0
+            );
+        }
+    }
 }
