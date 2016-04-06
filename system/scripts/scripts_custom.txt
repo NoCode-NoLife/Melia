@@ -4,8 +4,7 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-global/const.lua
+custom/stat_resetter.lua
+custom/stylist.lua
 
-include "scripts_custom.txt"
-include "scripts_npcs.txt"
-include "scripts_warps.txt"
+include "/user/scripts/scripts_custom.txt"
