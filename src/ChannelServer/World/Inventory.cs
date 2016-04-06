@@ -142,9 +142,9 @@ namespace Melia.Channel.World
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
 		/// <returns>Available for stacking item index in inventory</returns>
-		public int GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
+		public IEnumerable<int> GetStackableItemIndex(InventoryCategory cat, int itemId, int amount)
 		{
-			return (int)_items[cat].FindIndex(a => a.Id == itemId && a.Amount < a.Data.MaxStack);
+			return _items[cat].Select((item, i) => new { item, i }).Where(a => a.item.Id == itemId && a.item.Amount < a.item.Data.MaxStack).Select(x => x.i);
 		}
 
 		/// Returns amount of items with the given id in the inventory.
@@ -229,39 +229,31 @@ namespace Melia.Channel.World
 
 				if (!_items.ContainsKey(cat))
 					throw new ArgumentException("Unknown item category.");
-
-				var inventoryIndex = -1;
+				
 				var expectedAmount = item.Amount;
 
 				if (item.Data.MaxStack > 1 && this.HasItem(item.Id))
 				{
-					int itemIndex = inventoryIndex;
-					while (expectedAmount > 0)
+					var stackableItems = this.GetStackableItemIndex(cat, item.Id, item.Amount);
+					foreach (var stackableItemIndex in stackableItems)
 					{
-						inventoryIndex = this.GetStackableItemIndex(cat, item.Id, item.Amount);
-						if (inventoryIndex != -1 && _items[cat].Count > inventoryIndex)
+						var spaceInStack = item.Data.MaxStack - _items[cat][stackableItemIndex].Amount;
+
+						if (expectedAmount <= spaceInStack)
 						{
-							var spaceInStack = item.Data.MaxStack - _items[cat][inventoryIndex].Amount;
-
-							if (expectedAmount <= spaceInStack)
-							{
-								spaceInStack = expectedAmount;
-							}
-
-							_items[cat][inventoryIndex].Amount += spaceInStack;
-							_itemsWorldIndex[_items[cat][inventoryIndex].WorldId] = _items[cat][inventoryIndex];
-
-							expectedAmount -= spaceInStack;
-							item.Amount -= spaceInStack;
-
-							itemIndex = inventoryIndex;
-							itemsUpdated[itemIndex] = spaceInStack;
+							spaceInStack = expectedAmount;
 						}
-						inventoryIndex = -1;
+
+						_items[cat][stackableItemIndex].Amount += spaceInStack;
+						_itemsWorldIndex[_items[cat][stackableItemIndex].WorldId] = _items[cat][stackableItemIndex];
+
+						expectedAmount -= spaceInStack;
+						item.Amount -= spaceInStack;
+						itemsUpdated[stackableItemIndex] = spaceInStack;
 					}
 				}
 				
-				if (item.Amount > 0) // Check if item have some pcs after stacking cycle
+				if (expectedAmount > 0) // Check if item have some pcs after stacking cycle
 				{
 					_items[cat].Add(item);
 					_itemsWorldIndex[item.WorldId] = item;
