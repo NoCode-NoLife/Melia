@@ -838,11 +838,11 @@ namespace Melia.Channel.Network
 
 						switch (i)
 						{
-						case 0: character.Str += stat; break;
-						case 1: character.Con += stat; break;
-						case 2: character.Int += stat; break;
-						case 3: character.Spr += stat; break;
-						case 4: character.Dex += stat; break;
+							case 0: character.Str += stat; break;
+							case 1: character.Con += stat; break;
+							case 2: character.Int += stat; break;
+							case 3: character.Spr += stat; break;
+							case 4: character.Dex += stat; break;
 						}
 					}
 
@@ -856,16 +856,16 @@ namespace Melia.Channel.Network
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 					break;
-			case 2:
-				/// TODO
-				/// Handle skills learning
-				/// 
-				var jobId = packet.GetInt();
+				case 2:
+					/// TODO
+					/// Handle skills learning
+					/// 
+					var jobId = packet.GetInt();
 
-				break;
-			default:
-				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
-				break;
+					break;
+				default:
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
+					break;
 			}
 		}
 

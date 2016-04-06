@@ -1577,7 +1577,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(direction.Sin); // Direction (commented out for now)
 			packet.PutInt(0);
 			packet.PutFloat(distance);
-			packet.PutInt(actorId); 
+			packet.PutInt(actorId);
 			packet.PutByte(create);
 			if (!create)
 			{
@@ -1773,7 +1773,7 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
-        public static void DUMMY(ChannelConnection conn)
+		public static void DUMMY(ChannelConnection conn)
 		{
 		}
 	}
