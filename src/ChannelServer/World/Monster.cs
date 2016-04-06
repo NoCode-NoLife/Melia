@@ -123,6 +123,9 @@ namespace Melia.Channel.World
         /// </summary>
         public int SDR { get; set; }
 
+        /// <summary>
+        /// Targeted enemy that agro mob
+        /// </summary>
 	    public IEntity Target { get; set; }
 
 		/// <summary>
@@ -140,6 +143,16 @@ namespace Melia.Channel.World
         /// </summary>
         public int MaxHp { get; set; }
 
+        /// <summary>
+        /// Attack range of monster
+        /// </summary>
+        public int AttackRange;
+
+        /// <summary>
+        /// Attack damage
+        /// </summary>
+        public int Attack;
+
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
@@ -156,6 +169,11 @@ namespace Melia.Channel.World
         private bool IsMoving { get; set; }
 
         /// <summary>
+        /// Is monster in range of his attack
+        /// </summary>
+        public bool IsInRangeOfAttack { get; set; }
+
+        /// <summary>
         /// Creates new NPC.
         /// </summary>
         public Monster(int id, NpcType type)
@@ -169,6 +187,16 @@ namespace Melia.Channel.World
 			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
             this.Speed = 30;
+            this.AttackRange = 50;
+            this.Attack = 20;
+
+            //Agro on spawn like in original ToS
+            //TODO delay
+            var nearCharacter = this.Map.GetVisibleCharacters(this);
+            if (nearCharacter.Length != 0)
+            {
+                this.Target = nearCharacter[0];
+            }
 		}
 
 		/// <summary>
@@ -203,6 +231,22 @@ namespace Melia.Channel.World
 		}
 
         /// <summary>
+        /// Attack target entity if monster is agred
+        /// </summary>
+        public bool IsTargetVisible()
+        {
+            if (this.Target.Position.InRange2D(
+                this.Position, World.Map.VisibleRange
+            ))
+                return true;
+            else
+            {
+                this.Target = null;
+                return false;
+            }
+        }
+
+        /// <summary>
 		/// Sets direction and updates clients.
 		/// </summary>
 		/// <param name="d1"></param>
@@ -226,7 +270,7 @@ namespace Melia.Channel.World
             this.SetDirection(
                 Shared.Util.Math2.AngleBetweenTwoEntity(
                     this.Position, this.Target.Position
-                    ));
+            ));
             Send.ZC_ROTATE(this);
         }
 
@@ -238,8 +282,6 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-        // Cause float unkFloat is... unknown I gonna
-        // pass zero, cause it seems to work fine.
         public void Move(float x, float y, float z, float dx, float dy)
         {
             if (this.Hp <= 0) return;
@@ -248,6 +290,8 @@ namespace Melia.Channel.World
             this.SetDirection(dx, dy);
             this.IsMoving = true;
 
+            // Cause float unkFloat is... unknown I
+            // passing zero. It seems to work fine.
             Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, 0);
         }
 
@@ -256,22 +300,63 @@ namespace Melia.Channel.World
         /// </summary>
         public void MoveTowardTarget()
         {
-            if (this.Target == null && this.Hp <= 0) return;
+            if (this.Target != null && this.Hp > 0)
+            {
+                //Is character in range of auto attack
+                if (!this.Target.Position.InRange2D(this.Position, AttackRange))
+                {
+                    this.IsInRangeOfAttack = false;
 
-            this.SetPosition(this.Target.Position);
-            this.SetDirection(
-                Shared.Util.Math2.AngleBetweenTwoEntity(
-                    this.Position, this.Target.Position
-            ));
-            Send.ZC_MOVE_DIR(
-                this,
-                this.Target.Position.X,
-                this.Target.Position.Y,
-                this.Target.Position.Z,
-                this.Direction.Cos,
-                this.Direction.Sin,
-                0
-            );
+                    this.SetPosition(this.Target.Position);
+                    this.SetDirection(
+                        Shared.Util.Math2.AngleBetweenTwoEntity(
+                            this.Position, this.Target.Position
+                            ));
+
+                    //BUG Monster will jump if target will jump?
+                    Send.ZC_MOVE_DIR(
+                        this,
+                        this.Target.Position.X - (float) AttackRange/2,
+                        this.Target.Position.Y - (float) AttackRange/2,
+                        this.Target.Position.Z,
+                        this.Direction.Cos,
+                        this.Direction.Sin,
+                        0
+                        );
+                }
+                else
+                {
+                    this.IsInRangeOfAttack = true;
+                }
+            }
         }
+
+        /// <summary>
+        /// Attack target entity if monster is agred
+        /// </summary>
+        public void AttackTarget()
+        {
+            if (this.Target != null && this.Hp > 0 && this.IsInRangeOfAttack)
+            {
+                this.SetDirection(
+                    Shared.Util.Math2.AngleBetweenTwoEntity(
+                        this.Position, this.Target.Position
+                ));
+                Send.ZC_HIT_INFO(this, this.Target, Attack);
+            }
+        }
+
+        /// <summary>
+        /// Update monster behaviour
+        /// </summary>
+	    public void UpdateMonsterBehaviour()
+	    {
+            if (this.Target != null)
+            {
+                if (!IsTargetVisible()) return;
+                MoveTowardTarget();
+                AttackTarget();
+            }
+	    }
     }
 }
