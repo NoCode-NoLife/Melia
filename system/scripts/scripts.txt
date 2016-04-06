@@ -24,7 +24,6 @@ npc/city/c_voodoo.lua
 npc/dungeon/d_abbey_35_3.lua
 npc/dungeon/d_abbey_35_4.lua
 npc/dungeon/d_abbey_39_4.lua
-npc/dungeon/d_abbey_41_6.lua
 npc/dungeon/d_abbey_64_1.lua
 npc/dungeon/d_abbey_64_2.lua
 npc/dungeon/d_abbey_64_3.lua
@@ -54,10 +53,7 @@ npc/dungeon/d_prison_62_1.lua
 npc/dungeon/d_prison_62_2.lua
 npc/dungeon/d_prison_62_3.lua
 npc/dungeon/d_prison_78.lua
-npc/dungeon/d_prison_79.lua
-npc/dungeon/d_prison_80.lua
 npc/dungeon/d_prison_81.lua
-npc/dungeon/d_prison_82.lua
 npc/dungeon/d_startower_60_1.lua
 npc/dungeon/d_thorn_19.lua
 npc/dungeon/d_thorn_20.lua
@@ -68,7 +64,6 @@ npc/dungeon/d_thorn_39_1.lua
 npc/dungeon/d_thorn_39_2.lua
 npc/dungeon/d_thorn_39_3.lua
 npc/dungeon/d_underfortress_30_1.lua
-npc/dungeon/d_underfortress_30_3.lua
 npc/dungeon/d_underfortress_59_1.lua
 npc/dungeon/d_underfortress_59_2.lua
 npc/dungeon/d_underfortress_59_3.lua
@@ -111,7 +106,6 @@ npc/field/f_castle_65_1.lua
 npc/field/f_castle_65_2.lua
 npc/field/f_castle_65_3.lua
 npc/field/f_coral_32_1.lua
-npc/field/f_coral_32_2.lua
 npc/field/f_coral_35_2.lua
 npc/field/f_farm_47_1.lua
 npc/field/f_farm_47_2.lua
@@ -138,7 +132,6 @@ npc/field/f_katyn_10.lua
 npc/field/f_katyn_12.lua
 npc/field/f_katyn_13.lua
 npc/field/f_katyn_13_2.lua
-npc/field/f_katyn_13_3.lua
 npc/field/f_katyn_14.lua
 npc/field/f_katyn_18.lua
 npc/field/f_katyn_45_1.lua
@@ -315,8 +308,6 @@ warps/field/f_katyn_13.lua
 warps/field/f_katyn_13_2.lua
 warps/field/f_katyn_13_3.lua
 warps/field/f_katyn_14.lua
-warps/field/f_katyn_17.lua
-warps/field/f_katyn_18.lua
 warps/field/f_katyn_45_1.lua
 warps/field/f_katyn_45_2.lua
 warps/field/f_katyn_45_3.lua
@@ -330,11 +321,8 @@ warps/field/f_pilgrimroad_31_1.lua
 warps/field/f_pilgrimroad_31_2.lua
 warps/field/f_pilgrimroad_31_3.lua
 warps/field/f_pilgrimroad_36_2.lua
-warps/field/f_pilgrimroad_41_1.lua
-warps/field/f_pilgrimroad_41_2.lua
 warps/field/f_pilgrimroad_41_3.lua
 warps/field/f_pilgrimroad_41_4.lua
-warps/field/f_pilgrimroad_41_5.lua
 warps/field/f_pilgrimroad_46.lua
 warps/field/f_pilgrimroad_47.lua
 warps/field/f_pilgrimroad_48.lua
@@ -349,7 +337,6 @@ warps/field/f_remains_37_2.lua
 warps/field/f_remains_37_3.lua
 warps/field/f_remains_38.lua
 warps/field/f_remains_39.lua
-warps/field/f_remains_40.lua
 warps/field/f_rokas_24.lua
 warps/field/f_rokas_25.lua
 warps/field/f_rokas_26.lua
@@ -373,7 +360,6 @@ warps/field/f_siauliai_50_1.lua
 warps/field/f_siauliai_out.lua
 warps/field/f_siauliai_west.lua
 warps/field/f_tableland_11_1.lua
-warps/field/f_tableland_28_1.lua
 warps/field/f_tableland_28_2.lua
 warps/field/f_tableland_70.lua
 warps/field/f_tableland_71.lua
