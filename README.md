@@ -75,6 +75,16 @@ as research or as a base to implement the features into the official source.
 * Excessive usage of the auto-formatting feature is encouraged. (Default VS settings)
 * Avoid overuse of regions.
 
+Branching Streategy
+------------------------------
+`master` is the stable branch, geared towards normal users. It should be
+compilable and working at all times, with little to no debug or test code.
+
+For every feature or fix that goes beyond a handful of lines, a branch is
+created, that acts as a kind of "beta" branch for that feature.
+These branches aren't merged into master until a core developer has
+reviewed the code.
+
 Links
 ------------------------------
 * Forums: http://aura-project.org/

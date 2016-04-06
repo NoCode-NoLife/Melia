@@ -331,7 +331,7 @@
 { mapId: 4150, className: "gid_zachariel_01", engName: "Royal Mausoleum Guild Mission", localKey: "ETC_20151224_017830" },
 { mapId: 4160, className: "gid_rokas_01", engName: "Canyon Belt Guild Mission", localKey: "ETC_20151224_017831" },
 { mapId: 4170, className: "gid_velniasprison_51_3", engName: "Demon Prison Guild Mission", localKey: "ETC_20151224_017832" },
-{ mapId: 4180, className: "id_remains3", engName: "Demon Prison Guild Mission", localKey: "ETC_20151224_017833" },
+{ mapId: 4180, className: "id_remains3", engName: "Monument of Desire Dungeon", localKey: "ETC_20151224_017833" },
 { mapId: 4190, className: "id_thorn2", engName: "Hollow Thorn Forest", localKey: "ETC_20160224_020150" },
 { mapId: 4200, className: "id_castle", engName: "?", localKey: "?" },
 { mapId: 4210, className: "id_firetower_02", engName: "Mage Tower Instanced Dungeon", localKey: "ETC_20160323_021196" },
