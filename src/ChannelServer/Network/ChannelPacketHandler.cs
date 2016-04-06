@@ -858,25 +858,10 @@ namespace Melia.Channel.Network
 					break;
 			case 2:
 				/// TODO
+				/// Handle skills learning
+				/// 
 				var jobId = packet.GetInt();
 
-				for (int skillIndex = 0; skillIndex < 4; ++skillIndex)
-				{
-					var points = packet.GetInt();
-
-					Log.Warning("points{1}: {0}", points, skillIndex);
-
-					if (points == 0)
-						continue;
-
-
-					/// TODO
-					// Fake add skill - Heal for Cleric
-					if (character.Skills.Learn(jobId, skillIndex, points))
-					{
-						Send.ZC_SKILL_ADD(character, (int)Skills.SkillId.Heal);
-					}
-				}
 				break;
 			default:
 				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
@@ -921,20 +906,11 @@ namespace Melia.Channel.Network
 			var unk6 = packet.GetByte();
 			var unk7 = packet.GetByte();
 
-			Log.Warning("CZ_SKILL_GROUND");
-			Log.Warning("unk1: {0}", unk1);
-			Log.Warning("skillId: {0}", skillId);
-			Log.Warning("unk2: {0}", unk2);
-			Log.Warning("Pos1: {0},{1},{2}", x1, x1, z1);
-			Log.Warning("Pos2: {0},{1},{2}", x2, y2, z2);
-			Log.Warning("Dir: {0},{1}", cos, sin);
-			Log.Warning("unk3: {0}", unk3);
-			Log.Warning("unk6: {0}", unk6);
-			Log.Warning("unk7: {0}", unk7);
-
 			var character = conn.SelectedCharacter;
 
-			// Check parameters
+			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
+
+			/*
 			var packetPosition1 = new Position(x1, y1, z1);
 			var packetPosition2 = new Position(x2, y2, z2);
 			var skillPosition = new Position(x1, y1, z1 - 20);
@@ -942,10 +918,10 @@ namespace Melia.Channel.Network
 
 			var skillDirection = new Direction(0.707f, 0.707f);
 
-			// Player in Attack state
+			// Player in Attack state (if not already)
 			Send.ZC_PC_ATKSTATE(character, true);
 
-			// Update caster's SP
+			// Update caster's SP 
 			short consumedSp = 10;
 			Send.ZC_UPDATE_SP(character, consumedSp);
 
@@ -963,6 +939,7 @@ namespace Melia.Channel.Network
 
 			// Broadcast action to all?
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
+			*/
 		}
 	}
 }

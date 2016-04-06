@@ -1596,7 +1596,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Creates a skill in client
+		/// Creates a particle effect (or set desired animation)
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="actorId"></param>
