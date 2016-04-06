@@ -1561,8 +1561,11 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Skill(Character character, int id, Position position, Direction direction, bool create)
 		{
 			var actorId = 1234; // ActorId (entity unique id for this skill)
-			var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
 			var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
+
+			var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
+			if (!create)
+				skillState = 1;
 
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
@@ -1579,10 +1582,6 @@ namespace Melia.Channel.Network
 			packet.PutFloat(distance);
 			packet.PutInt(actorId);
 			packet.PutByte(create);
-			if (!create)
-			{
-				skillState = 1;
-			}
 			packet.PutInt(skillState);
 			packet.PutInt(0);
 			packet.PutInt(0);

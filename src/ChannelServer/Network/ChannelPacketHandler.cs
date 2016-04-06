@@ -807,12 +807,13 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var txType = packet.GetShort();
+			var txType = (TxType)packet.GetShort();
+
 			var character = conn.SelectedCharacter;
 
 			switch (txType)
 			{
-				case 1:
+				case TxType.Stats:
 					var count = packet.GetInt();
 					if (count != 5)
 						throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
@@ -821,17 +822,13 @@ namespace Melia.Channel.Network
 					{
 						var stat = packet.GetInt();
 
-						Log.Warning("stat{1}: {0}", stat, i);
-
 						if (stat == 0)
 							continue;
-
 
 						if (character.StatPoints < stat)
 						{
 							Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
-							continue;
-							//break;
+							break;
 						}
 
 						character.UsedStat += stat;
@@ -850,19 +847,20 @@ namespace Melia.Channel.Network
 
 					// Official doesn't update UsedStat with this packet =<
 					Send.ZC_OBJECT_PROPERTY(character,
-					ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-					ObjectProperty.PC.UsedStat
+						ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+						ObjectProperty.PC.UsedStat
 					);
+
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 					break;
-				case 2:
-					/// TODO
-					/// Handle skills learning
-					/// 
-					var jobId = packet.GetInt();
 
+				case TxType.Skills:
+					// TODO: Handle skill learning
+					var jobId = packet.GetInt();
+					Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
 					break;
+
 				default:
 					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
 					break;
@@ -941,5 +939,11 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 			*/
 		}
+	}
+
+	public enum TxType : short
+	{
+		Stats = 1,
+		Skills = 2,
 	}
 }
