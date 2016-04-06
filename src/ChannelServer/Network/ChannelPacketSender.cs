@@ -432,16 +432,16 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
-		/// <summary>
-		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_MOVE_SPEED(Character character)
+        /// <summary>
+        /// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
+        /// </summary>
+        /// <param name="entity"></param>
+        public static void ZC_MOVE_SPEED(IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.GetSpeed());
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Speed);
 			packet.PutFloat(0);
 
 			// [i11257 (2016-03-25)]
@@ -449,7 +449,7 @@ namespace Melia.Channel.Network
 				packet.PutByte(0);
 			}
 
-			character.Map.Broadcast(packet, character);
+            entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1449,18 +1449,18 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
-		/// <summary>
-		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
-		/// characters about the movement.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
-		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(IEntity entity, float x, float y, float z, float dx, float dy, float unkFloat)
+        /// <summary>
+        /// Broadcasts ZC_MOVE_DIR in range of entity, informing
+        /// characters about the movement.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <param name="unkFloat"></param>
+        public static void ZC_MOVE_DIR(IEntity entity, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
@@ -1478,25 +1478,25 @@ namespace Melia.Channel.Network
 			entity.Map.Broadcast(packet, entity);
 		}
 
-		/// <summary>
-		/// Broadcasts ZC_MOVE_STOP in range of character, informing other
-		/// characters about the movement stop.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
+        /// <summary>
+        /// Broadcasts ZC_MOVE_STOP in range of entity, informing
+        /// characters about the movement stop.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public static void ZC_MOVE_STOP(IEntity entity, float x, float y, float z)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

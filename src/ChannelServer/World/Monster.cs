@@ -6,6 +6,7 @@ using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -187,16 +188,8 @@ namespace Melia.Channel.World
 			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
             this.Speed = 30;
-            this.AttackRange = 50;
+            this.AttackRange = 40;
             this.Attack = 20;
-
-            //Agro on spawn like in original ToS
-            //TODO delay
-            var nearCharacter = this.Map.GetVisibleCharacters(this);
-            if (nearCharacter.Length != 0)
-            {
-                this.Target = nearCharacter[0];
-            }
 		}
 
 		/// <summary>
@@ -307,26 +300,33 @@ namespace Melia.Channel.World
                 {
                     this.IsInRangeOfAttack = false;
 
-                    this.SetPosition(this.Target.Position);
                     this.SetDirection(
                         Shared.Util.Math2.AngleBetweenTwoEntity(
                             this.Position, this.Target.Position
                             ));
 
-                    //BUG Monster will jump if target will jump?
+                    float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin;
+                    float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin;
+                    this.SetPosition(
+                        this.Position.X + dx * WorldManager.HeartbeatTime / 1000,
+                        this.Position.Y,
+                        this.Position.Z + dz * WorldManager.HeartbeatTime / 1000
+                    );
+
                     Send.ZC_MOVE_DIR(
                         this,
-                        this.Target.Position.X - (float) AttackRange/2,
-                        this.Target.Position.Y - (float) AttackRange/2,
+                        this.Target.Position.X,
+                        this.Target.Position.Y,
                         this.Target.Position.Z,
                         this.Direction.Cos,
                         this.Direction.Sin,
                         0
-                        );
+                    );
                 }
                 else
                 {
                     this.IsInRangeOfAttack = true;
+                    Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
                 }
             }
         }
@@ -350,7 +350,16 @@ namespace Melia.Channel.World
         /// Update monster behaviour
         /// </summary>
 	    public void UpdateMonsterBehaviour()
-	    {
+        {
+            //Agro on spawn like in original ToS
+            //TODO delay
+            var nearCharacter = this.Map.GetVisibleCharacters(this);
+            if (nearCharacter.Length != 0)
+                this.Target = nearCharacter[0];
+
+            //Temporary decision. Very redunant.
+            Send.ZC_MOVE_SPEED(this);
+
             if (this.Target != null)
             {
                 if (!IsTargetVisible()) return;
