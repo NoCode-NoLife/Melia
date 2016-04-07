@@ -78,6 +78,11 @@ namespace Melia.Channel.World
 		public Position Position { get; set; }
 
         /// <summary>
+        /// Original mob spawn position
+        /// </summary>
+        public Position OriginalPosition { get; set; }
+
+        /// <summary>
         /// Set monster's position
         /// </summary>
         /// <param name="x"></param>
@@ -267,8 +272,8 @@ namespace Melia.Channel.World
         {
             if (this.Hp <= 0) return;
 
-            this.SetPosition(x, y, z);
             Send.ZC_MOVE_PATH(this, x, y, z);
+            this.SetPosition(x, y, z);
         }
 
         /// <summary>
@@ -283,24 +288,45 @@ namespace Melia.Channel.World
                 {
                     this.IsInRangeOfAttack = false;
 
-                    float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin;
-                    float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin;
-                    this.SetPosition(
-                        this.Position.X + dx * WorldManager.HeartbeatTime / 1000,
+                    RotateTowardTarget();
+                    Send.ZC_ROTATE(this);
+
+                    float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
+                    float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
+
+                    Send.ZC_MOVE_DIR(
+                        this,
+                        this.Position.X,
                         this.Position.Y,
-                        this.Position.Z + dz * WorldManager.HeartbeatTime / 1000
+                        this.Position.Z,
+                        dx,
+                        dz,
+                        0
                     );
 
-                    Send.ZC_MOVE_PATH(
-                        this,
-                        this.Target.Position.X,
-                        this.Target.Position.Y,
-                        this.Target.Position.Z
+                    this.SetPosition(
+                        this.Position.X + dx,
+                        this.Position.Y,
+                        this.Position.Z + dz
                     );
+                    //this.SetPosition(
+                    //    this.Position.X + dx * WorldManager.HeartbeatTime / 1000,
+                    //    this.Position.Y,
+                    //    this.Position.Z + dz * WorldManager.HeartbeatTime / 1000
+                    //);
+                    //
+                    //Send.ZC_MOVE_PATH(
+                    //    this,
+                    //    this.Target.Position.X,
+                    //    this.Target.Position.Y,
+                    //    this.Target.Position.Z
+                    //);
                 }
                 else
                     this.IsInRangeOfAttack = true;
             }
+            else
+                this.IsInRangeOfAttack = false;
         }
 
         /// <summary>
@@ -310,17 +336,15 @@ namespace Melia.Channel.World
         {
             if (this.Target != null && this.Hp > 0 && this.IsInRangeOfAttack)
             {
-                this.SetDirection(
-                    Shared.Util.Math2.AngleBetweenTwoEntity(
-                        this.Position, this.Target.Position
-                ));
+                //this.Target.Hp -= this.Attack;
+                RotateTowardTarget();
                 Send.ZC_SKILL_HIT_INFO(this, this.Target, Attack);
             }
         }
 
 	    public void UpdateStartAgro()
 	    {
-            if (this.AgroPeriod > 0)
+            if (this.AgroPeriod > 0 && this.Target != null)
             {
                 this.AgroPeriod -= WorldManager.HeartbeatTime;
                 var nearCharacter = this.Map.GetVisibleCharacters(this);
@@ -328,6 +352,21 @@ namespace Melia.Channel.World
                 {
                     this.Target = nearCharacter[0];
                     this.AgroPeriod = 0;
+                }
+            }
+	        if (this.Target != null)
+            {
+                //TODO need some constant for mob vision range
+                if (!this.Target.Position.InRange2D(this.Position, 150))
+                {
+                    this.Target = null;
+                    this.Move(this.OriginalPosition.X, this.OriginalPosition.Y, this.OriginalPosition.Z);
+                }
+                //How far mob can walk from original spawn point
+                if (!this.OriginalPosition.InRange2D(this.Position, 300))
+                {
+                    this.Target = null;
+                    this.Move(this.OriginalPosition.X, this.OriginalPosition.Y, this.OriginalPosition.Z);
                 }
             }
 	    }

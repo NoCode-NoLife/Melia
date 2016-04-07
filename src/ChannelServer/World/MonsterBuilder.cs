@@ -21,7 +21,6 @@ namespace Melia.Channel.World
        private Direction _direction;
        private readonly int _sdr;
        private readonly int _maxHp;
-       private readonly int _agroPeriod;
        private readonly int _attackRange;
        private readonly int _attack;
        private readonly float _speed;
@@ -83,7 +82,6 @@ namespace Melia.Channel.World
                 DialogName = this._dialogName,
                 WarpName = this._warpName,
                 Level = this._level,
-                Hp = this._maxHp,
                 MaxHp = this._maxHp,
                 SDR = this._sdr,
                 Speed = this._speed,
@@ -91,9 +89,11 @@ namespace Melia.Channel.World
                 AttackRange = this._attackRange,
                 AgroPeriod = 2000/WorldManager.HeartbeatTime,
                 Direction = this._direction,
+                OriginalPosition = this._position,
                 Position = this._position,
                 DisappearTime = DateTime.MaxValue,
             };
+            monster.Hp = this._maxHp;
             return monster;
         }
     }

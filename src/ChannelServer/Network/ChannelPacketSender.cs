@@ -1461,7 +1461,7 @@ namespace Melia.Channel.Network
         /// <param name="dx"></param>
         /// <param name="dy"></param>
         /// <param name="unkFloat"></param>
-        public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+        public static void ZC_MOVE_DIR(IEntity character, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
@@ -1492,6 +1492,9 @@ namespace Melia.Channel.Network
             var packet = new Packet(Op.ZC_MOVE_PATH);
 
             packet.PutInt(monster.Handle);
+            packet.PutFloat(monster.Position.X);
+            packet.PutFloat(monster.Position.Y);
+            packet.PutFloat(monster.Position.Z);
             packet.PutFloat(x);
             packet.PutFloat(y);
             packet.PutFloat(z);
