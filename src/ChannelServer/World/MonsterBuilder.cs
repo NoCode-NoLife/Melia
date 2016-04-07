@@ -89,7 +89,7 @@ namespace Melia.Channel.World
                 Speed = this._speed,
                 Attack = this._attack,
                 AttackRange = this._attackRange,
-                AgroPeriod = 2500/WorldManager.HeartbeatTime,
+                AgroPeriod = 2000/WorldManager.HeartbeatTime,
                 Direction = this._direction,
                 Position = this._position,
                 DisappearTime = DateTime.MaxValue,

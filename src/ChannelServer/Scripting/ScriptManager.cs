@@ -413,7 +413,7 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Parameters:
 		/// - int monsterId
-		/// - string name
+		/// - string name / Localkey
 		/// - string mapName
 		/// - number x
 		/// - number y
@@ -439,10 +439,14 @@ namespace Melia.Channel.Scripting
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
-		    var monsterBuilder =
-		        new MonsterBuilder(monsterId, NpcType.NPC, name, dialog, mapName, 1, 100, 1, 30, 10, 30)
-		            .SetPosition(new Position(x, y, z))
-		            .SetDirection(new Direction(direction));
+			// Wrap name in localization code if applicable
+			if (name.StartsWith("ETC_") || name.StartsWith("QUEST_"))
+				name = "@dicID_^*$" + name + "$*^";
+
+			var monsterBuilder =
+				new MonsterBuilder(monsterId, NpcType.NPC, name, dialog, mapName, 1, 100, 1, 30, 10, 30)
+					.SetPosition(new Position(x, y, z))
+					.SetDirection(new Direction(direction));
 
             map.AddMonster(monsterBuilder.Build());
 
