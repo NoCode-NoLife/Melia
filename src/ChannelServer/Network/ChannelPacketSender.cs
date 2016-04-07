@@ -1450,33 +1450,55 @@ namespace Melia.Channel.Network
 		}
 
         /// <summary>
-        /// Broadcasts ZC_MOVE_DIR in range of entity, informing
+        /// Broadcasts ZC_MOVE_DIR in range of character, informing
         /// characters about the movement.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="character"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <param name="dx"></param>
         /// <param name="dy"></param>
         /// <param name="unkFloat"></param>
-        public static void ZC_MOVE_DIR(IEntity entity, float x, float y, float z, float dx, float dy, float unkFloat)
+        public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutFloat(dx);
 			packet.PutFloat(dy);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(entity.Speed);
+            packet.PutFloat(character.Speed);
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
 
-			entity.Map.Broadcast(packet, entity);
+            character.Map.Broadcast(packet, character);
 		}
+
+        /// <summary>
+        /// Broadcasts ZC_MOVE_PATH in range of monster, informing
+        /// characters about the movement.
+        /// </summary>
+        /// <param name="monster"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public static void ZC_MOVE_PATH(Monster monster, float x, float y, float z)
+        {
+            var packet = new Packet(Op.ZC_MOVE_PATH);
+
+            packet.PutInt(monster.Handle);
+            packet.PutFloat(x);
+            packet.PutFloat(y);
+            packet.PutFloat(z);
+            packet.PutFloat(monster.Speed); //seems to be speed
+            packet.PutFloat(0);
+
+            monster.Map.Broadcast(packet, monster);
+        }
 
         /// <summary>
         /// Broadcasts ZC_MOVE_STOP in range of entity, informing
@@ -1486,17 +1508,17 @@ namespace Melia.Channel.Network
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public static void ZC_MOVE_STOP(IEntity entity, float x, float y, float z)
+        public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
-			packet.PutInt(entity.Handle);
+            packet.PutInt(character.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutByte(0);
 
-			entity.Map.Broadcast(packet, entity);
+            character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>

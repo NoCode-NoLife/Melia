@@ -434,5 +434,32 @@ namespace Melia.Channel.World
 			this.SetHeadDirection(d1, d2);
 			Send.ZC_HEAD_ROTATE(this);
 		}
+
+        /// <summary>
+        /// Take damage from NPC or Character
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="from"></param>
+	    public void TakeDamage(int damage, IEntity from)
+	    {
+            this.Hp -= damage;
+
+            // In earlier clients ZC_HIT_INFO was used, newer ones seem to
+            // use SKILL, and this doesn't create a double hit effect like
+            // the other.
+            Send.ZC_SKILL_HIT_INFO(from, this, damage);
+
+            if (this.Hp == 0)
+                this.Kill(from);
+	    }
+
+        /// <summary>
+        /// Kills monster.
+        /// </summary>
+        /// <param name="killer"></param>
+        public void Kill(IEntity killer)
+        {
+            Send.ZC_DEAD(this);
+        }
 	}
 }

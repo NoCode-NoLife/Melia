@@ -71,6 +71,7 @@
     <Compile Include="World\Item.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
+    <Compile Include="World\MonsterBuilder.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

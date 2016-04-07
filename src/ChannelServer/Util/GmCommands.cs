@@ -306,23 +306,26 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			var monster = new Monster(id, NpcType.Monster);
-
-		    if (args.Length == 2)
-		        monster.Position = target.Position;
-		    else
-		    {
-		        int x, y, z;
+		    Position position;
+            if (args.Length == 2)
+                position = target.Position;
+            else
+            {
+                int x, y, z;
                 if (int.TryParse(args[2], out x) &&
                     int.TryParse(args[3], out y) &&
                     int.TryParse(args[4], out z))
-                    monster.Position = new Position(x, y, z);
+                    position = new Position(x, y, z);
                 else
                     return CommandResult.InvalidArgument;
             }
-			monster.Direction = target.Direction;
 
-			target.Map.AddMonster(monster);
+            var monsterBuilder =
+                new MonsterBuilder(id, NpcType.Monster, monsterData.Name, "", "", 1, 100, 1, 30, 10, 30)
+                    .SetDirection(target.Direction)
+                    .SetPosition(position);
+
+			target.Map.AddMonster(monsterBuilder.Build());
 
 			return CommandResult.Okay;
 		}

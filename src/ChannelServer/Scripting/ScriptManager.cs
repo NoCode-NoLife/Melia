@@ -439,13 +439,12 @@ namespace Melia.Channel.Scripting
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
-			var monster = new Monster(monsterId, NpcType.NPC);
-			monster.Name = name;
-			monster.DialogName = dialog;
-			monster.Position = new Position(x, y, z);
-			monster.Direction = new Direction(direction);
+		    var monsterBuilder =
+		        new MonsterBuilder(monsterId, NpcType.NPC, name, dialog, mapName, 1, 100, 1, 30, 10, 30)
+		            .SetPosition(new Position(x, y, z))
+		            .SetDirection(new Direction(direction));
 
-			map.AddMonster(monster);
+            map.AddMonster(monsterBuilder.Build());
 
 			return 0;
 		}
@@ -507,15 +506,12 @@ namespace Melia.Channel.Scripting
 			if (toMapData.LocalKey != "?")
 				name = "@dicID_^*$" + toMapData.LocalKey + "$*^";
 
-			// Create a warping monster...
-			var monster = new Monster(40001, NpcType.NPC);
-			monster.Name = name;
-			monster.WarpName = warpName;
-			monster.Position = new Position(fromX, fromY, fromZ);
-			monster.Direction = new Direction(direction);
-			monster.WarpLocation = new Location(toMapData.Id, toX, toY, toZ);
+		    var monsterBuilder =
+                new MonsterBuilder(40001, NpcType.NPC, name, "", warpName, 1, 100, 1, 30, 10, 30)
+                    .SetDirection(direction)
+                    .SetPosition(fromX, fromY, fromZ);
 
-			map.AddMonster(monster);
+			map.AddMonster(monsterBuilder.Build());
 
 			return 0;
 		}
@@ -993,10 +989,11 @@ namespace Melia.Channel.Scripting
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
-			var monster = new Monster(monsterId, NpcType.Monster);
-			monster.Position = new Position(x, y, z);
+		    var monsterBuilder =
+                new MonsterBuilder(monsterId, NpcType.Monster, "", "", mapName, 1, 100, 1, 30, 10, 30)
+		            .SetPosition(new Position(x, y, z));
 
-			map.AddMonster(monster);
+			map.AddMonster(monsterBuilder.Build());
 
 			return 0;
 		}

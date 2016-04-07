@@ -1,4 +1,5 @@
-﻿using Melia.Channel.Network;
+﻿using System.ComponentModel;
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
@@ -145,6 +146,11 @@ namespace Melia.Channel.World
         public int MaxHp { get; set; }
 
         /// <summary>
+        /// Attack damage
+        /// </summary>
+        public int AgroPeriod;
+
+        /// <summary>
         /// Attack range of monster
         /// </summary>
         public int AttackRange;
@@ -165,32 +171,14 @@ namespace Melia.Channel.World
         public float Speed { get; set; }
 
         /// <summary>
-        /// Is monster moving at that moment?
-        /// </summary>
-        private bool IsMoving { get; set; }
-
-        /// <summary>
         /// Is monster in range of his attack
         /// </summary>
         public bool IsInRangeOfAttack { get; set; }
 
-        /// <summary>
-        /// Creates new NPC.
-        /// </summary>
-        public Monster(int id, NpcType type)
-		{
-			this.Handle = ChannelServer.Instance.World.CreateHandle();
-
-			this.Id = id;
-			this.NpcType = type;
-			this.Level = 1;
-			this.SDR = 1;
-			this.Hp = this.MaxHp = 100;
-			this.DisappearTime = DateTime.MaxValue;
-            this.Speed = 30;
-            this.AttackRange = 40;
-            this.Attack = 20;
-		}
+        public Monster(int handle)
+        {
+            this.Handle = handle;
+        }
 
 		/// <summary>
 		/// Makes monster take damage and kills it if the HP reach 0.
@@ -275,17 +263,12 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-        public void Move(float x, float y, float z, float dx, float dy)
+        public void Move(float x, float y, float z)
         {
             if (this.Hp <= 0) return;
 
             this.SetPosition(x, y, z);
-            this.SetDirection(dx, dy);
-            this.IsMoving = true;
-
-            // Cause float unkFloat is... unknown I
-            // passing zero. It seems to work fine.
-            Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, 0);
+            Send.ZC_MOVE_PATH(this, x, y, z);
         }
 
         /// <summary>
@@ -300,11 +283,6 @@ namespace Melia.Channel.World
                 {
                     this.IsInRangeOfAttack = false;
 
-                    this.SetDirection(
-                        Shared.Util.Math2.AngleBetweenTwoEntity(
-                            this.Position, this.Target.Position
-                            ));
-
                     float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin;
                     float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin;
                     this.SetPosition(
@@ -313,21 +291,15 @@ namespace Melia.Channel.World
                         this.Position.Z + dz * WorldManager.HeartbeatTime / 1000
                     );
 
-                    Send.ZC_MOVE_DIR(
+                    Send.ZC_MOVE_PATH(
                         this,
                         this.Target.Position.X,
                         this.Target.Position.Y,
-                        this.Target.Position.Z,
-                        this.Direction.Cos,
-                        this.Direction.Sin,
-                        0
+                        this.Target.Position.Z
                     );
                 }
                 else
-                {
                     this.IsInRangeOfAttack = true;
-                    Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
-                }
             }
         }
 
@@ -342,9 +314,23 @@ namespace Melia.Channel.World
                     Shared.Util.Math2.AngleBetweenTwoEntity(
                         this.Position, this.Target.Position
                 ));
-                Send.ZC_HIT_INFO(this, this.Target, Attack);
+                Send.ZC_SKILL_HIT_INFO(this, this.Target, Attack);
             }
         }
+
+	    public void UpdateStartAgro()
+	    {
+            if (this.AgroPeriod > 0)
+            {
+                this.AgroPeriod -= WorldManager.HeartbeatTime;
+                var nearCharacter = this.Map.GetVisibleCharacters(this);
+                if (nearCharacter.Length != 0)
+                {
+                    this.Target = nearCharacter[0];
+                    this.AgroPeriod = 0;
+                }
+            }
+	    }
 
         /// <summary>
         /// Update monster behaviour
@@ -352,19 +338,13 @@ namespace Melia.Channel.World
 	    public void UpdateMonsterBehaviour()
         {
             //Agro on spawn like in original ToS
-            //TODO delay
-            var nearCharacter = this.Map.GetVisibleCharacters(this);
-            if (nearCharacter.Length != 0)
-                this.Target = nearCharacter[0];
-
-            //Temporary decision. Very redunant.
-            Send.ZC_MOVE_SPEED(this);
+            this.UpdateStartAgro();
 
             if (this.Target != null)
             {
-                if (!IsTargetVisible()) return;
-                MoveTowardTarget();
-                AttackTarget();
+                if (!this.IsTargetVisible()) return;
+                this.MoveTowardTarget();
+                this.AttackTarget();
             }
 	    }
     }
