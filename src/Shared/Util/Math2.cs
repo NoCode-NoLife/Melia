@@ -77,18 +77,41 @@ namespace Melia.Shared.Util
         /// <summary>
         /// Calculate rotation toward target
         /// </summary>
-        /// <param name="rotated"></param>
+        /// <param name="source"></param>
         /// <param name="target"></param>
         /// <returns></returns>
         public static Direction AngleBetweenTwoEntity(Position source, Position target)
         {
             float dy = source.X - target.X;
             float dx = source.Z - target.Z;
-            double angle = Math.Atan2(-dx, -dy) * 180.0 / Math.PI;
+            double angle = Math.Atan2(-dx, -dy);
             return new Direction(
-                (float)Math.Cos((angle / 180D) * Math.PI),
-                (float)Math.Sin((angle / 180D) * Math.PI)
+                (float)Math.Cos(angle),
+                (float)Math.Sin(angle)
             );
+        }
+
+        /// <summary>
+        /// Calculate move vector toward target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="speed"></param>
+        /// <param name="heartbeatTime"></param>
+        /// <returns></returns>
+        public static Position VectorTwoEntity(Position source, Position target, float speed, int heartbeatTime)
+        {
+            var direction = AngleBetweenTwoEntity(source, target);
+
+            float dx = (speed * direction.Cos + 0 * direction.Sin) * heartbeatTime / 1000;
+            float dz = (speed * direction.Cos - 0 * direction.Sin) * heartbeatTime / 1000;
+
+            return
+                new Position(
+                    speed * direction.Sin + 0 * direction.Cos,
+                    0,
+                    speed * direction.Cos - 0 * direction.Sin
+                );
         }
     }
 }

@@ -284,11 +284,13 @@ namespace Melia.Channel.World
                 {
                     this.IsInRangeOfAttack = false;
 
-                    RotateTowardTarget();
-                    Send.ZC_ROTATE(this);
-
-                    float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
-                    float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
+                    Position nextPosition =
+                        Shared.Util.Math2.VectorTwoEntity(
+                            this.Position,
+                            this.Target.Position,
+                            this.Speed,
+                            World.WorldManager.HeartbeatTime
+                        );
 
                     Send.ZC_MOVE_PATH(
                         this,
@@ -296,9 +298,9 @@ namespace Melia.Channel.World
                     );
 
                     this.SetPosition(
-                        this.Position.X + dx,
-                        this.Position.Y,
-                        this.Position.Z + dz
+                        this.Position.X + nextPosition.X,
+                        this.Position.Y + nextPosition.Y,
+                        this.Position.Z + nextPosition.Z
                     );
                 }
                 else
