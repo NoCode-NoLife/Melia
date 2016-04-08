@@ -862,7 +862,9 @@ namespace Melia.Channel.Network
 				/// 
 				var jobId = packet.GetInt();
 
-				break;
+					Send.ZC_SKILL_ADD(character, 40001);
+
+					break;
 			default:
 				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
 				break;
@@ -910,14 +912,33 @@ namespace Melia.Channel.Network
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
 
-			/*
+			
 			var packetPosition1 = new Position(x1, y1, z1);
 			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(x1, y1, z1 - 20);
+			var skillPosition = new Position(40 * cos + x1, y1, 40 * sin + z1);
 			var packetDirection = new Direction(cos, sin);
 
 			var skillDirection = new Direction(0.707f, 0.707f);
 
+			Log.Debug("SKILL pos1 {0},{1},{2}", x1,y1,z1);
+			Log.Debug("SKILL pos2 {0},{1},{2}", x2, y2,z2);
+
+
+			// Add skill to world
+			// Get map
+			var map = ChannelServer.Instance.World.GetMap(character.MapId);
+
+			SkillActor PESkill = new SkillActor();
+			PESkill.character = character;
+			PESkill.SkillId = skillId;
+			PESkill.Position = skillPosition;
+
+			map.AddSkill(PESkill);
+
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, 1234);
+
+
+			/*
 			// Player in Attack state (if not already)
 			Send.ZC_PC_ATKSTATE(character, true);
 

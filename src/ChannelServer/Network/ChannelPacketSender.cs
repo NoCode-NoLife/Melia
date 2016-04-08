@@ -1558,9 +1558,9 @@ namespace Melia.Channel.Network
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="create"></param>
-		public static void ZC_NORMAL_Skill(Character character, int id, Position position, Direction direction, bool create)
+		public static void ZC_NORMAL_Skill(Character character, int id, Position position, Direction direction, bool create, int actorId)
 		{
-			var actorId = 1234; // ActorId (entity unique id for this skill)
+			//var actorId = 1234; // ActorId (entity unique id for this skill)
 			var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
 			var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
 

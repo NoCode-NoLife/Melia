@@ -23,6 +23,7 @@ namespace Melia.Channel.World
 
 		private Dictionary<int, Character> _characters;
 		private Dictionary<int, Monster> _monsters;
+		private Dictionary<int, SkillActor> _skills;
 
 		/// <summary>
 		/// Map name.
@@ -40,15 +41,24 @@ namespace Melia.Channel.World
 		public static Map Limbo = new Limbo();
 
 		/// <summary>
+		/// Sector Manager
+		/// </summary>
+		public SectorManager SectorManager;
+
+		/// <summary>
 		/// Creates new map.
 		/// </summary>
 		public Map(int id, string name)
 		{
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
+			_skills = new Dictionary<int, SkillActor>();
 
 			this.Id = id;
 			this.Name = name;
+
+			SectorManager = new SectorManager();
+			SectorManager.Init(this, 10000, 10000, -5000, -5000);
 		}
 
 		/// <summary>
@@ -58,6 +68,8 @@ namespace Melia.Channel.World
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
+			this.ProcessCharacters();
+			this.ProcessSkills();
 		}
 
 		/// <summary>
@@ -87,6 +99,31 @@ namespace Melia.Channel.World
 			}
 		}
 
+		private void ProcessCharacters()
+		{
+			foreach (var character in _characters.Values)
+				character.Process();
+		}
+
+		private void ProcessSkills()
+		{
+			List<SkillActor> skillsToDelete = new List<SkillActor>();
+			foreach (var skill in _skills.Values)
+			{
+				if (skill.ToDelete)
+				{
+					skillsToDelete.Add(skill);
+					continue;
+				} 
+				skill.Process();
+			}
+
+			foreach (var skill in skillsToDelete)
+			{
+				RemoveSkill(skill);
+			}
+		}
+
 		/// <summary>
 		/// Adds character to map.
 		/// </summary>
@@ -97,6 +134,13 @@ namespace Melia.Channel.World
 
 			lock (_characters)
 				_characters[character.Handle] = character;
+
+			character.GetPlaceableEntity().map = this;
+
+			if (!SectorManager.Add(character.GetPlaceableEntity(), character.Position))
+			{
+				Log.Debug("Error adding character placeable entity into SectorManager at: {0} {1} {2}", character.Position.X, character.Position.Y, character.Position.Z);
+			}
 		}
 
 		/// <summary>
@@ -109,6 +153,8 @@ namespace Melia.Channel.World
 				_characters.Remove(character.Handle);
 
 			character.Map = null;
+
+			SectorManager.Remove(character.GetPlaceableEntity());
 		}
 
 		/// <summary>
@@ -269,6 +315,27 @@ namespace Melia.Channel.World
 				foreach (var character in _characters.Values.Where(a => (includeSource || a != source) && a.Position.InRange2D(source.Position, VisibleRange)))
 					character.Connection.Send(packet);
 			}
+		}
+
+		public void AddSkill(SkillActor skill)
+		{
+			lock (_skills)
+				_skills[skill.Handle] = skill;
+
+			skill.map = this;
+
+			if (!SectorManager.Add(skill, skill.Position))
+			{
+				Log.Debug("Error adding skill placeable entity into SectorManager at: {0} {1} {2}", skill.Position.X, skill.Position.Y, skill.Position.Z);
+			}
+		}
+
+		public void RemoveSkill(SkillActor skill)
+		{
+			lock (_skills)
+				_skills.Remove(skill.Handle);
+
+			SectorManager.Remove(skill);
 		}
 	}
 
