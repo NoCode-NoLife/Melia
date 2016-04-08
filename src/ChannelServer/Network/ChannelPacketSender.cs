@@ -1484,20 +1484,18 @@ namespace Melia.Channel.Network
         /// characters about the movement.
         /// </summary>
         /// <param name="monster"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public static void ZC_MOVE_PATH(Monster monster, float x, float y, float z)
+        /// <param name="newPosition"></param>
+        public static void ZC_MOVE_PATH(Monster monster, Position newPosition)
         {
             var packet = new Packet(Op.ZC_MOVE_PATH);
 
             packet.PutInt(monster.Handle);
-            packet.PutFloat(monster.Position.X);
-            packet.PutFloat(monster.Position.Y);
-            packet.PutFloat(monster.Position.Z);
-            packet.PutFloat(x);
-            packet.PutFloat(y);
-            packet.PutFloat(z);
+            packet.PutInt((int)monster.Position.X);
+            packet.PutInt((int)monster.Position.Y);
+            packet.PutInt((int)monster.Position.Z);
+            packet.PutInt((int)newPosition.X);
+            packet.PutInt((int)newPosition.Y);
+            packet.PutInt((int)newPosition.Z);
             packet.PutFloat(monster.Speed); //seems to be speed
             packet.PutFloat(0);
 

@@ -263,17 +263,13 @@ namespace Melia.Channel.World
         /// <summary>
 		/// Starts movement.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
-        public void Move(float x, float y, float z)
+        /// <param name="position"></param>
+        public void Move(Position position)
         {
             if (this.Hp <= 0) return;
 
-            Send.ZC_MOVE_PATH(this, x, y, z);
-            this.SetPosition(x, y, z);
+            Send.ZC_MOVE_PATH(this, position);
+            this.SetPosition(position);
         }
 
         /// <summary>
@@ -294,14 +290,9 @@ namespace Melia.Channel.World
                     float dx = this.Speed * this.Direction.Cos - this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
                     float dz = this.Speed * this.Direction.Cos + this.Speed * this.Direction.Sin * WorldManager.HeartbeatTime / 500;
 
-                    Send.ZC_MOVE_DIR(
+                    Send.ZC_MOVE_PATH(
                         this,
-                        this.Position.X,
-                        this.Position.Y,
-                        this.Position.Z,
-                        dx,
-                        dz,
-                        0
+                        this.Target.Position
                     );
 
                     this.SetPosition(
@@ -309,18 +300,6 @@ namespace Melia.Channel.World
                         this.Position.Y,
                         this.Position.Z + dz
                     );
-                    //this.SetPosition(
-                    //    this.Position.X + dx * WorldManager.HeartbeatTime / 1000,
-                    //    this.Position.Y,
-                    //    this.Position.Z + dz * WorldManager.HeartbeatTime / 1000
-                    //);
-                    //
-                    //Send.ZC_MOVE_PATH(
-                    //    this,
-                    //    this.Target.Position.X,
-                    //    this.Target.Position.Y,
-                    //    this.Target.Position.Z
-                    //);
                 }
                 else
                     this.IsInRangeOfAttack = true;
@@ -360,13 +339,13 @@ namespace Melia.Channel.World
                 if (!this.Target.Position.InRange2D(this.Position, 150))
                 {
                     this.Target = null;
-                    this.Move(this.OriginalPosition.X, this.OriginalPosition.Y, this.OriginalPosition.Z);
+                    this.Move(this.OriginalPosition);
                 }
                 //How far mob can walk from original spawn point
                 if (!this.OriginalPosition.InRange2D(this.Position, 300))
                 {
                     this.Target = null;
-                    this.Move(this.OriginalPosition.X, this.OriginalPosition.Y, this.OriginalPosition.Z);
+                    this.Move(this.OriginalPosition);
                 }
             }
 	    }
