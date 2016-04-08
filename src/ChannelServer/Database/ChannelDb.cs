@@ -4,6 +4,7 @@
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
 using System;
@@ -188,6 +189,13 @@ namespace Melia.Channel.Database
 						var itemId = reader.GetInt32("itemId");
 						var amount = reader.GetInt32("amount");
 						var equipSlot = (EquipSlot)reader.GetByte("equipSlot");
+
+						// Check item, in case its data was removed
+						if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+						{
+							Log.Warning("ChannelDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
+							continue;
+						}
 
 						var item = new Item(itemId, amount);
 
