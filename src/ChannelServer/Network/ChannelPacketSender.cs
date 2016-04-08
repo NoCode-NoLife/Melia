@@ -713,8 +713,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
-			packet.PutShort(character.Handle);
-			packet.PutEmptyBin(2);
+			packet.PutInt(character.Handle);
 			packet.AddCommander(character);
 
 			character.Map.Broadcast(packet, character);
