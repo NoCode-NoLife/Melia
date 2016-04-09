@@ -20,5 +20,7 @@ namespace Melia.Shared.Const
 		ApplySoftParticles = 33,
 		ApplyHighTexture = 45,
 		ShowOtherCharactersEffects = 48,
+		ChatWidth = 50,
+		ChatHeight = 51,
 	}
 }
