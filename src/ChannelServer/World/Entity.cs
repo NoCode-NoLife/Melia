@@ -10,7 +10,7 @@ namespace Melia.Channel.World
 		int Hp { get; }
 		Map Map { get; }
 		Position Position { get; }
-        Direction Direction { get; }
-        float Speed { get; }
-    }
+		Direction Direction { get; }
+		float Speed { get; }
+	}
 }

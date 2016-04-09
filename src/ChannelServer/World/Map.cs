@@ -58,7 +58,7 @@ namespace Melia.Channel.World
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
-		    this.MonsterUpdate();
+			this.MonsterUpdate();
 		}
 
 		/// <summary>
@@ -88,17 +88,17 @@ namespace Melia.Channel.World
 			}
 		}
 
-        /// <summary>
-        /// Update monster's behaviour
-        /// </summary>
-	    private void MonsterUpdate()
-	    {
-	        lock (_monsters)
-	        {
-	            foreach (var monster in _monsters.Values)
-                    monster.UpdateMonsterBehaviour();
-	        }
-	    }
+		/// <summary>
+		/// Update monster's behaviour
+		/// </summary>
+		private void MonsterUpdate()
+		{
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+					monster.UpdateMonsterBehaviour();
+			}
+		}
 
 		/// <summary>
 		/// Adds character to map.
@@ -198,12 +198,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns all characters in visible range of entity.
 		/// </summary>
-        /// <param name="entity"></param>
+		/// <param name="entity"></param>
 		/// <returns></returns>
 		public Character[] GetVisibleCharacters(IEntity entity)
 		{
 			lock (_characters)
-                return _characters.Values.Where(a => a != entity && entity.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+				return _characters.Values.Where(a => a != entity && entity.Position.InRange2D(a.Position, VisibleRange)).ToArray();
 		}
 
 		/// <summary>
@@ -219,12 +219,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns all monsters in visible range of entity.
 		/// </summary>
-        /// <param name="entity"></param>
+		/// <param name="entity"></param>
 		/// <returns></returns>
-        public Monster[] GetVisibleMonsters(IEntity entity)
+		public Monster[] GetVisibleMonsters(IEntity entity)
 		{
 			lock (_monsters)
-                return _monsters.Values.Where(a => entity.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+				return _monsters.Values.Where(a => entity.Position.InRange2D(a.Position, VisibleRange)).ToArray();
 		}
 
 		/// <summary>

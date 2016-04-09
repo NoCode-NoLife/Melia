@@ -413,7 +413,7 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Parameters:
 		/// - int monsterId
-		/// - string name / Localkey
+		/// - string name
 		/// - string mapName
 		/// - number x
 		/// - number y
@@ -443,12 +443,15 @@ namespace Melia.Channel.Scripting
 			if (name.StartsWith("ETC_") || name.StartsWith("QUEST_"))
 				name = "@dicID_^*$" + name + "$*^";
 
-			var monsterBuilder =
-				new MonsterBuilder(monsterId, NpcType.NPC, name, dialog, mapName, 1, 100, 1, 30, 10, 30)
-					.SetPosition(new Position(x, y, z))
-					.SetDirection(new Direction(direction));
+			var monster = new Monster(monsterId, NpcType.NPC)
+			{
+				Name = name,
+				DialogName = dialog,
+				Position = new Position(x, y, z),
+				Direction = new Direction(direction)
+			};
 
-            map.AddMonster(monsterBuilder.Build());
+			map.AddMonster(monster);
 
 			return 0;
 		}
@@ -510,12 +513,17 @@ namespace Melia.Channel.Scripting
 			if (toMapData.LocalKey != "?")
 				name = "@dicID_^*$" + toMapData.LocalKey + "$*^";
 
-		    var monsterBuilder =
-                new MonsterBuilder(40001, NpcType.NPC, name, "", warpName, 1, 100, 1, 30, 10, 30)
-                    .SetDirection(direction)
-                    .SetPosition(fromX, fromY, fromZ);
+			// Create a warping monster...
+			var monster = new Monster(40001, NpcType.NPC)
+			{
+				Name = name,
+				WarpName = warpName,
+				Position = new Position(fromX, fromY, fromZ),
+				Direction = new Direction(direction),
+				WarpLocation = new Location(toMapData.Id, toX, toY, toZ)
+			};
 
-			map.AddMonster(monsterBuilder.Build());
+			map.AddMonster(monster);
 
 			return 0;
 		}
@@ -993,11 +1001,12 @@ namespace Melia.Channel.Scripting
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
-		    var monsterBuilder =
-                new MonsterBuilder(monsterId, NpcType.Monster, "", "", mapName, 1, 100, 1, 30, 10, 30)
-		            .SetPosition(new Position(x, y, z));
+			var monster = new Monster(monsterId, NpcType.Monster)
+			{
+				Position = new Position(x, y, z)
+			};
 
-			map.AddMonster(monsterBuilder.Build());
+			map.AddMonster(monster);
 
 			return 0;
 		}
