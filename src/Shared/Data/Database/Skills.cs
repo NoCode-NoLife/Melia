@@ -21,6 +21,7 @@ namespace Melia.Shared.Data.Database
 		public float SplashRange { get; set; }
 		public float SplashHeight { get; set; }
 		public float SplashAngle { get; set; }
+		public float SplashR { get; set; }
 	}
 
 	public enum SplashType
@@ -37,7 +38,7 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "engName", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle");
+			entry.AssertNotMissing("skillId", "className", "engName", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashR");
 
 			var info = new SkillData();
 
@@ -53,6 +54,7 @@ namespace Melia.Shared.Data.Database
 			info.SplashRange = entry.ReadFloat("splashRange");
 			info.SplashHeight = entry.ReadFloat("splashHeight");
 			info.SplashAngle = entry.ReadFloat("splashAngle");
+			info.SplashR = entry.ReadFloat("splashR");
 
 			this.Entries[info.Id] = info;
 		}
