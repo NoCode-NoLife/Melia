@@ -39,7 +39,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public bool Add(Actor entity)
 		{
-			entities.Add(entity);
+			lock (entities)
+				entities.Add(entity);
 			return true;
 		}
 
@@ -48,7 +49,9 @@ namespace Melia.Channel.World
 		/// </summary>
 		public bool Remove(Actor entity)
 		{
-			return entities.Remove(entity);
+			lock (entities)
+				entities.Remove(entity);
+			return true;
 		}
 
 		/// <summary>
@@ -68,19 +71,22 @@ namespace Melia.Channel.World
 		public void VisitInternal(Position pos, IVisitor visitor, float range)
 		{
 			// Tell all entities about this visit
-			foreach (var entity in entities)
+			lock (entities)
 			{
-				if (visitor == (IVisitor) entity)
-					continue;
+				foreach (var entity in entities)
+				{
+					if (visitor == (IVisitor)entity)
+						continue;
 
-				if (entity == null)
-					continue;
+					if (entity == null)
+						continue;
 
-				if (entity.IsMyArea(pos, range) == false)
-					continue;
+					if (entity.IsMyArea(pos, range) == false)
+						continue;
 
-				if (visitor.OnVisit(entity) == false)
-					return;
+					if (visitor.OnVisit(entity) == false)
+						return;
+				}
 			}
 		}
 
