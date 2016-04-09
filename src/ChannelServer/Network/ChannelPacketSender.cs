@@ -789,6 +789,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
+			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
 		}
