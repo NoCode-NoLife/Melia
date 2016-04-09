@@ -66,7 +66,7 @@
     <Compile Include="Scripting\ScriptState.cs" />
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\Character.cs" />
-    <Compile Include="World\Entity.cs" />
+    <Compile Include="World\IEntity.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
     <Compile Include="World\IVisitor.cs" />

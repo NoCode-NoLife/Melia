@@ -27,8 +27,12 @@ namespace Melia.Channel.World
 
 		public bool OnVisit(Actor entity)
 		{
-			Character thisCharacter = (Character) entity;
-			thisCharacter.ProcessSkill(this, thisCharacter);
+			// check if attackable
+			if (entity.GetType() != typeof(Character))
+				return true;
+
+			Character thisCharacter = Map.GetCharacter(ownerHandle);
+			thisCharacter.ProcessSkill(this, entity);
 			fired = true;
 			timeFired = DateTime.Now;
 			
@@ -46,7 +50,7 @@ namespace Melia.Channel.World
 			{
 				if ((timeFired.AddMilliseconds((double)delayRemove) < DateTime.Now))
 				{
-					Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), 40001, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, 1234);
+					Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), 40001, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
 					this.ToDestroy = true;
 				}
 			}

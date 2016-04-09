@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter, IEntity, ICommander, IVisitor
+	public class Character : Shared.World.BaseCharacter, ICommander, IEntity, IVisitor
 	{
 		private bool _warping;
 
@@ -275,7 +275,7 @@ namespace Melia.Channel.World
 			// TODO !!!!
 			Send.ZC_HEAL_INFO((Character)targetActor, 10, 100);
 			Send.ZC_UPDATE_ALL_STATUS((Character)targetActor, 190, 200, 60, 120);
-			Send.ZC_NORMAL_ParticleEffect((Character)targetActor, 1234, 1);
+			Send.ZC_NORMAL_ParticleEffect((Character)targetActor, ActorSkill.Handle, 1);
 		}
 
 		/// <summary>

@@ -857,7 +857,8 @@ namespace Melia.Channel.Network
 				case TxType.Skills:
 					// TODO: Handle skill learning
 					var jobId = packet.GetInt();
-					Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
+					//Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
+					Send.ZC_SKILL_ADD(character, 40001);
 					break;
 
 				default:
@@ -929,10 +930,11 @@ namespace Melia.Channel.Network
 			PESkill.ownerHandle = character.Handle;
 			PESkill.SkillId = skillId;
 			PESkill.Position = skillPosition;
+			PESkill.Init();
 
 			map.AddSkill(PESkill);
 
-			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, 1234);
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, PESkill.Handle);
 
 			/*
 			// Player in Attack state (if not already)
