@@ -81,6 +81,7 @@
     <Compile Include="Util\Configuration\Files\Web.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Math2.cs" />
+    <Compile Include="World\Actor.cs" />
     <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />

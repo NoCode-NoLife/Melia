@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Util;
 using Melia.Channel.Network;
+using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
@@ -12,10 +13,11 @@ namespace Melia.Channel.World
 	{
 		public float range;
 		public int SkillId;
-		public int Handle;
 		public bool fired;
 		public int delayRemove = 200;
 		public DateTime timeFired;
+		public int ownerHandle;
+		public Map Map { get; set; }
 
 		public void Init()
 		{
@@ -23,9 +25,10 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 		}
 
-		public new bool OnVisit(Actor entity)
+		public bool OnVisit(Actor entity)
 		{
-			this.character.ProcessSkill(this, entity);
+			Character thisCharacter = (Character) entity;
+			thisCharacter.ProcessSkill(this, thisCharacter);
 			fired = true;
 			timeFired = DateTime.Now;
 			
@@ -34,16 +37,17 @@ namespace Melia.Channel.World
 
 		public void Process()
 		{
+			
 			if (!fired)
 			{
-				map.SectorManager.Visit(this.Position, this, 10);
+				Map.SectorManager.Visit(this.Position, this, 10);
 			}
 			else
 			{
 				if ((timeFired.AddMilliseconds((double)delayRemove) < DateTime.Now))
 				{
-					Send.ZC_NORMAL_Skill(this.character, 40001, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, 1234);
-					this.ToDelete = true;
+					Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), 40001, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, 1234);
+					this.ToDestroy = true;
 				}
 			}
 			

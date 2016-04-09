@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter, IEntity, ICommander, IPlaceable
+	public class Character : Shared.World.BaseCharacter, IEntity, ICommander, IVisitor
 	{
 		private bool _warping;
 
@@ -28,10 +28,6 @@ namespace Melia.Channel.World
 		/// </summary>
 		public ChannelConnection Connection { get; set; }
 
-		/// <summary>
-		/// Index in world collection?
-		/// </summary>
-		public int Handle { get; set; }
 
 		private Map _map = Map.Limbo;
 		/// <summary>
@@ -49,7 +45,6 @@ namespace Melia.Channel.World
 		public bool IsMoving { get; set; }
 
 		private Position _destination { get; set; }
-		private Actor _actor;
 
 		/// <summary>
 		/// Gets or sets whether the character is sitting.
@@ -130,8 +125,6 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Speed = 30;
 
-			_actor = new Actor();
-			_actor.character = this;
 		}
 
 		/// <summary>
@@ -177,7 +170,9 @@ namespace Melia.Channel.World
 
 			// Set destination based on: SPEED + CLIENT GIVEN POSITION + DIRECTION
 			// This function assumes that destination will be at 1 HeartBeatTime of distance
-			// Destination can be larger, it should be sync-ed with current client "MOVE PACKETS" per second.
+			// Destination should be larger, it should be sync-ed with current client "MOVE PACKETS" per second, or using some sort of acceleration.
+			// The problem is seen when you hit any "move" key to any direction (in client) to move "little steps". If you set destination too far from client point, other players
+			// will see your character moving forward and backwards to adjust its position).
 			this.SetDestination(new Position(this.GetSpeed() / (1000 / WorldManager.HeartbeatTime) * dx + x, y, this.GetSpeed() / 1000 / (WorldManager.HeartbeatTime) * dy + z));
 
 			//Log.Debug("DESTINATION: {0},{1},{2} DIR: {3},{4}", _destination.X, _destination.Y, _destination.Z, dx.ToString("0.0000"), dy.ToString("0.0000"));
@@ -241,7 +236,7 @@ namespace Melia.Channel.World
 			}
 			
 			// Moves the actor
-			if (this.Map.SectorManager.Move(this._actor, nextPosition))
+			if (this.Map.SectorManager.Move(this, nextPosition))
 			{
 				// Actor was sucessfully moved. Set new position
 				this.SetPosition(nextPosition.X, nextPosition.Y, nextPosition.Z);
@@ -278,9 +273,9 @@ namespace Melia.Channel.World
 		public void ProcessSkill(SkillActor ActorSkill, Actor targetActor)
 		{
 			// TODO !!!!
-			Send.ZC_HEAL_INFO(targetActor.character, 10, 100);
-			Send.ZC_UPDATE_ALL_STATUS(targetActor.character, 190, 200, 60, 120);
-			Send.ZC_NORMAL_ParticleEffect(targetActor.character, 1234, 1);
+			Send.ZC_HEAL_INFO((Character)targetActor, 10, 100);
+			Send.ZC_UPDATE_ALL_STATUS((Character)targetActor, 190, 200, 60, 120);
+			Send.ZC_NORMAL_ParticleEffect((Character)targetActor, 1234, 1);
 		}
 
 		/// <summary>
@@ -549,9 +544,10 @@ namespace Melia.Channel.World
 			Send.ZC_HEAD_ROTATE(this);
 		}
 
-		public Actor GetPlaceableEntity()
+		public bool OnVisit(Actor actor)
 		{
-			return _actor;
+			return true;
 		}
+
 	}
 }

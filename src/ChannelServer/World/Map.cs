@@ -110,7 +110,7 @@ namespace Melia.Channel.World
 			List<SkillActor> skillsToDelete = new List<SkillActor>();
 			foreach (var skill in _skills.Values)
 			{
-				if (skill.ToDelete)
+				if (skill.ToDestroy)
 				{
 					skillsToDelete.Add(skill);
 					continue;
@@ -135,9 +135,7 @@ namespace Melia.Channel.World
 			lock (_characters)
 				_characters[character.Handle] = character;
 
-			character.GetPlaceableEntity().map = this;
-
-			if (!SectorManager.Add(character.GetPlaceableEntity(), character.Position))
+			if (!SectorManager.Add(character, character.Position))
 			{
 				Log.Debug("Error adding character placeable entity into SectorManager at: {0} {1} {2}", character.Position.X, character.Position.Y, character.Position.Z);
 			}
@@ -154,7 +152,7 @@ namespace Melia.Channel.World
 
 			character.Map = null;
 
-			SectorManager.Remove(character.GetPlaceableEntity());
+			SectorManager.Remove(character);
 		}
 
 		/// <summary>
@@ -322,7 +320,7 @@ namespace Melia.Channel.World
 			lock (_skills)
 				_skills[skill.Handle] = skill;
 
-			skill.map = this;
+			skill.Map = this;
 
 			if (!SectorManager.Add(skill, skill.Position))
 			{

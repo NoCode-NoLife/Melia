@@ -929,7 +929,7 @@ namespace Melia.Channel.Network
 			var map = ChannelServer.Instance.World.GetMap(character.MapId);
 
 			SkillActor PESkill = new SkillActor();
-			PESkill.character = character;
+			PESkill.ownerHandle = character.Handle;
 			PESkill.SkillId = skillId;
 			PESkill.Position = skillPosition;
 

@@ -68,12 +68,10 @@
     <Compile Include="World\Character.cs" />
     <Compile Include="World\Entity.cs" />
     <Compile Include="World\Inventory.cs" />
-    <Compile Include="World\IPlaceable.cs" />
     <Compile Include="World\Item.cs" />
     <Compile Include="World\IVisitor.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
-    <Compile Include="World\Actor.cs" />
     <Compile Include="World\SkillActor.cs" />
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\SectorManager.cs" />
