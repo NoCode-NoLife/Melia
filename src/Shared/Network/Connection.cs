@@ -286,7 +286,7 @@ namespace Melia.Shared.Network
 					throw new Exception("Packet is bigger than specified in the packet size table.");
 
 				if (size != sizeof(short) + sizeof(int) + packet.Length)
-					Log.Warning("Packet size doesn't match packet table size. (op: {0:X4}, size: {1}, expected: {2})", packet.Op, fixHeaderSize, size);
+					Log.Warning("Packet size doesn't match packet table size. (op: {3} ({0:X4}), size: {1}, expected: {2})", packet.Op, fixHeaderSize, size, Op.GetName(packet.Op));
 			}
 
 			// Create packet

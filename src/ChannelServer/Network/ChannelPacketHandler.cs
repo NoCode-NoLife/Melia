@@ -807,12 +807,12 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var txType = packet.GetShort();
+			var txType = (TxType)packet.GetShort();
 			var character = conn.SelectedCharacter;
 
 			switch (txType)
 			{
-				case 1:
+				case TxType.Stats:
 					var count = packet.GetInt();
 					if (count != 5)
 						throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
@@ -821,28 +821,24 @@ namespace Melia.Channel.Network
 					{
 						var stat = packet.GetInt();
 
-						Log.Warning("stat{1}: {0}", stat, i);
-
 						if (stat == 0)
 							continue;
-
 
 						if (character.StatPoints < stat)
 						{
 							Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
-							continue;
-							//break;
+							break;
 						}
 
 						character.UsedStat += stat;
 
 						switch (i)
 						{
-						case 0: character.Str += stat; break;
-						case 1: character.Con += stat; break;
-						case 2: character.Int += stat; break;
-						case 3: character.Spr += stat; break;
-						case 4: character.Dex += stat; break;
+							case 0: character.Str += stat; break;
+							case 1: character.Con += stat; break;
+							case 2: character.Int += stat; break;
+							case 3: character.Spr += stat; break;
+							case 4: character.Dex += stat; break;
 						}
 					}
 
@@ -850,24 +846,23 @@ namespace Melia.Channel.Network
 
 					// Official doesn't update UsedStat with this packet =<
 					Send.ZC_OBJECT_PROPERTY(character,
-					ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-					ObjectProperty.PC.UsedStat
+						ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+						ObjectProperty.PC.UsedStat
 					);
+
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 					break;
-			case 2:
-				/// TODO
-				/// Handle skills learning
-				/// 
-				var jobId = packet.GetInt();
 
-					Send.ZC_SKILL_ADD(character, 40001);
-
+				case TxType.Skills:
+					// TODO: Handle skill learning
+					var jobId = packet.GetInt();
+					Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
 					break;
-			default:
-				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
-				break;
+
+				default:
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
+					break;
 			}
 		}
 
@@ -912,13 +907,15 @@ namespace Melia.Channel.Network
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
 
-			
+
 			var packetPosition1 = new Position(x1, y1, z1);
 			var packetPosition2 = new Position(x2, y2, z2);
 			var skillPosition = new Position(40 * cos + x1, y1, 40 * sin + z1);
+
 			var packetDirection = new Direction(cos, sin);
 
 			var skillDirection = new Direction(0.707f, 0.707f);
+
 
 			Log.Debug("SKILL pos1 {0},{1},{2}", x1,y1,z1);
 			Log.Debug("SKILL pos2 {0},{1},{2}", x2, y2,z2);
@@ -936,7 +933,6 @@ namespace Melia.Channel.Network
 			map.AddSkill(PESkill);
 
 			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, 1234);
-
 
 			/*
 			// Player in Attack state (if not already)
@@ -962,5 +958,12 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 			*/
 		}
+
+	}
+
+	public enum TxType : short
+	{
+		Stats = 1,
+		Skills = 2,
 	}
 }
