@@ -17,5 +17,6 @@ namespace Melia.Shared.Data
 		public MonsterDb MonsterDb = new MonsterDb();
 		public ServerDb ServerDb = new ServerDb();
 		public SkillDb SkillDb = new SkillDb();
+		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
 	}
 }
