@@ -11,6 +11,5 @@ namespace Melia.Channel.World
 		Map Map { get; }
 		Position Position { get; }
 		Direction Direction { get; }
-		float Speed { get; }
 	}
 }

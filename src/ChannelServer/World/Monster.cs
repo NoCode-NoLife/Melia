@@ -234,9 +234,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public bool IsTargetVisible()
 		{
-			if (this.Target.Position.InRange2D(
-				this.Position, World.Map.VisibleRange
-			))
+			if (this.Target.Position.InRange2D(this.Position, World.Map.VisibleRange))
 				return true;
 			else
 			{
@@ -266,10 +264,7 @@ namespace Melia.Channel.World
 			if (this.Hp <= 0) return;
 
 			if (this.Target == null) return;
-			this.SetDirection(
-				Shared.Util.Math2.AngleBetweenTwoEntity(
-					this.Position, this.Target.Position
-			));
+			this.SetDirection(this.Direction.AngleBetweenTwoEntity(this.Position, this.Target.Position));
 			Send.ZC_ROTATE(this);
 		}
 
@@ -297,24 +292,11 @@ namespace Melia.Channel.World
 				{
 					this.IsInRangeOfAttack = false;
 
-					Position nextPosition =
-						Shared.Util.Math2.VectorTwoEntity(
-							this.Position,
-							this.Target.Position,
-							this.Speed,
-							World.WorldManager.HeartbeatTime
-						);
+					Position nextPosition = this.Position.VectorTwoEntity(this.Target.Position, this.Speed, WorldManager.HeartbeatTime);
 
-					Send.ZC_MOVE_PATH(
-						this,
-						this.Target.Position
-					);
+					Send.ZC_MOVE_PATH(this, this.Target.Position);
 
-					this.SetPosition(
-						this.Position.X + nextPosition.X,
-						this.Position.Y + nextPosition.Y,
-						this.Position.Z + nextPosition.Z
-					);
+					this.SetPosition(this.Position.X + nextPosition.X, this.Position.Y + nextPosition.Y, this.Position.Z + nextPosition.Z);
 				}
 				else
 					this.IsInRangeOfAttack = true;

@@ -42,7 +42,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id> [amount]", HandleItem);
-			Add("spawn", "<monster id> <x> <y> <z>", HandleSpawn);
+			Add("spawn", "<monster id> [x] [y] [z]", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
 			Add("levelup", "<levels>", HandleLevelUp);

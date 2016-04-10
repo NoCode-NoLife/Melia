@@ -1461,7 +1461,7 @@ namespace Melia.Channel.Network
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(IEntity character, float x, float y, float z, float dx, float dy, float unkFloat)
+		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
@@ -1472,7 +1472,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(dx);
 			packet.PutFloat(dy);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.Speed);
+			packet.PutFloat(character.GetSpeed());
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
 
