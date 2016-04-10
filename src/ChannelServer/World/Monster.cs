@@ -162,8 +162,11 @@ namespace Melia.Channel.World
 		/// <param name="killer"></param>
 		public void Kill(Character killer)
 		{
-			var exp = this.Data.Exp;
-			var classExp = this.Data.ClassExp;
+			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
+			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
+
+			var exp = (int)(this.Data.Exp * expRate);
+			var classExp = (int)(this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);

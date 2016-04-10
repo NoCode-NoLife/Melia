@@ -79,6 +79,7 @@
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />
+    <Compile Include="Util\Configuration\Files\World.cs" />
     <Compile Include="Util\Configuration\Files\Web.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Math2.cs" />
