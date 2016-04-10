@@ -55,6 +55,7 @@ namespace Melia.Channel.Util
 			// Dev
 			Add("test", "", HandleTest);
 			Add("reloadscripts", "", HandleReloadScripts);
+			Add("reloadconf", "", HandleReloadConf);
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
@@ -387,6 +388,17 @@ namespace Melia.Channel.Util
 			this.SystemMessage(character, "Reloading scripts...");
 
 			ChannelServer.Instance.ScriptManager.Reload();
+
+			this.SystemMessage(character, "Done.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleReloadConf(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		{
+			this.SystemMessage(character, "Reloading configuration...");
+
+			ChannelServer.Instance.Conf.LoadAll();
 
 			this.SystemMessage(character, "Done.");
 
