@@ -94,6 +94,18 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern IntPtr lua_tolstring(IntPtr L, int idx, IntPtr len);
 
+		// int lua_toboolean (lua_State *L, int index);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern bool lua_toboolean(IntPtr L, int index);
+
+		// lua_Integer lua_tointeger (lua_State *L, int index);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_tointeger(IntPtr L, int index);
+
+		// lua_Number lua_tonumber (lua_State *L, int index);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern double lua_tonumber(IntPtr L, int index);
+
 		// static void lua_settop(lua_State*L,int idx)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_settop(IntPtr L, int idx);
@@ -113,6 +125,10 @@ namespace MeluaLib
 		// static void lua_pushnumber(lua_State*L,lua_Number n)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushnumber(IntPtr L, double n);
+
+		// void lua_pushnil (lua_State *L);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushnil(IntPtr L);
 
 		// LUA_API void lua_pushboolean (lua_State *L, int b)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -283,6 +299,18 @@ namespace MeluaLib
 		{
 			var type = lua_type(L, index);
 			return (type == LUA_TSTRING || type == LUA_TNUMBER);
+		}
+
+		// int lua_isnumber (lua_State *L, int index);
+		public static bool lua_isnumber(IntPtr L, int index)
+		{
+			return (lua_type(L, index) == LUA_TNUMBER);
+		}
+
+		// #define lua_isboolean(L,n)	(lua_type(L, (n)) == LUA_TBOOLEAN)
+		public static bool lua_isboolean(IntPtr L, int n)
+		{
+			return (lua_type(L, n) == LUA_TBOOLEAN);
 		}
 
 		// #define lua_istable(L,n)	(lua_type(L, (n)) == LUA_TTABLE)
