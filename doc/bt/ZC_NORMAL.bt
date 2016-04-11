@@ -62,3 +62,17 @@ else if(type == 0xE5)
     int count;
     entry entries[count] <optimize=false>;
 }
+// Job ranks?
+// (Was this 0xE5 in the iCBT2?)
+else if(type == 0xEA)
+{
+    typedef struct
+    {
+        lpString job;
+        int rank;
+    }
+    JobRank;
+
+    int count;
+    JobRank jobs[count] <optimize=false>;
+}
