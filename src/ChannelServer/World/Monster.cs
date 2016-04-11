@@ -179,10 +179,10 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Get monster speed.
 		/// </summary>
-	    public float GetSpeed()
-	    {
-	        return Speed;
-	    }
+		public float GetSpeed()
+		{
+			return Speed;
+		}
 
 		/// <summary>
 		/// Is monster in range of his attack
