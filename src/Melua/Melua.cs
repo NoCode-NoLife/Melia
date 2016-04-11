@@ -134,6 +134,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushboolean(IntPtr L, bool b);
 
+		// void lua_pushliteral (lua_State *L, const char *s);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushliteral(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string s);
+
 		// static void lua_settable(lua_State*L,int idx)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_settable(IntPtr L, int idx);
@@ -233,6 +237,14 @@ namespace MeluaLib
 		// lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_atpanic(IntPtr L, LuaNativeFunction panicf);
+
+		// LUALIB_API void luaL_checkany (lua_State *L, int narg)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void luaL_checkany(IntPtr L, int narg);
+
+		// LUALIB_API int luaL_callmeta (lua_State *L, int obj, const char *event)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern bool luaL_callmeta(IntPtr L, int obj, [MarshalAs(UnmanagedType.LPStr)] string ev);
 
 
 
@@ -446,6 +458,40 @@ namespace MeluaLib
 			lua_pushstring(L, string.Format(format, args));
 			lua_concat(L, 2);
 			return lua_error(L);
+		}
+
+		// static int luaB_tostring (lua_State *L)
+		public static int luaB_tostring(IntPtr L)
+		{
+			luaL_checkany(L, 1);
+			if (luaL_callmeta(L, 1, "__tostring"))
+				return 1;
+
+			switch (lua_type(L, 1))
+			{
+				case LUA_TNUMBER:
+					lua_pushstring(L, lua_tostring(L, 1));
+					break;
+
+				case LUA_TSTRING:
+					lua_pushvalue(L, 1);
+					break;
+
+				case LUA_TBOOLEAN:
+					lua_pushstring(L, (lua_toboolean(L, 1) ? "true" : "false"));
+					break;
+
+				case LUA_TNIL:
+					lua_pushliteral(L, "nil");
+					break;
+
+				default:
+					//lua_pushstring(L, string.Format("{0}: {1}", luaL_typename(L, 1), lua_topointer(L, 1)));
+					lua_pushstring(L, "unknown");
+					break;
+			}
+
+			return 1;
 		}
 	}
 }

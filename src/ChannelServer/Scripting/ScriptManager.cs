@@ -122,7 +122,24 @@ namespace Melia.Channel.Scripting
 
 			// Others
 			Register(var);
+			Register(tostring);
 		}
+
+		/// <summary>
+		/// Returns first parameter as string.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - T value
+		/// 
+		/// Result:
+		/// - string value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int tostring(IntPtr L)
+		{
+			return Melua.luaB_tostring(L);
 		}
 
 		/// <summary>
