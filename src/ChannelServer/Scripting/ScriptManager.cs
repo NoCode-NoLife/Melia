@@ -27,7 +27,7 @@ namespace Melia.Channel.Scripting
 
 		private const string NpcNameSeperator = "*@*";
 
-		private const string VariableOwner = "global";
+		private const string GlobalVariableOwner = "global";
 		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
 
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
@@ -125,7 +125,7 @@ namespace Melia.Channel.Scripting
 		private void InitializeVariables()
 		{
 			// TODO: Replace timer with time event.
-			ChannelServer.Instance.Database.LoadVars(VariableOwner, this.Variables.Perm);
+			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
 			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
 			_lastVarChange = DateTime.Now;
 		}
@@ -412,7 +412,7 @@ namespace Melia.Channel.Scripting
 
 			try
 			{
-				ChannelServer.Instance.Database.SaveVariables(VariableOwner, this.Variables.Perm);
+				ChannelServer.Instance.Database.SaveVariables(GlobalVariableOwner, this.Variables.Perm);
 				Log.Info("Saved global script variables.");
 			}
 			catch (Exception ex)
