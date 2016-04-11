@@ -436,12 +436,12 @@ namespace Melia.Channel.Network
 		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_MOVE_SPEED(IEntity entity)
+		public static void ZC_MOVE_SPEED(Character character)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Speed);
+            packet.PutInt(character.Handle);
+            packet.PutFloat(character.Speed);
 			packet.PutFloat(0);
 
 			// [i11257 (2016-03-25)]
@@ -449,7 +449,7 @@ namespace Melia.Channel.Network
 				packet.PutByte(0);
 			}
 
-			entity.Map.Broadcast(packet, entity);
+            character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1496,7 +1496,7 @@ namespace Melia.Channel.Network
 			packet.PutInt((int)newPosition.X);
 			packet.PutInt((int)newPosition.Z);
 			packet.PutInt((int)newPosition.Y);
-			packet.PutFloat(monster.Speed); //seems to be speed
+			packet.PutFloat(monster.GetSpeed()); //seems to be speed
 			packet.PutFloat(0);
 
 			monster.Map.Broadcast(packet, monster);
