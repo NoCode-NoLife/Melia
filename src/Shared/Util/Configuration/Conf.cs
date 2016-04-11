@@ -52,6 +52,7 @@ namespace Melia.Shared.Util.Configuration
 			this.Log.Load();
 			this.Database.Load();
 			this.Commands.Load();
+			this.Web.Load();
 			this.World.Load();
 		}
 	}
