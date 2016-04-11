@@ -69,18 +69,21 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Initialize()
 		{
-			// Lua
+			this.InitializeVariables();
+			this.InitializeLua();
+		}
+
+		/// <summary>
+		/// Initializes global Lua state.
+		/// </summary>
+		private void InitializeLua()
+		{
 			GL = Melua.luaL_newstate();
 			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
 			var func = new Melua.LuaNativeFunction(OnPanic);
 			_functions.Add(func);
 			Melua.lua_atpanic(GL, func);
-
-			// Variables
-			// TODO: Replace timer with time event.
-			ChannelServer.Instance.Database.LoadVars(VariableOwner, this.Variables.Perm);
-			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
 
 			// Functions
 			// --------------------------------------------------------------
@@ -113,6 +116,16 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
+		}
+
+		/// <summary>
+		/// Initializes global variable manager.
+		/// </summary>
+		private void InitializeVariables()
+		{
+			// TODO: Replace timer with time event.
+			ChannelServer.Instance.Database.LoadVars(VariableOwner, this.Variables.Perm);
+			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
 		}
 
 		/// <summary>
