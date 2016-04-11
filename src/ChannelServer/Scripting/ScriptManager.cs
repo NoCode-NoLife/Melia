@@ -15,6 +15,7 @@ using Melia.Shared.World;
 using Melia.Channel.Network;
 using System.Runtime.CompilerServices;
 using Melia.Shared.Network;
+using System.Threading;
 
 namespace Melia.Channel.Scripting
 {
@@ -26,11 +27,16 @@ namespace Melia.Channel.Scripting
 
 		private const string NpcNameSeperator = "*@*";
 
+		private const string VariableOwner = "global";
+		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
+
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 
 		private IntPtr GL;
 		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
+
+		private Timer _globalVarSaver;
 
 		/// <summary>
 		/// Amount of scripts currently loaded.
@@ -43,12 +49,19 @@ namespace Melia.Channel.Scripting
 		public int TotalCount { get; protected set; }
 
 		/// <summary>
+		/// Global scripting variables.
+		/// </summary>
+		public Variables Variables { get; protected set; }
+
+		/// <summary>
 		/// Creates new script manager.
 		/// </summary>
 		public ScriptManager()
 		{
 			_functions = new List<Melua.LuaNativeFunction>();
 			_states = new Dictionary<IntPtr, ScriptState>();
+
+			this.Variables = new Variables();
 		}
 
 		/// <summary>
@@ -56,12 +69,18 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Initialize()
 		{
+			// Lua
 			GL = Melua.luaL_newstate();
 			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
 			var func = new Melua.LuaNativeFunction(OnPanic);
 			_functions.Add(func);
 			Melua.lua_atpanic(GL, func);
+
+			// Variables
+			// TODO: Replace timer with time event.
+			ChannelServer.Instance.Database.LoadVars(VariableOwner, this.Variables.Perm);
+			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
 
 			// Functions
 			// --------------------------------------------------------------
@@ -363,6 +382,23 @@ namespace Melia.Channel.Scripting
 			// Prepend NPC name
 			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
 				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
+		}
+
+		/// <summary>
+		/// Saves global variables to database.
+		/// </summary>
+		/// <param name="state"></param>
+		private void SaveGlobalVars(object state)
+		{
+			try
+			{
+				ChannelServer.Instance.Database.SaveVariables(VariableOwner, this.Variables.Perm);
+				Log.Info("Saved global script variables.");
+			}
+			catch (Exception ex)
+			{
+				Log.Exception(ex, "Failed to save global script variables.");
+			}
 		}
 
 		//-----------------------------------------------------------------//
