@@ -93,6 +93,45 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
+		/// Returns random position around this position,
+		/// not nearer than min, and not further than max.
+		/// </summary>
+		/// <param name="distanceMax"></param>
+		/// <param name="rnd"></param>
+		/// <param name="distanceMin"></param>
+		/// <returns></returns>
+		public Position GetRandomInRange2D(int distanceMin, int distanceMax, Random rnd)
+		{
+			return this.GetRandom(rnd.Next(distanceMin, distanceMax + 1), rnd);
+		}
+
+		/// <summary>
+		/// Returns random position in radius around this position.
+		/// </summary>
+		/// <param name="radius"></param>
+		/// <param name="rnd"></param>
+		/// <returns></returns>
+		public Position GetRandomInRange2D(int radius, Random rnd)
+		{
+			return this.GetRandom(rnd.Next(radius + 1), rnd);
+		}
+
+		/// <summary>
+		/// Returns random position in radius around this position.
+		/// </summary>
+		/// <param name="distance"></param>
+		/// <param name="rnd"></param>
+		/// <returns></returns>
+		private Position GetRandom(int distance, Random rnd)
+		{
+			var angle = rnd.NextDouble() * Math.PI * 2;
+			var x = this.X + distance * Math.Cos(angle);
+			var z = this.Z + distance * Math.Sin(angle);
+
+			return new Position((int)x, this.Y, (int)z);
+		}
+
+		/// <summary>
 		/// Returns true if both positions represent the same position.
 		/// </summary>
 		/// <param name="pos1"></param>
