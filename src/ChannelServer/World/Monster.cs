@@ -1,16 +1,12 @@
-﻿using System.ComponentModel;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
 using Melia.Channel.Network;
 using Melia.Shared.Const;
-using Melia.Shared.Network;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
@@ -171,10 +167,18 @@ namespace Melia.Channel.World
 		public DateTime DisappearTime { get; set; }
 
 		/// <summary>
+		/// Data entry for this monster.
+		/// </summary>
+		public MonsterData Data { get; private set; }
+
+		/// <summary>
 		/// Monster walking speed
 		/// </summary>
 		public float Speed { get; set; }
 
+		/// <summary>
+		/// Get monster speed.
+		/// </summary>
 	    public float GetSpeed()
 	    {
 	        return Speed;
@@ -201,6 +205,19 @@ namespace Melia.Channel.World
 			this.Speed = 30;
 			this.AttackRange = 40;
 			this.Attack = 20;
+			this.LoadData();		}
+
+		/// <summary>
+		/// Loads data from data files.
+		/// </summary>
+		private void LoadData()
+		{
+			if (this.Id == 0)
+				throw new InvalidOperationException("Id wasn't set before calling LoadData.");
+
+			this.Data = ChannelServer.Instance.Data.MonsterDb.Find(this.Id);
+			if (this.Data == null)
+				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 		}
 
 		/// <summary>
@@ -228,8 +245,14 @@ namespace Melia.Channel.World
 		/// <param name="killer"></param>
 		public void Kill(Character killer)
 		{
+			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
+			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
+
+			var exp = (int)(this.Data.Exp * expRate);
+			var classExp = (int)(this.Data.ClassExp * classExpRate);
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
-			killer.GiveExp(500, 0, this);
+			killer.GiveExp(exp, classExp, this);
 
 			Send.ZC_DEAD(this);
 		}
