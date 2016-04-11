@@ -435,13 +435,13 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		public static void ZC_MOVE_SPEED(Character character)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(character.Speed);
 			packet.PutFloat(0);
 
 			// [i11257 (2016-03-25)]
@@ -941,18 +941,18 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_ROTATE in range of character.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_ROTATE(Character character)
+		/// <param name="entity"></param>
+		public static void ZC_ROTATE(IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutByte(0);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1451,7 +1451,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
+		/// Broadcasts ZC_MOVE_DIR in range of character, informing
 		/// characters about the movement.
 		/// </summary>
 		/// <param name="character"></param>
@@ -1480,10 +1480,33 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_MOVE_STOP in range of character, informing other
+		/// Broadcasts ZC_MOVE_PATH in range of monster, informing
+		/// characters about the movement.
+		/// </summary>
+		/// <param name="monster"></param>
+		/// <param name="newPosition"></param>
+		public static void ZC_MOVE_PATH(Monster monster, Position newPosition)
+		{
+			var packet = new Packet(Op.ZC_MOVE_PATH);
+
+			packet.PutInt(monster.Handle);
+			packet.PutInt((int)monster.Position.X);
+			packet.PutInt((int)monster.Position.Z);
+			packet.PutInt((int)monster.Position.Y);
+			packet.PutInt((int)newPosition.X);
+			packet.PutInt((int)newPosition.Z);
+			packet.PutInt((int)newPosition.Y);
+			packet.PutFloat(monster.GetSpeed()); //seems to be speed
+			packet.PutFloat(0);
+
+			monster.Map.Broadcast(packet, monster);
+		}
+
+		/// <summary>
+		/// Broadcasts ZC_MOVE_STOP in range of entity, informing
 		/// characters about the movement stop.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>

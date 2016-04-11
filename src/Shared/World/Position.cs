@@ -3,6 +3,7 @@
 
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Melia.Shared.World
 {
@@ -140,6 +141,27 @@ namespace Melia.Shared.World
 		public override string ToString()
 		{
 			return string.Format(CultureInfo.InvariantCulture, "X: {0}, Y: {1}, Z: {2}", X, Y, Z);
+		}
+
+		/// <summary>
+		/// Calculate move vector toward target
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="target"></param>
+		/// <param name="speed"></param>
+		/// <param name="heartbeatTime"></param>
+		/// <returns></returns>
+		public Position VectorTwoEntity(Position target, float speed, int heartbeatTime)
+		{
+			float dx = this.X - target.X;
+			float dz = this.Z - target.Z;
+			double angle = Math.Atan2(-dz, -dx);
+			var direction = new Direction((float)Math.Cos(angle), (float)Math.Sin(angle));
+
+			dx = (speed * direction.Cos + 0 * direction.Sin) * heartbeatTime / 10000;
+			dz = (speed * direction.Cos - 0 * direction.Sin) * heartbeatTime / 10000;
+
+			return new Position(speed * direction.Sin + 0 * direction.Cos, 0, speed * direction.Cos - 0 * direction.Sin);
 		}
 	}
 }

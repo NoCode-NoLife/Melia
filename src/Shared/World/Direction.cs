@@ -47,5 +47,19 @@ namespace Melia.Shared.World
 			this.Cos = (float)Math.Cos(degree);
 			this.Sin = (float)Math.Sin(degree);
 		}
+
+		/// <summary>
+		/// Calculate rotation toward target
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		public Direction AngleBetweenTwoEntity(Position source, Position target)
+		{
+			float dx = source.X - target.X;
+			float dz = source.Z - target.Z;
+			double angle = Math.Atan2(-dz, -dx);
+			return new Direction((float)Math.Cos(angle), (float)Math.Sin(angle));
+		}
 	}
 }

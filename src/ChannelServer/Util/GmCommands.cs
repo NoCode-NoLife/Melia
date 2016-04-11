@@ -42,7 +42,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id> [amount]", HandleItem);
-			Add("spawn", "<monster id>", HandleSpawn);
+			Add("spawn", "<monster id> [x] [y] [z]", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
 			Add("levelup", "<levels>", HandleLevelUp);
@@ -309,9 +309,20 @@ namespace Melia.Channel.Util
 
 			var monster = new Monster(id, NpcType.Monster);
 
-			monster.Position = target.Position;
-			monster.Direction = target.Direction;
+			if (args.Length == 2)
+				monster.Position = target.Position;
+			else
+			{
+				int x, y, z;
+				if (int.TryParse(args[2], out x) &&
+					int.TryParse(args[3], out y) &&
+					int.TryParse(args[4], out z))
+					monster.Position = new Position(x, y, z);
+				else
+					return CommandResult.InvalidArgument;
+			}
 
+			monster.Direction = target.Direction;
 			target.Map.AddMonster(monster);
 
 			return CommandResult.Okay;

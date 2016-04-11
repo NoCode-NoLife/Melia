@@ -74,14 +74,62 @@ namespace Melia.Channel.World
 		public Position Position { get; set; }
 
 		/// <summary>
-		/// Monster's direction.
+		/// Original mob spawn position
+		/// </summary>
+		public Position OriginalPosition { get; set; }
+
+		/// <summary>
+		/// Set monster's position
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		private void SetPosition(float x, float y, float z)
+		{
+			this.Position = new Position(x, y, z);
+		}
+
+		/// <summary>
+		/// Set monster's position
+		/// </summary>
+		/// <param name="position"></param>
+		private void SetPosition(Position position)
+		{
+			this.Position = new Position(position);
+		}
+
+		/// <summary>
+		/// Set monster's direction
 		/// </summary>
 		public Direction Direction { get; set; }
+
+		/// <summary>
+		/// Set monster's direction
+		/// </summary>
+		/// <param name="d1"></param>
+		/// <param name="d2"></param>
+		private void SetDirection(float d1, float d2)
+		{
+			this.Direction = new Direction(d1, d2);
+		}
+
+		/// <summary>
+		/// Monster's direction.
+		/// </summary>
+		public void SetDirection(Direction direction)
+		{
+			this.Direction = direction;
+		}
 
 		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
 		public int SDR { get; set; }
+
+		/// <summary>
+		/// Targeted enemy that agro mob
+		/// </summary>
+		public IEntity Target { get; set; }
 
 		/// <summary>
 		/// Health points.
@@ -99,6 +147,21 @@ namespace Melia.Channel.World
 		public int MaxHp { get; set; }
 
 		/// <summary>
+		/// Attack damage
+		/// </summary>
+		public int AgroPeriod;
+
+		/// <summary>
+		/// Attack range of monster
+		/// </summary>
+		public int AttackRange;
+
+		/// <summary>
+		/// Attack damage
+		/// </summary>
+		public int Attack;
+
+		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; }
@@ -107,6 +170,24 @@ namespace Melia.Channel.World
 		/// Data entry for this monster.
 		/// </summary>
 		public MonsterData Data { get; private set; }
+
+		/// <summary>
+		/// Monster walking speed
+		/// </summary>
+		public float Speed { get; set; }
+
+		/// <summary>
+		/// Get monster speed.
+		/// </summary>
+		public float GetSpeed()
+		{
+			return Speed;
+		}
+
+		/// <summary>
+		/// Is monster in range of his attack
+		/// </summary>
+		public bool IsInRangeOfAttack { get; set; }
 
 		/// <summary>
 		/// Creates new NPC.
@@ -121,9 +202,10 @@ namespace Melia.Channel.World
 			this.SDR = 1;
 			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
-
-			this.LoadData();
-		}
+			this.Speed = 30;
+			this.AttackRange = 40;
+			this.Attack = 20;
+			this.LoadData();		}
 
 		/// <summary>
 		/// Loads data from data files.
@@ -145,6 +227,7 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		public void TakeDamage(int damage, Character from)
 		{
+			this.Target = from;
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
@@ -172,6 +255,140 @@ namespace Melia.Channel.World
 			killer.GiveExp(exp, classExp, this);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Attack target entity if monster is agred
+		/// </summary>
+		public bool IsTargetVisible()
+		{
+			if (this.Target.Position.InRange2D(this.Position, World.Map.VisibleRange))
+				return true;
+			else
+			{
+				this.Target = null;
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Sets direction and updates clients.
+		/// </summary>
+		/// <param name="d1"></param>
+		/// <param name="d2"></param>
+		public void Rotate(float d1, float d2)
+		{
+			if (this.Hp <= 0) return;
+
+			this.SetDirection(d1, d2);
+			Send.ZC_ROTATE(this);
+		}
+		
+		/// <summary>
+		/// Sets direction toward target and updates clients.
+		/// </summary>
+		public void RotateTowardTarget()
+		{
+			if (this.Hp <= 0) return;
+
+			if (this.Target == null) return;
+			this.SetDirection(this.Direction.AngleBetweenTwoEntity(this.Position, this.Target.Position));
+			Send.ZC_ROTATE(this);
+		}
+
+		/// <summary>
+		/// Starts movement.
+		/// </summary>
+		/// <param name="position"></param>
+		public void Move(Position position)
+		{
+			if (this.Hp <= 0) return;
+
+			Send.ZC_MOVE_PATH(this, position);
+			this.SetPosition(position);
+		}
+
+		/// <summary>
+		/// Sets direction toward target and updates clients.
+		/// </summary>
+		public void MoveTowardTarget()
+		{
+			if (this.Target != null && this.Hp > 0)
+			{
+				//Is character in range of auto attack
+				if (!this.Target.Position.InRange2D(this.Position, AttackRange))
+				{
+					this.IsInRangeOfAttack = false;
+
+					Position nextPosition = this.Position.VectorTwoEntity(this.Target.Position, this.Speed, WorldManager.HeartbeatTime);
+
+					Send.ZC_MOVE_PATH(this, this.Target.Position);
+
+					this.SetPosition(this.Position.X + nextPosition.X, this.Position.Y + nextPosition.Y, this.Position.Z + nextPosition.Z);
+				}
+				else
+					this.IsInRangeOfAttack = true;
+			}
+			else
+				this.IsInRangeOfAttack = false;
+		}
+
+		/// <summary>
+		/// Attack target entity if monster is agred
+		/// </summary>
+		public void AttackTarget()
+		{
+			if (this.Target != null && this.Hp > 0 && this.IsInRangeOfAttack)
+			{
+				//this.Target.Hp -= this.Attack;
+				RotateTowardTarget();
+				Send.ZC_SKILL_HIT_INFO(this, this.Target, Attack);
+			}
+		}
+
+		public void UpdateStartAgro()
+		{
+			if (this.AgroPeriod > 0 && this.Target != null)
+			{
+				this.AgroPeriod -= WorldManager.HeartbeatTime;
+				var nearCharacter = this.Map.GetVisibleCharacters(this);
+				if (nearCharacter.Length != 0)
+				{
+					this.Target = nearCharacter[0];
+					this.AgroPeriod = 0;
+				}
+			}
+			if (this.Target != null)
+			{
+				//TODO need some constant for mob vision range
+				if (!this.Target.Position.InRange2D(this.Position, 150))
+				{
+					this.Target = null;
+					this.Move(this.OriginalPosition);
+				}
+				//How far mob can walk from original spawn point
+				if (!this.OriginalPosition.InRange2D(this.Position, 300))
+				{
+					this.Target = null;
+					this.Move(this.OriginalPosition);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Update monster behaviour
+		/// </summary>
+		public void UpdateMonsterBehaviour()
+		{
+			//Agro on spawn like in original ToS
+			this.UpdateStartAgro();
+
+			if (this.Target != null)
+			{
+				if (!this.IsTargetVisible()) return;
+				this.MoveTowardTarget();
+				this.AttackTarget();
+			}
 		}
 	}
 }
