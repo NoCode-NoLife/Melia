@@ -42,7 +42,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
 			Add("item", "<item id> [amount]", HandleItem);
-			Add("spawn", "<monster id>", HandleSpawn);
+			Add("spawn", "<monster id> [amount=1]", HandleSpawn);
 			Add("madhatter", "", HandleGetAllHats);
 			Add("job", "<job id>", HandleJob);
 			Add("levelup", "<levels>", HandleLevelUp);
@@ -300,6 +300,12 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out id))
 				return CommandResult.InvalidArgument;
 
+			var amount = 1;
+			if (args.Length > 2 && !int.TryParse(args[2], out amount))
+				return CommandResult.InvalidArgument;
+
+			amount = Math2.Clamp(1, 100, amount);
+
 			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
 			if (monsterData == null)
 			{
@@ -307,12 +313,29 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			var monster = new Monster(id, NpcType.Monster);
+			var rnd = new Random(Environment.TickCount);
+			for (int i = 0; i < amount; ++i)
+			{
+				var monster = new Monster(id, NpcType.Monster);
 
-			monster.Position = target.Position;
-			monster.Direction = target.Direction;
+				Position pos;
+				Direction dir;
+				if (amount == 1)
+				{
+					pos = target.Position;
+					dir = target.Direction;
+				}
+				else
+				{
+					pos = target.Position.GetRandomInRange2D(amount * 4, rnd);
+					dir = new Direction(rnd.Next(0, 360));
+				}
 
-			target.Map.AddMonster(monster);
+				monster.Position = pos;
+				monster.Direction = dir;
+
+				target.Map.AddMonster(monster);
+			}
 
 			return CommandResult.Okay;
 		}
@@ -413,6 +436,10 @@ namespace Melia.Channel.Util
 			int levels;
 			if (!int.TryParse(args[1], out levels) || levels < 1 || levels > 10)
 				return CommandResult.InvalidArgument;
+
+			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
+			// exp bar if the exp didn't change.
+			target.Exp = 0;
 
 			for (int i = 0; i < levels; ++i)
 				target.LevelUp();
