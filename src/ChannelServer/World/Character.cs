@@ -282,6 +282,7 @@ namespace Melia.Channel.World
 		{
 			this.Level++;
 			this.StatByLevel++;
+			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
 
 			// packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 			//packet.PutLong(target.Id);
@@ -299,6 +300,7 @@ namespace Melia.Channel.World
 			//packet.PutBinFromHex("07 01 00 00 07 01 00 00 72 00 72 00 09 00 00 00");
 			//conn.Send(packet);
 
+			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this, ObjectProperty.PC.StatByLevel);
 			Send.ZC_NORMAL_LevelUp(this);
@@ -327,10 +329,6 @@ namespace Melia.Channel.World
 			while (this.Exp >= this.MaxExp)
 			{
 				this.Exp -= this.MaxExp;
-				this.MaxExp += (int)(this.MaxExp * 0.1f); // + 10%
-
-				Send.ZC_MAX_EXP_CHANGED(this, exp);
-
 				this.LevelUp();
 			}
 		}
