@@ -37,6 +37,7 @@ namespace Melia.Channel.Scripting
 		private Dictionary<IntPtr, ScriptState> _states;
 
 		private Timer _globalVarSaver;
+		private DateTime _lastVarChange;
 
 		/// <summary>
 		/// Amount of scripts currently loaded.
@@ -126,6 +127,7 @@ namespace Melia.Channel.Scripting
 			// TODO: Replace timer with time event.
 			ChannelServer.Instance.Database.LoadVars(VariableOwner, this.Variables.Perm);
 			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
+			_lastVarChange = DateTime.Now;
 		}
 
 		/// <summary>
@@ -403,6 +405,11 @@ namespace Melia.Channel.Scripting
 		/// <param name="state"></param>
 		private void SaveGlobalVars(object state)
 		{
+			if (this.Variables.Perm.LastChange <= _lastVarChange)
+				return;
+
+			_lastVarChange = this.Variables.Perm.LastChange;
+
 			try
 			{
 				ChannelServer.Instance.Database.SaveVariables(VariableOwner, this.Variables.Perm);

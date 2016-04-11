@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace Melia.Channel.Scripting
 	public class VariableManager
 	{
 		private Dictionary<string, object> _variables;
+
+		/// <summary>
+		/// Last time a variable was changed.
+		/// </summary>
+		public DateTime LastChange { get; private set; }
 
 		/// <summary>
 		/// Creates new variable manager.
@@ -82,7 +88,10 @@ namespace Melia.Channel.Scripting
 			set
 			{
 				lock (_variables)
+				{
 					_variables[key] = value;
+					this.LastChange = DateTime.Now;
+				}
 			}
 		}
 
