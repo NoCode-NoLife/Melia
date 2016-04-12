@@ -72,9 +72,11 @@
     <Compile Include="World\IVisitor.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
+    <Compile Include="World\Skill.cs" />
     <Compile Include="World\SkillActor.cs" />
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\SectorManager.cs" />
+    <Compile Include="World\SkillManager.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

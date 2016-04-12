@@ -7,6 +7,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.Data.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,12 @@ namespace Melia.Channel.World
 		private object _lookAroundLock = new object();
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
+
+		public Dictionary<Job, int> jobs;
+		public Dictionary<Job, int> jobPoints;
+		public int jobLevel;
+
+		public SkillManager skillManager;
 
 		/// <summary>
 		/// Connection this character uses.
@@ -124,6 +131,8 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Speed = 30;
+			this.jobs = new Dictionary<Job, int>();
+			this.skillManager = new SkillManager(this);
 
 		}
 
@@ -546,6 +555,28 @@ namespace Melia.Channel.World
 
 		public bool OnVisit(Actor actor)
 		{
+			return true;
+		}
+
+		public bool LearnSkill(SkillTreeInfo skillTreeData, int levels)
+		{
+			// Check if received a valid skillTreeData
+			if (skillTreeData == null)
+				return false;
+
+			// Check if this skill is among one of this character's jobs.
+			if (!this.jobs.ContainsKey((Job)skillTreeData.JobId))
+				return false;
+
+			// Check if character has the right Job Grade to learn this skill
+			if (skillTreeData.UnlockGrade > this.jobs[(Job)skillTreeData.JobId])
+			{
+				Log.Warning("User '{0}' tried to learn a skill locked for his job.", Connection.Account.Name);
+				return false;
+			}
+
+			skillManager.LearnSkill(skillTreeData, levels);
+
 			return true;
 		}
 

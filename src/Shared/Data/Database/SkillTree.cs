@@ -1,13 +1,15 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
-	public class SkillTree
+	public class SkillTreeInfo
 	{
 		public int Id { get; set; }
 		public int SkillId { get; set; }
@@ -20,13 +22,23 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// SkillTree database
 	/// </summary>
-	public class SkillTreeDb : DatabaseJsonIndexed<int, SkillTree>
+	public class SkillTreeDb : DatabaseJsonIndexed<int, SkillTreeInfo>
 	{
+		public List<SkillTreeInfo> FindByJobId(int jobId)
+		{
+			return this.Entries.FindAll(a => a.Value.JobId.Equals(jobId));
+		}
+
+		public List<SkillTreeInfo> FindBySkillId(int skillId)
+		{
+			return this.Entries.FindAll(a => a.Value.SkillId.Equals(skillId));
+		}
+
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("SkillTreeId", "SkillId", "JobId", "UnlockGrade", "LevelPerGrade", "MaxLevel");
 
-			var info = new SkillTree();
+			var info = new SkillTreeInfo();
 
 			info.Id = entry.ReadInt("SkillTreeId");
 			info.SkillId = entry.ReadInt("SkillId");

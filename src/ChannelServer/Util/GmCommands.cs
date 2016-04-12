@@ -378,6 +378,15 @@ namespace Melia.Channel.Util
 			target.Job = (Job)jobId;
 			Send.ZC_PC(target, PcUpdateType.Job, (short)jobId);
 			Send.ZC_UPDATED_PCAPPEARANCE(target);
+			//
+			target.jobLevel = 15;
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.BeforeJobLv);
+			Send.ZC_PC_PROP_UPDATE(target, ObjectProperty.PC.BeforeJobLv, 1);
+			//
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.JobChanging);
+			Send.ZC_PC_PROP_UPDATE(target, ObjectProperty.PC.JobChanging, 1);
+			//
+			Send.ZC_ADDON_MSG(target, "START_JOB_CHANGE");
 
 			return CommandResult.Okay;
 		}

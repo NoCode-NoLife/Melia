@@ -100,6 +100,11 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
+			// TEST CODE
+			character.jobs.Add(Job.Cleric, 3);
+			character.skillManager.skillPoints.Add(Job.Cleric, 33);
+			//
+
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			// ZC_NORMAL
@@ -126,7 +131,17 @@ namespace Melia.Channel.Network
 			// ZC_NORMAL...
 			// ZC_OBJECT_PROPERTY...
 			// ZC_SKILL_ADD...
-			Send.ZC_JOB_PTS(character);
+			// Temporary skills (all skills not in skill List)
+			var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
+			foreach (var skillId in skills)
+			{
+				Skill skill;
+				character.skillManager.SkillAdd(skillId, 1, out skill);
+			}
+			// ZC_JOB_PTS
+			foreach (var thisJob in character.jobs.Keys)
+				character.skillManager.SendJobSkillPoints(thisJob);
+
 			Send.ZC_MOVE_SPEED(character);
 
 			character.OpenEyes();
@@ -855,10 +870,65 @@ namespace Melia.Channel.Network
 					break;
 
 				case TxType.Skills:
-					// TODO: Handle skill learning
-					var jobId = packet.GetInt();
-					//Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
-					Send.ZC_SKILL_ADD(character, 40001);
+					var skillsCount = packet.GetInt() - 1; // -1 because we substract jobId packet.
+					var jobId = packet.GetInt(); // Get JobId related for skills list
+
+					var classId = (int)(jobId / 1000);
+					classId = classId * 1000;
+					var specificJobId = jobId - classId;
+					Log.Debug("classId: {0}", classId);
+					Log.Debug("specificJobId: {0}", specificJobId);
+
+					// TEST CODE
+					character.jobs = new Dictionary<Job, int>();
+					character.jobs.Add(Job.Cleric, 3);
+					character.jobs.Add(Job.Krivi, 3);
+					character.jobs.Add(Job.Bokor, 3);
+					character.jobs.Add(Job.Druid, 3);
+					character.jobs.Add(Job.Sadhu, 3);
+					character.jobs.Add(Job.Dievdirbys, 3);
+					character.jobs.Add(Job.Oracle, 3);
+					character.jobs.Add(Job.Monk, 3);
+					character.jobs.Add(Job.Pardoner, 3);
+					character.jobs.Add(Job.Chaplain, 3);
+					character.jobs.Add(Job.Shepherd, 3);
+					character.jobs.Add(Job.PlagueDoctor, 3);
+					character.jobs.Add(Job.Kabbalist, 3);
+
+					Log.Debug("skillsCount: {0}", skillsCount);
+					Log.Debug("JobId to learn: {0}", jobId);
+
+					Log.Debug("JOBS LEARNED:");
+					foreach (var jobdata in character.jobs)
+						Log.Debug("Job {0} grade {1}", (int) jobdata.Key, jobdata.Value);
+
+					// END TEST CODE
+
+					// Check if character has this job
+					if (!character.jobs.ContainsKey((Job)jobId))
+					{
+						Log.Warning("User '{0}' tried to learn skills for a job he doesn't own.", conn.Account.Name);
+						return;
+					}			
+
+					for (int i = 0; i < skillsCount; ++i)
+					{
+						var skillTreeKey = (classId * 10) + (specificJobId * 100) + i + 1;
+						Log.Debug("key: {0}", skillTreeKey);
+
+						var levels = packet.GetInt();
+						Log.Debug("skill {0} leves: {1}", i, levels);
+
+						if (levels == 0)
+							continue;
+
+						// Get the skill info for this job skill index
+						var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.Find(skillTreeKey);
+
+						character.LearnSkill(skillTreeData, levels);
+					}
+
+
 					break;
 
 				default:

@@ -134,9 +134,13 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_START_INFO);
 
-			packet.PutInt(1); // count
+			var character = conn.SelectedCharacter;
+
+
+			packet.PutInt(character.jobs.Count); 
+			foreach (var thisJob in character.jobs)
 			{
-				packet.PutShort((short)conn.SelectedCharacter.Job);
+				packet.PutShort((short) thisJob.Key);
 				packet.PutInt(0); // 1270153646, 2003304878
 				packet.PutInt(0);
 				packet.PutShort(1);
@@ -262,15 +266,18 @@ namespace Melia.Channel.Network
 		public static void ZC_SKILL_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_LIST);
-			var skills = new[] { 1, 101, 105, 108, 20, 3, 100, 10002, 10003 };
-
+			
 			packet.PutInt(character.Handle);
-			packet.PutShort(skills.Length); // count
+			List<Skill> skillsList = character.skillManager.GetAllSkillsFromSkillList();
+			packet.PutShort(skillsList.Count); // count
 
 			packet.PutShort(0); // No compression
+
 			//packet.BeginZlib();
-			foreach (var skill in skills)
+			foreach (var skill in skillsList)
+			{
 				packet.AddSkill(skill);
+			}
 			//packet.EndZlib();
 
 			character.Connection.Send(packet);
@@ -281,14 +288,14 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_ADD(Character character, int skillId)
+		public static void ZC_SKILL_ADD(Character character, Skill skill, bool registerShortcut, bool isFromSkillLiest, long unk1)
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
-			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
-			packet.PutByte(0); // SKILL_LIST_GET ?
-			packet.PutLong(0); // ?
-			packet.AddSkill(skillId);
+			packet.PutByte(registerShortcut);
+			packet.PutByte(isFromSkillLiest);
+			packet.PutLong(unk1); // ? I belive this could be a reference to an item that gives this skill. When item is removed, the skill aswell.
+			packet.AddSkill(skill);
 
 			character.Connection.Send(packet);
 		}
@@ -392,12 +399,12 @@ namespace Melia.Channel.Network
 		/// Sends ZC_JOB_PTS to character, updating their job points.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_JOB_PTS(Character character)
+		public static void ZC_JOB_PTS(Character character, Job jobId, int points)
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
-			packet.PutShort((short)character.Job);
-			packet.PutShort(50);
+			packet.PutShort((short)jobId);
+			packet.PutShort((short)points);
 
 			character.Connection.Send(packet);
 		}
@@ -861,7 +868,7 @@ namespace Melia.Channel.Network
 			{
 				packet.PutShort((short)newValue);
 				packet.PutEmptyBin(2);
-				packet.PutInt(0);
+				packet.PutInt(3); // Job Grade (stars/Circle)
 			}
 
 			character.Map.Broadcast(packet, character);
@@ -930,6 +937,64 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
 					case ObjectProperty.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
 					case ObjectProperty.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
+
+					case ObjectProperty.PC.JobChanging: packet.PutShort((short)character.Job); break;
+					case ObjectProperty.PC.BeforeJobLv: packet.PutShort((short)character.jobLevel); break;
+
+					default: throw new ArgumentException("Unknown property '" + property + "'.");
+				}
+			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_OBJECT_PROPERTY to connection, containing a list of the
+		/// given properties, using values from character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="properties"></param>
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, Skill skill, params short[] properties)
+		{
+			if (properties == null || properties.Length == 0)
+				return;
+
+			Log.Debug("ZC_OBJECT_PROPERTY Skill: {0} {1}", skill.Id, skill.Data.SpendSP);
+
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+			packet.PutLong(skill._worldId);
+			foreach (var property in properties)
+			{
+				packet.PutShort(property);
+				switch (property)
+				{
+					// Level up existing skill
+					case ObjectProperty.Skill.Level: packet.PutFloat((float)skill.level); break;
+					case ObjectProperty.Skill.LevelByDB: packet.PutFloat((short)skill.level); break;
+					case ObjectProperty.Skill.SpendSP: packet.PutFloat((float)skill.Data.SpendSP); break;
+					case ObjectProperty.Skill.SkillAtkAdd: packet.PutFloat(12.0f); break;
+
+					case ObjectProperty.Skill.CoolDown: packet.PutFloat(27000.0f); break;
+					case ObjectProperty.Skill.SpendItemCount: packet.PutFloat(0.0f); break; //
+					case ObjectProperty.Skill.SplAngle: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.SR: packet.PutFloat(1.0f); break;
+					case ObjectProperty.Skill.SplRange: packet.PutFloat(18.0f); break; //
+					case ObjectProperty.Skill.MaxR: packet.PutFloat(100.0f); break; //
+					
+					case ObjectProperty.Skill.WaveLength: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.BackHitRange: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.UseOverHeat: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.SkillASPD: packet.PutFloat(1.0f); break;
+					case ObjectProperty.Skill.SkillSR: packet.PutFloat(4.0f); break;
+					case ObjectProperty.Skill.SklSpdRate: packet.PutFloat(1.0f); break;
+					case ObjectProperty.Skill.SpendPoison: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.SpendSta: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.Skill_Delay:	packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.ReadyTime: packet.PutFloat(250.0f); break; //
+					case ObjectProperty.Skill.EnableShootMove: packet.PutFloat(1.0f); break;
+					case ObjectProperty.Skill.AbleShootRotate: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.SkillFactor: packet.PutFloat(100.0f); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}

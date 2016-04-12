@@ -121,6 +121,7 @@ namespace Melia.Channel.Database
 			}
 
 			this.LoadCharacterItems(character);
+			this.LoadCharacterSkills(character);
 
 			return character;
 		}
@@ -254,6 +255,40 @@ namespace Melia.Channel.Database
 				}
 
 				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Load character's items.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		private void LoadCharacterSkills(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `skills` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var skillId = reader.GetInt32("skillId");
+						var level = reader.GetInt32("level");
+
+						// Check skill, in case its data was removed
+						if (!ChannelServer.Instance.Data.SkillDb.Exists(skillId))
+						{
+							Log.Warning("ChannelDb.LoadCharacterSkills: Skill '{0}' not found, removing it from skills list.", skillId);
+							continue;
+						}
+
+						Log.Debug("Adding skill {0} Level {1} to character {2}", skillId, level, character.Name);
+						Skill skill;
+						character.skillManager.SkillAddSilent(skillId, level, out skill);
+					}
+				}
 			}
 		}
 	}

@@ -22,6 +22,11 @@ namespace Melia.Shared.Data.Database
 		public float SplashHeight { get; set; }
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
+
+		public float SpendSP { get; set; }
+
+		public bool RegisterAsShortcut { get; set; } // Indicates if this skill gets auto-registered in shortcut bar when learned
+		public bool IsFromSkillList { get; set; } // Indicates if this skill is learnable from the Skill List (or if its a basic skill (weapon skill, etc))
 	}
 
 	public enum SplashType
@@ -55,6 +60,12 @@ namespace Melia.Shared.Data.Database
 			info.SplashHeight = entry.ReadFloat("splashHeight");
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
+			info.SpendSP = 10.0f;
+
+			if (info.Id > 10000)
+			{
+				info.IsFromSkillList = true;
+			}
 
 			this.Entries[info.Id] = info;
 		}

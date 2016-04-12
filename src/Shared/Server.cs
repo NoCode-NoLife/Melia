@@ -214,7 +214,7 @@ namespace Melia.Shared
 		Barracks = 0x10,
 		Monsters = 0x20,
 		Skills = 0x40,
-		SkillTree= 0x80,
+		SkillTree = 0x80,
 
 		All = 0x7FFFFFFF,
 	}

@@ -644,6 +644,7 @@ namespace Melia.Shared.Const
 
 		public static class PC
 		{
+			public const short JobChanging = 4081;
 			public const short Name = 6862;
 			public const short Size = 6863;
 			public const short MonRank = 6864;
