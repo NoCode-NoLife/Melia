@@ -15,6 +15,8 @@ using Melia.Shared.World;
 using Melia.Channel.Network;
 using System.Runtime.CompilerServices;
 using Melia.Shared.Network;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Melia.Channel.Scripting
 {
@@ -26,13 +28,20 @@ namespace Melia.Channel.Scripting
 
 		private const string NpcNameSeperator = "*@*";
 
+		private const string GlobalVariableOwner = "global";
+		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
+
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
+		private static readonly Regex VarNameCheck = new Regex(@"^[a-z][a-z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		private IntPtr GL;
 		private object _glSyncLock = new object();
 
 		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
+
+		private Timer _globalVarSaver;
+		private DateTime _lastVarChange;
 
 		/// <summary>
 		/// Amount of scripts currently loaded.
@@ -45,18 +54,34 @@ namespace Melia.Channel.Scripting
 		public int TotalCount { get; protected set; }
 
 		/// <summary>
+		/// Global scripting variables.
+		/// </summary>
+		public Variables Variables { get; protected set; }
+
+		/// <summary>
 		/// Creates new script manager.
 		/// </summary>
 		public ScriptManager()
 		{
 			_functions = new List<Melua.LuaNativeFunction>();
 			_states = new Dictionary<IntPtr, ScriptState>();
+
+			this.Variables = new Variables();
 		}
 
 		/// <summary>
 		/// Initializes scripting environment.
 		/// </summary>
 		public void Initialize()
+		{
+			this.InitializeVariables();
+			this.InitializeLua();
+		}
+
+		/// <summary>
+		/// Initializes global Lua state.
+		/// </summary>
+		private void InitializeLua()
 		{
 			GL = Melua.luaL_newstate();
 			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
@@ -97,6 +122,38 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
+
+			// Others
+			Register(var);
+			Register(tostring);
+		}
+
+		/// <summary>
+		/// Returns first parameter as string.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - T value
+		/// 
+		/// Result:
+		/// - string value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int tostring(IntPtr L)
+		{
+			return Melua.luaB_tostring(L);
+		}
+
+		/// <summary>
+		/// Initializes global variable manager.
+		/// </summary>
+		private void InitializeVariables()
+		{
+			// TODO: Replace timer with time event.
+			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
+			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
+			_lastVarChange = DateTime.Now;
 		}
 
 		/// <summary>
@@ -408,6 +465,28 @@ namespace Melia.Channel.Scripting
 			// Prepend NPC name
 			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
 				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
+		}
+
+		/// <summary>
+		/// Saves global variables to database.
+		/// </summary>
+		/// <param name="state"></param>
+		private void SaveGlobalVars(object state)
+		{
+			if (this.Variables.Perm.LastChange <= _lastVarChange)
+				return;
+
+			_lastVarChange = this.Variables.Perm.LastChange;
+
+			try
+			{
+				ChannelServer.Instance.Database.SaveVariables(GlobalVariableOwner, this.Variables.Perm);
+				Log.Info("Saved global script variables.");
+			}
+			catch (Exception ex)
+			{
+				Log.Exception(ex, "Failed to save global script variables.");
+			}
 		}
 
 		//-----------------------------------------------------------------//
@@ -1098,6 +1177,110 @@ namespace Melia.Channel.Scripting
 
 			var result = character.Inventory.CountItem(itemId);
 			Melua.lua_pushinteger(L, result);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Gets or sets a scripting variable.
+		/// </summary>
+		/// <remarks>
+		/// Scripting variables are separate from Lua variables and exist
+		/// across script and playing sessions. How the variable is saved
+		/// depends on the used prefix.
+		/// 
+		/// Variable names may contain the following characters, apart from
+		/// the prefixes, and must start with a character:
+		/// abcdefghijklmnopqrstuvwxyz0123456789_
+		/// 
+		/// Prefixes:
+		/// ""   - Permanent variable attached to the character.
+		/// "@"  - Temporary variable attached to the character.
+		/// "#"  - Permanent variable attached to the account.
+		/// "$"  - Permanent global variable.
+		/// "$@" - Temporary global variable.
+		/// 
+		/// Parameters:
+		/// - string variableName
+		/// - (optional) T value
+		/// 
+		/// Result:
+		/// - T value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int var(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+			var name = Melua.luaL_checkstring(L, 1).Trim();
+
+			object value = null;
+			if (argc == 2)
+			{
+				if (Melua.lua_isnumber(L, 2))
+					value = Melua.lua_tonumber(L, 2);
+				else if (Melua.lua_isstring(L, 2))
+					value = Melua.lua_tostring(L, 2);
+				else if (Melua.lua_isboolean(L, 2))
+					value = Melua.lua_toboolean(L, 2);
+				else
+					return Melua.melua_error(L, "Unsupported variable type.");
+			}
+
+			Melua.lua_pop(L, argc);
+
+			// Get variable manager and trim name
+			VariableManager vars;
+
+			if (name.StartsWith("$@"))
+			{
+				vars = this.Variables.Temp;
+				name = name.Substring(2);
+			}
+			else if (name.StartsWith("$"))
+			{
+				vars = this.Variables.Perm;
+				name = name.Substring(1);
+			}
+			else if (name.StartsWith("#"))
+			{
+				vars = conn.Account.Variables.Perm;
+				name = name.Substring(1);
+			}
+			else if (name.StartsWith("@"))
+			{
+				vars = character.Variables.Temp;
+				name = name.Substring(1);
+			}
+			else
+			{
+				vars = character.Variables.Perm;
+			}
+
+			// Check name syntax, if we want to add more prefixes later on,
+			// we can't have special characters in names.
+			if (!VarNameCheck.IsMatch(name))
+				return Melua.melua_error(L, "Invalid variable name.");
+
+			// Update or get value
+			if (value == null)
+				value = vars[name];
+			else
+				vars[name] = value;
+
+			// Push return value
+			if (value == null) Melua.lua_pushnil(L);
+			else if (value is string) Melua.lua_pushstring(L, (string)value);
+			else if (value is double) Melua.lua_pushnumber(L, (double)value);
+			else if (value is float) Melua.lua_pushnumber(L, (float)value);
+			else if (value is int) Melua.lua_pushinteger(L, (int)value);
+			else if (value is bool) Melua.lua_pushboolean(L, (bool)value);
+			else
+				return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
 
 			return 1;
 		}
