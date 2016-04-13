@@ -678,7 +678,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
-			var unkInt = packet.GetInt();
+			var type = packet.GetInt();
 
 			// Check state
 			if (conn.ScriptState.CurrentNpc == null)
@@ -689,7 +689,18 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn);
+			// The type seems to indicate what the client wants to do,
+			// 1 being sent when continuing normally and 0 or -1 when
+			// escape is pressed, to cancel the dialog.
+			if (type == 1)
+			{
+				ChannelServer.Instance.ScriptManager.Resume(conn);
+			}
+			else
+			{
+				conn.ScriptState.Reset();
+				Send.ZC_DIALOG_CLOSE(conn);
+			}
 		}
 
 		/// <summary>
