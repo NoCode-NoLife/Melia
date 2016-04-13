@@ -83,6 +83,33 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns a dictionary with all items that match the predicate,
+		/// Key being their index.
+		/// </summary>
+		/// <returns></returns>
+		public IDictionary<int, Item> GetItems(Func<Item, bool> predicate)
+		{
+			var result = new Dictionary<int, Item>();
+
+			lock (_syncLock)
+			{
+				foreach (var category in _items)
+				{
+					for (int i = 0; i < category.Value.Count; ++i)
+					{
+						var index = (int)category.Key * 5000 + 1 + i;
+						var item = category.Value[i];
+
+						if (predicate(item))
+							result.Add(index, item);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns a dictionary with all indices, Key being the item's index.
 		/// </summary>
 		/// <returns></returns>
@@ -234,7 +261,7 @@ namespace Melia.Channel.World
 		{
 			var index = this.AddSilent(item);
 
-			Send.ZC_ITEM_ADD(_character, item, index, addType);
+			Send.ZC_ITEM_ADD(_character, item, index, item.Amount, addType);
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
 			return index;
@@ -338,6 +365,57 @@ namespace Melia.Channel.World
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
 			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Deletes items with given id from inventory.
+		/// </summary>
+		/// <param name="itemId">Id of the item to remove.</param>
+		/// <param name="amount">Amount of pieces to remove.</param>
+		/// <returns>Amount of pieces removed.</returns>
+		public int Delete(int itemId, int amount)
+		{
+			if (amount == 0)
+				return 0;
+
+			var result = 0;
+
+			// Potential optimization: don't search every category. However,
+			// technically any item can be in any category.
+			foreach (var itemkv in this.GetItems(a => a.Id == itemId))
+			{
+				var index = itemkv.Key;
+				var item = itemkv.Value;
+				var itemAmount = item.Amount;
+				var category = item.Data.Category;
+				var reduce = Math.Min(amount, item.Amount);
+
+				item.Amount -= reduce;
+				amount -= reduce;
+				result += reduce;
+
+				if (reduce == itemAmount)
+				{
+					lock (_syncLock)
+					{
+						_items[category].Remove(item);
+						_itemsWorldIndex.Remove(item.WorldId);
+
+						Send.ZC_ITEM_REMOVE(_character, item.WorldId, itemAmount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+					}
+				}
+				else
+				{
+					Send.ZC_ITEM_ADD(_character, item, index, -reduce, InventoryAddType.NotNew);
+				}
+
+				Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
+			}
+
+			if (result != 0)
+				Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+
+			return result;
 		}
 
 		/// <summary>

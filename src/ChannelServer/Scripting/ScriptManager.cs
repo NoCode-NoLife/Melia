@@ -114,6 +114,7 @@ namespace Melia.Channel.Scripting
 			Register(hasitem);
 			Register(countitem);
 			Register(getitem);
+			Register(delitem);
 
 			// Action
 			Register(warp);
@@ -1188,6 +1189,41 @@ namespace Melia.Channel.Scripting
 			}
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Removes the specified amount of items with the given id from
+		/// character's inventory.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// - int amount
+		/// 
+		/// Result:
+		/// - int removedCount
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int delitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 2);
+			Melua.lua_pop(L, 2);
+
+			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
+			if (itemData == null)
+				return Melua.melua_error(L, "Unknown item id.");
+
+			amount = Math.Max(0, amount);
+
+			var removed = character.Inventory.Delete(itemId, amount);
+			Melua.lua_pushinteger(L, removed);
+
+			return 1;
 		}
 
 		/// <summary>
