@@ -111,6 +111,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Exp) != 0)
+				{
+					this.LoadDb(this.Data.ExpDb, "db/exp.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -209,6 +214,7 @@ namespace Melia.Shared
 		Barracks = 0x10,
 		Monsters = 0x20,
 		Skills = 0x40,
+		Exp = 0x80,
 
 		All = 0x7FFFFFFF,
 	}
