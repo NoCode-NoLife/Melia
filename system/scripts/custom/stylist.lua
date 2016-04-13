@@ -18,17 +18,17 @@ function stylist()
 	local max = pc.gender == GENDER_MALE and 71 or 82
 	local style = pc.hair
 
-	function setStyle(val)
+	local function setStyle(val)
 		style = val
 		loopStyle()
 	end
 
-	function modStyle(mod)
+	local function modStyle(mod)
 		style = style + mod
 		loopStyle()
 	end
 
-	function loopStyle()
+	local function loopStyle()
 		if style > max then
 			style = min
 		elseif style < min then
