@@ -373,7 +373,7 @@ namespace Melia.Channel.World
 		/// <param name="itemId">Id of the item to remove.</param>
 		/// <param name="amount">Amount of pieces to remove.</param>
 		/// <returns>Amount of pieces removed.</returns>
-		public int Delete(int itemId, int amount)
+		public int Delete(int itemId, int amount, InventoryItemRemoveMsg msg)
 		{
 			if (amount == 0)
 				return 0;
@@ -401,14 +401,10 @@ namespace Melia.Channel.World
 						_items[category].Remove(item);
 						_itemsWorldIndex.Remove(item.WorldId);
 
-						Send.ZC_ITEM_REMOVE(_character, item.WorldId, itemAmount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 					}
 				}
-				else
-				{
-					Send.ZC_ITEM_ADD(_character, item, index, -reduce, InventoryAddType.NotNew);
-				}
 
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, reduce, msg, InventoryType.Inventory);
 				Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			}
 
