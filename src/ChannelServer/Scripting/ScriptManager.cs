@@ -29,6 +29,8 @@ namespace Melia.Channel.Scripting
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 
 		private IntPtr GL;
+		private object _glSyncLock = new object();
+
 		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
 
@@ -65,6 +67,7 @@ namespace Melia.Channel.Scripting
 
 			// Functions
 			// --------------------------------------------------------------
+
 			// Output
 			Register(print);
 			Register(logdebug);
@@ -202,31 +205,59 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Returns a script state for the connection.
+		/// Creates new Lua thread for the state to use and saves
+		/// a reference to the connection's script state.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <returns></returns>
-		public ScriptState CreateScriptState(ChannelConnection conn)
+		public LuaThread GetNewThread(ScriptState state)
 		{
-			var NL = Melua.lua_newthread(GL);
-			var state = new ScriptState(conn, NL);
+			if (state.LuaThread != null)
+				this.RemoveThread(state.LuaThread);
+
+			IntPtr NL;
+			int index;
+			lock (_glSyncLock)
+			{
+				// Create new thread and save index, so it can be removed later.
+				NL = Melua.lua_newthread(GL);
+				index = Melua.lua_gettop(GL);
+			}
+
 			lock (_states)
 				_states.Add(NL, state);
-			return state;
+
+			return new LuaThread(NL, index);
 		}
 
 		/// <summary>
-		/// Removes script state from the manager.
+		/// Removes thread and the associated state from the manager.
 		/// </summary>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		public void RemoveScriptState(ScriptState state)
+		public void RemoveThread(LuaThread thread)
 		{
-			if (state == null)
+			if (thread == null || thread.L == IntPtr.Zero)
 				return;
 
+			lock (_glSyncLock)
+			{
+				// Remove thread from stack and update all stack indexes,
+				// as the removal will shift all following elements.
+				Melua.lua_remove(GL, thread.StackIndex);
+
+				lock (_states)
+				{
+					foreach (var state in _states.Values)
+					{
+						if (state.LuaThread.StackIndex > thread.StackIndex)
+							state.LuaThread.StackIndex--;
+					}
+				}
+			}
+
 			lock (_states)
-				_states.Remove(state.NL);
+				_states.Remove(thread.L);
 
 			// Apparently there is no lua_closethread()?
 		}
@@ -238,7 +269,12 @@ namespace Melia.Channel.Scripting
 		/// <param name="functionName"></param>
 		public void Call(ChannelConnection conn, string functionName)
 		{
-			var NL = conn.ScriptState.NL;
+			if (conn.ScriptState.LuaThread != null)
+				Log.Warning("ScriptManager.Call: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
+
+			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
+			var NL = conn.ScriptState.LuaThread.L;
+			var top = Melua.lua_gettop(GL);
 
 			Melua.lua_getglobal(NL, functionName);
 			if (Melua.lua_isnil(NL, -1))
@@ -260,7 +296,8 @@ namespace Melia.Channel.Scripting
 			if (result == 0)
 			{
 				Send.ZC_DIALOG_CLOSE(conn);
-				conn.ScriptState.CurrentNpc = null;
+
+				conn.ScriptState.Reset();
 			}
 		}
 
@@ -271,7 +308,14 @@ namespace Melia.Channel.Scripting
 		/// <param name="argument"></param>
 		public void Resume(ChannelConnection conn, params object[] arguments)
 		{
-			var NL = conn.ScriptState.NL;
+			if (conn.ScriptState.LuaThread == null)
+			{
+				Send.ZC_DIALOG_CLOSE(conn);
+				Log.Warning("ScriptManager: Resume on empty ScriptState from user '{0}'.", conn.Account.Name);
+				return;
+			}
+
+			var NL = conn.ScriptState.LuaThread.L;
 			var argc = (arguments != null ? arguments.Length : 0);
 
 			if (argc != 0)
@@ -314,7 +358,8 @@ namespace Melia.Channel.Scripting
 				// dialog.
 				if (argc == 0)
 					Send.ZC_DIALOG_CLOSE(conn);
-				conn.ScriptState.CurrentNpc = null;
+
+				conn.ScriptState.Reset();
 			}
 		}
 

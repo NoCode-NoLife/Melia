@@ -81,7 +81,6 @@ namespace Melia.Channel.Network
 			conn.SelectedCharacter = character;
 
 			map.AddCharacter(character);
-			conn.ScriptState = ChannelServer.Instance.ScriptManager.CreateScriptState(conn);
 			conn.LoggedIn = true;
 
 			Send.ZC_CONNECT_OK(conn, character);
