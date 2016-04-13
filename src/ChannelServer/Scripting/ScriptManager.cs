@@ -113,6 +113,7 @@ namespace Melia.Channel.Scripting
 			// Inventory
 			Register(hasitem);
 			Register(countitem);
+			Register(getitem);
 
 			// Action
 			Register(warp);
@@ -1134,6 +1135,59 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, result);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Adds the specified amount of items to the character's inventory.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// - int amount
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int getitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 2);
+			Melua.lua_pop(L, 2);
+
+			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
+			if (itemData == null)
+				return Melua.melua_error(L, "Unknown item id.");
+
+			amount = Math.Max(1, amount);
+
+			try
+			{
+				// If item is stackable add it directly, if not, add it as
+				// many times as specified, so a call for 10 swords yields
+				// 10 swords, and not one where the amount was clamped to 1.
+				if (itemData.MaxStack > 1)
+				{
+					var item = new Item(itemId, amount);
+					character.Inventory.Add(item, InventoryAddType.PickUp);
+				}
+				else
+				{
+					for (int i = 0; i < amount; ++i)
+					{
+						var item = new Item(itemId, amount);
+						character.Inventory.Add(item, InventoryAddType.PickUp);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Exception(ex);
+				return Melua.melua_error(L, "Failed to add item to inventory.");
+			}
+
+			return 0;
 		}
 
 		/// <summary>
