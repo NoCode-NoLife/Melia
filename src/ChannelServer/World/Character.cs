@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Channel.Network;
+using Melia.Channel.Scripting;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -113,6 +114,11 @@ namespace Melia.Channel.World
 		public bool EyesOpen { get; private set; }
 
 		/// <summary>
+		/// Character's scripting variables.
+		/// </summary>
+		public Variables Variables { get; private set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -125,6 +131,7 @@ namespace Melia.Channel.World
 			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
+			this.Variables = new Variables();
 			this.Speed = 30;
 		}
 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Channel.Scripting;
 using Melia.Shared.Const;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,17 @@ namespace Melia.Channel.Database
 		public AccountSettings Settings { get; private set; }
 
 		/// <summary>
+		/// Account's scripting variables.
+		/// </summary>
+		public Variables Variables { get; private set; }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
 		{
 			this.Settings = new AccountSettings();
+			this.Variables = new Variables();
 		}
 
 		/// <summary>
