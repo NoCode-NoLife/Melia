@@ -18,17 +18,17 @@ function npc_stylist()
 	local max = pc.gender == GENDER_MALE and 71 or 82
 	local style = pc.hair
 
-	local function setStyle(val)
+	local function setstyle(val)
 		style = val
-		loopStyle()
+		loopstyle()
 	end
 
-	local function modStyle(mod)
+	local function modstyle(mod)
 		style = style + mod
-		loopStyle()
+		loopstyle()
 	end
 
-	local function loopStyle()
+	local function loopstyle()
 		if style > max then
 			style = min
 		elseif style < min then
@@ -49,11 +49,11 @@ function npc_stylist()
 		selection = select("This is style " .. style .. ", what do you think?", "Next", "Prev", "Jump", "I like it")
 
 		if selection == 1 then
-			modStyle(1)
+			modstyle(1)
 		elseif selection == 2 then
-			modStyle(-1)
+			modstyle(-1)
 		elseif selection == 3 then
-			setStyle(numinput("Which style would you like to see?", min, max))
+			setstyle(numinput("Which style would you like to see?", min, max))
 		elseif selection == 4 then
 			msg("Yes, this style does suit you well. Please come back any time.")
 			return
