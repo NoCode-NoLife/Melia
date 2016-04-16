@@ -18,6 +18,14 @@ function npc_stylist()
 	local max = pc.gender == GENDER_MALE and 71 or 82
 	local style = pc.hair
 
+	local function loopstyle()
+		if style > max then
+			style = min
+		elseif style < min then
+			style = max
+		end
+	end
+
 	local function setstyle(val)
 		style = val
 		loopstyle()
@@ -26,14 +34,6 @@ function npc_stylist()
 	local function modstyle(mod)
 		style = style + mod
 		loopstyle()
-	end
-
-	local function loopstyle()
-		if style > max then
-			style = min
-		elseif style < min then
-			style = max
-		end
 	end
 
 	local selection = select("What can I do for you today?", "Change Hair", "Nothing")
