@@ -116,6 +116,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.ExpDb, "db/exp.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Dialogues) != 0)
+				{
+					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -215,6 +220,7 @@ namespace Melia.Shared
 		Monsters = 0x20,
 		Skills = 0x40,
 		Exp = 0x80,
+		Dialogues = 0x100,
 
 		All = 0x7FFFFFFF,
 	}
