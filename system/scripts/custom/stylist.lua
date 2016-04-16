@@ -10,9 +10,9 @@
 -- into style and color would be bothersome and could break any time.
 -----------------------------------------------------------------------------
 
-addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "stylist")
+addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "npc_stylist")
 
-function stylist()
+function npc_stylist()
 	local pc = getpc()
 	local min = 1
 	local max = pc.gender == GENDER_MALE and 71 or 82
