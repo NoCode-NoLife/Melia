@@ -1,0 +1,23 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: CZ_ITEM_BUY.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct
+{
+    int productId;
+    int amount;
+}
+Purchase;
+
+short op;
+int sequence;
+int checksum;
+
+short size;
+int count;
+Purchase purchases[count];
