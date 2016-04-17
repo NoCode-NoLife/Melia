@@ -1017,14 +1017,14 @@ namespace Melia.Channel.Network
 			}
 
 			// Check and reduce money
-			if (character.Inventory.CountItem(900011) < totalCost)
+			if (character.Inventory.CountItem(ItemId.Silver) < totalCost)
 			{
 				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy items without having enough money.", conn.Account.Name);
 				return;
 			}
 
 			// #49
-			//character.Inventory.Delete(900011, totalCost);
+			//character.Inventory.Delete(ItemId.Silver, totalCost);
 
 			// Give items
 			foreach (var purchase in purchaseList)
@@ -1096,7 +1096,7 @@ namespace Melia.Channel.Network
 			}
 
 			// Give money
-			character.Inventory.Add(new Item(900011, totalMoney), InventoryAddType.Sell);
+			character.Inventory.Add(new Item(ItemId.Silver, totalMoney), InventoryAddType.Sell);
 		}
 	}
 

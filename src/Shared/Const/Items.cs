@@ -109,4 +109,12 @@ namespace Melia.Shared.Const
 
 		Id = 0xFF,
 	}
+
+	/// <summary>
+	/// Ids of commonly used items.
+	/// </summary>
+	public static class ItemId
+	{
+		public const int Silver = 900011;
+	}
 }
