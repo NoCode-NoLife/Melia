@@ -320,6 +320,47 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Returns true if value looks like a localization key.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		private bool IsLocalizationKey(string value)
+		{
+			return (value.StartsWith("ETC_") || value.StartsWith("QUEST_"));
+		}
+
+		/// <summary>
+		/// Returns true if value is a known client-side dialog name.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		private bool IsClientDialog(string value)
+		{
+			return ChannelServer.Instance.Data.DialogDb.Exists(value);
+		}
+
+		/// <summary>
+		/// Returns true if functionName looks like a localization key or a
+		/// known client-side dialog name.
+		/// </summary>
+		/// <param name="functionName"></param>
+		/// <returns></returns>
+		private bool IsOneLiner(string functionName)
+		{
+			return (this.IsLocalizationKey(functionName) || this.IsClientDialog(functionName));
+		}
+
+		/// <summary>
+		/// Wraps key with dictonary code.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		private string WrapLocalizationKey(string key)
+		{
+			return ("@dicID_^*$" + key + "$*^");
+		}
+
+		/// <summary>
 		/// Calls function with connection's script state.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -329,10 +370,17 @@ namespace Melia.Channel.Scripting
 			if (conn.ScriptState.LuaThread != null)
 				Log.Warning("ScriptManager.Call: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
 
+			// Get function name, use oneliner for localized, single-line
+			// dialogues.
+			if (this.IsOneLiner(functionName))
+				functionName = "npc_oneliner";
+
+			// Prepare thread
 			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
 			var NL = conn.ScriptState.LuaThread.L;
 			var top = Melua.lua_gettop(GL);
 
+			// Get function
 			Melua.lua_getglobal(NL, functionName);
 			if (Melua.lua_isnil(NL, -1))
 			{
@@ -340,6 +388,7 @@ namespace Melia.Channel.Scripting
 				return;
 			}
 
+			// Run
 			var result = Melua.lua_resume(NL, 0);
 
 			// Log error if result is not success or yield
@@ -442,6 +491,15 @@ namespace Melia.Channel.Scripting
 		/// <param name="msg"></param>
 		private void HandleCustomCode(ChannelConnection conn, ref string msg)
 		{
+			// Wrap localization key
+			if (this.IsLocalizationKey(msg))
+			{
+				msg = this.WrapLocalizationKey(msg);
+
+				// Return, as there won't be any custom code.
+				return;
+			}
+
 			// {pcname} Character name
 			if (msg.IndexOf("{pcname}") != -1)
 				msg = msg.Replace("{pcname}", conn.SelectedCharacter.Name);
@@ -462,7 +520,13 @@ namespace Melia.Channel.Scripting
 		/// <param name="msg"></param>
 		private void AttachNpcName(ChannelConnection conn, ref string msg)
 		{
-			// Prepend NPC name
+			// Don't attach NPC name to client dialogues, those are handled
+			// by the client.
+			if (this.IsClientDialog(msg))
+				return;
+
+			// Prepend NPC name if no seperator is present, otherwise no name
+			// will be displayed.
 			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
 				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
 		}
@@ -535,13 +599,21 @@ namespace Melia.Channel.Scripting
 		/// Adds NPC to world.
 		/// </summary>
 		/// <remarks>
+		/// The parameter `dialogFunctionName` can be the name of a Lua
+		/// function name, the name of a client-side dialog, or a
+		/// localization key. A client-side dialog controls the NPC name
+		/// and appearance, while a localization key will simply send the
+		/// key in one message. A Lua function allows for completely
+		/// custom dialog.
+		/// 
 		/// Parameters:
 		/// - int monsterId
-		/// - string name / Localkey
+		/// - string name / dictId
 		/// - string mapName
 		/// - number x
 		/// - number y
 		/// - number z
+		/// - int    direction
 		/// - string dialogFunctionName
 		/// </remarks>
 		/// <param name="L"></param>
@@ -564,8 +636,8 @@ namespace Melia.Channel.Scripting
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
 
 			// Wrap name in localization code if applicable
-			if (name.StartsWith("ETC_") || name.StartsWith("QUEST_"))
-				name = "@dicID_^*$" + name + "$*^";
+			if (this.IsLocalizationKey(name))
+				name = this.WrapLocalizationKey(name);
 
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
@@ -633,7 +705,7 @@ namespace Melia.Channel.Scripting
 			// Get name, preferably a localization key
 			var name = toMapName;
 			if (toMapData.LocalKey != "?")
-				name = "@dicID_^*$" + toMapData.LocalKey + "$*^";
+				name = this.WrapLocalizationKey(toMapData.LocalKey);
 
 			// Create a warping monster...
 			var monster = new Monster(40001, NpcType.NPC);
@@ -652,6 +724,10 @@ namespace Melia.Channel.Scripting
 		/// Sends dialog message to client.
 		/// </summary>
 		/// <remarks>
+		/// If message is a localization key (e.g. "ETC_20150317_000015"),
+		/// the string is wrapped in a dict code, so the client looks it up
+		/// in its dictionary.
+		/// 
 		/// Parameters:
 		/// - string message
 		/// </remarks>
@@ -664,8 +740,8 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_OK(conn, msg);
 
@@ -752,8 +828,8 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
 
@@ -804,8 +880,8 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg, min, max);
 
