@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Channel.Network;
+using Melia.Channel.Scripting;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -113,6 +114,11 @@ namespace Melia.Channel.World
 		public bool EyesOpen { get; private set; }
 
 		/// <summary>
+		/// Character's scripting variables.
+		/// </summary>
+		public Variables Variables { get; private set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -125,6 +131,7 @@ namespace Melia.Channel.World
 			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
+			this.Variables = new Variables();
 			this.Speed = 30;
 		}
 
@@ -261,6 +268,8 @@ namespace Melia.Channel.World
 
 			_warping = false;
 
+			ChannelServer.Instance.Database.SaveCharacter(this);
+
 			// Get channel
 			var channelId = 1;
 			var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
@@ -280,6 +289,7 @@ namespace Melia.Channel.World
 		{
 			this.Level++;
 			this.StatByLevel++;
+			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
 
 			// packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 			//packet.PutLong(target.Id);
@@ -297,6 +307,7 @@ namespace Melia.Channel.World
 			//packet.PutBinFromHex("07 01 00 00 07 01 00 00 72 00 72 00 09 00 00 00");
 			//conn.Send(packet);
 
+			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this, ObjectProperty.PC.StatByLevel);
 			Send.ZC_NORMAL_LevelUp(this);
@@ -317,16 +328,14 @@ namespace Melia.Channel.World
 		public void GiveExp(int exp, int jobExp, Monster monster)
 		{
 			this.Exp += exp;
+			// TODO: jobExp
+
 			Send.ZC_EXP_UP_BY_MONSTER(this, exp, 0, monster);
-			Send.ZC_EXP_UP(this, exp);
+			Send.ZC_EXP_UP(this, exp, 0);
 
 			while (this.Exp >= this.MaxExp)
 			{
 				this.Exp -= this.MaxExp;
-				this.MaxExp += (int)(this.MaxExp * 0.1f); // + 10%
-
-				Send.ZC_MAX_EXP_CHANGED(this, exp);
-
 				this.LevelUp();
 			}
 		}

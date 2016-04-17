@@ -26,7 +26,7 @@ namespace Melia.Shared.Database
 		/// <exception cref="Exception">Thrown if connection couldn't be established.</exception>
 		public void Init(string host, string user, string pass, string db)
 		{
-			_connectionString = string.Format("server={0}; database={1}; uid={2}; password={3}; pooling=true; min pool size=0; max pool size=100;", host, db, user, pass);
+			_connectionString = string.Format("server={0}; database={1}; uid={2}; password={3}; charset=utf8; pooling=true; min pool size=0; max pool size=100;", host, db, user, pass);
 			this.TestConnection();
 		}
 
@@ -123,9 +123,9 @@ namespace Melia.Shared.Database
 					cmd.Execute();
 					return true;
 				}
-				catch
+				catch (Exception ex)
 				{
-					Log.Error("Failed to create account '{0}'.", name);
+					Log.Exception(ex, "Failed to create account '{0}'.", name);
 				}
 			}
 

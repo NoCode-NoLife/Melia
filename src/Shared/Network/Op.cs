@@ -158,6 +158,10 @@ namespace Melia.Shared.Network
 	///   - ZC_MOVE_SPEED: 18 -> 19
 	///   - ZC_REST_SIT: 11 -> 12
 	///   - CZ_SKILL_CANCEL: 11 -> 12
+	/// 
+	/// i11457 (2016-04-12)
+	/// - New:
+	///   - CZ_REPORT_AUTOBOT
 	/// </remarks>
 	public static class Op
 	{
@@ -776,11 +780,12 @@ namespace Melia.Shared.Network
 		public const int CZ_CHECK_PING = 0xE24; // Size: 10
 		public const int CZ_CANCEL_INDUN_MATCHING = 0xE25; // Size: 10
 		public const int CZ_REQ_GM_ORDER = 0xE26; // Size: 202
-		public const int CZ_PARTY_INVENTORY_LOAD = 0xE27; // Size: 11
-		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE28; // Size: 31
-		public const int CZ_REQ_CancelGachaCube = 0xE29; // Size: 10
-		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2A; // Size: 0
-		public const int CZ_PVP_COMMAND = 0xE2B; // Size: 22
+		public const int CZ_REPORT_AUTOBOT = 0xE27; // Size: 74
+		public const int CZ_PARTY_INVENTORY_LOAD = 0xE28; // Size: 11
+		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE29; // Size: 31
+		public const int CZ_REQ_CancelGachaCube = 0xE2A; // Size: 10
+		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2B; // Size: 0
+		public const int CZ_PVP_COMMAND = 0xE2C; // Size: 22
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
@@ -1402,6 +1407,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_CHECK_PING] = 10;
 			_sizes[Op.CZ_CANCEL_INDUN_MATCHING] = 10;
 			_sizes[Op.CZ_REQ_GM_ORDER] = 202;
+			_sizes[Op.CZ_REPORT_AUTOBOT] = 74;
 			_sizes[Op.CZ_PARTY_INVENTORY_LOAD] = 11;
 			_sizes[Op.CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT] = 31;
 			_sizes[Op.CZ_REQ_CancelGachaCube] = 10;

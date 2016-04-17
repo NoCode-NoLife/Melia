@@ -459,7 +459,7 @@ namespace Melia.Shared.Network
 			if (hex == null)
 				throw new ArgumentNullException("hex");
 
-			hex = hex.Trim().Replace(" ", "").Replace("-", "");
+			hex = hex.Trim().Replace(" ", "").Replace("-", "").Replace("\r", "").Replace("\n", "");
 
 			if (hex == "")
 				return;

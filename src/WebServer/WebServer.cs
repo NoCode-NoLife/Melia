@@ -68,15 +68,15 @@ namespace Melia.Web
 
 			this.App.Engine("htm", new HandlebarsEngine());
 
-			this.App.Get("/toscdn/patch/serverlist.xml", new ServerListController());
-			this.App.Get("/toscdn/patch/static__Config.txt", new StaticConfigController());
+			this.App.Get("/toslive/patch/serverlist.xml", new ServerListController());
+			this.App.Get("/toslive/patch/static__Config.txt", new StaticConfigController());
 
 			try
 			{
 				this.App.Listen(this.Conf.Web.Port);
 
-				Log.Info("ServerListURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/serverlist.xml");
-				Log.Info("StaticConfigURL: *:{0}/{1}", this.Conf.Web.Port, "toscdn/patch/");
+				Log.Info("ServerListURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/serverlist.xml");
+				Log.Info("StaticConfigURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/");
 				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
 			catch (NHttp.NHttpException)

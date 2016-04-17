@@ -24,12 +24,21 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Gets or set connection's script state.
 		/// </summary>
-		public ScriptState ScriptState { get; set; }
+		public ScriptState ScriptState { get; private set; }
 
 		/// <summary>
 		/// Active character.
 		/// </summary>
 		public Character SelectedCharacter { get; set; }
+
+		/// <summary>
+		/// Instantiates new channel connection.
+		/// </summary>
+		public ChannelConnection()
+			: base()
+		{
+			this.ScriptState = new ScriptState(this);
+		}
 
 		/// <summary>
 		/// Handles channel packets.
@@ -53,7 +62,7 @@ namespace Melia.Channel.Network
 				ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
 			}
 
-			ChannelServer.Instance.ScriptManager.RemoveScriptState(this.ScriptState);
+			this.ScriptState.Reset();
 		}
 	}
 }

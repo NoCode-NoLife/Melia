@@ -80,4 +80,26 @@ namespace Melia.Shared.Const
 
 		GM = 9001,
 	}
+
+	public enum Class
+	{
+		Swordsman = 1,
+		Wizard = 2,
+		Archer = 3,
+		Cleric = 4,
+		GM = 9,
+	}
+
+	public static class JobExtension
+	{
+		public static Class ToClass(this Job job)
+		{
+			var result = (Class)((int)job / 1000);
+
+			if (result < Class.Swordsman || (result > Class.Cleric && result != Class.GM))
+				throw new Exception("Unknown job class.");
+
+			return result;
+		}
+	}
 }

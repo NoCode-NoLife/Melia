@@ -15,6 +15,8 @@ using Melia.Shared.World;
 using Melia.Channel.Network;
 using System.Runtime.CompilerServices;
 using Melia.Shared.Network;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Melia.Channel.Scripting
 {
@@ -26,11 +28,20 @@ namespace Melia.Channel.Scripting
 
 		private const string NpcNameSeperator = "*@*";
 
+		private const string GlobalVariableOwner = "global";
+		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
+
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
+		private static readonly Regex VarNameCheck = new Regex(@"^[a-z][a-z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		private IntPtr GL;
+		private object _glSyncLock = new object();
+
 		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
+
+		private Timer _globalVarSaver;
+		private DateTime _lastVarChange;
 
 		/// <summary>
 		/// Amount of scripts currently loaded.
@@ -43,12 +54,19 @@ namespace Melia.Channel.Scripting
 		public int TotalCount { get; protected set; }
 
 		/// <summary>
+		/// Global scripting variables.
+		/// </summary>
+		public Variables Variables { get; protected set; }
+
+		/// <summary>
 		/// Creates new script manager.
 		/// </summary>
 		public ScriptManager()
 		{
 			_functions = new List<Melua.LuaNativeFunction>();
 			_states = new Dictionary<IntPtr, ScriptState>();
+
+			this.Variables = new Variables();
 		}
 
 		/// <summary>
@@ -56,11 +74,25 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Initialize()
 		{
+			this.InitializeVariables();
+			this.InitializeLua();
+		}
+
+		/// <summary>
+		/// Initializes global Lua state.
+		/// </summary>
+		private void InitializeLua()
+		{
 			GL = Melua.luaL_newstate();
 			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
+			var func = new Melua.LuaNativeFunction(OnPanic);
+			_functions.Add(func);
+			Melua.lua_atpanic(GL, func);
+
 			// Functions
 			// --------------------------------------------------------------
+
 			// Output
 			Register(print);
 			Register(logdebug);
@@ -82,11 +114,65 @@ namespace Melia.Channel.Scripting
 			Register(getnpc);
 			Register(gettime);
 
+			// Inventory
+			Register(hasitem);
+			Register(countitem);
+
 			// Action
 			Register(warp);
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
+
+			// Others
+			Register(var);
+			Register(tostring);
+		}
+
+		/// <summary>
+		/// Returns first parameter as string.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - T value
+		/// 
+		/// Result:
+		/// - string value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int tostring(IntPtr L)
+		{
+			return Melua.luaB_tostring(L);
+		}
+
+		/// <summary>
+		/// Initializes global variable manager.
+		/// </summary>
+		private void InitializeVariables()
+		{
+			// TODO: Replace timer with time event.
+			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
+			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
+			_lastVarChange = DateTime.Now;
+		}
+
+		/// <summary>
+		/// Called if Lua panics.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int OnPanic(IntPtr L)
+		{
+			var error = string.Format("unprotected error in call to Lua API ({0})", Melua.lua_tostring(L, -1));
+
+			// Throwing an exception to get out of here, which should stop
+			// Lua from exiting the host process, causes a stack overflow
+			// for some reason.
+			//throw new Exception("Lua panic: " + error);
+
+			Log.Error("Lua panic: " + error);
+			return 0;
 		}
 
 		/// <summary>
@@ -177,33 +263,102 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Returns a script state for the connection.
+		/// Creates new Lua thread for the state to use and saves
+		/// a reference to the connection's script state.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <returns></returns>
-		public ScriptState CreateScriptState(ChannelConnection conn)
+		public LuaThread GetNewThread(ScriptState state)
 		{
-			var NL = Melua.lua_newthread(GL);
-			var state = new ScriptState(conn, NL);
+			if (state.LuaThread != null)
+				this.RemoveThread(state.LuaThread);
+
+			IntPtr NL;
+			int index;
+			lock (_glSyncLock)
+			{
+				// Create new thread and save index, so it can be removed later.
+				NL = Melua.lua_newthread(GL);
+				index = Melua.lua_gettop(GL);
+			}
+
 			lock (_states)
 				_states.Add(NL, state);
-			return state;
+
+			return new LuaThread(NL, index);
 		}
 
 		/// <summary>
-		/// Removes script state from the manager.
+		/// Removes thread and the associated state from the manager.
 		/// </summary>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		public void RemoveScriptState(ScriptState state)
+		public void RemoveThread(LuaThread thread)
 		{
-			if (state == null)
+			if (thread == null || thread.L == IntPtr.Zero)
 				return;
 
+			lock (_glSyncLock)
+			{
+				// Remove thread from stack and update all stack indexes,
+				// as the removal will shift all following elements.
+				Melua.lua_remove(GL, thread.StackIndex);
+
+				lock (_states)
+				{
+					foreach (var state in _states.Values)
+					{
+						if (state.LuaThread.StackIndex > thread.StackIndex)
+							state.LuaThread.StackIndex--;
+					}
+				}
+			}
+
 			lock (_states)
-				_states.Remove(state.NL);
+				_states.Remove(thread.L);
 
 			// Apparently there is no lua_closethread()?
+		}
+
+		/// <summary>
+		/// Returns true if value looks like a localization key.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		private bool IsLocalizationKey(string value)
+		{
+			return (value.StartsWith("ETC_") || value.StartsWith("QUEST_"));
+		}
+
+		/// <summary>
+		/// Returns true if value is a known client-side dialog name.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		private bool IsClientDialog(string value)
+		{
+			return ChannelServer.Instance.Data.DialogDb.Exists(value);
+		}
+
+		/// <summary>
+		/// Returns true if functionName looks like a localization key or a
+		/// known client-side dialog name.
+		/// </summary>
+		/// <param name="functionName"></param>
+		/// <returns></returns>
+		private bool IsOneLiner(string functionName)
+		{
+			return (this.IsLocalizationKey(functionName) || this.IsClientDialog(functionName));
+		}
+
+		/// <summary>
+		/// Wraps key with dictonary code.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		private string WrapLocalizationKey(string key)
+		{
+			return ("@dicID_^*$" + key + "$*^");
 		}
 
 		/// <summary>
@@ -213,8 +368,20 @@ namespace Melia.Channel.Scripting
 		/// <param name="functionName"></param>
 		public void Call(ChannelConnection conn, string functionName)
 		{
-			var NL = conn.ScriptState.NL;
+			if (conn.ScriptState.LuaThread != null)
+				Log.Warning("ScriptManager.Call: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
 
+			// Get function name, use oneliner for localized, single-line
+			// dialogues.
+			if (this.IsOneLiner(functionName))
+				functionName = "npc_oneliner";
+
+			// Prepare thread
+			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
+			var NL = conn.ScriptState.LuaThread.L;
+			var top = Melua.lua_gettop(GL);
+
+			// Get function
 			Melua.lua_getglobal(NL, functionName);
 			if (Melua.lua_isnil(NL, -1))
 			{
@@ -222,6 +389,7 @@ namespace Melia.Channel.Scripting
 				return;
 			}
 
+			// Run
 			var result = Melua.lua_resume(NL, 0);
 
 			// Log error if result is not success or yield
@@ -235,7 +403,8 @@ namespace Melia.Channel.Scripting
 			if (result == 0)
 			{
 				Send.ZC_DIALOG_CLOSE(conn);
-				conn.ScriptState.CurrentNpc = null;
+
+				conn.ScriptState.Reset();
 			}
 		}
 
@@ -246,7 +415,14 @@ namespace Melia.Channel.Scripting
 		/// <param name="argument"></param>
 		public void Resume(ChannelConnection conn, params object[] arguments)
 		{
-			var NL = conn.ScriptState.NL;
+			if (conn.ScriptState.LuaThread == null)
+			{
+				Send.ZC_DIALOG_CLOSE(conn);
+				Log.Warning("ScriptManager: Resume on empty ScriptState from user '{0}'.", conn.Account.Name);
+				return;
+			}
+
+			var NL = conn.ScriptState.LuaThread.L;
 			var argc = (arguments != null ? arguments.Length : 0);
 
 			// Reset current shop in case we came from one.
@@ -292,7 +468,8 @@ namespace Melia.Channel.Scripting
 				// dialog.
 				if (argc == 0)
 					Send.ZC_DIALOG_CLOSE(conn);
-				conn.ScriptState.CurrentNpc = null;
+
+				conn.ScriptState.Reset();
 			}
 		}
 
@@ -318,6 +495,15 @@ namespace Melia.Channel.Scripting
 		/// <param name="msg"></param>
 		private void HandleCustomCode(ChannelConnection conn, ref string msg)
 		{
+			// Wrap localization key
+			if (this.IsLocalizationKey(msg))
+			{
+				msg = this.WrapLocalizationKey(msg);
+
+				// Return, as there won't be any custom code.
+				return;
+			}
+
 			// {pcname} Character name
 			if (msg.IndexOf("{pcname}") != -1)
 				msg = msg.Replace("{pcname}", conn.SelectedCharacter.Name);
@@ -338,9 +524,37 @@ namespace Melia.Channel.Scripting
 		/// <param name="msg"></param>
 		private void AttachNpcName(ChannelConnection conn, ref string msg)
 		{
-			// Prepend NPC name
+			// Don't attach NPC name to client dialogues, those are handled
+			// by the client.
+			if (this.IsClientDialog(msg))
+				return;
+
+			// Prepend NPC name if no seperator is present, otherwise no name
+			// will be displayed.
 			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
 				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
+		}
+
+		/// <summary>
+		/// Saves global variables to database.
+		/// </summary>
+		/// <param name="state"></param>
+		private void SaveGlobalVars(object state)
+		{
+			if (this.Variables.Perm.LastChange <= _lastVarChange)
+				return;
+
+			_lastVarChange = this.Variables.Perm.LastChange;
+
+			try
+			{
+				ChannelServer.Instance.Database.SaveVariables(GlobalVariableOwner, this.Variables.Perm);
+				Log.Info("Saved global script variables.");
+			}
+			catch (Exception ex)
+			{
+				Log.Exception(ex, "Failed to save global script variables.");
+			}
 		}
 
 		//-----------------------------------------------------------------//
@@ -389,13 +603,21 @@ namespace Melia.Channel.Scripting
 		/// Adds NPC to world.
 		/// </summary>
 		/// <remarks>
+		/// The parameter `dialogFunctionName` can be the name of a Lua
+		/// function name, the name of a client-side dialog, or a
+		/// localization key. A client-side dialog controls the NPC name
+		/// and appearance, while a localization key will simply send the
+		/// key in one message. A Lua function allows for completely
+		/// custom dialog.
+		/// 
 		/// Parameters:
 		/// - int monsterId
-		/// - string name
+		/// - string name / dictId
 		/// - string mapName
 		/// - number x
 		/// - number y
 		/// - number z
+		/// - int    direction
 		/// - string dialogFunctionName
 		/// </remarks>
 		/// <param name="L"></param>
@@ -416,6 +638,10 @@ namespace Melia.Channel.Scripting
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
 				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
+
+			// Wrap name in localization code if applicable
+			if (this.IsLocalizationKey(name))
+				name = this.WrapLocalizationKey(name);
 
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
@@ -483,7 +709,7 @@ namespace Melia.Channel.Scripting
 			// Get name, preferably a localization key
 			var name = toMapName;
 			if (toMapData.LocalKey != "?")
-				name = "@dicID_^*$" + toMapData.LocalKey + "$*^";
+				name = this.WrapLocalizationKey(toMapData.LocalKey);
 
 			// Create a warping monster...
 			var monster = new Monster(40001, NpcType.NPC);
@@ -502,6 +728,10 @@ namespace Melia.Channel.Scripting
 		/// Sends dialog message to client.
 		/// </summary>
 		/// <remarks>
+		/// If message is a localization key (e.g. "ETC_20150317_000015"),
+		/// the string is wrapped in a dict code, so the client looks it up
+		/// in its dictionary.
+		/// 
 		/// Parameters:
 		/// - string message
 		/// </remarks>
@@ -514,8 +744,8 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_OK(conn, msg);
 
@@ -602,8 +832,8 @@ namespace Melia.Channel.Scripting
 			var msg = Melua.luaL_checkstring(L, 1);
 			Melua.lua_pop(L, 1);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
 
@@ -654,8 +884,8 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
-			this.AttachNpcName(conn, ref msg);
 			this.HandleCustomCode(conn, ref msg);
+			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg, min, max);
 
@@ -1006,6 +1236,161 @@ namespace Melia.Channel.Scripting
 			Send.ZC_DIALOG_TRADE(conn, shopName);
 
 			return Melua.lua_yield(L, 0);
+		}
+
+		/// Returns true if character has items with the given id.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// 
+		/// Result:
+		/// - bool hasItem?
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int hasitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var result = character.Inventory.HasItem(itemId);
+			Melua.lua_pushboolean(L, result);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns amount of items with the given id in character's inventory.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int itemId
+		/// 
+		/// Result:
+		/// - int amount
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int countitem(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var itemId = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var result = character.Inventory.CountItem(itemId);
+			Melua.lua_pushinteger(L, result);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Gets or sets a scripting variable.
+		/// </summary>
+		/// <remarks>
+		/// Scripting variables are separate from Lua variables and exist
+		/// across script and playing sessions. How the variable is saved
+		/// depends on the used prefix.
+		/// 
+		/// Variable names may contain the following characters, apart from
+		/// the prefixes, and must start with a character:
+		/// abcdefghijklmnopqrstuvwxyz0123456789_
+		/// 
+		/// Prefixes:
+		/// ""   - Permanent variable attached to the character.
+		/// "@"  - Temporary variable attached to the character.
+		/// "#"  - Permanent variable attached to the account.
+		/// "$"  - Permanent global variable.
+		/// "$@" - Temporary global variable.
+		/// 
+		/// Parameters:
+		/// - string variableName
+		/// - (optional) T value
+		/// 
+		/// Result:
+		/// - T value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int var(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+			var name = Melua.luaL_checkstring(L, 1).Trim();
+
+			object value = null;
+			if (argc == 2)
+			{
+				if (Melua.lua_isnumber(L, 2))
+					value = Melua.lua_tonumber(L, 2);
+				else if (Melua.lua_isstring(L, 2))
+					value = Melua.lua_tostring(L, 2);
+				else if (Melua.lua_isboolean(L, 2))
+					value = Melua.lua_toboolean(L, 2);
+				else
+					return Melua.melua_error(L, "Unsupported variable type.");
+			}
+
+			Melua.lua_pop(L, argc);
+
+			// Get variable manager and trim name
+			VariableManager vars;
+
+			if (name.StartsWith("$@"))
+			{
+				vars = this.Variables.Temp;
+				name = name.Substring(2);
+			}
+			else if (name.StartsWith("$"))
+			{
+				vars = this.Variables.Perm;
+				name = name.Substring(1);
+			}
+			else if (name.StartsWith("#"))
+			{
+				vars = conn.Account.Variables.Perm;
+				name = name.Substring(1);
+			}
+			else if (name.StartsWith("@"))
+			{
+				vars = character.Variables.Temp;
+				name = name.Substring(1);
+			}
+			else
+			{
+				vars = character.Variables.Perm;
+			}
+
+			// Check name syntax, if we want to add more prefixes later on,
+			// we can't have special characters in names.
+			if (!VarNameCheck.IsMatch(name))
+				return Melua.melua_error(L, "Invalid variable name.");
+
+			// Update or get value
+			if (value == null)
+				value = vars[name];
+			else
+				vars[name] = value;
+
+			// Push return value
+			if (value == null) Melua.lua_pushnil(L);
+			else if (value is string) Melua.lua_pushstring(L, (string)value);
+			else if (value is double) Melua.lua_pushnumber(L, (double)value);
+			else if (value is float) Melua.lua_pushnumber(L, (float)value);
+			else if (value is int) Melua.lua_pushinteger(L, (int)value);
+			else if (value is bool) Melua.lua_pushboolean(L, (bool)value);
+			else
+				return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
+
+			return 1;
 		}
 	}
 }

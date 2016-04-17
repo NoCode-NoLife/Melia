@@ -285,7 +285,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
-			packet.PutByte(0); // REGISTER_QUICK_SKILL ?
+			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
 			packet.AddSkill(skillId);
@@ -397,7 +397,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
 			packet.PutShort((short)character.Job);
-			packet.PutShort(1);
+			packet.PutShort(50);
 
 			character.Connection.Send(packet);
 		}
@@ -713,8 +713,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
-			packet.PutShort(character.Handle);
-			packet.PutEmptyBin(2);
+			packet.PutInt(character.Handle);
 			packet.AddCommander(character);
 
 			character.Map.Broadcast(packet, character);
@@ -790,6 +789,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
+			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1275,11 +1275,12 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		public static void ZC_EXP_UP(Character character, int exp)
+		/// <param name="jobExperience"></param>
+		public static void ZC_EXP_UP(Character character, int exp, int jobExperience)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
-			packet.PutInt(0); // jobExp?
+			packet.PutInt(jobExperience); // jobExp?
 
 			character.Connection.Send(packet);
 		}
@@ -1377,32 +1378,45 @@ namespace Melia.Channel.Network
 				packet.PutLpString("SharedConst");
 				packet.PutShort(2); // row count
 				{
-					packet.PutInt(250);
-					packet.PutShort(1); // col count
-					{
-						packet.PutLpString("Value");
-						packet.PutShort(1); // patch count
-						{
-							packet.PutInt(10);
-							packet.PutLpString("1");
-							packet.PutLpString("8.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2015-11-2");
-							packet.PutLpString("Change By Tool");
-						}
-					}
-
 					packet.PutInt(251);
 					packet.PutShort(1); // col count
 					{
 						packet.PutLpString("Value");
-						packet.PutShort(1); // patch count
+						packet.PutShort(5); // patch count
 						{
-							packet.PutInt(9);
-							packet.PutLpString("1");
-							packet.PutLpString("8.00");
+							packet.PutInt(6);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
 							packet.PutLpString("YEJI");
-							packet.PutLpString("2015-11-2");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(5);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(4);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(3);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
+							packet.PutLpString("Change By Tool");
+
+							packet.PutInt(2);
+							packet.PutLpString("0");
+							packet.PutLpString("0.00");
+							packet.PutLpString("YEJI");
+							packet.PutLpString("2016-3-30 3:15");
 							packet.PutLpString("Change By Tool");
 						}
 					}
@@ -1523,6 +1537,253 @@ namespace Melia.Channel.Network
 			packet.PutString(shopName, 33);
 
 			conn.Send(packet);
+		}
+
+		/// Inform client that the skill is ready
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="id"></param>
+		/// <param name="position1"></param>
+		/// <param name="position2"></param>
+		public static void ZC_SKILL_READY(Character character, int id, Position position1, Position position2)
+		{
+			var packet = new Packet(Op.ZC_SKILL_READY);
+			packet.PutInt(character.Handle);
+			packet.PutInt(id);
+			packet.PutFloat(1);
+			packet.PutBinFromHex("01 39 EC C0");
+			packet.PutFloat(1);
+			packet.PutFloat(position1.X);
+			packet.PutFloat(position1.Y);
+			packet.PutFloat(position1.Z);
+			packet.PutFloat(position2.X);
+			packet.PutFloat(position2.Y);
+			packet.PutFloat(position2.Z);
+
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Creates a skill in client
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		/// <param name="create"></param>
+		public static void ZC_NORMAL_Skill(Character character, int id, Position position, Direction direction, bool create)
+		{
+			var actorId = 1234; // ActorId (entity unique id for this skill)
+			var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
+
+			var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
+			if (!create)
+				skillState = 1;
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x57);
+			packet.PutInt(character.Handle);
+			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
+			packet.PutInt(id); // SkillId
+			packet.PutInt(1); // Skill Level ?
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(direction.Cos); // Direction (commented out for now)
+			packet.PutFloat(direction.Sin); // Direction (commented out for now)
+			packet.PutInt(0);
+			packet.PutFloat(distance);
+			packet.PutInt(actorId);
+			packet.PutByte(create);
+			packet.PutInt(skillState);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Creates a particle effect (or set desired animation)
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="actorId"></param>
+		/// <param name="enable"></param>
+		public static void ZC_NORMAL_ParticleEffect(Character character, int actorId, int enable)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x61);
+			packet.PutInt(actorId);
+			packet.PutInt(enable);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x1c);
+			packet.PutByte(0);
+			packet.PutBinFromHex("9F D2 42 0B"); // This is not a fixed value, check more packets
+			packet.PutInt(id); // Target ActorId (seems to be)
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(direction.Cos); // Commented out for testing purposes
+			packet.PutFloat(direction.Sin); // Commented out for testing purposes
+			packet.PutFloat(0); // Unk
+			packet.PutFloat(0); // Unk
+			packet.PutFloat(0); // Unk
+
+			character.Map.Broadcast(packet, character);
+		}
+
+
+		/// <summary>
+		/// Set a Range type "FAN" shape in a given position
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_SKILL_RANGE_FAN(Character character, int id, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_SKILL_RANGE_FAN);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutFloat(0); // Height min ?
+			packet.PutFloat(0.174533f); // Height max ?
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Enables/disables creature attack state
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="attacking"></param>
+		public static void ZC_PC_ATKSTATE(Character character, bool attacking)
+		{
+			var packet = new Packet(Op.ZC_PC_ATKSTATE);
+			packet.PutInt(character.Handle);
+			packet.PutByte(attacking);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates creature's SP
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="spValue"></param>
+		public static void ZC_UPDATE_SP(Character character, short spValue)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_SP);
+			packet.PutInt(character.Handle);
+			packet.PutShort(spValue);
+			packet.PutShort(0);
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Update creature basic stats (hp, mp)
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="currentHP"></param>
+		/// <param name="maxHP"></param>
+		/// <param name="currentSP"></param>
+		/// <param name="maxSP"></param>
+		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP, int maxHP, int currentSP, int maxSP)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
+			packet.PutInt(character.Handle);
+			packet.PutInt(currentHP);
+			packet.PutInt(maxHP);
+			packet.PutInt(currentSP);
+			packet.PutInt(maxSP);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Increases player experience by killing monsters
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="experience"></param>
+		/// <param name="jobExperience"></param>
+		/// <param name="monsterActorId"></param>
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int experience, int jobExperience, int monsterActorId)
+		{
+			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
+			packet.PutInt(experience);
+			packet.PutInt(jobExperience);
+			packet.PutInt(monsterActorId);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Heals creature's HP
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="amountHealed"></param>
+		/// <param name="maxHP"></param>
+		public static void ZC_HEAL_INFO(Character character, int amountHealed, int maxHP)
+		{
+			var packet = new Packet(Op.ZC_HEAL_INFO);
+			packet.PutInt(character.Handle);
+			packet.PutInt(amountHealed);
+			packet.PutInt(maxHP);
+			packet.PutInt(1);
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Reply packet when skill melee ground is placed
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SKILL_MELEE_GROUND(Character character, int id, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
+			packet.PutInt(id);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(600);
+			packet.PutFloat(1);
+			packet.PutFloat(-1);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
+
+			character.Map.Broadcast(packet, character);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

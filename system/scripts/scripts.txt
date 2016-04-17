@@ -6,8 +6,6 @@
 
 global/const.lua
 
-warps/f_siauliai_west.lua
-
-custom/stat_resetter.lua
-custom/stylist.lua
-custom/test.lua
+include "scripts_custom.txt"
+include "scripts_npcs.txt"
+include "scripts_warps.txt"

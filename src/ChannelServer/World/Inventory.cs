@@ -125,7 +125,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns true if and items with the given id exist in the inventory.
+		/// Returns true if an item with the given id exist in the inventory.
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <returns></returns>
@@ -133,6 +133,21 @@ namespace Melia.Channel.World
 		{
 			lock (_syncLock)
 				return _items.SelectMany(a => a.Value).Any(a => a.Id == itemId);
+		}
+
+		/// <summary>
+		/// Returns amount of items with the given id in the inventory.
+		/// </summary>
+		/// <remarks>
+		/// Stacks count as the amount of items in the stack.
+		/// E.g.: One stack with 10 HP potions results in a count of 10.
+		/// </remarks>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public int CountItem(int itemId)
+		{
+			lock (_syncLock)
+				return _items.SelectMany(a => a.Value).Where(a => a.Id == itemId).Sum(a => a.Amount);
 		}
 
 		/// <summary>
@@ -318,7 +333,7 @@ namespace Melia.Channel.World
 				_itemsWorldIndex.Remove(item.WorldId);
 			}
 
-			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+			Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
 
@@ -450,7 +465,7 @@ namespace Melia.Channel.World
 				}
 
 				modifiedCategories.Add(item.Data.Category);
-				Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			}
 
 			// Update categories

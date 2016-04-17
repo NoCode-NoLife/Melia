@@ -11,7 +11,7 @@ namespace Melia.Channel.Scripting
 	public class ScriptState
 	{
 		public ChannelConnection Connection { get; private set; }
-		public IntPtr NL { get; private set; }
+		public LuaThread LuaThread { get; set; }
 		public Monster CurrentNpc { get; set; }
 
 		/// <summary>
@@ -19,10 +19,17 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public string CurrentShop { get; set; }
 
-		public ScriptState(ChannelConnection conn, IntPtr NL)
+		public ScriptState(ChannelConnection conn)
 		{
 			this.Connection = conn;
-			this.NL = NL;
+		}
+
+		public void Reset()
+		{
+			ChannelServer.Instance.ScriptManager.RemoveThread(this.LuaThread);
+
+			this.CurrentNpc = null;
+			this.LuaThread = null;
 		}
 	}
 }

@@ -111,6 +111,21 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.ShopDb, "db/shops.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Skills) != 0)
+				{
+					this.LoadDb(this.Data.SkillDb, "db/skills.txt", reload);
+				}
+
+				if ((toLoad & DataToLoad.Exp) != 0)
+				{
+					this.LoadDb(this.Data.ExpDb, "db/exp.txt", reload);
+				}
+
+				if ((toLoad & DataToLoad.Dialogues) != 0)
+				{
+					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -208,7 +223,10 @@ namespace Melia.Shared
 		Servers = 0x08,
 		Barracks = 0x10,
 		Monsters = 0x20,
-		Shops = 0x40,
+		Skills = 0x40,
+		Exp = 0x80,
+		Dialogues = 0x100,
+		Shops = 0x200,
 
 		All = 0x7FFFFFFF,
 	}

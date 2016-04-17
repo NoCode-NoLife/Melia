@@ -28,6 +28,11 @@ namespace Melia.Shared.Util.Configuration
 		public WebConfFile Web { get; private set; }
 
 		/// <summary>
+		/// world.conf
+		/// </summary>
+		public WorldConfFile World { get; private set; }
+
+		/// <summary>
 		/// Initilizes default confs.
 		/// </summary>
 		public Conf()
@@ -36,6 +41,7 @@ namespace Melia.Shared.Util.Configuration
 			this.Database = new DatabaseConfFile();
 			this.Commands = new CommandsConfFile();
 			this.Web = new WebConfFile();
+			this.World = new WorldConfFile();
 		}
 
 		/// <summary>
@@ -47,6 +53,7 @@ namespace Melia.Shared.Util.Configuration
 			this.Database.Load();
 			this.Commands.Load();
 			this.Web.Load();
+			this.World.Load();
 		}
 	}
 }

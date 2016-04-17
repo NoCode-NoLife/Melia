@@ -11,11 +11,14 @@ namespace Melia.Shared.Data
 	public class MeliaData
 	{
 		public BarrackDb BarrackDb = new BarrackDb();
+		public DialogDb DialogDb = new DialogDb();
+		public ExpDb ExpDb = new ExpDb();
 		public ItemDb ItemDb = new ItemDb();
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
 		public ServerDb ServerDb = new ServerDb();
 		public ShopDb ShopDb = new ShopDb();
+		public SkillDb SkillDb = new SkillDb();
 	}
 }
