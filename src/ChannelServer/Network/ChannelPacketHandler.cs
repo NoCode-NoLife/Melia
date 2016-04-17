@@ -3,6 +3,7 @@
 
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
@@ -948,6 +949,100 @@ namespace Melia.Channel.Network
 			// Broadcast action to all?
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 			*/
+		}
+
+		/// Sent when clicking Confirm in a shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_BUY)]
+		public void CZ_ITEM_BUY(ChannelConnection conn, Packet packet)
+		{
+			var purchases = new Dictionary<int, int>();
+
+			var size = packet.GetShort();
+			var count = packet.GetInt();
+			for (int i = 0; i < count; ++i)
+			{
+				var productId = packet.GetInt();
+				var amount = packet.GetInt();
+
+				purchases[productId] = amount;
+			}
+
+			var character = conn.SelectedCharacter;
+
+			// Check open shop
+			if (conn.ScriptState.CurrentNpc == null || conn.ScriptState.CurrentShop == null)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried buy something with no shop open.", conn.Account.Name);
+				return;
+			}
+
+			// Get shop
+			var shopData = ChannelServer.Instance.Data.ShopDb.Find(conn.ScriptState.CurrentShop);
+			if (shopData == null)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
+				return;
+			}
+
+			// Prepare items and get cost
+			var totalCost = 0;
+			var purchaseList = new List<Tuple<ItemData, int>>();
+			foreach (var purchase in purchases)
+			{
+				var productId = purchase.Key;
+				var amount = purchase.Value;
+
+				// Get product
+				var productData = shopData.GetProduct(productId);
+				if (productData == null)
+				{
+					Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy product that's not in the shop ({1}, {2}).", conn.Account.Name, shopData.Name, productId);
+					return;
+				}
+
+				// Get item
+				var itemData = ChannelServer.Instance.Data.ItemDb.Find(productData.ItemId);
+				if (itemData == null)
+				{
+					Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy item that's not in the db ({1}, {2}).", conn.Account.Name, shopData.Name, productData.ItemId);
+					return;
+				}
+
+				totalCost += itemData.Price * amount;
+				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
+			}
+
+			// Check and reduce money
+			if (character.Inventory.CountItem(900011) < totalCost)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy items without having enough money.", conn.Account.Name);
+				return;
+			}
+
+			// #49
+			//character.Inventory.Delete(900011, totalCost);
+
+			// Give items
+			foreach (var purchase in purchaseList)
+			{
+				var itemData = purchase.Item1;
+				var amount = purchase.Item2;
+
+				// Add item stack for stack, in case the player tells us to
+				// sell him a sword 3 times without 3 separate purchases.
+				while (amount > 0)
+				{
+					var stackAmount = Math.Min(amount, itemData.MaxStack);
+					var item = new Item(itemData.Id, stackAmount);
+
+					character.Inventory.Add(item, InventoryAddType.Buy);
+
+					amount -= stackAmount;
+				}
+			}
 		}
 	}
 
