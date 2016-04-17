@@ -951,7 +951,8 @@ namespace Melia.Channel.Network
 			*/
 		}
 
-		/// Sent when clicking Confirm in a shop.
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Bought" list.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1043,6 +1044,59 @@ namespace Melia.Channel.Network
 					amount -= stackAmount;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Sold" list.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_SELL)]
+		public void CZ_ITEM_SELL(ChannelConnection conn, Packet packet)
+		{
+			var itemsToSell = new Dictionary<long, int>();
+
+			var size = packet.GetShort();
+			var count = packet.GetInt();
+			for (int i = 0; i < count; ++i)
+			{
+				var worldId = packet.GetLong();
+				var amount = packet.GetInt();
+				var unkInt = packet.GetInt();
+
+				itemsToSell[worldId] = amount;
+			}
+
+			var character = conn.SelectedCharacter;
+
+			// Remove items and count revenue
+			var totalMoney = 0;
+			foreach (var itemToSell in itemsToSell)
+			{
+				var worldId = itemToSell.Key;
+				var amount = itemToSell.Value;
+
+				// Get item
+				var item = character.Inventory.GetItem(worldId);
+				if (item == null)
+				{
+					Log.Warning("CZ_ITEM_SELL: User '{0}' tried to sell a non-existent item.", conn.Account.Name);
+					return;
+				}
+
+				// Check amount
+				if (item.Amount < amount)
+				{
+					Log.Warning("CZ_ITEM_SELL: User '{0}' tried to sell more of an item than they own.", conn.Account.Name);
+					return;
+				}
+
+				totalMoney += item.Data.SellPrice * amount;
+				//character.Inventory.Delete(worldId, amount);
+			}
+
+			// Give money
+			character.Inventory.Add(new Item(900011, totalMoney), InventoryAddType.Sell);
 		}
 	}
 
