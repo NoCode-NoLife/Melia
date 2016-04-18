@@ -75,7 +75,7 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (int i = 0; i < category.Value.Count; ++i)
-						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i]);
+						result.Add(category.Key.GetIndex(i), category.Value[i]);
 				}
 			}
 
@@ -95,7 +95,7 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (int i = 0; i < category.Value.Count; ++i)
-						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i].WorldId);
+						result.Add(category.Key.GetIndex(i), category.Value[i].WorldId);
 				}
 			}
 
@@ -118,7 +118,7 @@ namespace Melia.Channel.World
 
 				var items = _items[category];
 				for (int i = 0; i < items.Count; ++i)
-					result.Add((int)category * 5000 + 1 + i, items[i].WorldId);
+					result.Add(category.GetIndex(i), items[i].WorldId);
 			}
 
 			return result;
@@ -221,7 +221,7 @@ namespace Melia.Channel.World
 				_items[cat].Add(item);
 				_itemsWorldIndex[item.WorldId] = item;
 
-				return (int)cat * 5000 + _items[cat].Count;
+				return cat.GetIndex(_items[cat].Count - 1);
 			}
 		}
 
@@ -437,7 +437,7 @@ namespace Melia.Channel.World
 			{
 				Log.Debug("  {0}", category.Key);
 				for (int i = 0; i < category.Value.Count; ++i)
-					Log.Debug("    {0} : {1}", (int)category.Key * 5000 + 1 + i, category.Value[i].Data.ClassName);
+					Log.Debug("    {0} : {1}", category.Key.GetIndex(i), category.Value[i].Data.ClassName);
 			}
 
 			Log.Debug("Equip");
