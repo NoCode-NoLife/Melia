@@ -225,7 +225,7 @@ namespace Melia.Channel.World
 		/// <param name="addType"></param>
 		public void Add(Item item, InventoryAddType addType)
 		{
-			var left = this.FillStacks(item, InventoryAddType.NotNew, false);
+			var left = this.FillStacks(item, addType, false);
 			if (left > 0)
 			{
 				item.Amount = left;
@@ -266,7 +266,12 @@ namespace Melia.Channel.World
 					if (!silent)
 					{
 						var categoryIndex = cat.GetIndex(index);
-						Send.ZC_ITEM_ADD(_character, categoryItem, categoryIndex, add, addType);
+
+						// Use given add type if this was the last of it,
+						// or NotNew if only some was just added to a stack.
+						var adjustedAddType = (amount == 0 ? addType : InventoryAddType.NotNew);
+
+						Send.ZC_ITEM_ADD(_character, categoryItem, categoryIndex, add, adjustedAddType);
 					}
 				}
 
