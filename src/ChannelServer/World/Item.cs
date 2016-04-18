@@ -29,7 +29,8 @@ namespace Melia.Channel.World
 		public ItemData Data { get; private set; }
 
 		/// <summary>
-		/// Gets or sets the item's amount, does not update the client.
+		/// Gets or sets the item's amount (clamped to 1~max),
+		/// does not update the client.
 		/// </summary>
 		public int Amount
 		{
