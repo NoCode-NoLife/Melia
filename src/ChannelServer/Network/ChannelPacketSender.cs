@@ -1311,9 +1311,10 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 			packet.PutByte((byte)(msg.Length + 1));
-			packet.PutFloat(0);
+			packet.PutInt(0);
 			packet.PutByte(1);
 			packet.PutString(msg);
+			// + parameters?
 
 			character.Connection.Send(packet);
 		}
