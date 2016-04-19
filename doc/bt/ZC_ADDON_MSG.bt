@@ -12,7 +12,7 @@ int sequence;
 short size;
 
 byte len;
-float f;
+int i1;
 byte notUsed;
 char functionName[len];
 char buffer[size-(len+14)];
