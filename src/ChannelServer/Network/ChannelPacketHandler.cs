@@ -1099,7 +1099,8 @@ namespace Melia.Channel.Network
 			}
 
 			// Give money
-			character.Inventory.Add(new Item(ItemId.Silver, totalMoney), InventoryAddType.Sell);
+			if (totalMoney > 0)
+				character.Inventory.Add(new Item(ItemId.Silver, totalMoney), InventoryAddType.Sell);
 		}
 	}
 
