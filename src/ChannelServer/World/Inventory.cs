@@ -75,7 +75,7 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (int i = 0; i < category.Value.Count; ++i)
-						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i]);
+						result.Add(category.Key.GetIndex(i), category.Value[i]);
 				}
 			}
 
@@ -95,7 +95,7 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (int i = 0; i < category.Value.Count; ++i)
-						result.Add((int)category.Key * 5000 + 1 + i, category.Value[i].WorldId);
+						result.Add(category.Key.GetIndex(i), category.Value[i].WorldId);
 				}
 			}
 
@@ -118,7 +118,7 @@ namespace Melia.Channel.World
 
 				var items = _items[category];
 				for (int i = 0; i < items.Count; ++i)
-					result.Add((int)category * 5000 + 1 + i, items[i].WorldId);
+					result.Add(category.GetIndex(i), items[i].WorldId);
 			}
 
 			return result;
@@ -208,20 +208,13 @@ namespace Melia.Channel.World
 		/// Adds item to inventory without updating the character's client.
 		/// </summary>
 		/// <param name="item"></param>
-		/// <return>Index of the item.</return>
-		public int AddSilent(Item item)
+		public void AddSilent(Item item)
 		{
-			var cat = item.Data.Category;
-
-			lock (_syncLock)
+			var left = this.FillStacks(item, InventoryAddType.NotNew, true);
+			if (left > 0)
 			{
-				if (!_items.ContainsKey(cat))
-					throw new ArgumentException("Unknown item category.");
-
-				_items[cat].Add(item);
-				_itemsWorldIndex[item.WorldId] = item;
-
-				return (int)cat * 5000 + _items[cat].Count;
+				item.Amount = left;
+				this.AddStack(item, InventoryAddType.NotNew, true);
 			}
 		}
 
@@ -229,15 +222,116 @@ namespace Melia.Channel.World
 		/// Adds item to inventory and updates client.
 		/// </summary>
 		/// <param name="item"></param>
-		/// <return>Index of the item.</return>
-		public int Add(Item item, InventoryAddType addType)
+		/// <param name="addType"></param>
+		public void Add(Item item, InventoryAddType addType)
 		{
-			var index = this.AddSilent(item);
+			var left = this.FillStacks(item, addType, false);
+			if (left > 0)
+			{
+				item.Amount = left;
+				this.AddStack(item, addType, false);
+			}
 
-			Send.ZC_ITEM_ADD(_character, item, index, addType);
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+		}
 
-			return index;
+		/// <summary>
+		/// Filles stacks with item, returns the amount of items left.
+		/// The item is not modified.
+		/// </summary>
+		/// <remarks>
+		/// If no stacks are found, nothing happens, and the amount returned
+		/// will be equal to item.Amount.
+		/// </remarks>
+		/// <param name="item">Item to fill existing stacks with.</param>
+		/// <param name="silent">If true, client isn't updated.</param>
+		private int FillStacks(Item item, InventoryAddType addType, bool silent)
+		{
+			// If item isn't stackable, we've got nothing to do here.
+			if (!item.IsStackable)
+				return item.Amount;
+
+			var itemId = item.Id;
+			var amount = item.Amount;
+			var cat = item.Data.Category;
+			var stacks = this.GetStacks(cat, itemId);
+
+			// Fill stacks
+			foreach (var index in stacks)
+			{
+				lock (_syncLock)
+				{
+					var categoryItem = _items[cat][index];
+					var space = (categoryItem.Data.MaxStack - categoryItem.Amount);
+					var add = Math.Min(amount, space);
+
+					categoryItem.Amount += add;
+					amount -= add;
+
+					if (!silent)
+					{
+						var categoryIndex = cat.GetIndex(index);
+
+						// Use given add type if this was the last of it,
+						// or NotNew if only some was just added to a stack.
+						var adjustedAddType = (amount == 0 ? addType : InventoryAddType.NotNew);
+
+						Send.ZC_ITEM_ADD(_character, categoryItem, categoryIndex, add, adjustedAddType);
+					}
+				}
+
+				if (amount == 0)
+					break;
+			}
+
+			return amount;
+		}
+
+		/// <summary>
+		/// Adds given stack to inventory.
+		/// </summary>
+		/// <param name="item">Item to add to inventory.</param>
+		/// <param name="silent">If true, client isn't updated.</param>
+		private void AddStack(Item item, InventoryAddType addType, bool silent)
+		{
+			var cat = item.Data.Category;
+
+			lock (_syncLock)
+			{
+				_items[cat].Add(item);
+				_itemsWorldIndex[item.WorldId] = item;
+
+				if (!silent)
+				{
+					var categoryIndex = cat.GetIndex(_items[cat].Count - 1);
+					Send.ZC_ITEM_ADD(_character, item, categoryIndex, item.Amount, addType);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns indices of stacks in cat with the given item id that
+		/// aren't full yet.
+		/// </summary>
+		/// <param name="cat"></param>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		private List<int> GetStacks(InventoryCategory cat, int itemId)
+		{
+			var result = new List<int>();
+
+			lock (_syncLock)
+			{
+				var categoryItems = _items[cat];
+				for (int i = 0; i < categoryItems.Count; ++i)
+				{
+					var item = categoryItems[i];
+					if (item.Id == itemId && item.Amount < item.Data.MaxStack)
+						result.Add(i);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -437,7 +531,7 @@ namespace Melia.Channel.World
 			{
 				Log.Debug("  {0}", category.Key);
 				for (int i = 0; i < category.Value.Count; ++i)
-					Log.Debug("    {0} : {1}", (int)category.Key * 5000 + 1 + i, category.Value[i].Data.ClassName);
+					Log.Debug("    {0} : {1}", category.Key.GetIndex(i), category.Value[i].Data.ClassName);
 			}
 
 			Log.Debug("Equip");
