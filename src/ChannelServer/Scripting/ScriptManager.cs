@@ -27,6 +27,7 @@ namespace Melia.Channel.Scripting
 		private const string List = SystemRoot + "scripts.txt";
 
 		private const string NpcNameSeperator = "*@*";
+		private const string NpcDialogTextSeperator = "\\";
 
 		private const string GlobalVariableOwner = "global";
 		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
@@ -568,7 +569,7 @@ namespace Melia.Channel.Scripting
 
 			// Prepend NPC name if no seperator is present, otherwise no name
 			// will be displayed.
-			if (!msg.Contains(NpcNameSeperator) && conn.ScriptState.CurrentNpc != null)
+			if (!msg.Contains(NpcNameSeperator) && !msg.Contains(NpcDialogTextSeperator) && conn.ScriptState.CurrentNpc != null)
 				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
 		}
 
