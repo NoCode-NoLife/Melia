@@ -97,7 +97,7 @@ namespace Melia.Channel.World
 				{
 					for (int i = 0; i < category.Value.Count; ++i)
 					{
-						var index = (int)category.Key * 5000 + 1 + i;
+						var index = category.Key.GetIndex(i);
 						var item = category.Value[i];
 
 						if (predicate(item))
