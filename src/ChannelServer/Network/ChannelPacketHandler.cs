@@ -1044,6 +1044,13 @@ namespace Melia.Channel.Network
 					amount -= stackAmount;
 				}
 			}
+
+			// Temporary fix for differences in prices between client and
+			// server. Equip prices are being calculated somehow, with their
+			// price in the db usually being 0. This msg will reset the shop
+			// panel, to display the proper balance after confirming the
+			// transaction.
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
 		}
 
 		/// <summary>
@@ -1101,6 +1108,13 @@ namespace Melia.Channel.Network
 			// Give money
 			if (totalMoney > 0)
 				character.Inventory.Add(new Item(ItemId.Silver, totalMoney), InventoryAddType.Sell);
+
+			// Temporary fix for differences in prices between client and
+			// server. Equip prices are being calculated somehow, with their
+			// price in the db usually being 0. This msg will reset the shop
+			// panel, to display the proper balance after confirming the
+			// transaction.
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
 		}
 	}
 
