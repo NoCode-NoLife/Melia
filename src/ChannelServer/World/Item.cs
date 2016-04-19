@@ -43,6 +43,11 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns true if item's MaxStack is higher than 1.
+		/// </summary>
+		public bool IsStackable { get { return this.Data.MaxStack > 1; } }
+
+		/// <summary>
 		/// Item's world id...?
 		/// </summary>
 		/// <remarks>

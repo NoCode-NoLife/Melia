@@ -247,11 +247,16 @@ namespace Melia.Channel.World
 		/// <param name="silent">If true, client isn't updated.</param>
 		private int FillStacks(Item item, InventoryAddType addType, bool silent)
 		{
+			// If item isn't stackable, we've got nothing to do here.
+			if (!item.IsStackable)
+				return item.Amount;
+
 			var itemId = item.Id;
 			var amount = item.Amount;
 			var cat = item.Data.Category;
 			var stacks = this.GetStacks(cat, itemId);
 
+			// Fill stacks
 			foreach (var index in stacks)
 			{
 				lock (_syncLock)
