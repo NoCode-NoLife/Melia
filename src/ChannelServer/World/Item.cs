@@ -29,7 +29,8 @@ namespace Melia.Channel.World
 		public ItemData Data { get; private set; }
 
 		/// <summary>
-		/// Gets or sets the item's amount, does not update the client.
+		/// Gets or sets the item's amount (clamped to 1~max),
+		/// does not update the client.
 		/// </summary>
 		public int Amount
 		{
@@ -40,6 +41,11 @@ namespace Melia.Channel.World
 				_amount = Math2.Clamp(1, max, value);
 			}
 		}
+
+		/// <summary>
+		/// Returns true if item's MaxStack is higher than 1.
+		/// </summary>
+		public bool IsStackable { get { return this.Data.MaxStack > 1; } }
 
 		/// <summary>
 		/// Item's world id...?
