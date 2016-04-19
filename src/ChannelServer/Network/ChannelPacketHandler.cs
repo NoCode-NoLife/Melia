@@ -1091,8 +1091,11 @@ namespace Melia.Channel.Network
 					return;
 				}
 
-				totalMoney += item.Data.SellPrice * amount;
-				//character.Inventory.Delete(worldId, amount);
+				// Try to remove item
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+					totalMoney += item.Data.SellPrice * amount;
+				else
+					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
 			}
 
 			// Give money

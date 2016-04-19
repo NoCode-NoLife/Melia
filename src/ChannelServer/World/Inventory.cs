@@ -419,6 +419,15 @@ namespace Melia.Channel.World
 			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
+			return this.Delete(item);
+		}
+
+		/// <summary>
+		/// Deletes item from inventory.
+		/// </summary>
+		/// <param name="slot"></param>
+		private InventoryResult Delete(Item item)
+		{
 			lock (_syncLock)
 			{
 				if (!_items[item.Data.Category].Remove(item))
@@ -430,6 +439,36 @@ namespace Melia.Channel.World
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Reduces amount of item with the given id. Item is removed
+		/// if amount becomes 0.
+		/// </summary>
+		/// <param name="slot"></param>
+		public InventoryResult Remove(Item item, int amount, InventoryItemRemoveMsg msg)
+		{
+			// Check if item exists in inventory
+			lock (_syncLock)
+			{
+				if (!_items[item.Data.Category].Contains(item))
+					return InventoryResult.ItemNotFound;
+			}
+
+			// Delete or reduce
+			if (item.Amount <= amount)
+			{
+				this.Delete(item);
+			}
+			else
+			{
+				item.Amount -= amount;
+
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, amount, msg, InventoryType.Inventory);
+				Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+			}
 
 			return InventoryResult.Success;
 		}
