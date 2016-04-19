@@ -205,21 +205,62 @@ namespace Melia.Channel.Scripting
 
 			Log.Info("Loading scripts...");
 
-			using (var fr = new FileReader(List))
+			var toLoad = this.ReadScriptList(List);
+			this.TotalCount = toLoad.Count;
+
+			foreach (var filePath in toLoad)
 			{
-				foreach (var line in fr)
-				{
-					var dir = Path.GetDirectoryName(line.File);
-					var filePath = Path.Combine(dir, line.Value);
-
-					if (this.LoadFile(filePath))
-						this.LoadedCount++;
-
-					this.TotalCount++;
-				}
+				if (this.LoadFile(filePath))
+					this.LoadedCount++;
 			}
 
 			Log.Info("  done loading {0} scripts (of {1}).", this.LoadedCount, this.TotalCount);
+		}
+
+		/// <summary>
+		/// Reads given list file and returns list of all script files that
+		/// are to be loaded.
+		/// </summary>
+		/// <param name="listFilePath"></param>
+		private List<string> ReadScriptList(string listFilePath)
+		{
+			var result = new List<string>();
+
+			using (var fr = new FileReader(listFilePath))
+			{
+				foreach (var line in fr)
+				{
+					var path = line.Value.Replace("\\", "/");
+					var cwd = Directory.GetCurrentDirectory().Replace("\\", "/");
+
+					string dir;
+					if (path.StartsWith("/")) // Relative to root
+						dir = cwd;
+					else // Relative to list location
+						dir = Path.GetDirectoryName(line.File).Replace("\\", "/");
+
+					path = Path.Combine(dir, path).Replace("\\", "/");
+
+					var user = Path.GetFullPath(UserRoot).Replace("\\", "/");
+					var system = Path.GetFullPath(SystemRoot).Replace("\\", "/");
+
+					var relativePath = path.Replace(user, "").Replace(system, "");
+					var userPath = Path.Combine(user, relativePath).Replace("\\", "/");
+					var systemPath = Path.Combine(system, relativePath).Replace("\\", "/");
+
+					// Prioritize user folder
+					if (File.Exists(userPath))
+						relativePath = userPath;
+					else
+						relativePath = systemPath;
+
+					relativePath = relativePath.Replace(cwd + '/', "");
+
+					result.Add(relativePath);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
