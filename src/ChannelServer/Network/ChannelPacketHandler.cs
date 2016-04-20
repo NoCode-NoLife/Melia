@@ -473,7 +473,7 @@ namespace Melia.Channel.Network
 			var unkLong = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var result = character.Inventory.Delete(worldId);
+			var result = character.Inventory.Remove(worldId);
 
 			if (result == InventoryResult.ItemNotFound)
 				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
@@ -1023,7 +1023,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			character.Inventory.Delete(ItemId.Silver, totalCost, InventoryItemRemoveMsg.PaidWith);
+			character.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.PaidWith);
 
 			// Give items
 			foreach (var purchase in purchaseList)

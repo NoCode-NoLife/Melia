@@ -437,23 +437,23 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Deletes item with given id from inventory.
+		/// Removes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
-		public InventoryResult Delete(long worldId)
+		public InventoryResult Remove(long worldId)
 		{
 			var item = this.GetItem(worldId);
 			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
-			return this.Delete(item);
+			return this.Remove(item);
 		}
 
 		/// <summary>
-		/// Deletes item from inventory.
+		/// Removes item from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
-		private InventoryResult Delete(Item item)
+		private InventoryResult Remove(Item item)
 		{
 			lock (_syncLock)
 			{
@@ -484,10 +484,10 @@ namespace Melia.Channel.World
 					return InventoryResult.ItemNotFound;
 			}
 
-			// Delete or reduce
+			// Remove or reduce
 			if (item.Amount <= amount)
 			{
-				this.Delete(item);
+				this.Remove(item);
 			}
 			else
 			{
@@ -500,12 +500,12 @@ namespace Melia.Channel.World
 			return InventoryResult.Success;
 		}
 
-		/// Deletes items with given id from inventory.
+		/// Removes items with given id from inventory.
 		/// </summary>
 		/// <param name="itemId">Id of the item to remove.</param>
 		/// <param name="amount">Amount of pieces to remove.</param>
 		/// <returns>Amount of pieces removed.</returns>
-		public int Delete(int itemId, int amount, InventoryItemRemoveMsg msg)
+		public int Remove(int itemId, int amount, InventoryItemRemoveMsg msg)
 		{
 			if (amount == 0)
 				return 0;

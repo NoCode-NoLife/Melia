@@ -1415,7 +1415,7 @@ namespace Melia.Channel.Scripting
 
 			amount = Math.Max(0, amount);
 
-			var removed = character.Inventory.Delete(itemId, amount, InventoryItemRemoveMsg.Given);
+			var removed = character.Inventory.Remove(itemId, amount, InventoryItemRemoveMsg.Given);
 			Melua.lua_pushinteger(L, removed);
 
 			return 1;
