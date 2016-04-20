@@ -21,7 +21,10 @@ lpString <read=lpStringRead>;
 
 string lpStringRead(lpString &v)
 {
-    return v.text;
+    if(v.length > 0)
+        return v.text;
+    else
+        return "";
 }
 
 // Key:Value type with two length-prefixed strings
