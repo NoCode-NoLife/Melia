@@ -6115,4 +6115,9 @@
 { itemId: 491013, className: "steam_PremiumToken_60d", name: "Token: 60 Days", category: 17, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 491014, className: "Premium_Enchantchip_10", name: "마법 부여 스크롤 10개 상자", category: 17, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 491015, className: "Mic_bundle10", name: "확성기 10개 상자", category: 17, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 491016, className: "steam_Premium_tpBox_455", name: "455 TP", category: 17, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 491017, className: "steam_Premium_tpBox_266", name: "266 TP", category: 17, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 491018, className: "steam_Premium_tpBox_112", name: "112 TP", category: 17, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 491019, className: "DLC_BOX4", name: "Founder's Server : Exclusive Access 1 (30% OFF)", category: 17, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 491020, className: "DLC_BOX5", name: "Founder's Server : Exclusive Access 2 (30% OFF)", category: 17, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 ]

@@ -722,10 +722,14 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Sends ZC_ITEM_ADD to character, adding the item to the inventory.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="item"></param>
-		/// <param name="index"></param>
-		/// <param name="addType"></param>
+		/// <remarks>
+		/// "Updating" stack by *adding* items to it is an ADD as well.
+		/// </remarks>
+		/// <param name="character">Character to send packet to.</param>
+		/// <param name="item">Item added or updated.</param>
+		/// <param name="index">Index of the item in the inventory.</param>
+		/// <param name="amount">Amount to add.</param>
+		/// <param name="addType">The way the add is displayed?</param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
@@ -1307,9 +1311,10 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 			packet.PutByte((byte)(msg.Length + 1));
-			packet.PutFloat(0);
+			packet.PutInt(0);
 			packet.PutByte(1);
 			packet.PutString(msg);
+			// + parameters?
 
 			character.Connection.Send(packet);
 		}
