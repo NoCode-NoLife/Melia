@@ -1,5 +1,5 @@
 addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 510.7029, -1.292879, -349.3194, 45, "npc_itemmerchantmirina")
-addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_dummy")
+addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_equipmentmerchantdunkel")
 addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 268.7077, -1.343773, -610.9401, 45, "npc_accessorymerchantronesa")
 addnpc(20113, "ETC_20151224_019888", "c_Klaipe", -467.28, 148.67, 114.01, 45, "npc_dummy")
 addnpc(20112, "ETC_20150317_009207", "c_Klaipe", -400.58, 148.78, 207.72, -43.99, "npc_dummy")
@@ -49,4 +49,15 @@ end
 function npc_itemmerchantmirina()
 	msg("Emilia_Select_1")
 	openshop("Klapeda_Misc")
+end
+
+-- Equipment Merchant Dunkel
+function npc_equipmentmerchantdunkel()
+	local selection = select("KLAPEDA_Akalabeth_basic28", "@dicID_^*$ETC_20150317_004443$*^", "@dicID_^*$ETC_20150317_004444$*^", "!@#$Auto_JongLyo#@!")
+
+	if selection == 1 then
+		openshop("Klapeda_Weapon")
+	elseif selection == 2 then
+		openshop("Klapeda_Armor")
+	end
 end
