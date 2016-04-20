@@ -1,4 +1,4 @@
-addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 510.7029, -1.292879, -349.3194, 45, "npc_dummy")
+addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 510.7029, -1.292879, -349.3194, 45, "npc_itemmerchantmirina")
 addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_dummy")
 addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 268.7077, -1.343773, -610.9401, 45, "npc_accessorymerchantronesa")
 addnpc(20113, "ETC_20151224_019888", "c_Klaipe", -467.28, 148.67, 114.01, 45, "npc_dummy")
@@ -43,4 +43,10 @@ addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
 function npc_accessorymerchantronesa()
 	msg("Alfonso_Select_1")
 	openshop("Klapeda_Accessory")
+end
+
+-- Item Merchant Mirina
+function npc_itemmerchantmirina()
+	msg("Emilia_Select_1")
+	openshop("Klapeda_Misc")
 end
