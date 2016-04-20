@@ -1023,8 +1023,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			// #49
-			//character.Inventory.Delete(ItemId.Silver, totalCost);
+			character.Inventory.Delete(ItemId.Silver, totalCost, InventoryItemRemoveMsg.PaidWith);
 
 			// Give items
 			foreach (var purchase in purchaseList)

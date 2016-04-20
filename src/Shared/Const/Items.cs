@@ -83,8 +83,9 @@ namespace Melia.Shared.Const
 
 	public enum InventoryItemRemoveMsg : byte
 	{
-		Given = 0, // 0,2,6,10
+		Given = 0, // 0,6,10
 		Sold = 1,
+		PaidWith = 2,
 		Destroyed = 3,
 		Equipped = 5,
 		Used = 7, // 7,8
