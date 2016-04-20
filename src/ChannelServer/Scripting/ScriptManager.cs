@@ -117,8 +117,8 @@ namespace Melia.Channel.Scripting
 			// Inventory
 			Register(hasitem);
 			Register(countitem);
-			Register(getitem);
-			Register(delitem);
+			Register(additem);
+			Register(removeitem);
 
 			// Action
 			Register(warp);
@@ -1311,7 +1311,7 @@ namespace Melia.Channel.Scripting
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
-		private int getitem(IntPtr L)
+		private int additem(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
@@ -1368,7 +1368,7 @@ namespace Melia.Channel.Scripting
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
-		private int delitem(IntPtr L)
+		private int removeitem(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
