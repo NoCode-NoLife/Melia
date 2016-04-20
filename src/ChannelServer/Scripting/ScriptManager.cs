@@ -1356,26 +1356,9 @@ namespace Melia.Channel.Scripting
 			if (itemData == null)
 				return Melua.melua_error(L, "Unknown item id.");
 
-			amount = Math.Max(1, amount);
-
 			try
 			{
-				// If item is stackable add it directly, if not, add it as
-				// many times as specified, so a call for 10 swords yields
-				// 10 swords, and not one where the amount was clamped to 1.
-				if (itemData.MaxStack > 1)
-				{
-					var item = new Item(itemId, amount);
-					character.Inventory.Add(item, InventoryAddType.PickUp);
-				}
-				else
-				{
-					for (int i = 0; i < amount; ++i)
-					{
-						var item = new Item(itemId, amount);
-						character.Inventory.Add(item, InventoryAddType.PickUp);
-					}
-				}
+				character.Inventory.Add(itemId, amount, InventoryAddType.PickUp);
 			}
 			catch (Exception ex)
 			{

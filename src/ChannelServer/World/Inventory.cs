@@ -263,6 +263,28 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Adds new items with given item id to inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <param name="addType"></param>
+		public void Add(int itemId, int amount, InventoryAddType addType)
+		{
+			while (amount > 0)
+			{
+				// Item caps Amount automatically. By using amount directly
+				// either the entire amount is used for the new item,
+				// or the max amount for it. This way we add new stacks until
+				// amount is 0.
+
+				var item = new Item(itemId, amount);
+				this.Add(item, addType);
+
+				amount -= item.Amount;
+			}
+		}
+
+		/// <summary>
 		/// Filles stacks with item, returns the amount of items left.
 		/// The item is not modified.
 		/// </summary>

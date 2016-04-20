@@ -1031,17 +1031,7 @@ namespace Melia.Channel.Network
 				var itemData = purchase.Item1;
 				var amount = purchase.Item2;
 
-				// Add item stack for stack, in case the player tells us to
-				// sell him a sword 3 times without 3 separate purchases.
-				while (amount > 0)
-				{
-					var stackAmount = Math.Min(amount, itemData.MaxStack);
-					var item = new Item(itemData.Id, stackAmount);
-
-					character.Inventory.Add(item, InventoryAddType.Buy);
-
-					amount -= stackAmount;
-				}
+				character.Inventory.Add(itemData.Id, amount, InventoryAddType.Buy);
 			}
 
 			// Temporary fix for differences in prices between client and
@@ -1106,7 +1096,7 @@ namespace Melia.Channel.Network
 
 			// Give money
 			if (totalMoney > 0)
-				character.Inventory.Add(new Item(ItemId.Silver, totalMoney), InventoryAddType.Sell);
+				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
 			// Temporary fix for differences in prices between client and
 			// server. Equip prices are being calculated somehow, with their
