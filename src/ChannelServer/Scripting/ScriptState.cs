@@ -28,6 +28,7 @@ namespace Melia.Channel.Scripting
 		{
 			ChannelServer.Instance.ScriptManager.RemoveThread(this.LuaThread);
 
+			this.CurrentShop = null;
 			this.CurrentNpc = null;
 			this.LuaThread = null;
 		}
