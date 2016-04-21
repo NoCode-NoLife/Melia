@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Shared.World
 {
-	public abstract class BaseCharacter
+	public abstract class BaseCharacter : Actor
 	{
 		/// <summary>
 		/// Character's id.
@@ -56,16 +56,6 @@ namespace Melia.Shared.World
 		/// The map the character is in.
 		/// </summary>
 		public int MapId { get; set; }
-
-		/// <summary>
-		/// Character's position.
-		/// </summary>
-		public Position Position { get; set; }
-
-		/// <summary>
-		/// Character's direction.
-		/// </summary>
-		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// Character's head's direction.

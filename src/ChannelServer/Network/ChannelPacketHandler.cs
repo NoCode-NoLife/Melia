@@ -818,7 +818,6 @@ namespace Melia.Channel.Network
 		{
 			var size = packet.GetShort();
 			var txType = (TxType)packet.GetShort();
-
 			var character = conn.SelectedCharacter;
 
 			switch (txType)
@@ -868,7 +867,8 @@ namespace Melia.Channel.Network
 				case TxType.Skills:
 					// TODO: Handle skill learning
 					var jobId = packet.GetInt();
-					Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
+					//Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
+					Send.ZC_SKILL_ADD(character, 40001);
 					break;
 
 				default:
@@ -918,14 +918,35 @@ namespace Melia.Channel.Network
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
 
-			/*
+
 			var packetPosition1 = new Position(x1, y1, z1);
 			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(x1, y1, z1 - 20);
+			var skillPosition = new Position(40 * cos + x1, y1, 40 * sin + z1);
+
 			var packetDirection = new Direction(cos, sin);
 
 			var skillDirection = new Direction(0.707f, 0.707f);
 
+
+			Log.Debug("SKILL pos1 {0},{1},{2}", x1,y1,z1);
+			Log.Debug("SKILL pos2 {0},{1},{2}", x2, y2,z2);
+
+
+			// Add skill to world
+			// Get map
+			var map = ChannelServer.Instance.World.GetMap(character.MapId);
+
+			SkillActor PESkill = new SkillActor();
+			PESkill.ownerHandle = character.Handle;
+			PESkill.SkillId = skillId;
+			PESkill.Position = skillPosition;
+			PESkill.Init();
+
+			map.AddSkill(PESkill);
+
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, PESkill.Handle);
+
+			/*
 			// Player in Attack state (if not already)
 			Send.ZC_PC_ATKSTATE(character, true);
 
@@ -949,6 +970,7 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 			*/
 		}
+
 	}
 
 	public enum TxType : short

@@ -68,11 +68,15 @@
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\Character.cs" />
-    <Compile Include="World\Entity.cs" />
+    <Compile Include="World\IEntity.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
+    <Compile Include="World\IVisitor.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
+    <Compile Include="World\SkillActor.cs" />
+    <Compile Include="World\Sector.cs" />
+    <Compile Include="World\SectorManager.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

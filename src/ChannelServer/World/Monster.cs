@@ -10,12 +10,8 @@ using System;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity
+	public class Monster : Actor, IEntity
 	{
-		/// <summary>
-		/// Index in world collection?
-		/// </summary>
-		public int Handle { get; private set; }
 
 		private Map _map = Map.Limbo;
 		/// <summary>
@@ -67,16 +63,6 @@ namespace Melia.Channel.World
 		/// Level.
 		/// </summary>
 		public int Level { get; set; }
-
-		/// <summary>
-		/// Monster's position.
-		/// </summary>
-		public Position Position { get; set; }
-
-		/// <summary>
-		/// Monster's direction.
-		/// </summary>
-		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// AoE Defense Ratio
