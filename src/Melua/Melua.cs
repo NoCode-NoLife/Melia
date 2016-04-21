@@ -286,6 +286,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern int lua_next(IntPtr L, int idx);
 
+		// LUA_API void lua_replace (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_replace(IntPtr L, int idx);
+
 
 
 
@@ -603,11 +607,13 @@ namespace MeluaLib
 						// Safe functions from base lib
 						auxopen(L, "ipairs", CreateFunctionReference(L, Melua.luaB_ipairs), CreateFunctionReference(L, Melua.ipairsaux));
 						auxopen(L, "pairs", CreateFunctionReference(L, Melua.luaB_pairs), CreateFunctionReference(L, Melua.luaB_next));
+						lua_register(L, "pcall", CreateFunctionReference(L, Melua.luaB_pcall));
 						lua_register(L, "print", CreateFunctionReference(L, Melua.luaB_print));
 						lua_register(L, "tonumber", CreateFunctionReference(L, Melua.luaB_tonumber));
 						lua_register(L, "tostring", CreateFunctionReference(L, Melua.luaB_tostring));
 						lua_register(L, "type", CreateFunctionReference(L, Melua.luaB_type));
 						lua_register(L, "unpack", CreateFunctionReference(L, Melua.luaB_unpack));
+						lua_register(L, "xpcall", CreateFunctionReference(L, Melua.luaB_xpcall));
 						return;
 
 					default:
@@ -791,6 +797,33 @@ namespace MeluaLib
 			lua_pushinteger(L, 0);
 
 			return 3;
+		}
+
+		// static int luaB_pcall(lua_State* L)
+		internal static int luaB_pcall(IntPtr L)
+		{
+			luaL_checkany(L, 1);
+
+			var status = lua_pcall(L, lua_gettop(L) - 1, LUA_MULTRET, 0);
+			lua_pushboolean(L, (status == 0));
+			lua_insert(L, 1);
+
+			return lua_gettop(L);
+		}
+
+		// static int luaB_xpcall(lua_State* L)
+		internal static int luaB_xpcall(IntPtr L)
+		{
+			luaL_checkany(L, 2);
+
+			lua_settop(L, 2);
+			lua_insert(L, 1);
+
+			var status = lua_pcall(L, 0, LUA_MULTRET, 1);
+			lua_pushboolean(L, (status == 0));
+			lua_replace(L, 1);
+
+			return lua_gettop(L);
 		}
 
 		private static Dictionary<IntPtr, List<LuaNativeFunction>> _functions = new Dictionary<IntPtr, List<LuaNativeFunction>>();
