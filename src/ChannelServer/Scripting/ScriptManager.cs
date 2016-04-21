@@ -83,16 +83,12 @@ namespace Melia.Channel.Scripting
 		private void InitializeLua()
 		{
 			GL = Melua.luaL_newstate();
-			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
+			Melua.melua_openlib(GL, LuaLib.BaseSafe, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
 			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, OnPanic));
 
 			// Functions
 			// --------------------------------------------------------------
-
-			// Output
-			Register(print);
-			Register(logdebug);
 
 			// Setup
 			Register(addnpc);
@@ -124,24 +120,7 @@ namespace Melia.Channel.Scripting
 
 			// Others
 			Register(var);
-			Register(tostring);
-		}
-
-		/// <summary>
-		/// Returns first parameter as string.
-		/// </summary>
-		/// <remarks>
-		/// Parameters:
-		/// - T value
-		/// 
-		/// Result:
-		/// - string value
-		/// </remarks>
-		/// <param name="L"></param>
-		/// <returns></returns>
-		private int tostring(IntPtr L)
-		{
-			return Melua.luaB_tostring(L);
+			Register(logdebug);
 		}
 
 		/// <summary>

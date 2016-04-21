@@ -9,6 +9,7 @@ namespace MeluaLib
 	public enum LuaLib
 	{
 		Base,
+		BaseSafe,
 		Package,
 		Table,
 		IO,
