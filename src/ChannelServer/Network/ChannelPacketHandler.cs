@@ -445,7 +445,7 @@ namespace Melia.Channel.Network
 			var slot = (EquipSlot)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var result = character.Inventory.Unquip(slot);
+			var result = character.Inventory.Unequip(slot);
 
 			if (result == InventoryResult.ItemNotFound)
 				Log.Warning("CZ_ITEM_UNEQUIP: User '{0}' tried to unequip non-existent item from {1}.", conn.Account.Name, slot);

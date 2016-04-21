@@ -392,7 +392,7 @@ namespace Melia.Channel.World
 				collision = !(_equip[slot] is DummyEquipItem);
 
 			if (collision)
-				this.Unquip(slot);
+				this.Unequip(slot);
 
 			// Equip new item
 			lock (_syncLock)
@@ -416,7 +416,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="slot"></param>
 		/// <returns></returns>
-		public InventoryResult Unquip(EquipSlot slot)
+		public InventoryResult Unequip(EquipSlot slot)
 		{
 			if (!Enum.IsDefined(typeof(EquipSlot), slot))
 				return InventoryResult.InvalidSlot;
