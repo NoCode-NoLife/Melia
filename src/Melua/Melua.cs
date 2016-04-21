@@ -497,5 +497,24 @@ namespace MeluaLib
 
 			return 1;
 		}
+
+		private static Dictionary<IntPtr, List<LuaNativeFunction>> _functions = new Dictionary<IntPtr, List<LuaNativeFunction>>();
+
+		/// <summary>
+		/// Creates and saves reference to function, so it's not garbage
+		/// collected.
+		/// </summary>
+		/// <param name="function"></param>
+		public static LuaNativeFunction CreateFunctionReference(IntPtr L, LuaNativeFunction function)
+		{
+			List<LuaNativeFunction> list;
+			if (!_functions.TryGetValue(L, out list) || list == null)
+				list = _functions[L] = new List<LuaNativeFunction>();
+
+			var func = new LuaNativeFunction(function);
+			list.Add(func);
+
+			return func;
+		}
 	}
 }
