@@ -579,25 +579,6 @@ namespace Melia.Channel.Scripting
 		//-----------------------------------------------------------------//
 
 		/// <summary>
-		/// Prints message in console using Console.WriteLine.
-		/// </summary>
-		/// <remarks>
-		/// Parameters:
-		/// - string message
-		/// </remarks>
-		/// <param name="L"></param>
-		/// <returns></returns>
-		private int print(IntPtr L)
-		{
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
-
-			Console.WriteLine(msg);
-
-			return 0;
-		}
-
-		/// <summary>
 		/// Prints and logs debug message.
 		/// </summary>
 		/// <remarks>
