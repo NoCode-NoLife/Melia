@@ -38,7 +38,6 @@ namespace Melia.Channel.Scripting
 		private IntPtr GL;
 		private object _glSyncLock = new object();
 
-		private List<Melua.LuaNativeFunction> _functions;
 		private Dictionary<IntPtr, ScriptState> _states;
 
 		private Timer _globalVarSaver;
@@ -64,7 +63,6 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public ScriptManager()
 		{
-			_functions = new List<Melua.LuaNativeFunction>();
 			_states = new Dictionary<IntPtr, ScriptState>();
 
 			this.Variables = new Variables();
@@ -85,18 +83,12 @@ namespace Melia.Channel.Scripting
 		private void InitializeLua()
 		{
 			GL = Melua.luaL_newstate();
-			Melua.melua_openlib(GL, LuaLib.Table, LuaLib.String, LuaLib.Math);
+			Melua.melua_openlib(GL, LuaLib.BaseSafe, LuaLib.Table, LuaLib.String, LuaLib.Math);
 
-			var func = new Melua.LuaNativeFunction(OnPanic);
-			_functions.Add(func);
-			Melua.lua_atpanic(GL, func);
+			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, OnPanic));
 
 			// Functions
 			// --------------------------------------------------------------
-
-			// Output
-			Register(print);
-			Register(logdebug);
 
 			// Setup
 			Register(addnpc);
@@ -129,24 +121,7 @@ namespace Melia.Channel.Scripting
 
 			// Others
 			Register(var);
-			Register(tostring);
-		}
-
-		/// <summary>
-		/// Returns first parameter as string.
-		/// </summary>
-		/// <remarks>
-		/// Parameters:
-		/// - T value
-		/// 
-		/// Result:
-		/// - string value
-		/// </remarks>
-		/// <param name="L"></param>
-		/// <returns></returns>
-		private int tostring(IntPtr L)
-		{
-			return Melua.luaB_tostring(L);
+			Register(logdebug);
 		}
 
 		/// <summary>
@@ -181,12 +156,10 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Registers function on global Lua state.
 		/// </summary>
-		/// <param name="functionName"></param>
+		/// <param name="function"></param>
 		private void Register(Melua.LuaNativeFunction function)
 		{
-			// Keep a reference, so it's not garbage collected...?
-			var func = new Melua.LuaNativeFunction(function);
-			_functions.Add(func);
+			var func = Melua.CreateFunctionReference(GL, function);
 			Melua.lua_register(GL, function.Method.Name, func);
 		}
 

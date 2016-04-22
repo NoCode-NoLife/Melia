@@ -50,6 +50,9 @@ namespace MeluaLib
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int LuaNativeFunction(IntPtr L);
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate int LuaNativeNFunction(IntPtr L, int index);
+
 		// typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void lua_Hook(IntPtr L, IntPtr ar);
@@ -133,10 +136,6 @@ namespace MeluaLib
 		// LUA_API void lua_pushboolean (lua_State *L, int b)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_pushboolean(IntPtr L, bool b);
-
-		// void lua_pushliteral (lua_State *L, const char *s);
-		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-		public static extern void lua_pushliteral(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string s);
 
 		// static void lua_settable(lua_State*L,int idx)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -250,6 +249,47 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_remove(IntPtr L, int index);
 
+		// void luaL_argcheck (lua_State *L, int cond, int narg, const char *extramsg);
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void luaL_argcheck(IntPtr L, bool cond, int narg, [MarshalAs(UnmanagedType.LPStr)] string extramsg);
+
+		// LUA_API void lua_pushlstring (lua_State *L, const char *s, size_t len)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_pushlstring(IntPtr L, [MarshalAs(UnmanagedType.LPStr)] string s, int len);
+
+		// LUA_API const char *lua_typename (lua_State *L, int t)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public static extern string lua_typename(IntPtr L, int t);
+
+		// LUA_API int lua_checkstack (lua_State *L, int size)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern bool lua_checkstack(IntPtr L, int size);
+
+		// LUA_API void lua_rawget (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_rawget(IntPtr L, int idx);
+
+		// LUA_API void lua_rawgeti (lua_State *L, int idx, int n)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_rawgeti(IntPtr L, int idx, int n);
+
+		// LUA_API size_t lua_objlen (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_objlen(IntPtr L, int idx);
+
+		// LUA_API int lua_setmetatable (lua_State *L, int objindex)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_setmetatable(IntPtr L, int objindex);
+
+		// LUA_API int lua_next (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern int lua_next(IntPtr L, int idx);
+
+		// LUA_API void lua_replace (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern void lua_replace(IntPtr L, int idx);
+
 
 
 
@@ -270,6 +310,41 @@ namespace MeluaLib
 		{
 			lua_pushcfunction(L, f);
 			lua_setglobal(L, n);
+		}
+
+		// static void auxopen (lua_State *L, const char *name, lua_CFunction f, lua_CFunction u)
+		internal static void auxopen(IntPtr L, string name, LuaNativeFunction f, LuaNativeFunction u)
+		{
+			lua_pushcfunction(L, u);
+			lua_pushcclosure(L, f, 1);
+			lua_setglobal(L, name);
+		}
+
+		// static int ipairsaux(lua_State* L)
+		internal static int ipairsaux(IntPtr L)
+		{
+			luaL_checktype(L, 1, LUA_TTABLE);
+
+			var i = luaL_checkinteger(L, 2);
+			i++;
+
+			lua_pushinteger(L, i);
+			lua_rawgeti(L, 1, i);
+
+			return (lua_isnil(L, -1) ? 0 : 2);
+		}
+
+		// static int luaB_next(lua_State* L)
+		internal static int luaB_next(IntPtr L)
+		{
+			luaL_checktype(L, 1, LUA_TTABLE);
+			lua_settop(L, 2);
+
+			if (lua_next(L, 1) != 0)
+				return 2;
+
+			lua_pushnil(L);
+			return 1;
 		}
 
 		// #define lua_pushcfunction(L,f)	lua_pushcclosure(L, (f), 0)
@@ -320,7 +395,17 @@ namespace MeluaLib
 		// int lua_isnumber (lua_State *L, int index);
 		public static bool lua_isnumber(IntPtr L, int index)
 		{
-			return (lua_type(L, index) == LUA_TNUMBER);
+			var type = lua_type(L, index);
+
+			switch (type)
+			{
+				default: return false;
+				case LUA_TNUMBER: return true;
+				case LUA_TSTRING:
+					var s = lua_tostring(L, index);
+					double d;
+					return double.TryParse(s, out d);
+			}
 		}
 
 		// #define lua_isboolean(L,n)	(lua_type(L, (n)) == LUA_TBOOLEAN)
@@ -370,8 +455,35 @@ namespace MeluaLib
 			lua_createtable(L, 0, 0);
 		}
 
+		// #define lua_isnoneornil(L, n)	(lua_type(L, (n)) <= 0)
+		public static bool lua_isnoneornil(IntPtr L, int n)
+		{
+			return (lua_type(L, n) <= 0);
+		}
 
+		// #define luaL_opt(L,f,n,d)	(lua_isnoneornil(L,(n)) ? (d) : f(L,(n)))
+		public static int luaL_opt(IntPtr L, LuaNativeNFunction f, int n, int d)
+		{
+			return (lua_isnoneornil(L, n) ? d : f(L, n));
+		}
 
+		// #define lua_pushliteral(L, s)  lua_pushlstring(L, "" s, (sizeof(s)/sizeof(char))-1)
+		public static void lua_pushliteral(IntPtr L, string s)
+		{
+			lua_pushlstring(L, s, s.Length);
+		}
+
+		// #define luaL_typename(L,i)	lua_typename(L, lua_type(L,(i)))
+		public static string luaL_typename(IntPtr L, int i)
+		{
+			return lua_typename(L, lua_type(L, i));
+		}
+
+		// LUALIB_API lua_Integer (luaL_optinteger) (lua_State *L, int nArg, lua_Integer def);
+		public static int luaL_optinteger(IntPtr L, int narg, int def)
+		{
+			return luaL_opt(L, luaL_checkinteger, narg, def);
+		}
 
 		// LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s)
 		public static int luaL_loadstring(IntPtr L, string s)
@@ -379,7 +491,70 @@ namespace MeluaLib
 			return luaL_loadbuffer(L, s, s.Length, s);
 		}
 
+		// LUALIB_API void luaL_checktype (lua_State *L, int narg, int t)
+		public static void luaL_checktype(IntPtr L, int narg, int t)
+		{
+			if (lua_type(L, narg) != t)
+				melua_error(L, string.Format("{0} expected, got {1}"), lua_typename(L, t), luaL_typename(L, narg));
+		}
 
+		// #define abs_index(L, i)		((i) > 0 || (i) <= LUA_REGISTRYINDEX ? (i) : lua_gettop(L) + (i) + 1)
+		internal static int abs_index(IntPtr L, int i)
+		{
+			return (i > 0 || i <= LUA_REGISTRYINDEX ? i : lua_gettop(L) + i + 1);
+		}
+
+		//static int checkint(lua_State* L, int topop)
+		internal static int checkint(IntPtr L, int topop)
+		{
+			int n = (lua_type(L, -1) == LUA_TNUMBER) ? lua_tointeger(L, -1) : -1;
+			lua_pop(L, topop);
+			return n;
+		}
+
+		// static void getsizes(lua_State* L)
+		internal static void getsizes(IntPtr L)
+		{
+			lua_getfield(L, LUA_REGISTRYINDEX, "LUA_SIZES");
+			if (lua_isnil(L, -1))
+			{  /* no `size' table? */
+				lua_pop(L, 1);  /* remove nil */
+				lua_newtable(L);  /* create it */
+				lua_pushvalue(L, -1);  /* `size' will be its own metatable */
+				lua_setmetatable(L, -2);
+				lua_pushliteral(L, "kv");
+				lua_setfield(L, -2, "__mode");  /* metatable(N).__mode = "kv" */
+				lua_pushvalue(L, -1);
+				lua_setfield(L, LUA_REGISTRYINDEX, "LUA_SIZES");  /* store in register */
+			}
+		}
+
+		// LUALIB_API int luaL_getn (lua_State *L, int t) 
+		public static int luaL_getn(IntPtr L, int t)
+		{
+			int n;
+			t = abs_index(L, t);
+			lua_pushliteral(L, "n");
+			lua_rawget(L, t);
+
+			if ((n = checkint(L, 1)) >= 0)
+				return n;
+
+			getsizes(L);
+			lua_pushvalue(L, t);
+			lua_rawget(L, -2);
+
+			if ((n = checkint(L, 2)) >= 0)
+				return n;
+
+			return lua_objlen(L, t);
+		}
+
+		// #define lua_upvalueindex(i)	(LUA_GLOBALSINDEX-(i))
+		public static int lua_upvalueindex(int i)
+		{
+			return (LUA_GLOBALSINDEX - i);
+		}
 
 		/// <summary>
 		/// Custom function, calls the specified standard lib open functions.
@@ -428,6 +603,19 @@ namespace MeluaLib
 						func = luaopen_debug;
 						break;
 
+					case LuaLib.BaseSafe:
+						// Safe functions from base lib
+						auxopen(L, "ipairs", CreateFunctionReference(L, Melua.luaB_ipairs), CreateFunctionReference(L, Melua.ipairsaux));
+						auxopen(L, "pairs", CreateFunctionReference(L, Melua.luaB_pairs), CreateFunctionReference(L, Melua.luaB_next));
+						lua_register(L, "pcall", CreateFunctionReference(L, Melua.luaB_pcall));
+						lua_register(L, "print", CreateFunctionReference(L, Melua.luaB_print));
+						lua_register(L, "tonumber", CreateFunctionReference(L, Melua.luaB_tonumber));
+						lua_register(L, "tostring", CreateFunctionReference(L, Melua.luaB_tostring));
+						lua_register(L, "type", CreateFunctionReference(L, Melua.luaB_type));
+						lua_register(L, "unpack", CreateFunctionReference(L, Melua.luaB_unpack));
+						lua_register(L, "xpcall", CreateFunctionReference(L, Melua.luaB_xpcall));
+						return;
+
 					default:
 						throw new Exception("Unknown lua lib '" + lib + "'.");
 				}
@@ -465,7 +653,7 @@ namespace MeluaLib
 		}
 
 		// static int luaB_tostring (lua_State *L)
-		public static int luaB_tostring(IntPtr L)
+		internal static int luaB_tostring(IntPtr L)
 		{
 			luaL_checkany(L, 1);
 			if (luaL_callmeta(L, 1, "__tostring"))
@@ -496,6 +684,165 @@ namespace MeluaLib
 			}
 
 			return 1;
+		}
+
+		// static int luaB_print (lua_State *L)
+		internal static int luaB_print(IntPtr L)
+		{
+			var n = lua_gettop(L);
+
+			lua_getglobal(L, "tostring");
+			for (int i = 1; i <= n; i++)
+			{
+				lua_pushvalue(L, -1);
+				lua_pushvalue(L, i);
+				lua_call(L, 1, 1);
+
+				var s = lua_tostring(L, -1);
+				if (s == null)
+					return melua_error(L, "tostring must return a string to print");
+
+				if (i > 1)
+					Console.Write("\t");
+
+				Console.Write(s);
+				lua_pop(L, 1);
+			}
+			Console.Write("\n");
+			return 0;
+		}
+
+		// static int luaB_tonumber (lua_State *L)
+		internal static int luaB_tonumber(IntPtr L)
+		{
+			var nBase = luaL_optinteger(L, 2, 10);
+			if (nBase != 2 && nBase != 8 && nBase != 10 && nBase != 16)
+				melua_error(L, "base out of range");
+
+			if (nBase == 10)
+			{
+				luaL_checkany(L, 1);
+				if (lua_isnumber(L, 1))
+				{
+					lua_pushnumber(L, lua_tonumber(L, 1));
+					return 1;
+				}
+			}
+			else
+			{
+				var s1 = luaL_checkstring(L, 1).Trim();
+
+				try
+				{
+					lua_pushnumber(L, Convert.ToInt32(s1, nBase));
+					return 1;
+				}
+				catch
+				{
+				}
+			}
+
+			lua_pushnil(L);
+
+			return 1;
+		}
+
+		// static int luaB_type (lua_State *L) {
+		internal static int luaB_type(IntPtr L)
+		{
+			luaL_checkany(L, 1);
+			lua_pushstring(L, luaL_typename(L, 1));
+			return 1;
+		}
+
+		// static int luaB_unpack(lua_State* L)
+		internal static int luaB_unpack(IntPtr L)
+		{
+			luaL_checktype(L, 1, LUA_TTABLE);
+
+			var i = luaL_optinteger(L, 2, 1);
+			var e = luaL_opt(L, luaL_checkinteger, 3, luaL_getn(L, 1));
+
+			if (i > e)
+				return 0;
+
+			var n = e - i + 1;
+			if (n <= 0 || !lua_checkstack(L, n))
+				return melua_error(L, "too many results to unpack");
+
+			lua_rawgeti(L, 1, i);
+			while (i++ < e)
+				lua_rawgeti(L, 1, i);
+
+			return n;
+		}
+
+		// static int luaB_pairs(lua_State* L)
+		internal static int luaB_pairs(IntPtr L)
+		{
+			luaL_checktype(L, 1, LUA_TTABLE);
+			lua_pushvalue(L, lua_upvalueindex(1));
+			lua_pushvalue(L, 1);
+			lua_pushnil(L);
+
+			return 3;
+		}
+
+		// static int luaB_ipairs(lua_State* L)
+		internal static int luaB_ipairs(IntPtr L)
+		{
+			luaL_checktype(L, 1, LUA_TTABLE);
+			lua_pushvalue(L, lua_upvalueindex(1));
+			lua_pushvalue(L, 1);
+			lua_pushinteger(L, 0);
+
+			return 3;
+		}
+
+		// static int luaB_pcall(lua_State* L)
+		internal static int luaB_pcall(IntPtr L)
+		{
+			luaL_checkany(L, 1);
+
+			var status = lua_pcall(L, lua_gettop(L) - 1, LUA_MULTRET, 0);
+			lua_pushboolean(L, (status == 0));
+			lua_insert(L, 1);
+
+			return lua_gettop(L);
+		}
+
+		// static int luaB_xpcall(lua_State* L)
+		internal static int luaB_xpcall(IntPtr L)
+		{
+			luaL_checkany(L, 2);
+
+			lua_settop(L, 2);
+			lua_insert(L, 1);
+
+			var status = lua_pcall(L, 0, LUA_MULTRET, 1);
+			lua_pushboolean(L, (status == 0));
+			lua_replace(L, 1);
+
+			return lua_gettop(L);
+		}
+
+		private static Dictionary<IntPtr, List<LuaNativeFunction>> _functions = new Dictionary<IntPtr, List<LuaNativeFunction>>();
+
+		/// <summary>
+		/// Creates and saves reference to function, so it's not garbage
+		/// collected.
+		/// </summary>
+		/// <param name="function"></param>
+		public static LuaNativeFunction CreateFunctionReference(IntPtr L, LuaNativeFunction function)
+		{
+			List<LuaNativeFunction> list;
+			if (!_functions.TryGetValue(L, out list) || list == null)
+				list = _functions[L] = new List<LuaNativeFunction>();
+
+			var func = new LuaNativeFunction(function);
+			list.Add(func);
+
+			return func;
 		}
 	}
 }
