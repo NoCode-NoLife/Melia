@@ -36,6 +36,23 @@ function npc_stylist()
 		loopstyle()
 	end
 
+	local function getoptions(direction)
+		local options = {}
+
+		for i=1,2 do
+			if direction == i then
+				table.insert(options, "n:Next")
+			else
+				table.insert(options, "p:Prev")
+			end
+		end
+		
+		table.insert(options, "j:Jump")
+		table.insert(options, "I like it")
+
+		return options
+	end
+
 	local selection = nselect("What can I do for you today?", "hair:Change Hair", "end:Nothing")
 	if selection == "end" then
 		msg("Please come back any time.")
@@ -44,14 +61,19 @@ function npc_stylist()
 
 	msg("Good decision, one should treat himself once in a while.")
 
+	local direction = 1
 	while true do
+		local options = getoptions(direction)
+
 		changehair(style)
-		selection = nselect("This is style " .. style .. ", what do you think?", "n:Next", "p:Prev", "j:Jump", "I like it")
+		selection = nselect("This is style " .. style .. ", what do you think?", unpack(options))
 
 		if selection == "n" then
 			modstyle(1)
+			direction = 1
 		elseif selection == "p" then
 			modstyle(-1)
+			direction = 2
 		elseif selection == "j" then
 			setstyle(numinput("Which style would you like to see?", min, max))
 		else
