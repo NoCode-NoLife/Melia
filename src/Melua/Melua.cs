@@ -614,7 +614,7 @@ namespace MeluaLib
 						lua_register(L, "type", CreateFunctionReference(L, Melua.luaB_type));
 						lua_register(L, "unpack", CreateFunctionReference(L, Melua.luaB_unpack));
 						lua_register(L, "xpcall", CreateFunctionReference(L, Melua.luaB_xpcall));
-						return;
+						continue;
 
 					default:
 						throw new Exception("Unknown lua lib '" + lib + "'.");
