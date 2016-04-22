@@ -36,8 +36,8 @@ function npc_stylist()
 		loopstyle()
 	end
 
-	local selection = select("What can I do for you today?", "Change Hair", "Nothing")
-	if selection == 2 then
+	local selection = nselect("What can I do for you today?", "hair:Change Hair", "end:Nothing")
+	if selection == "end" then
 		msg("Please come back any time.")
 		return
 	end
@@ -46,15 +46,15 @@ function npc_stylist()
 
 	while true do
 		changehair(style)
-		selection = select("This is style " .. style .. ", what do you think?", "Next", "Prev", "Jump", "I like it")
+		selection = nselect("This is style " .. style .. ", what do you think?", "n:Next", "p:Prev", "j:Jump", "I like it")
 
-		if selection == 1 then
+		if selection == "n" then
 			modstyle(1)
-		elseif selection == 2 then
+		elseif selection == "p" then
 			modstyle(-1)
-		elseif selection == 3 then
+		elseif selection == "j" then
 			setstyle(numinput("Which style would you like to see?", min, max))
-		elseif selection == 4 then
+		else
 			msg("Yes, this style does suit you well. Please come back any time.")
 			return
 		end
