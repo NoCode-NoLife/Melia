@@ -14,6 +14,11 @@ namespace Melia.Channel.Scripting
 		public LuaThread LuaThread { get; set; }
 		public Monster CurrentNpc { get; set; }
 
+		/// <summary>
+		/// Name of the shop currently open, null if there is no shop.
+		/// </summary>
+		public string CurrentShop { get; set; }
+
 		public ScriptState(ChannelConnection conn)
 		{
 			this.Connection = conn;
@@ -23,6 +28,7 @@ namespace Melia.Channel.Scripting
 		{
 			ChannelServer.Instance.ScriptManager.RemoveThread(this.LuaThread);
 
+			this.CurrentShop = null;
 			this.CurrentNpc = null;
 			this.LuaThread = null;
 		}

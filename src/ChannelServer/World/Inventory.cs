@@ -263,6 +263,28 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Adds new items with given item id to inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <param name="addType"></param>
+		public void Add(int itemId, int amount, InventoryAddType addType)
+		{
+			while (amount > 0)
+			{
+				// Item caps Amount automatically. By using amount directly
+				// either the entire amount is used for the new item,
+				// or the max amount for it. This way we add new stacks until
+				// amount is 0.
+
+				var item = new Item(itemId, amount);
+				this.Add(item, addType);
+
+				amount -= item.Amount;
+			}
+		}
+
+		/// <summary>
 		/// Filles stacks with item, returns the amount of items left.
 		/// The item is not modified.
 		/// </summary>
@@ -437,15 +459,24 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Deletes item with given id from inventory.
+		/// Removes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
-		public InventoryResult Delete(long worldId)
+		public InventoryResult Remove(long worldId)
 		{
 			var item = this.GetItem(worldId);
 			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
+			return this.Remove(item);
+		}
+
+		/// <summary>
+		/// Removes item from inventory.
+		/// </summary>
+		/// <param name="slot"></param>
+		private InventoryResult Remove(Item item)
+		{
 			lock (_syncLock)
 			{
 				if (!_items[item.Data.Category].Remove(item))
@@ -462,12 +493,41 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Deletes items with given id from inventory.
+		/// Reduces amount of item with the given id. Item is removed
+		/// if amount becomes 0.
+		/// </summary>
+		/// <param name="slot"></param>
+		public InventoryResult Remove(Item item, int amount, InventoryItemRemoveMsg msg)
+		{
+			// Check if item exists in inventory
+			lock (_syncLock)
+			{
+				if (!_items[item.Data.Category].Contains(item))
+					return InventoryResult.ItemNotFound;
+			}
+
+			// Remove or reduce
+			if (item.Amount <= amount)
+			{
+				this.Remove(item);
+			}
+			else
+			{
+				item.Amount -= amount;
+
+				Send.ZC_ITEM_REMOVE(_character, item.WorldId, amount, msg, InventoryType.Inventory);
+				Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+			}
+
+			return InventoryResult.Success;
+		}
+
+		/// Removes items with given id from inventory.
 		/// </summary>
 		/// <param name="itemId">Id of the item to remove.</param>
 		/// <param name="amount">Amount of pieces to remove.</param>
 		/// <returns>Amount of pieces removed.</returns>
-		public int Delete(int itemId, int amount, InventoryItemRemoveMsg msg)
+		public int Remove(int itemId, int amount, InventoryItemRemoveMsg msg)
 		{
 			if (amount == 0)
 				return 0;

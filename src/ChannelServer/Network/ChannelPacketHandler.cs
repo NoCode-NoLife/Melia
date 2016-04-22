@@ -3,6 +3,7 @@
 
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
@@ -472,7 +473,7 @@ namespace Melia.Channel.Network
 			var unkLong = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var result = character.Inventory.Delete(worldId);
+			var result = character.Inventory.Remove(worldId);
 
 			if (result == InventoryResult.ItemNotFound)
 				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
@@ -948,6 +949,175 @@ namespace Melia.Channel.Network
 			// Broadcast action to all?
 			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
 			*/
+		}
+
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Bought" list.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_BUY)]
+		public void CZ_ITEM_BUY(ChannelConnection conn, Packet packet)
+		{
+			var purchases = new Dictionary<int, int>();
+
+			var size = packet.GetShort();
+			var count = packet.GetInt();
+			for (int i = 0; i < count; ++i)
+			{
+				var productId = packet.GetInt();
+				var amount = packet.GetInt();
+
+				purchases[productId] = amount;
+			}
+
+			var character = conn.SelectedCharacter;
+
+			// Check amount
+			if (count > 10)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried buy more than 10 items at once.", conn.Account.Name);
+				return;
+			}
+
+			// Check open shop
+			if (conn.ScriptState.CurrentNpc == null || conn.ScriptState.CurrentShop == null)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried buy something with no shop open.", conn.Account.Name);
+				return;
+			}
+
+			// Get shop
+			var shopData = ChannelServer.Instance.Data.ShopDb.Find(conn.ScriptState.CurrentShop);
+			if (shopData == null)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
+				return;
+			}
+
+			// Prepare items and get cost
+			var totalCost = 0;
+			var purchaseList = new List<Tuple<ItemData, int>>();
+			foreach (var purchase in purchases)
+			{
+				var productId = purchase.Key;
+				var amount = purchase.Value;
+
+				// Get product
+				var productData = shopData.GetProduct(productId);
+				if (productData == null)
+				{
+					Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy product that's not in the shop ({1}, {2}).", conn.Account.Name, shopData.Name, productId);
+					return;
+				}
+
+				// Get item
+				var itemData = ChannelServer.Instance.Data.ItemDb.Find(productData.ItemId);
+				if (itemData == null)
+				{
+					Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy item that's not in the db ({1}, {2}).", conn.Account.Name, shopData.Name, productData.ItemId);
+					return;
+				}
+
+				totalCost += itemData.Price * amount;
+				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
+			}
+
+			// Check and reduce money
+			if (character.Inventory.CountItem(ItemId.Silver) < totalCost)
+			{
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy items without having enough money.", conn.Account.Name);
+				return;
+			}
+
+			character.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.PaidWith);
+
+			// Give items
+			foreach (var purchase in purchaseList)
+			{
+				var itemData = purchase.Item1;
+				var amount = purchase.Item2;
+
+				character.Inventory.Add(itemData.Id, amount, InventoryAddType.Buy);
+			}
+
+			// Temporary fix for differences in prices between client and
+			// server. Equip prices are being calculated somehow, with their
+			// price in the db usually being 0. This msg will reset the shop
+			// panel, to display the proper balance after confirming the
+			// transaction.
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+		}
+
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Sold" list.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_SELL)]
+		public void CZ_ITEM_SELL(ChannelConnection conn, Packet packet)
+		{
+			var itemsToSell = new Dictionary<long, int>();
+
+			var size = packet.GetShort();
+			var count = packet.GetInt();
+			for (int i = 0; i < count; ++i)
+			{
+				var worldId = packet.GetLong();
+				var amount = packet.GetInt();
+				var unkInt = packet.GetInt();
+
+				itemsToSell[worldId] = amount;
+			}
+
+			var character = conn.SelectedCharacter;
+
+			// Check amount
+			if (count > 10)
+			{
+				Log.Warning("CZ_ITEM_SELL: User '{0}' tried sell more than 10 items at once.", conn.Account.Name);
+				return;
+			}
+
+			// Remove items and count revenue
+			var totalMoney = 0;
+			foreach (var itemToSell in itemsToSell)
+			{
+				var worldId = itemToSell.Key;
+				var amount = itemToSell.Value;
+
+				// Get item
+				var item = character.Inventory.GetItem(worldId);
+				if (item == null)
+				{
+					Log.Warning("CZ_ITEM_SELL: User '{0}' tried to sell a non-existent item.", conn.Account.Name);
+					return;
+				}
+
+				// Check amount
+				if (item.Amount < amount)
+				{
+					Log.Warning("CZ_ITEM_SELL: User '{0}' tried to sell more of an item than they own.", conn.Account.Name);
+					return;
+				}
+
+				// Try to remove item
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+					totalMoney += item.Data.SellPrice * amount;
+				else
+					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
+			}
+
+			// Give money
+			if (totalMoney > 0)
+				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
+
+			// Temporary fix for differences in prices between client and
+			// server. Equip prices are being calculated somehow, with their
+			// price in the db usually being 0. This msg will reset the shop
+			// panel, to display the proper balance after confirming the
+			// transaction.
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
 		}
 	}
 

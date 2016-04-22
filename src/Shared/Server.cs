@@ -107,6 +107,11 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt", reload);
 				}
 
+				if ((toLoad & DataToLoad.Shops) != 0)
+				{
+					this.LoadDb(this.Data.ShopDb, "db/shops.txt", reload);
+				}
+
 				if ((toLoad & DataToLoad.Skills) != 0)
 				{
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt", reload);
@@ -221,6 +226,7 @@ namespace Melia.Shared
 		Skills = 0x40,
 		Exp = 0x80,
 		Dialogues = 0x100,
+		Shops = 0x200,
 
 		All = 0x7FFFFFFF,
 	}

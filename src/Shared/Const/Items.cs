@@ -83,7 +83,9 @@ namespace Melia.Shared.Const
 
 	public enum InventoryItemRemoveMsg : byte
 	{
-		Given = 0, // 0,1,2,6,10
+		Given = 0, // 0,6,10
+		Sold = 1,
+		PaidWith = 2,
 		Destroyed = 3,
 		Equipped = 5,
 		Used = 7, // 7,8
@@ -97,6 +99,8 @@ namespace Melia.Shared.Const
 
 	public enum InventoryAddType : byte
 	{
+		Buy = 1,
+		Sell = 2,
 		PickUp = 3, // ?
 		NotNew = 4,
 	}
@@ -126,5 +130,13 @@ namespace Melia.Shared.Const
 		Name = 3,
 
 		Id = 0xFF,
+	}
+
+	/// <summary>
+	/// Ids of commonly used items.
+	/// </summary>
+	public static class ItemId
+	{
+		public const int Silver = 900011;
 	}
 }

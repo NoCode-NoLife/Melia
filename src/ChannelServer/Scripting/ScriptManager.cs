@@ -108,6 +108,7 @@ namespace Melia.Channel.Scripting
 			Register(close);
 			Register(input);
 			Register(numinput);
+			Register(openshop);
 
 			// Information
 			Register(getpc);
@@ -467,6 +468,9 @@ namespace Melia.Channel.Scripting
 
 			var NL = conn.ScriptState.LuaThread.L;
 			var argc = (arguments != null ? arguments.Length : 0);
+
+			// Reset current shop in case we came from one.
+			conn.ScriptState.CurrentShop = null;
 
 			if (argc != 0)
 			{
@@ -1250,6 +1254,34 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Instructs client to open the shop with the given name
+		/// and stops script until shop is closed.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string shopName
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int openshop(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+
+			var shopName = Melua.luaL_checkstring(L, 1);
+			if (shopName.Length > 32)
+				shopName = shopName.Substring(0, 32);
+
+			Melua.lua_pop(L, 1);
+
+			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
+				return Melua.melua_error(L, "Shop '{0}' not found.", shopName);
+
+			conn.ScriptState.CurrentShop = shopName;
+			Send.ZC_DIALOG_TRADE(conn, shopName);
+
+			return Melua.lua_yield(L, 0);
+		}
+
 		/// Returns true if character has items with the given id.
 		/// </summary>
 		/// <remarks>
@@ -1324,26 +1356,9 @@ namespace Melia.Channel.Scripting
 			if (itemData == null)
 				return Melua.melua_error(L, "Unknown item id.");
 
-			amount = Math.Max(1, amount);
-
 			try
 			{
-				// If item is stackable add it directly, if not, add it as
-				// many times as specified, so a call for 10 swords yields
-				// 10 swords, and not one where the amount was clamped to 1.
-				if (itemData.MaxStack > 1)
-				{
-					var item = new Item(itemId, amount);
-					character.Inventory.Add(item, InventoryAddType.PickUp);
-				}
-				else
-				{
-					for (int i = 0; i < amount; ++i)
-					{
-						var item = new Item(itemId, amount);
-						character.Inventory.Add(item, InventoryAddType.PickUp);
-					}
-				}
+				character.Inventory.Add(itemId, amount, InventoryAddType.PickUp);
 			}
 			catch (Exception ex)
 			{
@@ -1383,7 +1398,7 @@ namespace Melia.Channel.Scripting
 
 			amount = Math.Max(0, amount);
 
-			var removed = character.Inventory.Delete(itemId, amount, InventoryItemRemoveMsg.Given);
+			var removed = character.Inventory.Remove(itemId, amount, InventoryItemRemoveMsg.Given);
 			Melua.lua_pushinteger(L, removed);
 
 			return 1;

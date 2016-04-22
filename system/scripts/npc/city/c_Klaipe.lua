@@ -1,6 +1,6 @@
-addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 510.7029, -1.292879, -349.3194, 45, "npc_dummy")
-addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_dummy")
-addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 268.7077, -1.343773, -610.9401, 45, "npc_dummy")
+addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 510.7029, -1.292879, -349.3194, 45, "npc_itemmerchantmirina")
+addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_equipmentmerchantdunkel")
+addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 268.7077, -1.343773, -610.9401, 45, "npc_accessorymerchantronesa")
 addnpc(20113, "ETC_20151224_019888", "c_Klaipe", -467.28, 148.67, 114.01, 45, "npc_dummy")
 addnpc(20112, "ETC_20150317_009207", "c_Klaipe", -400.58, 148.78, 207.72, -43.99, "npc_dummy")
 addnpc(20158, "QUEST_LV_0100_20150317_000413", "c_Klaipe", -9, 156, 131, -23.96, "npc_dummy")
@@ -38,3 +38,26 @@ addnpc(154018, "ETC_20150414_011199", "c_Klaipe", 262.0322, 79.47649, 233.2017, 
 addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -893.4678, 240.3878, 74.93089, 45, "npc_dummy")
 addnpc(154039, "ETC_20150317_007031", "c_Klaipe", -206.574, 148.8251, 98.63973, 0, "npc_dummy")
 addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
+
+-- Accessory Merchant Ronesa
+function npc_accessorymerchantronesa()
+	msg("Alfonso_Select_1")
+	openshop("Klapeda_Accessory")
+end
+
+-- Item Merchant Mirina
+function npc_itemmerchantmirina()
+	msg("Emilia_Select_1")
+	openshop("Klapeda_Misc")
+end
+
+-- Equipment Merchant Dunkel
+function npc_equipmentmerchantdunkel()
+	local selection = select("KLAPEDA_Akalabeth_basic28", "@dicID_^*$ETC_20150317_004443$*^", "@dicID_^*$ETC_20150317_004444$*^", "!@#$Auto_JongLyo#@!")
+
+	if selection == 1 then
+		openshop("Klapeda_Weapon")
+	elseif selection == 2 then
+		openshop("Klapeda_Armor")
+	end
+end

@@ -1530,6 +1530,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends ZC_DIALOG_TRADE to connection, containing the name of the
+		/// shop to open.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="shopName"></param>
+		public static void ZC_DIALOG_TRADE(ChannelConnection conn, string shopName)
+		{
+			var packet = new Packet(Op.ZC_DIALOG_TRADE);
+
+			packet.PutString(shopName, 33);
+
+			conn.Send(packet);
+		}
+
 		/// Inform client that the skill is ready
 		/// </summary>
 		/// <param name="attacker"></param>
