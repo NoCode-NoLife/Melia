@@ -7,6 +7,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.Util.Security;
 using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
@@ -51,15 +52,25 @@ namespace Melia.Login.Network
 					LoginServer.Instance.Database.CreateAccount(accountName, password);
 			}
 
-			// Check username and password
-			if (!LoginServer.Instance.Database.CheckAccount(accountName, password))
+			// Check account
+			if (!LoginServer.Instance.Database.AccountExists(accountName))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
 				conn.Close();
 				return;
 			}
 
-			conn.Account = Account.LoadFromDb(accountName);
+			// Check password
+			var account = Account.LoadFromDb(accountName);
+			if (!BCrypt.CheckPassword(password, account.Password))
+			{
+				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect2);
+				conn.Close();
+				return;
+			}
+
+			// Logged in
+			conn.Account = account;
 			conn.LoggedIn = true;
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);

@@ -79,25 +79,6 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns true if account exists and password is correct.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
-		public bool CheckAccount(string name, string password)
-		{
-			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT `name` FROM `accounts` WHERE `name` = @name AND `password` = @password", conn))
-			{
-				mc.Parameters.AddWithValue("@name", name);
-				mc.Parameters.AddWithValue("@password", password);
-
-				using (var reader = mc.ExecuteReader())
-					return reader.HasRows;
-			}
-		}
-
-		/// <summary>
 		/// Creates new account with given information.
 		/// </summary>
 		/// <param name="name"></param>
