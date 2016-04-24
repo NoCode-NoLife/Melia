@@ -3,6 +3,7 @@
 
 using Melia.Shared.Const;
 using Melia.Shared.Util;
+using Melia.Shared.Util.Security;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,9 @@ namespace Melia.Shared.Database
 
 			if (string.IsNullOrWhiteSpace(password))
 				throw new ArgumentNullException("password");
+
+			// Wrap password in BCrypt
+			password = BCrypt.HashPassword(password, BCrypt.GenerateSalt());
 
 			using (var conn = this.GetConnection())
 			using (var cmd = new InsertCommand("INSERT INTO `accounts` {0}", conn))
