@@ -5,6 +5,7 @@ using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
+using Melia.Shared.Util.Security;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
 using System;
@@ -82,6 +83,7 @@ namespace Melia.Login.Database
 			{
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("teamName", account.TeamName);
+				cmd.Set("password", account.Password);
 
 				return cmd.Execute() > 0;
 			}
@@ -108,6 +110,11 @@ namespace Melia.Login.Database
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
+					account.Password = reader.GetStringSafe("password");
+
+					// Upgrade MD5 hashes
+					if (account.Password.Length == 32)
+						account.Password = BCrypt.HashPassword(account.Password, BCrypt.GenerateSalt());
 
 					return account;
 				}

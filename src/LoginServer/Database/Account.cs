@@ -28,6 +28,11 @@ namespace Melia.Login.Database
 		public string Name { get; set; }
 
 		/// <summary>
+		/// Account password.
+		/// </summary>
+		public string Password { get; set; }
+
+		/// <summary>
 		/// Gets or sets account's team name, also updates all characters.
 		/// </summary>
 		public string TeamName
