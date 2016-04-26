@@ -162,6 +162,10 @@ namespace Melia.Shared.Network
 	/// i11457 (2016-04-12)
 	/// - New:
 	///   - CZ_REPORT_AUTOBOT
+	/// 
+	/// i11627 (2016-04-26)
+	/// - Size change:
+	///   - ZC_EXCHANGE_START: 71 -> 72
 	/// </remarks>
 	public static class Op
 	{
@@ -435,7 +439,7 @@ namespace Melia.Shared.Network
 		public const int CZ_EXCHANGE_ACCEPT = 0xCCB; // Size: 10
 		public const int CZ_EXCHANGE_DECLINE = 0xCCC; // Size: 10
 		public const int ZC_EXCHANGE_DECLINE_ACK = 0xCCD; // Size: 6
-		public const int ZC_EXCHANGE_START = 0xCCE; // Size: 71
+		public const int ZC_EXCHANGE_START = 0xCCE; // Size: 72
 		public const int CZ_EXCHANGE_OFFER = 0xCCF; // Size: 30
 		public const int ZC_EXCHANGE_OFFER_ACK = 0xCD0; // Size: 0
 		public const int CZ_EXCHANGE_AGREE = 0xCD1; // Size: 10
@@ -1062,7 +1066,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_EXCHANGE_ACCEPT] = 10;
 			_sizes[Op.CZ_EXCHANGE_DECLINE] = 10;
 			_sizes[Op.ZC_EXCHANGE_DECLINE_ACK] = 6;
-			_sizes[Op.ZC_EXCHANGE_START] = 71;
+			_sizes[Op.ZC_EXCHANGE_START] = 72;
 			_sizes[Op.CZ_EXCHANGE_OFFER] = 30;
 			_sizes[Op.ZC_EXCHANGE_OFFER_ACK] = 0;
 			_sizes[Op.CZ_EXCHANGE_AGREE] = 10;
