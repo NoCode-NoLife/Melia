@@ -94,6 +94,10 @@ namespace Melia.Channel.Scripting
 			Register(addnpc);
 			Register(addwarp);
 
+			// General
+			Register(var);
+			Register(logdebug);
+
 			// Dialog
 			Register(msg);
 			Register(select);
@@ -118,10 +122,6 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
-
-			// Others
-			Register(var);
-			Register(logdebug);
 		}
 
 		/// <summary>
@@ -911,16 +911,16 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///		string  name,     -- Character's name
-		///		string  teamName, -- Character's team name
-		///		integer gender,   -- Character's gender
-		///		integer level,    -- Character's level
-		///		integer hp,       -- Character's HP
-		///		integer maxHp,    -- Character's max HP
-		///		integer sp,       -- Character's SP
-		///		integer maxSp,    -- Character's max SP
-		///		integer stamina,  -- Character's stamina
-		///		integer hair,     -- Character's hair
+		///	    string  name,     -- Character's name
+		///	    string  teamName, -- Character's team name
+		///	    integer gender,   -- Character's gender
+		///	    integer level,    -- Character's level
+		///	    integer hp,       -- Character's HP
+		///	    integer maxHp,    -- Character's max HP
+		///	    integer sp,       -- Character's SP
+		///	    integer maxSp,    -- Character's max SP
+		///	    integer stamina,  -- Character's stamina
+		///	    integer hair,     -- Character's hair
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
