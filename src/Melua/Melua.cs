@@ -290,6 +290,10 @@ namespace MeluaLib
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		public static extern void lua_replace(IntPtr L, int idx);
 
+		// LUA_API const void *lua_topointer (lua_State *L, int idx)
+		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		public static extern IntPtr lua_topointer(IntPtr L, int idx);
+
 
 
 
@@ -675,6 +679,10 @@ namespace MeluaLib
 
 				case LUA_TNIL:
 					lua_pushliteral(L, "nil");
+					break;
+
+				case LUA_TTABLE:
+					lua_pushstring(L, string.Format("{0}: 0x{1:x}", "table", lua_topointer(L, 1)));
 					break;
 
 				default:
