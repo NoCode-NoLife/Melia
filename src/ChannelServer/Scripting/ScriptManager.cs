@@ -921,6 +921,11 @@ namespace Melia.Channel.Scripting
 		///	    integer maxSp,    -- Character's max SP
 		///	    integer stamina,  -- Character's stamina
 		///	    integer hair,     -- Character's hair
+		///	    table account
+		///     {
+		///	        string  name, -- Account's name
+		///	        integer auth, -- Account's authority level
+		///     }
 		/// }
 		/// </remarks>
 		/// <param name="L"></param>
@@ -930,6 +935,8 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
+			// Character data
+			// --------------------------------------------------------------
 			Melua.lua_newtable(L);
 
 			Melua.lua_pushstring(L, "name");
@@ -970,6 +977,23 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "hair");
 			Melua.lua_pushinteger(L, character.Hair);
+			Melua.lua_settable(L, -3);
+
+			// Account data
+			// --------------------------------------------------------------
+			Melua.lua_newtable(L);
+
+			Melua.lua_pushstring(L, "name");
+			Melua.lua_pushstring(L, conn.Account.Name);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "auth");
+			Melua.lua_pushinteger(L, conn.Account.Authority);
+			Melua.lua_settable(L, -3);
+
+			// Put account table into character table
+			Melua.lua_pushstring(L, "account");
+			Melua.lua_insert(L, -2);
 			Melua.lua_settable(L, -3);
 
 			return 1;
