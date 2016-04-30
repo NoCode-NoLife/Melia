@@ -1019,7 +1019,9 @@ namespace Melia.Channel.Network
 					return;
 				}
 
-				totalCost += itemData.Price * amount;
+				var singlePrice = (int)(itemData.Price * productData.SellPriceMultiplier);
+
+				totalCost += singlePrice * amount;
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
 			}
 
