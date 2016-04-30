@@ -34,6 +34,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public int ItemId { get; set; }
 		public string ShopName { get; set; }
+		public float SellPriceMultiplier { get; set; }
 	}
 
 	/// <summary>
@@ -50,6 +51,7 @@ namespace Melia.Shared.Data.Database
 			data.Id = entry.ReadInt("productId");
 			data.ItemId = entry.ReadInt("itemId");
 			data.ShopName = entry.ReadString("shopName");
+			data.SellPriceMultiplier = entry.ReadFloat("sellPriceMultiplier");
 
 			if (!this.Entries.ContainsKey(data.ShopName))
 				this.Entries[data.ShopName] = new ShopData();
