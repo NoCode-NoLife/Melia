@@ -911,20 +911,20 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///	    string  name,     -- Character's name
-		///	    string  teamName, -- Character's team name
-		///	    integer gender,   -- Character's gender
-		///	    integer level,    -- Character's level
-		///	    integer hp,       -- Character's HP
-		///	    integer maxHp,    -- Character's max HP
-		///	    integer sp,       -- Character's SP
-		///	    integer maxSp,    -- Character's max SP
-		///	    integer stamina,  -- Character's stamina
-		///	    integer hair,     -- Character's hair
-		///	    table account
+		///     string  name,     -- Character's name
+		///     string  teamName, -- Character's team name
+		///     integer gender,   -- Character's gender
+		///     integer level,    -- Character's level
+		///     integer hp,       -- Character's HP
+		///     integer maxHp,    -- Character's max HP
+		///     integer sp,       -- Character's SP
+		///     integer maxSp,    -- Character's max SP
+		///     integer stamina,  -- Character's stamina
+		///     integer hair,     -- Character's hair
+		///     table account
 		///     {
-		///	        string  name, -- Account's name
-		///	        integer auth, -- Account's authority level
+		///         string  name, -- Account's name
+		///         integer auth, -- Account's authority level
 		///     }
 		/// }
 		/// </remarks>
