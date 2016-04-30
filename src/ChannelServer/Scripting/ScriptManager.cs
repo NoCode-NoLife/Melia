@@ -608,6 +608,12 @@ namespace Melia.Channel.Scripting
 		/// key in one message. A Lua function allows for completely
 		/// custom dialog.
 		/// 
+		/// The parameter `direction` is an angle, with 0 being down/south.
+		/// Example:
+		/// - 0   South
+		/// - 90  Right
+		/// - -90 Left
+		/// 
 		/// Parameters:
 		/// - int monsterId
 		/// - string name / dictId
@@ -656,6 +662,12 @@ namespace Melia.Channel.Scripting
 		/// Adds warp to world.
 		/// </summary>
 		/// <remarks>
+		/// The parameter `direction` is an angle, with 0 being down/south.
+		/// Example:
+		/// - 0   South
+		/// - 90  Right
+		/// - -90 Left
+		/// 
 		/// Parameters:
 		/// - string warpName
 		/// - number direction
