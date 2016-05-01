@@ -34,7 +34,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public int ItemId { get; set; }
 		public string ShopName { get; set; }
-		public float SellPriceMultiplier { get; set; }
+		public float PriceMultiplier { get; set; }
 	}
 
 	/// <summary>
@@ -44,14 +44,14 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("shopName", "productId", "itemId");
+			entry.AssertNotMissing("shopName", "productId", "itemId", "priceMultiplier");
 
 			var data = new ProductData();
 
 			data.Id = entry.ReadInt("productId");
 			data.ItemId = entry.ReadInt("itemId");
 			data.ShopName = entry.ReadString("shopName");
-			data.SellPriceMultiplier = entry.ReadFloat("sellPriceMultiplier");
+			data.PriceMultiplier = entry.ReadFloat("priceMultiplier");
 
 			if (!this.Entries.ContainsKey(data.ShopName))
 				this.Entries[data.ShopName] = new ShopData();
