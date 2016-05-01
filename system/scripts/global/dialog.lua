@@ -47,3 +47,26 @@ function nselect(msg, ...)
 	
 	return optionname, selectedindex
 end
+
+--- Returns the amount of silver the character posseses.
+-- Shortcut for countitem(SILVER).
+-- @treturn int Amount of silver.
+-- @usage local silver = countsilver()
+function countsilver()
+	return countitem(SILVER)
+end
+
+--- Adds the given amount of silver to the character's inventory.
+-- Shortcut for additem(SILVER, amount).
+-- @usage addsilver(1000)
+function addsilver(amount)
+	additem(SILVER, amount)
+end
+
+--- Removes the given amount of silver from the character's inventory.
+-- Shortcut for removeitem(SILVER, amount).
+-- @treturn int Amount removed.
+-- @usage local removed = removesilver(1000)
+function removesilver(amount)
+	return removeitem(SILVER, amount)
+end
