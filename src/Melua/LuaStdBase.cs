@@ -67,13 +67,8 @@ namespace MeluaLib
 					lua_pushliteral(L, "nil");
 					break;
 
-				case LUA_TTABLE:
-					lua_pushstring(L, string.Format("{0}: 0x{1:x}", "table", lua_topointer(L, 1)));
-					break;
-
 				default:
-					//lua_pushstring(L, string.Format("{0}: {1}", luaL_typename(L, 1), lua_topointer(L, 1)));
-					lua_pushstring(L, "unknown");
+					lua_pushstring(L, string.Format("{0}: 0x{1:x}", luaL_typename(L, 1), lua_topointer(L, 1)));
 					break;
 			}
 
