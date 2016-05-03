@@ -1834,6 +1834,7 @@
 { monsterId: 58293, className: "mon_paladin_follower2_3", name: "Paladin Follower B3", level: 1, exp: 21, classExp: 15 },
 { monsterId: 58294, className: "pcskill_rune_stone", name: "Rune Stone", level: 1, exp: 0, classExp: 0 },
 { monsterId: 58295, className: "boss_Saltistter_Q2", name: "Saltistter", level: 210, exp: 13520, classExp: 9600 },
+{ monsterId: 58296, className: "FD_Spector_gh_purple_gimic", name: "Earth Apparition", level: 78, exp: 226, classExp: 174 },
 { monsterId: 58311, className: "ID_woodgoblin_black", name: "Black Wood Goblin", level: 145, exp: 2500, classExp: 1990 },
 { monsterId: 58312, className: "ID_eldigo_green", name: "Green Eldigo", level: 145, exp: 2500, classExp: 227 },
 { monsterId: 58313, className: "ID_pumpflap", name: "Pumpleflap", level: 145, exp: 2500, classExp: 1930 },
