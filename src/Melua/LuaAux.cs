@@ -81,7 +81,9 @@ namespace MeluaLib
 		// #define luaL_typename(L,i)	lua_typename(L, lua_type(L,(i)))
 		public static string luaL_typename(IntPtr L, int i)
 		{
-			return lua_typename(L, lua_type(L, i));
+			var ptr = lua_typename(L, lua_type(L, i));
+			var val = Marshal.PtrToStringAnsi(ptr);
+			return val;
 		}
 
 		// LUALIB_API lua_Integer (luaL_optinteger) (lua_State *L, int nArg, lua_Integer def);

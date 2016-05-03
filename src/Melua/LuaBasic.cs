@@ -195,8 +195,7 @@ namespace MeluaLib
 
 		// LUA_API const char *lua_typename (lua_State *L, int t)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-		[return: MarshalAs(UnmanagedType.LPStr)]
-		public static extern string lua_typename(IntPtr L, int t);
+		public static extern IntPtr lua_typename(IntPtr L, int t);
 
 		// LUA_API int lua_checkstack (lua_State *L, int size)
 		[DllImport(Lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
