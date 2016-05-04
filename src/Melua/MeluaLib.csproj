@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LuaLib.cs" />
+    <Compile Include="LuaAux.cs" />
+    <Compile Include="LuaStdBase.cs" />
+    <Compile Include="LuaBasic.cs" />
     <Compile Include="Melua.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
