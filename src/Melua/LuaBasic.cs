@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace MeluaLib
 {
+	// Basic Lua API
 	public static partial class Melua
 	{
 		public const int LUA_MULTRET = -1;

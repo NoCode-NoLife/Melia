@@ -5,6 +5,7 @@ using System;
 
 namespace MeluaLib
 {
+	// Partial Lua Standard Base library, used for safe subset.
 	public static partial class Melua
 	{
 		// static void auxopen (lua_State *L, const char *name, lua_CFunction f, lua_CFunction u)

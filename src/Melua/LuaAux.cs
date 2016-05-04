@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace MeluaLib
 {
+	// Auxiliary Lua API
 	public static partial class Melua
 	{
 		// LUALIB_API lua_State *luaL_newstate(void)
