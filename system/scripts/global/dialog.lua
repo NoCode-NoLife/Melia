@@ -14,7 +14,7 @@
 -- @treturn int     The selected index.
 -- @usage local n,i = nselect("How are you?", "g:Good", "foo:Bad", "Cancel")
 function nselect(msg, ...)
-	local args = {...}
+	local args = type(...) == "table" and ... or {...}
 	local keys = {}
 	local vals = {}
 	local n = 1

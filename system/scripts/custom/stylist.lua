@@ -66,7 +66,7 @@ function npc_stylist()
 		local options = getoptions(direction)
 
 		changehair(style)
-		selection = nselect("This is style " .. style .. ", what do you think?", unpack(options))
+		selection = nselect("This is style " .. style .. ", what do you think?", options)
 
 		if selection == "n" then
 			modstyle(1)
