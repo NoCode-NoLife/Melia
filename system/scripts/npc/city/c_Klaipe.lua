@@ -38,6 +38,7 @@ addnpc(154018, "ETC_20150414_011199", "c_Klaipe", 262.0322, 79.47649, 233.2017, 
 addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -893.4678, 240.3878, 74.93089, 45, "npc_dummy")
 addnpc(154039, "ETC_20150317_007031", "c_Klaipe", -206.574, 148.8251, 98.63973, 0, "npc_dummy")
 addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
+addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, "npc_klaipedagirl")
 
 -- Accessory Merchant Ronesa
 function npc_accessorymerchantronesa()
@@ -75,4 +76,13 @@ function npc_indifferentwidow()
 	end
 
 	msg("TUTO_GIRL_basic_05")
+end
+
+-- Klaipeda Girl
+function npc_klaipedagirl()
+	if math.random(2) == 1 then
+		msg("KLAFEDA_NPC_05_basic01")
+	else
+		msg("KLAFEDA_NPC_05_basic02")
+	end
 end
