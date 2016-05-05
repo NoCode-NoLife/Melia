@@ -9,7 +9,7 @@ addnpc(57229, "ETC_20150317_009208", "c_Klaipe", -196.47, 148.83, 350.73, -45, "
 addnpc(40090, "QUEST_20150317_000081", "c_Klaipe", -80, 148, 387, -15, "npc_dummy")
 addnpc(20105, "ETC_20150317_009199", "c_Klaipe", 600, -1, -83, 45, "npc_dummy")
 addnpc(57228, "ETC_20150317_009209", "c_Klaipe", -775.11, 240.39, 525.74, -45, "npc_dummy")
-addnpc(20114, "QUEST_20150317_000083", "c_Klaipe", -409, -1, -647, -47.29, "npc_dummy")
+addnpc(20114, "QUEST_20150317_000083", "c_Klaipe", -409, -1, -647, -47.29, "npc_indifferentwidow")
 addnpc(20139, "QUEST_LV_0100_20150317_001418", "c_Klaipe", -60, 79, -446, -33.69, "npc_dummy")
 addnpc(20169, "ETC_20150317_009211", "c_Klaipe", 278, 79, 137, 45, "npc_dummy")
 addnpc(20041, "ETC_20150317_009059", "c_Klaipe", -325, 148, 17, 216, "npc_dummy")
@@ -60,4 +60,19 @@ function npc_equipmentmerchantdunkel()
 	elseif selection == "armor" then
 		openshop("Klapeda_Armor")
 	end
+end
+
+-- Indifferent Widow
+function npc_indifferentwidow()
+	if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_03", "!@#$TUTO_GIRL_select02#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_04", "!@#$TUTO_GIRL_select03#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+
+	msg("TUTO_GIRL_basic_05")
 end
