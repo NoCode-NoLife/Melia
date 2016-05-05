@@ -41,19 +41,19 @@ addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
 addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, "npc_klaipedagirl")
 addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, "npc_worriedwife")
 
--- Accessory Merchant Ronesa
+--- Accessory Merchant Ronesa
 function npc_accessorymerchantronesa()
 	msg("Alfonso_Select_1")
 	openshop("Klapeda_Accessory")
 end
 
--- Item Merchant Mirina
+--- Item Merchant Mirina
 function npc_itemmerchantmirina()
 	msg("Emilia_Select_1")
 	openshop("Klapeda_Misc")
 end
 
--- Equipment Merchant Dunkel
+--- Equipment Merchant Dunkel
 function npc_equipmentmerchantdunkel()
 	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:@dicID_^*$ETC_20150317_004443$*^", "armor:@dicID_^*$ETC_20150317_004444$*^", "!@#$Auto_JongLyo#@!")
 
@@ -64,7 +64,7 @@ function npc_equipmentmerchantdunkel()
 	end
 end
 
--- Indifferent Widow
+--- Indifferent Widow
 function npc_indifferentwidow()
 	if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
 		return
@@ -79,7 +79,8 @@ function npc_indifferentwidow()
 	msg("TUTO_GIRL_basic_05")
 end
 
--- Klaipeda Girl
+--- Klaipeda Girl
+-- Uses one of two random dialogues.
 function npc_klaipedagirl()
 	if math.random(2) == 1 then
 		msg("KLAFEDA_NPC_05_basic01")
