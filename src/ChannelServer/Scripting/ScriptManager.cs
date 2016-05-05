@@ -122,7 +122,7 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
-            Register(levelup);
+			Register(levelup);
 		}
 
 		/// <summary>
@@ -934,7 +934,7 @@ namespace Melia.Channel.Scripting
 		///     integer maxSp,    -- Character's max SP
 		///     integer stamina,  -- Character's stamina
 		///     integer hair,     -- Character's hair
-        ///     integer job,      -- Character's job
+		///     integer job,      -- Character's job
 		///     table account
 		///     {
 		///         string  name, -- Account's name
@@ -993,13 +993,13 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, character.Hair);
 			Melua.lua_settable(L, -3);
 
-            Melua.lua_pushstring(L, "job");
-            Melua.lua_pushinteger(L, (int)character.Job);
-            Melua.lua_settable(L, -3);
+			Melua.lua_pushstring(L, "job");
+			Melua.lua_pushinteger(L, (int)character.Job);
+			Melua.lua_settable(L, -3);
 
-            // Account data
-            // --------------------------------------------------------------
-            Melua.lua_newtable(L);
+			// Account data
+			// --------------------------------------------------------------
+			Melua.lua_newtable(L);
 
 			Melua.lua_pushstring(L, "name");
 			Melua.lua_pushstring(L, conn.Account.Name);
@@ -1400,59 +1400,59 @@ namespace Melia.Channel.Scripting
 			return 1;
 		}
 
-        /// <summary>
-        /// Increases character Level by the given amount
-        /// </summary>		
-        /// <remarks>
+		/// <summary>
+		/// Increases character Level by the given amount
+		/// </summary>		
+		/// <remarks>
 		/// Parameters:
 		/// - int amount
 		/// </remarks>
-        /// <param name="L"></param>
-        /// <returns></returns>
-        private int levelup(IntPtr L)
-        {
-            var conn = this.GetConnectionFromState(L);
-            var character = conn.SelectedCharacter;
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int levelup(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
 
-            var amount = Melua.luaL_checkinteger(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 1);
 
-            if (amount < 0)
-                return Melua.melua_error(L, "Amount must be greater than 0.");
+			if (amount < 0)
+				return Melua.melua_error(L, "Amount must be greater than 0.");
 
-            character.LevelUp(amount);
+			character.LevelUp(amount);
 
-            return 0;
-        }
+			return 0;
+		}
 
-        /// <summary>
-        /// Gets or sets a scripting variable.
-        /// </summary>
-        /// <remarks>
-        /// Scripting variables are separate from Lua variables and exist
-        /// across script and playing sessions. How the variable is saved
-        /// depends on the used prefix.
-        /// 
-        /// Variable names may contain the following characters, apart from
-        /// the prefixes, and must start with a character:
-        /// abcdefghijklmnopqrstuvwxyz0123456789_
-        /// 
-        /// Prefixes:
-        /// ""   - Permanent variable attached to the character.
-        /// "@"  - Temporary variable attached to the character.
-        /// "#"  - Permanent variable attached to the account.
-        /// "$"  - Permanent global variable.
-        /// "$@" - Temporary global variable.
-        /// 
-        /// Parameters:
-        /// - string variableName
-        /// - (optional) T value
-        /// 
-        /// Result:
-        /// - T value
-        /// </remarks>
-        /// <param name="L"></param>
-        /// <returns></returns>
-        private int var(IntPtr L)
+		/// <summary>
+		/// Gets or sets a scripting variable.
+		/// </summary>
+		/// <remarks>
+		/// Scripting variables are separate from Lua variables and exist
+		/// across script and playing sessions. How the variable is saved
+		/// depends on the used prefix.
+		/// 
+		/// Variable names may contain the following characters, apart from
+		/// the prefixes, and must start with a character:
+		/// abcdefghijklmnopqrstuvwxyz0123456789_
+		/// 
+		/// Prefixes:
+		/// ""   - Permanent variable attached to the character.
+		/// "@"  - Temporary variable attached to the character.
+		/// "#"  - Permanent variable attached to the account.
+		/// "$"  - Permanent global variable.
+		/// "$@" - Temporary global variable.
+		/// 
+		/// Parameters:
+		/// - string variableName
+		/// - (optional) T value
+		/// 
+		/// Result:
+		/// - T value
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int var(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;

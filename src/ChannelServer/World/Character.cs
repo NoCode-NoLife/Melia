@@ -283,12 +283,12 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Increases character's level by one.
+		/// Increases character's level by the given amount of levels.
 		/// </summary>
-		public void LevelUp()
+		public void LevelUp(int amount)
 		{
-			this.Level++;
-			this.StatByLevel++;
+			this.Level += amount;
+			this.StatByLevel += amount;
 			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
 
 			// packet = new Packet(Op.ZC_OBJECT_PROPERTY);
@@ -321,27 +321,20 @@ namespace Melia.Channel.World
 			//conn.Send(packet);
 		}
 
-        /// <summary>
-        /// Increases character's level by the given amount of levels.
-        /// </summary>
-        /// <param name="amount"></param>
-        public void LevelUp(int amount)
-        {
-            this.Level += amount;
-            this.StatByLevel += amount;
-            this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
+		/// <summary>
+		/// Increases character's level by one.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void LevelUp()
+		{
+			LevelUp(1);
+		}
 
-            Send.ZC_MAX_EXP_CHANGED(this, 0);
-            Send.ZC_PC_LEVELUP(this);
-            Send.ZC_OBJECT_PROPERTY(this, ObjectProperty.PC.StatByLevel);
-            Send.ZC_NORMAL_LevelUp(this);
-        }
-
-        /// <summary>
-        /// Grants exp to character and handles level ups.
-        /// </summary>
-        /// <param name="exp"></param>
-        public void GiveExp(int exp, int jobExp, Monster monster)
+		/// <summary>
+		/// Grants exp to character and handles level ups.
+		/// </summary>
+		/// <param name="exp"></param>
+		public void GiveExp(int exp, int jobExp, Monster monster)
 		{
 			this.Exp += exp;
 			// TODO: jobExp
