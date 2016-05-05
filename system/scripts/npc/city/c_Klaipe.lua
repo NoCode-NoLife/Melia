@@ -39,6 +39,7 @@ addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -893.4678, 240.3878, 74.93089, 
 addnpc(154039, "ETC_20150317_007031", "c_Klaipe", -206.574, 148.8251, 98.63973, 0, "npc_dummy")
 addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
 addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, "npc_klaipedagirl")
+addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, "npc_worriedwife")
 
 -- Accessory Merchant Ronesa
 function npc_accessorymerchantronesa()
@@ -84,5 +85,39 @@ function npc_klaipedagirl()
 		msg("KLAFEDA_NPC_05_basic01")
 	else
 		msg("KLAFEDA_NPC_05_basic02")
+	end
+end
+
+--- Worried Wife
+-- Tells stories about the various goddesses.
+function npc_worriedwife()
+	if select("KLAPEDA_NPC_04_basic01", "!@#$Auto_KLAPEDA_NPC_04_S1#@!", "!@#$Auto_SinKyeongSseuJi_anNeunDa#@!") ~= 1 then
+		return
+	end
+
+	local selection;
+	while selection ~= "leave" do
+		-- Select goddess
+		selection = nselect("KLAPEDA_NPC_04_basic02",
+			"ausrine:!@#$Auto_KLAPEDA_NPC_04_S2#@!",
+			"laima:!@#$Auto_KLAPEDA_NPC_04_S3#@!",
+			"gabija:!@#$Auto_KLAPEDA_NPC_04_S4#@!",
+			"zemyna:!@#$Auto_KLAPEDA_NPC_04_S5#@!",
+			"vakarine:!@#$Auto_KLAPEDA_NPC_04_S6#@!",
+			"leave:!@#$Auto_TteoNanDa#@!"
+		)
+
+		-- Info about selected goddess
+		if selection == "ausrine" then
+			msg("KLAPEDA_NPC_04_basic03")
+		elseif selection == "laima" then
+			msg("KLAPEDA_NPC_04_basic04")
+		elseif selection == "gabija" then
+			msg("KLAPEDA_NPC_04_basic05")
+		elseif selection == "zemyna" then
+			msg("KLAPEDA_NPC_04_basic06")
+		elseif selection == "vakarine" then
+			msg("KLAPEDA_NPC_04_basic07")
+		end
 	end
 end
