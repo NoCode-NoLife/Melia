@@ -122,6 +122,7 @@ namespace Melia.Channel.Scripting
 			Register(resetstats);
 			Register(changehair);
 			Register(spawn);
+			Register(levelup);
 		}
 
 		/// <summary>
@@ -933,6 +934,7 @@ namespace Melia.Channel.Scripting
 		///     integer maxSp,    -- Character's max SP
 		///     integer stamina,  -- Character's stamina
 		///     integer hair,     -- Character's hair
+		///     integer job,      -- Character's job
 		///     table account
 		///     {
 		///         string  name, -- Account's name
@@ -989,6 +991,10 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "hair");
 			Melua.lua_pushinteger(L, character.Hair);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "job");
+			Melua.lua_pushinteger(L, (int)character.Job);
 			Melua.lua_settable(L, -3);
 
 			// Account data
@@ -1392,6 +1398,30 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, removed);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Increases character Level by the given amount
+		/// </summary>		
+		/// <remarks>
+		/// Parameters:
+		/// - int amount
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int levelup(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var amount = Melua.luaL_checkinteger(L, 1);
+
+			if (amount < 0)
+				return Melua.melua_error(L, "Amount must be greater than 0.");
+
+			character.LevelUp(amount);
+
+			return 0;
 		}
 
 		/// <summary>
