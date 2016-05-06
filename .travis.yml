@@ -4,6 +4,13 @@ solution: Melia.sln
 branches:
   only:
     - master
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/1a9843b31f10f292cf44
+    on_success: change
+    on_failure: always
+    on_start: never
 install:
   - nuget restore Melia.sln
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
