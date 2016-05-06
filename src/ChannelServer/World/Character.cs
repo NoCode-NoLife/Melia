@@ -324,10 +324,9 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Increases character's level by one.
 		/// </summary>
-		/// <param name="amount"></param>
 		public void LevelUp()
 		{
-			LevelUp(1);
+			this.LevelUp(1);
 		}
 
 		/// <summary>
