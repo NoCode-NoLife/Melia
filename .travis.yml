@@ -1,6 +1,9 @@
 language: csharp
 mono: 3.8.0
 solution: Melia.sln
+branches:
+  only:
+    - master
 install:
   - nuget restore Melia.sln
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
