@@ -9,7 +9,7 @@ addnpc(57229, "ETC_20150317_009208", "c_Klaipe", -196.47, 148.83, 350.73, -45, "
 addnpc(40090, "QUEST_20150317_000081", "c_Klaipe", -80, 148, 387, -15, "npc_dummy")
 addnpc(20105, "ETC_20150317_009199", "c_Klaipe", 600, -1, -83, 45, "npc_dummy")
 addnpc(57228, "ETC_20150317_009209", "c_Klaipe", -775.11, 240.39, 525.74, -45, "npc_dummy")
-addnpc(20114, "QUEST_20150317_000083", "c_Klaipe", -409, -1, -647, -47.29, "npc_dummy")
+addnpc(20114, "QUEST_20150317_000083", "c_Klaipe", -409, -1, -647, -47.29, "npc_indifferentwidow")
 addnpc(20139, "QUEST_LV_0100_20150317_001418", "c_Klaipe", -60, 79, -446, -33.69, "npc_dummy")
 addnpc(20169, "ETC_20150317_009211", "c_Klaipe", 278, 79, 137, 45, "npc_dummy")
 addnpc(20041, "ETC_20150317_009059", "c_Klaipe", -325, 148, 17, 216, "npc_dummy")
@@ -38,20 +38,22 @@ addnpc(154018, "ETC_20150414_011199", "c_Klaipe", 262.0322, 79.47649, 233.2017, 
 addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -893.4678, 240.3878, 74.93089, 45, "npc_dummy")
 addnpc(154039, "ETC_20150317_007031", "c_Klaipe", -206.574, 148.8251, 98.63973, 0, "npc_dummy")
 addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
+addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, "npc_klaipedagirl")
+addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, "npc_worriedwife")
 
--- Accessory Merchant Ronesa
+--- Accessory Merchant Ronesa
 function npc_accessorymerchantronesa()
 	msg("Alfonso_Select_1")
 	openshop("Klapeda_Accessory")
 end
 
--- Item Merchant Mirina
+--- Item Merchant Mirina
 function npc_itemmerchantmirina()
 	msg("Emilia_Select_1")
 	openshop("Klapeda_Misc")
 end
 
--- Equipment Merchant Dunkel
+--- Equipment Merchant Dunkel
 function npc_equipmentmerchantdunkel()
 	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:@dicID_^*$ETC_20150317_004443$*^", "armor:@dicID_^*$ETC_20150317_004444$*^", "!@#$Auto_JongLyo#@!")
 
@@ -59,5 +61,64 @@ function npc_equipmentmerchantdunkel()
 		openshop("Klapeda_Weapon")
 	elseif selection == "armor" then
 		openshop("Klapeda_Armor")
+	end
+end
+
+--- Indifferent Widow
+function npc_indifferentwidow()
+	if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_03", "!@#$TUTO_GIRL_select02#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_04", "!@#$TUTO_GIRL_select03#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+
+	msg("TUTO_GIRL_basic_05")
+end
+
+--- Klaipeda Girl
+-- Uses one of two random dialogues.
+function npc_klaipedagirl()
+	if math.random(2) == 1 then
+		msg("KLAFEDA_NPC_05_basic01")
+	else
+		msg("KLAFEDA_NPC_05_basic02")
+	end
+end
+
+--- Worried Wife
+-- Tells stories about the various goddesses.
+function npc_worriedwife()
+	if select("KLAPEDA_NPC_04_basic01", "!@#$Auto_KLAPEDA_NPC_04_S1#@!", "!@#$Auto_SinKyeongSseuJi_anNeunDa#@!") ~= 1 then
+		return
+	end
+
+	local selection;
+	while selection ~= "leave" do
+		-- Select goddess
+		selection = nselect("KLAPEDA_NPC_04_basic02",
+			"ausrine:!@#$Auto_KLAPEDA_NPC_04_S2#@!",
+			"laima:!@#$Auto_KLAPEDA_NPC_04_S3#@!",
+			"gabija:!@#$Auto_KLAPEDA_NPC_04_S4#@!",
+			"zemyna:!@#$Auto_KLAPEDA_NPC_04_S5#@!",
+			"vakarine:!@#$Auto_KLAPEDA_NPC_04_S6#@!",
+			"leave:!@#$Auto_TteoNanDa#@!"
+		)
+
+		-- Info about selected goddess
+		if selection == "ausrine" then
+			msg("KLAPEDA_NPC_04_basic03")
+		elseif selection == "laima" then
+			msg("KLAPEDA_NPC_04_basic04")
+		elseif selection == "gabija" then
+			msg("KLAPEDA_NPC_04_basic05")
+		elseif selection == "zemyna" then
+			msg("KLAPEDA_NPC_04_basic06")
+		elseif selection == "vakarine" then
+			msg("KLAPEDA_NPC_04_basic07")
+		end
 	end
 end
