@@ -48,6 +48,10 @@ namespace Melia.Shared.Const
 	/// Melia (2016-04-09)
 	/// - New:
 	///   - Item, Skill, Monster
+	/// 
+	/// i11669 (2016-05-03)
+	/// - New:
+	///   - Account.AccumulatedRepotedPoint
 	/// </remarks>
 	public static class ObjectProperty
 	{
@@ -66,6 +70,7 @@ namespace Melia.Shared.Const
 			public const short TokenItemType = 11070;
 			public const short MaxAccountWarehouseCount = 11583;
 			public const short AccountWareHouseExtend = 11584;
+			public const short AccumulatedRepotedPoint = 31584;
 		}
 
 		public static class Monster

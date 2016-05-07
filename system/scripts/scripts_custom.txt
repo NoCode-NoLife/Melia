@@ -4,7 +4,7 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-custom/stat_resetter.lua
-custom/stylist.lua
+//custom/stat_resetter.lua
+//custom/stylist.lua
 
 include "/user/scripts/scripts_custom.txt"

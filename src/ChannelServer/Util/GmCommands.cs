@@ -443,15 +443,14 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 
 			int levels;
-			if (!int.TryParse(args[1], out levels) || levels < 1 || levels > 10)
+			if (!int.TryParse(args[1], out levels) || levels < 1)
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
 			// exp bar if the exp didn't change.
 			target.Exp = 0;
 
-			for (int i = 0; i < levels; ++i)
-				target.LevelUp();
+			target.LevelUp(levels);
 
 			return CommandResult.Okay;
 		}

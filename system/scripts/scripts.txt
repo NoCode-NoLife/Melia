@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 
 global/const.lua
+global/dialog.lua
 
 include "scripts_custom.txt"
 include "scripts_npcs.txt"

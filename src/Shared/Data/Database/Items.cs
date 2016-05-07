@@ -18,6 +18,8 @@ namespace Melia.Shared.Data.Database
 		public InventoryCategory Category { get; set; }
 		public int Weight { get; set; }
 		public int MaxStack { get; set; }
+		public int Price { get; set; }
+		public int SellPrice { get; set; }
 	}
 
 	/// <summary>
@@ -39,7 +41,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("itemId", "className", "name", "category", "weight", "maxStack");
+			entry.AssertNotMissing("itemId", "className", "name", "category", "weight", "maxStack", "price", "sellPrice");
 
 			var info = new ItemData();
 
@@ -49,6 +51,8 @@ namespace Melia.Shared.Data.Database
 			info.Category = (InventoryCategory)entry.ReadInt("category");
 			info.Weight = entry.ReadInt("weight");
 			info.MaxStack = entry.ReadInt("maxStack");
+			info.Price = entry.ReadInt("price");
+			info.SellPrice = entry.ReadInt("sellPrice");
 
 			this.Entries[info.Id] = info;
 		}

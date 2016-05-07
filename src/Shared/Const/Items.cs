@@ -30,6 +30,26 @@ namespace Melia.Shared.Const
 		Premium = 17,
 	}
 
+	public static class InventoryCategoryExtension
+	{
+		/// <summary>
+		/// Returns inventory index for category and category index.
+		/// </summary>
+		/// <remarks>
+		/// Categories are offset by 5000 times their id. We start each
+		/// category on index 1 in that range. For example, the first
+		/// weapon has index 5001, the second one 5002, the fifth armor
+		/// has 10005, and so on.
+		/// </remarks>
+		/// <param name="cat">Category the index is in.</param>
+		/// <param name="index">The index of the item in the category.</param>
+		/// <returns></returns>
+		public static int GetIndex(this InventoryCategory cat, int index)
+		{
+			return (int)cat * 5000 + index + 1;
+		}
+	}
+
 	/// <remarks>
 	/// We're using this enum to save which slot an item is equipped on,
 	/// should the values change, the values in the database would be
@@ -63,7 +83,9 @@ namespace Melia.Shared.Const
 
 	public enum InventoryItemRemoveMsg : byte
 	{
-		Given = 0, // 0,1,2,6,10
+		Given = 0, // 0,6,10
+		Sold = 1,
+		PaidWith = 2,
 		Destroyed = 3,
 		Equipped = 5,
 		Used = 7, // 7,8
@@ -77,6 +99,8 @@ namespace Melia.Shared.Const
 
 	public enum InventoryAddType : byte
 	{
+		Buy = 1,
+		Sell = 2,
 		PickUp = 3, // ?
 		NotNew = 4,
 	}
@@ -106,5 +130,13 @@ namespace Melia.Shared.Const
 		Name = 3,
 
 		Id = 0xFF,
+	}
+
+	/// <summary>
+	/// Ids of commonly used items.
+	/// </summary>
+	public static class ItemId
+	{
+		public const int Silver = 900011;
 	}
 }

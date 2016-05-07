@@ -62,7 +62,10 @@
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\ObjectProperty.cs" />
     <Compile Include="Const\Option.cs" />
+    <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\Shops.cs" />
+    <Compile Include="Data\Database\Dialogues.cs" />
     <Compile Include="Data\Database\Skills.cs" />
     <Compile Include="Data\Database\Monsters.cs" />
     <Compile Include="Data\Database\Jobs.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Math2.cs" />
     <Compile Include="World\Actor.cs" />
+    <Compile Include="Util\Security\BCrypt.cs" />
     <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
