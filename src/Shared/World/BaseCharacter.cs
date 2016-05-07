@@ -134,18 +134,31 @@ namespace Melia.Shared.World
 		{
 			get
 			{
-				var cls = (short)this.Job / 1000;
+				var cls = this.Job.ToClass();
+
+				// The stance is affected by the equipped items, we might
+				// have to move this to a place where we have proper access
+				// to the character's items, and we need item types.
+				// Maybe we can use ItemData on Login, so we don't need
+				// another Item class.
+				// For the official conditions see stancecondition.ies.
 
 				switch (cls)
 				{
-					case 1: return 10000; // Swordsman
-					case 2: return 10006; // Wizard
-					case 3: return 10008; // Archer
-					case 4:
-					case 9: return 10004; // Cleric
-				}
+					default:
+					case Class.Swordsman:
+						return 10000;
 
-				throw new Exception("Unknown job class.");
+					case Class.Wizard:
+						return 10006;
+
+					case Class.Archer:
+						return 10008;
+
+					case Class.Cleric:
+					case Class.GM:
+						return 10004;
+				}
 			}
 		}
 
