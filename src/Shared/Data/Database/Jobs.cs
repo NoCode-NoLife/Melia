@@ -38,7 +38,7 @@ namespace Melia.Shared.Data.Database
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "barrackStance");
-			
+
 			var info = new JobData();
 
 			info.Id = entry.ReadInt("jobId");
