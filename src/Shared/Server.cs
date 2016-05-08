@@ -126,6 +126,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.StartingCities) != 0)
+				{
+					this.LoadDb(this.Data.StartingCityDb, "db/startingcities.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -227,6 +232,7 @@ namespace Melia.Shared
 		Exp = 0x80,
 		Dialogues = 0x100,
 		Shops = 0x200,
+		StartingCities = 0x400,
 
 		All = 0x7FFFFFFF,
 	}
