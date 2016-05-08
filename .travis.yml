@@ -18,3 +18,4 @@ script:
   - xbuild /p:Configuration=Release Melia.sln
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/build/aura-project/Melia/src/Melua/bin/Release/
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.ChannelServer/bin/Release/Test.ChannelServer.dll
+  - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.Melua/bin/Release/Test.Melua.dll
