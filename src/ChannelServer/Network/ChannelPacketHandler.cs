@@ -101,8 +101,10 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// TEST CODE
+			/*
 			character.jobs.Add(Job.Cleric, 3);
 			character.skillManager.skillPoints.Add(Job.Cleric, 33);
+			*/
 			//
 
 			Send.ZC_IES_MODIFY_LIST(conn);
@@ -891,6 +893,7 @@ namespace Melia.Channel.Network
 					Log.Debug("specificJobId: {0}", specificJobId);
 
 					// TEST CODE
+					/*
 					character.jobs = new Dictionary<Job, int>();
 					character.jobs.Add(Job.Cleric, 3);
 					character.jobs.Add(Job.Krivi, 3);
@@ -905,6 +908,7 @@ namespace Melia.Channel.Network
 					character.jobs.Add(Job.Shepherd, 3);
 					character.jobs.Add(Job.PlagueDoctor, 3);
 					character.jobs.Add(Job.Kabbalist, 3);
+					*/
 
 					Log.Debug("skillsCount: {0}", skillsCount);
 					Log.Debug("JobId to learn: {0}", jobId);

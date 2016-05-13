@@ -131,6 +131,7 @@ namespace Melia.Channel.Database
 				}
 			}
 
+			this.LoadCharacterJobs(character);
 			this.LoadCharacterItems(character);
 			this.LoadCharacterSkills(character);
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
@@ -303,6 +304,54 @@ namespace Melia.Channel.Database
 						character.skillManager.SkillAddSilent(skillId, level, out skill);
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Load character's jobs.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		private void LoadCharacterJobs(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `char_jobs` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+
+						var jobId = (Job)reader.GetInt16("jobId");
+						var jobLevel = reader.GetInt32("jobLevel");
+						var jobPoints = reader.GetInt32("jobPoints");
+
+						// Check job, in case its data was removed
+						if (!ChannelServer.Instance.Data.JobDb.Exists((int)jobId))
+						{
+							Log.Warning("ChannelDb.LoadCharacterJobs: Job '{0}' not found, removing it from jobs list.", jobId);
+							continue;
+						}
+
+Log.Debug("Adding job {0} Level {1} to character {2}", jobId, jobLevel, character.Name);
+						character.jobs.Add(jobId, jobLevel);
+						character.skillManager.skillPoints.Add(jobId, jobPoints);
+					}
+				}
+			}
+		}
+
+		public void SaveCharacterJobPoints(long characterId, Job jobId, int points)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `char_jobs` SET {0} WHERE `characterId` = @characterId AND `jobId` = @jobId", conn))
+			{
+				cmd.AddParameter("@characterId", characterId);
+				cmd.AddParameter("@jobId", jobId);
+				cmd.Set("jobPoints", points);
+				cmd.Execute();
 			}
 		}
 

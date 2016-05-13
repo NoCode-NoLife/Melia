@@ -161,6 +161,17 @@ namespace Melia.Login.Database
 				cmd.Execute();
 				character.Id = cmd.LastId;
 			}
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new InsertCommand("INSERT INTO `char_jobs` {0}", conn))
+			{
+				cmd.Set("characterId", character.Id);
+				cmd.Set("jobId", character.Job);
+				cmd.Set("jobLevel", 1);
+				cmd.Set("jobPoints", 1);
+
+				cmd.Execute();
+			}
 		}
 
 		/// <summary>

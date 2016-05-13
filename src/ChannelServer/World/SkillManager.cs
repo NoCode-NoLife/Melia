@@ -118,6 +118,7 @@ namespace Melia.Channel.World
 			skillPoints[jobId] = newPoints;
 
 			if (this.owner is Character) {
+				ChannelServer.Instance.Database.SaveCharacterJobPoints(((Character)this.owner).Id, jobId, newPoints);
 				this.SendJobSkillPoints(jobId);
 			}
 		}

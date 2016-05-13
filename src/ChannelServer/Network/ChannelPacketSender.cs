@@ -143,7 +143,7 @@ namespace Melia.Channel.Network
 				packet.PutShort((short) thisJob.Key);
 				packet.PutInt(0); // 1270153646, 2003304878
 				packet.PutInt(0);
-				packet.PutShort(1);
+				packet.PutShort(thisJob.Value);
 			}
 
 			conn.Send(packet);
