@@ -179,7 +179,9 @@ namespace Melia.Channel.Database
 				cmd.Execute();
 			}
 
+			this.SaveCharacterJobs(character);
 			this.SaveCharacterItems(character);
+			this.SaveCharacterSkills(character);
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
 
 			return false;
@@ -343,15 +345,58 @@ Log.Debug("Adding job {0} Level {1} to character {2}", jobId, jobLevel, characte
 			}
 		}
 
-		public void SaveCharacterJobPoints(long characterId, Job jobId, int points)
+		private void SaveCharacterSkills(Character character)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `char_jobs` SET {0} WHERE `characterId` = @characterId AND `jobId` = @jobId", conn))
+			using (var trans = conn.BeginTransaction())
 			{
-				cmd.AddParameter("@characterId", characterId);
-				cmd.AddParameter("@jobId", jobId);
-				cmd.Set("jobPoints", points);
-				cmd.Execute();
+				using (var mc = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var skill in character.skillManager.GetAllSkillsFromSkillList())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("skillId", skill.Id);
+						cmd.Set("level", skill.level);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		private void SaveCharacterJobs(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `char_jobs` WHERE `characterId` = @characterId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var job in character.jobs)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `char_jobs` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("jobId", job.Key);
+						cmd.Set("jobLevel", job.Value);
+						cmd.Set("jobPoints", character.skillManager.GetSkillPoints(job.Key));
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
 			}
 		}
 
