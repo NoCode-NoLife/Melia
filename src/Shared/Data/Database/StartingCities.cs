@@ -10,7 +10,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class StartingCityData
 	{
-		public int Id { get; set; }
+		public StartingCity Id { get; set; }
 		public string Map { get; set; }
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -20,28 +20,21 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Starting Cities database, indexed by startingCity id.
 	/// </summary>
-	public class StartingCityDb : DatabaseJsonIndexed<int, StartingCityData>
+	public class StartingCityDb : DatabaseJsonIndexed<StartingCity, StartingCityData>
 	{
-
-		public StartingCityData Find(StartingCity startingCity)
-		{
-			return this.Find((int)startingCity);
-		}
-
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("startingCityId", "Map", "X", "Y", "Z");
+			entry.AssertNotMissing("startingCityId", "map", "x", "y", "z");
 
 			var info = new StartingCityData();
 
-			info.Id = entry.ReadInt("startingCityId");
-			info.Map = entry.ReadString("Map");
-			info.X = entry.ReadInt("X");
-			info.Y = entry.ReadInt("Y");
-			info.Z = entry.ReadInt("Z");
+			info.Id = (StartingCity)entry.ReadInt("startingCityId");
+			info.Map = entry.ReadString("map");
+			info.X = entry.ReadInt("x");
+			info.Y = entry.ReadInt("y");
+			info.Z = entry.ReadInt("z");
 
 			this.Entries[info.Id] = info;
 		}
-
 	}
 }
