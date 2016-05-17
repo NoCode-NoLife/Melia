@@ -53,7 +53,7 @@
 { jobId: 3007, className: "Char3_7",  initial: "HAC", name: "Hackapell", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3008, className: "Char3_8",  initial: "SCT", name: "Scout", rank: 4, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3009, className: "Char3_9",  initial: "ROG", name: "Rogue", rank: 5, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
-{ jobId: 3010, className: "Char3_10", initial: "SCH", name: "SchwarzeReiter", rank: 6, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
+{ jobId: 3010, className: "Char3_10", initial: "SCH", name: "Schwarzereiter", rank: 6, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3011, className: "Char3_11", initial: "FLT", name: "Fletcher", rank: 5, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3012, className: "Char3_12", initial: "PDP", name: "PiedPiper", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3013, className: "Char3_13", initial: "APP", name: "Appraiser", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
