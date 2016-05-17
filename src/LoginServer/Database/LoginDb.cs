@@ -134,6 +134,7 @@ namespace Melia.Login.Database
 			{
 				cmd.Set("accountId", accountId);
 				cmd.Set("name", character.Name);
+				cmd.Set("teamName", character.TeamName);
 				cmd.Set("job", character.Job);
 				cmd.Set("gender", character.Gender);
 				cmd.Set("hair", character.Hair);
