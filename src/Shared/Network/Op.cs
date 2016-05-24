@@ -166,6 +166,15 @@ namespace Melia.Shared.Network
 	/// i11627 (2016-04-26)
 	/// - Size change:
 	///   - ZC_EXCHANGE_START: 71 -> 72
+	/// 
+	/// i11845 (2016-05-24)
+	/// - New:
+	///   - CZ_CHANGE_GUILD_NEUTRALITY
+	///   - CZ_REQ_OPEN_INGAMESHOP_UI
+	///   - CZ_REQ_BUY_INGAMESHOP_ITEM
+	/// - Size changes:
+	///   - CZ_DYNAMIC_CASTING_START: 24 -> 25
+	///   - CZ_DYNAMIC_CASTING_END: 19 -> 20
 	/// </remarks>
 	public static class Op
 	{
@@ -511,8 +520,8 @@ namespace Melia.Shared.Network
 		public const int ZC_RESET_BOX = 0xD13; // Size: 11
 		public const int ZC_CREATE_SCROLLLOCKBOX = 0xD14; // Size: 38
 		public const int ZC_REMOVE_SCROLLLOCKBOX = 0xD15; // Size: 10
-		public const int CZ_DYNAMIC_CASTING_START = 0xD16; // Size: 24
-		public const int CZ_DYNAMIC_CASTING_END = 0xD17; // Size: 19
+		public const int CZ_DYNAMIC_CASTING_START = 0xD16; // Size: 25
+		public const int CZ_DYNAMIC_CASTING_END = 0xD17; // Size: 20
 		public const int CZ_SKILL_CANCEL_SCRIPT = 0xD18; // Size: 10
 		public const int ZC_LEAVE_TRIGGER = 0xD19; // Size: 6
 		public const int ZC_BORN = 0xD1A; // Size: 10
@@ -753,43 +762,46 @@ namespace Melia.Shared.Network
 		public const int CZ_ACCEPT_PARTY_QUEST = 0xE05; // Size: 20
 		public const int CZ_ACCEPT_GUILD_EVENT = 0xE06; // Size: 20
 		public const int CZ_ACCEPT_GUILD_EVENT_RAID = 0xE07; // Size: 20
-		public const int CZ_ACCEPT_PARTY_EVENT = 0xE08; // Size: 20
-		public const int CZ_DELETE_PARTY_EVENT = 0xE09; // Size: 20
-		public const int CZ_PING = 0xE0A; // Size: 10
-		public const int ZC_PING = 0xE0B; // Size: 10
-		public const int ZC_XIGNCODE_BUFFER = 0xE0C; // Size: 524
-		public const int CZ_XIGNCODE_BUFFER = 0xE0D; // Size: 524
-		public const int CZ_SYSTEM_LOG_SAVE_TO_MONGODB = 0xE0E; // Size: 280
-		public const int CZ_CHANGE_TITLE = 0xE0F; // Size: 74
-		public const int CZ_PC_COMMENT_CHANGE = 0xE10; // Size: 0
-		public const int CZ_AUTTOSELLER_BUYER_CLOSE = 0xE11; // Size: 18
-		public const int CZ_REQ_ITEM_LIST = 0xE12; // Size: 11
-		public const int CZ_HIT_MISSILE = 0xE13; // Size: 14
-		public const int CZ_I_NEED_PARTY = 0xE14; // Size: 23
-		public const int CZ_PARTY_JOIN_BY_LINK = 0xE15; // Size: 19
-		public const int ZC_RECOMMEND_PARTYMEMBER_INFO = 0xE16; // Size: 0
-		public const int CZ_PVP_ZONE_CMD = 0xE17; // Size: 26
-		public const int CZ_PVP_CHAT = 0xE18; // Size: 0
-		public const int CZ_CARDBATTLE_CMD = 0xE19; // Size: 26
-		public const int CZ_REQ_UPDATE_CONTENTS_SESSION = 0xE1A; // Size: 10
-		public const int CZ_REQ_FRIENDLY_FIGHT = 0xE1B; // Size: 15
-		public const int CZ_HARDSKILL_POS_LIST = 0xE1C; // Size: 0
-		public const int CZ_CART_POSITION = 0xE1D; // Size: 26
-		public const int CZ_REQ_RIDE_CART = 0xE1E; // Size: 18
-		public const int CZ_DUMMYPC_SKILL_POS = 0xE1F; // Size: 26
-		public const int CZ_NGS = 0xE20; // Size: 0
-		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE21; // Size: 0
-		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE22; // Size: 22
-		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE23; // Size: 1099
-		public const int CZ_CHECK_PING = 0xE24; // Size: 10
-		public const int CZ_CANCEL_INDUN_MATCHING = 0xE25; // Size: 10
-		public const int CZ_REQ_GM_ORDER = 0xE26; // Size: 202
-		public const int CZ_REPORT_AUTOBOT = 0xE27; // Size: 74
-		public const int CZ_PARTY_INVENTORY_LOAD = 0xE28; // Size: 11
-		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE29; // Size: 31
-		public const int CZ_REQ_CancelGachaCube = 0xE2A; // Size: 10
-		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2B; // Size: 0
-		public const int CZ_PVP_COMMAND = 0xE2C; // Size: 22
+		public const int CZ_CHANGE_GUILD_NEUTRALITY = 0xE08; // Size: 10
+		public const int CZ_ACCEPT_PARTY_EVENT = 0xE09; // Size: 20
+		public const int CZ_DELETE_PARTY_EVENT = 0xE0A; // Size: 20
+		public const int CZ_PING = 0xE0B; // Size: 10
+		public const int ZC_PING = 0xE0C; // Size: 10
+		public const int ZC_XIGNCODE_BUFFER = 0xE0D; // Size: 524
+		public const int CZ_XIGNCODE_BUFFER = 0xE0E; // Size: 524
+		public const int CZ_SYSTEM_LOG_SAVE_TO_MONGODB = 0xE0F; // Size: 280
+		public const int CZ_CHANGE_TITLE = 0xE10; // Size: 74
+		public const int CZ_PC_COMMENT_CHANGE = 0xE11; // Size: 0
+		public const int CZ_AUTTOSELLER_BUYER_CLOSE = 0xE12; // Size: 18
+		public const int CZ_REQ_ITEM_LIST = 0xE13; // Size: 11
+		public const int CZ_HIT_MISSILE = 0xE14; // Size: 14
+		public const int CZ_I_NEED_PARTY = 0xE15; // Size: 23
+		public const int CZ_PARTY_JOIN_BY_LINK = 0xE16; // Size: 19
+		public const int ZC_RECOMMEND_PARTYMEMBER_INFO = 0xE17; // Size: 0
+		public const int CZ_PVP_ZONE_CMD = 0xE18; // Size: 26
+		public const int CZ_PVP_CHAT = 0xE19; // Size: 0
+		public const int CZ_CARDBATTLE_CMD = 0xE1A; // Size: 26
+		public const int CZ_REQ_UPDATE_CONTENTS_SESSION = 0xE1B; // Size: 10
+		public const int CZ_REQ_FRIENDLY_FIGHT = 0xE1C; // Size: 15
+		public const int CZ_HARDSKILL_POS_LIST = 0xE1D; // Size: 0
+		public const int CZ_CART_POSITION = 0xE1E; // Size: 26
+		public const int CZ_REQ_RIDE_CART = 0xE1F; // Size: 18
+		public const int CZ_DUMMYPC_SKILL_POS = 0xE20; // Size: 26
+		public const int CZ_NGS = 0xE21; // Size: 0
+		public const int CZ_REQ_OPEN_INGAMESHOP_UI = 0xE22; // Size: 10
+		public const int CZ_REQ_BUY_INGAMESHOP_ITEM = 0xE23; // Size: 74
+		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE24; // Size: 0
+		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE25; // Size: 22
+		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE26; // Size: 1099
+		public const int CZ_CHECK_PING = 0xE27; // Size: 10
+		public const int CZ_CANCEL_INDUN_MATCHING = 0xE28; // Size: 10
+		public const int CZ_REQ_GM_ORDER = 0xE29; // Size: 202
+		public const int CZ_REPORT_AUTOBOT = 0xE2A; // Size: 74
+		public const int CZ_PARTY_INVENTORY_LOAD = 0xE2B; // Size: 11
+		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE2C; // Size: 31
+		public const int CZ_REQ_CancelGachaCube = 0xE2D; // Size: 10
+		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2E; // Size: 0
+		public const int CZ_PVP_COMMAND = 0xE2F; // Size: 22
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
@@ -1138,8 +1150,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_RESET_BOX] = 11;
 			_sizes[Op.ZC_CREATE_SCROLLLOCKBOX] = 38;
 			_sizes[Op.ZC_REMOVE_SCROLLLOCKBOX] = 10;
-			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 24;
-			_sizes[Op.CZ_DYNAMIC_CASTING_END] = 19;
+			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 25;
+			_sizes[Op.CZ_DYNAMIC_CASTING_END] = 20;
 			_sizes[Op.CZ_SKILL_CANCEL_SCRIPT] = 10;
 			_sizes[Op.ZC_LEAVE_TRIGGER] = 6;
 			_sizes[Op.ZC_BORN] = 10;
@@ -1380,6 +1392,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_ACCEPT_PARTY_QUEST] = 20;
 			_sizes[Op.CZ_ACCEPT_GUILD_EVENT] = 20;
 			_sizes[Op.CZ_ACCEPT_GUILD_EVENT_RAID] = 20;
+			_sizes[Op.CZ_CHANGE_GUILD_NEUTRALITY] = 10;
 			_sizes[Op.CZ_ACCEPT_PARTY_EVENT] = 20;
 			_sizes[Op.CZ_DELETE_PARTY_EVENT] = 20;
 			_sizes[Op.CZ_PING] = 10;
@@ -1405,6 +1418,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REQ_RIDE_CART] = 18;
 			_sizes[Op.CZ_DUMMYPC_SKILL_POS] = 26;
 			_sizes[Op.CZ_NGS] = 0;
+			_sizes[Op.CZ_REQ_OPEN_INGAMESHOP_UI] = 10;
+			_sizes[Op.CZ_REQ_BUY_INGAMESHOP_ITEM] = 74;
 			_sizes[Op.CZ_PARTY_MEMBER_SKILL_USE] = 0;
 			_sizes[Op.CZ_PARTY_MEMBER_SKILL_ACCEPT] = 22;
 			_sizes[Op.CZ_SYSTEM_LOG_TO_SERVER] = 1099;
