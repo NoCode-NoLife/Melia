@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel
 {
@@ -54,6 +55,8 @@ namespace Melia.Channel
 		/// </summary>
 		public ConnectionManager<ChannelConnection> ConnectionManager { get; private set; }
 
+		public Dictionary<int, SkillEffect> SkillEffects { get; private set; }
+
 		/// <summary>
 		/// Creates new channel server.
 		/// </summary>
@@ -61,6 +64,23 @@ namespace Melia.Channel
 		{
 			this.World = new WorldManager();
 			this.ScriptManager = new ScriptManager();
+			this.SkillEffects = new Dictionary<int, SkillEffect>();
+
+			this.LoadSkillEffects();
+		}
+
+		private void LoadSkillEffects()
+		{
+			SkillEffect skillEffect;
+			skillEffect = new Heal();
+			this.SkillEffects.Add(40001, skillEffect);
+			skillEffect = new Cure();
+			this.SkillEffects.Add(40002, skillEffect);
+			skillEffect = new BuffSkill();
+			this.SkillEffects.Add(40003, skillEffect);
+			skillEffect = new BuffSkill();
+			this.SkillEffects.Add(40004, skillEffect);
+
 		}
 
 		/// <summary>

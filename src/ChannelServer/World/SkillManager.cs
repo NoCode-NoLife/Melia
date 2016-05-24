@@ -26,6 +26,13 @@ namespace Melia.Channel.World
 			skills = new Dictionary<int, Skill>();
 		}
 
+		public Skill GetSkill(int SkillId)
+		{
+			Skill skill;
+			this.skills.TryGetValue(SkillId, out skill);
+			return skill;
+		}
+
 		public bool LearnSkill(SkillTreeInfo skillTreeInfo, int levels) 
 		{
 			if (!(owner is Character))
@@ -133,6 +140,7 @@ namespace Melia.Channel.World
 		public bool SkillAddSilent(int skillId, int level, out Skill skill)
 		{
 			skill = new Skill(skillId, level);
+			skill.owner = (IEntity) owner;
 			this.skills.Add(skillId, skill);
 			return true;
 		}
@@ -140,7 +148,8 @@ namespace Melia.Channel.World
 		public bool SkillAdd(int skillId, int level, out Skill skill)
 		{
 			this.SkillAddSilent(skillId, level, out skill);
-			Send.ZC_SKILL_ADD((Character)owner, skill, skill.Data.RegisterAsShortcut, skill.Data.IsFromSkillList, 0);
+			//Send.ZC_SKILL_ADD((Character)owner, skill, skill.Data.RegisterAsShortcut, skill.Data.IsFromSkillList, 0);
+			Send.ZC_SKILL_ADD((Character)owner, skill, true, skill.Data.IsFromSkillList, 0); // TESTING PURPOSES 
 			return true;
 		}
 
@@ -156,5 +165,6 @@ namespace Melia.Channel.World
 			var skillList = this.skills.Values.Where(a => a.Data.IsFromSkillList.Equals(true)).ToList();
 			return skillList;
 		}
+
 	}
 }

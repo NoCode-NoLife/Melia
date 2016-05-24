@@ -82,6 +82,7 @@
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />
+    <Compile Include="World\Shape.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />
     <Compile Include="Util\Configuration\Files\World.cs" />
     <Compile Include="Util\Configuration\Files\Web.cs" />
@@ -114,6 +115,9 @@
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Location.cs" />
     <Compile Include="World\Position.cs" />
+    <Compile Include="World\Shapes\Circle.cs" />
+    <Compile Include="World\Shapes\Cone.cs" />
+    <Compile Include="World\Shapes\Square.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

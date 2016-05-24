@@ -345,6 +345,11 @@ Log.Debug("Adding job {0} Level {1} to character {2}", jobId, jobLevel, characte
 			}
 		}
 
+		/// <summary>
+		/// Saves character's skills.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
 		private void SaveCharacterSkills(Character character)
 		{
 			using (var conn = this.GetConnection())
@@ -372,6 +377,11 @@ Log.Debug("Adding job {0} Level {1} to character {2}", jobId, jobLevel, characte
 			}
 		}
 
+		/// <summary>
+		/// Saves character's jobs.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
 		private void SaveCharacterJobs(Character character)
 		{
 			using (var conn = this.GetConnection())

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Channel.World.SectorActors;
 
 namespace Melia.Channel.World
 {
@@ -23,7 +24,7 @@ namespace Melia.Channel.World
 
 		private Dictionary<int, Character> _characters;
 		private Dictionary<int, Monster> _monsters;
-		private Dictionary<int, SkillActor> _skills;
+		private Dictionary<int, GroundSkill> _skills;
 
 		/// <summary>
 		/// Map name.
@@ -52,7 +53,7 @@ namespace Melia.Channel.World
 		{
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
-			_skills = new Dictionary<int, SkillActor>();
+			_skills = new Dictionary<int, GroundSkill>();
 
 			this.Id = id;
 			this.Name = name;
@@ -69,6 +70,7 @@ namespace Melia.Channel.World
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.ProcessCharacters();
+			this.ProcessMonsters();
 			this.ProcessSkills();
 		}
 
@@ -105,9 +107,15 @@ namespace Melia.Channel.World
 				character.Process();
 		}
 
+		private void ProcessMonsters()
+		{
+			foreach (var monster in _monsters.Values)
+				monster.Process();
+		}
+
 		private void ProcessSkills()
 		{
-			List<SkillActor> skillsToDelete = new List<SkillActor>();
+			List<GroundSkill> skillsToDelete = new List<GroundSkill>();
 			foreach (var skill in _skills.Values)
 			{
 				if (skill.ToDestroy)
@@ -189,6 +197,11 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
+
+			if (!SectorManager.Add(monster, monster.Position))
+			{
+				Log.Debug("Error adding monster placeable entity into SectorManager at: {0} {1} {2}", monster.Position.X, monster.Position.Y, monster.Position.Z);
+			}
 		}
 
 		/// <summary>
@@ -199,6 +212,8 @@ namespace Melia.Channel.World
 		{
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
+
+			SectorManager.Remove(monster);
 
 			monster.Map = null;
 		}
@@ -315,7 +330,7 @@ namespace Melia.Channel.World
 			}
 		}
 
-		public void AddSkill(SkillActor skill)
+		public void AddSkill(GroundSkill skill)
 		{
 			lock (_skills)
 				_skills[skill.Handle] = skill;
@@ -328,12 +343,27 @@ namespace Melia.Channel.World
 			}
 		}
 
-		public void RemoveSkill(SkillActor skill)
+		public void RemoveSkill(GroundSkill skill)
 		{
 			lock (_skills)
 				_skills.Remove(skill.Handle);
 
 			SectorManager.Remove(skill);
+		}
+
+		public Actor GetActor(int handle)
+		{
+			Character character;
+			lock (_characters)
+				if (_characters.TryGetValue(handle, out character)) 
+					return character;
+
+			Monster monster;
+			lock (_monsters)
+				if (_monsters.TryGetValue(handle, out monster))
+					return monster;
+
+			return null;
 		}
 	}
 

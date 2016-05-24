@@ -14,5 +14,10 @@ namespace Melia.Channel.World
 		/// Actual interaction should be confirmed inside OnVisit.
 		/// </summary>
 		bool OnVisit(Actor actor);
+
+		/// <summary>
+		/// This function is called from a sector (see SectorManager) to check if this visitor is interacting with an actor.
+		/// </summary>
+		bool IntersectWith(Actor actor);
 	}
 }

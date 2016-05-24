@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Shared.World.Shapes;
 
 namespace Melia.Channel.World
 {
@@ -30,6 +31,8 @@ namespace Melia.Channel.World
 		public int jobLevel;
 
 		public SkillManager skillManager;
+		public StatsManager statsManager { get; set; }
+		public BuffManager buffManager { get; set; }
 
 		/// <summary>
 		/// Connection this character uses.
@@ -51,6 +54,10 @@ namespace Melia.Channel.World
 		/// Gets or sets whether the character is moving.
 		/// </summary>
 		public bool IsMoving { get; set; }
+		private bool IsMoveStop { get; set; }
+		private float LastMoveTimestamp { get; set; }
+
+		public bool IsAttacking { get; set; }
 
 		private Position _destination { get; set; }
 
@@ -123,6 +130,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Variables Variables { get; private set; }
 
+		public bool IsDead { get; set; }
+
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
@@ -140,7 +149,14 @@ namespace Melia.Channel.World
 			this.Speed = 30;
 			this.jobs = new Dictionary<Job, int>();
 			this.skillManager = new SkillManager(this);
+			this.statsManager = new StatsManager(this);
+			float[] baseStats = new float[(int)Stat.Stat_MAX];
+			baseStats[(int)Stat.MovSpeed] = 20.0f;
+			this.statsManager.SetBaseStats(baseStats);
+			this.buffManager = new BuffManager(this);
 
+			this.CollisionShape = new Circle(10.0f);
+			this.LastMoveTimestamp = 0f;
 		}
 
 		/// <summary>
@@ -183,13 +199,23 @@ namespace Melia.Channel.World
 			// Check if is valid destionation
 			/// TODO
 			/// 
+			this.IsMoveStop = false;
+			if (this.LastMoveTimestamp > unkFloat)
+			{
+				return; // Old packet
+			}
+
+
+
+			//this.LastMoveTimestamp = unkFloat;
 
 			// Set destination based on: SPEED + CLIENT GIVEN POSITION + DIRECTION
 			// This function assumes that destination will be at 1 HeartBeatTime of distance
 			// Destination should be larger, it should be sync-ed with current client "MOVE PACKETS" per second, or using some sort of acceleration.
 			// The problem is seen when you hit any "move" key to any direction (in client) to move "little steps". If you set destination too far from client point, other players
 			// will see your character moving forward and backwards to adjust its position).
-			this.SetDestination(new Position(this.GetSpeed() / (1000 / WorldManager.HeartbeatTime) * dx + x, y, this.GetSpeed() / 1000 / (WorldManager.HeartbeatTime) * dy + z));
+			//this.SetDestination(new Position(this.GetSpeed() / (1000 / WorldManager.HeartbeatTime) * dx + x, y, this.GetSpeed() / 1000 / (WorldManager.HeartbeatTime) * dy + z));
+			this.SetDestination(new Position(x, y, z));
 
 			//Log.Debug("DESTINATION: {0},{1},{2} DIR: {3},{4}", _destination.X, _destination.Y, _destination.Z, dx.ToString("0.0000"), dy.ToString("0.0000"));
 
@@ -206,7 +232,7 @@ namespace Melia.Channel.World
 			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ); /// TODO: We could try to avoid using Math.Sqrt() somehow.
 			var cos = vX / distDestination; // Adjacent / Hipotenuse
 			var sin = vZ / distDestination; // Oposit / Hipotenuse
-			this.SetDirection(cos, sin);
+			this.SetDirection(dx, dy);
 
 			// Set flag indicating that this character is moving
 			this.IsMoving = true;
@@ -223,6 +249,10 @@ namespace Melia.Channel.World
 		{
 			if (this.IsMoving)
 				ProcessMove();
+
+			// Process buffs
+			this.buffManager.RemoveExpiredBuffs();
+
 		}
 
 		/// <summary>
@@ -261,16 +291,22 @@ namespace Melia.Channel.World
 				if (nextPosition == this._destination)
 				{
 					// Set moving flag to false.
-					this.IsMoving = false;
 					// Broadcast that this character stop moving.
-					Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
+					if (this.IsMoveStop)
+					{
+						this.IsMoving = false;
+						Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
+						//Send.ZC_ROTATE(this);
+					}
 				}
 			} else
 			{
 				// Wasn't possible to move the actor. Abort movement.
 				Log.Debug("Wasn't able to place the entity at position: {0},{1},{2}", nextPosition.X, nextPosition.Y, nextPosition.Z);
 				this.IsMoving = false;
+				this.IsMoveStop = true;
 				Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
+				//Send.ZC_ROTATE(this);
 			}
 				
 		}
@@ -284,17 +320,6 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// This function process a skill for this character
-		/// </summary>
-		public void ProcessSkill(SkillActor ActorSkill, Actor targetActor)
-		{
-			// TODO !!!!
-			Send.ZC_HEAL_INFO((Character)targetActor, 10, 100);
-			Send.ZC_UPDATE_ALL_STATUS((Character)targetActor, 190, 200, 60, 120);
-			Send.ZC_NORMAL_ParticleEffect((Character)targetActor, ActorSkill.Handle, 1);
-		}
-
-		/// <summary>
 		/// Stops movement.
 		/// </summary>
 		/// <param name="x"></param>
@@ -302,15 +327,22 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-		public void StopMove(float x, float y, float z, float dx, float dy)
+		public void StopMove(float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			/*
 			this.SetPosition(x, y, z);
 			this.SetDirection(dx, dy);
 			this.IsMoving = false;
 			*/
-			this.SetDestination(new Position(x, y, z));
+			if (this.LastMoveTimestamp > unkFloat)
+			{
+				return; // Old packet
+			}
 
+			this.SetDestination(new Position(x, y, z));
+			this.IsMoveStop = true;
+			
+			this.LastMoveTimestamp = unkFloat;
 			// Sending ZC_MOVE_STOP works as well, but it doesn't have
 			// a direction, so the character stops and looks north
 			// on other's screens.
@@ -593,6 +625,64 @@ namespace Melia.Channel.World
 			skillManager.LearnSkill(skillTreeData, levels);
 
 			return true;
+		}
+
+		public void SetAttackState(bool isAttacking)
+		{
+			this.IsAttacking = true;
+			Send.ZC_PC_ATKSTATE(this, isAttacking);
+		}
+
+		public void SetCurrentSp(int sp)
+		{
+			this.Sp = Math2.Clamp(0, this.MaxSp, sp);
+			Send.ZC_UPDATE_SP(this, (short)this.Sp);
+		}
+
+		public bool IntersectWith(Actor actor)
+		{
+			return this.CollisionShape.IntersectWith(actor.CollisionShape);
+		}
+
+		public int Heal(int amount, bool isPercent)
+		{
+			Log.Debug("Heal function ----- ");
+			if (this.Hp >= this.MaxHp)
+				return 0;
+
+			Log.Debug("Heal function {0} {1}", amount, isPercent);
+			int amountToHeal;
+			if (isPercent)
+				amountToHeal = (amount * this.MaxHp / 100);
+			else
+				amountToHeal = amount;
+
+			Log.Debug("PRE amountToHeal: {0}", amountToHeal);
+
+
+
+			int HpRemaining = this.MaxHp - this.Hp;
+			Log.Debug("HP {2} HPMAX {1} HpRemaining: {0}", HpRemaining, this.MaxHp, this.Hp);
+			if (HpRemaining <= 0)
+				return 0;
+
+			if (HpRemaining < amountToHeal)
+				amountToHeal = HpRemaining;
+
+			Log.Debug("amountToHeal: {0}", amountToHeal);
+
+			// Proceed to increase HP
+			this.Hp = Math2.Clamp(0, this.MaxHp, this.Hp + amountToHeal);
+
+			Log.Debug("new HP {0}", this.Hp);
+			Log.Debug("------------------------");
+
+
+			Send.ZC_HEAL_INFO(this, amountToHeal, this.Hp);
+			Send.ZC_UPDATE_ALL_STATUS(this, this.Hp, this.MaxHp, (short)this.Sp, (short)this.MaxSp);
+
+			return amountToHeal;
+
 		}
 
 	}

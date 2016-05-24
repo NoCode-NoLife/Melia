@@ -23,47 +23,59 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutShort(ObjectProperty.Skill.Level);
 			packet.PutFloat(skill.level);
 			packet.PutShort(ObjectProperty.Skill.CoolDown);
-			packet.PutFloat(10.0f);
+			packet.PutFloat(500.0f); // 10
 			packet.PutShort(ObjectProperty.Skill.SpendItemCount);
 			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SplAngle);
-			packet.PutFloat(30.0f);
-			packet.PutShort(ObjectProperty.Skill.SR);
-			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SplRange);
-			packet.PutFloat(10.0f);
+			packet.PutFloat(20.0f);
 			packet.PutShort(ObjectProperty.Skill.MaxR);
+			packet.PutFloat(140.0f);
+			packet.PutShort(ObjectProperty.Skill.SplAngle);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.SklSpdRate);
+			packet.PutFloat(1.0f);
+			packet.PutShort(ObjectProperty.Skill.SpendSta);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.Skill_Delay);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.SkillSR);
+			packet.PutFloat(3.0f);
+			packet.PutShort(ObjectProperty.Skill.ReadyTime);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.EnableShootMove);
+			packet.PutFloat(1.0f);
+			packet.PutShort(ObjectProperty.Skill.AbleShootRotate);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.SpendPoison);
+			packet.PutFloat(0.0f);
+			packet.PutShort(ObjectProperty.Skill.SpendSP);
+			packet.PutFloat(0.0f);  // packet.PutFloat(skill.Data.SpendSP);
+			packet.PutShort(ObjectProperty.Skill.SkillFactor);
+			packet.PutFloat(100.0f);
+			packet.PutShort(ObjectProperty.Skill.SR);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.WaveLength);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.BackHitRange);
 			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.UseOverHeat);
+			packet.PutShort(ObjectProperty.Skill.SkillAtkAdd);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SkillASPD);
+			packet.PutFloat(1.0f);
+			packet.PutShort(ObjectProperty.Skill.UseOverHeat);
 			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SkillSR);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SklSpdRate);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SpendPoison);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SpendSP);
-			packet.PutFloat(skill.Data.SpendSP);
-			packet.PutShort(ObjectProperty.Skill.SpendSta);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.Skill_Delay);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.ReadyTime);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.EnableShootMove);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.AbleShootRotate);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SklAtkAdd);
-			packet.PutFloat(0.0f);
-			packet.PutShort(ObjectProperty.Skill.SkillFactor);
-			packet.PutFloat(0.0f);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 		}
 

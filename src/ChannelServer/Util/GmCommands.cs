@@ -195,6 +195,35 @@ namespace Melia.Channel.Util
 		{
 			Log.Debug("test!!");
 
+			int val1;
+			int val2;
+			int.TryParse(args[1], out val1);
+			int.TryParse(args[2], out val2);
+
+			if (val1 == 1)
+			{
+				Send.ZC_NORMAL_14(character);
+				Send.ZC_NORMAL_19(character);
+				//Send.ZC_BUFF_REMOVE(character);
+			}
+			if (val1 == 3)
+			{
+				character.Hp = val2;
+				Send.ZC_UPDATE_ALL_STATUS(character, character.Hp, character.MaxHp, (short)character.Sp, (short)character.MaxSp);
+
+			}
+			else
+			{
+				/*
+				Send.ZC_NORMAL_Unkown_1c(character, character.Handle, character.Position, character.Direction, character.Position);
+				Send.ZC_SKILL_MELEE_TARGET(character, 20004, character.Position, character.Direction);
+				Send.ZC_NORMAL_Skill(character, 20004, character.Position, character.Direction, true, 1234);			
+				Send.ZC_NORMAL_11(character);
+				Send.ZC_BUFF_ADD(character);
+				*/
+				
+			}
+
 			return CommandResult.Okay;
 		}
 
@@ -398,6 +427,13 @@ namespace Melia.Channel.Util
 				this.SystemMessage(character, "Unknown job.");
 				return CommandResult.Okay;
 			}
+
+			/*
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.JobName); // Char4_2
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.DR_BM); Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.DR); //
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.DR_BM); Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.DR); //
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.NowWeight);
+			*/
 
 			target.Job = (Job)jobId;
 			Send.ZC_PC(target, PcUpdateType.Job, (short)jobId);

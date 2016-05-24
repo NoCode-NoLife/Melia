@@ -12,7 +12,7 @@ namespace Melia.Channel.World
 {
 	public class WorldManager
 	{
-		public const int HeartbeatTime = 200;
+		public const int HeartbeatTime = 100;
 		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
 
 		private int _handles = 0;

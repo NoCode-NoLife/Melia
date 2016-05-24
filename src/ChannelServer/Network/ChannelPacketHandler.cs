@@ -100,13 +100,6 @@ namespace Melia.Channel.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			// TEST CODE
-			/*
-			character.jobs.Add(Job.Cleric, 3);
-			character.skillManager.skillPoints.Add(Job.Cleric, 33);
-			*/
-			//
-
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
 			// ZC_NORMAL
@@ -134,7 +127,10 @@ namespace Melia.Channel.Network
 			// ZC_OBJECT_PROPERTY...
 			// ZC_SKILL_ADD...
 			// Temporary skills (all skills not in skill List)
-			var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
+			var skills = new[]		{ 100, 3, 20,					103, 108, 105, 101, 106, 110}; // Cleric
+			//var skills = new[]	{ 100, 4,  6,  20, 54,			103, 108, 105, 101, 106, 110}; // Wizzard
+			//var skills = new[]	{ 100, 2, 20,  52, 53, 55,		103, 108, 105, 101, 106, 110}; // Archer
+			//var skills = new[]	{ 100, 1,  5, 255, 11, 10, 53,	103, 108, 105, 101, 106, 110}; // Swordman
 			foreach (var skillId in skills)
 			{
 				Skill skill;
@@ -327,7 +323,7 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			character.StopMove(x, y, z, dx, dy);
+			character.StopMove(x, y, z, dx, dy, unkFloat);
 
 			// In the packets I don't see any indication for a client-side trigger,
 			// so I guess the server has to check for warps and initiate it all
@@ -794,7 +790,7 @@ namespace Melia.Channel.Network
 		{
 			var size = packet.GetShort();
 			var unkInt = packet.GetInt();
-			var count = packet.GetInt(); // ?
+			var count = packet.GetInt(); // Count of Targtes
 			var attackerX = packet.GetFloat();
 			var attackerY = packet.GetFloat();
 			var attackerZ = packet.GetFloat();
@@ -807,6 +803,16 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
+			Skill skill = character.skillManager.GetSkill(100);
+
+			Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
+
+			if (skill != null)
+			{
+				skill.Activate();
+			}
+
+			/*
 			for (int i = 0; i < count; ++i)
 			{
 				var targetHandle = packet.GetInt();
@@ -821,6 +827,7 @@ namespace Melia.Channel.Network
 
 				target.TakeDamage(target.MaxHp / 4, character);
 			}
+			*/
 		}
 
 		/// <summary>
@@ -991,24 +998,18 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
+			Skill skill = character.skillManager.GetSkill(skillId);
 
+			if (skill != null)
+			{
+				skill.Position = new Position(x2, y2, z2);
 
-			var packetPosition1 = new Position(x1, y1, z1);
-			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(40 * cos + x1, y1, 40 * sin + z1);
-
-			var packetDirection = new Direction(cos, sin);
-
-			var skillDirection = new Direction(0.707f, 0.707f);
-
-
-			Log.Debug("SKILL pos1 {0},{1},{2}", x1,y1,z1);
-			Log.Debug("SKILL pos2 {0},{1},{2}", x2, y2,z2);
-
+				skill.Activate();
+			}
 
 			// Add skill to world
 			// Get map
+			/*
 			var map = ChannelServer.Instance.World.GetMap(character.MapId);
 
 			SkillActor PESkill = new SkillActor();
@@ -1020,7 +1021,7 @@ namespace Melia.Channel.Network
 			map.AddSkill(PESkill);
 
 			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true, PESkill.Handle);
-
+			*/
 			/*
 			// Player in Attack state (if not already)
 			Send.ZC_PC_ATKSTATE(character, true);
@@ -1215,6 +1216,123 @@ namespace Melia.Channel.Network
 			// panel, to display the proper balance after confirming the
 			// transaction.
 			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+		}
+
+		[PacketHandler(Op.CZ_SKILL_TARGET_ANI)]
+		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
+		{
+			var unk1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var cos = packet.GetFloat();
+			var sin = packet.GetFloat();
+			var unk2 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Log.Debug("SKILL {0} Direction {1},{2} : unk1 {3} : unk2 {4} ", skillId, cos, sin, unk1, unk2);
+
+			if (skill != null)
+			{
+				skill.Direction = new Direction(cos, sin);
+				skill.Activate();
+			} else
+			{
+				// Reply to "automatic" second packet (sent after skill is done). Probably when skillId = 0
+				Send.ZC_NORMAL_Unkown_40(character);
+			}
+		}
+
+		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
+		public void CZ_DYNAMIC_CASTING_START(ChannelConnection conn, Packet packet)
+		{
+			var skillId = packet.GetInt();
+			var floatUnk1 = packet.GetFloat();
+			var unk1 = packet.GetByte();
+			var floatUnk2 = packet.GetFloat();
+			var unk2 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
+
+			if (skill != null)
+			{
+				skill.Activate();
+			}
+
+			Log.Debug("DYNAMIC CASTING START skill: {0} Floats {1},{2} : bytes {3} {4} ", skillId, floatUnk1, floatUnk2, unk1, unk2);
+		}
+
+		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
+		public void CZ_DYNAMIC_CASTING_END(ChannelConnection conn, Packet packet)
+		{
+			var skillId = packet.GetInt();
+			var floatUnk1 = packet.GetFloat();
+			var unk1 = packet.GetShort();
+			var unk2 = packet.GetShort();
+			var unk3 = packet.GetShort();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Log.Debug("DYNAMIC CASTING END skill: {0} Floats {1}", skillId, floatUnk1);
+		}
+
+		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]
+		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
+		{
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var skillId = packet.GetInt();
+			var unk1 = packet.GetShort();
+			var unk2 = packet.GetShort();
+			var unk3 = packet.GetShort();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Send.ZC_NORMAL_14(character);
+			Send.ZC_NORMAL_19(character);
+			//Send.ZC_BUFF_REMOVE(character);
+
+			Log.Debug("CZ_SKILL_TOOL_GROUND_POS skill: {0} Pos {1},{2},{3} : shorts {4} {5} {6}", skillId, x, y, z, unk1, unk2, unk3);
+		}
+
+		[PacketHandler(Op.CZ_SKILL_SELF)]
+		public void CZ_SKILL_SELF(ChannelConnection conn, Packet packet)
+		{
+			var unk0 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var cos = packet.GetFloat();
+			var sin = packet.GetFloat();
+			var unk1 = packet.GetShort();
+			var unk2 = packet.GetShort();
+			var unk3 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Log.Debug("CZ_SKILL_SELF: {0}", skillId);
+			/*
+			Position pos = new Position(x, y, z);
+			Direction dir = new Direction(cos, sin);
+			Send.ZC_NORMAL_Unkown_1c(character, character.Handle, pos, dir, pos);
+			Send.ZC_SKILL_MELEE_TARGET(character, skillId, pos, dir);
+			Send.ZC_NORMAL_Skill(character, skillId, pos, dir, true, 1234);
+			Send.ZC_NORMAL_11(character);
+			Send.ZC_BUFF_ADD(character);
+			*/
 		}
 	}
 

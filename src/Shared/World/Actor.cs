@@ -9,6 +9,7 @@ namespace Melia.Shared.World
 {
 	public class Actor
 	{
+		public Shape CollisionShape { get; set; }
 		/// <summary>
 		/// Actor's Handle
 		/// </summary>
@@ -27,12 +28,26 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Actor's position
 		/// </summary>
-		public Position Position { get; set; }
+		private Position _position;
+		public Position Position { get { return _position;  }
+			set {
+				_position = value;
+				if (CollisionShape != null)
+					CollisionShape.Position = value;
+			}
+		}
 
 		/// <summary>
 		/// Actor's Direction
 		/// </summary>
-		public Direction Direction { get; set; }
+		private Direction _direction;
+		public Direction Direction { get { return _direction; }
+			set {
+				_direction = value;
+				if (CollisionShape != null)
+					CollisionShape.Direction = value;
+			}
+		}
 
 		/// <summary>
 		/// Actor's Radious

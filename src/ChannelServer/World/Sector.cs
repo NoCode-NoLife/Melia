@@ -81,7 +81,7 @@ namespace Melia.Channel.World
 					if (entity == null)
 						continue;
 
-					if (entity.IsMyArea(pos, range) == false)
+					if (visitor.IntersectWith(entity) == false)
 						continue;
 
 					if (visitor.OnVisit(entity) == false)

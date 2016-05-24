@@ -6,11 +6,12 @@ using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.Shapes;
 using System;
 
 namespace Melia.Channel.World
 {
-	public class Monster : Actor, IEntity
+	public class Monster : Actor, IEntity, IVisitor
 	{
 
 		private Map _map = Map.Limbo;
@@ -94,6 +95,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public MonsterData Data { get; private set; }
 
+		public bool IsDead { get; set; }
+		public StatsManager statsManager { get; set; }
+		public BuffManager buffManager { get; set; }
+
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
@@ -109,6 +114,14 @@ namespace Melia.Channel.World
 			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
+
+			this.CollisionShape = new Circle(10.0f);
+
+			this.statsManager = new StatsManager(this);
+			float[] baseStats = new float[(int)Stat.Stat_MAX];
+			baseStats[(int)Stat.MovSpeed] = 20.0f;
+			this.statsManager.SetBaseStats(baseStats);
+			this.buffManager = new BuffManager(this);
 		}
 
 		/// <summary>
@@ -131,12 +144,15 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		public void TakeDamage(int damage, Character from)
 		{
+			if (this.IsDead)
+				return;
+
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
 			// use SKILL, and this doesn't create a double hit effect like
 			// the other.
-			Send.ZC_SKILL_HIT_INFO(from, this, damage);
+			//Send.ZC_SKILL_HIT_INFO(from, this, damage);
 
 			if (this.Hp == 0)
 				this.Kill(from);
@@ -157,7 +173,29 @@ namespace Melia.Channel.World
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);
 
+			this.IsDead = true;
+
 			Send.ZC_DEAD(this);
+		}
+
+		public void SetAttackState(bool isAttacking)
+		{
+			
+		}
+
+		public bool OnVisit(Actor actor)
+		{
+			return true;
+		}
+
+		public bool IntersectWith(Actor actor)
+		{
+			return this.CollisionShape.IntersectWith(actor.CollisionShape);
+		}
+
+		public void Process()
+		{
+			this.buffManager.RemoveExpiredBuffs();
 		}
 	}
 }

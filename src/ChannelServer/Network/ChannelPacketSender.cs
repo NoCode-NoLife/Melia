@@ -945,6 +945,11 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.JobChanging: packet.PutShort((short)character.Job); break;
 					case ObjectProperty.PC.BeforeJobLv: packet.PutShort((short)character.jobLevel); break;
 
+					case ObjectProperty.PC.DR: packet.PutFloat(character.statsManager.stats[(int)Stat.Evasion]); break;
+					case ObjectProperty.PC.DR_BM: packet.PutFloat(character.statsManager.stats[(int)Stat.DR_BM]); break;
+
+					case ObjectProperty.PC.MSPD: packet.PutFloat(character.statsManager.stats[(int)Stat.MovSpeed]); break;
+
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
 			}
@@ -1234,20 +1239,40 @@ namespace Melia.Channel.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, int damage)
+		public static void ZC_SKILL_HIT_INFO(IEntity attacker, List<SkillResult> targets)
 		{
+			int countValidTargets = 0;
+			foreach (SkillResult target in targets)
+			{
+				if (target.type == 0)
+					continue;
+				countValidTargets++;
+			}
+			if (countValidTargets == 0) return;
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 			packet.PutInt(attacker.Handle);
-			packet.PutByte(1); // Count?
-			packet.PutShort(26057);
-			packet.PutShort(5236);
-			packet.PutInt(target.Handle);
-			packet.PutInt(damage);
-			packet.PutInt(target.Hp);
-			packet.PutInt(2);
-			packet.PutBinFromHex("00 00 01 E3 A0 D0 03 00 00 A0 60 FC 4A 01 00 00 64 00 02 01 00 00 01 5C 00 00 00 00 00 00 00 03 00 00 00 60");
+			packet.PutByte((Byte)countValidTargets); // Count
+			foreach (SkillResult target in targets)
+			{
+				if (target.type == 0)
+					continue;
 
-			target.Map.Broadcast(packet);
+				var actorEntity = (IEntity)target.actor;
+
+				if (actorEntity == null) /// Shoudn't happnen. Error!
+					continue;
+
+				packet.PutShort(26057);
+				packet.PutShort(5236);
+				packet.PutInt(target.targetHandle);
+				packet.PutInt((int)target.value);
+				packet.PutInt(actorEntity.Hp);
+				packet.PutInt(1); // Hit count
+				packet.PutBinFromHex("01 00 FF 18 F8 18 03 00 00 71 00 08 54 01 00 00 64 00 02 01 00 00 93 00 00 00 00 00 F6 06 41 6A 00 00 00 64");
+
+			}
+
+			attacker.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -1642,10 +1667,10 @@ namespace Melia.Channel.Network
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="create"></param>
-		public static void ZC_NORMAL_Skill(Character character, int id, Position position, Direction direction, bool create, int actorId)
+		public static void ZC_NORMAL_Skill(Character character, Skill skill, Position position, Direction direction, bool create, int actorId)
 		{
 			//var actorId = 1234; // ActorId (entity unique id for this skill)
-			var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
+			//var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
 			var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
 			if (!create)
 				skillState = 1;
@@ -1653,22 +1678,26 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
 			packet.PutInt(character.Handle);
-			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
-			packet.PutInt(id); // SkillId
-			packet.PutInt(1); // Skill Level ?
+			//packet.PutBinFromHex("78 1A 27 00"); // ..
+			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
+			packet.PutInt(skill.Data.EffectId);
+			packet.PutInt(skill.Id); // SkillId
+			packet.PutInt(2); // Skill Level ?
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
 			packet.PutFloat(direction.Cos); // Direction (commented out for now)
 			packet.PutFloat(direction.Sin); // Direction (commented out for now)
-			packet.PutInt(0);
-			packet.PutFloat(distance);
+			//packet.PutFloat(0); // Angle? 
+			packet.PutBinFromHex("D40F49BF"); // Angle? 
+			packet.PutFloat(0); // Height?
 			packet.PutInt(actorId);
 			packet.PutByte(create);
 			packet.PutInt(skillState);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(0);
+			//packet.PutInt(0);
+			packet.PutBinFromHex("C80E27BA");
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
@@ -1700,25 +1729,91 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction)
+		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction, Position position2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x1c);
+			packet.PutInt(character.Handle); // This is not a fixed value, check more packets
 			packet.PutByte(0);
-			packet.PutBinFromHex("9F D2 42 0B"); // This is not a fixed value, check more packets
+			packet.PutBinFromHex("44 D7 76 10"); // Effect? BuffID?
 			packet.PutInt(id); // Target ActorId (seems to be)
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(direction.Cos); // Commented out for testing purposes
-			packet.PutFloat(direction.Sin); // Commented out for testing purposes
-			packet.PutFloat(0); // Unk
-			packet.PutFloat(0); // Unk
-			packet.PutFloat(0); // Unk
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutFloat(position2.X);
+			packet.PutFloat(position2.Y);
+			packet.PutFloat(position2.Z);
 
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Unkown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unkown_3f(Character character, Direction dir)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x3f);
+			packet.PutInt(character.Handle);
+			packet.PutInt(4);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(dir.Cos);
+			packet.PutFloat(dir.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(700.0f);
+			packet.PutFloat(1.0f);
+			packet.PutInt(1);
+			packet.PutBinFromHex("02 01 00 00"); // This is not a fixed value, check more packets
+			packet.PutFloat(1.0f);
+			packet.PutFloat(0.0f);
+			packet.PutFloat(512.0f);
+			packet.PutFloat(0.0f);
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Unkown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unkown_40(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x40);
+			packet.PutInt(character.Handle);
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Popup message in top of character
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unkown_3a(Character character, string msg1, string msg2)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x3a);
+			packet.PutInt(character.Handle);
+			packet.PutShort((short)(msg1.Length + 1));
+			packet.PutString(msg1);
+			packet.PutShort((short)(msg2.Length + 1));
+			packet.PutString(msg2);
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Unkown purpose yet. Something about charging a skill ?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unkown_4d(Character character, int skillId)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x4d);
+			packet.PutInt(character.Handle);
+			packet.PutInt(skillId);
+			character.Map.Broadcast(packet, character);
+		}
 
 		/// <summary>
 		/// Set a Range type "FAN" shape in a given position
@@ -1782,14 +1877,16 @@ namespace Melia.Channel.Network
 		/// <param name="maxHP"></param>
 		/// <param name="currentSP"></param>
 		/// <param name="maxSP"></param>
-		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP, int maxHP, int currentSP, int maxSP)
+		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP, int maxHP, short currentSP, short maxSP)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
 			packet.PutInt(character.Handle);
 			packet.PutInt(currentHP);
 			packet.PutInt(maxHP);
-			packet.PutInt(currentSP);
-			packet.PutInt(maxSP);
+			packet.PutShort(currentSP);
+			packet.PutShort(maxSP);
+			packet.PutShort(0);
+			packet.PutShort(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1817,15 +1914,15 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="amountHealed"></param>
 		/// <param name="maxHP"></param>
-		public static void ZC_HEAL_INFO(Character character, int amountHealed, int maxHP)
+		public static void ZC_HEAL_INFO(Character character, int amountHealed, int currentHP)
 		{
 			var packet = new Packet(Op.ZC_HEAL_INFO);
 			packet.PutInt(character.Handle);
 			packet.PutInt(amountHealed);
-			packet.PutInt(maxHP);
-			packet.PutInt(1);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(currentHP);
+			packet.PutInt(1); // It increments.. 1 by 1.. in every HEAL during the entire session. Check if it starts in 1 every time player logins.
+			packet.PutInt(0); // 00007411 observed
+			packet.PutInt(0);  // 000138BC observed
 
 			character.Map.Broadcast(packet);
 		}
@@ -1839,18 +1936,166 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt(id);
 			packet.PutInt(character.Handle);
-			packet.PutFloat(direction.Cos);
-			packet.PutFloat(direction.Sin);
-			packet.PutInt(1);
-			packet.PutFloat(600);
+			packet.PutFloat(character.Direction.Cos);
+			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(2);
+			packet.PutFloat(550);
 			packet.PutFloat(1);
-			packet.PutFloat(-1);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(1);
+			//packet.PutInt(0);
+			packet.PutBinFromHex("47 21 3E 00");
+			packet.PutFloat(1);
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
 			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Reply packet when skill melee target is casted. Character makes animation of skill (to broadcast to other players the actionprobably!)
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SKILL_MELEE_TARGET(Character character, int skillId, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
+			packet.PutInt(skillId);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutBinFromHex("01 B1 43 68");
+			packet.PutFloat(1000);
+			packet.PutFloat(1);
+			packet.PutBinFromHex("01 3A D9 01");
+			packet.PutFloat(0);
+			packet.PutFloat(1);
+			packet.PutInt(3015); // C7 0B 00 00
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet, character);
+
+
+		}
+
+		/// <summary>
+		/// Add buff icon in buffs bar 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_BUFF_ADD(Character character)
+		{
+			var packet = new Packet(Op.ZC_BUFF_ADD);
+			packet.PutInt(character.Handle);
+			packet.PutInt(94);
+			packet.PutInt(2); // Skill Level
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(1); // Buff stack
+			//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
+			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
+			packet.PutShort((short)(character.Name.Length + 1));
+			packet.PutString(character.Name);
+			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
+			packet.PutBinFromHex("1FED0000"); // Buff Handle. (but not related to the buff skill itself)
+
+			character.Connection.Send(packet);
+
+		}
+
+		/// <summary>
+		/// removes buff icon in buffs bar 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_BUFF_REMOVE(Character character, Buff buff)
+		{
+			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			packet.PutInt(character.Handle);
+			packet.PutInt(buff.Id); // 43 00 00 00
+			packet.PutByte(0);
+			packet.PutInt(buff.Handle); // Buff handle.  (but not related to the buff skill itself)
+
+			character.Map.Broadcast(packet, character);
+
+		}
+
+		/// <summary>
+		/// Add/Updates buff information in buffs bar 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_BUFF_ADD_2(Character character, Buff buff, bool update)
+		{
+
+			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(buff.Id); // Buff type
+			packet.PutInt(buff.ownerSkill.level); // Skill Level
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(buff.stackLevel); // Skill stack
+			//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
+			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
+			packet.PutShort((short)(character.Name.Length + 1));
+			packet.PutString(character.Name);
+			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
+			packet.PutInt(buff.Handle); // Buff Handle. (but not related to the buff skill itself)
+
+			character.Map.Broadcast(packet, character);
+
+		}
+
+		
+
+		/// <summary>
+		/// Set effect in player
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_11(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x11);
+			packet.PutInt(character.Handle);
+			packet.PutShort(8476); // Skill 20004 (permanent effect aura)
+			packet.PutShort(39);
+			packet.PutFloat(3); // Effect size
+			packet.PutInt(2);
+			packet.PutEmptyBin(4);
+			packet.PutFloat(0);
+			packet.PutEmptyBin(4);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// xxxx
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_14(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x14);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutInt(2);
+			packet.PutByte(0);
+			packet.PutFloat(1); // Effect size
+			packet.PutBinFromHex("BE 8F 06 00");
+			packet.PutEmptyBin(4);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		public static void ZC_NORMAL_19(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x19);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutBinFromHex("1C 21 27 00");
 
 			character.Map.Broadcast(packet, character);
 		}

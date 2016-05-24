@@ -10,5 +10,11 @@ namespace Melia.Channel.World
 		int Hp { get; }
 		Map Map { get; }
 		Position Position { get; }
+		bool IsDead { get; set; }
+
+		void SetAttackState(bool isAttacking);
+
+		StatsManager statsManager { get; set; }
+		BuffManager buffManager { get; set; }
 	}
 }
