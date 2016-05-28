@@ -10,7 +10,7 @@ namespace Melia.Test.Channel.Scripting
 	public class VariablesTests
 	{
 		[Fact]
-		public void Variables_SetAndGet()
+		public void SetAndGet()
 		{
 			var vars = new VariableManager();
 

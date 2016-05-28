@@ -616,6 +616,18 @@ namespace Melia.Channel.World
 				{
 					switch (order)
 					{
+						case InventoryOrder.Price:
+							items[category] = _items[category].OrderBy(a => a.Data.Price).ToList();
+							break;
+
+						case InventoryOrder.Weight:
+							items[category] = _items[category].OrderBy(a => a.Data.Weight).ToList();
+							break;
+
+						//case InventoryOrder.Grade:
+						//	items[category] = _items[category].OrderBy(a => a.[...]).ToList();
+						//	break;
+
 						case InventoryOrder.Name:
 							items[category] = _items[category].OrderBy(a => a.Data.Name).ToList();
 							break;

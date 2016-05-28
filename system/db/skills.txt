@@ -250,7 +250,7 @@
 { skillId: 20403, className: "Linker_JointPenalty", engName: "Joint Penalty", angle: 360, maxRange: 140, waveLength: 0, splashType: 1, splashRange: 20, splashHeight: 25, splashAngle: 0, splashRate: 0 },
 { skillId: 20404, className: "Linker_HangmansKnot", engName: "Hangman's Knot", angle: 360, maxRange: 140, waveLength: 0, splashType: 1, splashRange: 20, splashHeight: 25, splashAngle: 0, splashRate: 0 },
 { skillId: 20405, className: "Linker_SpiritualChain", engName: "Spiritual Chain", angle: 360, maxRange: 140, waveLength: 0, splashType: 1, splashRange: 20, splashHeight: 25, splashAngle: 0, splashRate: 0 },
-{ skillId: 20406, className: "Linker_UmbilicalCord", engName: "Lifeline", angle: 360, maxRange: 140, waveLength: 0, splashType: 1, splashRange: 20, splashHeight: 25, splashAngle: 0, splashRate: 0 },
+{ skillId: 20406, className: "Linker_UmbilicalCord", engName: "Umbilical Cord", angle: 360, maxRange: 140, waveLength: 0, splashType: 1, splashRange: 20, splashHeight: 25, splashAngle: 0, splashRate: 0 },
 { skillId: 20501, className: "Thaumaturge_SwellLeftArm", engName: "Swell Left Arm", angle: 90, maxRange: 140, waveLength: 25, splashType: 0, splashRange: 12, splashHeight: 0, splashAngle: 30, splashRate: 1 },
 { skillId: 20502, className: "Thaumaturge_ShrinkBody", engName: "Shrink Body", angle: 90, maxRange: 140, waveLength: 100, splashType: 1, splashRange: 30, splashHeight: 25, splashAngle: 30, splashRate: 1 },
 { skillId: 20503, className: "Thaumaturge_SwellBody", engName: "Swell Body", angle: 90, maxRange: 140, waveLength: 100, splashType: 1, splashRange: 30, splashHeight: 25, splashAngle: 30, splashRate: 1 },
