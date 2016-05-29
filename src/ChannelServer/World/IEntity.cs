@@ -12,6 +12,11 @@ namespace Melia.Channel.World
 		Position Position { get; }
 		bool IsDead { get; set; }
 
+		/// <summary>
+		/// Character's level.
+		/// </summary>
+		int Level { get; set; }
+
 		void SetAttackState(bool isAttacking);
 
 		StatsManager statsManager { get; set; }

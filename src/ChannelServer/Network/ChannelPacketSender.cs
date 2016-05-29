@@ -888,7 +888,7 @@ namespace Melia.Channel.Network
 			ZC_OBJECT_PROPERTY(character,
 				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
 				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
-				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
+				//ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
 				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight,
 				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
 			);
@@ -929,11 +929,11 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.SP: packet.PutFloat(character.Sp); break;
 					case ObjectProperty.PC.MSP: packet.PutFloat(character.MaxSp); break;
 
-					case ObjectProperty.PC.STR: packet.PutFloat(character.Str); break;
-					case ObjectProperty.PC.CON: packet.PutFloat(character.Con); break;
-					case ObjectProperty.PC.INT: packet.PutFloat(character.Int); break;
-					case ObjectProperty.PC.MNA: packet.PutFloat(character.Spr); break;
-					case ObjectProperty.PC.DEX: packet.PutFloat(character.Dex); break;
+					case ObjectProperty.PC.STR: packet.PutFloat(character.statsManager.stats[(int)Stat.STR]); break;
+					case ObjectProperty.PC.CON: packet.PutFloat(character.statsManager.stats[(int)Stat.CON]); break;
+					case ObjectProperty.PC.INT: packet.PutFloat(character.statsManager.stats[(int)Stat.INT]); break;
+					case ObjectProperty.PC.MNA: packet.PutFloat(character.statsManager.stats[(int)Stat.SPR]); break;
+					case ObjectProperty.PC.DEX: packet.PutFloat(character.statsManager.stats[(int)Stat.DEX]); break;
 
 					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
 					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
@@ -949,6 +949,8 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.DR_BM: packet.PutFloat(character.statsManager.stats[(int)Stat.DR_BM]); break;
 
 					case ObjectProperty.PC.MSPD: packet.PutFloat(character.statsManager.stats[(int)Stat.MovSpeed]); break;
+					case ObjectProperty.PC.RHP: packet.PutFloat(character.statsManager.stats[(int)Stat.RecoveryHP]); break;
+					case ObjectProperty.PC.RSP: packet.PutFloat(character.statsManager.stats[(int)Stat.RecoverySP]); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
@@ -1923,6 +1925,23 @@ namespace Melia.Channel.Network
 			packet.PutInt(1); // It increments.. 1 by 1.. in every HEAL during the entire session. Check if it starts in 1 every time player logins.
 			packet.PutInt(0); // 00007411 observed
 			packet.PutInt(0);  // 000138BC observed
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Adds HP to character
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="amountHealed"></param>
+		/// <param name="maxHP"></param>
+		public static void ZC_ADD_HP(Character character, int amountAdded)
+		{
+			var packet = new Packet(Op.ZC_ADD_HP);
+			packet.PutInt(character.Handle);
+			packet.PutInt(amountAdded);
+			packet.PutInt(character.Hp);
+			packet.PutInt(1); // It increments.. 1 by 1.. in every HEAL during the entire session. Check if it starts in 1 every time player logins.
 
 			character.Map.Broadcast(packet);
 		}

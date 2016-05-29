@@ -218,25 +218,6 @@ namespace Melia.Channel.World
 				return this.EffectHandler.ProcessSkill(target, this);
 			}
 			return null;
-			/*
-			switch (this.Id)
-			{
-				case 40001:
-					return SkillEffects.Heal.ProcessSkill(target, this);
-				case 40002:
-					return SkillEffects.Cure.ProcessSkill(target, this);
-				case 40003:
-					return SkillEffects.BuffSkill.ProcessSkill(target, this);
-				case 40004:
-					return SkillEffects.BuffSkill.ProcessSkill(target, this);
-				case 100:
-					return SkillEffects.Melee.ProcessSkill(target, this);
-				default:
-					return null;
-				
-			}
-			*/
-
 		}
 
 	}

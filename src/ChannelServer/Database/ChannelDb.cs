@@ -128,9 +128,13 @@ namespace Melia.Channel.Database
 					var z = reader.GetFloat("z");
 					character.Position = new Position(x, y, z);
 					character.Direction = new Direction(0);
+					character.statsManager.baseStats[(int)Stat.STR] = character.Str;
+					character.statsManager.baseStats[(int)Stat.CON] = character.Con;
+					character.statsManager.baseStats[(int)Stat.INT] = character.Int;
+					character.statsManager.baseStats[(int)Stat.SPR] = character.Spr;
+					character.statsManager.baseStats[(int)Stat.DEX] = character.Dex;
 				}
 			}
-
 			this.LoadCharacterJobs(character);
 			this.LoadCharacterItems(character);
 			this.LoadCharacterSkills(character);

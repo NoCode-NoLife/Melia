@@ -64,39 +64,140 @@ namespace Melia.Channel.World
 		public void SetBaseStats(float[] stats)
 		{
 			baseStats = stats;
+			this.InitializeStats();
+		}
+
+		public void InitializeStats()
+		{
+			// Calculate base stats first
+			for (Stat i = 0; i < Stat.Stat_MAX; i++)
+			{
+				if (this.baseStats[(int)i] != 0f)
+					RecalculateStatSilent(i);
+			}
+			// Calculate the "secondary" stats
+			for (Stat i = 0; i < Stat.Stat_MAX; i++)
+			{
+				if (this.stats[(int)i] == 0f)
+					RecalculateStatSilent(i);
+			}
+		}
+
+		// This function could be avoided if found a way to send all modified variables in the same tick, to be sent together.
+		public void SendInitialStats()
+		{
+
+			List<short> propertiesList = new List<short>();
+			for (Stat i = 0; i < Stat.Stat_MAX; i++)
+			{
+				if (this.stats[(int)i] != 0f)
+				{
+					propertiesList.Add(this.GetPropertyId(i));
+				}
+			}
+
+			Send.ZC_OBJECT_PROPERTY((Character)this.owner, propertiesList.ToArray());
+		}
+
+		public short GetPropertyId(Stat stat)
+		{
+			short propertyId;
+			switch (stat)
+			{
+				case Stat.MovSpeed:
+					propertyId = ObjectProperty.PC.MSPD;
+					break;
+				case Stat.Evasion:
+					propertyId = ObjectProperty.PC.DR;
+					break;
+				case Stat.DR_BM:
+					propertyId = ObjectProperty.PC.DR_BM;
+					break;
+				case Stat.RecoveryHP:
+					propertyId = ObjectProperty.PC.RHP;
+					break;
+				case Stat.RecoverySP:
+					propertyId = ObjectProperty.PC.RSP;
+					break;
+				case Stat.STR:
+					propertyId = ObjectProperty.PC.STR;
+					break;
+				case Stat.INT:
+					propertyId = ObjectProperty.PC.INT;
+					break;
+				case Stat.CON:
+					propertyId = ObjectProperty.PC.CON;
+					break;
+				case Stat.SPR:
+					propertyId = ObjectProperty.PC.MNA;
+					break;
+				case Stat.DEX:
+					propertyId = ObjectProperty.PC.DEX;
+					break;
+				default:
+					propertyId = 0;
+					break;
+			}
+
+			return propertyId;
+		}
+
+		public float RecalculateStatSilent(Stat stat)
+		{
+			float newValue;
+			//Log.Debug("Recaluclate silent {0}", stat);
+
+			var ownerEntity = (IEntity)this.owner;
+
+			switch (stat)
+			{
+				case Stat.STR:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.INT:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.SPR:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.CON:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.DEX:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MovSpeed:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.Evasion:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.DR_BM:
+					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.RecoveryHP:
+					newValue = (this.stats[(int)Stat.CON] + ownerEntity.Level / 2) * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.RecoverySP:
+					float clericClassBonus = 0.0f;
+					newValue = (this.stats[(int)Stat.SPR] + ownerEntity.Level / 2 + clericClassBonus) * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				default:
+					newValue = 0.0f;
+					break;
+			}
+
+			this.stats[(int)stat] = newValue;
+
+			return newValue;
 		}
 
 		public float RecalculateStat(Stat stat)
 		{
-			float newValue;
-			short propertyId;
-
-			switch (stat)
-			{
-				case Stat.MovSpeed:
-					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
-					propertyId = 6893;
-					break;
-				case Stat.Evasion:
-					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
-					propertyId = 7024;
-					break;
-				case Stat.DR_BM:
-					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
-					propertyId = 7011;
-					break;
-				default:
-					newValue = 0.0f;
-					propertyId = 0;
-					break;
-			}
-			if (newValue != this.stats[(int)stat])
-			{
-				this.stats[(int)stat] = newValue;
-				short[] properties = new short[1];
-				properties[0] = propertyId;
-				Send.ZC_OBJECT_PROPERTY((Character)owner, properties);
-			}
+			var newValue = this.RecalculateStatSilent(stat);
+			short[] properties = new short[1];
+			properties[0] = this.GetPropertyId(stat);
+			Send.ZC_OBJECT_PROPERTY((Character)owner, properties);
 			return newValue;
 		}
 

@@ -61,6 +61,10 @@ namespace Melia.Channel.World
 
 		private Position _destination { get; set; }
 
+		// Regeneration ticks
+		private DateTime lastHpRegenTime;
+		private DateTime lastSpRegenTime;
+
 		/// <summary>
 		/// Gets or sets whether the character is sitting.
 		/// </summary>
@@ -150,13 +154,14 @@ namespace Melia.Channel.World
 			this.jobs = new Dictionary<Job, int>();
 			this.skillManager = new SkillManager(this);
 			this.statsManager = new StatsManager(this);
-			float[] baseStats = new float[(int)Stat.Stat_MAX];
-			baseStats[(int)Stat.MovSpeed] = 20.0f;
-			this.statsManager.SetBaseStats(baseStats);
+			this.statsManager.baseStats[(int)Stat.MovSpeed] = 20.0f; /// TODO: check where is the best place to set this value
 			this.buffManager = new BuffManager(this);
 
 			this.CollisionShape = new Circle(10.0f);
 			this.LastMoveTimestamp = 0f;
+
+			this.lastHpRegenTime = DateTime.Now;
+			this.lastSpRegenTime = DateTime.Now;
 		}
 
 		/// <summary>
@@ -252,6 +257,60 @@ namespace Melia.Channel.World
 
 			// Process buffs
 			this.buffManager.RemoveExpiredBuffs();
+
+			// Regeneration
+			this.HPRegen();
+			this.SPRegen();
+			this.UpdateState();
+		}
+
+		private void HPRegen()
+		{
+			TimeSpan diff = DateTime.Now - this.lastHpRegenTime;
+			//Log.Debug("{0} {1} {2} {3}", DateTime.Now.ToString(), this.lastHpRegenTime.ToString(), (int)diff.TotalMilliseconds, this.statsManager.stats[(int)Stat.RecoveryHP]);
+			// Calculate current HP regen tick for this character
+			int regenRate = 20000;
+			if (this.IsSitting) regenRate = 10000;
+
+			if ((int)diff.TotalMilliseconds < regenRate)
+				return;
+
+			this.lastHpRegenTime = DateTime.Now;
+
+			if (this.Hp >= this.MaxHp)
+				return;
+
+			// Get amount to recover
+			var HpRecoveryAmount = this.statsManager.stats[(int)Stat.RecoveryHP];
+
+			Send.ZC_NORMAL_Unkown_3a(this, "I_SYS_heal2", HpRecoveryAmount.ToString());
+			this.SetCurrentHp((int)(this.Hp + HpRecoveryAmount));
+
+		}
+
+		private void SPRegen()
+		{
+			TimeSpan diff = DateTime.Now - this.lastSpRegenTime;
+			// Calculate current HP regen tick for this character
+			int regenRate = 20000;
+			if (this.IsSitting) regenRate = 10000;
+
+			if ((int)diff.TotalMilliseconds < regenRate)
+				return;
+
+			this.lastSpRegenTime = DateTime.Now;
+
+			if (this.Sp >= this.MaxSp)
+				return;
+
+			// Get amount to recover
+			var SpRecoveryAmount = this.statsManager.stats[(int)Stat.RecoverySP];
+
+			this.SetCurrentSp((int)(this.Sp + SpRecoveryAmount));
+		}
+
+		public void UpdateState()
+		{
 
 		}
 
@@ -635,9 +694,23 @@ namespace Melia.Channel.World
 
 		public void SetCurrentSp(int sp)
 		{
+			if (this.Sp == sp)
+				return;
+
 			this.Sp = Math2.Clamp(0, this.MaxSp, sp);
 			Send.ZC_UPDATE_SP(this, (short)this.Sp);
 		}
+
+		public void SetCurrentHp(int newHp)
+		{
+			if (this.Hp == newHp)
+				return;
+
+			this.Hp = Math2.Clamp(0, this.MaxHp, newHp);
+			Send.ZC_ADD_HP(this, this.Hp);
+		}
+
+		
 
 		public bool IntersectWith(Actor actor)
 		{
