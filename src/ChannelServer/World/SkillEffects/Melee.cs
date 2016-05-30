@@ -29,14 +29,15 @@ namespace Melia.Channel.World.SkillEffects
 				if (targetMonster.IsDead)
 					return skillResult;
 
-				targetMonster.TakeDamage(10, (Character)skill.owner);
+				float damage = ((IEntity)skill.owner).AdjustInfringedDamage(10);
+				targetMonster.TakeDamage((int)damage, (Character)skill.owner);
 
 				// Generate result reports
 				skillResult = new SkillResult();
 				skillResult.actor = target;
 				skillResult.skillHandle = skill.Handle;
 				skillResult.targetHandle = target.Handle;
-				skillResult.value = 10;
+				skillResult.value = damage;
 				skillResult.type = 1;
 			}
 

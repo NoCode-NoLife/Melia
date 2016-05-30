@@ -14,6 +14,7 @@ namespace Melia.Channel.World
 	 
 	public class StatsManager
 	{
+		public bool bInitialized;
 		public Actor owner;
 
 		private object _listLock = new object();
@@ -25,6 +26,7 @@ namespace Melia.Channel.World
 
 		public StatsManager(Actor ownerActor)
 		{
+			this.bInitialized = false;
 			// Set owner
 			owner = ownerActor;
 
@@ -47,6 +49,19 @@ namespace Melia.Channel.World
 		{
 			statMods[modifier.stat][handler] = modifier;
 			this.RecalculateStat(modifier.stat);
+		}
+
+		public void AddStatMod(int handler, Stat stat, StatModifierType type, float value)
+		{
+			if (value == 0f)
+				return;
+
+			StatModifier statMod;
+			statMod.stat = stat;
+			statMod.modifierType = type;
+			statMod.modifierValue = value;
+
+			this.AddStatMod(handler, statMod);
 		}
 
 		public void RemoveStatMods(int handler)
@@ -97,6 +112,8 @@ namespace Melia.Channel.World
 			}
 
 			Send.ZC_OBJECT_PROPERTY((Character)this.owner, propertiesList.ToArray());
+
+			bInitialized = true;
 		}
 
 		public short GetPropertyId(Stat stat)
@@ -134,7 +151,26 @@ namespace Melia.Channel.World
 				case Stat.DEX:
 					propertyId = ObjectProperty.PC.DEX;
 					break;
+				case Stat.MINPATK:
+					propertyId = ObjectProperty.PC.MINPATK;
+					break;
+				case Stat.MAXPATK:
+					propertyId = ObjectProperty.PC.MAXPATK;
+					break;
+				case Stat.MINPATK_SUB:
+					propertyId = ObjectProperty.PC.MINPATK_SUB;
+					break;
+				case Stat.MAXPATK_SUB:
+					propertyId = ObjectProperty.PC.MAXPATK_SUB;
+					break;
+				case Stat.MINMATK:
+					propertyId = ObjectProperty.PC.MINMATK;
+					break;
+				case Stat.MAXMATK:
+					propertyId = ObjectProperty.PC.MAXMATK;
+					break;
 				default:
+					Log.Error("Stat {0} has no propertyId assigned!", stat);
 					propertyId = 0;
 					break;
 			}
@@ -166,13 +202,13 @@ namespace Melia.Channel.World
 				case Stat.DEX:
 					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
-				case Stat.MovSpeed:
+				case Stat.MovSpeed: // TODO
 					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
-				case Stat.Evasion:
+				case Stat.Evasion: // TODO
 					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
-				case Stat.DR_BM:
+				case Stat.DR_BM: // TODO
 					newValue = this.baseStats[(int)stat] * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
 				case Stat.RecoveryHP:
@@ -181,6 +217,24 @@ namespace Melia.Channel.World
 				case Stat.RecoverySP:
 					float clericClassBonus = 0.0f;
 					newValue = (this.stats[(int)Stat.SPR] + ownerEntity.Level / 2 + clericClassBonus) * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MINPATK:
+					newValue = this.stats[(int)Stat.STR] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MAXPATK:
+					newValue = this.stats[(int)Stat.STR] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MINPATK_SUB:
+					newValue = this.stats[(int)Stat.STR] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MAXPATK_SUB:
+					newValue = this.stats[(int)Stat.STR] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MINMATK:
+					newValue = this.stats[(int)Stat.INT] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MAXMATK:
+					newValue = this.stats[(int)Stat.INT] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
 				default:
 					newValue = 0.0f;
@@ -195,9 +249,13 @@ namespace Melia.Channel.World
 		public float RecalculateStat(Stat stat)
 		{
 			var newValue = this.RecalculateStatSilent(stat);
-			short[] properties = new short[1];
-			properties[0] = this.GetPropertyId(stat);
-			Send.ZC_OBJECT_PROPERTY((Character)owner, properties);
+
+			if (bInitialized) {
+				short[] properties = new short[1];
+				properties[0] = this.GetPropertyId(stat);
+				Send.ZC_OBJECT_PROPERTY((Character)owner, properties);
+			}
+
 			return newValue;
 		}
 
@@ -229,6 +287,27 @@ namespace Melia.Channel.World
 			}
 
 			return value;
+		}
+
+		public float AdjustInfringedDamage(float damage, int damageType)
+		{
+			float finalDamage = damage;
+			Random rnd = new Random();
+			switch (damageType)
+			{
+				case 0:
+					int damagePAtk = rnd.Next((int)this.stats[(int)Stat.MINPATK], (int)this.stats[(int)Stat.MAXPATK]);
+					finalDamage = damage + damagePAtk;
+					break;
+				case 1:
+					int damageMAtk = rnd.Next((int)this.stats[(int)Stat.MINMATK], (int)this.stats[(int)Stat.MAXMATK]);
+					finalDamage = damage + damageMAtk;
+					break;
+				default:
+					break;
+			}
+
+			return finalDamage;
 		}
 	}
 }

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Const;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World
 {
@@ -155,6 +158,36 @@ namespace Melia.Channel.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Creates appropiate Item class based on ItemId
+		/// or null if itemId is not found.
+		/// </summary>
+		public Item CreateItem(int itemId, int amount)
+		{
+			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+			{
+				Log.Error("ItemId not exist: {0}", itemId);
+				return null;
+			}
+
+			ItemData itemData = ChannelServer.Instance.Data.ItemDb.FindByItemId(itemId);
+
+			Item newItem;
+			switch (itemData.Category)
+			{
+				case InventoryCategory.Weapon:
+						newItem = new Weapon(itemId, amount);
+						newItem.Data.slot = EquipSlot.RightHand;
+					break;
+				default:
+						newItem = new Item(itemId, amount);
+						break;
+			}
+
+			return newItem;
+
 		}
 	}
 }

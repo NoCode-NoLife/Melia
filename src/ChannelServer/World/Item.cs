@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
@@ -17,6 +18,8 @@ namespace Melia.Channel.World
 		private static long _worldId = 0x0050000000000000;
 
 		private int _amount;
+
+		public Actor owner;
 
 		/// <summary>
 		/// Returns the item's id.

@@ -121,7 +121,6 @@ namespace Melia.Channel.Network
 			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY_Init(character);
-			character.statsManager.InitializeStats();
 			character.statsManager.SendInitialStats();
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
@@ -805,15 +804,10 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			Skill skill = character.skillManager.GetSkill(100);
+			character.UseWeapon();
 
-			Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
-
-			if (skill != null)
-			{
-				skill.Activate();
-			}
-
+			//Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
+			
 			/*
 			for (int i = 0; i < count; ++i)
 			{

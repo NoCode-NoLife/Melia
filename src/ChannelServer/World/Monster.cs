@@ -98,6 +98,7 @@ namespace Melia.Channel.World
 		public bool IsDead { get; set; }
 		public StatsManager statsManager { get; set; }
 		public BuffManager buffManager { get; set; }
+		public SkillManager skillManager { get; set; }
 
 		/// <summary>
 		/// Creates new NPC.
@@ -196,6 +197,15 @@ namespace Melia.Channel.World
 		public void Process()
 		{
 			this.buffManager.RemoveExpiredBuffs();
+		}
+
+		public float AdjustInfringedDamage(float damage)
+		{
+			return damage;
+		}
+		public float AdjustReceivedDamage(float damage)
+		{
+			return damage;
 		}
 	}
 }

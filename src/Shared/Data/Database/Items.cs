@@ -20,6 +20,7 @@ namespace Melia.Shared.Data.Database
 		public int MaxStack { get; set; }
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
+		public EquipSlot slot { get; set; }
 	}
 
 	/// <summary>
@@ -37,6 +38,11 @@ namespace Melia.Shared.Data.Database
 		{
 			name = name.ToLower();
 			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
+		}
+
+		public ItemData FindByItemId(int itemId)
+		{
+			return this.Entries.FirstOrDefault(a => a.Value.Id == itemId).Value;
 		}
 
 		protected override void ReadEntry(JObject entry)

@@ -70,6 +70,7 @@
     <Compile Include="World\BuffManager.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="World\IEntity.cs" />
+    <Compile Include="World\IEquipable.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
     <Compile Include="World\IVisitor.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="World\SkillEffects\Cure.cs" />
     <Compile Include="World\SkillEffects\Heal.cs" />
     <Compile Include="World\StatsManager.cs" />
+    <Compile Include="World\Weapon.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

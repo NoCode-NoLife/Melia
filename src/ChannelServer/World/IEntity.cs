@@ -21,5 +21,9 @@ namespace Melia.Channel.World
 
 		StatsManager statsManager { get; set; }
 		BuffManager buffManager { get; set; }
+		SkillManager skillManager { get; set; }
+
+		float AdjustInfringedDamage(float damage);
+		float AdjustReceivedDamage(float damage);
 	}
 }

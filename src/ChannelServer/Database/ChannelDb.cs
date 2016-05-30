@@ -133,6 +133,7 @@ namespace Melia.Channel.Database
 					character.statsManager.baseStats[(int)Stat.INT] = character.Int;
 					character.statsManager.baseStats[(int)Stat.SPR] = character.Spr;
 					character.statsManager.baseStats[(int)Stat.DEX] = character.Dex;
+					character.statsManager.InitializeStats();
 				}
 			}
 			this.LoadCharacterJobs(character);
@@ -218,7 +219,11 @@ namespace Melia.Channel.Database
 							continue;
 						}
 
-						var item = new Item(itemId, amount);
+						Item item = ChannelServer.Instance.World.CreateItem(itemId, amount);
+						if (item == null)
+							continue;
+
+						item.owner = character;
 
 						if (!Enum.IsDefined(typeof(EquipSlot), equipSlot))
 							character.Inventory.AddSilent(item);

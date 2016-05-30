@@ -57,6 +57,8 @@ namespace Melia.Channel
 
 		public Dictionary<int, SkillEffect> SkillEffects { get; private set; }
 
+		public Random rnd { get; set; }
+
 		/// <summary>
 		/// Creates new channel server.
 		/// </summary>
@@ -67,6 +69,8 @@ namespace Melia.Channel
 			this.SkillEffects = new Dictionary<int, SkillEffect>();
 
 			this.LoadSkillEffects();
+
+			rnd = new Random();
 		}
 
 		private void LoadSkillEffects()
@@ -80,6 +84,8 @@ namespace Melia.Channel
 			this.SkillEffects.Add(40003, skillEffect);
 			skillEffect = new BuffSkill();
 			this.SkillEffects.Add(40004, skillEffect);
+			skillEffect = new Melee();
+			this.SkillEffects.Add(100, skillEffect);
 
 		}
 

@@ -30,7 +30,7 @@ namespace Melia.Channel.World
 		public Dictionary<Job, int> jobPoints;
 		public int jobLevel;
 
-		public SkillManager skillManager;
+		public SkillManager skillManager { get; set; }
 		public StatsManager statsManager { get; set; }
 		public BuffManager buffManager { get; set; }
 
@@ -756,6 +756,55 @@ namespace Melia.Channel.World
 
 			return amountToHeal;
 
+		}
+
+		public void UseWeapon()
+		{
+			// Get equipped weapon
+			Item weapon = this.Inventory.GetItem(EquipSlot.RightHand);
+			if (weapon != null) {
+				if (weapon is Weapon)
+				{
+					((Weapon)weapon).Fire();
+				}
+				else
+				{
+					// Dummy weapon
+					/// Dummy weapon should be a valid weapon class.
+					/// 
+					Skill skill = this.skillManager.GetSkill(100);
+					if (skill != null)
+						skill.Activate();
+				}
+			}
+			
+				
+		}
+
+		public float AdjustInfringedDamage(float damage)
+		{
+			float finalDamage = damage;
+			Random rnd = ChannelServer.Instance.rnd;
+			int damageType = 0;
+			switch (damageType)
+			{
+				case 0:
+					int damagePAtk = rnd.Next((int)this.statsManager.stats[(int)Stat.MINPATK], (int)this.statsManager.stats[(int)Stat.MAXPATK]);
+					finalDamage = damage + damagePAtk;
+					break;
+				case 1:
+					int damageMAtk = rnd.Next((int)this.statsManager.stats[(int)Stat.MINMATK], (int)this.statsManager.stats[(int)Stat.MAXMATK]);
+					finalDamage = damage + damageMAtk;
+					break;
+				default:
+					break;
+			}
+
+			return finalDamage;
+		}
+		public float AdjustReceivedDamage(float damage)
+		{
+			return damage;
 		}
 
 	}

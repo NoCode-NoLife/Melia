@@ -390,7 +390,9 @@ namespace Melia.Channel.World
 		public void SetEquipSilent(EquipSlot slot, Item item)
 		{
 			lock (_syncLock)
-				_equip[slot] = item;
+				_equip[item.Data.slot] = item;
+
+			((IEquipable)item).OnEquip();
 		}
 
 		/// <summary>
@@ -424,6 +426,8 @@ namespace Melia.Channel.World
 				_itemsWorldIndex.Remove(item.WorldId);
 			}
 
+			((IEquipable)item).OnEquip();
+
 			// Update client
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
@@ -449,6 +453,8 @@ namespace Melia.Channel.World
 
 			lock (_syncLock)
 				_equip[slot] = new DummyEquipItem(slot);
+
+			((IEquipable)item).OnUnequip();
 
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
@@ -733,5 +739,6 @@ namespace Melia.Channel.World
 			: base(Items.DefaultItems[(int)slot], 1)
 		{
 		}
+
 	}
 }

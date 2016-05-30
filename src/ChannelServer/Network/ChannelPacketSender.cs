@@ -917,11 +917,13 @@ namespace Melia.Channel.Network
 			if (properties == null || properties.Length == 0)
 				return;
 
+
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 			packet.PutLong(character.Id);
 			foreach (var property in properties)
 			{
 				packet.PutShort(property);
+				Log.Debug("property {0}", property);
 				switch (property)
 				{
 					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
@@ -951,6 +953,14 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.MSPD: packet.PutFloat(character.statsManager.stats[(int)Stat.MovSpeed]); break;
 					case ObjectProperty.PC.RHP: packet.PutFloat(character.statsManager.stats[(int)Stat.RecoveryHP]); break;
 					case ObjectProperty.PC.RSP: packet.PutFloat(character.statsManager.stats[(int)Stat.RecoverySP]); break;
+
+					case ObjectProperty.PC.MINPATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MINPATK]); break;
+					case ObjectProperty.PC.MAXPATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MAXPATK]); break;
+					case ObjectProperty.PC.MINPATK_SUB: packet.PutFloat(character.statsManager.stats[(int)Stat.MINPATK_SUB]); break;
+					case ObjectProperty.PC.MAXPATK_SUB: packet.PutFloat(character.statsManager.stats[(int)Stat.MAXPATK_SUB]); break;
+					case ObjectProperty.PC.MINMATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MINMATK]); break;
+					case ObjectProperty.PC.MAXMATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MAXMATK]); break;
+
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}

@@ -60,7 +60,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public bool Init(Map mapOwner, int width, int height, int baseX, int baseY)
 		{
-			Log.Info("SectorManager Initializing: w:{0} h:{1}, bX: {2}, bY: {3}", width, height, baseX, baseY);
+			//Log.Info("SectorManager Initializing: w:{0} h:{1}, bX: {2}, bY: {3}", width, height, baseX, baseY);
 
 			// Set map owner
 			this.owner = mapOwner;
@@ -90,7 +90,7 @@ namespace Melia.Channel.World
 			// Set count of sectors
 			this.count = this.width * this.height;
 
-			Log.Info("SectorManager: Sectors: w:{0} h:{1}, c: {2}", this.width, this.height, this.count);
+			//Log.Info("SectorManager: Sectors: w:{0} h:{1}, c: {2}", this.width, this.height, this.count);
 
 			// Create sectors
 			sectors = new Sector[this.count];
