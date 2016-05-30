@@ -265,8 +265,11 @@ namespace Melia.Channel.Database
 					}
 				}
 
-				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem)))
+				foreach (var item in character.Inventory.GetEquip())
 				{
+					// Avoid saving "dummy equip items"
+					if (item.Value.Id == Items.DefaultItems[(int)item.Key])
+						continue;
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{
 						cmd.Set("characterId", character.Id);

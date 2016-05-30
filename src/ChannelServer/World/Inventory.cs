@@ -21,19 +21,22 @@ namespace Melia.Channel.World
 		private Dictionary<InventoryCategory, List<Item>> _items;
 		private Dictionary<long, Item> _itemsWorldIndex;
 		private Dictionary<EquipSlot, Item> _equip;
+		private Dictionary<EquipSlot, Item> _dummyEquip;
 
 		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
 		public Inventory(Character character)
 		{
+			_dummyEquip = new Dictionary<EquipSlot, Item>(Items.EquipSlotCount);
+
 			_items = new Dictionary<InventoryCategory, List<Item>>();
 			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
 				_items.Add(category, new List<Item>());
 
 			_equip = new Dictionary<EquipSlot, Item>(Items.EquipSlotCount);
 			for (EquipSlot slot = 0; slot < (EquipSlot)Items.EquipSlotCount; ++slot)
-				_equip.Add(slot, new DummyEquipItem(slot));
+				_equip.Add(slot, this.GetDummyItemForSlot(slot));
 
 			_itemsWorldIndex = new Dictionary<long, Item>();
 
@@ -413,7 +416,7 @@ namespace Melia.Channel.World
 			// Unequip existing item first.
 			var collision = false;
 			lock (_syncLock)
-				collision = !(_equip[slot] is DummyEquipItem);
+				collision = !(_equip[slot] == _dummyEquip[slot]);
 
 			if (collision)
 				this.Unequip(slot);
@@ -448,11 +451,11 @@ namespace Melia.Channel.World
 				return InventoryResult.InvalidSlot;
 
 			var item = this.GetItem(slot);
-			if (item == null || item is DummyEquipItem)
+			if (item == null || _dummyEquip.FirstOrDefault(a => a.Value.Id.Equals(item.Id)).Value != null)
 				return InventoryResult.ItemNotFound;
 
 			lock (_syncLock)
-				_equip[slot] = new DummyEquipItem(slot);
+				_equip[slot] = this.GetDummyItemForSlot(slot);
 
 			((IEquipable)item).OnUnequip();
 
@@ -471,7 +474,7 @@ namespace Melia.Channel.World
 		public InventoryResult Remove(long worldId)
 		{
 			var item = this.GetItem(worldId);
-			if (item == null || item is DummyEquipItem)
+			if (item == null || _dummyEquip.FirstOrDefault(a => a.Value.Id.Equals(item.Id)).Value != null)
 				return InventoryResult.ItemNotFound;
 
 			return this.Remove(item);
@@ -665,7 +668,7 @@ namespace Melia.Channel.World
 			lock (_syncLock)
 			{
 				result += _items.SelectMany(a => a.Value).Sum(a => a.Data.Weight);
-				result += _equip.Values.Where(a => !(a is DummyEquipItem)).Sum(a => a.Data.Weight);
+				result += _equip.Values.Sum(a => a.Data.Weight);
 			}
 
 			return result;
@@ -723,6 +726,30 @@ namespace Melia.Channel.World
 
 			return InventoryResult.Success;
 		}
+
+		public Item GetDummyItemForSlot(EquipSlot slot)
+		{
+			Log.Debug("Get dummy item for slot {0}", slot.ToString());
+			Item dummyItem;
+
+			if (_dummyEquip.TryGetValue(slot, out dummyItem))
+			{
+				if (dummyItem != null)
+					return dummyItem;
+			}
+				
+
+			// Create dummy item
+			dummyItem = ChannelServer.Instance.World.CreateItem(Items.DefaultItems[(int)slot], 1);
+			if (dummyItem != null)
+			{
+				dummyItem.owner = this._character;
+			}
+			// Add this new dummy item to given slot, to avoid re-create it next time.
+			_dummyEquip.Add(slot, dummyItem);
+
+			return dummyItem;
+		}
 	}
 
 	public enum InventoryResult
@@ -731,14 +758,5 @@ namespace Melia.Channel.World
 		ItemNotFound,
 		InvalidSlot,
 		InvalidOperation,
-	}
-
-	public class DummyEquipItem : Item
-	{
-		public DummyEquipItem(EquipSlot slot)
-			: base(Items.DefaultItems[(int)slot], 1)
-		{
-		}
-
 	}
 }
