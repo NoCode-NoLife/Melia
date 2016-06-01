@@ -1392,6 +1392,9 @@ namespace Melia.Shared.Const
 			public const short MDefRatio = 12624;
 			public const short DefRatio = 12625;
 			public const short ReinforceRatio = 12640;
+			public const short HatVisible = 31585;
+			public const short ItemLifeTimeOver = 31586;
+			public const short ItemLifeTime = 31587;
 		}
 	}
 }
