@@ -71,6 +71,7 @@ namespace Melia.Shared.Const
 			public const short MaxAccountWarehouseCount = 11583;
 			public const short AccountWareHouseExtend = 11584;
 			public const short AccumulatedRepotedPoint = 31584;
+			public const short NextBuyTokenTime = 31593;
 		}
 
 		public static class Monster
