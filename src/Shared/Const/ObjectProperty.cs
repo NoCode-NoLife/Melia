@@ -72,6 +72,8 @@ namespace Melia.Shared.Const
 			public const short AccountWareHouseExtend = 11584;
 			public const short AccumulatedRepotedPoint = 31584;
 			public const short NextBuyTokenTime = 31593;
+			public const short MarketReportWhite = 31595;
+			public const short MarketReportBlack = 31596;
 		}
 
 		public static class Monster
