@@ -195,4 +195,6 @@
 { shopName: "Master_Shinobi", productId: 3401, itemId: 645747, priceMultiplier: 1 },
 
 { shopName: "Master_RuneCaster", productId: 3501, itemId: 645750, priceMultiplier: 1 },
+
+{ shopName: "Master_Bokor", productId: 3601, itemId: 910004, priceMultiplier: 1 },
 ]
