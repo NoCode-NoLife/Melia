@@ -244,14 +244,24 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Get map data
-			var mapData = LoginServer.Instance.Data.MapDb.Find(jobData.StartMap);
-			if (mapData == null)
+			// Get start city data
+			var startingCityData = LoginServer.Instance.Data.StartingCityDb.Find(startingCity);
+			if (startingCityData == null)
 			{
-				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", jobData.StartMap);
+				Log.Error("CB_COMMANDER_CREATE: StartingCity Id '{0}' not found.", startingCity);
 				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
 				return;
 			}
+
+			// Get map data
+			var mapData = LoginServer.Instance.Data.MapDb.Find(startingCityData.Map);
+			if (mapData == null)
+			{
+				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", startingCityData.Map);
+				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+				return;
+			}
+
 
 			// Create
 			var character = new Character();
@@ -261,7 +271,7 @@ namespace Melia.Login.Network
 			character.Hair = hair;
 
 			character.MapId = mapData.Id;
-			character.Position = new Position(jobData.StartX, jobData.StartY, jobData.StartZ);
+			character.Position = new Position(startingCityData.X, startingCityData.Y, startingCityData.Z);
 			character.BarrackPosition = new Position(bx, by, bz);
 
 			character.Hp = character.MaxHp = 100;

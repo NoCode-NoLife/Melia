@@ -129,6 +129,10 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt", reload);
 				}
+				if ((toLoad & DataToLoad.StartingCities) != 0)
+				{
+					this.LoadDb(this.Data.StartingCityDb, "db/startingcities.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -230,7 +234,8 @@ namespace Melia.Shared
 		Exp = 0x80,
 		Dialogues = 0x100,
 		Shops = 0x200,
-		SkillTree = 0x400,
+		StartingCities = 0x400,
+		SkillTree = 0x800,
 		All = 0x7FFFFFFF,
 	}
 }

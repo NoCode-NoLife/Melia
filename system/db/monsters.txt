@@ -304,7 +304,7 @@
 { monsterId: 41428, className: "mon_dog1", name: "Nureongi", level: 1, exp: 21, classExp: 15 },
 { monsterId: 41429, className: "mon_dog2", name: "Speck", level: 1, exp: 21, classExp: 15 },
 { monsterId: 41430, className: "mon_dog5", name: "White Spots", level: 1, exp: 21, classExp: 15 },
-{ monsterId: 41431, className: "mon_dog6", name: "Dog", level: 1, exp: 21, classExp: 15 },
+{ monsterId: 41431, className: "mon_dog6", name: "x", level: 1, exp: 21, classExp: 15 },
 { monsterId: 41432, className: "anvil_mon", name: "Anvil", level: 1, exp: 0, classExp: 0 },
 { monsterId: 41433, className: "hogma_warrior", name: "Hogma Warrior", level: 74, exp: 199, classExp: 96 },
 { monsterId: 41434, className: "hogma_archer", name: "Hogma Archer", level: 70, exp: 200, classExp: 252 },
@@ -3341,7 +3341,7 @@
 // Pets
 //---------------------------------------------------------------------------
 { monsterId: 60001, className: "Velhider", name: "Velheider", level: 40, exp: 57, classExp: 37 },
-{ monsterId: 60002, className: "pet_dog", name: "Dog", level: 40, exp: 57, classExp: 37 },
+{ monsterId: 60002, className: "pet_dog", name: "x", level: 40, exp: 57, classExp: 37 },
 { monsterId: 60004, className: "hoglan_Pet", name: "Hoglan", level: 40, exp: 57, classExp: 37 },
 { monsterId: 60005, className: "pet_hawk", name: "Hawk", level: 40, exp: 57, classExp: 37 },
 { monsterId: 60006, className: "Piggy", name: "Pig", level: 60, exp: 59, classExp: 39 },

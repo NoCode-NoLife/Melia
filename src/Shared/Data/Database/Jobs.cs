@@ -22,10 +22,6 @@ namespace Melia.Shared.Data.Database
 		public int Int { get; set; }
 		public int Spr { get; set; }
 		public int Dex { get; set; }
-		public string StartMap { get; set; }
-		public int StartX { get; set; }
-		public int StartY { get; set; }
-		public int StartZ { get; set; }
 		public int BarrackStance { get; set; }
 	}
 
@@ -41,7 +37,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "startMap", "startX", "startY", "startZ", "barrackStance");
+			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "barrackStance");
 
 			var info = new JobData();
 
@@ -55,10 +51,6 @@ namespace Melia.Shared.Data.Database
 			info.Int = entry.ReadInt("int");
 			info.Spr = entry.ReadInt("spr");
 			info.Dex = entry.ReadInt("dex");
-			info.StartMap = entry.ReadString("startMap");
-			info.StartX = entry.ReadInt("startX");
-			info.StartY = entry.ReadInt("startY");
-			info.StartZ = entry.ReadInt("startZ");
 			info.BarrackStance = entry.ReadInt("barrackStance");
 
 			this.Entries[info.Id] = info;

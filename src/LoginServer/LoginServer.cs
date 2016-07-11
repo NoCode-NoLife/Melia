@@ -54,7 +54,7 @@ namespace Melia.Login
 			this.CheckDatabaseUpdates();
 
 			// Data
-			this.LoadData(DataToLoad.All, true);
+			this.LoadData(DataToLoad.Jobs | DataToLoad.Maps | DataToLoad.Barracks | DataToLoad.Servers | DataToLoad.StartingCities, true);
 
 			// Packet handlers
 			LoginPacketHandler.Instance.RegisterMethods();

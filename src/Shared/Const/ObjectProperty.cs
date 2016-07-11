@@ -71,6 +71,9 @@ namespace Melia.Shared.Const
 			public const short MaxAccountWarehouseCount = 11583;
 			public const short AccountWareHouseExtend = 11584;
 			public const short AccumulatedRepotedPoint = 31584;
+			public const short NextBuyTokenTime = 31593;
+			public const short MarketReportWhite = 31595;
+			public const short MarketReportBlack = 31596;
 		}
 
 		public static class Monster
@@ -1393,6 +1396,9 @@ namespace Melia.Shared.Const
 			public const short MDefRatio = 12624;
 			public const short DefRatio = 12625;
 			public const short ReinforceRatio = 12640;
+			public const short HatVisible = 31585;
+			public const short ItemLifeTimeOver = 31586;
+			public const short ItemLifeTime = 31587;
 		}
 	}
 }

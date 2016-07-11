@@ -21,5 +21,6 @@ namespace Melia.Shared.Data
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
+		public StartingCityDb StartingCityDb = new StartingCityDb();
 	}
 }
