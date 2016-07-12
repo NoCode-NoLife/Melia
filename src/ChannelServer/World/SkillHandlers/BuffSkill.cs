@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.Const;
+using Melia.Channel.World.SkillEffects;
 
-namespace Melia.Channel.World.SkillEffects
+namespace Melia.Channel.World.SkillHandlers
 {
-	public class BuffSkill : SkillEffect
+	public class BuffSkill : SkillHandler
 	{
 		override public SkillResult ProcessSkill(Actor target, Skill skill)
 		{
@@ -18,39 +19,29 @@ namespace Melia.Channel.World.SkillEffects
 			{
 				var entityTarget = (IEntity)target;
 
-				entityTarget.buffManager.AddToBuffs(skill);
-
 				skillResult = new SkillResult();
 				skillResult.actor = target;
 				skillResult.skillHandle = skill.Handle;
 				skillResult.targetHandle = target.Handle;
 				skillResult.value = 0;
+
+				SkillDataComponent skillComp = new SkillDataComponent();
+				skillComp.skill = skill;
+				skillComp.skillHandler = this;
+				skillComp.caster = skill.owner;
+				skillComp.target = (IEntity) target;
+
+				foreach (var effect in skill.effects)
+				{
+					SkillEffect newEffect = effect.NewInstance(skillComp);
+					entityTarget.skillEffectsManager.AddEffect(newEffect);
+				}
+
 			}
 
 			return skillResult;
 		}
-
-		public void OnAdd(Buff buff)
-		{
-			if (buff.owner is IEntity)
-			{
-				var entityTarget = (IEntity)buff.owner;
-				foreach (var mod in buff.StatModifiers.Values)
-				{
-					entityTarget.statsManager.AddStatMod(buff.Handle, mod);
-				}
-			}
-		}
-
-		public void OnRemove(Buff buff)
-		{
-			if (buff.owner is IEntity)
-			{
-				var entityTarget = (IEntity)buff.owner;
-				entityTarget.statsManager.RemoveStatMods(buff.Handle);
-			}
-		}
-
+		/*
 		public void OnStack(Buff buff, int stackLevel)
 		{
 			if (buff.owner is IEntity)
@@ -65,5 +56,6 @@ namespace Melia.Channel.World.SkillEffects
 				}
 			}
 		}
+		*/
 	}
 }

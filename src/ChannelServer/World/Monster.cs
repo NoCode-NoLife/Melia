@@ -8,22 +8,13 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.Shapes;
 using System;
+using Melia.Channel.World.SkillEffects;
+using System.Collections.Generic;
 
 namespace Melia.Channel.World
 {
-	public class Monster : Actor, IEntity, IVisitor
+	public class Monster : Entity, IVisitor
 	{
-
-		private Map _map = Map.Limbo;
-		/// <summary>
-		/// The map the monster is currently on.
-		/// </summary>
-		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
-
-		/// <summary>
-		/// Monster ID in database.
-		/// </summary>
-		public int Id { get; set; }
 
 		/// <summary>
 		/// What kind of NPC the monster is.
@@ -61,11 +52,6 @@ namespace Melia.Channel.World
 		public Location WarpLocation { get; set; }
 
 		/// <summary>
-		/// Level.
-		/// </summary>
-		public int Level { get; set; }
-
-		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
 		public int SDR { get; set; }
@@ -73,17 +59,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Health points.
 		/// </summary>
-		public int Hp
+		public new int Hp
 		{
 			get { return _hp; }
 			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
 		private int _hp;
-
-		/// <summary>
-		/// Maximum health points.
-		/// </summary>
-		public int MaxHp { get; set; }
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -94,11 +75,6 @@ namespace Melia.Channel.World
 		/// Data entry for this monster.
 		/// </summary>
 		public MonsterData Data { get; private set; }
-
-		public bool IsDead { get; set; }
-		public StatsManager statsManager { get; set; }
-		public BuffManager buffManager { get; set; }
-		public SkillManager skillManager { get; set; }
 
 		/// <summary>
 		/// Creates new NPC.
@@ -122,7 +98,8 @@ namespace Melia.Channel.World
 			float[] baseStats = new float[(int)Stat.Stat_MAX];
 			baseStats[(int)Stat.MovSpeed] = 20.0f;
 			this.statsManager.SetBaseStats(baseStats);
-			this.buffManager = new BuffManager(this);
+			this.skillEffectsManager = new SkillEffectsManager(this);
+			this.skillEffects = new List<SkillEffect>();
 		}
 
 		/// <summary>
@@ -133,7 +110,7 @@ namespace Melia.Channel.World
 			if (this.Id == 0)
 				throw new InvalidOperationException("Id wasn't set before calling LoadData.");
 
-			this.Data = ChannelServer.Instance.Data.MonsterDb.Find(this.Id);
+			this.Data = ChannelServer.Instance.Data.MonsterDb.Find((int)this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 		}
@@ -179,11 +156,6 @@ namespace Melia.Channel.World
 			Send.ZC_DEAD(this);
 		}
 
-		public void SetAttackState(bool isAttacking)
-		{
-			
-		}
-
 		public bool OnVisit(Actor actor)
 		{
 			return true;
@@ -196,16 +168,8 @@ namespace Melia.Channel.World
 
 		public void Process()
 		{
-			this.buffManager.RemoveExpiredBuffs();
+			this.skillEffectsManager.RemoveExpiredEffects();
 		}
 
-		public float AdjustInfringedDamage(float damage)
-		{
-			return damage;
-		}
-		public float AdjustReceivedDamage(float damage)
-		{
-			return damage;
-		}
 	}
 }

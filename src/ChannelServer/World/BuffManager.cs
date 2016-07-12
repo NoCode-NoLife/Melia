@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.World;
 using Melia.Shared.Util;
-using Melia.Channel.World.SkillEffects;
+using Melia.Channel.World.SkillHandlers;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
 {
@@ -23,6 +24,7 @@ namespace Melia.Channel.World
 			this.buffList = new Dictionary<int, Buff>();
 		}
 
+		/*
 		public void AddToBuffs(Skill skill)
 		{
 			Buff currentBuff = null;
@@ -33,9 +35,9 @@ namespace Melia.Channel.World
 				if (skill.Data.buffCanStack)
 				{
 					currentBuff.stackLevel = currentBuff.stackLevel + 1;
-					BuffSkill buffSkillHandler = (BuffSkill)skill.EffectHandler;
-					if (buffSkillHandler != null)
-						buffSkillHandler.OnStack(currentBuff, currentBuff.stackLevel);
+					BuffSkill buffSkillHandler = (BuffSkill)skill.SkHandler;
+					//if (buffSkillHandler != null)
+						//buffSkillHandler.OnStack(currentBuff, currentBuff.stackLevel);
 				}
 
 				// Refresh
@@ -53,19 +55,16 @@ namespace Melia.Channel.World
 			}
 			else
 			{
-				Buff newBuff = new Buff();
+				Buff newBuff = new Buff(skill);
 				newBuff.owner = this.owner;
 				newBuff.expireTime = DateTime.Now.AddSeconds(buffSeconds);
-				newBuff.ownerSkill = skill;
 				newBuff.StatModifiers = skill.Data.statModifiers;
 				newBuff.Id = skill.Data.buffId;
 
 				buffList[newBuff.ownerSkill.Id] = newBuff;
 
 				// Add buff
-				BuffSkill buffSkillHandler = (BuffSkill)skill.EffectHandler;
-				if (buffSkillHandler != null)
-					buffSkillHandler.OnAdd(newBuff);
+				newBuff.ApplyEffects();
 
 				Send.ZC_BUFF_ADD_2((Character)owner, newBuff, false);
 			}
@@ -101,9 +100,9 @@ namespace Melia.Channel.World
 				Buff buff;
 				if (buffList.TryGetValue(skillId, out buff))
 				{
-					BuffSkill buffSkillHandler = (BuffSkill)buff.ownerSkill.EffectHandler;
-					if (buffSkillHandler != null)
-						buffSkillHandler.OnRemove(buff);
+					BuffSkill buffSkillHandler = (BuffSkill)buff.ownerSkill.SkHandler;
+
+					buff.RemoveEffects();
 
 					buffList.Remove(skillId);
 
@@ -112,6 +111,7 @@ namespace Melia.Channel.World
 			}
 
 		}
+		*/
 
 	}
 
@@ -121,16 +121,22 @@ namespace Melia.Channel.World
 		public int Id;
 		public DateTime expireTime;
 		public Skill ownerSkill;
+		public List<SkillEffect> effects;
 		public Dictionary<Stat, StatModifier> StatModifiers;
 		public int stackLevel;
 		public int Handle;
 		public Actor owner;
 
-		public Buff()
+		public Buff(Skill skill)
 		{
+			this.ownerSkill = skill;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.StatModifiers = new Dictionary<Stat, StatModifier>();
 			this.stackLevel = 1;
+			this.effects = new List<SkillEffect>();
+			foreach (var effect in skill.effects) {
+
+			}
 		}
 
 		public bool GetStatModifierByStat(Stat stat, out StatModifier modifier)
@@ -150,6 +156,22 @@ namespace Melia.Channel.World
 			statMod.modifierValue = value;
 			statMod.stat = stat;
 			this.StatModifiers.Add(stat, statMod);
+		}
+
+		public void ApplyEffects()
+		{
+			foreach (var effect in effects)
+			{
+				effect.OnAdd();
+			}
+		}
+
+		public void RemoveEffects()
+		{
+			foreach (var effect in effects)
+			{
+				effect.OnRemove();
+			}
 		}
 	}
 }

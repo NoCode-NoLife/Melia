@@ -35,7 +35,7 @@ namespace Melia.Channel.Network.Helpers
 
 			// MONSTER
 			{
-				packet.PutInt(monster.Id);
+				packet.PutInt((int)monster.Id);
 				packet.PutInt(0);
 				packet.PutInt(monster.MaxHp);
 

@@ -78,6 +78,16 @@ namespace Melia.Channel.World.SectorActors
 		public void Disable()
 		{
 			Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
+
+			// Remove skill from all current affected entities
+			lock (this.lastProcessTargets)
+			{
+				foreach (var actor in this.lastProcessTargets)
+				{
+					this.OnLeave(actor);
+				}
+			}
+
 			this.ToDestroy = true;
 		}
 
@@ -112,11 +122,6 @@ namespace Melia.Channel.World.SectorActors
 				return true;
 			*/
 
-			var sResult = this.ownerSkill.ProcessSkill(actor);
-			if (sResult == null)
-				return true;
-
-			skillResults.Add(sResult);
 			this.countTargets++;
 
 
@@ -151,12 +156,21 @@ namespace Melia.Channel.World.SectorActors
 
 		public void OnEnter(Actor actor)
 		{
-			Log.Debug("OnEnter");
+			Log.Debug("OnEnter {0}", actor.ToString());
+			var sResult = this.ownerSkill.ProcessSkill(actor);
+			if (sResult != null)
+				skillResults.Add(sResult);
 		}
 
 		public void OnLeave(Actor actor)
 		{
-			Log.Debug("OnLeave");
+			Log.Debug("OnLeave {0}", actor.ToString());
+			if (actor is IEntity)
+			{
+				IEntity entityActor = (IEntity)actor;
+				entityActor.StopSkillEffects(this.ownerSkill);
+			}
+
 		}
 
 		public bool IntersectWith(Actor actor)

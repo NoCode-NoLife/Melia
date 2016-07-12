@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.World.SectorActors;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
 {

@@ -11,6 +11,7 @@ using Melia.Channel.Network;
 using Melia.Shared.Util;
 using Melia.Channel.World.SectorActors;
 using Melia.Shared.Const;
+using Melia.Channel.World.SkillHandlers;
 using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
@@ -21,9 +22,10 @@ namespace Melia.Channel.World
 		public int Id;
 		public int level;
 		public IEntity owner;
+		public List<SkillEffect> effects;
 
 		public SkillData Data;
-		public SkillEffect EffectHandler { get; set; }
+		public SkillHandler SkHandler { get; set; }
 
 		public Skill(int skillId, int level)
 		{
@@ -33,14 +35,14 @@ namespace Melia.Channel.World
 			this.LoadData();
 
 			/// TODO
-			// This should be moved to SkillData, and make sure every skill has a valid effect!
-			SkillEffect effect;
-			if (ChannelServer.Instance.SkillEffects.TryGetValue(this.Id, out effect))
+			// This should be moved to SkillData, and make sure every skill has a valid handler!
+			SkillHandler skHandler;
+			if (ChannelServer.Instance.SkillHandlers.TryGetValue(this.Id, out skHandler))
 			{
-				this.EffectHandler = effect;
+				this.SkHandler = skHandler;
 			} else
 			{
-				Log.Error("This skillID has no effect: {0}", this.Id);
+				Log.Error("This skillID has no handler: {0}", this.Id);
 			}
 
 		}
@@ -155,6 +157,10 @@ namespace Melia.Channel.World
 					statMod.modifierValue = 1f;
 					skillStatModifiers.Add(statMod.stat, statMod);
 					this.Data.statModifiers = skillStatModifiers;
+
+					this.effects = new List<SkillEffect>();
+					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
+
 					break;
 				case 40004:
 					this.Data.EffectId = 190323;
@@ -213,9 +219,9 @@ namespace Melia.Channel.World
 		public SkillResult ProcessSkill(Actor target)
 		{
 			Log.Debug("ProcessSkill: {0}", this.Id);
-			if (this.EffectHandler != null)
+			if (this.SkHandler != null)
 			{
-				return this.EffectHandler.ProcessSkill(target, this);
+				return this.SkHandler.ProcessSkill(target, this);
 			}
 			return null;
 		}

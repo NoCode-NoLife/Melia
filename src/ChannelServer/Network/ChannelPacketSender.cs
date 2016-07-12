@@ -15,6 +15,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.Network
 {
@@ -2050,6 +2051,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// removes buff icon in buffs bar 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_BUFF_REMOVE_2(Character character, SkillEffect effect)
+		{
+			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			packet.PutInt(character.Handle);
+			packet.PutInt(effect.Id); // 43 00 00 00
+			packet.PutByte(0);
+			packet.PutInt(effect.Handle); // Buff handle.  (but not related to the buff skill itself)
+
+			character.Map.Broadcast(packet, character);
+
+		}
+
+		/// <summary>
 		/// Add/Updates buff information in buffs bar 
 		/// </summary>
 		/// <param name="character"></param>
@@ -2077,7 +2094,35 @@ namespace Melia.Channel.Network
 
 		}
 
-		
+		/// <summary>
+		/// Add/Updates buff information in buffs bar 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_BUFF_ADD_3(Character character, SkillEffect effect, bool update)
+		{
+
+			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(effect.Id); // Buff type
+			packet.PutInt(effect.skillComp.skill.level); // Skill Level
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(effect.stackLevel); // Skill stack
+											//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
+			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
+			packet.PutShort((short)(character.Name.Length + 1));
+			packet.PutString(character.Name);
+			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
+			packet.PutInt(effect.Handle); // Buff Handle. (but not related to the buff skill itself)
+
+			character.Map.Broadcast(packet, character);
+
+		}
+
+
 
 		/// <summary>
 		/// Set effect in player

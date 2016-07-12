@@ -69,6 +69,7 @@
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\BuffManager.cs" />
     <Compile Include="World\Character.cs" />
+    <Compile Include="World\Entity.cs" />
     <Compile Include="World\IEntity.cs" />
     <Compile Include="World\IEquipable.cs" />
     <Compile Include="World\Inventory.cs" />
@@ -80,12 +81,16 @@
     <Compile Include="World\SectorActors\GroundSkill.cs" />
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\SectorManager.cs" />
-    <Compile Include="World\SkillEffects\Melee.cs" />
+    <Compile Include="World\SkillEffectsManager.cs" />
+    <Compile Include="World\SkillEffects\EffectSafetyZone.cs" />
     <Compile Include="World\SkillEffects\SkillEffect.cs" />
+    <Compile Include="World\SkillHandlers\Melee.cs" />
+    <Compile Include="World\SkillHandlers\SkillDataComponent.cs" />
+    <Compile Include="World\SkillHandlers\SkillEffect.cs" />
     <Compile Include="World\SkillManager.cs" />
-    <Compile Include="World\SkillEffects\BuffSkill.cs" />
-    <Compile Include="World\SkillEffects\Cure.cs" />
-    <Compile Include="World\SkillEffects\Heal.cs" />
+    <Compile Include="World\SkillHandlers\BuffSkill.cs" />
+    <Compile Include="World\SkillHandlers\Cure.cs" />
+    <Compile Include="World\SkillHandlers\Heal.cs" />
     <Compile Include="World\StatsManager.cs" />
     <Compile Include="World\Weapon.cs" />
     <Compile Include="World\WorldManager.cs" />
@@ -103,6 +108,7 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

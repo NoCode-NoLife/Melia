@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
-namespace Melia.Channel.World.SkillEffects
+namespace Melia.Channel.World.SkillHandlers
 {
-	public class Cure : SkillEffect
+	public class Heal : SkillHandler
 	{
 		override public SkillResult ProcessSkill(Actor target, Skill skill)
 		{
@@ -25,6 +25,20 @@ namespace Melia.Channel.World.SkillEffects
 			{
 				/// TODO
 				/// make damage
+				Monster targetMonster = (Monster)target;
+
+				if (targetMonster.IsDead)
+					return skillResult;
+
+				targetMonster.TakeDamage(10, (Character)skill.owner);
+
+				// Generate result reports
+				skillResult = new SkillResult();
+				skillResult.actor = target;
+				skillResult.skillHandle = skill.Handle;
+				skillResult.targetHandle = target.Handle;
+				skillResult.value = 10;
+				skillResult.type = 1;
 			}
 
 			if (target.GetType() == typeof(Character))
@@ -32,7 +46,10 @@ namespace Melia.Channel.World.SkillEffects
 				// Heal character
 				Character targetCharacter = (Character)target;
 
-				int amount = targetCharacter.Heal(25, true);
+				if (targetCharacter.IsDead)
+					return skillResult;
+
+				int amount = targetCharacter.Heal(10, false);
 
 				// Generate result reports
 				if (amount > 0)
@@ -42,6 +59,7 @@ namespace Melia.Channel.World.SkillEffects
 					skillResult.skillHandle = skill.Handle;
 					skillResult.targetHandle = target.Handle;
 					skillResult.value = amount;
+					skillResult.type = 0;
 				}
 			}
 			return skillResult;

@@ -15,11 +15,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.World.Shapes;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter, ICommander, IEntity, IVisitor
+	public class Character : Entity, ICommander, IEntity, IVisitor
 	{
+		/// <summary>
+		/// Id of the character's account.
+		/// </summary>
+		public long AccountId { get; set; }
+
+		/// <summary>
+		/// Character's name.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Character's team name.
+		/// </summary>
+		public string TeamName { get; set; }
+
+		/// <summary>
+		/// Character's job.
+		/// </summary>
+		public Job Job { get; set; }
+
+		/// <summary>
+		/// Character's gender.
+		/// </summary>
+		public Gender Gender { get; set; }
+
+		/// <summary>
+		/// Character's hair style.
+		/// </summary>
+		public byte Hair { get; set; }
+
+		/// <summary>
+		/// Returns stance, based on job and other factors.
+		/// </summary>
+		public int Stance
+		{
+			get
+			{
+				var cls = this.Job.ToClass();
+
+				// The stance is affected by the equipped items, we might
+				// have to move this to a place where we have proper access
+				// to the character's items, and we need item types.
+				// Maybe we can use ItemData on Login, so we don't need
+				// another Item class.
+				// For the official conditions see stancecondition.ies.
+
+				switch (cls)
+				{
+					default:
+					case Class.Swordsman:
+						return 10000;
+
+					case Class.Wizard:
+						return 10006;
+
+					case Class.Archer:
+						return 10008;
+
+					case Class.Cleric:
+					case Class.GM:
+						return 10004;
+				}
+			}
+		}
+
+
+
 		private bool _warping;
 
 		private object _lookAroundLock = new object();
@@ -30,10 +98,6 @@ namespace Melia.Channel.World
 		public Dictionary<Job, int> jobPoints;
 		public int jobLevel;
 
-		public SkillManager skillManager { get; set; }
-		public StatsManager statsManager { get; set; }
-		public BuffManager buffManager { get; set; }
-
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
@@ -41,14 +105,6 @@ namespace Melia.Channel.World
 
 
 		private Map _map = Map.Limbo;
-		/// <summary>
-		/// The map the character is currently on.
-		/// </summary>
-		/// <remarks>
-		/// Since every map change includes a reconnect, the map reference
-		/// will only ever be set once, upon connection.
-		/// </remarks>
-		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
 
 		/// <summary>
 		/// Gets or sets whether the character is moving.
@@ -134,8 +190,6 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Variables Variables { get; private set; }
 
-		public bool IsDead { get; set; }
-
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
@@ -155,7 +209,8 @@ namespace Melia.Channel.World
 			this.skillManager = new SkillManager(this);
 			this.statsManager = new StatsManager(this);
 			this.statsManager.baseStats[(int)Stat.MovSpeed] = 20.0f; /// TODO: check where is the best place to set this value
-			this.buffManager = new BuffManager(this);
+			this.skillEffectsManager = new SkillEffectsManager(this);
+			this.skillEffects = new List<SkillEffect>();
 
 			this.CollisionShape = new Circle(10.0f);
 			this.LastMoveTimestamp = 0f;
@@ -255,8 +310,8 @@ namespace Melia.Channel.World
 			if (this.IsMoving)
 				ProcessMove();
 
-			// Process buffs
-			this.buffManager.RemoveExpiredBuffs();
+			// Process skill effects
+			this.skillEffectsManager.RemoveExpiredEffects();
 
 			// Regeneration
 			this.HPRegen();
@@ -686,7 +741,7 @@ namespace Melia.Channel.World
 			return true;
 		}
 
-		public void SetAttackState(bool isAttacking)
+		public new void SetAttackState(bool isAttacking)
 		{
 			this.IsAttacking = true;
 			Send.ZC_PC_ATKSTATE(this, isAttacking);
@@ -781,7 +836,7 @@ namespace Melia.Channel.World
 				
 		}
 
-		public float AdjustInfringedDamage(float damage)
+		public new float AdjustInfringedDamage(float damage)
 		{
 			float finalDamage = damage;
 			Random rnd = ChannelServer.Instance.rnd;
@@ -802,7 +857,7 @@ namespace Melia.Channel.World
 
 			return finalDamage;
 		}
-		public float AdjustReceivedDamage(float damage)
+		public new float AdjustReceivedDamage(float damage)
 		{
 			return damage;
 		}

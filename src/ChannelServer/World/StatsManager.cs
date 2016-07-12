@@ -7,7 +7,7 @@ using Melia.Shared.World;
 using Melia.Channel.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Const;
-using Melia.Channel.World.SkillEffects;
+using Melia.Channel.World.SkillHandlers;
 
 namespace Melia.Channel.World
 {

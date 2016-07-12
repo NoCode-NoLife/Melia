@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
 {

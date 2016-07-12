@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Melia.Channel.World.SkillEffects;
+using Melia.Channel.World.SkillHandlers;
 
 namespace Melia.Channel
 {
@@ -55,7 +55,7 @@ namespace Melia.Channel
 		/// </summary>
 		public ConnectionManager<ChannelConnection> ConnectionManager { get; private set; }
 
-		public Dictionary<int, SkillEffect> SkillEffects { get; private set; }
+		public Dictionary<int, SkillHandler> SkillHandlers { get; private set; }
 
 		public Random rnd { get; set; }
 
@@ -66,7 +66,7 @@ namespace Melia.Channel
 		{
 			this.World = new WorldManager();
 			this.ScriptManager = new ScriptManager();
-			this.SkillEffects = new Dictionary<int, SkillEffect>();
+			this.SkillHandlers = new Dictionary<int, SkillHandler>();
 
 			this.LoadSkillEffects();
 
@@ -75,17 +75,17 @@ namespace Melia.Channel
 
 		private void LoadSkillEffects()
 		{
-			SkillEffect skillEffect;
-			skillEffect = new Heal();
-			this.SkillEffects.Add(40001, skillEffect);
-			skillEffect = new Cure();
-			this.SkillEffects.Add(40002, skillEffect);
-			skillEffect = new BuffSkill();
-			this.SkillEffects.Add(40003, skillEffect);
-			skillEffect = new BuffSkill();
-			this.SkillEffects.Add(40004, skillEffect);
-			skillEffect = new Melee();
-			this.SkillEffects.Add(100, skillEffect);
+			SkillHandler skillHandler;
+			skillHandler = new Heal();
+			this.SkillHandlers.Add(40001, skillHandler);
+			skillHandler = new Cure();
+			this.SkillHandlers.Add(40002, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(40003, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(40004, skillHandler);
+			skillHandler = new Melee();
+			this.SkillHandlers.Add(100, skillHandler);
 
 		}
 
