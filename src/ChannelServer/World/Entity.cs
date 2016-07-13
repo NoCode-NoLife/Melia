@@ -182,5 +182,15 @@ namespace Melia.Channel.World
 		{
 			this.HeadDirection = new Direction(x, y);
 		}
+
+		/// <summary>
+		/// Makes entity take damage and kills it if the HP reach 0.
+		/// </summary>
+		/// <param name="damage"></param>
+		/// <param name="from"></param>
+		public void TakeDamage(int damage, IEntity from)
+		{
+
+		}
 	}
 }

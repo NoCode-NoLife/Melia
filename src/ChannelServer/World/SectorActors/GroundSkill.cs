@@ -11,84 +11,181 @@ using Melia.Shared.Data.Database;
 
 namespace Melia.Channel.World.SectorActors
 {
+	/// <summary>
+	/// GroundSkill class is a Sector actor (placeable in a sector) representing a ground skill.
+	/// It acts like a trigger, that executes a skill when visited by other actors.
+	/// </summary>
 	public class GroundSkill : Actor, IVisitor
 	{
-		public float range;
-		public int SkillId;
+		/// <summary>
+		/// Internal variable that controls the next tick time
+		/// </summary>
+		private DateTime _nextProcessTime;
+
+		/// <summary>
+		/// It contains the amoung of targets affected by this GroundSkill at a given moment.
+		/// </summary>
+		private int _countTargets;
+
+		/// <summary>
+		/// Max amount of targets that this GroundSkill can affect at the same time.
+		/// </summary>
+		private int _maxCounterTargets = 10;
+
+		/// <summary>
+		/// It indicates the interval of miliseconds between ticks for this GroundSkill
+		/// </summary>
+		private double _processTickInterval;
+
+		/// <summary>
+		/// A list of targets processed foreach visit to this GroundSkill
+		/// </summary>
+		private List<Actor> _processTargets;
+
+		/// <summary>
+		/// A list of targets processed in the previous visit to this GroundSkill
+		/// </summary>
+		private List<Actor> _lastProcessTargets;
+
+		/// <summary>
+		/// Flag determining if this GroundSkill was at least fired once.
+		/// </summary>
 		public bool fired;
-		public int delayRemove = 200;
+
+		/// <summary>
+		/// Datetime indicating when this GroundSkill was fired the first time.
+		/// </summary>
 		public DateTime timeFired;
+
+		/// <summary>
+		/// Miliseconds that delays the removal of this GroundSkill after fired.
+		/// Only for NO-DoT skills
+		/// </summary>
+		public int delayRemove = 200;
+
+		/// <summary>
+		/// Handle of the owner of this GroundSkill
+		/// NOTE: Currently is assuming Character Handle!!
+		/// </summary>
 		public int ownerHandle;
+
+		/// <summary>
+		/// The map where this GroundSkill is placed
+		/// </summary>
 		public Map Map { get; set; }
+
+		/// <summary>
+		/// The skill associated to this GroundSkill
+		/// </summary>
 		public Skill ownerSkill;
 
+		/// <summary>
+		/// DateTime indicating when this GroundSkill will end.
+		/// </summary>
 		public DateTime timeEndLife;
-		public DateTime nextProcessTime;
-		public int countTargets;
-		public int maxCounterTargets;
-		public DateTime preDelay;
-		public double processTickInterval;
-		public List<SkillResult> skillResults;
-		public List<Actor> processTargets;
-		public List<Actor> lastProcessTargets;
 
+		/// <summary>
+		/// preDelay controls the delay before this GroundSkill is active.
+		/// </summary>
+		public DateTime preDelay;
+
+		/// <summary>
+		/// The results of skills applied to targets
+		/// </summary>
+		public List<SkillResult> skillResults;
+
+		/// <summary>
+		/// Generic counter used from Skill Effects, to keep records in GroundSkill actor, about interactions of effects.
+		/// </summary>
 		public int interactions;
+
+		/// <summary>
+		/// Generic counter Max value.
+		/// </summary>
 		public int maxInteractions;
 
+		/// <summary>
+		/// Basic Initialization
+		/// </summary>
 		public void Init()
 		{
-			this.range = 0.0f;
+			// Create Handle ID for this actor
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 		}
 
+		/// <summary>
+		/// Initialization
+		/// </summary>
+		/// <param name="map">Map for this GroundSkill</param>
+		/// <param name="oSkill">Skill for this GroundSkill</param>
+		/// <param name="oHandle">Owner Handle</param>
+		/// <param name="pos">Position</param>
+		/// <param name="dir">Direction</param>
 		public void Init(Map map, Skill oSkill, int oHandle, Position pos, Direction dir)
 		{
-			this.range = 0.0f;
+			// Create Handle ID for this actor
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
+
+			// Initialize variables
+			skillResults = new List<SkillResult>();
+			_processTargets = new List<Actor>();
+			_lastProcessTargets = new List<Actor>();
 
 			Map = map;
 			ownerSkill = oSkill;
 			ownerHandle = oHandle;
+
+			// Set Pos/Dir of this Placeable Actor.
 			this.Position = pos;
 			this.Direction = dir;
 
-			this.maxCounterTargets = 10; /// TODO
-			
+			// Set amount of targets that can interact with this GroundSkill at the same time.
+			_maxCounterTargets = 10; /// TODO
 
-			skillResults = new List<SkillResult>();
-			processTargets = new List<Actor>();
-			lastProcessTargets = new List<Actor>();
-
+			// Initialize interactions counter
 			this.interactions = 0;
 			this.maxInteractions = 0;
+
+
 		}
 
+		/// <summary>
+		/// This function enables the GroundSkill .
+		/// From this moment, the GroundSkill will be placed in the map and notify clients about it.
+		/// </summary>
 		public void Enable()
 		{
+			// Initialize DateTime variables
 			this.timeEndLife = DateTime.Now.AddSeconds(ownerSkill.Data.LifeInSeconds);
 			this.preDelay = DateTime.Now;
-			this.nextProcessTime = DateTime.Now;
+			_nextProcessTime = DateTime.Now;
 
+			// Set tick interval
+			_processTickInterval = 1000; /// TODO
 
-			this.processTickInterval = 1000; // Buff ticks
-
+			// Set collisionShape
 			this.CollisionShape = GetSkillShape();
 
 			// Set Skill Actor into Map.
 			Map.AddSkill(this);
+
 			// Broadcast effect.
 			Character caster = Map.GetCharacter(ownerHandle);
 			Send.ZC_NORMAL_Skill(caster, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
 		}
 
+		/// <summary>
+		/// This function disables the GroundSkill.
+		/// Set the actor to destroy, remove the skill effects in all actors affected by this GroundSkill, and notify the clients.
+		/// </summary>
 		public void Disable()
 		{
 			Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
 
 			// Remove skill from all current affected entities
-			lock (this.lastProcessTargets)
+			lock (_lastProcessTargets)
 			{
-				foreach (var actor in this.lastProcessTargets)
+				foreach (var actor in _lastProcessTargets)
 				{
 					this.OnLeave(actor);
 				}
@@ -97,6 +194,9 @@ namespace Melia.Channel.World.SectorActors
 			this.ToDestroy = true;
 		}
 
+		/// <summary>
+		/// This function creates the ShapeType of this GroundSkill.
+		/// </summary
 		public Shape GetSkillShape()
 		{
 			Shape skillShape;
@@ -120,6 +220,10 @@ namespace Melia.Channel.World.SectorActors
 			return skillShape;
 		}
 
+		/// <summary>
+		/// This function is called from a sector (see SectorManager) when a IVisitor could be interacting with Actor.
+		/// Actual interaction should be confirmed inside OnVisit.
+		/// </summary>
 		public bool OnVisit(Actor actor)
 		{
 			// check if attackable (Target mask!)
@@ -128,49 +232,51 @@ namespace Melia.Channel.World.SectorActors
 				return true;
 			*/
 
-			this.countTargets++;
+			// At this point, the target is a valid target
 
+			// Increment the amount of affected targets
+			_countTargets++;
 
-			int actorIndex = this.lastProcessTargets.IndexOf(actor);
+			// Check if this visitor was already colliding with this GroundSkill in the last tick.
+			int actorIndex = _lastProcessTargets.IndexOf(actor);
 			if (actorIndex == -1)
 			{
-				this.processTargets.Add(actor);
+				// Visitor is a new target, add it to the list of current targets, and execute OnEnter()
+				_processTargets.Add(actor);
 				this.OnEnter(actor);
 			}
 			else
 			{
-				this.processTargets.Add(actor);
-				this.lastProcessTargets.RemoveAt(actorIndex);
+				// Visitor is an old target, add it to the list of current targets anyway, but remove from previous list.
+				_processTargets.Add(actor);
+				_lastProcessTargets.RemoveAt(actorIndex);
 			}
 
-			if (countTargets >= maxCounterTargets)
+			// Avoid processing more visitors than allowed by this GroundSkill
+			if (_countTargets >= _maxCounterTargets)
 				return false;
-
-
-
-			
-
-			/*
-			Character thisCharacter = Map.GetCharacter(ownerHandle);
-			thisCharacter.ProcessSkill(this, entity);
-			*/
-
-
 
 			return true;
 		}
 
+		/// <summary>
+		/// This function is called everytime a new visitor collides with this GroundSkill
+		/// </summary>
 		public void OnEnter(Actor actor)
 		{
-			Log.Debug("GroundSkill {1} OnEnter {0}", actor.ToString(), this.Handle);
+			// Process skill in target
 			var sResult = this.ownerSkill.ProcessSkill(actor, this);
+			// Add result to list for later processing
 			if (sResult != null)
 				skillResults.Add(sResult);
 		}
 
+		/// <summary>
+		/// This function is called everytime a visitor get out of the range of GroundSkill
+		/// </summary>
 		public void OnLeave(Actor actor)
 		{
-			Log.Debug("GroundSkill {1} OnLeave {0}", actor.ToString(), this.Handle);
+			// Remove all skill effects from target
 			if (actor is IEntity)
 			{
 				IEntity entityActor = (IEntity)actor;
@@ -179,22 +285,29 @@ namespace Melia.Channel.World.SectorActors
 
 		}
 
+		/// <summary>
+		/// This function is called from a sector (see SectorManager) to check if this visitor is interacting with an actor.
+		/// </summary>
 		public bool IntersectWith(Actor actor)
 		{
-			//Log.Debug("IntersectWith {0}. MyShape {1} OtherShape {2}", actor, this.CollisionShape.ToString(), actor.CollisionShape.ToString());
 			return this.CollisionShape.IntersectWith(actor.CollisionShape);
 		}
 
+		/// <summary>
+		/// This function is called in every Map's tick. It controls all GroundSkill's behavior.
+		/// </summary>
 		public void Process()
 		{
-
-
+			// Disables the GroundSkill if reached his LifeTime.
 			if (this.timeEndLife < DateTime.Now)
 			{
 				this.Disable();
 			}
+
+			// If the skill was already fired, and is a one-time skill, disable it.
 			if (fired && !ownerSkill.Data.IsDot)
 			{
+				// Disable it after a given delay. This usually gives time to effect to happen in client.
 				if ((timeFired.AddMilliseconds((double)delayRemove) < DateTime.Now))
 				{
 					this.Disable();
@@ -203,15 +316,15 @@ namespace Melia.Channel.World.SectorActors
 			}
 
 			// Predelay
-
 			if (this.preDelay > DateTime.Now)
 				return;
 
-			// Check if its time to process this actor
-			if (this.nextProcessTime > DateTime.Now)
+			// Check if its time to process this GroundSkill
+			if (_nextProcessTime > DateTime.Now)
 				return;
 
-			this.nextProcessTime = DateTime.Now.AddMilliseconds(this.processTickInterval);
+			// Set next process time
+			_nextProcessTime = DateTime.Now.AddMilliseconds(_processTickInterval);
 
 			// Check if owner is dead
 			/// TODO
@@ -224,21 +337,26 @@ namespace Melia.Channel.World.SectorActors
 			}
 			*/
 
-			this.processTargets = new List<Actor>();
+			// Initialize these in every process' loop
+			_processTargets = new List<Actor>();
 			this.skillResults = new List<SkillResult>();
-			this.countTargets = 0;
+			_countTargets = 0;
+
+			// Make a visit to all entities in the skill range looking for new targets
 			Map.SectorManager.Visit(this.Position, this, this.ownerSkill.Data.SplashRange);
 
 			// At this time "lastProcessTargets" contains those actors that leaved 
-			foreach (var actor in this.lastProcessTargets)
+			foreach (var actor in _lastProcessTargets)
 			{
+				// Call leave in every actor that leaved the area.
 				this.OnLeave(actor);
 			}
 
-			this.lastProcessTargets = processTargets;
+			// Set 
+			_lastProcessTargets = _processTargets;
 
 			// If targets in this visit
-			if (this.countTargets > 0)
+			if (_countTargets > 0)
 			{
 				// Send packet about attack result!
 				Character caster = Map.GetCharacter(ownerHandle);
@@ -247,6 +365,7 @@ namespace Melia.Channel.World.SectorActors
 				if (!fired)
 					Send.ZC_NORMAL_ParticleEffect(Map.GetCharacter(ownerHandle), this.Handle, 1);
 			}
+			// Prevent this GroundSkill to be marked as fired, if its not an one-time skill
 			else if (!this.ownerSkill.Data.IsInstant)
 				return;
 

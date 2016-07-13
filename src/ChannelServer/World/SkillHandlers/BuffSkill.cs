@@ -12,9 +12,11 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public class BuffSkill : SkillHandler
 	{
+		/// <summary>
+		/// This function is the entry point for processing the skill.
+		/// </summary>
 		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
-			Log.Debug("SkillHandler ProcessSkill {0}, {1}, {2}", target.ToString(), skill.Id, originator.Handle);
 			SkillResult skillResult = null;
 			if (target is IEntity)
 			{

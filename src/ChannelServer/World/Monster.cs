@@ -120,7 +120,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, Character from)
+		public new void TakeDamage(int damage, IEntity from)
 		{
 			if (this.IsDead)
 				return;
@@ -140,7 +140,7 @@ namespace Melia.Channel.World
 		/// Kills monster.
 		/// </summary>
 		/// <param name="killer"></param>
-		public void Kill(Character killer)
+		public void Kill(IEntity killer)
 		{
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
@@ -149,7 +149,7 @@ namespace Melia.Channel.World
 			var classExp = (int)(this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
-			killer.GiveExp(exp, classExp, this);
+			if (killer is Character) ((Character)killer).GiveExp(exp, classExp, this);
 
 			this.IsDead = true;
 

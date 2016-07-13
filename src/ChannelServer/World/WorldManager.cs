@@ -196,6 +196,9 @@ namespace Melia.Channel.World
 
 		}
 
+		/// <summary>
+		/// This function registers an actor as source of events
+		/// </summary>
 		public void RegisterToEvents(int actorHandle)
 		{
 			lock (_eventBindings)
@@ -208,6 +211,9 @@ namespace Melia.Channel.World
 			}
 		}
 
+		/// <summary>
+		/// This function unregisters an actor as a source of events
+		/// </summary>
 		public void UnregisterToEvents(int actorHandle)
 		{
 			lock (_eventBindings)
@@ -216,6 +222,9 @@ namespace Melia.Channel.World
 			}
 		}
 
+		/// <summary>
+		/// This function subscribes an actor to an event (of another actor)
+		/// </summary>
 		public void SubscribeToEvent(EventTypes evType, EventHandle evHandle, int actorHandle)
 		{
 			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
@@ -247,7 +256,10 @@ namespace Melia.Channel.World
 			}
 		}
 
-		public void UnscribscribeFromEvent(EventTypes evType, EventHandle evHandle, int actorHandle)
+		/// <summary>
+		/// This function unsubscribes an actor to receive an event (of another actor)
+		/// </summary>
+		public void UnsubscribeFromEvent(EventTypes evType, EventHandle evHandle, int actorHandle)
 		{
 			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
 			List<EventHandle> eventHandlesList;
@@ -268,6 +280,9 @@ namespace Melia.Channel.World
 			}
 		}
 
+		/// <summary>
+		/// This function invokes all delegated functions registered to a given event of a given actor
+		/// </summary>
 		public void SendEvent(EventTypes evType, EventData evData, int actorHandle)
 		{
 			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
@@ -294,6 +309,9 @@ namespace Melia.Channel.World
 			}
 		}
 
+		/// <summary>
+		/// Define event types
+		/// </summary>
 		public enum EventTypes
 		{
 			ADJUST_DAMAGE_MODIFIER = 1,
@@ -301,6 +319,9 @@ namespace Melia.Channel.World
 
 	}
 
+	/// <summary>
+	/// Class used in events
+	/// </summary>
 	public class EventData
 	{
 		public IEntity entity;

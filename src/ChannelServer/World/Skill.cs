@@ -82,6 +82,10 @@ namespace Melia.Channel.World
 
 		}
 
+		/// <summary>
+		/// Set skill level
+		/// </summary>
+		/// <param name="newLevel">Level to set</param>
 		public bool SetLevel(int newLevel)
 		{
 			this.level = newLevel;
@@ -310,6 +314,9 @@ namespace Melia.Channel.World
 
 	}
 
+	/// <summary>
+	/// SkillResult is a container class, that holds skill result values when applied a skill to an actor, for future processing.
+	/// </summary>
 	public class SkillResult
 	{
 		public Actor actor;

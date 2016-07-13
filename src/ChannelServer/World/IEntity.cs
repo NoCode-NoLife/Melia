@@ -31,5 +31,12 @@ namespace Melia.Channel.World
 		float AdjustInfringedDamage(float damage);
 		float AdjustReceivedDamage(float damage);
 		void StopSkillEffects(Skill skill);
+
+		/// <summary>
+		/// Makes entity take damage and kills it if the HP reach 0.
+		/// </summary>
+		/// <param name="damage"></param>
+		/// <param name="from"></param>
+		void TakeDamage(int damage, IEntity from);
 	}
 }

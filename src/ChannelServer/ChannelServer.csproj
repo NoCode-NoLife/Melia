@@ -85,7 +85,7 @@
     <Compile Include="World\SkillEffects\SkillEffect.cs" />
     <Compile Include="World\SkillHandlers\Melee.cs" />
     <Compile Include="World\SkillHandlers\SkillDataComponent.cs" />
-    <Compile Include="World\SkillHandlers\SkillEffect.cs" />
+    <Compile Include="World\SkillHandlers\SkillHandler.cs" />
     <Compile Include="World\SkillManager.cs" />
     <Compile Include="World\SkillHandlers\BuffSkill.cs" />
     <Compile Include="World\SkillHandlers\Cure.cs" />

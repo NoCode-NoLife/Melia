@@ -10,18 +10,20 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public class Heal : SkillHandler
 	{
+		/// <summary>
+		/// This function is the entry point for processing the skill.
+		/// </summary>
 		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
-			Log.Debug("ProcessHealSkill: {0} {1}", target, typeof(Character));
 			SkillResult skillResult = null;
 
 			// Avoid interaction with any other type
-			if (target.GetType() != typeof(Character) && target.GetType() != typeof(Monster))
+			if (!(target is Character) && !(target is Monster))
 			{
 				return skillResult;
 			}
 
-			if (target.GetType() == typeof(Monster))
+			if (target is Monster)
 			{
 				/// TODO
 				/// make damage
@@ -30,7 +32,7 @@ namespace Melia.Channel.World.SkillHandlers
 				if (targetMonster.IsDead)
 					return skillResult;
 
-				targetMonster.TakeDamage(10, (Character)skill.owner);
+				targetMonster.TakeDamage(10, skill.owner);
 
 				// Generate result reports
 				skillResult = new SkillResult();
@@ -41,7 +43,7 @@ namespace Melia.Channel.World.SkillHandlers
 				skillResult.type = 1;
 			}
 
-			if (target.GetType() == typeof(Character))
+			if (target is Character)
 			{
 				// Heal character
 				Character targetCharacter = (Character)target;
