@@ -10,7 +10,7 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public class Melee : SkillHandler
 	{
-		override public SkillResult ProcessSkill(Actor target, Skill skill)
+		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
 			SkillResult skillResult = null;
 

@@ -206,6 +206,11 @@ namespace Melia.Channel.Util
 				Send.ZC_NORMAL_19(character);
 				//Send.ZC_BUFF_REMOVE(character);
 			}
+			if (val1 == 2)
+			{
+				character.AdjustReceivedDamage(10.0f);
+
+			}
 			if (val1 == 3)
 			{
 				character.Hp = val2;

@@ -9,6 +9,6 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public abstract class SkillHandler
 	{
-		abstract public SkillResult ProcessSkill(Actor target, Skill skill);
+		abstract public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator);
 	}
 }

@@ -16,17 +16,52 @@ using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World
 {
+	/// <summary>
+	/// This class represents a skill for a given actor. 
+	/// Even when sharing Id with other skills, to actos that have the same skill ID, will have different Skill class instances.
+	/// </summary>
 	public class Skill : Actor
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public long _worldId;
+
+		/// <summary>
+		/// Skill ID
+		/// </summary>
 		public int Id;
+
+		/// <summary>
+		/// Skill level
+		/// </summary>
 		public int level;
+
+		/// <summary>
+		/// Skill's owner entity
+		/// </summary>
 		public IEntity owner;
+
+		/// <summary>
+		/// List of effects for this skill (this should be moved to SkillData?)
+		/// </summary>
 		public List<SkillEffect> effects;
 
+		/// <summary>
+		/// Skill static data, retrieved from config files.
+		/// </summary>
 		public SkillData Data;
+
+		/// <summary>
+		/// Skill handler class
+		/// </summary>
 		public SkillHandler SkHandler { get; set; }
 
+		/// <summary>
+		/// Skill constructor class
+		/// </summary
+		/// <param name="skillId">The Skill ID provided by SkillData</param>
+		/// <param name="level">The level of this skill</param>
 		public Skill(int skillId, int level)
 		{
 			this._worldId = Interlocked.Increment(ref _worldId) + 0x30000000000000;
@@ -66,6 +101,10 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No skill data found for '" + this.Id + "'.");
 		}
 
+		/// <summary>
+		/// This function is called when the skill is activated, so the actor requested to use it.
+		/// It is in charge of making sure all conditions are met for that purpose, and call Cast() when appropiate.
+		/// </summary>
 		public void Activate()
 		{
 			Character caster = (Character)owner;
@@ -87,11 +126,15 @@ namespace Melia.Channel.World
 			else
 			{
 				// Fire Cast() after "ActivationTime"
-				//castTimer = new Timer(Cast, null, GetActivationTime(), )
+				// We need a task system, so we can create a task to execute it when time is reached.
+				/// TODO
 			}
 
 		}
 
+		/// <summary>
+		/// This function is in charge of checking if all conditions are met to activate the skill
+		/// </summary>
 		private bool CanActivate()
 		{
 			Character caster = (Character)owner;
@@ -103,11 +146,21 @@ namespace Melia.Channel.World
 			return true;
 		}
 
+		/// <summary>
+		/// Get activation time
+		/// </summary>
 		public float GetActivationTime()
 		{
-			return 0.0f;
+			/// TODO
+			// Get skill activation time
+			// Apply modifiers if any.
+			return 0.0f; // skill.Data. ??
+			
 		}
 
+		/// <summary>
+		/// This functions starts the skill Casting. But the actual cast will happen in PerformCast() (needed?)
+		/// </summary>
 		private void Cast()
 		{
 			Send.ZC_SKILL_READY((Character)owner, this.Id, owner.Position, this.Position);
@@ -120,10 +173,15 @@ namespace Melia.Channel.World
 			PerformCast();
 		}
 
+		/// <summary>
+		/// Performs the skill cast. 
+		/// At this point, we dont have to worry about sp/item consumitions or any other actor's requeriment. The skill is ready to be casted.
+		/// </summary>
 		private void PerformCast()
 		{
 			Character caster = (Character)owner;
 			var map = ChannelServer.Instance.World.GetMap(caster.MapId);
+
 
 			switch (this.Id)
 			{
@@ -144,7 +202,8 @@ namespace Melia.Channel.World
 					this.Data.buffIsPermanent = true;
 					this.Data.buffLifeInSeconds = 0;
 					this.Data.buffCanStack = false;
-					this.Data.LifeInSeconds = 10;
+					this.Data.LifeInSeconds = 20;
+					this.Data.maxInteractions = 2;
 					Dictionary<Stat, StatModifier> skillStatModifiers = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod;
 					statMod.stat = Stat.Evasion;
@@ -169,19 +228,23 @@ namespace Melia.Channel.World
 					this.Data.buffIsPermanent = true;
 					this.Data.buffLifeInSeconds = 0;
 					this.Data.buffCanStack = true;
-					this.Data.LifeInSeconds = 20;
+					this.Data.LifeInSeconds = 6;
 					Dictionary<Stat, StatModifier> skillStatModifiers2 = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod2;
-					statMod2.stat = Stat.Evasion;
+					statMod2.stat = Stat.PDEF;
 					statMod2.modifierType = StatModifierType.Addition;
-					statMod2.modifierValue = 30f;
+					statMod2.modifierValue = -2f;
 					skillStatModifiers2.Add(statMod2.stat, statMod2);
 
-					statMod2.stat = Stat.DR_BM;
+					statMod2.stat = Stat.MDEF;
 					statMod2.modifierType = StatModifierType.Addition;
-					statMod2.modifierValue = 1f;
+					statMod2.modifierValue = -2f;
 					skillStatModifiers2.Add(statMod2.stat, statMod2);
 					this.Data.statModifiers = skillStatModifiers2;
+
+					this.effects = new List<SkillEffect>();
+					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
+
 					break;
 				case 100:
 					this.Data.IsDot = false;
@@ -193,19 +256,34 @@ namespace Melia.Channel.World
 
 			}
 
+			// Depends of the skillType, the skill is casted in different ways, and different things are prepared.
 			switch (this.Data.Type)
 			{
+				// GROUND SKILL
 				case SkillType.GROUND:
 					{
-						// Create skill actor
+						// Create ground skill actor
 						GroundSkill PESkill = new GroundSkill();
+
+						// Calculate its position and direction
 						var skillPosition = new Position(40 * caster.Direction.Cos + caster.Position.X, caster.Position.Y, 40 * caster.Direction.Sin + caster.Position.Z);
 						var skillDirection = new Direction(caster.Direction.Cos, caster.Direction.Sin);
+
+						// Initialize other specific variables
+						if (this.Data.maxInteractions > 0)
+						{
+							PESkill.maxInteractions = this.Data.maxInteractions;
+						}
+
+						// Initialize ground skill
 						PESkill.Init(map, this, caster.Handle, skillPosition, skillDirection);
+						
 						// Place skill actor in map
 						PESkill.Enable();
+
+						// Notify client
 						Send.ZC_NORMAL_Unkown_1c(caster, 0, caster.Position, caster.Direction, this.Position);
-						Send.ZC_SKILL_MELEE_GROUND(caster, this.Id, this.Position, this.Direction);
+						Send.ZC_SKILL_MELEE_GROUND(caster, this.Id, this.Position, this.Direction); // This packet should be sent from inside SkillGround?
 						break;
 					}
 				default:
@@ -216,12 +294,16 @@ namespace Melia.Channel.World
 
 		}
 
-		public SkillResult ProcessSkill(Actor target)
+		/// <summary>
+		/// This function process the skill in a given actor.
+		/// </summary>
+		/// <param name="target">The target actor where this skill will be applied</param>
+		/// <param name="originator">The actor originating this skill. Not necessarely the caster!</param>
+		public SkillResult ProcessSkill(Actor target, Actor originator)
 		{
-			Log.Debug("ProcessSkill: {0}", this.Id);
 			if (this.SkHandler != null)
 			{
-				return this.SkHandler.ProcessSkill(target, this);
+				return this.SkHandler.ProcessSkill(target, this, originator);
 			}
 			return null;
 		}

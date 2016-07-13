@@ -18,7 +18,6 @@ namespace Melia.Channel.World
 		public Actor owner;
 
 		private object _listLock = new object();
-		private Dictionary<int, Buff> buffList;
 		private Dictionary<Stat, Dictionary<int, StatModifier>> statMods;
 
 		public float[] baseStats;
@@ -31,7 +30,6 @@ namespace Melia.Channel.World
 			owner = ownerActor;
 
 			// Initialize vars
-			buffList = new Dictionary<int, Buff>();
 			stats = new float[(int)Stat.Stat_MAX];
 			baseStats = new float[(int)Stat.Stat_MAX];
 
@@ -169,6 +167,12 @@ namespace Melia.Channel.World
 				case Stat.MAXMATK:
 					propertyId = ObjectProperty.PC.MAXMATK;
 					break;
+				case Stat.PDEF:
+					propertyId = ObjectProperty.PC.DEF;
+					break;
+				case Stat.MDEF:
+					propertyId = ObjectProperty.PC.MDEF;
+					break;
 				default:
 					Log.Error("Stat {0} has no propertyId assigned!", stat);
 					propertyId = 0;
@@ -234,6 +238,12 @@ namespace Melia.Channel.World
 					newValue = this.stats[(int)Stat.INT] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
 				case Stat.MAXMATK:
+					newValue = this.stats[(int)Stat.INT] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.PDEF:
+					newValue = this.stats[(int)Stat.CON] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
+					break;
+				case Stat.MDEF:
 					newValue = this.stats[(int)Stat.INT] + ownerEntity.Level * CalculateMultiplierModifiers(stat) + CalculateAdditiveModifiers(stat);
 					break;
 				default:

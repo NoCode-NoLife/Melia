@@ -67,7 +67,6 @@
     <Compile Include="Scripting\ScriptState.cs" />
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Util\GmCommands.cs" />
-    <Compile Include="World\BuffManager.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="World\Entity.cs" />
     <Compile Include="World\IEntity.cs" />

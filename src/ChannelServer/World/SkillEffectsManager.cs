@@ -6,99 +6,158 @@ using System.Threading.Tasks;
 using Melia.Channel.World.SkillEffects;
 using Melia.Shared.World;
 using Melia.Channel.Network;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World
 {
+	/// <summary>
+	/// The SkillEffectManager is in charge of managing all effects in a given actor.
+	/// IT CURRENTLY WORKS ONLY FOR CHARACTERS, SINCE ITS SENDING CLIENT UPDATES TO CHARACTERS. CHANGE BASED ON FUTURE RESEARCH ON PACKETS FOR NPCs.
+	/// </summary>
 	public class SkillEffectsManager
 	{
+		/// <summary>
+		/// Owner of this manager
+		/// </summary>
 		public Actor owner;
+		/// <summary>
+		/// The list of effects being handled by this manager.
+		/// </summary>
 		public List<SkillEffect> effects;
 
+		/// <summary>
+		/// Class Constructor
+		/// </summary>
+		/// <param name="ownerActor">The owner of this manager</param>
 		public SkillEffectsManager(Actor ownerActor)
 		{
+			// Initialize variables
 			this.owner = ownerActor;
-
 			this.effects = new List<SkillEffect>();
 		}
 
+		/// <summary>
+		/// This function is called in a tick basis, by the actor (usually an Entity) to process effects over that actor.
+		/// </summary>
+		public void ProcessEffects()
+		{
+			// Lock effects list
+			lock (effects)
+			{
+				// Tick every effect
+				foreach (var effect in this.effects.ToList())
+				{
+					if (effect != null)
+						effect.Process();
+				}
+			}
+		}
+
+		/// <summary>
+		/// This function is called to add an effect to this manager. 
+		/// * It will update client accordingly (Adding a BUFF to client when necessary)
+		/// * If the effect already exist in this actor, it will extend its expireTime.
+		/// This function is in charge of activate the effect after added to actor by the first time.
+		/// Note: Buff stack notifications takes place in ZC_BUFF_ADD, called by this process.
+		/// </summary>
+		/// <param name="effect">The effect to be added to this actor</param>
 		public void AddEffect(SkillEffect effect)
 		{
-			
+			// Get skill for this effect
 			Skill skill = effect.skillComp.skill;
 
+			// Prevent processing this effect, if it has no skill associated.
 			if (skill == null)
 				return;
 
+			// Lock the effects list
 			lock (effects)
 			{
+				// Check if this new effect is already in this actor, to prevent adding it twice.
 				foreach (var currentEffect in effects)
 				{
-					if (currentEffect.GetSkillHandle() == effect.GetSkillHandle())
+					if (currentEffect.GetSkillId() == effect.GetSkillId())
 					{
-
-						if (skill.Data.buffCanStack)
-						{
-							// Stack effect
-							currentEffect.OnStack();
-						}
-
+						// At this point, the effect already exist in this actor, so update necessary data and notify the client
 						currentEffect.expireTime = DateTime.Now.AddSeconds(skill.Data.buffLifeInSeconds);
 
+						// We only send the update if necessary (when there is a time displayed in the client or is a stackable effect)
 						bool update = true;
 						if (skill.Data.buffLifeInSeconds == 0 && !skill.Data.buffCanStack)
 							update = false;
 
 						if (update)
 							// Update buff
-							Send.ZC_BUFF_ADD_3((Character)owner, currentEffect, true);
+							Send.ZC_BUFF_ADD((Character)owner, currentEffect, true);
 
 						return;
 					}
 				}
 
+				// At this point, the effect is a NEW effect, so we add it to the list of effects and activate it (by calling OnAdd() in the effect).
 				effects.Add(effect);
 				effect.OnAdd();
-				Send.ZC_BUFF_ADD_3((Character)owner, effect, false);
+				// Send client about this new buff addition.
+				Send.ZC_BUFF_ADD((Character)owner, effect, false);
 			}
 
 		}
 
+		/// <summary>
+		/// This function is in charge of removing all expired effects in this actor. Updates client accordingly.
+		/// The function is called every actor's tick.
+		/// </summary>
 		public void RemoveExpiredEffects()
 		{
-			SkillEffect selectedEffect;
-
+			// Lock effects list
 			lock (effects)
 			{
+				// Check which effect expired, and removing them from this actor.
 				for (int i = effects.Count - 1; i >= 0; i--)
 				{
 					if (!effects[i].isPermanent && effects[i].expireTime < DateTime.Now)
 					{
-						selectedEffect = effects[i];
-						selectedEffect.OnRemove();
-						effects.RemoveAt(i);
-						Send.ZC_BUFF_REMOVE_2((Character)owner, selectedEffect);
+						RemoveEffectByIndex(i);
 					}
 				}
 			}
 		}
 
+		/// <summary>
+		/// This function removes all effects for a given skill. Updating client accordingly.
+		/// </summary
+		/// <param name="skill">The skill containing the effects to remvoe from this actor</param>
 		public void RemoveEffectsBySkill(Skill skill)
 		{
-			SkillEffect selectedEffect;
-
+			// Lock effects
 			lock (effects)
 			{
+				// Search through all effects, trying to find all effects belonging to the given skill, removing all effects
 				for (int i = effects.Count - 1; i >= 0; i--)
 				{
-					if (effects[i].GetSkillHandle() == skill.Handle)
+					if (effects[i].GetSkillId() == skill.Id)
 					{
-						selectedEffect = effects[i];
-						selectedEffect.OnRemove();
-						effects.RemoveAt(i);
-						Send.ZC_BUFF_REMOVE_2((Character)owner, selectedEffect);
+						RemoveEffectByIndex(i);
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// This function will remove an effect from the list, desactivate it, and notify client about it.
+		/// </summary>
+		/// <param name="i">index in effects List in this manager</param>
+		private void RemoveEffectByIndex(int i)
+		{
+			SkillEffect selectedEffect;
+
+			selectedEffect = effects[i];
+			// Deactivate effect
+			selectedEffect.OnRemove();
+			// Remove effect from actor
+			effects.RemoveAt(i);
+			// Update client
+			Send.ZC_BUFF_REMOVE((Character)owner, selectedEffect);
 		}
 
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.World.SkillHandlers;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World.SkillEffects
 {
@@ -14,6 +15,9 @@ namespace Melia.Channel.World.SkillEffects
 
 		private DateTime _lastProcessTime;
 		private double _tickRate = 500.0;
+
+		private DateTime _lastStackTime;
+		public double tickStackRate = 1000.0;
 
 		public DateTime expireTime;
 		public bool isPermanent;
@@ -30,12 +34,14 @@ namespace Melia.Channel.World.SkillEffects
 			Handle = ChannelServer.Instance.World.CreateHandle();
 
 			this.skillComp = skillComp;
+			this.Id = skillComp.skill.Id;
 			stackLevel = 1;
 			expireTime = DateTime.Now.AddSeconds(skillComp.skill.Data.buffLifeInSeconds);
 			isPermanent = skillComp.skill.Data.buffIsPermanent;
 			//skillComp.target.EffectAdd(this);
 
 			_lastProcessTime = DateTime.Now;
+			_lastStackTime = DateTime.Now;
 
 		}
 
@@ -44,10 +50,10 @@ namespace Melia.Channel.World.SkillEffects
 			return new SkillEffect(skillComp);
 		}
 
-		public int GetSkillHandle()
+		public int GetSkillId()
 		{
 			if (skillComp.skill != null)
-				return skillComp.skill.Handle;
+				return skillComp.skill.Id;
 
 			return -1;
 		}
@@ -56,13 +62,23 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			// Check if we need to tick this process
 			TimeSpan diff = DateTime.Now - _lastProcessTime;
-			if (diff.TotalMilliseconds < _tickRate)
-				return;
+			if (diff.TotalMilliseconds >= _tickRate)
+			{
+				_lastProcessTime = DateTime.Now; /// Or should be "=+ _tickRate" ? 
+				OnTimer();
+			}
 
-			_lastProcessTime = DateTime.Now; /// Or should be "=+ _tickRate" ? 
+			// Check if we need to tick for effect stack
+			if (skillComp.skill.Data.buffCanStack)
+			{
+				diff = DateTime.Now - _lastStackTime;
+				if (diff.TotalMilliseconds >= this.tickStackRate)
+				{
+					_lastStackTime = DateTime.Now;
+					OnStack();
 
-			// 
-			OnTimer();
+				}
+			}
 
 		}
 
@@ -71,7 +87,8 @@ namespace Melia.Channel.World.SkillEffects
 		virtual public void OnTimer() { }
 		virtual public void OnStack()
 		{
-			stackLevel += 1;
+			this.stackLevel += 1;
+			skillComp.target.skillEffectsManager.AddEffect(this);
 		}
 	}
 }

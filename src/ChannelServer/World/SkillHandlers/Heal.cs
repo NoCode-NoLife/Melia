@@ -10,7 +10,7 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public class Heal : SkillHandler
 	{
-		override public SkillResult ProcessSkill(Actor target, Skill skill)
+		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
 			Log.Debug("ProcessHealSkill: {0} {1}", target, typeof(Character));
 			SkillResult skillResult = null;

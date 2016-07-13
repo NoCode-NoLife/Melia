@@ -39,6 +39,7 @@ namespace Melia.Shared.Data.Database
 		public bool buffCanStack { get; set; }
 		public bool buffIsPermanent { get; set; }
 		public int buffLifeInSeconds { get; set; }
+		public int maxInteractions { get; set; }
 
 		public Dictionary<Stat, StatModifier> statModifiers;
 

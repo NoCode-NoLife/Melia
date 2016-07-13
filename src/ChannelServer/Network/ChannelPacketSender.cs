@@ -961,7 +961,8 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.MAXPATK_SUB: packet.PutFloat(character.statsManager.stats[(int)Stat.MAXPATK_SUB]); break;
 					case ObjectProperty.PC.MINMATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MINMATK]); break;
 					case ObjectProperty.PC.MAXMATK: packet.PutFloat(character.statsManager.stats[(int)Stat.MAXMATK]); break;
-
+					case ObjectProperty.PC.DEF: packet.PutFloat(character.statsManager.stats[(int)Stat.PDEF]); break;
+					case ObjectProperty.PC.MDEF: packet.PutFloat(character.statsManager.stats[(int)Stat.MDEF]); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
@@ -2009,56 +2010,14 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Add buff icon in buffs bar 
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_BUFF_ADD(Character character)
-		{
-			var packet = new Packet(Op.ZC_BUFF_ADD);
-			packet.PutInt(character.Handle);
-			packet.PutInt(94);
-			packet.PutInt(2); // Skill Level
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(1); // Buff stack
-			//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
-			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
-			packet.PutShort((short)(character.Name.Length + 1));
-			packet.PutString(character.Name);
-			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
-			packet.PutBinFromHex("1FED0000"); // Buff Handle. (but not related to the buff skill itself)
-
-			character.Connection.Send(packet);
-
-		}
-
-		/// <summary>
 		/// removes buff icon in buffs bar 
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_BUFF_REMOVE(Character character, Buff buff)
+		public static void ZC_BUFF_REMOVE(Character character, SkillEffect effect)
 		{
 			var packet = new Packet(Op.ZC_BUFF_REMOVE);
 			packet.PutInt(character.Handle);
-			packet.PutInt(buff.Id); // 43 00 00 00
-			packet.PutByte(0);
-			packet.PutInt(buff.Handle); // Buff handle.  (but not related to the buff skill itself)
-
-			character.Map.Broadcast(packet, character);
-
-		}
-
-		/// <summary>
-		/// removes buff icon in buffs bar 
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_BUFF_REMOVE_2(Character character, SkillEffect effect)
-		{
-			var packet = new Packet(Op.ZC_BUFF_REMOVE);
-			packet.PutInt(character.Handle);
-			packet.PutInt(effect.Id); // 43 00 00 00
+			packet.PutInt(effect.skillComp.skill.Data.buffId); // 43 00 00 00
 			packet.PutByte(0);
 			packet.PutInt(effect.Handle); // Buff handle.  (but not related to the buff skill itself)
 
@@ -2070,41 +2029,13 @@ namespace Melia.Channel.Network
 		/// Add/Updates buff information in buffs bar 
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_BUFF_ADD_2(Character character, Buff buff, bool update)
+		public static void ZC_BUFF_ADD(Character character, SkillEffect effect, bool update)
 		{
 
 			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(buff.Id); // Buff type
-			packet.PutInt(buff.ownerSkill.level); // Skill Level
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(buff.stackLevel); // Skill stack
-			//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
-			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
-			packet.PutShort((short)(character.Name.Length + 1));
-			packet.PutString(character.Name);
-			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
-			packet.PutInt(buff.Handle); // Buff Handle. (but not related to the buff skill itself)
-
-			character.Map.Broadcast(packet, character);
-
-		}
-
-		/// <summary>
-		/// Add/Updates buff information in buffs bar 
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_BUFF_ADD_3(Character character, SkillEffect effect, bool update)
-		{
-
-			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
-
-			packet.PutInt(character.Handle);
-			packet.PutInt(effect.Id); // Buff type
+			packet.PutInt(effect.skillComp.skill.Data.buffId); // Buff type
 			packet.PutInt(effect.skillComp.skill.level); // Skill Level
 			packet.PutInt(0);
 			packet.PutInt(0);

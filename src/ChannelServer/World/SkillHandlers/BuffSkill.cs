@@ -12,8 +12,9 @@ namespace Melia.Channel.World.SkillHandlers
 {
 	public class BuffSkill : SkillHandler
 	{
-		override public SkillResult ProcessSkill(Actor target, Skill skill)
+		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
+			Log.Debug("SkillHandler ProcessSkill {0}, {1}, {2}", target.ToString(), skill.Id, originator.Handle);
 			SkillResult skillResult = null;
 			if (target is IEntity)
 			{
@@ -25,18 +26,19 @@ namespace Melia.Channel.World.SkillHandlers
 				skillResult.targetHandle = target.Handle;
 				skillResult.value = 0;
 
+
 				SkillDataComponent skillComp = new SkillDataComponent();
 				skillComp.skill = skill;
 				skillComp.skillHandler = this;
 				skillComp.caster = skill.owner;
-				skillComp.target = (IEntity) target;
+				skillComp.target = (IEntity)target;
+				skillComp.originator = originator;
 
 				foreach (var effect in skill.effects)
 				{
 					SkillEffect newEffect = effect.NewInstance(skillComp);
 					entityTarget.skillEffectsManager.AddEffect(newEffect);
 				}
-
 			}
 
 			return skillResult;

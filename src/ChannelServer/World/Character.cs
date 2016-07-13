@@ -202,6 +202,7 @@ namespace Melia.Channel.World
 			this.Spr = 1;
 			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
+			ChannelServer.Instance.World.RegisterToEvents(this.Handle);
 			this.Inventory = new Inventory(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
@@ -312,6 +313,7 @@ namespace Melia.Channel.World
 
 			// Process skill effects
 			this.skillEffectsManager.RemoveExpiredEffects();
+			this.skillEffectsManager.ProcessEffects();
 
 			// Regeneration
 			this.HPRegen();
@@ -859,6 +861,7 @@ namespace Melia.Channel.World
 		}
 		public new float AdjustReceivedDamage(float damage)
 		{
+			base.AdjustReceivedDamage(damage);
 			return damage;
 		}
 

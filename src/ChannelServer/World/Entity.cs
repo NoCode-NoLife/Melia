@@ -109,7 +109,7 @@ namespace Melia.Channel.World
 		public SkillManager skillManager { get; set; }
 		public SkillEffectsManager skillEffectsManager { get; set; }
 
-		public float AdjustInfringedDamage(float damage)
+		virtual public float AdjustInfringedDamage(float damage)
 		{
 			float finalDamage = damage;
 			Random rnd = ChannelServer.Instance.rnd;
@@ -130,8 +130,13 @@ namespace Melia.Channel.World
 
 			return finalDamage;
 		}
-		public float AdjustReceivedDamage(float damage)
+		virtual public float AdjustReceivedDamage(float damage)
 		{
+			EventData evData = new EventData();
+			evData.entity = this;
+			evData.damage = damage;
+
+			ChannelServer.Instance.World.SendEvent(WorldManager.EventTypes.ADJUST_DAMAGE_MODIFIER, evData, this.Handle);
 			return damage;
 		}
 

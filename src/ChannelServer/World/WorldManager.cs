@@ -27,6 +27,9 @@ namespace Melia.Channel.World
 
 		private Timer _heartbeatTimer;
 
+		public delegate void EventHandle(EventData evData);
+		private Dictionary<int, Dictionary<EventTypes, List<EventHandle>>> _eventBindings;
+
 		/// <summary>
 		/// Returns the amount of maps in the world.
 		/// </summary>
@@ -39,6 +42,8 @@ namespace Melia.Channel.World
 		{
 			_mapsId = new Dictionary<int, Map>();
 			_mapsName = new Dictionary<string, Map>();
+
+			_eventBindings = new Dictionary<int, Dictionary<EventTypes, List<EventHandle>>>();
 		}
 
 		/// <summary>
@@ -179,16 +184,126 @@ namespace Melia.Channel.World
 			switch (itemData.Category)
 			{
 				case InventoryCategory.Weapon:
-						newItem = new Weapon(itemId, amount);
-						newItem.Data.slot = EquipSlot.RightHand;
+					newItem = new Weapon(itemId, amount);
+					newItem.Data.slot = EquipSlot.RightHand;
 					break;
 				default:
-						newItem = new Item(itemId, amount);
-						break;
+					newItem = new Item(itemId, amount);
+					break;
 			}
 
 			return newItem;
 
 		}
+
+		public void RegisterToEvents(int actorHandle)
+		{
+			lock (_eventBindings)
+			{
+				if (!_eventBindings.ContainsKey(actorHandle))
+				{
+
+					_eventBindings.Add(actorHandle, new Dictionary<EventTypes, List<EventHandle>>());
+				}
+			}
+		}
+
+		public void UnregisterToEvents(int actorHandle)
+		{
+			lock (_eventBindings)
+			{
+				_eventBindings.Remove(actorHandle);
+			}
+		}
+
+		public void SubscribeToEvent(EventTypes evType, EventHandle evHandle, int actorHandle)
+		{
+			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
+			List<EventHandle> eventHandlesList;
+
+			lock (_eventBindings)
+			{
+				if (_eventBindings.TryGetValue(actorHandle, out eventTypesDir)) {
+					if (!eventTypesDir.ContainsKey(evType))
+					{
+						eventTypesDir.Add(evType, new List<EventHandle>());
+					}
+					if (eventTypesDir.TryGetValue(evType, out eventHandlesList))
+					{
+						foreach (var thisEvHandle in eventHandlesList.ToList())
+						{
+							if (thisEvHandle == evHandle)
+								return;
+						}
+
+						eventHandlesList.Add(evHandle);
+					}
+				}
+				else
+				{
+					Log.Error("This actor is not registered to subscribe to events. Actor Handle: {0}", actorHandle);
+				}
+
+			}
+		}
+
+		public void UnscribscribeFromEvent(EventTypes evType, EventHandle evHandle, int actorHandle)
+		{
+			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
+			List<EventHandle> eventHandlesList;
+
+			lock (_eventBindings)
+			{
+				if (_eventBindings.TryGetValue(actorHandle, out eventTypesDir))
+				{
+					if (eventTypesDir.TryGetValue(evType, out eventHandlesList))
+					{
+						eventHandlesList.Remove(evHandle);
+					}
+				}
+				else
+				{
+					Log.Warning("This actor is not registered to UNSCRIBSCRIBE to events. Actor Handle: {0}", actorHandle);
+				}
+			}
+		}
+
+		public void SendEvent(EventTypes evType, EventData evData, int actorHandle)
+		{
+			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
+			List<EventHandle> eventHandlesList;
+			lock (_eventBindings)
+			{
+				if (_eventBindings.TryGetValue(actorHandle, out eventTypesDir))
+				{
+					if (eventTypesDir.TryGetValue(evType, out eventHandlesList))
+					{
+						foreach (var thisEvHandle in eventHandlesList.ToList())
+						{
+							if (thisEvHandle == null)
+							{
+								// Remove from the list.
+								return;
+							}
+
+							thisEvHandle.Invoke(evData);
+						}
+					}
+				}
+
+			}
+		}
+
+		public enum EventTypes
+		{
+			ADJUST_DAMAGE_MODIFIER = 1,
+		}
+
+	}
+
+	public class EventData
+	{
+		public IEntity entity;
+		public float damage;
 	}
 }

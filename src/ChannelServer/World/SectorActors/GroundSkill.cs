@@ -32,6 +32,9 @@ namespace Melia.Channel.World.SectorActors
 		public List<Actor> processTargets;
 		public List<Actor> lastProcessTargets;
 
+		public int interactions;
+		public int maxInteractions;
+
 		public void Init()
 		{
 			this.range = 0.0f;
@@ -55,6 +58,9 @@ namespace Melia.Channel.World.SectorActors
 			skillResults = new List<SkillResult>();
 			processTargets = new List<Actor>();
 			lastProcessTargets = new List<Actor>();
+
+			this.interactions = 0;
+			this.maxInteractions = 0;
 		}
 
 		public void Enable()
@@ -156,15 +162,15 @@ namespace Melia.Channel.World.SectorActors
 
 		public void OnEnter(Actor actor)
 		{
-			Log.Debug("OnEnter {0}", actor.ToString());
-			var sResult = this.ownerSkill.ProcessSkill(actor);
+			Log.Debug("GroundSkill {1} OnEnter {0}", actor.ToString(), this.Handle);
+			var sResult = this.ownerSkill.ProcessSkill(actor, this);
 			if (sResult != null)
 				skillResults.Add(sResult);
 		}
 
 		public void OnLeave(Actor actor)
 		{
-			Log.Debug("OnLeave {0}", actor.ToString());
+			Log.Debug("GroundSkill {1} OnLeave {0}", actor.ToString(), this.Handle);
 			if (actor is IEntity)
 			{
 				IEntity entityActor = (IEntity)actor;
