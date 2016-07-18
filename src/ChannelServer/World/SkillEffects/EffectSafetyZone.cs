@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Melia.Shared.Util;
 using Melia.Channel.World.SkillHandlers;
 using Melia.Channel.World.SectorActors;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Channel.World.SkillEffects
 {
@@ -19,7 +20,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public EffectSafetyZone(SkillDataComponent skillComp) : base(skillComp) {
+		public EffectSafetyZone(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp) {
 			
 		}
 
@@ -27,9 +28,9 @@ namespace Melia.Channel.World.SkillEffects
 		/// It creates and return an instance of this effect, initializing it with provided SkillDataComponent
 		/// </summary>
 		/// <param name="skillComp">SkillDataComponent used to initialize the new instance</param>
-		public override SkillEffect NewInstance(SkillDataComponent skillComp)
+		public override SkillEffect NewInstance(SkillEffectData effectData, SkillDataComponent skillComp)
 		{
-			return new EffectSafetyZone(skillComp);
+			return new EffectSafetyZone(effectData, skillComp);
 		}
 
 		/// <summary>
@@ -42,7 +43,7 @@ namespace Melia.Channel.World.SkillEffects
 
 			// Add stats modifiers to target
 			Skill skill = skillComp.skill;
-			foreach (var statMod in skill.Data.statModifiers.Values)
+			foreach (var statMod in skill.GetData().statModifiers.Values)
 			{
 				skillComp.target.statsManager.AddStatMod(this.Handle, statMod);
 			}
@@ -57,7 +58,7 @@ namespace Melia.Channel.World.SkillEffects
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.ADJUST_DAMAGE_MODIFIER, ReceivedHit, skillComp.target.Handle);
 			// Remove stats modifiers
 			Skill skill = skillComp.skill;
-			foreach (var statMod in skill.Data.statModifiers)
+			foreach (var statMod in skill.GetData().statModifiers)
 			{
 				skillComp.target.statsManager.RemoveStatMods(this.Handle);
 			}
@@ -79,7 +80,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// Function that is delegated to the World's event system. It will be invoked on EventTypes.ADJUST_DAMAGE_MODIFIER event.
 		/// </summary>
-		public void ReceivedHit(EventData evData)
+		public EventResult ReceivedHit(EventData evData)
 		{
 			// Check if effects' originator is a GroundSkill
 			if (this.skillComp.originator != null && this.skillComp.originator is GroundSkill)
@@ -95,6 +96,8 @@ namespace Melia.Channel.World.SkillEffects
 					}
 				}
 			}
+
+			return null;
 		}
 
 	}

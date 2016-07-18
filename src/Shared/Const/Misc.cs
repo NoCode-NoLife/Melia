@@ -64,4 +64,15 @@ namespace Melia.Shared.Const
 		public StatModifierType modifierType;
 		public float modifierValue;
 	}
+
+	public enum TargetType
+	{
+		NONE = 0,
+		SELF = 1,
+		FRIEND = 2,
+		ENEMY = 3,
+		MONSTER = 4,
+		PARTY = 5,
+
+	}
 }

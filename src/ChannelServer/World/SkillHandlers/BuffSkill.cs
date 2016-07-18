@@ -23,7 +23,7 @@ namespace Melia.Channel.World.SkillHandlers
 				var entityTarget = (IEntity)target;
 
 				skillResult = new SkillResult();
-				skillResult.actor = target;
+				skillResult.actor = (Entity)target;
 				skillResult.skillHandle = skill.Handle;
 				skillResult.targetHandle = target.Handle;
 				skillResult.value = 0;
@@ -36,11 +36,21 @@ namespace Melia.Channel.World.SkillHandlers
 				skillComp.target = (IEntity)target;
 				skillComp.originator = originator;
 
+				Log.Debug("Count effects: {0}", skill.GetData().effects.Count);
+				foreach (var effectData in skill.GetData().effects)
+				{
+					Log.Debug("Processing effect {0}", effectData.EffectType);
+					SkillEffect newEffect = SkillEffect.GetSkillEffect(effectData.EffectType, effectData, skillComp);
+					entityTarget.skillEffectsManager.AddEffect(newEffect);
+				}
+
+				/*
 				foreach (var effect in skill.effects)
 				{
 					SkillEffect newEffect = effect.NewInstance(skillComp);
 					entityTarget.skillEffectsManager.AddEffect(newEffect);
 				}
+				*/
 			}
 
 			return skillResult;

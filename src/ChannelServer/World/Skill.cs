@@ -89,6 +89,7 @@ namespace Melia.Channel.World
 		public bool SetLevel(int newLevel)
 		{
 			this.level = newLevel;
+			this.LoadData(); // Load new skill level Data.
 			return true;
 		}
 
@@ -100,9 +101,28 @@ namespace Melia.Channel.World
 			if (this.Id == 0)
 				throw new InvalidOperationException("Skill id wasn't set before calling LoadData.");
 
-			this.Data = ChannelServer.Instance.Data.SkillDb.Find(this.Id);
-			if (this.Data == null)
-				throw new NullReferenceException("No skill data found for '" + this.Id + "'.");
+			//this.Data = ChannelServer.Instance.Data.SkillDb.Find(this.Id);
+			this.Data = ChannelServer.Instance.Data.SkillDb.FindSkill(this.Id, this.level);
+			if (this.Data  == null)
+				throw new NullReferenceException("No skill data found for '" + this.Id + "' level '" + this.level + "'.");
+		}
+
+		public SkillData GetData()
+		{
+			if (owner.IncreaseSkillLevel)
+			{
+				SkillData nextLevelData;
+				int maxLevel = ChannelServer.Instance.Data.SkillTreeDb.GetSkillMaxLevel(this.Id);
+				if (maxLevel > 0 && maxLevel > this.level)
+				{
+					nextLevelData = ChannelServer.Instance.Data.SkillDb.FindSkill(this.Id, (this.level + 1));
+					if (nextLevelData != null)
+						return nextLevelData;
+				}
+				
+				
+			}
+			return Data;
 		}
 
 		/// <summary>
@@ -144,7 +164,7 @@ namespace Melia.Channel.World
 			Character caster = (Character)owner;
 
 			// Check if caster has enough SP
-			if (caster.Sp < (int)this.Data.SpendSP)
+			if (caster.Sp < (int)this.GetData().SpendSP)
 				return false;
 
 			return true;
@@ -172,7 +192,7 @@ namespace Melia.Channel.World
 			Character caster = (Character)owner;
 
 			// Consume mana
-			caster.SetCurrentSp((int)this.Data.SpendSP);
+			caster.SetCurrentSp((int)this.GetData().SpendSP);
 
 			PerformCast();
 		}
@@ -186,28 +206,38 @@ namespace Melia.Channel.World
 			Character caster = (Character)owner;
 			var map = ChannelServer.Instance.World.GetMap(caster.MapId);
 
+			// Send event
+			EventData evData = new EventData();
+			evData.entity = this.owner;
+			evData.skill = this;
 
+			ChannelServer.Instance.World.SendEvent(WorldManager.EventTypes.PERFORM_CAST, evData, this.owner.Handle);
+
+			// Process skill
 			switch (this.Id)
 			{
 				case 40001:
+					/*
 					this.Data.EffectId = 2562065;
 					this.Data.IsDot = false;
 					this.Data.LifeInSeconds = 10;
+					*/
 					break;
 				case 40002:
+					/*
 					this.Data.EffectId = 2562066;
 					this.Data.IsDot = false;
 					this.Data.LifeInSeconds = 10;
+					*/
 					break;
 				case 40003:
+					/*
 					this.Data.EffectId = 2562067;
 					this.Data.IsDot = true;
-					this.Data.buffId = 94;
-					this.Data.buffIsPermanent = true;
-					this.Data.buffLifeInSeconds = 0;
-					this.Data.buffCanStack = false;
 					this.Data.LifeInSeconds = 20;
-					this.Data.maxInteractions = 2;
+					this.Data.MaxInteractions = 2;
+					*/
+
 					Dictionary<Stat, StatModifier> skillStatModifiers = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod;
 					statMod.stat = Stat.Evasion;
@@ -219,20 +249,34 @@ namespace Melia.Channel.World
 					statMod.modifierType = StatModifierType.Addition;
 					statMod.modifierValue = 1f;
 					skillStatModifiers.Add(statMod.stat, statMod);
-					this.Data.statModifiers = skillStatModifiers;
+					this.GetData().statModifiers = skillStatModifiers;
 
+					/*
+					this.Data.buffId = 94;
+					this.Data.buffIsPermanent = true;
+					this.Data.buffLifeInSeconds = 0;
+					this.Data.buffCanStack = false;
+					*/
+
+					/*
 					this.effects = new List<SkillEffect>();
 					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
-
+					*/
 					break;
 				case 40004:
+					/*
 					this.Data.EffectId = 190323;
 					this.Data.IsDot = true;
+					*/
+					/*
 					this.Data.buffId = 142;
 					this.Data.buffIsPermanent = true;
 					this.Data.buffLifeInSeconds = 0;
 					this.Data.buffCanStack = true;
+					*/
+					/*
 					this.Data.LifeInSeconds = 6;
+					*/
 					Dictionary<Stat, StatModifier> skillStatModifiers2 = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod2;
 					statMod2.stat = Stat.PDEF;
@@ -244,24 +288,53 @@ namespace Melia.Channel.World
 					statMod2.modifierType = StatModifierType.Addition;
 					statMod2.modifierValue = -2f;
 					skillStatModifiers2.Add(statMod2.stat, statMod2);
-					this.Data.statModifiers = skillStatModifiers2;
+					this.GetData().statModifiers = skillStatModifiers2;
 
+					/*
 					this.effects = new List<SkillEffect>();
 					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
+					*/
+					break;
 
+				case 40007:
+					this.GetData().EffectId = 190323;
+					this.GetData().IsDot = false;
+					/*
+					this.Data.buffId = 142;
+					this.Data.buffIsPermanent = false;
+					this.Data.buffLifeInSeconds = 60;
+					this.Data.buffCanStack = false;
+					*/
+					this.GetData().LifeInSeconds = 10;
+					this.GetData().EffectsDependOnSkill = false;
+
+					Dictionary<Stat, StatModifier> skillStatModifiers3 = new Dictionary<Stat, StatModifier>();
+					StatModifier statMod3;
+					statMod3.stat = Stat.PDEF;
+					statMod3.modifierType = StatModifierType.Addition;
+					statMod3.modifierValue = -2f;
+					skillStatModifiers3.Add(statMod3.stat, statMod3);
+					this.GetData().statModifiers = skillStatModifiers3;
+
+					/*
+					this.effects = new List<SkillEffect>();
+					this.effects.Add(new GuardianSaint(new SkillDataComponent()));
+					*/
 					break;
 				case 100:
-					this.Data.IsDot = false;
-					this.Data.IsInstant = true;
+					this.GetData().IsDot = false;
+					this.GetData().IsInstant = true;
+					break;
+				case 40005:
 					break;
 				default:
-					this.Data.EffectId = 0;
+					this.GetData().EffectId = 0;
 					break;
 
 			}
 
 			// Depends of the skillType, the skill is casted in different ways, and different things are prepared.
-			switch (this.Data.Type)
+			switch (this.GetData().Type)
 			{
 				// GROUND SKILL
 				case SkillType.GROUND:
@@ -270,13 +343,21 @@ namespace Melia.Channel.World
 						GroundSkill PESkill = new GroundSkill();
 
 						// Calculate its position and direction
-						var skillPosition = new Position(40 * caster.Direction.Cos + caster.Position.X, caster.Position.Y, 40 * caster.Direction.Sin + caster.Position.Z);
+						Position skillPosition;
+						if (this.GetData().TargetType == TargetType.SELF)
+						{
+							skillPosition = new Position(caster.Direction.Cos + caster.Position.X, caster.Position.Y, caster.Direction.Sin + caster.Position.Z);
+						} else
+						{
+							skillPosition = new Position(40 * caster.Direction.Cos + caster.Position.X, caster.Position.Y, 40 * caster.Direction.Sin + caster.Position.Z);
+						}
+						
 						var skillDirection = new Direction(caster.Direction.Cos, caster.Direction.Sin);
 
 						// Initialize other specific variables
-						if (this.Data.maxInteractions > 0)
+						if (this.GetData().MaxInteractions > 0)
 						{
-							PESkill.maxInteractions = this.Data.maxInteractions;
+							PESkill.maxInteractions = this.GetData().MaxInteractions;
 						}
 
 						// Initialize ground skill
@@ -305,6 +386,7 @@ namespace Melia.Channel.World
 		/// <param name="originator">The actor originating this skill. Not necessarely the caster!</param>
 		public SkillResult ProcessSkill(Actor target, Actor originator)
 		{
+
 			if (this.SkHandler != null)
 			{
 				return this.SkHandler.ProcessSkill(target, this, originator);
@@ -319,7 +401,7 @@ namespace Melia.Channel.World
 	/// </summary>
 	public class SkillResult
 	{
-		public Actor actor;
+		public Entity actor;
 		public int skillHandle;
 		public int targetHandle;
 		public float value;

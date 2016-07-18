@@ -21,6 +21,7 @@ namespace Melia.Channel.World
 {
 	public class Character : Entity, ICommander, IEntity, IVisitor
 	{
+		public int test;
 		/// <summary>
 		/// Id of the character's account.
 		/// </summary>
@@ -774,44 +775,15 @@ namespace Melia.Channel.World
 			return this.CollisionShape.IntersectWith(actor.CollisionShape);
 		}
 
-		public int Heal(int amount, bool isPercent)
+		public override int Heal(int amount, bool isPercent)
 		{
-			Log.Debug("Heal function ----- ");
-			if (this.Hp >= this.MaxHp)
-				return 0;
+			Log.Debug("Heal amount {0} percent {1}", amount, isPercent);
+			int healedAmount = base.Heal(amount, isPercent);
 
-			Log.Debug("Heal function {0} {1}", amount, isPercent);
-			int amountToHeal;
-			if (isPercent)
-				amountToHeal = (amount * this.MaxHp / 100);
-			else
-				amountToHeal = amount;
-
-			Log.Debug("PRE amountToHeal: {0}", amountToHeal);
-
-
-
-			int HpRemaining = this.MaxHp - this.Hp;
-			Log.Debug("HP {2} HPMAX {1} HpRemaining: {0}", HpRemaining, this.MaxHp, this.Hp);
-			if (HpRemaining <= 0)
-				return 0;
-
-			if (HpRemaining < amountToHeal)
-				amountToHeal = HpRemaining;
-
-			Log.Debug("amountToHeal: {0}", amountToHeal);
-
-			// Proceed to increase HP
-			this.Hp = Math2.Clamp(0, this.MaxHp, this.Hp + amountToHeal);
-
-			Log.Debug("new HP {0}", this.Hp);
-			Log.Debug("------------------------");
-
-
-			Send.ZC_HEAL_INFO(this, amountToHeal, this.Hp);
+			Send.ZC_HEAL_INFO(this, healedAmount, this.Hp);
 			Send.ZC_UPDATE_ALL_STATUS(this, this.Hp, this.MaxHp, (short)this.Sp, (short)this.MaxSp);
 
-			return amountToHeal;
+			return healedAmount;
 
 		}
 
@@ -831,7 +803,8 @@ namespace Melia.Channel.World
 					/// 
 					Skill skill = this.skillManager.GetSkill(100);
 					if (skill != null)
-						skill.Activate();
+						this.CastSkill(skill);
+						//skill.Activate();
 				}
 			}
 			
@@ -872,7 +845,7 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		public new void TakeDamage(int damage, IEntity from)
 		{
-
+			base.TakeDamage(damage, from);
 		}
 
 	}

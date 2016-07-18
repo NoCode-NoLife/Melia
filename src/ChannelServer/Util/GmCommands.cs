@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.Util
 {
@@ -200,15 +201,32 @@ namespace Melia.Channel.Util
 			int.TryParse(args[1], out val1);
 			int.TryParse(args[2], out val2);
 
+			/*
+			Send.ZC_BUFF_REMOVE(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()));
+			character.test = val1;
+			Send.ZC_BUFF_ADD(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()), false);
+			return CommandResult.Okay;
+			*/
+
 			if (val1 == 1)
 			{
+				/*
 				Send.ZC_NORMAL_14(character);
 				Send.ZC_NORMAL_19(character);
 				//Send.ZC_BUFF_REMOVE(character);
+				*/
+				
+				Send.ZC_BUFF_REMOVE(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()));
+				character.test = val2;
+				Send.ZC_BUFF_ADD(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()), false);
 			}
 			if (val1 == 2)
 			{
-				character.AdjustReceivedDamage(10.0f);
+				//character.AdjustReceivedDamage(10.0f);
+				Log.Debug("GMcommand char HANDLER: {0}", character.Handle);
+				//character.TakeDamage(10, character);
+				Skill skill = character.skillManager.GetSkill(100);
+				skill.ProcessSkill(character, character);
 
 			}
 			if (val1 == 3)

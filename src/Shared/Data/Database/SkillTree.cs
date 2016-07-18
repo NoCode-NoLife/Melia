@@ -34,6 +34,17 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FindAll(a => a.Value.SkillId.Equals(skillId));
 		}
 
+		public int GetSkillMaxLevel(int skillId)
+		{
+			SkillTreeInfo treeInfo = this.Entries.First(a => a.Value.SkillId.Equals(skillId)).Value;
+			if (treeInfo != null)
+			{
+				return treeInfo.MaxLevel;
+			}
+
+			return 0;
+		}
+
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("SkillTreeId", "SkillId", "JobId", "UnlockGrade", "LevelPerGrade", "MaxLevel");

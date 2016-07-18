@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Melia.Shared.World;
 using Melia.Channel.World.SkillEffects;
 using Melia.Shared.Const;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World
 {
@@ -102,7 +103,13 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int Level { get; set; }
 
+		private bool _oneHitInmunity;
+
 		public void SetAttackState(bool isAttacking) { }
+
+		public bool IncreaseSkillLevel { get; set; }
+
+		public bool IsFade { get; set; }
 
 
 		public StatsManager statsManager { get; set; }
@@ -188,9 +195,80 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, IEntity from)
+		virtual public void TakeDamage(int damage, IEntity from)
 		{
+			Log.Debug("calling TakeDamage on Entity Handle {0}", this.Handle);
+			if (this.IsDead)
+				return;
 
+
+			EventData evData = new EventData();
+			evData.damage = damage;
+			evData.damageFrom = from;
+			evData.entity = this;
+			List<EventResult> evResults = ChannelServer.Instance.World.SendEvent(WorldManager.EventTypes.TAKE_DAMAGE, evData, this.Handle);
+
+			if (_oneHitInmunity)
+			{
+				this.SetOneHitInmunity(false);
+				return;
+			}
+
+			this.Hp -= damage;
+
+			//if (this.Hp == 0)
+				//this.Kill(from);
 		}
+
+		public void SetOneHitInmunity(bool activate)
+		{
+			_oneHitInmunity = activate;
+		}
+
+		public void CastSkill(Skill skill)
+		{
+			skill.Activate();
+		}
+
+		virtual public TargetType GetTargetType(IEntity entity)
+		{
+			if (entity == this)
+			{
+				return TargetType.SELF;
+			}
+
+			if (entity is Monster)
+			{
+				return TargetType.MONSTER;
+			}
+
+			return TargetType.NONE;
+		}
+
+		public virtual int Heal(int amount, bool isPercent)
+		{
+			if (this.Hp >= this.MaxHp)
+				return 0;
+
+			int amountToHeal;
+			if (isPercent)
+				amountToHeal = (amount * this.MaxHp / 100);
+			else
+				amountToHeal = amount;
+
+			int HpRemaining = this.MaxHp - this.Hp;
+
+			if (HpRemaining <= 0)
+				return 0;
+
+			if (HpRemaining < amountToHeal)
+				amountToHeal = HpRemaining;
+
+			// Proceed to increase HP
+			this.Hp = Math2.Clamp(0, this.MaxHp, this.Hp + amountToHeal);
+
+			return amountToHeal;
+		}
+
 	}
 }

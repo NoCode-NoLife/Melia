@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.World.SkillHandlers;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel
 {
@@ -68,22 +69,28 @@ namespace Melia.Channel
 			this.ScriptManager = new ScriptManager();
 			this.SkillHandlers = new Dictionary<int, SkillHandler>();
 
-			this.LoadSkillEffects();
+			this.LoadSkillHandlers();
 
 			rnd = new Random();
 		}
 
-		private void LoadSkillEffects()
+		private void LoadSkillHandlers()
 		{
 			SkillHandler skillHandler;
-			skillHandler = new Heal();
+			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(40001, skillHandler);
-			skillHandler = new Cure();
+			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(40002, skillHandler);
 			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(40003, skillHandler);
 			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(40004, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(40005, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(40006, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(40007, skillHandler);
 			skillHandler = new Melee();
 			this.SkillHandlers.Add(100, skillHandler);
 

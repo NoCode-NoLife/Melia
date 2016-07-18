@@ -935,7 +935,7 @@ namespace Melia.Channel.Network
 						Log.Debug("key: {0}", skillTreeKey);
 
 						var levels = packet.GetInt();
-						Log.Debug("skill {0} leves: {1}", i, levels);
+						Log.Debug("skill {0} level: {1}", i, levels);
 
 						if (levels == 0)
 							continue;
@@ -994,13 +994,16 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
+			
+
 			Skill skill = character.skillManager.GetSkill(skillId);
 
 			if (skill != null)
 			{
 				skill.Position = new Position(x2, y2, z2);
 
-				skill.Activate();
+				character.CastSkill(skill);
+				//skill.Activate();
 			}
 
 			// Add skill to world
@@ -1232,7 +1235,8 @@ namespace Melia.Channel.Network
 			if (skill != null)
 			{
 				skill.Direction = new Direction(cos, sin);
-				skill.Activate();
+				character.CastSkill(skill);
+				//skill.Activate();
 			} else
 			{
 				// Reply to "automatic" second packet (sent after skill is done). Probably when skillId = 0
@@ -1257,7 +1261,8 @@ namespace Melia.Channel.Network
 
 			if (skill != null)
 			{
-				skill.Activate();
+				character.CastSkill(skill);
+				//skill.Activate();
 			}
 
 			Log.Debug("DYNAMIC CASTING START skill: {0} Floats {1},{2} : bytes {3} {4} ", skillId, floatUnk1, floatUnk2, unk1, unk2);

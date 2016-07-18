@@ -156,7 +156,7 @@ namespace Melia.Channel.World.SectorActors
 		public void Enable()
 		{
 			// Initialize DateTime variables
-			this.timeEndLife = DateTime.Now.AddSeconds(ownerSkill.Data.LifeInSeconds);
+			this.timeEndLife = DateTime.Now.AddSeconds(ownerSkill.GetData().LifeInSeconds);
 			this.preDelay = DateTime.Now;
 			_nextProcessTime = DateTime.Now;
 
@@ -182,12 +182,15 @@ namespace Melia.Channel.World.SectorActors
 		{
 			Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
 
-			// Remove skill from all current affected entities
-			lock (_lastProcessTargets)
+			// If this skill is controlling all affected targets, remove skill from all current affected entities
+			if (this.ownerSkill.GetData().EffectsDependOnSkill)
 			{
-				foreach (var actor in _lastProcessTargets)
+				lock (_lastProcessTargets)
 				{
-					this.OnLeave(actor);
+					foreach (var actor in _lastProcessTargets)
+					{
+						this.OnLeave(actor);
+					}
 				}
 			}
 
@@ -200,7 +203,7 @@ namespace Melia.Channel.World.SectorActors
 		public Shape GetSkillShape()
 		{
 			Shape skillShape;
-			switch (ownerSkill.Data.SplashType)
+			switch (ownerSkill.GetData().SplashType)
 			{
 				case SplashType.Square:
 					skillShape = new Circle(10.0f);
@@ -210,10 +213,10 @@ namespace Melia.Channel.World.SectorActors
 					skillShape = new Circle(10.0f);
 					break;
 				case SplashType.Fan:
-					skillShape = new Cone(ownerSkill.Data.SplashAngle, ownerSkill.Data.SplashRange);
+					skillShape = new Cone(ownerSkill.GetData().SplashAngle, ownerSkill.GetData().SplashRange);
 					break;
 				default:
-					skillShape = new Circle(ownerSkill.Data.SplashRange);
+					skillShape = new Circle(ownerSkill.GetData().SplashRange);
 					break;
 			}
 
@@ -231,6 +234,16 @@ namespace Melia.Channel.World.SectorActors
 			if (entity.GetType() != typeof(Character))
 				return true;
 			*/
+			if (actor is IEntity)
+			{
+				if ((this.ownerSkill.GetData().TargetType & this.ownerSkill.owner.GetTargetType((IEntity)actor)) == Shared.Const.TargetType.NONE)
+				{
+					return true;
+				}
+			} else
+			{
+				return true;
+			}
 
 			// At this point, the target is a valid target
 
@@ -305,7 +318,7 @@ namespace Melia.Channel.World.SectorActors
 			}
 
 			// If the skill was already fired, and is a one-time skill, disable it.
-			if (fired && !ownerSkill.Data.IsDot)
+			if (fired && !ownerSkill.GetData().IsDot)
 			{
 				// Disable it after a given delay. This usually gives time to effect to happen in client.
 				if ((timeFired.AddMilliseconds((double)delayRemove) < DateTime.Now))
@@ -343,7 +356,7 @@ namespace Melia.Channel.World.SectorActors
 			_countTargets = 0;
 
 			// Make a visit to all entities in the skill range looking for new targets
-			Map.SectorManager.Visit(this.Position, this, this.ownerSkill.Data.SplashRange);
+			Map.SectorManager.Visit(this.Position, this, this.ownerSkill.GetData().SplashRange);
 
 			// At this time "lastProcessTargets" contains those actors that leaved 
 			foreach (var actor in _lastProcessTargets)
@@ -366,7 +379,7 @@ namespace Melia.Channel.World.SectorActors
 					Send.ZC_NORMAL_ParticleEffect(Map.GetCharacter(ownerHandle), this.Handle, 1);
 			}
 			// Prevent this GroundSkill to be marked as fired, if its not an one-time skill
-			else if (!this.ownerSkill.Data.IsInstant)
+			else if (!this.ownerSkill.GetData().IsInstant)
 				return;
 
 			// Set skill as fired

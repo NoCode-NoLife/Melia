@@ -149,7 +149,7 @@ namespace Melia.Channel.World
 		{
 			this.SkillAddSilent(skillId, level, out skill);
 			//Send.ZC_SKILL_ADD((Character)owner, skill, skill.Data.RegisterAsShortcut, skill.Data.IsFromSkillList, 0);
-			Send.ZC_SKILL_ADD((Character)owner, skill, true, skill.Data.IsFromSkillList, 0); // TESTING PURPOSES 
+			Send.ZC_SKILL_ADD((Character)owner, skill, true, skill.GetData().IsFromSkillList, 0); // TESTING PURPOSES 
 			return true;
 		}
 
@@ -157,12 +157,12 @@ namespace Melia.Channel.World
 		{
 			if (owner is Character)
 				foreach (var thisSkill in this.skills.Values)
-					Send.ZC_SKILL_ADD((Character) owner, thisSkill, thisSkill.Data.RegisterAsShortcut, thisSkill.Data.IsFromSkillList, 0);
+					Send.ZC_SKILL_ADD((Character) owner, thisSkill, thisSkill.GetData().RegisterAsShortcut, thisSkill.GetData().IsFromSkillList, 0);
 		}
 
 		public List<Skill> GetAllSkillsFromSkillList()
 		{
-			var skillList = this.skills.Values.Where(a => a.Data.IsFromSkillList.Equals(true)).ToList();
+			var skillList = this.skills.Values.Where(a => a.GetData().IsFromSkillList.Equals(true)).ToList();
 			return skillList;
 		}
 

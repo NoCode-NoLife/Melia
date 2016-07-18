@@ -17,6 +17,7 @@ namespace Melia.Channel.World.SkillHandlers
 		{
 			SkillResult skillResult = null;
 
+			Log.Debug("processing skill MELEE");
 			// Avoid interaction with any other type
 			if (!(target is Character) && !(target is Monster))
 			{
@@ -32,9 +33,11 @@ namespace Melia.Channel.World.SkillHandlers
 			float damage = (skill.owner).AdjustInfringedDamage(10);
 			entityTarget.TakeDamage((int)damage, skill.owner);
 
+			Log.Debug("damage {0} generated to entity {1} from {2}", damage, entityTarget.Handle, skill.owner.Handle);
+
 			// Generate result reports
 			skillResult = new SkillResult();
-			skillResult.actor = target;
+			skillResult.actor = (Entity)target;
 			skillResult.skillHandle = skill.Handle;
 			skillResult.targetHandle = target.Handle;
 			skillResult.value = damage;

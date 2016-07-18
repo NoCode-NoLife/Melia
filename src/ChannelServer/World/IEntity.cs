@@ -4,6 +4,7 @@
 using Melia.Shared.World;
 using System.Collections.Generic;
 using Melia.Channel.World.SkillEffects;
+using Melia.Shared.Const;
 
 namespace Melia.Channel.World
 {
@@ -11,9 +12,12 @@ namespace Melia.Channel.World
 	{
 		int Handle { get; }
 		int Hp { get; }
+		int MaxHp { get; set; }
 		Map Map { get; }
 		Position Position { get; }
 		bool IsDead { get; set; }
+
+		bool IsFade { get; set; }
 
 		List<SkillEffect> skillEffects { get; set; }
 
@@ -21,6 +25,8 @@ namespace Melia.Channel.World
 		/// Character's level.
 		/// </summary>
 		int Level { get; set; }
+
+		bool IncreaseSkillLevel { get; set; }
 
 		void SetAttackState(bool isAttacking);
 
@@ -38,5 +44,15 @@ namespace Melia.Channel.World
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
 		void TakeDamage(int damage, IEntity from);
+
+		void SetOneHitInmunity(bool activate);
+
+		void CastSkill(Skill skill);
+
+		int Heal(int amount, bool isPercent);
+
+		TargetType GetTargetType(IEntity entity);
+
+
 	}
 }

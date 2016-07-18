@@ -983,7 +983,7 @@ namespace Melia.Channel.Network
 			if (properties == null || properties.Length == 0)
 				return;
 
-			Log.Debug("ZC_OBJECT_PROPERTY Skill: {0} {1}", skill.Id, skill.Data.SpendSP);
+			Log.Debug("ZC_OBJECT_PROPERTY Skill: {0} {1}", skill.Id, skill.GetData().SpendSP);
 
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 			packet.PutLong(skill._worldId);
@@ -995,7 +995,7 @@ namespace Melia.Channel.Network
 					// Level up existing skill
 					case ObjectProperty.Skill.Level: packet.PutFloat((float)skill.level); break;
 					case ObjectProperty.Skill.LevelByDB: packet.PutFloat((short)skill.level); break;
-					case ObjectProperty.Skill.SpendSP: packet.PutFloat((float)skill.Data.SpendSP); break;
+					case ObjectProperty.Skill.SpendSP: packet.PutFloat((float)skill.GetData().SpendSP); break;
 					case ObjectProperty.Skill.SkillAtkAdd: packet.PutFloat(12.0f); break;
 
 					case ObjectProperty.Skill.CoolDown: packet.PutFloat(27000.0f); break;
@@ -1694,7 +1694,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			//packet.PutBinFromHex("78 1A 27 00"); // ..
 			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
-			packet.PutInt(skill.Data.EffectId);
+			packet.PutInt(skill.GetData().EffectId);
 			packet.PutInt(skill.Id); // SkillId
 			packet.PutInt(2); // Skill Level ?
 			packet.PutFloat(position.X);
@@ -2017,9 +2017,9 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_BUFF_REMOVE);
 			packet.PutInt(character.Handle);
-			packet.PutInt(effect.skillComp.skill.Data.buffId); // 43 00 00 00
+			packet.PutInt(character.test); // 43 00 00 00
 			packet.PutByte(0);
-			packet.PutInt(effect.Handle); // Buff handle.  (but not related to the buff skill itself)
+			packet.PutInt(1); // Buff handle.  (but not related to the buff skill itself)
 
 			character.Map.Broadcast(packet, character);
 
@@ -2035,19 +2035,20 @@ namespace Melia.Channel.Network
 			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(effect.skillComp.skill.Data.buffId); // Buff type
-			packet.PutInt(effect.skillComp.skill.level); // Skill Level
+			packet.PutInt(character.test); // Buff type
+			packet.PutInt(1); // Skill Level
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(effect.stackLevel); // Skill stack
+			packet.PutInt(1); // Skill stack
 											//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
 			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
 			packet.PutShort((short)(character.Name.Length + 1));
 			packet.PutString(character.Name);
 			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
-			packet.PutInt(effect.Handle); // Buff Handle. (but not related to the buff skill itself)
+			var rnd = new Random();
+			packet.PutInt(1); // Buff Handle. (but not related to the buff skill itself)
 
 			character.Map.Broadcast(packet, character);
 

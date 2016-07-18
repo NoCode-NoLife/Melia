@@ -76,14 +76,14 @@ namespace Melia.Channel.World
 				// Check if this new effect is already in this actor, to prevent adding it twice.
 				foreach (var currentEffect in effects)
 				{
-					if (currentEffect.GetSkillId() == effect.GetSkillId())
+					if (currentEffect.GetSkillId() == effect.GetSkillId() && currentEffect.Data.EffectType == currentEffect.Data.EffectType)
 					{
 						// At this point, the effect already exist in this actor, so update necessary data and notify the client
-						currentEffect.expireTime = DateTime.Now.AddSeconds(skill.Data.buffLifeInSeconds);
+						currentEffect.expireTime = DateTime.Now.AddSeconds(currentEffect.Data.LifeTime);
 
 						// We only send the update if necessary (when there is a time displayed in the client or is a stackable effect)
 						bool update = true;
-						if (skill.Data.buffLifeInSeconds == 0 && !skill.Data.buffCanStack)
+						if (currentEffect.Data.LifeTime == 0 && !currentEffect.Data.CanStack)
 							update = false;
 
 						if (update)
@@ -95,6 +95,7 @@ namespace Melia.Channel.World
 				}
 
 				// At this point, the effect is a NEW effect, so we add it to the list of effects and activate it (by calling OnAdd() in the effect).
+				effect.owner = this.owner;
 				effects.Add(effect);
 				effect.OnAdd();
 				// Send client about this new buff addition.
@@ -115,7 +116,7 @@ namespace Melia.Channel.World
 				// Check which effect expired, and removing them from this actor.
 				for (int i = effects.Count - 1; i >= 0; i--)
 				{
-					if (!effects[i].isPermanent && effects[i].expireTime < DateTime.Now)
+					if (!effects[i].Data.IsPermanent && effects[i].expireTime < DateTime.Now)
 					{
 						RemoveEffectByIndex(i);
 					}

@@ -27,7 +27,7 @@ namespace Melia.Channel.World
 
 		private Timer _heartbeatTimer;
 
-		public delegate void EventHandle(EventData evData);
+		public delegate EventResult EventHandle(EventData evData);
 		private Dictionary<int, Dictionary<EventTypes, List<EventHandle>>> _eventBindings;
 
 		/// <summary>
@@ -283,30 +283,42 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// This function invokes all delegated functions registered to a given event of a given actor
 		/// </summary>
-		public void SendEvent(EventTypes evType, EventData evData, int actorHandle)
+		public List<EventResult> SendEvent(EventTypes evType, EventData evData, int actorHandle)
 		{
 			Dictionary<EventTypes, List<EventHandle>> eventTypesDir;
 			List<EventHandle> eventHandlesList;
+
+			List<EventResult> eventResults = new List<EventResult>();
+			EventResult thisResult;
+
+			//Log.Debug("Going through events");
 			lock (_eventBindings)
 			{
 				if (_eventBindings.TryGetValue(actorHandle, out eventTypesDir))
 				{
+					//Log.Debug("Found events for actor Handle {0}", actorHandle);
 					if (eventTypesDir.TryGetValue(evType, out eventHandlesList))
 					{
+						//Log.Debug("Amount {0}", eventHandlesList.Count);
 						foreach (var thisEvHandle in eventHandlesList.ToList())
 						{
+							//Log.Debug("EVENT DELEGATE: {0}", thisEvHandle.ToString());
 							if (thisEvHandle == null)
 							{
 								// Remove from the list.
-								return;
+								continue;
 							}
 
-							thisEvHandle.Invoke(evData);
+							thisResult = thisEvHandle.Invoke(evData);
+							if (thisResult != null)
+								eventResults.Add(thisResult);
 						}
 					}
 				}
 
 			}
+
+			return eventResults;
 		}
 
 		/// <summary>
@@ -315,6 +327,8 @@ namespace Melia.Channel.World
 		public enum EventTypes
 		{
 			ADJUST_DAMAGE_MODIFIER = 1,
+			TAKE_DAMAGE = 2,
+			PERFORM_CAST = 3,
 		}
 
 	}
@@ -326,5 +340,17 @@ namespace Melia.Channel.World
 	{
 		public IEntity entity;
 		public float damage;
+		public IEntity damageFrom;
+		public Skill skill;
+	}
+
+	/// <summary>
+	/// Class used in events, to return event result
+	/// </summary>
+	public class EventResult
+	{
+		public float fValue;
+		public int iValue;
+		public double dValue;
 	}
 }

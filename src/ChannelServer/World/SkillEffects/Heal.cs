@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Melia.Shared.Util;
+using Melia.Channel.World.SkillHandlers;
+using Melia.Channel.World.SectorActors;
+using Melia.Channel.Network;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Const;
+
+namespace Melia.Channel.World.SkillEffects
+{
+	public class Heal : SkillEffect
+	{
+		private int _healAmount;
+		private bool _isPercent;
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public Heal(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
+		{
+			_healAmount = effectData.Amount;
+			_isPercent = effectData.IsPercent;
+		}
+
+		/// <summary>
+		/// It creates and return an instance of this effect, initializing it with provided SkillDataComponent
+		/// </summary>
+		/// <param name="skillComp">SkillDataComponent used to initialize the new instance</param>
+		public override SkillEffect NewInstance(SkillEffectData effectData, SkillDataComponent skillComp)
+		{
+			return new Heal(effectData, skillComp);
+		}
+
+		/// <summary>
+		/// This is a virtual function called when this effect got added in target.
+		/// </summary>
+		public override void OnAdd() {
+
+			TargetType targetType = this.skillComp.caster.GetTargetType(this.skillComp.target);
+
+			if ((targetType & TargetType.MONSTER) != TargetType.NONE)
+			{
+				if (this.skillComp.caster is Character)
+				{
+					int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
+
+					this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
+					return;
+				}
+			}
+
+			if (this.skillComp.target is Character)
+				if (this.skillComp.skill.Id == 40001)
+					this.skillComp.target.Heal(Formulas.Heal40001(this.skillComp.skill, this.skillComp.caster, this), _isPercent);
+		} 
+
+		/// <summary>
+		/// Virtual function called when this effects got removed from target.
+		/// </summary>
+		public override void OnRemove() {
+
+		}
+	}
+}

@@ -76,6 +76,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public MonsterData Data { get; private set; }
 
+		public IEntity target;
+		public Dictionary<int, AggroTarget> possibleTargets;
+
+
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
@@ -100,6 +104,8 @@ namespace Melia.Channel.World
 			this.statsManager.SetBaseStats(baseStats);
 			this.skillEffectsManager = new SkillEffectsManager(this);
 			this.skillEffects = new List<SkillEffect>();
+
+			this.possibleTargets = new Dictionary<int, AggroTarget>();
 		}
 
 		/// <summary>
@@ -120,10 +126,25 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public new void TakeDamage(int damage, IEntity from)
+		public override void TakeDamage(int damage, IEntity from)
 		{
+
 			if (this.IsDead)
 				return;
+
+			Log.Debug("{0} Received damage", this.Handle);
+
+			lock (possibleTargets)
+			{
+				if (!this.possibleTargets.ContainsKey(from.Handle))
+				{
+					Log.Debug("Add attacker {0} to AggroList", from.Handle);
+					AggroTarget aggroT = new AggroTarget();
+					aggroT.entity = from;
+					aggroT.aggro = damage;
+					this.possibleTargets.Add(from.Handle, aggroT);
+				}
+			}
 
 			this.Hp -= damage;
 
@@ -169,7 +190,75 @@ namespace Melia.Channel.World
 		public void Process()
 		{
 			this.skillEffectsManager.RemoveExpiredEffects();
+			this.SelectTarget();
 		}
 
+		public void SelectTarget()
+		{
+			IEntity tempTarget = null;
+			int highestAggro = 0;
+			lock (this.possibleTargets)
+			{
+				// Remove invalid targets
+				List<int> keysToRemove = new List<int>();
+				foreach (var aggroT in this.possibleTargets)
+				{
+					this.RecalculateAggro(aggroT.Value);
+					if (aggroT.Value.aggro == 0)
+					{
+						keysToRemove.Add(aggroT.Key);
+					}
+				}
+
+				foreach (var key in keysToRemove)
+				{
+					Log.Debug("Remove target as possible target");
+					this.possibleTargets.Remove(key);
+					if (key == this.target.Handle)
+					{
+						this.target = null;
+					}
+				}
+
+				// Select new target
+				foreach (var aggroT in this.possibleTargets)
+				{
+					if (aggroT.Value.aggro > highestAggro)
+					{
+						tempTarget = aggroT.Value.entity;
+						highestAggro = aggroT.Value.aggro;
+					}
+				}
+				if (tempTarget != null && tempTarget != this.target)
+				{
+					this.target = tempTarget;
+					Log.Debug("Monster {0}: new target is {1}", this.Handle, this.target.Handle);
+				}
+					
+			}
+		}
+
+		public void RecalculateAggro(AggroTarget aggroT)
+		{
+			if (aggroT.entity.IsFade)
+			{
+				Log.Debug("Target is Fade, reset Aggro");
+				aggroT.aggro = 0;
+				return;
+			}
+		}
+
+		public override int Heal(int amount, bool isPercent)
+		{
+			return base.Heal(amount, isPercent);
+
+		}
+
+	}
+
+	public class AggroTarget
+	{
+		public IEntity entity;
+		public int aggro;
 	}
 }

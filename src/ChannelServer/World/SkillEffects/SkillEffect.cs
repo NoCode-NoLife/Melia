@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.World.SkillHandlers;
 using Melia.Shared.Util;
+using Melia.Shared.World;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Channel.World.SkillEffects
 {
@@ -18,6 +20,8 @@ namespace Melia.Channel.World.SkillEffects
 	/// </summary>
 	public class SkillEffect
 	{
+		public Actor owner; /// TODO
+
 		/// <summary>
 		/// Handle ID for this effect. Every effect has to have its own identifier.
 		/// </summary>
@@ -51,7 +55,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// Boolean indicating if this effect doesnt have a expire time.
 		/// </summary>
-		public bool isPermanent;
+		//public bool isPermanent;
 
 		/// <summary>
 		/// SkillDataComponent attached for this effect
@@ -63,10 +67,12 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public int stackLevel;
 
+		public SkillEffectData Data { get; set; }
+
 		/// <summary>
 		/// Constructor for SkillEffect
 		/// </summary>
-		public SkillEffect(SkillDataComponent skillComp)
+		public SkillEffect(SkillEffectData effectData, SkillDataComponent skillComp)
 		{
 			// Skilleffect needs to have a skill to have proper initialization
 			if (skillComp.skill == null)
@@ -75,11 +81,14 @@ namespace Melia.Channel.World.SkillEffects
 			// Handle ID initialization
 			Handle = ChannelServer.Instance.World.CreateHandle();
 
+			this.Data = effectData;
+
 			// Initialize variables
 			this.skillComp = skillComp;
 			stackLevel = 1;
-			expireTime = DateTime.Now.AddSeconds(skillComp.skill.Data.buffLifeInSeconds);
-			isPermanent = skillComp.skill.Data.buffIsPermanent;
+			expireTime = DateTime.Now.AddSeconds(this.Data.LifeTime);
+			//expireTime = DateTime.Now.AddSeconds(skillComp.skill.Data.buffLifeInSeconds);
+			//isPermanent = skillComp.skill.Data.buffIsPermanent;
 
 			// 
 			_lastProcessTime = DateTime.Now;
@@ -87,13 +96,33 @@ namespace Melia.Channel.World.SkillEffects
 
 		}
 
+		public static SkillEffect GetSkillEffect(string effectType, SkillEffectData effectData, SkillDataComponent skillComp)
+		{
+			switch (effectType)
+			{
+				case "SAFETY_ZONE":
+					return new EffectSafetyZone(effectData, skillComp);
+				case "HEAL":
+					return new Heal(effectData, skillComp);
+				case "GUARDIAN_SAINT":
+					return new GuardianSaint(effectData, skillComp);
+				case "INC_SKILL_LEVEL":
+					return new IncreaseSkillLevel(effectData, skillComp);
+				case "FADE":
+					return new Fade(effectData, skillComp);
+				default:
+					Log.Error("Skill {0} tried to instance an invalid EffectType {1}", skillComp.skill.Id, effectType);
+					return null;
+			}
+		}
+
 		/// <summary>
 		/// It creates and return an instance of this effect, initializing it with provided SkillDataComponent
 		/// </summary>
 		/// <param name="skillComp">SkillDataComponent used to initialize the new instance</param>
-		virtual public SkillEffect NewInstance(SkillDataComponent skillComp)
+		virtual public SkillEffect NewInstance(SkillEffectData effectData, SkillDataComponent skillComp)
 		{
-			return new SkillEffect(skillComp);
+			return new SkillEffect(effectData, skillComp);
 		}
 
 		/// <summary>
@@ -121,7 +150,7 @@ namespace Melia.Channel.World.SkillEffects
 			}
 
 			// Check if we need to tick for effect stack
-			if (skillComp.skill.Data.buffCanStack)
+			if (this.Data.CanStack)
 			{
 				diff = DateTime.Now - _lastStackTime;
 				if (diff.TotalMilliseconds >= this.tickStackRate)
