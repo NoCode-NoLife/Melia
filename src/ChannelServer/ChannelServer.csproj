@@ -81,6 +81,7 @@
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\SectorManager.cs" />
     <Compile Include="World\SkillEffectsManager.cs" />
+    <Compile Include="World\SkillEffects\Cure.cs" />
     <Compile Include="World\SkillEffects\Damage.cs" />
     <Compile Include="World\SkillEffects\EffectSafetyZone.cs" />
     <Compile Include="World\SkillEffects\Fade.cs" />

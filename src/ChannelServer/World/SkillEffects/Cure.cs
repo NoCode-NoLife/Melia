@@ -12,18 +12,12 @@ using Melia.Shared.Const;
 
 namespace Melia.Channel.World.SkillEffects
 {
-	public class Heal : SkillEffect
-	{
-		private int _healAmount;
-		private bool _isPercent;
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		public Heal(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
+	public class Cure : SkillEffect
+	{ 
+
+		public Cure(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
 		{
-			this.behaviorType = EffectBehaviorType.INSTANT;
-			_healAmount = effectData.Amount;
-			_isPercent = effectData.IsPercent;
+			this.behaviorType = EffectBehaviorType.BUFF;
 		}
 
 		/// <summary>
@@ -32,20 +26,36 @@ namespace Melia.Channel.World.SkillEffects
 		/// <param name="skillComp">SkillDataComponent used to initialize the new instance</param>
 		public override SkillEffect NewInstance(SkillEffectData effectData, SkillDataComponent skillComp)
 		{
-			return new Heal(effectData, skillComp);
+			return new Cure(effectData, skillComp);
 		}
 
-		/// <summary>
-		/// This is a virtual function called when this effect got added in target.
-		/// </summary>
-		public override void OnAdd() {
-
+		public override void OnTimer()
+		{
 			TargetType targetType = this.skillComp.caster.GetTargetType(this.skillComp.target);
+
+			Log.Debug("targetType {0}", targetType);
 
 			if ((targetType & TargetType.MONSTER) != TargetType.NONE)
 			{
 				if (this.skillComp.caster is Character)
 				{
+					//
+					// Check if effects' originator is a GroundSkill
+					if (this.skillComp.originator != null && this.skillComp.originator is GroundSkill)
+					{
+						// Add GroundSkill's interaction counter, disabling the GroundSkill if reached the limit of interactions.
+						GroundSkill groundSkill = (GroundSkill)this.skillComp.originator;
+						if (groundSkill.maxInteractions > 0)
+						{
+							groundSkill.interactions++;
+							if (groundSkill.interactions >= groundSkill.maxInteractions)
+							{
+								groundSkill.Disable();
+							}
+						}
+					}
+
+					//
 					int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
 
 					this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
@@ -64,17 +74,6 @@ namespace Melia.Channel.World.SkillEffects
 					return;
 				}
 			}
-
-			if (this.skillComp.target is Character)
-				if (this.skillComp.skill.Id == 40001)
-					this.skillComp.target.Heal(Formulas.Heal40001(this.skillComp.skill, this.skillComp.caster, this), _isPercent);
-		} 
-
-		/// <summary>
-		/// Virtual function called when this effects got removed from target.
-		/// </summary>
-		public override void OnRemove() {
-
 		}
 	}
 }

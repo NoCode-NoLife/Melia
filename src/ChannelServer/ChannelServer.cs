@@ -91,9 +91,12 @@ namespace Melia.Channel
 			this.SkillHandlers.Add(40006, skillHandler);
 			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(40007, skillHandler);
-			skillHandler = new Melee();
+			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(100, skillHandler);
-
+			skillHandler = new Melee();
+			this.SkillHandlers.Add(4, skillHandler);
+			skillHandler = new Melee();
+			this.SkillHandlers.Add(20001, skillHandler);
 		}
 
 		/// <summary>

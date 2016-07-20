@@ -144,7 +144,7 @@ namespace Melia.Channel.World.SectorActors
 
 			// Initialize interactions counter
 			this.interactions = 0;
-			this.maxInteractions = 0;
+			this.maxInteractions = oSkill.GetData().MaxInteractions;
 
 
 		}
@@ -234,6 +234,7 @@ namespace Melia.Channel.World.SectorActors
 			if (entity.GetType() != typeof(Character))
 				return true;
 			*/
+			Log.Debug("Visited actor {0} is type {1}.", actor.Handle, this.ownerSkill.owner.GetTargetType((IEntity)actor));
 			if (actor is IEntity)
 			{
 				if ((this.ownerSkill.GetData().TargetType & this.ownerSkill.owner.GetTargetType((IEntity)actor)) == Shared.Const.TargetType.NONE)

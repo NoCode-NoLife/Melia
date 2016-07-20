@@ -57,16 +57,6 @@ namespace Melia.Channel.World
 		public int SDR { get; set; }
 
 		/// <summary>
-		/// Health points.
-		/// </summary>
-		public new int Hp
-		{
-			get { return _hp; }
-			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
-		}
-		private int _hp;
-
-		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; }
@@ -153,7 +143,8 @@ namespace Melia.Channel.World
 			// the other.
 			//Send.ZC_SKILL_HIT_INFO(from, this, damage);
 
-			if (this.Hp == 0)
+			Log.Debug("remaining HP after TakeDamage {0}", this.Hp);
+			if (this.Hp <= 0)
 				this.Kill(from);
 		}
 
@@ -189,7 +180,9 @@ namespace Melia.Channel.World
 
 		public void Process()
 		{
+			// Process skill effects
 			this.skillEffectsManager.RemoveExpiredEffects();
+			this.skillEffectsManager.ProcessEffects();
 			this.SelectTarget();
 		}
 
@@ -214,7 +207,7 @@ namespace Melia.Channel.World
 				{
 					Log.Debug("Remove target as possible target");
 					this.possibleTargets.Remove(key);
-					if (key == this.target.Handle)
+					if (this.target != null && key == this.target.Handle)
 					{
 						this.target = null;
 					}

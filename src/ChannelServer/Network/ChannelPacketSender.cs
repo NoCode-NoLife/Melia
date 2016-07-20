@@ -1271,20 +1271,52 @@ namespace Melia.Channel.Network
 				if (target.type == 0)
 					continue;
 
-				var actorEntity = (IEntity)target.actor;
-
-				if (actorEntity == null) /// Shoudn't happnen. Error!
-					continue;
-
 				packet.PutShort(26057);
 				packet.PutShort(5236);
 				packet.PutInt(target.targetHandle);
 				packet.PutInt((int)target.value);
-				packet.PutInt(actorEntity.Hp);
+				packet.PutInt(target.actor.Hp);
+				Log.Debug("actorEntity {0} HP {1}", target.actor.Handle, target.actor.Hp);
 				packet.PutInt(1); // Hit count
 				packet.PutBinFromHex("01 00 FF 18 F8 18 03 00 00 71 00 08 54 01 00 00 64 00 02 01 00 00 93 00 00 00 00 00 F6 06 41 6A 00 00 00 64");
 
 			}
+
+			attacker.Map.Broadcast(packet);
+		}
+
+		public static void ZC_SKILL_FORCE_TARGET(IEntity attacker, Skill skill, SkillResult result)
+		{
+			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
+
+			var testValue = ((Character)attacker).test;
+
+			packet.PutInt(skill.Id);
+			packet.PutInt(attacker.Handle);
+			packet.PutFloat(attacker.Direction.Cos);
+			packet.PutFloat(attacker.Direction.Sin);
+			packet.PutInt(1);
+			// Skill time (like cooldown or effect time. The player will not be able to cast another of this skill, until this time passed. 
+			// The HIT EFFECT will appear in the monster, passed this time or when the skill hits something in the client. What happens first.
+			packet.PutFloat(700f);
+			packet.PutFloat(1f);
+			packet.PutInt(1);
+			packet.PutBinFromHex("00 00 03 00");
+			packet.PutFloat(1f);
+			packet.PutInt(result.actor.Handle);
+			packet.PutInt(0);
+			packet.PutFloat(512f);
+			packet.PutInt(0);
+			packet.PutByte(1);
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutInt(result.actor.Handle);
+			packet.PutInt((int)result.value); // Hit value
+			packet.PutInt(result.actor.Hp); // Remaining HP
+			packet.PutInt(1); // Accumulated hits?
+			packet.PutBinFromHex("00 00 00 01");
+			packet.PutBinFromHex("30 00");
+			packet.PutByte(3);  // 1 = Dodge, 2 = Block, 3 = Normal hit, 4 = Golden Hit, 5 = Hit and Dodge, 6 = Miss, 
+			packet.PutBinFromHex("00 00 00 00 00 40 02 00 00 C8 00 02 01 00 00 00 00 22 BD 03 00 00 00 00 00 00 00 00 00");
 
 			attacker.Map.Broadcast(packet);
 		}
@@ -1764,15 +1796,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unkown purpose yet.
+		/// Seems to be a SKILLS end with "_ANI" , which I guess is just a "skill animation" but with no real calculation in server side. (doesnt hit anything)
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NORMAL_Unkown_3f(Character character, Direction dir)
+		public static void ZC_NORMAL_Unkown_3f(Character character, Skill skill, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x3f);
 			packet.PutInt(character.Handle);
-			packet.PutInt(4);
+			packet.PutInt(skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(dir.Cos);
 			packet.PutFloat(dir.Sin);

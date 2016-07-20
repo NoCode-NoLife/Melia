@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Channel.World.SkillEffects;
 
 namespace Melia.Channel.World.SkillHandlers
 {
@@ -16,6 +17,9 @@ namespace Melia.Channel.World.SkillHandlers
 		override public SkillResult ProcessSkill(Actor target, Skill skill, Actor originator)
 		{
 			SkillResult skillResult = null;
+
+			if (target == null)
+				return skillResult;
 
 			Log.Debug("processing skill MELEE");
 			// Avoid interaction with any other type
@@ -30,18 +34,22 @@ namespace Melia.Channel.World.SkillHandlers
 			if (entityTarget.IsDead)
 				return skillResult;
 
-			float damage = (skill.owner).AdjustInfringedDamage(10);
-			entityTarget.TakeDamage((int)damage, skill.owner);
+			Log.Debug("Count effects: {0}", skill.GetData().effects.Count);
 
-			Log.Debug("damage {0} generated to entity {1} from {2}", damage, entityTarget.Handle, skill.owner.Handle);
+			SkillDataComponent skillComp = new SkillDataComponent();
+			skillComp.skill = skill;
+			skillComp.skillHandler = this;
+			skillComp.caster = skill.owner;
+			skillComp.target = (IEntity)target;
+			skillComp.originator = originator;
 
-			// Generate result reports
-			skillResult = new SkillResult();
-			skillResult.actor = (Entity)target;
-			skillResult.skillHandle = skill.Handle;
-			skillResult.targetHandle = target.Handle;
-			skillResult.value = damage;
-			skillResult.type = 1;
+			foreach (var effectData in skill.GetData().effects)
+			{
+				Log.Debug("Processing effect {0}", effectData.EffectType);
+				SkillEffect newEffect = SkillEffect.GetSkillEffect(effectData.EffectType, effectData, skillComp);
+				skillResult = newEffect.Instant();
+			}
+
 
 			return skillResult;
 		}

@@ -79,6 +79,7 @@ namespace Melia.Shared.Data.Database
 	public enum SkillType
 	{
 		GROUND,
+		ACTOR,
 	}
 
 	/// <summary>

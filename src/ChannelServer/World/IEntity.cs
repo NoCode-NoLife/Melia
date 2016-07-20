@@ -15,6 +15,7 @@ namespace Melia.Channel.World
 		int MaxHp { get; set; }
 		Map Map { get; }
 		Position Position { get; }
+		Direction Direction { get; }
 		bool IsDead { get; set; }
 
 		bool IsFade { get; set; }
@@ -47,7 +48,7 @@ namespace Melia.Channel.World
 
 		void SetOneHitInmunity(bool activate);
 
-		void CastSkill(Skill skill);
+		void CastSkill(Skill skill, IEntity target = null);
 
 		int Heal(int amount, bool isPercent);
 

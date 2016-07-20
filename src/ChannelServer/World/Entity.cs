@@ -7,6 +7,7 @@ using Melia.Shared.World;
 using Melia.Channel.World.SkillEffects;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
+using Melia.Channel.World.SkillHandlers;
 
 namespace Melia.Channel.World
 {
@@ -225,9 +226,16 @@ namespace Melia.Channel.World
 			_oneHitInmunity = activate;
 		}
 
-		public void CastSkill(Skill skill)
+		public void CastSkill(Skill skill, IEntity target = null)
 		{
-			skill.Activate();
+			SkillDataComponent skillComp = new SkillDataComponent();
+			skillComp.skill = skill;
+			skillComp.skillHandler = skill.SkHandler;
+			skillComp.caster = this;
+			skillComp.target = target;
+			Log.Debug("target received: {0}", target);
+			Log.Debug("target skillComp: {0}", skillComp.target);
+			skill.Activate(skillComp);
 		}
 
 		virtual public TargetType GetTargetType(IEntity entity)

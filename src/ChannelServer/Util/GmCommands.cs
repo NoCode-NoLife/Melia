@@ -199,7 +199,7 @@ namespace Melia.Channel.Util
 			int val1;
 			int val2;
 			int.TryParse(args[1], out val1);
-			int.TryParse(args[2], out val2);
+			//int.TryParse(args[2], out val2);
 
 			/*
 			Send.ZC_BUFF_REMOVE(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()));
@@ -207,6 +207,9 @@ namespace Melia.Channel.Util
 			Send.ZC_BUFF_ADD(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()), false);
 			return CommandResult.Okay;
 			*/
+
+			character.test = val1;
+			return CommandResult.Okay;
 
 			if (val1 == 1)
 			{

@@ -27,6 +27,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public GuardianSaint(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
 		{
+			this.behaviorType = EffectBehaviorType.BUFF;
 			_interactionsCount = 0;
 			_maxInteractions = effectData.Amount;
 		}

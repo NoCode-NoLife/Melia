@@ -128,8 +128,8 @@ namespace Melia.Channel.Network
 			// ZC_OBJECT_PROPERTY...
 			// ZC_SKILL_ADD...
 			// Temporary skills (all skills not in skill List)
-			var skills = new[]		{ 100, 3, 20,					103, 108, 105, 101, 106, 110}; // Cleric
-			//var skills = new[]	{ 100, 4,  6,  20, 54,			103, 108, 105, 101, 106, 110}; // Wizzard
+			//var skills = new[]		{ 100, 3, 20,					103, 108, 105, 101, 106, 110}; // Cleric
+			var skills = new[]	{ 100, 4,  6,  20, 54,			103, 108, 105, 101, 106, 110}; // Wizzard
 			//var skills = new[]	{ 100, 2, 20,  52, 53, 55,		103, 108, 105, 101, 106, 110}; // Archer
 			//var skills = new[]	{ 100, 1,  5, 255, 11, 10, 53,	103, 108, 105, 101, 106, 110}; // Swordman
 			foreach (var skillId in skills)
@@ -1217,6 +1217,43 @@ namespace Melia.Channel.Network
 			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
 		}
 
+		[PacketHandler(Op.CZ_SKILL_TARGET)]
+		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
+		{
+			var unk1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			Skill skill = character.skillManager.GetSkill(skillId);
+
+			Log.Debug("SKILL {0} to target {1}", skillId, targetHandle);
+
+			var target = character.Map.GetMonster(targetHandle);
+
+
+			if (skill != null)
+			{
+				skill.Direction = target.Direction;
+				character.CastSkill(skill, target);
+				/*
+				SkillResult result = new SkillResult();
+				result.actor = target;
+				result.value = 10;
+				target.TakeDamage(10, character);
+				Send.ZC_SKILL_FORCE_TARGET(character, skill, result);
+				//skill.Activate();
+				*/
+			}
+			else
+			{
+				// Reply to "automatic" second packet (sent after skill is done). Probably when skillId = 0
+				Send.ZC_NORMAL_Unkown_40(character);
+			}
+		}
+
+		// This is called when doing a skill requeste without TARGET. 
 		[PacketHandler(Op.CZ_SKILL_TARGET_ANI)]
 		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
 		{
@@ -1236,7 +1273,6 @@ namespace Melia.Channel.Network
 			{
 				skill.Direction = new Direction(cos, sin);
 				character.CastSkill(skill);
-				//skill.Activate();
 			} else
 			{
 				// Reply to "automatic" second packet (sent after skill is done). Probably when skillId = 0

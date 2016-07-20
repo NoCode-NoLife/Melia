@@ -20,6 +20,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public IncreaseSkillLevel(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
 		{
+			this.behaviorType = EffectBehaviorType.BUFF;
 			_appliesCount = 0;
 			_maxAppliesCount = effectData.Amount;
 		}

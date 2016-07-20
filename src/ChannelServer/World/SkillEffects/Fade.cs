@@ -18,7 +18,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public Fade(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
 		{
-			
+			this.behaviorType = EffectBehaviorType.BUFF;
 		}
 
 		/// <summary>

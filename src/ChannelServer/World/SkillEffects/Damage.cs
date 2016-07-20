@@ -18,7 +18,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public Damage(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp)
 		{
-
+			this.behaviorType = EffectBehaviorType.INSTANT;
 		}
 
 		/// <summary>
@@ -35,7 +35,29 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
-			this.skillComp.target.TakeDamage(this.Data.Amount, this.skillComp.caster);
+			
+		}
+
+		public override SkillResult Instant()
+		{
+			int damage = Formulas.PhisicalAttack(this.Data.Amount, this.skillComp.caster);
+			if (damage > 0)
+			{
+				this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
+			}
+
+			// Generate result reports
+			var skillResult = new SkillResult();
+			skillResult.actor = this.skillComp.target;
+			skillResult.skillHandle = this.skillComp.skill.Handle;
+			skillResult.targetHandle = this.skillComp.target.Handle;
+			skillResult.type = 1;
+			skillResult.value = damage;
+
+			Log.Debug("target HP {0}", this.skillComp.target.Hp);
+			Log.Debug("skillrEsult actor HP {0}", skillResult.actor.Hp);
+
+			return skillResult;
 		}
 
 		/// <summary>

@@ -129,7 +129,7 @@ namespace Melia.Channel.World
 		/// This function is called when the skill is activated, so the actor requested to use it.
 		/// It is in charge of making sure all conditions are met for that purpose, and call Cast() when appropiate.
 		/// </summary>
-		public void Activate()
+		public void Activate(SkillDataComponent skillComp = null)
 		{
 			Character caster = (Character)owner;
 			// Check if skill can be activated
@@ -145,7 +145,7 @@ namespace Melia.Channel.World
 
 			if (GetActivationTime() == 0.0f)
 			{
-				Cast();
+				Cast(skillComp);
 			} 
 			else
 			{
@@ -165,7 +165,10 @@ namespace Melia.Channel.World
 
 			// Check if caster has enough SP
 			if (caster.Sp < (int)this.GetData().SpendSP)
+			{
+				Log.Debug("caster {0} has no enough sp to cast skill {1}, currentSp{3} neededSp{2}", caster.Handle, this.Data.Id, this.GetData().SpendSP, caster.Sp);
 				return false;
+			}
 
 			return true;
 		}
@@ -185,23 +188,23 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// This functions starts the skill Casting. But the actual cast will happen in PerformCast() (needed?)
 		/// </summary>
-		private void Cast()
+		private void Cast(SkillDataComponent skillComp = null)
 		{
 			Send.ZC_SKILL_READY((Character)owner, this.Id, owner.Position, this.Position);
 
 			Character caster = (Character)owner;
 
 			// Consume mana
-			caster.SetCurrentSp((int)this.GetData().SpendSP);
+			caster.SetCurrentSp(caster.Sp - (int)this.GetData().SpendSP);
 
-			PerformCast();
+			PerformCast(skillComp);
 		}
 
 		/// <summary>
 		/// Performs the skill cast. 
 		/// At this point, we dont have to worry about sp/item consumitions or any other actor's requeriment. The skill is ready to be casted.
 		/// </summary>
-		private void PerformCast()
+		private void PerformCast(SkillDataComponent skillComp = null)
 		{
 			Character caster = (Character)owner;
 			var map = ChannelServer.Instance.World.GetMap(caster.MapId);
@@ -327,6 +330,10 @@ namespace Melia.Channel.World
 					break;
 				case 40005:
 					break;
+				case 20001:
+				case 4:
+					this.Data.Type = SkillType.ACTOR;
+					break;
 				default:
 					this.GetData().EffectId = 0;
 					break;
@@ -371,6 +378,31 @@ namespace Melia.Channel.World
 						Send.ZC_SKILL_MELEE_GROUND(caster, this.Id, this.Position, this.Direction); // This packet should be sent from inside SkillGround?
 						break;
 					}
+				case SkillType.ACTOR:
+					{
+						
+						Send.ZC_NORMAL_Unkown_1c(caster, 0, caster.Position, caster.Direction, this.Position);
+
+						if (skillComp.target == null)
+						{
+							Send.ZC_NORMAL_Unkown_3f(caster, this, caster.Direction);
+							return;
+						}
+							
+
+						// Check if target is in reach.
+						Actor targetActor = null;
+						if (skillComp.target is Actor)
+						{
+							targetActor = (Actor)skillComp.target;
+						}
+						var sResult = this.SkHandler.ProcessSkill(targetActor, this, null);
+
+						if (sResult != null)
+							Send.ZC_SKILL_FORCE_TARGET(this.owner, this, sResult);
+
+						break;
+					}
 				default:
 					/// ERROR
 					break;
@@ -401,7 +433,7 @@ namespace Melia.Channel.World
 	/// </summary>
 	public class SkillResult
 	{
-		public Entity actor;
+		public IEntity actor;
 		public int skillHandle;
 		public int targetHandle;
 		public float value;

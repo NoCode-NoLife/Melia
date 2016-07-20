@@ -41,16 +41,26 @@ namespace Melia.Channel.World.SkillHandlers
 				{
 					Log.Debug("Processing effect {0}", effectData.EffectType);
 					SkillEffect newEffect = SkillEffect.GetSkillEffect(effectData.EffectType, effectData, skillComp);
-					entityTarget.skillEffectsManager.AddEffect(newEffect);
+					switch (newEffect.behaviorType)
+					{
+						case EffectBehaviorType.INSTANT:
+							{
+								skillResult = newEffect.Instant();
+								break;
+							}
+						case EffectBehaviorType.BUFF:
+							{
+								entityTarget.skillEffectsManager.AddEffect(newEffect);
+								break;
+							}
+						default:
+							{
+								Log.Error("effect behavior is not defined. Effect cannot be applied.");
+								break;
+							}
+					}
+					
 				}
-
-				/*
-				foreach (var effect in skill.effects)
-				{
-					SkillEffect newEffect = effect.NewInstance(skillComp);
-					entityTarget.skillEffectsManager.AddEffect(newEffect);
-				}
-				*/
 			}
 
 			return skillResult;

@@ -66,6 +66,10 @@ namespace Melia.Channel.World.SkillEffects
 		/// level of Stack for this effect
 		/// </summary>
 		public int stackLevel;
+		/// <summary>
+		/// How this effect behaves
+		/// </summary>
+		public EffectBehaviorType behaviorType;
 
 		public SkillEffectData Data { get; set; }
 
@@ -110,6 +114,10 @@ namespace Melia.Channel.World.SkillEffects
 					return new IncreaseSkillLevel(effectData, skillComp);
 				case "FADE":
 					return new Fade(effectData, skillComp);
+				case "DAMAGE":
+					return new Damage(effectData, skillComp);
+				case "CURE":
+					return new Cure(effectData, skillComp);
 				default:
 					Log.Error("Skill {0} tried to instance an invalid EffectType {1}", skillComp.skill.Id, effectType);
 					return null;
@@ -180,6 +188,11 @@ namespace Melia.Channel.World.SkillEffects
 		virtual public void OnTimer() { }
 
 		/// <summary>
+		/// For instant skills
+		/// </summary>
+		virtual public SkillResult Instant() { return null;  }
+
+		/// <summary>
 		/// Virtual function called when this effect is applied again on the same target, and is a stackable effect.
 		/// </summary>
 		virtual public void OnStack()
@@ -187,5 +200,12 @@ namespace Melia.Channel.World.SkillEffects
 			this.stackLevel += 1;
 			skillComp.target.skillEffectsManager.AddEffect(this);
 		}
+	}
+
+	public enum EffectBehaviorType
+	{
+		NONE = 0,
+		INSTANT = 1,
+		BUFF = 2,
 	}
 }

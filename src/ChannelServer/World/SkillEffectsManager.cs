@@ -66,41 +66,68 @@ namespace Melia.Channel.World
 			// Get skill for this effect
 			Skill skill = effect.skillComp.skill;
 
-			// Prevent processing this effect, if it has no skill associated.
-			if (skill == null)
-				return;
-
-			// Lock the effects list
-			lock (effects)
+			switch (effect.behaviorType)
 			{
-				// Check if this new effect is already in this actor, to prevent adding it twice.
-				foreach (var currentEffect in effects)
-				{
-					if (currentEffect.GetSkillId() == effect.GetSkillId() && currentEffect.Data.EffectType == currentEffect.Data.EffectType)
+				case EffectBehaviorType.INSTANT:
 					{
-						// At this point, the effect already exist in this actor, so update necessary data and notify the client
-						currentEffect.expireTime = DateTime.Now.AddSeconds(currentEffect.Data.LifeTime);
-
-						// We only send the update if necessary (when there is a time displayed in the client or is a stackable effect)
-						bool update = true;
-						if (currentEffect.Data.LifeTime == 0 && !currentEffect.Data.CanStack)
-							update = false;
-
-						if (update)
-							// Update buff
-							Send.ZC_BUFF_ADD((Character)owner, currentEffect, true);
-
-						return;
+						effect.owner = this.owner;
+						effect.OnAdd();
+						break;
 					}
-				}
+				case EffectBehaviorType.BUFF:
+					{
+						// Prevent processing this effect, if it has no skill associated.
+						if (skill == null)
+							return;
 
-				// At this point, the effect is a NEW effect, so we add it to the list of effects and activate it (by calling OnAdd() in the effect).
-				effect.owner = this.owner;
-				effects.Add(effect);
-				effect.OnAdd();
-				// Send client about this new buff addition.
-				Send.ZC_BUFF_ADD((Character)owner, effect, false);
+						// Lock the effects list
+						lock (effects)
+						{
+							// Check if this new effect is already in this actor, to prevent adding it twice.
+							foreach (var currentEffect in effects)
+							{
+								if (currentEffect.GetSkillId() == effect.GetSkillId() && currentEffect.Data.EffectType == currentEffect.Data.EffectType)
+								{
+									// At this point, the effect already exist in this actor, so update necessary data and notify the client
+									currentEffect.expireTime = DateTime.Now.AddSeconds(currentEffect.Data.LifeTime);
+
+									// We only send the update if necessary (when there is a time displayed in the client or is a stackable effect)
+									bool update = true;
+									if (currentEffect.Data.LifeTime == 0 && !currentEffect.Data.CanStack)
+										update = false;
+
+									if (update)
+										if (owner is Character)
+										{
+											// Update buff
+											Send.ZC_BUFF_ADD((Character)owner, currentEffect, true);
+										}
+
+									return;
+								}
+							}
+
+							// At this point, the effect is a NEW effect, so we add it to the list of effects and activate it (by calling OnAdd() in the effect).
+							effect.owner = this.owner;
+							effects.Add(effect);
+							effect.OnAdd();
+							if (owner is Character)
+							{
+								// Send client about this new buff addition.
+								Send.ZC_BUFF_ADD((Character)owner, effect, false);
+							}
+						}
+						break;
+					}
+					default:
+					{
+						Log.Error("Effect {0} has no BehaviorType and can't be applied.", effect.Data.EffectType);
+						break;
+					}
+					
 			}
+
+			
 
 		}
 
@@ -157,8 +184,11 @@ namespace Melia.Channel.World
 			selectedEffect.OnRemove();
 			// Remove effect from actor
 			effects.RemoveAt(i);
-			// Update client
-			Send.ZC_BUFF_REMOVE((Character)owner, selectedEffect);
+			if (owner is Character)
+			{
+				// Update client
+				Send.ZC_BUFF_REMOVE((Character)owner, selectedEffect);
+			}
 		}
 
 	}
