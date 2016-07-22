@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.World.SkillEffects;
+using Melia.Channel.World.AI;
 
 namespace Melia.Channel.Util
 {
@@ -388,6 +389,9 @@ namespace Melia.Channel.Util
 
 				monster.Position = pos;
 				monster.Direction = dir;
+
+				monster.AI = new AIBase(monster);
+				monster.AI.SetIntention(IntentionTypes.AI_INTENTION_FOLLOW, character);
 
 				target.Map.AddMonster(monster);
 			}

@@ -52,6 +52,11 @@ namespace Melia.Channel.World
 		/// </summary>
 		public SkillData Data;
 
+		DateTime preparationTimeStart;
+		int charges;
+		Timer preparationTimer;
+		Timer castingTimer;
+
 		/// <summary>
 		/// Skill handler class
 		/// </summary>
@@ -131,6 +136,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void Activate(SkillDataComponent skillComp = null)
 		{
+			this.charges = 0;
+
 			Character caster = (Character)owner;
 			// Check if skill can be activated
 			if (!CanActivate())
@@ -145,15 +152,73 @@ namespace Melia.Channel.World
 
 			if (GetActivationTime() == 0.0f)
 			{
-				Cast(skillComp);
+				ReadyToCast(skillComp);
 			} 
 			else
 			{
-				// Fire Cast() after "ActivationTime"
-				// We need a task system, so we can create a task to execute it when time is reached.
-				/// TODO
+				this.castingTimer = new Timer(ReadyToCast, skillComp, (int) GetActivationTime() * 1000, Timeout.Infinite);
+
 			}
 
+		}
+
+		public void PrepareSkill()
+		{
+			preparationTimeStart = DateTime.Now;
+
+			this.owner.PreparingSkillId = this.Data.Id;
+
+			int chargesCount = this.GetData().Charges;
+			if (chargesCount <= 0)
+			{
+				chargesCount = 1;
+			}
+
+			this.preparationTimer = new Timer(Prepared, null, (int)this.GetData().PreparationTime * 1000, 1000);
+
+		}
+
+		public void Prepared(Object obj)
+		{
+			if (this.charges < this.GetData().Charges) {
+				this.charges++;
+				Send.ZC_NORMAL_Unkown_3a(this.owner, "I_SYS_Text_Effect_None", "LV " + this.charges);
+			}
+
+			if (this.charges >= this.GetData().Charges)
+			{
+				this.preparationTimer.Change(Timeout.Infinite, Timeout.Infinite);
+				this.preparationTimer.Dispose();
+			}
+
+			
+		}
+
+		public void PrepareSkillEnd()
+		{
+			if (this.preparationTimer != null)
+			{
+				this.preparationTimer.Change(Timeout.Infinite, Timeout.Infinite);
+				this.preparationTimer.Dispose();
+			}
+		}
+
+		public void ReadyToCast(Object obj)
+		{
+			if (this.castingTimer != null)
+			{
+				this.castingTimer.Change(Timeout.Infinite, Timeout.Infinite);
+				this.castingTimer.Dispose();
+			}
+
+			Send.ZC_SKILL_READY((Character)owner, this.Id, owner.Position, this.Position);
+
+			Character caster = (Character)owner;
+
+			// Consume mana
+			caster.SetCurrentSp(caster.Sp - (int)this.GetData().SpendSP);
+
+			PerformCast((SkillDataComponent)obj);
 		}
 
 		/// <summary>
@@ -162,6 +227,14 @@ namespace Melia.Channel.World
 		private bool CanActivate()
 		{
 			Character caster = (Character)owner;
+
+			if (this.GetData().PreparationTime > 0)
+			{			
+				if (owner.PreparingSkillId != this.Id || this.preparationTimeStart.AddSeconds(this.GetData().PreparationTime) > DateTime.Now)
+					return false;
+
+				owner.PreparingSkillId = 0;
+			}
 
 			// Check if caster has enough SP
 			if (caster.Sp < (int)this.GetData().SpendSP)
@@ -181,23 +254,8 @@ namespace Melia.Channel.World
 			/// TODO
 			// Get skill activation time
 			// Apply modifiers if any.
-			return 0.0f; // skill.Data. ??
+			return this.GetData().CastingTime;
 			
-		}
-
-		/// <summary>
-		/// This functions starts the skill Casting. But the actual cast will happen in PerformCast() (needed?)
-		/// </summary>
-		private void Cast(SkillDataComponent skillComp = null)
-		{
-			Send.ZC_SKILL_READY((Character)owner, this.Id, owner.Position, this.Position);
-
-			Character caster = (Character)owner;
-
-			// Consume mana
-			caster.SetCurrentSp(caster.Sp - (int)this.GetData().SpendSP);
-
-			PerformCast(skillComp);
 		}
 
 		/// <summary>

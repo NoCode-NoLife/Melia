@@ -39,6 +39,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// This function is called in a tick basis, by the actor (usually an Entity) to process effects over that actor.
 		/// </summary>
+		/*
 		public void ProcessEffects()
 		{
 			// Lock effects list
@@ -47,11 +48,12 @@ namespace Melia.Channel.World
 				// Tick every effect
 				foreach (var effect in this.effects.ToList())
 				{
-					if (effect != null)
-						effect.Process();
+					//if (effect != null)
+						//effect.Process();
 				}
 			}
 		}
+		*/
 
 		/// <summary>
 		/// This function is called to add an effect to this manager. 
@@ -97,10 +99,10 @@ namespace Melia.Channel.World
 										update = false;
 
 									if (update)
-										if (owner is Character)
+										if (owner is IEntity)
 										{
 											// Update buff
-											Send.ZC_BUFF_ADD((Character)owner, currentEffect, true);
+											Send.ZC_BUFF_ADD((IEntity)owner, currentEffect, true);
 										}
 
 									return;
@@ -110,11 +112,12 @@ namespace Melia.Channel.World
 							// At this point, the effect is a NEW effect, so we add it to the list of effects and activate it (by calling OnAdd() in the effect).
 							effect.owner = this.owner;
 							effects.Add(effect);
-							effect.OnAdd();
-							if (owner is Character)
+							effect.StartTask();
+							//effect.OnAdd();
+							if (owner is IEntity)
 							{
 								// Send client about this new buff addition.
-								Send.ZC_BUFF_ADD((Character)owner, effect, false);
+								Send.ZC_BUFF_ADD((IEntity)owner, effect, false);
 							}
 						}
 						break;
@@ -145,7 +148,7 @@ namespace Melia.Channel.World
 				{
 					if (!effects[i].Data.IsPermanent && effects[i].expireTime < DateTime.Now)
 					{
-						RemoveEffectByIndex(i);
+						//RemoveEffectByIndex(i);
 					}
 				}
 			}
@@ -181,13 +184,13 @@ namespace Melia.Channel.World
 
 			selectedEffect = effects[i];
 			// Deactivate effect
-			selectedEffect.OnRemove();
+			selectedEffect.Exit();
 			// Remove effect from actor
 			effects.RemoveAt(i);
-			if (owner is Character)
+			if (owner is IEntity)
 			{
 				// Update client
-				Send.ZC_BUFF_REMOVE((Character)owner, selectedEffect);
+				Send.ZC_BUFF_REMOVE((IEntity)owner, selectedEffect);
 			}
 		}
 

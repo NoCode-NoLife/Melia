@@ -178,7 +178,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Character's current speed.
 		/// </summary>
-		public float Speed { get; set; }
+		public new float Speed { get; set; }
 
 		/// <summary>
 		/// Specifies whether the character currently updates the visible
@@ -225,7 +225,7 @@ namespace Melia.Channel.World
 		/// Returns character's current speed.
 		/// </summary>
 		/// <returns></returns>
-		public float GetSpeed()
+		public override float GetSpeed()
 		{
 			return this.Speed;
 		}
@@ -300,7 +300,9 @@ namespace Melia.Channel.World
 			this.IsMoving = true;
 
 			// Broadcast this movement
-			Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
+			//Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
+
+			this.MoveTo(new Position(x, y, z), 0);
 			
 		}
 
@@ -309,12 +311,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void Process()
 		{
+			/*
 			if (this.IsMoving)
 				ProcessMove();
-
-			// Process skill effects
-			this.skillEffectsManager.RemoveExpiredEffects();
-			this.skillEffectsManager.ProcessEffects();
+			*/
 
 			// Regeneration
 			this.HPRegen();
@@ -388,7 +388,7 @@ namespace Melia.Channel.World
 			// Set next position 
 			// If destination can be reached in this Heartbeat, we go for it. Otherwise, we calculate the next position in the path.
 			Position nextPosition;
-			if (distDestination <= this.Speed)
+			if (distDestination <= this.Speed) /// TODO ... this is wrong, should be this.GetSpeed() / 5
 			{
 				// Get destination position as next position
 				nextPosition = this._destination;

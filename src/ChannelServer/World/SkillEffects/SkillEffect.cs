@@ -7,6 +7,7 @@ using Melia.Channel.World.SkillHandlers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.Data.Database;
+using System.Threading;
 
 namespace Melia.Channel.World.SkillEffects
 {
@@ -73,6 +74,11 @@ namespace Melia.Channel.World.SkillEffects
 
 		public SkillEffectData Data { get; set; }
 
+		protected EffectState _state;
+		protected Timer _futureTask;
+		protected DateTime _effectStartTime;
+		protected DateTime _effectEndTime;
+
 		/// <summary>
 		/// Constructor for SkillEffect
 		/// </summary>
@@ -97,6 +103,8 @@ namespace Melia.Channel.World.SkillEffects
 			// 
 			_lastProcessTime = DateTime.Now;
 			_lastStackTime = DateTime.Now;
+
+			_state = EffectState.CREATED;
 
 		}
 
@@ -172,6 +180,56 @@ namespace Melia.Channel.World.SkillEffects
 
 		}
 
+		public void StartTask()
+		{
+			TasksPoolManager.Instance.AddGeneralTask(new System.Threading.TimerCallback(startScheduledEffect), null, 0);
+		}
+
+		public void Exit()
+		{
+			_state = EffectState.FINISHING;
+			startScheduledEffect();
+		}
+
+		public void startScheduledEffect(Object obj = null)
+		{
+
+			if (_state == EffectState.CREATED)
+			{
+				_state = EffectState.WORKING;
+				_effectStartTime = DateTime.Now;
+				_effectEndTime = _effectStartTime.AddSeconds(this.Data.LifeTime);
+
+				this.OnAdd();
+
+				// schedule next task
+				if (this.behaviorType == EffectBehaviorType.BUFF)
+				{
+					_futureTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(new TimerCallback(startScheduledEffect), null, 5, (int)_tickRate);
+				}
+				else
+				{
+					_futureTask = TasksPoolManager.Instance.AddGeneralTask(new TimerCallback(startScheduledEffect), null, (int)this.Data.LifeTime * 1000);
+				}
+			}
+
+			if (_state == EffectState.WORKING)
+			{
+				this.OnTimer();
+
+				if (!this.Data.IsPermanent && _effectEndTime < DateTime.Now)
+				{
+					_state = EffectState.FINISHING;
+				}
+			}
+
+			if (_state == EffectState.FINISHING)
+			{
+				TasksPoolManager.Instance.RemoveGeneralTask(_futureTask, 0);
+				this.OnRemove();
+			}
+		}
+
 		/// <summary>
 		/// This is a virtual function called when this effect got added in target.
 		/// </summary>
@@ -207,5 +265,12 @@ namespace Melia.Channel.World.SkillEffects
 		NONE = 0,
 		INSTANT = 1,
 		BUFF = 2,
+	}
+
+	public enum EffectState
+	{
+		CREATED,
+		WORKING,
+		FINISHING,
 	}
 }

@@ -60,6 +60,9 @@ namespace Melia.Channel
 
 		public Random rnd { get; set; }
 
+		public TasksPoolManager TasksPoolManager { get; set; }
+		public GameTimeController GameTimeController { get; set; }
+
 		/// <summary>
 		/// Creates new channel server.
 		/// </summary>
@@ -68,6 +71,9 @@ namespace Melia.Channel
 			this.World = new WorldManager();
 			this.ScriptManager = new ScriptManager();
 			this.SkillHandlers = new Dictionary<int, SkillHandler>();
+
+			this.TasksPoolManager = TasksPoolManager.Instance;
+			this.GameTimeController = GameTimeController.Instance;
 
 			this.LoadSkillHandlers();
 

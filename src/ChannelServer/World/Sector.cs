@@ -68,7 +68,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Performs a visit for a given visitor and range, to all reachable entities in this sector.
 		/// </summary>
-		public void VisitInternal(Position pos, IVisitor visitor, float range)
+		private void VisitInternal(Position pos, IVisitor visitor, float range)
 		{
 			// Tell all entities about this visit
 			lock (entities)
@@ -105,6 +105,41 @@ namespace Melia.Channel.World
 
 				this.neighbors[i].VisitInternal(pos, visitor, range);
 			}
+		}
+
+		public List<Actor> GetActorsAtRange(Position pos, float range)
+		{
+			// Visit this sector
+			var actorsAtRange = GetActorsAtRangeInternal(pos, range);
+			// Visit all neighbors
+			for (int i = 0; i < 8; i++)
+			{
+				if (this.neighbors[i] == null)
+					continue;
+
+				actorsAtRange.AddRange(this.neighbors[i].GetActorsAtRangeInternal(pos, range));
+			}
+
+			return actorsAtRange;
+		}
+
+		private List<Actor> GetActorsAtRangeInternal(Position pos, float range)
+		{
+			List<Actor> actorsAtRange = new List<Actor>();
+			lock (entities)
+			{
+				foreach (var entity in entities)
+				{
+					if (entity == null)
+						continue;
+
+					if (entity.Position.Get2DDistance(pos) - entity.Radius < range)
+					{
+						actorsAtRange.Add(entity);
+					}
+				}
+			}
+			return actorsAtRange;
 		}
 	}
 

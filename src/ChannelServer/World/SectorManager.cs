@@ -254,5 +254,14 @@ namespace Melia.Channel.World
 
 			sector.Visit(pos, visitor, range);
 		}
+
+		public List<Actor> GetActorsAtRange(Position pos, float range)
+		{
+			Sector sector = GetSector(pos);
+			if (sector == null)
+				return null;
+
+			return sector.GetActorsAtRange(pos, range);
+		}
 	}
 }

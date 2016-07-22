@@ -8,6 +8,7 @@ using Melia.Channel.World.SkillEffects;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Channel.World.SkillHandlers;
+using Melia.Channel.Network;
 
 namespace Melia.Channel.World
 {
@@ -104,6 +105,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int Level { get; set; }
 
+		public float Speed { get; set; }
+
 		private bool _oneHitInmunity;
 
 		public void SetAttackState(bool isAttacking) { }
@@ -112,6 +115,10 @@ namespace Melia.Channel.World
 
 		public bool IsFade { get; set; }
 
+		public int PreparingSkillId { get; set; }
+		public SkillDataComponent SkillComp { get; set; }
+
+		public MoveData move;
 
 		public StatsManager statsManager { get; set; }
 		public SkillManager skillManager { get; set; }
@@ -168,7 +175,15 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		public void SetPosition(float x, float y, float z)
 		{
-			this.Position = new Position(x, y, z);
+			Log.Debug("Set position called {0} {1} {2}", x, y, z);
+			if (this.Map.SectorManager.Move(this, new Position(x, y, z)))
+			{
+				this.Position = new Position(x, y, z);
+			} else
+			{
+				Log.Error("Error moving actor to given position");
+			}
+			
 		}
 
 		/// <summary>
@@ -228,14 +243,16 @@ namespace Melia.Channel.World
 
 		public void CastSkill(Skill skill, IEntity target = null)
 		{
-			SkillDataComponent skillComp = new SkillDataComponent();
-			skillComp.skill = skill;
-			skillComp.skillHandler = skill.SkHandler;
-			skillComp.caster = this;
-			skillComp.target = target;
+			this.SkillComp = new SkillDataComponent();
+			SkillComp.skill = skill;
+			SkillComp.skillHandler = skill.SkHandler;
+			SkillComp.caster = this;
+			SkillComp.target = target;
 			Log.Debug("target received: {0}", target);
-			Log.Debug("target skillComp: {0}", skillComp.target);
-			skill.Activate(skillComp);
+			Log.Debug("target skillComp: {0}", SkillComp.target);
+			skill.Activate(SkillComp);
+
+			this.PreparingSkillId = 0;
 		}
 
 		virtual public TargetType GetTargetType(IEntity entity)
@@ -277,6 +294,143 @@ namespace Melia.Channel.World
 
 			return amountToHeal;
 		}
+
+		public virtual float GetSpeed()
+		{
+			return this.Speed;
+		}
+
+		public void MoveTo(Position destination, int distanceOffset)
+		{
+			
+			float speed = this.GetSpeed();
+
+			// Calculate distance to destination
+			float vX = destination.X - this.Position.X;
+			float vZ = destination.Z - this.Position.Z;
+			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ); /// TODO: We could try to avoid using Math.Sqrt() somehow.
+
+			if (distDestination < 1 || distDestination - distanceOffset <= 0)
+			{
+				// No need for move.
+				/// TODO notify AI about this.
+				
+				return;
+			}
+
+			var cos = vX / distDestination; // Adjacent / Hipotenuse
+			var sin = vZ / distDestination; // Oposit / Hipotenuse
+
+			// Calculate position based on distanceOffset
+			Position finalDestination;
+			if (distanceOffset > 0)
+			{
+				// rounding error possible, we try to fix it.
+				distDestination -= distanceOffset - 5;
+
+				finalDestination = new Position(this.Position.X + (int)(distDestination * cos), destination.Y, this.Position.Z + (int)(distDestination * sin));
+			} else
+			{
+				finalDestination = destination;
+			}
+
+			MoveData newMoveData = new MoveData();
+
+			// Caclulate the number of ticks between the current position and the destination
+			// One tick added for rounding reasons
+			int ticksToMove = 1 + (int)(GameTimeController.TICKS_PER_SECOND * distDestination / speed);
+
+			// Set heading
+			this.SetDirection(cos, sin);
+
+			newMoveData.destination = finalDestination;
+			newMoveData.direction = new Direction(cos, sin);
+			newMoveData.moveStartTime = GameTimeController.Instance.GetGameTicks();
+
+			this.move = newMoveData;
+
+			GameTimeController.Instance.RegisterMovingObject(this);
+
+			Send.ZC_MOVE_DIR(this, finalDestination.X, finalDestination.Y, finalDestination.Z, cos, sin, 0);
+
+			/// TODO , if ticks to arrive are too far, revalidate in between, using a task calling the AI. (EVT_ARRIVED_REVALIDATE)
+			
+
+		}
+
+		public bool UpdatePosition(int gameTicks)
+		{
+			MoveData m = this.move;
+
+			//Log.Debug("Update position: move to {0} {1} {2}", m.destination.X, m.destination.Y, m.destination.Z);
+
+			if (m == null)
+			{
+				this.MoveStop();
+				return true;
+			}
+
+			if (m.moveTimestamp == 0)
+			{
+				m.moveTimestamp = m.moveStartTime;
+				m.accurateX = this.Position.X;
+				m.accurateY = this.Position.Y;
+				m.accurateZ = this.Position.Z;
+			}
+
+			// This position was already calculated in this tick
+			if (m.moveTimestamp == gameTicks)
+				return false;
+
+			float speed = this.GetSpeed();
+
+			double distPassed = speed * (gameTicks - m.moveTimestamp) / GameTimeController.TICKS_PER_SECOND;
+
+			double distX = m.destination.X - m.accurateX;
+			double distZ = m.destination.Z - m.accurateZ;
+
+			double distFraction = distPassed / Math.Sqrt(distX * distX + distZ * distZ);
+
+			if (distFraction > 1)
+			{
+				this.SetPosition(m.destination.X, m.destination.Y, m.destination.Z);
+			}
+			else
+			{
+				m.accurateX += distX * distFraction;
+				m.accurateZ += distZ * distFraction;
+
+				this.SetPosition((float)m.accurateX, m.destination.Y, (float)m.accurateZ);
+			}
+
+			m.moveTimestamp = gameTicks;
+
+			if (distFraction > 1)
+			{
+				this.MoveStop();
+				return true;
+			} else
+			{
+				return false;
+			}
+		}
+
+		public void MoveStop()
+		{
+			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
+		}
+
+	}
+
+	public class MoveData
+	{
+		public int moveStartTime;
+		public int moveTimestamp;
+		public Position destination;
+		public Direction direction;
+		public double accurateX;
+		public double accurateY;
+		public double accurateZ;
 
 	}
 }

@@ -10,6 +10,7 @@ using Melia.Shared.World.Shapes;
 using System;
 using Melia.Channel.World.SkillEffects;
 using System.Collections.Generic;
+using Melia.Channel.World.AI;
 
 namespace Melia.Channel.World
 {
@@ -69,6 +70,9 @@ namespace Melia.Channel.World
 		public IEntity target;
 		public Dictionary<int, AggroTarget> possibleTargets;
 
+		public AIBase AI { get; set; }
+		public bool isMoving = false;
+
 
 		/// <summary>
 		/// Creates new NPC.
@@ -96,6 +100,10 @@ namespace Melia.Channel.World
 			this.skillEffects = new List<SkillEffect>();
 
 			this.possibleTargets = new Dictionary<int, AggroTarget>();
+
+			this.Speed = 30;
+
+			//this.AI = new AIBase(this);
 		}
 
 		/// <summary>
@@ -109,6 +117,39 @@ namespace Melia.Channel.World
 			this.Data = ChannelServer.Instance.Data.MonsterDb.Find((int)this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
+		}
+
+		public void MoveTo (Position pos, Direction dir)
+		{
+			Log.Debug("MOVETO ------------------");
+			if (this.Hp <= 0) return;
+
+			
+			//this.SetDirection(dir.Cos, dir.Sin);
+			this.isMoving = true;
+
+			// Moves the actor
+			if (this.Map.SectorManager.Move(this, pos))
+			{
+				// Actor was sucessfully moved. Set new position
+				this.SetPosition(pos.X, pos.Y, pos.Z);
+			}
+			else
+			{
+				// Wasn't possible to move the actor. Abort movement.
+				Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
+			}
+
+			Send.ZC_MOVE_DIR(this, pos.X, pos.Y, pos.Z, dir.Cos, dir.Sin, 0);
+		}
+		public void MoveStop()
+		{
+			if (this.isMoving)
+			{
+				this.isMoving = false;
+				Log.Debug("stop stop stop ------------------");
+				Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
+			}
 		}
 
 		/// <summary>
@@ -180,10 +221,12 @@ namespace Melia.Channel.World
 
 		public void Process()
 		{
-			// Process skill effects
-			this.skillEffectsManager.RemoveExpiredEffects();
-			this.skillEffectsManager.ProcessEffects();
 			this.SelectTarget();
+			// Process AI
+			/*
+			if (this.AI != null)
+				this.AI.Process(null);
+			*/
 		}
 
 		public void SelectTarget()

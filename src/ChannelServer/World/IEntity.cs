@@ -5,6 +5,7 @@ using Melia.Shared.World;
 using System.Collections.Generic;
 using Melia.Channel.World.SkillEffects;
 using Melia.Shared.Const;
+using Melia.Channel.World.SkillHandlers;
 
 namespace Melia.Channel.World
 {
@@ -18,9 +19,18 @@ namespace Melia.Channel.World
 		Direction Direction { get; }
 		bool IsDead { get; set; }
 
+		/// <summary>
+		/// Character's current speed.
+		/// </summary>
+		float Speed { get; set; }
+
 		bool IsFade { get; set; }
 
+		int PreparingSkillId { get; set; }
+
 		List<SkillEffect> skillEffects { get; set; }
+
+		SkillDataComponent SkillComp { get; set; }
 
 		/// <summary>
 		/// Character's level.
@@ -54,6 +64,10 @@ namespace Melia.Channel.World
 
 		TargetType GetTargetType(IEntity entity);
 
+		float GetSpeed();
 
+		void MoveTo(Position pos, int distance);
+		bool UpdatePosition(int gameTicks);
+		void MoveStop();
 	}
 }

@@ -21,7 +21,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// Constructor
 		/// </summary>
 		public EffectSafetyZone(SkillEffectData effectData, SkillDataComponent skillComp) : base(effectData, skillComp) {
-			
+			this.behaviorType = EffectBehaviorType.BUFF;
 		}
 
 		/// <summary>

@@ -1030,17 +1030,17 @@ namespace Melia.Channel.Network
 		/// Broadcasts ZC_ROTATE in range of character.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_ROTATE(Character character)
+		public static void ZC_ROTATE(IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutByte(0);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1602,22 +1602,23 @@ namespace Melia.Channel.Network
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+		public static void ZC_MOVE_DIR(IEntity entity, float x, float y, float z, float dx, float dy, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			packet.PutInt(character.Handle);
+			Log.Debug("Moving actor {0} to {1} {2} {3}", entity.Handle, x, y, z);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutFloat(dx);
 			packet.PutFloat(dy);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(entity.GetSpeed());
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1628,17 +1629,17 @@ namespace Melia.Channel.Network
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
+		public static void ZC_MOVE_STOP(IEntity entity, float x, float y, float z)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
 			packet.PutFloat(z);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1649,11 +1650,11 @@ namespace Melia.Channel.Network
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		public static void ZC_PC_MOVE_STOP(Character character, Position position, Direction direction)
+		public static void ZC_PC_MOVE_STOP(IEntity entity, Position position, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
@@ -1662,7 +1663,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(direction.Sin);
 			packet.PutFloat(4238.274f); // ?
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1836,16 +1837,16 @@ namespace Melia.Channel.Network
 		/// Popup message in top of character
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NORMAL_Unkown_3a(Character character, string msg1, string msg2)
+		public static void ZC_NORMAL_Unkown_3a(IEntity entity, string msg1, string msg2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x3a);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutShort((short)(msg1.Length + 1));
 			packet.PutString(msg1);
 			packet.PutShort((short)(msg2.Length + 1));
 			packet.PutString(msg2);
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2045,15 +2046,15 @@ namespace Melia.Channel.Network
 		/// removes buff icon in buffs bar 
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_BUFF_REMOVE(Character character, SkillEffect effect)
+		public static void ZC_BUFF_REMOVE(IEntity entity, SkillEffect effect)
 		{
 			var packet = new Packet(Op.ZC_BUFF_REMOVE);
-			packet.PutInt(character.Handle);
-			packet.PutInt(character.test); // 43 00 00 00
+			packet.PutInt(entity.Handle);
+			packet.PutInt(effect.Data.EffectId); // 43 00 00 00
 			packet.PutByte(0);
-			packet.PutInt(1); // Buff handle.  (but not related to the buff skill itself)
+			packet.PutInt(effect.Handle); // Buff handle.  (but not related to the buff skill itself)
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 
 		}
 
@@ -2061,28 +2062,35 @@ namespace Melia.Channel.Network
 		/// Add/Updates buff information in buffs bar 
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_BUFF_ADD(Character character, SkillEffect effect, bool update)
+		public static void ZC_BUFF_ADD(IEntity entity, SkillEffect effect, bool update)
 		{
 
 			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
 
-			packet.PutInt(character.Handle);
-			packet.PutInt(character.test); // Buff type
-			packet.PutInt(1); // Skill Level
+			packet.PutInt(entity.Handle);
+			packet.PutInt(effect.Data.EffectId); // Buff type
+			packet.PutInt(effect.skillComp.skill.level); // Skill Level
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(1); // Skill stack
+			packet.PutInt(effect.stackLevel); // Skill stack
 											//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
 			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
-			packet.PutShort((short)(character.Name.Length + 1));
-			packet.PutString(character.Name);
+			if (entity is Character)
+			{
+				packet.PutShort((short)(((Character)entity).Name.Length + 1));
+				packet.PutString(((Character)entity).Name);
+			} else
+			{
+				string entityName = "Test";
+				packet.PutShort((short)(entityName.Length + 1));
+				packet.PutString(entityName);
+			}
 			//packet.PutInt(character.Handle); // For some reason, I found this packet when logging packet from official... but doesnt work if commented out
-			var rnd = new Random();
-			packet.PutInt(1); // Buff Handle. (but not related to the buff skill itself)
+			packet.PutInt(effect.Handle); // Buff Handle. (but not related to the buff skill itself)
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 
 		}
 

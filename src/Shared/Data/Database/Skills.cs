@@ -59,6 +59,10 @@ namespace Melia.Shared.Data.Database
 		public int MaxInteractions { get; set; }
 		public TargetType TargetType { get; set; }
 
+		public float CastingTime { get; set; }
+		public float PreparationTime { get; set; }
+		public int Charges { get; set; }
+
 		public List<SkillEffectData> effects;
 
 		public Dictionary<Stat, StatModifier> statModifiers;
@@ -119,7 +123,7 @@ namespace Melia.Shared.Data.Database
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("skillId", "level", "className", "engName", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate",
-				"spConsume", "lifeTime", "visualEffectId", "isInstant", "maxInteractions", "effectsDependOnSkill", "activateOnce", "effects");
+				"spConsume", "lifeTime", "visualEffectId", "isInstant", "maxInteractions", "effectsDependOnSkill", "activateOnce", "effects", "castingTime", "preparationTime", "charges");
 
 			var info = new SkillData();
 
@@ -144,6 +148,9 @@ namespace Melia.Shared.Data.Database
 			info.IsDot = !entry.ReadBool("activateOnce");
 			info.MaxInteractions = entry.ReadInt("maxInteractions");
 			info.EffectsDependOnSkill = entry.ReadBool("effectsDependOnSkill");
+			info.CastingTime = entry.ReadFloat("castingTime");
+			info.PreparationTime = entry.ReadFloat("preparationTime");
+			info.Charges = entry.ReadInt("charges");
 			if (entry.ContainsKey("targetType"))
 			{
 				foreach (var targetType in entry["targetType"])

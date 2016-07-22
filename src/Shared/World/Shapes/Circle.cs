@@ -31,5 +31,6 @@ namespace Melia.Shared.World.Shapes
 			var deltaY = this.Position.Z - other.Position.Z;
 			return deltaX * deltaX + deltaY * deltaY <= radius * radius;
 		}
+
 	}
 }

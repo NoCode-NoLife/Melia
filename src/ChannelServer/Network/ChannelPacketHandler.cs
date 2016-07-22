@@ -1293,11 +1293,12 @@ namespace Melia.Channel.Network
 
 			Skill skill = character.skillManager.GetSkill(skillId);
 
-			Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
+			//Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
 
 			if (skill != null)
 			{
-				character.CastSkill(skill);
+				skill.PrepareSkill();
+				//character.CastSkill(skill);
 				//skill.Activate();
 			}
 
@@ -1318,6 +1319,8 @@ namespace Melia.Channel.Network
 			Skill skill = character.skillManager.GetSkill(skillId);
 
 			Log.Debug("DYNAMIC CASTING END skill: {0} Floats {1}", skillId, floatUnk1);
+
+			skill.PrepareSkillEnd();
 		}
 
 		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]

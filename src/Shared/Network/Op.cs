@@ -1156,7 +1156,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_RESET_BOX] = 11;
 			_sizes[Op.ZC_CREATE_SCROLLLOCKBOX] = 38;
 			_sizes[Op.ZC_REMOVE_SCROLLLOCKBOX] = 10;
-			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 25;
+			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 24;
 			_sizes[Op.CZ_DYNAMIC_CASTING_END] = 20;
 			_sizes[Op.CZ_SKILL_CANCEL_SCRIPT] = 10;
 			_sizes[Op.ZC_LEAVE_TRIGGER] = 6;
