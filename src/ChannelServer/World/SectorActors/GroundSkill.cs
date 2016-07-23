@@ -67,7 +67,7 @@ namespace Melia.Channel.World.SectorActors
 		/// Handle of the owner of this GroundSkill
 		/// NOTE: Currently is assuming Character Handle!!
 		/// </summary>
-		public int ownerHandle;
+		public IEntity owner;
 
 		/// <summary>
 		/// The map where this GroundSkill is placed
@@ -121,7 +121,7 @@ namespace Melia.Channel.World.SectorActors
 		/// <param name="oHandle">Owner Handle</param>
 		/// <param name="pos">Position</param>
 		/// <param name="dir">Direction</param>
-		public void Init(Map map, Skill oSkill, int oHandle, Position pos, Direction dir)
+		public void Init(Map map, Skill oSkill, IEntity owner, Position pos, Direction dir)
 		{
 			// Create Handle ID for this actor
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
@@ -133,7 +133,7 @@ namespace Melia.Channel.World.SectorActors
 
 			Map = map;
 			ownerSkill = oSkill;
-			ownerHandle = oHandle;
+			this.owner = owner;
 
 			// Set Pos/Dir of this Placeable Actor.
 			this.Position = pos;
@@ -170,8 +170,7 @@ namespace Melia.Channel.World.SectorActors
 			Map.AddSkill(this);
 
 			// Broadcast effect.
-			Character caster = Map.GetCharacter(ownerHandle);
-			Send.ZC_NORMAL_Skill(caster, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
+			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
 		}
 
 		/// <summary>
@@ -180,7 +179,7 @@ namespace Melia.Channel.World.SectorActors
 		/// </summary>
 		public void Disable()
 		{
-			Send.ZC_NORMAL_Skill(Map.GetCharacter(ownerHandle), ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
+			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
 
 			// If this skill is controlling all affected targets, remove skill from all current affected entities
 			if (this.ownerSkill.GetData().EffectsDependOnSkill)
@@ -373,11 +372,10 @@ namespace Melia.Channel.World.SectorActors
 			if (_countTargets > 0)
 			{
 				// Send packet about attack result!
-				Character caster = Map.GetCharacter(ownerHandle);
-				Send.ZC_SKILL_HIT_INFO(caster, this.skillResults);
+				Send.ZC_SKILL_HIT_INFO(owner, this.skillResults);
 				// Skill processed particle effect
 				if (!fired)
-					Send.ZC_NORMAL_ParticleEffect(Map.GetCharacter(ownerHandle), this.Handle, 1);
+					Send.ZC_NORMAL_ParticleEffect(owner, this.Handle, 1);
 			}
 			// Prevent this GroundSkill to be marked as fired, if its not an one-time skill
 			else if (!this.ownerSkill.GetData().IsInstant)

@@ -97,12 +97,25 @@ namespace Melia.Channel.World
 				}
 			}
 
-			if (endedEntities.Count > 0)
+			Timer notifyEndedTask = null;
+			notifyEndedTask = new Timer(new TimerCallback(NotifyEndedEntities), endedEntities, 0, Timeout.Infinite);
+			GC.KeepAlive(notifyEndedTask);
+
+		}
+
+		public void NotifyEndedEntities(Object obj)
+		{
+			if (obj is List<IEntity>)
 			{
-				// Notify ended entities with a Task in background process.
+				List<IEntity> thisList = (List<IEntity>)obj;
+				foreach (var entity in thisList)
+				{
+					/*
+					if (entity.AI != null)
+						entity.AI.notifyEvent(AI.AIEventTypes.AI_EVENT_ARRIVED);
+					*/
+				}
 			}
-
-
 		}
 
 		public void RegisterMovingObject(IEntity entity)

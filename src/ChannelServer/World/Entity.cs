@@ -9,6 +9,8 @@ using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Channel.World.SkillHandlers;
 using Melia.Channel.Network;
+using Melia.Channel.World.AI;
+using System.Threading;
 
 namespace Melia.Channel.World
 {
@@ -109,7 +111,10 @@ namespace Melia.Channel.World
 
 		private bool _oneHitInmunity;
 
-		public void SetAttackState(bool isAttacking) { }
+		public bool IsAttacking { get; set; }
+		public virtual void SetAttackState(bool isAttacking) {
+			this.IsAttacking = true;
+		}
 
 		public bool IncreaseSkillLevel { get; set; }
 
@@ -119,10 +124,18 @@ namespace Melia.Channel.World
 		public SkillDataComponent SkillComp { get; set; }
 
 		public MoveData move;
+		public Skill mainAttackSkill;
+		public AIBase AI { get; set; }
+
+		public Timer ShootTime { get; set; }
 
 		public StatsManager statsManager { get; set; }
 		public SkillManager skillManager { get; set; }
 		public SkillEffectsManager skillEffectsManager { get; set; }
+
+		public int walkSpeed;
+		public int runSpeed;
+		private bool _isRunning;
 
 		virtual public float AdjustInfringedDamage(float damage)
 		{
@@ -165,6 +178,8 @@ namespace Melia.Channel.World
 			statsManager = new StatsManager(this);
 			skillManager = new SkillManager(this);
 			skillEffectsManager = new SkillEffectsManager(this);
+
+			this.SetWalking();
 		}
 
 		/// <summary>
@@ -175,7 +190,7 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		public void SetPosition(float x, float y, float z)
 		{
-			Log.Debug("Set position called {0} {1} {2}", x, y, z);
+			//Log.Debug("Set position called {0} {1} {2}", x, y, z);
 			if (this.Map.SectorManager.Move(this, new Position(x, y, z)))
 			{
 				this.Position = new Position(x, y, z);
@@ -248,8 +263,6 @@ namespace Melia.Channel.World
 			SkillComp.skillHandler = skill.SkHandler;
 			SkillComp.caster = this;
 			SkillComp.target = target;
-			Log.Debug("target received: {0}", target);
-			Log.Debug("target skillComp: {0}", SkillComp.target);
 			skill.Activate(SkillComp);
 
 			this.PreparingSkillId = 0;
@@ -420,6 +433,29 @@ namespace Melia.Channel.World
 			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 		}
 
+		public bool IsMoving()
+		{
+			return this.move != null;
+		}
+		
+		public bool CanShoot()
+		{
+			return ShootTime == null;
+		}
+
+		virtual public void SetWalking()
+		{
+			_isRunning = false;
+		}
+		virtual public void SetRunning()
+		{
+			_isRunning = true;
+		}
+
+		public bool IsRunning()
+		{
+			return _isRunning;
+		}
 	}
 
 	public class MoveData

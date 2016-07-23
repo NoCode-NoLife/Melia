@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Melia.Shared.World;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World.AI
 {
@@ -69,7 +70,7 @@ namespace Melia.Channel.World.AI
 		public void moveToEntity(IEntity entityToFollow, int range)
 		{
 			
-			if (_followTarget == null)
+			if (entityToFollow == null)
 			{
 				SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
 				return;
@@ -95,7 +96,7 @@ namespace Melia.Channel.World.AI
 			onEvtThink();
 		}
 
-		public void ChangeIntention(IntentionTypes newItenntion, Object arg0 = null, Object arg1 = null)
+		virtual public void ChangeIntention(IntentionTypes newItenntion, Object arg0 = null, Object arg1 = null)
 		{
 			_intention = newItenntion;
 			_intentionArg0 = arg0;
@@ -104,6 +105,7 @@ namespace Melia.Channel.World.AI
 
 		public void SetIntention(IntentionTypes intention, Object arg0 = null, Object arg1 = null)
 		{
+			Log.Debug("SetIntention Called - intention: {0}", intention);
 			switch (intention)
 			{
 				case IntentionTypes.AI_INTENTION_ACTIVE:
@@ -121,6 +123,12 @@ namespace Melia.Channel.World.AI
 				case IntentionTypes.AI_INTENTION_ATTACK:
 					onIntentionAttack((IEntity)arg0);
 					break;
+				case IntentionTypes.AI_INTENTION_REST:
+					onIntentionRest();
+					break;
+				case IntentionTypes.AI_INTENTION_CAST:
+					onIntentionCast((Skill) arg0, (IEntity) arg1);
+					break;
 			}
 		}
 
@@ -131,19 +139,23 @@ namespace Melia.Channel.World.AI
 
 		public void notifyEvent(AIEventTypes aiEvent, Object arg0 = null, Object arg1 = null)
 		{
+			Log.Debug("notifyEvent {0}", aiEvent);
 			switch (aiEvent)
 			{
 				case AIEventTypes.AI_EVENT_THINK:
 					onEvtThink();
 					break;
 				case AIEventTypes.AI_EVENT_ATTACKED:
-					//onEvtAttacked((IEntity) arg0);
+					onEvtAttacked((IEntity) arg0);
 					break;
 				case AIEventTypes.AI_EVENT_DEAD:
-					//onEvtDead();
+					onEvtDead();
 					break;
 				case AIEventTypes.AI_EVENT_READY_TO_ACT:
-					//onEvtReadyToAct();
+					onEvtReadyToAct();
+					break;
+				case AIEventTypes.AI_EVENT_ARRIVED:
+					onEvtArrived();
 					break;
 			}
 		}
@@ -153,49 +165,48 @@ namespace Melia.Channel.World.AI
 			return _entity;
 		}
 
-		protected virtual void onIntentionActive() {
-			ChangeIntention(IntentionTypes.AI_INTENTION_FOLLOW);
-
-		}
+		protected virtual void onIntentionActive() { }
 
 		protected virtual void onIntentionIdle() { }
 
 		protected virtual void onIntentionMoveTo(Position pos) { }
 
 		protected virtual void onIntentionFollow(IEntity entityToFollow) {
+
+			if (entityToFollow == null)
+				return;
+
 			ChangeIntention(IntentionTypes.AI_INTENTION_FOLLOW);
 
 			this.StartFollow(entityToFollow);
 
-			TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(new TimerCallback(Process), null, 5, 500);
 		}
 
 		protected virtual void onIntentionAttack(IEntity entityToAttack) { }
+		protected virtual void onIntentionRest() { }
+		protected virtual void onIntentionCast(Skill skill, IEntity target) { }
 
 		// Events
-		protected virtual void onEvtThink() {
-			if (_thinking)
-				return;
-
-			// Just in case, stop follow
-			if (_intention != IntentionTypes.AI_INTENTION_FOLLOW)
-			{
-				StopFollow();
-			}
-
-			_thinking = true;
-
-			if (_intention == IntentionTypes.AI_INTENTION_FOLLOW) { 
-			}
-
-			_thinking = false;
-		}
+		protected virtual void onEvtThink() { }
 
 		protected virtual void onEvtAttacked(IEntity attacker) { }
 		protected virtual void onEvtDead() { }
 		protected virtual void onEvtReadyToAct() { }
+		protected virtual void onEvtArrived() { }
 
+		protected void ClientStopMoving(Position pos)
+		{
+			// Stop entity move.
+			if (_entity.IsMoving())
+			{
+				_entity.MoveStop();
+			}
 
+			// Reset flag values related to movement
+			_distanceToFollow = 0;
+			_followTarget = null;
+
+		}
 
 	}
 }

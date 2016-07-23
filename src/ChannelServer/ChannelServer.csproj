@@ -68,6 +68,7 @@
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\AI\AIBase.cs" />
+    <Compile Include="World\AI\AIEntity.cs" />
     <Compile Include="World\AI\AIMonster.cs" />
     <Compile Include="World\AI\IControl.cs" />
     <Compile Include="World\Character.cs" />

@@ -68,9 +68,8 @@ namespace Melia.Channel.World
 		public MonsterData Data { get; private set; }
 
 		public IEntity target;
-		public Dictionary<int, AggroTarget> possibleTargets;
+		private Dictionary<IEntity, AggroInfo> _aggroList;
 
-		public AIBase AI { get; set; }
 		public bool isMoving = false;
 
 
@@ -99,9 +98,10 @@ namespace Melia.Channel.World
 			this.skillEffectsManager = new SkillEffectsManager(this);
 			this.skillEffects = new List<SkillEffect>();
 
-			this.possibleTargets = new Dictionary<int, AggroTarget>();
+			this.mainAttackSkill = new Skill(50045, 1);
+			this.mainAttackSkill.owner = this;
 
-			this.Speed = 30;
+			_aggroList = new Dictionary<IEntity, AggroInfo>();
 
 			//this.AI = new AIBase(this);
 		}
@@ -165,18 +165,6 @@ namespace Melia.Channel.World
 
 			Log.Debug("{0} Received damage", this.Handle);
 
-			lock (possibleTargets)
-			{
-				if (!this.possibleTargets.ContainsKey(from.Handle))
-				{
-					Log.Debug("Add attacker {0} to AggroList", from.Handle);
-					AggroTarget aggroT = new AggroTarget();
-					aggroT.entity = from;
-					aggroT.aggro = damage;
-					this.possibleTargets.Add(from.Handle, aggroT);
-				}
-			}
-
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
@@ -184,9 +172,12 @@ namespace Melia.Channel.World
 			// the other.
 			//Send.ZC_SKILL_HIT_INFO(from, this, damage);
 
-			Log.Debug("remaining HP after TakeDamage {0}", this.Hp);
+			Log.Debug("remaining HP after TakeDamage :: {0}", this.Hp);
 			if (this.Hp <= 0)
 				this.Kill(from);
+
+			if (this.AI != null)
+				this.AI.notifyEvent(AIEventTypes.AI_EVENT_ATTACKED, from);
 		}
 
 		/// <summary>
@@ -221,57 +212,13 @@ namespace Melia.Channel.World
 
 		public void Process()
 		{
-			this.SelectTarget();
-			// Process AI
-			/*
-			if (this.AI != null)
-				this.AI.Process(null);
-			*/
+
 		}
 
-		public void SelectTarget()
+		public override void SetAttackState(bool isAttacking)
 		{
-			IEntity tempTarget = null;
-			int highestAggro = 0;
-			lock (this.possibleTargets)
-			{
-				// Remove invalid targets
-				List<int> keysToRemove = new List<int>();
-				foreach (var aggroT in this.possibleTargets)
-				{
-					this.RecalculateAggro(aggroT.Value);
-					if (aggroT.Value.aggro == 0)
-					{
-						keysToRemove.Add(aggroT.Key);
-					}
-				}
-
-				foreach (var key in keysToRemove)
-				{
-					Log.Debug("Remove target as possible target");
-					this.possibleTargets.Remove(key);
-					if (this.target != null && key == this.target.Handle)
-					{
-						this.target = null;
-					}
-				}
-
-				// Select new target
-				foreach (var aggroT in this.possibleTargets)
-				{
-					if (aggroT.Value.aggro > highestAggro)
-					{
-						tempTarget = aggroT.Value.entity;
-						highestAggro = aggroT.Value.aggro;
-					}
-				}
-				if (tempTarget != null && tempTarget != this.target)
-				{
-					this.target = tempTarget;
-					Log.Debug("Monster {0}: new target is {1}", this.Handle, this.target.Handle);
-				}
-					
-			}
+			this.IsAttacking = true;
+			Send.ZC_PC_ATKSTATE(this, isAttacking);
 		}
 
 		public void RecalculateAggro(AggroTarget aggroT)
@@ -290,11 +237,159 @@ namespace Melia.Channel.World
 
 		}
 
+		public void UseMainAttack(IEntity attackTarget)
+		{
+			Log.Debug("Use Main Attack {0}", this.mainAttackSkill.Id);
+			this.mainAttackSkill.Activate();
+		}
+
+		override public TargetType GetTargetType(IEntity entity)
+		{
+			if (entity == this)
+			{
+				return TargetType.SELF;
+			}
+
+			if (entity is Character) /// TODO , correct this, is for testing purposes
+			{
+				return TargetType.ENEMY;
+			}
+
+			return TargetType.NONE;
+		}
+
+		public Dictionary<IEntity, AggroInfo> getAggroList()
+		{
+			return _aggroList;
+		}
+
+		public void AddDamageHate(IEntity attacker, int damage, int aggro)
+		{
+			if (attacker == null)
+				return;
+
+			AggroInfo aggroInfo;
+			if (!_aggroList.TryGetValue(attacker, out aggroInfo)) {
+				aggroInfo = new AggroInfo(attacker);
+				aggroInfo.hate = 0;
+				aggroInfo.damage = 0;
+				lock (_aggroList)
+				{
+					_aggroList.Add(attacker, aggroInfo);
+				}
+			}
+
+			// If damage == 0, means this is an "add new attacker" operation
+			if (damage == 0)
+			{
+				aggroInfo.hate += aggro;
+			} else
+			{
+				aggroInfo.hate += aggro;
+			}
+			aggroInfo.damage += damage;
+
+			// Set intention of this Monster to AI_INTENTION_ACTIVE if IDLE
+			if (this.AI != null && aggro > 0 && this.AI.GetIntention() == IntentionTypes.AI_INTENTION_IDLE)
+				this.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+
+			if (damage > 0)
+			{
+				// Notify Monster about this attack
+				if (this.AI != null)
+					this.AI.notifyEvent(AIEventTypes.AI_EVENT_ATTACKED);
+			}
+		}
+
+		public void StopHating(IEntity entity)
+		{
+			if (entity == null)
+				return;
+
+			lock (_aggroList)
+			{
+				AggroInfo aggroInfo;
+				if (_aggroList.TryGetValue(entity, out aggroInfo))
+				{
+					aggroInfo.hate = 0;
+				}
+			}
+		}
+
+		public IEntity GetMostHated()
+		{
+			if (_aggroList == null || _aggroList.Count == 0)
+				return null;
+
+			IEntity mostHated = null;
+			int maxHate = 0;
+
+			lock (_aggroList)
+			{
+				foreach (var aggroInfo in _aggroList.Values)
+				{
+					if (aggroInfo == null)
+						continue;
+
+					if (aggroInfo.hate > maxHate)
+					{
+						mostHated = aggroInfo.attacker;
+						maxHate = aggroInfo.hate;
+					}
+				}
+			}
+
+			return mostHated;
+		}
+
+		public int GetHating(IEntity entity)
+		{
+			if (entity == null)
+				return 0;
+
+			AggroInfo aggroInfo;
+			if (_aggroList.TryGetValue(entity, out aggroInfo)) {
+				return aggroInfo.hate;
+			}
+
+			return 0;
+		}
+
+		public override void SetWalking()
+		{
+			if (this.Data != null) 
+				this.Speed = this.Data.WalkSpeed;
+			base.SetWalking();
+		}
+		public override void SetRunning()
+		{
+			if (this.Data != null)
+				this.Speed = this.Data.RunSpeed;
+			base.SetRunning();
+		}
+
 	}
 
 	public class AggroTarget
 	{
 		public IEntity entity;
 		public int aggro;
+	}
+
+	public class AggroInfo
+	{
+		public IEntity attacker;
+		public int hate;
+		public int damage;
+
+		public AggroInfo(IEntity entity)
+		{
+			this.attacker = entity;
+		}
+
+		public override int GetHashCode()
+		{
+			return attacker.Handle;
+		}
 	}
 }

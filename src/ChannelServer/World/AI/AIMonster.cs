@@ -5,38 +5,38 @@ using System.Text;
 using System.Threading;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.Shapes;
 
 namespace Melia.Channel.World.AI
 {
-	public class AIMonster : AIBase
+	public class AIMonster : AIEntity
 	{
-		private IEntity _target;
+		private int _attackTimeout;
+		private const int MAX_ATTACK_TIMEOUT = 50; // Ticks amount.
+		private const int MAX_CHASE_TIMEOUT = 100; // ticks amount.
+		private bool _isChasing;
+		private int _ChasingTimeout;
+		Timer _aiTask;
+		private int _globalAggro;
 
-		private bool _thinking;
+		protected Monster _entityMonster;
 
-		private int _movetoTick = 500;
-		private DateTime _nextMoveToTime;
-		private Position _moveToPosition;
-
-		
-
-		public AIMonster(Entity owner) : base(owner)
+		public AIMonster(Monster owner) : base(owner)
 		{
-			_target = null;
-			_thinking = false;
-			this.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+			_entityMonster = (Monster)_entity;
 
-			_moveToPosition = new Position();
-			_nextMoveToTime = DateTime.Now;
+			_globalAggro = -10;
 		}
 
 		public override void Process(Object obj)
 		{
-			onEventThink();
+			Log.Debug("Process called");
+			onEvtThink();
 		}
 
-		public void onEventThink()
+		protected override void onEvtThink()
 		{
+			Log.Debug("onEventThink called, intention {0}", this.GetIntention() );
 			if (_thinking)
 				return;
 
@@ -54,11 +54,6 @@ namespace Melia.Channel.World.AI
 						thinkAttack();
 						break;
 					}
-				case IntentionTypes.AI_INTENTION_MOVETO:
-					{
-						thinkMoveTo();
-						break;
-					}
 				default:
 					break;
 
@@ -67,121 +62,192 @@ namespace Melia.Channel.World.AI
 			_thinking = false;
 		}
 
-		private void thinkActive()
+		protected void thinkActive()
 		{
-			var actors = _entity.Map.SectorManager.GetActorsAtRange(_entity.Position, 300f);
-
-			if (actors.Count > 0)
+			Log.Debug("thinkActive called. _globalAggro {0}", _globalAggro);
+			// Check if just spawned, to prevent attack right away
+			if (_globalAggro != 0)
 			{
-				foreach (var actor in actors)
-				{
-					if (actor == _entity)
-						continue;
+				_globalAggro = (_globalAggro < 0) ? _globalAggro + 1 : _globalAggro - 1;
+			}
 
-					if (actor is Character)
-					{
-						_target = (IEntity)actor;
-					}
+			if (_globalAggro >= 0)
+			{
+				IEntity mostHated = _entityMonster.GetMostHated();
+				if (mostHated != null)
+				{
+					this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
+				} else
+				{
+					this.SetIntention(IntentionTypes.AI_INTENTION_IDLE);
 				}
 			}
-
-			Log.Debug("target {0}", _target.Handle);
-
-			if (_target != null)
-			{
-				ChangeIntention(IntentionTypes.AI_INTENTION_MOVETO);
-			}
 		}
 
-		private void thinkAttack()
+		protected void thinkAttack()
 		{
-
-		}
-
-		private void thinkMoveTo()
-		{
-			// Check if its time to process this 
-			if (_nextMoveToTime > DateTime.Now)
-				return;
-
-			// Set next process time
-			_nextMoveToTime = DateTime.Now.AddMilliseconds(_movetoTick);
-
-			if (_target == null)
-			{
-				ChangeIntention(IntentionTypes.AI_INTENTION_ACTIVE);
-				return;
-			}
-
-			if (_moveToPosition != _target.Position)
-			{
-				_moveToPosition = _target.Position;
-			}
-			Log.Debug("_moveToposition {0} {1} {2}", _moveToPosition.X, _moveToPosition.Y, _moveToPosition.Z);
-			Log.Debug("_entity {0} {1} {2}", _entity.Position.X, _entity.Position.Y, _entity.Position.Z);
-			// Calculate distance to destination
-			float vX = _moveToPosition.X - _entity.Position.X;
-			float vZ = _moveToPosition.Z - _entity.Position.Z;
-			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ);
-			Log.Debug("Distance: {0}", distDestination);
-
-			Direction dir = Shared.Util.Math2.AngleBetweenTwoEntity(_entity.Position, _target.Position);
-
-			_entity.SetDirection(dir.Cos, dir.Sin);
-
-			// Set next position 
-			// If destination can be reached in this Heartbeat, we go for it. Otherwise, we calculate the next position in the path.
-			Position nextPosition;
-			if (distDestination <= _entity.GetSpeed() / 2)
-			{
-				// Get destination position as next position
-				nextPosition = _moveToPosition;
-			}
-			else
-			{
-				// Calculate next position in path to destination
-				nextPosition = new Position((_entity.GetSpeed() / 2) * _entity.Direction.Cos + _entity.Position.X, _entity.Position.Y, (_entity.GetSpeed() / 2) * _entity.Direction.Sin + _entity.Position.Z);
-			}
-
-			if (nextPosition == _entity.Position)
+			Log.Debug("thinkAttack {0}", _attackTarget);
+			if (_entity == null || !_entity.CanShoot())
 			{
 				return;
 			}
 
-			if (distDestination < 30f)	
+			// Attack timeout passed, set it to walk instead of running
+			if (_attackTimeout < GameTimeController.Instance.GetGameTicks())
 			{
-				((Monster)_entity).MoveStop();
-				ChangeIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+				Log.Debug("is running: {0}", _entity.IsRunning());
+				if (_entity.IsRunning())
+				{
+					Log.Debug("Make the monster walk for the rest of the attack");
+					// Start walking again
+					_entity.SetWalking();
+
+					// Calculate new attack timeout
+					_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.Instance.GetGameTicks();
+				}
+
+			}
+
+			// Check if target is still there or attack has timeout
+			if (_attackTarget == null || _attackTimeout < GameTimeController.Instance.GetGameTicks())
+			{
+				if (_attackTarget != null)
+					_entityMonster.StopHating(_attackTarget);
+
+				SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+
+				_entityMonster.SetWalking();
+
 				return;
 			}
 
-			((Monster)_entity).MoveTo(nextPosition, dir);
-		}
+			Skill attackSkill = ((Monster)_entity).mainAttackSkill;
+			Circle skillRange = new Circle(_entity.Radius + attackSkill.GetData().MaxRange);
+			skillRange.Position = _entity.Position;
 
-		public void SetTarget(IEntity target)
-		{
-			_target = target;
-		}
+			Log.Debug("attackSkill r {0}", attackSkill.GetData().MaxRange);
+			Log.Debug("_entity r {0}", _entity.Radius);
+			Log.Debug("Distance {0}", _entity.Position.Get2DDistance(_attackTarget.Position));
 
-		public IEntity GetTarget()
-		{
-			return _target;
-		}
-
-		public void ChangeIntention(IntentionTypes intention)
-		{
-			SetIntention(intention);
-
-			switch (intention)
+			if (skillRange.IntersectWith(_attackTarget.CollisionShape))
 			{
-				case IntentionTypes.AI_INTENTION_MOVETO:
-					{
-						thinkMoveTo();
-						break;
-					}
-				default:
-					break;
+				//this.StopChasingTarget();
+				((Monster)_entity).UseMainAttack(_attackTarget);
+			} else
+			{
+				//this.ChaseTarget(_attackTarget, (int)(_entity.Radius + attackSkill.GetData().MaxRange));
+				this.moveToEntity(_attackTarget, (int)(_entity.Radius + attackSkill.GetData().MaxRange));
+			}
+			
+		}
+
+		public void ChaseTarget(IEntity entity, int distance)
+		{
+			Log.Debug("ChaseTarget");
+			if (_isChasing)
+			{
+				if (_ChasingTimeout < GameTimeController.Instance.GetGameTicks())
+				{
+					this.StopChasingTarget();
+					SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+				}
+			} else
+			{
+				_isChasing = true;
+				_ChasingTimeout = MAX_CHASE_TIMEOUT + GameTimeController.Instance.GetGameTicks();
+			}
+
+			this.moveToEntity(entity, distance);
+		}
+
+		public void StopChasingTarget()
+		{
+			Log.Debug("Stop chasing target");
+			_isChasing = false;
+		}
+
+		protected override void onEvtAttacked(IEntity attacker)
+		{
+			Log.Debug("onEvtAttacked Called - attacker: {0}", attacker.Handle);
+			_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.Instance.GetGameTicks();
+
+			// Set the _globalAggro to 0 to permit attack even just after spawn
+			if (_globalAggro < 0)
+			{
+				_globalAggro = 0;
+			}
+
+			// Try add this attacker to aggroList
+			_entityMonster.AddDamageHate(attacker, 0, 1);
+
+			if (!_entity.IsAttacking)
+				_entity.SetAttackState(true);
+
+			if (!_entity.IsRunning())
+				_entity.SetRunning();
+
+
+			if (this.GetIntention() != IntentionTypes.AI_INTENTION_ATTACK)
+			{
+				SetIntention(IntentionTypes.AI_INTENTION_ATTACK, attacker);
+			} else
+			{
+				// Check if most hated changed, attack the most hated.
+				if (_entityMonster.GetMostHated() != this._attackTarget)
+				{
+					SetIntention(IntentionTypes.AI_INTENTION_ATTACK, attacker);
+				}
 			}
 		}
+
+		public override void ChangeIntention(IntentionTypes newItenntion, object arg0 = null, object arg1 = null)
+		{
+			if (newItenntion == IntentionTypes.AI_INTENTION_IDLE)
+			{
+				StopAITask();
+				base.ChangeIntention(newItenntion, arg0, arg1);
+				return;
+			}
+
+			base.ChangeIntention(newItenntion, arg0, arg1);
+
+			this.StartAITask();
+
+
+		}
+
+		public void StartAITask()
+		{;
+			Log.Debug("StartAITask");
+			if (_aiTask == null)
+			{
+				_aiTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(new TimerCallback(this.Process), null, 1000, 1000);
+			}
+				
+		}
+
+		public void StopAITask()
+		{
+			Log.Debug("StopAITask");
+			if (_aiTask != null)
+			{
+				_aiTask.Dispose();
+				_aiTask = null;
+			}
+		}
+
+		protected override void onIntentionAttack(IEntity entityToAttack)
+		{
+			_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.Instance.GetGameTicks();
+			base.onIntentionAttack(entityToAttack);
+		}
+
+		protected override void onIntentionIdle()
+		{
+			if (_entity.IsAttacking)
+				_entity.SetAttackState(false);
+			base.onIntentionIdle();
+		}
+
 	}
 }

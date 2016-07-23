@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Melia.Channel.World.SkillEffects;
 using Melia.Shared.Const;
 using Melia.Channel.World.SkillHandlers;
+using Melia.Channel.World.AI;
+using System.Threading;
 
 namespace Melia.Channel.World
 {
@@ -39,7 +41,10 @@ namespace Melia.Channel.World
 
 		bool IncreaseSkillLevel { get; set; }
 
+		bool IsAttacking { get; set; }
 		void SetAttackState(bool isAttacking);
+
+		Shape CollisionShape { get; set; }
 
 		StatsManager statsManager { get; set; }
 		SkillManager skillManager { get; set; }
@@ -69,5 +74,16 @@ namespace Melia.Channel.World
 		void MoveTo(Position pos, int distance);
 		bool UpdatePosition(int gameTicks);
 		void MoveStop();
+		bool IsMoving();
+
+		AIBase AI { get; set; }
+
+		Timer ShootTime { get; set; }
+		bool CanShoot();
+
+		void SetWalking();
+		void SetRunning();
+		bool IsRunning();
+
 	}
 }

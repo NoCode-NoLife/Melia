@@ -110,11 +110,8 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Gets or sets whether the character is moving.
 		/// </summary>
-		public bool IsMoving { get; set; }
 		private bool IsMoveStop { get; set; }
 		private float LastMoveTimestamp { get; set; }
-
-		public bool IsAttacking { get; set; }
 
 		private Position _destination { get; set; }
 
@@ -297,7 +294,7 @@ namespace Melia.Channel.World
 			this.SetDirection(dx, dy);
 
 			// Set flag indicating that this character is moving
-			this.IsMoving = true;
+			//this.IsMoving = true;
 
 			// Broadcast this movement
 			//Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
@@ -377,8 +374,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void ProcessMove()
 		{
+			/*
 			if (!this.IsMoving)
 				return;
+			*/
 
 			// Calculate distance to destination
 			float vX = this._destination.X - this.Position.X;
@@ -411,7 +410,7 @@ namespace Melia.Channel.World
 					// Broadcast that this character stop moving.
 					if (this.IsMoveStop)
 					{
-						this.IsMoving = false;
+						//this.IsMoving = false;
 						Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 						//Send.ZC_ROTATE(this);
 					}
@@ -420,7 +419,7 @@ namespace Melia.Channel.World
 			{
 				// Wasn't possible to move the actor. Abort movement.
 				Log.Debug("Wasn't able to place the entity at position: {0},{1},{2}", nextPosition.X, nextPosition.Y, nextPosition.Z);
-				this.IsMoving = false;
+				//this.IsMoving = false;
 				this.IsMoveStop = true;
 				Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 				//Send.ZC_ROTATE(this);
@@ -744,7 +743,7 @@ namespace Melia.Channel.World
 			return true;
 		}
 
-		public new void SetAttackState(bool isAttacking)
+		public override void SetAttackState(bool isAttacking)
 		{
 			this.IsAttacking = true;
 			Send.ZC_PC_ATKSTATE(this, isAttacking);
@@ -846,6 +845,17 @@ namespace Melia.Channel.World
 		public new void TakeDamage(int damage, IEntity from)
 		{
 			base.TakeDamage(damage, from);
+		}
+
+		public override void SetWalking()
+		{
+			this.Speed = 30; /// TODO
+			base.SetWalking();
+		}
+		public override void SetRunning()
+		{
+			this.Speed = 45; /// TODO
+			base.SetWalking();
 		}
 
 	}

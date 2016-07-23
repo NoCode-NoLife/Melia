@@ -1606,7 +1606,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			Log.Debug("Moving actor {0} to {1} {2} {3}", entity.Handle, x, y, z);
+			//Log.Debug("Moving actor {0} to {1} {2} {3}", entity.Handle, x, y, z);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);
@@ -1687,10 +1687,13 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position1"></param>
 		/// <param name="position2"></param>
-		public static void ZC_SKILL_READY(Character character, int id, Position position1, Position position2)
+		public static void ZC_SKILL_READY(IEntity entity, int id, Position position1, Position position2)
 		{
+			if (!(entity is Character))
+				return;
+
 			var packet = new Packet(Op.ZC_SKILL_READY);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutInt(id);
 			packet.PutFloat(1);
 			packet.PutBinFromHex("01 39 EC C0");
@@ -1702,8 +1705,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position2.Y);
 			packet.PutFloat(position2.Z);
 
+			((Character)entity).Connection.Send(packet);
 
-			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1714,7 +1717,7 @@ namespace Melia.Channel.Network
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="create"></param>
-		public static void ZC_NORMAL_Skill(Character character, Skill skill, Position position, Direction direction, bool create, int actorId)
+		public static void ZC_NORMAL_Skill(IEntity entity, Skill skill, Position position, Direction direction, bool create, int actorId)
 		{
 			//var actorId = 1234; // ActorId (entity unique id for this skill)
 			//var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
@@ -1724,7 +1727,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			//packet.PutBinFromHex("78 1A 27 00"); // ..
 			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
 			packet.PutInt(skill.GetData().EffectId);
@@ -1750,7 +1753,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1759,14 +1762,14 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="actorId"></param>
 		/// <param name="enable"></param>
-		public static void ZC_NORMAL_ParticleEffect(Character character, int actorId, int enable)
+		public static void ZC_NORMAL_ParticleEffect(IEntity entity, int actorId, int enable)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x61);
 			packet.PutInt(actorId);
 			packet.PutInt(enable);
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -1776,11 +1779,11 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction, Position position2)
+		public static void ZC_NORMAL_Unkown_1c(IEntity entity, int id, Position position, Direction direction, Position position2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x1c);
-			packet.PutInt(character.Handle); // This is not a fixed value, check more packets
+			packet.PutInt(entity.Handle); // This is not a fixed value, check more packets
 			packet.PutByte(0);
 			packet.PutBinFromHex("44 D7 76 10"); // Effect? BuffID?
 			packet.PutInt(id); // Target ActorId (seems to be)
@@ -1793,20 +1796,20 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position2.Y);
 			packet.PutFloat(position2.Z);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
 		/// Seems to be a SKILLS end with "_ANI" , which I guess is just a "skill animation" but with no real calculation in server side. (doesnt hit anything)
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NORMAL_Unkown_3f(Character character, Skill skill, Direction dir)
+		public static void ZC_NORMAL_Unkown_3f(IEntity entity, Skill skill, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x3f);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutInt(skill.Id);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(dir.Cos);
 			packet.PutFloat(dir.Sin);
 			packet.PutInt(1);
@@ -1818,7 +1821,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(0.0f);
 			packet.PutFloat(512.0f);
 			packet.PutFloat(0.0f);
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1891,13 +1894,13 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="attacking"></param>
-		public static void ZC_PC_ATKSTATE(Character character, bool attacking)
+		public static void ZC_PC_ATKSTATE(IEntity entity, bool attacking)
 		{
 			var packet = new Packet(Op.ZC_PC_ATKSTATE);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutByte(attacking);
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -1995,18 +1998,17 @@ namespace Melia.Channel.Network
 		/// Reply packet when skill melee ground is placed
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, int id, Position position, Direction direction)
+		public static void ZC_SKILL_MELEE_GROUND(IEntity entity, int id, Position position, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt(id);
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(2);
-			packet.PutFloat(550);
+			packet.PutFloat(1300); // Shoot time? (if this is too low, the skill animation doesnt show up)
 			packet.PutFloat(1);
 			packet.PutInt(1);
-			//packet.PutInt(0);
 			packet.PutBinFromHex("47 21 3E 00");
 			packet.PutFloat(1);
 			packet.PutFloat(position.X);
@@ -2014,7 +2016,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position.Z);
 			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

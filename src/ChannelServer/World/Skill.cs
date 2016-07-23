@@ -138,7 +138,6 @@ namespace Melia.Channel.World
 		{
 			this.charges = 0;
 
-			Character caster = (Character)owner;
 			// Check if skill can be activated
 			if (!CanActivate())
 			{
@@ -148,7 +147,7 @@ namespace Melia.Channel.World
 			// Set elegible locks to caster
 			/// TODO
 			/// 
-			caster.SetAttackState(true);
+			owner.SetAttackState(true);
 
 			if (GetActivationTime() == 0.0f)
 			{
@@ -211,12 +210,15 @@ namespace Melia.Channel.World
 				this.castingTimer.Dispose();
 			}
 
-			Send.ZC_SKILL_READY((Character)owner, this.Id, owner.Position, this.Position);
+			Send.ZC_SKILL_READY(owner, this.Id, owner.Position, this.Position);
 
-			Character caster = (Character)owner;
+			if (owner is Character)
+			{
+				Character caster = (Character)owner;
 
-			// Consume mana
-			caster.SetCurrentSp(caster.Sp - (int)this.GetData().SpendSP);
+				// Consume mana
+				caster.SetCurrentSp(caster.Sp - (int)this.GetData().SpendSP);
+			}
 
 			PerformCast((SkillDataComponent)obj);
 		}
@@ -226,7 +228,6 @@ namespace Melia.Channel.World
 		/// </summary>
 		private bool CanActivate()
 		{
-			Character caster = (Character)owner;
 
 			if (this.GetData().PreparationTime > 0)
 			{			
@@ -236,11 +237,15 @@ namespace Melia.Channel.World
 				owner.PreparingSkillId = 0;
 			}
 
-			// Check if caster has enough SP
-			if (caster.Sp < (int)this.GetData().SpendSP)
+			if (owner is Character)
 			{
-				Log.Debug("caster {0} has no enough sp to cast skill {1}, currentSp{3} neededSp{2}", caster.Handle, this.Data.Id, this.GetData().SpendSP, caster.Sp);
-				return false;
+				Character caster = (Character)owner;
+				// Check if caster has enough SP
+				if (caster.Sp < (int)this.GetData().SpendSP)
+				{
+					Log.Debug("caster {0} has no enough sp to cast skill {1}, currentSp{3} neededSp{2}", caster.Handle, this.Data.Id, this.GetData().SpendSP, caster.Sp);
+					return false;
+				}
 			}
 
 			return true;
@@ -264,8 +269,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		private void PerformCast(SkillDataComponent skillComp = null)
 		{
-			Character caster = (Character)owner;
-			var map = ChannelServer.Instance.World.GetMap(caster.MapId);
+			var map = owner.Map;
 
 			// Send event
 			EventData evData = new EventData();
@@ -395,6 +399,9 @@ namespace Melia.Channel.World
 				default:
 					this.GetData().EffectId = 0;
 					break;
+				case 50045:
+					this.Data.Type = SkillType.GROUND;
+					break;
 
 			}
 
@@ -411,13 +418,13 @@ namespace Melia.Channel.World
 						Position skillPosition;
 						if (this.GetData().TargetType == TargetType.SELF)
 						{
-							skillPosition = new Position(caster.Direction.Cos + caster.Position.X, caster.Position.Y, caster.Direction.Sin + caster.Position.Z);
+							skillPosition = new Position(owner.Direction.Cos + owner.Position.X, owner.Position.Y, owner.Direction.Sin + owner.Position.Z);
 						} else
 						{
-							skillPosition = new Position(40 * caster.Direction.Cos + caster.Position.X, caster.Position.Y, 40 * caster.Direction.Sin + caster.Position.Z);
+							skillPosition = new Position(40 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 40 * owner.Direction.Sin + owner.Position.Z);
 						}
 						
-						var skillDirection = new Direction(caster.Direction.Cos, caster.Direction.Sin);
+						var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
 
 						// Initialize other specific variables
 						if (this.GetData().MaxInteractions > 0)
@@ -426,24 +433,24 @@ namespace Melia.Channel.World
 						}
 
 						// Initialize ground skill
-						PESkill.Init(map, this, caster.Handle, skillPosition, skillDirection);
+						PESkill.Init(map, this, owner, skillPosition, skillDirection);
 						
 						// Place skill actor in map
 						PESkill.Enable();
 
 						// Notify client
-						Send.ZC_NORMAL_Unkown_1c(caster, 0, caster.Position, caster.Direction, this.Position);
-						Send.ZC_SKILL_MELEE_GROUND(caster, this.Id, this.Position, this.Direction); // This packet should be sent from inside SkillGround?
+						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
+						Send.ZC_SKILL_MELEE_GROUND(owner, this.Id, this.Position, this.Direction); // This packet should be sent from inside SkillGround?
 						break;
 					}
 				case SkillType.ACTOR:
 					{
 						
-						Send.ZC_NORMAL_Unkown_1c(caster, 0, caster.Position, caster.Direction, this.Position);
+						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
 
 						if (skillComp.target == null)
 						{
-							Send.ZC_NORMAL_Unkown_3f(caster, this, caster.Direction);
+							Send.ZC_NORMAL_Unkown_3f(owner, this, owner.Direction);
 							return;
 						}
 							
@@ -464,9 +471,18 @@ namespace Melia.Channel.World
 				default:
 					/// ERROR
 					break;
-
 			}
 
+			
+			int ShootTime = 1300;
+			this.owner.ShootTime = new Timer(new TimerCallback(ShootTimeTask), null, ShootTime, Timeout.Infinite);
+
+		}
+
+		public void ShootTimeTask(Object obj)
+		{
+			this.owner.ShootTime.Dispose();
+			this.owner.ShootTime = null;
 		}
 
 		/// <summary>

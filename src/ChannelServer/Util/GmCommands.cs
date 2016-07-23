@@ -390,8 +390,8 @@ namespace Melia.Channel.Util
 				monster.Position = pos;
 				monster.Direction = dir;
 
-				monster.AI = new AIBase(monster);
-				monster.AI.SetIntention(IntentionTypes.AI_INTENTION_FOLLOW, character);
+				monster.AI = new AIMonster(monster);
+				monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE, character);
 
 				target.Map.AddMonster(monster);
 			}

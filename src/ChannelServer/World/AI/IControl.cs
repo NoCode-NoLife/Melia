@@ -31,5 +31,6 @@ namespace Melia.Channel.World.AI
 		AI_EVENT_ATTACKED,
 		AI_EVENT_READY_TO_ACT,
 		AI_EVENT_DEAD,
+		AI_EVENT_ARRIVED,
 	}
 }

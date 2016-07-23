@@ -17,6 +17,57 @@ namespace Melia.Shared.Data.Database
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
+
+		// Collision Radious?
+		public int CollisionRadious { get; set; } // SurroundSize?
+
+		// GuardImpactTime == Time it is shocked after impact? (in a flashing state) -- I think this value is in hit list info
+		// HitRng ==
+		// Search Range == When following or aggro mob?
+		// NumOfAttacks == 3 ?? Kepa hits 3 times per attack? 
+		// HitTime1 / HitTime2 / HitTime3
+		// BornTime (Inmunity time when born? or what?)
+		// DeadTime (Time the corpse is in floor?)
+		// DyingTime (time it takes animation for dying?)
+		// MinR = Min Range of attack?
+		// MaxR = Max Range of attack?
+
+		// SplRange ==
+		// SplLimit
+		// SplDamage
+		// BuffFreq (frquenciy it makes buffs)?
+		// Ratio
+		// PreDelay
+		// LifeTime
+		// Range
+		// AppTime
+		// Mass
+		// Hit
+		// Hits
+		/*
+		public MonsterRace Race { get; set; }
+		public ArmorType ArmorType { get; set; }
+		public MonsterSize Size { get; set; }
+		public WeaponTypes WeaponType { get; set; }
+		*/
+
+
+
+		// Stats
+		public int STR { get; set; }
+		public int CON { get; set; }
+		public int INT { get; set; }
+		public int DEX { get; set; }
+		public int MNA { get; set; }
+
+		// Movement
+		public int WalkSpeed { get; set; }
+		public int RunSpeed { get; set; }
+
+		// Attack info
+		public int ATK_RANGE { get; set; }
+
+
 	}
 
 	/// <summary>
@@ -48,6 +99,14 @@ namespace Melia.Shared.Data.Database
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");
 			info.ClassExp = entry.ReadInt("classExp");
+			if (entry.ContainsKey("walkspeed"))
+			{
+				info.WalkSpeed = entry.ReadInt("walkSpeed");
+			}
+			if (entry.ContainsKey("runSpeed"))
+			{
+				info.RunSpeed = entry.ReadInt("runSpeed");
+			}
 
 			this.Entries[info.Id] = info;
 		}
