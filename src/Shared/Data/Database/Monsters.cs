@@ -17,9 +17,10 @@ namespace Melia.Shared.Data.Database
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
+		public int Hp { get; set; }
 
 		// Collision Radious?
-		public int CollisionRadious { get; set; } // SurroundSize?
+		public int CollisionRadious { get; set; }
 
 		// GuardImpactTime == Time it is shocked after impact? (in a flashing state) -- I think this value is in hit list info
 		// HitRng ==
@@ -99,6 +100,10 @@ namespace Melia.Shared.Data.Database
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");
 			info.ClassExp = entry.ReadInt("classExp");
+			if (entry.ContainsKey("hp"))
+			{
+				info.Hp = entry.ReadInt("hp");
+			}
 			if (entry.ContainsKey("walkspeed"))
 			{
 				info.WalkSpeed = entry.ReadInt("walkSpeed");
@@ -107,6 +112,8 @@ namespace Melia.Shared.Data.Database
 			{
 				info.RunSpeed = entry.ReadInt("runSpeed");
 			}
+
+			info.CollisionRadious = 10;
 
 			this.Entries[info.Id] = info;
 		}

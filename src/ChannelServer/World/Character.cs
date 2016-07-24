@@ -211,7 +211,8 @@ namespace Melia.Channel.World
 			this.skillEffectsManager = new SkillEffectsManager(this);
 			this.skillEffects = new List<SkillEffect>();
 
-			this.CollisionShape = new Circle(10.0f);
+			this.Radius = 10;
+			this.CollisionShape = new Circle(this.Radius);
 			this.LastMoveTimestamp = 0f;
 
 			this.lastHpRegenTime = DateTime.Now;

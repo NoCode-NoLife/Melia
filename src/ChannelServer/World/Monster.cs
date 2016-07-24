@@ -78,18 +78,24 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Monster(int id, NpcType type)
 		{
+
+
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
+
+
 
 			this.Id = id;
 			this.NpcType = type;
 			this.Level = 1;
 			this.SDR = 1;
-			this.Hp = this.MaxHp = 100;
 			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
 
-			this.CollisionShape = new Circle(10.0f);
+
+			this.Hp = this.MaxHp = this.Data.Hp > 0 ? this.Data.Hp : 1;
+			this.Radius = this.Data.CollisionRadious > 0 ? this.Data.CollisionRadious : 10;
+			this.CollisionShape = new Circle(this.Radius);
 
 			this.statsManager = new StatsManager(this);
 			float[] baseStats = new float[(int)Stat.Stat_MAX];
@@ -353,6 +359,11 @@ namespace Melia.Channel.World
 			}
 
 			return 0;
+		}
+
+		public void ClearAggroList()
+		{
+			_aggroList.Clear();
 		}
 
 		public override void SetWalking()

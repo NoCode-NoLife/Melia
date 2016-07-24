@@ -76,7 +76,25 @@ namespace Melia.Channel.World.AI
 				return;
 			}
 
-			_entity.MoveTo(entityToFollow.Position, _distanceToFollow);
+
+			// Get the position right on the edge of entity's radius
+			float vX = entityToFollow.Position.X - _entity.Position.X;
+			float vZ = entityToFollow.Position.Z - _entity.Position.Z;
+			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ); /// TODO: We could try to avoid using Math.Sqrt() somehow.
+
+			var cos = vX / distDestination; // Adjacent / Hipotenuse
+			var sin = vZ / distDestination; // Oposit / Hipotenuse
+
+			float netDistance = distDestination - ((Actor)_entity).Radius - ((Actor)entityToFollow).Radius;
+
+			float diff = netDistance / distDestination;
+
+			float newX = _entity.Position.X + vX * diff;
+			float newZ = _entity.Position.Z + vZ * diff;
+
+			Position newPos = new Position(newX, _entity.Position.Y, newZ);
+
+			_entity.MoveTo(newPos, _distanceToFollow);
 			
 		}
 

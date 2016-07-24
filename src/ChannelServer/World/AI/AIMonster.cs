@@ -65,6 +65,7 @@ namespace Melia.Channel.World.AI
 		protected void thinkActive()
 		{
 			Log.Debug("thinkActive called. _globalAggro {0}", _globalAggro);
+
 			// Check if just spawned, to prevent attack right away
 			if (_globalAggro != 0)
 			{
@@ -125,8 +126,7 @@ namespace Melia.Channel.World.AI
 			Circle skillRange = new Circle(_entity.Radius + attackSkill.GetData().MaxRange);
 			skillRange.Position = _entity.Position;
 
-			Log.Debug("attackSkill r {0}", attackSkill.GetData().MaxRange);
-			Log.Debug("_entity r {0}", _entity.Radius);
+			Log.Debug("attackSkill r {0} _entity r {1} attacker r {2} ", attackSkill.GetData().MaxRange, _entity.Radius, ((Actor)_attackTarget).Radius);
 			Log.Debug("Distance {0}", _entity.Position.Get2DDistance(_attackTarget.Position));
 
 			if (skillRange.IntersectWith(_attackTarget.CollisionShape))
@@ -136,7 +136,7 @@ namespace Melia.Channel.World.AI
 			} else
 			{
 				//this.ChaseTarget(_attackTarget, (int)(_entity.Radius + attackSkill.GetData().MaxRange));
-				this.moveToEntity(_attackTarget, (int)(_entity.Radius + attackSkill.GetData().MaxRange));
+				this.moveToEntity(_attackTarget, (int)attackSkill.GetData().MaxRange);
 			}
 			
 		}

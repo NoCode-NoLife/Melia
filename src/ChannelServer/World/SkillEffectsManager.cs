@@ -135,26 +135,6 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// This function is in charge of removing all expired effects in this actor. Updates client accordingly.
-		/// The function is called every actor's tick.
-		/// </summary>
-		public void RemoveExpiredEffects()
-		{
-			// Lock effects list
-			lock (effects)
-			{
-				// Check which effect expired, and removing them from this actor.
-				for (int i = effects.Count - 1; i >= 0; i--)
-				{
-					if (!effects[i].Data.IsPermanent && effects[i].expireTime < DateTime.Now)
-					{
-						//RemoveEffectByIndex(i);
-					}
-				}
-			}
-		}
-
-		/// <summary>
 		/// This function removes all effects for a given skill. Updating client accordingly.
 		/// </summary
 		/// <param name="skill">The skill containing the effects to remvoe from this actor</param>
@@ -170,6 +150,21 @@ namespace Melia.Channel.World
 					{
 						RemoveEffectByIndex(i);
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Remove all effects for this entity
+		/// </summary>
+		/// <param name="i">index in effects List in this manager</param>
+		public void RemoveAllEffects()
+		{
+			lock (effects)
+			{
+				for (int i = effects.Count - 1; i >= 0; i--)
+				{
+					RemoveEffectByIndex(i);
 				}
 			}
 		}
