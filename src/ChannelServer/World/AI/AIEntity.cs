@@ -55,7 +55,7 @@ namespace Melia.Channel.World.AI
 
 		protected override void onIntentionAttack(IEntity entityToAttack)
 		{
-			Log.Debug("onIntentionAttack Called - entityToAttack: {0}", entityToAttack.Handle);
+			//Log.Debug("onIntentionAttack Called - entityToAttack: {0}", entityToAttack.Handle);
 			if (entityToAttack == null)
 			{
 				return;

@@ -228,7 +228,7 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		virtual public void TakeDamage(int damage, IEntity from)
 		{
-			Log.Debug("calling TakeDamage on Entity Handle {0}", this.Handle);
+			Log.Debug("calling TakeDamage on Entity Handle {0}, damage {1}", this.Handle, damage);
 			if (this.IsDead)
 				return;
 

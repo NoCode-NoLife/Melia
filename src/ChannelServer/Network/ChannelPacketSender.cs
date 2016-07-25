@@ -1728,17 +1728,14 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
 			packet.PutInt(entity.Handle);
-			//packet.PutBinFromHex("78 1A 27 00"); // ..
-			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
 			packet.PutInt(skill.GetData().EffectId);
 			packet.PutInt(skill.Id); // SkillId
 			packet.PutInt(2); // Skill Level ?
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(direction.Cos); // Direction (commented out for now)
-			packet.PutFloat(direction.Sin); // Direction (commented out for now)
-			//packet.PutFloat(0); // Angle? 
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
 			packet.PutBinFromHex("D40F49BF"); // Angle? 
 			packet.PutFloat(0); // Height?
 			packet.PutInt(actorId);
@@ -1746,7 +1743,6 @@ namespace Melia.Channel.Network
 			packet.PutInt(skillState);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			//packet.PutInt(0);
 			packet.PutBinFromHex("C80E27BA");
 			packet.PutInt(0);
 			packet.PutInt(0);

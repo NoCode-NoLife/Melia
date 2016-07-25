@@ -28,6 +28,7 @@ namespace Melia.Channel.World
 		private Dictionary<int, Character> _characters;
 		private Dictionary<int, Monster> _monsters;
 		private Dictionary<int, GroundSkill> _skills;
+		private List<SpawnZone> _spawns;
 
 		/// <summary>
 		/// Map name.
@@ -57,6 +58,7 @@ namespace Melia.Channel.World
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
 			_skills = new Dictionary<int, GroundSkill>();
+			_spawns = new List<SpawnZone>();
 
 			this.Id = id;
 			this.Name = name;
@@ -367,6 +369,21 @@ namespace Melia.Channel.World
 					return monster;
 
 			return null;
+		}
+
+		public void AddSpawnZone(SpawnData sData)
+		{
+			SpawnZone spawnZone = new SpawnZone(sData);
+			if (spawnZone == null)
+				return;
+
+			lock (_spawns)
+			{
+				spawnZone.Id = _spawns.Count;
+				_spawns.Add(spawnZone);
+				
+			}
+			spawnZone.Init();
 		}
 	}
 

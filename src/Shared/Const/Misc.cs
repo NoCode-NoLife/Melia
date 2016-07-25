@@ -65,14 +65,15 @@ namespace Melia.Shared.Const
 		public float modifierValue;
 	}
 
+	[Flags]
 	public enum TargetType
 	{
 		NONE = 0,
 		SELF = 1,
 		FRIEND = 2,
-		ENEMY = 3,
-		MONSTER = 4,
-		PARTY = 5,
+		ENEMY = 4,
+		MONSTER = 8,
+		PARTY = 16,
 
 	}
 }

@@ -13,9 +13,6 @@ namespace Melia.Channel.World.AI
 	{
 		private int _attackTimeout;
 		private const int MAX_ATTACK_TIMEOUT = 50; // Ticks amount.
-		private const int MAX_CHASE_TIMEOUT = 100; // ticks amount.
-		private bool _isChasing;
-		private int _ChasingTimeout;
 		Timer _aiTask;
 		private int _globalAggro;
 
@@ -30,13 +27,12 @@ namespace Melia.Channel.World.AI
 
 		public override void Process(Object obj)
 		{
-			Log.Debug("Process called");
 			onEvtThink();
 		}
 
 		protected override void onEvtThink()
 		{
-			Log.Debug("onEventThink called, intention {0}", this.GetIntention() );
+			//Log.Debug("onEventThink called, intention {0}", this.GetIntention() );
 			if (_thinking)
 				return;
 
@@ -64,7 +60,7 @@ namespace Melia.Channel.World.AI
 
 		protected void thinkActive()
 		{
-			Log.Debug("thinkActive called. _globalAggro {0}", _globalAggro);
+			//Log.Debug("thinkActive called. _globalAggro {0}", _globalAggro);
 
 			// Check if just spawned, to prevent attack right away
 			if (_globalAggro != 0)
@@ -87,7 +83,7 @@ namespace Melia.Channel.World.AI
 
 		protected void thinkAttack()
 		{
-			Log.Debug("thinkAttack {0}", _attackTarget);
+			//Log.Debug("thinkAttack {0}", _attackTarget);
 			if (_entity == null || !_entity.CanShoot())
 			{
 				return;
@@ -96,10 +92,10 @@ namespace Melia.Channel.World.AI
 			// Attack timeout passed, set it to walk instead of running
 			if (_attackTimeout < GameTimeController.Instance.GetGameTicks())
 			{
-				Log.Debug("is running: {0}", _entity.IsRunning());
+				//Log.Debug("is running: {0}", _entity.IsRunning());
 				if (_entity.IsRunning())
 				{
-					Log.Debug("Make the monster walk for the rest of the attack");
+					//Log.Debug("Make the monster walk for the rest of the attack");
 					// Start walking again
 					_entity.SetWalking();
 
@@ -126,49 +122,22 @@ namespace Melia.Channel.World.AI
 			Circle skillRange = new Circle(_entity.Radius + attackSkill.GetData().MaxRange);
 			skillRange.Position = _entity.Position;
 
-			Log.Debug("attackSkill r {0} _entity r {1} attacker r {2} ", attackSkill.GetData().MaxRange, _entity.Radius, ((Actor)_attackTarget).Radius);
-			Log.Debug("Distance {0}", _entity.Position.Get2DDistance(_attackTarget.Position));
+			//Log.Debug("attackSkill r {0} _entity r {1} attacker r {2} ", attackSkill.GetData().MaxRange, _entity.Radius, ((Actor)_attackTarget).Radius);
+			//Log.Debug("Distance {0}", _entity.Position.Get2DDistance(_attackTarget.Position));
 
 			if (skillRange.IntersectWith(_attackTarget.CollisionShape))
 			{
-				//this.StopChasingTarget();
 				((Monster)_entity).UseMainAttack(_attackTarget);
 			} else
 			{
-				//this.ChaseTarget(_attackTarget, (int)(_entity.Radius + attackSkill.GetData().MaxRange));
 				this.moveToEntity(_attackTarget, (int)attackSkill.GetData().MaxRange);
 			}
 			
 		}
 
-		public void ChaseTarget(IEntity entity, int distance)
-		{
-			Log.Debug("ChaseTarget");
-			if (_isChasing)
-			{
-				if (_ChasingTimeout < GameTimeController.Instance.GetGameTicks())
-				{
-					this.StopChasingTarget();
-					SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
-				}
-			} else
-			{
-				_isChasing = true;
-				_ChasingTimeout = MAX_CHASE_TIMEOUT + GameTimeController.Instance.GetGameTicks();
-			}
-
-			this.moveToEntity(entity, distance);
-		}
-
-		public void StopChasingTarget()
-		{
-			Log.Debug("Stop chasing target");
-			_isChasing = false;
-		}
-
 		protected override void onEvtAttacked(IEntity attacker)
 		{
-			Log.Debug("onEvtAttacked Called - attacker: {0}", attacker.Handle);
+			//Log.Debug("onEvtAttacked Called - attacker: {0}", attacker.Handle);
 			_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.Instance.GetGameTicks();
 
 			// Set the _globalAggro to 0 to permit attack even just after spawn
@@ -218,17 +187,17 @@ namespace Melia.Channel.World.AI
 
 		public void StartAITask()
 		{;
-			Log.Debug("StartAITask");
+			//Log.Debug("StartAITask");
 			if (_aiTask == null)
 			{
-				_aiTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(new TimerCallback(this.Process), null, 1000, 1000);
+				_aiTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(this.Process, null, 1000, 1000);
 			}
 				
 		}
 
 		public void StopAITask()
 		{
-			Log.Debug("StopAITask");
+			//Log.Debug("StopAITask");
 			if (_aiTask != null)
 			{
 				_aiTask.Dispose();

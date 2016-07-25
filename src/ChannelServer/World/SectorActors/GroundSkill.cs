@@ -170,7 +170,8 @@ namespace Melia.Channel.World.SectorActors
 			Map.AddSkill(this);
 
 			// Broadcast effect.
-			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
+			if (ownerSkill.GetData().EffectId > 0) 
+				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
 		}
 
 		/// <summary>
@@ -205,11 +206,11 @@ namespace Melia.Channel.World.SectorActors
 			switch (ownerSkill.GetData().SplashType)
 			{
 				case SplashType.Square:
-					skillShape = new Circle(10.0f);
+					skillShape = new Circle(30.0f);
 					//skillShape = new Square(this.Data.SplashHeight, this.Data.SplashHeight);
 					break;
 				case SplashType.Circle:
-					skillShape = new Circle(10.0f);
+					skillShape = new Circle(30.0f);
 					break;
 				case SplashType.Fan:
 					skillShape = new Cone(ownerSkill.GetData().SplashAngle, ownerSkill.GetData().SplashRange);
@@ -229,13 +230,8 @@ namespace Melia.Channel.World.SectorActors
 		public bool OnVisit(Actor actor)
 		{
 			// check if attackable (Target mask!)
-			/*
-			if (entity.GetType() != typeof(Character))
-				return true;
-			*/
 			if (actor is IEntity)
 			{
-				Log.Debug("Visited actor {0} is type {1}.", actor.Handle, this.ownerSkill.owner.GetTargetType((IEntity)actor));
 				if ((this.ownerSkill.GetData().TargetType & this.ownerSkill.owner.GetTargetType((IEntity)actor)) == Shared.Const.TargetType.NONE)
 				{
 					return true;
@@ -281,7 +277,9 @@ namespace Melia.Channel.World.SectorActors
 			var sResult = this.ownerSkill.ProcessSkill(actor, this);
 			// Add result to list for later processing
 			if (sResult != null)
+			{
 				skillResults.Add(sResult);
+			}
 		}
 
 		/// <summary>

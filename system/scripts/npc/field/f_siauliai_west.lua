@@ -123,3 +123,5 @@ addnpc(47239, "ETC_20150317_009346", "f_siauliai_west", -751.0155, 260.8254, -36
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", -2004.07, 260.93, -940.17, -45, "npc_dummy")
 addnpc(147393, "ETC_20150317_009082", "f_siauliai_west", 185.81, 210.31, -856.9, 45, "npc_dummy")
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", 1346.05, 210.31, -1087.24, 45, "npc_dummy")
+
+addspawn("spawn1", "f_siauliai_west", "Kepa", -673, -600, -1087, -1011, 10, 2, 15, 0, 0.0,0.0,0.0, 45);

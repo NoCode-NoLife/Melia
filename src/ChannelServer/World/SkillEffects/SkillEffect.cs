@@ -182,7 +182,7 @@ namespace Melia.Channel.World.SkillEffects
 
 		public void StartTask()
 		{
-			TasksPoolManager.Instance.AddGeneralTask(new System.Threading.TimerCallback(startScheduledEffect), null, 0);
+			TasksPoolManager.Instance.AddGeneralTask(startScheduledEffect, null, 0);
 		}
 
 		public void Exit()
@@ -205,11 +205,11 @@ namespace Melia.Channel.World.SkillEffects
 				// schedule next task
 				if (this.behaviorType == EffectBehaviorType.BUFF)
 				{
-					_futureTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(new TimerCallback(startScheduledEffect), null, 5, (int)_tickRate);
+					_futureTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(startScheduledEffect, null, 5, (int)_tickRate);
 				}
 				else
 				{
-					_futureTask = TasksPoolManager.Instance.AddGeneralTask(new TimerCallback(startScheduledEffect), null, (int)this.Data.LifeTime * 1000);
+					_futureTask = TasksPoolManager.Instance.AddGeneralTask(startScheduledEffect, null, (int)this.Data.LifeTime * 1000);
 				}
 			}
 

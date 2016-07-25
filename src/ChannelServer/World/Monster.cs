@@ -72,6 +72,8 @@ namespace Melia.Channel.World
 
 		public bool isMoving = false;
 
+		public SpawnZone spawnZone;
+
 
 		/// <summary>
 		/// Creates new NPC.
@@ -91,7 +93,6 @@ namespace Melia.Channel.World
 			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
-
 
 			this.Hp = this.MaxHp = this.Data.Hp > 0 ? this.Data.Hp : 1;
 			this.Radius = this.Data.CollisionRadious > 0 ? this.Data.CollisionRadious : 10;
@@ -203,7 +204,13 @@ namespace Melia.Channel.World
 
 			this.IsDead = true;
 
+			if (this.spawnZone != null)
+			{
+				this.spawnZone.NotifyEntityDeath(this.Handle);
+			}
+
 			Send.ZC_DEAD(this);
+
 		}
 
 		public bool OnVisit(Actor actor)

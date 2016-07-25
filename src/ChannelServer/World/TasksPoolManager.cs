@@ -7,33 +7,85 @@ using System.Threading;
 
 namespace Melia.Channel.World
 {
+	public class CbFunctionData
+	{
+		public TasksPoolManager.TimerCallbackFunction cbFunction;
+		public Object obj;
+	}
+
 	public class TasksPoolManager
 	{
 		public static readonly TasksPoolManager Instance = new TasksPoolManager();
 
 		public List<Timer> generalTimers;
 
+		public delegate void TimerCallbackFunction(Object obj);
+
+		public Dictionary<CbFunctionData, Timer> timerCallbacks;
+
 		private TasksPoolManager()
 		{
 			generalTimers = new List<Timer>();
+
+			this.timerCallbacks = new Dictionary<CbFunctionData, Timer>();
 		}
 
 
-		public Timer AddGeneralTask(TimerCallback action, Object obj, int delay)
+		public Timer AddGeneralTask(TimerCallbackFunction action, Object obj, int delay)
 		{
-			return new Timer(action, obj, delay, Timeout.Infinite);
+			CbFunctionData data = new CbFunctionData();
+			data.cbFunction = action;
+			data.obj = obj;
+			Timer t = new Timer(new TimerCallback(ExecuteTask), data, delay, Timeout.Infinite);
+
+			lock (this.timerCallbacks)
+				this.timerCallbacks.Add(data, t);
+
+			this.generalTimers.Add(t);
+			return t;
 		}
 
-		public Timer AddGeneralTaskAtFixedRate(TimerCallback action, Object obj, int initial, int delay)
+		public Timer AddGeneralTaskAtFixedRate(TimerCallbackFunction action, Object obj, int initial, int delay)
 		{
-			return new Timer(action, obj, initial, delay);
+			TimerCallback timerCb = new TimerCallback(action);
+			return new Timer(timerCb, obj, initial, delay);
 		}
 
 		public void RemoveGeneralTask(Timer t, double delay)
 		{
+			/// TODO
+			/// 
+
 			//t.Change(Timeout.Infinite, Timeout.Infinite);
 			t.Dispose();
-			t = null;
+
+		}
+
+		public void ExecuteTask(Object obj)
+		{
+			try
+			{
+				Timer t;
+				lock (this.timerCallbacks)
+				{
+					CbFunctionData cbFunctionData = (CbFunctionData)obj;
+					if (this.timerCallbacks.TryGetValue(cbFunctionData, out t))
+					{
+						cbFunctionData.cbFunction.Invoke(cbFunctionData.obj);
+					}
+					t.Dispose();
+					this.timerCallbacks.Remove(cbFunctionData);
+				}
+			}
+			catch
+			{
+
+			}
+		}
+
+		private void TaskMaintenance(Object obj)
+		{
+
 		}
 
 	}

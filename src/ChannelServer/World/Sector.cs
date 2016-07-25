@@ -301,7 +301,7 @@ namespace Melia.Channel.World
 			}
 
 			Object obj = new Object();
-			_neighborsTask = TasksPoolManager.Instance.AddGeneralTask(new TimerCallback(ProcessNeighborsActivation), obj, 1000 * NEIGHBORS_ACTIVATE_DELAY_TIME);
+			_neighborsTask = TasksPoolManager.Instance.AddGeneralTask(ProcessNeighborsActivation, obj, 1000 * NEIGHBORS_ACTIVATE_DELAY_TIME);
 		}
 
 		private void StartDeactivation()
@@ -311,7 +311,7 @@ namespace Melia.Channel.World
 				_neighborsTask.Dispose();
 			}
 
-			_neighborsTask = TasksPoolManager.Instance.AddGeneralTask(new TimerCallback(ProcessNeighborsActivation), null, 1000 * NEIGHBORS_ACTIVATE_DELAY_TIME);
+			_neighborsTask = TasksPoolManager.Instance.AddGeneralTask(ProcessNeighborsActivation, null, 1000 * NEIGHBORS_ACTIVATE_DELAY_TIME);
 		}
 
 		public void ProcessNeighborsActivation(Object obj)
