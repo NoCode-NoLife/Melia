@@ -65,6 +65,10 @@ namespace Melia.Shared.Data.Database
 		public int CoolDown { get; set; }
 		public int CancelTime { get; set; }
 		public int HitDelay { get; set; }
+		public int AttackAdd { get; set; } // Amount of attack for this skill level
+		public bool EnableShootMove { get; set; }
+		public bool EnableShootRotate { get; set; }
+		public int SkillFactor { get; set; }
 
 		public List<SkillEffectData> effects;
 
@@ -126,7 +130,8 @@ namespace Melia.Shared.Data.Database
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("skillId", "level", "className", "engName", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate",
-				"spConsume", "lifeTime", "visualEffectId", "isInstant", "maxInteractions", "effectsDependOnSkill", "activateOnce", "effects", "hitDelay", "shootTime", "preparationTime", "charges", "cooldown");
+				"spConsume", "lifeTime", "visualEffectId", "isInstant", "maxInteractions", "effectsDependOnSkill", "activateOnce", "effects", "hitDelay", "shootTime", "preparationTime", 
+				"charges", "cooldown", "type", "attackValue", "canShootMove", "canShootRotate");
 
 			var info = new SkillData();
 
@@ -184,6 +189,29 @@ namespace Melia.Shared.Data.Database
 				}
 				
 			}
+			String skillType = entry.ReadString("type");
+			switch (skillType)
+			{
+				case "GROUND":
+					{
+						info.Type = SkillType.GROUND;
+						break;
+					}
+				case "ACTOR":
+					{
+						info.Type = SkillType.ACTOR;
+						break;
+					}
+				default:
+					{
+						info.Type = SkillType.GROUND;
+						break;
+					}
+			}
+			info.AttackAdd = entry.ReadInt("attackValue");
+			info.EnableShootMove = entry.ReadBool("canShootMove");
+			info.EnableShootRotate = entry.ReadBool("canShootRotate");
+			info.SkillFactor = entry.ReadInt("skillFactor");
 
 			info.effects = this.ReadClassSkillEffectEntry(entry);
 

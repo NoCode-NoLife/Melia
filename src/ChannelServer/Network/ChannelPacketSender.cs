@@ -983,10 +983,10 @@ namespace Melia.Channel.Network
 			if (properties == null || properties.Length == 0)
 				return;
 
-			Log.Debug("ZC_OBJECT_PROPERTY Skill: {0} {1}", skill.Id, skill.GetData().SpendSP);
+			Log.Debug("ZC_OBJECT_PROPERTY Skill: ID: {0} Cooldown:{1} _worldId {2}", skill.Id, skill.Data.CoolDown, skill.WorldId);
 
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-			packet.PutLong(skill._worldId);
+			packet.PutLong(skill.WorldId);
 			foreach (var property in properties)
 			{
 				packet.PutShort(property);
@@ -995,29 +995,30 @@ namespace Melia.Channel.Network
 					// Level up existing skill
 					case ObjectProperty.Skill.Level: packet.PutFloat((float)skill.level); break;
 					case ObjectProperty.Skill.LevelByDB: packet.PutFloat((short)skill.level); break;
-					case ObjectProperty.Skill.SpendSP: packet.PutFloat((float)skill.GetData().SpendSP); break;
-					case ObjectProperty.Skill.SkillAtkAdd: packet.PutFloat(12.0f); break;
+					case ObjectProperty.Skill.SpendSP: packet.PutFloat((float)skill.Data.SpendSP); break;
+					case ObjectProperty.Skill.SkillAtkAdd: packet.PutFloat((float)skill.Data.AttackAdd); break;
 
-					case ObjectProperty.Skill.CoolDown: packet.PutFloat(27000.0f); break;
-					case ObjectProperty.Skill.SpendItemCount: packet.PutFloat(0.0f); break; //
-					case ObjectProperty.Skill.SplAngle: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.CoolDown: packet.PutFloat((float)skill.Data.CoolDown); break;
+					case ObjectProperty.Skill.BasicCoolDown: packet.PutFloat((float)skill.Data.CoolDown); break;
+					case ObjectProperty.Skill.SpendItemCount: packet.PutFloat(0.0f); break; // SpendItemBaseCount
+					case ObjectProperty.Skill.SplAngle: packet.PutFloat((float)skill.Data.SplashAngle); break;
 					case ObjectProperty.Skill.SR: packet.PutFloat(1.0f); break;
-					case ObjectProperty.Skill.SplRange: packet.PutFloat(18.0f); break; //
+					case ObjectProperty.Skill.SplRange: packet.PutFloat((float)skill.Data.SplashRange); break; //
 					case ObjectProperty.Skill.MaxR: packet.PutFloat(100.0f); break; //
 					
 					case ObjectProperty.Skill.WaveLength: packet.PutFloat(0.0f); break;
 					case ObjectProperty.Skill.BackHitRange: packet.PutFloat(0.0f); break;
-					case ObjectProperty.Skill.UseOverHeat: packet.PutFloat(0.0f); break;
+					case ObjectProperty.Skill.UseOverHeat: packet.PutFloat(0.0f); break; // UseOverHit
 					case ObjectProperty.Skill.SkillASPD: packet.PutFloat(1.0f); break;
 					case ObjectProperty.Skill.SkillSR: packet.PutFloat(4.0f); break;
 					case ObjectProperty.Skill.SklSpdRate: packet.PutFloat(1.0f); break;
 					case ObjectProperty.Skill.SpendPoison: packet.PutFloat(0.0f); break;
-					case ObjectProperty.Skill.SpendSta: packet.PutFloat(0.0f); break;
-					case ObjectProperty.Skill.Skill_Delay:	packet.PutFloat(0.0f); break;
-					case ObjectProperty.Skill.ReadyTime: packet.PutFloat(250.0f); break; //
-					case ObjectProperty.Skill.EnableShootMove: packet.PutFloat(1.0f); break;
-					case ObjectProperty.Skill.AbleShootRotate: packet.PutFloat(0.0f); break;
-					case ObjectProperty.Skill.SkillFactor: packet.PutFloat(100.0f); break;
+					case ObjectProperty.Skill.SpendSta: packet.PutFloat(0.0f); break; // BasicSta
+					case ObjectProperty.Skill.Skill_Delay:	packet.PutFloat(0.0f); break; // DelayTime ?
+					case ObjectProperty.Skill.ReadyTime: packet.PutFloat(250.0f); break; // ReadyFix ? Seems to.
+					case ObjectProperty.Skill.EnableShootMove: packet.PutFloat(skill.Data.EnableShootMove ? 1f : 0f); break; // EnableShootMove
+					case ObjectProperty.Skill.AbleShootRotate: packet.PutFloat(skill.Data.EnableShootRotate ? 1f : 0f); break; // EnableShootRotate
+					case ObjectProperty.Skill.SkillFactor: packet.PutFloat((float)skill.Data.SkillFactor); break; // SkillFactor + SkillFactorByLv
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}

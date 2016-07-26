@@ -25,12 +25,14 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// 
 		/// </summary>
-		public long _worldId;
+		private static long _worldId = 0x0030000000000000;
 
 		/// <summary>
 		/// Skill ID
 		/// </summary>
 		public int Id;
+
+		public long WorldId { get; private set; }
 
 		/// <summary>
 		/// Skill level
@@ -69,7 +71,7 @@ namespace Melia.Channel.World
 		/// <param name="level">The level of this skill</param>
 		public Skill(int skillId, int level)
 		{
-			this._worldId = Interlocked.Increment(ref _worldId) + 0x30000000000000;
+			this.WorldId = Interlocked.Increment(ref _worldId);
 			this.level = level;
 			this.Id = skillId;
 			this.LoadData();

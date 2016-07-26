@@ -5,6 +5,7 @@ using System;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Channel.World;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.Network.Helpers
 {
@@ -12,7 +13,8 @@ namespace Melia.Channel.Network.Helpers
 	{
 		public static void AddSkill(this Packet packet, Skill skill)
 		{
-			packet.PutLong(skill._worldId); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
+			Log.Debug("AddSkill called. SkillID {0}, SWorldId {1}", skill.Id, skill.WorldId);
+			packet.PutLong(skill.WorldId); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
 			packet.PutInt(skill.Id);
 			packet.PutShort(6 * 22); // properties size
 			packet.PutEmptyBin(2); // alignment
@@ -21,17 +23,17 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutEmptyBin(2); // alignment
 			// Properties
 			packet.PutShort(ObjectProperty.Skill.Level);
-			packet.PutFloat(skill.level);
+			packet.PutFloat((float)skill.level);
 			packet.PutShort(ObjectProperty.Skill.CoolDown);
-			packet.PutFloat(500.0f); // 10
+			packet.PutFloat((float)skill.Data.CoolDown);
 			packet.PutShort(ObjectProperty.Skill.SpendItemCount);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SplRange);
-			packet.PutFloat(20.0f);
+			packet.PutFloat((float)skill.Data.SplashRange);
 			packet.PutShort(ObjectProperty.Skill.MaxR);
 			packet.PutFloat(140.0f);
 			packet.PutShort(ObjectProperty.Skill.SplAngle);
-			packet.PutFloat(0.0f);
+			packet.PutFloat((float)skill.Data.SplashAngle);
 			packet.PutShort(ObjectProperty.Skill.SklSpdRate);
 			packet.PutFloat(1.0f);
 			packet.PutShort(ObjectProperty.Skill.SpendSta);
@@ -43,15 +45,15 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutShort(ObjectProperty.Skill.ReadyTime);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.EnableShootMove);
-			packet.PutFloat(1.0f);
+			packet.PutFloat(skill.Data.EnableShootMove ? 1f : 0f);
 			packet.PutShort(ObjectProperty.Skill.AbleShootRotate);
-			packet.PutFloat(0.0f);
+			packet.PutFloat(skill.Data.EnableShootRotate ? 1f : 0f);
 			packet.PutShort(ObjectProperty.Skill.SpendPoison);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SpendSP);
-			packet.PutFloat(0.0f);  // packet.PutFloat(skill.Data.SpendSP);
+			packet.PutFloat((float)skill.Data.SpendSP);  // packet.PutFloat(skill.Data.SpendSP);
 			packet.PutShort(ObjectProperty.Skill.SkillFactor);
-			packet.PutFloat(100.0f);
+			packet.PutFloat((float)skill.Data.SkillFactor);
 			packet.PutShort(ObjectProperty.Skill.SR);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.WaveLength);
@@ -59,7 +61,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutShort(ObjectProperty.Skill.BackHitRange);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SkillAtkAdd);
-			packet.PutFloat(0.0f);
+			packet.PutFloat((float)skill.Data.AttackAdd);
 			packet.PutShort(ObjectProperty.Skill.SkillASPD);
 			packet.PutFloat(1.0f);
 			packet.PutShort(ObjectProperty.Skill.UseOverHeat);
