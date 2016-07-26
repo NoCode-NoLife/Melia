@@ -324,7 +324,7 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			character.StopMove(x, y, z, dx, dy, unkFloat);
+			//character.StopMove(x, y, z, dx, dy, unkFloat);
 
 			// In the packets I don't see any indication for a client-side trigger,
 			// so I guess the server has to check for warps and initiate it all
@@ -1235,8 +1235,10 @@ namespace Melia.Channel.Network
 
 			if (skill != null)
 			{
-				skill.Direction = target.Direction;
-				character.CastSkill(skill, target);
+
+				//character.CastSkill(skill, target);
+				character.AI.SetIntention(World.AI.IntentionTypes.AI_INTENTION_ATTACK, target, skill);
+
 				/*
 				SkillResult result = new SkillResult();
 				result.actor = target;

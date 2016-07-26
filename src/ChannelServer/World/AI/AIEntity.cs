@@ -53,46 +53,17 @@ namespace Melia.Channel.World.AI
 			SetIntention(IntentionTypes.AI_INTENTION_REST);
 		}
 
-		protected override void onIntentionAttack(IEntity entityToAttack)
+		protected override void onIntentionAttack(IEntity entityToAttack, Skill skill)
 		{
 			//Log.Debug("onIntentionAttack Called - entityToAttack: {0}", entityToAttack.Handle);
-			if (entityToAttack == null)
-			{
-				return;
-			}
+			_skill = skill;
+			_attackTarget = entityToAttack;
 
-			if (this.GetIntention() == IntentionTypes.AI_INTENTION_ATTACK)
-			{
-				// Check if changed target
-				if (entityToAttack != _attackTarget)
-				{
-					// Change intention to attack
-					this.ChangeIntention(IntentionTypes.AI_INTENTION_ATTACK);
+			this.StopFollow();
 
-					// Set attack target
-					_attackTarget = entityToAttack;
-
-					// Stop follow just n case
-					this.StopFollow();
-
-					// Think
-					this.onEvtThink();
-				}
-			}
-			else
-			{
-				// Change intention to attack
+			if (this.GetIntention() != IntentionTypes.AI_INTENTION_ATTACK)
 				this.ChangeIntention(IntentionTypes.AI_INTENTION_ATTACK);
 
-				// Set attack target
-				_attackTarget = entityToAttack;
-
-				// Stop follow just n case
-				this.StopFollow();
-
-				// Think
-				this.onEvtThink();
-			}
 		}
 
 		protected override void onIntentionCast(Skill skill, IEntity target)
@@ -113,6 +84,8 @@ namespace Melia.Channel.World.AI
 		{
 			/// TODO
 			/// 
+
+			ChangeIntention(IntentionTypes.AI_INTENTION_MOVETO, pos);
 
 			base.onIntentionMoveTo(pos);
 		}

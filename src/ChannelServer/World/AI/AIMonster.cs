@@ -12,9 +12,12 @@ namespace Melia.Channel.World.AI
 	public class AIMonster : AIEntity
 	{
 		private int _attackTimeout;
-		private const int MAX_ATTACK_TIMEOUT = 50; // Ticks amount.
+		private const int MAX_ATTACK_TIMEOUT = 600; // Ticks amount.
 		Timer _aiTask;
 		private int _globalAggro;
+		private const int WALK_RANGE_FROM_SPAWN_POSITION = 150;
+		//private int MAX_RETURNING_HOME_TIMEOUT = 100; // 10 seconds at 10 ticks per second.
+		//private int _returningHomeTimeout;
 
 		protected Monster _entityMonster;
 
@@ -76,6 +79,15 @@ namespace Melia.Channel.World.AI
 					this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
 				} else
 				{
+					// Return home if its far away
+					if (_entityMonster.spawnZone != null) {
+						if (_entity.Position.Get2DDistance(_entityMonster.spawnPosition) - _entity.Radius > WALK_RANGE_FROM_SPAWN_POSITION)
+						{
+							this.onIntentionMoveTo(_entityMonster.spawnPosition);
+							return;
+						}
+
+					}
 					this.SetIntention(IntentionTypes.AI_INTENTION_IDLE);
 				}
 			}
@@ -127,7 +139,7 @@ namespace Melia.Channel.World.AI
 
 			if (skillRange.IntersectWith(_attackTarget.CollisionShape))
 			{
-				((Monster)_entity).UseMainAttack(_attackTarget);
+				_entity.CastSkill(_entityMonster.mainAttackSkill, _attackTarget);
 			} else
 			{
 				this.moveToEntity(_attackTarget, (int)attackSkill.GetData().MaxRange);
@@ -186,7 +198,7 @@ namespace Melia.Channel.World.AI
 		}
 
 		public void StartAITask()
-		{;
+		{
 			//Log.Debug("StartAITask");
 			if (_aiTask == null)
 			{
@@ -205,10 +217,17 @@ namespace Melia.Channel.World.AI
 			}
 		}
 
-		protected override void onIntentionAttack(IEntity entityToAttack)
+		protected override void onIntentionAttack(IEntity entityToAttack, Skill skill)
 		{
+			//Log.Debug("onIntentionAttack Called - entityToAttack: {0}", entityToAttack.Handle);
+			if (entityToAttack == null)
+			{
+				return;
+			}
+
 			_attackTimeout = MAX_ATTACK_TIMEOUT + GameTimeController.Instance.GetGameTicks();
-			base.onIntentionAttack(entityToAttack);
+
+			base.onIntentionAttack(entityToAttack, skill);
 		}
 
 		protected override void onIntentionIdle()

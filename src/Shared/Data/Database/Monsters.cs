@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Util;
 
 namespace Melia.Shared.Data.Database
 {
@@ -76,10 +77,10 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MonsterDb : DatabaseJsonIndexed<int, MonsterData>
 	{
-		public MonsterData Find(string name)
+		public MonsterData FindByClassName(string name)
 		{
 			name = name.ToLower();
-			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
+			return this.Entries.FirstOrDefault(a => a.Value.ClassName.ToLower() == name).Value;
 		}
 
 		public List<MonsterData> FindAll(string name)
@@ -102,7 +103,9 @@ namespace Melia.Shared.Data.Database
 			info.ClassExp = entry.ReadInt("classExp");
 			if (entry.ContainsKey("hp"))
 			{
+				
 				info.Hp = entry.ReadInt("hp");
+				Log.Debug("Read HP {0}", info.Hp);
 			}
 			if (entry.ContainsKey("walkspeed"))
 			{

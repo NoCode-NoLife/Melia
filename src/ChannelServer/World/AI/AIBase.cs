@@ -139,7 +139,7 @@ namespace Melia.Channel.World.AI
 					onIntentionFollow((IEntity) arg0);
 					break;
 				case IntentionTypes.AI_INTENTION_ATTACK:
-					onIntentionAttack((IEntity)arg0);
+					onIntentionAttack((IEntity)arg0, (Skill)arg1);
 					break;
 				case IntentionTypes.AI_INTENTION_REST:
 					onIntentionRest();
@@ -200,7 +200,7 @@ namespace Melia.Channel.World.AI
 
 		}
 
-		protected virtual void onIntentionAttack(IEntity entityToAttack) { }
+		protected virtual void onIntentionAttack(IEntity entityToAttack, Skill skill) { }
 		protected virtual void onIntentionRest() { }
 		protected virtual void onIntentionCast(Skill skill, IEntity target) { }
 

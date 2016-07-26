@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.World.Shapes;
 using Melia.Channel.World.SkillEffects;
+using Melia.Channel.World.AI;
 
 namespace Melia.Channel.World
 {
@@ -106,12 +107,6 @@ namespace Melia.Channel.World
 
 
 		private Map _map = Map.Limbo;
-
-		/// <summary>
-		/// Gets or sets whether the character is moving.
-		/// </summary>
-		private bool IsMoveStop { get; set; }
-		private float LastMoveTimestamp { get; set; }
 
 		private Position _destination { get; set; }
 
@@ -213,10 +208,11 @@ namespace Melia.Channel.World
 
 			this.Radius = 10;
 			this.CollisionShape = new Circle(this.Radius);
-			this.LastMoveTimestamp = 0f;
 
 			this.lastHpRegenTime = DateTime.Now;
 			this.lastSpRegenTime = DateTime.Now;
+
+			this.AI = new AIPlayer(this);
 		}
 
 		/// <summary>
@@ -256,52 +252,8 @@ namespace Melia.Channel.World
 		/// <param name="dy"></param>
 		public void Move(float x, float y, float z, float dx, float dy, float unkFloat)
 		{
-			// Check if is valid destionation
-			/// TODO
-			/// 
-			this.IsMoveStop = false;
-			if (this.LastMoveTimestamp > unkFloat)
-			{
-				return; // Old packet
-			}
-
-
-
-			//this.LastMoveTimestamp = unkFloat;
-
-			// Set destination based on: SPEED + CLIENT GIVEN POSITION + DIRECTION
-			// This function assumes that destination will be at 1 HeartBeatTime of distance
-			// Destination should be larger, it should be sync-ed with current client "MOVE PACKETS" per second, or using some sort of acceleration.
-			// The problem is seen when you hit any "move" key to any direction (in client) to move "little steps". If you set destination too far from client point, other players
-			// will see your character moving forward and backwards to adjust its position).
-			//this.SetDestination(new Position(this.GetSpeed() / (1000 / WorldManager.HeartbeatTime) * dx + x, y, this.GetSpeed() / 1000 / (WorldManager.HeartbeatTime) * dy + z));
-			this.SetDestination(new Position(x, y, z));
-
-			//Log.Debug("DESTINATION: {0},{1},{2} DIR: {3},{4}", _destination.X, _destination.Y, _destination.Z, dx.ToString("0.0000"), dy.ToString("0.0000"));
-
-
-			// We re-calculate direction to destination, since our current position can be different than client's position.
-			// By recalculating direction, we make sure we will end in the same point the client is. Even when we could get some packets delayed.
-			// We don't keep a "queue" of movements, so based on delay we can be moving the Actor differently than client's actor.
-			// In that case, we could "re-adjust" client's coordinates from time to time if we a great difference.
-			// Note: unkFloat funtion'parameter is a DateTime (or something like that), probably to keep sync with server position.
-
-			// Calculate direction to destination
-			float vX = this._destination.X - this.Position.X;
-			float vZ = this._destination.Z - this.Position.Z;
-			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ); /// TODO: We could try to avoid using Math.Sqrt() somehow.
-			var cos = vX / distDestination; // Adjacent / Hipotenuse
-			var sin = vZ / distDestination; // Oposit / Hipotenuse
-			this.SetDirection(dx, dy);
-
-			// Set flag indicating that this character is moving
-			//this.IsMoving = true;
-
-			// Broadcast this movement
-			//Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
-
-			this.MoveTo(new Position(x, y, z), 0);
-			
+			this.AI.SetIntention(IntentionTypes.AI_INTENTION_MOVETO, new Position(x, y, z));
+			return;			
 		}
 
 		/// <summary>
@@ -368,102 +320,6 @@ namespace Melia.Channel.World
 		public void UpdateState()
 		{
 
-		}
-
-		/// <summary>
-		/// Process Character's movement
-		/// </summary>
-		public void ProcessMove()
-		{
-			/*
-			if (!this.IsMoving)
-				return;
-			*/
-
-			// Calculate distance to destination
-			float vX = this._destination.X - this.Position.X;
-			float vZ = this._destination.Z - this.Position.Z;
-			float distDestination = (float)Math.Sqrt(vX * vX + vZ * vZ);
-
-			// Set next position 
-			// If destination can be reached in this Heartbeat, we go for it. Otherwise, we calculate the next position in the path.
-			Position nextPosition;
-			if (distDestination <= this.Speed) /// TODO ... this is wrong, should be this.GetSpeed() / 5
-			{
-				// Get destination position as next position
-				nextPosition = this._destination;
-			} else
-			{
-				// Calculate next position in path to destination
-				nextPosition = new Position((this.GetSpeed() / 5) * this.Direction.Cos + this.Position.X, this.Position.Y, (this.GetSpeed()/5) * this.Direction.Sin + this.Position.Z);
-			}
-			
-			// Moves the actor
-			if (this.Map.SectorManager.Move(this, nextPosition))
-			{
-				// Actor was sucessfully moved. Set new position
-				this.SetPosition(nextPosition.X, nextPosition.Y, nextPosition.Z);
-
-				// If character reached destination
-				if (nextPosition == this._destination)
-				{
-					// Set moving flag to false.
-					// Broadcast that this character stop moving.
-					if (this.IsMoveStop)
-					{
-						//this.IsMoving = false;
-						Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
-						//Send.ZC_ROTATE(this);
-					}
-				}
-			} else
-			{
-				// Wasn't possible to move the actor. Abort movement.
-				Log.Debug("Wasn't able to place the entity at position: {0},{1},{2}", nextPosition.X, nextPosition.Y, nextPosition.Z);
-				//this.IsMoving = false;
-				this.IsMoveStop = true;
-				Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
-				//Send.ZC_ROTATE(this);
-			}
-				
-		}
-
-		/// <summary>
-		/// Set character's destination position
-		/// </summary>
-		public void SetDestination(Position pos)
-		{
-			this._destination = pos;	
-		}
-
-		/// <summary>
-		/// Stops movement.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
-		public void StopMove(float x, float y, float z, float dx, float dy, float unkFloat)
-		{
-			/*
-			this.SetPosition(x, y, z);
-			this.SetDirection(dx, dy);
-			this.IsMoving = false;
-			*/
-			if (this.LastMoveTimestamp > unkFloat)
-			{
-				return; // Old packet
-			}
-
-			this.SetDestination(new Position(x, y, z));
-			this.IsMoveStop = true;
-			
-			this.LastMoveTimestamp = unkFloat;
-			// Sending ZC_MOVE_STOP works as well, but it doesn't have
-			// a direction, so the character stops and looks north
-			// on other's screens.
-			//Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 		}
 
 		/// <summary>

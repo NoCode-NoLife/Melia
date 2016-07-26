@@ -70,6 +70,7 @@
     <Compile Include="World\AI\AIBase.cs" />
     <Compile Include="World\AI\AIEntity.cs" />
     <Compile Include="World\AI\AIMonster.cs" />
+    <Compile Include="World\AI\AIPlayer.cs" />
     <Compile Include="World\AI\IControl.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="World\GameTimeController.cs" />

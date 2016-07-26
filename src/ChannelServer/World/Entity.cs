@@ -258,6 +258,12 @@ namespace Melia.Channel.World
 
 		public void CastSkill(Skill skill, IEntity target = null)
 		{
+			Log.Debug("cast skill {0} on {1}", skill, target);
+
+			// Check if is in the middle of other casting.
+			if (ShootTime != null)
+				return;
+
 			this.SkillComp = new SkillDataComponent();
 			SkillComp.skill = skill;
 			SkillComp.skillHandler = skill.SkHandler;

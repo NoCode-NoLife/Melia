@@ -73,6 +73,7 @@ namespace Melia.Channel.World
 		public bool isMoving = false;
 
 		public SpawnZone spawnZone;
+		public Position spawnPosition;
 
 
 		/// <summary>
@@ -80,7 +81,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Monster(int id, NpcType type)
 		{
-
+			if (id == 400001)
+			{
+				Log.Debug("YES");
+			}
 
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 

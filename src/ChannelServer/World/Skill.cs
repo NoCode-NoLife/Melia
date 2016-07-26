@@ -149,15 +149,17 @@ namespace Melia.Channel.World
 			/// 
 			owner.SetAttackState(true);
 
-			if (GetActivationTime() == 0.0f)
+			if (GetActivationTime() == 0)
 			{
 				ReadyToCast(skillComp);
 			} 
 			else
 			{
-				this.castingTimer = new Timer(ReadyToCast, skillComp, (int) GetActivationTime() * 1000, Timeout.Infinite);
+				this.castingTimer = new Timer(ReadyToCast, skillComp, GetActivationTime(), Timeout.Infinite);
 
 			}
+
+			this.owner.ShootTime = new Timer(new TimerCallback(ShootTimeTask), null, this.GetData().ShootTime, Timeout.Infinite);
 
 		}
 
@@ -254,12 +256,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Get activation time
 		/// </summary>
-		public float GetActivationTime()
+		public int GetActivationTime()
 		{
 			/// TODO
 			// Get skill activation time
 			// Apply modifiers if any.
-			return this.GetData().CastingTime;
+			return this.GetData().HitDelay;
 			
 		}
 
@@ -445,12 +447,18 @@ namespace Melia.Channel.World
 					}
 				case SkillType.ACTOR:
 					{
-						
-						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
+						// Calculate direction to target
+						if (skillComp.target != null)
+						{
+							this.Direction = new Direction(Math2.AngleBetweenTwoEntity(owner.Position, skillComp.target.Position));
+						}
+
+
+						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, this.Direction, this.Position);
 
 						if (skillComp.target == null)
 						{
-							Send.ZC_NORMAL_Unkown_3f(owner, this, owner.Direction);
+							Send.ZC_NORMAL_Unkown_3f(owner, this, this.Direction);
 							return;
 						}
 							
@@ -472,10 +480,6 @@ namespace Melia.Channel.World
 					/// ERROR
 					break;
 			}
-
-			
-			int ShootTime = 1300;
-			this.owner.ShootTime = new Timer(new TimerCallback(ShootTimeTask), null, ShootTime, Timeout.Infinite);
 
 		}
 

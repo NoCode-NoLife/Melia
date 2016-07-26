@@ -45,7 +45,7 @@ namespace Melia.Channel.World
 		{
 			this.Data = spawnData;
 
-			this.MonsterData = ChannelServer.Instance.Data.MonsterDb.Find(this.Data.monsterName);
+			this.MonsterData = ChannelServer.Instance.Data.MonsterDb.FindByClassName(this.Data.monsterName);
 			if (this.MonsterData == null)
 			{
 				Log.Error("Error initializing Spawn Zone {1} {2}. Monster not found. {0}", this.Data.monsterName, this.Id, this.Data.spawnName);
@@ -114,6 +114,7 @@ namespace Melia.Channel.World
 
 
 			Monster monster = new Monster(this.MonsterData.Id, Shared.Const.NpcType.Monster);
+			Log.Debug("monster ID {0}", monster.Id);
 			if (monster == null)
 				return;
 
@@ -159,6 +160,7 @@ namespace Melia.Channel.World
 
 			// Make a reference to this spawn zone in the monster.
 			monster.spawnZone = this;
+			monster.spawnPosition = new Position(monster.Position);
 
 			return monster;
 		}

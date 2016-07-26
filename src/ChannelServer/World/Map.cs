@@ -121,14 +121,21 @@ namespace Melia.Channel.World
 		private void ProcessSkills()
 		{
 			List<GroundSkill> skillsToDelete = new List<GroundSkill>();
-			foreach (var skill in _skills.Values)
+			lock (_skills)
 			{
-				if (skill.ToDestroy)
+				foreach (var skill in _skills.Values)
 				{
-					skillsToDelete.Add(skill);
-					continue;
-				} 
-				skill.Process();
+					try
+					{
+						if (skill.ToDestroy)
+						{
+							skillsToDelete.Add(skill);
+							continue;
+						}
+						skill.Process();
+					}
+					catch { }
+				}
 			}
 
 			foreach (var skill in skillsToDelete)
