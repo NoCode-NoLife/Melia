@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Melia.Shared.Util;
 using Melia.Channel.Network;
 using Melia.Shared.World;
@@ -104,6 +104,8 @@ namespace Melia.Channel.World.SectorActors
 		/// </summary>
 		public int maxInteractions;
 
+		private Timer _processTask;
+
 		/// <summary>
 		/// Basic Initialization
 		/// </summary>
@@ -161,7 +163,7 @@ namespace Melia.Channel.World.SectorActors
 			_nextProcessTime = DateTime.Now;
 
 			// Set tick interval
-			_processTickInterval = 1000; /// TODO
+			_processTickInterval = 500; /// TODO
 
 			// Set collisionShape
 			this.CollisionShape = GetSkillShape();
@@ -170,9 +172,9 @@ namespace Melia.Channel.World.SectorActors
 			Map.AddSkill(this);
 
 			// Broadcast effect.
-			Log.Debug("skill {0} level {1}", ownerSkill.Id, ownerSkill.level);
 			if (ownerSkill.GetData().EffectId > 0) 
-				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
+				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, this.Direction, true, this.Handle);
+
 		}
 
 		/// <summary>

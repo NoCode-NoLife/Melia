@@ -400,33 +400,123 @@ namespace Melia.Channel.World
 				// GROUND SKILL
 				case SkillType.GROUND:
 					{
-						// Create ground skill actor
-						GroundSkill PESkill = new GroundSkill();
+						if (this.Id == 40001)
+						{
 
-						// Calculate its position and direction
-						Position skillPosition;
-						if (this.GetData().TargetType == TargetType.SELF)
-						{
-							skillPosition = new Position(owner.Direction.Cos + owner.Position.X, owner.Position.Y, owner.Direction.Sin + owner.Position.Z);
-						} else
-						{
-							//skillPosition = new Position(40 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 40 * owner.Direction.Sin + owner.Position.Z);
-							skillPosition = new Position(200 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 200 * owner.Direction.Sin + owner.Position.Z);
+							List<int> skillRows = new List<int>();
+							skillRows.Add(0);
+							skillRows.Add(1);
+							skillRows.Add(2);
+							skillRows.Add(3);
+							skillRows.Add(13);
+							skillRows.Add(23);
+							skillRows.Add(33);
+							skillRows.Add(133);
+							skillRows.Add(233);
+							skillRows.Add(333);
+							skillRows.Add(334);
+							skillRows.Add(344);
+							skillRows.Add(444);
+							skillRows.Add(445);
+							skillRows.Add(455);
+							skillRows.Add(555);
+
+							int rowsValue = skillRows[this.level];
+							List<Position> posList = new List<Position>();
+							int r = (int)this.GetData().SplashRange;
+							int d = r * 2;
+
+							int rowsCount = 0;
+							while (rowsValue > 0)
+							{
+								int row = rowsValue % 10;
+								rowsValue = rowsValue / 10;
+
+								int offset = 0;
+								if (row > 1 && row % 2 == 0)
+								{
+									offset -= r;
+								}
+								else
+								{
+									posList.Add(new Position(0 + (d * rowsCount), 0, 0));
+								}
+
+								int amountPerSide = row / 2;
+								if (amountPerSide > 0)
+								{
+									for (int i = 1; i <= amountPerSide; i++)
+									{
+										posList.Add(new Position(0 + (d * rowsCount), 0, offset + (d * i)));
+									}
+									for (int i = 1; i <= amountPerSide; i++)
+									{
+										posList.Add(new Position(0 + (d * rowsCount), 0, 0 - offset - (d * i)));
+									}
+								}
+								rowsCount++;
+							}
+
+							// Set heal squares based on skill level
+							foreach (var pos in posList)
+							{
+
+								GroundSkill PESkill = new GroundSkill();
+								
+								Position center = new Position(40 * owner.Direction.Cos + owner.Position.X, 0, 40 * owner.Direction.Sin + owner.Position.Z);
+								Position tilePos = new Position(center.X + pos.X, 0, center.Z + pos.Z);
+
+								// Rotation of one position based on another position/rotation.
+								float x = owner.Direction.Cos * (tilePos.X - center.X) - owner.Direction.Sin * (tilePos.Z - center.Z) + center.X;
+								float z = owner.Direction.Sin * (tilePos.X - center.X) + owner.Direction.Cos * (tilePos.Z - center.Z) + center.Z;
+
+								Position skillPosition = new Position(x, owner.Position.Y, z);
+								var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
+
+								// Initialize other specific variables
+								if (this.GetData().MaxInteractions > 0)
+								{
+									PESkill.maxInteractions = this.GetData().MaxInteractions;
+								}
+
+								// Initialize ground skill
+								PESkill.Init(map, this, owner, skillPosition, skillDirection);
+
+								// Place skill actor in map
+								PESkill.Enable();
+							}
+						}
+						else {
+							// Create ground skill actor
+							GroundSkill PESkill = new GroundSkill();
+
+							// Calculate its position and direction
+							Position skillPosition;
+							if (this.GetData().TargetType == TargetType.SELF)
+							{
+								skillPosition = new Position(owner.Direction.Cos + owner.Position.X, owner.Position.Y, owner.Direction.Sin + owner.Position.Z);
+							}
+							else
+							{
+								skillPosition = new Position(40 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 40 * owner.Direction.Sin + owner.Position.Z);
+							}
+
+							var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
+
+							// Initialize other specific variables
+							if (this.GetData().MaxInteractions > 0)
+							{
+								PESkill.maxInteractions = this.GetData().MaxInteractions;
+							}
+
+							// Initialize ground skill
+							PESkill.Init(map, this, owner, skillPosition, skillDirection);
+
+							// Place skill actor in map
+							PESkill.Enable();
 						}
 						
-						var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
-
-						// Initialize other specific variables
-						if (this.GetData().MaxInteractions > 0)
-						{
-							PESkill.maxInteractions = this.GetData().MaxInteractions;
-						}
-
-						// Initialize ground skill
-						PESkill.Init(map, this, owner, skillPosition, skillDirection);
 						
-						// Place skill actor in map
-						PESkill.Enable();
 
 						// Notify client
 						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
