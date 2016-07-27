@@ -149,7 +149,7 @@ namespace Melia.Channel.World
 		/// Kills monster.
 		/// </summary>
 		/// <param name="killer"></param>
-		public void Kill(IEntity killer)
+		public override void Kill(IEntity killer)
 		{
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
@@ -162,13 +162,12 @@ namespace Melia.Channel.World
 
 			this.IsDead = true;
 
-			if (this.AI != null)
-				this.AI.notifyEvent(AIEventTypes.AI_EVENT_DEAD, killer);
-
 			if (this.spawnZone != null)
 			{
 				this.spawnZone.NotifyEntityDeath(this.Handle);
 			}
+
+			base.Kill(killer);
 
 			Send.ZC_DEAD(this);
 

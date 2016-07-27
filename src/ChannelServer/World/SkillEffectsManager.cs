@@ -167,6 +167,7 @@ namespace Melia.Channel.World
 					RemoveEffectByIndex(i);
 				}
 			}
+			Log.Debug("All skill effects removed");
 		}
 
 		/// <summary>

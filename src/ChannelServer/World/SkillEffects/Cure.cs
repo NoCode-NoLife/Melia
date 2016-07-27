@@ -46,15 +46,17 @@ namespace Melia.Channel.World.SkillEffects
 						if (groundSkill.maxInteractions > 0)
 						{
 							groundSkill.interactions++;
-							if (groundSkill.interactions >= groundSkill.maxInteractions)
+							//Log.Debug("interactions {0}/{1}", groundSkill.interactions, groundSkill.maxInteractions);
+							if (groundSkill.interactions > groundSkill.maxInteractions)
 							{
 								groundSkill.Disable();
+								return;
 							}
 						}
 					}
 
 					//
-					int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
+					int damage = Formulas.Cure40002(this.skillComp.skill, this.skillComp.caster, this);
 
 					this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
 

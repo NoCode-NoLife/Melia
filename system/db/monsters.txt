@@ -2035,7 +2035,7 @@
 { monsterId: 107002, className: "boss_Iltiswort_Q2", name: "Iltiswort", level: 256, exp: 16440, classExp: 12640 },
 { monsterId: 107003, className: "mon_npc_tila_monk2", name: "Monk2", level: 1, exp: 0, classExp: 0 },
 { monsterId: 107004, className: "boss_deadbone_Q2", name: "Deadborn", level: 295, exp: 18960, classExp: 13904 },
-{ monsterId: 400001, className: "Onion", name: "Kepa", level: 1, exp: 16, classExp: 1, walkSpeed: 32, runSpeed: 40, hp: 17, size: "S", armorType: "CLOTH" },
+{ monsterId: 400001, className: "Onion", name: "Kepa", level: 1, exp: 16, classExp: 1, walkSpeed: 32, runSpeed: 40, hp: 500, size: "S", armorType: "CLOTH" },
 { monsterId: 400002, className: "Onion_Big", name: "Large Kepa", level: 2, exp: 52, classExp: 51 },
 { monsterId: 400003, className: "Onion_Red", name: "Red Kepa", level: 12, exp: 65, classExp: 48 },
 { monsterId: 400005, className: "Onion_green", name: "Poisoned Kepa", level: 9, exp: 53, classExp: 40 },

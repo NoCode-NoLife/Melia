@@ -225,7 +225,11 @@ namespace Melia.Channel.World.SkillEffects
 
 			if (_state == EffectState.FINISHING)
 			{
-				TasksPoolManager.Instance.RemoveGeneralTask(_futureTask, 0);
+				if (_futureTask != null)
+				{
+					_futureTask.Dispose();
+					_futureTask = null;
+				}
 				this.OnRemove();
 			}
 		}

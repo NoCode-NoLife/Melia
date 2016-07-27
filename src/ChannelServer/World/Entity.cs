@@ -469,6 +469,16 @@ namespace Melia.Channel.World
 		{
 			return _isRunning;
 		}
+
+		public virtual void Kill(IEntity killer)
+		{
+			if (this.AI != null)
+				this.AI.notifyEvent(AIEventTypes.AI_EVENT_DEAD, killer);
+
+			// Remove all skill effects
+			this.skillEffectsManager.RemoveAllEffects();
+			
+		}
 	}
 
 	public class MoveData

@@ -21,10 +21,16 @@ namespace Melia.Channel.World.SkillEffects
 			
 		}
 
+		public static int Cure40002(Skill skill, IEntity dealer, SkillEffect effect)
+		{
+			return (int) (skill.GetData().AttackAdd + dealer.statsManager.stats[(int)Stat.INT] * 1.2f);
+		}
+
 		public static int INTAttack(int baseDamage, IEntity dealer)
 		{
 			return (int) (baseDamage + dealer.statsManager.stats[(int)Stat.INT]);
 		}
+
 
 		public static int PhisicalAttack(int baseDamage, IEntity dealer)
 		{

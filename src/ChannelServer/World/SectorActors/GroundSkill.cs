@@ -106,6 +106,8 @@ namespace Melia.Channel.World.SectorActors
 
 		private Timer _processTask;
 
+		private bool _disabled;
+
 		/// <summary>
 		/// Basic Initialization
 		/// </summary>
@@ -142,7 +144,7 @@ namespace Melia.Channel.World.SectorActors
 			this.Direction = dir;
 
 			// Set amount of targets that can interact with this GroundSkill at the same time.
-			_maxCounterTargets = 1; /// TODO
+			_maxCounterTargets = (oSkill.GetData().IsDot ? 10 : 1); /// TODO
 
 			// Initialize interactions counter
 			this.interactions = 0;
@@ -188,6 +190,8 @@ namespace Melia.Channel.World.SectorActors
 		/// </summary>
 		public void Disable()
 		{
+			if (!_disabled)
+				_disabled = true;
 
 			if (_processTask != null) {
 				_processTask.Dispose();
