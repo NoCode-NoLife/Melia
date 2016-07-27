@@ -132,7 +132,7 @@ namespace Melia.Channel.World
 							skillsToDelete.Add(skill);
 							continue;
 						}
-						skill.Process();
+						//skill.Process();
 					}
 					catch { }
 				}
@@ -157,7 +157,7 @@ namespace Melia.Channel.World
 
 			if (!SectorManager.Add(character, character.Position))
 			{
-				Log.Debug("Error adding character placeable entity into SectorManager at: {0} {1} {2}", character.Position.X, character.Position.Y, character.Position.Z);
+				Log.Error("Error adding character placeable entity into SectorManager at: {0} {1} {2}", character.Position.X, character.Position.Y, character.Position.Z);
 			}
 		}
 
@@ -212,7 +212,7 @@ namespace Melia.Channel.World
 
 			if (!SectorManager.Add(monster, monster.Position))
 			{
-				Log.Debug("Error adding monster placeable entity into SectorManager at: {0} {1} {2}", monster.Position.X, monster.Position.Y, monster.Position.Z);
+				Log.Error("Error adding monster placeable entity into SectorManager at: {0} {1} {2}", monster.Position.X, monster.Position.Y, monster.Position.Z);
 			}
 		}
 
@@ -351,7 +351,7 @@ namespace Melia.Channel.World
 
 			if (!SectorManager.Add(skill, skill.Position))
 			{
-				Log.Debug("Error adding skill placeable entity into SectorManager at: {0} {1} {2}", skill.Position.X, skill.Position.Y, skill.Position.Z);
+				Log.Error("Error adding skill placeable entity into SectorManager at: {0} {1} {2}", skill.Position.X, skill.Position.Y, skill.Position.Z);
 			}
 		}
 

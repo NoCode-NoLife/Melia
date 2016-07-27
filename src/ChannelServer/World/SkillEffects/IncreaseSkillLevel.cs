@@ -39,7 +39,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
-			Log.Debug("SBISCRIBE to CASTER PERFORM_CAST: CASTER:{0} TARGET: {1} !!!!!", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = true;
 		}
@@ -49,7 +48,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnRemove()
 		{
-			Log.Debug("UNSBISCRIBE to CASTER PERFORM_CAST: CASTER:{0} TARGET: {1} !!!!!", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = false;
 		}
@@ -61,7 +59,6 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			
 			_appliesCount++;
-			Log.Debug("_appliesCount count: {0}/{1}", _appliesCount, _maxAppliesCount);
 
 			if (_appliesCount >= _maxAppliesCount)
 			{

@@ -70,7 +70,6 @@ namespace Melia.Channel.World
 			// If character doesn't have this skill, add it.
 			if (skill == null)
 			{
-				Log.Debug("Add new skill");
 				this.SkillAdd(skillTreeInfo.SkillId, newLevel, out skill);
 				skillProps.Add(ObjectProperty.Skill.CoolDown);
 				skillProps.Add(ObjectProperty.Skill.SpendItemCount);
@@ -134,14 +133,12 @@ namespace Melia.Channel.World
 		{
 			int jobSkillPoints;
 			skillPoints.TryGetValue(jobId, out jobSkillPoints);
-			Log.Debug("SendJobSkillPoints for Job {0}, points {1}", jobId, jobSkillPoints);
 			Send.ZC_JOB_PTS((Character)owner, jobId, jobSkillPoints);
 		}
 
 		public bool SkillAddSilent(int skillId, int level, out Skill skill)
 		{
 			skill = new Skill(skillId, level);
-			Log.Debug("skill Id {0} {1}", skill.Id, skill.WorldId);
 			skill.owner = (IEntity) owner;
 			this.skills.Add(skillId, skill);
 			return true;

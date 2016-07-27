@@ -105,7 +105,6 @@ namespace Melia.Shared.Data.Database
 			{
 				
 				info.Hp = entry.ReadInt("hp");
-				Log.Debug("Read HP {0}", info.Hp);
 			}
 			if (entry.ContainsKey("walkspeed"))
 			{

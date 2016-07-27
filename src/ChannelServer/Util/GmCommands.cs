@@ -195,7 +195,6 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleTest(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			Log.Debug("test!!");
 
 			int val1;
 			int val2;
@@ -226,11 +225,7 @@ namespace Melia.Channel.Util
 			}
 			if (val1 == 2)
 			{
-				//character.AdjustReceivedDamage(10.0f);
-				Log.Debug("GMcommand char HANDLER: {0}", character.Handle);
-				//character.TakeDamage(10, character);
-				Skill skill = character.skillManager.GetSkill(100);
-				skill.ProcessSkill(character, character);
+				character.SetCurrentHp(50);
 
 			}
 			if (val1 == 3)

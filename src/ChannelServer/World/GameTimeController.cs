@@ -29,7 +29,6 @@ namespace Melia.Channel.World
 		{
 			for (;;)
 			{
-				//Log.Debug("gameTicks: {0}", _gameTicks);
 				int _oldTicks = _gameTicks;
 
 				long runtime = stopWatch.ElapsedMilliseconds;
@@ -95,6 +94,7 @@ namespace Melia.Channel.World
 					// Add it to list of ended entities.
 					endedEntities.Add(entity);
 				}
+				
 			}
 
 			Timer notifyEndedTask = null;

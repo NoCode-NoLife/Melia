@@ -152,10 +152,6 @@ namespace Melia.Shared.Data.Database
 			info.SpendSP = entry.ReadInt("spConsume");
 			info.LifeInSeconds = entry.ReadFloat("lifeTime");
 			info.EffectId = entry.ReadInt("visualEffectId");
-			if (info.Id == 40001)
-			{
-				Log.Debug("visual {0}", info.EffectId);
-			}
 			info.IsInstant = entry.ReadBool("isInstant");
 			info.IsDot = !entry.ReadBool("activateOnce");
 			info.MaxInteractions = entry.ReadInt("maxInteractions");

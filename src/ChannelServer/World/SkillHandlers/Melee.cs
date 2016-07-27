@@ -21,7 +21,6 @@ namespace Melia.Channel.World.SkillHandlers
 			if (target == null)
 				return skillResult;
 
-			Log.Debug("processing skill MELEE");
 			// Avoid interaction with any other type
 			if (!(target is Character) && !(target is Monster))
 			{
@@ -34,8 +33,6 @@ namespace Melia.Channel.World.SkillHandlers
 			if (entityTarget.IsDead)
 				return skillResult;
 
-			Log.Debug("Count effects: {0}", skill.GetData().effects.Count);
-
 			SkillDataComponent skillComp = new SkillDataComponent();
 			skillComp.skill = skill;
 			skillComp.skillHandler = this;
@@ -45,7 +42,6 @@ namespace Melia.Channel.World.SkillHandlers
 
 			foreach (var effectData in skill.GetData().effects)
 			{
-				Log.Debug("Processing effect {0}", effectData.EffectType);
 				SkillEffect newEffect = SkillEffect.GetSkillEffect(effectData.EffectType, effectData, skillComp);
 				skillResult = newEffect.Instant();
 			}

@@ -228,7 +228,6 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		virtual public void TakeDamage(int damage, IEntity from)
 		{
-			Log.Debug("calling TakeDamage on Entity Handle {0}, damage {1}", this.Handle, damage);
 			if (this.IsDead)
 				return;
 
@@ -258,7 +257,6 @@ namespace Melia.Channel.World
 
 		public void CastSkill(Skill skill, IEntity target = null)
 		{
-			Log.Debug("cast skill {0} on {1}", skill, target);
 
 			// Check if is in the middle of other casting.
 			if (ShootTime != null)
@@ -364,7 +362,6 @@ namespace Melia.Channel.World
 			int ticksToMove = 1 + (int)(GameTimeController.TICKS_PER_SECOND * distDestination / speed);
 
 			this.SetDirection(cos, sin);
-			Log.Debug("Direction calculated {0} {1}", cos, sin);
 
 			newMoveData.destination = finalDestination;
 			newMoveData.direction = new Direction(cos, sin);
@@ -411,11 +408,6 @@ namespace Melia.Channel.World
 			if (this is Character)
 				speed *= 2.4f;
 
-			if (this is Monster)
-			{
-				Log.Debug("Update position: move to {0} {1} {2} at {3}", m.destination.X, m.destination.Y, m.destination.Z, speed);
-			}
-
 			double distPassed = speed * (gameTicks - m.moveTimestamp) / GameTimeController.TICKS_PER_SECOND;
 
 			double distX = m.destination.X - m.accurateX;
@@ -423,13 +415,9 @@ namespace Melia.Channel.World
 
 			double distFraction = distPassed / Math.Sqrt(distX * distX + distZ * distZ);
 
-			Random rnd = new Random();
-			Skill skill = this.skillManager.GetSkill(40001);
-
 			if (distFraction > 1)
 			{
 				this.SetPosition(m.destination.X, m.destination.Y, m.destination.Z);
-				//Send.ZC_NORMAL_Skill(this, skill, new Position(m.destination.X, m.destination.Y, m.destination.Z), new Direction(0.707f, 0.707f), true, rnd.Next());
 			}
 			else
 			{
@@ -437,7 +425,6 @@ namespace Melia.Channel.World
 				m.accurateZ += distZ * distFraction;
 
 				this.SetPosition((float)m.accurateX, m.destination.Y, (float)m.accurateZ);
-				//Send.ZC_NORMAL_Skill(this, skill, new Position((float)m.accurateX, m.destination.Y, (float)m.accurateZ), new Direction(0.707f, 0.707f), true, rnd.Next());
 			}
 
 			m.moveTimestamp = gameTicks;

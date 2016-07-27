@@ -42,10 +42,8 @@ namespace Melia.Channel.World.SkillEffects
 
 			TargetType targetType = this.skillComp.caster.GetTargetType(this.skillComp.target);
 
-			Log.Debug("targetType {0}", targetType);
 			if ((targetType == TargetType.MONSTER && this.skillComp.caster is Character) || targetType == TargetType.ENEMY)
 			{
-				Log.Debug("calculate damage");
 				// Heal effect makes damage to enemies.
 
 				int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
@@ -63,8 +61,22 @@ namespace Melia.Channel.World.SkillEffects
 			}
 
 			if (this.skillComp.target is Character)
-				if (this.skillComp.skill.Id == 40001)
-					this.skillComp.target.Heal(Formulas.Heal40001(this.skillComp.skill, this.skillComp.caster, this), _isPercent);
+			{
+				if (this.skillComp.target.Hp < this.skillComp.target.MaxHp)
+				{
+					SkillResult sResult = new SkillResult();
+					sResult.actor = (Entity)this.skillComp.target;
+					sResult.targetHandle = this.skillComp.target.Handle;
+					sResult.skillHandle = this.skillComp.skill.Handle;
+					sResult.type = 0;
+					sResult.value = 0;
+
+					if (this.skillComp.skill.Id == 40001)
+						sResult.value = this.skillComp.target.Heal(Formulas.Heal40001(this.skillComp.skill, this.skillComp.caster, this), _isPercent);
+
+					return sResult;
+				}
+			}
 
 			return null;
 		} 

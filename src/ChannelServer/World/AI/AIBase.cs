@@ -123,7 +123,6 @@ namespace Melia.Channel.World.AI
 
 		public void SetIntention(IntentionTypes intention, Object arg0 = null, Object arg1 = null)
 		{
-			//Log.Debug("SetIntention Called - intention: {0}", intention);
 			switch (intention)
 			{
 				case IntentionTypes.AI_INTENTION_ACTIVE:
@@ -157,7 +156,6 @@ namespace Melia.Channel.World.AI
 
 		public void notifyEvent(AIEventTypes aiEvent, Object arg0 = null, Object arg1 = null)
 		{
-			//Log.Debug("notifyEvent {0}", aiEvent);
 			switch (aiEvent)
 			{
 				case AIEventTypes.AI_EVENT_THINK:

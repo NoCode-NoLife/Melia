@@ -54,9 +54,6 @@ namespace Melia.Channel.World.SkillEffects
 			skillResult.type = 1;
 			skillResult.value = damage;
 
-			Log.Debug("target HP {0}", this.skillComp.target.Hp);
-			Log.Debug("skillrEsult actor HP {0}", skillResult.actor.Hp);
-
 			return skillResult;
 		}
 

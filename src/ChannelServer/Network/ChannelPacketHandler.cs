@@ -296,20 +296,6 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: Sanity checks.
-			Position newPos = new Position(x, y, z);
-			double distance = character.previousPoint.Get2DDistance(newPos);
-
-			//Log.Debug("float difference {0}", );
-			//Log.Debug("units per second {0}", distance / (unkFloat - character.previousFloat));
-			Log.Debug("received move to {0} {1} {2}", x,y ,z );
-			Log.Debug("Direction received {0} {1}", dx, dy);
-
-			character.previousPoint = newPos;
-			character.previousFloat = unkFloat;
-
-			//character.Rotate(dx, dy);
-
 			character.Move(x, y, z, dx, dy, unkFloat);
 		}
 
@@ -895,8 +881,6 @@ namespace Melia.Channel.Network
 						ObjectProperty.PC.UsedStat
 					);
 
-					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
-					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 					break;
 
 				case TxType.Skills:
@@ -906,35 +890,6 @@ namespace Melia.Channel.Network
 					var classId = (int)(jobId / 1000);
 					classId = classId * 1000;
 					var specificJobId = jobId - classId;
-					Log.Debug("classId: {0}", classId);
-					Log.Debug("specificJobId: {0}", specificJobId);
-
-					// TEST CODE
-					/*
-					character.jobs = new Dictionary<Job, int>();
-					character.jobs.Add(Job.Cleric, 3);
-					character.jobs.Add(Job.Krivi, 3);
-					character.jobs.Add(Job.Bokor, 3);
-					character.jobs.Add(Job.Druid, 3);
-					character.jobs.Add(Job.Sadhu, 3);
-					character.jobs.Add(Job.Dievdirbys, 3);
-					character.jobs.Add(Job.Oracle, 3);
-					character.jobs.Add(Job.Monk, 3);
-					character.jobs.Add(Job.Pardoner, 3);
-					character.jobs.Add(Job.Chaplain, 3);
-					character.jobs.Add(Job.Shepherd, 3);
-					character.jobs.Add(Job.PlagueDoctor, 3);
-					character.jobs.Add(Job.Kabbalist, 3);
-					*/
-
-					Log.Debug("skillsCount: {0}", skillsCount);
-					Log.Debug("JobId to learn: {0}", jobId);
-
-					Log.Debug("JOBS LEARNED:");
-					foreach (var jobdata in character.jobs)
-						Log.Debug("Job {0} grade {1}", (int) jobdata.Key, jobdata.Value);
-
-					// END TEST CODE
 
 					// Check if character has this job
 					if (!character.jobs.ContainsKey((Job)jobId))
@@ -946,10 +901,8 @@ namespace Melia.Channel.Network
 					for (int i = 0; i < skillsCount; ++i)
 					{
 						var skillTreeKey = (classId * 10) + (specificJobId * 100) + i + 1;
-						Log.Debug("key: {0}", skillTreeKey);
 
 						var levels = packet.GetInt();
-						Log.Debug("skill {0} level: {1}", i, levels);
 
 						if (levels == 0)
 							continue;
@@ -1242,25 +1195,12 @@ namespace Melia.Channel.Network
 
 			Skill skill = character.skillManager.GetSkill(skillId);
 
-			Log.Debug("SKILL {0} to target {1}", skillId, targetHandle);
-
 			var target = character.Map.GetMonster(targetHandle);
 
 
 			if (skill != null)
 			{
-
-				//character.CastSkill(skill, target);
 				character.AI.SetIntention(World.AI.IntentionTypes.AI_INTENTION_ATTACK, target, skill);
-
-				/*
-				SkillResult result = new SkillResult();
-				result.actor = target;
-				result.value = 10;
-				target.TakeDamage(10, character);
-				Send.ZC_SKILL_FORCE_TARGET(character, skill, result);
-				//skill.Activate();
-				*/
 			}
 			else
 			{
@@ -1283,7 +1223,7 @@ namespace Melia.Channel.Network
 
 			Skill skill = character.skillManager.GetSkill(skillId);
 
-			Log.Debug("SKILL {0} Direction {1},{2} : unk1 {3} : unk2 {4} ", skillId, cos, sin, unk1, unk2);
+			//Log.Debug("SKILL {0} Direction {1},{2} : unk1 {3} : unk2 {4} ", skillId, cos, sin, unk1, unk2);
 
 			if (skill != null)
 			{
@@ -1305,20 +1245,17 @@ namespace Melia.Channel.Network
 			var floatUnk2 = packet.GetFloat();
 			var unk2 = packet.GetByte();
 
+			Log.Debug("DYNAMIC CASTING START skill: {0} Floats {1},{2} : bytes {3} {4} ", skillId, floatUnk1, floatUnk2, unk1, unk2);
+
 			var character = conn.SelectedCharacter;
 
 			Skill skill = character.skillManager.GetSkill(skillId);
 
-			//Send.ZC_NORMAL_Unkown_3a(character, "I_SYS_Text_Effect_None", "LV 1");
-
 			if (skill != null)
 			{
 				skill.PrepareSkill();
-				//character.CastSkill(skill);
-				//skill.Activate();
 			}
 
-			Log.Debug("DYNAMIC CASTING START skill: {0} Floats {1},{2} : bytes {3} {4} ", skillId, floatUnk1, floatUnk2, unk1, unk2);
 		}
 
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
@@ -1330,11 +1267,11 @@ namespace Melia.Channel.Network
 			var unk2 = packet.GetShort();
 			var unk3 = packet.GetShort();
 
+			Log.Debug("DYNAMIC CASTING END skill: {0} Floats {1}", skillId, floatUnk1);
+
 			var character = conn.SelectedCharacter;
 
 			Skill skill = character.skillManager.GetSkill(skillId);
-
-			Log.Debug("DYNAMIC CASTING END skill: {0} Floats {1}", skillId, floatUnk1);
 
 			skill.PrepareSkillEnd();
 		}
@@ -1350,15 +1287,16 @@ namespace Melia.Channel.Network
 			var unk2 = packet.GetShort();
 			var unk3 = packet.GetShort();
 
+			Log.Debug("CZ_SKILL_TOOL_GROUND_POS skill: {0} Pos {1},{2},{3} : shorts {4} {5} {6}", skillId, x, y, z, unk1, unk2, unk3);
+
 			var character = conn.SelectedCharacter;
 
 			Skill skill = character.skillManager.GetSkill(skillId);
 
 			Send.ZC_NORMAL_14(character);
 			Send.ZC_NORMAL_19(character);
-			//Send.ZC_BUFF_REMOVE(character);
 
-			Log.Debug("CZ_SKILL_TOOL_GROUND_POS skill: {0} Pos {1},{2},{3} : shorts {4} {5} {6}", skillId, x, y, z, unk1, unk2, unk3);
+			
 		}
 
 		[PacketHandler(Op.CZ_SKILL_SELF)]

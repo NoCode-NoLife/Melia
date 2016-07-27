@@ -178,9 +178,6 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Variables Variables { get; private set; }
 
-		public Position previousPoint;
-		public float previousFloat;
-
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
@@ -214,7 +211,6 @@ namespace Melia.Channel.World
 
 			this.AI = new AIPlayer(this);
 
-			this.previousPoint = new Position();
 		}
 
 		/// <summary>
@@ -223,7 +219,6 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public override float GetSpeed()
 		{
-			Log.Debug("GetSpeed called {0}", this.Speed);
 			return this.Speed;
 		}
 
@@ -278,7 +273,6 @@ namespace Melia.Channel.World
 		private void HPRegen()
 		{
 			TimeSpan diff = DateTime.Now - this.lastHpRegenTime;
-			//Log.Debug("{0} {1} {2} {3}", DateTime.Now.ToString(), this.lastHpRegenTime.ToString(), (int)diff.TotalMilliseconds, this.statsManager.stats[(int)Stat.RecoveryHP]);
 			// Calculate current HP regen tick for this character
 			int regenRate = 20000;
 			if (this.IsSitting) regenRate = 10000;
@@ -636,7 +630,6 @@ namespace Melia.Channel.World
 
 		public override int Heal(int amount, bool isPercent)
 		{
-			Log.Debug("Heal amount {0} percent {1}", amount, isPercent);
 			int healedAmount = base.Heal(amount, isPercent);
 
 			Send.ZC_HEAL_INFO(this, healedAmount, this.Hp);

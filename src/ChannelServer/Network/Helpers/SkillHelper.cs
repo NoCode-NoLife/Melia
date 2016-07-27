@@ -13,7 +13,6 @@ namespace Melia.Channel.Network.Helpers
 	{
 		public static void AddSkill(this Packet packet, Skill skill)
 		{
-			Log.Debug("AddSkill called. SkillID {0}, SWorldId {1}", skill.Id, skill.WorldId);
 			packet.PutLong(skill.WorldId); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
 			packet.PutInt(skill.Id);
 			packet.PutShort(6 * 22); // properties size

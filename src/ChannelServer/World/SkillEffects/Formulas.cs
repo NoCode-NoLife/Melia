@@ -30,7 +30,6 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			Random rnd = new Random();
 			int patkDamage = rnd.Next((int) dealer.statsManager.stats[(int)Stat.MINPATK], (int) dealer.statsManager.stats[(int)Stat.MAXPATK]);
-			Log.Debug("base Damage: {0} patkDamage: {1}", baseDamage, patkDamage);
 			return (int)(baseDamage + patkDamage);
 		}
 	}

@@ -33,8 +33,6 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			TargetType targetType = this.skillComp.caster.GetTargetType(this.skillComp.target);
 
-			Log.Debug("targetType {0}", targetType);
-
 			if ((targetType & TargetType.MONSTER) != TargetType.NONE)
 			{
 				if (this.skillComp.caster is Character)

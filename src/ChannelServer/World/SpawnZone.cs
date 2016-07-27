@@ -36,7 +36,7 @@ namespace Melia.Channel.World
 		private int _countEntities;
 		private int _countDeaths;
 		private bool _isInitialized;
-		private bool _respawnEnabled;
+		//private bool _respawnEnabled;
 		private Random rndGenerator;
 
 		public int Id;
@@ -58,7 +58,6 @@ namespace Melia.Channel.World
 				Log.Error("Error initializing Spawn Zone {1} {2}. Map not found. {0}", this.Data.mapName, this.Id, this.Data.spawnName);
 				return;
 			}
-			Log.Debug("map {0}", _map.Name);
 
 
 			_isInitialized = false;
@@ -78,12 +77,12 @@ namespace Melia.Channel.World
 			}
 				
 
-			_respawnEnabled = true;
+			//_respawnEnabled = true;
 		}
 
 		public void StopRespawn()
 		{
-			_respawnEnabled = false;
+			//_respawnEnabled = false;
 		}
 
 		public void Init()
@@ -97,7 +96,7 @@ namespace Melia.Channel.World
 			_countEntities = 0;
 
 			_isInitialized = true;
-			_respawnEnabled = true;
+			//_respawnEnabled = true;
 
 			for (int i = 0; i < _calculatedTotalEntities; i++)
 			{
@@ -108,21 +107,15 @@ namespace Melia.Channel.World
 
 		public void DoSpawn(Object obj)
 		{
-			Log.Debug("DoSpawn");
 			if (!_isInitialized)
 				return;
 
 
 			Monster monster = new Monster(this.MonsterData.Id, Shared.Const.NpcType.Monster);
-			Log.Debug("monster ID {0}", monster.Id);
 			if (monster == null)
 				return;
 
-			Log.Debug("New monster created {0}", monster.Handle);
-
 			monster = InitializeMonster(monster);
-
-			Log.Debug("Monster initialized");
 
 			lock (_spawnEntities)
 			{
@@ -130,7 +123,6 @@ namespace Melia.Channel.World
 				_countEntities = _spawnEntities.Count;
 			}
 
-			Log.Debug("Add monster {0}", monster.Handle);
 			_map.AddMonster(monster);
 
 		}
@@ -212,7 +204,6 @@ namespace Melia.Channel.World
 			{
 				if (_countEntities < _calculatedTotalEntities)
 				{
-					Log.Debug("Task scheduled in time {0}", this.Data.respawnTime * 1000);
 					TasksPoolManager.Instance.AddGeneralTask(DoSpawn, null, this.Data.respawnTime * 1000);
 				}
 			}

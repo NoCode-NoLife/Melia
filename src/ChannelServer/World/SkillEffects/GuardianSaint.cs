@@ -47,7 +47,6 @@ namespace Melia.Channel.World.SkillEffects
 		public override void OnAdd()
 		{
 			// Subscribe this effect to receive events from this target.
-			Log.Debug("Subscribe to CASTER TAKEDAMAGE: CASTER:{0} TARGET: {1}", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.TAKE_DAMAGE, TakeDamage, skillComp.caster.Handle);
 
 			// Add stats modifiers to target
@@ -64,7 +63,6 @@ namespace Melia.Channel.World.SkillEffects
 		public override void OnRemove()
 		{
 			// Unsubscribe this effect from event system.
-			Log.Debug("UNSBISCRIBE to CASTER TAKEDAMAGE: CASTER:{0} TARGET: {1} !!!!!", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.TAKE_DAMAGE, TakeDamage, skillComp.caster.Handle);
 			// Remove stats modifiers
 			Skill skill = skillComp.skill;
@@ -92,8 +90,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public EventResult TakeDamage(EventData evData)
 		{
-			Log.Debug("Calling GuardianSaint TakeDamage delegate!");
-			Log.Debug("interactions count: {0}/{1}", _interactionsCount, _maxInteractions);
 
 			EventResult evResult = new EventResult();
 
@@ -108,7 +104,6 @@ namespace Melia.Channel.World.SkillEffects
 			var changeOfHit = rnd.Next(0, 10);
 
 			// If the caster gets protected by Guardian Saint skill
-			Log.Debug("Rand {0}", changeOfHit);
 			if (changeOfHit > 5)
 			{
 				this.skillComp.target.TakeDamage((int)evData.damage, evData.damageFrom);

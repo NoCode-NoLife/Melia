@@ -35,7 +35,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
-			Log.Debug("SBISCRIBE to CASTER PERFORM_CAST: CASTER:{0} TARGET: {1} !!!!!", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IsFade = true;
 		}
@@ -45,7 +44,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnRemove()
 		{
-			Log.Debug("UNSBISCRIBE to CASTER PERFORM_CAST: CASTER:{0} TARGET: {1} !!!!!", skillComp.caster.Handle, skillComp.target.Handle);
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IsFade = false;
 		}
@@ -55,7 +53,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public EventResult PerformCast(EventData evData)
 		{
-			Log.Debug("Called PerformCast in Fade");
 			this.skillComp.target.skillEffectsManager.RemoveEffectsBySkill(this.skillComp.skill);
 			return null;
 		}

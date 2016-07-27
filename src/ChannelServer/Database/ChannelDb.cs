@@ -313,7 +313,6 @@ namespace Melia.Channel.Database
 							continue;
 						}
 
-						Log.Debug("Adding skill {0} Level {1} to character {2}", skillId, level, character.Name);
 						Skill skill;
 						character.skillManager.SkillAddSilent(skillId, level, out skill);
 					}
@@ -349,7 +348,6 @@ namespace Melia.Channel.Database
 							continue;
 						}
 
-Log.Debug("Adding job {0} Level {1} to character {2}", jobId, jobLevel, character.Name);
 						character.jobs.Add(jobId, jobLevel);
 						character.skillManager.skillPoints.Add(jobId, jobPoints);
 					}

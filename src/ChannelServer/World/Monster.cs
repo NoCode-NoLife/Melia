@@ -126,41 +126,6 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 		}
 
-		/*
-		public void MoveTo (Position pos, Direction dir)
-		{
-			Log.Debug("MOVETO ------------------");
-			if (this.Hp <= 0) return;
-
-			
-			//this.SetDirection(dir.Cos, dir.Sin);
-			this.isMoving = true;
-
-			// Moves the actor
-			if (this.Map.SectorManager.Move(this, pos))
-			{
-				// Actor was sucessfully moved. Set new position
-				this.SetPosition(pos.X, pos.Y, pos.Z);
-			}
-			else
-			{
-				// Wasn't possible to move the actor. Abort movement.
-				Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
-			}
-
-			Send.ZC_MOVE_DIR(this, pos.X, pos.Y, pos.Z, dir.Cos, dir.Sin, 0);
-		}
-		*/
-		public void MoveStop()
-		{
-			if (this.isMoving)
-			{
-				this.isMoving = false;
-				Log.Debug("stop stop stop ------------------");
-				Send.ZC_MOVE_STOP(this, this.Position.X, this.Position.Y, this.Position.Z);
-			}
-		}
-
 		/// <summary>
 		/// Makes monster take damage and kills it if the HP reach 0.
 		/// </summary>
@@ -172,16 +137,8 @@ namespace Melia.Channel.World
 			if (this.IsDead)
 				return;
 
-			Log.Debug("{0} Received damage", this.Handle);
-
 			this.Hp -= damage;
 
-			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
-			// use SKILL, and this doesn't create a double hit effect like
-			// the other.
-			//Send.ZC_SKILL_HIT_INFO(from, this, damage);
-
-			Log.Debug("remaining HP after TakeDamage :: {0}", this.Hp);
 			if (this.Hp <= 0)
 				this.Kill(from);
 			else if (this.AI != null)
@@ -238,16 +195,6 @@ namespace Melia.Channel.World
 			Send.ZC_PC_ATKSTATE(this, isAttacking);
 		}
 
-		public void RecalculateAggro(AggroTarget aggroT)
-		{
-			if (aggroT.entity.IsFade)
-			{
-				Log.Debug("Target is Fade, reset Aggro");
-				aggroT.aggro = 0;
-				return;
-			}
-		}
-
 		public override int Heal(int amount, bool isPercent)
 		{
 			return base.Heal(amount, isPercent);
@@ -256,7 +203,6 @@ namespace Melia.Channel.World
 
 		public void UseMainAttack(IEntity attackTarget)
 		{
-			Log.Debug("Use Main Attack {0}", this.mainAttackSkill.Id);
 			this.mainAttackSkill.Activate();
 		}
 
@@ -377,12 +323,6 @@ namespace Melia.Channel.World
 			_aggroList.Clear();
 		}
 
-	}
-
-	public class AggroTarget
-	{
-		public IEntity entity;
-		public int aggro;
 	}
 
 	public class AggroInfo

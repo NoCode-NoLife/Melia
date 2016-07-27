@@ -36,10 +36,8 @@ namespace Melia.Channel.World.SkillHandlers
 				skillComp.target = (IEntity)target;
 				skillComp.originator = originator;
 
-				Log.Debug("Count effects: {0}", skill.GetData().effects.Count);
 				foreach (var effectData in skill.GetData().effects)
 				{
-					Log.Debug("Processing effect {0}", effectData.EffectType);
 					SkillEffect newEffect = SkillEffect.GetSkillEffect(effectData.EffectType, effectData, skillComp);
 					switch (newEffect.behaviorType)
 					{
@@ -65,21 +63,5 @@ namespace Melia.Channel.World.SkillHandlers
 
 			return skillResult;
 		}
-		/*
-		public void OnStack(Buff buff, int stackLevel)
-		{
-			if (buff.owner is IEntity)
-			{
-				var entityTarget = (IEntity)buff.owner;
-				StatModifier tempMod;
-				foreach (var mod in buff.StatModifiers.Values)
-				{
-					tempMod = mod;
-					tempMod.modifierValue = mod.modifierValue + stackLevel;
-					entityTarget.statsManager.AddStatMod(buff.Handle, tempMod);
-				}
-			}
-		}
-		*/
 	}
 }

@@ -247,7 +247,6 @@ namespace Melia.Channel.World
 				// Check if caster has enough SP
 				if (caster.Sp < (int)this.GetData().SpendSP)
 				{
-					Log.Debug("caster {0} has no enough sp to cast skill {1}, currentSp{3} neededSp{2}", caster.Handle, this.Data.Id, this.GetData().SpendSP, caster.Sp);
 					return false;
 				}
 			}
@@ -394,7 +393,6 @@ namespace Melia.Channel.World
 			}
 
 			// Depends of the skillType, the skill is casted in different ways, and different things are prepared.
-			Log.Debug("Cast type: {0}", this.GetData().Type);
 			switch (this.GetData().Type)
 			{
 				// GROUND SKILL
@@ -473,12 +471,6 @@ namespace Melia.Channel.World
 								Position skillPosition = new Position(x, owner.Position.Y, z);
 								var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
 
-								// Initialize other specific variables
-								if (this.GetData().MaxInteractions > 0)
-								{
-									PESkill.maxInteractions = this.GetData().MaxInteractions;
-								}
-
 								// Initialize ground skill
 								PESkill.Init(map, this, owner, skillPosition, skillDirection);
 
@@ -502,12 +494,6 @@ namespace Melia.Channel.World
 							}
 
 							var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);
-
-							// Initialize other specific variables
-							if (this.GetData().MaxInteractions > 0)
-							{
-								PESkill.maxInteractions = this.GetData().MaxInteractions;
-							}
 
 							// Initialize ground skill
 							PESkill.Init(map, this, owner, skillPosition, skillDirection);

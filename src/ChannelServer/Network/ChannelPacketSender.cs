@@ -923,7 +923,6 @@ namespace Melia.Channel.Network
 			foreach (var property in properties)
 			{
 				packet.PutShort(property);
-				Log.Debug("property {0}", property);
 				switch (property)
 				{
 					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
@@ -981,8 +980,6 @@ namespace Melia.Channel.Network
 		{
 			if (properties == null || properties.Length == 0)
 				return;
-
-			Log.Debug("ZC_OBJECT_PROPERTY Skill: ID: {0} Cooldown:{1} _worldId {2}", skill.Id, skill.Data.CoolDown, skill.WorldId);
 
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 			packet.PutLong(skill.WorldId);
@@ -1276,7 +1273,6 @@ namespace Melia.Channel.Network
 				packet.PutInt(target.targetHandle);
 				packet.PutInt((int)target.value);
 				packet.PutInt(target.actor.Hp);
-				Log.Debug("actorEntity {0} HP {1}", target.actor.Handle, target.actor.Hp);
 				packet.PutInt(1); // Hit count
 				packet.PutBinFromHex("01 00 FF 18 F8 18 03 00 00 71 00 08 54 01 00 00 64 00 02 01 00 00 93 00 00 00 00 00 F6 06 41 6A 00 00 00 64");
 
@@ -1606,7 +1602,6 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			//Log.Debug("Moving actor {0} to {1} {2} {3}", entity.Handle, x, y, z);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(x);
 			packet.PutFloat(y);

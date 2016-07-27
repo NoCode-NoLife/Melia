@@ -142,7 +142,7 @@ namespace Melia.Channel.World.SectorActors
 			this.Direction = dir;
 
 			// Set amount of targets that can interact with this GroundSkill at the same time.
-			_maxCounterTargets = 10; /// TODO
+			_maxCounterTargets = 1; /// TODO
 
 			// Initialize interactions counter
 			this.interactions = 0;
@@ -163,7 +163,7 @@ namespace Melia.Channel.World.SectorActors
 			_nextProcessTime = DateTime.Now;
 
 			// Set tick interval
-			_processTickInterval = 500; /// TODO
+			_processTickInterval = 250; /// TODO
 
 			// Set collisionShape
 			this.CollisionShape = GetSkillShape();
@@ -175,6 +175,11 @@ namespace Melia.Channel.World.SectorActors
 			if (ownerSkill.GetData().EffectId > 0) 
 				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, this.Direction, true, this.Handle);
 
+			if (this.ownerSkill.GetData().IsInstant)
+				_processTask = TasksPoolManager.Instance.AddGeneralTask(Process, null, 0);
+			else
+				_processTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(Process, null, 0, (int)_processTickInterval);
+
 		}
 
 		/// <summary>
@@ -183,6 +188,12 @@ namespace Melia.Channel.World.SectorActors
 		/// </summary>
 		public void Disable()
 		{
+
+			if (_processTask != null) {
+				_processTask.Dispose();
+				_processTask = null;
+			}
+
 			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
 
 			// If this skill is controlling all affected targets, remove skill from all current affected entities
@@ -246,19 +257,22 @@ namespace Melia.Channel.World.SectorActors
 
 			// At this point, the target is a valid target
 
-			// Increment the amount of affected targets
-			_countTargets++;
-
 			// Check if this visitor was already colliding with this GroundSkill in the last tick.
 			int actorIndex = _lastProcessTargets.IndexOf(actor);
 			if (actorIndex == -1)
 			{
-				// Visitor is a new target, add it to the list of current targets, and execute OnEnter()
-				_processTargets.Add(actor);
-				this.OnEnter(actor);
+				if (this.OnEnter(actor))
+				{
+					// Increment the amount of affected targets
+					_countTargets++;
+					// Visitor is a new target, add it to the list of current targets, and execute OnEnter()
+					_processTargets.Add(actor);
+				}
 			}
 			else
 			{
+				// Increment the amount of affected targets
+				_countTargets++;
 				// Visitor is an old target, add it to the list of current targets anyway, but remove from previous list.
 				_processTargets.Add(actor);
 				_lastProcessTargets.RemoveAt(actorIndex);
@@ -274,7 +288,7 @@ namespace Melia.Channel.World.SectorActors
 		/// <summary>
 		/// This function is called everytime a new visitor collides with this GroundSkill
 		/// </summary>
-		public void OnEnter(Actor actor)
+		public bool OnEnter(Actor actor)
 		{
 			// Process skill in target
 			var sResult = this.ownerSkill.ProcessSkill(actor, this);
@@ -282,7 +296,10 @@ namespace Melia.Channel.World.SectorActors
 			if (sResult != null)
 			{
 				skillResults.Add(sResult);
+				return true;
 			}
+			return false;
+
 		}
 
 		/// <summary>
@@ -308,9 +325,9 @@ namespace Melia.Channel.World.SectorActors
 		}
 
 		/// <summary>
-		/// This function is called in every Map's tick. It controls all GroundSkill's behavior.
+		/// This function is called by the timer. It controls all GroundSkill's behavior.
 		/// </summary>
-		public void Process()
+		public void Process(Object obj)
 		{
 			// Disables the GroundSkill if reached his LifeTime.
 			if (this.timeEndLife < DateTime.Now)
