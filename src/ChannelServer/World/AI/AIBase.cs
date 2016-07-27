@@ -208,7 +208,11 @@ namespace Melia.Channel.World.AI
 		protected virtual void onEvtThink() { }
 
 		protected virtual void onEvtAttacked(IEntity attacker) { }
-		protected virtual void onEvtDead() { }
+
+		protected virtual void onEvtDead() {
+			this.StopFollow();
+		}
+
 		protected virtual void onEvtReadyToAct() { }
 		protected virtual void onEvtArrived() { }
 

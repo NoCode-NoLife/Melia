@@ -285,20 +285,6 @@ namespace Melia.Channel.World
 			// Process skill
 			switch (this.Id)
 			{
-				case 40001:
-					/*
-					this.Data.EffectId = 2562065;
-					this.Data.IsDot = false;
-					this.Data.LifeInSeconds = 10;
-					*/
-					break;
-				case 40002:
-					/*
-					this.Data.EffectId = 2562066;
-					this.Data.IsDot = false;
-					this.Data.LifeInSeconds = 10;
-					*/
-					break;
 				case 40003:
 					/*
 					this.Data.EffectId = 2562067;
@@ -400,16 +386,15 @@ namespace Melia.Channel.World
 				case 4:
 					this.Data.Type = SkillType.ACTOR;
 					break;
-				default:
-					this.GetData().EffectId = 0;
-					break;
 				case 50045:
 					this.Data.Type = SkillType.GROUND;
 					break;
-
+				default:
+					break;
 			}
 
 			// Depends of the skillType, the skill is casted in different ways, and different things are prepared.
+			Log.Debug("Cast type: {0}", this.GetData().Type);
 			switch (this.GetData().Type)
 			{
 				// GROUND SKILL
@@ -425,7 +410,8 @@ namespace Melia.Channel.World
 							skillPosition = new Position(owner.Direction.Cos + owner.Position.X, owner.Position.Y, owner.Direction.Sin + owner.Position.Z);
 						} else
 						{
-							skillPosition = new Position(40 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 40 * owner.Direction.Sin + owner.Position.Z);
+							//skillPosition = new Position(40 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 40 * owner.Direction.Sin + owner.Position.Z);
+							skillPosition = new Position(200 * owner.Direction.Cos + owner.Position.X, owner.Position.Y, 200 * owner.Direction.Sin + owner.Position.Z);
 						}
 						
 						var skillDirection = new Direction(owner.Direction.Cos, owner.Direction.Sin);

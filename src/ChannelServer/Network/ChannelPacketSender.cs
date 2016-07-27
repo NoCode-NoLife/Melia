@@ -447,7 +447,6 @@ namespace Melia.Channel.Network
 		public static void ZC_MOVE_SPEED(Character character)
 		{
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
-
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(0);

@@ -81,14 +81,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Monster(int id, NpcType type)
 		{
-			if (id == 400001)
-			{
-				Log.Debug("YES");
-			}
-
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
-
-
 
 			this.Id = id;
 			this.NpcType = type;
@@ -102,9 +95,14 @@ namespace Melia.Channel.World
 			this.Radius = this.Data.CollisionRadious > 0 ? this.Data.CollisionRadious : 10;
 			this.CollisionShape = new Circle(this.Radius);
 
+			this.walkSpeed = this.Data.WalkSpeed;
+			this.runSpeed = this.Data.RunSpeed;
+			this.SetWalking();
+
 			this.statsManager = new StatsManager(this);
 			float[] baseStats = new float[(int)Stat.Stat_MAX];
-			baseStats[(int)Stat.MovSpeed] = 20.0f;
+			
+			baseStats[(int)Stat.MovSpeed] = this.GetSpeed();
 			this.statsManager.SetBaseStats(baseStats);
 			this.skillEffectsManager = new SkillEffectsManager(this);
 			this.skillEffects = new List<SkillEffect>();
@@ -113,8 +111,6 @@ namespace Melia.Channel.World
 			this.mainAttackSkill.owner = this;
 
 			_aggroList = new Dictionary<IEntity, AggroInfo>();
-
-			//this.AI = new AIBase(this);
 		}
 
 		/// <summary>
@@ -130,6 +126,7 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 		}
 
+		/*
 		public void MoveTo (Position pos, Direction dir)
 		{
 			Log.Debug("MOVETO ------------------");
@@ -153,6 +150,7 @@ namespace Melia.Channel.World
 
 			Send.ZC_MOVE_DIR(this, pos.X, pos.Y, pos.Z, dir.Cos, dir.Sin, 0);
 		}
+		*/
 		public void MoveStop()
 		{
 			if (this.isMoving)
@@ -186,8 +184,7 @@ namespace Melia.Channel.World
 			Log.Debug("remaining HP after TakeDamage :: {0}", this.Hp);
 			if (this.Hp <= 0)
 				this.Kill(from);
-
-			if (this.AI != null)
+			else if (this.AI != null)
 				this.AI.notifyEvent(AIEventTypes.AI_EVENT_ATTACKED, from);
 		}
 
@@ -207,6 +204,9 @@ namespace Melia.Channel.World
 			if (killer is Character) ((Character)killer).GiveExp(exp, classExp, this);
 
 			this.IsDead = true;
+
+			if (this.AI != null)
+				this.AI.notifyEvent(AIEventTypes.AI_EVENT_DEAD, killer);
 
 			if (this.spawnZone != null)
 			{
@@ -375,19 +375,6 @@ namespace Melia.Channel.World
 		public void ClearAggroList()
 		{
 			_aggroList.Clear();
-		}
-
-		public override void SetWalking()
-		{
-			if (this.Data != null) 
-				this.Speed = this.Data.WalkSpeed;
-			base.SetWalking();
-		}
-		public override void SetRunning()
-		{
-			if (this.Data != null)
-				this.Speed = this.Data.RunSpeed;
-			base.SetRunning();
 		}
 
 	}

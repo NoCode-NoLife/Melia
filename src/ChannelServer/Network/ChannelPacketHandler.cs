@@ -297,6 +297,18 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
+			Position newPos = new Position(x, y, z);
+			double distance = character.previousPoint.Get2DDistance(newPos);
+
+			//Log.Debug("float difference {0}", );
+			//Log.Debug("units per second {0}", distance / (unkFloat - character.previousFloat));
+			Log.Debug("received move to {0} {1} {2}", x,y ,z );
+			Log.Debug("Direction received {0} {1}", dx, dy);
+
+			character.previousPoint = newPos;
+			character.previousFloat = unkFloat;
+
+			//character.Rotate(dx, dy);
 
 			character.Move(x, y, z, dx, dy, unkFloat);
 		}
@@ -321,6 +333,8 @@ namespace Melia.Channel.Network
 			var unkFloat = packet.GetFloat(); // timestamp?
 
 			var character = conn.SelectedCharacter;
+
+			character.AI.SetIntention(World.AI.IntentionTypes.AI_INTENTION_MOVETO, new Position(x, y, z));
 
 			// TODO: Sanity checks.
 

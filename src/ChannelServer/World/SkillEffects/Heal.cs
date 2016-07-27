@@ -38,36 +38,35 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// This is a virtual function called when this effect got added in target.
 		/// </summary>
-		public override void OnAdd() {
+		public override SkillResult Instant() {
 
 			TargetType targetType = this.skillComp.caster.GetTargetType(this.skillComp.target);
 
-			if ((targetType & TargetType.MONSTER) != TargetType.NONE)
+			Log.Debug("targetType {0}", targetType);
+			if ((targetType == TargetType.MONSTER && this.skillComp.caster is Character) || targetType == TargetType.ENEMY)
 			{
-				if (this.skillComp.caster is Character)
-				{
-					int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
+				Log.Debug("calculate damage");
+				// Heal effect makes damage to enemies.
 
-					this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
+				int damage = Formulas.INTAttack(this.Data.Amount, this.skillComp.caster);
 
-					SkillResult sResult = new SkillResult();
-					sResult.actor = (Entity)this.skillComp.target;
-					sResult.targetHandle = this.skillComp.target.Handle;
-					sResult.skillHandle = this.skillComp.skill.Handle;
-					sResult.value = damage;
-					sResult.type = 1;
-					List<SkillResult> hitResults = new List<SkillResult>();
-					hitResults.Add(sResult);
+				this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
 
-					Send.ZC_SKILL_HIT_INFO(this.skillComp.caster, hitResults);
+				SkillResult sResult = new SkillResult();
+				sResult.actor = (Entity)this.skillComp.target;
+				sResult.targetHandle = this.skillComp.target.Handle;
+				sResult.skillHandle = this.skillComp.skill.Handle;
+				sResult.value = damage;
+				sResult.type = 1;
 
-					return;
-				}
+				return sResult;
 			}
 
 			if (this.skillComp.target is Character)
 				if (this.skillComp.skill.Id == 40001)
 					this.skillComp.target.Heal(Formulas.Heal40001(this.skillComp.skill, this.skillComp.caster, this), _isPercent);
+
+			return null;
 		} 
 
 		/// <summary>

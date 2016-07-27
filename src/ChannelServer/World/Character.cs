@@ -168,11 +168,6 @@ namespace Melia.Channel.World
 		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
 
 		/// <summary>
-		/// Character's current speed.
-		/// </summary>
-		public new float Speed { get; set; }
-
-		/// <summary>
 		/// Specifies whether the character currently updates the visible
 		/// entities around the character.
 		/// </summary>
@@ -182,6 +177,9 @@ namespace Melia.Channel.World
 		/// Character's scripting variables.
 		/// </summary>
 		public Variables Variables { get; private set; }
+
+		public Position previousPoint;
+		public float previousFloat;
 
 		/// <summary>
 		/// Creates new character.
@@ -198,11 +196,13 @@ namespace Melia.Channel.World
 			ChannelServer.Instance.World.RegisterToEvents(this.Handle);
 			this.Inventory = new Inventory(this);
 			this.Variables = new Variables();
-			this.Speed = 30;
+			this.walkSpeed = 30;
+			this.runSpeed = 30; // Characters seems not to have Running speed
+			this.SetWalking();
 			this.jobs = new Dictionary<Job, int>();
 			this.skillManager = new SkillManager(this);
 			this.statsManager = new StatsManager(this);
-			this.statsManager.baseStats[(int)Stat.MovSpeed] = 20.0f; /// TODO: check where is the best place to set this value
+			this.statsManager.baseStats[(int)Stat.MovSpeed] = GetSpeed();
 			this.skillEffectsManager = new SkillEffectsManager(this);
 			this.skillEffects = new List<SkillEffect>();
 
@@ -213,6 +213,8 @@ namespace Melia.Channel.World
 			this.lastSpRegenTime = DateTime.Now;
 
 			this.AI = new AIPlayer(this);
+
+			this.previousPoint = new Position();
 		}
 
 		/// <summary>
@@ -221,6 +223,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public override float GetSpeed()
 		{
+			Log.Debug("GetSpeed called {0}", this.Speed);
 			return this.Speed;
 		}
 
@@ -702,17 +705,6 @@ namespace Melia.Channel.World
 		public new void TakeDamage(int damage, IEntity from)
 		{
 			base.TakeDamage(damage, from);
-		}
-
-		public override void SetWalking()
-		{
-			this.Speed = 30; /// TODO
-			base.SetWalking();
-		}
-		public override void SetRunning()
-		{
-			this.Speed = 45; /// TODO
-			base.SetWalking();
 		}
 
 	}

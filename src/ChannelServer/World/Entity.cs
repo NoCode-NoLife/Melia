@@ -321,8 +321,10 @@ namespace Melia.Channel.World
 
 		public void MoveTo(Position destination, int distanceOffset)
 		{
-			
 			float speed = this.GetSpeed();
+
+			if (this is Character)
+				speed *= 2.4f;
 
 			// Calculate distance to destination
 			float vX = destination.X - this.Position.X;
@@ -332,9 +334,11 @@ namespace Melia.Channel.World
 			if (distDestination < 1 || distDestination - distanceOffset <= 0)
 			{
 				// No need for move.
-				/// TODO notify AI about this.
-				
-				return;
+				if (this.AI != null)
+				{
+					this.AI.notifyEvent(AIEventTypes.AI_EVENT_ARRIVED);
+					return;
+				}
 			}
 
 			var cos = vX / distDestination; // Adjacent / Hipotenuse
@@ -359,8 +363,8 @@ namespace Melia.Channel.World
 			// One tick added for rounding reasons
 			int ticksToMove = 1 + (int)(GameTimeController.TICKS_PER_SECOND * distDestination / speed);
 
-			// Set heading
 			this.SetDirection(cos, sin);
+			Log.Debug("Direction calculated {0} {1}", cos, sin);
 
 			newMoveData.destination = finalDestination;
 			newMoveData.direction = new Direction(cos, sin);
@@ -370,6 +374,7 @@ namespace Melia.Channel.World
 
 			GameTimeController.Instance.RegisterMovingObject(this);
 
+			//Log.Debug("moving to {0} {1} {2}", finalDestination.X, finalDestination.Y, finalDestination.Z);
 			Send.ZC_MOVE_DIR(this, finalDestination.X, finalDestination.Y, finalDestination.Z, cos, sin, 0);
 
 			/// TODO , if ticks to arrive are too far, revalidate in between, using a task calling the AI. (EVT_ARRIVED_REVALIDATE)
@@ -382,6 +387,7 @@ namespace Melia.Channel.World
 			MoveData m = this.move;
 
 			//Log.Debug("Update position: move to {0} {1} {2}", m.destination.X, m.destination.Y, m.destination.Z);
+			
 
 			if (m == null)
 			{
@@ -402,6 +408,13 @@ namespace Melia.Channel.World
 				return false;
 
 			float speed = this.GetSpeed();
+			if (this is Character)
+				speed *= 2.4f;
+
+			if (this is Monster)
+			{
+				Log.Debug("Update position: move to {0} {1} {2} at {3}", m.destination.X, m.destination.Y, m.destination.Z, speed);
+			}
 
 			double distPassed = speed * (gameTicks - m.moveTimestamp) / GameTimeController.TICKS_PER_SECOND;
 
@@ -410,9 +423,13 @@ namespace Melia.Channel.World
 
 			double distFraction = distPassed / Math.Sqrt(distX * distX + distZ * distZ);
 
+			Random rnd = new Random();
+			Skill skill = this.skillManager.GetSkill(40001);
+
 			if (distFraction > 1)
 			{
 				this.SetPosition(m.destination.X, m.destination.Y, m.destination.Z);
+				//Send.ZC_NORMAL_Skill(this, skill, new Position(m.destination.X, m.destination.Y, m.destination.Z), new Direction(0.707f, 0.707f), true, rnd.Next());
 			}
 			else
 			{
@@ -420,6 +437,7 @@ namespace Melia.Channel.World
 				m.accurateZ += distZ * distFraction;
 
 				this.SetPosition((float)m.accurateX, m.destination.Y, (float)m.accurateZ);
+				//Send.ZC_NORMAL_Skill(this, skill, new Position((float)m.accurateX, m.destination.Y, (float)m.accurateZ), new Direction(0.707f, 0.707f), true, rnd.Next());
 			}
 
 			m.moveTimestamp = gameTicks;
@@ -451,10 +469,12 @@ namespace Melia.Channel.World
 
 		virtual public void SetWalking()
 		{
+			this.Speed = this.walkSpeed;
 			_isRunning = false;
 		}
 		virtual public void SetRunning()
 		{
+			this.Speed = this.runSpeed;
 			_isRunning = true;
 		}
 

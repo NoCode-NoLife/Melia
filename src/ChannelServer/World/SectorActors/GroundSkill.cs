@@ -170,6 +170,7 @@ namespace Melia.Channel.World.SectorActors
 			Map.AddSkill(this);
 
 			// Broadcast effect.
+			Log.Debug("skill {0} level {1}", ownerSkill.Id, ownerSkill.level);
 			if (ownerSkill.GetData().EffectId > 0) 
 				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Direction(0.707f, 0.707f), true, this.Handle);
 		}
@@ -206,11 +207,11 @@ namespace Melia.Channel.World.SectorActors
 			switch (ownerSkill.GetData().SplashType)
 			{
 				case SplashType.Square:
-					skillShape = new Circle(30.0f);
+					skillShape = new Circle(10.0f);
 					//skillShape = new Square(this.Data.SplashHeight, this.Data.SplashHeight);
 					break;
 				case SplashType.Circle:
-					skillShape = new Circle(30.0f);
+					skillShape = new Circle(10.0f);
 					break;
 				case SplashType.Fan:
 					skillShape = new Cone(ownerSkill.GetData().SplashAngle, ownerSkill.GetData().SplashRange);

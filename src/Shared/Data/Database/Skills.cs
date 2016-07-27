@@ -65,7 +65,7 @@ namespace Melia.Shared.Data.Database
 		public int CoolDown { get; set; }
 		public int CancelTime { get; set; }
 		public int HitDelay { get; set; }
-		public int AttackAdd { get; set; } // Amount of attack for this skill level
+		public float AttackAdd { get; set; } // Amount of attack for this skill level
 		public bool EnableShootMove { get; set; }
 		public bool EnableShootRotate { get; set; }
 		public int SkillFactor { get; set; }
@@ -152,6 +152,10 @@ namespace Melia.Shared.Data.Database
 			info.SpendSP = entry.ReadInt("spConsume");
 			info.LifeInSeconds = entry.ReadFloat("lifeTime");
 			info.EffectId = entry.ReadInt("visualEffectId");
+			if (info.Id == 40001)
+			{
+				Log.Debug("visual {0}", info.EffectId);
+			}
 			info.IsInstant = entry.ReadBool("isInstant");
 			info.IsDot = !entry.ReadBool("activateOnce");
 			info.MaxInteractions = entry.ReadInt("maxInteractions");
@@ -208,7 +212,7 @@ namespace Melia.Shared.Data.Database
 						break;
 					}
 			}
-			info.AttackAdd = entry.ReadInt("attackValue");
+			info.AttackAdd = entry.ReadFloat("attackValue");
 			info.EnableShootMove = entry.ReadBool("canShootMove");
 			info.EnableShootRotate = entry.ReadBool("canShootRotate");
 			info.SkillFactor = entry.ReadInt("skillFactor");

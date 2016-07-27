@@ -76,11 +76,13 @@ namespace Melia.Channel.World.AI
 				IEntity mostHated = _entityMonster.GetMostHated();
 				if (mostHated != null)
 				{
-					this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
-				} else
+					//this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
+				}
+				else
 				{
 					// Return home if its far away
-					if (_entityMonster.spawnZone != null) {
+					if (_entityMonster.spawnZone != null)
+					{
 						if (_entity.Position.Get2DDistance(_entityMonster.spawnPosition) - _entity.Radius > WALK_RANGE_FROM_SPAWN_POSITION)
 						{
 							this.onIntentionMoveTo(_entityMonster.spawnPosition);
@@ -140,11 +142,12 @@ namespace Melia.Channel.World.AI
 			if (skillRange.IntersectWith(_attackTarget.CollisionShape))
 			{
 				_entity.CastSkill(_entityMonster.mainAttackSkill, _attackTarget);
-			} else
+			}
+			else
 			{
 				this.moveToEntity(_attackTarget, (int)attackSkill.GetData().MaxRange);
 			}
-			
+
 		}
 
 		protected override void onEvtAttacked(IEntity attacker)
@@ -171,7 +174,8 @@ namespace Melia.Channel.World.AI
 			if (this.GetIntention() != IntentionTypes.AI_INTENTION_ATTACK)
 			{
 				SetIntention(IntentionTypes.AI_INTENTION_ATTACK, attacker);
-			} else
+			}
+			else
 			{
 				// Check if most hated changed, attack the most hated.
 				if (_entityMonster.GetMostHated() != this._attackTarget)
@@ -204,7 +208,7 @@ namespace Melia.Channel.World.AI
 			{
 				_aiTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(this.Process, null, 1000, 1000);
 			}
-				
+
 		}
 
 		public void StopAITask()
@@ -237,5 +241,12 @@ namespace Melia.Channel.World.AI
 			base.onIntentionIdle();
 		}
 
+		protected override void onEvtDead()
+		{
+			StopAITask();
+			_entityMonster = null;
+
+			base.onEvtDead();
+		}
 	}
 }
