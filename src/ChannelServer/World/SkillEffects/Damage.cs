@@ -41,20 +41,21 @@ namespace Melia.Channel.World.SkillEffects
 		public override SkillResult Instant()
 		{
 			int damage = Formulas.PhisicalAttack(this.Data.Amount, this.skillComp.caster);
-			if (damage > 0)
+			damage = (int) this.skillComp.target.AdjustReceivedDamage(damage);
+			if (this.skillComp.target.TakeDamage(damage, this.skillComp.caster) > 0)
 			{
-				this.skillComp.target.TakeDamage(damage, this.skillComp.caster);
+				// Generate result reports
+				var skillResult = new SkillResult();
+				skillResult.actor = this.skillComp.target;
+				skillResult.skillHandle = this.skillComp.skill.Handle;
+				skillResult.targetHandle = this.skillComp.target.Handle;
+				skillResult.type = 1;
+				skillResult.value = damage;
+
+				return skillResult;
 			}
 
-			// Generate result reports
-			var skillResult = new SkillResult();
-			skillResult.actor = this.skillComp.target;
-			skillResult.skillHandle = this.skillComp.skill.Handle;
-			skillResult.targetHandle = this.skillComp.target.Handle;
-			skillResult.type = 1;
-			skillResult.value = damage;
-
-			return skillResult;
+			return null;
 		}
 
 		/// <summary>

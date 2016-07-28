@@ -131,11 +131,11 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public override void TakeDamage(int damage, IEntity from)
+		public override int TakeDamage(int damage, IEntity from)
 		{
 
 			if (this.IsDead)
-				return;
+				return 0;
 
 			this.Hp -= damage;
 
@@ -143,6 +143,8 @@ namespace Melia.Channel.World
 				this.Kill(from);
 			else if (this.AI != null)
 				this.AI.notifyEvent(AIEventTypes.AI_EVENT_ATTACKED, from);
+
+			return damage;
 		}
 
 		/// <summary>

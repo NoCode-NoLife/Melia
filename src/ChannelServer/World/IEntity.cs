@@ -59,7 +59,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		void TakeDamage(int damage, IEntity from);
+		int TakeDamage(int damage, IEntity from);
 
 		void SetOneHitInmunity(bool activate);
 

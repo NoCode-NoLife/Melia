@@ -39,8 +39,6 @@ namespace Melia.Channel.World.AI
 			if (_thinking)
 				return;
 
-			return;
-
 			_thinking = true;
 
 			switch (GetIntention())

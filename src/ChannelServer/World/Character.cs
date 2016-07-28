@@ -695,9 +695,9 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public new void TakeDamage(int damage, IEntity from)
+		public new int TakeDamage(int damage, IEntity from)
 		{
-			base.TakeDamage(damage, from);
+			return base.TakeDamage(damage, from);
 		}
 
 	}

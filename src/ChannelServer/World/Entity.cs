@@ -226,10 +226,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		virtual public void TakeDamage(int damage, IEntity from)
+		virtual public int TakeDamage(int damage, IEntity from)
 		{
 			if (this.IsDead)
-				return;
+				return 0;
 
 
 			EventData evData = new EventData();
@@ -241,10 +241,12 @@ namespace Melia.Channel.World
 			if (_oneHitInmunity)
 			{
 				this.SetOneHitInmunity(false);
-				return;
+				return 0;
 			}
 
 			this.Hp -= damage;
+
+			return damage;
 
 			//if (this.Hp == 0)
 				//this.Kill(from);
