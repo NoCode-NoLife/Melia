@@ -38,7 +38,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
-			Log.Debug("sub event for actor {0}", skillComp.target.Handle);
 			// Subscribe this effect to receive events from this target.
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.ADJUST_DAMAGE_MODIFIER, ReceivedHit, skillComp.target.Handle);
 
@@ -57,7 +56,6 @@ namespace Melia.Channel.World.SkillEffects
 		public override void OnRemove()
 		{
 			// Unsubscribe this effect from event system.
-			Log.Debug("Unsub event for actor {0}", skillComp.target.Handle);
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.ADJUST_DAMAGE_MODIFIER, ReceivedHit, skillComp.target.Handle);
 			// Remove stats modifiers
 			Skill skill = skillComp.skill;

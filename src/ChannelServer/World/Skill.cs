@@ -313,18 +313,6 @@ namespace Melia.Channel.World
 					skillStatModifiers2.Add(statMod2.stat, statMod2);
 					this.GetData().statModifiers = skillStatModifiers2;
 					break;
-
-				case 40007:
-					Dictionary<Stat, StatModifier> skillStatModifiers3 = new Dictionary<Stat, StatModifier>();
-					StatModifier statMod3;
-					statMod3.stat = Stat.PDEF;
-					statMod3.modifierType = StatModifierType.Addition;
-					statMod3.modifierValue = -2f;
-					skillStatModifiers3.Add(statMod3.stat, statMod3);
-					this.GetData().statModifiers = skillStatModifiers3;
-
-					break;
-
 				default:
 					break;
 			}

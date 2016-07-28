@@ -48,13 +48,6 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			// Subscribe this effect to receive events from this target.
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.TAKE_DAMAGE, TakeDamage, skillComp.caster.Handle);
-
-			// Add stats modifiers to target
-			Skill skill = skillComp.skill;
-			foreach (var statMod in skill.GetData().statModifiers.Values)
-			{
-				skillComp.target.statsManager.AddStatMod(this.Handle, statMod);
-			}
 		}
 
 		/// <summary>
@@ -64,25 +57,6 @@ namespace Melia.Channel.World.SkillEffects
 		{
 			// Unsubscribe this effect from event system.
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.TAKE_DAMAGE, TakeDamage, skillComp.caster.Handle);
-			// Remove stats modifiers
-			Skill skill = skillComp.skill;
-			foreach (var statMod in skill.GetData().statModifiers)
-			{
-				skillComp.target.statsManager.RemoveStatMods(this.Handle);
-			}
-		}
-
-		/// <summary>
-		/// Virtual function called when this effect is applied again on the same target, and is a stackable effect.
-		/// </summary>
-		public override void OnStack()
-		{
-			//
-			base.OnStack();
-
-			// Add stats mods to target, based on stack level
-			/// TODO
-			//skillComp.target.statsManager.AddStatMod(this.Handle, statMod)
 		}
 
 		/// <summary>
@@ -90,7 +64,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public EventResult TakeDamage(EventData evData)
 		{
-
 			EventResult evResult = new EventResult();
 
 			// Prevent other hits to go through.
@@ -101,26 +74,25 @@ namespace Melia.Channel.World.SkillEffects
 			_interactionsCount++;
 
 			var rnd = new Random();
-			var changeOfHit = rnd.Next(0, 10);
+			var chanceOfHit = rnd.Next(0, 10);
 
 			// If the caster gets protected by Guardian Saint skill
-			if (changeOfHit > 5)
+			if (chanceOfHit > 5)
 			{
-				this.skillComp.target.TakeDamage((int)evData.damage, evData.damageFrom);
+				if (this.skillComp.target.TakeDamage((int)evData.damage, evData.damageFrom) > 0)
+				{
 
-				SkillResult sResult = new SkillResult();
-				sResult.actor = (Entity)this.skillComp.target;
-				sResult.targetHandle = this.skillComp.target.Handle;
-				sResult.skillHandle = this.skillComp.skill.Handle;
-				sResult.value = evData.damage;
-				sResult.type = 1;
-				List<SkillResult> hitResults = new List<SkillResult>();
-				hitResults.Add(sResult);
+					SkillResult sResult = new SkillResult();
+					sResult.actor = (Entity)this.skillComp.target;
+					sResult.targetHandle = this.skillComp.target.Handle;
+					sResult.skillHandle = this.skillComp.skill.Handle;
+					sResult.value = evData.damage;
+					sResult.type = 1;
+					List<SkillResult> hitResults = new List<SkillResult>();
+					hitResults.Add(sResult);
 
-				Send.ZC_SKILL_HIT_INFO(evData.damageFrom, hitResults);
-
-				/// TODO how to prevent damage to caster when succeed?
-				evResult.iValue = 1;
+					Send.ZC_SKILL_HIT_INFO(evData.damageFrom, hitResults);
+				}
 
 				this.skillComp.caster.SetOneHitInmunity(true);
 			}

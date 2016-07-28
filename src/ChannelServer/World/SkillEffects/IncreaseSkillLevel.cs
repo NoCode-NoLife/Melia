@@ -39,7 +39,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
-			Log.Debug("Subs");
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = true;
 		}
@@ -49,7 +48,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnRemove()
 		{
-			Log.Debug("Unsbs");
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = false;
 		}

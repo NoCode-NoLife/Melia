@@ -700,5 +700,25 @@ namespace Melia.Channel.World
 			return base.TakeDamage(damage, from);
 		}
 
+		override public TargetType GetTargetType(IEntity entity)
+		{
+			if (entity == this)
+			{
+				return TargetType.SELF;
+			}
+
+			else if (entity is Character)
+			{
+				return TargetType.FRIEND;
+			}
+
+			else if (entity is Monster)
+			{
+				return TargetType.MONSTER;
+			}
+
+			return TargetType.NONE;
+		}
+
 	}
 }
