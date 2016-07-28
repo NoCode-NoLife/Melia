@@ -36,7 +36,7 @@ namespace Melia.Channel.World.SkillEffects
 		public override void OnAdd()
 		{
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
-			this.skillComp.target.IsFade = true;
+			this.skillComp.caster.IsFade = true;
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Melia.Channel.World.SkillEffects
 		public override void OnRemove()
 		{
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
-			this.skillComp.target.IsFade = false;
+			this.skillComp.caster.IsFade = false;
 		}
 
 		/// <summary>

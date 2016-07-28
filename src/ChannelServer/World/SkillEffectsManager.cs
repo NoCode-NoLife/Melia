@@ -67,7 +67,7 @@ namespace Melia.Channel.World
 		{
 			// Get skill for this effect
 			Skill skill = effect.skillComp.skill;
-			Log.Debug("ading effect {0}", effect.ToString());
+			Log.Debug("adding effect {0}", effect.ToString());
 			switch (effect.behaviorType)
 			{
 				case EffectBehaviorType.INSTANT:
@@ -137,6 +137,29 @@ namespace Melia.Channel.World
 
 		}
 
+		public void RemoveEffect(SkillEffect effect)
+		{
+			lock (effects)
+			{
+				for (int i = effects.Count - 1; i >= 0; i--)
+				{
+					if (effects[i] == effect)
+					{
+
+						SkillEffect selectedEffect = effects[i];
+						effects.RemoveAt(i);
+						if (owner is IEntity)
+						{
+							// Update client
+							
+							Send.ZC_BUFF_REMOVE((IEntity)owner, selectedEffect);
+						}
+						
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// This function removes all effects for a given skill. Updating client accordingly.
 		/// </summary
@@ -185,13 +208,17 @@ namespace Melia.Channel.World
 			// Deactivate effect
 			selectedEffect.Exit();
 			// Remove effect from actor
-			effects.RemoveAt(i);
+			lock (this.effects)
+				effects.RemoveAt(i);
+
 			if (owner is IEntity)
 			{
 				// Update client
 				Send.ZC_BUFF_REMOVE((IEntity)owner, selectedEffect);
 			}
 		}
+
+
 
 	}
 }

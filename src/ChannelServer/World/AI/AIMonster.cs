@@ -76,7 +76,7 @@ namespace Melia.Channel.World.AI
 				IEntity mostHated = _entityMonster.GetMostHated();
 				if (mostHated != null)
 				{
-					//this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
+					this.SetIntention(IntentionTypes.AI_INTENTION_ATTACK, mostHated);
 				}
 				else
 				{
@@ -120,7 +120,7 @@ namespace Melia.Channel.World.AI
 			}
 
 			// Check if target is still there or attack has timeout
-			if (_attackTarget == null || _attackTimeout < GameTimeController.Instance.GetGameTicks())
+			if (_attackTarget == null || _attackTarget.IsFade || _attackTimeout < GameTimeController.Instance.GetGameTicks())
 			{
 				if (_attackTarget != null)
 					_entityMonster.StopHating(_attackTarget);

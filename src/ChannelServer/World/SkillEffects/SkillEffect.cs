@@ -97,8 +97,6 @@ namespace Melia.Channel.World.SkillEffects
 			this.skillComp = skillComp;
 			stackLevel = 1;
 			expireTime = DateTime.Now.AddSeconds(this.Data.LifeTime);
-			//expireTime = DateTime.Now.AddSeconds(skillComp.skill.Data.buffLifeInSeconds);
-			//isPermanent = skillComp.skill.Data.buffIsPermanent;
 
 			// 
 			_lastProcessTime = DateTime.Now;
@@ -193,7 +191,7 @@ namespace Melia.Channel.World.SkillEffects
 
 				if (!this.Data.IsPermanent && _effectEndTime < DateTime.Now)
 				{
-					_state = EffectState.FINISHING;
+					this.skillComp.target.skillEffectsManager.RemoveEffect(this);
 				}
 			}
 
@@ -205,6 +203,7 @@ namespace Melia.Channel.World.SkillEffects
 					_futureTask = null;
 				}
 				this.OnRemove();
+				//this.skillComp.target.skillEffectsManager.RemoveEffect(this);
 			}
 		}
 

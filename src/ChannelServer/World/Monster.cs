@@ -295,6 +295,11 @@ namespace Melia.Channel.World
 					if (aggroInfo == null)
 						continue;
 
+					if (aggroInfo.attacker.IsFade)
+					{
+						aggroInfo.hate = 0;
+					}
+
 					if (aggroInfo.hate > maxHate)
 					{
 						mostHated = aggroInfo.attacker;

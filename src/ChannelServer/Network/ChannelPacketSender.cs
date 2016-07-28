@@ -2061,15 +2061,19 @@ namespace Melia.Channel.Network
 			var packet = (update) ? new Packet(Op.ZC_BUFF_UPDATE) : new Packet(Op.ZC_BUFF_ADD);
 
 			packet.PutInt(entity.Handle);
-			packet.PutInt(effect.Data.EffectId); // Buff type
-			packet.PutInt(effect.skillComp.skill.level); // Skill Level
+			packet.PutInt(effect.Data.EffectId);
+			packet.PutInt(effect.skillComp.skill.level);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(effect.stackLevel); // Skill stack
-											//packet.PutBinFromHex("A8 61 00 00"); // Buff ID of some kind. A8 61 is "wizzard shield 20003 or 20004"
-			packet.PutBinFromHex("00 00 00 00"); // Buff ID of some kind. "safety zone"
+			packet.PutInt(effect.stackLevel);
+			int lifeMilis = 0;
+			if (effect.Data.LifeTime > 0) {
+				TimeSpan milisDiff = effect.expireTime - DateTime.Now;
+				lifeMilis = (int)milisDiff.TotalMilliseconds;
+			}
+			packet.PutInt(lifeMilis);
 			if (entity is Character)
 			{
 				packet.PutShort((short)(((Character)entity).Name.Length + 1));
