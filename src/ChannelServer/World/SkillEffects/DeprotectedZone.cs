@@ -44,6 +44,7 @@ namespace Melia.Channel.World.SkillEffects
 			for (int i = 0; i < statMods.Count; i++)
 			{
 				StatModifier sm = statMods[i];
+				sm.modifierValue = (float)Formulas.DeprotectedZone40004(skill, this.skillComp.caster, this);
 				skillComp.target.statsManager.AddStatMod(this.Handle, sm);
 			}
 		}

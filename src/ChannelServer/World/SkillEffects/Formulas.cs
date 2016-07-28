@@ -26,6 +26,7 @@ namespace Melia.Channel.World.SkillEffects
 			return (int) (skill.GetData().AttackAdd + dealer.statsManager.stats[(int)Stat.INT] * 1.2f);
 		}
 
+		public static int DeprotectedZone40004(Skill skill, IEntity dealer, SkillEffect effect)
 		{
 			return -(int)(effect.Data.Amount + dealer.statsManager.stats[(int)Stat.SPR]);
 		}
