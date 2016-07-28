@@ -46,6 +46,7 @@ namespace Melia.Channel.World.SkillEffects
 			Skill skill = skillComp.skill;
 			foreach (var statMod in skill.GetData().statModifiers.Values)
 			{
+
 				skillComp.target.statsManager.AddStatMod(this.Handle, statMod);
 			}
 		}
@@ -66,17 +67,9 @@ namespace Melia.Channel.World.SkillEffects
 			}
 		}
 
-		/// <summary>
-		/// Virtual function called when this effect is applied again on the same target, and is a stackable effect.
-		/// </summary>
-		public override void OnStack()
+		public override void OnTimer()
 		{
-			//
-			base.OnStack();
-
-			// Add stats mods to target, based on stack level
-			/// TODO
-			//skillComp.target.statsManager.AddStatMod(this.Handle, statMod)
+			base.OnTimer();
 		}
 
 		/// <summary>

@@ -45,7 +45,21 @@ namespace Melia.Channel.World
 
 		public void AddStatMod(int handler, StatModifier modifier)
 		{
-			statMods[modifier.stat][handler] = modifier;
+			lock (this.statMods)
+			{
+				// Check if we are adding the same statmod again, which means this effect is getting stacked.
+				if (this.statMods[modifier.stat].ContainsKey(handler))
+				{
+					StatModifier sm = statMods[modifier.stat][handler];
+					sm.modifierValue += modifier.modifierValue;
+					this.statMods[modifier.stat][handler] = sm;
+				}
+				// Add this new statMod for this effect
+				else {
+					this.statMods[modifier.stat][handler] = modifier;
+				}
+			}
+
 			this.RecalculateStat(modifier.stat);
 		}
 
@@ -64,12 +78,15 @@ namespace Melia.Channel.World
 
 		public void RemoveStatMods(int handler)
 		{
-			foreach (var modItem in statMods)
+			lock (this.statMods)
 			{
-				if (modItem.Value.ContainsKey(handler))
+				foreach (var modItem in this.statMods)
 				{
-					modItem.Value.Remove(handler);
-					this.RecalculateStat(modItem.Key);
+					if (modItem.Value.ContainsKey(handler))
+					{
+						modItem.Value.Remove(handler);
+						this.RecalculateStat(modItem.Key);
+					}
 				}
 			}
 		}	

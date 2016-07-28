@@ -36,7 +36,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// Miliseconds indicating the interval between ticks
 		/// </summary>
-		private double _tickRate = 500.0;
+		private double _tickRate = 1000.0;
 
 		/// <summary>
 		/// Internal variable used to control tick for effect stacking in this effect.
@@ -126,6 +126,8 @@ namespace Melia.Channel.World.SkillEffects
 					return new Damage(effectData, skillComp);
 				case "CURE":
 					return new Cure(effectData, skillComp);
+				case "DEPROTECTED_ZONE":
+					return new DeprotectedZone(effectData, skillComp);
 				default:
 					Log.Error("Skill {0} tried to instance an invalid EffectType {1}", skillComp.skill.Id, effectType);
 					return null;
@@ -150,34 +152,6 @@ namespace Melia.Channel.World.SkillEffects
 				return skillComp.skill.Id;
 
 			return -1;
-		}
-
-		/// <summary>
-		/// Process function. Called every Entity' tick from the SkillEffectManager.
-		/// </summary>
-		public void Process()
-		{
-			// Check if we need to tick this process
-			TimeSpan diff = DateTime.Now - _lastProcessTime;
-			if (diff.TotalMilliseconds >= _tickRate)
-			{
-				_lastProcessTime = DateTime.Now; /// Or should be "=+ _tickRate" to prevent jumping ticks in laggy moments?
-				OnTimer();
-			}
-
-			// Check if we need to tick for effect stack
-			if (this.Data.CanStack)
-			{
-				diff = DateTime.Now - _lastStackTime;
-				if (diff.TotalMilliseconds >= this.tickStackRate)
-				{
-					// Call OnStack() for this effect
-					_lastStackTime = DateTime.Now;
-					OnStack();
-
-				}
-			}
-
 		}
 
 		public void StartTask()
@@ -205,7 +179,7 @@ namespace Melia.Channel.World.SkillEffects
 				// schedule next task
 				if (this.behaviorType == EffectBehaviorType.BUFF)
 				{
-					_futureTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(startScheduledEffect, null, 5, (int)_tickRate);
+					_futureTask = TasksPoolManager.Instance.AddGeneralTaskAtFixedRate(startScheduledEffect, null, (int)_tickRate, (int)_tickRate);
 				}
 				else
 				{
@@ -259,7 +233,6 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		virtual public void OnStack()
 		{
-			this.stackLevel += 1;
 			skillComp.target.skillEffectsManager.AddEffect(this);
 		}
 	}

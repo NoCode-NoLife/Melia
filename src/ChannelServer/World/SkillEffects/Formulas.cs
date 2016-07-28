@@ -26,6 +26,10 @@ namespace Melia.Channel.World.SkillEffects
 			return (int) (skill.GetData().AttackAdd + dealer.statsManager.stats[(int)Stat.INT] * 1.2f);
 		}
 
+		{
+			return -(int)(effect.Data.Amount + dealer.statsManager.stats[(int)Stat.SPR]);
+		}
+
 		public static int INTAttack(int baseDamage, IEntity dealer)
 		{
 			return (int) (baseDamage + dealer.statsManager.stats[(int)Stat.INT]);

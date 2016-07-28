@@ -67,7 +67,7 @@ namespace Melia.Channel.World
 		{
 			// Get skill for this effect
 			Skill skill = effect.skillComp.skill;
-
+			Log.Debug("ading effect {0}", effect.ToString());
 			switch (effect.behaviorType)
 			{
 				case EffectBehaviorType.INSTANT:
@@ -90,8 +90,11 @@ namespace Melia.Channel.World
 							{
 								if (currentEffect.GetSkillId() == effect.GetSkillId() && currentEffect.Data.EffectType == currentEffect.Data.EffectType)
 								{
+									Log.Debug("effect exists, update");
 									// At this point, the effect already exist in this actor, so update necessary data and notify the client
 									currentEffect.expireTime = DateTime.Now.AddSeconds(currentEffect.Data.LifeTime);
+
+									currentEffect.stackLevel += 1;
 
 									// We only send the update if necessary (when there is a time displayed in the client or is a stackable effect)
 									bool update = true;
