@@ -1863,22 +1863,66 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_SKILL_RANGE_FAN(Character character, int id, Position position, Direction direction)
+		public static void ZC_SKILL_RANGE_FAN(IEntity entity, Position position, Direction direction, float range, float angle)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_FAN);
-			packet.PutInt(character.Handle);
-			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(1); // Flag
+			packet.PutByte(1); // Flag
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
 			packet.PutFloat(direction.Cos);
 			packet.PutFloat(direction.Sin);
-			packet.PutFloat(0); // Height min ?
-			packet.PutFloat(0.174533f); // Height max ?
+			packet.PutFloat(30f); // Angle or Range?  Probably RANGE. (30 units?)
+			packet.PutFloat(0.174533f); // Degree angle to Radian angle (30 degrees = 0.174533f)
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
+
+		/// <summary>
+		/// Set a Range type "SQUARE" shape in a given position
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_SKILL_RANGE_SQUARE(IEntity entity, Position position, Position position2) 
+		{
+			var packet = new Packet(Op.ZC_SKILL_RANGE_SQUARE);
+			packet.PutInt(entity.Handle);
+			packet.PutShort(0);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(position2.X);
+			packet.PutFloat(position2.Y);
+			packet.PutFloat(position2.Z);
+			packet.PutFloat(14.0f);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Set a Range type "CIRCLE" shape in a given position
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_SKILL_RANGE_CIRCLE(IEntity entity, Position position, float radius)
+		{
+			var packet = new Packet(Op.ZC_SKILL_RANGE_CIRCLE);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(radius);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		
 
 		/// <summary>
 		/// Enables/disables creature attack state
@@ -1989,22 +2033,22 @@ namespace Melia.Channel.Network
 		/// Reply packet when skill melee ground is placed
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_SKILL_MELEE_GROUND(IEntity entity, int id, Position position, Direction direction)
+		public static void ZC_SKILL_MELEE_GROUND(IEntity entity, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
-			packet.PutInt(id);
+			packet.PutInt(skill.Id);
 			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Direction.Cos);
-			packet.PutFloat(entity.Direction.Sin);
+			packet.PutFloat(skill.Direction.Cos);
+			packet.PutFloat(skill.Direction.Sin);
 			packet.PutInt(2);
-			packet.PutFloat(1300); // Shoot time? (if this is too low, the skill animation doesnt show up)
+			packet.PutFloat(skill.GetData().ShootTime); // Shoot time? (if this is too low, the skill animation doesnt show up)
 			packet.PutFloat(1);
 			packet.PutInt(1);
 			packet.PutBinFromHex("47 21 3E 00");
 			packet.PutFloat(1);
-			packet.PutFloat(position.X);
-			packet.PutFloat(position.Y);
-			packet.PutFloat(position.Z);
+			packet.PutFloat(skill.Position.X);
+			packet.PutFloat(skill.Position.Y);
+			packet.PutFloat(skill.Position.Z);
 			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
 
 			entity.Map.Broadcast(packet, entity);

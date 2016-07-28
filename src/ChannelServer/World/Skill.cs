@@ -431,7 +431,7 @@ namespace Melia.Channel.World
 
 						// Notify client
 						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
-						Send.ZC_SKILL_MELEE_GROUND(owner, this.Id, this.Position, this.Direction); // This packet should be sent from inside SkillGround?
+						Send.ZC_SKILL_MELEE_GROUND(owner, this); // This packet should be sent from inside SkillGround?
 						break;
 					}
 				case SkillType.ACTOR:

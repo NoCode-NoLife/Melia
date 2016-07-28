@@ -177,6 +177,10 @@ namespace Melia.Channel.World.SectorActors
 			if (ownerSkill.GetData().EffectId > 0) 
 				Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, this.Direction, true, this.Handle);
 
+			/// TODO, send RANGE based on object SHAPE ? By observing Kepa's skill (50045), it is a SQUARE skill, but it sends a RANGE_FAN. It could be the "FRONT" attack shape, and not the GroundSkill itself.
+			/// We dont know the purpose of this packet.
+			Send.ZC_SKILL_RANGE_FAN(owner, this.Position, this.Direction, 30, 30);
+
 			if (this.ownerSkill.GetData().IsInstant)
 				_processTask = TasksPoolManager.Instance.AddGeneralTask(Process, null, 0);
 			else

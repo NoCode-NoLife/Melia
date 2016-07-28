@@ -128,8 +128,8 @@ namespace Melia.Channel.Network
 			// ZC_OBJECT_PROPERTY...
 			// ZC_SKILL_ADD...
 			// Temporary skills (all skills not in skill List)
-			//var skills = new[]		{ 100, 3, 20,					103, 108, 105, 101, 106, 110}; // Cleric
-			var skills = new[]	{ 100, 4,  6,  20, 54,			103, 108, 105, 101, 106, 110}; // Wizzard
+			var skills = new[]		{ 100, 3, 20,					103, 108, 105, 101, 106, 110}; // Cleric
+			//var skills = new[]	{ 100, 4,  6,  20, 54,			103, 108, 105, 101, 106, 110}; // Wizzard
 			//var skills = new[]	{ 100, 2, 20,  52, 53, 55,		103, 108, 105, 101, 106, 110}; // Archer
 			//var skills = new[]	{ 100, 1,  5, 255, 11, 10, 53,	103, 108, 105, 101, 106, 110}; // Swordman
 			foreach (var skillId in skills)
@@ -791,7 +791,7 @@ namespace Melia.Channel.Network
 		{
 			var size = packet.GetShort();
 			var unkInt = packet.GetInt();
-			var count = packet.GetInt(); // Count of Targtes
+			var countTargets = packet.GetInt(); // Count of Targtes
 			var attackerX = packet.GetFloat();
 			var attackerY = packet.GetFloat();
 			var attackerZ = packet.GetFloat();
@@ -800,7 +800,22 @@ namespace Melia.Channel.Network
 			var targetZ = packet.GetFloat();
 			var targetDx = packet.GetFloat();
 			var targetDy = packet.GetFloat();
-			var unkBin = packet.GetBin(13); // 01 00 00 00 00 00 00 00 00 00 00 00 00
+
+			// About "unkBin" 
+			
+			var count2 = packet.GetByte();
+
+			for (int i = 0; i < count2; i++)
+			{
+				int varValue = packet.GetInt();
+				Log.Debug("unk variable {0} {1}", i, varValue);
+			}
+
+			List<int> targetHandlers = new List<int>();
+			for (int i = 0; i < countTargets; i++) {
+				targetHandlers.Add(packet.GetInt());
+				Log.Debug("selected target {0} {1}", i, targetHandlers[i]);
+			}
 
 			var character = conn.SelectedCharacter;
 
