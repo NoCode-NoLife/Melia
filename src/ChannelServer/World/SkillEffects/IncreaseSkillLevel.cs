@@ -39,6 +39,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnAdd()
 		{
+			Log.Debug("Subs");
 			ChannelServer.Instance.World.SubscribeToEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = true;
 		}
@@ -48,6 +49,7 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public override void OnRemove()
 		{
+			Log.Debug("Unsbs");
 			ChannelServer.Instance.World.UnsubscribeFromEvent(WorldManager.EventTypes.PERFORM_CAST, PerformCast, skillComp.target.Handle);
 			this.skillComp.target.IncreaseSkillLevel = false;
 		}
@@ -57,10 +59,9 @@ namespace Melia.Channel.World.SkillEffects
 		/// </summary>
 		public EventResult PerformCast(EventData evData)
 		{
-			
+			// Since its called in "perform cast" and not "performed cast", it will deactivate the effect in the NEXT cast.
 			_appliesCount++;
-
-			if (_appliesCount >= _maxAppliesCount)
+			if (_appliesCount > _maxAppliesCount)
 			{
 				this.skillComp.target.skillEffectsManager.RemoveEffectsBySkill(this.skillComp.skill);
 			}

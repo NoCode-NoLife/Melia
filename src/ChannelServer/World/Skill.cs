@@ -285,13 +285,6 @@ namespace Melia.Channel.World
 			switch (this.Id)
 			{
 				case 40003:
-					/*
-					this.Data.EffectId = 2562067;
-					this.Data.IsDot = true;
-					this.Data.LifeInSeconds = 20;
-					this.Data.MaxInteractions = 2;
-					*/
-
 					Dictionary<Stat, StatModifier> skillStatModifiers = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod;
 					statMod.stat = Stat.Evasion;
@@ -304,33 +297,9 @@ namespace Melia.Channel.World
 					statMod.modifierValue = 1f;
 					skillStatModifiers.Add(statMod.stat, statMod);
 					this.GetData().statModifiers = skillStatModifiers;
-
-					/*
-					this.Data.buffId = 94;
-					this.Data.buffIsPermanent = true;
-					this.Data.buffLifeInSeconds = 0;
-					this.Data.buffCanStack = false;
-					*/
-
-					/*
-					this.effects = new List<SkillEffect>();
-					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
-					*/
 					break;
+
 				case 40004:
-					/*
-					this.Data.EffectId = 190323;
-					this.Data.IsDot = true;
-					*/
-					/*
-					this.Data.buffId = 142;
-					this.Data.buffIsPermanent = true;
-					this.Data.buffLifeInSeconds = 0;
-					this.Data.buffCanStack = true;
-					*/
-					/*
-					this.Data.LifeInSeconds = 6;
-					*/
 					Dictionary<Stat, StatModifier> skillStatModifiers2 = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod2;
 					statMod2.stat = Stat.PDEF;
@@ -343,25 +312,9 @@ namespace Melia.Channel.World
 					statMod2.modifierValue = -2f;
 					skillStatModifiers2.Add(statMod2.stat, statMod2);
 					this.GetData().statModifiers = skillStatModifiers2;
-
-					/*
-					this.effects = new List<SkillEffect>();
-					this.effects.Add(new EffectSafetyZone(new SkillDataComponent()));
-					*/
 					break;
 
 				case 40007:
-					this.GetData().EffectId = 190323;
-					this.GetData().IsDot = false;
-					/*
-					this.Data.buffId = 142;
-					this.Data.buffIsPermanent = false;
-					this.Data.buffLifeInSeconds = 60;
-					this.Data.buffCanStack = false;
-					*/
-					this.GetData().LifeInSeconds = 10;
-					this.GetData().EffectsDependOnSkill = false;
-
 					Dictionary<Stat, StatModifier> skillStatModifiers3 = new Dictionary<Stat, StatModifier>();
 					StatModifier statMod3;
 					statMod3.stat = Stat.PDEF;
@@ -370,24 +323,8 @@ namespace Melia.Channel.World
 					skillStatModifiers3.Add(statMod3.stat, statMod3);
 					this.GetData().statModifiers = skillStatModifiers3;
 
-					/*
-					this.effects = new List<SkillEffect>();
-					this.effects.Add(new GuardianSaint(new SkillDataComponent()));
-					*/
 					break;
-				case 100:
-					this.GetData().IsDot = false;
-					this.GetData().IsInstant = true;
-					break;
-				case 40005:
-					break;
-				case 20001:
-				case 4:
-					this.Data.Type = SkillType.ACTOR;
-					break;
-				case 50045:
-					this.Data.Type = SkillType.GROUND;
-					break;
+
 				default:
 					break;
 			}
@@ -419,7 +356,7 @@ namespace Melia.Channel.World
 							skillRows.Add(455);
 							skillRows.Add(555);
 
-							int rowsValue = skillRows[this.level];
+							int rowsValue = skillRows[this.GetData().Level];
 							List<Position> posList = new List<Position>();
 							int r = (int)this.GetData().SplashRange;
 							int d = r * 2;
