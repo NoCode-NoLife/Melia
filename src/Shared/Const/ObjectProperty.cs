@@ -74,6 +74,37 @@ namespace Melia.Shared.Const
 			public const short NextBuyTokenTime = 31593;
 			public const short MarketReportWhite = 31595;
 			public const short MarketReportBlack = 31596;
+			public const short TREASUREBOX_EVENT_DAY = 31622;
+			public const short TREASUREBOX_EVENT_COUNT = 31623;
+			public const short PlayTimeEventRewardCount = 31624;
+			public const short PlayTimeEventPlayMin = 31625;
+			public const short DailyTimeReward_0 = 32115;
+			public const short DailyTimeReward_1 = 32116;
+			public const short DailyTimeReward_2 = 32117;
+			public const short DailyTimeReward_3 = 32118;
+			public const short DailyTimeReward_4 = 32119;
+			public const short DailyTimeReward_5 = 32120;
+			public const short DailyTimeReward_6 = 32121;
+			public const short DailyTimeReward_7 = 32122;
+			public const short DailyTimeReward_8 = 32123;
+			public const short DailyTimeReward_9 = 32124;
+			public const short DailyTimeReward_10 = 32125;
+			public const short DailyTimePoint = 32126;
+			public const short DailyTimeReward_11 = 32127;
+			public const short DailyTimeReward_19 = 32128;
+			public const short DailyTimeReward_13 = 32129;
+			public const short DailyTimeReward_20 = 32130;
+			public const short DailyTimeReward_14 = 32131;
+			public const short DailyTimeReward_21 = 32132;
+			public const short DailyTimeReward_15 = 32133;
+			public const short DailyTimeReward_22 = 32134;
+			public const short DailyTimeReward_16 = 32135;
+			public const short DailyTimeReward_23 = 32136;
+			public const short DailyTimeReward_17 = 32137;
+			public const short DailyTimeReward_18 = 32138;
+			public const short DailyTimeReward_12 = 32139;
+			public const short DailyTime_ResetTime = 32140;
+			public const short DailyBox_Event_Day = 32142;
 		}
 
 		public static class Monster
@@ -469,6 +500,7 @@ namespace Melia.Shared.Const
 			public const short OverDate = 8994;
 			public const short SkillFactorRate = 9944;
 			public const short AlwaysShowHP = 12558;
+			public const short AutoModeTarget = 32141;
 		}
 
 		public static class Skill

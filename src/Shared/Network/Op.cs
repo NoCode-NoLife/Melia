@@ -179,11 +179,40 @@ namespace Melia.Shared.Network
 	/// i11961 (2016-06-07)
 	/// - New:
 	///   - CB_GEMSCOOL_PCINFO
+	/// 
+	/// i12809 (2016-07-29)
+	/// - New:
+	///   - CZ_FIXED_NOTICE_SHOW
+	/// - Changes:
+	///   - ZC_TREASUREMARK_LIST_MAP: 0xD0 -> 0xD3
+	///   - CZ_REQ_OPEN_INGAMESHOP_UI: 0xE22 -> 0xE20
+	///   - CZ_REQ_BUY_INGAMESHOP_ITEM: 0xE23 -> 0xE21
+	///   - CZ_DUMMYPC_SKILL_POS: 0xE20 -> 0xE22
+	///   - CZ_NGS: 0xE21 -> 0xE23
+	///   - CZ_REQ_CancelGachaCube: 0xE2D -> 0xE2E
+	///   - CZ_WAREHOUSE_TAKE_LIST: 0xE2E -> 0xE2F
+	///   - CZ_PVP_COMMAND: 0xE2F -> 0xE2D
+	/// - Size changes:
+	///   - CB_LOGIN: 66 -> 202
+	///   - CB_LOGIN_BY_PASSPORT: 1068 -> 1076
+	///   - BC_LOGINOK: 121 -> 129
+	///   - BC_COMMANDER_CREATE: 334 -> 342
+	///   - CB_NGS: 10254 -> 0
+	///   - CZ_CONNECT: 1200 -> 1208
+	///   - ZC_ENTER_PC: 341 -> 353
+	///   - ZC_ENTER_DUMMYPC: 308 -> 316
+	///   - ZC_UPDATED_DUMMYPC: 266 -> 274
+	///   - ZC_UPDATED_PCAPPEARANCE: 266 -> 274
+	///   - CZ_S_OBJ_VALUE_C: 24 -> 26
+	///   - ZC_PC_PROP_UPDATE: 9 -> 11
+	///   - CZ_PARTY_INVITE_ACCEPT: 79 -> 87
+	///   - CZ_PARTY_INVITE_CANCEL: 83 -> 91
+	///   - CZ_PARTY_PROP_CHANGE: 145 -> 147
 	/// </remarks>
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 66
-		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1068
+		public const int CB_LOGIN = 0x03; // Size: 202
+		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1076
 		public const int CB_LOGOUT = 0x05; // Size: 10
 		public const int CB_START_BARRACK = 0x06; // Size: 11
 		public const int CB_COMMANDER_CREATE = 0x07; // Size: 96
@@ -194,11 +223,11 @@ namespace Melia.Shared.Network
 		public const int CB_BARRACKNAME_CHANGE = 0x0C; // Size: 74
 		public const int CB_COMMANDER_MOVE = 0x0D; // Size: 31
 		public const int CB_ECHO = 0x0E; // Size: 30
-		public const int BC_LOGINOK = 0x0F; // Size: 121
+		public const int BC_LOGINOK = 0x0F; // Size: 129
 		public const int BC_LOGIN_PACKET_RECEIVED = 0x10; // Size: 6
 		public const int BC_LOGOUTOK = 0x11; // Size: 6
 		public const int BC_COMMANDER_LIST = 0x12; // Size: 0
-		public const int BC_COMMANDER_CREATE = 0x13; // Size: 334
+		public const int BC_COMMANDER_CREATE = 0x13; // Size: 342
 		public const int BC_COMMANDER_DESTROY = 0x14; // Size: 7
 		public const int BC_START_GAMEOK = 0x15; // Size: 33
 		public const int BC_SINGLE_INFO = 0x16; // Size: 325
@@ -233,9 +262,9 @@ namespace Melia.Shared.Network
 		public const int CB_REQ_POSTBOX_PAGE = 0x5E; // Size: 14
 		public const int BC_WAIT_QUEUE_ORDER = 0x5F; // Size: 10
 		public const int CB_CANCEL_SERVER_WAIT_QUEUE = 0x60; // Size: 10
-		public const int CB_NGS = 0x61; // Size: 10254
+		public const int CB_NGS = 0x61; // Size: 0
 		public const int CB_GEMSCOOL_PCINFO = 0x62; // Size: 1290
-		public const int ZC_TREASUREMARK_LIST_MAP = 0xD0; // Size: 0
+		public const int ZC_TREASUREMARK_LIST_MAP = 0xD3; // Size: 0
 		public const int CS_LOGIN = 0xB55; // Size: 64
 		public const int SC_NORMAL = 0xB56; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0xB57; // Size: 0
@@ -264,7 +293,7 @@ namespace Melia.Shared.Network
 		public const int CS_LIKE_IT_CONFIRM = 0xB6E; // Size: 16
 		public const int CS_ADD_RELATION_SCORE = 0xB6F; // Size: 88
 		public const int CS_GET_LIKE_COUNT = 0xB70; // Size: 16
-		public const int CZ_CONNECT = 0xBB9; // Size: 1200
+		public const int CZ_CONNECT = 0xBB9; // Size: 1208
 		public const int ZC_CONNECT_OK = 0xBBA; // Size: 0
 		public const int ZC_MOVE_ZONE = 0xBBB; // Size: 7
 		public const int CZ_MOVE_ZONE_OK = 0xBBC; // Size: 10
@@ -279,10 +308,10 @@ namespace Melia.Shared.Network
 		public const int ZC_RESET_VIEW = 0xBC5; // Size: 6
 		public const int ZC_START_GAME = 0xBC6; // Size: 26
 		public const int ZC_QUIET = 0xBC7; // Size: 7
-		public const int ZC_ENTER_PC = 0xC1D; // Size: 341
+		public const int ZC_ENTER_PC = 0xC1D; // Size: 353
 		public const int ZC_ENTER_MONSTER = 0xC1E; // Size: 0
-		public const int ZC_ENTER_DUMMYPC = 0xC1F; // Size: 308
-		public const int ZC_UPDATED_DUMMYPC = 0xC20; // Size: 266
+		public const int ZC_ENTER_DUMMYPC = 0xC1F; // Size: 316
+		public const int ZC_UPDATED_DUMMYPC = 0xC20; // Size: 274
 		public const int ZC_ENTER_ITEM = 0xC21; // Size: 103
 		public const int ZC_LEAVE = 0xC22; // Size: 12
 		public const int ZC_MOVE_PATH = 0xC23; // Size: 42
@@ -300,7 +329,7 @@ namespace Melia.Shared.Network
 		public const int ZC_SET_POS = 0xC2F; // Size: 23
 		public const int ZC_FILE_MOVE = 0xC30; // Size: 46
 		public const int CZ_LEAVE_TO_DUNGEON = 0xC31; // Size: 10
-		public const int ZC_UPDATED_PCAPPEARANCE = 0xC32; // Size: 266
+		public const int ZC_UPDATED_PCAPPEARANCE = 0xC32; // Size: 274
 		public const int ZC_UPDATED_MONSTERAPPEARANCE = 0xC33; // Size: 0
 		public const int ZC_CHAT = 0xC34; // Size: 0
 		public const int ZC_CHAT_WITH_TEXTCODE = 0xC35; // Size: 14
@@ -485,7 +514,7 @@ namespace Melia.Shared.Network
 		public const int ZC_SESSION_OBJ_ADD = 0xCEB; // Size: 0
 		public const int ZC_SESSION_OBJ_REMOVE = 0xCEC; // Size: 10
 		public const int ZC_SESSION_OBJ_TIME = 0xCED; // Size: 14
-		public const int CZ_S_OBJ_VALUE_C = 0xCEE; // Size: 24
+		public const int CZ_S_OBJ_VALUE_C = 0xCEE; // Size: 26
 		public const int CZ_REQ_NORMAL_TX = 0xCEF; // Size: 45
 		public const int ZC_COMMANDER_LOADER_INFO = 0xCF0; // Size: 0
 		public const int ZC_MOVE_SINGLE_ZONE = 0xCF1; // Size: 18
@@ -576,7 +605,7 @@ namespace Melia.Shared.Network
 		public const int CZ_SORT_INV = 0xD46; // Size: 12
 		public const int CZ_EXTEND_WAREHOUSE = 0xD47; // Size: 11
 		public const int CZ_CAST_CONTROL_SHOT = 0xD48; // Size: 10
-		public const int ZC_PC_PROP_UPDATE = 0xD49; // Size: 9
+		public const int ZC_PC_PROP_UPDATE = 0xD49; // Size: 11
 		public const int CZ_CLIENT_DAMAGE = 0xD4A; // Size: 14
 		public const int CZ_CLIENT_ATTACK = 0xD4B; // Size: 15
 		public const int ZC_SYSTEM_MSG = 0xD4C; // Size: 0
@@ -733,9 +762,9 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_MGAME_VIEW = 0xDE3; // Size: 18
 		public const int CZ_REQ_MGAME_CHAT = 0xDE4; // Size: 0
 		public const int CZ_TOURNAMENT_GIFT = 0xDE5; // Size: 18
-		public const int CZ_PARTY_INVITE_ACCEPT = 0xDE6; // Size: 79
-		public const int CZ_PARTY_INVITE_CANCEL = 0xDE7; // Size: 83
-		public const int CZ_PARTY_PROP_CHANGE = 0xDE8; // Size: 145
+		public const int CZ_PARTY_INVITE_ACCEPT = 0xDE6; // Size: 87
+		public const int CZ_PARTY_INVITE_CANCEL = 0xDE7; // Size: 91
+		public const int CZ_PARTY_PROP_CHANGE = 0xDE8; // Size: 147
 		public const int CZ_REQ_MARKET_REGISTER = 0xDE9; // Size: 40
 		public const int CZ_REQ_MARKET_MINMAX_INFO = 0xDEA; // Size: 18
 		public const int CZ_REQ_MARKET_BUY = 0xDEB; // Size: 0
@@ -791,10 +820,10 @@ namespace Melia.Shared.Network
 		public const int CZ_HARDSKILL_POS_LIST = 0xE1D; // Size: 0
 		public const int CZ_CART_POSITION = 0xE1E; // Size: 26
 		public const int CZ_REQ_RIDE_CART = 0xE1F; // Size: 18
-		public const int CZ_DUMMYPC_SKILL_POS = 0xE20; // Size: 26
-		public const int CZ_NGS = 0xE21; // Size: 0
-		public const int CZ_REQ_OPEN_INGAMESHOP_UI = 0xE22; // Size: 10
-		public const int CZ_REQ_BUY_INGAMESHOP_ITEM = 0xE23; // Size: 74
+		public const int CZ_REQ_OPEN_INGAMESHOP_UI = 0xE20; // Size: 10
+		public const int CZ_REQ_BUY_INGAMESHOP_ITEM = 0xE21; // Size: 74
+		public const int CZ_DUMMYPC_SKILL_POS = 0xE22; // Size: 26
+		public const int CZ_NGS = 0xE23; // Size: 0
 		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE24; // Size: 0
 		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE25; // Size: 22
 		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE26; // Size: 1099
@@ -804,17 +833,18 @@ namespace Melia.Shared.Network
 		public const int CZ_REPORT_AUTOBOT = 0xE2A; // Size: 74
 		public const int CZ_PARTY_INVENTORY_LOAD = 0xE2B; // Size: 11
 		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE2C; // Size: 31
-		public const int CZ_REQ_CancelGachaCube = 0xE2D; // Size: 10
-		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2E; // Size: 0
-		public const int CZ_PVP_COMMAND = 0xE2F; // Size: 22
+		public const int CZ_PVP_COMMAND = 0xE2D; // Size: 22
+		public const int CZ_REQ_CancelGachaCube = 0xE2E; // Size: 10
+		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2F; // Size: 0
+		public const int CZ_FIXED_NOTICE_SHOW = 0xE30; // Size: 10
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
 
 		static Op()
 		{
-			_sizes[Op.CB_LOGIN] = 66;
-			_sizes[Op.CB_LOGIN_BY_PASSPORT] = 1068;
+			_sizes[Op.CB_LOGIN] = 202;
+			_sizes[Op.CB_LOGIN_BY_PASSPORT] = 1076;
 			_sizes[Op.CB_LOGOUT] = 10;
 			_sizes[Op.CB_START_BARRACK] = 11;
 			_sizes[Op.CB_COMMANDER_CREATE] = 96;
@@ -825,11 +855,11 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_BARRACKNAME_CHANGE] = 74;
 			_sizes[Op.CB_COMMANDER_MOVE] = 31;
 			_sizes[Op.CB_ECHO] = 30;
-			_sizes[Op.BC_LOGINOK] = 121;
+			_sizes[Op.BC_LOGINOK] = 129;
 			_sizes[Op.BC_LOGIN_PACKET_RECEIVED] = 6;
 			_sizes[Op.BC_LOGOUTOK] = 6;
 			_sizes[Op.BC_COMMANDER_LIST] = 0;
-			_sizes[Op.BC_COMMANDER_CREATE] = 334;
+			_sizes[Op.BC_COMMANDER_CREATE] = 342;
 			_sizes[Op.BC_COMMANDER_DESTROY] = 7;
 			_sizes[Op.BC_START_GAMEOK] = 33;
 			_sizes[Op.BC_SINGLE_INFO] = 325;
@@ -864,7 +894,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_REQ_POSTBOX_PAGE] = 14;
 			_sizes[Op.BC_WAIT_QUEUE_ORDER] = 10;
 			_sizes[Op.CB_CANCEL_SERVER_WAIT_QUEUE] = 10;
-			_sizes[Op.CB_NGS] = 10254;
+			_sizes[Op.CB_NGS] = 0;
 			_sizes[Op.CB_GEMSCOOL_PCINFO] = 1290;
 			_sizes[Op.ZC_TREASUREMARK_LIST_MAP] = 0;
 			_sizes[Op.CS_LOGIN] = 64;
@@ -895,7 +925,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CS_LIKE_IT_CONFIRM] = 16;
 			_sizes[Op.CS_ADD_RELATION_SCORE] = 88;
 			_sizes[Op.CS_GET_LIKE_COUNT] = 16;
-			_sizes[Op.CZ_CONNECT] = 1200;
+			_sizes[Op.CZ_CONNECT] = 1208;
 			_sizes[Op.ZC_CONNECT_OK] = 0;
 			_sizes[Op.ZC_MOVE_ZONE] = 7;
 			_sizes[Op.CZ_MOVE_ZONE_OK] = 10;
@@ -910,10 +940,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_RESET_VIEW] = 6;
 			_sizes[Op.ZC_START_GAME] = 26;
 			_sizes[Op.ZC_QUIET] = 7;
-			_sizes[Op.ZC_ENTER_PC] = 341;
+			_sizes[Op.ZC_ENTER_PC] = 353;
 			_sizes[Op.ZC_ENTER_MONSTER] = 0;
-			_sizes[Op.ZC_ENTER_DUMMYPC] = 308;
-			_sizes[Op.ZC_UPDATED_DUMMYPC] = 266;
+			_sizes[Op.ZC_ENTER_DUMMYPC] = 316;
+			_sizes[Op.ZC_UPDATED_DUMMYPC] = 274;
 			_sizes[Op.ZC_ENTER_ITEM] = 103;
 			_sizes[Op.ZC_LEAVE] = 12;
 			_sizes[Op.ZC_MOVE_PATH] = 42;
@@ -931,7 +961,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_SET_POS] = 23;
 			_sizes[Op.ZC_FILE_MOVE] = 46;
 			_sizes[Op.CZ_LEAVE_TO_DUNGEON] = 10;
-			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 266;
+			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 274;
 			_sizes[Op.ZC_UPDATED_MONSTERAPPEARANCE] = 0;
 			_sizes[Op.ZC_CHAT] = 0;
 			_sizes[Op.ZC_CHAT_WITH_TEXTCODE] = 14;
@@ -1116,7 +1146,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_SESSION_OBJ_ADD] = 0;
 			_sizes[Op.ZC_SESSION_OBJ_REMOVE] = 10;
 			_sizes[Op.ZC_SESSION_OBJ_TIME] = 14;
-			_sizes[Op.CZ_S_OBJ_VALUE_C] = 24;
+			_sizes[Op.CZ_S_OBJ_VALUE_C] = 26;
 			_sizes[Op.CZ_REQ_NORMAL_TX] = 45;
 			_sizes[Op.ZC_COMMANDER_LOADER_INFO] = 0;
 			_sizes[Op.ZC_MOVE_SINGLE_ZONE] = 18;
@@ -1207,7 +1237,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_SORT_INV] = 12;
 			_sizes[Op.CZ_EXTEND_WAREHOUSE] = 11;
 			_sizes[Op.CZ_CAST_CONTROL_SHOT] = 10;
-			_sizes[Op.ZC_PC_PROP_UPDATE] = 9;
+			_sizes[Op.ZC_PC_PROP_UPDATE] = 11;
 			_sizes[Op.CZ_CLIENT_DAMAGE] = 14;
 			_sizes[Op.CZ_CLIENT_ATTACK] = 15;
 			_sizes[Op.ZC_SYSTEM_MSG] = 0;
@@ -1364,9 +1394,9 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REQ_MGAME_VIEW] = 18;
 			_sizes[Op.CZ_REQ_MGAME_CHAT] = 0;
 			_sizes[Op.CZ_TOURNAMENT_GIFT] = 18;
-			_sizes[Op.CZ_PARTY_INVITE_ACCEPT] = 79;
-			_sizes[Op.CZ_PARTY_INVITE_CANCEL] = 83;
-			_sizes[Op.CZ_PARTY_PROP_CHANGE] = 145;
+			_sizes[Op.CZ_PARTY_INVITE_ACCEPT] = 87;
+			_sizes[Op.CZ_PARTY_INVITE_CANCEL] = 91;
+			_sizes[Op.CZ_PARTY_PROP_CHANGE] = 147;
 			_sizes[Op.CZ_REQ_MARKET_REGISTER] = 40;
 			_sizes[Op.CZ_REQ_MARKET_MINMAX_INFO] = 18;
 			_sizes[Op.CZ_REQ_MARKET_BUY] = 0;
@@ -1422,10 +1452,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_HARDSKILL_POS_LIST] = 0;
 			_sizes[Op.CZ_CART_POSITION] = 26;
 			_sizes[Op.CZ_REQ_RIDE_CART] = 18;
-			_sizes[Op.CZ_DUMMYPC_SKILL_POS] = 26;
-			_sizes[Op.CZ_NGS] = 0;
 			_sizes[Op.CZ_REQ_OPEN_INGAMESHOP_UI] = 10;
 			_sizes[Op.CZ_REQ_BUY_INGAMESHOP_ITEM] = 74;
+			_sizes[Op.CZ_DUMMYPC_SKILL_POS] = 26;
+			_sizes[Op.CZ_NGS] = 0;
 			_sizes[Op.CZ_PARTY_MEMBER_SKILL_USE] = 0;
 			_sizes[Op.CZ_PARTY_MEMBER_SKILL_ACCEPT] = 22;
 			_sizes[Op.CZ_SYSTEM_LOG_TO_SERVER] = 1099;
@@ -1435,9 +1465,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REPORT_AUTOBOT] = 74;
 			_sizes[Op.CZ_PARTY_INVENTORY_LOAD] = 11;
 			_sizes[Op.CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT] = 31;
+			_sizes[Op.CZ_PVP_COMMAND] = 22;
 			_sizes[Op.CZ_REQ_CancelGachaCube] = 10;
 			_sizes[Op.CZ_WAREHOUSE_TAKE_LIST] = 0;
-			_sizes[Op.CZ_PVP_COMMAND] = 22;
+			_sizes[Op.CZ_FIXED_NOTICE_SHOW] = 10;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
