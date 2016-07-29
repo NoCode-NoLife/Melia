@@ -102,6 +102,8 @@
 { shopName: "Master_FireMage", productId: 1201, itemId: 649208, priceMultiplier: 1 },
 
 { shopName: "Klapeda_Companion", productId: 1301, itemId: 640152, priceMultiplier: 1 },
+{ shopName: "Klapeda_Companion", productId: 1302, itemId: 640231, priceMultiplier: 1 },
+{ shopName: "Klapeda_Companion", productId: 1303, itemId: 640236, priceMultiplier: 1 },
 
 { shopName: "Master_Alchemist", productId: 1401, itemId: 645533, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1402, itemId: 645532, priceMultiplier: 1 },
