@@ -1,0 +1,18 @@
+----- Gate Entrance x -----
+addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", -1172.542, 125.4098, -1632.803, 45, "ETC_20150401_010678_Call")
+function ETC_20150401_010678_Call()
+end
+-----
+
+----- Gate Entrance x -----
+addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", -1905.556, 125.4037, -1351.115, 45, "ETC_20150401_010678_Call")
+function ETC_20150401_010678_Call()
+end
+-----
+
+----- Gate Entrance x -----
+addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", 1157.577, 125.4099, -1859.924, 45, "ETC_20150401_010678_Call")
+function ETC_20150401_010678_Call()
+end
+-----
+

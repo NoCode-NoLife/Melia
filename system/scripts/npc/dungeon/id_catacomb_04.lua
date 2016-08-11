@@ -1,27 +1,67 @@
-addnpc(147500, "ETC_20150714_013180", "id_catacomb_04", 3279.531, 370.8011, -948.3315, 180, "npc_dummy")
-addnpc(147475, "QUEST_LV_0200_20150714_007506", "id_catacomb_04", -423.866, 272.5154, -1760.795, 45, "npc_dummy")
-addnpc(154000, "ETC_20150714_011774", "id_catacomb_04", -1566, 346.3554, -756, 45, "npc_dummy")
-addnpc(147413, "ETC_20150714_011776", "id_catacomb_04", 617, 285.2842, 1192, 45, "npc_dummy")
-addnpc(151058, "ETC_20150714_011778", "id_catacomb_04", 1589, 265.3084, 861, 135, "npc_dummy")
-addnpc(147469, "ETC_20150714_013181", "id_catacomb_04", -774, 264.8956, 952, 45, "npc_dummy")
-addnpc(147500, "ETC_20150714_013180", "id_catacomb_04", 1395.222, 419.9288, -154.5499, 45, "npc_dummy")
-addnpc(151052, "QUEST_20150714_002105", "id_catacomb_04", 2918, 385.5559, -1596, 180, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "id_catacomb_04", 2604.43, 391.7112, -1284.371, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "id_catacomb_04", 2760.448, 391.7112, -1695.491, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "id_catacomb_04", 2993.383, 391.7112, -1447.848, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "id_catacomb_04", 3174.381, 377.6325, -1063.251, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_04", -439.5161, 193.4551, -2002.339, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_04", 2268.249, 308.3572, 1303.312, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_04", -2196.184, 348.4096, -462.0588, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -389.3933, 289.2832, -1535.136, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -803.8687, 267.636, -1272.442, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -7.08634, 267.719, -1217.055, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -12.05747, 287.8995, -640.3467, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", 945.5175, 268.0223, -514.2242, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", 154.2408, 267.3882, 0.8098474, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -284.5685, 264.8956, 642.8682, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -461.166, 264.8956, 1136.093, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", 1581.537, 265.3084, 1034.548, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", 2213.529, 308.3572, 1057.869, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_04", -1826.52, 368.3889, -707.1567, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "id_catacomb_04", -126.31, 265, 1200.43, -90, "npc_dummy")
+----- Teleport Device -----
+addnpc(147500, "ETC_20150714_013180", "id_catacomb_04", 3279.531, 370.8011, -948.3315, 180, "ETC_20150714_013180_Call")
+function ETC_20150714_013180_Call()
+end
+-----
+
+----- Magic Gem Fusion Device -----
+addnpc(147475, "QUEST_LV_0200_20150714_007506", "id_catacomb_04", -423.866, 272.5154, -1760.795, 45, "QUEST_LV_0200_20150714_007506_Call")
+function QUEST_LV_0200_20150714_007506_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_01 -----
+----- QuestIDs: CATACOMB_04_SQ_01CATACOMB_04_SQ_07 | CATACOMB_04_SQ_05 | CATACOMB_04_SQ_03 | CATACOMB_04_SQ_02 | CATACOMB_04_SQ_04 | CATACOMB_04_SQ_06 |  -----
+msg("CATACOMB_04_OBJ_01_basic")
+end
+-----
+
+----- Magic Field of Preservation -----
+addnpc(154000, "ETC_20150714_011774", "id_catacomb_04", -1566, 346.3554, -756, 45, "ETC_20150714_011774_Call")
+function ETC_20150714_011774_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_02 -----
+----- QuestIDs: CATACOMB_04_SQ_02 -----
+end
+-----
+
+----- Barrier Stone -----
+addnpc(147413, "ETC_20150714_011776", "id_catacomb_04", 617, 285.2842, 1192, 45, "ETC_20150714_011776_Call")
+function ETC_20150714_011776_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_03 -----
+----- QuestIDs: CATACOMB_04_SQ_03CATACOMB_04_SQ_04 |  -----
+end
+-----
+
+----- Sealed Spatial Magic Gem -----
+addnpc(151058, "ETC_20150714_011778", "id_catacomb_04", 1589, 265.3084, 861, 135, "ETC_20150714_011778_Call")
+function ETC_20150714_011778_Call()
+end
+-----
+
+----- Black Shadow -----
+addnpc(147469, "ETC_20150714_013181", "id_catacomb_04", -774, 264.8956, 952, 45, "ETC_20150714_013181_Call")
+function ETC_20150714_013181_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_05 -----
+----- QuestIDs: CATACOMB_04_SQ_06 -----
+end
+-----
+
+----- Teleport Device -----
+addnpc(147500, "ETC_20150714_013180", "id_catacomb_04", 1395.222, 419.9288, -154.5499, 45, "ETC_20150714_013180_Call")
+function ETC_20150714_013180_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_06 -----
+----- QuestIDs: CATACOMB_04_SQ_07CATACOMB_04_SQ_08 |  -----
+end
+-----
+
+----- The Inheritance of the Master -----
+addnpc(151052, "QUEST_20150714_002105", "id_catacomb_04", 2918, 385.5559, -1596, 180, "QUEST_20150714_002105_Call")
+function QUEST_20150714_002105_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: CATACOMB_04_OBJ_07 -----
+----- QuestIDs: CATACOMB_04_SQ_09 -----
+end
+-----
+

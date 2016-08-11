@@ -1,33 +1,111 @@
-addnpc(20026, "ETC_20150317_009380", "f_katyn_7", 976, 296, 187, -45, "npc_dummy")
-addnpc(20129, "QUEST_LV_0200_20150317_000004", "f_katyn_7", 761, 295, -3576, -45, "npc_dummy")
-addnpc(10033, "QUEST_LV_0200_20150317_000151", "f_katyn_7", 813, 295, 573, -31, "npc_dummy")
-addnpc(20107, "QUEST_LV_0200_20150317_000012", "f_katyn_7", -1237, 418, -1204, -45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_katyn_7", 895, 295, -3102, -45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_katyn_7", 898, 299, -1688, -45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_katyn_7", 5, 299, -915, -45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_katyn_7", 1139, 296, -834, -45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_katyn_7", -1066, 419, -2319, -45, "npc_dummy")
-addnpc(45133, "QUEST_LV_0200_20150317_000504", "f_katyn_7", -1223, 296, 3370, -45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0200_20150317_000688", "f_katyn_7", 672, 295, -3810, 45, "npc_dummy")
-addnpc(12081, "QUEST_20150317_000528", "f_katyn_7", -1270, 296, 1330, -45, "npc_dummy")
-addnpc(20107, "QUEST_LV_0200_20150317_000769", "f_katyn_7", -1280, 296, 1240, -45, "npc_dummy")
-addnpc(10033, "ETC_20150317_004428", "f_katyn_7", -1250, 296, 1290, -45, "npc_dummy")
-addnpc(10033, "ETC_20150317_004428", "f_katyn_7", -1271, 296, 1292, -45, "npc_dummy")
-addnpc(10033, "ETC_20150317_004428", "f_katyn_7", -1237, 296, 1307, -45, "npc_dummy")
-addnpc(10033, "ETC_20150317_004428", "f_katyn_7", -1287, 296, 1306, -45, "npc_dummy")
-addnpc(10033, "ETC_20150317_004428", "f_katyn_7", -1236, 296, 1329, -45, "npc_dummy")
-addnpc(20107, "QUEST_LV_0200_20150317_000769", "f_katyn_7", -420, 296, 3440, -45, "npc_dummy")
-addnpc(20026, "ETC_20150317_009381", "f_katyn_7", 1026, 295, -3727, -45, "npc_dummy")
-addnpc(40070, "QUEST_20150317_000560", "f_katyn_7", 616, 296, -1575, 315, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_katyn_7", -124, 247, 1592, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_katyn_7", 190, 418, -3513, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_katyn_7", 372, 295, -3562, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_katyn_7", 329, 295, -933, 45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009382", "f_katyn_7", -917.4514, 295.7024, 3306.635, 45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1621, 295, 3900, 126, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1572.675, 295.7185, 3929.488, 174, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1542.716, 295.7185, 3990.158, 202, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", 994.428, 295.7079, -3990.511, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "f_katyn_7", 677.3121, 295.2072, -4389.714, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "f_katyn_7", -856.7756, 297.2703, 3829.618, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_katyn_7", -2082.19, 344.77, 1663.05, 45, "npc_dummy")
+----- Commander Vacenin -----
+addnpc(20129, "QUEST_LV_0200_20150317_000004", "f_katyn_7", 761, 295, -3576, -45, "QUEST_LV_0200_20150317_000004_Call")
+function QUEST_LV_0200_20150317_000004_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN7_KEYNPC_1 -----
+----- QuestIDs: SUCH_POINT_05KATYN7_MOVE | KATYN_KEY_01 |  -----
+msg("KATYN7_KEYNPC_1_basic1")
+msg("KATYN7_KEYNPC_1_basic2")
+end
+-----
+
+----- Officer Felix -----
+addnpc(20107, "QUEST_LV_0200_20150317_000012", "f_katyn_7", -1237, 418, -1204, -45, "QUEST_LV_0200_20150317_000012_Call")
+function QUEST_LV_0200_20150317_000012_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN7_KEYNPC_4 -----
+----- QuestIDs: SUCH_POINT_05 -----
+msg("KATYN7_KEYNPC_4_basic1")
+msg("KATYN7_KEYNPC_4_basic2")
+end
+-----
+
+----- Patrol Scout -----
+addnpc(20016, "QUEST_LV_0200_20150317_000688", "f_katyn_7", 672, 295, -3810, 45, "QUEST_LV_0200_20150317_000688_Call")
+function QUEST_LV_0200_20150317_000688_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN_SUCH_POINT_01_SOLDIER -----
+----- QuestIDs: SUCH_POINT_01 -----
+msg("KATYN_SUCH_POINT_01_SOLDIER_basic01")
+msg("KATYN_SUCH_POINT_01_SOLDIER_basic02")
+end
+-----
+
+----- Officer's Spirit -----
+addnpc(20107, "QUEST_LV_0200_20150317_000769", "f_katyn_7", -1280, 296, 1240, -45, "QUEST_LV_0200_20150317_000769_Call")
+function QUEST_LV_0200_20150317_000769_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN71_OFFICER -----
+----- QuestIDs: KATYN71_MQ_03KATYN71_MQ_04 | KATYN71_MQ_02 |  -----
+msg("KATYN71_OFFICER_basic2")
+msg("KATYN71_OFFICER_basic1")
+end
+-----
+
+----- Officer's Spirit -----
+addnpc(20107, "QUEST_LV_0200_20150317_000769", "f_katyn_7", -420, 296, 3440, -45, "QUEST_LV_0200_20150317_000769_Call")
+function QUEST_LV_0200_20150317_000769_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN71_OFFICER_AFTER -----
+----- QuestIDs: KATYN71_MQ_05KATYN71_MQ_06 |  -----
+msg("KATYN71_OFFICER_AFTER_basic1")
+end
+-----
+
+----- Notice -----
+addnpc(40070, "QUEST_20150317_000560", "f_katyn_7", 616, 296, -1575, 315, "QUEST_20150317_000560_Call")
+function QUEST_20150317_000560_Call()
+end
+-----
+
+----- Scout -----
+addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1621, 295, 3900, 126, "QUEST_LV_0100_20150317_000263_Call")
+function QUEST_LV_0100_20150317_000263_Call()
+----- Enter -----
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN71_SOLDIER01_1 -----
+msg("KATYN71_SOLDIER01_2_basic04")
+end
+-----
+
+----- Scout -----
+addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1572.675, 295.7185, 3929.488, 174, "QUEST_LV_0100_20150317_000263_Call")
+function QUEST_LV_0100_20150317_000263_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN71_BOSS -----
+----- QuestIDs: KATYN71_MQ_07 -----
+msg("KATYN71_BOSS_basic01")
+end
+-----
+
+----- Scout -----
+addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", -1542.716, 295.7185, 3990.158, 202, "QUEST_LV_0100_20150317_000263_Call")
+function QUEST_LV_0100_20150317_000263_Call()
+----- Enter -----
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN71_SOLDIER01_2 -----
+msg("KATYN71_SOLDIER02")
+msg("KATYN71_SOLDIER01_2_basic01")
+msg("KATYN71_SOLDIER01_2_basic02")
+msg("KATYN71_SOLDIER01_2_basic03")
+msg("KATYN71_SOLDIER01_2_basic04")
+end
+-----
+
+----- Scout -----
+addnpc(20016, "QUEST_LV_0100_20150317_000263", "f_katyn_7", 994.428, 295.7079, -3990.511, 45, "QUEST_LV_0100_20150317_000263_Call")
+function QUEST_LV_0100_20150317_000263_Call()
+----- Dialog -----
+----- npcselectdialog.ies | ClassName: KATYN7_KEYNPC_5 -----
+----- QuestIDs: KATYN7_MOVE -----
+msg("KATYN7_KEYNPC_5_basic01")
+msg("KATYN7_KEYNPC_5_basic02")
+end
+-----
+
+----- Lv1 Treasure Chest -----
+addnpc(147392, "ETC_20150317_009100", "f_katyn_7", -2082.19, 344.77, 1663.05, 45, "ETC_20150317_009100_Call")
+function ETC_20150317_009100_Call()
+end
+-----
+
