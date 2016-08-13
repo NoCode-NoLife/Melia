@@ -91,6 +91,7 @@ warps/dungeon/p_cathedral_1.lua
 
 // Fields
 //---------------------------------------------------------------------------
+warps/field/d_abbey_35_4.lua
 warps/field/f_3cmlake_83.lua
 warps/field/f_3cmlake_84.lua
 warps/field/f_bracken_63_1.lua
@@ -101,6 +102,7 @@ warps/field/f_castle_65_2.lua
 warps/field/f_castle_65_3.lua
 warps/field/f_coral_32_1.lua
 warps/field/f_coral_32_2.lua
+warps/field/f_coral_35_2.lua
 warps/field/f_farm_47_1.lua
 warps/field/f_farm_47_2.lua
 warps/field/f_farm_47_3.lua

@@ -97,7 +97,10 @@ trigger/field/f_katyn_12.lua
 trigger/field/f_katyn_13.lua
 trigger/field/f_katyn_13_2.lua
 trigger/field/f_katyn_14.lua
+trigger/field/f_katyn_18.lua
+trigger/field/f_katyn_45_3.lua
 trigger/field/f_katyn_7.lua
+trigger/field/f_katyn_7_2.lua
 trigger/field/f_pilgrimroad_31_1.lua
 trigger/field/f_pilgrimroad_31_2.lua
 trigger/field/f_pilgrimroad_31_3.lua
@@ -118,9 +121,9 @@ trigger/field/f_rokas_25.lua
 trigger/field/f_rokas_26.lua
 trigger/field/f_rokas_27.lua
 trigger/field/f_rokas_28.lua
-trigger/field/f_rokas_29.lua
 trigger/field/f_rokas_30.lua
 trigger/field/f_rokas_36_1.lua
+trigger/field/f_siauliai_11_re.lua
 trigger/field/f_siauliai_15_re.lua
 trigger/field/f_siauliai_16.lua
 trigger/field/f_siauliai_2.lua

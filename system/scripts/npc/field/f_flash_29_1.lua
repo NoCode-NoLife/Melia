@@ -1,9 +1,9 @@
------ Kupole Meile -----
+----- Kupole Meile ----- 
+----- npcselectdialog.ies | ClassName: FLASH_29_1_KUPOLE_MEILE -----
+----- Dialog -----
+----- QuestIDs: FLASH_29_1_SQ_020 | FLASH_29_1_SQ_030 | FLASH_29_1_SQ_050 | FLASH_29_1_SQ_070 | FLASH_29_1_SQ_045 -----
 addnpc(154013, "QUEST_UNUSED_20150717_000275", "f_flash_29_1", -486.4637, 42.95619, -274.7679, -46, "QUEST_UNUSED_20150717_000275_Call")
 function QUEST_UNUSED_20150717_000275_Call()
------ Dialog -----
------ npcselectdialog.ies | ClassName: FLASH_29_1_KUPOLE_MEILE -----
------ QuestIDs: FLASH_29_1_SQ_020FLASH_29_1_SQ_030 | FLASH_29_1_SQ_050 | FLASH_29_1_SQ_070 | FLASH_29_1_SQ_045 |  -----
 msg("FLASH_29_1_KUPOLE_MEILE_BASIC01")
 msg("FLASH_29_1_KUPOLE_MEILE_BASIC02")
 msg("FLASH_29_1_KUPOLE_MEILE_BASIC03")
@@ -12,5 +12,4 @@ msg("FLASH_29_1_SQ_050_ST")
 msg("FLASH_29_1_KUPOLE_MEILE_BASIC05")
 msg("FLASH_29_1_SQ_070_AC")
 end
------
 
