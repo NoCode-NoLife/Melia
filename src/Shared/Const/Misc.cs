@@ -52,6 +52,41 @@ namespace Melia.Shared.Const
 		Stat_MAX
 	}
 
+	public enum SkillXType
+	{
+		Melee = 0,
+		Magic = 1,
+		Missile = 2,
+	}
+
+	public enum SkillTypeValue
+	{
+		Attack = 0,
+		Buff = 1,
+	}
+
+	public enum AttributeType
+	{
+		Melee,
+		Poison,
+		Earth,
+		Fire,
+		Holy,
+		Dark,
+		Ice,
+		Lightning,
+	}
+
+	public enum AttackType
+	{
+		None,
+		Melee,
+		Magic,
+		Slash,
+		Strike,
+		Aries,
+	}
+
 	public enum StatModifierType
 	{
 		Addition,

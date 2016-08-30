@@ -146,7 +146,7 @@ namespace Melia.Channel.World
 				return;
 			}
 
-			// Set elegible locks to caster
+			// Set elegible locks to caster (can rotate / can move / others)
 			/// TODO
 			/// 
 			owner.SetAttackState(true);
@@ -272,6 +272,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		private void PerformCast(SkillDataComponent skillComp = null)
 		{
+			Log.Debug("{0} {1} {2} ", owner.Handle, owner.Direction.Cos, owner.Direction.Sin);
 			var map = owner.Map;
 
 			// Send event
@@ -430,8 +431,8 @@ namespace Melia.Channel.World
 						
 
 						// Notify client
-						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, owner.Direction, this.Position);
-						Send.ZC_SKILL_MELEE_GROUND(owner, this); // This packet should be sent from inside SkillGround?
+						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, this.Direction, this.Position);
+						Send.ZC_SKILL_MELEE_GROUND(owner, this, owner.Position); // This packet should be sent from inside SkillGround?
 						break;
 					}
 				case SkillType.ACTOR:

@@ -259,7 +259,6 @@ namespace Melia.Channel.World
 
 		public void CastSkill(Skill skill, IEntity target = null)
 		{
-
 			// Check if is in the middle of other casting.
 			if (ShootTime != null)
 				return;

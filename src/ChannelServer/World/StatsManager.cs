@@ -316,25 +316,35 @@ namespace Melia.Channel.World
 			return value;
 		}
 
-		public float AdjustInfringedDamage(float damage, int damageType)
+		public float GetAttack(int attackType)
 		{
-			float finalDamage = damage;
 			Random rnd = new Random();
-			switch (damageType)
+			switch (attackType)
 			{
 				case 0:
-					int damagePAtk = rnd.Next((int)this.stats[(int)Stat.MINPATK], (int)this.stats[(int)Stat.MAXPATK]);
-					finalDamage = damage + damagePAtk;
-					break;
+					return rnd.Next((int)this.stats[(int)Stat.MINPATK], (int)this.stats[(int)Stat.MAXPATK]);
 				case 1:
-					int damageMAtk = rnd.Next((int)this.stats[(int)Stat.MINMATK], (int)this.stats[(int)Stat.MAXMATK]);
-					finalDamage = damage + damageMAtk;
-					break;
+					return rnd.Next((int)this.stats[(int)Stat.MINMATK], (int)this.stats[(int)Stat.MAXMATK]);
 				default:
+					Log.Error("Attack type invalid {0}", attackType);
 					break;
 			}
+			return 0;
+		}
 
-			return finalDamage;
+		public float GetDefense(int attackType)
+		{
+			switch (attackType)
+			{
+				case 0:
+					return this.stats[(int)Stat.PDEF];
+				case 1:
+					return this.stats[(int)Stat.MDEF];
+				default:
+					Log.Error("Attack type invalid {0}", attackType);
+					break;
+			}
+			return 0;
 		}
 	}
 }

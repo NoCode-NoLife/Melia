@@ -40,7 +40,7 @@ namespace Melia.Channel.World.SkillEffects
 
 		public override SkillResult Instant()
 		{
-			int damage = Formulas.PhisicalAttack(this.Data.Amount, this.skillComp.caster);
+			int damage = Formulas.PhisicalAttack(this, this.skillComp.caster);
 			damage = (int) this.skillComp.target.AdjustReceivedDamage(damage);
 			if (this.skillComp.target.TakeDamage(damage, this.skillComp.caster) > 0)
 			{

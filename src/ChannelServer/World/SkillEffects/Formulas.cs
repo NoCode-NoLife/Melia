@@ -37,8 +37,9 @@ namespace Melia.Channel.World.SkillEffects
 		}
 
 
-		public static int PhisicalAttack(int baseDamage, IEntity dealer)
+		public static int PhisicalAttack(SkillEffect effect, IEntity dealer)
 		{
+			float baseDamage = effect.skillComp.skill.GetData().AttackAdd;
 			Random rnd = new Random();
 			int patkDamage = rnd.Next((int) dealer.statsManager.stats[(int)Stat.MINPATK], (int) dealer.statsManager.stats[(int)Stat.MAXPATK]);
 			return (int)(baseDamage + patkDamage);

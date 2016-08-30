@@ -82,9 +82,9 @@ namespace Melia.Shared.Data.Database
 
 	public enum SplashType
 	{
-		Square,
-		Circle,
-		Fan,
+		Square = 0,
+		Circle = 1,
+		Fan = 2,
 	}
 
 	public enum SkillType
@@ -268,6 +268,20 @@ namespace Melia.Shared.Data.Database
 
 			return effects;
 		}
+		/*
+		protected List<StatModifier> ReadStatModifiersEntry(JObject statModifiersEntry)
+		{
+			List<StatModifier> statMods = new List<StatModifier>();
 
+			foreach (JObject entry in statModifiersEntry["statMods"])
+			{
+				entry.AssertNotMissing("stat", "type", "value");
+
+				var statmod = new StatModifier();
+
+				statmod.stat = entry.read
+			}
+		}
+		*/
 	}
 }

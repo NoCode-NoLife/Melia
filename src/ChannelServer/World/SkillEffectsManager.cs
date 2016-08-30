@@ -70,10 +70,11 @@ namespace Melia.Channel.World
 			Log.Debug("adding effect {0}", effect.ToString());
 			switch (effect.behaviorType)
 			{
-				case EffectBehaviorType.INSTANT:
+				case EffectBehaviorType.INSTANT: /// Is this ever used? Or its deprecated code? I think so.
 					{
 						effect.owner = this.owner;
-						effect.OnAdd();
+						//effect.OnAdd();
+						Send.ZC_BUFF_ADD((IEntity)owner, effect, false);
 						break;
 					}
 				case EffectBehaviorType.BUFF:

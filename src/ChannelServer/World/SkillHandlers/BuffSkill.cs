@@ -44,6 +44,8 @@ namespace Melia.Channel.World.SkillHandlers
 						case EffectBehaviorType.INSTANT:
 							{
 								skillResult = newEffect.Instant();
+								if (skillResult != null)
+									entityTarget.skillEffectsManager.AddEffect(newEffect);
 								break;
 							}
 						case EffectBehaviorType.BUFF:

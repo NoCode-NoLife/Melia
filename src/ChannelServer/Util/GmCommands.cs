@@ -210,6 +210,8 @@ namespace Melia.Channel.Util
 
 			if (val1 == 1)
 			{
+				//Send.ZC_NORMAL_Party1(character);
+				//Send.ZC_PARTY_ENTER(character);
 				/*
 				Send.ZC_NORMAL_14(character);
 				Send.ZC_NORMAL_19(character);

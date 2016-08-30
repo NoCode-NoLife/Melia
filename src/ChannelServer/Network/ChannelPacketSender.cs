@@ -1725,7 +1725,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(entity.Handle);
 			packet.PutInt(skill.GetData().EffectId);
 			packet.PutInt(skill.Id); // SkillId
-			packet.PutInt(2); // Skill Level ?
+			packet.PutInt(skill.GetData().Level); // Skill Level ?
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
@@ -2033,22 +2033,22 @@ namespace Melia.Channel.Network
 		/// Reply packet when skill melee ground is placed
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_SKILL_MELEE_GROUND(IEntity entity, Skill skill)
+		public static void ZC_SKILL_MELEE_GROUND(IEntity entity, Skill skill, Position skillPos)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt(skill.Id);
 			packet.PutInt(entity.Handle);
-			packet.PutFloat(skill.Direction.Cos);
-			packet.PutFloat(skill.Direction.Sin);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(2);
-			packet.PutFloat(skill.GetData().ShootTime); // Shoot time? (if this is too low, the skill animation doesnt show up)
+			packet.PutFloat(skill.GetData().ShootTime + 300); // Shoot time? (if this is too low, the skill animation doesnt show up)
 			packet.PutFloat(1);
 			packet.PutInt(1);
-			packet.PutBinFromHex("47 21 3E 00");
+			packet.PutBinFromHex("47 21 3E 00"); // This is some sort of increasing number. It increases in every packet (but not consecutive). It might be an ID for "this skill instance or something"
 			packet.PutFloat(1);
-			packet.PutFloat(skill.Position.X);
-			packet.PutFloat(skill.Position.Y);
-			packet.PutFloat(skill.Position.Z);
+			packet.PutFloat(skillPos.X);
+			packet.PutFloat(skillPos.Y);
+			packet.PutFloat(skillPos.Z);
 			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
 
 			entity.Map.Broadcast(packet, entity);
@@ -2183,6 +2183,60 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutByte(1);
 			packet.PutBinFromHex("1C 21 27 00");
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		public static void ZC_PARTY_ENTER(Character character)
+		{
+			var packet = new Packet(Op.ZC_PARTY_ENTER);
+			packet.PutInt(0x19);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutBinFromHex("3B010038500000D2FA00000768EE14010010");
+			packet.PutByte(1);
+			packet.PutBinFromHex("4D6F6F6E426C7565000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+			packet.PutBinFromHex("183BF0D0");
+			packet.PutBinFromHex("00000000");
+			packet.PutBinFromHex("00000000");
+			packet.PutBinFromHex("08040500");
+			packet.PutBinFromHex("12340000"); // Luna character Handle
+			packet.PutBinFromHex("4D6F6F6E426C7565000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+			packet.PutBinFromHex("4C756E61000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+			packet.PutBinFromHex("0000");
+			packet.PutShort(1001);
+			packet.PutInt(6);
+			packet.PutBinFromHex("02240000");
+			packet.PutBinFromHex("00000000");
+			packet.PutBinFromHex("00000000");
+			packet.PutBinFromHex("00000000");
+			packet.PutBinFromHex("00000000");
+			packet.PutShort(1005);
+			packet.PutInt(6);
+			packet.PutFloat(448);
+			packet.PutFloat(130);
+			packet.PutFloat(-222);
+			packet.PutInt(95); 
+			packet.PutInt(1330);
+			packet.PutInt(95);
+			packet.PutInt(1330);
+			packet.PutBinFromHex("00000000");
+			packet.PutInt(6);
+			packet.PutBinFromHex("0000");
+
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Plays level up effect.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Party1(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf5);
+			packet.PutBinFromHex("0038500000d2fa00003000000008003235373131383400");
 
 			character.Map.Broadcast(packet, character);
 		}

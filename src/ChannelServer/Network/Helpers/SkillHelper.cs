@@ -40,7 +40,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutShort(ObjectProperty.Skill.Skill_Delay);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SkillSR);
-			packet.PutFloat(3.0f);
+			packet.PutFloat(1.0f);
 			packet.PutShort(ObjectProperty.Skill.ReadyTime);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.EnableShootMove);
@@ -50,7 +50,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutShort(ObjectProperty.Skill.SpendPoison);
 			packet.PutFloat(0.0f);
 			packet.PutShort(ObjectProperty.Skill.SpendSP);
-			packet.PutFloat((float)skill.Data.SpendSP);  // packet.PutFloat(skill.Data.SpendSP);
+			packet.PutFloat((float)skill.Data.SpendSP);
 			packet.PutShort(ObjectProperty.Skill.SkillFactor);
 			packet.PutFloat((float)skill.Data.SkillFactor);
 			packet.PutShort(ObjectProperty.Skill.SR);

@@ -599,8 +599,11 @@ namespace Melia.Channel.World
 
 		public override void SetAttackState(bool isAttacking)
 		{
-			this.IsAttacking = true;
-			Send.ZC_PC_ATKSTATE(this, isAttacking);
+			if (this.IsAttacking != isAttacking)
+			{
+				this.IsAttacking = isAttacking;
+				Send.ZC_PC_ATKSTATE(this, isAttacking);
+			}
 		}
 
 		public void SetCurrentSp(int sp)
@@ -656,7 +659,6 @@ namespace Melia.Channel.World
 					Skill skill = this.skillManager.GetSkill(100);
 					if (skill != null)
 						this.CastSkill(skill);
-						//skill.Activate();
 				}
 			}
 			

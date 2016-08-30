@@ -202,7 +202,7 @@ namespace Melia.Channel.World.SectorActors
 				_processTask = null;
 			}
 
-			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, new Melia.Shared.World.Direction(0.707f, 0.707f), false, this.Handle);
+			Send.ZC_NORMAL_Skill(owner, ownerSkill, this.Position, this.Direction, false, this.Handle);
 
 			// If this skill is controlling all affected targets, remove skill from all current affected entities
 			if (this.ownerSkill.GetData().EffectsDependOnSkill)
@@ -235,7 +235,8 @@ namespace Melia.Channel.World.SectorActors
 					skillShape = new Circle(10.0f);
 					break;
 				case SplashType.Fan:
-					skillShape = new Cone(ownerSkill.GetData().SplashAngle, ownerSkill.GetData().SplashRange);
+					skillShape = new Circle(10.0f);
+					//skillShape = new Cone(ownerSkill.GetData().SplashAngle, ownerSkill.GetData().SplashRange);
 					break;
 				default:
 					skillShape = new Circle(ownerSkill.GetData().SplashRange);
@@ -401,7 +402,9 @@ namespace Melia.Channel.World.SectorActors
 				Send.ZC_SKILL_HIT_INFO(owner, this.skillResults);
 				// Skill processed particle effect
 				if (!fired)
+				{
 					Send.ZC_NORMAL_ParticleEffect(owner, this.Handle, 1);
+				}
 			}
 			// Prevent this GroundSkill to be marked as fired, if its not an one-time skill
 			else if (!this.ownerSkill.GetData().IsInstant)

@@ -105,6 +105,23 @@ namespace Melia.Channel
 			this.SkillHandlers.Add(20001, skillHandler);
 			skillHandler = new BuffSkill();
 			this.SkillHandlers.Add(50045, skillHandler);
+
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10001, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10002, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10003, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10004, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10005, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10006, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10007, skillHandler);
+			skillHandler = new BuffSkill();
+			this.SkillHandlers.Add(10008, skillHandler);
 		}
 
 		/// <summary>

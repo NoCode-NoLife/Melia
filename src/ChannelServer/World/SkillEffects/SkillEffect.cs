@@ -8,6 +8,7 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.Data.Database;
 using System.Threading;
+using Melia.Channel.Network;
 
 namespace Melia.Channel.World.SkillEffects
 {
@@ -225,7 +226,9 @@ namespace Melia.Channel.World.SkillEffects
 		/// <summary>
 		/// For instant skills
 		/// </summary>
-		virtual public SkillResult Instant() { return null;  }
+		virtual public SkillResult Instant() {
+			return null;
+		}
 
 		/// <summary>
 		/// Virtual function called when this effect is applied again on the same target, and is a stackable effect.
