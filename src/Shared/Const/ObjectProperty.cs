@@ -105,6 +105,52 @@ namespace Melia.Shared.Const
 			public const short DailyTimeReward_12 = 32139;
 			public const short DailyTime_ResetTime = 32140;
 			public const short DailyBox_Event_Day = 32142;
+			public const short GuildEventSeq = 32306;
+			public const short SEASON_SERVER_LV20 = 32307;
+			public const short GuildEventSelectTime = 32308;
+			public const short GuildEventJoinSelectTime = 32309;
+			public const short GuildEventStartTimeSave = 32310;
+			public const short LastGuildOutGIDX = 32311;
+			public const short GOLDKEY_EVENT_BOX_TP = 32312;
+			public const short GuildBattleJoinableDay = 32313;
+			public const short DAYCHECK_EVENT_PLAYMIN = 32314;
+			public const short DAYCHECK_EVENT_LAST_DATE = 32315;
+			public const short DAYCHECK_EVENT_REWARD_DATE = 32316;
+			public const short DAYCHECK_EVENT_REWARD_COUNT1 = 32317;
+			public const short DAYCHECK_EVENT_REWARD_COUNT2 = 32318;
+			public const short LastGuildOutDay = 32319;
+			public const short DAYCHECK_EVENT_REWARD_COUNT3 = 32320;
+			public const short BarrackLayer1_9 = 32526;
+			public const short BarrackLayer1_4 = 32527;
+			public const short BarrackLayer2_6 = 32528;
+			public const short BarrackLayer1_13 = 32529;
+			public const short BarrackLayer1_5 = 32530;
+			public const short BarrackLayer2_7 = 32531;
+			public const short BarrackLayer1_7 = 32532;
+			public const short BarrackLayer2_9 = 32533;
+			public const short BarrackLayer1_11 = 32534;
+			public const short BarrackLayer2_4 = 32535;
+			public const short BarrackLayer1_2 = 32536;
+			public const short BarrackLayer2_5 = 32537;
+			public const short BarrackLayer1_3 = 32538;
+			public const short BarrackLayer2_14 = 32539;
+			public const short BarrackLayer2_1 = 32540;
+			public const short BarrackLayer2_13 = 32541;
+			public const short BarrackLayer1_6 = 32542;
+			public const short BarrackLayer2_8 = 32543;
+			public const short BarrackLayer1_14 = 32544;
+			public const short BarrackLayer1_8 = 32545;
+			public const short BarrackLayer1_15 = 32546;
+			public const short BarrackLayer1_10 = 32547;
+			public const short BarrackLayer2_15 = 32548;
+			public const short BarrackLayer2_2 = 32549;
+			public const short BarrackLayer1_1 = 32550;
+			public const short BarrackLayer2_3 = 32551;
+			public const short BarrackLayer1_12 = 32552;
+			public const short BarrackLayer2_10 = 32553;
+			public const short BarrackLayer2_11 = 32554;
+			public const short BarrackLayer2_12 = 32555;
+			public const short Event_HiddenReward = 32560;
 		}
 
 		public static class Monster
@@ -1130,6 +1176,15 @@ namespace Melia.Shared.Const
 			public const short FireAtkFactor_PC = 11504;
 			public const short LightningAtkFactor_PC = 11505;
 			public const short MaxWeight_BM = 12545;
+			public const short MAXPATK_SUB_BM = 32321;
+			public const short HPPotion_BM = 32322;
+			public const short SPPotion_BM = 32323;
+			public const short Res_Blind_Debuff_BM = 32324;
+			public const short Res_Silence_Debuff_BM = 32325;
+			public const short Res_Sleep_Debuff_BM = 32326;
+			public const short STAPotion_BM = 32327;
+			public const short Res_Stun_Debuff_BM = 32328;
+			public const short Res_Wound_Debuff_BM = 32329;
 		}
 
 		public static class Item
@@ -1430,6 +1485,11 @@ namespace Melia.Shared.Const
 			public const short HatVisible = 31585;
 			public const short ItemLifeTimeOver = 31586;
 			public const short ItemLifeTime = 31587;
+			public const short Transcend = 32502;
+			public const short MHPRatio = 32503;
+			public const short Transcend_MatCount = 32504;
+			public const short PackageTradeCount = 32556;
+			public const short PackageTradeAble = 32557;
 		}
 	}
 }
