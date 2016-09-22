@@ -240,62 +240,118 @@ namespace Melia.Shared.Network
 	///   - CZ_PARTY_INVITE_ACCEPT: 87 -> 79
 	///   - CZ_PARTY_INVITE_CANCEL: 91 -> 83
 	///   - CZ_PARTY_PROP_CHANGE: 147 -> 145
+	/// 
+	/// i135297 (2016-09-?)
+	/// - Notes:
+	///   - A few ops were (re)moved or added, which caused several others
+	///     to change.
+	/// - New:
+	///   - BC_COMMANDER_CREATE_SLOTID
+	///   - CB_REQ_CHANNEL_TRAFFIC
+	///   - CB_CHANGE_BARRACK_LAYER
+	///   - CB_SELECT_BARRACK_LAYER
+	///   - CB_GEMSCOOL_PCINFO
+	///   - CS_REQUEST_ALL_SEASON_TOP_PVP_RANKING
+	///   - CZ_CHANGE_GUILD_NEUTRALITY
+	///   - CZ_REQ_OPEN_INGAMESHOP_UI
+	///   - CZ_REQ_REMAIN_NEXONCASH
+	///   - CZ_REQ_BUY_INGAMESHOP_ITEM
+	///   - CZ_REQ_PICKUP_CASHITEM
+	///   - CZ_REQ_REFUND_CASHITEM
+	///   - CZ_REQ_GET_CAHS_INVEN_ITEMLIST
+	///   - CZ_REPORT_AUTOBOT
+	///   - CZ_RUN_GAMEEXIT_TIMER
+	///   - CZ_FIXED_NOTICE_SHOW
+	///   - CZ_REQUEST_CHANGE_NAME
+	///   - ZC_HOLD_EXP_BOOK_TIME
+	///   - CZ_HOLD_EXP_BOOK_TIME
+	/// - Removed:
+	///   - CZ_ACCEPT_GUILD_EVENT
+	///   - CZ_ACCEPT_GUILD_EVENT_RAID
+	/// - Size changes:
+	///   - CB_LOGIN: 66 -> 206
+	///   - CB_LOGIN_BY_PASSPORT: 1068 -> 1080
+	///   - BC_LOGINOK: 121 -> 129
+	///   - BC_COMMANDER_CREATE: 334 -> 342
+	///   - CB_NGS: 10254 -> 0
+	///   - CZ_CONNECT: 1200 -> 1208
+	///   - ZC_ENTER_PC: 341 -> 353
+	///   - ZC_ENTER_DUMMYPC: 308 -> 316
+	///   - ZC_UPDATED_DUMMYPC: 266 -> 274
+	///   - ZC_UPDATED_PCAPPEARANCE: 266 -> 274
+	///   - CZ_RESURRECT: 11 -> 19
+	///   - ZC_EXCHANGE_START: 71 -> 72
+	///   - ZC_COOLDOWN_CHANGED: 22 -> 26
+	///   - ZC_OVERHEAT_CHANGED: 26 -> 30
+	///   - CZ_DYNAMIC_CASTING_START: 24 -> 25
+	///   - CZ_DYNAMIC_CASTING_END: 19 -> 20
+	///   - ZC_FLY_MATH: 22 -> 25
+	///   - ZC_JOB_EXP_UP: 10 -> 18
+	///   - ZC_JOB_PTS: 10 -> 18
+	///   - CZ_PARTY_INVITE_ACCEPT: 79 -> 87
+	///   - CZ_PARTY_INVITE_CANCEL: 83 -> 91
+	///   - CZ_PARTY_INVITE_CANCEL: 83 -> 91
 	/// </remarks>
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 66
-		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1068
+		public const int CB_LOGIN = 0x03; // Size: 206
+		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1080
 		public const int CB_LOGOUT = 0x05; // Size: 10
 		public const int CB_START_BARRACK = 0x06; // Size: 11
 		public const int CB_COMMANDER_CREATE = 0x07; // Size: 96
-		public const int CB_COMMANDER_DESTROY = 0x08; // Size: 11
-		public const int CB_CHECK_CLIENT_INTEGRITY = 0x09; // Size: 74
-		public const int CB_CLIENT_INTEGRITY_FAIL = 0x0A; // Size: 1035
-		public const int CB_START_GAME = 0x0B; // Size: 13
-		public const int CB_BARRACKNAME_CHANGE = 0x0C; // Size: 74
-		public const int CB_COMMANDER_MOVE = 0x0D; // Size: 31
-		public const int CB_ECHO = 0x0E; // Size: 30
-		public const int BC_LOGINOK = 0x0F; // Size: 121
-		public const int BC_LOGIN_PACKET_RECEIVED = 0x10; // Size: 6
-		public const int BC_LOGOUTOK = 0x11; // Size: 6
-		public const int BC_COMMANDER_LIST = 0x12; // Size: 0
-		public const int BC_COMMANDER_CREATE = 0x13; // Size: 334
-		public const int BC_COMMANDER_DESTROY = 0x14; // Size: 7
-		public const int BC_START_GAMEOK = 0x15; // Size: 33
-		public const int BC_SINGLE_INFO = 0x16; // Size: 325
-		public const int BC_MESSAGE = 0x17; // Size: 0
-		public const int BC_ECHO = 0x18; // Size: 26
-		public const int BC_MYPAGE_MAP = 0x19; // Size: 0
-		public const int BC_BARRACKNAME_CHANGE = 0x1A; // Size: 75
+		public const int BC_COMMANDER_CREATE_SLOTID = 0x08; // Size: 7
+		public const int CB_COMMANDER_DESTROY = 0x09; // Size: 11
+		public const int CB_CHECK_CLIENT_INTEGRITY = 0x0A; // Size: 74
+		public const int CB_CLIENT_INTEGRITY_FAIL = 0x0B; // Size: 1035
+		public const int CB_START_GAME = 0x0C; // Size: 13
+		public const int CB_BARRACKNAME_CHANGE = 0x0D; // Size: 74
+		public const int CB_COMMANDER_MOVE = 0x0E; // Size: 31
+		public const int CB_ECHO = 0x0F; // Size: 30
+		public const int BC_LOGINOK = 0x10; // Size: 129
+		public const int BC_LOGIN_PACKET_RECEIVED = 0x11; // Size: 6
+		public const int BC_LOGOUTOK = 0x12; // Size: 6
+		public const int BC_COMMANDER_LIST = 0x13; // Size: 0
+		public const int BC_COMMANDER_CREATE = 0x14; // Size: 342
+		public const int BC_COMMANDER_DESTROY = 0x15; // Size: 7
+		public const int BC_START_GAMEOK = 0x16; // Size: 33
+		public const int BC_SINGLE_INFO = 0x17; // Size: 325
+		public const int BC_MESSAGE = 0x18; // Size: 0
+		public const int BC_ECHO = 0x19; // Size: 26
+		public const int BC_MYPAGE_MAP = 0x1A; // Size: 0
+		public const int BC_BARRACKNAME_CHANGE = 0x1B; // Size: 75
 		public const int CB_IES_MODIFY_INFO = 0x46; // Size: 0
 		public const int BC_IES_MODIFY_INFO = 0x47; // Size: 0
 		public const int BC_IES_MODIFY_LIST = 0x48; // Size: 0
 		public const int CB_IES_REVISION_DELETE = 0x49; // Size: 0
 		public const int BC_IES_REVISION_DELETE = 0x4A; // Size: 0
-		public const int CB_VISIT = 0x4B; // Size: 74
-		public const int CB_BUY_THEMA = 0x4C; // Size: 22
-		public const int BC_ACCOUNT_PROP = 0x4D; // Size: 0
-		public const int CB_CURRENT_BARRACK = 0x4E; // Size: 39
-		public const int BC_NORMAL = 0x4F; // Size: 0
-		public const int CB_POSE = 0x50; // Size: 15
-		public const int CB_PLACE_CMD = 0x51; // Size: 46
-		public const int CB_CHAT = 0x52; // Size: 0
-		public const int BC_CHAT = 0x53; // Size: 0
-		public const int CB_ECHO_NORMAL = 0x54; // Size: 0
-		public const int CB_REQ_SLOT_PRICE = 0x55; // Size: 10
-		public const int BC_REQ_SLOT_PRICE = 0x56; // Size: 10
-		public const int CB_JUMP = 0x57; // Size: 19
-		public const int BC_JUMP = 0x58; // Size: 19
-		public const int BC_SERVER_ENTRY = 0x59; // Size: 18
-		public const int CB_PET_PC = 0x5A; // Size: 26
-		public const int CB_PET_COMMAND = 0x5B; // Size: 27
-		public const int CB_REQ_CHANGE_POSTBOX_STATE = 0x5C; // Size: 23
-		public const int CB_REQ_GET_POSTBOX_ITEM = 0x5D; // Size: 1051
-		public const int CB_REQ_POSTBOX_PAGE = 0x5E; // Size: 14
-		public const int BC_WAIT_QUEUE_ORDER = 0x5F; // Size: 10
-		public const int CB_CANCEL_SERVER_WAIT_QUEUE = 0x60; // Size: 10
-		public const int CB_NGS = 0x61; // Size: 10254
-		public const int ZC_TREASUREMARK_LIST_MAP = 0xD0; // Size: 0
+		public const int CB_REQ_CHANNEL_TRAFFIC = 0x4B; // Size: 14
+		public const int CB_VISIT = 0x4C; // Size: 74
+		public const int CB_BUY_THEMA = 0x4D; // Size: 22
+		public const int BC_ACCOUNT_PROP = 0x4E; // Size: 0
+		public const int CB_CURRENT_BARRACK = 0x4F; // Size: 39
+		public const int BC_NORMAL = 0x50; // Size: 0
+		public const int CB_POSE = 0x51; // Size: 15
+		public const int CB_PLACE_CMD = 0x52; // Size: 46
+		public const int CB_CHAT = 0x53; // Size: 0
+		public const int BC_CHAT = 0x54; // Size: 0
+		public const int CB_ECHO_NORMAL = 0x55; // Size: 0
+		public const int CB_REQ_SLOT_PRICE = 0x56; // Size: 10
+		public const int BC_REQ_SLOT_PRICE = 0x57; // Size: 10
+		public const int CB_CHANGE_BARRACK_LAYER = 0x58; // Size: 22
+		public const int CB_SELECT_BARRACK_LAYER = 0x59; // Size: 14
+		public const int CB_JUMP = 0x5A; // Size: 19
+		public const int BC_JUMP = 0x5B; // Size: 19
+		public const int BC_SERVER_ENTRY = 0x5C; // Size: 18
+		public const int CB_PET_PC = 0x5D; // Size: 26
+		public const int CB_PET_COMMAND = 0x5E; // Size: 27
+		public const int CB_REQ_CHANGE_POSTBOX_STATE = 0x5F; // Size: 23
+		public const int CB_REQ_GET_POSTBOX_ITEM = 0x60; // Size: 1051
+		public const int CB_REQ_POSTBOX_PAGE = 0x61; // Size: 14
+		public const int BC_WAIT_QUEUE_ORDER = 0x62; // Size: 10
+		public const int CB_CANCEL_SERVER_WAIT_QUEUE = 0x63; // Size: 10
+		public const int CB_NGS = 0x64; // Size: 0
+		public const int CB_GEMSCOOL_PCINFO = 0x65; // Size: 1290
+		public const int ZC_TREASUREMARK_LIST_MAP = 0xD3; // Size: 0
 		public const int CS_LOGIN = 0xB55; // Size: 64
 		public const int SC_NORMAL = 0xB56; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0xB57; // Size: 0
@@ -317,14 +373,15 @@ namespace Melia.Shared.Network
 		public const int CS_PARTY_CLIENT_INFO_SEND = 0xB67; // Size: 0
 		public const int CS_NORMAL_GAME_START = 0xB68; // Size: 6
 		public const int CS_REQUEST_PVP_RANKING = 0xB69; // Size: 88
-		public const int CS_INVITE_PARTY_PVP = 0xB6A; // Size: 10
-		public const int CS_ACCEPT_PARTY_PVP = 0xB6B; // Size: 19
-		public const int CS_LIKE_IT = 0xB6C; // Size: 88
-		public const int CS_UNLIKE_IT = 0xB6D; // Size: 24
-		public const int CS_LIKE_IT_CONFIRM = 0xB6E; // Size: 16
-		public const int CS_ADD_RELATION_SCORE = 0xB6F; // Size: 88
-		public const int CS_GET_LIKE_COUNT = 0xB70; // Size: 16
-		public const int CZ_CONNECT = 0xBB9; // Size: 1200
+		public const int CS_REQUEST_ALL_SEASON_TOP_PVP_RANKING = 0xB6A; // Size: 80
+		public const int CS_INVITE_PARTY_PVP = 0xB6B; // Size: 10
+		public const int CS_ACCEPT_PARTY_PVP = 0xB6C; // Size: 19
+		public const int CS_LIKE_IT = 0xB6D; // Size: 88
+		public const int CS_UNLIKE_IT = 0xB6E; // Size: 24
+		public const int CS_LIKE_IT_CONFIRM = 0xB6F; // Size: 16
+		public const int CS_ADD_RELATION_SCORE = 0xB70; // Size: 88
+		public const int CS_GET_LIKE_COUNT = 0xB71; // Size: 16
+		public const int CZ_CONNECT = 0xBB9; // Size: 1208
 		public const int ZC_CONNECT_OK = 0xBBA; // Size: 0
 		public const int ZC_MOVE_ZONE = 0xBBB; // Size: 7
 		public const int CZ_MOVE_ZONE_OK = 0xBBC; // Size: 10
@@ -339,10 +396,10 @@ namespace Melia.Shared.Network
 		public const int ZC_RESET_VIEW = 0xBC5; // Size: 6
 		public const int ZC_START_GAME = 0xBC6; // Size: 26
 		public const int ZC_QUIET = 0xBC7; // Size: 7
-		public const int ZC_ENTER_PC = 0xC1D; // Size: 341
+		public const int ZC_ENTER_PC = 0xC1D; // Size: 353
 		public const int ZC_ENTER_MONSTER = 0xC1E; // Size: 0
-		public const int ZC_ENTER_DUMMYPC = 0xC1F; // Size: 308
-		public const int ZC_UPDATED_DUMMYPC = 0xC20; // Size: 266
+		public const int ZC_ENTER_DUMMYPC = 0xC1F; // Size: 316
+		public const int ZC_UPDATED_DUMMYPC = 0xC20; // Size: 274
 		public const int ZC_ENTER_ITEM = 0xC21; // Size: 103
 		public const int ZC_LEAVE = 0xC22; // Size: 12
 		public const int ZC_MOVE_PATH = 0xC23; // Size: 42
@@ -360,7 +417,7 @@ namespace Melia.Shared.Network
 		public const int ZC_SET_POS = 0xC2F; // Size: 23
 		public const int ZC_FILE_MOVE = 0xC30; // Size: 46
 		public const int CZ_LEAVE_TO_DUNGEON = 0xC31; // Size: 10
-		public const int ZC_UPDATED_PCAPPEARANCE = 0xC32; // Size: 266
+		public const int ZC_UPDATED_PCAPPEARANCE = 0xC32; // Size: 274
 		public const int ZC_UPDATED_MONSTERAPPEARANCE = 0xC33; // Size: 0
 		public const int ZC_CHAT = 0xC34; // Size: 0
 		public const int ZC_CHAT_WITH_TEXTCODE = 0xC35; // Size: 14
@@ -399,7 +456,7 @@ namespace Melia.Shared.Network
 		public const int ZC_CAUTION_DAMAGE_RELEASE = 0xC57; // Size: 10
 		public const int ZC_KNOCKBACK_INFO = 0xC58; // Size: 70
 		public const int ZC_KNOCKDOWN_INFO = 0xC59; // Size: 71
-		public const int CZ_RESURRECT = 0xC5A; // Size: 11
+		public const int CZ_RESURRECT = 0xC5A; // Size: 19
 		public const int ZC_RESURRECT_SAVE_POINT_ACK = 0xC5B; // Size: 7
 		public const int ZC_RESURRECT_HERE_ACK = 0xC5C; // Size: 7
 		public const int CZ_CLICK_TRIGGER = 0xC5D; // Size: 15
@@ -513,7 +570,7 @@ namespace Melia.Shared.Network
 		public const int CZ_EXCHANGE_ACCEPT = 0xCCB; // Size: 10
 		public const int CZ_EXCHANGE_DECLINE = 0xCCC; // Size: 10
 		public const int ZC_EXCHANGE_DECLINE_ACK = 0xCCD; // Size: 6
-		public const int ZC_EXCHANGE_START = 0xCCE; // Size: 71
+		public const int ZC_EXCHANGE_START = 0xCCE; // Size: 72
 		public const int CZ_EXCHANGE_OFFER = 0xCCF; // Size: 30
 		public const int ZC_EXCHANGE_OFFER_ACK = 0xCD0; // Size: 0
 		public const int CZ_EXCHANGE_AGREE = 0xCD1; // Size: 10
@@ -524,8 +581,8 @@ namespace Melia.Shared.Network
 		public const int ZC_EXCHANGE_CANCEL_ACK = 0xCD6; // Size: 6
 		public const int ZC_EXCHANGE_SUCCESS = 0xCD7; // Size: 6
 		public const int ZC_COOLDOWN_LIST = 0xCD8; // Size: 0
-		public const int ZC_COOLDOWN_CHANGED = 0xCD9; // Size: 22
-		public const int ZC_OVERHEAT_CHANGED = 0xCDA; // Size: 26
+		public const int ZC_COOLDOWN_CHANGED = 0xCD9; // Size: 26
+		public const int ZC_OVERHEAT_CHANGED = 0xCDA; // Size: 30
 		public const int ZC_TEST_AGENT = 0xCDB; // Size: 18
 		public const int CZ_COMMON_SHOP_LIST = 0xCDC; // Size: 10
 		public const int ZC_COMMON_SHOP_LIST = 0xCDD; // Size: 8
@@ -585,8 +642,8 @@ namespace Melia.Shared.Network
 		public const int ZC_RESET_BOX = 0xD13; // Size: 11
 		public const int ZC_CREATE_SCROLLLOCKBOX = 0xD14; // Size: 38
 		public const int ZC_REMOVE_SCROLLLOCKBOX = 0xD15; // Size: 10
-		public const int CZ_DYNAMIC_CASTING_START = 0xD16; // Size: 24
-		public const int CZ_DYNAMIC_CASTING_END = 0xD17; // Size: 19
+		public const int CZ_DYNAMIC_CASTING_START = 0xD16; // Size: 25
+		public const int CZ_DYNAMIC_CASTING_END = 0xD17; // Size: 20
 		public const int CZ_SKILL_CANCEL_SCRIPT = 0xD18; // Size: 10
 		public const int ZC_LEAVE_TRIGGER = 0xD19; // Size: 6
 		public const int ZC_BORN = 0xD1A; // Size: 10
@@ -671,7 +728,7 @@ namespace Melia.Shared.Network
 		public const int ZC_MONSTER_PROPERTY = 0xD69; // Size: 0
 		public const int ZC_GROUND_EFFECT = 0xD6A; // Size: 50
 		public const int ZC_FLY = 0xD6B; // Size: 18
-		public const int ZC_FLY_MATH = 0xD6C; // Size: 22
+		public const int ZC_FLY_MATH = 0xD6C; // Size: 25
 		public const int ZC_FLY_HEIGHT = 0xD6D; // Size: 14
 		public const int ZC_UPDATE_SHIELD = 0xD6E; // Size: 14
 		public const int ZC_SHOW_MODEL = 0xD6F; // Size: 15
@@ -687,8 +744,8 @@ namespace Melia.Shared.Network
 		public const int ZC_PLAY_FORCE = 0xD79; // Size: 78
 		public const int ZC_CAST_TARGET = 0xD7A; // Size: 14
 		public const int ZC_START_INFO = 0xD7B; // Size: 0
-		public const int ZC_JOB_EXP_UP = 0xD7C; // Size: 10
-		public const int ZC_JOB_PTS = 0xD7D; // Size: 10
+		public const int ZC_JOB_EXP_UP = 0xD7C; // Size: 18
+		public const int ZC_JOB_PTS = 0xD7D; // Size: 18
 		public const int ZC_MON_STAMINA = 0xD7E; // Size: 22
 		public const int CZ_CUSTOM_SCP = 0xD7F; // Size: 14
 		public const int ZC_VIEW_FOCUS = 0xD80; // Size: 24
@@ -793,8 +850,8 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_MGAME_VIEW = 0xDE3; // Size: 18
 		public const int CZ_REQ_MGAME_CHAT = 0xDE4; // Size: 0
 		public const int CZ_TOURNAMENT_GIFT = 0xDE5; // Size: 18
-		public const int CZ_PARTY_INVITE_ACCEPT = 0xDE6; // Size: 79
-		public const int CZ_PARTY_INVITE_CANCEL = 0xDE7; // Size: 83
+		public const int CZ_PARTY_INVITE_ACCEPT = 0xDE6; // Size: 87
+		public const int CZ_PARTY_INVITE_CANCEL = 0xDE7; // Size: 91
 		public const int CZ_PARTY_PROP_CHANGE = 0xDE8; // Size: 145
 		public const int CZ_REQ_MARKET_REGISTER = 0xDE9; // Size: 40
 		public const int CZ_REQ_MARKET_MINMAX_INFO = 0xDEA; // Size: 18
@@ -825,55 +882,67 @@ namespace Melia.Shared.Network
 		public const int CZ_BUY_PROPERTYSHOP_ITEM = 0xE03; // Size: 0
 		public const int CZ_SKILL_USE_HEIGHT = 0xE04; // Size: 14
 		public const int CZ_ACCEPT_PARTY_QUEST = 0xE05; // Size: 20
-		public const int CZ_ACCEPT_GUILD_EVENT = 0xE06; // Size: 20
-		public const int CZ_ACCEPT_GUILD_EVENT_RAID = 0xE07; // Size: 20
-		public const int CZ_ACCEPT_PARTY_EVENT = 0xE08; // Size: 20
-		public const int CZ_DELETE_PARTY_EVENT = 0xE09; // Size: 20
-		public const int CZ_PING = 0xE0A; // Size: 10
-		public const int ZC_PING = 0xE0B; // Size: 10
-		public const int ZC_XIGNCODE_BUFFER = 0xE0C; // Size: 524
-		public const int CZ_XIGNCODE_BUFFER = 0xE0D; // Size: 524
-		public const int CZ_SYSTEM_LOG_SAVE_TO_MONGODB = 0xE0E; // Size: 280
-		public const int CZ_CHANGE_TITLE = 0xE0F; // Size: 74
-		public const int CZ_PC_COMMENT_CHANGE = 0xE10; // Size: 0
-		public const int CZ_AUTTOSELLER_BUYER_CLOSE = 0xE11; // Size: 18
-		public const int CZ_REQ_ITEM_LIST = 0xE12; // Size: 11
-		public const int CZ_HIT_MISSILE = 0xE13; // Size: 14
-		public const int CZ_I_NEED_PARTY = 0xE14; // Size: 23
-		public const int CZ_PARTY_JOIN_BY_LINK = 0xE15; // Size: 19
-		public const int ZC_RECOMMEND_PARTYMEMBER_INFO = 0xE16; // Size: 0
-		public const int CZ_PVP_ZONE_CMD = 0xE17; // Size: 26
-		public const int CZ_PVP_CHAT = 0xE18; // Size: 0
-		public const int CZ_CARDBATTLE_CMD = 0xE19; // Size: 26
-		public const int CZ_REQ_UPDATE_CONTENTS_SESSION = 0xE1A; // Size: 10
-		public const int CZ_REQ_FRIENDLY_FIGHT = 0xE1B; // Size: 15
-		public const int CZ_HARDSKILL_POS_LIST = 0xE1C; // Size: 0
-		public const int CZ_CART_POSITION = 0xE1D; // Size: 26
-		public const int CZ_REQ_RIDE_CART = 0xE1E; // Size: 18
-		public const int CZ_DUMMYPC_SKILL_POS = 0xE1F; // Size: 26
-		public const int CZ_NGS = 0xE20; // Size: 0
-		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE21; // Size: 0
-		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE22; // Size: 22
-		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE23; // Size: 1099
-		public const int CZ_CHECK_PING = 0xE24; // Size: 10
-		public const int CZ_CANCEL_INDUN_MATCHING = 0xE25; // Size: 10
-		public const int CZ_REQ_GM_ORDER = 0xE26; // Size: 202
-		public const int CZ_PARTY_INVENTORY_LOAD = 0xE27; // Size: 11
-		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE28; // Size: 31
-		public const int CZ_REQ_CancelGachaCube = 0xE29; // Size: 10
-		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE2A; // Size: 0
-		public const int CZ_PVP_COMMAND = 0xE2B; // Size: 22
+		public const int CZ_CHANGE_GUILD_NEUTRALITY = 0xE06; // Size: 10
+		public const int CZ_ACCEPT_PARTY_EVENT = 0xE09; // Size: 20
+		public const int CZ_DELETE_PARTY_EVENT = 0xE0A; // Size: 20
+		public const int CZ_PING = 0xE0B; // Size: 10
+		public const int ZC_PING = 0xE0C; // Size: 10
+		public const int CZ_REQ_OPEN_INGAMESHOP_UI = 0xE0D; // Size: 10
+		public const int CZ_REQ_REMAIN_NEXONCASH = 0xE0E; // Size: 10
+		public const int CZ_REQ_BUY_INGAMESHOP_ITEM = 0xE0F; // Size: 78
+		public const int CZ_REQ_PICKUP_CASHITEM = 0xE10; // Size: 33
+		public const int CZ_REQ_REFUND_CASHITEM = 0xE11; // Size: 29
+		public const int CZ_REQ_GET_CAHS_INVEN_ITEMLIST = 0xE12; // Size: 14
+		public const int ZC_XIGNCODE_BUFFER = 0xE13; // Size: 524
+		public const int CZ_XIGNCODE_BUFFER = 0xE14; // Size: 524
+		public const int CZ_SYSTEM_LOG_SAVE_TO_MONGODB = 0xE15; // Size: 280
+		public const int CZ_CHANGE_TITLE = 0xE16; // Size: 74
+		public const int CZ_PC_COMMENT_CHANGE = 0xE17; // Size: 0
+		public const int CZ_AUTTOSELLER_BUYER_CLOSE = 0xE18; // Size: 18
+		public const int CZ_REQ_ITEM_LIST = 0xE19; // Size: 11
+		public const int CZ_HIT_MISSILE = 0xE1A; // Size: 14
+		public const int CZ_I_NEED_PARTY = 0xE1B; // Size: 23
+		public const int CZ_PARTY_JOIN_BY_LINK = 0xE1C; // Size: 19
+		public const int ZC_RECOMMEND_PARTYMEMBER_INFO = 0xE1D; // Size: 0
+		public const int CZ_PVP_ZONE_CMD = 0xE1E; // Size: 26
+		public const int CZ_PVP_CHAT = 0xE1F; // Size: 0
+		public const int CZ_CARDBATTLE_CMD = 0xE20; // Size: 26
+		public const int CZ_REQ_UPDATE_CONTENTS_SESSION = 0xE21; // Size: 10
+		public const int CZ_REQ_FRIENDLY_FIGHT = 0xE22; // Size: 15
+		public const int CZ_HARDSKILL_POS_LIST = 0xE23; // Size: 0
+		public const int CZ_CART_POSITION = 0xE24; // Size: 26
+		public const int CZ_REQ_RIDE_CART = 0xE25; // Size: 18
+		public const int CZ_DUMMYPC_SKILL_POS = 0xE26; // Size: 26
+		public const int CZ_NGS = 0xE27; // Size: 0
+		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE28; // Size: 0
+		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE29; // Size: 22
+		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE2A; // Size: 1099
+		public const int CZ_CHECK_PING = 0xE2B; // Size: 10
+		public const int CZ_CANCEL_INDUN_MATCHING = 0xE2C; // Size: 10
+		public const int CZ_REQ_GM_ORDER = 0xE2D; // Size: 202
+		public const int CZ_REPORT_AUTOBOT = 0xE2E; // Size: 74
+		public const int CZ_PARTY_INVENTORY_LOAD = 0xE2F; // Size: 11
+		public const int CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT = 0xE30; // Size: 31
+		public const int CZ_PVP_COMMAND = 0xE31; // Size: 22
+		public const int CZ_REQ_CancelGachaCube = 0xE32; // Size: 10
+		public const int CZ_WAREHOUSE_TAKE_LIST = 0xE33; // Size: 0
+		public const int CZ_RUN_GAMEEXIT_TIMER = 0xE37; // Size: 10
+		public const int CZ_FIXED_NOTICE_SHOW = 0xE38; // Size: 10
+		public const int CZ_REQUEST_CHANGE_NAME = 0xE3A; // Size: 66
+		public const int ZC_HOLD_EXP_BOOK_TIME = 0xE3C; // Size: 21
+		public const int CZ_HOLD_EXP_BOOK_TIME = 0xE3D; // Size: 14
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
 
 		static Op()
 		{
-			_sizes[Op.CB_LOGIN] = 66;
-			_sizes[Op.CB_LOGIN_BY_PASSPORT] = 1068;
+			_sizes[Op.CB_LOGIN] = 206;
+			_sizes[Op.CB_LOGIN_BY_PASSPORT] = 1080;
 			_sizes[Op.CB_LOGOUT] = 10;
 			_sizes[Op.CB_START_BARRACK] = 11;
 			_sizes[Op.CB_COMMANDER_CREATE] = 96;
+			_sizes[Op.BC_COMMANDER_CREATE_SLOTID] = 7;
 			_sizes[Op.CB_COMMANDER_DESTROY] = 11;
 			_sizes[Op.CB_CHECK_CLIENT_INTEGRITY] = 74;
 			_sizes[Op.CB_CLIENT_INTEGRITY_FAIL] = 1035;
@@ -881,11 +950,11 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_BARRACKNAME_CHANGE] = 74;
 			_sizes[Op.CB_COMMANDER_MOVE] = 31;
 			_sizes[Op.CB_ECHO] = 30;
-			_sizes[Op.BC_LOGINOK] = 121;
+			_sizes[Op.BC_LOGINOK] = 129;
 			_sizes[Op.BC_LOGIN_PACKET_RECEIVED] = 6;
 			_sizes[Op.BC_LOGOUTOK] = 6;
 			_sizes[Op.BC_COMMANDER_LIST] = 0;
-			_sizes[Op.BC_COMMANDER_CREATE] = 334;
+			_sizes[Op.BC_COMMANDER_CREATE] = 342;
 			_sizes[Op.BC_COMMANDER_DESTROY] = 7;
 			_sizes[Op.BC_START_GAMEOK] = 33;
 			_sizes[Op.BC_SINGLE_INFO] = 325;
@@ -898,6 +967,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.BC_IES_MODIFY_LIST] = 0;
 			_sizes[Op.CB_IES_REVISION_DELETE] = 0;
 			_sizes[Op.BC_IES_REVISION_DELETE] = 0;
+			_sizes[Op.CB_REQ_CHANNEL_TRAFFIC] = 14;
 			_sizes[Op.CB_VISIT] = 74;
 			_sizes[Op.CB_BUY_THEMA] = 22;
 			_sizes[Op.BC_ACCOUNT_PROP] = 0;
@@ -910,6 +980,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_ECHO_NORMAL] = 0;
 			_sizes[Op.CB_REQ_SLOT_PRICE] = 10;
 			_sizes[Op.BC_REQ_SLOT_PRICE] = 10;
+			_sizes[Op.CB_CHANGE_BARRACK_LAYER] = 22;
+			_sizes[Op.CB_SELECT_BARRACK_LAYER] = 14;
 			_sizes[Op.CB_JUMP] = 19;
 			_sizes[Op.BC_JUMP] = 19;
 			_sizes[Op.BC_SERVER_ENTRY] = 18;
@@ -920,7 +992,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.CB_REQ_POSTBOX_PAGE] = 14;
 			_sizes[Op.BC_WAIT_QUEUE_ORDER] = 10;
 			_sizes[Op.CB_CANCEL_SERVER_WAIT_QUEUE] = 10;
-			_sizes[Op.CB_NGS] = 10254;
+			_sizes[Op.CB_NGS] = 0;
+			_sizes[Op.CB_GEMSCOOL_PCINFO] = 1290;
 			_sizes[Op.ZC_TREASUREMARK_LIST_MAP] = 0;
 			_sizes[Op.CS_LOGIN] = 64;
 			_sizes[Op.SC_NORMAL] = 0;
@@ -943,6 +1016,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CS_PARTY_CLIENT_INFO_SEND] = 0;
 			_sizes[Op.CS_NORMAL_GAME_START] = 6;
 			_sizes[Op.CS_REQUEST_PVP_RANKING] = 88;
+			_sizes[Op.CS_REQUEST_ALL_SEASON_TOP_PVP_RANKING] = 80;
 			_sizes[Op.CS_INVITE_PARTY_PVP] = 10;
 			_sizes[Op.CS_ACCEPT_PARTY_PVP] = 19;
 			_sizes[Op.CS_LIKE_IT] = 88;
@@ -950,7 +1024,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CS_LIKE_IT_CONFIRM] = 16;
 			_sizes[Op.CS_ADD_RELATION_SCORE] = 88;
 			_sizes[Op.CS_GET_LIKE_COUNT] = 16;
-			_sizes[Op.CZ_CONNECT] = 1200;
+			_sizes[Op.CZ_CONNECT] = 1208;
 			_sizes[Op.ZC_CONNECT_OK] = 0;
 			_sizes[Op.ZC_MOVE_ZONE] = 7;
 			_sizes[Op.CZ_MOVE_ZONE_OK] = 10;
@@ -965,10 +1039,10 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_RESET_VIEW] = 6;
 			_sizes[Op.ZC_START_GAME] = 26;
 			_sizes[Op.ZC_QUIET] = 7;
-			_sizes[Op.ZC_ENTER_PC] = 341;
+			_sizes[Op.ZC_ENTER_PC] = 353;
 			_sizes[Op.ZC_ENTER_MONSTER] = 0;
-			_sizes[Op.ZC_ENTER_DUMMYPC] = 308;
-			_sizes[Op.ZC_UPDATED_DUMMYPC] = 266;
+			_sizes[Op.ZC_ENTER_DUMMYPC] = 316;
+			_sizes[Op.ZC_UPDATED_DUMMYPC] = 274;
 			_sizes[Op.ZC_ENTER_ITEM] = 103;
 			_sizes[Op.ZC_LEAVE] = 12;
 			_sizes[Op.ZC_MOVE_PATH] = 42;
@@ -986,7 +1060,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_SET_POS] = 23;
 			_sizes[Op.ZC_FILE_MOVE] = 46;
 			_sizes[Op.CZ_LEAVE_TO_DUNGEON] = 10;
-			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 266;
+			_sizes[Op.ZC_UPDATED_PCAPPEARANCE] = 274;
 			_sizes[Op.ZC_UPDATED_MONSTERAPPEARANCE] = 0;
 			_sizes[Op.ZC_CHAT] = 0;
 			_sizes[Op.ZC_CHAT_WITH_TEXTCODE] = 14;
@@ -1025,7 +1099,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_CAUTION_DAMAGE_RELEASE] = 10;
 			_sizes[Op.ZC_KNOCKBACK_INFO] = 70;
 			_sizes[Op.ZC_KNOCKDOWN_INFO] = 71;
-			_sizes[Op.CZ_RESURRECT] = 11;
+			_sizes[Op.CZ_RESURRECT] = 19;
 			_sizes[Op.ZC_RESURRECT_SAVE_POINT_ACK] = 7;
 			_sizes[Op.ZC_RESURRECT_HERE_ACK] = 7;
 			_sizes[Op.CZ_CLICK_TRIGGER] = 15;
@@ -1139,7 +1213,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_EXCHANGE_ACCEPT] = 10;
 			_sizes[Op.CZ_EXCHANGE_DECLINE] = 10;
 			_sizes[Op.ZC_EXCHANGE_DECLINE_ACK] = 6;
-			_sizes[Op.ZC_EXCHANGE_START] = 71;
+			_sizes[Op.ZC_EXCHANGE_START] = 72;
 			_sizes[Op.CZ_EXCHANGE_OFFER] = 30;
 			_sizes[Op.ZC_EXCHANGE_OFFER_ACK] = 0;
 			_sizes[Op.CZ_EXCHANGE_AGREE] = 10;
@@ -1150,8 +1224,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_EXCHANGE_CANCEL_ACK] = 6;
 			_sizes[Op.ZC_EXCHANGE_SUCCESS] = 6;
 			_sizes[Op.ZC_COOLDOWN_LIST] = 0;
-			_sizes[Op.ZC_COOLDOWN_CHANGED] = 22;
-			_sizes[Op.ZC_OVERHEAT_CHANGED] = 26;
+			_sizes[Op.ZC_COOLDOWN_CHANGED] = 26;
+			_sizes[Op.ZC_OVERHEAT_CHANGED] = 30;
 			_sizes[Op.ZC_TEST_AGENT] = 18;
 			_sizes[Op.CZ_COMMON_SHOP_LIST] = 10;
 			_sizes[Op.ZC_COMMON_SHOP_LIST] = 8;
@@ -1211,8 +1285,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_RESET_BOX] = 11;
 			_sizes[Op.ZC_CREATE_SCROLLLOCKBOX] = 38;
 			_sizes[Op.ZC_REMOVE_SCROLLLOCKBOX] = 10;
-			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 24;
-			_sizes[Op.CZ_DYNAMIC_CASTING_END] = 19;
+			_sizes[Op.CZ_DYNAMIC_CASTING_START] = 25;
+			_sizes[Op.CZ_DYNAMIC_CASTING_END] = 20;
 			_sizes[Op.CZ_SKILL_CANCEL_SCRIPT] = 10;
 			_sizes[Op.ZC_LEAVE_TRIGGER] = 6;
 			_sizes[Op.ZC_BORN] = 10;
@@ -1297,7 +1371,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_MONSTER_PROPERTY] = 0;
 			_sizes[Op.ZC_GROUND_EFFECT] = 50;
 			_sizes[Op.ZC_FLY] = 18;
-			_sizes[Op.ZC_FLY_MATH] = 22;
+			_sizes[Op.ZC_FLY_MATH] = 25;
 			_sizes[Op.ZC_FLY_HEIGHT] = 14;
 			_sizes[Op.ZC_UPDATE_SHIELD] = 14;
 			_sizes[Op.ZC_SHOW_MODEL] = 15;
@@ -1313,8 +1387,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.ZC_PLAY_FORCE] = 78;
 			_sizes[Op.ZC_CAST_TARGET] = 14;
 			_sizes[Op.ZC_START_INFO] = 0;
-			_sizes[Op.ZC_JOB_EXP_UP] = 10;
-			_sizes[Op.ZC_JOB_PTS] = 10;
+			_sizes[Op.ZC_JOB_EXP_UP] = 18;
+			_sizes[Op.ZC_JOB_PTS] = 18;
 			_sizes[Op.ZC_MON_STAMINA] = 22;
 			_sizes[Op.CZ_CUSTOM_SCP] = 14;
 			_sizes[Op.ZC_VIEW_FOCUS] = 24;
@@ -1419,8 +1493,8 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_REQ_MGAME_VIEW] = 18;
 			_sizes[Op.CZ_REQ_MGAME_CHAT] = 0;
 			_sizes[Op.CZ_TOURNAMENT_GIFT] = 18;
-			_sizes[Op.CZ_PARTY_INVITE_ACCEPT] = 79;
-			_sizes[Op.CZ_PARTY_INVITE_CANCEL] = 83;
+			_sizes[Op.CZ_PARTY_INVITE_ACCEPT] = 87;
+			_sizes[Op.CZ_PARTY_INVITE_CANCEL] = 91;
 			_sizes[Op.CZ_PARTY_PROP_CHANGE] = 145;
 			_sizes[Op.CZ_REQ_MARKET_REGISTER] = 40;
 			_sizes[Op.CZ_REQ_MARKET_MINMAX_INFO] = 18;
@@ -1451,12 +1525,17 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_BUY_PROPERTYSHOP_ITEM] = 0;
 			_sizes[Op.CZ_SKILL_USE_HEIGHT] = 14;
 			_sizes[Op.CZ_ACCEPT_PARTY_QUEST] = 20;
-			_sizes[Op.CZ_ACCEPT_GUILD_EVENT] = 20;
-			_sizes[Op.CZ_ACCEPT_GUILD_EVENT_RAID] = 20;
+			_sizes[Op.CZ_CHANGE_GUILD_NEUTRALITY] = 10;
 			_sizes[Op.CZ_ACCEPT_PARTY_EVENT] = 20;
 			_sizes[Op.CZ_DELETE_PARTY_EVENT] = 20;
 			_sizes[Op.CZ_PING] = 10;
 			_sizes[Op.ZC_PING] = 10;
+			_sizes[Op.CZ_REQ_OPEN_INGAMESHOP_UI] = 10;
+			_sizes[Op.CZ_REQ_REMAIN_NEXONCASH] = 10;
+			_sizes[Op.CZ_REQ_BUY_INGAMESHOP_ITEM] = 78;
+			_sizes[Op.CZ_REQ_PICKUP_CASHITEM] = 33;
+			_sizes[Op.CZ_REQ_REFUND_CASHITEM] = 29;
+			_sizes[Op.CZ_REQ_GET_CAHS_INVEN_ITEMLIST] = 14;
 			_sizes[Op.ZC_XIGNCODE_BUFFER] = 524;
 			_sizes[Op.CZ_XIGNCODE_BUFFER] = 524;
 			_sizes[Op.CZ_SYSTEM_LOG_SAVE_TO_MONGODB] = 280;
@@ -1484,11 +1563,17 @@ namespace Melia.Shared.Network
 			_sizes[Op.CZ_CHECK_PING] = 10;
 			_sizes[Op.CZ_CANCEL_INDUN_MATCHING] = 10;
 			_sizes[Op.CZ_REQ_GM_ORDER] = 202;
+			_sizes[Op.CZ_REPORT_AUTOBOT] = 74;
 			_sizes[Op.CZ_PARTY_INVENTORY_LOAD] = 11;
 			_sizes[Op.CZ_REQ_MOVE_PARTYINV_TO_ACCOUNT] = 31;
+			_sizes[Op.CZ_PVP_COMMAND] = 22;
 			_sizes[Op.CZ_REQ_CancelGachaCube] = 10;
 			_sizes[Op.CZ_WAREHOUSE_TAKE_LIST] = 0;
-			_sizes[Op.CZ_PVP_COMMAND] = 22;
+			_sizes[Op.CZ_RUN_GAMEEXIT_TIMER] = 10;
+			_sizes[Op.CZ_FIXED_NOTICE_SHOW] = 10;
+			_sizes[Op.CZ_REQUEST_CHANGE_NAME] = 66;
+			_sizes[Op.ZC_HOLD_EXP_BOOK_TIME] = 21;
+			_sizes[Op.CZ_HOLD_EXP_BOOK_TIME] = 14;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
