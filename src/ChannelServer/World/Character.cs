@@ -179,6 +179,11 @@ namespace Melia.Channel.World
 		public Variables Variables { get; private set; }
 
 		/// <summary>
+		/// Character's scripting variables.
+		/// </summary>
+		public Group Party { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

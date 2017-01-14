@@ -113,13 +113,13 @@ namespace Melia.Shared.Const
 		/// <remarks>
 		/// [i11025 (2016-02-26)] 20->21, Hair slot?
 		/// </remarks>
-		public const int EquipSlotCount = 21;
+		public const int EquipSlotCount = 22;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2, 4};
 	}
 
 	public enum InventoryOrder : byte

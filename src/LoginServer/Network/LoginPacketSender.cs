@@ -67,6 +67,11 @@ namespace Melia.Login.Network
 				for (int i = 0; i < Items.EquipSlotCount; ++i)
 					packet.PutShort(0);
 
+				// Some of these variables have to do with Lodge LAYER probably. (just a guess)
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(1);
+
 				// Job history?
 				// While this short existed in iCBT1, it might not have
 				// been used, couldn't find a log.
@@ -86,6 +91,12 @@ namespace Melia.Login.Network
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
 
+			// Some of these variables have to do with Lodge LAYER probably. (just a guess)
+			packet.PutShort(0); // unk
+			packet.PutInt(characters.Length); // unk
+			packet.PutShort(characters.Length); // unk
+
+
 			conn.Send(packet);
 		}
 
@@ -94,6 +105,13 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_COMMANDER_CREATE);
 			packet.AddCharacter(character);
 
+			conn.Send(packet);
+		}
+
+		public static void BC_COMMANDER_CREATE_SLOTID(LoginConnection conn, int slotId)
+		{
+			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
+			packet.PutByte((byte)slotId);
 			conn.Send(packet);
 		}
 

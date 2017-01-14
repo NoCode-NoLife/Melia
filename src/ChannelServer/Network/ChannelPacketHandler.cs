@@ -138,8 +138,10 @@ namespace Melia.Channel.Network
 				character.skillManager.SkillAdd(skillId, 1, out skill);
 			}
 			// ZC_JOB_PTS
+			/* Disabled until fixed. Packet size changed.
 			foreach (var thisJob in character.jobs.Keys)
 				character.skillManager.SendJobSkillPoints(thisJob);
+			*/
 
 			Send.ZC_MOVE_SPEED(character);
 
@@ -197,8 +199,12 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (!ChannelServer.Instance.GmCommands.Process(conn, character, msg))
-				Send.ZC_CHAT(character, msg);
+			/*
+			if (ChannelServer.Instance.GmCommands.Process(conn, character, msg))
+				return;
+			*/
+
+			ChannelServer.Instance.ChatManager.Process(conn, character, msg);
 		}
 
 		/// <summary>
@@ -255,6 +261,26 @@ namespace Melia.Channel.Network
 
 			Send.ZC_LOGOUT_OK(conn);
 		}
+
+		/// <summary>
+		/// Sent when clicking [logout or char selection screen or exit].
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		/// <example>
+		/// 
+		/// </example>
+		[PacketHandler(Op.CZ_RUN_GAMEEXIT_TIMER)]
+		public void CZ_RUN_GAMEEXIT_TIMER(ChannelConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+
+			Log.Info("User '{0}' is requesting to exit.", conn.Account.Name);
+
+			Send.ZC_LOGOUT_OK(conn);
+		}
+
+		
 
 		/// <summary>
 		/// Sent when character jumps.
@@ -888,7 +914,7 @@ namespace Melia.Channel.Network
 						}
 					}
 
-					Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+					Send.ZC_ADDON_MSG(character, "RESET_STAT_UP", null);
 
 					// Official doesn't update UsedStat with this packet =<
 					Send.ZC_OBJECT_PROPERTY(character,
@@ -1125,7 +1151,7 @@ namespace Melia.Channel.Network
 			// price in the db usually being 0. This msg will reset the shop
 			// panel, to display the proper balance after confirming the
 			// transaction.
-			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY", null);
 		}
 
 		/// <summary>
@@ -1196,7 +1222,7 @@ namespace Melia.Channel.Network
 			// price in the db usually being 0. This msg will reset the shop
 			// panel, to display the proper balance after confirming the
 			// transaction.
-			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY", null);
 		}
 
 		[PacketHandler(Op.CZ_SKILL_TARGET)]
@@ -1343,6 +1369,56 @@ namespace Melia.Channel.Network
 			Send.ZC_BUFF_ADD(character);
 			*/
 		}
+
+		[PacketHandler(Op.CZ_PARTY_INVITE_ACCEPT)]
+		public void CZ_PARTY_INVITE_ACCEPT(ChannelConnection conn, Packet packet)
+		{
+			//Log.Debug("{0}", packet.ToString());
+			var unk0 = packet.GetByte();
+			var LeaderTeamName = packet.GetString(64);
+
+			Log.Debug("Leader Team Name {0}", LeaderTeamName);
+			
+
+			if (conn.SelectedCharacter.Party != null)
+				return;
+
+			var target = ChannelServer.Instance.World.GetCharacterByTeamName(LeaderTeamName);
+
+			if (target != null && target.Party != null)
+			{
+				// Check if the pending invitation is for this character (to avoid self-invited characters)
+				/// TODO
+				/// 
+
+				target.Party.AcceptInvitation(conn.SelectedCharacter);
+			}
+		}
+
+		[PacketHandler(Op.CZ_PARTY_INVITE_CANCEL)]
+		public void CZ_PARTY_INVITE_CANCEL(ChannelConnection conn, Packet packet)
+		{
+			//Log.Debug("{0}", packet.ToString());
+			var unk0 = packet.GetByte();
+			var LeaderTeamName = packet.GetString(64);
+
+			Log.Debug("Leader Team Name {0}", LeaderTeamName);
+
+			if (conn.SelectedCharacter.Party != null)
+				return;
+
+			var target = ChannelServer.Instance.World.GetCharacterByTeamName(LeaderTeamName);
+
+			if (target != null && target.Party != null)
+			{
+				// Check if the pending invitation is for this character (to avoid self-invited characters)
+				/// TODO
+				/// 
+
+				target.Party.RejectInvitation(conn.SelectedCharacter);
+			}
+		}
+		
 	}
 
 	public enum TxType : short

@@ -58,6 +58,8 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public Variables Variables { get; protected set; }
 
+		public delegate int LuaParamsDelegate(IntPtr L);
+
 		/// <summary>
 		/// Creates new script manager.
 		/// </summary>
@@ -96,6 +98,13 @@ namespace Melia.Channel.Scripting
 
 			//Spawn
 			Register(addspawn);
+			Register(addspawnmaker);
+			Register(addspawnterritory);
+			Register(makerincreasetotal);
+			Register(getmaker);
+			Register(getmakerspawn);
+			Register(spawn2);
+			Register(disablespawn);
 
 			// General
 			Register(var);
@@ -429,6 +438,41 @@ namespace Melia.Channel.Scripting
 			}
 		}
 
+		public void Call2(ScriptState state, string functionName, LuaParamsDelegate LuaParamsFunc)
+		{
+			// Prepare thread
+			state.LuaThread = this.GetNewThread(state);
+			var NL = state.LuaThread.L;
+			var top = Melua.lua_gettop(GL);
+
+			// Get function
+			Melua.lua_getglobal(NL, functionName);
+			if (Melua.lua_isnil(NL, -1))
+			{
+				Log.Error("ScriptManager.Call2: Function '{0}' not found.", functionName);
+				return;
+			}
+
+			// Prepare params
+			int countParams = 0;
+			if (LuaParamsFunc != null)
+			{
+				countParams = LuaParamsFunc(NL);
+			}
+
+			// Run
+			var result = Melua.lua_resume(NL, countParams);
+
+			// Log error if result is not success or yield
+			if (result != 0 && result != Melua.LUA_YIELD)
+			{
+				Log.Error("ScriptManager.Call: Error while executing '{0}'.\n{2}", functionName, Melua.lua_tostring(NL, -1));
+			}
+
+			this.RemoveThread(state.LuaThread);
+
+		}
+
 		/// <summary>
 		/// Resumes script after yielding.
 		/// </summary>
@@ -507,6 +551,21 @@ namespace Melia.Channel.Scripting
 					throw new Exception("No matching connection found.");
 
 			return state.Connection;
+		}
+
+		/// <summary>
+		/// Returns a state associated with a Lua Thread
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private ScriptState GetStateFromLuaThread(IntPtr L)
+		{
+			ScriptState state;
+			lock (_states)
+				if (!_states.TryGetValue(L, out state))
+					throw new Exception("No matching state.");
+
+			return state;
 		}
 
 		/// <summary>
@@ -662,33 +721,92 @@ namespace Melia.Channel.Scripting
 			return 0;
 		}
 
+		private int addspawnterritory(IntPtr L)
+		{
+			SpawnTerritoryData spawnTerritoryData = new SpawnTerritoryData();
+
+			spawnTerritoryData.territoryName = Melua.luaL_checkstring(L, 1);
+			var mapName = Melua.luaL_checkstring(L, 2);
+			spawnTerritoryData.xMin = Melua.luaL_checkinteger(L, 3);
+			spawnTerritoryData.xMax = Melua.luaL_checkinteger(L, 4);
+			spawnTerritoryData.zMin = Melua.luaL_checkinteger(L, 5);
+			spawnTerritoryData.zMax = Melua.luaL_checkinteger(L, 6);
+
+			var map = ChannelServer.Instance.World.GetMap(mapName);
+			if (map == null)
+				return Melua.melua_error(L, "addspawnterritory: {1} Map '{0}' not found.", mapName, spawnTerritoryData.territoryName);
+
+			map.AddSpawnTerritory(spawnTerritoryData);
+
+			return 0;
+
+		}
+
+		private int addspawnmaker(IntPtr L)
+		{
+			var makerName = Melua.luaL_checkstring(L, 1);
+			var mapName = Melua.luaL_checkstring(L, 2);
+
+			List<string> territoryNames = new List<string>();
+			string territoryName;
+			if (Melua.lua_istable(L, 3))
+			{
+				int len = Melua.lua_objlen(L, 3);
+				for (int i = 0; i < len; i++)
+				{
+					Melua.lua_rawgeti(L, 3, i+1);
+					territoryName = Melua.luaL_checkstring(L, -1);
+					territoryNames.Add(territoryName);
+					//Melua.lua_pop(L, 1);
+				}
+			} else
+			{
+				return Melua.melua_error(L, "addspawnmaker() expects a table containing territory names in parameter 3.");
+			}
+
+			var makerType = Melua.luaL_checkstring(L, 4);
+			var maxNpcs = Melua.luaL_checkinteger(L, 5);
+
+			var map = ChannelServer.Instance.World.GetMap(mapName);
+			
+			if (map == null)
+				return Melua.melua_error(L, "addspawnmaker: {1} Map '{0}' not found.", makerName);
+			
+
+			SpawnMaker spawnMaker = new SpawnMaker(makerName, mapName, territoryNames, makerType, maxNpcs);
+
+			map.AddSpawnMaker(spawnMaker);
+
+			return 0;
+
+		}
+
 		private int addspawn(IntPtr L)
 		{
 			SpawnData spawnData = new SpawnData();
 
-			spawnData.spawnName = Melua.luaL_checkstring(L, 1);
+			spawnData.spawnMakerName = Melua.luaL_checkstring(L, 1);
 			spawnData.mapName = Melua.luaL_checkstring(L, 2);
 			spawnData.monsterName = Melua.luaL_checkstring(L, 3);
-			spawnData.xMin = Melua.luaL_checkinteger(L, 4);
-			spawnData.xMax = Melua.luaL_checkinteger(L, 5);
-			spawnData.zMin = Melua.luaL_checkinteger(L, 6);
-			spawnData.zMax = Melua.luaL_checkinteger(L, 7);
-			spawnData.count = Melua.luaL_checkinteger(L, 8);
-			spawnData.countVariation = Melua.luaL_checkinteger(L, 9);
-			spawnData.respawnTime = Melua.luaL_checkinteger(L, 10);
+			spawnData.count = Melua.luaL_checkinteger(L, 4);
+			spawnData.countVariation = Melua.luaL_checkinteger(L, 5);
+			spawnData.respawnTime = Melua.luaL_checkinteger(L, 6);
+			spawnData.randomRespawnTime = Melua.luaL_checkinteger(L, 7);
 
-			spawnData.isFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
-			var x = (float)Melua.luaL_checknumber(L, 12);
-			var y = (float)Melua.luaL_checknumber(L, 13);
-			var z = (float)Melua.luaL_checknumber(L, 14);
+			spawnData.isFixedLocation = Melua.luaL_checkinteger(L, 8) > 0;
+			var x = (float)Melua.luaL_checknumber(L, 9);
+			var y = (float)Melua.luaL_checknumber(L, 10);
+			var z = (float)Melua.luaL_checknumber(L, 11);
 			spawnData.Position = new Position(x, y, z);
 
-			var direction = Melua.luaL_checkinteger(L, 15);
+			var direction = Melua.luaL_checkinteger(L, 12);
 			spawnData.Direction = new Direction(direction);
 
 			var map = ChannelServer.Instance.World.GetMap(spawnData.mapName);
 			if (map == null)
 				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.mapName, spawnData.spawnName);
+
+
 
 			map.AddSpawnZone(spawnData);
 
@@ -1081,6 +1199,161 @@ namespace Melia.Channel.Scripting
 			Melua.lua_settable(L, -3);
 
 			return 1;
+		}
+
+		private int getmaker(IntPtr L)
+		{
+			var state = this.GetStateFromLuaThread(L);
+
+			if (state == null)
+				return 0;
+
+			var spawnMaker = state.SpawnMaker;
+
+			if (spawnMaker == null)
+				return 0;
+
+			Melua.lua_newtable(L);
+			
+			Melua.lua_pushstring(L, "on_start_spawn");
+			Melua.lua_pushboolean(L, spawnMaker.onStartSpawn);
+			Melua.lua_settable(L, -3);
+			
+			Melua.lua_pushstring(L, "spawns_count");
+			Melua.lua_pushinteger(L, spawnMaker.GetSpawnsCount());
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "maker_name");
+			Melua.lua_pushstring(L, spawnMaker.makerName);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "entities_count");
+			Melua.lua_pushinteger(L, spawnMaker.countEntities);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "max_entities");
+			Melua.lua_pushinteger(L, spawnMaker.maxEntities);
+			Melua.lua_settable(L, -3);
+
+			return 1;
+		}
+
+		private int getmakerspawn(IntPtr L)
+		{
+			var state = this.GetStateFromLuaThread(L);
+
+			if (state == null)
+				return 0;
+
+			var spawnMaker = state.SpawnMaker;
+
+			var index = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var spawn = spawnMaker.GetSpawn(index);
+
+			if (spawn == null)
+			{
+				Melua.lua_pushnil(L);
+			} else
+			{
+				Melua.lua_newtable(L);
+
+				Melua.lua_pushstring(L, "idx");
+				Melua.lua_pushinteger(L, index);
+				Melua.lua_settable(L, -3);
+
+				Melua.lua_pushstring(L, "total");
+				Melua.lua_pushinteger(L, spawn.calculatedTotalEntities);
+				Melua.lua_settable(L, -3);
+
+				Melua.lua_pushstring(L, "count");
+				Melua.lua_pushinteger(L, spawn.spawnEntities.Count);
+				Melua.lua_settable(L, -3);
+
+				Melua.lua_pushstring(L, "respawn_time");
+				Melua.lua_pushinteger(L, spawn.Data.respawnTime);
+				Melua.lua_settable(L, -3);
+
+				Melua.lua_pushstring(L, "random_respawn_time");
+				Melua.lua_pushinteger(L, spawn.Data.randomRespawnTime);
+				Melua.lua_settable(L, -3);
+			}
+
+			return 1;
+		}
+
+		private int makerincreasetotal(IntPtr L)
+		{
+			var state = this.GetStateFromLuaThread(L);
+
+			if (state == null)
+				return 0;
+
+			var spawnMaker = state.SpawnMaker;
+
+			if (Melua.lua_istable(L, 1))
+			{
+				int len = Melua.lua_objlen(L, 3);
+				for (int i = 0; i < len; i++)
+				{
+					Melua.lua_rawgeti(L, 3, i + 1);
+					Melua.lua_pop(L, 1);
+				}
+			}
+			else
+			{
+				return Melua.melua_error(L, "makerincreasetotal() expects a table in parameter 1.");
+			}
+
+			var increaseAmount = Melua.luaL_checkinteger(L, 2);
+
+			Melua.lua_pop(L, 2);
+
+			var newTotal = spawnMaker.IncreaseTotal(increaseAmount);
+
+			Melua.lua_pushinteger(L, newTotal);
+
+			return 1;
+		}
+
+		private int spawn2(IntPtr L)
+		{
+			var state = this.GetStateFromLuaThread(L);
+
+			if (state == null)
+				return 0;
+
+			var spawnMaker = state.SpawnMaker;
+
+			var spawnIndex = Melua.luaL_checkinteger(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 2);
+			var respawnTime = Melua.luaL_checkinteger(L, 3);
+			var randomRespawnTime = Melua.luaL_checkinteger(L, 4);
+			Melua.lua_pop(L, 4);
+
+			spawnMaker.Spawn(spawnIndex - 1, amount, respawnTime, randomRespawnTime);
+
+			return 0;
+		}
+
+		private int disablespawn(IntPtr L)
+		{
+			var state = this.GetStateFromLuaThread(L);
+
+			if (state == null)
+				return 0;
+
+			var spawnMaker = state.SpawnMaker;
+
+			var spawnIndex = Melua.luaL_checkinteger(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var spawn = spawnMaker.GetSpawn(spawnIndex);
+			if (spawn != null)
+				spawn.Despawn();
+
+			return 0;
 		}
 
 		/// <summary>

@@ -68,12 +68,10 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(1292150020);
 			packet.PutByte(3); // isGM (< 3)?
+			packet.PutByte(0);
+			packet.PutByte(1);
 			packet.PutEmptyBin(10);
 
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutByte(0);
-			}
 
 			packet.PutLpString(conn.SessionKey);
 
@@ -532,27 +530,26 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="message"></param>
-		public static void ZC_CHAT(Character character, string message)
+		public static void ZC_CHAT(Character character, string message, int channelType)
 		{
 			var packet = new Packet(Op.ZC_CHAT);
 
 			packet.PutInt(character.Handle);
 			packet.PutString(character.TeamName, 64);
 			packet.PutString(character.Name, 65);
-			packet.PutByte(0); // -11, -60, -1, -19, 1
+			packet.PutByte((byte)channelType); // -11, -60, -1, -19, 1 // Channel Type
 			packet.PutShort((short)character.Job);
 			packet.PutInt(0); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);
 			packet.PutEmptyBin(2);
-			packet.PutInt(0); // 628051
-
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutInt(1004);
-			}
-
+			packet.PutInt(0); // unk
+			packet.PutInt(0);
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
+			packet.PutInt(0); // unk
+			packet.PutShort(1005); // unk
+			packet.PutInt(0); // unk
+			packet.PutShort(0); // unk
 			packet.PutString(message);
 
 			character.Map.Broadcast(packet, character);
@@ -563,27 +560,26 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="message"></param>
-		public static void ZC_CHAT(ChannelConnection conn, Character character, string message)
+		public static void ZC_CHAT(ChannelConnection conn, Character character, string message, int channelType)
 		{
 			var packet = new Packet(Op.ZC_CHAT);
 
 			packet.PutInt(character.Handle);
 			packet.PutString(character.TeamName, 64);
 			packet.PutString(character.Name, 65);
-			packet.PutByte(0); // -11, -60, -1, -19, 1
+			packet.PutByte((byte)channelType); // -11, -60, -1, -19, 1 // Channel Type
 			packet.PutShort((short)character.Job);
 			packet.PutInt(0); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);
 			packet.PutEmptyBin(2);
-			packet.PutInt(0); // 628051
-
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutInt(1004);
-			}
-
+			packet.PutInt(0); // unk
+			packet.PutInt(0);
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
+			packet.PutInt(0); // unk
+			packet.PutShort(1005); // unk
+			packet.PutInt(0); // unk
+			packet.PutShort(0); // unk
 			packet.PutString(message);
 
 			conn.Send(packet);
@@ -943,7 +939,7 @@ namespace Melia.Channel.Network
 					case ObjectProperty.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
 					case ObjectProperty.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
 
-					case ObjectProperty.PC.JobChanging: packet.PutShort((short)character.Job); break;
+					case ObjectProperty.PCEtc.JobChanging: packet.PutShort((short)character.Job); break;
 					case ObjectProperty.PC.BeforeJobLv: packet.PutShort((short)character.jobLevel); break;
 
 					case ObjectProperty.PC.DR: packet.PutFloat(character.statsManager.stats[(int)Stat.Evasion]); break;
@@ -1439,16 +1435,22 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg)
+		public static void ZC_ADDON_MSG(Character character, string msg, string param1)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 			packet.PutByte((byte)(msg.Length + 1));
 			packet.PutInt(0);
-			packet.PutByte(1);
+			packet.PutByte(0);
 			packet.PutString(msg);
 			// + parameters?
+			if (param1 != null)
+				packet.PutString(param1, param1.Length);
+
+			Log.Debug("{0}", packet.ToString());
 
 			character.Connection.Send(packet);
+			
+
 		}
 
 		/// <summary>
@@ -1721,7 +1723,7 @@ namespace Melia.Channel.Network
 				skillState = 1;
 
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x57);
+			packet.PutInt(0x58);
 			packet.PutInt(entity.Handle);
 			packet.PutInt(skill.GetData().EffectId);
 			packet.PutInt(skill.Id); // SkillId
@@ -1756,7 +1758,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_ParticleEffect(IEntity entity, int actorId, int enable)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x61);
+			packet.PutInt(0x62);
 			packet.PutInt(actorId);
 			packet.PutInt(enable);
 
@@ -1770,10 +1772,10 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Unkown_1c(IEntity entity, int id, Position position, Direction direction, Position position2)
+		public static void ZC_NORMAL_Unkown_1d(IEntity entity, int id, Position position, Direction direction, Position position2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x1c);
+			packet.PutInt(0x1d);
 			packet.PutInt(entity.Handle); // This is not a fixed value, check more packets
 			packet.PutByte(0);
 			packet.PutBinFromHex("44 D7 76 10"); // Effect? BuffID?
@@ -1797,7 +1799,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unkown_3f(IEntity entity, Skill skill, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x3f);
+			packet.PutInt(0x40);
 			packet.PutInt(entity.Handle);
 			packet.PutInt(skill.Id);
 			packet.PutInt(entity.Handle);
@@ -1822,7 +1824,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unkown_40(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x40);
+			packet.PutInt(0x41);
 			packet.PutInt(character.Handle);
 			character.Map.Broadcast(packet, character);
 		}
@@ -1834,7 +1836,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unkown_3a(IEntity entity, string msg1, string msg2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x3a);
+			packet.PutInt(0x3b);
 			packet.PutInt(entity.Handle);
 			packet.PutShort((short)(msg1.Length + 1));
 			packet.PutString(msg1);
@@ -1850,7 +1852,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unkown_4d(Character character, int skillId)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x4d);
+			packet.PutInt(0x4e);
 			packet.PutInt(character.Handle);
 			packet.PutInt(skillId);
 			character.Map.Broadcast(packet, character);
@@ -2187,59 +2189,630 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
-		public static void ZC_PARTY_ENTER(Character character)
+		public static void ZC_PARTY_ENTER(Group group, Character character)
 		{
+			Log.Debug("group broadcast: ZC_PARTY_ENTER");
 			var packet = new Packet(Op.ZC_PARTY_ENTER);
-			packet.PutInt(0x19);
-			packet.PutInt(character.Handle);
-			packet.PutByte(1);
-			packet.PutBinFromHex("3B010038500000D2FA00000768EE14010010");
-			packet.PutByte(1);
-			packet.PutBinFromHex("4D6F6F6E426C7565000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-			packet.PutBinFromHex("183BF0D0");
-			packet.PutBinFromHex("00000000");
-			packet.PutBinFromHex("00000000");
-			packet.PutBinFromHex("08040500");
-			packet.PutBinFromHex("12340000"); // Luna character Handle
-			packet.PutBinFromHex("4D6F6F6E426C7565000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-			packet.PutBinFromHex("4C756E61000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-			packet.PutBinFromHex("0000");
-			packet.PutShort(1001);
-			packet.PutInt(6);
-			packet.PutBinFromHex("02240000");
-			packet.PutBinFromHex("00000000");
-			packet.PutBinFromHex("00000000");
-			packet.PutBinFromHex("00000000");
-			packet.PutBinFromHex("00000000");
-			packet.PutShort(1005);
-			packet.PutInt(6);
-			packet.PutFloat(448);
-			packet.PutFloat(130);
-			packet.PutFloat(-222);
-			packet.PutInt(95); 
-			packet.PutInt(1330);
-			packet.PutInt(95);
-			packet.PutInt(1330);
-			packet.PutBinFromHex("00000000");
-			packet.PutInt(6);
-			packet.PutBinFromHex("0000");
+
+			packet.PutByte(0); // Group type? Party/guild? (guess)
+			packet.PutLong(group.Id); // Party Id
+			packet.PutLong(character.Id); // Character.Id
+			packet.PutString(character.TeamName, 64); // TEAM
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutBinFromHex("0f 00 00 00");
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutShort(character.MapId);
+			packet.PutBinFromHex("00 00");
+			packet.PutBinFromHex("ff 22 0d 00");
+
+			packet.PutString(character.TeamName, 64);
+			packet.PutString(character.Name, 65);
+			packet.PutBinFromHex("00");
+			packet.PutShort((int)character.Job);
+			packet.PutInt(11);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutBinFromHex("3F 4F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+			packet.PutShort(1001); // unk, this number rings me a bell. Stance?
+			packet.PutShort(0);
+			packet.PutInt(character.Level);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
+			packet.PutInt(character.Sp);
+			packet.PutInt(character.Hp);
+			packet.PutInt(character.MaxSp);
+			packet.PutInt(character.MaxHp);
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutBinFromHex("01 00 00 00");
+			packet.PutBinFromHex("00 00");
 
 
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_PartyLeaderChange(Group group)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf2);
+			packet.PutByte(0); // Group type? Party/guild? (guess)
+			packet.PutLong(group.Id); // Party Id
+			packet.PutLong(group.GetLeader().Id); // Character.Id of TARGET (next leader)
+			packet.PutByte(0);
+
+			// Party broadcast!
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_PartyNameChange(Group group, string groupName)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf3);
+			packet.PutByte(0); // Group type? Party/guild? (guess)
+			packet.PutLong(group.Id);
+			packet.PutInt(0);
+			packet.PutLong(group.GetLeader().Id);
+			packet.PutShort((short)group.Name.Length + 1);
+			packet.PutString(group.Name);
+			packet.PutInt(1);
+			packet.PutByte(1);
+
+			// Party broadcast!
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_PartyInvitation(Character characterToInvite, Group group)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf4);
+			packet.PutByte((byte)group.Type); // Group type? Party/guild? (guess)
+			packet.PutLong(group.GetLeader().Id);
+			packet.PutShort((short)group.GetLeader().TeamName.Length + 1);
+			packet.PutString(group.GetLeader().TeamName);
+
+			// Party broadcast!
+			characterToInvite.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_PartyPropertyUpdate(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf5);
+			packet.PutByte(0); // Group type? Party/guild? (guess)
+			packet.PutBinFromHex("38 50 00 00 D2 FA 00 00"); // Party Id
+															 //
+			packet.PutShort(ObjectProperty.Party.LastMemberAddedTime);
+			var lastTime = "2634301";
+			packet.PutShort((short)lastTime.Length + 1);
+			packet.PutString(lastTime);
+
+			// Party broadcast!
 			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
-		/// Plays level up effect.
+		/// 
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NORMAL_Party1(Character character)
+		public static void ZC_NORMAL_PartyMemberPropertyUpdate(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0xf5);
-			packet.PutBinFromHex("0038500000d2fa00003000000008003235373131383400");
+			packet.PutInt(0xf6);
+			packet.PutByte(0); // Group type? Party/guild? (guess)
+			packet.PutBinFromHex("38 50 00 00 D2 FA 00 00"); // Party Id
+															 
+			packet.PutLong(character.Id);
+			// Property
+			packet.PutShort(ObjectProperty.PartyMember.Shared_Quest);
+			var questId = "1038";
+			packet.PutShort((short)questId.Length + 1);
+			packet.PutString(questId);
+
+			// Party broadcast!
+			character.Map.Broadcast(packet, character);
+		}
+
+
+
+		/// <summary>
+		/// Set the Group Name under the character Name
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_PartyName_underCharacterName(Character character, string nameString, bool isLeader)
+		{
+			Log.Debug("map broadcast: ZC_NORMAL_PartyName_underCharacterName");
+
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutBinFromHex("37 01 00 00");
+			packet.PutInt(character.Handle);
+			packet.PutByte(isLeader); // Shows Leader icon next to party name
+			if (nameString != "")
+			{
+				packet.PutShort((short)nameString.Length + 1);
+				packet.PutString(nameString);
+
+				packet.PutByte(0); // Group type? Party/guild? (guess)
+			} else
+			{
+				packet.PutByte(3); // Group type? Party/guild? (guess)
+			}
+			packet.PutByte(3); // Unk
+
+			character.Map.Broadcast(packet, character); // TODO Map or party only? Is this a name that is seen in public ? or only for the rest of the team? CHECK!
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_UNK_4201(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x4201);
+			packet.PutInt(character.Handle);
+			packet.PutBinFromHex("00 6e 00 00 00 ff ff ff ff 57 04 00 00");
+
+			// Party broadcast!
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Party2(Group group, Character character, bool online)
+		{
+			Log.Debug("group broadcast: ZC_NORMAL_Party2");
+
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0xf0);
+
+			packet.PutByte(online); 
+			packet.PutByte(0);
+
+			packet.PutLong(group.Id); // PArty Id
+			packet.PutLong(group.GetLeader().Id);
+
+			packet.PutLong(character.Id);
+			packet.PutString(character.TeamName, 64);
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutBinFromHex("0f 00 00 00");
+			if (online)
+				packet.PutBinFromHex("40 42 0f 00"); // ?
+			else
+				packet.PutBinFromHex("00 00 00 00"); // ?
+			packet.PutBinFromHex("00 00 00 00");
+			if (online)
+				packet.PutShort(character.MapId);
+			else
+				packet.PutShort(0);
+			packet.PutBinFromHex("00 00");
+			packet.PutBinFromHex("ff 22 0d 00");
+
+			packet.PutString(character.TeamName, 64);
+			packet.PutString(character.Name, 65);
+			packet.PutBinFromHex("61");
+			packet.PutShort((int)character.Job);
+			packet.PutInt(11);
+			packet.PutByte((byte)character.Gender);
+			packet.PutByte((byte)character.Hair);
+			packet.PutBinFromHex("3F 4F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+			packet.PutShort(1005); // unk, this number rings me a bell. Stance?
+			packet.PutShort(0);
+			packet.PutInt(character.Level);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
+			packet.PutInt(character.Sp);
+			packet.PutInt(character.Hp);
+			packet.PutInt(character.MaxSp);
+			packet.PutInt(character.MaxHp);
+			packet.PutBinFromHex("00 00 00 00");
+			packet.PutBinFromHex("5a 67 c0 29");
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Party info
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_INFO(Character character, Group group)
+		{
+			Log.Debug("group broadcast: ZC_PARTY_INFO");
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+			packet.PutByte(0); // party type - 0: normal party, 1: guild info
+			packet.PutByte(0);
+			packet.PutLong(group.Id); // PArty Id
+			packet.PutShort((short)group.Name.Length + 1);
+			packet.PutString(group.Name);
+			packet.PutLong(group.GetLeader().Id);
+			packet.PutShort((short)group.GetLeader().Name.Length + 1);
+			packet.PutString(group.GetLeader().Name);
+			packet.PutInt(0);
+			packet.PutInt(group.members.Count); // Party count?
+			packet.PutBinFromHex("01 00 00");
+			packet.PutBinFromHex("01 00 00");
+
+
+			// Party ObjectProperties
+			packet.PutBinFromHex("00 00"); // Party Property Length
+			/*
+			packet.PutBinFromHex("30 00"); // Party Property Length
+										   // CreateTime
+			packet.PutShort(ObjectProperty.Party.CreateTime);
+			var createTime = "201607428182315";
+			packet.PutShort((short)createTime.Length + 1);
+			packet.PutString(createTime);
+			// Note
+			packet.PutShort(ObjectProperty.Party.Note);
+			var partyDesc = "MyPartyDesc";
+			packet.PutShort((short)partyDesc.Length + 1);
+			packet.PutString(partyDesc);
+			// ExpGainType
+			packet.PutShort(ObjectProperty.Party.ExpGainType);
+			packet.PutFloat(1);
+			// LastMemberAddedTime
+			packet.PutShort(ObjectProperty.Party.LastMemberAddedTime);
+			packet.PutBinFromHex("C0 EE 1C 4A");
+			*/
+
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Party List
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_LIST(Character character, Group group, int type)
+		{
+			Log.Debug("group broadcast: ZC_PARTY_LIST");
+
+			var packet = new Packet(Op.ZC_PARTY_LIST);
+			
+			if (type == 1)
+			{
+				packet.PutByte(0); // party type - 0: normal party, 1: guild info
+				packet.PutByte(0);
+				packet.PutLong(group.Id); // PArty Id
+				packet.PutBinFromHex("0d 00"); // It is sometimes 0c 00
+				packet.PutBinFromHex("50 61 72 74 79"); // "Party" string (the first 5 chars of the Party Name, it could be residual thing)
+				packet.PutByte((byte)group.members.Count); // Party Length
+			} else
+			{
+				// This packet was received after creating a party. 
+				// ** First received a normal ZC_PARTY_LIST
+				// ** and then received this one.
+				packet.PutLong(group.GetLeader().Id);
+				packet.PutBinFromHex("00 00 00 00 00 00 00 00 00");
+				packet.PutByte((byte)group.members.Count); // Party Length
+			}
+
+
+
+
+			packet.PutLong(group.GetLeader().Id); // Party leader UID
+			packet.PutString(group.GetLeader().TeamName, 64);
+
+			/*
+			var ChannelId = 2; // DUMMY
+			packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 9e 1e");
+			packet.PutShort((short)group.GetLeader().MapId);
+			packet.PutShort(ChannelId);
+			packet.PutBinFromHex("d2 24 1d 00");
+			*/
+			var ChannelId = 2; // DUMMY
+			if (type == 1)
+			{
+				packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+				packet.PutShort((short)group.GetLeader().MapId);
+				packet.PutShort(ChannelId);
+				packet.PutBinFromHex("00 00 00 00");
+			}
+			else {
+				packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+				packet.PutShort((short)group.GetLeader().MapId);
+				packet.PutShort(ChannelId);
+				packet.PutBinFromHex("00 00 00 00");
+			}
+
+			var members = group.GetMembers();
+
+			foreach (var member in members)
+			{
+				packet.PutString(member.TeamName, 64);
+				packet.PutString(member.Name, 65);
+				if (type == 1)
+					packet.PutBinFromHex("39");
+				else
+					packet.PutBinFromHex("3c");
+				packet.PutShort((int)member.Job);
+				packet.PutInt(11);
+				packet.PutByte((byte)member.Gender);
+				packet.PutByte((byte)member.Hair);
+				packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+				packet.PutShort(1005); // 
+				packet.PutShort(169); // 
+				packet.PutInt(member.Level);
+				packet.PutFloat(member.Position.X);
+				packet.PutFloat(member.Position.Y);
+				packet.PutFloat(member.Position.Z);
+				packet.PutInt(member.Sp);
+				packet.PutInt(member.Hp);
+				packet.PutInt(member.MaxSp);
+				packet.PutInt(member.MaxHp);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutBinFromHex("00 00"); // Size of properties! (PartyMember properties)
+			}
+
+			// To party
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_NEAR_PARTY_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_NEAR_PARTY_LIST);
+			
+			packet.PutBinFromHex("00 00 00 00 a4 da db 01"); // some sort of Search ID?
+
+			// Party_info
+			packet.PutByte(0); // party type - 0: normal party, 1: guild info
+			packet.PutByte(1); // Show as REALLY near. (left side of the screen)
+			packet.PutBinFromHex("38 51 00 00 D2 FA 00 00"); // PArty Id
+			var partyName = "MyPartyName";
+			packet.PutShort((short)partyName.Length + 1);
+			packet.PutString(partyName);
+			packet.PutLong(2); //packet.PutLong(character.Id);
+			var charTeamName = "Test";
+			packet.PutShort((short)charTeamName.Length + 1);
+			packet.PutString(charTeamName);
+			packet.PutInt(0);
+			packet.PutInt(2); // Party count?
+			packet.PutBinFromHex("01 00 00");
+			packet.PutBinFromHex("01 00 00");
+
+			// Party ObjectProperties
+			packet.PutBinFromHex("36 00"); // Party Property Length
+			// CreateTime
+			packet.PutShort(ObjectProperty.Party.CreateTime);
+			var createTime = "201609428182315";
+			packet.PutShort((short)createTime.Length + 1);
+			packet.PutString(createTime);
+			// Note
+			packet.PutShort(ObjectProperty.Party.Note);
+			var partyDesc = "MyPartyDesc";
+			packet.PutShort((short)partyDesc.Length + 1);
+			packet.PutString(partyDesc);
+			// ExpGainType
+			packet.PutShort(ObjectProperty.Party.ExpGainType);
+			packet.PutFloat(1);
+			// LastMemberAddedTime
+			packet.PutShort(ObjectProperty.Party.LastMemberAddedTime);
+			packet.PutBinFromHex("40 ca 20 4a");
+			// AllowLinkJoin
+			packet.PutShort(ObjectProperty.Party.AllowLinkJoin);
+			packet.PutFloat(1);
+
+			packet.PutByte(1); // Party Count
+
+
+			packet.PutLong(2); // Party Leader
+
+			packet.PutString(charTeamName, 64);
+
+			/*
+			packet.PutBinFromHex("00 00 00 00   00 00 00");
+			packet.PutShort(character.MapId);
+			packet.PutBinFromHex("60 DB 01 A0    AB D0 74 00    00 00 00 C6    4E 0D 00");
+			*/
+
+			packet.PutBinFromHex("00 00 2a 40 00 00 10 7d 40 42 0f 00 00 00 00 00 fd 03 00 00 23 9f 16 00");
+
+			// Party members (foreach!!)
+			{
+				packet.PutString(charTeamName, 64);
+				packet.PutString("Tester", 65);
+				packet.PutBinFromHex("00");
+				packet.PutShort((int)character.Job);
+				packet.PutInt(6);
+				packet.PutByte((byte)character.Gender);
+				packet.PutByte((byte)character.Hair);
+				packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+				packet.PutInt(1005); // 
+				packet.PutInt(character.Level);
+				packet.PutFloat(character.Position.X);
+				packet.PutFloat(character.Position.Y);
+				packet.PutFloat(character.Position.Z);
+				packet.PutInt(character.Sp);
+				packet.PutInt(character.Hp);
+				packet.PutInt(character.MaxSp);
+				packet.PutInt(character.MaxHp);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutBinFromHex("00 00"); // Size of properties! (PartyMember properties)
+			}
+
 
 			character.Map.Broadcast(packet, character);
 		}
+
+		public static void ZC_FOUND_PARTY_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_FOUND_PARTY_LIST);
+
+			packet.PutBinFromHex("18 00 00 00 c0 51 db 01"); // Search ID?
+
+			packet.PutByte(0); // party type - 0: normal party, 1: guild info
+			packet.PutByte(1); // Count of Results.
+
+			packet.PutInt(1); // unk
+
+			{ // Foreach result 
+				packet.PutBinFromHex("38 51 00 00 D2 FA 00 00"); // PArty Id
+				var partyName = "MyPartyName";
+				packet.PutShort((short)partyName.Length + 1);
+				packet.PutString(partyName);
+				packet.PutLong(2); //packet.PutLong(character.Id);
+				var charTeamName = "Test";
+				packet.PutShort((short)charTeamName.Length + 1);
+				packet.PutString(charTeamName);
+				packet.PutInt(0);
+				packet.PutInt(2); // Party count?
+				packet.PutBinFromHex("01 00 00");
+				packet.PutBinFromHex("01 00 00");
+
+				// Party ObjectProperties
+				packet.PutBinFromHex("36 00"); // Party Property Length
+											   // CreateTime
+				packet.PutShort(ObjectProperty.Party.CreateTime);
+				var createTime = "201609428182315";
+				packet.PutShort((short)createTime.Length + 1);
+				packet.PutString(createTime);
+				// Note
+				packet.PutShort(ObjectProperty.Party.Note);
+				var partyDesc = "MyPartyDesc";
+				packet.PutShort((short)partyDesc.Length + 1);
+				packet.PutString(partyDesc);
+				// ExpGainType
+				packet.PutShort(ObjectProperty.Party.ExpGainType);
+				packet.PutFloat(1);
+				// LastMemberAddedTime
+				packet.PutShort(ObjectProperty.Party.LastMemberAddedTime);
+				packet.PutBinFromHex("40 ca 20 4a");
+				// AllowLinkJoin
+				packet.PutShort(ObjectProperty.Party.AllowLinkJoin);
+				packet.PutFloat(1);
+
+				packet.PutByte(1); // Party Count
+
+
+				packet.PutLong(2); // Party Leader
+
+				packet.PutString(charTeamName, 64);
+
+				/*
+				packet.PutBinFromHex("00 00 00 00   00 00 00");
+				packet.PutShort(character.MapId);
+				packet.PutBinFromHex("60 DB 01 A0    AB D0 74 00    00 00 00 C6    4E 0D 00");
+				*/
+
+				packet.PutBinFromHex("00 00 2a 40 00 00 10 7d 40 42 0f 00 00 00 00 00 fd 03 00 00 23 9f 16 00");
+
+				// Party members (foreach!!)
+				{
+					packet.PutString(charTeamName, 64);
+					packet.PutString("Tester", 65);
+					packet.PutBinFromHex("00");
+					packet.PutShort((int)character.Job);
+					packet.PutInt(6);
+					packet.PutByte((byte)character.Gender);
+					packet.PutByte((byte)character.Hair);
+					packet.PutBinFromHex("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+					packet.PutInt(1005); // 
+					packet.PutInt(character.Level);
+					packet.PutFloat(character.Position.X);
+					packet.PutFloat(character.Position.Y);
+					packet.PutFloat(character.Position.Z);
+					packet.PutInt(character.Sp);
+					packet.PutInt(character.Hp);
+					packet.PutInt(character.MaxSp);
+					packet.PutInt(character.MaxHp);
+					packet.PutInt(0);
+					packet.PutInt(0);
+					packet.PutBinFromHex("00 00"); // Size of properties! (PartyMember properties)
+				}
+			}
+
+
+			character.Map.Broadcast(packet, character);
+
+
+		}
+
+		/// <summary>
+		/// Party minimap info? Position, etc?
+		/// It seems to be sent every X period of time.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_OUT(Group group, Character character)
+		{
+			Log.Debug("group broadcast: ZC_PARTY_OUT");
+
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)group.Type); // party type - 0: normal party, 1: guild info
+			packet.PutLong(group.Id);
+			packet.PutLong(character.Id);
+			packet.PutByte(0);
+
+
+			// To Party
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Party minimap info? Position, etc?
+		/// It seems to be sent every X period of time.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_INST_INFO(Group group)
+		{
+			var packet = new Packet(Op.ZC_PARTY_INST_INFO);
+
+			packet.PutByte((byte)group.Type); // Party or Guild flag? (group Type)
+
+
+			packet.PutInt(group.members.Count); // Party length? in int? probably other flags included
+
+			var membersList = group.GetMembers();
+			foreach (var member in membersList)
+			{
+				packet.PutLong(member.Id);
+				packet.PutFloat(member.Position.X);
+				packet.PutFloat(member.Position.Y);
+				packet.PutFloat(member.Position.Z);
+				packet.PutInt(member.Sp);
+				packet.PutInt(member.Hp);
+				packet.PutInt(member.MaxSp);
+				packet.PutInt(member.MaxHp);
+				packet.PutInt(0);
+			}
+
+			// To Party
+			group.Broadcast(packet);
+		}
+
+		public static void ZC_CHANGE_RELATION(Character character, Character changeRelationWith, int value)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+			packet.PutInt(changeRelationWith.Handle);
+			packet.PutByte((byte)value); // Flag-- observed values: 0 and 2
+
+			character.Connection.Send(packet);
+		}
+
+		
 
 		public static void DUMMY(ChannelConnection conn)
 		{

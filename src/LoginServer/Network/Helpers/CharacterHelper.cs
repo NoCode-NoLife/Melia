@@ -26,7 +26,7 @@ namespace Melia.Login.Network.Helpers
 			// to be two byte, with the first being the index.
 			{
 				packet.PutByte(character.Index);
-				packet.PutByte(181);
+				packet.PutByte(0);
 			}
 
 			packet.PutShort(character.MapId);

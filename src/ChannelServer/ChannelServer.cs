@@ -42,6 +42,11 @@ namespace Melia.Channel
 		public GmCommands GmCommands { get; private set; }
 
 		/// <summary>
+		/// GM commands.
+		/// </summary>
+		public ChatManager ChatManager { get; private set; }
+
+		/// <summary>
 		/// The world~
 		/// </summary>
 		public WorldManager World { get; private set; }
@@ -146,6 +151,9 @@ namespace Melia.Channel
 
 			// GM Commands
 			this.GmCommands = new GmCommands();
+
+			// GM Commands
+			this.ChatManager = new ChatManager();
 
 			// Packet handlers
 			ChannelPacketHandler.Instance.RegisterMethods();

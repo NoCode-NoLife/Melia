@@ -73,7 +73,10 @@
     <Compile Include="World\AI\AIPlayer.cs" />
     <Compile Include="World\AI\IControl.cs" />
     <Compile Include="World\Character.cs" />
+    <Compile Include="World\ChatManager.cs" />
     <Compile Include="World\GameTimeController.cs" />
+    <Compile Include="World\Group.cs" />
+    <Compile Include="World\model\Party.cs" />
     <Compile Include="World\SkillEffects\DeprotectedZone.cs" />
     <Compile Include="World\SpawnZone.cs" />
     <Compile Include="World\TasksPoolManager.cs" />

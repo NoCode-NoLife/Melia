@@ -124,4 +124,33 @@ addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", -2004.07, 260.93, -940.
 addnpc(147393, "ETC_20150317_009082", "f_siauliai_west", 185.81, 210.31, -856.9, 45, "npc_dummy")
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", 1346.05, 210.31, -1087.24, 45, "npc_dummy")
 
-addspawn("spawn1", "f_siauliai_west", "Onion", -673, -600, -1087, -1011, 10, 2, 15, 0, 0.0,0.0,0.0, 45);
+
+addspawnterritory("f_siauliai_west_01", "f_siauliai_west", -673, -600, -1087, -1011);
+addspawnterritory("f_siauliai_west_02", "f_siauliai_west", -773, -600, -1187, -1011);
+addspawnterritory("f_siauliai_west_03", "f_siauliai_west", -873, -600, -1287, -1011);
+addspawnmaker("f_siauliai_west_01_maker1", "f_siauliai_west", {"f_siauliai_west_01", "f_siauliai_west_02", "f_siauliai_west_03"}, "crystals_maker", 4);
+
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1220, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1190, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1160, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1130, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1100, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1170, 45);
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", "Onion", 1, 0, 5, 2, 1, -628,260,-1040, 45);
+
+--[[
+-- addspawn could be used with a table to have dynamic amount of variables, with names attached to them?
+addspawn("f_siauliai_west_01_maker1", "f_siauliai_west", {
+name = "Onion";
+count = 2;
+countVariation = 0;
+respawnTime = 15;
+isFixedLocation = true;
+x = 0.0;
+y = 0.0;
+z = 0.0;
+direction = 45;
+})
+--]]
+
+

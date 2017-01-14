@@ -7,6 +7,11 @@
 npc/dummy_npc.lua
 npc/one_liner.lua
 
+// Makers
+//---------------------------------------------------------------------------
+npc/spawnmaker/default_maker.lua
+npc/spawnmaker/crystals_maker.lua
+
 // Cities
 //---------------------------------------------------------------------------
 npc/city/c_fedimian.lua

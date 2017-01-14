@@ -431,7 +431,7 @@ namespace Melia.Channel.World
 						
 
 						// Notify client
-						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, this.Direction, this.Position);
+						Send.ZC_NORMAL_Unkown_1d(owner, 0, owner.Position, this.Direction, this.Position);
 						Send.ZC_SKILL_MELEE_GROUND(owner, this, owner.Position); // This packet should be sent from inside SkillGround?
 						break;
 					}
@@ -444,7 +444,7 @@ namespace Melia.Channel.World
 						}
 
 
-						Send.ZC_NORMAL_Unkown_1c(owner, 0, owner.Position, this.Direction, this.Position);
+						Send.ZC_NORMAL_Unkown_1d(owner, 0, owner.Position, this.Direction, this.Position);
 
 						if (skillComp.target == null)
 						{

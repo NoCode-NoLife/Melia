@@ -188,7 +188,7 @@ namespace Melia.Channel.Util
 		{
 			// Since there doesn't seem to be a custom system message packet,
 			// we'll misuse chat for now.
-			Send.ZC_CHAT(character.Connection, character, string.Format(format, args));
+			Send.ZC_CHAT(character.Connection, character, string.Format(format, args), 0);
 		}
 
 		//-------------------------------------------------------------------
@@ -210,6 +210,16 @@ namespace Melia.Channel.Util
 
 			if (val1 == 1)
 			{
+				/*
+				Send.ZC_PARTY_INFO(character);
+				Send.ZC_PARTY_LIST(character, 1);
+				Send.ZC_NORMAL_PartyName_underCharacterName(character, "partyName", true);
+				*/
+
+
+				//Send.ZC_NORMAL_Party2(character);
+
+
 				//Send.ZC_NORMAL_Party1(character);
 				//Send.ZC_PARTY_ENTER(character);
 				/*
@@ -223,18 +233,66 @@ namespace Melia.Channel.Util
 				character.test = val2;
 				Send.ZC_BUFF_ADD(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()), false);
 				*/
-				character.SetCurrentSp(100);
+				//character.SetCurrentSp(100);
+				//character.Map.StartSpawns();
 			}
 			if (val1 == 2)
 			{
-				character.SetCurrentHp(50);
+				//Send.ZC_NORMAL_Party2(character, val2 == 1 ? true : false);
+
+
+				//character.Map.StopSpawns();
+				//character.SetCurrentHp(50);
 
 			}
 			if (val1 == 3)
 			{
+				/*
 				character.Hp = val2;
 				Send.ZC_UPDATE_ALL_STATUS(character, character.Hp, character.MaxHp, (short)character.Sp, (short)character.MaxSp);
+				*/
+				//Send.ZC_PARTY_OUT(character);
+				Send.ZC_NORMAL_PartyPropertyUpdate(character);
 
+			}
+			if (val1 == 4)
+			{
+				//Send.ZC_PARTY_ENTER(character);
+			}
+			if (val1 == 5) // Change party name "/partyname 0 0 {character.Id} {PartyNameString}"
+			{
+				//Send.ZC_NORMAL_PartyNameChange(character, "NewPartyName");
+				Send.ZC_NORMAL_PartyName_underCharacterName(character, "NewPartyName", true);
+
+			}
+			if (val1 == 6) // Create party
+			{
+				/*
+				Send.ZC_PARTY_LIST(character, 1);
+				Send.ZC_PARTY_LIST(character, 2);
+				*/
+
+
+				//Send.ZC_NORMAL_PartyPropertyUpdate(character, 5);
+				//Send.ZC_NORMAL_PartyPropertyUpdate(character, 4);
+				//Send.ZC_NORMAL_PartyPropertyUpdate(character, 30);
+				Send.ZC_NORMAL_PartyName_underCharacterName(character, "PartyName", true);
+
+			}
+			if (val1 == 7) // Make PArty Leader
+			{
+				//Send.ZC_NORMAL_PartyLeaderChange(character);
+				Send.ZC_NORMAL_PartyName_underCharacterName(character, "PartyName", false); // Change color of party leader TeamName?
+				// Send.ZC_NORMAL_PartyName_underCharacterName(newleaderCharacter, "PartyName", true); // Change color of party leader TeamName?
+			}
+			if (val1 == 8) // Make PArty Leader
+			{
+				Send.ZC_NEAR_PARTY_LIST(character);
+				//Send.ZC_NORMAL_PartyInvitation(character, "Test");
+			}
+			if (val1 == 9)
+			{
+				Send.ZC_FOUND_PARTY_LIST(character);
 			}
 			else
 			{
@@ -245,7 +303,7 @@ namespace Melia.Channel.Util
 				Send.ZC_NORMAL_11(character);
 				Send.ZC_BUFF_ADD(character);
 				*/
-				
+
 			}
 
 			return CommandResult.Okay;
@@ -470,10 +528,10 @@ namespace Melia.Channel.Util
 			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.BeforeJobLv);
 			Send.ZC_PC_PROP_UPDATE(target, ObjectProperty.PC.BeforeJobLv, 1);
 			//
-			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PC.JobChanging);
-			Send.ZC_PC_PROP_UPDATE(target, ObjectProperty.PC.JobChanging, 1);
+			Send.ZC_OBJECT_PROPERTY(character, ObjectProperty.PCEtc.JobChanging);
+			Send.ZC_PC_PROP_UPDATE(target, ObjectProperty.PCEtc.JobChanging, 1);
 			//
-			Send.ZC_ADDON_MSG(target, "START_JOB_CHANGE");
+			Send.ZC_ADDON_MSG(target, "START_JOB_CHANGE", null);
 
 			return CommandResult.Okay;
 		}

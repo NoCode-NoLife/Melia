@@ -13,6 +13,7 @@ namespace Melia.Channel.Scripting
 		public ChannelConnection Connection { get; private set; }
 		public LuaThread LuaThread { get; set; }
 		public Monster CurrentNpc { get; set; }
+		public SpawnMaker SpawnMaker { get; set; }
 
 		/// <summary>
 		/// Name of the shop currently open, null if there is no shop.

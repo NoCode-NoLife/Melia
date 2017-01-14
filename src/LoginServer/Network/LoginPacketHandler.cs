@@ -285,6 +285,7 @@ namespace Melia.Login.Network
 
 			conn.Account.CreateCharacter(character);
 
+			Send.BC_COMMANDER_CREATE_SLOTID(conn, conn.Account.GetCharacters().Length);
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
 
@@ -383,7 +384,14 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
+			if (character.AccountId == 1)
+			{
+				Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
+			}
+			else {
+				Send.BC_START_GAMEOK(conn, character, channelServer.Ip, 7001);
+			}
+
 		}
 
 		/// <summary>

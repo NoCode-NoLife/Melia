@@ -29,6 +29,8 @@ namespace Melia.Channel.World
 		private Dictionary<int, Monster> _monsters;
 		private Dictionary<int, GroundSkill> _skills;
 		private List<SpawnZone> _spawns;
+		private Dictionary<string, SpawnTerritoryData> _spawnTerritories;
+		private Dictionary<string, SpawnMaker> _spawnMakers;
 
 		/// <summary>
 		/// Map name.
@@ -65,6 +67,8 @@ namespace Melia.Channel.World
 
 			SectorManager = new SectorManager();
 			SectorManager.Init(this, 10000, 10000, -5000, -5000);
+			_spawnTerritories = new Dictionary<string, SpawnTerritoryData>();
+			_spawnMakers = new Dictionary<string, SpawnMaker>();
 		}
 
 		/// <summary>
@@ -378,20 +382,68 @@ namespace Melia.Channel.World
 			return null;
 		}
 
+		public bool AddSpawnTerritory(SpawnTerritoryData stData)
+		{
+			if (!_spawnTerritories.ContainsKey(stData.territoryName))
+			{
+				_spawnTerritories.Add(stData.territoryName, stData);
+				return true;
+			} else
+			{
+				Log.Warning("Trying to add a new territory, but already exist one with the same name in this map ({0})", stData.territoryName);
+			}
+			return false;
+		}
+
+		public bool TryGetTerritory(string territoryName, out SpawnTerritoryData stData)
+		{
+			return _spawnTerritories.TryGetValue(territoryName, out stData);
+		}
+
+		public bool AddSpawnMaker(SpawnMaker spawnMaker)
+		{
+			if (!_spawnMakers.ContainsKey(spawnMaker.makerName))
+			{
+				_spawnMakers.Add(spawnMaker.makerName, spawnMaker);
+				return true;
+			}
+			else
+			{
+				Log.Warning("Trying to add a new spawnMaker, but already exist one with the same name in this map ({0})", spawnMaker.makerName);
+			}
+			return false;
+		}
+
 		public void AddSpawnZone(SpawnData sData)
 		{
-			SpawnZone spawnZone = new SpawnZone(sData);
-			if (spawnZone == null)
-				return;
-
-			lock (_spawns)
+			SpawnMaker spawnMaker;
+			if (_spawnMakers.TryGetValue(sData.spawnMakerName, out spawnMaker))
 			{
-				spawnZone.Id = _spawns.Count;
-				_spawns.Add(spawnZone);
-				
+				spawnMaker.AddSpawn(sData);
+			} else
+			{
+				Log.Warning("SpawnMaker ({0}) not found. Spawn ({1}) couldn't be added ", sData.spawnMakerName, sData.monsterName);
 			}
-			spawnZone.Init();
 		}
+
+		public void StartSpawns()
+		{
+			lock(_spawnMakers)
+			{
+				foreach (var spawnMaker in _spawnMakers.Values)
+					spawnMaker.OnStart();
+			}
+		}
+
+		public void StopSpawns()
+		{
+			lock (_spawnMakers)
+			{
+				foreach (var spawnMaker in _spawnMakers.Values)
+					spawnMaker.OnEnd();
+			}
+		}
+
 	}
 
 	/// <summary>

@@ -65,7 +65,7 @@ namespace Melia.Channel.World
 			List<short> skillProps = new List<short>();
 
 			// Send ADDON MSG
-			Send.ZC_ADDON_MSG((Character)owner, "RESET_SKL_UP");
+			Send.ZC_ADDON_MSG((Character)owner, "RESET_SKL_UP", null);
 
 			// If character doesn't have this skill, add it.
 			if (skill == null)
