@@ -109,12 +109,12 @@ namespace Melia.Channel.Util
 			message = message.Trim();
 
 			var args = this.ParseLine(message);
-			if (args.Length == 0 || (!args[0].StartsWith("/") && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix) && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix2)))
+			if (args.Length == 0 || (!args[0].StartsWith(">") && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix) && !args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix2)))
 				return false;
 
 			// Get command name
 			var isCharCommand = args[0].StartsWith(ChannelServer.Instance.Conf.Commands.Prefix2);
-			var commandName = args[0].TrimStart('/', ChannelServer.Instance.Conf.Commands.Prefix[0]);
+			var commandName = args[0].TrimStart('>', ChannelServer.Instance.Conf.Commands.Prefix[0]);
 
 			// Get command
 			var command = this.GetCommand(commandName);
