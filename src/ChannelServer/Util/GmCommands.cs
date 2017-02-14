@@ -49,7 +49,7 @@ namespace Melia.Channel.Util
 			Add("speed", "<speed>", HandleSpeed);
 			Add("iteminfo", "<name>", HandleItemInfo);
 			Add("monsterinfo", "<name>", HandleMonsterInfo);
-			Add("go", "<destination>", HandleGo);
+			Add("tele", "<destination>", HandleTele);
 			Add("clearinv", "", HandleClearInventory);
 
 			// Dev
@@ -513,11 +513,11 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleGo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleTele(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
 			{
-				this.SystemMessage(sender, "Destinations: klaipeda, orsha");
+				this.SystemMessage(sender, "Destinations: klaipeda, orsha, fedimian, pvp arena");
 				return CommandResult.InvalidArgument;
 			}
 
@@ -525,6 +525,10 @@ namespace Melia.Channel.Util
 				target.Warp("c_Klaipe", -75, 148, -24);
 			else if (args[1].StartsWith("ors"))
 				target.Warp("c_orsha", 271, 176, 292);
+			else if (args[1].StartsWith("fed"))
+				target.Warp("c_fedimian", -256, 160, -289);
+			else if (args[1].StartsWith("pvp"))
+				target.Warp("pvp_tournament", 18, -31, -49);
 			else
 				this.SystemMessage(sender, "Unknown destination.");
 
