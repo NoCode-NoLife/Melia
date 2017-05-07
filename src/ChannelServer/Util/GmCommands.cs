@@ -234,7 +234,7 @@ namespace Melia.Channel.Util
 				Send.ZC_BUFF_ADD(character, new SkillEffect(new Shared.Data.Database.SkillEffectData(), new World.SkillHandlers.SkillDataComponent()), false);
 				*/
 				//character.SetCurrentSp(100);
-				//character.Map.StartSpawns();
+				character.Map.StartSpawns();
 			}
 			if (val1 == 2)
 			{

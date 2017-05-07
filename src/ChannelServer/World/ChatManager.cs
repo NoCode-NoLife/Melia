@@ -159,6 +159,11 @@ namespace Melia.Channel.World
 			var partyName = args[1];
 			Log.Debug("PartyName: {0}", partyName);
 
+			/// TEST!!!
+			character.Map.StartSpawns();
+			return CommandResult.Okay;
+
+
 			if (character.Party != null)
 			{
 				SystemMessage(character, "You are already in party.");
