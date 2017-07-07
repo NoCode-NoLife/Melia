@@ -347,20 +347,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_UI_INFO_LIST to character.
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_UI_INFO_LIST(Character character)
-		{
-			var packet = new Packet(Op.ZC_UI_INFO_LIST);
-
-			packet.PutInt(0); // ?
-			packet.PutInt(0); // ?
-
-			character.Connection.Send(packet);
-		}
-
-		/// <summary>
 		/// Sends ZC_NPC_STATE_LIST to character.
 		/// </summary>
 		/// <param name="character"></param>
