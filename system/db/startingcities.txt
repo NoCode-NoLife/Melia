@@ -5,9 +5,9 @@
 [
 // Klaipeda - West Siauliai Woods
 //---------------------------------------------------------------------------
-{ startingCityId: 1, map: "f_siauliai_west", x: -628, y: 260, z: -1025 },
+{ startingCityId: 256, map: "f_siauliai_west", x: -628, y: 260, z: -1025 },
 
 // Orsha - Lempransa Pond
 //---------------------------------------------------------------------------
-{ startingCityId: 2, map: "f_siauliai_16", x: -2694, y: 116, z: -1663 },
+{ startingCityId: 512, map: "f_siauliai_16", x: -2694, y: 116, z: -1663 },
 ]

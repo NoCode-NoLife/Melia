@@ -202,7 +202,8 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
-			var startingCity = (StartingCity)packet.GetInt();
+
+			var startingCity = StartingCity.Klaipeda;
 
 			// Check starting city
 			if (!Enum.IsDefined(typeof(StartingCity), startingCity))
