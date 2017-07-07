@@ -144,6 +144,18 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sent when the user clicks the barrack number.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
+		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		{
+			// temporarily resend the current list
+			Send.BC_COMMANDER_LIST(conn);
+		}
+
+		/// <summary>
 		/// Sent when saving Team Name in Lodge Settings on barrack screen.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -286,6 +298,7 @@ namespace Melia.Login.Network
 
 			conn.Account.CreateCharacter(character);
 
+			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
 
