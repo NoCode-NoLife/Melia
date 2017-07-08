@@ -454,5 +454,16 @@ namespace Melia.Login.Network
 			// Ignore for now.
 			// TODO: Add option for accepted checksums.
 		}
+
+		/// <summary>
+		/// Sent when the client wants an update on zone traffic.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_CHANNEL_TRAFFIC)]
+		public void CB_REQ_CHANNEL_TRAFFIC(LoginConnection conn, Packet packet)
+		{
+			Send.BC_NORMAL_ZoneTraffic(conn);
+		}
 	}
 }
