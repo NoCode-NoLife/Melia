@@ -128,6 +128,7 @@ namespace Melia.Login.Network
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -333,6 +334,7 @@ namespace Melia.Login.Network
 			}
 
 			Send.BC_COMMANDER_DESTROY(conn, character.Index);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -429,7 +431,7 @@ namespace Melia.Login.Network
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+			Send.BC_NORMAL_Run(conn, BCNormalMsg.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>

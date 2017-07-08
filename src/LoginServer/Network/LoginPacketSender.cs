@@ -156,34 +156,7 @@ namespace Melia.Login.Network
 
 			conn.Send(packet);
 		}
-
-		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
-		{
-			var characters = conn.Account.GetCharacters();
-			var mapAvailableCount = characters.Length;
-			var zoneServerCount = 1;
-			var zoneMaxPcCount = 150;
-
-			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0C); //SubOp
-
-			packet.BeginZlib();
-			packet.PutShort(zoneMaxPcCount);
-			packet.PutShort(mapAvailableCount);
-			for (var i = 0; i < mapAvailableCount; ++i)
-			{
-				packet.PutShort(characters[i].MapId);
-				packet.PutShort(zoneServerCount);
-				for (var zone = 0; zone < zoneServerCount; ++zone)
-				{
-					packet.PutShort(zone);
-					packet.PutShort(1); // currentPlayersCount
-				}
-			}
-			packet.EndZlib();
-
-			conn.Send(packet);
-		}
+		
 
 		public static void BC_START_GAMEOK(LoginConnection conn, Character character, string ip, int port)
 		{
@@ -223,13 +196,72 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_NORMAL_Run(LoginConnection conn, string str)
+		/// <summary>
+		/// Sends information related to the team to be displayed in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_TeamUI(LoginConnection conn)
 		{
-			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0B); // SubOp
+
+			packet.PutLong(conn.Account.Id);
+
+			// Maximum number of allowed characters added to the default of (4).
+			packet.PutShort(2);
+
+			// Team experience? Displayed under "Team Info"
+			packet.PutInt(0);
+
+			// Sum of characters and pets.
+			var characters = conn.Account.GetCharacters();
+			packet.PutShort(characters.Length);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends zone traffic to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
+		{
+			var characters = conn.Account.GetCharacters();
+			var mapAvailableCount = characters.Length;
+			var zoneServerCount = 1;
+			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0C); //SubOp
 
-			packet.PutInt(0x0E);
+			packet.BeginZlib();
+			packet.PutShort(zoneMaxPcCount);
+			packet.PutShort(mapAvailableCount);
+			for (var i = 0; i < mapAvailableCount; ++i)
+			{
+				packet.PutShort(characters[i].MapId);
+				packet.PutShort(zoneServerCount);
+				for (var zone = 0; zone < zoneServerCount; ++zone)
+				{
+					packet.PutShort(zone);
+					packet.PutShort(1); // currentPlayersCount
+				}
+			}
+			packet.EndZlib();
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Runs a lua function.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="str"></param>
+		public static void BC_NORMAL_Run(LoginConnection conn, string str)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0F); // SubOp
+
 			packet.PutLpString(str);
 
 			conn.Send(packet);
