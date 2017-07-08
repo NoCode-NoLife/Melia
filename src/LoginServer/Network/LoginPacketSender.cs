@@ -185,6 +185,30 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends information related to the team to be displayed in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_TeamUI(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0B);
+
+			packet.PutLong(conn.Account.Id);
+
+			// Maximum number of allowed characters added to the default of (4).
+			packet.PutShort(2);
+
+			// Team experience? Displayed under "Team Info"
+			packet.PutInt(0);
+
+			// Sum of characters and pets.
+			var characters = conn.Account.GetCharacters();
+			packet.PutShort(characters.Length);
+
+			conn.Send(packet);
+		}
+
 		public static void BC_START_GAMEOK(LoginConnection conn, Character character, string ip, int port)
 		{
 			var packet = new Packet(Op.BC_START_GAMEOK);
