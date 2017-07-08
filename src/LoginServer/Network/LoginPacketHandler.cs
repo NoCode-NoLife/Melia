@@ -144,6 +144,18 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sent when the user clicks the barrack number.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
+		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		{
+			// temporarily resend the current list
+			Send.BC_COMMANDER_LIST(conn);
+		}
+
+		/// <summary>
 		/// Sent when saving Team Name in Lodge Settings on barrack screen.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -202,7 +214,8 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
-			var startingCity = (StartingCity)packet.GetInt();
+
+			var startingCity = StartingCity.Klaipeda;
 
 			// Check starting city
 			if (!Enum.IsDefined(typeof(StartingCity), startingCity))
@@ -285,6 +298,7 @@ namespace Melia.Login.Network
 
 			conn.Account.CreateCharacter(character);
 
+			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
 
@@ -299,13 +313,13 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
-			var index = packet.GetByte();
+			var characterId = packet.GetLong();
 
 			// Get character
-			var character = conn.Account.GetCharacterByIndex(index);
+			var character = conn.Account.GetCharacterById(characterId);
 			if (character == null)
 			{
-				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, characterId);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -318,7 +332,7 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_COMMANDER_DESTROY(conn, index);
+			Send.BC_COMMANDER_DESTROY(conn, character.Index);
 		}
 
 		/// <summary>

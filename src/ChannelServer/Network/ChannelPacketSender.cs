@@ -67,13 +67,14 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(1292150020);
 			packet.PutByte(3); // isGM (< 3)?
-			packet.PutEmptyBin(10);
+			packet.PutByte(0);
+			packet.PutByte(1);
+			packet.PutEmptyBin(8);
 
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutByte(0);
-			}
-
+			// Determines whether something is possible with integrated servers?
+			packet.PutByte(0);
+			packet.PutByte(0);
+			
 			packet.PutLpString(conn.SessionKey);
 
 			// [i109XX (2015-12-01)]
@@ -341,20 +342,6 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_CHAT_MACRO_LIST);
 
-			packet.PutInt(0); // ?
-
-			character.Connection.Send(packet);
-		}
-
-		/// <summary>
-		/// Sends ZC_UI_INFO_LIST to character.
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_UI_INFO_LIST(Character character)
-		{
-			var packet = new Packet(Op.ZC_UI_INFO_LIST);
-
-			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
 
 			character.Connection.Send(packet);

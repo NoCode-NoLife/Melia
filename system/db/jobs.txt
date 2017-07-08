@@ -16,11 +16,12 @@
 { jobId: 1009, className: "Char1_9",  initial: "DOP", name: "Doppelsoeldner", rank: 6, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1010, className: "Char1_10", initial: "ROD", name: "Rodelero", rank: 4, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1011, className: "Char1_11", initial: "SQR", name: "Squire", rank: 5, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
-{ jobId: 1012, className: "Char1_12", initial: "MUR", name: "Murmillo", rank: 200, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
+{ jobId: 1012, className: "Char1_12", initial: "MUR", name: "Murmillo", rank: 8, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1013, className: "Char1_13", initial: "SNB", name: "Shinobi", rank: 7, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1014, className: "Char1_14", initial: "FNC", name: "Fencer", rank: 6, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1015, className: "Char1_15", initial: "DRG", name: "Dragoon", rank: 7, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 { jobId: 1016, className: "Char1_16", initial: "TMP", name: "Templar", rank: 7, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
+{ jobId: 1017, className: "Char1_17", initial: "LAN", name: "Lancer", rank: 8, str: 7, con: 8, int: 2, spr: 3, dex: 5, barrackStance: 10000 },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -36,11 +37,12 @@
 { jobId: 2010, className: "Char2_10", initial: "THA", name: "Thaumaturge", rank: 4, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 { jobId: 2011, className: "Char2_11", initial: "WRC", name: "Elementalist", rank: 4, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 { jobId: 2012, className: "Char2_12", initial: "MMC", name: "Mimic", rank: 200, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
-{ jobId: 2013, className: "Char2_13", initial: "DAO", name: "Daoshi", rank: 200, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
-{ jobId: 2014, className: "Char2_14", initial: "SAG", name: "Sage", rank: 200, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
+{ jobId: 2013, className: "Char2_13", initial: "DAO", name: "Daoshi_Dummy", rank: 200, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
+{ jobId: 2014, className: "Char2_14", initial: "SAG", name: "Sage", rank: 8, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 { jobId: 2015, className: "Char2_15", initial: "WAR", name: "Warlock", rank: 7, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 { jobId: 2016, className: "Char2_16", initial: "FTF", name: "Featherfoot", rank: 7, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 { jobId: 2017, className: "Char2_17", initial: "RUN", name: "RuneCaster", rank: 6, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
+{ jobId: 2018, className: "Char2_18", initial: "ENC", name: "Enchanter", rank: 8, str: 3, con: 3, int: 8, spr: 7, dex: 4, barrackStance: 10005 },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -50,16 +52,17 @@
 { jobId: 3004, className: "Char3_4",  initial: "RAG", name: "Ranger", rank: 2, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3005, className: "Char3_5",  initial: "SAP", name: "Sapper", rank: 3, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3006, className: "Char3_6",  initial: "WUG", name: "Wugushi", rank: 4, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
-{ jobId: 3007, className: "Char3_7",  initial: "HAC", name: "Hackapell", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
+{ jobId: 3007, className: "Char3_7",  initial: "HAC", name: "Hackapell", rank: 8, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3008, className: "Char3_8",  initial: "SCT", name: "Scout", rank: 4, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3009, className: "Char3_9",  initial: "ROG", name: "Rogue", rank: 5, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3010, className: "Char3_10", initial: "SCH", name: "Schwarzereiter", rank: 6, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3011, className: "Char3_11", initial: "FLT", name: "Fletcher", rank: 5, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3012, className: "Char3_12", initial: "PDP", name: "PiedPiper", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
-{ jobId: 3013, className: "Char3_13", initial: "APP", name: "Appraiser", rank: 200, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
+{ jobId: 3013, className: "Char3_13", initial: "APP", name: "Appraiser", rank: 5, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3014, className: "Char3_14", initial: "FAL", name: "Falconer", rank: 6, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3015, className: "Char3_15", initial: "CNN", name: "Cannoneer", rank: 7, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 { jobId: 3016, className: "Char3_16", initial: "MSK", name: "Musketeer", rank: 7, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
+{ jobId: 3017, className: "Char3_17", initial: "MER", name: "Mergen", rank: 8, str: 6, con: 4, int: 3, spr: 4, dex: 8, barrackStance: 10002 },
 
 // Cleric
 //---------------------------------------------------------------------------
@@ -78,6 +81,9 @@
 { jobId: 4013, className: "Char4_13", initial: "SHP", name: "Shepherd", rank: 200, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
 { jobId: 4014, className: "Char4_14", initial: "PGD", name: "PlagueDoctor", rank: 7, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
 { jobId: 4015, className: "Char4_15", initial: "KBL", name: "Kabbalist", rank: 7, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
+{ jobId: 4016, className: "Char4_16", initial: "INQ", name: "Inquisitor", rank: 8, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
+{ jobId: 4017, className: "Char4_17", initial: "DAO", name: "Daoshi", rank: 8, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
+{ jobId: 4018, className: "Char4_18", initial: "MKO", name: "Miko", rank: 6, str: 5, con: 6, int: 4, spr: 7, dex: 3, barrackStance: 10003 },
 
 // GM
 //---------------------------------------------------------------------------
