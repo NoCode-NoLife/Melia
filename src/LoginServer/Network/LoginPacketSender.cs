@@ -157,7 +157,7 @@ namespace Melia.Login.Network
 			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0B); //SubOp
+			packet.PutInt(0x0C); //SubOp
 
 			packet.BeginZlib();
 			packet.PutShort(zoneMaxPcCount);
