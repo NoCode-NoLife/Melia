@@ -280,9 +280,9 @@ namespace Melia.Login.Network
 			// Create
 			var character = new Character();
 			character.Name = name;
-			character.Job = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.Job = job;
 
 			character.MapId = mapData.Id;
 			character.Position = new Position(startingCityData.X, startingCityData.Y, startingCityData.Z);
@@ -296,6 +296,8 @@ namespace Melia.Login.Network
 			character.Int = jobData.Int;
 			character.Spr = jobData.Spr;
 			character.Dex = jobData.Dex;
+
+			character.InitEquipment();
 
 			conn.Account.CreateCharacter(character);
 
