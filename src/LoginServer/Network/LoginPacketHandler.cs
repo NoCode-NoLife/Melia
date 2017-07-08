@@ -431,7 +431,7 @@ namespace Melia.Login.Network
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+			Send.BC_NORMAL_Run(conn, BCNormalMsg.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
