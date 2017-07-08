@@ -69,6 +69,10 @@ namespace Melia.Login.Network
 				for (int i = 0; i < Items.EquipSlotCount; ++i)
 					packet.PutShort(0);
 
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(1);
+
 				// Job history?
 				// While this short existed in iCBT1, it might not have
 				// been used, couldn't find a log.
@@ -87,6 +91,10 @@ namespace Melia.Login.Network
 			// Null terminated list of some kind?
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
+
+			packet.PutShort(0); // unk
+			packet.PutInt(conn.Account.GetCharacters().Count()); // unk
+			packet.PutShort(conn.Account.GetCharacters().Count()); // unk
 
 			conn.Send(packet);
 		}
