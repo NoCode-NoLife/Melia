@@ -210,9 +210,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([01 0C] [1F 00 00 00] [12 00 00 00]) 00 | 63 D6 14 F1 60
-		/// </example>
 		[PacketHandler(Op.CZ_MOVE_BARRACK)]
 		public void CZ_MOVE_BARRACK(ChannelConnection conn, Packet packet)
 		{
@@ -220,6 +217,7 @@ namespace Melia.Channel.Network
 
 			Log.Info("User '{0}' is leaving for character selection.", conn.Account.Name);
 
+			Send.ZC_SAVE_INFO(conn);
 			Send.ZC_MOVE_BARRACK(conn);
 		}
 
@@ -228,9 +226,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([00 0C] [0A 00 00 00] [06 00 00 00]) 00 | 63 D6 14 F1 60
-		/// </example>
 		[PacketHandler(Op.CZ_LOGOUT)]
 		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
 		{
@@ -238,6 +233,7 @@ namespace Melia.Channel.Network
 
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
+			Send.ZC_SAVE_INFO(conn);
 			Send.ZC_LOGOUT_OK(conn);
 		}
 
@@ -853,7 +849,7 @@ namespace Melia.Channel.Network
 						}
 					}
 
-					Send.ZC_ADDON_MSG(character, "RESET_STAT_UP");
+					Send.ZC_ADDON_MSG(character, ZCAddonMsg.RESET_STAT_UP);
 
 					// Official doesn't update UsedStat with this packet =<
 					Send.ZC_OBJECT_PROPERTY(character,
@@ -1047,7 +1043,7 @@ namespace Melia.Channel.Network
 			// price in the db usually being 0. This msg will reset the shop
 			// panel, to display the proper balance after confirming the
 			// transaction.
-			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+			Send.ZC_ADDON_MSG(character, ZCAddonMsg.FAIL_SHOP_BUY);
 		}
 
 		/// <summary>
@@ -1118,7 +1114,42 @@ namespace Melia.Channel.Network
 			// price in the db usually being 0. This msg will reset the shop
 			// panel, to display the proper balance after confirming the
 			// transaction.
-			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
+			Send.ZC_ADDON_MSG(character, ZCAddonMsg.FAIL_SHOP_BUY);
+		}
+
+		/// <summary>
+		/// Sent when attempting to logout or switch characters.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RUN_GAMEEXIT_TIMER)]
+		public void CZ_RUN_GAMEEXIT_TIMER(ChannelConnection conn, Packet packet)
+		{
+			var destination = packet.GetString();
+
+			switch (destination)
+			{
+				case "Logout":
+				case "Barrack":
+				case "Exit":
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, ZCAddonMsg.EXPIREDITEM_ALERT_OPEN, destination);
+					break;
+				default:
+					return;
+			}
+			
+			Log.Info("User {0} is transferring to {1} state.", conn.Account.Name, destination);
+		}
+
+		/// <summary>
+		/// Information sent to be saved?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SAVE_INFO)]
+		public void CZ_SAVE_INFO(ChannelConnection conn, Packet packet)
+		{
+			// Save something if needed?
 		}
 	}
 

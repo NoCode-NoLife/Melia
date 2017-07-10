@@ -1290,18 +1290,26 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Executes Lua addon function.
+		/// Executes a lua function
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg)
+		/// <param name="parameters">Optional parameters to the lua function</param>
+		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
-			packet.PutByte((byte)(msg.Length + 1));
+			packet.PutByte((byte)(msg.Length));
 			packet.PutInt(0);
 			packet.PutByte(1);
-			packet.PutString(msg);
-			// + parameters?
+
+			var bytes = Encoding.ASCII.GetBytes(msg);
+			packet.PutBin(bytes);
+
+			if (parameter != null)
+			{
+				bytes = Encoding.ASCII.GetBytes(parameter);
+				packet.PutBin(bytes);
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -1776,6 +1784,16 @@ namespace Melia.Channel.Network
 			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Request the client to send information that needs to be saved before exiting?
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SAVE_INFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SAVE_INFO);
+			conn.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

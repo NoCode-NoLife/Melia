@@ -23,4 +23,11 @@ namespace Melia.Shared.Const
 		/// </summary>
 		public static readonly string THEMA_BUY_SUCCESS = "THEMA_BUY_SUCCESS";
 	}
+
+	public static class ZCAddonMsg
+	{
+		public const string EXPIREDITEM_ALERT_OPEN = "EXPIREDITEM_ALERT_OPEN";
+		public const string RESET_STAT_UP = "RESET_STAT_UP";
+		public const string FAIL_SHOP_BUY = "FAIL_SHOP_BUY";
+	}
 }
