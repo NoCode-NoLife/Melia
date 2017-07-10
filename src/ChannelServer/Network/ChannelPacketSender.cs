@@ -383,8 +383,9 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
+			packet.PutLong(character.Id);
 			packet.PutShort((short)character.Job);
-			packet.PutShort(50);
+			packet.PutShort(50); // points
 
 			character.Connection.Send(packet);
 		}
