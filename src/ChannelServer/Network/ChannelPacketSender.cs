@@ -1232,15 +1232,11 @@ namespace Melia.Channel.Network
 		public static void ZC_MAX_EXP_CHANGED(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
-			packet.PutInt(exp);
-			packet.PutInt(character.Exp);
-			packet.PutInt(character.MaxExp);
 
-			// [i11037 (2016-03-0X)] ?
-			// acq 43, exp 36, max 462, ? 316
-			{
-				packet.PutInt(0);
-			}
+			packet.PutInt(exp); // acquired exp (not used)
+			packet.PutInt(character.Exp); // current level exp
+			packet.PutInt(character.MaxExp); // total exp needed to level (look at db array)
+			packet.PutInt(0); // total exp earned 
 
 			character.Connection.Send(packet);
 		}
