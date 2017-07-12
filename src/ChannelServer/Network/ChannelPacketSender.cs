@@ -1205,7 +1205,7 @@ namespace Melia.Channel.Network
 
 			character.Map.Broadcast(packet, character);
 		}
-
+		
 		/// <summary>
 		/// Plays class level up effect.
 		/// </summary>
@@ -1647,6 +1647,24 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Updates the character's available job skills and points.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_JobSkillPointUpdate(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x18E);
+
+			packet.PutLong(character.Id);
+			packet.PutInt(1); // job count in packet
+			packet.PutShort((short)character.Job);
+			packet.PutEmptyBin(6); // unk ?
+			packet.PutShort(10); // points
+			packet.PutShort(2); // class tier (number of stars)
+
+			character.Connection.Send(packet);
+		}
 
 		/// <summary>
 		/// Set a Range type "FAN" shape in a given position

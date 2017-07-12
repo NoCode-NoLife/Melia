@@ -115,6 +115,7 @@ namespace Melia.Channel.Network
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
+			Send.ZC_NORMAL_JobSkillPointUpdate(character);
 			Send.ZC_COOLDOWN_LIST(character);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			// ZC_NORMAL...
