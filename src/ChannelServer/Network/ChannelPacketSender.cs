@@ -770,6 +770,17 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sets a layer on the UI.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SET_LAYER(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SET_LAYER);
+			packet.PutInt(2357); // Starts the cutscene layer.
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Broadcasts ZC_SET_POS in range of character, updating its position.
 		/// </summary>
 		/// <param name="character"></param>
