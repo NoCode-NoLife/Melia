@@ -1,59 +1,416 @@
-addnpc(40120, "QUEST_20150317_000002", "f_siauliai_11_re", 558.7085, 209.7152, 707.2426, 24, "npc_dummy")
-addnpc(147399, "ETC_20151001_015282", "f_siauliai_11_re", 2324.01, 171.9151, -643.3492, 45, "npc_dummy")
-addnpc(147400, "ETC_20151001_015283", "f_siauliai_11_re", -227.3777, 84.8867, 365.4719, -36, "npc_dummy")
-addnpc(147405, "ETC_20151001_015284", "f_siauliai_11_re", -172.4509, 84.8867, 348.0963, -87, "npc_dummy")
-addnpc(155044, "ETC_20151001_015227", "f_siauliai_11_re", -522.71, 146.48, 1371.62, 134, "npc_dummy")
-addnpc(151078, "ETC_20151001_015285", "f_siauliai_11_re", 324.9094, 84.8867, 789.7662, -69, "npc_dummy")
-addnpc(151079, "ETC_20151001_015286", "f_siauliai_11_re", 2366.02, 171.9151, -501.562, -71, "npc_dummy")
-addnpc(20060, "ETC_20151001_015287", "f_siauliai_11_re", 1488.017, 209.7152, -557.6255, -37, "npc_dummy")
-addnpc(155044, "ETC_20151001_015227", "f_siauliai_11_re", 393.5434, 84.8867, 1658.514, -43, "npc_dummy")
-addnpc(155066, "ETC_20151022_016469", "f_siauliai_11_re", 974.0472, 209.7152, 1089.259, -3, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 597.2593, 280.5747, -654.0984, -53, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 546.7256, 280.5747, -483.6187, -52, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 592.1078, 280.5747, -374.4138, -67, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 787.6371, 280.5747, -692.3096, -129, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 914.0129, 280.5747, -601.5608, -106, "npc_dummy")
-addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 940.136, 280.5747, -481.5562, -41, "npc_dummy")
-addnpc(154060, "ETC_20151102_017438", "f_siauliai_11_re", 1633.731, 283.6958, 522.1473, 45, "npc_dummy")
-addnpc(47160, "ETC_20151102_017439", "f_siauliai_11_re", 1703.212, 283.6958, 331.349, 45, "npc_dummy")
-addnpc(147312, "ETC_20151102_017440", "f_siauliai_11_re", 1566.048, 283.6958, 469.1541, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2623.816, 209.7152, 388.6707, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2642.353, 209.7152, 532.7851, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2661.312, 209.7152, 698.5034, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2721.047, 209.7152, 793.7294, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2807.665, 209.7152, 891.8407, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2664.543, 209.7152, 920.4396, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2525.736, 209.7152, 871.8986, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2391.333, 209.7152, 975.1885, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2300.057, 209.7152, 1123.155, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2181.919, 209.7152, 1040.428, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2278.876, 209.7152, 908.7515, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2412.967, 209.7152, 827.8423, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2394.858, 209.7152, 679.8168, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2266.202, 209.7152, 708.4573, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2327.017, 209.7152, 544.9231, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2270.998, 209.7152, 424.0923, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2404.365, 209.7152, 333.1791, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2483.553, 209.7152, 432.1526, 45, "npc_dummy")
-addnpc(154065, "ETC_20151102_017441", "f_siauliai_11_re", 2485.077, 209.7152, 589.6173, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -436.1508, 84.8867, 334.4204, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -933.7227, 146.0112, -13.78401, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1061.255, 146.0112, 220.6053, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -761.6812, 146.0112, 180.5696, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1127.228, 86.20545, 1580.909, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -925.7615, 146.0112, 389.2525, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -27.63233, 84.8867, 822.7845, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -561.9048, 84.8867, 798.4095, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -524.8113, 84.8867, -22.30056, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -274.8744, 84.8867, 36.05468, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1285.277, 84.8867, 1001.272, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", 48.05645, 84.8867, 317.2399, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1200.384, 84.8867, 1272.641, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -103.0914, 84.8867, 195.328, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1452.678, 84.8867, 811.0225, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -954.8649, 84.8867, 647.1777, 45, "npc_dummy")
-addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -916.6511, 84.8867, 871.9739, 45, "npc_dummy")
-addnpc(147403, "ETC_20151001_015228", "f_siauliai_11_re", 345.9997, 84.8867, 1655.486, 25, "npc_dummy")
-addnpc(147406, "ETC_20151001_015229", "f_siauliai_11_re", 432.9453, 84.8867, 1680.066, -41, "npc_dummy")
-addnpc(154068, "ETC_20151102_017260", "f_siauliai_11_re", 346.0575, 84.8867, 796.8583, -24, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_siauliai_11_re", -1679, 150, 1345, 45, "npc_dummy")
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_siauliai_11_re", 559, 210, 707, 24, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_SIAULIAI_11RE")
+end
+
+----- npc_paladin_follower1_2 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_TALBASI -----
+----- Dialog -----
+----- QuestIDs: SIAU15RE_MQ_06 | SIAU11RE_MQ_01 | SIAU11RE_MQ_02 -----
+addnpc(147399, "ETC_20151001_015282", "f_siauliai_11_re", 2324, 172, -643, 45, "npc_ETC_20151001_015282")
+function npc_ETC_20151001_015282()
+msg("SIAULIAI11RE_TALBASI_basic_02")
+msg("SIAULIAI11RE_TALBASI_basic_03")
+msg("SIAULIAI11RE_TALBASI_basic_04")
+msg("SIAU15RE_MQ_06_03")
+msg("SIAU11RE_MQ_01_01")
+msg("SIAU11RE_MQ_01_01_AG")
+msg("SIAU11RE_MQ_01_02")
+msg("SIAU11RE_MQ_01_03")
+msg("SIAU11RE_MQ_02_01")
+msg("SIAU11RE_MQ_02_01_AG")
+msg("SIAU11RE_MQ_02_02")
+msg("SIAU11RE_MQ_02_ITEM_1")
+msg("SIAU11RE_MQ_02_ITEM_2")
+msg("SIAU11RE_MQ_02_ITEM_3")
+msg("SIAULIAI11RE_TALBASI_basic_01")
+end
+
+----- npc_paladin_follower1_3 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_SENDAL -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_MQ_04 | SIAU11RE_MQ_05 -----
+addnpc(147400, "ETC_20151001_015283", "f_siauliai_11_re", -227, 85, 365, -36, "npc_ETC_20151001_015283")
+function npc_ETC_20151001_015283()
+msg("SIAULIAI11RE_SENDAL_basic_02")
+msg("SIAULIAI11RE_SENDAL_basic_03")
+msg("SIAULIAI11RE_SENDAL_basic_04")
+msg("SIAU11RE_MQ_04_03")
+msg("SIAU11RE_MQ_05_01")
+msg("SIAU11RE_MQ_05_02")
+msg("SIAULIAI11RE_SENDAL_basic_01")
+end
+
+----- npc_paladin_follower2_3 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_JEGAUS -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_SQ_07 | SIAU11RE_SQ_08 -----
+addnpc(147405, "ETC_20151001_015284", "f_siauliai_11_re", -172, 85, 348, -87, "npc_ETC_20151001_015284")
+function npc_ETC_20151001_015284()
+msg("SIAULIAI11RE_JEGAUS_basic_03")
+msg("SIAULIAI11RE_JEGAUS_basic_04")
+msg("SIAU11RE_SQ_07_01")
+msg("SIAU11RE_SQ_07_02")
+msg("SIAU11RE_SQ_07_03")
+msg("SIAU11RE_SQ_08_01")
+msg("SIAU11RE_SQ_08_02")
+msg("SIAU11RE_SQ_08_03")
+msg("SIAULIAI11RE_JEGAUS_basic_01")
+end
+
+----- npc_friar_03 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_PRANAS -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_MQ_05 | SIAU11RE_MQ_06 -----
+addnpc(155044, "ETC_20151001_015227", "f_siauliai_11_re", -523, 146, 1372, 134, "npc_ETC_20151001_015227")
+function npc_ETC_20151001_015227()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- orsha_soldier_f_2 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_RARENA -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_MQ_02 | SIAU11RE_MQ_03 | SIAU11RE_MQ_04 -----
+addnpc(151078, "ETC_20151001_015285", "f_siauliai_11_re", 325, 85, 790, -69, "npc_ETC_20151001_015285")
+function npc_ETC_20151001_015285()
+msg("SIAULIAI11RE_RARENA_basic_02")
+msg("SIAULIAI11RE_RARENA_basic_03")
+msg("SIAULIAI11RE_RARENA_basic_04")
+msg("SIAU11RE_MQ_03_01")
+msg("SIAU11RE_MQ_03_02")
+msg("SIAU11RE_MQ_03_03")
+msg("SIAU11RE_MQ_04_01")
+msg("SIAU11RE_MQ_04_02")
+msg("SIAULIAI11RE_RARENA_basic_01")
+end
+
+----- orsha_soldier_f_3 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_ORWEN -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_SQ_01 | SIAU11RE_SQ_02 -----
+addnpc(151079, "ETC_20151001_015286", "f_siauliai_11_re", 2366, 172, -502, -71, "npc_ETC_20151001_015286")
+function npc_ETC_20151001_015286()
+msg("SIAULIAI11RE_ORWEN_basic_02")
+msg("SIAULIAI11RE_ORWEN_basic_03")
+msg("SIAU11RE_SQ_01_01")
+msg("SIAU11RE_SQ_01_02")
+msg("SIAU11RE_SQ_01_03")
+msg("SIAU11RE_SQ_02_01")
+msg("SIAU11RE_SQ_02_02")
+msg("SIAU11RE_SQ_02_03")
+msg("SIAULIAI11RE_ORWEN_basic_01")
+end
+
+----- orsha_soldier_m ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_NOTORESU -----
+----- Dialog -----
+----- QuestIDs: SIAU11RE_SQ_03 | SIAU11RE_SQ_04 | SIAU11RE_SQ_05 -----
+addnpc(20060, "ETC_20151001_015287", "f_siauliai_11_re", 1488, 210, -558, -37, "npc_ETC_20151001_015287")
+function npc_ETC_20151001_015287()
+msg("SIAULIAI11RE_NOTORESU_basic_03")
+msg("SIAULIAI11RE_NOTORESU_basic_04")
+msg("SIAU11RE_SQ_03_01")
+msg("SIAU11RE_SQ_03_02")
+msg("SIAU11RE_SQ_04_03")
+msg("SIAU11RE_SQ_05_01")
+msg("SIAU11RE_SQ_05_01_AG")
+msg("SIAU11RE_SQ_05_02")
+msg("SIAU11RE_SQ_05_03")
+msg("SIAULIAI11RE_NOTORESU_basic_01")
+end
+
+----- npc_friar_03 ----- 
+----- npcselectdialog.ies | ClassName: SIAULIAI11RE_PRANAS_1 -----
+----- Dialog -----
+----- QuestIDs: ORSHA_MQ2_03 | PRISON621_MQ_01 -----
+addnpc(155044, "ETC_20151001_015227", "f_siauliai_11_re", 394, 85, 1659, -43, "npc_ETC_20151001_015227")
+function npc_ETC_20151001_015227()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_BAR_sub_master ----- 
+----- npcselectdialog.ies | ClassName: JOB_2_BARBARIAN_NPC -----
+----- Dialog -----
+----- QuestIDs: JOB_2_BARBARIAN3 | JOB_2_BARBARIAN4 | JOB_2_BARBARIAN5 -----
+addnpc(155066, "ETC_20151022_016469", "f_siauliai_11_re", 974, 210, 1089, -3, "npc_ETC_20151022_016469")
+function npc_ETC_20151022_016469()
+msg("JOB_2_BARABARIAN_basic01")
+msg("JOB_2_BARABARIAN_basic02")
+msg("JOB_2_BARABARIAN3_1_1")
+msg("JOB_2_BARABARIAN3_1_2")
+msg("JOB_2_BARABARIAN3_1_3")
+msg("JOB_2_BARABARIAN3_1_4")
+msg("JOB_2_BARABARIAN4_1_1")
+msg("JOB_2_BARABARIAN4_1_2")
+msg("JOB_2_BARABARIAN4_1_3")
+msg("JOB_2_BARABARIAN4_1_4")
+msg("JOB_2_BARABARIAN5_1_1")
+msg("JOB_2_BARABARIAN5_1_2")
+msg("JOB_2_BARABARIAN5_1_3")
+msg("JOB_2_BARABARIAN5_1_4")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 597, 281, -654, -53, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 547, 281, -484, -52, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 592, 281, -374, -67, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 788, 281, -692, -129, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 914, 281, -602, -106, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- wood_piece_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151031, "ETC_20151224_019969", "f_siauliai_11_re", 940, 281, -482, -41, "npc_ETC_20151224_019969")
+function npc_ETC_20151224_019969()
+msg("JOB_2_PELTASTA2_WOOD")
+end
+
+----- npc_bonfire_Q1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154060, "ETC_20151102_017438", "f_siauliai_11_re", 1634, 284, 522, 45, "npc_ETC_20151102_017438")
+function npc_ETC_20151102_017438()
+msg("SIAU11RE_MQ_02_NPC_02")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151102_017439", "f_siauliai_11_re", 1703, 284, 331, 45, "npc_ETC_20151102_017439")
+function npc_ETC_20151102_017439()
+msg("SIAU11RE_MQ_02_NPC_03")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "ETC_20151102_017440", "f_siauliai_11_re", 1566, 284, 469, 45, "npc_ETC_20151102_017440")
+function npc_ETC_20151102_017440()
+msg("SIAU11RE_MQ_02_NPC_01")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -436, 85, 334, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -934, 146, -14, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1061, 146, 221, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -762, 146, 181, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1127, 86, 1581, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -926, 146, 389, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -28, 85, 823, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -562, 85, 798, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -525, 85, -22, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -275, 85, 36, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1285, 85, 1001, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", 48, 85, 317, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1200, 85, 1273, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -103, 85, 195, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -1453, 85, 811, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -955, 85, 647, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47160, "ETC_20151224_019970", "f_siauliai_11_re", -917, 85, 872, 45, "npc_ETC_20151224_019970")
+function npc_ETC_20151224_019970()
+msg("SIAU11RE_SQ_08_NPC")
+end
+
+----- npc_paladin_follower2_1 ----- 
+----- npcselectdialog.ies | ClassName: SIAU11RE_TORNAVA -----
+----- Dialog -----
+addnpc(147403, "ETC_20151001_015228", "f_siauliai_11_re", 346, 85, 1655, 25, "npc_ETC_20151001_015228")
+function npc_ETC_20151001_015228()
+msg("PRISON621_TORNAVA_basic_03")
+msg("PRISON621_TORNAVA_basic_04")
+msg("SIAU11RE_TORNAVA_basic_01")
+msg("PRISON621_TORNAVA_basic_01")
+msg("PRISON621_SQ_01_01")
+msg("PRISON621_SQ_01_02")
+msg("PRISON621_SQ_01_03")
+msg("PRISON621_SQ_02_01")
+msg("PRISON621_SQ_02_02")
+msg("PRISON621_SQ_02_03")
+end
+
+----- npc_paladin_follower2_4 ----- 
+----- npcselectdialog.ies | ClassName: SIAU11RE_DARAMAUS -----
+----- Dialog -----
+addnpc(147406, "ETC_20151001_015229", "f_siauliai_11_re", 433, 85, 1680, -41, "npc_ETC_20151001_015229")
+function npc_ETC_20151001_015229()
+msg("SIAU11RE_DARAMAUS_basic_01")
+end
+
+----- npc_dog6 ----- 
+----- Enter -----
+addnpc(154068, "ETC_20151102_017260", "f_siauliai_11_re", 346, 85, 797, -24, "npc_ETC_20151102_017260")
+function npc_ETC_20151102_017260()
+msg("SIAU11RE_MQ_03_DOG")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_siauliai_11_re", -1679, 150, 1345, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_siauliai_11_re", -707, 147, 1474, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

@@ -1,53 +1,194 @@
-addnpc(151014, "QUEST_LV_0100_20150317_002501", "d_cmine_6", 129.08, 183.64, -112.43, -41, "npc_dummy")
-addnpc(151009, "QUEST_LV_0100_20150317_000366", "d_cmine_6", -1187.67, 303.49, 104.16, -17, "npc_dummy")
-addnpc(151012, "QUEST_LV_0100_20150317_000851", "d_cmine_6", -1206.57, 303.49, 87.32, 27, "npc_dummy")
-addnpc(20041, "ETC_20150317_009266", "d_cmine_6", -458, 183, -873, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -2068, 360, -1572, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1918, 316, -1959, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1650, 316, -1720, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1646, 316, -1899, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1149, 316, -1806, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1122, 316, -1612, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1224, 316, -1216, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -476, 183, -1559, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -446, 184, -1189, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -789, 184, -916, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -530, 183, -834, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -419, 183, -752, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -422, 183, -605, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -687, 181, -125, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -715, 181, 12, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -609, 181, 140, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -949.6851, 181.7445, -94.36801, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -838, 254, 238, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -1079, 250, 176, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 49, 183, -1133, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 94, 183, -981, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -347, 184, -1136, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -50, 183, -1305, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", -167, 183, -137, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 54, 183, -17, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 1763, 260, 2101, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 2042, 149, 2127, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 1705, 55, 1478, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 1725, 54, 1357, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 1804, 58, 1634, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 1662, 56, 1612, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_6", 2012, 74, 1711, 45, "npc_dummy")
-addnpc(151010, "QUEST_LV_0100_20150317_000206", "d_cmine_6", -1183.55, 303.49, 111.4, 32, "npc_dummy")
-addnpc(151011, "QUEST_LV_0100_20150317_000209", "d_cmine_6", -1200.25, 303.49, 98.06, -40, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "d_cmine_6", -446, 183, -1014, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_001172", "d_cmine_6", 1673.233, 151.0452, 1167.977, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_cmine_6", -2175.529, 360.2849, -1773.89, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "d_cmine_6", -1218.776, 303.4853, 59.64871, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_cmine_6", -2186.467, 368.9746, -1625.978, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "d_cmine_6", 1731.071, 264.5586, 2108.604, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_cmine_6", -1145.18, 303.59, 103.15, -45, "npc_dummy")
-addnpc(20150, "QUEST_LV_0100_20150317_000366", "d_cmine_6", -1187.67, 303.49, 104.16, -17, "npc_dummy")
-addnpc(47236, "QUEST_LV_0100_20150317_000851", "d_cmine_6", -1206.57, 303.49, 87.32, 27, "npc_dummy")
-addnpc(20114, "QUEST_LV_0100_20150317_000206", "d_cmine_6", -1183.55, 303.49, 111.4, 32, "npc_dummy")
-addnpc(147473, "QUEST_LV_0100_20150317_000209", "d_cmine_6", -1200.25, 303.49, 98.06, -40, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "d_cmine_6", -2082.766, 359.5592, -1749.665, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "d_cmine_6", 160.1644, 183.7934, -216.6024, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_cmine_6", -874.95, 184.05, -970.45, 45, "npc_dummy")
-addnpc(151006, "ETC_20160323_021383", "d_cmine_6", -79.47718, 183.9296, -989.8421, 20, "npc_dummy")
+----- mine_crystal ----- 
+----- npcselectdialog.ies | ClassName: CMINE3_BOSSROOM_OPEN -----
+----- Dialog -----
+----- QuestIDs: ACT4_MINE3_ENTER -----
+addnpc(151014, "QUEST_LV_0100_20150317_002501", "d_cmine_6", 129, 184, -112, -41, "npc_QUEST_LV_0100_20150317_002501")
+function npc_QUEST_LV_0100_20150317_002501()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_mining_alchemist ----- 
+----- npcselectdialog.ies | ClassName: MINE_3_ALCHEMIST -----
+----- Dialog -----
+----- QuestIDs: MINE_3_RESQUE1 -----
+addnpc(20110, "ETC_20150317_009246", "d_cmine_6", -2181, 360, -1677, 45, "npc_ETC_20150317_009246")
+function npc_ETC_20150317_009246()
+msg("MINE_1_ALCHEMIST_select1")
+msg("MINE_1_ALCHEMIST_AG")
+msg("MINE_1_ALCHEMIST_PG")
+msg("MINE_3_RESQUE1_dlg1")
+msg("MINE_3_RESQUE1_dlg2")
+msg("MINE_3_RESQUE1_R")
+msg("SIAULIAIOUT_ALCHE_A_basic01")
+msg("SIAULIAIOUT_ALCHE_A_basic02")
+msg("MINE_3_ALCHEMIST_basic1")
+msg("MINE_3_ALCHEMIST_basic2")
+msg("SOUT_Q_16_1_AC")
+msg("SIAULIAIOUT_ALCHE_BASIC01")
+msg("SIAULIAIOUT_ALCHE_basic03")
+msg("JOB_ALCHEMIST5_1_ST")
+msg("JOB_ALCHEMIST5_1_AC")
+msg("JOB_ALCHEMIST5_1_PG")
+msg("JOB_ALCHEMIST5_1_COMP")
+msg("SIAULIAIOUT_ALCHE_A_basic03")
+msg("SOUT_Q_14_3")
+msg("SOUT_Q_16_1")
+msg("SOUT_Q_16_2")
+msg("SIAULIAIOUT_ALCHE_basic")
+msg("NoneMINE_1_ALCHEMIST_basic")
+msg("JOB_ALCHEMIST_6_1_select")
+msg("JOB_ALCHEMIST_6_1_agree")
+msg("JOB_ALCHEMIST_6_1_succ")
+msg("JOB_ALCHEMIST_6_2_select")
+msg("JOB_ALCHEMIST_6_2_agree")
+msg("JOB_ALCHEMIST_6_2_succ")
+msg("JOB_ALCHEMIST7_1_START1")
+msg("JOB_ALCHEMIST7_1_AGREE1")
+msg("JOB_ALCHEMIST7_1_PROG1")
+msg("JOB_ALCHEMIST7_1_SUCC1")
+msg("CHAR313_MSTEP7_1_DLG1")
+msg("CHAR313_MSTEP9_1_DLG1")
+msg("CHAR313_MSTEP9_1_DLG2")
+msg("CHAR313_MSTEP9_1_DLG3")
+msg("PARTY_Q_010_startnpc01")
+msg("PARTY_Q_010_AG")
+msg("PARTY_Q_010_prog_startnpc01")
+msg("PARTY_Q_010_succ01")
+msg("PARTY_Q_011_startnpc01")
+msg("PARTY_Q_011_startnpc_prog01")
+msg("PARTY_Q_011_succ01")
+end
+
+----- mine_miner ----- 
+----- npcselectdialog.ies | ClassName: MINE_3_RESIENT1_BIND -----
+----- Dialog -----
+----- QuestIDs: MINE_3_RESQUE1 -----
+addnpc(151009, "QUEST_LV_0100_20150317_000366", "d_cmine_6", -1188, 303, 104, -17, "npc_QUEST_LV_0100_20150317_000366")
+function npc_QUEST_LV_0100_20150317_000366()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- mine_Laima ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151012, "QUEST_LV_0100_20150317_000851", "d_cmine_6", -1207, 303, 87, 27, "npc_QUEST_LV_0100_20150317_000851")
+function npc_QUEST_LV_0100_20150317_000851()
+msg("MINE_3_GIRL_BIND")
+end
+
+----- mine_matron ----- 
+----- npcselectdialog.ies | ClassName: D_CMINE_NPC01_BIND -----
+----- Dialog -----
+addnpc(151010, "QUEST_LV_0100_20150317_000206", "d_cmine_6", -1170, 303, 120, 32, "npc_QUEST_LV_0100_20150317_000206")
+function npc_QUEST_LV_0100_20150317_000206()
+msg("D_CMINE_NPC01_BIND_basic01")
+msg("D_CMINE_NPC01_BIND_basic02")
+msg("F_SIAU_OUT_NPC01_basic01")
+msg("F_SIAU_OUT_NPC01_basic02")
+msg("F_SIAU_OUT_NPC01_basic03")
+msg("D_CMINE_NPC01_basic01")
+msg("D_CMINE_NPC01_basic02")
+end
+
+----- mine_village_female ----- 
+----- npcselectdialog.ies | ClassName: D_CMINE_NPC02_BIND -----
+----- Dialog -----
+addnpc(151011, "QUEST_LV_0100_20150317_000209", "d_cmine_6", -1200, 303, 98, -40, "npc_QUEST_LV_0100_20150317_000209")
+function npc_QUEST_LV_0100_20150317_000209()
+msg("D_CMINE_NPC02_BIND_basic01")
+msg("D_CMINE_NPC02_BIND_basic02")
+msg("D_CMINE_NPC02_basic01")
+msg("D_CMINE_NPC02_basic02")
+msg("F_SIAU_OUT_NPC03_basic01")
+msg("F_SIAU_OUT_NPC03_basic02")
+msg("F_SIAU_OUT_NPC03_basic03")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "d_cmine_6", -2176, 360, -1774, 45, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_D_CMINE_6")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_cmine_6", -1145, 304, 103, -45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- npc_miner2 ----- 
+----- npcselectdialog.ies | ClassName: MINE_3_RESIENT1 -----
+----- Dialog -----
+----- QuestIDs: MINE_3_RESQUE1 -----
+addnpc(20150, "QUEST_LV_0100_20150317_000366", "d_cmine_6", -1188, 303, 104, -17, "npc_QUEST_LV_0100_20150317_000366")
+function npc_QUEST_LV_0100_20150317_000366()
+msg("MINE_3_RESQUE1_succ")
+msg("MINE_3_RESIENT1_BASIC01")
+msg("MINE_3_RESIENT1_BASIC02")
+msg("F_SIAU_OUT_NPC02_basic01")
+msg("F_SIAU_OUT_NPC02_basic02")
+end
+
+----- npc_Laima_little ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47236, "QUEST_LV_0100_20150317_000851", "d_cmine_6", -1207, 303, 87, 27, "npc_QUEST_LV_0100_20150317_000851")
+function npc_QUEST_LV_0100_20150317_000851()
+msg("MINE_3_GIRL1")
+end
+
+----- npc_matron ----- 
+----- npcselectdialog.ies | ClassName: D_CMINE_NPC01 -----
+----- Dialog -----
+addnpc(20114, "QUEST_LV_0100_20150317_000206", "d_cmine_6", -1170, 303, 120, 32, "npc_QUEST_LV_0100_20150317_000206")
+function npc_QUEST_LV_0100_20150317_000206()
+msg("D_CMINE_NPC01_BIND_basic01")
+msg("D_CMINE_NPC01_BIND_basic02")
+msg("F_SIAU_OUT_NPC01_basic01")
+msg("F_SIAU_OUT_NPC01_basic02")
+msg("F_SIAU_OUT_NPC01_basic03")
+msg("D_CMINE_NPC01_basic01")
+msg("D_CMINE_NPC01_basic02")
+end
+
+----- npc_village_female ----- 
+----- npcselectdialog.ies | ClassName: D_CMINE_NPC02 -----
+----- Dialog -----
+addnpc(147473, "QUEST_LV_0100_20150317_000209", "d_cmine_6", -1200, 303, 98, -40, "npc_QUEST_LV_0100_20150317_000209")
+function npc_QUEST_LV_0100_20150317_000209()
+msg("D_CMINE_NPC02_BIND_basic01")
+msg("D_CMINE_NPC02_BIND_basic02")
+msg("D_CMINE_NPC02_basic01")
+msg("D_CMINE_NPC02_basic02")
+msg("F_SIAU_OUT_NPC03_basic01")
+msg("F_SIAU_OUT_NPC03_basic02")
+msg("F_SIAU_OUT_NPC03_basic03")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_cmine_6", -875, 184, -970, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- mine_purify_01 ----- 
+----- npcselectdialog.ies | ClassName: CMINE6_RP_1_NPC -----
+----- Dialog -----
+----- QuestIDs: CMINE6_RP_1 -----
+addnpc(151006, "ETC_20160323_021383", "d_cmine_6", -79, 184, -990, 20, "npc_ETC_20160323_021383")
+function npc_ETC_20160323_021383()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+

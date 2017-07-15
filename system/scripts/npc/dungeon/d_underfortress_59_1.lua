@@ -1,10 +1,24 @@
-addnpc(154007, "ETC_20150401_010522", "d_underfortress_59_1", 857.0598, 236.9152, 1107.961, -44, "npc_dummy")
-addnpc(154005, "ETC_20150401_010665", "d_underfortress_59_1", 834.3771, 236.9152, 1001.917, 216, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001963", "d_underfortress_59_1", -81.6588, 236.9152, -53.02641, 45, "npc_dummy")
-addnpc(47253, "ITEM_20150414_004706", "d_underfortress_59_1", -507.6955, 236.9152, -1407.308, -45, "npc_dummy")
-addnpc(47253, "ITEM_20150414_004706", "d_underfortress_59_1", -1061.69, 236.9152, -1422.807, -45, "npc_dummy")
-addnpc(47253, "ITEM_20150414_004706", "d_underfortress_59_1", -1057.27, 236.9152, -817.8938, -45, "npc_dummy")
-addnpc(47253, "ITEM_20150414_004706", "d_underfortress_59_1", -478.0948, 236.9152, -813.058, -45, "npc_dummy")
-addnpc(147362, "ETC_20150401_010678", "d_underfortress_59_1", -77.6767, 311.2216, -464.3758, 45, "npc_dummy")
-addnpc(147362, "ETC_20150401_010678", "d_underfortress_59_1", 623.4534, 182.2066, 410.3501, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_underfortress_59_1", 59, 236, -1362, 45, "npc_dummy")
+----- fd_Firetower_Offense ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154007, "ETC_20150401_010522", "d_underfortress_59_1", 857, 237, 1108, -44, "npc_ETC_20150401_010522")
+function npc_ETC_20150401_010522()
+msg("UNDERF591_TYPEB_OBJ")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001963", "d_underfortress_59_1", -82, 237, -53, 45, "npc_QUEST_20150428_001963")
+function npc_QUEST_20150428_001963()
+msg("ROKAS_MEMO01_NPC")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_underfortress_59_1", 59, 236, -1362, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

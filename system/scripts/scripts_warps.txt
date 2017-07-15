@@ -4,6 +4,8 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
+// Cities
+//---------------------------------------------------------------------------
 warps/city/c_fedimian.lua
 warps/city/c_firemage.lua
 warps/city/c_highlander.lua
@@ -13,6 +15,8 @@ warps/city/c_orsha.lua
 warps/city/c_request_1.lua
 warps/city/c_voodoo.lua
 
+// Dungeons
+//---------------------------------------------------------------------------
 warps/dungeon/d_abbey_35_3.lua
 warps/dungeon/d_abbey_35_4.lua
 warps/dungeon/d_abbey_39_4.lua
@@ -58,6 +62,7 @@ warps/dungeon/d_thorn_39_1.lua
 warps/dungeon/d_thorn_39_2.lua
 warps/dungeon/d_thorn_39_3.lua
 warps/dungeon/d_underfortress_30_1.lua
+warps/dungeon/d_underfortress_30_2.lua
 warps/dungeon/d_underfortress_30_3.lua
 warps/dungeon/d_underfortress_59_1.lua
 warps/dungeon/d_underfortress_59_2.lua
@@ -84,6 +89,8 @@ warps/dungeon/id_catacomb_38_2.lua
 warps/dungeon/p_catacomb_1.lua
 warps/dungeon/p_cathedral_1.lua
 
+// Fields
+//---------------------------------------------------------------------------
 warps/field/f_3cmlake_83.lua
 warps/field/f_3cmlake_84.lua
 warps/field/f_bracken_63_1.lua
@@ -122,6 +129,8 @@ warps/field/f_katyn_13.lua
 warps/field/f_katyn_13_2.lua
 warps/field/f_katyn_13_3.lua
 warps/field/f_katyn_14.lua
+warps/field/f_katyn_17.lua
+warps/field/f_katyn_18.lua
 warps/field/f_katyn_45_1.lua
 warps/field/f_katyn_45_2.lua
 warps/field/f_katyn_45_3.lua
@@ -135,8 +144,11 @@ warps/field/f_pilgrimroad_31_1.lua
 warps/field/f_pilgrimroad_31_2.lua
 warps/field/f_pilgrimroad_31_3.lua
 warps/field/f_pilgrimroad_36_2.lua
+warps/field/f_pilgrimroad_41_1.lua
+warps/field/f_pilgrimroad_41_2.lua
 warps/field/f_pilgrimroad_41_3.lua
 warps/field/f_pilgrimroad_41_4.lua
+warps/field/f_pilgrimroad_41_5.lua
 warps/field/f_pilgrimroad_46.lua
 warps/field/f_pilgrimroad_47.lua
 warps/field/f_pilgrimroad_48.lua
@@ -151,6 +163,7 @@ warps/field/f_remains_37_2.lua
 warps/field/f_remains_37_3.lua
 warps/field/f_remains_38.lua
 warps/field/f_remains_39.lua
+warps/field/f_remains_40.lua
 warps/field/f_rokas_24.lua
 warps/field/f_rokas_25.lua
 warps/field/f_rokas_26.lua
@@ -174,6 +187,7 @@ warps/field/f_siauliai_50_1.lua
 warps/field/f_siauliai_out.lua
 warps/field/f_siauliai_west.lua
 warps/field/f_tableland_11_1.lua
+warps/field/f_tableland_28_1.lua
 warps/field/f_tableland_28_2.lua
 warps/field/f_tableland_70.lua
 warps/field/f_tableland_71.lua

@@ -1,43 +1,123 @@
-addnpc(20011, "QUEST_LV_0100_20150317_000070", "d_thorn_23", -1578.7, 1137.75, -2850.12, 45, "npc_dummy")
-addnpc(20107, "QUEST_LV_0100_20150317_000075", "d_thorn_23", -1494, 965, -1093, 45, "npc_dummy")
-addnpc(20013, "QUEST_LV_0100_20150317_000083", "d_thorn_23", -1887.8, 798.14, 337.47, 45, "npc_dummy")
-addnpc(48004, "QUEST_LV_0100_20150317_000093", "d_thorn_23", 390, 459, 312, -50.78, "npc_dummy")
-addnpc(12081, "QUEST_LV_0100_20150317_000104", "d_thorn_23", 734, 515, -252, -50.78, "npc_dummy")
-addnpc(153036, "QUEST_20150317_000528", "d_thorn_23", 1345.73, 514.5, 164.33, -50.78, "npc_dummy")
-addnpc(153037, "QUEST_20150317_000528", "d_thorn_23", 1428.57, 515.6718, -118.9404, -50.78, "npc_dummy")
-addnpc(153038, "QUEST_20150317_000528", "d_thorn_23", 1030.352, 515.6605, 38.84108, -29, "npc_dummy")
-addnpc(20026, "ETC_20150317_009107", "d_thorn_23", 2517.447, 288.7384, 1577.391, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009108", "d_thorn_23", -1916.87, 1137.75, -2346.68, 45, "npc_dummy")
-addnpc(47170, "ETC_20150317_005406", "d_thorn_23", -833.408, 1070.326, -1295.349, -8, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1824, 1137, -2731, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1910, 1137, -2511, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1595, 1137, -2641, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1346, 965, -1098, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -2031.721, 872.5606, -436.151, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1870, 798, 253, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -846.9908, 575.8357, 204.8135, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -338, 575, 310, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -816, 777, -664, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -552, 664, -950, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 608, 516, 688, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 1305.675, 515.6718, 129.9646, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 1130.247, 515.6718, -143.0074, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 1821.69, 384.9307, 562.152, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 1795.686, 384.9307, 829.0664, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 2155, 384, 569, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 2415.202, 289.4842, 1948.078, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 2117, 289, 1754, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 2554, 310, 1444, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1619.78, 1025.518, -1437.083, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", -1921, 798, -167, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_23", 384, 459, 372, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009289", "d_thorn_23", -901.43, 777.28, -705.55, 45, "npc_dummy")
-addnpc(47223, "ITEM_20150317_002430", "d_thorn_23", -993, 600, 290, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", -2093.752, 1137.75, -2972.707, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", -1483.259, 1041.166, -1846.156, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", -1657.725, 1026.442, -1577.925, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", -569.866, 553.3329, 828.8657, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", 2262.275, 384.9307, 892.9347, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", 2646.512, 384.9307, 1030.487, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_23", 2408.298, 289.4841, 2111.454, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_thorn_23", -1369.76, 1041.88, -1847.77, 45, "npc_dummy")
+----- soldier1 ----- 
+----- npcselectdialog.ies | ClassName: THORN23_ALAN -----
+----- Dialog -----
+----- QuestIDs: THORN23_Q_4 | THORN23_Q_6 -----
+addnpc(20011, "QUEST_LV_0100_20150317_000070", "d_thorn_23", -1579, 1138, -2850, 45, "npc_QUEST_LV_0100_20150317_000070")
+function npc_QUEST_LV_0100_20150317_000070()
+msg("THORN23_Q_4_select1")
+msg("THORN23_Q_4_prog1")
+msg("THORN23_Q_4_prog_startnpc")
+msg("THORN23_Q_6_select1")
+msg("THORN23_Q_6_succ1_startnpc")
+msg("THORN23_Q_6_startnpc01")
+msg("THORN23_ALAN_basic1")
+end
+
+----- npc_intermediate_officer_men ----- 
+----- npcselectdialog.ies | ClassName: THORN23_WALLACE -----
+----- Dialog -----
+----- QuestIDs: THORN23_Q_6 | THORN23_Q_10 | THORN23_Q_12 -----
+addnpc(20107, "QUEST_LV_0100_20150317_000075", "d_thorn_23", -1494, 965, -1093, 45, "npc_QUEST_LV_0100_20150317_000075")
+function npc_QUEST_LV_0100_20150317_000075()
+msg("THORN23_Q_6_succ1")
+msg("THORN23_Q_10_select1")
+msg("THORN23_Q_10_prog1")
+msg("THORN23_Q_10_succ1")
+msg("THORN23_Q_10_Q")
+msg("THORN23_Q_12_select1")
+msg("THORN23_Q_12_prog1")
+msg("THORN23_Q_12_succ1")
+msg("THORN23_WALLACE_basic1")
+end
+
+----- soldier3 ----- 
+----- npcselectdialog.ies | ClassName: THORN23_WISE -----
+----- Dialog -----
+----- QuestIDs: THORN23_Q_11 | THORN23_Q_13 -----
+addnpc(20013, "QUEST_LV_0100_20150317_000083", "d_thorn_23", -1888, 798, 337, 45, "npc_QUEST_LV_0100_20150317_000083")
+function npc_QUEST_LV_0100_20150317_000083()
+msg("THORN23_Q_11_select1")
+msg("THORN23_Q_11_prog1")
+msg("THORN23_Q_11_succ1")
+msg("THORN23_Q_13_select1")
+msg("THORN23_Q_13_prog1_startnpc")
+msg("THORN23_WISE_basic1")
+end
+
+----- f_katyn_owl04 ----- 
+----- npcselectdialog.ies | ClassName: THORN23_OWL2 -----
+----- Dialog -----
+----- QuestIDs: THORN23_Q_15 | THORN23_Q_16 -----
+addnpc(48004, "QUEST_LV_0100_20150317_000093", "d_thorn_23", 390, 459, 312, -50.78, "npc_QUEST_LV_0100_20150317_000093")
+function npc_QUEST_LV_0100_20150317_000093()
+msg("THORN23_Q_15_select1")
+msg("THORN23_Q_15_prog1")
+msg("THORN23_Q_15_succ1")
+msg("THORN23_Q_15_succ2")
+msg("THORN23_Q_15_Q")
+msg("THORN23_Q_16_select1")
+msg("THORN23_Q_16_succ1")
+msg("THORN23_Q_16_prog")
+msg("THORN23_OWL2_basic1")
+msg("THORN23_OWL2_after1")
+end
+
+----- f_katyn_owl01 ----- 
+----- npcselectdialog.ies | ClassName: THORN23_OWL3 -----
+----- Dialog -----
+----- QuestIDs: THORN_TO_PILGRIM | THORN23_Q_17 -----
+addnpc(12081, "QUEST_LV_0100_20150317_000104", "d_thorn_23", 734, 515, -252, -50.78, "npc_QUEST_LV_0100_20150317_000104")
+function npc_QUEST_LV_0100_20150317_000104()
+msg("THORN23_Q_17_select1")
+msg("THORN23_Q_17_prog1")
+msg("THORN23_Q_17_succ1")
+msg("THORN23_Q_17_PG")
+msg("THORN23_Q_17_startnpc01")
+msg("THORN23_OWL3_basic1")
+msg("THORN23_OWL3_basic2")
+msg("THORN23_OWL3_after1")
+end
+
+----- f_katyn_owl02_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153036, "QUEST_20150317_000528", "d_thorn_23", 1346, 514, 164, -50.78, "npc_QUEST_20150317_000528")
+function npc_QUEST_20150317_000528()
+msg("THORN23_OWL4_basic01")
+end
+
+----- f_katyn_owl03_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153037, "QUEST_20150317_000528", "d_thorn_23", 1429, 516, -119, -50.78, "npc_QUEST_20150317_000528")
+function npc_QUEST_20150317_000528()
+msg("THORN23_OWL5_basic01")
+end
+
+----- f_katyn_owl04_Q ----- 
+----- npcselectdialog.ies | ClassName: THORN23_OWL6 -----
+----- Dialog -----
+addnpc(153038, "QUEST_20150317_000528", "d_thorn_23", 1030, 516, 39, -29, "npc_QUEST_20150317_000528")
+function npc_QUEST_20150317_000528()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- soldier_article_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN23_Q_7_TRIGGER -----
+----- Dialog -----
+----- QuestIDs: THORN23_Q_7 -----
+addnpc(47170, "ETC_20150317_005406", "d_thorn_23", -833, 1070, -1295, -8, "npc_ETC_20150317_005406")
+function npc_ETC_20150317_005406()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_thorn_23", -1370, 1042, -1848, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

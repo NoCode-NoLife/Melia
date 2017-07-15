@@ -1,50 +1,266 @@
-addnpc(154052, "ETC_20150730_014068", "f_pilgrimroad_31_3", -1219.034, 125.4098, -1658.298, 45, "npc_dummy")
-addnpc(154051, "ETC_20150730_014069", "f_pilgrimroad_31_3", -1162.229, 125.4098, -1679.45, 210, "npc_dummy")
-addnpc(154053, "ETC_20150918_014657", "f_pilgrimroad_31_3", -510.813, 0.1919056, -723.6839, -28, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", -1172.542, 125.4098, -1632.803, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", -1905.556, 125.4037, -1351.115, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_pilgrimroad_31_3", 1157.577, 125.4099, -1859.924, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1338.994, 76.8299, 218.8428, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1180.588, 76.8299, 298.7547, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1063.248, 76.8299, 241.7596, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1089.685, 76.82986, 49.55639, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -796.0609, 76.8299, 315.1916, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -965.3242, 76.8299, 417.2271, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1183.861, 76.8299, 480.8024, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1341.024, 76.8299, 54.23736, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -1250.606, 76.8299, -109.6851, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -979.6777, 76.8299, -120.3156, 45, "npc_dummy")
-addnpc(47200, "ITEM_20151224_009635", "f_pilgrimroad_31_3", -878.1812, 76.8299, 67.26134, 45, "npc_dummy")
-addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -327.9518, 0.1919022, -153.9145, -46, "npc_dummy")
-addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -676.7111, 0.1919022, -673.4496, -45, "npc_dummy")
-addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -508.768, 0.1919022, -551.1644, -45, "npc_dummy")
-addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -250.094, 0.1919022, -1025.209, -45, "npc_dummy")
-addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -569.4597, 0.1919022, -959.2424, -45, "npc_dummy")
-addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", 175.1086, -0.1045581, -409.8204, -45, "npc_dummy")
-addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -415.4748, 0.1919022, -209.3129, -46, "npc_dummy")
-addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -178.1758, 0.1919022, -246.4814, -46, "npc_dummy")
-addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", 9.974227, -0.03061613, -320.5718, -46, "npc_dummy")
-addnpc(47103, "ETC_20151001_015262", "f_pilgrimroad_31_3", -518, 0.1919039, -775, 45, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 348.2509, 67.52627, 61.43534, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 566.1998, 67.27021, 164.3489, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 700.8905, 67.7219, 287.2247, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 899.9137, 67.91, 187.1875, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 887.8884, 67.91, -37.25787, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 862.2588, 67.9298, -161.0443, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 807.0926, 67.93884, -194.6757, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 688.9207, 67.92912, -118.5846, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 595.2997, 67.9466, -237.6697, 1, "npc_dummy")
-addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 423.6895, 67.88403, -203.3851, 1, "npc_dummy")
-addnpc(154054, "ETC_20151001_014729", "f_pilgrimroad_31_3", -547.7395, 0.1919022, -674.2609, 0, "npc_dummy")
-addnpc(154055, "ETC_20151001_014729", "f_pilgrimroad_31_3", -508.131, 0.1919022, -664.2959, -41, "npc_dummy")
-addnpc(154056, "ETC_20151001_014729", "f_pilgrimroad_31_3", -448.5083, 0.1919069, -703.1273, -87, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_pilgrimroad_31_3", -1138.227, 125.4098, -1534.654, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", -866.6802, 125.4098, -1624.786, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", -478.0293, 0.1919031, -706.5444, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", -1117.385, 76.8299, 330.4243, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", -49.32026, 125.4033, -1640.097, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", 974.1778, 125.4099, -1552.298, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", 783.9606, 67.88179, 44.03207, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", 1458.015, 105.4283, 373.5287, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_pilgrimroad_31_3", 1127.537, 185.8888, 1128.018, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_31_3", -545.98, 125.48, -1684.74, 180, "npc_dummy")
+----- npc_Erikais ----- 
+----- npcselectdialog.ies | ClassName: PILGRIM313_ERIKAS -----
+----- Dialog -----
+----- QuestIDs: PILGRIM313_SQ_01 -----
+addnpc(154052, "ETC_20150730_014068", "f_pilgrimroad_31_3", -1219, 125, -1658, 45, "npc_ETC_20150730_014068")
+function npc_ETC_20150730_014068()
+msg("PILGRIM313_ERIKAS_basic_02")
+msg("PILGRIM313_SQ_01_02_02")
+msg("PILGRIM313_ERIKAS_basic_01")
+msg("PILGRIM313_SQ_01_03")
+msg("PILGRIM313_SQ_07_05")
+end
+
+----- npc_williya ----- 
+----- npcselectdialog.ies | ClassName: PILGRIM313_WILLIYA -----
+----- Dialog -----
+----- QuestIDs: PILGRIM313_SQ_01 | PILGRIM313_SQ_02 | PILGRIM313_SQ_07 | PILGRIM31_3_HQ1 -----
+addnpc(154051, "ETC_20150730_014069", "f_pilgrimroad_31_3", -1162, 125, -1679, 210, "npc_ETC_20150730_014069")
+function npc_ETC_20150730_014069()
+msg("PILGRIM313_WILLIYA_basic2")
+msg("PILGRIM313_WILLIYA_basic3")
+msg("PILGRIM313_WILLIYA_basic4")
+msg("PILGRIM313_WILLIYA_basic5")
+msg("PILGRIM313_WILLIYA_DLG1")
+msg("PILGRIM313_WILLIYA_DLG2")
+msg("PILGRIM31_3_HQ1_start1")
+msg("PILGRIM31_3_HQ1_agree1")
+msg("PILGRIM313_SQ_01_01")
+msg("PILGRIM313_SQ_01_01_01")
+msg("PILGRIM313_SQ_01_02")
+msg("PILGRIM313_SQ_01_04")
+msg("PILGRIM313_SQ_02_01")
+msg("PILGRIM313_SQ_02_02")
+msg("PILGRIM313_WILLIYA_basic1")
+msg("PILGRIM313_SQ_07_03")
+end
+
+----- npc_Galius ----- 
+----- npcselectdialog.ies | ClassName: PILGRIM313_GALIUS -----
+----- Dialog -----
+----- QuestIDs: PILGRIM313_SQ_02 | PILGRIM313_SQ_03 | PILGRIM313_SQ_04 | PILGRIM313_SQ_05 | PILGRIM313_SQ_06 | PILGRIM313_SQ_07 -----
+addnpc(154053, "ETC_20150918_014657", "f_pilgrimroad_31_3", -511, 0, -724, -28, "npc_ETC_20150918_014657")
+function npc_ETC_20150918_014657()
+msg("PILGRIM313_SQ_02_03")
+msg("PILGRIM313_SQ_03_01")
+msg("PILGRIM313_SQ_03_01_01")
+msg("PILGRIM313_SQ_03_04")
+msg("PILGRIM313_GALIUS_basic1")
+msg("PILGRIM313_SQ_03_02")
+msg("PILGRIM313_SQ_03_03")
+msg("PILGRIM313_SQ_04_01")
+msg("PILGRIM313_SQ_04_02")
+msg("PILGRIM313_SQ_04_03")
+msg("PILGRIM313_SQ_05_01")
+msg("PILGRIM313_SQ_05_02")
+msg("PILGRIM313_SQ_05_03")
+msg("PILGRIM313_SQ_06_01")
+msg("PILGRIM313_SQ_06_03")
+msg("PILGRIM313_SQ_07_01")
+end
+
+----- npc_zachariel_head_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -328, 0, -154, -46, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_pilgrim_tomb ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -677, 0, -673, -45, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_pilgrim_tomb ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -509, 0, -551, -45, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_pilgrim_tomb ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -250, 0, -1025, -45, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_pilgrim_tomb ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -569, 0, -959, -45, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_pilgrim_tomb ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(152009, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", 175, 0, -410, -45, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_zachariel_head_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -415, 0, -209, -46, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_zachariel_head_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", -178, 0, -246, -46, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_zachariel_head_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47251, "QUEST_LV_0100_20150317_001331", "f_pilgrimroad_31_3", 10, 0, -321, -46, "npc_QUEST_LV_0100_20150317_001331")
+function npc_QUEST_LV_0100_20150317_001331()
+msg("PILGRIM313_SQ_02_NPC")
+end
+
+----- npc_rokas_3 ----- 
+----- npcselectdialog.ies | ClassName: PILGRIM313_SQ_06_NPC -----
+----- Dialog -----
+----- QuestIDs: PILGRIM313_SQ_06 -----
+addnpc(47103, "ETC_20151001_015262", "f_pilgrimroad_31_3", -518, 0, -775, 45, "npc_ETC_20151001_015262")
+function npc_ETC_20151001_015262()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 348, 68, 61, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 566, 67, 164, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 701, 68, 287, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 900, 68, 187, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 888, 68, -37, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 862, 68, -161, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 807, 68, -195, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 689, 68, -119, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 595, 68, -238, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- Stone03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(10045, "ETC_20151001_015263", "f_pilgrimroad_31_3", 424, 68, -203, 1, "npc_ETC_20151001_015263")
+function npc_ETC_20151001_015263()
+msg("PILGRIM313_SQ_04_NPC")
+end
+
+----- npc_Galius_follower_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154054, "ETC_20151001_014729", "f_pilgrimroad_31_3", -548, 0, -674, 0, "npc_ETC_20151001_014729")
+function npc_ETC_20151001_014729()
+msg("PILGRIM313_SQ_04_01")
+end
+
+----- npc_Galius_follower_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154055, "ETC_20151001_014729", "f_pilgrimroad_31_3", -508, 0, -664, -41, "npc_ETC_20151001_014729")
+function npc_ETC_20151001_014729()
+msg("PILGRIM313_SQ_04_02")
+end
+
+----- npc_Galius_follower_3 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154056, "ETC_20151001_014729", "f_pilgrimroad_31_3", -449, 0, -703, -87, "npc_ETC_20151001_014729")
+function npc_ETC_20151001_014729()
+msg("PILGRIM313_SQ_04_03")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_pilgrimroad_31_3", -1138, 125, -1535, -45, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_PILGRIMROAD_31_3")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_31_3", -546, 125, -1685, 180, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
