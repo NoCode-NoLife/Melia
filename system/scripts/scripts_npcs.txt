@@ -23,6 +23,7 @@ npc/city/c_voodoo.lua
 npc/dungeon/d_abbey_35_3.lua
 npc/dungeon/d_abbey_35_4.lua
 npc/dungeon/d_abbey_39_4.lua
+npc/dungeon/d_abbey_41_6.lua
 npc/dungeon/d_abbey_64_1.lua
 npc/dungeon/d_abbey_64_2.lua
 npc/dungeon/d_abbey_64_3.lua
@@ -52,7 +53,10 @@ npc/dungeon/d_prison_62_1.lua
 npc/dungeon/d_prison_62_2.lua
 npc/dungeon/d_prison_62_3.lua
 npc/dungeon/d_prison_78.lua
+npc/dungeon/d_prison_79.lua
+npc/dungeon/d_prison_80.lua
 npc/dungeon/d_prison_81.lua
+npc/dungeon/d_prison_82.lua
 npc/dungeon/d_startower_60_1.lua
 npc/dungeon/d_thorn_19.lua
 npc/dungeon/d_thorn_20.lua
@@ -148,8 +152,11 @@ npc/field/f_pilgrimroad_31_1.lua
 npc/field/f_pilgrimroad_31_2.lua
 npc/field/f_pilgrimroad_31_3.lua
 npc/field/f_pilgrimroad_36_2.lua
+npc/field/f_pilgrimroad_41_1.lua
+npc/field/f_pilgrimroad_41_2.lua
 npc/field/f_pilgrimroad_41_3.lua
 npc/field/f_pilgrimroad_41_4.lua
+npc/field/f_pilgrimroad_41_5.lua
 npc/field/f_pilgrimroad_46.lua
 npc/field/f_pilgrimroad_47.lua
 npc/field/f_pilgrimroad_48.lua
@@ -188,9 +195,12 @@ npc/field/f_siauliai_50_1.lua
 npc/field/f_siauliai_out.lua
 npc/field/f_siauliai_west.lua
 npc/field/f_tableland_11_1.lua
+npc/field/f_tableland_28_1.lua
 npc/field/f_tableland_28_2.lua
+npc/field/f_tableland_70.lua
 npc/field/f_tableland_71.lua
 npc/field/f_tableland_72.lua
 npc/field/f_tableland_73.lua
+npc/field/f_tableland_74.lua
 
 include "/user/scripts/scripts_npcs.txt"

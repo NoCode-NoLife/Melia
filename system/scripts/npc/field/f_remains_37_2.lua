@@ -1,8 +1,32 @@
-addnpc(147469, "ETC_20150714_013171", "f_remains_37_2", -1777.89, -39.58, 66.47, 45, "npc_dummy")
-addnpc(147469, "ETC_20150714_013172", "f_remains_37_2", -1641.72, -39.58, 365.78, 45, "npc_dummy")
-addnpc(147469, "ETC_20150714_013173", "f_remains_37_2", -1332.29, -39.58, -31.04, 45, "npc_dummy")
-addnpc(20026, "ETC_20150714_013174", "f_remains_37_2", -1521.22, -39.58, 64.42, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_remains_37_2", -1517.24, -39.58, 142.74, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_remains_37_2", 1836.616, -92.30966, -425.5205, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_remains_37_2", -761.6555, 98.89569, 1600.826, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_remains_37_2", -426.58, 2.6, 394.91, -90, "npc_dummy")
+----- noshadow_npc ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147469, "ETC_20150714_013171", "f_remains_37_2", -1778, -40, 66, 45, "npc_ETC_20150714_013171")
+function npc_ETC_20150714_013171()
+msg("REMAINS37_2_TREE1")
+end
+
+----- noshadow_npc ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147469, "ETC_20150714_013172", "f_remains_37_2", -1642, -40, 366, 45, "npc_ETC_20150714_013172")
+function npc_ETC_20150714_013172()
+msg("REMAINS37_2_TREE2")
+end
+
+----- noshadow_npc ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147469, "ETC_20150714_013173", "f_remains_37_2", -1332, -40, -31, 45, "npc_ETC_20150714_013173")
+function npc_ETC_20150714_013173()
+msg("REMAINS37_2_TREE3")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_remains_37_2", -427, 3, 395, -90, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

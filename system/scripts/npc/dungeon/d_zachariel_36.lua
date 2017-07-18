@@ -1,88 +1,158 @@
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2596, 332, -4677, 18, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2412, 334, -2689, 18, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2468, 363, -1043, 18, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2498, 334, -2577, 45, "npc_dummy")
-addnpc(400861, "ETC_20150317_000164", "d_zachariel_36", -2669.965, 332.0863, -2596.03, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2448, 334, -2669, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2495, 326, -3600, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2284, 327, -3354, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2310, 326, -3653, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2470, 326, -3975, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2611, 326, -3854, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2694, 326, -3530, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2620, 326, -3374, 45, "npc_dummy")
-addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2653, 326, -3745, 45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009314", "d_zachariel_36", -2503, 334, -2600, 45, "npc_dummy")
-addnpc(147467, "QUEST_LV_0100_20150317_002929", "d_zachariel_36", -2491, 363, -1092, -41, "npc_dummy")
-addnpc(147467, "QUEST_LV_0100_20150317_000040", "d_zachariel_36", -2600.238, 329.4753, -5617.058, 11, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2504.709, 322.4308, -5413.427, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_zachariel_36", -2509.775, 329.4753, -5506.343, -20, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -3548.771, 319.0978, -2598.056, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2483.231, 326.011, -3645.55, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2744.193, 326.011, -4492.24, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2655.85, 329.4753, -5529.755, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -1584.242, 334.1394, -2551.189, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2609.776, 363.5677, -1073.047, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "d_zachariel_36", -2755.5, 334.1394, -2496.748, 45, "npc_dummy")
-addnpc(47260, "QUEST_LV_0100_20150317_002107", "d_zachariel_36", -2509, 326, -4762, -44, "npc_dummy")
-addnpc(47260, "QUEST_LV_0100_20150317_002109", "d_zachariel_36", -2509, 326, -3858, -42, "npc_dummy")
-addnpc(47260, "QUEST_LV_0100_20150317_002109", "d_zachariel_36", -2511, 334, -2872, -46, "npc_dummy")
-addnpc(147469, "ETC_20150317_005172", "d_zachariel_36", -2656.429, 453.2031, 490.9758, 45, "npc_dummy")
-addnpc(147363, "ETC_20150729_014021", "d_zachariel_36", -2500.173, 327.4222, -5785.073, 45, "npc_dummy")
-addnpc(153024, "ETC_20150428_011583", "d_zachariel_36", -3018.78, 448.93, 493.32, -45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2593.782, 327.4222, -5535.954, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2535.314, 327.4222, -5683.937, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2493.443, 327.4222, -5573.212, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2413.177, 327.4222, -5478.003, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2521.493, 296.6627, -5296.32, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2588.419, 332.0863, -2733.012, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2614.373, 332.0863, -2511.272, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2390.667, 332.0863, -2462.689, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2408.651, 332.0863, -2752.683, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2714.948, 332.0863, -2611.869, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2218.605, 332.0863, -2606.366, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2645.919, 332.0863, -2857.804, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2490.747, 332.0863, -2347.67, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2514.907, 323.9579, -2999.807, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2064.607, 332.0863, -2578.213, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2947.507, 332.0863, -2578.687, 45, "npc_dummy")
-addnpc(400821, "ETC_20150317_000159", "d_zachariel_36", -2491.978, 325.4199, -2191.51, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2693.695, 323.9579, -4590.146, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2510.967, 323.9579, -4346.984, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2354.368, 323.9579, -4544.877, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2493.097, 323.9579, -4544.013, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2535.522, 323.9579, -4726.055, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2551.224, 323.9579, -3721.257, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2571.316, 323.9579, -3518.628, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2419.295, 323.9579, -3530.86, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2616.836, 323.9579, -3597.59, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2496.477, 323.9579, -3387.381, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2566.792, 332.0863, -2709.599, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2550.479, 332.0863, -2496.339, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2897.956, 332.0863, -2589.39, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2514.921, 323.9579, -3053.323, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2526.973, 323.9579, -3138.661, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2473.958, 325.4199, -2154.853, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2513.41, 325.4199, -1799.932, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2136.705, 332.0863, -2587.069, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -1809.468, 332.0863, -2542.312, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -1640.496, 332.0863, -2572.594, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -1697.623, 332.0863, -2678.707, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -3354.079, 324.9126, -2707.069, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -3515.039, 295.4259, -2663.532, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -3464.315, 317.8652, -2482.074, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -3503.153, 295.4259, -2554.629, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2365.348, 332.0863, -2532.416, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2532.969, 361.5146, -1293.729, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2625.794, 361.5146, -1086.56, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2485.786, 361.5146, -886.6449, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2240.501, 361.5146, -1118.435, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2373.936, 361.5146, -1240.617, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2803.35, 361.5146, -1239.985, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2730.813, 361.5146, -1000.723, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2146.996, 361.5146, -1324.176, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2146.733, 361.5146, -980.8198, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2499.799, 368.3015, -208.0873, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -2500.977, 368.3015, -484.0982, 45, "npc_dummy")
-addnpc(400801, "ETC_20150317_000157", "d_zachariel_36", -3068.388, 332.0863, -2585.336, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_zachariel_36", -2772.17, 324.06, -4747.02, 45, "npc_dummy")
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2495, 326, -3600, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2284, 327, -3354, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2310, 326, -3653, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2470, 326, -3975, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2611, 326, -3854, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2694, 326, -3530, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2620, 326, -3374, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- npc_zachariel_cube_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47261, "ETC_20150317_009313", "d_zachariel_36", -2653, 326, -3745, 45, "npc_ETC_20150317_009313")
+function npc_ETC_20150317_009313()
+msg("ZACHA5F_MQ_02_01")
+end
+
+----- zachariel_guardian_2 ----- 
+----- npcselectdialog.ies | ClassName: ZACHA5F_MQ_04 -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_MQ_04 | ZACHA_TO_FEDIMIAN -----
+addnpc(147467, "QUEST_LV_0100_20150317_002929", "d_zachariel_36", -2491, 363, -1092, -41, "npc_QUEST_LV_0100_20150317_002929")
+function npc_QUEST_LV_0100_20150317_002929()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- zachariel_guardian_2 ----- 
+----- npcselectdialog.ies | ClassName: ZACHARIEL_GUARDIAN -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_MQ_01 | ZACHA5F_MQ_02 | ZACHA5F_MQ_03 -----
+addnpc(147467, "QUEST_LV_0100_20150317_000040", "d_zachariel_36", -2600, 329, -5617, 11, "npc_QUEST_LV_0100_20150317_000040")
+function npc_QUEST_LV_0100_20150317_000040()
+msg("ZACHA5F_MQ_01_03")
+msg("ZACHA5F_MQ_01_01")
+msg("ZACHA5F_MQ_01_02")
+msg("ZACHA5F_MQ_02_01")
+msg("ZACHA5F_MQ_02_02")
+msg("ZACHA5F_MQ_02_03")
+msg("ZACHA5F_MQ_03_01")
+msg("ZACHA5F_MQ_03_02")
+msg("ZACHARIEL_GUARDIAN_basic01")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "d_zachariel_36", -2510, 329, -5506, -20, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_D_ZACHARIEL_36")
+end
+
+----- zachariel_guardian ----- 
+----- npcselectdialog.ies | ClassName: ZACHA5F_EQ_01 -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_EQ_01 -----
+addnpc(47260, "QUEST_LV_0100_20150317_002107", "d_zachariel_36", -2509, 326, -4762, -44, "npc_QUEST_LV_0100_20150317_002107")
+function npc_QUEST_LV_0100_20150317_002107()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- zachariel_guardian ----- 
+----- npcselectdialog.ies | ClassName: ZACHA5F_EQ_02 -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_EQ_02 -----
+addnpc(47260, "QUEST_LV_0100_20150317_002109", "d_zachariel_36", -2509, 326, -3858, -42, "npc_QUEST_LV_0100_20150317_002109")
+function npc_QUEST_LV_0100_20150317_002109()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- zachariel_guardian ----- 
+----- npcselectdialog.ies | ClassName: ZACHA5F_EQ_05 -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_EQ_05 -----
+addnpc(47260, "QUEST_LV_0100_20150317_002109", "d_zachariel_36", -2511, 334, -2872, -46, "npc_QUEST_LV_0100_20150317_002109")
+function npc_QUEST_LV_0100_20150317_002109()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- noshadow_npc ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147469, "ETC_20150317_005172", "d_zachariel_36", -2656, 453, 491, 45, "npc_ETC_20150317_005172")
+function npc_ETC_20150317_005172()
+msg("ZACHARIEL36_ROKAS31")
+end
+
+----- npc_coffin ----- 
+----- npcselectdialog.ies | ClassName: ZACHA5F_MQ_05 -----
+----- Dialog -----
+----- QuestIDs: ZACHA5F_MQ_05 -----
+addnpc(153024, "ETC_20150428_011583", "d_zachariel_36", -3019, 449, 493, -45, "npc_ETC_20150428_011583")
+function npc_ETC_20150428_011583()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_zachariel_36", -2772, 324, -4747, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

@@ -1,79 +1,157 @@
-addnpc(47121, "ETC_20150317_009275", "d_thorn_19", 108, 674, 311, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009276", "d_thorn_19", -861, 765, -2339, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 7, 623, -3309, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -156, 623, -3328, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -140, 623, -3163, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 704, 515, -3313, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 834, 515, -3272, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -973.5, 525.39, -3090.4, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -917.73, 525.39, -3343.49, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -173, 660, -2241, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -278, 660, -2072, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -341, 660, -2387, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -168, 660, -2111, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -1065, 776, -2404, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -1208, 776, -2424, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 282, 736, -1342, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 191, 736, -1184, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 35, 736, -1170, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 9, 736, -1301, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 139, 736, -1010, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -580, 650, -757, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -820, 611, -1313, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -720, 611, -1461, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -778, 650, -721, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 339, 625, -23, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 277, 674, 309, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -44, 674, 255, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", -615, 759, 221, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 120, 612, 1111, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1011, 606, 948, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1226, 606, 899, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 749, 604, 2334, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 671, 602, 2660, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 557, 602, 2830, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 851, 602, 2439, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1716, 504, 2622, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1974, 463, 1722, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2128, 461, 1677, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2085, 467, 1514, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2040, 507, 751, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2226, 506, 648, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1979.8, 623.77, -669.72, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2436.71, 622.82, -521.63, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 2014, 465, 1607, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 1549, 504, 2568, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 502, 602, 2576, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_19", 209, 612, 868, 45, "npc_dummy")
-addnpc(147398, "QUEST_LV_0100_20150317_001980", "d_thorn_19", -174.67, 642.57, -2745.45, -13, "npc_dummy")
-addnpc(47160, "ETC_20150317_005383", "d_thorn_19", -733.09, 758.71, 285.37, -52, "npc_dummy")
-addnpc(20026, "ETC_20150317_000366", "d_thorn_19", 166.89, 593.86, 1603.78, 45, "npc_dummy")
-addnpc(47088, "ETC_20150317_005382", "d_thorn_19", 102.9, 669.58, -1817.39, -45, "npc_dummy")
-addnpc(47090, "ETC_20150317_005382", "d_thorn_19", 189.14, 607.22, 1387.8, -24, "npc_dummy")
-addnpc(47087, "ETC_20150317_005382", "d_thorn_19", 2122.89, 502.93, 955.78, -27, "npc_dummy")
-addnpc(46213, "ETC_20150317_005258", "d_thorn_19", 2040, 461, 1670, -52, "npc_dummy")
-addnpc(20025, "ETC_20150317_009093", "d_thorn_19", 464.79, 602.41, 2466.54, 45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009093", "d_thorn_19", 770.84, 603.49, 2572.05, 45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009093", "d_thorn_19", 359.2, 602.41, 2768.04, 45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009093", "d_thorn_19", 801.03, 603.25, 2390.66, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009094", "d_thorn_19", 2028.76, 459.94, 1707.02, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009094", "d_thorn_19", 113.73, 671.51, 318.21, 45, "npc_dummy")
-addnpc(20046, "ETC_20150317_009095", "d_thorn_19", 46.82, 668.96, -1826.42, 45, "npc_dummy")
-addnpc(20046, "ETC_20150317_009096", "d_thorn_19", 140.42, 604.72, 1377.6, 45, "npc_dummy")
-addnpc(20046, "ETC_20150317_009097", "d_thorn_19", 2064.86, 502.52, 951.96, 45, "npc_dummy")
-addnpc(20046, "ETC_20150317_009098", "d_thorn_19", 156.17, 682.56, -1774.43, 45, "npc_dummy")
-addnpc(20046, "ETC_20150317_009099", "d_thorn_19", 236.66, 608.35, 1410.69, -46, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_thorn_19", 105.68, 666.81, -1847.38, 45, "npc_dummy")
-addnpc(20026, "ETC_20150317_009277", "d_thorn_19", 151.47, 726.62, -1553.16, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_thorn_19", -206.46, 622.52, -3759.09, -10, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "d_thorn_19", -1161.3, 525.39, -3226.94, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "d_thorn_19", -147.37, 646.21, -2739.64, 45, "npc_dummy")
-addnpc(147397, "QUEST_LV_0100_20150317_001637", "d_thorn_19", 163.91, 698.87, -631.96, 45, "npc_dummy")
-addnpc(147389, "QUEST_LV_0100_20150317_001666", "d_thorn_19", 637.37, 597.08, 1949.51, 45, "npc_dummy")
-addnpc(147389, "QUEST_LV_0100_20150317_001668", "d_thorn_19", 2311.37, 502.9, 535.67, -37, "npc_dummy")
-addnpc(20026, "ETC_20150317_009278", "d_thorn_19", 1339.91, 523.68, 2478.56, -39, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_thorn_19", 1761.78, 458.62, 1590.11, 135, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_thorn_19", 2041.999, 623.0006, -999.2534, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_thorn_19", 249.0103, 608.9124, 3077.87, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_thorn_19", -226.7293, 622.5322, -3937.319, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_thorn_19", 627, 600, 1910, -45, "npc_dummy")
+----- magicsquare_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_HOLY01 -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ08 -----
+addnpc(47121, "ETC_20150317_009275", "d_thorn_19", 108, 674, 311, 45, "npc_ETC_20150317_009275")
+function npc_ETC_20150317_009275()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_saule_male_2 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_BELIEVER -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ02 | THORN19_MQ03 | THORN19_MQ04 -----
+addnpc(147398, "QUEST_LV_0100_20150317_001980", "d_thorn_19", -175, 643, -2745, -13, "npc_QUEST_LV_0100_20150317_001980")
+function npc_QUEST_LV_0100_20150317_001980()
+msg("thorn19_MQ02_select")
+msg("thorn19_MQ02_select_startnpc")
+msg("THORN19_MQ02_startnpc_prog")
+msg("THORN19_MQ02_succ")
+msg("thorn19_MQ02_add")
+msg("THORN19_MQ03_select01")
+msg("THORN19_MQ03_startnpc_prog")
+msg("THORN19_MQ03_succ")
+msg("THORN19_MQ04_select01")
+msg("THORN19_MQ04_startnpc_prog01")
+msg("THORN19_BELIEVER_basic01")
+msg("THORN19_BELIEVER_basic02")
+msg("THORN19_BELIEVER_basic03")
+end
+
+----- pedlar_lose_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_CHAFER_LURE -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ06 -----
+addnpc(47160, "ETC_20150317_005383", "d_thorn_19", -733, 759, 285, -52, "npc_ETC_20150317_005383")
+function npc_ETC_20150317_005383()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- thorn_gateway_2_2 ----- 
+----- Enter -----
+addnpc(47088, "ETC_20150317_005382", "d_thorn_19", 103, 670, -1817, -45, "npc_ETC_20150317_005382")
+function npc_ETC_20150317_005382()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- thorn_gateway_4_2 ----- 
+----- Enter -----
+----- QuestIDs: THORN19_MQ09 -----
+addnpc(47090, "ETC_20150317_005382", "d_thorn_19", 189, 607, 1388, -24, "npc_ETC_20150317_005382")
+function npc_ETC_20150317_005382()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- thorn_gateway_1_2 ----- 
+----- Enter -----
+----- QuestIDs: THORN19_MQ14 -----
+addnpc(47087, "ETC_20150317_005382", "d_thorn_19", 2123, 503, 956, -27, "npc_ETC_20150317_005382")
+function npc_ETC_20150317_005382()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Altar1 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_REFINE -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ13 -----
+addnpc(46213, "ETC_20150317_005258", "d_thorn_19", 2040, 461, 1670, -52, "npc_ETC_20150317_005258")
+function npc_ETC_20150317_005258()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "d_thorn_19", -206, 623, -3759, -10, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_D_THORN_19")
+end
+
+----- npc_saule_female_2 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_BELIEVER02 -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ05 | THORN19_MQ07 | THORN19_MQ08 | THORN19_MQ06 | THORN19_MQ09 -----
+addnpc(147397, "QUEST_LV_0100_20150317_001637", "d_thorn_19", 164, 699, -632, 45, "npc_QUEST_LV_0100_20150317_001637")
+function npc_QUEST_LV_0100_20150317_001637()
+msg("THORN19_MQ05_select01")
+msg("THORN19_MQ05_startnpc01")
+msg("THORN19_MQ05_startnpc_prog01")
+msg("THORN19_MQ05_succ")
+msg("THORN19_MQ07_select01")
+msg("THORN19_MQ07_startnpc_prog01")
+msg("THORN19_MQ07_succ01")
+msg("THORN19_MQ08_select01")
+msg("THORN19_MQ08_startnpc_prog01")
+msg("THORN19_MQ08_succ")
+msg("THORN19_MQ09_select01")
+msg("THORN19_MQ09_startnpc_prog")
+msg("THORN19_MQ08_add")
+msg("THORN19_BELIEVER02_basic02")
+msg("THORN19_MQ05_add")
+msg("THORN19_MQ06_select01")
+msg("THORN19_MQ06_startnpc_prog01")
+msg("THORN19_MQ06_succ")
+msg("THORN19_BELIEVER02_basic01")
+end
+
+----- npc_saule_male_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN19_BELIEVER03 -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ11 | THORN19_MQ12 -----
+addnpc(147389, "QUEST_LV_0100_20150317_001666", "d_thorn_19", 637, 597, 1950, 45, "npc_QUEST_LV_0100_20150317_001666")
+function npc_QUEST_LV_0100_20150317_001666()
+msg("THORN19_BELIEVER03_basic02")
+msg("THORN19_MQ11_select01")
+msg("THORN19_MQ11_startnpc01")
+msg("THORN19_MQ11_startnpc_prog01")
+msg("THORN19_MQ11_add")
+msg("THORN19_BELIEVER03_basic01")
+end
+
+----- npc_saule_male_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN_BLACKMAN_TRIGGER2 -----
+----- Dialog -----
+----- QuestIDs: THORN19_MQ14_2 -----
+addnpc(147389, "QUEST_LV_0100_20150317_001668", "d_thorn_19", 2311, 503, 536, -37, "npc_QUEST_LV_0100_20150317_001668")
+function npc_QUEST_LV_0100_20150317_001668()
+msg("THORN_BLACKMAN_TRIGGER2_basic02")
+msg("THORN19_MQ14_2_select01")
+msg("THORN19_MQ14_2_PG")
+msg("THORN_BLACKMAN_TRIGGER2_basic")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_thorn_19", 1762, 459, 1590, 135, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_thorn_19", 627, 600, 1910, -45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

@@ -1,178 +1,516 @@
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1110, 130, 26, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -825, 130, 63, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -873, 130, 284, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -907, 130, 927, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1002, 130, 842, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -899, 130, 691, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1832, 130, 736, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1891, 130, 1003, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2162, 130, 894, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2298, 130, 1140, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -284, 130, 824, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 514, 130, 318, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 445, 162, 1075, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 275, 162, 1086, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -90, 130, -284, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -154, 130, 77, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -96, 130, -821, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 231, 130, -569, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 2030, 185, -428, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 2054, 185, 150, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 181.5526, 130.0227, -673.934, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", -37.89517, 130.0227, -764.7075, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", -137, 130, -871, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 268.0882, 130.0227, -524.2529, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 143.5689, 130.0227, -573.7747, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", -203, 130, -636, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", -131.708, 130.0227, -378.4511, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 618, 130, -921, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 654, 130, -833, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 854, 130, -798, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 831, 130, -882, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1446, 185, 952, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1939, 185, 174, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1847, 185, 294, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 2030.63, 185.0949, 369.7955, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1720, 185, 1033, -45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 2206, 185, 1118, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_007598", "f_siauliai_2", 164, 130, 440, -45, "npc_dummy")
-addnpc(20125, "QUEST_LV_0100_20150317_000310", "f_siauliai_2", 167, 151, 697, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_007625", "f_siauliai_2", 206, 130, 428, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_007600", "f_siauliai_2", 487.258, 130.0227, -309.2897, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_007600", "f_siauliai_2", 515.2833, 130.0227, -528.2397, -45, "npc_dummy")
-addnpc(20013, "QUEST_20150317_000119", "f_siauliai_2", 357, 130, 593, -45, "npc_dummy")
-addnpc(20015, "QUEST_20150317_000119", "f_siauliai_2", 210, 130, 260, -45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000345", "f_siauliai_2", 615, 130, -196, -45, "npc_dummy")
-addnpc(20011, "QUEST_LV_0100_20150317_000345", "f_siauliai_2", 741, 130, 411, -45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000260", "f_siauliai_2", 660.7096, 130.0227, -453.2739, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009490", "f_siauliai_2", 462, 130, -882, -45, "npc_dummy")
-addnpc(20041, "QUEST_LV_0100_20150317_002426", "f_siauliai_2", -2124, 130, 1122, -45, "npc_dummy")
-addnpc(20041, "QUEST_LV_0100_20150317_002430", "f_siauliai_2", 1165.004, 138.7939, 218.1753, -45, "npc_dummy")
-addnpc(10032, "QUEST_LV_0100_20150317_000352", "f_siauliai_2", 1242, 130, 339, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009491", "f_siauliai_2", 1886.658, 185.0949, -476.8274, -45, "npc_dummy")
-addnpc(10032, "QUEST_LV_0100_20150317_000316", "f_siauliai_2", 205, 151, 667, -45, "npc_dummy")
-addnpc(10032, "QUEST_LV_0100_20150317_000316", "f_siauliai_2", 133, 151, 672, -45, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 301, 130, -569, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 289, 130, -758, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 176, 130, -492, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 125, 130, -247, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -158, 130, -876, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -270, 130, -581, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -223, 130, -452, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 952, 130, -742, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 728, 130, -789, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 309.8956, 130.0227, -335.3998, 132, "npc_dummy")
-addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 600, 130, -19, 132, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1596.879, 130.0227, 222.2528, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1518.116, 130.0227, 205.7433, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1657.253, 130.0227, 95.50555, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1554, 130, 130, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1732, 130, 150, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1376.014, 185.8466, 761.8107, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1273.995, 130.0227, 586.3353, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1343.048, 130.0227, 525.3578, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1296.278, 177.4352, 685.3326, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1299.643, 185.8466, 797.14, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1466, 185, 847, -45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 1508, 185, 896, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009492", "f_siauliai_2", 1650, 186, 931, -45, "npc_dummy")
-addnpc(20041, "QUEST_LV_0100_20150317_002426", "f_siauliai_2", -2241, 130, 1047, -45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_siauliai_2", 233, 157, 724, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_007598", "f_siauliai_2", -46, 151, 818, 45, "npc_dummy")
-addnpc(20014, "QUEST_LV_0100_20150317_000334", "f_siauliai_2", -1290, 130, 928, -45, "npc_dummy")
-addnpc(20041, "QUEST_LV_0200_20150317_001797", "f_siauliai_2", -1143, 129, 884, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1932, 243, -988, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -660, 243, -762, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -967, 243, -809, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1456, 130, -395, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1180, 130, -278, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1225, 130, 138, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -950, 130, 78, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1081, 130, 238, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1029, 130, 350, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1005, 130, 616, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1184, 130, 905, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1449, 130, 808, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1519, 130, 618, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1698, 130, 786, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1779, 130, 614, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2230, 130, 846, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2342, 130, 1074, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2147, 130, 1227, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2123, 130, 1365, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2173, 130, 1607, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -2439, 130, 1592, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -679, 130, 229, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -488, 130, -35, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -316, 130, 185, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -177, 130, -332, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -50, 130, 41, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -87, 130, 217, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -249, 130, 322, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -276, 130, 528, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -434, 130, 683, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -771, 130, 1137, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -650, 130, 1155, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -672, 130, 1023, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -323, 130, 1184, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -413, 130, 998, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -232, 130, 959, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 37, 162, 1257, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 32, 162, 1078, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", -1323.574, 130.0227, -236.7675, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 566, 162, 871, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 586, 162, 751, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 646, 130, 542, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 543, 130, 496, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 936, 130, 269, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 678, 130, 104, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 693.9263, 130.2824, -41.31789, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 371.8214, 130.0227, -311.6812, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 351, 130, -399, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 154, 130, -392, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 423, 130, -656, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 636, 130, -611, -37, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 635, 130, -830, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 480, 130, -963, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 843, 130, -798, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 772, 130, -954, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1305, 130, 565, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1390, 185, 837, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1873, 185, 1044, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1999, 185, 1144, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1537, 130, 200, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 1706, 130, 208, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 2022, 185, 319, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_2", 2046, 185, -1, 45, "npc_dummy")
-addnpc(41280, "ETC_20150317_000468", "f_siauliai_2", 712, 130, -895, 45, "npc_dummy")
-addnpc(147434, "ETC_20150317_009493", "f_siauliai_2", 561.9751, 162.4583, 1145.892, -45, "npc_dummy")
-addnpc(40070, "QUEST_20150317_000808", "f_siauliai_2", -969, 130, 63, 6, "npc_dummy")
-addnpc(57231, "ETC_20150317_009494", "f_siauliai_2", 456.1118, 162.4583, 1187.921, -45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_siauliai_2", 1145, 130, -725, 45, "npc_dummy")
-addnpc(20041, "ETC_20150317_009250", "f_siauliai_2", -2005, 130, 1639, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 307.31, 130.02, 369.86, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 2048.78, 185.09, -308.63, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 672.1855, 130.0227, -472.7712, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", -2335.3, 130.02, 1316.72, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", -2069.188, 130.0227, 1625.553, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 1623.578, 190.3209, 909.2892, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 1255.115, 130.0227, 216.4147, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 894.24, 199.52, -125.49, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 906.65, 199.99, -595.02, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 2468.092, 130.0227, 1035.285, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 2568.337, 130.0227, 1027.196, 45, "npc_dummy")
-addnpc(57237, "ETC_20160323_021384", "f_siauliai_2", 331.5156, 162.4583, 1177.001, -45, "npc_dummy")
-addnpc(20026, "ETC_20150317_009496", "f_siauliai_2", -1247.509, 243.5222, -1485.488, 45, "npc_dummy")
-addnpc(20026, "ETC_20150317_009497", "f_siauliai_2", -2269.651, 130.0227, 1192.537, 45, "npc_dummy")
-addnpc(40030, "ETC_20150317_009071", "f_siauliai_2", 49.24, 130.12, -963.25, 45, "npc_dummy")
-addnpc(10033, "QUEST_20150317_000110", "f_siauliai_2", -2207.416, 243.5222, -1057.399, -44, "npc_dummy")
-addnpc(10033, "QUEST_20150317_000110", "f_siauliai_2", -2213.944, 243.5222, -1111.96, 150, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", -1220.981, 130.0227, -138.6922, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", -2211.128, 243.5222, -1078.529, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 496.6812, 162.4583, 1228.252, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_siauliai_2", 74.9924, 151.7621, 713.1538, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 753.0049, 130.0227, 416.6965, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", -1324.608, 130.0227, 923.2641, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_siauliai_2", 600.9479, 130.0227, -238.4718, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_2", 1257.513, 130.0227, 345.1109, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_siauliai_2", -2235.57, 130.12, 690.81, 45, "npc_dummy")
+----- npc_intermediate_officer_men2 ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_MANAGER -----
+----- Dialog -----
+----- QuestIDs: SIAUL_EAST_RECLAIM1 | SIAUL_EAST_REQUEST1 | SIAUL_EAST_REQUEST3 | SIAUL_EAST_REQUEST7 | SIAUL_EAST_CAMP4 -----
+addnpc(20125, "QUEST_LV_0100_20150317_000310", "f_siauliai_2", 167, 151, 697, -45, "npc_QUEST_LV_0100_20150317_000310")
+function npc_QUEST_LV_0100_20150317_000310()
+msg("SIAUL_EAST_CAMP4_dlg2")
+msg("SIAUL_EAST_RECLAIM1_dlg1")
+msg("SIAUL_EAST_RECLAIM1_dlg2")
+msg("SIAUL_EAST_RECLAIM1_dlg3")
+msg("SIAUL_EAST_REQUEST1_dlg1")
+msg("SIAUL_EAST_REQUEST1_dlg2")
+msg("SIAUL_EAST_REQUEST3_dlg1")
+msg("SIAUL_EAST_REQUEST3_dlg2")
+msg("SIAUL_EAST_REQUEST3_dlg3")
+msg("SIAUL_EAST_REQUEST7_dlg1")
+msg("SIAUL_EAST_REQUEST1_AG")
+msg("SIAUL_EAST_REQUEST7_dlg5")
+msg("SIAUL_EAST_MANAGER_basic1")
+msg("SIAUL_EAST_RECLAIM1_dlg1_a")
+msg("SIAUL_EAST_REQUEST3_dlg1_a")
+msg("SIAUL_EAST_MANAGER_BASIC01")
+msg("SIAUL_EAST_CAMP4_ST")
+end
+
+----- soldier3 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(20013, "QUEST_20150317_000119", "f_siauliai_2", 357, 130, 593, -45, "npc_QUEST_20150317_000119")
+function npc_QUEST_20150317_000119()
+msg("SIAUL_EAST_SOLDIER6_basic1")
+end
+
+----- soldier5 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(20015, "QUEST_20150317_000119", "f_siauliai_2", 210, 130, 260, -45, "npc_QUEST_20150317_000119")
+function npc_QUEST_20150317_000119()
+msg("SIAUL_EAST_SOLDIER7_basic1")
+end
+
+----- soldier6 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(20016, "QUEST_LV_0100_20150317_000345", "f_siauliai_2", 615, 130, -196, -45, "npc_QUEST_LV_0100_20150317_000345")
+function npc_QUEST_LV_0100_20150317_000345()
+msg("SIAUL_EAST_SOLDIER4_basic1")
+end
+
+----- soldier1 ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SOLDIER5 -----
+----- Dialog -----
+----- QuestIDs: SIAUL_EAST_REQUEST4 | SIAUL_EAST_REQUEST5 -----
+addnpc(20011, "QUEST_LV_0100_20150317_000345", "f_siauliai_2", 741, 130, 411, -45, "npc_QUEST_LV_0100_20150317_000345")
+function npc_QUEST_LV_0100_20150317_000345()
+msg("SIAUL_EAST_REQUEST4_dlg1")
+msg("SIAUL_EAST_REQUEST4_dlg2")
+msg("SIAUL_EAST_REQUEST4_dlg3")
+msg("SIAUL_EAST_REQUEST5_dlg1")
+msg("SIAUL_EAST_REQUEST5_dlg2")
+msg("SIAUL_EAST_REQUEST5_dlg3")
+msg("SIAUL_EAST_SOLDIER5_BASIC01")
+msg("SIAUL_EAST_SOLDIER5_BASIC02")
+msg("KATYN_18_RE_SQ_1_select")
+msg("KATYN_18_RE_SQ_1_agree")
+msg("KATYN_18_RE_SQ_1_prog_strat")
+msg("KATYN_18_RE_SQ_1_succ")
+msg("KATYN_18_RE_SQ_2_select")
+msg("KATYN_18_RE_SQ_2_agree")
+msg("KATYN_18_RE_SQ_2_prog_start")
+msg("KATYN_18_RE_SQ_2_succ")
+msg("KATYN_18_RE_SQ_NPC_1_basic1")
+msg("TABLELAND_70_SQ2_prog01")
+msg("TABLELAND_70_SQ2_prog02")
+msg("TABLELAND_70_SQ2_succ01")
+msg("TABLELAND_70_SQ2_succ02")
+msg("TABLELAND_70_SQ2_succ_prog01")
+msg("TABLELAND_70_SQ3_prog01")
+msg("TABLE70_SOLDIER2_1_basic1")
+msg("TABLE70_SOLDIER2_1_basic2")
+msg("TABLE70_SOLDIER2_3_basic1")
+msg("TABLE70_SOLDIER2_3_basic2")
+msg("TABLE70_SOLDIER2_4_basic1")
+msg("TABLE70_SOLDIER7_1_basic1")
+msg("TABLE70_SOLDIER7_1_basic2")
+msg("TABLE70_SOLDIER7_3_basic1")
+msg("TABLE70_SOLDIER7_3_basic2")
+msg("TABLELAND28_2_SQ_02_basic01")
+msg("TABLELAND28_2_SQ_02_basic02")
+msg("TABLELAND28_2_SQ_02_1")
+msg("TABLELAND28_2_SQ_02_2")
+msg("TABLELAND28_2_SQ_02_3")
+msg("TABLELAND28_2_SQ_02_4")
+msg("TABLELAND28_2_SQ_03_1")
+msg("TABLELAND28_2_SQ_03_2")
+msg("TABLELAND28_2_SQ_03_3")
+msg("TABLELAND28_2_SQ_03_4")
+msg("TABLELAND28_2_SQ_04_1")
+msg("TABLELAND28_2_SQ_04_2")
+msg("TABLELAND28_2_SQ_04_3")
+msg("TABLELAND28_2_SQ_04_4")
+end
+
+----- soldier6 ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SUPPLY_MANAGER -----
+----- Dialog -----
+----- QuestIDs: ACT2_DISS1 | SIAUL_EAST_RECLAIM6 | SIAUL_EAST_RECLAIM7 | ACT2_DISS1_2_BOSS -----
+addnpc(20016, "QUEST_LV_0100_20150317_000260", "f_siauliai_2", 661, 130, -453, -45, "npc_QUEST_LV_0100_20150317_000260")
+function npc_QUEST_LV_0100_20150317_000260()
+msg("ACT2_DISS1_succ1")
+msg("SIAUL_EAST_RECLAIM6_dlg1")
+msg("SIAUL_EAST_RECLAIM6_dlg2")
+msg("SIAUL_EAST_RECLAIM6_dlg3")
+msg("SIAUL_EAST_RECLAIM6_dlg4")
+msg("SIAUL_EAST_RECLAIM7_dlg1")
+msg("SIAUL_EAST_RECLAIM7_dlg2")
+msg("SIAUL_EAST_RECLAIM7_dlg3")
+msg("ACT2_DISS1_dlg1")
+msg("ACT2_DISS1_dlg2")
+msg("SIAUL_EAST_SUPPLY_MANAGER_basic1")
+msg("ACT2_DISS1_2_BOSS_succ1")
+end
+
+----- Silvertransporter_m ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SOLDIER8 -----
+----- Dialog -----
+----- QuestIDs: SIAUL_EAST_REQUEST6 -----
+addnpc(10032, "QUEST_LV_0100_20150317_000352", "f_siauliai_2", 1242, 130, 339, -45, "npc_QUEST_LV_0100_20150317_000352")
+function npc_QUEST_LV_0100_20150317_000352()
+msg("SIAUL_EAST_REQUEST6_dlg1")
+msg("SIAUL_EAST_REQUEST6_dlg2")
+msg("SIAUL_EAST_REQUEST6_dlg3")
+msg("SIAUL_EAST_SOLDIER8_basic1")
+msg("SIAUL_EAST_SOLDIER8_BASIC01")
+end
+
+----- Silvertransporter_m ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SOLDIER10 -----
+----- Dialog -----
+addnpc(10032, "QUEST_LV_0100_20150317_000316", "f_siauliai_2", 205, 151, 667, -45, "npc_QUEST_LV_0100_20150317_000316")
+function npc_QUEST_LV_0100_20150317_000316()
+msg("SIAU_FRON_NPC_01_basic01")
+msg("SIAU_FRON_NPC_02_basic01")
+msg("SIAUL_EAST_SOLDIER10_basic1")
+msg("SIAU_FRON_NPC_03_basic01")
+msg("SIAU_FRON_NPC_03_basic02")
+msg("SIAU_FRON_NPC_01_basic02")
+msg("SIAU_FRON_NPC_01_basic03")
+msg("SIAU_FRON_NPC_02_basic02")
+msg("SIAU_FRON_NPC_04_basic02")
+msg("SIAU_FRON_NPC_04_basic01")
+msg("SIAU_FRON_NPC_05_basic02")
+msg("SIAU_FRON_NPC_05_basic01")
+msg("f_katyn_18_dlg_2")
+msg("f_katyn_18_dlg_5")
+msg("f_katyn_18_dlg_6")
+end
+
+----- Silvertransporter_m ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SOLDIER9 -----
+----- Dialog -----
+----- QuestIDs: SIAUL_EAST_RECLAIM2 | SIAUL_EAST_RECLAIM3 -----
+addnpc(10032, "QUEST_LV_0100_20150317_000316", "f_siauliai_2", 133, 151, 672, -45, "npc_QUEST_LV_0100_20150317_000316")
+function npc_QUEST_LV_0100_20150317_000316()
+msg("SIAUL_EAST_RECLAIM2_dlg1")
+msg("SIAUL_EAST_RECLAIM2_dlg2")
+msg("SIAUL_EAST_RECLAIM2_dlg3")
+msg("SIAUL_EAST_RECLAIM3_dlg1")
+msg("SIAUL_EAST_RECLAIM3_dlg2")
+msg("SIAUL_EAST_RECLAIM3_dlg3")
+msg("SIAUL_EAST_RECLAIM2_add")
+msg("SIAUL_EAST_RECLAIM3_dlg1_a")
+msg("SIAUL_EAST_SOLDIER9_BASIC02")
+msg("SIAUL_EAST_SOLDIER10_BASIC01")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 301, 130, -569, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 289, 130, -758, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 176, 130, -492, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 125, 130, -247, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -158, 130, -876, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -270, 130, -581, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", -223, 130, -452, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 952, 130, -742, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 728, 130, -789, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 310, 130, -335, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName: ACT2_DISS1_BOX -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 600, 130, -19, 132, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_siauliai_2", 233, 157, 724, -45, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_SIAULIAI_EST")
+end
+
+----- soldier4 ----- 
+----- npcselectdialog.ies | ClassName: SIAUL_EAST_SUPPLY_MANAGER2 -----
+----- Dialog -----
+----- QuestIDs: SIAUL_EAST_REQUEST1 | SIAUL_EAST_REQUEST2 -----
+addnpc(20014, "QUEST_LV_0100_20150317_000334", "f_siauliai_2", -1290, 130, 928, -45, "npc_QUEST_LV_0100_20150317_000334")
+function npc_QUEST_LV_0100_20150317_000334()
+msg("SIAUL_EAST_REQUEST1_dlg3")
+msg("SIAUL_EAST_REQUEST2_dlg1")
+msg("SIAUL_EAST_REQUEST2_dlg2")
+msg("SIAUL_EAST_REQUEST2_dlg3")
+msg("SIAUL_EAST_REQUEST2_add")
+msg("SIAUL_EAST_SUPPLY_MANAGER2_basic1")
+msg("SIAUL_EAST_SUPPLY_MANAGER2_BASIC01")
+end
+
+----- npc_SAP_master ----- 
+----- npcselectdialog.ies | ClassName: JOB_SAPPER2_1_NPC -----
+----- Dialog -----
+----- QuestIDs: JOB_SAPPER2_1 | JOB_SAPPER2_3 | JOB_SAPPER2_4 | JOB_QUARREL3_1 | JOB_QUARREL3_2 | JOB_SAPPER3_1 | JOB_SAPPER3_2 | JOB_SAPPER2_2 | JOB_SAPPER4_1 | JOB_SAPPER5_1 | UNDERFORTRESS_65_SQ010 | UNDERFORTRESS_65_SQ020 -----
+addnpc(147434, "ETC_20150317_009493", "f_siauliai_2", 562, 162, 1146, -45, "npc_ETC_20150317_009493")
+function npc_ETC_20150317_009493()
+msg("JOB_SAPPER2_1_NPC_basic2")
+msg("JOB_SAPPER2_1_select1")
+msg("JOB_SAPPER2_1_prog1")
+msg("JOB_SAPPER2_3_prog1")
+msg("JOB_SAPPER2_4_succ1")
+msg("JOB_QUARREL3_1_succ1")
+msg("JOB_QUARREL3_2_select1")
+msg("JOB_QUARREL3_2_prog1")
+msg("JOB_QUARREL3_2_succ_startnpc")
+msg("JOB_SAPPER3_1_select1")
+msg("JOB_SAPPER3_1_prog1")
+msg("JOB_SAPPER3_1_succ1")
+msg("JOB_SAPPER3_2_select1")
+msg("JOB_SAPPER3_2_prog1")
+msg("JOB_SAPPER3_2_succ1")
+msg("JOB_SAPPER4_1_01")
+msg("JOB_SAPPER4_1_03")
+msg("JOB_SAPPER4_1_02")
+msg("JOB_SAPPER5_1_01")
+msg("JOB_SAPPER5_1_02")
+msg("JOB_SAPPER5_1_03")
+msg("JOB_SAPPER2_1_NPC_basic3")
+msg("JOB_SAPPER2_1_NPC_basic4")
+msg("JOB_SAPPER2_1_NPC_basic1")
+msg("UNDERFORTRESS_65_SQ010_startnpc")
+msg("UNDERFORTRESS_65_SQ010_succ01")
+msg("UNDERFORTRESS_65_SQ020_startnpc01")
+msg("UNDER_65_SQ020_startnpc02")
+msg("UNDERFORTRESS_65_SQ020_startnpc_prog01")
+msg("UNDERFORTRESS_65_SQ020_succ01")
+end
+
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40070, "QUEST_20150317_000808", "f_siauliai_2", -969, 130, 63, 6, "npc_QUEST_20150317_000808")
+function npc_QUEST_20150317_000808()
+msg("F_SIAULIA_2_BOARD01")
+end
+
+----- npc_HUT_master ----- 
+----- npcselectdialog.ies | ClassName: JOB_HUNTER2_1_NPC -----
+----- Dialog -----
+----- QuestIDs: JOB_HUNTER2_1 | JOB_HUNTER2_2 | JOB_HUNTER2_3 | JOB_HUNTER2_4 | JOB_QUARREL2_2 | JOB_ARCHER2_2 | JOB_RANGER2_2 | JOB_HUNTER3_1 | JOB_HUNTER4_1 | JOB_HUNTER5_1 | SIAULIAI_50_1_SQ_060 | SIAULIAI_50_1_SQ_070 -----
+addnpc(57231, "ETC_20150317_009494", "f_siauliai_2", 456, 162, 1188, -45, "npc_ETC_20150317_009494")
+function npc_ETC_20150317_009494()
+msg("JOB_HUNTER1_succ1")
+msg("JOB_HUNTER2_1_select1")
+msg("JOB_HUNTER2_1_prog1")
+msg("JOB_HUNTER2_1_succ1")
+msg("JOB_HUNTER2_2_select1")
+msg("JOB_HUNTER2_2_agree1")
+msg("JOB_HUNTER2_3_select1")
+msg("JOB_HUNTER2_3_agree1")
+msg("JOB_HUNTER2_4_select1")
+msg("JOB_HUNTER2_4_agree1")
+msg("JOB_HUNTER2_2_succ2")
+msg("JOB_HUNTER2_3_succ2")
+msg("JOB_QUARREL2_2_prog1")
+msg("JOB_QUARREL2_2_succ1")
+msg("JOB_ARCHER2_2_prog1")
+msg("JOB_ARCHER2_2_succ1")
+msg("JOB_RANGER2_2_prog1")
+msg("JOB_RANGER2_2_succ1")
+msg("JOB_HUNTER3_1_select1")
+msg("JOB_HUNTER3_1_succ1")
+msg("JOB_HUNTER4_1_01")
+msg("JOB_HUNTER4_1_02")
+msg("JOB_HUNTER4_1_03")
+msg("JOB_HUNTER5_1_01")
+msg("JOB_HUNTER5_1_02")
+msg("JOB_HUNTER5_1_03")
+msg("JOB_HUNTER5_1_AG")
+msg("JOB_HUNTER2_1_NPC_basic2")
+msg("JOB_HUNTER2_1_NPC_basic4")
+msg("JOB_HUNTER2_1_NPC_basic3")
+msg("JOB_HUNTER2_1_NPC_basic1")
+msg("JOB_HUNTER2_1_NPC_BASIC05")
+msg("SIAULIAI_50_1_SQ_060_succ01")
+msg("SIAULIAI_50_1_SQ_070_select01")
+msg("SIAULIAI_50_1_SQ_070_starnpc02")
+msg("SIAULIAI_50_1_SQ_070_starnpc01")
+end
+
+----- npc_BAR_master ----- 
+----- npcselectdialog.ies | ClassName: JOB_BARBARIAN2_NPC -----
+----- Dialog -----
+----- QuestIDs: JOB_BARBARIAN2 | JOB_BARBARIAN3_1 | JOB_BARBARIAN4_1 | JOB_BARBARIAN5_1 -----
+addnpc(57237, "ETC_20160323_021384", "f_siauliai_2", 332, 162, 1177, -45, "npc_ETC_20160323_021384")
+function npc_ETC_20160323_021384()
+msg("JOB_BARBARIAN2_select1")
+msg("JOB_BARBARIAN2_succ1")
+msg("JOB_BARBARIAN2_agree1")
+msg("JOB_BARBARIAN2_PG")
+msg("JOB_BARBARIAN3_1_select1")
+msg("JOB_BARBARIAN3_1_succ1")
+msg("JOB_BARBARIAN3_1_agree1")
+msg("JOB_BARBARIAN3_1_PG")
+msg("JOB_BARBARIAN4_1_01")
+msg("JOB_BARBARIAN4_1_02")
+msg("JOB_BARBARIAN4_1_03")
+msg("JOB_BARBARIAN2_basic1")
+msg("JOB_BARBARIAN2_basic2")
+msg("JOB_BARBARIAN2_basic3")
+msg("JOB_BARBARIAN5_1_select")
+msg("JOB_BARBARIAN5_1_prog")
+msg("JOB_BARBARIAN5_1_succ")
+end
+
+----- TreasureBox1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40030, "ETC_20150317_009071", "f_siauliai_2", 49, 130, -963, 45, "npc_ETC_20150317_009071")
+function npc_ETC_20150317_009071()
+msg("TREASUREBOX_LV")
+end
+
+----- Silvertransporter_m_Quest ----- 
+----- npcselectdialog.ies | ClassName: SAUI_EAST_GUARD_01 -----
+----- Dialog -----
+addnpc(10033, "QUEST_20150317_000110", "f_siauliai_2", -2207, 244, -1057, -44, "npc_QUEST_20150317_000110")
+function npc_QUEST_20150317_000110()
+msg("SIAUL_EAST_CAMP1_dlg1")
+msg("SAUI_EAST_GUARD_01_BASIC02")
+msg("SAUI_EAST_GUARD_02_BASIC02")
+msg("SAUI_EAST_GUARD_01_BASIC")
+msg("SAUI_EAST_GUARD_02_BASIC")
+msg("SAUI_EAST_GUARD_02_Chaplain_1")
+msg("SAUI_EAST_GUARD_02_Chaplain_2")
+end
+
+----- Silvertransporter_m_Quest ----- 
+----- npcselectdialog.ies | ClassName: SAUI_EAST_GUARD_02 -----
+----- Dialog -----
+addnpc(10033, "QUEST_20150317_000110", "f_siauliai_2", -2214, 244, -1112, 150, "npc_QUEST_20150317_000110")
+function npc_QUEST_20150317_000110()
+msg("SIAUL_EAST_CAMP1_dlg1")
+msg("SAUI_EAST_GUARD_01_BASIC02")
+msg("SAUI_EAST_GUARD_02_BASIC02")
+msg("SAUI_EAST_GUARD_01_BASIC")
+msg("SAUI_EAST_GUARD_02_BASIC")
+msg("SAUI_EAST_GUARD_02_Chaplain_1")
+msg("SAUI_EAST_GUARD_02_Chaplain_2")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_siauliai_2", -2236, 130, 691, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 224, 130, -455, 145, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 279, 130, -214, 84, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 321, 130, -702, 144, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 440, 130, -344, 88, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 486, 130, -162, 125, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 492, 130, -580, 128, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+
+----- Box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46212, "ETC_20150317_009144", "f_siauliai_2", 78, 130, -367, 150, "npc_ETC_20150317_009144")
+function npc_ETC_20150317_009144()
+msg("LOWLV_BOASTER_SQ_10_BOX")
+end
+

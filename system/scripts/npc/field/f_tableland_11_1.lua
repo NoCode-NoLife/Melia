@@ -1,32 +1,278 @@
-addnpc(20150, "ETC_20150317_009158", "f_tableland_11_1", -2319.81, 801.67, 2045.69, -31, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_tableland_11_1", -1081.015, -91.57693, -1327.994, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_tableland_11_1", 609.0823, -163.6477, -1536.444, 45, "npc_dummy")
-addnpc(156022, "QUEST_LV_0200_20160310_010288", "f_tableland_11_1", 370.1447, -163.6477, -1293.309, -45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 436.2278, -163.6477, -1049.709, -45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 18.20385, -163.6477, -1392.053, 45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -146.8938, -157.6168, -1222.94, 0, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 417.8396, -163.6477, -1496.782, 135, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 113.4599, -163.6477, -1303.349, -45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -497.8517, -91.57693, -1198.539, 0, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -728.271, -91.57693, -1352.606, 45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -871.2722, -91.57693, -1181.674, 90, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -975.9651, -91.57693, -961.8662, 0, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -662.941, -91.57693, -1061.12, -45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 252.7992, -163.6477, -1455.322, 45, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -498.0118, -91.57693, -1330.972, 45, "npc_dummy")
-addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -1050.656, 0.1088562, -426.2432, 45, "npc_dummy")
-addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", 1133.519, 288.6196, 465.867, 135, "npc_dummy")
-addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 24.55948, 56.15952, 603.8309, 135, "npc_dummy")
-addnpc(156021, "ETC_20160310_020955", "f_tableland_11_1", 25.82831, 56.15952, 650.2435, -90, "npc_dummy")
-addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -9.446407, 56.15952, 657.3014, 0, "npc_dummy")
-addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 24.54312, 56.15952, 603.8735, 135, "npc_dummy")
-addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 33.17475, 56.15952, 639.3948, -90, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -845.2117, -109.8061, 519.4481, -69, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -682.0685, -109.8061, 342.8275, -106, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -1000.157, -109.8061, 212.4238, 40, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -1020.126, -109.8061, 361.3235, 71, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -943.0579, 0.1088562, -147.7905, -9, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -763.6595, 0.1088562, -183.2559, -59, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -520.6324, 0.1088562, -381.273, 203, "npc_dummy")
-addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -745.2027, -109.8061, 467.5791, -56, "npc_dummy")
-addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -118.2973, 56.15952, 317.3904, 135, "npc_dummy")
+----- npc_miner2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(20150, "ETC_20150317_009158", "f_tableland_11_1", -2320, 802, 2046, -31, "npc_ETC_20150317_009158")
+function npc_ETC_20150317_009158()
+msg("TABLELAND_11_1_CART_MANAGER")
+end
+
+----- npc_necromancer_m_2 ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_ADOMAS -----
+----- Enter | Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_01 -----
+addnpc(156022, "QUEST_LV_0200_20160310_010288", "f_tableland_11_1", 370, -164, -1293, -45, "npc_QUEST_LV_0200_20160310_010288")
+function npc_QUEST_LV_0200_20160310_010288()
+msg("TABLELAND_11_1_SQ_01_BALLOON")
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 436, -164, -1050, -45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 18, -164, -1392, 45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -147, -158, -1223, 0, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 418, -164, -1497, 135, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 113, -164, -1303, -45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -498, -92, -1199, 0, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -728, -92, -1353, 45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -871, -92, -1182, 90, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -976, -92, -962, 0, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -663, -92, -1061, -45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", 253, -164, -1455, 45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -498, -92, -1331, 45, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- npc_necromancer_f ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_LEMIJA -----
+----- Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_01 | TABLELAND_11_1_SQ_02 -----
+addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -1051, 0, -426, 45, "npc_QUEST_LV_0300_20160310_001070")
+function npc_QUEST_LV_0300_20160310_001070()
+msg("TABLELAND_11_1_LEMIJA_basic01")
+msg("TABLELAND_11_1_LEMIJA_basic02")
+msg("TABLELAND_11_1_SQ_06_prog_start")
+msg("TABLELAND_11_1_SQ_01_succ")
+msg("TABLELAND_11_1_SQ_02_start")
+msg("TABLELAND_11_1_SQ_02_succ")
+msg("TABLELAND_11_1_SQ_04_succ")
+msg("TABLELAND_11_1_SQ_05_start")
+msg("TABLELAND_11_1_SQ_05_prog_start")
+msg("TABLELAND_11_1_SQ_05_succ")
+msg("TABLELAND_11_1_SQ_06_start")
+msg("TABLELAND_11_1_SQ_06_succ")
+msg("TABLELAND_11_1_SQ_07_start")
+msg("TABLELAND_11_1_SQ_07_succ")
+msg("TABLELAND_11_1_SQ_09_start")
+msg("TABLELAND_11_1_SQ_09_succ")
+msg("TABLELAND_11_1_SQ_09_succ_after")
+msg("TABLELAND_11_1_SQ_05_agree")
+msg("TABLELAND_11_1_SQ_13_succ")
+msg("TABLELAND_11_1_LEMIJA3_basic_01")
+msg("TABLELAND_11_1_LEMIJA3_basic_02")
+msg("TABLELAND_11_1_SQ_08_prog_start")
+end
+
+----- npc_necromancer_f ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_LEMIJA2 -----
+----- Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_04 | TABLELAND_11_1_SQ_05 | TABLELAND_11_1_SQ_06 | TABLELAND_11_1_SQ_07 -----
+addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", 1134, 289, 466, 135, "npc_QUEST_LV_0300_20160310_001070")
+function npc_QUEST_LV_0300_20160310_001070()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_necromancer_m ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_FAUSTAS -----
+----- Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_08 -----
+addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 25, 56, 604, 135, "npc_QUEST_20160310_003783")
+function npc_QUEST_20160310_003783()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_cryomancer_f ----- 
+----- Enter -----
+addnpc(156021, "ETC_20160310_020955", "f_tableland_11_1", 26, 56, 650, -90, "npc_ETC_20160310_020955")
+function npc_ETC_20160310_020955()
+msg("TABLELAND_11_1_ELEMA")
+end
+
+----- npc_necromancer_f ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_LEMIJA3 -----
+----- Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_09 | TABLELAND_11_1_SQ_13 -----
+addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -9, 56, 657, 0, "npc_QUEST_LV_0300_20160310_001070")
+function npc_QUEST_LV_0300_20160310_001070()
+msg("TABLELAND_11_1_LEMIJA_basic01")
+msg("TABLELAND_11_1_LEMIJA_basic02")
+msg("TABLELAND_11_1_SQ_06_prog_start")
+msg("TABLELAND_11_1_SQ_01_succ")
+msg("TABLELAND_11_1_SQ_02_start")
+msg("TABLELAND_11_1_SQ_02_succ")
+msg("TABLELAND_11_1_SQ_04_succ")
+msg("TABLELAND_11_1_SQ_05_start")
+msg("TABLELAND_11_1_SQ_05_prog_start")
+msg("TABLELAND_11_1_SQ_05_succ")
+msg("TABLELAND_11_1_SQ_06_start")
+msg("TABLELAND_11_1_SQ_06_succ")
+msg("TABLELAND_11_1_SQ_07_start")
+msg("TABLELAND_11_1_SQ_07_succ")
+msg("TABLELAND_11_1_SQ_09_start")
+msg("TABLELAND_11_1_SQ_09_succ")
+msg("TABLELAND_11_1_SQ_09_succ_after")
+msg("TABLELAND_11_1_SQ_05_agree")
+msg("TABLELAND_11_1_SQ_13_succ")
+msg("TABLELAND_11_1_LEMIJA3_basic_01")
+msg("TABLELAND_11_1_LEMIJA3_basic_02")
+msg("TABLELAND_11_1_SQ_08_prog_start")
+end
+
+----- npc_necromancer_m ----- 
+----- Enter -----
+addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 25, 56, 604, 135, "npc_QUEST_20160310_003783")
+function npc_QUEST_20160310_003783()
+msg("TABLELAND_11_1_FAUSTAS_DOWN")
+end
+
+----- npc_necromancer_m ----- 
+----- Enter -----
+addnpc(156019, "QUEST_20160310_003783", "f_tableland_11_1", 33, 56, 639, -90, "npc_QUEST_20160310_003783")
+function npc_QUEST_20160310_003783()
+msg("TABLELAND_11_1_FAUSTAS_DOWN2")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -845, -110, 519, -69, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -682, -110, 343, -106, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -1000, -110, 212, 40, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -1020, -110, 361, 71, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -943, 0, -148, -9, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -764, 0, -183, -59, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -521, 0, -381, 203, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- SCS_M2_Mon ----- 
+----- Enter -----
+addnpc(10020, "ETC_20160310_020949", "f_tableland_11_1", -745, -110, 468, -56, "npc_ETC_20160310_020949")
+function npc_ETC_20160310_020949()
+msg("TABLELAND_11_1_FROST_GUARD")
+end
+
+----- npc_necromancer_f ----- 
+----- npcselectdialog.ies | ClassName: TABLELAND_11_1_SQ_07_ENDNPC -----
+----- Dialog -----
+----- QuestIDs: TABLELAND_11_1_SQ_07 | TABLELAND_11_1_SQ_08 -----
+addnpc(156020, "QUEST_LV_0300_20160310_001070", "f_tableland_11_1", -118, 56, 317, 135, "npc_QUEST_LV_0300_20160310_001070")
+function npc_QUEST_LV_0300_20160310_001070()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_tableland_11_1", -680, -110, 585, -90, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

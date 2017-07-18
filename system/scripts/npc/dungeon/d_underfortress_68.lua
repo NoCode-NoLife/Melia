@@ -1,20 +1,179 @@
-addnpc(153139, "QUEST_LV_0100_20150803_007776", "d_underfortress_68", -151.6544, 341.7304, -1001.35, 45, "npc_dummy")
-addnpc(147503, "ETC_20151016_015899", "d_underfortress_68", -107.1163, 341.805, -978.6709, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_underfortress_68", -2833.717, 484.5271, -1248.313, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_underfortress_68", 1766.122, 344.1927, 1754.646, 45, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1228.438, 483.9489, -932.3874, 45, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1299.045, 483.9487, -1348.833, -49, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1313.995, 410.117, -1855.139, 45, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1305.626, 411.5518, -1533.177, 101, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1545.592, 483.9485, -965.4954, 45, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1635.709, 483.9485, -1221.105, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 35.24047, 338.6644, -642.2841, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 194.5961, 337.8279, -722.5287, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 742.5594, 342.4413, -678.1272, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", -642.8262, 404.8704, -939.6619, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", -987.3807, 404.8704, -1044.302, 45, "npc_dummy")
-addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 411.3444, 341.4292, -612.554, 45, "npc_dummy")
-addnpc(48004, "ETC_20150317_000345", "d_underfortress_68", 715.7161, 342.4413, -470.9643, -30, "npc_dummy")
-addnpc(41327, "ITEM_20151102_008453", "d_underfortress_68", -1530.749, 562.4769, -1487.947, 45, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_68", -494.3096, 404.8704, -946.3547, 94, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_68", 2197.111, 363.2062, -448.7966, 45, "npc_dummy")
+----- npc_PremierEminent ----- 
+----- npcselectdialog.ies | ClassName: EMINENT_68_1 -----
+----- Dialog -----
+----- QuestIDs: UNDERFORTRESS_68_MQ010 | UNDERFORTRESS_68_MQ020 | UNDERFORTRESS_68_MQ030 | UNDERFORTRESS_68_MQ040 | UNDERFORTRESS_68_MQ050 | UNDERFORTRESS_68_MQ060 | UNDERFORTRESS_67_MQ060 -----
+addnpc(153139, "QUEST_LV_0100_20150803_007776", "d_underfortress_68", -152, 342, -1001, 45, "npc_QUEST_LV_0100_20150803_007776")
+function npc_QUEST_LV_0100_20150803_007776()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- firetower_gear_01 ----- 
+----- Enter -----
+addnpc(147503, "ETC_20151016_015899", "d_underfortress_68", -107, 342, -979, 45, "npc_ETC_20151016_015899")
+function npc_ETC_20151016_015899()
+msg("UNDER68_DEVICE01")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 35, 339, -642, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 195, 338, -723, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 743, 342, -678, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", -643, 405, -940, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", -987, 405, -1044, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- mon_paladin_follower1_3_Q ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(103015, "QUEST_20151001_002606", "d_underfortress_68", 411, 341, -613, 45, "npc_QUEST_20151001_002606")
+function npc_QUEST_20151001_002606()
+msg("UNDER68_GHOST_DLG02")
+end
+
+----- f_katyn_owl04 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(48004, "ETC_20150317_000345", "d_underfortress_68", 716, 342, -471, -30, "npc_ETC_20150317_000345")
+function npc_ETC_20150317_000345()
+msg("UNDER68_SQ2_OWL")
+end
+
+----- npc_historian_odel_2 ----- 
+----- npcselectdialog.ies | ClassName: AMANDA_68_1 -----
+----- Dialog -----
+----- QuestIDs: UNDERFORTRESS_68_MQ070 -----
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_68", -494, 405, -946, 94, "npc_ETC_20150714_013166")
+function npc_ETC_20150714_013166()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_historian_odel_2 ----- 
+----- npcselectdialog.ies | ClassName: AMANDA_68_2 -----
+----- Dialog -----
+----- QuestIDs: UNDERFORTRESS_68_MQ070 -----
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_68", 2197, 363, -449, 45, "npc_ETC_20150714_013166")
+function npc_ETC_20150714_013166()
+msg("FLASH64_AMANDA_basic_1")
+msg("FLASH64_MQ_01_01")
+msg("FLASH64_MQ_01_02")
+msg("FLASH64_MQ_01_03")
+msg("FLASH64_MQ_02_01")
+msg("FLASH64_MQ_02_04")
+msg("FLASH64_MQ_02_03")
+msg("FLASH64_MQ_03_01")
+msg("FLASH64_MQ_03_02")
+msg("FLASH64_MQ_03_03")
+msg("FLASH64_AMANDA_basic_2")
+msg("AMANDA_65_3_basic01")
+msg("AMANDA_65_3_basic02")
+msg("AMANDA_65_4_basic01")
+msg("AMANDA_65_4_basic02")
+msg("AMANDA_66_1_basic01")
+msg("AMANDA_66_1_basic02")
+msg("AMANDA_66_2_basic02")
+msg("AMANDA_66_2_basic01")
+msg("AMANDA_66_3_basic01")
+msg("AMANDA_66_3_basic02")
+msg("AMANDA_67_2_basic01")
+msg("AMANDA_67_2_basic02")
+msg("AMANDA_67_2_basic03")
+msg("AMANDA_67_2_basic04")
+msg("AMANDA_68_2_basic01")
+msg("AMANDA_68_2_basic02")
+msg("AMANDA_69_1_basic01")
+msg("AMANDA_69_1_basic02")
+msg("AMANDA_69_2_basic01")
+msg("AMANDA_69_2_basic02")
+msg("UNDERFORTRESS_66_MQ070_succ01")
+msg("UNDER_67_MQ010_startnpc01")
+msg("UNDER67_MQ020_startnpc01")
+msg("UNDER67_MQ020_startnpc_prog01")
+msg("UNDER67_MQ020_startnpc02")
+msg("UNDER67_MQ020_succ01")
+msg("UNDER_67_MQ030_startnpc01")
+msg("UNDER_67_MQ030_startnpc02")
+msg("UNDER_67_MQ030_startnpc_prog01")
+msg("UNDER_67_MQ1_PG01")
+msg("UNDER_67_MQ1_PG02")
+msg("UNDER_67_MQ4_PG02")
+msg("UNDER66_MQ010_TRACK_DIALOG01")
+msg("UNDER_69_MQ010_startnpc01")
+msg("UNDER_69_MQ010_succ01")
+msg("UNDER_69_MQ010_succ02")
+msg("UNDER_69_MQ040_startnpc01")
+msg("UNDER_69_MQ040_startnpc02")
+msg("UNDER_69_MQ040_startnpc_prog01")
+msg("UNDER_65_MQ050_AMANDA")
+msg("UNDERFORTRESS_66_MQ010_startnpc01")
+msg("UNDER_69_SQ010_startnpc01")
+msg("UNDER_69_SQ010_startnpc_prog01")
+msg("UNDER_69_SQ010_succ01")
+msg("UNDER_69_SQ020_startnp01")
+msg("UNDER_69_SQ020_startnp_prog01")
+msg("UNDER_69_SQ020_succ01")
+msg("UNDERFORTRESS_67_MQ070_succ01")
+msg("UNDER_68_MQ070_startnpc01")
+msg("UNDER_68_MQ070_startnpc01_add")
+msg("UNDER_68_MQ070_startnpc_prog01")
+msg("UNDER_68_MQ070_succ01")
+msg("UNDER_68_MQ070_TRACK01")
+msg("UNDERFORTRESS_65_MQ010_startnpc01")
+msg("UNDERFORTRESS_65_MQ010_startnpc02")
+msg("UNDERFORTRESS_65_MQ010_succ01")
+msg("UNDERFORTRESS_65_MQ020_startnpc01")
+msg("UNDER_65_MQ020_startnpc02")
+msg("UNDERFORTRESS_65_MQ020_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ020_succ01")
+msg("UNDERFORTRESS_65_MQ030_startnpc01")
+msg("UNDER_65_MQ030_startnpc02")
+msg("UNDERFORTRESS_65_MQ030_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ030_succ01")
+msg("UNDERFORTRESS_65_MQ040_start01")
+msg("UNDER_65_MQ040_start02")
+msg("UNDERFORTRESS_65_MQ040_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ040_succ01")
+msg("UNDERFORTRESS_65_MQ050_startnpc01")
+msg("UNDERFORTRESS_65_MQ050_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ050_succ01")
+msg("UNDER_69_MQ020_succ01")
+msg("UNDER_69_MQ030_startnpc01")
+msg("UNDER_69_MQ030_AG")
+msg("UNDER_69_MQ030_startnpc_prog01")
+msg("FLASH64_MQ_01_04")
+msg("UNDER_69_MQ060_succ01")
+end
+

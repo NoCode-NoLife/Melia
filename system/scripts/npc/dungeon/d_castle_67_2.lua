@@ -1,16 +1,95 @@
-addnpc(153017, "ETC_20151224_019922", "d_castle_67_2", 327.7676, 187.3807, -432.1016, 0, "npc_dummy")
-addnpc(151055, "ETC_20151224_019923", "d_castle_67_2", 1549.127, 209.7669, 541.7733, 45, "npc_dummy")
-addnpc(151055, "ETC_20151224_019924", "d_castle_67_2", 1437.646, 209.6418, 130.9286, 45, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -580.7753, 378.1326, 1360.706, 0, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -393.6103, 378.1327, 1351.863, -45, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -159.1729, 378.1327, 1347.838, -90, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -80.0062, 378.1327, 1180.84, 225, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -197.5693, 378.1326, 870.4424, 180, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -469.1885, 378.1326, 861.2173, 135, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -622.5389, 378.1326, 986.0706, 45, "npc_dummy")
-addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -687.6658, 378.1326, 1193.289, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_2", 324.2893, 187.3807, -429.9491, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_2", -382.2844, 95.06264, 125.0777, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_2", 1547.917, 209.7712, 542.0787, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_2", 1434.343, 209.6418, 132.0289, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_castle_67_2", 1854.48, 165.25, -1071.52, 225, "npc_dummy")
+----- npc_cathedral_device_01 ----- 
+----- Enter -----
+addnpc(153017, "ETC_20151224_019922", "d_castle_67_2", 328, 187, -432, 0, "npc_ETC_20151224_019922")
+function npc_ETC_20151224_019922()
+msg("FD_CASTLE672_ALTAR")
+end
+
+----- bones ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151055, "ETC_20151224_019923", "d_castle_67_2", 1549, 210, 542, 45, "npc_ETC_20151224_019923")
+function npc_ETC_20151224_019923()
+msg("FD_CASTLE672_BORN_RED")
+end
+
+----- bones ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151055, "ETC_20151224_019924", "d_castle_67_2", 1438, 210, 131, 45, "npc_ETC_20151224_019924")
+function npc_ETC_20151224_019924()
+msg("FD_CASTLE672_BORN_BLUE")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -581, 378, 1361, 0, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -394, 378, 1352, -45, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -159, 378, 1348, -90, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -80, 378, 1181, 225, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -198, 378, 870, 180, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -469, 378, 861, 135, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -623, 378, 986, 45, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20151224_019925", "d_castle_67_2", -688, 378, 1193, 45, "npc_ETC_20151224_019925")
+function npc_ETC_20151224_019925()
+msg("FD_CASTLE672_DAILY_BOX")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_castle_67_2", 1854, 165, -1072, 225, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
