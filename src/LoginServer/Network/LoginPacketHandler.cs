@@ -41,6 +41,9 @@ namespace Melia.Login.Network
 			var unkByte2 = packet.GetByte();
 			var unkByte3 = packet.GetByte(); // [i10671 (2015-10-26)] ?
 			var ip = packet.GetInt();
+			var unkInt4 = packet.GetInt();
+			var unkInt5 = packet.GetInt();
+			var sysLocale = packet.GetShort(); // system locale (ex. en_US)
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
@@ -354,8 +357,8 @@ namespace Melia.Login.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat();	// ?
-			var d2 = packet.GetFloat();	// ?
+			var d1 = packet.GetFloat(); // ?
+			var d2 = packet.GetFloat(); // ?
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);

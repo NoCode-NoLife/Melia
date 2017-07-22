@@ -74,7 +74,7 @@ namespace Melia.Channel.Network
 			// Determines whether something is possible with integrated servers?
 			packet.PutByte(0);
 			packet.PutByte(0);
-			
+
 			packet.PutLpString(conn.SessionKey);
 
 			// [i109XX (2015-12-01)]
@@ -269,7 +269,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(skills.Length); // count
 
 			packet.PutShort(0); // No compression
-			//packet.BeginZlib();
+								//packet.BeginZlib();
 			foreach (var skill in skills)
 				packet.AddSkill(skill);
 			//packet.EndZlib();
@@ -286,6 +286,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
+			packet.PutLong(character.Id);
 			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
@@ -405,7 +406,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(abilities.Length); // count
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
-			//packet.BeginZlib();
+								//packet.BeginZlib();
 			foreach (var ability in abilities)
 			{
 				packet.PutLong(0); // Some kind of GUID? o.O
@@ -463,7 +464,7 @@ namespace Melia.Channel.Network
 				packet.PutInt(item.Value.Price);
 				packet.PutInt(item.Key);
 				packet.PutInt(1); // ?
-				//packet.PutEmptyBin(0);
+								  //packet.PutEmptyBin(0);
 			}
 
 			character.Connection.Send(packet);
@@ -1216,7 +1217,7 @@ namespace Melia.Channel.Network
 
 			character.Map.Broadcast(packet, character);
 		}
-		
+
 		/// <summary>
 		/// Plays class level up effect.
 		/// </summary>
@@ -1656,6 +1657,18 @@ namespace Melia.Channel.Network
 			packet.PutFloat(0); // Unk
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x14E);
+			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
 		}
 
 		/// <summary>
