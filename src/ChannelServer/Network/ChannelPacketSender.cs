@@ -1361,6 +1361,31 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates a characters HP for damage and healing.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="amount"></param>
+		/// <param name="isDamage"></param>
+		public static void ZC_ADD_HP(Character character, int amount, bool isDamage)
+		{
+			character.HPChangeCounter += 1;
+
+			var packet = new Packet(Op.ZC_ADD_HP);
+			packet.PutInt(character.Handle);
+
+			// for some reason this is '1' for damage.
+			int healing = (isDamage ? 1 : amount);
+			packet.PutInt(healing);
+
+			character.Hp += (isDamage ? -amount : amount);
+			packet.PutInt(character.Hp);
+			
+			packet.PutInt(character.HPChangeCounter);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_LOGIN_TIME to connection.
 		/// </summary>
 		/// <param name="conn"></param>

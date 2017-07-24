@@ -60,6 +60,13 @@ namespace Melia.Channel.World
 		public bool IsGrounded { get; set; }
 
 		/// <summary>
+		/// Holds the order of successive changes in character HP.
+		/// A higher value indicates the latest damage taken.
+		/// I'm not sure when this gets rolled over.
+		/// </summary>
+		public int HPChangeCounter { get; set; } = 0;
+
+		/// <summary>
 		/// The character's inventory.
 		/// </summary>
 		public Inventory Inventory { get; protected set; }
