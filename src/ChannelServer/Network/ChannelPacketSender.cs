@@ -240,6 +240,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the faction for the handle.
+		/// 1 : character, 2: ?, 3: NPC
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="monster"></param>
+		public static void ZC_FACTION(ChannelConnection conn, Monster monster)
+		{
+			var packet = new Packet(Op.ZC_FACTION);
+			packet.PutInt(monster.Handle);
+			packet.PutInt(3); // for npcs?
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_QUICK_SLOT_LIST to connection, containing the
 		/// list of hotkeys?
 		/// </summary>

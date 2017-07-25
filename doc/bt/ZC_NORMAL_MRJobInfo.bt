@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_NORMAL_MRJobInfo
+//      File: ZC_NORMAL_MRJobInfo.bt
 //   Authors: celophi
 //   Version: 164556
 //   Purpose: Sends MR_JOB_INFO vector.
