@@ -22,13 +22,12 @@ short packetLength;
 
 __int64 characterId;
 byte registerQuickSkill;
-byte u0;
+byte getFromSkillList;
 __int64 u1;
-int u2;
-int u3;
+__int64 IESId;
 int skillId;
 short propertyLength;
-short u4;
+short unused;
 int u5;
 int u6;
 
