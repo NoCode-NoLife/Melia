@@ -1153,6 +1153,17 @@ namespace Melia.Channel.Network
 		{
 			// Save something if needed?
 		}
+
+		/// <summary>
+		/// Sent when requesting to visit another player's barrack
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_VISIT_BARRACK)]
+		public void CZ_VISIT_BARRACK(ChannelConnection conn, Packet packet)
+		{
+			var teamName = packet.GetString(64);
+		}
 	}
 
 	public enum TxType : short
