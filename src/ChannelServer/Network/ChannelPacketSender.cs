@@ -1393,7 +1393,7 @@ namespace Melia.Channel.Network
 
 			character.Hp += (isDamage ? -amount : amount);
 			packet.PutInt(character.Hp);
-			
+
 			packet.PutInt(character.HPChangeCounter);
 
 			character.Connection.Send(packet);
@@ -1873,6 +1873,18 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SAVE_INFO);
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Changes the client speed.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_TIME_FACTOR(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_TIME_FACTOR);
+			packet.PutFloat(1);
+			conn.Send(packet);
+		}
+
 
 		public static void DUMMY(ChannelConnection conn)
 		{
