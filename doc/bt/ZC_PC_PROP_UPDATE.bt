@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_PC_PROP_UPDATE.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: Updates a property on a character.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op<format=hex>;
+int reserved;
+
+int objectProperty;
+byte objectType; // PC or PCEtc

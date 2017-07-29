@@ -1336,19 +1336,22 @@ namespace Melia.Channel.Network
 
 			character.Connection.Send(packet);
 		}
-
+		
 		/// <summary>
-		/// Sends ZC_PC_PROP_UPDATE to character, updating a property.
+		/// Updates a property on a character.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="property"></param>
-		/// <param name="value"></param>
-		public static void ZC_PC_PROP_UPDATE(Character character, short property, byte value)
+		/// <param name="type">0: PCEtc, 1: PC</param>
+		public static void ZC_PC_PROP_UPDATE(Character character, int property, byte type)
 		{
-			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			packet.PutShort(property);
-			packet.PutByte(value); // ?
+			if (type > 1)
+				throw new ArgumentOutOfRangeException("Error. Invalid property type specified.");
 
+			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
+			packet.PutInt(property);
+			packet.PutByte(type);
+			
 			character.Connection.Send(packet);
 		}
 
@@ -1801,6 +1804,17 @@ namespace Melia.Channel.Network
 			packet.PutInt(maxSP);
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Instructs the client to run various scripts such as quest updating.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SHARED_MSG(Character character, SharedMsgType msg)
+		{
+			var packet = new Packet(Op.ZC_SHARED_MSG);
+			packet.PutInt((int)msg);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>

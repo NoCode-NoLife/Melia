@@ -129,6 +129,7 @@ namespace Melia.Channel.Network
 			// ZC_SKILL_ADD...
 			Send.ZC_JOB_PTS(character);
 			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_SHARED_MSG(character, SharedMsgType.QuestUpdate);
 
 			character.OpenEyes();
 		}
