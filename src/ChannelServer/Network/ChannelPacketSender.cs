@@ -1342,7 +1342,7 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="property"></param>
-		/// <param name="type">0: PCEtc, 1: PC</param>
+		/// <param name="type">0: PC, 1: PCEtc</param>
 		public static void ZC_PC_PROP_UPDATE(Character character, int property, byte type)
 		{
 			if (type > 1)
@@ -1707,9 +1707,20 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
 		{
-			var packet = new Packet(Op.BC_NORMAL);
+			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x14E);
 			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the client that the world map needs updating.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_NORMAL_WorldMapNeedsUpdate(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x17B); // subOp
 			conn.Send(packet);
 		}
 

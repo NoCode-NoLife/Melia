@@ -129,8 +129,13 @@ namespace Melia.Channel.Network
 			// ZC_SKILL_ADD...
 			Send.ZC_JOB_PTS(character);
 			Send.ZC_MOVE_SPEED(character);
-			Send.ZC_SHARED_MSG(character, SharedMsgType.QuestUpdate);
+			Send.ZC_NORMAL_WorldMapNeedsUpdate(conn);
 
+			// For first time playing
+			Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PCEtc.FirstPlay, 1);
+			Send.ZC_ADDON_MSG(character, ZCAddonMsg.KEYBOARD_TUTORIAL);
+
+			Send.ZC_SHARED_MSG(character, SharedMsgType.QuestUpdate);
 			character.OpenEyes();
 		}
 
