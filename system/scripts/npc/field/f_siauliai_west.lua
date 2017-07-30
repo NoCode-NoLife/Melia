@@ -1,4 +1,4 @@
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIALUL_WEST_DRASIUS -----
 ----- Dialog -----
 ----- QuestIDs: SIAUL_WEST_DRASIUS1 | SIAUL_WEST_DRASIUS2 | SIAUL_WEST_STATUS_TUTO_1 -----
@@ -55,7 +55,7 @@ msg("KATYN7_KEYNPC_5_basic01")
 msg("KATYN7_KEYNPC_5_basic02")
 end
 
------ Soldier6_rotateOff ----- 
+----- Soldier6_rotateOff -----
 ----- npcselectdialog.ies | ClassName: SIAUL_WEST_NAGLIS2 -----
 ----- Enter | Dialog -----
 ----- QuestIDs: SIAUL_WEST_MEET_NAGLIS | TUTO_SKILL_RUN | SIAUL_WEST_ONION_BIG | SIAUL_WEST_MEET_NAGLIS | TUTO_SKILL_RUN | SIAUL_WEST_ONION_BIG -----
@@ -85,7 +85,7 @@ msg("TUTO_SKILL_RUN_02")
 msg("TUTO_SKILL_RUN_03")
 end
 
------ statue_vakarine ----- 
+----- statue_vakarine -----
 ----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
 ----- Enter | Dialog -----
 ----- QuestIDs: JOB_KRIVI4_3 -----
@@ -96,26 +96,17 @@ msg("GM_NPC_HIDE_UNHIDE")
 msg("WARP_F_SIAULIAI_WEST")
 end
 
------ npc_intermediate_officer_men ----- 
+----- npc_intermediate_officer_men -----
 ----- npcselectdialog.ies | ClassName: SIAUL_WEST_CAMP_MANAGER -----
 ----- Dialog -----
 ----- QuestIDs: SIAUL_WEST_WEST_FOREST | SIAUL_WEST_KNIGHT | SIAUL_WEST_HQ_01 -----
-addnpc(20107, "QUEST_20150317_000047", "f_siauliai_west", -576, 260, -719, 209.88, "npc_QUEST_20150317_000047")
-function npc_QUEST_20150317_000047()
-msg("SIAUL_WEST_MEET_TITAS_dlg3")
-msg("SIAUL_WEST_WEST_FOREST_dlg1")
-msg("SIAUL_WEST_WEST_FOREST_dlg4")
-msg("SIAUL_WEST_KNIGHT_dlg1")
+addnpc(20107, "QUEST_20150317_000047", "f_siauliai_west", -576, 260, -719, 209.88, "SIAUL_WEST_CAMP_MANAGER")
+function SIAUL_WEST_CAMP_MANAGER()
 msg("SIAUL_WEST_CAMP_MANAGER_basic1")
-msg("TUTO_SKIP_NPC_BASIC_SEL")
 msg("SIAUL_WEST_CAMP_MANAGER_BASIC01")
-msg("f_siauliai_west_dlg_9")
-msg("SIAUL_WEST_HQ_01_select01")
-msg("SIAUL_WEST_HQ_01_progstartnpc01")
-msg("SIAUL_WEST_HQ_01_startnpc01")
 end
 
------ npc_village_uncle_1 ----- 
+----- npc_village_uncle_1 -----
 ----- npcselectdialog.ies | ClassName: SIAUL_WEST_LAIMONAS -----
 ----- Dialog -----
 ----- QuestIDs: SIAUL_WEST_LAIMONAS1 | SIAUL_WEST_LAIMONAS4 -----
@@ -134,29 +125,17 @@ msg("SIAUL_WEST_LAIMONAS_BASIC01")
 msg("SIAUL_WEST_LAIMONAS4_SUCST")
 end
 
------ soldier6 ----- 
+----- soldier6 -----
 ----- npcselectdialog.ies | ClassName: SIAU_FRON_NPC_01 -----
 ----- Dialog -----
-addnpc(20016, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -652, 260, -953, -45, "npc_QUEST_LV_0100_20150317_000001")
-function npc_QUEST_LV_0100_20150317_000001()
+addnpc(20016, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -652, 260, -953, -45, "SIAU_FRON_NPC_01")
+function SIAU_FRON_NPC_01()
 msg("SIAU_FRON_NPC_01_basic01")
-msg("SIAU_FRON_NPC_02_basic01")
-msg("SIAUL_EAST_SOLDIER10_basic1")
-msg("SIAU_FRON_NPC_03_basic01")
-msg("SIAU_FRON_NPC_03_basic02")
 msg("SIAU_FRON_NPC_01_basic02")
 msg("SIAU_FRON_NPC_01_basic03")
-msg("SIAU_FRON_NPC_02_basic02")
-msg("SIAU_FRON_NPC_04_basic02")
-msg("SIAU_FRON_NPC_04_basic01")
-msg("SIAU_FRON_NPC_05_basic02")
-msg("SIAU_FRON_NPC_05_basic01")
-msg("f_katyn_18_dlg_2")
-msg("f_katyn_18_dlg_5")
-msg("f_katyn_18_dlg_6")
 end
 
------ npc_matron ----- 
+----- npc_matron -----
 ----- npcselectdialog.ies | ClassName: SIAUL_WEST_RESIDENT1 -----
 ----- Dialog -----
 addnpc(20114, "QUEST_LV_0100_20150317_000298", "f_siauliai_west", -624, 260, -385, -38.93, "npc_QUEST_LV_0100_20150317_000298")
@@ -167,7 +146,7 @@ msg("SIAUL_WEST_RESIDENT1_basic3")
 msg("SIAUL_WEST_RESIDENT1_basic5")
 end
 
------ SCS_M2_Mon_Guard ----- 
+----- SCS_M2_Mon_Guard -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(10022, "QUEST_20150317_000100", "f_siauliai_west", -851, 260, -495, -104, "npc_QUEST_20150317_000100")
@@ -175,7 +154,7 @@ function npc_QUEST_20150317_000100()
 msg("F_SIAUL_GAURD_before_chat1")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIAUL_ST1_ST2_GAURD -----
 ----- Dialog -----
 addnpc(10032, "QUEST_LV_0100_20150317_000249", "f_siauliai_west", 1651, 210, -706, -64.98, "npc_QUEST_LV_0100_20150317_000249")
@@ -194,7 +173,7 @@ msg("KLAPEDA_NPC_09_02_basic03")
 msg("KLAPEDA_NPC_09_01_basic03")
 end
 
------ soldier7 ----- 
+----- soldier7 -----
 ----- npcselectdialog.ies | ClassName: SIAUL_ST1_ST2 -----
 ----- Dialog -----
 ----- QuestIDs: SIAUL_WEST_WOOD_SPIRIT | SIAUL_WEST_LAIMONAS4 -----
@@ -204,7 +183,7 @@ msg("SIAUL_ST1_ST2_basic1")
 msg("SIAUL_ST1_ST2_basic2")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(10032, "QUEST_LV_0100_20150317_000249", "f_siauliai_west", 1650, 210, -854, 150, "npc_QUEST_LV_0100_20150317_000249")
@@ -212,95 +191,42 @@ function npc_QUEST_LV_0100_20150317_000249()
 msg("SIAUL_WEST_SOLDIER3_dlg1")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIAU_FRON_NPC_04 -----
 ----- Dialog -----
-addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -626, 260, -757, 131.05, "npc_QUEST_LV_0100_20150317_000001")
-function npc_QUEST_LV_0100_20150317_000001()
-msg("SIAU_FRON_NPC_01_basic01")
-msg("SIAU_FRON_NPC_02_basic01")
-msg("SIAUL_EAST_SOLDIER10_basic1")
-msg("SIAU_FRON_NPC_03_basic01")
-msg("SIAU_FRON_NPC_03_basic02")
-msg("SIAU_FRON_NPC_01_basic02")
-msg("SIAU_FRON_NPC_01_basic03")
-msg("SIAU_FRON_NPC_02_basic02")
+addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -626, 260, -757, 131.05, "SIAU_FRON_NPC_04")
+function SIAU_FRON_NPC_04()
 msg("SIAU_FRON_NPC_04_basic02")
 msg("SIAU_FRON_NPC_04_basic01")
-msg("SIAU_FRON_NPC_05_basic02")
-msg("SIAU_FRON_NPC_05_basic01")
-msg("f_katyn_18_dlg_2")
-msg("f_katyn_18_dlg_5")
-msg("f_katyn_18_dlg_6")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIAU_FRON_NPC_05 -----
 ----- Dialog -----
-addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -619, 260, -707, -29.58, "npc_QUEST_LV_0100_20150317_000001")
-function npc_QUEST_LV_0100_20150317_000001()
-msg("SIAU_FRON_NPC_01_basic01")
-msg("SIAU_FRON_NPC_02_basic01")
-msg("SIAUL_EAST_SOLDIER10_basic1")
-msg("SIAU_FRON_NPC_03_basic01")
-msg("SIAU_FRON_NPC_03_basic02")
-msg("SIAU_FRON_NPC_01_basic02")
-msg("SIAU_FRON_NPC_01_basic03")
-msg("SIAU_FRON_NPC_02_basic02")
-msg("SIAU_FRON_NPC_04_basic02")
-msg("SIAU_FRON_NPC_04_basic01")
+addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -619, 260, -707, -29.58, "SIAU_FRON_NPC_05")
+function SIAU_FRON_NPC_05()
 msg("SIAU_FRON_NPC_05_basic02")
 msg("SIAU_FRON_NPC_05_basic01")
-msg("f_katyn_18_dlg_2")
-msg("f_katyn_18_dlg_5")
-msg("f_katyn_18_dlg_6")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIAU_FRON_NPC_03 -----
 ----- Dialog -----
-addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -509, 260, -821, 206, "npc_QUEST_LV_0100_20150317_000001")
-function npc_QUEST_LV_0100_20150317_000001()
-msg("SIAU_FRON_NPC_01_basic01")
-msg("SIAU_FRON_NPC_02_basic01")
-msg("SIAUL_EAST_SOLDIER10_basic1")
+addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -509, 260, -821, 206, "SIAU_FRON_NPC_03")
+function SIAU_FRON_NPC_03()
 msg("SIAU_FRON_NPC_03_basic01")
 msg("SIAU_FRON_NPC_03_basic02")
-msg("SIAU_FRON_NPC_01_basic02")
-msg("SIAU_FRON_NPC_01_basic03")
-msg("SIAU_FRON_NPC_02_basic02")
-msg("SIAU_FRON_NPC_04_basic02")
-msg("SIAU_FRON_NPC_04_basic01")
-msg("SIAU_FRON_NPC_05_basic02")
-msg("SIAU_FRON_NPC_05_basic01")
-msg("f_katyn_18_dlg_2")
-msg("f_katyn_18_dlg_5")
-msg("f_katyn_18_dlg_6")
 end
 
------ Silvertransporter_m ----- 
+----- Silvertransporter_m -----
 ----- npcselectdialog.ies | ClassName: SIAU_FRON_NPC_02 -----
 ----- Dialog -----
-addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -589, 260, -822, 45, "npc_QUEST_LV_0100_20150317_000001")
-function npc_QUEST_LV_0100_20150317_000001()
-msg("SIAU_FRON_NPC_01_basic01")
+addnpc(10032, "QUEST_LV_0100_20150317_000001", "f_siauliai_west", -589, 260, -822, 45, "SIAU_FRON_NPC_02")
+function SIAU_FRON_NPC_02()
 msg("SIAU_FRON_NPC_02_basic01")
-msg("SIAUL_EAST_SOLDIER10_basic1")
-msg("SIAU_FRON_NPC_03_basic01")
-msg("SIAU_FRON_NPC_03_basic02")
-msg("SIAU_FRON_NPC_01_basic02")
-msg("SIAU_FRON_NPC_01_basic03")
-msg("SIAU_FRON_NPC_02_basic02")
-msg("SIAU_FRON_NPC_04_basic02")
-msg("SIAU_FRON_NPC_04_basic01")
-msg("SIAU_FRON_NPC_05_basic02")
-msg("SIAU_FRON_NPC_05_basic01")
-msg("f_katyn_18_dlg_2")
-msg("f_katyn_18_dlg_5")
-msg("f_katyn_18_dlg_6")
 end
 
------ soldier6 ----- 
+----- soldier6 -----
 ----- npcselectdialog.ies | ClassName: SIAUL_WEST_SOL3 -----
 ----- Dialog -----
 ----- QuestIDs: SIAUL_WEST_SOLDIER3 | SIAUL_WEST_HAMING_LEAF | SIAUL_WEST_KNIGHT | SIAUL_WEST_BOSS_GOLEM -----
@@ -320,7 +246,7 @@ msg("SIAUL_WEST_BOSS_GOLEM_AC")
 msg("SIAUL_WEST_BOSS_GOLEM_PRST")
 end
 
------ Board2 ----- 
+----- Board2 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40080, "QUEST_20150317_000808", "f_siauliai_west", -1566, 260, -1096, -37.72, "npc_QUEST_20150317_000808")
@@ -328,7 +254,7 @@ function npc_QUEST_20150317_000808()
 msg("SIAUL1_BOARD2")
 end
 
------ Board2 ----- 
+----- Board2 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40080, "QUEST_20150317_000808", "f_siauliai_west", -1692, 260, -150, -41.1, "npc_QUEST_20150317_000808")
@@ -336,7 +262,7 @@ function npc_QUEST_20150317_000808()
 msg("SIAUL1_BOARD3")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40070, "QUEST_20150317_000081", "f_siauliai_west", 487, 209, -139, -5.709999, "npc_QUEST_20150317_000081")
@@ -344,7 +270,7 @@ function npc_QUEST_20150317_000081()
 msg("SIAUL1_BOARD4")
 end
 
------ Board2 ----- 
+----- Board2 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40080, "QUEST_20150317_000808", "f_siauliai_west", -572, 322, 449, 137.12, "npc_QUEST_20150317_000808")
@@ -352,7 +278,7 @@ function npc_QUEST_20150317_000808()
 msg("SIAUL1_BOARD5")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40070, "QUEST_20150317_000081", "f_siauliai_west", -695, 322, 840, -19.09, "npc_QUEST_20150317_000081")
@@ -360,7 +286,7 @@ function npc_QUEST_20150317_000081()
 msg("SIAUL1_BOARD6")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40070, "QUEST_20150317_000081", "f_siauliai_west", -547, 260, -453, -48.27, "npc_QUEST_20150317_000081")
@@ -368,7 +294,7 @@ function npc_QUEST_20150317_000081()
 msg("SIAUL1_BOARD7")
 end
 
------ npc_HOP_sub_master ----- 
+----- npc_HOP_sub_master -----
 ----- npcselectdialog.ies | ClassName: JOB_HOPLITE2_NPC -----
 ----- Dialog -----
 ----- QuestIDs: JOB_HOPLITE2 | JOB_HOPLITE3_1 | JOB_HOPLITE4_1 | JOB_HOPLITE5_1 -----
@@ -391,7 +317,7 @@ msg("JOB_HOPLITE2_NPC_BASIC03")
 msg("JOB_HOPLITE2_NPC_BASIC04")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40070, "QUEST_20150317_000840", "f_siauliai_west", 1616, 210, -713, -52, "npc_QUEST_20150317_000840")
@@ -399,15 +325,15 @@ function npc_QUEST_20150317_000840()
 msg("SIAUL_WEST_HQ01_INFO01")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
-addnpc(40070, "QUEST_20150317_000840", "f_siauliai_west", -559, 261, -1021, 224, "npc_QUEST_20150317_000840")
-function npc_QUEST_20150317_000840()
+addnpc(40070, "QUEST_20150317_000840", "f_siauliai_west", -559, 261, -1021, 224, "siaul_west_hq01_info02")
+function siaul_west_hq01_info02()
 msg("SIAUL_WEST_HQ01_INFO02")
 end
 
------ Board1 ----- 
+----- Board1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(40070, "QUEST_20150317_000840", "f_siauliai_west", -1277, 261, -614, 45, "npc_QUEST_20150317_000840")
@@ -415,7 +341,7 @@ function npc_QUEST_20150317_000840()
 msg("SIAUL_WEST_HQ01_INFO03")
 end
 
------ npc_soldier_female_03 ----- 
+----- npc_soldier_female_03 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147416, "QUEST_20150317_000173", "f_siauliai_west", 1554, 210, -695, 45, "npc_QUEST_20150317_000173")
@@ -423,7 +349,7 @@ function npc_QUEST_20150317_000173()
 msg("TUTO_SKIP_NPC_BASIC")
 end
 
------ treasure_box1 ----- 
+----- treasure_box1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", 1564, 210, -370, 225, "npc_ETC_20150317_009100")
@@ -431,7 +357,7 @@ function npc_ETC_20150317_009100()
 msg("TREASUREBOX_LV")
 end
 
------ statue_zemina ----- 
+----- statue_zemina -----
 ----- npcselectdialog.ies | ClassName: F_SIAULIAI_WEST_EV_55_001 -----
 ----- Enter | Dialog -----
 ----- QuestIDs: SIAUL_WEST_LAIMONAS3_2 | SIAUL_WEST_LAIMONAS3_2 -----
@@ -442,7 +368,7 @@ msg("GM_QUEST_MODIFY_PC_SEL")
 msg("GM_NPC_HIDE_UNHIDE")
 end
 
------ treasure_box1 ----- 
+----- treasure_box1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", -580, 260, -1417, 135, "npc_ETC_20150317_009100")
@@ -450,7 +376,7 @@ function npc_ETC_20150317_009100()
 msg("TREASUREBOX_LV")
 end
 
------ npc_sculptor ----- 
+----- npc_sculptor -----
 ----- npcselectdialog.ies | ClassName: JOB_DIEVDIRBYS2_NPC -----
 ----- Dialog -----
 ----- QuestIDs: JOB_DIEVDIRBYS2 | JOB_DIEVDIRBYS3_1 | JOB_DIEVDIRBYS3_3 | JOB_DIEVDIRBYS4_1 | JOB_DIEVDIRBYS4_5 | JOB_DIEVDIRBYS5_1 | KATYN_10_HQ_01 | PILGRIM51_SQ_4 | PILGRIM51_SQ_4_0 | UNDERFORTRESS_68_SQ010 | UNDERFORTRESS_68_SQ020 | KATYN_45_3_SQ_4 | KATYN_45_3_SQ_5 | UNDERFORTRESS69_HQ1 -----
@@ -492,7 +418,7 @@ msg("KATYN_45_3_SQ_5_ST")
 msg("KATYN_45_3_SQ_5_STD")
 end
 
------ treasure_box1 ----- 
+----- treasure_box1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", -2004, 261, -940, -45, "npc_ETC_20150317_009100")
@@ -500,7 +426,7 @@ function npc_ETC_20150317_009100()
 msg("TREASUREBOX_LV")
 end
 
------ treasure_box3 ----- 
+----- treasure_box3 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147393, "ETC_20150317_009082", "f_siauliai_west", 186, 210, -857, 45, "npc_ETC_20150317_009082")
@@ -508,11 +434,10 @@ function npc_ETC_20150317_009082()
 msg("TREASUREBOX_LV")
 end
 
------ treasure_box1 ----- 
+----- treasure_box1 -----
 ----- npcselectdialog.ies | ClassName:  -----
 ----- Dialog -----
 addnpc(147392, "ETC_20150317_009100", "f_siauliai_west", 1346, 210, -1087, 45, "npc_ETC_20150317_009100")
 function npc_ETC_20150317_009100()
 msg("TREASUREBOX_LV")
 end
-
