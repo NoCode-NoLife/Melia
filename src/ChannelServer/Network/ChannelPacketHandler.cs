@@ -1161,6 +1161,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Request to save a chat macro.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHAT_MACRO)]
+		public void CZ_CHAT_MACRO(ChannelConnection conn, Packet packet)
+		{
+			var index = packet.GetInt();
+			var msg = packet.GetString(128);
+			var poseId = packet.GetInt();
+		}
+
+		/// <summary>
 		/// Sent when requesting to visit another player's barrack
 		/// </summary>
 		/// <param name="conn"></param>
