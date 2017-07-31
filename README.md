@@ -1,8 +1,6 @@
 Melia
 ==============================
 
-<span style="color:red;font-size:1.5em;">**Attention: Development on pause, not compatible to latest clients.**</span>
-
 Melia is an open-source MMORPG server software for the international client of Tree of Savior.
 It's solely being developed for educational purposes, learning about programming, MMORPGs,
 maintaining huge projects, working with other people, and improving knowledge.
@@ -15,9 +13,8 @@ in the context of its license.
 
 Compatibility
 ------------------------------
-Melia is only compatible to the latest iTOS client,
-compatibility to any other clients or versions is
-not guaranteed, and in fact unlikely.
+Melia is compatible to version 164556 of the iTOS client.  
+Compatibility to any other clients or versions is not guaranteed, and in fact unlikely.
 
 Requirements
 ------------------------------
