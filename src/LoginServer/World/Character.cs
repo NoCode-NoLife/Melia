@@ -39,6 +39,35 @@ namespace Melia.Login.World
 		}
 
 		/// <summary>
+		/// Initializes equipment for first time creation.
+		/// </summary>
+		public void InitEquipment()
+		{
+			// TODO: This belongs in a constructor (complicated with data persistence).
+			switch (this.Job)
+			{
+				case Job.Archer:
+					this.Equipment[(int)EquipSlot.LeftHand] = 161101;
+					this.Equipment[(int)EquipSlot.RightHand] = 161101;
+					break;
+				case Job.Swordsman:
+					this.Equipment[(int)EquipSlot.LeftHand] = 101101;
+					break;
+				case Job.Cleric:
+					this.Equipment[(int)EquipSlot.LeftHand] = 201101;
+					break;
+				case Job.Wizard:
+					this.Equipment[(int)EquipSlot.LeftHand] = 141101;
+					break;
+				default:
+					throw new ArgumentException(string.Format("The job type '{0}' is not valid for this method.", this.Job));
+			}
+
+			this.Equipment[(int)EquipSlot.Pants] = 521101;
+			this.Equipment[(int)EquipSlot.Top] = 531101;
+		}
+
+		/// <summary>
 		/// Returns ids of equipped items.
 		/// </summary>
 		/// <returns></returns>

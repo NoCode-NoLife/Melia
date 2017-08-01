@@ -1,10 +1,104 @@
-addnpc(152002, "QUEST_UNUSED_20151102_002765", "f_3cmlake_84", -171.0628, 274.4655, 324.4915, -3, "npc_dummy")
-addnpc(47245, "QUEST_LV_0100_20151224_013341", "f_3cmlake_84", -41.96592, 274.4655, 257.2425, -123, "npc_dummy")
-addnpc(147481, "QUEST_LV_0100_20151102_010942", "f_3cmlake_84", -187.294, 274.4655, 188.3103, 90, "npc_dummy")
-addnpc(153054, "ITEM_20151224_009774", "f_3cmlake_84", 335.4131, 274.4659, 306.2536, 45, "npc_dummy")
-addnpc(147394, "ETC_20150714_013115", "f_3cmlake_84", -406, 261, -1097, 45, "npc_dummy")
-addnpc(153054, "ITEM_20151224_009774", "f_3cmlake_84", 301.8813, 274.4659, 672.9183, 45, "npc_dummy")
-addnpc(153054, "ITEM_20151224_009774", "f_3cmlake_84", 440.8374, 274.4659, 709.3528, 45, "npc_dummy")
-addnpc(153054, "ITEM_20151224_009774", "f_3cmlake_84", 460.0252, 274.4659, 317.8021, 45, "npc_dummy")
-addnpc(153054, "ITEM_20151224_009774", "f_3cmlake_84", 231.1499, 274.4658, 512.7915, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_3cmlake_84", 808, 273, -339, 225, "npc_dummy")
+----- npc_oldman_1 ----- 
+----- npcselectdialog.ies | ClassName: 3CMLAKE_84_OLDMAN -----
+----- Dialog -----
+----- QuestIDs: F_3CMLAKE_83_MQ_05 | F_3CMLAKE_84_MQ_01 | F_3CMLAKE_84_MQ_02 | F_3CMLAKE_84_MQ_03 | F_3CMLAKE_84_MQ_06 | F_3CMLAKE_83_MQ_06 -----
+addnpc(152002, "QUEST_UNUSED_20151102_002765", "f_3cmlake_84", -171, 274, 324, -3, "npc_QUEST_UNUSED_20151102_002765")
+function npc_QUEST_UNUSED_20151102_002765()
+msg("3CMLAKE_83_OLDMAN1_basic02")
+msg("3CMLAKE_83_OLDMAN2_basic01")
+msg("3CMLAKE_83_OLDMAN2_basic02")
+msg("3CMLAKE_83_OLDMAN2_basic03")
+msg("3CMLAKE_83_OLDMAN2_basic04")
+msg("3CMLAKE_83_MQ_01_DLG_01")
+msg("3CMLAKE_83_MQ_01_DLG_02")
+msg("3CMLAKE_83_MQ_01_DLG_03")
+msg("3CMLAKE_83_MQ_03_DLG_03")
+msg("3CMLAKE_83_MQ_04_DLG_01")
+msg("3CMLAKE_83_MQ_04_DLG_02")
+msg("3CMLAKE_83_MQ_04_DLG_03")
+msg("3CMLAKE_83_MQ_05_DLG_03")
+msg("3CMLAKE_84_MQ_01_DLG_01")
+msg("3CMLAKE_84_MQ_01_DLG_02")
+msg("3CMLAKE_84_MQ_01_DLG_03")
+msg("3CMLAKE_84_MQ_01_DLG_04")
+msg("3CMLAKE_84_MQ_02_DLG_01")
+msg("3CMLAKE_84_MQ_02_DLG_02")
+msg("3CMLAKE_84_MQ_02_DLG_03")
+msg("3CMLAKE_84_MQ_03_DLG_01")
+msg("3CMLAKE_84_MQ_03_DLG_02")
+msg("3CMLAKE_84_MQ_03_DLG_04")
+msg("3CMLAKE_84_MQ_06_DLG_03")
+msg("3CMLAKE_83_OLDMAN1_basic01")
+msg("3CMLAKE_83_MQ_01_DLG_04")
+msg("3CMLAKE_83_MQ_06_DLG_01")
+msg("3CMLAKE_84_OLDMAN1")
+msg("3CMLAKE_83_OLDMAN1")
+msg("3CMLAKE_83_OLDMAN1_basic11")
+msg("3CMLAKE_83_OLDMAN1_basic03")
+msg("3CMLAKE_83_OLDMAN1_basic04")
+end
+
+----- npc_sout_hunter ----- 
+----- npcselectdialog.ies | ClassName: 3CMLAKE_84_HUNTER -----
+----- Dialog -----
+----- QuestIDs: F_3CMLAKE_84_MQ_03 | F_3CMLAKE_84_MQ_04 | F_3CMLAKE_84_MQ_05 | F_3CMLAKE_84_MQ_02 | F_3CMLAKE_84_MQ_06 | F_3CMLAKE_84_SQ_01 -----
+addnpc(47245, "QUEST_LV_0100_20151224_013341", "f_3cmlake_84", -42, 274, 257, -123, "npc_QUEST_LV_0100_20151224_013341")
+function npc_QUEST_LV_0100_20151224_013341()
+msg("HT_3CMLAKE_84_HUNTER_BASIC10")
+msg("HT_3CMLAKE_84_HUNTER_BASIC11")
+msg("HT_3CMLAKE_84_HUNTER_BASIC12")
+msg("3CMLAKE_84_MQ_03_DLG_03")
+msg("3CMLAKE_84_MQ_04_DLG_01")
+msg("3CMLAKE_84_MQ_04_DLG_02")
+msg("3CMLAKE_84_MQ_04_DLG_03")
+msg("3CMLAKE_84_MQ_05_DLG_01")
+msg("3CMLAKE_84_SQ_01_DLG_01")
+msg("3CMLAKE_84_SQ_01_DLG_02")
+msg("3CMLAKE_84_SQ_01_DLG_03")
+msg("3CMLAKE_84_MQ_06_DLG_01")
+msg("3CMLAKE_84_MQ_06_DLG_02")
+msg("3CMLAKE_84_HUNTER1")
+msg("3CMLAKE_84_HUNTER2")
+msg("3CMLAKE_84_SQ_01_AG")
+msg("3CMLAKE_84_MQ_06_DLG_AG")
+msg("3CMLAKE_84_HUNTER2_basic01")
+msg("3CMLAKE_84_HUNTER2_basic02")
+msg("3CMLAKE_84_HUNTER2_basic03")
+msg("3CMLAKE_84_HUNTER2_basic04")
+msg("3CMLAKE_84_HUNTER2_basic05")
+end
+
+----- npc_village_male_a1 ----- 
+----- npcselectdialog.ies | ClassName: 3CMLAKE_84_PEOPLE1 -----
+----- Dialog -----
+----- QuestIDs: F_3CMLAKE_84_SQ_02 | F_3CMLAKE_84_SQ_03 -----
+addnpc(147481, "QUEST_LV_0100_20151102_010942", "f_3cmlake_84", -187, 274, 188, 90, "npc_QUEST_LV_0100_20151102_010942")
+function npc_QUEST_LV_0100_20151102_010942()
+msg("3CMLAKE_84_SQ_02_DLG_01")
+msg("3CMLAKE_84_SQ_02_DLG_02")
+msg("3CMLAKE_84_SQ_02_DLG_03")
+msg("3CMLAKE_84_SQ_03_DLG_01")
+msg("3CMLAKE_84_SQ_03_DLG_02")
+msg("3CMLAKE_84_SQ_03_DLG_03")
+msg("3CMLAKE_84_PEOPLE1")
+msg("3CMLAKE_84_SQ_02_AG")
+msg("3CMLAKE_84_PEOPLE1_CLEAR")
+end
+
+----- treasure_box4 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Enter | Dialog -----
+addnpc(147394, "ETC_20150714_013115", "f_3cmlake_84", -406, 261, -1097, 45, "npc_ETC_20150714_013115")
+function npc_ETC_20150714_013115()
+msg("ORCHARD_32_4_FLAMINGO_TRACK_BOX")
+msg("TREASUREBOX_LV")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_3cmlake_84", 808, 273, -339, 225, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

@@ -104,6 +104,8 @@
 { shopName: "Klapeda_Companion", productId: 1301, itemId: 640152, priceMultiplier: 1 },
 { shopName: "Klapeda_Companion", productId: 1302, itemId: 640231, priceMultiplier: 1 },
 { shopName: "Klapeda_Companion", productId: 1303, itemId: 640236, priceMultiplier: 1 },
+{ shopName: "Klapeda_Companion", productId: 1304, itemId: 640249, priceMultiplier: 1 },
+{ shopName: "Klapeda_Companion", productId: 1305, itemId: 640189, priceMultiplier: 1 },
 
 { shopName: "Master_Alchemist", productId: 1401, itemId: 645533, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1402, itemId: 645532, priceMultiplier: 1 },
@@ -121,6 +123,9 @@
 { shopName: "Master_Squire", productId: 1605, itemId: 640125, priceMultiplier: 1 },
 { shopName: "Master_Squire", productId: 1606, itemId: 640124, priceMultiplier: 1 },
 { shopName: "Master_Squire", productId: 1607, itemId: 640044, priceMultiplier: 1 },
+{ shopName: "Master_Squire", productId: 1608, itemId: 640251, priceMultiplier: 1 },
+{ shopName: "Master_Squire", productId: 1609, itemId: 640253, priceMultiplier: 1 },
+{ shopName: "Master_Squire", productId: 1610, itemId: 640254, priceMultiplier: 1 },
 
 { shopName: "Master_Fletcher", productId: 1701, itemId: 645238, priceMultiplier: 1 },
 { shopName: "Master_Fletcher", productId: 1702, itemId: 645239, priceMultiplier: 1 },
@@ -134,6 +139,7 @@
 { shopName: "Master_Sapper", productId: 1901, itemId: 645604, priceMultiplier: 1 },
 { shopName: "Master_Sapper", productId: 1902, itemId: 645605, priceMultiplier: 1 },
 { shopName: "Master_Sapper", productId: 1903, itemId: 645240, priceMultiplier: 1 },
+{ shopName: "Master_Sapper", productId: 1904, itemId: 645239, priceMultiplier: 1 },
 
 { shopName: "Fedimian_Misc", productId: 2001, itemId: 640003, priceMultiplier: 1 },
 { shopName: "Fedimian_Misc", productId: 2002, itemId: 640004, priceMultiplier: 1 },
@@ -199,4 +205,13 @@
 { shopName: "Master_RuneCaster", productId: 3501, itemId: 645750, priceMultiplier: 1 },
 
 { shopName: "Master_Bokor", productId: 3601, itemId: 910004, priceMultiplier: 1 },
+
+{ shopName: "Master_Daoshi", productId: 3701, itemId: 645821, priceMultiplier: 1 },
+
+{ shopName: "Master_Enchanter", productId: 3801, itemId: 645923, priceMultiplier: 1 },
+{ shopName: "Master_Enchanter", productId: 3802, itemId: 645810, priceMultiplier: 1 },
+
+{ shopName: "Master_Inquisitor", productId: 3901, itemId: 645924, priceMultiplier: 1 },
+
+{ shopName: "Master_Appraiser", productId: 4001, itemId: 646044, priceMultiplier: 1 },
 ]

@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ADD_HP.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: Changes the character's HP for healing/damage
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int reserved;
+
+int handle;
+int healHP; // '1' if damage
+int characterHP; // total character HP
+int priority; // a counter used to validate the most recent packet received. Higher values negate packets with lower ones.

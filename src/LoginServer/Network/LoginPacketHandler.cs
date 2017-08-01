@@ -41,6 +41,9 @@ namespace Melia.Login.Network
 			var unkByte2 = packet.GetByte();
 			var unkByte3 = packet.GetByte(); // [i10671 (2015-10-26)] ?
 			var ip = packet.GetInt();
+			var unkInt4 = packet.GetInt();
+			var unkInt5 = packet.GetInt();
+			var sysLocale = packet.GetShort(); // system locale (ex. en_US)
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
@@ -128,6 +131,7 @@ namespace Melia.Login.Network
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -141,6 +145,18 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
+		}
+
+		/// <summary>
+		/// Sent when the user clicks the barrack number.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
+		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		{
+			// temporarily resend the current list
+			Send.BC_COMMANDER_LIST(conn);
 		}
 
 		/// <summary>
@@ -202,7 +218,8 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
-			var startingCity = (StartingCity)packet.GetInt();
+
+			var startingCity = StartingCity.Klaipeda;
 
 			// Check starting city
 			if (!Enum.IsDefined(typeof(StartingCity), startingCity))
@@ -266,9 +283,9 @@ namespace Melia.Login.Network
 			// Create
 			var character = new Character();
 			character.Name = name;
-			character.Job = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.Job = job;
 
 			character.MapId = mapData.Id;
 			character.Position = new Position(startingCityData.X, startingCityData.Y, startingCityData.Z);
@@ -283,8 +300,11 @@ namespace Melia.Login.Network
 			character.Spr = jobData.Spr;
 			character.Dex = jobData.Dex;
 
+			character.InitEquipment();
+
 			conn.Account.CreateCharacter(character);
 
+			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
 
@@ -299,13 +319,13 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
-			var index = packet.GetByte();
+			var characterId = packet.GetLong();
 
 			// Get character
-			var character = conn.Account.GetCharacterByIndex(index);
+			var character = conn.Account.GetCharacterById(characterId);
 			if (character == null)
 			{
-				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, characterId);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -318,7 +338,8 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_COMMANDER_DESTROY(conn, index);
+			Send.BC_COMMANDER_DESTROY(conn, character.Index);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -336,8 +357,8 @@ namespace Melia.Login.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat();	// ?
-			var d2 = packet.GetFloat();	// ?
+			var d1 = packet.GetFloat(); // ?
+			var d2 = packet.GetFloat(); // ?
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
@@ -415,7 +436,7 @@ namespace Melia.Login.Network
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+			Send.BC_NORMAL_Run(conn, BCNormalMsg.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
@@ -435,6 +456,17 @@ namespace Melia.Login.Network
 
 			// Ignore for now.
 			// TODO: Add option for accepted checksums.
+		}
+
+		/// <summary>
+		/// Sent when the client wants an update on zone traffic.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_CHANNEL_TRAFFIC)]
+		public void CB_REQ_CHANNEL_TRAFFIC(LoginConnection conn, Packet packet)
+		{
+			Send.BC_NORMAL_ZoneTraffic(conn);
 		}
 	}
 }

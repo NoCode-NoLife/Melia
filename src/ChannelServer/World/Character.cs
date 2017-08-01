@@ -60,6 +60,13 @@ namespace Melia.Channel.World
 		public bool IsGrounded { get; set; }
 
 		/// <summary>
+		/// Holds the order of successive changes in character HP.
+		/// A higher value indicates the latest damage taken.
+		/// I'm not sure when this gets rolled over.
+		/// </summary>
+		public int HPChangeCounter { get; set; } = 0;
+
+		/// <summary>
 		/// The character's inventory.
 		/// </summary>
 		public Inventory Inventory { get; protected set; }
@@ -381,7 +388,10 @@ namespace Melia.Channel.World
 
 				// Monsters
 				foreach (var monster in appearMonsters)
+				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
+					Send.ZC_FACTION(this.Connection, monster);
+				}
 
 				foreach (var monster in disappearMonsters)
 					Send.ZC_LEAVE(this.Connection, monster);

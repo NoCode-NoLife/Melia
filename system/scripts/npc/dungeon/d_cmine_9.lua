@@ -1,10 +1,16 @@
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_9", 119, -45, -1162, 36.47, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_9", -538, 88, -70, 36.47, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_9", 522, 265, -24, 36.47, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_cmine_9", -560, 408, 521, 36.47, "npc_dummy")
-addnpc(155013, "ETC_20150428_011577", "d_cmine_9", 147, -50, -947, 45, "npc_dummy")
-addnpc(155014, "ETC_20150428_011578", "d_cmine_9", 623.936, 261.9971, 81.73727, 45, "npc_dummy")
-addnpc(155015, "ETC_20150428_011579", "d_cmine_9", -610.7022, 408.6344, 375.5481, 45, "npc_dummy")
-addnpc(40070, "ETC_20150406_010841", "d_cmine_9", -437.6603, 398.5093, 572.384, -1, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_cmine_9", -1870, 602, 288, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_cmine_9", 667, 229, 1447, 45, "npc_dummy")
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40070, "ETC_20150406_010841", "d_cmine_9", -438, 399, 572, -1, "npc_ETC_20150406_010841")
+function npc_ETC_20150406_010841()
+msg("D_CMINE_9_WARNING")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_cmine_9", 667, 229, 1447, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

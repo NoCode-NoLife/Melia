@@ -1,0 +1,50 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Commander.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct {
+  int handle;
+  int u0;
+  char characterName[65];
+  char teamName[64];
+  __int64 accountId;
+  BYTE u1[7];
+  short stance;
+  short u2;
+  short jobId;
+  BYTE gender;
+  BYTE u3;
+  int level;
+  int equipment[22];
+  int u4;
+  int u5;
+  short hair;
+  short pose;
+  int u6;
+  int u7;
+  float PositionX;
+  float PositionY;
+  float PositionZ;
+  float currentExp;
+  float totalExpToLevel;
+  float totalExp;
+  __int64 characterId;
+  __int64 u8;
+  int HP;
+  int MaxHP;
+  short SP;
+  short maxSP;
+  int stamina;
+  int maxStamina;
+  short u9;
+  short u10;
+} Commander;

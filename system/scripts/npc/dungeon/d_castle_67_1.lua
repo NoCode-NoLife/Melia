@@ -1,21 +1,63 @@
-addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 397.2058, 234.45, -1034.697, 0, "npc_dummy")
-addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 441.0784, 234.5798, 55.43124, 0, "npc_dummy")
-addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 1441.11, 234.7125, -1036.427, 0, "npc_dummy")
-addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 1432.024, 232.3126, 42.84073, 0, "npc_dummy")
-addnpc(154005, "ETC_20151224_019921", "d_castle_67_1", -845.5681, 143.2479, 536.2789, 45, "npc_dummy")
-addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -978.4866, 143.2479, 534.6286, 45, "npc_dummy")
-addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -840.2394, 143.2479, 665.8105, -45, "npc_dummy")
-addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -843.9767, 143.2479, 396.3521, 135, "npc_dummy")
-addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -704.3315, 143.2479, 542.8525, 225, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", -704.3315, 143.2479, 542.8525, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", -978.4866, 143.2479, 534.6286, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", -840.2394, 143.2479, 665.8105, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", -843.9767, 143.2479, 396.3521, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", -845.5681, 143.2479, 536.2789, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", 1441.11, 234.7125, -1036.427, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", 397.2058, 234.45, -1034.697, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", 441.0784, 234.5798, 55.43124, 45, "npc_dummy")
-addnpc(147361, "ETC_20150317_009233", "d_castle_67_1", 1432.024, 232.3126, 42.84073, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_castle_67_1", -1653.771, 0.258728, -1192.015, 0, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "d_castle_67_1", 877.9354, 53.354, 1211.553, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_castle_67_1", -1386.86, 56.27, -269.79, 45, "npc_dummy")
+----- npc_cathedral_device_02 ----- 
+addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 397, 234, -1035, 0, "npc_dummy")
+
+----- npc_cathedral_device_02 ----- 
+addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 441, 235, 55, 0, "npc_dummy")
+
+----- npc_cathedral_device_02 ----- 
+addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 1441, 235, -1036, 0, "npc_dummy")
+
+----- npc_cathedral_device_02 ----- 
+addnpc(153018, "ETC_20151224_019919", "d_castle_67_1", 1432, 232, 43, 0, "npc_dummy")
+
+----- npc_zacharial_desk2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -978, 143, 535, 45, "npc_ETC_20151224_019920")
+function npc_ETC_20151224_019920()
+msg("FD_CASTLE671_BOOK")
+end
+
+----- npc_zacharial_desk2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -840, 143, 666, -45, "npc_ETC_20151224_019920")
+function npc_ETC_20151224_019920()
+msg("FD_CASTLE671_BOOK")
+end
+
+----- npc_zacharial_desk2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -844, 143, 396, 135, "npc_ETC_20151224_019920")
+function npc_ETC_20151224_019920()
+msg("FD_CASTLE671_BOOK")
+end
+
+----- npc_zacharial_desk2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151052, "ETC_20151224_019920", "d_castle_67_1", -704, 143, 543, 225, "npc_ETC_20151224_019920")
+function npc_ETC_20151224_019920()
+msg("FD_CASTLE671_BOOK")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "d_castle_67_1", -1654, 0, -1192, 0, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_D_CASTLE_67_1")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_castle_67_1", -1387, 56, -270, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

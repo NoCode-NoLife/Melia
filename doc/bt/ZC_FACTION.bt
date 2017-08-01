@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_FACTION.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: Assigns a faction to a handle
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op<format=hex>;
+int reserved;
+
+int handle;
+int faction;

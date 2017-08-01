@@ -21,23 +21,31 @@ namespace Melia.Login.Network.Helpers
 		/// <param name="account"></param>
 		public static void AddAccountProperties(this Packet packet, Account account)
 		{
-			packet.PutShort(4 * 6); // Account properties size
+			packet.PutShort(43); // Account properties size
 
 			// [i11257 (2016-03-25)] ?
 			{
 				packet.PutShort(1004);
 			}
 
-			packet.PutShort(ObjectProperty.Account.Medal);
+			// Free TP
+			packet.PutInt(ObjectProperty.Account.Medal);
 			packet.PutFloat(account.Medals);
 
-			packet.PutShort(ObjectProperty.Account.ReceiveGiftMedal);
-			packet.PutFloat(5);
+			packet.PutInt(ObjectProperty.Account.Medal_Get_Date);
 
-			packet.PutShort(ObjectProperty.Account.GiftMedal);
+			packet.PutShort(5); // length of the next string
+			packet.PutString("None");
+			
+			//Event TP
+			packet.PutInt(ObjectProperty.Account.GiftMedal);
 			packet.PutFloat(10);
 
-			packet.PutShort(ObjectProperty.Account.SelectedBarrack);
+			// TP
+			packet.PutInt(ObjectProperty.Account.PremiumMedal);
+			packet.PutFloat(0);
+
+			packet.PutInt(ObjectProperty.Account.SelectedBarrack);
 			packet.PutFloat(account.SelectedBarrack);
 		}
 	}

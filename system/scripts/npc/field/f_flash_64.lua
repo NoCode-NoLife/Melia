@@ -1,64 +1,556 @@
-addnpc(40110, "ETC_20150317_007030", "f_flash_64", -570.1172, 885.3875, 1373.78, 60, "npc_dummy")
-addnpc(20106, "ETC_20150714_013162", "f_flash_64", -365.7742, 745.6932, -1319.784, -28, "npc_dummy")
-addnpc(151071, "ETC_20151224_019947", "f_flash_64", -399.1505, 745.6932, -1350.009, 59, "npc_dummy")
-addnpc(151072, "ETC_20151224_019948", "f_flash_64", -314.8599, 745.6932, -1315.044, -63, "npc_dummy")
-addnpc(154019, "ETC_20150714_013164", "f_flash_64", -443.7715, 533.0458, 357.7411, 45, "npc_dummy")
-addnpc(154022, "ETC_20151224_019945", "f_flash_64", 29.38471, 533.0458, 357.1641, 45, "npc_dummy")
-addnpc(153040, "ETC_20151224_019946", "f_flash_64", -586.4934, 885.3876, 1560.286, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1488.264, 578.3446, -134.8591, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1339.244, 571.8387, -230.7649, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1293.892, 578.3446, 92.75174, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -918.6711, 536.8473, -600.0803, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -942.6066, 564.7603, -295.9899, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -986.5865, 564.1514, 185.8792, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1222.976, 564.1956, 332.83, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -879.6102, 587.2318, 721.2842, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1495.083, 578.3446, -19.44955, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1179.681, 536.8472, -515.9983, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1235.594, 587.2318, 538.9385, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_64", -909.5046, 587.2318, 533.6248, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", 124.0561, 688.4476, -517.7546, -114, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -229.9733, 688.4476, -519.9115, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -347.2222, 688.4476, -440.5534, -11, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_64", -187.2584, 688.4476, -349.2137, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1181.162, 564.7603, -354.1563, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1246.267, 564.3389, 238.4076, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1071.968, 587.2318, 657.2013, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -685.6849, 587.2318, 753.5668, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1437.441, 512.7866, -450.3657, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1112.946, 457.6492, 378.3195, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 975.5398, 457.6492, 557.2016, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1365.488, 457.6492, 749.4231, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1482.577, 457.6492, 663.9259, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1461.149, 457.6492, 519.3069, 45, "npc_dummy")
-addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1164.461, 457.6492, 660.6064, 45, "npc_dummy")
-addnpc(154026, "ETC_20150714_013156", "f_flash_64", -318.0145, 688.4476, -656.5358, 102, "npc_dummy")
-addnpc(154029, "ETC_20150714_013156", "f_flash_64", -131.2334, 688.4476, -522.3377, 215, "npc_dummy")
-addnpc(154026, "ETC_20150714_013156", "f_flash_64", 12.97611, 688.4476, -386.8947, 45, "npc_dummy")
-addnpc(154026, "ETC_20150714_013156", "f_flash_64", -194.3963, 688.4476, -220.8631, 141, "npc_dummy")
-addnpc(154029, "ETC_20150714_013156", "f_flash_64", -488.5532, 688.4476, -603.2667, 26, "npc_dummy")
-addnpc(154029, "ETC_20150714_013156", "f_flash_64", -90.78517, 688.4476, -738.1331, 103, "npc_dummy")
-addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1137.299, 564.7603, -106.3741, 215, "npc_dummy")
-addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1283.516, 564.3587, 237.2169, 45, "npc_dummy")
-addnpc(154030, "ETC_20150317_009332", "f_flash_64", -706.1798, 587.2318, 760.4736, 45, "npc_dummy")
-addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1179.379, 587.2318, 642.0057, -30, "npc_dummy")
-addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1528.928, 512.7897, -517.265, 45, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_64", -1397.137, 512.785, -292.6479, -107, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_64", -1027.725, 564.7603, -156.9993, 45, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_64", -871.2647, 533.0458, 396.0716, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_flash_64", -142.5398, 745.6932, -1353.881, -45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -239.636, 745.6932, -1320.013, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1371.177, 578.3446, 15.94517, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -959.5665, 564.7603, -224.9392, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1043.663, 564.1897, 97.78067, 45, "npc_dummy")
-addnpc(46011, "ETC_20150317_000359", "f_flash_64", -973.699, 587.2318, 513.249, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", 8.079102, 826.0768, -2614.855, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -427.0028, 533.0458, 342.8807, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -20.09676, 533.0458, 308.2035, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -527.0529, 885.3876, 1488.763, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -9.010883, 843.062, 2352.276, 45, "npc_dummy")
-addnpc(154046, "ETC_20151224_019949", "f_flash_64", -620.8282, 885.3876, 1448.575, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -1643.954, 512.7927, -432.8732, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "f_flash_64", -374.0178, 843.062, 2066.765, 45, "npc_dummy")
-addnpc(154046, "QUEST_20160224_003695", "f_flash_64", -492.4844, 885.3876, 1383.241, 35, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_flash_64", -560.66, 673.74, 526.11, 90, "npc_dummy")
+----- statue_zemina ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Enter | Dialog -----
+addnpc(40110, "ETC_20150317_007030", "f_flash_64", -570, 885, 1374, 60, "npc_ETC_20150317_007030")
+function npc_ETC_20150317_007030()
+msg("F_FLASH_64_EV_55_001")
+msg("F_FLASH_64_EV_55_001")
+end
+
+----- npc_intermediate_officer_female ----- 
+----- npcselectdialog.ies | ClassName: FLASH64_KARRIAT -----
+----- Dialog -----
+----- QuestIDs: FLASH64_MQ_02 | UNDERFORTRESS_67_SQ010 | FLASH64_SQ_01 | FLASH64_SQ_02 | FLASH64_SQ_03 | UNDERFORTRESS_66_SQ010 | UNDERFORTRESS67_HQ1 | FLASH63_HQ1 -----
+addnpc(20106, "ETC_20150714_013162", "f_flash_64", -366, 746, -1320, -28, "npc_ETC_20150714_013162")
+function npc_ETC_20150714_013162()
+msg("FLASH64_SQ_01_01")
+msg("FLASH64_KARRIAT_basic_01")
+msg("FLASH64_SQ_01_02")
+msg("FLASH64_SQ_01_03")
+msg("FLASH64_SQ_02_01")
+msg("FLASH64_SQ_02_02")
+msg("FLASH64_SQ_02_03")
+msg("FLASH64_SQ_03_01")
+msg("FLASH64_SQ_03_02")
+msg("FLASH64_MQ_02_02")
+msg("FLASH64_KARRIAT_basic_02")
+msg("FLASH64_KARRIAT_basic_03")
+msg("FLASH64_KARRIAT_basic_04")
+msg("UNDERFORTRESS_66_SQ010_startnpc01")
+msg("UNDERFORTRESS_66_SQ010_startnpc_prog01")
+msg("UNDERFORTRESS_66_SQ010_succ01")
+msg("UNDER_67_SQ010_succ01")
+msg("FLASH64_KARRIAT_basic_05")
+msg("UNDERFORTRESS67_HQ1_start1")
+msg("UNDERFORTRESS67_HQ1_agree1")
+msg("UNDERFORTRESS67_HQ1_prog1")
+msg("UNDERFORTRESS67_HQ1_succ1")
+msg("FLASH63_HQ1_prog1")
+msg("FLASH63_HQ1_succ1")
+end
+
+----- npc_CNN_master ----- 
+----- npcselectdialog.ies | ClassName: CANNONEER_MASTER -----
+----- Dialog -----
+----- QuestIDs: JOB_CANNONEER_7_1 | JOB_CANNONEER_8_1 -----
+addnpc(151071, "ETC_20151224_019947", "f_flash_64", -399, 746, -1350, 59, "npc_ETC_20151224_019947")
+function npc_ETC_20151224_019947()
+msg("JOB_CANNONEER_7_1_select")
+msg("JOB_CANNONEER_7_1_agree")
+msg("JOB_CANNONEER_7_1_prog_start")
+msg("JOB_CANNONEER_7_1_succ")
+msg("JOB_CANNONEER_MASTER_basic1")
+msg("JOB_CANNONEER_MASTER_basic2")
+msg("JOB_CANNONEER_8_1_ST")
+msg("JOB_CANNONEER_8_1_STD")
+msg("JOB_CANNONEER_8_1_SU")
+msg("JOB_CANNONEER_8_1_AG")
+end
+
+----- npc_MSK_master ----- 
+----- npcselectdialog.ies | ClassName: MUSKETEER_MASTER -----
+----- Dialog -----
+----- QuestIDs: JOB_MUSKETEER_7_1 | JOB_MUSKETEER_8_1 -----
+addnpc(151072, "ETC_20151224_019948", "f_flash_64", -315, 746, -1315, -63, "npc_ETC_20151224_019948")
+function npc_ETC_20151224_019948()
+msg("JOB_MUSKETEER_7_1_select")
+msg("JOB_MUSKETEER_7_1_agree")
+msg("JOB_MUSKETEER_7_1_prog_start")
+msg("JOB_MUSKETEER_7_1_succ")
+msg("JOB_MUSKETEER_MASTER_basic1")
+msg("JOB_MUSKETEER_MASTER_basic2")
+msg("JOB_MUSKETEER_8_1_ST")
+msg("JOB_MUSKETEER_8_1_AG")
+msg("JOB_MUSKETEER_8_1_PG")
+msg("JOB_MUSKETEER_8_1_SU")
+end
+
+----- npc_bocor_edita ----- 
+----- npcselectdialog.ies | ClassName: FLASH64_EDITA -----
+----- Dialog -----
+----- QuestIDs: FLASH64_SQ_05 | FLASH64_SQ_06 | FLASH64_SQ_07 -----
+addnpc(154019, "ETC_20150714_013164", "f_flash_64", -444, 533, 358, 45, "npc_ETC_20150714_013164")
+function npc_ETC_20150714_013164()
+msg("FLASH64_EDITA_basic_1")
+msg("FLASH64_SQ_05_01")
+msg("FLASH64_SQ_05_02")
+msg("FLASH64_SQ_05_03")
+msg("FLASH64_SQ_06_01")
+msg("FLASH64_SQ_06_02")
+msg("FLASH64_SQ_06_03")
+msg("FLASH64_SQ_07_01")
+msg("FLASH64_SQ_07_02")
+msg("FLASH64_SQ_07_03")
+msg("FLASH64_SQ_05_01_01")
+msg("FLASH64_SQ_05_01_add")
+msg("FLASH64_EDITA_basic_2")
+end
+
+----- npc_ALC_saliamonas ----- 
+----- npcselectdialog.ies | ClassName: FLASH64_SALIAMONS -----
+----- Dialog -----
+----- QuestIDs: FLASH64_SQ_08 | FLASH64_SQ_09 | FLASH64_SQ_10 -----
+addnpc(154022, "ETC_20151224_019945", "f_flash_64", 29, 533, 357, 45, "npc_ETC_20151224_019945")
+function npc_ETC_20151224_019945()
+msg("FLASH64_SALIAMONS_basic_1")
+msg("FLASH64_SQ_08_01")
+msg("FLASH64_SQ_08_02")
+msg("FLASH64_SQ_08_03")
+msg("FLASH64_SQ_09_01")
+msg("FLASH64_SQ_09_02")
+msg("FLASH64_SQ_09_03")
+msg("FLASH64_SQ_10_01")
+msg("FLASH64_SQ_10_02")
+msg("FLASH64_SQ_10_03")
+msg("FLASH64_SQ_08_01_01")
+msg("FLASH64_SQ_08_01_add")
+msg("FLASH64_SALIAMONS_basic_2")
+end
+
+----- npc_historian_odel_2 ----- 
+----- npcselectdialog.ies | ClassName: FLASH64_AMANDA -----
+----- Dialog -----
+----- QuestIDs: FLASH64_MQ_01 | FLASH64_MQ_02 | FLASH64_MQ_03 -----
+addnpc(153040, "ETC_20151224_019946", "f_flash_64", -586, 885, 1560, 45, "npc_ETC_20151224_019946")
+function npc_ETC_20151224_019946()
+msg("FLASH64_AMANDA_basic_1")
+msg("FLASH64_MQ_01_01")
+msg("FLASH64_MQ_01_02")
+msg("FLASH64_MQ_01_03")
+msg("FLASH64_MQ_02_01")
+msg("FLASH64_MQ_02_04")
+msg("FLASH64_MQ_02_03")
+msg("FLASH64_MQ_03_01")
+msg("FLASH64_MQ_03_02")
+msg("FLASH64_MQ_03_03")
+msg("FLASH64_AMANDA_basic_2")
+msg("AMANDA_65_3_basic01")
+msg("AMANDA_65_3_basic02")
+msg("AMANDA_65_4_basic01")
+msg("AMANDA_65_4_basic02")
+msg("AMANDA_66_1_basic01")
+msg("AMANDA_66_1_basic02")
+msg("AMANDA_66_2_basic02")
+msg("AMANDA_66_2_basic01")
+msg("AMANDA_66_3_basic01")
+msg("AMANDA_66_3_basic02")
+msg("AMANDA_67_2_basic01")
+msg("AMANDA_67_2_basic02")
+msg("AMANDA_67_2_basic03")
+msg("AMANDA_67_2_basic04")
+msg("AMANDA_68_2_basic01")
+msg("AMANDA_68_2_basic02")
+msg("AMANDA_69_1_basic01")
+msg("AMANDA_69_1_basic02")
+msg("AMANDA_69_2_basic01")
+msg("AMANDA_69_2_basic02")
+msg("UNDERFORTRESS_66_MQ070_succ01")
+msg("UNDER_67_MQ010_startnpc01")
+msg("UNDER67_MQ020_startnpc01")
+msg("UNDER67_MQ020_startnpc_prog01")
+msg("UNDER67_MQ020_startnpc02")
+msg("UNDER67_MQ020_succ01")
+msg("UNDER_67_MQ030_startnpc01")
+msg("UNDER_67_MQ030_startnpc02")
+msg("UNDER_67_MQ030_startnpc_prog01")
+msg("UNDER_67_MQ1_PG01")
+msg("UNDER_67_MQ1_PG02")
+msg("UNDER_67_MQ4_PG02")
+msg("UNDER66_MQ010_TRACK_DIALOG01")
+msg("UNDER_69_MQ010_startnpc01")
+msg("UNDER_69_MQ010_succ01")
+msg("UNDER_69_MQ010_succ02")
+msg("UNDER_69_MQ040_startnpc01")
+msg("UNDER_69_MQ040_startnpc02")
+msg("UNDER_69_MQ040_startnpc_prog01")
+msg("UNDER_65_MQ050_AMANDA")
+msg("UNDERFORTRESS_66_MQ010_startnpc01")
+msg("UNDER_69_SQ010_startnpc01")
+msg("UNDER_69_SQ010_startnpc_prog01")
+msg("UNDER_69_SQ010_succ01")
+msg("UNDER_69_SQ020_startnp01")
+msg("UNDER_69_SQ020_startnp_prog01")
+msg("UNDER_69_SQ020_succ01")
+msg("UNDERFORTRESS_67_MQ070_succ01")
+msg("UNDER_68_MQ070_startnpc01")
+msg("UNDER_68_MQ070_startnpc01_add")
+msg("UNDER_68_MQ070_startnpc_prog01")
+msg("UNDER_68_MQ070_succ01")
+msg("UNDER_68_MQ070_TRACK01")
+msg("UNDERFORTRESS_65_MQ010_startnpc01")
+msg("UNDERFORTRESS_65_MQ010_startnpc02")
+msg("UNDERFORTRESS_65_MQ010_succ01")
+msg("UNDERFORTRESS_65_MQ020_startnpc01")
+msg("UNDER_65_MQ020_startnpc02")
+msg("UNDERFORTRESS_65_MQ020_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ020_succ01")
+msg("UNDERFORTRESS_65_MQ030_startnpc01")
+msg("UNDER_65_MQ030_startnpc02")
+msg("UNDERFORTRESS_65_MQ030_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ030_succ01")
+msg("UNDERFORTRESS_65_MQ040_start01")
+msg("UNDER_65_MQ040_start02")
+msg("UNDERFORTRESS_65_MQ040_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ040_succ01")
+msg("UNDERFORTRESS_65_MQ050_startnpc01")
+msg("UNDERFORTRESS_65_MQ050_startnpc_prog01")
+msg("UNDERFORTRESS_65_MQ050_succ01")
+msg("UNDER_69_MQ020_succ01")
+msg("UNDER_69_MQ030_startnpc01")
+msg("UNDER_69_MQ030_AG")
+msg("UNDER_69_MQ030_startnpc_prog01")
+msg("FLASH64_MQ_01_04")
+msg("UNDER_69_MQ060_succ01")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1488, 578, -135, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1339, 572, -231, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1294, 578, 93, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -919, 537, -600, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -943, 565, -296, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -987, 564, 186, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -1223, 564, 333, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -880, 587, 721, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1495, 578, -19, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1180, 537, -516, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154024, "ETC_20150317_009332", "f_flash_64", -1236, 587, 539, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154024, "ETC_20150317_009332", "f_flash_64", -910, 587, 534, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", 124, 688, -518, -114, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -230, 688, -520, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -347, 688, -441, -11, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154023, "ETC_20150714_013156", "f_flash_64", -187, 688, -349, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1181, 565, -354, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1246, 564, 238, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1072, 587, 657, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -686, 587, 754, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1437, 513, -450, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1113, 458, 378, 45, "npc_dummy")
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 976, 458, 557, 45, "npc_dummy")
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1365, 458, 749, 45, "npc_dummy")
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1483, 458, 664, 45, "npc_dummy")
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1461, 458, 519, 45, "npc_dummy")
+
+----- Lemuria ----- 
+addnpc(47307, "ETC_20150317_009334", "f_flash_64", 1164, 458, 661, 45, "npc_dummy")
+
+----- npc_flash_soldier_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154026, "ETC_20150714_013156", "f_flash_64", -318, 688, -657, 102, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154029, "ETC_20150714_013156", "f_flash_64", -131, 688, -522, 215, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154026, "ETC_20150714_013156", "f_flash_64", 13, 688, -387, 45, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154026, "ETC_20150714_013156", "f_flash_64", -194, 688, -221, 141, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154029, "ETC_20150714_013156", "f_flash_64", -489, 688, -603, 26, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_soldier_05 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154029, "ETC_20150714_013156", "f_flash_64", -91, 688, -738, 103, "npc_ETC_20150714_013156")
+function npc_ETC_20150714_013156()
+msg("FLASH64_SQ_03_NPC")
+end
+
+----- npc_flash_male_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1137, 565, -106, 215, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1284, 564, 237, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154030, "ETC_20150317_009332", "f_flash_64", -706, 587, 760, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1179, 587, 642, -30, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154030, "ETC_20150317_009332", "f_flash_64", -1529, 513, -517, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154031, "ETC_20150317_009332", "f_flash_64", -1397, 513, -293, -107, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154031, "ETC_20150317_009332", "f_flash_64", -1028, 565, -157, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- npc_flash_male_03 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154031, "ETC_20150317_009332", "f_flash_64", -871, 533, 396, 45, "npc_ETC_20150317_009332")
+function npc_ETC_20150317_009332()
+msg("FLASH64_SQ_06_NPC")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_flash_64", -143, 746, -1354, -45, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_FLASH_64")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1371, 578, 16, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -960, 565, -225, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -1044, 564, 98, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+
+----- bonfire_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(46011, "ETC_20150317_000359", "f_flash_64", -974, 587, 513, 45, "npc_ETC_20150317_000359")
+function npc_ETC_20150317_000359()
+msg("FLASH64_SQ_07_NPC")
+end
+

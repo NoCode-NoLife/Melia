@@ -1,58 +1,136 @@
-addnpc(147396, "QUEST_LV_0100_20150317_001999", "f_huevillage_58_2", -186.69, 274.21, -1570.87, 27.47, "npc_dummy")
-addnpc(147409, "QUEST_LV_0100_20150317_002003", "f_huevillage_58_2", -239.14, 0.25, -200.18, 27.39, "npc_dummy")
-addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -89, 41, 1399, 45, "npc_dummy")
-addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -243, 41, 1305, 45, "npc_dummy")
-addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -345, 41, 1134, 45, "npc_dummy")
-addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", 83, 41, 1278, 45, "npc_dummy")
-addnpc(147354, "ETC_20150317_009347", "f_huevillage_58_2", 181, 41, 1363, 45, "npc_dummy")
-addnpc(147417, "ETC_20150323_009812", "f_huevillage_58_2", -439, 50, 234, 0, "npc_dummy")
-addnpc(147414, "ETC_20150317_007189", "f_huevillage_58_2", 859, 0, 205, -25, "npc_dummy")
-addnpc(47192, "QUEST_20150317_000348", "f_huevillage_58_2", -254.08, 52.89, 250.03, 46, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", 702.58, 0.65, 119.57, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", 636.91, 0.65, 19.92, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -820.28, -0.7, -122.1, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_huevillage_58_2", -515.8, 271.89, -1541.66, 80, "npc_dummy")
-addnpc(147414, "ETC_20150317_007189", "f_huevillage_58_2", 859, 0, 205, -25, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", -696.94, 274.21, -1209.64, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", -368.19, 274.21, -1528.76, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", 87.16, 274.21, -1648.95, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", -120.21, 274.21, -1608.63, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", 411.04, 274.21, -1647.49, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 246.07, 274.36, -1747.42, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", -348.71, 274.21, -1390.66, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", -634.37, 274.21, -1128.92, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 497.29, 173.61, -603.91, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", -853.86, -0.71, -557.39, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", -369.84, -1.12, -111.56, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", -161.48, 42.54, 1099.89, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 849.66, 0.65, 754.1, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 705.44, 0.65, -8.53, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 1575.71, -10.36, 672.99, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_huevillage_58_2", 113.06, -54.31, 461.73, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_huevillage_58_2", -224.2, 0.33, -195.08, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", 803.55, 0.65, 343.43, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_huevillage_58_2", 1484.24, -10.36, 1092.74, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -440.17, 49.66, 253.64, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -444.43, 49.55, 229.16, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -944.9715, -0.7080952, -452.2336, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -77.85, 42.54, 1188.62, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -154.12, -0.81, 13.73, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -5.76, 12.11, -139.49, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -6.31, -41, 185.87, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -393.54, -1.13, -81.02, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -757.847, -0.7079716, -340.0202, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -653.1038, 0.4705467, -511.5186, 45, "npc_dummy")
-addnpc(57030, "ETC_20150317_000880", "f_huevillage_58_2", -540.4689, 0.01301204, -294.374, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -586.2694, 56.59332, 144.6763, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -497.6075, 53.15648, 394.9499, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -408.5137, 52.53395, 117.6759, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -584.6678, 54.9613, 320.6782, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -219.353, 42.54191, 1117.558, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -78.63364, 42.53282, 1349.926, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", 60.19399, 42.53812, 1118.216, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", 198.401, 42.17802, 1266.477, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -251.1783, 42.54191, 1253.45, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -284.734, 53.13488, 212.3527, 45, "npc_dummy")
-addnpc(47463, "ETC_20150317_000754", "f_huevillage_58_2", -557.061, 48.83869, 246.3608, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_huevillage_58_2", -862, 5.811579, 203, -45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_huevillage_58_2", -159.95, 274.31, -1274.28, 45, "npc_dummy")
+----- huevill_chief ----- 
+----- npcselectdialog.ies | ClassName: HUEVILLAGE_58_2_MQ01_NPC -----
+----- Dialog -----
+----- QuestIDs: HUEVILLAGE_58_2_MQ01 -----
+addnpc(147396, "QUEST_LV_0100_20150317_001999", "f_huevillage_58_2", -187, 274, -1571, 27.47, "npc_QUEST_LV_0100_20150317_001999")
+function npc_QUEST_LV_0100_20150317_001999()
+msg("HUEVILLAGE_58_2_MQ01_select")
+msg("HUEVILLAGE_58_2_MQ01_startnpc")
+msg("HUEVILLAGE_58_2_MQ01_startnpc_succ")
+msg("HUEVILLAGE_58_2_MQ01_select_Q")
+msg("HUEVILLAGE58_2_CHIEF_basic01")
+msg("HUEVILLAGE58_2_CHIEF_basic02")
+end
+
+----- npc_huevill_male_3 ----- 
+----- npcselectdialog.ies | ClassName: HUEVILLAGE_58_2_MQ02_NPC -----
+----- Dialog -----
+----- QuestIDs: HUEVILLAGE_58_2_MQ01 | HUEVILLAGE_58_2_MQ02 | HUEVILLAGE_58_2_MQ04 -----
+addnpc(147409, "QUEST_LV_0100_20150317_002003", "f_huevillage_58_2", -239, 0, -200, 27.39, "npc_QUEST_LV_0100_20150317_002003")
+function npc_QUEST_LV_0100_20150317_002003()
+msg("HUEVILLAGE_58_2_MQ01_succ")
+msg("HUEVILLAGE_58_2_MQ02_select01")
+msg("HUEVILLAGE_58_2_MQ02_startnpc")
+msg("HUEVILLAGE_58_2_MQ04_select01")
+msg("HUEVILLAGE_58_2_MQ04_select01_Q")
+msg("HUEVILLAGE_58_2_MQ04_startnpc")
+msg("HUEVILLAGE_58_2_MQ04_startnpc_succ")
+msg("HUEVILLAGE_58_2_MQ02_select01_Q")
+msg("HUEVILLAGE_58_2_MQ04_add")
+msg("HUEVILLAGE58_2_PEAPLE_basic01")
+msg("HUEVILLAGE58_2_PEAPLE_basic02")
+msg("HUEVILLAGE58_2_PEAPLE_MQ01")
+end
+
+----- gale_bucket_stuff2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -89, 41, 1399, 45, "npc_ETC_20150317_009347")
+function npc_ETC_20150317_009347()
+msg("HUEVILLAGE_58_2_MQ02_BUCKET01")
+end
+
+----- gale_bucket_stuff2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -243, 41, 1305, 45, "npc_ETC_20150317_009347")
+function npc_ETC_20150317_009347()
+msg("HUEVILLAGE_58_2_MQ02_BUCKET01")
+end
+
+----- gale_bucket_stuff2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", -345, 41, 1134, 45, "npc_ETC_20150317_009347")
+function npc_ETC_20150317_009347()
+msg("HUEVILLAGE_58_2_MQ02_BUCKET01")
+end
+
+----- gale_bucket_stuff2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151028, "ETC_20150317_009347", "f_huevillage_58_2", 83, 41, 1278, 45, "npc_ETC_20150317_009347")
+function npc_ETC_20150317_009347()
+msg("HUEVILLAGE_58_2_MQ02_BUCKET01")
+end
+
+----- gale_bucket_stuff ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147354, "ETC_20150317_009347", "f_huevillage_58_2", 181, 41, 1363, 45, "npc_ETC_20150317_009347")
+function npc_ETC_20150317_009347()
+msg("HUEVILLAGE_58_2_MQ02_BUCKET02")
+end
+
+----- Huevillage_Altar ----- 
+----- npcselectdialog.ies | ClassName: HUEVILLAGE_58_2_MQ03_NPC -----
+----- Dialog -----
+----- QuestIDs: HUEVILLAGE_58_2_MQ03 | HUEVILLAGE_58_2_SQ02 -----
+addnpc(147417, "ETC_20150323_009812", "f_huevillage_58_2", -439, 50, 234, 0, "npc_ETC_20150323_009812")
+function npc_ETC_20150323_009812()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_Obelisk ----- 
+----- npcselectdialog.ies | ClassName: HUEVILLAGE_58_2_OBELISK_BEFORE -----
+----- Dialog -----
+----- QuestIDs: HUEVILLAGE_58_2_MQ04 | HUEVILLAGE_58_2_SQ03 -----
+addnpc(147414, "ETC_20150317_007189", "f_huevillage_58_2", 859, 0, 205, -25, "npc_ETC_20150317_007189")
+function npc_ETC_20150317_007189()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- stone_monument3 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47192, "QUEST_20150317_000348", "f_huevillage_58_2", -254, 53, 250, 46, "npc_QUEST_20150317_000348")
+function npc_QUEST_20150317_000348()
+msg("HUEVILLAGE_58_2_STORN01_DLG")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_huevillage_58_2", -516, 272, -1542, 80, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_HUEVILLAGE_58_2")
+end
+
+----- npc_Obelisk ----- 
+----- Enter -----
+addnpc(147414, "ETC_20150317_007189", "f_huevillage_58_2", 859, 0, 205, -25, "npc_ETC_20150317_007189")
+function npc_ETC_20150317_007189()
+msg("HUEVILLAGE_58_2_OBELISK_AFTER")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_huevillage_58_2", -862, 6, 203, -45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_huevillage_58_2", -160, 274, -1274, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

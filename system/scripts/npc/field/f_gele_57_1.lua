@@ -1,67 +1,419 @@
-addnpc(147406, "QUEST_LV_0100_20150317_000711", "f_gele_57_1", -352, 168, -564, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1399.758, 276.3425, -44.12083, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1385.33, 276.34, 683.5, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1227.54, 276.34, 118.29, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1200.75, 276.34, 512.95, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1501.95, 276.34, 399.63, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1506.592, 276.3425, 76.2149, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1192.194, 276.3425, -129.7668, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1480.81, 276.3425, -180.4353, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1392.776, 276.3425, 130.3467, 45, "npc_dummy")
-addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1538.045, 276.3425, -71.39037, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1411.794, 276.3425, 522.7712, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_gele_57_1", -132.3, 168.82, -571.54, -54, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -397.64, 168.82, -641.99, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -99.12251, 168.8233, -619.7493, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -355.81, 168.82, -840.64, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -175.39, 168.82, -841, 45, "npc_dummy")
-addnpc(147421, "QUEST_LV_0100_20150317_000717", "f_gele_57_1", -401, 168, -642, 29, "npc_dummy")
-addnpc(147423, "QUEST_LV_0100_20150317_001107", "f_gele_57_1", -257.99, 95.99, 283.71, 78, "npc_dummy")
-addnpc(40070, "QUEST_20150317_000081", "f_gele_57_1", -1496, 168, -968, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -332.9766, 95.9891, 309.762, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_gele_57_1", -1656.908, 168.8233, -1123.918, 45, "npc_dummy")
-addnpc(47203, "ETC_20150317_005149", "f_gele_57_1", 793, 368, -1362, 81, "npc_dummy")
-addnpc(40070, "ETC_20150406_010846", "f_gele_57_1", -290.8438, 168.8233, -520.5992, -45, "npc_dummy")
-addnpc(40070, "ETC_20150406_010846", "f_gele_57_1", -305.344, 95.9891, 200.1367, -45, "npc_dummy")
-addnpc(20170, "ETC_20150414_011212", "f_gele_57_1", 1482.46, 224.83, -752.67, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1560.45, 276.3425, -24.26361, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1467.906, 276.3425, 89.17064, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1345.293, 276.3425, 148.5575, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1316.507, 276.3425, 16.22543, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1214.13, 276.3425, -92.44729, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1336.731, 276.3425, -190.8362, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1489.248, 276.3425, -161.4255, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1508.456, 276.3425, 468.7202, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1393.446, 276.3425, 621.455, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1225.702, 276.3425, 575.0313, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1296.196, 276.3425, 442.0751, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1389.609, 276.3425, 317.0466, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1510.948, 276.3425, 356.9562, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1306.575, 276.3425, 528.8367, 45, "npc_dummy")
-addnpc(57571, "ETC_20150317_000797", "f_gele_57_1", -1398.059, 276.3425, 422.5603, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_gele_57_1", 22, 168.92, -979.04, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1461.146, 166.8134, 384.5148, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1247.689, 166.8134, 626.0811, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1321.018, 166.8134, 463.7831, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1560.621, 166.8134, 501.1877, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1625.516, 166.8134, 721.4664, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1484.599, 166.8134, 924.0555, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1370.013, 166.8134, 921.287, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1201.997, 167.158, 969.8781, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1003.929, 229.1478, 889.205, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 758.899, 267.4677, 893.6205, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 572.5952, 267.4677, 932.1086, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 465.3732, 267.4677, 992.3305, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 448.7435, 267.4677, 1161.481, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 434.148, 267.4677, 1290.53, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 802.425, 267.4677, 1411.518, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 934.8285, 267.4677, 1316.14, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 922.61, 267.4677, 1127.583, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1027.952, 251.1026, 1048.905, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1586.069, 166.8134, 67.58208, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1665.072, 166.8134, -46.44629, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1848.49, 166.8134, -62.98946, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1960.662, 166.8134, 62.02409, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1570.407, 166.8134, 217.9513, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1917.527, 166.8134, 207.2458, 45, "npc_dummy")
-addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1810.396, 166.8134, 314.759, 45, "npc_dummy")
+----- npc_paladin_follower2_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_NPC_GILBERT -----
+----- Dialog -----
+----- QuestIDs: GELE571_MQ_01 | GELE571_MQ_02 | GELE571_MQ_03 -----
+addnpc(147406, "QUEST_LV_0100_20150317_000711", "f_gele_57_1", -352, 168, -564, 45, "npc_QUEST_LV_0100_20150317_000711")
+function npc_QUEST_LV_0100_20150317_000711()
+msg("GELE571_MQ_02_01")
+msg("GELE571_MQ_02_02")
+msg("GELE571_MQ_02_03")
+msg("GELE571_MQ_03_01")
+msg("GELE571_MQ_03_02")
+msg("GELE571_NPC_GILBERT_basic1")
+msg("GELE571_MQ_02_01_add")
+msg("GELE571_MQ_02_ST")
+msg("GELE571_MQ_02_PRST")
+msg("GELE571_MQ_03_COMP")
+msg("GELE571_MQ_01_03")
+msg("GELE571_MQ_02_ST_add")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1385, 276, 684, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1228, 276, 118, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1201, 276, 513, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1502, 276, 400, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1507, 276, 76, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1192, 276, -130, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1481, 276, -180, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1393, 276, 130, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- siauliai_grass_4 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_03 -----
+----- Dialog -----
+addnpc(47204, "ETC_20150317_009118", "f_gele_57_1", -1538, 276, -71, 45, "npc_ETC_20150317_009118")
+function npc_ETC_20150317_009118()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "f_gele_57_1", -132, 169, -572, -54, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_F_GELE_57_1")
+end
+
+----- npc_paladin_noinst3_1 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_NPC_MATTHEW -----
+----- Dialog -----
+----- QuestIDs: GELE571_MQ_05 | GELE571_MQ_06 -----
+addnpc(147421, "QUEST_LV_0100_20150317_000717", "f_gele_57_1", -401, 168, -642, 29, "npc_QUEST_LV_0100_20150317_000717")
+function npc_QUEST_LV_0100_20150317_000717()
+msg("GELE571_MQ_05_01")
+msg("GELE571_MQ_05_02")
+msg("GELE571_MQ_05_01_add")
+msg("GELE571_MQ_05_COMP")
+msg("GELE571_SAM_AFTER")
+msg("GELE571_MQ_06_01")
+msg("GELE571_MQ_06_02")
+msg("GELE571_MQ_06_01_add")
+msg("GELE571_NPC_MATTHEW_basic1")
+msg("GELE571_MQ_06_AG")
+end
+
+----- npc_paladin_noinst3_3 ----- 
+----- npcselectdialog.ies | ClassName: GELE571_NPC_MARLEY -----
+----- Dialog -----
+----- QuestIDs: PARTY_Q_030 | PARTY_Q_031 | GELE571_MQ_07 | GELE571_MQ_04 | GELE571_RP_1 -----
+addnpc(147423, "QUEST_LV_0100_20150317_001107", "f_gele_57_1", -258, 96, 284, 78, "npc_QUEST_LV_0100_20150317_001107")
+function npc_QUEST_LV_0100_20150317_001107()
+msg("GELE571_MQ_04_ST")
+msg("GELE571_MQ_04_PRST")
+msg("GELE571_MQ_04_03")
+msg("GELE571_MQ_07_01")
+msg("GELE571_MQ_07_02")
+msg("GELE571_MQ_07_03")
+msg("GELE571_NPC_MARLEY_basic1")
+msg("GELE571_MQ_04_ST_add")
+msg("GELE571_MQ_07_01_add")
+msg("PARTY_Q_030_startnpc01")
+msg("PARTY_Q_030_startnpc02")
+msg("PARTY_Q_030_startnpc_prog01")
+msg("PARTY_Q_030_succ01")
+msg("PARTY_Q_031_startnpc01")
+msg("PARTY_Q_031_startnpc_prog01")
+msg("PARTY_Q_031_succ01")
+msg("GELE571_RP_1")
+msg("GELE571_RP_1_2")
+msg("GELE571_RP_1_3")
+end
+
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName: GELE1_BOARD01 -----
+----- Dialog -----
+addnpc(40070, "QUEST_20150317_000081", "f_gele_57_1", -1496, 168, -968, 45, "npc_QUEST_20150317_000081")
+function npc_QUEST_20150317_000081()
+msg("KLAPEDA_SIGN_WELCOME")
+msg("GELE1_BOARD01")
+msg("FEDIMIAN_SIGN1_BASIC01")
+msg("FEDIMIAN_SIGN2_BASIC01")
+msg("FEDIMIAN_SIGN3_BASIC01")
+msg("FEDIMIAN_SIGN4_BASIC01")
+msg("ROKAS24_BOARD_BASIC01")
+msg("SIAUL1_BOARDCRYSTAL")
+msg("F_SIAULIAI_OUT_BOARD02")
+msg("HT2_ROKAS24_BOARD_BASIC01")
+msg("HT2_ROKAS24_BOARD_BASIC02")
+msg("SIAUL1_BOARD4")
+msg("SIAUL1_BOARD6")
+msg("SIAUL1_BOARD7")
+msg("KLAPEDA_SIGN30")
+msg("KLAPEDA_SIGN31")
+msg("KLAPEDA_SIGN32")
+msg("KLAPEDA_SIGN33")
+msg("KLAPEDA_SIGN9")
+msg("ROYALRUMBLE_REMAINS37")
+msg("LIMESTONE_52_1_BOAT_DLG1")
+end
+
+----- siauliai_grass_3_large ----- 
+----- npcselectdialog.ies | ClassName: GELE571_MQ_05 -----
+----- Dialog -----
+----- QuestIDs: GELE571_MQ_06 -----
+addnpc(47203, "ETC_20150317_005149", "f_gele_57_1", 793, 368, -1362, 81, "npc_ETC_20150317_005149")
+function npc_ETC_20150317_005149()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40070, "ETC_20150406_010846", "f_gele_57_1", -291, 169, -521, -45, "npc_ETC_20150406_010846")
+function npc_ETC_20150406_010846()
+msg("GELE_57_1_CABLETEMP_01")
+end
+
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40070, "ETC_20150406_010846", "f_gele_57_1", -305, 96, 200, -45, "npc_ETC_20150406_010846")
+function npc_ETC_20150406_010846()
+msg("GELE_57_1_CABLETEMP_02")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_gele_57_1", 22, 169, -979, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1461, 167, 385, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1248, 167, 626, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1321, 167, 464, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1561, 167, 501, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1626, 167, 721, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1485, 167, 924, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1370, 167, 921, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1202, 167, 970, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1004, 229, 889, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 759, 267, 894, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 573, 267, 932, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 465, 267, 992, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 449, 267, 1161, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 434, 267, 1291, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 802, 267, 1412, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 935, 267, 1316, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 923, 267, 1128, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1028, 251, 1049, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1586, 167, 68, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1665, 167, -46, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1848, 167, -63, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1961, 167, 62, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1570, 167, 218, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1918, 167, 207, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+
+----- siauliai_grass_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47201, "ETC_20160323_021381", "f_gele_57_1", 1810, 167, 315, 45, "npc_ETC_20160323_021381")
+function npc_ETC_20160323_021381()
+msg("GELE571_RP_1_OBJ")
+end
+

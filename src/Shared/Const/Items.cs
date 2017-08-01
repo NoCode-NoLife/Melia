@@ -61,24 +61,26 @@ namespace Melia.Shared.Const
 		HairAccessory,
 		SubsidiaryAccessory,
 		Hair, // [i11025 (2016-02-26)]
-		_Outer1,
 		Top,
-		Costume,
+		Gloves,
 		Shoes,
-		_Helmet,
+		Helmet,
 		Armband,
 		LeftHand,
 		RightHand,
-		Gloves,
-		_Ring1,
-		_Ring2,
-		_Outer2,
+		Outer1,
+		Ring1,
+		Ring2,
+		Outer2,
 		Pants,
-		_Ring3,
-		_Ring4,
+		Ring3,
+		Ring4,
 		Bracelet1,
 		Bracelet2,
 		Necklace,
+		Hat,
+		Costume,
+		Outer3,
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -113,13 +115,13 @@ namespace Melia.Shared.Const
 		/// <remarks>
 		/// [i11025 (2016-02-26)] 20->21, Hair slot?
 		/// </remarks>
-		public const int EquipSlotCount = 21;
+		public const int EquipSlotCount = 23;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2, 4, 4 };
 	}
 
 	public enum InventoryOrder : byte

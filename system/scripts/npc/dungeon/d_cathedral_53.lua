@@ -1,39 +1,273 @@
-addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_53", 82.87282, 0, -1004.596, -70, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", 61.8795, 0, -740.8611, 45, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", 351.2444, 0, -791.7501, 45, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", -69.02049, 0, -493.3675, 45, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", -306.2357, 0, -836.9797, 45, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", 294.5284, 0, -534.6558, 45, "npc_dummy")
-addnpc(147311, "ETC_20150317_009217", "d_cathedral_53", -769.1999, 0, 223.0016, -1, "npc_dummy")
-addnpc(147311, "ETC_20150317_009218", "d_cathedral_53", -662.3479, 0, -53.83437, 105, "npc_dummy")
-addnpc(147311, "ETC_20150317_009219", "d_cathedral_53", -995.4547, 0, 21.41773, 46, "npc_dummy")
-addnpc(147311, "ETC_20150317_009220", "d_cathedral_53", -572.8502, 0, -326.4702, -1, "npc_dummy")
-addnpc(147311, "ETC_20150317_009221", "d_cathedral_53", -913.9128, 0, -359.4333, -38, "npc_dummy")
-addnpc(147311, "ETC_20150317_009222", "d_cathedral_53", -456.1964, 0, 174.3625, -55, "npc_dummy")
-addnpc(147417, "ETC_20150317_006373", "d_cathedral_53", -546.3629, 0, -49.55093, 44, "npc_dummy")
-addnpc(153023, "ETC_20150317_009223", "d_cathedral_53", -2363.942, 29.52139, -51.85835, 2, "npc_dummy")
-addnpc(147386, "QUEST_LV_0200_20150317_000948", "d_cathedral_53", 212.4825, 0.0003, -128.7916, 101, "npc_dummy")
-addnpc(147389, "ETC_20150317_009224", "d_cathedral_53", 813.6576, 0.0003, -487.3752, 103, "npc_dummy")
-addnpc(147398, "ETC_20150317_009225", "d_cathedral_53", 106.2804, 0.0003, -109.5158, 83, "npc_dummy")
-addnpc(147417, "ETC_20150317_009226", "d_cathedral_53", 862.7397, 0.0003, -1444.777, 43, "npc_dummy")
-addnpc(147417, "ETC_20150317_009226", "d_cathedral_53", 863.639, 0.0003, -1351.712, 43, "npc_dummy")
-addnpc(46221, "ITEM_20150317_003055", "d_cathedral_53", -270.2545, 0, -625.8832, 45, "npc_dummy")
-addnpc(147398, "ETC_20150323_010345", "d_cathedral_53", 295.437, 0.0003, -199.0134, -96, "npc_dummy")
-addnpc(147389, "QUEST_LV_0200_20150317_000889", "d_cathedral_53", 230.0677, 0.0003, -218.0089, 61, "npc_dummy")
-addnpc(147397, "ETC_20150317_009227", "d_cathedral_53", -1242.67, 0.0003, 240.2003, -34, "npc_dummy")
-addnpc(147397, "ETC_20150317_009228", "d_cathedral_53", 276.0457, 0.0003, 965.9575, -29, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", 100.4462, 0.0003, 632.2907, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", -192.5715, 0.0003, 788.0222, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", -221.0829, 0.0003, 403.595, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", -376.2142, 0.0003, 907.5596, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", 444.7666, 0.0003, 890.6524, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", 150.1819, 0.0003, 1039.969, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", 126.7563, 0.0003, 338.1761, 45, "npc_dummy")
-addnpc(151022, "ITEM_20150317_003923", "d_cathedral_53", 381.3983, 0.0003, 464.0242, 45, "npc_dummy")
-addnpc(47254, "QUEST_20150317_000986", "d_cathedral_53", -140, 0.1, -862.37, 205, "npc_dummy")
-addnpc(153014, "QUEST_20150323_001620", "d_cathedral_53", -136, 8.14, -914.51, 135, "npc_dummy")
-addnpc(20025, "ETC_20150323_010346", "d_cathedral_53", -70, 0.1, -856, 205, "npc_dummy")
-addnpc(153018, "ETC_20150323_010276", "d_cathedral_53", 830.8347, 0.0003, -1398.16, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_cathedral_53", 20.88951, 0.0002708435, -1032.563, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_cathedral_53", 1053.292, 0.0002708435, -275.9832, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_cathedral_53", 228.81, 0.1, -313.9, 135, "npc_dummy")
+----- npc_aurelius ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_MQ_BISHOP -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_MQ02 | CHATHEDRAL53_MQ03 | CHATHEDRAL53_MQ01 -----
+addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_53", 83, 0, -1005, -70, "npc_QUEST_LV_0200_20150317_000875")
+function npc_QUEST_LV_0200_20150317_000875()
+msg("CHATHEDRAL53_MQ_BISHOP_basic01")
+msg("CHATHEDRAL53_MQ_BISHOP_basic02")
+msg("CHATHEDRAL54_PART1_BISHOP_basic01")
+msg("CHATHEDRAL54_PART1_BISHOP_basic02")
+msg("CHATHEDRAL56_MQ_BISHOP_AFTER_basic01")
+msg("CHATHEDRAL53_MQ01_select")
+msg("CHATHEDRAL53_MQ01_prog_startnpc")
+msg("CHATHEDRAL53_MQ01_succ01")
+msg("CHATHEDRAL53_MQ02_select")
+msg("CHATHEDRAL53_MQ02_prog_startnpc")
+msg("CHATHEDRAL53_MQ03_select01")
+msg("CHATHEDRAL53_MQ03_succ01")
+msg("CHATHEDRAL53_MQ01_startnpc01")
+msg("CHATHEDRAL53_MQ02_startnpc01")
+msg("CHATHEDRAL53_MQ03_startnpc01")
+msg("CHATHEDRAL53_MQ01_add")
+msg("CHATHEDRAL53_MQ05_select01")
+msg("CHATHEDRAL53_MQ06_select01")
+msg("CHATHEDRAL53_MQ05_AG")
+msg("CHATHEDRAL53_MQ04_select01")
+msg("CHATHEDRAL53_MQ06_AG")
+msg("CHATHEDRAL53_BISHOP_DIALOG")
+msg("CHATHEDRAL53_MQ_BISHOP_DIALOG_01")
+msg("CHATHEDRAL53_MQ_BISHOP_DIALOG_02")
+msg("CHATHEDRAL53_MQ_BISHOP_DIALOG_03")
+msg("CHATHEDRAL53_MQ_BISHOP_DIALOG_04")
+msg("CHATHEDRAL56_MQ04_AG")
+msg("CHATHEDRAL56_MQ05_select01")
+msg("CHATHEDRAL54_MQ05_PART3_AG")
+msg("CHATHEDRAL54_MQ04_PART2_add")
+msg("CHATHEDRAL54_MQ04_PART2_AG")
+msg("CHATHEDRAL54_MQ05_PART3_select01")
+msg("CHATHEDRAL53_BISHOP_DIALOG02")
+msg("CHATHEDRAL53_MQ_BISHOP_DIALOG_05")
+msg("CHATHEDRAL54_MQ03_PART2_select")
+msg("CHATHEDRAL54_MQ03_PART2_prog_startnpc01")
+msg("CHATHEDRAL54_MQ04_PART2_select01")
+msg("CHATHEDRAL56_MQ01_select01")
+msg("CHATHEDRAL56_MQ01_prog_startnpc01")
+msg("CHATHEDRAL56_MQ01_succ01")
+msg("CHATHEDRAL56_MQ02_1_select01")
+msg("CHATHEDRAL56_MQ02_1_prog_startnpc01")
+msg("CHATHEDRAL56_MQ02_1_succ01")
+msg("CHATHEDRAL56_MQ02_select01")
+msg("CHATHEDRAL56_MQ02_prog_startnpc01")
+msg("CHATHEDRAL56_MQ04_select01")
+msg("CHATHEDRAL56_MQ01_startnpc01")
+msg("CHATHEDRAL56_MQ03")
+msg("CHATHEDRAL56_MQ06_select01")
+msg("CHATHEDRAL56_BISHOP_DIALOG01")
+msg("CHATHEDRAL56_BISHOP_DIALOG02")
+msg("CHATHEDRAL56_BISHOP_DIALOG03")
+msg("CHATHEDRAL56_BISHOP_DIALOG04")
+msg("CHATHEDRAL56_BISHOP_DIALOG05")
+msg("CHATHEDRAL56_BISHOP_DIALOG06")
+msg("CHATHEDRAL56_BISHOP_DIALOG08")
+msg("BISHOP_TRACK_DLG")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009217", "d_cathedral_53", -769, 0, 223, -1, "npc_ETC_20150317_009217")
+function npc_ETC_20150317_009217()
+msg("CHATHEDRAL53_MQ02_BOOK1")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009218", "d_cathedral_53", -662, 0, -54, 105, "npc_ETC_20150317_009218")
+function npc_ETC_20150317_009218()
+msg("CHATHEDRAL53_MQ02_BOOK2")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009219", "d_cathedral_53", -995, 0, 21, 46, "npc_ETC_20150317_009219")
+function npc_ETC_20150317_009219()
+msg("CHATHEDRAL53_MQ02_BOOK3")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009220", "d_cathedral_53", -573, 0, -326, -1, "npc_ETC_20150317_009220")
+function npc_ETC_20150317_009220()
+msg("CHATHEDRAL53_MQ02_BOOK4")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009221", "d_cathedral_53", -914, 0, -359, -38, "npc_ETC_20150317_009221")
+function npc_ETC_20150317_009221()
+msg("CHATHEDRAL53_MQ02_BOOK5")
+end
+
+----- BOOK_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147311, "ETC_20150317_009222", "d_cathedral_53", -456, 0, 174, -55, "npc_ETC_20150317_009222")
+function npc_ETC_20150317_009222()
+msg("CHATHEDRAL53_MQ02_BOOK6")
+end
+
+----- Huevillage_Altar ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_MQ03 -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_MQ02 -----
+addnpc(147417, "ETC_20150317_006373", "d_cathedral_53", -546, 0, -50, 44, "npc_ETC_20150317_006373")
+function npc_ETC_20150317_006373()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_saule_female_1 ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_SQ01 -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_SQ01 | CHATHEDRAL53_SQ02 -----
+addnpc(147386, "QUEST_LV_0200_20150317_000948", "d_cathedral_53", 212, 0, -129, 101, "npc_QUEST_LV_0200_20150317_000948")
+function npc_QUEST_LV_0200_20150317_000948()
+msg("CHATHEDRAL53_SQ02_prog01")
+msg("CATHEDRAL53_SQ01_basic01")
+msg("CATHEDRAL53_SQ01_basic02")
+msg("CHATHEDRAL53_SQ01_select")
+msg("CHATHEDRAL53_SQ01_succ01")
+msg("CHATHEDRAL53_SQ02_select")
+msg("CHATHEDRAL53_SQ02_succ01")
+msg("CHATHEDRAL53_SQ01_prognpc")
+end
+
+----- npc_saule_male_1 ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_SQ02 -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_SQ06 | CHATHEDRAL53_SQ05 -----
+addnpc(147389, "ETC_20150317_009224", "d_cathedral_53", 814, 0, -487, 103, "npc_ETC_20150317_009224")
+function npc_ETC_20150317_009224()
+msg("CHATHEDRAL53_SQ05_select01")
+msg("CHATHEDRAL53_SQ05_succ01")
+msg("CHATHEDRAL53_SQ06_select01")
+msg("CHATHEDRAL53_SQ06_prog")
+msg("CHATHEDRAL53_SQ05_prog")
+msg("CHATHEDRAL53_SQ06_succ01")
+msg("CHATHEDRAL53_SQ02_basic01")
+msg("CHATHEDRAL53_SQ02_basic02")
+end
+
+----- npc_saule_male_2 ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_SQ03 -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_SQ03 | CHATHEDRAL53_SQ07 | CHATHEDRAL53_SQ08 | CHATHEDRAL53_SQ09 -----
+addnpc(147398, "ETC_20150317_009225", "d_cathedral_53", 106, 0, -110, 83, "npc_ETC_20150317_009225")
+function npc_ETC_20150317_009225()
+msg("CHATHEDRAL53_SQ03_select")
+msg("CHATHEDRAL53_SQ03_succ01")
+msg("CHATHEDRAL53_SQ03_prog")
+msg("CATHEDRAL53_SQ03_basic01")
+msg("CATHEDRAL53_SQ03_basic02")
+msg("CHATHEDRAL53_SQ07_succ01")
+msg("CHATHEDRAL53_SQ08_select01")
+msg("CHATHEDRAL53_SQ08_prog01")
+msg("CHATHEDRAL53_SQ08_succ01")
+msg("CHATHEDRAL53_SQ09_select01")
+end
+
+----- Huevillage_Altar ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147417, "ETC_20150317_009226", "d_cathedral_53", 863, 0, -1445, 43, "npc_ETC_20150317_009226")
+function npc_ETC_20150317_009226()
+msg("CHATHEDRAL53_MQ06_HINT01_DLG")
+end
+
+----- Huevillage_Altar ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147417, "ETC_20150317_009226", "d_cathedral_53", 864, 0, -1352, 43, "npc_ETC_20150317_009226")
+function npc_ETC_20150317_009226()
+msg("CHATHEDRAL53_MQ06_HINT02_DLG")
+end
+
+----- npc_saule_male_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147398, "ETC_20150323_010345", "d_cathedral_53", 295, 0, -199, -96, "npc_ETC_20150323_010345")
+function npc_ETC_20150323_010345()
+msg("CHATHEDRAL53_SQ03_AFTER")
+end
+
+----- npc_saule_male_1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147389, "QUEST_LV_0200_20150317_000889", "d_cathedral_53", 230, 0, -218, 61, "npc_QUEST_LV_0200_20150317_000889")
+function npc_QUEST_LV_0200_20150317_000889()
+msg("CHATHEDRAL53_SQ02_AFTER")
+end
+
+----- npc_saule_female_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147397, "ETC_20150317_009227", "d_cathedral_53", -1243, 0, 240, -34, "npc_ETC_20150317_009227")
+function npc_ETC_20150317_009227()
+msg("CHATHEDRAL53_SQ05_NPC")
+end
+
+----- npc_saule_female_2 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147397, "ETC_20150317_009228", "d_cathedral_53", 276, 0, 966, -29, "npc_ETC_20150317_009228")
+function npc_ETC_20150317_009228()
+msg("CHATHEDRAL53_SQ05_NPC_AFTER")
+end
+
+----- npc_zacharial_desk ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(47254, "QUEST_20150317_000986", "d_cathedral_53", -140, 0, -862, 205, "npc_QUEST_20150317_000986")
+function npc_QUEST_20150317_000986()
+msg("CHATHEDRAL54_BOOK")
+end
+
+----- BOOK_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153014, "QUEST_20150323_001620", "d_cathedral_53", -136, 8, -915, 135, "npc_QUEST_20150323_001620")
+function npc_QUEST_20150323_001620()
+msg("CHATHEDRAL54_BOOK02")
+end
+
+----- npc_cathedral_device_02 ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_MQ06_PUZZLE -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_MQ06 -----
+addnpc(153018, "ETC_20150323_010276", "d_cathedral_53", 831, 0, -1398, 45, "npc_ETC_20150323_010276")
+function npc_ETC_20150323_010276()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- id_gate_npc ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154046, "ETC_20170313_027480", "d_cathedral_53", 319, 0, -273, 45, "npc_ETC_20170313_027480")
+function npc_ETC_20170313_027480()
+msg("INSTANCE_DUNGEON_CATACOM2_08")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_cathedral_53", 229, 0, -314, 135, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- noshadow_npc ----- 
+----- npcselectdialog.ies | ClassName: CHATHEDRAL53_SQ07_OBJ1 -----
+----- Dialog -----
+----- QuestIDs: CHATHEDRAL53_SQ07 -----
+addnpc(147469, "QUEST_20170313_005786", "d_cathedral_53", -1632, 0, 49, 45, "npc_QUEST_20170313_005786")
+function npc_QUEST_20170313_005786()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+

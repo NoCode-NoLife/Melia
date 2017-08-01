@@ -1,0 +1,30 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_NORMAL_MRJobInfo.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: Sends MR_JOB_INFO vector.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct {
+  short length;
+  string name;
+  int unk;
+} JobInfo;
+
+short op<format=hex>;
+int reserved;
+short packetLength;
+int subOp<format=hex>;
+
+__int64 characterId;
+int jobInfoCount;
+
+local int i<hidden=true>;
+for (i = 0; i < jobInfoCount; i++)
+    JobInfo jobInfo;

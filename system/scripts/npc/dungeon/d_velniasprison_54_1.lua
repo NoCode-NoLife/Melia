@@ -1,17 +1,56 @@
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", -1028.772, 3.3401, 304.5316, 45, "npc_dummy")
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", -913.9122, 114.4636, 858.9056, 45, "npc_dummy")
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", -149.4936, 112.5825, 768.4642, 45, "npc_dummy")
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", 1119.273, 112.6441, 103.1562, 45, "npc_dummy")
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", 92.73418, 0.123, 50.60979, 45, "npc_dummy")
-addnpc(11119, "ETC_20150428_011582", "d_velniasprison_54_1", -1196.798, 112.3665, -739.2802, 45, "npc_dummy")
-addnpc(147306, "ETC_20150401_010647", "d_velniasprison_54_1", 1161.425, 112.6441, 64.52551, 45, "npc_dummy")
-addnpc(151000, "ETC_20150401_010674", "d_velniasprison_54_1", 71.22851, 0.123, 155.8889, 45, "npc_dummy")
-addnpc(154000, "ETC_20150323_009618", "d_velniasprison_54_1", -35.24691, 5.7807, -472.5845, 45, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001930", "d_velniasprison_54_1", -1041.477, 105.4882, -928.6988, 95, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001933", "d_velniasprison_54_1", -253.6144, 112.5825, 986.6729, -2, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001936", "d_velniasprison_54_1", 746.6254, 0.4243, 585.5443, 8, "npc_dummy")
-addnpc(147392, "ETC_20150714_013142", "d_velniasprison_54_1", 311.9072, 91.1839, -678.7358, 130, "npc_dummy")
-addnpc(147392, "ETC_20150714_013142", "d_velniasprison_54_1", -204.0091, 0.7605, -769.8567, 45, "npc_dummy")
-addnpc(147364, "ETC_20150729_014021", "d_velniasprison_54_1", -119.166, 0.7609953, -785.1595, 45, "npc_dummy")
-addnpc(147364, "ETC_20150729_014021", "d_velniasprison_54_1", 374.4337, 91.18401, -642.9914, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_velniasprison_54_1", 507, 90, -608, 45, "npc_dummy")
+----- Firetower_GateOpen ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147306, "ETC_20150401_010647", "d_velniasprison_54_1", 1161, 113, 65, 45, "npc_ETC_20150401_010647")
+function npc_ETC_20150401_010647()
+msg("VELNIAS54_1_ITEM_BOX")
+end
+
+----- closing_device ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151000, "ETC_20150401_010674", "d_velniasprison_54_1", 71, 0, 156, 45, "npc_ETC_20150401_010674")
+function npc_ETC_20150401_010674()
+msg("VELNIASP54_1_EVENT01_START")
+end
+
+----- velniasprison_warp ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(154000, "ETC_20150323_009618", "d_velniasprison_54_1", -35, 6, -473, 45, "npc_ETC_20150323_009618")
+function npc_ETC_20150323_009618()
+msg("VELNIASP54_1_TO_FARM49_3")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001930", "d_velniasprison_54_1", -1041, 105, -929, 95, "npc_QUEST_20150428_001930")
+function npc_QUEST_20150428_001930()
+msg("VELNIASP54_MEMO1")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001933", "d_velniasprison_54_1", -254, 113, 987, -2, "npc_QUEST_20150428_001933")
+function npc_QUEST_20150428_001933()
+msg("VELNIASP54_MEMO2")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001936", "d_velniasprison_54_1", 747, 0, 586, 8, "npc_QUEST_20150428_001936")
+function npc_QUEST_20150428_001936()
+msg("VELNIASP54_MEMO3")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_velniasprison_54_1", 507, 90, -608, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

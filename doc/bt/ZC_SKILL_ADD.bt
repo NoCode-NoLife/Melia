@@ -1,0 +1,36 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SKILL_ADD.bt
+//   Authors: celophi
+//   Version: 164556
+//   Purpose: adds a skill to the player
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct {
+  int key;
+  int value;
+} PropertyMap;
+
+short op<format=hex>;
+int reserved;
+short packetLength;
+
+__int64 characterId;
+byte registerQuickSkill;
+byte getFromSkillList;
+__int64 u1;
+__int64 IESId;
+int skillId;
+short propertyLength;
+short unused;
+int u5;
+int u6;
+
+local int i<hidden=true>;
+for (i = 0; i < (propertyLength/8); i++)
+    PropertyMap propertyMap;

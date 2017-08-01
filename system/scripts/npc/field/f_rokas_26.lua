@@ -1,101 +1,433 @@
-addnpc(20142, "QUEST_LV_0100_20150317_001278", "f_rokas_26", 42, 1739, -1171, -45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_001281", "f_rokas_26", -406, 1837, -312, 45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000372", "f_rokas_26", 923, 1670, -749, 45, "npc_dummy")
-addnpc(20118, "QUEST_LV_0100_20150317_001284", "f_rokas_26", -49, 1739, -1210, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1013, 1670, -1558, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1143, 1670, -1121, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1183, 1670, -1363, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1181, 1670, -1526, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1058, 1670, -1037, -45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1196, 1670, -1232, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 826, 1670, -1198, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1224, 1670, -1296, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1193, 1670, -1167, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 1019, 1670, -1479, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 928, 1670, -1213, 45, "npc_dummy")
-addnpc(47201, "ITEM_20150317_003027", "f_rokas_26", 968, 1670, -1298, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1179, 2093, 784, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1146, 2093, 826, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1386, 2093, 814, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1341, 2093, 766, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1340, 2093, 940, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1115, 2093, 925, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1289, 2015, 457, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1092, 2015, 551, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -991, 2015, 474, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -987, 2015, 250, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1000, 2015, 210, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1061, 2015, 126, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003029", "f_rokas_26", -1128, 2015, 70, 45, "npc_dummy")
-addnpc(147372, "ETC_20150804_014185", "f_rokas_26", -1117.032, 2168.34, 1548.978, 45, "npc_dummy")
-addnpc(147405, "QUEST_LV_0100_20150317_001286", "f_rokas_26", -340, 1738, -1440, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1090, 1670, -1431, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1232.232, 1670.067, -606.4296, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1697.524, 1722.86, -70.34364, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -530.0923, 1761.812, -999.4754, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -130.4085, 1836.6, -343.4164, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 56.90261, 1836.6, 652.4448, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -622.9779, 1938.6, 452.8378, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1109.115, 2015.318, 298.2169, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1265.19, 2015.318, 350.3629, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1240.616, 2093.517, 866.124, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1123.74, 1670.067, -2283.188, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1269.898, 1670.067, -1807.297, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 975.9224, 1670.067, -1913.241, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1132.79, 1670.067, -1892.028, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1037.492, 1670.067, -1165.422, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 953.2856, 1670.067, -927.5645, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1880.087, 1722.86, -234.9917, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 1614, 1722, -371, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -623.1043, 1805.33, -739.4564, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 50.07603, 1836.6, -173.4256, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 235.2008, 1836.6, 341.5596, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 94.76505, 1836.6, 426.5108, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1209.114, 2015.318, 131.6314, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1454.758, 2168.34, 1342.088, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1119.969, 2168.34, 1642.898, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -1160, 2168, 1319, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", -958.4808, 2168.34, 1500.241, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 42.52741, 2140.5, 1782.511, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009450", "f_rokas_26", 30.31939, 2140.5, 1582.565, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_26", -308.3382, 1738.3, -1457.703, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_26", 112.6538, 1738.3, -1131.566, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_26", -951.1649, 1767.128, -1759.029, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_26", -619.9429, 1738.557, -1670.718, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", 1337.859, 1670.067, -590.4032, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1197.5, 2168.34, 1448.956, 51, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -205.8421, 1836.6, -415.1861, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 2000.746, 1722.86, -26.28829, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 1636.305, 1722.86, -97.75717, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 1198.012, 1670.067, -556.2982, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 1183.78, 1670.067, -1271.093, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 821.7767, 1670.067, -962.6804, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 1350.56, 1670.067, -1846.795, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 261.9757, 1738.3, -1448.668, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -362.9111, 1738.3, -1716.797, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -630.7979, 1798.684, -774.2977, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 76.56154, 1836.6, -331.2823, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 167.0485, 1836.6, 527.9109, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -578.3215, 1938.6, 499.2757, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -1004.517, 2015.318, 319.564, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -1210.203, 2093.517, 844.5256, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", -1078.653, 2168.34, 1765.677, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 10.7306, 2140.5, 1774.75, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_26", 508.1066, 1738.3, -1930.209, 45, "npc_dummy")
-addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -1503.52, 2015.318, 232.3539, 45, "npc_dummy")
-addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -1359.735, 2168.34, 1179.565, 45, "npc_dummy")
-addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -143.99, 2140, 1496.51, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_26", -1236.018, 2015.318, 422.9372, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -229.5443, 1836.6, -253.6168, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -108.8394, 1836.6, -148.2667, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -105.6722, 1836.6, -319.4214, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -21.83044, 1836.6, -433.6986, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", 41.32026, 1836.6, -234.9978, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1458.265, 2168.34, 1306.892, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1294.906, 2168.34, 1238.013, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1361.935, 2168.34, 1523.256, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1084.583, 2168.34, 1755.784, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1192.396, 2168.34, 1636.219, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -985.2193, 2168.34, 1562.761, 45, "npc_dummy")
-addnpc(57038, "ETC_20150317_000894", "f_rokas_26", -1031.093, 2168.34, 1348.025, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_rokas_26", 2048.05, 1722.96, 204, 45, "npc_dummy")
+----- npc_low_lev_officer5_m ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_BIO -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_SUB_Q01 | ROKAS26_SUB_Q12 -----
+addnpc(20142, "QUEST_LV_0100_20150317_001278", "f_rokas_26", 42, 1739, -1171, -45, "npc_QUEST_LV_0100_20150317_001278")
+function npc_QUEST_LV_0100_20150317_001278()
+msg("ROKAS26_BIO_BASIC01")
+msg("ROKAS26_BIO_BASIC02")
+msg("ROKAS26_SUB_Q01_01")
+msg("ROKAS26_SUB_Q01_02")
+msg("ROKAS26_SUB_Q12_select_01")
+msg("ROKAS26_SUB_Q12_succ_01")
+end
+
+----- soldier6 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_EHTA -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_SUB_Q08 | ROKAS26_SUB_Q09 | ROKAS26_SUB_Q10 | ROKAS26_SUB_Q11 | ROKAS26_SUB_Q12 -----
+addnpc(20016, "QUEST_LV_0100_20150317_001281", "f_rokas_26", -406, 1837, -312, 45, "npc_QUEST_LV_0100_20150317_001281")
+function npc_QUEST_LV_0100_20150317_001281()
+msg("ROKAS26_EHTA_BASIC01")
+msg("ROKAS26_SUB_Q08_01")
+msg("ROKAS26_SUB_Q08_02")
+msg("ROKAS26_SUB_Q09_02")
+msg("ROKAS26_SUB_Q09_03")
+msg("ROKAS26_SUB_Q10_01")
+msg("ROKAS26_SUB_Q10_03")
+msg("ROKAS26_SUB_Q11_01")
+msg("ROKAS26_SUB_Q11_02")
+msg("ROKAS26_SUB_Q11_03")
+msg("ROKAS26_EHTA_basic1")
+msg("ROKAS26_EHTA_after1")
+msg("ROKAS26_SUB_Q08_04")
+msg("ROKAS26_SUB_Q10_04")
+end
+
+----- soldier6 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_LINT -----
+----- Enter | Dialog -----
+----- QuestIDs: ROKAS26_SUB_Q03 | ROKAS26_SUB_Q05 | ROKAS26_SUB_Q02 | ROKAS_26_HQ_01 -----
+addnpc(20016, "QUEST_LV_0100_20150317_000372", "f_rokas_26", 923, 1670, -749, 45, "npc_QUEST_LV_0100_20150317_000372")
+function npc_QUEST_LV_0100_20150317_000372()
+msg("ROKAS_26_HQ01_NPC01")
+msg("ROKAS26_LINT_basic2")
+msg("ROKAS26_LINT_BASIC01")
+msg("ROKAS26_SUB_Q02_01")
+msg("ROKAS26_SUB_Q02_02")
+msg("ROKAS26_SUB_Q02_03")
+msg("ROKAS26_SUB_Q03_01")
+msg("ROKAS26_SUB_Q03_02")
+msg("ROKAS26_SUB_Q03_03")
+msg("ROKAS26_SUB_Q05_01")
+msg("ROKAS26_SUB_Q05_02")
+msg("ROKAS26_SUB_Q05_03")
+msg("ROKAS26_LINT_basic1")
+msg("ROKAS_26_HQ_01_select01")
+msg("ROKAS_26_HQ_01_succ01")
+msg("ROKAS_26_HQ_01_W")
+end
+
+----- npc_village_uncle_2 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_REXIPHER1 -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_QUEST01 | ROKAS26_QUEST02 | ROKAS26_QUEST02_AFTER -----
+addnpc(20118, "QUEST_LV_0100_20150317_001284", "f_rokas_26", -49, 1739, -1210, 45, "npc_QUEST_LV_0100_20150317_001284")
+function npc_QUEST_LV_0100_20150317_001284()
+msg("ROKAS26_REXIPHER1_basic1")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_SUB_Q10_TRIGGER -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_SUB_Q10 -----
+addnpc(147372, "ETC_20150804_014185", "f_rokas_26", -1117, 2168, 1549, 45, "npc_ETC_20150804_014185")
+function npc_ETC_20150804_014185()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_paladin_follower2_3 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_NPC -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 | ROKAS25_TO_26 -----
+addnpc(147405, "QUEST_LV_0100_20150317_001286", "f_rokas_26", -340, 1738, -1440, 45, "npc_QUEST_LV_0100_20150317_001286")
+function npc_QUEST_LV_0100_20150317_001286()
+msg("ROKAS26_MQ1_NPC_BASIC01")
+msg("ROKAS26_MQ1_NPC_BASIC02")
+msg("ROKAS26_MQ1_select1")
+msg("ROKAS26_MQ1_prog_startnpc")
+msg("ROKAS26_MQ1_end1")
+msg("ROKAS25_TO_26_COMP")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1090, 1670, -1431, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1232, 1670, -606, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1698, 1723, -70, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -530, 1762, -999, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -130, 1837, -343, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 57, 1837, 652, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -623, 1939, 453, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1109, 2015, 298, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1265, 2015, 350, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1241, 2094, 866, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1124, 1670, -2283, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1270, 1670, -1807, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 976, 1670, -1913, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1133, 1670, -1892, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1037, 1670, -1165, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 953, 1670, -928, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1880, 1723, -235, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 1614, 1722, -371, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -623, 1805, -739, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 50, 1837, -173, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 235, 1837, 342, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 95, 1837, 427, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1209, 2015, 132, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1455, 2168, 1342, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1120, 2168, 1643, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -1160, 2168, 1319, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", -958, 2168, 1500, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 43, 2141, 1783, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- blank_npc ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_MQ1_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_MQ1 -----
+addnpc(147372, "ETC_20170313_027496", "f_rokas_26", 30, 2141, 1583, 45, "npc_ETC_20170313_027496")
+function npc_ETC_20170313_027496()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_rokas_6 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_QUEST03_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_QUEST03 -----
+addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -1504, 2015, 232, 45, "npc_ETC_20150317_005293")
+function npc_ETC_20150317_005293()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_rokas_6 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_QUEST04_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_QUEST04 -----
+addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -1360, 2168, 1180, 45, "npc_ETC_20150317_005293")
+function npc_ETC_20150317_005293()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_rokas_6 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS26_QUEST05_STONE -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_QUEST05 -----
+addnpc(47106, "ETC_20150317_005293", "f_rokas_26", -144, 2140, 1497, 45, "npc_ETC_20150317_005293")
+function npc_ETC_20150317_005293()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "f_rokas_26", 2048, 1723, 204, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+
+----- npc_village_uncle_4 ----- 
+----- npcselectdialog.ies | ClassName: ROKAS24_RP_1_NPC -----
+----- Dialog -----
+----- QuestIDs: ROKAS26_RP_1 -----
+addnpc(20139, "QUEST_LV_0100_20160718_015016", "f_rokas_26", -1024, 2168, 1910, -51, "npc_QUEST_LV_0100_20160718_015016")
+function npc_QUEST_LV_0100_20160718_015016()
+msg("ROKAS26_RP_1_1")
+msg("ROKAS26_RP_1_2")
+msg("ROKAS26_RP_1_3")
+msg("ROKAS24_RP_1_NPC_basic_1")
+end
+

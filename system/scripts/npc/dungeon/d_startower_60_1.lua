@@ -1,53 +1,168 @@
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", -1140.748, -106.1569, -1022.952, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", -2103.922, -106.1279, -1381.91, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", -1554.444, -13.60183, 426.9497, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 234.9118, -20.8207, 1131.199, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 22.79283, -20.8207, 530.7649, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 361.8782, -106.241, -191.3983, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", -50.9329, -106.1569, -1575.608, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 500.0912, -106.1569, -1391.31, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 1636.76, -106.1569, -1402.71, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 1401.988, -106.1569, -129.7278, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 2200.4, -106.1569, 156.777, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 1478.675, -106.4191, 964.8784, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", 1983.226, -106.1569, -2442.037, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_startower_60_1", -660.1863, -106.1569, -37.33073, 45, "npc_dummy")
-addnpc(151043, "ETC_20150401_010656", "d_startower_60_1", -926.8743, -107.5178, -1228.377, 45, "npc_dummy")
-addnpc(151043, "ETC_20150401_010657", "d_startower_60_1", 142.3433, -106.3283, -297.3275, 0, "npc_dummy")
-addnpc(151043, "ETC_20150401_010658", "d_startower_60_1", 1470.958, -106.1569, -1229.48, 0, "npc_dummy")
-addnpc(151044, "ETC_20150401_010659", "d_startower_60_1", -936.3505, -106.1569, -275.3196, 45, "npc_dummy")
-addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", -105.6555, -20.8207, 621.4272, 45, "npc_dummy")
-addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", -105.536, -20.8207, 876.3533, 45, "npc_dummy")
-addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", 412.9784, -20.8207, 616.2069, 225, "npc_dummy")
-addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", 412.9004, -20.8207, 871.7554, 225, "npc_dummy")
-addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2024.567, -106.1569, -1779.329, 45, "npc_dummy")
-addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2017.142, -106.1569, -1421.79, 45, "npc_dummy")
-addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2025.221, -106.1569, -1067.645, 45, "npc_dummy")
-addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2022.423, -106.1569, -702.0853, 45, "npc_dummy")
-addnpc(20026, "QUEST_20150401_001719", "d_startower_60_1", 143.563, -20.8207, 1127.175, -45, "npc_dummy")
-addnpc(147500, "ETC_20150401_010661", "d_startower_60_1", -1875.505, -13.6018, 1132.613, -45, "npc_dummy")
-addnpc(147392, "ETC_20150414_011200", "d_startower_60_1", -229.3618, 75.8448, 1267.745, 225, "npc_dummy")
-addnpc(151045, "ETC_20150401_010662", "d_startower_60_1", 1786.096, -106.1569, -450.3302, 45, "npc_dummy")
-addnpc(151046, "ETC_20150401_010663", "d_startower_60_1", 1728.265, -106.157, 734.7443, -45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -38.83996, -106.1569, -2278.133, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -1848.947, 75.8448, 1280.544, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -1881.415, -13.6018, 1049.811, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -1302.326, 75.8448, 1267.31, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -763.2208, 75.8448, 1269.152, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", -231.006, 75.8448, 1266.893, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1551.387, -106.5567, 1021.626, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1551.828, -106.5871, 1394.442, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1921.872, -106.5461, 1026.304, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1924.396, -106.4792, 1402.211, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1730.726, -106.157, 560.0296, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1767.671, -95.0325, 1913.225, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1459.889, -84.37521, 2282.25, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 1021.849, -69.04069, 2448.484, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 597.3727, -19.37192, 2265.32, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 360.3411, 58.75359, 1838.022, 45, "npc_dummy")
-addnpc(147366, "ETC_20150401_010678", "d_startower_60_1", 291.5173, 75.845, 1378.628, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_startower_60_1", -28.21613, -106.1569, -2381.822, 45, "npc_dummy")
-addnpc(153014, "ETC_20150428_011580", "d_startower_60_1", -1297.08, -106.1569, -102.2516, 45, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001941", "d_startower_60_1", -864.1365, 75.8448, 1326.797, 45, "npc_dummy")
-addnpc(147312, "QUEST_20150428_001945", "d_startower_60_1", 1219.117, -106.1569, -484.075, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_startower_60_1", 265, 76, 1427, 45, "npc_dummy")
+----- star_sphere_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151043, "ETC_20150401_010656", "d_startower_60_1", -927, -108, -1228, 45, "npc_ETC_20150401_010656")
+function npc_ETC_20150401_010656()
+msg("STARTOWER_60_1_SYSTEM_01")
+end
+
+----- star_sphere_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151043, "ETC_20150401_010657", "d_startower_60_1", 142, -106, -297, 0, "npc_ETC_20150401_010657")
+function npc_ETC_20150401_010657()
+msg("STARTOWER_60_1_SYSTEM_02")
+end
+
+----- star_sphere_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151043, "ETC_20150401_010658", "d_startower_60_1", 1471, -106, -1229, 0, "npc_ETC_20150401_010658")
+function npc_ETC_20150401_010658()
+msg("STARTOWER_60_1_SYSTEM_03")
+end
+
+----- star_hourglass_01 ----- 
+----- Enter -----
+addnpc(151044, "ETC_20150401_010659", "d_startower_60_1", -936, -106, -275, 45, "npc_ETC_20150401_010659")
+function npc_ETC_20150401_010659()
+msg("STARTOWER_60_1_GUARDIAN_NPC")
+end
+
+----- npc_cathedral_device_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", -106, -21, 621, 45, "npc_ETC_20150401_010660")
+function npc_ETC_20150401_010660()
+msg("STARTOWER_60_1_STORNSTATUE_MSG01")
+end
+
+----- npc_cathedral_device_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", -106, -21, 876, 45, "npc_ETC_20150401_010660")
+function npc_ETC_20150401_010660()
+msg("STARTOWER_60_1_STORNSTATUE_MSG01")
+end
+
+----- npc_cathedral_device_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", 413, -21, 616, 225, "npc_ETC_20150401_010660")
+function npc_ETC_20150401_010660()
+msg("STARTOWER_60_1_STORNSTATUE_MSG01")
+end
+
+----- npc_cathedral_device_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153017, "ETC_20150401_010660", "d_startower_60_1", 413, -21, 872, 225, "npc_ETC_20150401_010660")
+function npc_ETC_20150401_010660()
+msg("STARTOWER_60_1_STORNSTATUE_MSG01")
+end
+
+----- candlestick_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2025, -106, -1779, 45, "npc_QUEST_20150323_001593")
+function npc_QUEST_20150323_001593()
+msg("STARTOWER_60_1_CANDLESTICK_MSG01")
+end
+
+----- candlestick_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2017, -106, -1422, 45, "npc_QUEST_20150323_001593")
+function npc_QUEST_20150323_001593()
+msg("STARTOWER_60_1_CANDLESTICK_MSG01")
+end
+
+----- candlestick_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2025, -106, -1068, 45, "npc_QUEST_20150323_001593")
+function npc_QUEST_20150323_001593()
+msg("STARTOWER_60_1_CANDLESTICK_MSG01")
+end
+
+----- candlestick_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151047, "QUEST_20150323_001593", "d_startower_60_1", 2022, -106, -702, 45, "npc_QUEST_20150323_001593")
+function npc_QUEST_20150323_001593()
+msg("STARTOWER_60_1_CANDLESTICK_MSG01")
+end
+
+----- whorfzone ----- 
+----- Enter -----
+addnpc(147500, "ETC_20150401_010661", "d_startower_60_1", -1876, -14, 1133, -45, "npc_ETC_20150401_010661")
+function npc_ETC_20150401_010661()
+msg("STARTOWER_60_1_REVERSEGRAVITY")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150414_011200", "d_startower_60_1", -229, 76, 1268, 225, "npc_ETC_20150414_011200")
+function npc_ETC_20150414_011200()
+msg("STARTOWER_60_1_DAILY_BOX_MSG01")
+end
+
+----- star_lantern_01 ----- 
+----- Enter -----
+addnpc(151045, "ETC_20150401_010662", "d_startower_60_1", 1786, -106, -450, 45, "npc_ETC_20150401_010662")
+function npc_ETC_20150401_010662()
+msg("STARTOWER_60_1_STARLAMP_MSG01")
+end
+
+----- star_stone_01 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(151046, "ETC_20150401_010663", "d_startower_60_1", 1728, -106, 735, -45, "npc_ETC_20150401_010663")
+function npc_ETC_20150401_010663()
+msg("STARTOWER_60_1_STARSTORN_01_MSG01")
+end
+
+----- statue_vakarine ----- 
+----- npcselectdialog.ies | ClassName: STOUP_CAMP -----
+----- Enter | Dialog -----
+----- QuestIDs: JOB_KRIVI4_3 -----
+addnpc(40120, "QUEST_20150317_000002", "d_startower_60_1", -28, -106, -2382, 45, "npc_QUEST_20150317_000002")
+function npc_QUEST_20150317_000002()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+msg("WARP_D_STARTOWER_60_1")
+end
+
+----- BOOK_02 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(153014, "ETC_20150428_011580", "d_startower_60_1", -1297, -106, -102, 45, "npc_ETC_20150428_011580")
+function npc_ETC_20150428_011580()
+msg("STARTOWER_60_1_MEMO_01")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001941", "d_startower_60_1", -864, 76, 1327, 45, "npc_QUEST_20150428_001941")
+function npc_QUEST_20150428_001941()
+msg("STARTOWER_60_1_MEMO_02")
+end
+
+----- LOST_PAPER ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147312, "QUEST_20150428_001945", "d_startower_60_1", 1219, -106, -484, 45, "npc_QUEST_20150428_001945")
+function npc_QUEST_20150428_001945()
+msg("STARTOWER_60_1_MEMO_03")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_startower_60_1", 265, 76, 1427, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

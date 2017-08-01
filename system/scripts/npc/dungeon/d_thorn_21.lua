@@ -1,57 +1,147 @@
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 72.77144, 221.2254, -39.38771, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 921.461, 332.3606, 118.803, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1247.637, 331.9713, 45.39395, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 769.1818, 332.3606, 81.62121, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 878.9601, 332.3722, 599.0032, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 895.135, 332.3722, 923.4316, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1409.377, 418.3634, 1102.674, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1476.265, 418.3634, 1295.955, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1746.75, 418.3634, 1241.53, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1668.463, 418.3634, 1037.216, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2281.017, 418.3634, 1436.952, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2040.94, 418.3634, 1364.885, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2360.825, 418.3634, 1313.506, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2931.346, 332.3721, 1213.894, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 5141.034, 333.2023, -203.8156, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 3295.34, 332.3721, 1118.586, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 3120.767, 332.3721, 1211.789, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 823, 258, -562, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 888.1459, 208.0713, -1175.629, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1338.521, 208.0713, -1039.67, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 920.2509, 309.5486, -208.7048, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1120.339, 208.0713, -1272.102, 69, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 993.7697, 208.0713, -1468.427, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1595.446, 208.0713, -1067.399, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1827.563, 208.0713, -1008.012, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2422.084, 122.08, -1160.177, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2725.515, 122.08, -1130.328, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2608.516, 122.08, -1376.185, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1807, 331, 27, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1934, 333, -36, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 1934, 331, -203, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2599, 333, 422, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 3309.197, 393.9349, -276.2433, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 3467.72, 400.7516, -479.1672, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 3726.882, 391.3068, -439.6291, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 4407.8, 333.2023, -189.8525, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 4650.616, 333.2023, -124.9798, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 4796.258, 333.2023, -225.7063, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 5540.859, 333.2023, -228.5568, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 5879.357, 333.2023, -236.0186, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_thorn_21", 2827.66, 331.9714, 337.4762, 45, "npc_dummy")
-addnpc(147389, "QUEST_LV_0100_20150317_001989", "d_thorn_21", 3652.089, 400.7516, -233.2299, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_thorn_21", 5836.896, 333.2023, -186.57, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_thorn_21", 2560.942, 122.08, -1262.193, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_thorn_21", 3107.056, 332.3721, 1136.158, 45, "npc_dummy")
-addnpc(147386, "QUEST_LV_0100_20150317_002081", "d_thorn_21", 692.3442, 222.5578, -944.9255, 45, "npc_dummy")
-addnpc(147398, "QUEST_LV_0100_20150317_002092", "d_thorn_21", 1497.871, 331.9713, 151.3502, 45, "npc_dummy")
-addnpc(147397, "QUEST_LV_0100_20150317_001991", "d_thorn_21", -110.9604, 221.2254, 116.2125, 45, "npc_dummy")
-addnpc(147397, "QUEST_LV_0100_20150317_001991", "d_thorn_21", 4565.751, 333.2023, -58.03416, 45, "npc_dummy")
-addnpc(153011, "ETC_20150317_007291", "d_thorn_21", 2800, 122, -1325, 32, "npc_dummy")
-addnpc(153011, "ETC_20150317_007291", "d_thorn_21", 3305, 332.3721, 1084, 37, "npc_dummy")
-addnpc(46213, "ETC_20150317_005258", "d_thorn_21", 1012, 208, -1241, -62, "npc_dummy")
-addnpc(46213, "ETC_20150317_005258", "d_thorn_21", 2003, 331, -3, 45, "npc_dummy")
-addnpc(40070, "QUEST_20150317_000566", "d_thorn_21", 1085.121, 208.0713, -1445.903, 135, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_21", 968.5147, 208.5713, -1485.127, 45, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_thorn_21", -319.4012, 221.7254, -53.54295, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_thorn_21", -456.07, 221.33, -407.21, 45, "npc_dummy")
+----- npc_saule_male_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BELIEVER -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ01 | THORN21_RP_2 -----
+addnpc(147389, "QUEST_LV_0100_20150317_001989", "d_thorn_21", 3652, 401, -233, -51, "npc_QUEST_LV_0100_20150317_001989")
+function npc_QUEST_LV_0100_20150317_001989()
+msg("THORN21_MQ02_select01")
+msg("THORN21_MQ02_startnpc_prog01")
+msg("THORN21_MQ02_succ01")
+msg("THORN21_MQ02_startnpc01")
+msg("THORN21_BELIEVER02_basic01")
+end
+
+----- npc_saule_female_1 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BELIEVER02 -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ02 -----
+addnpc(147386, "QUEST_LV_0100_20150317_002081", "d_thorn_21", 692, 223, -945, 45, "npc_QUEST_LV_0100_20150317_002081")
+function npc_QUEST_LV_0100_20150317_002081()
+msg("THORN21_MQ02_select01")
+msg("THORN21_MQ02_startnpc_prog01")
+msg("THORN21_MQ02_succ01")
+msg("THORN21_MQ02_startnpc01")
+msg("THORN21_BELIEVER02_basic01")
+end
+
+----- npc_saule_male_2 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BELIEVER03 -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ06 | THORN21_RP_1 -----
+addnpc(147398, "QUEST_LV_0100_20150317_002092", "d_thorn_21", 1498, 332, 151, 45, "npc_QUEST_LV_0100_20150317_002092")
+function npc_QUEST_LV_0100_20150317_002092()
+msg("THORN21_MQ06_select01")
+msg("THORN21_MQ06_startnpc01")
+msg("THORN21_MQ06_succ01")
+msg("THORN21_MQ06_PG")
+msg("THORN21_BELIEVER03_basic01")
+msg("THORN21_BELIEVER03_basic02")
+msg("THORN21_RP_1_1")
+msg("THORN21_RP_1_2")
+msg("THORN21_RP_1_3")
+end
+
+----- npc_saule_female_2 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BELIEVER04 -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ09 | THORN21_MQ04 | THORN21_MQ03 | THORN21_MQ05 -----
+addnpc(147397, "QUEST_LV_0100_20150317_001991", "d_thorn_21", -111, 221, 116, 45, "npc_QUEST_LV_0100_20150317_001991")
+function npc_QUEST_LV_0100_20150317_001991()
+msg("THORN21_MQ03_succ01")
+msg("THORN21_MQ04_select01")
+msg("THORN21_MQ04_select_startnpc01")
+msg("THORN21_MQ05_succ01")
+msg("THORN21_MQ04_startnpc_prog")
+msg("THORN21_MQ04_succ01")
+msg("THORN21_MQ04_select_startnpc02")
+msg("THORN21_MQ03_2_select01")
+msg("THORN21_MQ03_2_startnpc_prog01")
+msg("THORN21_MQ03_2_succ01")
+msg("THORN21_MQ03_2_AG")
+msg("THORN21_MQ07_select01")
+msg("THORN21_MQ07_startnpc_prog01")
+msg("THORN21_MQ07_startnpc01")
+msg("THORN21_BELIEVER04_basic01")
+msg("THORN21_BELIEVER04_after_basic01")
+end
+
+----- npc_saule_female_2 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BELIEVER04_AFTER -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ07 -----
+addnpc(147397, "QUEST_LV_0100_20150317_001991", "d_thorn_21", 4566, 333, -58, 45, "npc_QUEST_LV_0100_20150317_001991")
+function npc_QUEST_LV_0100_20150317_001991()
+msg("THORN21_MQ03_succ01")
+msg("THORN21_MQ04_select01")
+msg("THORN21_MQ04_select_startnpc01")
+msg("THORN21_MQ05_succ01")
+msg("THORN21_MQ04_startnpc_prog")
+msg("THORN21_MQ04_succ01")
+msg("THORN21_MQ04_select_startnpc02")
+msg("THORN21_MQ03_2_select01")
+msg("THORN21_MQ03_2_startnpc_prog01")
+msg("THORN21_MQ03_2_succ01")
+msg("THORN21_MQ03_2_AG")
+msg("THORN21_MQ07_select01")
+msg("THORN21_MQ07_startnpc_prog01")
+msg("THORN21_MQ07_startnpc01")
+msg("THORN21_BELIEVER04_basic01")
+msg("THORN21_BELIEVER04_after_basic01")
+end
+
+----- npc_bramble_root ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BRAMBLE01_ROOT -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ03 -----
+addnpc(153011, "ETC_20150317_007291", "d_thorn_21", 2800, 122, -1325, 32, "npc_ETC_20150317_007291")
+function npc_ETC_20150317_007291()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- npc_bramble_root ----- 
+----- npcselectdialog.ies | ClassName: THORN21_BRAMBLE02_ROOT -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ05 -----
+addnpc(153011, "ETC_20150317_007291", "d_thorn_21", 3305, 332, 1084, 37, "npc_ETC_20150317_007291")
+function npc_ETC_20150317_007291()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Altar1 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_MQ02_TRACK -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ02 -----
+addnpc(46213, "ETC_20150317_005258", "d_thorn_21", 1012, 208, -1241, -62, "npc_ETC_20150317_005258")
+function npc_ETC_20150317_005258()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Altar1 ----- 
+----- npcselectdialog.ies | ClassName: THORN21_MQ06_TRACK -----
+----- Dialog -----
+----- QuestIDs: THORN21_MQ06 -----
+addnpc(46213, "ETC_20150317_005258", "d_thorn_21", 2003, 331, -3, 45, "npc_ETC_20150317_005258")
+function npc_ETC_20150317_005258()
+msg("GM_QUEST_MODIFY_PC_SEL")
+msg("GM_NPC_HIDE_UNHIDE")
+end
+
+----- Board1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(40070, "QUEST_20150317_000566", "d_thorn_21", 1085, 208, -1446, 135, "npc_QUEST_20150317_000566")
+function npc_QUEST_20150317_000566()
+msg("UPPER_WARNING_D_THORN_21")
+end
+
+----- treasure_box1 ----- 
+----- npcselectdialog.ies | ClassName:  -----
+----- Dialog -----
+addnpc(147392, "ETC_20150317_009100", "d_thorn_21", -456, 221, -407, 45, "npc_ETC_20150317_009100")
+function npc_ETC_20150317_009100()
+msg("TREASUREBOX_LV")
+end
+

@@ -36,6 +36,8 @@ namespace Melia.Login.Network
 			packet.PutInt(3); // accountPrivileges? <= 3 enables a kind of debug context menu
 			packet.PutString(conn.SessionKey, 64);
 			packet.PutInt(4475); // [i10725 (2015-11-03)] ?
+			packet.PutInt(9239); // unk
+			packet.PutInt(67213); // unk
 
 			conn.Send(packet);
 		}
@@ -67,14 +69,18 @@ namespace Melia.Login.Network
 				for (int i = 0; i < Items.EquipSlotCount; ++i)
 					packet.PutShort(0);
 
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(1);
+
 				// Job history?
 				// While this short existed in iCBT1, it might not have
 				// been used, couldn't find a log.
 				// Example: A Mage that switched to Pyromancer has two
 				//   elements in this list, 2001 and 2002.
 				packet.PutShort(0); // count
-				// loop
-				//   short jobId
+									// loop
+									//   short jobId
 
 				// [i11025 (2016-02-26)] ?
 				{
@@ -86,6 +92,10 @@ namespace Melia.Login.Network
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
 
+			packet.PutShort(0); // unk
+			packet.PutInt(conn.Account.GetCharacters().Count()); // unk
+			packet.PutShort(conn.Account.GetCharacters().Count()); // unk
+
 			conn.Send(packet);
 		}
 
@@ -94,6 +104,20 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_COMMANDER_CREATE);
 			packet.AddCharacter(character);
 
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the number of the new character's index.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void BC_COMMANDER_CREATE_SLOTID(LoginConnection conn, Character character)
+		{
+			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
+			var characterCount = (byte)conn.Account.GetCharacters().Length;
+
+			packet.PutByte(characterCount);
 			conn.Send(packet);
 		}
 
@@ -133,33 +157,6 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
-		{
-			var characters = conn.Account.GetCharacters();
-			var mapAvailableCount = characters.Length;
-			var zoneServerCount = 1;
-			var zoneMaxPcCount = 150;
-
-			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0B); //SubOp
-
-			packet.BeginZlib();
-			packet.PutShort(zoneMaxPcCount);
-			packet.PutShort(mapAvailableCount);
-			for (var i = 0; i < mapAvailableCount; ++i)
-			{
-				packet.PutShort(characters[i].MapId);
-				packet.PutShort(zoneServerCount);
-				for (var zone = 0; zone < zoneServerCount; ++zone)
-				{
-					packet.PutShort(zone);
-					packet.PutShort(1); // currentPlayersCount
-				}
-			}
-			packet.EndZlib();
-
-			conn.Send(packet);
-		}
 
 		public static void BC_START_GAMEOK(LoginConnection conn, Character character, string ip, int port)
 		{
@@ -199,15 +196,86 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_NORMAL_Run(LoginConnection conn, string str)
+		/// <summary>
+		/// Sends information related to the team to be displayed in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_TeamUI(LoginConnection conn)
 		{
-			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0B); // SubOp
+
+			packet.PutLong(conn.Account.Id);
+
+			// Maximum number of allowed characters added to the default of (4).
+			packet.PutShort(2);
+
+			// Team experience? Displayed under "Team Info"
+			packet.PutInt(0);
+
+			// Sum of characters and pets.
+			var characters = conn.Account.GetCharacters();
+			packet.PutShort(characters.Length);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends zone traffic to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
+		{
+			var characters = conn.Account.GetCharacters();
+			var mapAvailableCount = characters.Length;
+			var zoneServerCount = 1;
+			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0C); //SubOp
 
-			packet.PutInt(0x0E);
+			packet.BeginZlib();
+			packet.PutShort(zoneMaxPcCount);
+			packet.PutShort(mapAvailableCount);
+			for (var i = 0; i < mapAvailableCount; ++i)
+			{
+				packet.PutShort(characters[i].MapId);
+				packet.PutShort(zoneServerCount);
+				for (var zone = 0; zone < zoneServerCount; ++zone)
+				{
+					packet.PutShort(zone);
+					packet.PutShort(1); // currentPlayersCount
+				}
+			}
+			packet.EndZlib();
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Runs a lua function.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="str"></param>
+		public static void BC_NORMAL_Run(LoginConnection conn, string str)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0F); // SubOp
+
 			packet.PutLpString(str);
 
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_SetSessionKey(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x14);
+			packet.PutLpString(conn.SessionKey);
 			conn.Send(packet);
 		}
 	}
