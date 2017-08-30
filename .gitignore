@@ -27,6 +27,7 @@
 *.sln.docstates
 # Mono user-preferences file
 *.userprefs
+.vs/
 
 # Build results
 
