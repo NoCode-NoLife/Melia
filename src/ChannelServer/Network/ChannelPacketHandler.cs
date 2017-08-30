@@ -107,7 +107,6 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
 			Send.ZC_CHAT_MACRO_LIST(character);
-			Send.ZC_UI_INFO_LIST(character);
 			Send.ZC_NPC_STATE_LIST(character);
 			// ZC_HELP_LIST
 			// ZC_MYPAGE_MAP
