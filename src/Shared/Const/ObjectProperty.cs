@@ -12,47 +12,6 @@ namespace Melia.Shared.Const
 	/// <summary>
 	/// Object property enum
 	/// </summary>
-	/// <remarks>
-	/// History:
-	/// i10622 (2015-10-22, iCBT2 pre-launch)
-	/// - PC changed from a 4k to a 6k range.
-	/// - Several additions/removals
-	/// 
-	/// i10725 (2015-11-03)
-	/// - New:
-	///   - Account.ChatStopTime
-	///   - Account.TradeStopTime
-	/// 
-	/// i11025 (2016-02-26, pre-OBT)
-	/// - New:
-	///   - Account.PremiumMedal
-	///   - PC.LearnAbilityID1 ~ 5
-	///   - PC.LearnAbilityTime1 ~ 5
-	///   - PC.LearnAbilityTime_1 ~ 5
-	///   - PC.LearnAbilityID_1 ~ 5
-	/// 
-	/// i11037 (2016-03-0X, pre-OBT)
-	/// - New:
-	///   - Account.TradeCount
-	///   - Account.TokenItemType
-	///   - Account.MaxAccountWarehouseCount
-	///   - Account.AccountWareHouseExtend
-	///   - PC.[...]Factor_PC_BM
-	///   - PC.[...]Factor_PC_NT
-	///   - PC.[...]Factor_PC
-	/// 
-	/// i11087 (2016-03-0X, pre-OBT)
-	/// - New:
-	///   - PC.MaxWeight_BM
-	/// 
-	/// Melia (2016-04-09)
-	/// - New:
-	///   - Item, Skill, Monster
-	/// 
-	/// i11669 (2016-05-03)
-	/// - New:
-	///   - Account.AccumulatedRepotedPoint
-	/// </remarks>
 	public static class ObjectProperty
 	{
 		public static class Account
