@@ -1,13 +1,15 @@
 Melia
 ==============================
 
-<span style="color:red;font-size:1.5em;">**Attention: Development on pause, not compatible to latest clients.**</span>
+<span style="color:red;font-size:1.5em;">**Attention: Development on pause,
+not compatible to latest clients.**</span>
 
-Melia is an open-source MMORPG server software for the international client of Tree of Savior.
-It's solely being developed for educational purposes, learning about programming, MMORPGs,
-maintaining huge projects, working with other people, and improving knowledge.
-It's not about playing a game or competing with any services provided by
-IMCGAMES or its partners, and we don't endorse such actions.
+Melia is an open-source MMORPG server software for the international client
+of Tree of Savior. It's solely being developed for educational purposes,
+learning about programming, MMORPGs, maintaining huge projects, working with
+other people, and improving knowledge. It's not about playing a game or
+competing with any services provided by IMCGAMES or its partners, and we
+don't endorse such actions.
 
 Melia is completely free and licensed under the GNU GPL.
 As such, every user is free to use Melia and choose how to use it,
@@ -40,7 +42,7 @@ Installation
 
 Afterwards, you should be able to start Melia via the provided scripts or
 directly from the bin directories. If not, or if you need a more detailed guide,
-head over to our [forums](http://aura-project.org/forum/), [Gitter chat](https://gitter.im/aura-project/melia), or [wiki](https://github.com/aura-project/melia/wiki).
+head over to our [Gitter chat](https://gitter.im/aura-project/melia) or [wiki](https://github.com/aura-project/melia/wiki).
 
 Contribution
 ------------------------------
@@ -89,7 +91,6 @@ reviewed the code.
 
 Links
 ------------------------------
-* Forums: http://aura-project.org/
 * GitHub: https://github.com/aura-project
 * Gitter chat: https://gitter.im/aura-project/melia
 * Backlog: [https://github.com/aura-project/melia/issues](https://github.com/aura-project/aura/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abacklog)
@@ -98,4 +99,3 @@ Links
 Build Status
 ------------------------------
 [![Build Status](https://travis-ci.org/aura-project/melia.png?branch=master)](https://travis-ci.org/aura-project/melia)
-
