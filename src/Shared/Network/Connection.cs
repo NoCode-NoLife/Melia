@@ -182,7 +182,7 @@ namespace Melia.Shared.Network
 					else
 					{
 						// Check login state
-						if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
+						if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CB_LOGIN_BY_PASSPORT && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
 						{
 							if (!this.LoggedIn)
 							{
