@@ -37,8 +37,8 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpExpress">
-      <HintPath>..\..\lib\SharpExpress.dll</HintPath>
+    <Reference Include="Swebs">
+      <HintPath>..\..\lib\Swebs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,8 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ServerListController.cs" />
-    <Compile Include="Controllers\StaticConfigController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebServer.cs" />

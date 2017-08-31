@@ -5,15 +5,14 @@ using Melia.Shared;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.Util.Configuration;
-using Melia.Web.Controllers;
-using SharpExpress;
-using SharpExpress.Engines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Swebs;
+using Melia.Shared.Database;
 
 namespace Melia.Web
 {
@@ -21,10 +20,17 @@ namespace Melia.Web
 	{
 		public static readonly WebServer Instance = new WebServer();
 
+		private List<object> _swebsReferences = new List<object>();
+
 		/// <summary>
-		/// Web application
+		/// Actual HTTP server.
 		/// </summary>
-		public WebApplication App { get; private set; }
+		public HttpServer HttpServer { get; private set; }
+
+		/// <summary>
+		/// Wev server's database.
+		/// </summary>
+		public MeliaDb Database { get; private set; }
 
 		/// <summary>
 		/// Web's console commands
@@ -43,6 +49,9 @@ namespace Melia.Web
 
 			// Conf
 			this.LoadConf();
+
+			// Database
+			this.InitDatabase(this.Database = new MeliaDb());
 
 			// Data
 			this.LoadData(DataToLoad.Servers, true);
@@ -64,25 +73,33 @@ namespace Melia.Web
 		{
 			Log.Info("Starting web server...");
 
-			this.App = new WebApplication();
+			// Trick compiler into referencing DLLs, so Swebs references them
+			// in the C# scripts as well.
+			//_swebsReferences.Add(...);
 
-			this.App.Engine("htm", new HandlebarsEngine());
+			var conf = new Configuration();
+			conf.Port = this.Conf.Web.Port;
+			conf.SourcePaths.Add("user/web/");
+			conf.SourcePaths.Add("system/web/");
 
-			this.App.Get("/toslive/patch/serverlist.xml", new ServerListController());
-			this.App.Get("/toslive/patch/static__Config.txt", new StaticConfigController());
+			this.HttpServer = new HttpServer(conf);
+			this.HttpServer.RequestReceived += (s, e) =>
+			{
+				Log.Debug("[{0}] - {1}", e.Request.HttpMethod, e.Request.Path);
+				//Log.Debug(e.Request.UserAgent); // Client: TEST_ARI
+			};
+			this.HttpServer.UnhandledException += (s, e) => Log.Exception(e.Exception);
 
 			try
 			{
-				this.App.Listen(this.Conf.Web.Port);
+				this.HttpServer.Start();
 
-				Log.Info("ServerListURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/serverlist.xml");
-				Log.Info("StaticConfigURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/");
 				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
-			catch (NHttp.NHttpException)
+			catch (NHttpException)
 			{
 				Log.Error("Failed to start web server.");
-				Log.Info("The port might already be in use, make sure no other application, like other web servers or Skype, are using it, or set a different port in web.conf.");
+				Log.Info("Port {0} might already be in use, make sure no other application, like other web servers or Skype, are using it or set a different port in web.conf.", this.Conf.Web.Port);
 				CliUtil.Exit(1);
 			}
 		}
