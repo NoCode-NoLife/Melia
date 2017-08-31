@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>Registration</title>
+		
+		<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/lib/normalize.min.css" />
+		<link rel="stylesheet" href="style.css" />
+		
+		<script src="/lib/jquery.min.js"></script>
+		
+		<script>
+			$().ready(function()
+			{
+				$('input[type=submit]').click(function()
+				{
+					$(this).val('Please wait...');
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="main">
+			<img id="logo" src="logo.png" />
+			
+			<div id="notice">
+				{{error}}{{success}}
+			</div>
+			
+			<form method="post" action="">
+				<div><i class="fa fa-user" aria-hidden="true"></i><input placeholder="Username (4-32 characters)" type="text" name="name" value="{{name}}" /></div>
+				<div><i class="fa fa-unlock-alt" aria-hidden="true"></i><input placeholder="Password (6-32 characters)" type="password" name="password1" /></div>
+				<div><i class="fa fa-unlock-alt" aria-hidden="true"></i><input placeholder="Repeat Password" type="password" name="password2" /></div>
+				<div><input type="submit" value="Register" /></div>
+			</form>
+		</div>
+	</body>
+</html>
