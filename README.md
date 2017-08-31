@@ -46,48 +46,7 @@ head over to our [Gitter chat](https://gitter.im/aura-project/melia) or [wiki](h
 
 Contribution
 ------------------------------
-There are 4 ways **you** can help us to improve Melia:
-
-1. Research
-2. Bug reports
-3. Pull Requests
-4. Releases on the forums
-
-### 1. Research
-Do research on NPCs, quests, skills, anything really that isn't implemented yet and
-post it on our [research forum](http://aura-project.org/forum/forum/70-research/).
-The information you post will help developers to implement the features. 
-
-### 2. Bug reports
-Report bugs on [GitHub](https://github.com/aura-project/melia/issues), so they can be fixed ASAP.
-
-### 3+4. Code
-The fastest way to get code contributions into the source is a pull request, which,
-if well written, can be merged right in to *master*. To expediate this process, 
-all pull requests must comply with our coding conventions below.
-
-Alternatively you can make "casual" releases on the forum, which developers might pick up
-as research or as a base to implement the features into the official source.
-
-#### Coding conventions
-* Base: [MS Naming Guidelines](http://msdn.microsoft.com/en-us/library/xzf533w0%28v=vs.71%29.aspx),
-        [MS C# Coding Conventions](http://msdn.microsoft.com/en-us/library/ff926074.aspx)
-* Exceptions:
-  * Use `_private` for private fields and `this.Foobar` for properties, public fields, and methods.
-  * Use tabs, not spaces.
-* Comment lines shouldn't exceed ~80 characters, other lines' lengths are irrevelant.
-* Excessive usage of the auto-formatting feature is encouraged. (Default VS settings)
-* Avoid overuse of regions.
-
-Branching Streategy
-------------------------------
-`master` is the stable branch, geared towards normal users. It should be
-compilable and working at all times, with little to no debug or test code.
-
-For every feature or fix that goes beyond a handful of lines, a branch is
-created, that acts as a kind of "beta" branch for that feature.
-These branches aren't merged into master until a core developer has
-reviewed the code.
+Check the file CONTRIBUTING.md for instructions on how you may contribute.
 
 Links
 ------------------------------
