@@ -47,7 +47,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <summary>
 		/// Loads all conf files.
 		/// </summary>
-		public void LoadAll()
+		public virtual void LoadAll()
 		{
 			this.Log.Load();
 			this.Database.Load();

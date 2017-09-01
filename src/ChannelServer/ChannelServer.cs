@@ -25,6 +25,11 @@ namespace Melia.Channel
 		public static readonly ChannelServer Instance = new ChannelServer();
 
 		/// <summary>
+		/// Configuration.
+		/// </summary>
+		public Conf Conf { get; private set; }
+
+		/// <summary>
 		/// Login server's database.
 		/// </summary>
 		public ChannelDb Database { get; private set; }
@@ -74,11 +79,10 @@ namespace Melia.Channel
 			CliUtil.LoadingTitle();
 
 			// Conf
-			this.LoadConf();
+			this.LoadConf(this.Conf = new Conf());
 
 			// Database
-			this.Database = new ChannelDb();
-			this.InitDatabase(this.Database);
+			this.InitDatabase(this.Database = new ChannelDb(), this.Conf);
 
 			// Data
 			this.LoadData(DataToLoad.All, true);

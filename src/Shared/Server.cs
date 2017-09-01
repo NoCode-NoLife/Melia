@@ -22,11 +22,6 @@ namespace Melia.Shared
 		private bool _running;
 
 		/// <summary>
-		/// Configuration.
-		/// </summary>
-		public Conf Conf { get; private set; }
-
-		/// <summary>
 		/// File databases.
 		/// </summary>
 		public MeliaData Data { get; private set; }
@@ -54,12 +49,12 @@ namespace Melia.Shared
 		/// <summary>
 		/// Initializes database connection with data from Conf.
 		/// </summary>
-		protected void InitDatabase(MeliaDb db)
+		protected void InitDatabase(MeliaDb db, Conf conf)
 		{
 			try
 			{
 				Log.Info("Initializing database...");
-				db.Init(this.Conf.Database.Host, this.Conf.Database.User, this.Conf.Database.Pass, this.Conf.Database.Db);
+				db.Init(conf.Database.Host, conf.Database.User, conf.Database.Pass, conf.Database.Db);
 			}
 			catch (Exception ex)
 			{
@@ -173,15 +168,16 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads configuration.
+		/// Loads given conf class and stops start up when an error
+		/// occurs.
 		/// </summary>
-		protected void LoadConf()
+		/// <param name="conf"></param>
+		protected void LoadConf(Conf conf)
 		{
 			try
 			{
 				Log.Info("Loading configuration...");
-				this.Conf = new Conf();
-				this.Conf.LoadAll();
+				conf.LoadAll();
 			}
 			catch (Exception ex)
 			{

@@ -28,6 +28,11 @@ namespace Melia.Web
 		public HttpServer HttpServer { get; private set; }
 
 		/// <summary>
+		/// Configuration.
+		/// </summary>
+		public Conf Conf { get; private set; }
+
+		/// <summary>
 		/// Wev server's database.
 		/// </summary>
 		public MeliaDb Database { get; private set; }
@@ -48,10 +53,10 @@ namespace Melia.Web
 			CliUtil.LoadingTitle();
 
 			// Conf
-			this.LoadConf();
+			this.LoadConf(this.Conf = new Conf());
 
 			// Database
-			this.InitDatabase(this.Database = new MeliaDb());
+			this.InitDatabase(this.Database = new MeliaDb(), this.Conf);
 
 			// Data
 			this.LoadData(DataToLoad.Servers, true);

@@ -24,6 +24,11 @@ namespace Melia.Login
 		public static readonly LoginServer Instance = new LoginServer();
 
 		/// <summary>
+		/// Configuration.
+		/// </summary>
+		public Conf Conf { get; private set; }
+
+		/// <summary>
 		/// Login server's database.
 		/// </summary>
 		public LoginDb Database { get; private set; }
@@ -44,11 +49,10 @@ namespace Melia.Login
 			CliUtil.LoadingTitle();
 
 			// Conf
-			this.LoadConf();
+			this.LoadConf(this.Conf = new Conf());
 
 			// Database
-			this.Database = new LoginDb();
-			this.InitDatabase(this.Database);
+			this.InitDatabase(this.Database = new LoginDb(), this.Conf);
 
 			// Check if there are any updates
 			this.CheckDatabaseUpdates();
