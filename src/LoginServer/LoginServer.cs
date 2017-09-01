@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Login.Util.Configuration;
 
 namespace Melia.Login
 {
@@ -26,7 +27,7 @@ namespace Melia.Login
 		/// <summary>
 		/// Configuration.
 		/// </summary>
-		public Conf Conf { get; private set; }
+		public LoginConf Conf { get; private set; }
 
 		/// <summary>
 		/// Login server's database.
@@ -49,7 +50,7 @@ namespace Melia.Login
 			CliUtil.LoadingTitle();
 
 			// Conf
-			this.LoadConf(this.Conf = new Conf());
+			this.LoadConf(this.Conf = new LoginConf());
 
 			// Database
 			this.InitDatabase(this.Database = new LoginDb(), this.Conf);
