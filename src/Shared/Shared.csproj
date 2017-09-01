@@ -71,7 +71,6 @@
     <Compile Include="Data\Database\Jobs.cs" />
     <Compile Include="Data\Database\Maps.cs" />
     <Compile Include="Data\Database\Server.cs" />
-    <Compile Include="Data\Database\StartingCities.cs" />
     <Compile Include="Data\MeliaData.cs" />
     <Compile Include="Data\CsvReader.cs" />
     <Compile Include="Data\Database.cs" />

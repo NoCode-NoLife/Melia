@@ -38,10 +38,11 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutShort(commander.Hair);
 			packet.PutShort(0); // Pose
 
-			// [i11025 (2016-02-26)] ?
-			{
-				packet.PutInt(0);
-			}
+			// Team ID
+			packet.PutInt(0);
+			
+			// Unknown. This could be a buffer just to keep the structure the same size since the equipment count changes.
+			packet.PutInt(0);
 		}
 	}
 

@@ -41,8 +41,12 @@ namespace Melia.Login.Network
 			var unkByte2 = packet.GetByte();
 			var unkByte3 = packet.GetByte(); // [i10671 (2015-10-26)] ?
 			var ip = packet.GetInt();
-
+			var unkInt1 = packet.GetInt();
+			var unkInt2 = packet.GetInt();
+			var sysLocale = packet.GetShort();
+			
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
+
 
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
@@ -202,15 +206,6 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
-			var startingCity = (StartingCity)packet.GetInt();
-
-			// Check starting city
-			if (!Enum.IsDefined(typeof(StartingCity), startingCity))
-			{
-				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character in invalid starting city '{1}'.", conn.Account.Name, startingCity);
-				Send.BC_MESSAGE(conn, MsgType.CreateCharFail);
-				return;
-			}
 
 			// Check job
 			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
@@ -244,20 +239,12 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Get start city data
-			var startingCityData = LoginServer.Instance.Data.StartingCityDb.Find(startingCity);
-			if (startingCityData == null)
-			{
-				Log.Error("CB_COMMANDER_CREATE: StartingCity Id '{0}' not found.", startingCity);
-				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
-				return;
-			}
-
 			// Get map data
-			var mapData = LoginServer.Instance.Data.MapDb.Find(startingCityData.Map);
+			var mapName = "f_siauliai_west";
+			var mapData = LoginServer.Instance.Data.MapDb.Find(mapName);
 			if (mapData == null)
 			{
-				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", startingCityData.Map);
+				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", mapName);
 				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
 				return;
 			}
@@ -271,7 +258,7 @@ namespace Melia.Login.Network
 			character.Hair = hair;
 
 			character.MapId = mapData.Id;
-			character.Position = new Position(startingCityData.X, startingCityData.Y, startingCityData.Z);
+			character.Position = new Position(-628, 260, -1025);     // These are the starting coordinates for 'f_siauliai_west'.
 			character.BarrackPosition = new Position(bx, by, bz);
 
 			character.Hp = character.MaxHp = 100;
@@ -285,6 +272,7 @@ namespace Melia.Login.Network
 
 			conn.Account.CreateCharacter(character);
 
+			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
 		}
 
@@ -338,6 +326,10 @@ namespace Melia.Login.Network
 			var z = packet.GetFloat();
 			var d1 = packet.GetFloat();	// ?
 			var d2 = packet.GetFloat();	// ?
+
+			// On a new character creation, this packet is sent with the index as this byte.
+			if (index == 0xFF)
+				return;
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(index);
@@ -435,6 +427,17 @@ namespace Melia.Login.Network
 
 			// Ignore for now.
 			// TODO: Add option for accepted checksums.
+		}
+
+		/// <summary>
+		/// Request from the client to send channel traffic information.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_CHANNEL_TRAFFIC)]
+		public void CB_REQ_CHANNEL_TRAFFIC(LoginConnection conn, Packet packet)
+		{
+			Send.BC_NORMAL_ZoneTraffic(conn);
 		}
 	}
 }

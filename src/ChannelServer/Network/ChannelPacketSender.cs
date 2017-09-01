@@ -67,20 +67,14 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(1292150020);
 			packet.PutByte(3); // isGM (< 3)?
-			packet.PutEmptyBin(10);
+			packet.PutEmptyBin(8);
 
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutByte(0);
-			}
+			// These bytes set the integrated and integrated dungeon server settings.
+			packet.PutByte(0);
+			packet.PutByte(0);
 
 			packet.PutLpString(conn.SessionKey);
-
-			// [i109XX (2015-12-01)]
-			// [i11025 (2016-02-26)] Removed?
-			{
-				//packet.PutShort(0xFB31); // ?
-			}
+			
 
 			packet.PutInt(character.Handle);
 			packet.PutInt(0);
@@ -382,6 +376,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
+			packet.PutLong(character.Id);
 			packet.PutShort((short)character.Job);
 			packet.PutShort(50);
 

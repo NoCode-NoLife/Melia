@@ -36,6 +36,7 @@ namespace Melia.Login.Network
 			packet.PutInt(3); // accountPrivileges? <= 3 enables a kind of debug context menu
 			packet.PutString(conn.SessionKey, 64);
 			packet.PutInt(4475); // [i10725 (2015-11-03)] ?
+			packet.PutLong(0); // This is appears to be a checksum of some sort. It is set globally and never checked.
 
 			conn.Send(packet);
 		}
@@ -67,6 +68,13 @@ namespace Melia.Login.Network
 				for (int i = 0; i < Items.EquipSlotCount; ++i)
 					packet.PutShort(0);
 
+				// Unknown
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.PutByte(0);
+
 				// Job history?
 				// While this short existed in iCBT1, it might not have
 				// been used, couldn't find a log.
@@ -86,6 +94,20 @@ namespace Melia.Login.Network
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
 
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the number of the new character's index.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void BC_COMMANDER_CREATE_SLOTID(LoginConnection conn, Character character)
+		{
+			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
+			var characterCount = (byte)conn.Account.GetCharacters().Count();
+
+			packet.PutByte(characterCount);
 			conn.Send(packet);
 		}
 
@@ -141,7 +163,7 @@ namespace Melia.Login.Network
 			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0B); //SubOp
+			packet.PutInt(0x0C); //SubOp
 
 			packet.BeginZlib();
 			packet.PutShort(zoneMaxPcCount);

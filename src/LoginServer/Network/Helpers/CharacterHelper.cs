@@ -30,10 +30,11 @@ namespace Melia.Login.Network.Helpers
 			}
 
 			packet.PutShort(character.MapId);
+			packet.PutShort(1); // Channel ID
+			packet.PutShort(0);
 			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0); // maxXP ?
-			packet.PutInt(0);
+			packet.PutInt(0); // maxXP
+			packet.PutInt(0); // currentExp
 
 			// Position?
 			packet.PutFloat(character.BarrackPosition.X);

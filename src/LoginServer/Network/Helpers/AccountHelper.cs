@@ -21,23 +21,19 @@ namespace Melia.Login.Network.Helpers
 		/// <param name="account"></param>
 		public static void AddAccountProperties(this Packet packet, Account account)
 		{
-			packet.PutShort(4 * 6); // Account properties size
+			packet.PutShort(4 * 8); // Account properties size
+			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
 
-			// [i11257 (2016-03-25)] ?
-			{
-				packet.PutShort(1004);
-			}
-
-			packet.PutShort(ObjectProperty.Account.Medal);
+			packet.PutInt(ObjectProperty.Account.Medal);
 			packet.PutFloat(account.Medals);
 
-			packet.PutShort(ObjectProperty.Account.ReceiveGiftMedal);
+			packet.PutInt(ObjectProperty.Account.ReceiveGiftMedal);
 			packet.PutFloat(5);
 
-			packet.PutShort(ObjectProperty.Account.GiftMedal);
+			packet.PutInt(ObjectProperty.Account.GiftMedal);
 			packet.PutFloat(10);
 
-			packet.PutShort(ObjectProperty.Account.SelectedBarrack);
+			packet.PutInt(ObjectProperty.Account.SelectedBarrack);
 			packet.PutFloat(account.SelectedBarrack);
 		}
 	}
