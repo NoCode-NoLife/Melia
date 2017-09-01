@@ -159,6 +159,8 @@ namespace Melia.Login.Database
 				cmd.Set("spr", character.Spr);
 				cmd.Set("dex", character.Dex);
 
+				cmd.Set("barrackLayer", character.BarrackLayer);
+
 				cmd.Execute();
 				character.Id = cmd.LastId;
 			}
@@ -196,6 +198,7 @@ namespace Melia.Login.Database
 				cmd.Set("bx", character.BarrackPosition.X);
 				cmd.Set("by", character.BarrackPosition.Y);
 				cmd.Set("bz", character.BarrackPosition.Z);
+				cmd.Set("barrackLayer", character.BarrackLayer);
 
 				cmd.Execute();
 			}
@@ -229,6 +232,7 @@ namespace Melia.Login.Database
 							character.Hair = reader.GetByte("hair");
 							character.Level = reader.GetInt32("level");
 							character.MapId = reader.GetInt32("zone");
+							character.BarrackLayer = reader.GetInt32("barrackLayer");
 
 							var bx = reader.GetFloat("bx");
 							var by = reader.GetFloat("by");

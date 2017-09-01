@@ -49,14 +49,20 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_COMMANDER_LIST(LoginConnection conn)
+		/// <summary>
+		/// Sends a list of characters to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="layer">This is the number on the left side of the character list in the client.</param>
+		public static void BC_COMMANDER_LIST(LoginConnection conn, int layer = 1)
 		{
-			var characters = conn.Account.GetCharacters();
+			var characters = conn.Account.GetCharacters()
+				.Where(x => x.BarrackLayer == layer);
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
-			packet.PutByte((byte)characters.Length);
+			packet.PutByte((byte)characters.Count());
 			packet.PutString(conn.Account.TeamName, 64);
 
 			packet.AddAccountProperties(conn.Account);

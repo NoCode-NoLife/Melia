@@ -436,5 +436,23 @@ namespace Melia.Login.Network
 		{
 			Send.BC_NORMAL_ZoneTraffic(conn);
 		}
+
+		/// <summary>
+		/// Sent when the user clicks the barrack number.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
+		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		{
+			var layer = packet.GetInt();
+
+			// Only these two layers are valid currently.
+			if (layer < 1 || layer > 2)
+				return;
+
+			conn.Account.SetSelectedBarrackLayer(layer);
+			Send.BC_COMMANDER_LIST(conn, conn.Account.SelectedBarracklayer);
+		}
 	}
 }
