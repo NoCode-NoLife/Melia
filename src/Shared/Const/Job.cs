@@ -27,6 +27,7 @@ namespace Melia.Shared.Const
 		Fencer = 1014,
 		Dragoon = 1015,
 		Templar = 1016,
+		Lancer = 1017,
 
 		Wizard = 2001,
 		FireMage = 2002,
@@ -40,10 +41,12 @@ namespace Melia.Shared.Const
 		Thaumaturge = 2010,
 		Warlock1 = 2011,
 		Mimic = 2012,
-		Daoshi = 2013,
+		DaoshiDummy = 2013,
 		Sage = 2014,
 		Warlock2 = 2015,
 		Featherfoot = 2016,
+		RuneCaster = 2017,
+		Enchanter = 2018,
 
 		Archer = 3001,
 		Hunter = 3002,
@@ -61,6 +64,7 @@ namespace Melia.Shared.Const
 		Falconer = 3014,
 		Cannoneer = 3015,
 		Musketeer = 3016,
+		Mergen = 3017,
 
 		Cleric = 4001,
 		Priest = 4002,
@@ -77,6 +81,9 @@ namespace Melia.Shared.Const
 		Shepherd = 4013,
 		PlagueDoctor = 4014,
 		Kabbalist = 4015,
+		Inquisitor = 4016,
+		Daoshi = 4017,
+		Miko = 4018,
 
 		GM = 9001,
 	}
