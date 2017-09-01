@@ -33,9 +33,16 @@ typedef struct
 
     ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
     
+	// [i170175] b1~5
+	byte b1;
+	byte b2;
+	byte b3;
+	byte b4;
+	byte b5;
+	
     // maybe job history?
-    short jobIdCount;
-    short jobId2[jobIdCount];
+    short jobIdCount; // [i170175] this is the current job now?
+    //short jobId2[jobIdCount];
 
     int i6; // [i11025 (2016-02-26)]
 }
