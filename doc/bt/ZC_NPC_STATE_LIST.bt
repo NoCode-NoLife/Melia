@@ -1,0 +1,25 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_NPC_STATE_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct 
+{
+    int mapId; // ?
+	int i1; // NPC id...?
+	int i2;
+}
+state <optimize=false>;
+
+short op;
+int sequence;
+short size;
+
+int count;
+
+local int i;
+state states[count];
