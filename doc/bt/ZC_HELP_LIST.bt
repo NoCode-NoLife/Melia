@@ -1,0 +1,31 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File: ZC_HELP_LIST.bt
+// Author: exec
+// Revision:
+// Purpose:
+//--------------------------------------
+
+typedef struct 
+{
+    int id;
+	byte b1; // whether it was shown already?
+}
+help <read=helpRead, optimize=false>;
+
+string helpRead(help &v)
+{
+    local string result;
+    SPrintf(result, "%d: %d", v.id, v.b1);
+    return result;
+}
+
+short op;
+int sequence;
+short size;
+
+int count;
+
+local int i;
+help entries[count];
