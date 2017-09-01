@@ -8,6 +8,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,14 +49,20 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_COMMANDER_LIST(LoginConnection conn)
+		/// <summary>
+		/// Sends a list of characters to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="layer">This is the number on the left side of the character list in the client.</param>
+		public static void BC_COMMANDER_LIST(LoginConnection conn, int layer = 1)
 		{
-			var characters = conn.Account.GetCharacters();
+			var characters = conn.Account.GetCharacters()
+				.Where(x => x.BarrackLayer == layer);
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
-			packet.PutByte((byte)characters.Length);
+			packet.PutByte((byte)characters.Count());
 			packet.PutString(conn.Account.TeamName, 64);
 
 			packet.AddAccountProperties(conn.Account);
@@ -158,6 +165,50 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Moves a character in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="index"></param>
+		/// <param name="position"></param>
+		public static void BC_NORMAL_SetPosition(LoginConnection conn, byte index, Position position)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x02); // subop
+			packet.PutLong(conn.Account.Id);
+			packet.PutByte(index);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends information related to the team to be displayed in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_TeamUI(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(0x0B); // SubOp
+
+			packet.PutLong(conn.Account.Id);
+
+			// Need to check the number of slots bought.
+			// slots = (mapDefault - 4 + bought)
+			packet.PutShort(0);
+
+			// Team experience. Displayed under "Team Info"
+			packet.PutInt(0);
+
+			// Sum of characters and pets.
+			var characters = conn.Account.GetCharacters();
+			packet.PutShort(characters.Count());
+
+			conn.Send(packet);
+		}
+
 		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters();
@@ -224,13 +275,17 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Invokes a lua function.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="str"></param>
 		public static void BC_NORMAL_Run(LoginConnection conn, string str)
 		{
 			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
 
 			var packet = new Packet(Op.BC_NORMAL);
-
-			packet.PutInt(0x0E);
+			packet.PutInt(0x0E); // subOp
 			packet.PutLpString(str);
 
 			conn.Send(packet);

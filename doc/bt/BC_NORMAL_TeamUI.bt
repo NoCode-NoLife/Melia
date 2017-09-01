@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: BC_NORMAL_TeamUI.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Updates the client UI with character slots, team experience, names, etc.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int reserved;
+short packetLength;
+int subOp;
+
+__int64 accountId;
+short purchasedBarrackSlots;
+int teamExp;
+short characterCount;

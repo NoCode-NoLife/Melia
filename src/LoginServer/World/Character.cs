@@ -30,6 +30,11 @@ namespace Melia.Login.World
 		public Position BarrackPosition { get; set; }
 
 		/// <summary>
+		/// Layer in the barrack that the character should appear in.
+		/// </summary>
+		public int BarrackLayer { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

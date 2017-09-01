@@ -57,6 +57,11 @@ namespace Melia.Login.Database
 		public int SelectedBarrack { get; set; }
 
 		/// <summary>
+		/// The layer that is currently selected as being viewed.
+		/// </summary>
+		public int SelectedBarracklayer { get; set; }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
@@ -183,6 +188,15 @@ namespace Melia.Login.Database
 		{
 			LoginServer.Instance.Database.CreateCharacter(this.Id, character);
 			this.AddCharacter(character);
+		}
+
+		/// <summary>
+		/// Sets the selected barrack layer.
+		/// </summary>
+		/// <param name="layer"></param>
+		public void SetSelectedBarrackLayer(int layer)
+		{
+			this.SelectedBarracklayer = layer;
 		}
 
 		/// <summary>

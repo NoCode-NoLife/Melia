@@ -132,6 +132,7 @@ namespace Melia.Login.Network
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -185,6 +186,8 @@ namespace Melia.Login.Network
 			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
+			Send.BC_ACCOUNT_PROP(conn, conn.Account);
+			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
 		}
 
 		/// <summary>
@@ -277,13 +280,13 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
-			var index = packet.GetByte();
+			var id = packet.GetLong();
 
 			// Get character
-			var character = conn.Account.GetCharacterByIndex(index);
+			var character = conn.Account.GetCharacterById(id);
 			if (character == null)
 			{
-				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, id);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -296,7 +299,8 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_COMMANDER_DESTROY(conn, index);
+			Send.BC_COMMANDER_DESTROY(conn, character.Index);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -330,7 +334,10 @@ namespace Melia.Login.Network
 			}
 
 			// Move
-			character.BarrackPosition = new Position(x, y, z);
+			// This needs to be validated such that a commander may not move to an invalid coordinate.
+			var pos = new Position(x, y, z);
+			character.BarrackPosition = pos;
+			Send.BC_NORMAL_SetPosition(conn, index, pos);
 		}
 
 		/// <summary>
@@ -428,6 +435,24 @@ namespace Melia.Login.Network
 		public void CB_REQ_CHANNEL_TRAFFIC(LoginConnection conn, Packet packet)
 		{
 			Send.BC_NORMAL_ZoneTraffic(conn);
+		}
+
+		/// <summary>
+		/// Sent when the user clicks the barrack number.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
+		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		{
+			var layer = packet.GetInt();
+
+			// Only these two layers are valid currently.
+			if (layer < 1 || layer > 2)
+				return;
+
+			conn.Account.SetSelectedBarrackLayer(layer);
+			Send.BC_COMMANDER_LIST(conn, conn.Account.SelectedBarracklayer);
 		}
 	}
 }
