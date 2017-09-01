@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: BC_NORMAL_SetPosition.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Notifies the client that the server successfully set the barrack position for an actor.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int reserved;
+short packetLength;
+int subOp;
+
+__int64 accountId;
+byte barrackIndex;
+position pos;

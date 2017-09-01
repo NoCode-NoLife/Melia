@@ -330,7 +330,10 @@ namespace Melia.Login.Network
 			}
 
 			// Move
-			character.BarrackPosition = new Position(x, y, z);
+			// This needs to be validated such that a commander may not move to an invalid coordinate.
+			var pos = new Position(x, y, z);
+			character.BarrackPosition = pos;
+			Send.BC_NORMAL_SetPosition(conn, index, pos);
 		}
 
 		/// <summary>
