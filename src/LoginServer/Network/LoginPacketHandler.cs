@@ -44,7 +44,7 @@ namespace Melia.Login.Network
 			var unkInt1 = packet.GetInt();
 			var unkInt2 = packet.GetInt();
 			var sysLocale = packet.GetShort();
-			
+
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
 
@@ -239,17 +239,6 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Get map data
-			var mapName = "f_siauliai_west";
-			var mapData = LoginServer.Instance.Data.MapDb.Find(mapName);
-			if (mapData == null)
-			{
-				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", mapName);
-				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
-				return;
-			}
-
-
 			// Create
 			var character = new Character();
 			character.Name = name;
@@ -257,8 +246,9 @@ namespace Melia.Login.Network
 			character.Gender = gender;
 			character.Hair = hair;
 
-			character.MapId = mapData.Id;
-			character.Position = new Position(-628, 260, -1025);     // These are the starting coordinates for 'f_siauliai_west'.
+			var startLocation = LoginServer.Instance.Conf.Login.StartLocation;
+			character.MapId = startLocation.MapId;
+			character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
 			character.BarrackPosition = new Position(bx, by, bz);
 
 			character.Hp = character.MaxHp = 100;
@@ -324,8 +314,8 @@ namespace Melia.Login.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat();	// ?
-			var d2 = packet.GetFloat();	// ?
+			var d1 = packet.GetFloat(); // ?
+			var d2 = packet.GetFloat(); // ?
 
 			// On a new character creation, this packet is sent with the index as this byte.
 			if (index == 0xFF)

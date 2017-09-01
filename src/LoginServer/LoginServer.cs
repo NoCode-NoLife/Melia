@@ -49,6 +49,9 @@ namespace Melia.Login
 			CliUtil.WriteHeader("Login", ConsoleColor.Magenta);
 			CliUtil.LoadingTitle();
 
+			// Data
+			this.LoadData(DataToLoad.Jobs | DataToLoad.Maps | DataToLoad.Barracks | DataToLoad.Servers, true);
+
 			// Conf
 			this.LoadConf(this.Conf = new LoginConf());
 
@@ -57,9 +60,6 @@ namespace Melia.Login
 
 			// Check if there are any updates
 			this.CheckDatabaseUpdates();
-
-			// Data
-			this.LoadData(DataToLoad.Jobs | DataToLoad.Maps | DataToLoad.Barracks | DataToLoad.Servers, true);
 
 			// Packet handlers
 			LoginPacketHandler.Instance.RegisterMethods();
