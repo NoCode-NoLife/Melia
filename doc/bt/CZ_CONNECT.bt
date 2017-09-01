@@ -20,3 +20,6 @@ char accountName[33];
 byte unk[1037];
 
 char sessionKey[64];
+byte bin1[4]; // [i170175]
+char mac[32];// [i170175]
+int64 l1; // [i170175] same checksum (?) that appears in BC_LOGINOK, kind of looks like 2 ints
