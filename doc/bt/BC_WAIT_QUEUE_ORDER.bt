@@ -1,11 +1,15 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: BC_WAIT_QUEUE_ORDER.bt
-// Author: exec
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: BC_WAIT_QUEUE_ORDER.bt
+//   Authors: exec
+//   Version:
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
 
 short op;
 int sequence;

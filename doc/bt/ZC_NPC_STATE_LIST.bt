@@ -1,11 +1,15 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: ZC_NPC_STATE_LIST.bt
-// Author: exec
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: ZC_NPC_STATE_LIST.bt
+//   Authors: exec
+//   Version:
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
 
 typedef struct 
 {

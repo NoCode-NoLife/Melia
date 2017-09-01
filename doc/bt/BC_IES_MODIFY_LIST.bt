@@ -1,11 +1,15 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: BC_IES_MODIFY_LIST.bt
-// Author: Tachiorz
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: BC_IES_MODIFY_LIST.bt
+//   Authors: Tachiorz
+//   Version:
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
 
 #include "common.bt"
 
