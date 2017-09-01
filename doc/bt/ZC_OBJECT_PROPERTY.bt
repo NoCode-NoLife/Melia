@@ -13,7 +13,7 @@ enum OBJP_TYPES { OBJP_FLOAT, OBJP_INT, OBJP_STRING };
 
 typedef struct 
 {
-    short id;
+    int id; // [i170175] short->int
     switch(getPropertyType(id)) {
         case OBJP_STRING:
             lpString val;
@@ -70,9 +70,10 @@ int sequence;
 short size;
 
 int64 characterId;
+int i1; // [i170175]
 
 local int i;
-for(i=0; i<size-16;i+=0)
+for (i = 0; i < (size - 20); i = i)
 {
     property prop;
     i += sizeof(prop);
