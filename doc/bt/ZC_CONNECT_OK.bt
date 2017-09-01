@@ -18,6 +18,7 @@ int i1;
 byte privileges;
 byte bin1[10];
 byte b1; // [i11257 (2016-03-25)]
+byte b2; // [i170175]
 
 lpString sessionKey;
 
