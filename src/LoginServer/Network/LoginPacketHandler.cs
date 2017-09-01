@@ -186,6 +186,8 @@ namespace Melia.Login.Network
 			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
+			Send.BC_ACCOUNT_PROP(conn, conn.Account);
+			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
 		}
 
 		/// <summary>

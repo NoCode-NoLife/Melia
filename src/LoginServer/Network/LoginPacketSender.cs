@@ -269,13 +269,17 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Invokes a lua function.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="str"></param>
 		public static void BC_NORMAL_Run(LoginConnection conn, string str)
 		{
 			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
 
 			var packet = new Packet(Op.BC_NORMAL);
-
-			packet.PutInt(0x0E);
+			packet.PutInt(0x0E); // subOp
 			packet.PutLpString(str);
 
 			conn.Send(packet);
