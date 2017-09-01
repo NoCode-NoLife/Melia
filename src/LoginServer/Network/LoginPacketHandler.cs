@@ -132,6 +132,7 @@ namespace Melia.Login.Network
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
@@ -297,6 +298,7 @@ namespace Melia.Login.Network
 			}
 
 			Send.BC_COMMANDER_DESTROY(conn, index);
+			Send.BC_NORMAL_TeamUI(conn);
 		}
 
 		/// <summary>
