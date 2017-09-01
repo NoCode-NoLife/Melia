@@ -239,20 +239,12 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			// Get start city data
-			var startingCityData = LoginServer.Instance.Data.StartingCityDb.Find(StartingCity.Klaipeda);
-			if (startingCityData == null)
-			{
-				Log.Error("CB_COMMANDER_CREATE: StartingCity Id '{0}' not found.", StartingCity.Klaipeda);
-				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
-				return;
-			}
-
 			// Get map data
-			var mapData = LoginServer.Instance.Data.MapDb.Find(startingCityData.Map);
+			var mapName = "f_siauliai_west";
+			var mapData = LoginServer.Instance.Data.MapDb.Find(mapName);
 			if (mapData == null)
 			{
-				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", startingCityData.Map);
+				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", mapName);
 				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
 				return;
 			}
@@ -266,7 +258,7 @@ namespace Melia.Login.Network
 			character.Hair = hair;
 
 			character.MapId = mapData.Id;
-			character.Position = new Position(startingCityData.X, startingCityData.Y, startingCityData.Z);
+			character.Position = new Position(-628, 260, -1025);     // These are the starting coordinates for 'f_siauliai_west'.
 			character.BarrackPosition = new Position(bx, by, bz);
 
 			character.Hp = character.MaxHp = 100;
