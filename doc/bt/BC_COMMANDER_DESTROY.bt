@@ -2,12 +2,12 @@
 //--- 010 Editor v6.0.2 Binary Template
 //
 // File: BC_COMMANDER_DESTROY.bt
-// Author: exec
-// Revision:
+// Author: exec, celophi
+// Revision: i170175
 // Purpose:
 //--------------------------------------
 
 short op;
 int sequence;
 
-byte index;
+__int64 characterId;

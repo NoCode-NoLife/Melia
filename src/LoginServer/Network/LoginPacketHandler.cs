@@ -278,13 +278,13 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
-			var index = packet.GetByte();
+			var id = packet.GetLong();
 
 			// Get character
-			var character = conn.Account.GetCharacterByIndex(index);
+			var character = conn.Account.GetCharacterById(id);
 			if (character == null)
 			{
-				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_COMMANDER_DESTROY: User '{0}' tried to delete a character he doesn't have ({1}).", conn.Account.Name, id);
 				Send.BC_MESSAGE(conn, MsgType.CannotDeleteCharacter1);
 				return;
 			}
@@ -297,7 +297,7 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			Send.BC_COMMANDER_DESTROY(conn, index);
+			Send.BC_COMMANDER_DESTROY(conn, character.Index);
 			Send.BC_NORMAL_TeamUI(conn);
 		}
 
