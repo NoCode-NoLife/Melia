@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i11257: b1 was added
 //------------------------------------------------
 
 short op;
@@ -17,4 +18,4 @@ int sequence;
 int handle;
 float speed;
 float f1;
-byte b1; // [i11257 (2016-03-25)]
+byte b1;

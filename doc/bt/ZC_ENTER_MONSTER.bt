@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i11025:  s2 was added
 //------------------------------------------------
 
 #include "common.bt";
@@ -25,7 +26,7 @@ byte b1; // bool?
 int hp, maxHp;
 short s1;
 float i1;
-short s2; // [i11025 (2016-02-26)]
+short s2;
 MONSTER monster;
 int i4; // npc state?
 int namesSize;

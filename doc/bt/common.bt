@@ -3,16 +3,20 @@
 //
 //      File: common.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i10671:  COMMANDER.i6~i7 were added
+//   - i11025:  COMMANDER.i8 was added
+//   - i11025:  MONSTER.s1~s2 were removed
+//   - i11025:  EquipSlotCount increased to 21
+//   - i170175: EquipSlotCount increased to 22
+//   - i170175: COMMANDER.i9 was added
 //------------------------------------------------
 
-// [i11025 (2016-02-26)] 20->21, Hair slot?
-// [i170175] 20->22, lens?
 const int EquipSlotCount = 22;
 
 // Length-prefixed string
@@ -104,13 +108,13 @@ typedef struct
     byte b1;
     int level;
     int equipIds[EquipSlotCount];
-    int i6; // [i10671, 2015-10-26 iCBT2]
-    int i7; // [i10671, 2015-10-26 iCBT2]
+    int i6;
+    int i7;
     short hair;
     short pose;
 
-    int i8; // [i11025 (2016-02-26)]
-    int i9; // [i170175]
+    int i8;
+    int i9;
 }
 COMMANDER;
 
@@ -120,7 +124,6 @@ typedef struct
     int i1;
     int maxHp;
 
-    // [i11025 (2016-02-26)] Removed?
     //short s1;
     //short s2;
 
@@ -137,9 +140,6 @@ typedef struct
 
     int64 characterId;
 
-    // [i11025 (2016-02-26)]
-    // Index was previously stored as a short, now there seem
-    // to be two byte, with the first being the index.
     byte index;
     byte b1;
 

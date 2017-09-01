@@ -3,12 +3,14 @@
 //
 //      File: ZC_OBJECT_PROPERTY.bt
 //   Authors: Tachiorz, exec
-//   Version: i11XXX
+//   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History:
+//   - i170175: i1 was added
+//   - i170175: property id type changed from short to int
 //------------------------------------------------
 
 #include "common.bt"
@@ -17,7 +19,7 @@ enum OBJP_TYPES { OBJP_FLOAT, OBJP_INT, OBJP_STRING };
 
 typedef struct 
 {
-    int id; // [i170175] short->int
+    int id;
     switch(getPropertyType(id)) {
         case OBJP_STRING:
             lpString val;
@@ -74,7 +76,7 @@ int sequence;
 short size;
 
 int64 characterId;
-int i1; // [i170175]
+int i1;
 
 local int i;
 for (i = 0; i < (size - 20); i = i)

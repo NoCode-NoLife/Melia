@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i11037: i1 was added
 //------------------------------------------------
 
 short op;
@@ -17,4 +18,4 @@ int sequence;
 int expAcquired;
 int exp;
 int maxExp;
-int i1; // [i11037 (2016-03-0X)]
+int i1;

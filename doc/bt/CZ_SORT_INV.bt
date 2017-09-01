@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i10622: order was added
 //------------------------------------------------
 
 short op;
@@ -16,4 +17,4 @@ int sequence;
 int checksum;
 
 byte b1;
-byte order; // [i10622 (2015-10-22)]
+byte order;

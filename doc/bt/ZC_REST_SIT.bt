@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i11257: isSitting was added
 //------------------------------------------------
 
 short op;
@@ -16,4 +17,4 @@ int checksum;
 
 int handle;
 byte b1;
-byte isSitting; // [i11257 (2016-03-25)]
+byte isSitting;

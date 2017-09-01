@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i11257: i3 was added
 //------------------------------------------------
 
 short op;
@@ -25,6 +26,6 @@ byte gender;
 byte hair;
 byte bin1[2];
 int i2;
-int i3; // [i11257 (2016-03-25)]
+int i3;
 float displayTime;
 string message;
