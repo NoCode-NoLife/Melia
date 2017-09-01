@@ -333,11 +333,12 @@ namespace Melia.Login.Network
 				return;
 			}
 
+			// TODO: Validate coordinates, so that a commander may not move
+			//   to an invalid position.
+
 			// Move
-			// This needs to be validated such that a commander may not move to an invalid coordinate.
-			var pos = new Position(x, y, z);
-			character.BarrackPosition = pos;
-			Send.BC_NORMAL_SetPosition(conn, index, pos);
+			character.BarrackPosition = new Position(x, y, z);
+			Send.BC_NORMAL_SetPosition(conn, index, character.BarrackPosition);
 		}
 
 		/// <summary>
@@ -449,7 +450,10 @@ namespace Melia.Login.Network
 
 			// Only these two layers are valid currently.
 			if (layer < 1 || layer > 2)
+			{
+				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", layer, conn.Account.Name);
 				return;
+			}
 
 			conn.Account.SetSelectedBarrackLayer(layer);
 			Send.BC_COMMANDER_LIST(conn, conn.Account.SelectedBarracklayer);
