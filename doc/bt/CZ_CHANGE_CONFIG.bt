@@ -1,11 +1,15 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: CZ_CHANGE_CONFIG.bt
-// Author: exec
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: CZ_CHANGE_CONFIG.bt
+//   Authors: exec
+//   Version: i11XXX
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
 
 short op;
 int sequence;

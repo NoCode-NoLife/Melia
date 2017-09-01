@@ -1,11 +1,19 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: ZC_CONNECT_OK.bt
-// Author: exec
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: ZC_CONNECT_OK.bt
+//   Authors: exec
+//   Version: i170175
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i109XX:  s1 was added
+//   - i11025:  s1 was removed
+//   - i11257:  b1 was added
+//   - i170175: b2 was added
+//------------------------------------------------
 
 #include "common.bt"
 
@@ -17,13 +25,11 @@ byte gameMode;
 int i1;
 byte privileges;
 byte bin1[10];
-byte b1; // [i11257 (2016-03-25)]
-byte b2; // [i170175]
+byte b1;
+byte b2;
 
 lpString sessionKey;
 
-// [i109XX (2015-12-01)] Added
-// [i11025 (2016-02-26)] Removed?
 //short s1;
 
 int handle1;

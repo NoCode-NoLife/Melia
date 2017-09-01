@@ -1,18 +1,26 @@
 //--------------------------------------
-//--- 010 Editor v6.0.2 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-// File: BC_COMMANDER_LIST.bt
-// Author: exec
-// Revision:
-// Purpose:
-//--------------------------------------
+//      File: BC_COMMANDER_LIST.bt
+//   Authors: exec
+//   Version: i170175
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i11025:  ListCharacter.i6 was added
+//   - i11257:  AccountProperties.s1 was added
+//   - i170175: ListCharacter.b1~b5 were added
+//   - i170175: ListCharacter.jobIdCount doesn't seem to be a list anymore
+//------------------------------------------------
 
 #include "common.bt"
 
 typedef struct
 {
     short size;
-    short s1; // [i11257 (2016-03-25)]
+    short s1;
 
     if(size > 0)
         byte properties[size]; // todo, short:val list
@@ -33,7 +41,6 @@ typedef struct
 
     ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
     
-	// [i170175] b1~5
 	byte b1;
 	byte b2;
 	byte b3;
@@ -41,10 +48,10 @@ typedef struct
 	byte b5;
 	
     // maybe job history?
-    short jobIdCount; // [i170175] this is the current job now?
+    short jobIdCount; // this is the current job now?
     //short jobId2[jobIdCount];
 
-    int i6; // [i11025 (2016-02-26)]
+    int i6;
 }
 ListCharacter;
 
