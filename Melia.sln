@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginServer", "src\LoginServer\LoginServer.csproj", "{7C85948A-9771-478E-98BB-97D6D2D60A19}"
 EndProject
@@ -11,11 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "src\WebServer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelServer", "src\ChannelServer\ChannelServer.csproj", "{A29F2142-7252-4A6A-8644-5F5B29D37E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeluaLib", "src\Melua\MeluaLib.csproj", "{0AAFAA0C-78ED-42B7-8017-28FF7C5758EC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.ChannelServer", "src\Test.ChannelServer\Test.ChannelServer.csproj", "{B818F174-3151-4FC3-99EB-2DA2A8465A50}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Melua", "src\Test.Melua\Test.Melua.csproj", "{C49EB096-8DFA-42D3-8061-C8F7664E0BE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,20 +35,15 @@ Global
 		{A29F2142-7252-4A6A-8644-5F5B29D37E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A29F2142-7252-4A6A-8644-5F5B29D37E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A29F2142-7252-4A6A-8644-5F5B29D37E31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AAFAA0C-78ED-42B7-8017-28FF7C5758EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AAFAA0C-78ED-42B7-8017-28FF7C5758EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AAFAA0C-78ED-42B7-8017-28FF7C5758EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AAFAA0C-78ED-42B7-8017-28FF7C5758EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B818F174-3151-4FC3-99EB-2DA2A8465A50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C49EB096-8DFA-42D3-8061-C8F7664E0BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C49EB096-8DFA-42D3-8061-C8F7664E0BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C49EB096-8DFA-42D3-8061-C8F7664E0BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C49EB096-8DFA-42D3-8061-C8F7664E0BE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D172B2A8-8AB6-4A70-B599-83BF3F349384}
 	EndGlobalSection
 EndGlobal

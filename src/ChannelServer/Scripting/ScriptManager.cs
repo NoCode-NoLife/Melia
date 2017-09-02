@@ -83,7 +83,14 @@ namespace Melia.Channel.Scripting
 		private void InitializeLua()
 		{
 			GL = Melua.luaL_newstate();
-			Melua.melua_openlib(GL, LuaLib.BaseSafe, LuaLib.Table, LuaLib.String, LuaLib.Math);
+
+			Melua.melua_openlib(GL, new[]
+			{
+				new Melua.LuaLib("", Melua.meluaopen_basesafe),
+				new Melua.LuaLib("table", Melua.luaopen_table),
+				new Melua.LuaLib("string", Melua.luaopen_string),
+				new Melua.LuaLib("math", Melua.luaopen_math),
+			});
 
 			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, OnPanic));
 
