@@ -18,7 +18,7 @@ namespace Melia.Login.Network.Helpers
 	{
 		public static void AddCharacter(this Packet packet, Character character)
 		{
-			packet.AddCommander(character);
+			packet.AddAppearancePc(character);
 			packet.PutLong(character.Id);
 
 			// [i11025 (2016-02-26)]

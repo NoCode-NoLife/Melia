@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Login.World
 {
-	public class Character : Shared.World.BaseCharacter, ICommander
+	public class Character : Shared.World.BaseCharacter, IAppearancePc
 	{
 		/// <summary>
 		/// Index of character in character list.
