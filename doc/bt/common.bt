@@ -2,19 +2,19 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: common.bt
-//   Authors: exec
+//   Authors: exec, celophi
 //   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i10671:  COMMANDER.i6~i7 were added
-//   - i11025:  COMMANDER.i8 was added
+//   - i10671:  APPEARANCE_PC.i6~i7 were added
+//   - i11025:  APPEARANCE_PC.teamId was added
 //   - i11025:  MONSTER.s1~s2 were removed
 //   - i11025:  EquipSlotCount increased to 21
 //   - i170175: EquipSlotCount increased to 22
-//   - i170175: COMMANDER.i9 was added
+//   - i170175: APPEARANCE_PC.i9 was added
 //------------------------------------------------
 
 const int EquipSlotCount = 22;
@@ -112,11 +112,30 @@ typedef struct
     int i7;
     short hair;
     short pose;
-
-    int i8;
+    int teamId;
     int i9;
 }
-COMMANDER;
+APPEARANCE_PC;
+
+typedef struct {
+    int handle;
+    int i1;
+    APPEARANCE_PC appearancePc;
+    position pos;
+    int currentExp;
+    int maxExp;
+    int totalExp;
+    int64 characterId;
+    int64 socialInfoId;
+    int hp;
+    int maxHp;
+    short sp;
+    short maxSP;
+    int stamina;
+    int maxStamina;
+    short shield;
+    short maxShield;
+} COMMANDER;
 
 typedef struct
 {
@@ -136,7 +155,7 @@ MONSTER;
 
 typedef struct
 {
-    COMMANDER commander;
+    APPEARANCE_PC appearancePc;
 
     int64 characterId;
 

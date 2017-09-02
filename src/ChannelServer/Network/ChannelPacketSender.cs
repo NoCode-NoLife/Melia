@@ -67,39 +67,15 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(1292150020);
 			packet.PutByte(3); // isGM (< 3)?
-			packet.PutEmptyBin(8);
+			packet.PutEmptyBin(10);
 
 			// These bytes set the integrated and integrated dungeon server settings.
 			packet.PutByte(0);
 			packet.PutByte(0);
 
 			packet.PutLpString(conn.SessionKey);
-			
-
-			packet.PutInt(character.Handle);
-			packet.PutInt(0);
-
 			packet.AddCommander(character);
-
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
-			packet.PutInt(character.Exp);
-			packet.PutInt(character.MaxExp);
-			packet.PutInt(0);
-
-			packet.PutLong(character.Id);
-			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
-
-			packet.PutInt(character.Hp);
-			packet.PutInt(character.MaxHp);
-			packet.PutShort(character.Sp);
-			packet.PutShort(character.MaxSp);
-			packet.PutInt(character.Stamina);
-			packet.PutInt(character.MaxStamina);
-			packet.PutShort(0); // Shield
-			packet.PutShort(0); // MaxShield
-
+			
 			conn.Send(packet);
 		}
 
@@ -186,7 +162,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
-			packet.AddCommander(character);
+			packet.AddAppearancePc(character);
 
 			// [i11025 (2016-02-26)] Removed?
 			//packet.PutString("None", 49); // Party name
@@ -695,7 +671,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
 			packet.PutInt(character.Handle);
-			packet.AddCommander(character);
+			packet.AddAppearancePc(character);
 
 			character.Map.Broadcast(packet, character);
 		}

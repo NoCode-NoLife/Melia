@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_CONNECT_OK.bt
-//   Authors: exec
+//   Authors: exec, celophi
 //   Version: i170175
 //   Purpose: 
 //  Category: 
@@ -11,8 +11,8 @@
 //   History: 
 //   - i109XX:  s1 was added
 //   - i11025:  s1 was removed
-//   - i11257:  b1 was added
-//   - i170175: b2 was added
+//   - i11257:  isIntegrateServer was added
+//   - i170175: isIntegrateIndunServer was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -25,33 +25,8 @@ byte gameMode;
 int i1;
 byte privileges;
 byte bin1[10];
-byte b1;
-byte b2;
+byte isIntegrateServer;
+byte isIntegrateIndunServer;
 
 lpString sessionKey;
-
-//short s1;
-
-int handle1;
-int i2;
-
 COMMANDER commander;
-
-float x;
-float y;
-float z;
-int exp;
-int maxExp;
-int i3;
-
-int64 characterId;
-int64 socialInfoId;
-
-int hp;
-int maxHp;
-short sp;
-short maxSp;
-int stamina;
-int maxStamina;
-short shield;
-short maxShield;

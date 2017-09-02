@@ -43,7 +43,7 @@ short s2;
 int titleAchievementId;
 int i3;
 byte b2;
-COMMANDER commander;
+APPEARANCE_PC appearancePc;
 
 //char partyName[49];
 

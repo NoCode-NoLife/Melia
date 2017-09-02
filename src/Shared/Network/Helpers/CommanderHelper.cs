@@ -1,62 +1,65 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Shared.Const;
+using Melia.Shared.World;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Melia.Shared.Network.Helpers
 {
 	public static class CommanderHelper
 	{
+		/// <summary>
+		/// Serializes an object that implements ICommander and places it into the packet.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="commander"></param>
 		public static void AddCommander(this Packet packet, ICommander commander)
 		{
-			packet.PutString(commander.Name, 65);
-			packet.PutString(commander.TeamName, 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(commander.AccountId);
-			packet.PutShort(commander.Stance);
-			packet.PutShort(0);
-			packet.PutShort((short)commander.Job);
-			packet.PutByte((byte)commander.Gender);
-			packet.PutByte(0);
-			packet.PutInt(commander.Level);
-
-			// Items
-			var equipIds = commander.GetEquipIds();
-			if (equipIds.Length != Items.EquipSlotCount)
-				throw new InvalidOperationException("Incorrect amount of equipment (" + equipIds.Length + ").");
-
-			for (int i = 0; i < equipIds.Length; ++i)
-				packet.PutInt(equipIds[i]);
-
-			// [i10671, 2015-10-26 iCBT2] ?
-			{
-				packet.PutInt(0);
-				packet.PutInt(0);
-			}
-
-			packet.PutShort(commander.Hair);
-			packet.PutShort(0); // Pose
-
-			// Team ID
+			packet.PutInt(commander.Handle);
 			packet.PutInt(0);
-			
-			// Unknown. This could be a buffer just to keep the structure the same size since the equipment count changes.
-			packet.PutInt(0);
+			packet.AddAppearancePc(commander);
+			packet.PutFloat(commander.Position.X);
+			packet.PutFloat(commander.Position.Y);
+			packet.PutFloat(commander.Position.Z);
+			packet.PutInt(commander.Exp);
+			packet.PutInt(commander.MaxExp);
+
+			// TODO: Add a method to the character class to calculate total accumulated Exp.
+			// This can be done by using the level table and adding the current Exp to the base.
+			packet.PutInt(0);   // Total accumulated Exp.
+
+			packet.PutLong(commander.Id);
+
+			// TODO: Assign new IDs to characters such that the social ID does not conflict.
+			packet.PutLong(commander.Id + 1);   // SocialInfoId
+
+			packet.PutInt(commander.Hp);
+			packet.PutInt(commander.MaxHp);
+			packet.PutShort(commander.Sp);
+			packet.PutShort(commander.MaxSp);
+			packet.PutInt(commander.Stamina);
+			packet.PutInt(commander.MaxStamina);
+			packet.PutShort(0); // Shield
+			packet.PutShort(0); // MaxShield
 		}
 	}
-
-	public interface ICommander
+	
+	public interface ICommander : IAppearancePc
 	{
-		long AccountId { get; }
-		string Name { get; }
-		string TeamName { get; }
-		int Stance { get; }
-		Job Job { get; }
-		Gender Gender { get; }
-		int Level { get; }
-		byte Hair { get; }
-
-		int[] GetEquipIds();
+		int Handle { get; }
+		Position Position { get; }
+		int Exp { get; }
+		int MaxExp { get; }
+		long Id { get; }
+		int Hp { get; }
+		int MaxHp { get; }
+		int Sp { get; }
+		int MaxSp { get; }
+		int Stamina { get; }
+		int MaxStamina { get; }
 	}
 }
