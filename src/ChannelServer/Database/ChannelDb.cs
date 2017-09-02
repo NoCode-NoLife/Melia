@@ -110,8 +110,8 @@ namespace Melia.Channel.Database
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.Hp = reader.GetInt32("hp");
 					character.MaxHp = reader.GetInt32("maxHp");
-					character.Sp = reader.GetInt16("sp");
-					character.MaxSp = reader.GetInt16("maxSp");
+					character.Sp = reader.GetInt32("sp");
+					character.MaxSp = reader.GetInt32("maxSp");
 					character.Stamina = reader.GetInt32("stamina");
 					character.MaxStamina = reader.GetInt32("maxStamina");
 					character.Str = reader.GetFloat("str");

@@ -57,8 +57,8 @@ namespace Melia.Shared.Network.Helpers
 		long Id { get; }
 		int Hp { get; }
 		int MaxHp { get; }
-		short Sp { get; }
-		short MaxSp { get; }
+		int Sp { get; }
+		int MaxSp { get; }
 		int Stamina { get; }
 		int MaxStamina { get; }
 	}

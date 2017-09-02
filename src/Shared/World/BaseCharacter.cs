@@ -95,12 +95,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Spell points.
 		/// </summary>
-		public short Sp { get; set; }
+		public int Sp { get; set; }
 
 		/// <summary>
 		/// Maximum spell points.
 		/// </summary>
-		public short MaxSp { get; set; }
+		public int MaxSp { get; set; }
 
 		/// <summary>
 		/// Stamina points.

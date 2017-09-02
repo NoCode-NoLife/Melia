@@ -13,7 +13,6 @@
 //   - i11025: s3 and i4~i10 were removed
 //   - i11025: i4 was added
 //   - i11025: partyName was removed
-//   - i170175: COMMANDER was changed to APPEARANCE_PC.
 //------------------------------------------------
 
 #include "common.bt"

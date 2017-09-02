@@ -11,9 +11,8 @@
 //   History: 
 //   - i109XX:  s1 was added
 //   - i11025:  s1 was removed
-//   - i11257:  b1 was added
-//   - i170175: b2 was added
-//   - i170175: Properties were combined into the COMMANDER structure.
+//   - i11257:  isIntegrateServer was added
+//   - i170175: isIntegrateIndunServer was added
 //------------------------------------------------
 
 #include "common.bt"
