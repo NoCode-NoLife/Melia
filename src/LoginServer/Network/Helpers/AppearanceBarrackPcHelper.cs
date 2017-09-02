@@ -6,6 +6,7 @@ using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,43 +15,52 @@ using System.Threading.Tasks;
 
 namespace Melia.Login.Network.Helpers
 {
-	public static class CharacterHelper
+	public static class AppearanceBarrackPcHelper
 	{
-		public static void AddCharacter(this Packet packet, Character character)
+		public static void AddAppearanceBarrackPc(this Packet packet, IAppearanceBarrackPc pc)
 		{
-			packet.AddAppearancePc(character);
-			packet.PutLong(character.Id);
+			packet.AddAppearancePc(pc);
+			packet.PutLong(pc.Id);
 
 			// [i11025 (2016-02-26)]
 			// Index was previously stored as a short, now there seem
 			// to be two byte, with the first being the index.
 			{
-				packet.PutByte(character.Index);
+				packet.PutByte(pc.Index);
 				packet.PutByte(181);
 			}
 
-			packet.PutShort(character.MapId);
-			packet.PutShort(1); // Channel ID
+			packet.PutShort(pc.MapId);
+			packet.PutShort(pc.Channel);
 			packet.PutShort(0);
 			packet.PutInt(0);
 			packet.PutInt(0); // maxXP
 			packet.PutInt(0); // currentExp
 
 			// Position?
-			packet.PutFloat(character.BarrackPosition.X);
-			packet.PutFloat(character.BarrackPosition.Y);
-			packet.PutFloat(character.BarrackPosition.Z);
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
 			packet.PutFloat(0);	// Vector direction
 			packet.PutFloat(0); // Vector direction
 
 			// ?
-			packet.PutFloat(character.BarrackPosition.X);
-			packet.PutFloat(character.BarrackPosition.Y);
-			packet.PutFloat(character.BarrackPosition.Z);
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
 			packet.PutFloat(0); // Vector direction
 			packet.PutFloat(0); // Vector direction
 
 			packet.PutInt(0);
 		}
+	}
+
+	public interface IAppearanceBarrackPc : IAppearancePc
+	{
+		long Id { get; }
+		byte Index { get; }
+		int MapId { get; }
+		int Channel { get; }
+		Position BarrackPosition { get; }
 	}
 }

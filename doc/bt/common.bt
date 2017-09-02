@@ -97,6 +97,14 @@ string mapRevealDataRead(mapRevealData &v)
 
 typedef struct
 {
+    short size;
+    if(size > 0)
+        byte properties[size]; // todo, short:val list
+}
+ItemProperties;
+
+typedef struct
+{
     char name[65];
     char teamName[64];
     byte bin[7];
@@ -156,17 +164,16 @@ MONSTER;
 typedef struct
 {
     APPEARANCE_PC appearancePc;
-
     int64 characterId;
-
     byte index;
     byte b1;
 
     short mapId;
+    short channel;
+    short s1;
     int i1;
-    int i2;
-    int i3; // max xp?
-    int i4;
+    int i2;   // max xp?
+    int i3;    
 
     float x;
     float y;
@@ -181,8 +188,8 @@ typedef struct
     float d22;
 
     int i5;
-}
-Character;
+
+} APPEARANCE_BARRACK_PC;
 
 typedef struct
 {
