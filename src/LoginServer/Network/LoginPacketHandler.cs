@@ -458,5 +458,30 @@ namespace Melia.Login.Network
 			conn.Account.SetSelectedBarrackLayer(layer);
 			Send.BC_COMMANDER_LIST(conn, conn.Account.SelectedBarracklayer);
 		}
+
+		/// <summary>
+		/// Pets!
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_PET_PC)]
+		public void CB_PET_PC(LoginConnection conn, Packet packet)
+		{
+			var petGuid = packet.GetLong();
+			var characterId = packet.GetLong();
+		}
+
+		/// <summary>
+		/// Commands associated with pets.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_PET_COMMAND)]
+		public void CB_PET_COMMAND(LoginConnection conn, Packet packet)
+		{
+			var petGuid = packet.GetLong();
+			var characterId = packet.GetLong();
+			byte command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
+		}
 	}
 }
