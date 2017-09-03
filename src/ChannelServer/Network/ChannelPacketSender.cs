@@ -1535,6 +1535,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sets the team ID for an entity.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="entity"></param>
+		/// <param name="team">The team ID which is a value of either '0', '1', or '2'.</param>
+		public static void ZC_TEAMID(ChannelConnection conn, IEntity entity, byte team)
+		{
+			var packet = new Packet(Op.ZC_TEAMID);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(team);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Creates a skill in client
 		/// </summary>
 		/// <param name="character"></param>
