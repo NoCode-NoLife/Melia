@@ -60,7 +60,7 @@ namespace Melia.Channel.Database
 		{
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
-			this._chatMacros = new List<ChatMacro>();
+			_chatMacros = new List<ChatMacro>();
 		}
 
 		/// <summary>
@@ -69,11 +69,11 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		public void AddChatMacro(ChatMacro macro)
 		{
-			lock (this._chatMacros)
+			lock (_chatMacros)
 			{
-				var oldMacro = this._chatMacros.FirstOrDefault(x => x.Index == macro.Index);
+				var oldMacro = _chatMacros.FirstOrDefault(x => x.Index == macro.Index);
 				if (oldMacro == null)
-					this._chatMacros.Add(macro);
+					_chatMacros.Add(macro);
 				else
 					oldMacro.Update(macro.Message, macro.Pose);
 			}
@@ -85,8 +85,8 @@ namespace Melia.Channel.Database
 		/// <returns></returns>
 		public ChatMacro[] GetChatMacros()
 		{
-			lock (this._chatMacros)
-				return this._chatMacros.ToArray();
+			lock (_chatMacros)
+				return _chatMacros.ToArray();
 		}
 
 		/// <summary>

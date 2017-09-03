@@ -1,9 +1,8 @@
-﻿using Melia.Shared.Network;
-using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Melia.Shared.Network;
 
 namespace Melia.Login.Network.Helpers
 {
@@ -33,7 +32,7 @@ namespace Melia.Login.Network.Helpers
 			// In i170175 this short seems to be the current job now,
 			// and there's no sign of a list.
 			packet.PutShort(0); // count
-			
+
 			// [i11025 (2016-02-26)] ?
 			{
 				packet.PutInt(0);
