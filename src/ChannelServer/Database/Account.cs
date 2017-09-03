@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Channel.Scripting;
+using Melia.Channel.World;
 using Melia.Shared.Const;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace Melia.Channel.Database
 	/// </summary>
 	public class Account
 	{
+		/// <summary>
+		/// List of chat macros associated with the account.
+		/// </summary>
+		private IList<ChatMacro> _chatMacros;
+
 		/// <summary>
 		/// Account id
 		/// </summary>
@@ -54,6 +60,33 @@ namespace Melia.Channel.Database
 		{
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
+			this._chatMacros = new List<ChatMacro>();
+		}
+
+		/// <summary>
+		/// Adds a chat macro to the account.
+		/// </summary>
+		/// <param name="character"></param>
+		public void AddChatMacro(ChatMacro macro)
+		{
+			lock (this._chatMacros)
+			{
+				var oldMacro = this._chatMacros.FirstOrDefault(x => x.Index == macro.Index);
+				if (oldMacro == null)
+					this._chatMacros.Add(macro);
+				else
+					oldMacro.Update(macro.Message, macro.Pose);
+			}
+		}
+
+		/// <summary>
+		/// Returns an array of chat macros.
+		/// </summary>
+		/// <returns></returns>
+		public ChatMacro[] GetChatMacros()
+		{
+			lock (this._chatMacros)
+				return this._chatMacros.ToArray();
 		}
 
 		/// <summary>

@@ -304,14 +304,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_CHAT_MACRO_LIST to character.
+		/// Sends chat macros to the character.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_CHAT_MACRO_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_CHAT_MACRO_LIST);
 
-			packet.PutInt(0); // ?
+			var macros = character.Connection.Account.GetChatMacros();
+
+			packet.PutInt(macros.Count());
+			foreach (var macro in macros)
+			{
+				packet.PutInt(macro.Index);
+				packet.PutString(macro.Message, 128);
+				packet.PutInt(macro.Pose);
+			}
 
 			character.Connection.Send(packet);
 		}

@@ -72,6 +72,7 @@
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Util\GmCommands.cs" />
     <Compile Include="World\Character.cs" />
+    <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Entity.cs" />
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />

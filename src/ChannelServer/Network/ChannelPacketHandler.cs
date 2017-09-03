@@ -479,6 +479,34 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Request to save a chat macro.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHAT_MACRO)]
+		public void CZ_CHAT_MACRO(ChannelConnection conn, Packet packet)
+		{
+			var index = packet.GetInt();
+			var message = packet.GetString(128);
+			var pose = packet.GetInt();
+
+			if ((index > 10) || (index < 0))
+			{
+				Log.Warning("CZ_CHAT_MACRO: User '{0}' tried to save a chat macro for an invalid index ({1}).", conn.Account.Name, index);
+				return;
+			}
+
+			if (String.IsNullOrEmpty(message) && pose == 0)
+			{
+				Log.Warning("CZ_CHAT_MACRO: User '{0}' tried to save an empty chat macro.", conn.Account.Name);
+				return;
+			}
+
+			var macro = new ChatMacro(index, message, pose);
+			conn.Account.AddChatMacro(macro);
+		}
+
+		/// <summary>
 		/// Sent when dragging an item on top of another one in the same
 		/// category to switch their positions.
 		/// </summary>
