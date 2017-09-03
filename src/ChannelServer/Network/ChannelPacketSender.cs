@@ -1535,6 +1535,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Adjusts the time speed of the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="timeFactor"></param>
+		public static void ZC_TIME_FACTOR(ChannelConnection conn, float timeFactor = 1)
+		{
+			var packet = new Packet(Op.ZC_TIME_FACTOR);
+			packet.PutFloat(timeFactor);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sets the team ID for an entity.
 		/// </summary>
 		/// <param name="conn"></param>
