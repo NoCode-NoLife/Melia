@@ -40,6 +40,7 @@ namespace Melia.Channel.Database
 			}
 
 			this.SaveVariables("account:" + account.Id, account.Variables.Perm);
+			this.SaveChatMacros(account);
 
 			return true;
 		}
@@ -73,7 +74,7 @@ namespace Melia.Channel.Database
 			}
 
 			this.LoadVars("account:" + account.Id, account.Variables.Perm);
-
+			this.LoadChatMacros(account);
 			return account;
 		}
 
@@ -401,6 +402,64 @@ namespace Melia.Channel.Database
 						}
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Loads chat macros from the database.
+		/// </summary>
+		/// <param name="account"></param>
+		private void LoadChatMacros(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `chatMacros` WHERE `accountId` = @accountId ORDER BY `index` DESC", conn))
+			{
+				mc.Parameters.AddWithValue("@accountId", account.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var index = reader.GetInt32("index");
+						var message = reader.GetString("message");
+						var pose = reader.GetInt32("pose");
+
+						var macro = new ChatMacro(index, message, pose);
+						account.AddChatMacro(macro);
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Persists the account's chat macros to the database.
+		/// </summary>
+		/// <param name="account"></param>
+		private void SaveChatMacros(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `chatMacros` WHERE `accountId` = @accountId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@accountId", account.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var macro in account.GetChatMacros().OrderBy(x => x.Index))
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn))
+					{
+						cmd.Set("accountId", account.Id);
+						cmd.Set("index", macro.Index);
+						cmd.Set("message", macro.Message);
+						cmd.Set("pose", macro.Pose);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
 			}
 		}
 	}

@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_CHAT_MACRO_LIST.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Sends a list of chat macros to the client.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+short size;
+
+int count;
+
+CHAT_MACRO_INFO chatMacros[count];

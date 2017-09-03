@@ -249,3 +249,10 @@ string EquipItemRead(EquipItem &v)
     SPrintf(result, "%d : %d", v.slot, v.id);
     return result;
 }
+
+typedef struct
+{
+    int index;
+    char msg[128];  // This may also be a class ID of an emoji.
+    int pose;
+} CHAT_MACRO_INFO;

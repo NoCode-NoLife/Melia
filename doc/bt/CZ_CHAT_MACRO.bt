@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_CHAT_MACRO.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Updates a chat macro.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+int checksum;
+
+CHAT_MACRO_INFO chatMacro;
