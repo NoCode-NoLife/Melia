@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_OBJECT_PROPERTY.bt
-//   Authors: Tachiorz, exec
+//   Authors: Tachiorz, exec, celophi
 //   Version: i170175
 //   Purpose: 
 //  Category: 
@@ -76,11 +76,19 @@ int sequence;
 short size;
 
 int64 characterId;
-int i1;
+int isTrickPacket;
 
-local int i;
-for (i = 0; i < (size - 20); i = i)
+if (isTrickPacket == 0)
 {
-    property prop;
-    i += sizeof(prop);
+    local int i<hidden=true>;
+    for (i = 0; i < (size - 20); i = i)
+    {
+        property prop;
+        i += sizeof(prop);
+    }
+} else
+{
+    // TRICK_PACKET_ZC_OBJECT_PROPERTY
+    // This can be a PC, PCEtc, Account, etc. type of property.
 }
+

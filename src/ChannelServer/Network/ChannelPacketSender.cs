@@ -879,7 +879,7 @@ namespace Melia.Channel.Network
 			packet.PutLong(character.Id);
 			foreach (var property in properties)
 			{
-				packet.PutShort(property);
+				packet.PutInt(property);
 				switch (property)
 				{
 					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
