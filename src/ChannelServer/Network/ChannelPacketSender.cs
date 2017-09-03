@@ -1563,6 +1563,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sets the entity's owner to the specified character handle.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="monster"></param>
+		public static void ZC_OWNER(Character character, IEntity entity)
+		{
+			var packet = new Packet(Op.ZC_OWNER);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Creates a skill in client
 		/// </summary>
 		/// <param name="character"></param>

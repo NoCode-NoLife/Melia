@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_OWNER.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Set's the owner of an entity to the character.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int entityHandle;
+int characterHandle;
