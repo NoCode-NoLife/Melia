@@ -1748,6 +1748,16 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Acknowledges the client that the loading screen has completed.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_LOAD_COMPLETE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_LOAD_COMPLETE);
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

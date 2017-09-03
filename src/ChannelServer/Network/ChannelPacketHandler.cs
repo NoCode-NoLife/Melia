@@ -1120,6 +1120,17 @@ namespace Melia.Channel.Network
 			// transaction.
 			Send.ZC_ADDON_MSG(character, "FAIL_SHOP_BUY");
 		}
+
+		/// <summary>
+		/// Sent after a loading screen is completed.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_LOAD_COMPLETE)]
+		public void CZ_LOAD_COMPLETE(ChannelConnection conn, Packet packet)
+		{
+			Send.ZC_LOAD_COMPLETE(conn);
+		}
 	}
 
 	public enum TxType : short
