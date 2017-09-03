@@ -84,7 +84,7 @@ string directionRead(direction &v)
 typedef struct
 {
     int mapId;
-    byte data[132];
+    byte data[128];
 }
 mapRevealData <read=mapRevealDataRead>;
 

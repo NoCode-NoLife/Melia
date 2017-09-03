@@ -41,6 +41,7 @@ namespace Melia.Channel.Database
 
 			this.SaveVariables("account:" + account.Id, account.Variables.Perm);
 			this.SaveChatMacros(account);
+			this.SaveRevealedMaps(account);
 
 			return true;
 		}
@@ -75,6 +76,7 @@ namespace Melia.Channel.Database
 
 			this.LoadVars("account:" + account.Id, account.Variables.Perm);
 			this.LoadChatMacros(account);
+			this.LoadRevealedMaps(account);
 			return account;
 		}
 
@@ -454,6 +456,64 @@ namespace Melia.Channel.Database
 						cmd.Set("index", macro.Index);
 						cmd.Set("message", macro.Message);
 						cmd.Set("pose", macro.Pose);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads revealed maps for the account.
+		/// </summary>
+		/// <param name="account"></param>
+		private void LoadRevealedMaps(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `revealedMaps` WHERE `accountId` = @accountId", conn))
+			{
+				mc.Parameters.AddWithValue("@accountId", account.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var map = reader.GetInt32("map");
+						var explored = (byte[])reader["explored"];
+						var percentage = reader.GetFloat("percentage");
+
+						var revealedMap = new RevealedMap(map, explored, percentage);
+						account.AddRevealedMap(revealedMap);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Persists the account's revealed maps to the database.
+		/// </summary>
+		/// <param name="account"></param>
+		private void SaveRevealedMaps(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `revealedMaps` WHERE `accountId` = @accountId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@accountId", account.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var revealedMap in account.GetRevealedMaps())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn))
+					{
+						cmd.Set("accountId", account.Id);
+						cmd.Set("map", revealedMap.MapId);
+						cmd.Set("explored", revealedMap.Explored);
+						cmd.Set("percentage", revealedMap.Percentage);
 
 						cmd.Execute();
 					}

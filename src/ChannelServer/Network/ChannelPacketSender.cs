@@ -1335,6 +1335,26 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the visible areas of a map to a character.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_MAP_REVEAL_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MAP_REVEAL_LIST);
+
+			RevealedMap[] revealedMaps = conn.Account.GetRevealedMaps();
+			
+			packet.PutInt(revealedMaps.Count());
+			foreach (var revealedMap in revealedMaps)
+			{
+				packet.PutInt(revealedMap.MapId);
+				packet.PutBin(revealedMap.Explored);
+			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_IES_MODIFY_LIST to connection, containing a list of
 		/// modifications for IES files.
 		/// </summary>

@@ -1,20 +1,19 @@
-//--------------------------------------
+//------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_MAP_REVEAL_INFO.bt
-//   Authors: exec, celophi
+//      File: CZ_MAP_SEARCH_INFO
+//   Authors: celophi
 //   Version: i170175
-//   Purpose: Sends a bitmap representing explored areas of a map.
+//   Purpose: Reports the explored percentage of a map.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
-
 short op;
 int sequence;
 int checksum;
 
-mapRevealData data;
+char map[41];
+float percentage;
