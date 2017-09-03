@@ -1150,6 +1150,17 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Indicates a request from the client to trade with another character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_REQUEST)]
+		public static void CZ_EXCHANGE_REQUEST(ChannelConnection conn, Packet packet)
+		{
+			var targetHandle = packet.GetInt();
+		}
+
+		/// <summary>
 		/// Sent after a loading screen is completed.
 		/// </summary>
 		/// <param name="conn"></param>

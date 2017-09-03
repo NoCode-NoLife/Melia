@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_EXCHANGE_REQUEST.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Indicates to the client a request to trade with another character.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int targetHandle;
