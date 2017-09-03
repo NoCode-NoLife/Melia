@@ -52,13 +52,14 @@
   <ItemGroup>
     <Compile Include="Database\Account.cs" />
     <Compile Include="Network\Helpers\AccountHelper.cs" />
+    <Compile Include="Network\Helpers\BarrackPcHelper.cs" />
     <Compile Include="Util\Configuration\LoginConf.cs" />
     <Compile Include="Util\Configuration\Files\Login.cs" />
     <Compile Include="Util\LoginConsoleCommands.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="Database\LoginDb.cs" />
     <Compile Include="LoginServer.cs" />
-    <Compile Include="Network\Helpers\CharacterHelper.cs" />
+    <Compile Include="Network\Helpers\AppearanceBarrackPcHelper.cs" />
     <Compile Include="Network\LoginConnection.cs" />
     <Compile Include="Network\LoginPacketHandler.cs" />
     <Compile Include="Network\LoginPacketSender.cs" />

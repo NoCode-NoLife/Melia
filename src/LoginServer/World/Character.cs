@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Melia.Login.World
 {
-	public class Character : Shared.World.BaseCharacter, IAppearancePc
+	public class Character : Shared.World.BaseCharacter, IBarrackPc
 	{
 		/// <summary>
 		/// Index of character in character list.
@@ -35,11 +36,17 @@ namespace Melia.Login.World
 		public int BarrackLayer { get; set; }
 
 		/// <summary>
+		/// The channel the character is currently on.
+		/// </summary>
+		public int Channel { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
 		{
 			this.Level = 1;
+			this.Channel = 1;
 			this.Equipment = Items.DefaultItems.ToArray();
 		}
 
@@ -50,6 +57,16 @@ namespace Melia.Login.World
 		public int[] GetEquipIds()
 		{
 			return this.Equipment;
+		}
+
+		/// <summary>
+		/// Returns the equipment properties as an array.
+		/// </summary>
+		/// <returns></returns>
+		public int[] GetEquipmentProperties()
+		{
+			// TODO: This needs to return the actual properties of equipment which have variable lengths.
+			return this.GetEquipIds();
 		}
 	}
 }

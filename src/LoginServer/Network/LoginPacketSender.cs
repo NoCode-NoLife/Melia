@@ -69,35 +69,7 @@ namespace Melia.Login.Network
 
 			foreach (var character in characters)
 			{
-				packet.AddCharacter(character);
-
-				// Equip properties, short->length
-				for (int i = 0; i < Items.EquipSlotCount; ++i)
-					packet.PutShort(0);
-
-				// Unknown
-				packet.PutByte(1);
-				packet.PutByte(1);
-				packet.PutByte(1);
-				packet.PutByte(1);
-				packet.PutByte(0);
-
-				// Job history?
-				// While this short existed in iCBT1, it might not have
-				// been used, couldn't find a log.
-				// Example: A Mage that switched to Pyromancer has two
-				//   elements in this list, 2001 and 2002.
-				// In i170175 this short seems to be the current job now,
-				// and there's no sign of a list.
-				packet.PutShort(0); // count
-
-				// loop
-				//   short jobId
-
-				// [i11025 (2016-02-26)] ?
-				{
-					packet.PutInt(0);
-				}
+				packet.AddBarrackPc(character);
 			}
 
 			// Null terminated list of some kind?
@@ -124,7 +96,7 @@ namespace Melia.Login.Network
 		public static void BC_COMMANDER_CREATE(LoginConnection conn, Character character)
 		{
 			var packet = new Packet(Op.BC_COMMANDER_CREATE);
-			packet.AddCharacter(character);
+			packet.AddAppearanceBarrackPc(character);
 
 			conn.Send(packet);
 		}

@@ -9,10 +9,10 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i11025:  ListCharacter.i6 was added
+//   - i11025:  BARRACK_PC.i1 was added
 //   - i11257:  AccountProperties.s1 was added
-//   - i170175: ListCharacter.b1~b5 were added
-//   - i170175: ListCharacter.jobIdCount doesn't seem to be a list anymore
+//   - i170175: BARRACK_PC.b1~b5 were added
+//   - i170175: BARRACK_PC.jobIdCount doesn't seem to be a list anymore
 //------------------------------------------------
 
 #include "common.bt"
@@ -29,31 +29,19 @@ AccountProperties;
 
 typedef struct
 {
-    short size;
-    if(size > 0)
-        byte properties[size]; // todo, short:val list
-}
-ItemProperties;
-
-typedef struct
-{
-    Character character;
-
+    APPEARANCE_BARRACK_PC abpc;
     ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
-    
-	byte b1;
-	byte b2;
-	byte b3;
-	byte b4;
-	byte b5;
-	
-    // maybe job history?
-    short jobIdCount; // this is the current job now?
-    //short jobId2[jobIdCount];
+  
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
+    byte b5;
 
-    int i6;
-}
-ListCharacter;
+    // maybe job history?
+    short jobIdCount;   // this is the current job now?
+    int i1;
+} BARRACK_PC;
 
 short op;
 int sequence;
@@ -66,7 +54,7 @@ char teamName[64];
 
 AccountProperties properties;
 
-ListCharacter character[characterCount] <optimize=false>;
+BARRACK_PC barrackPc[characterCount] <optimize=false>;
 
 short s1;
 if (s1 != 0)
