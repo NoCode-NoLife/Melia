@@ -601,8 +601,10 @@ namespace Melia.Channel.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var unkByte = packet.GetByte();
+			var unkFloat = packet.GetFloat();
 			var unkShort = packet.GetShort();
+			var unkByte1 = packet.GetByte();
+			var unkByte2 = packet.GetByte();
 
 			var character = conn.SelectedCharacter;
 
