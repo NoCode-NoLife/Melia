@@ -108,6 +108,13 @@ namespace Melia.Channel.World
 		public float Speed { get; set; }
 
 		/// <summary>
+		/// Holds the order of successive changes in character HP.
+		/// A higher value indicates the latest damage taken.
+		/// I'm not sure when this gets rolled over; More investigation is needed.
+		/// </summary>
+		public int HPChangeCounter { get; set; }
+
+		/// <summary>
 		/// Specifies whether the character currently updates the visible
 		/// entities around the character.
 		/// </summary>
@@ -133,6 +140,7 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
+			this.HPChangeCounter = 0;
 		}
 
 		/// <summary>
