@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_POSE.bt
+//   Authors: exec
+//   Version: i170175
+//   Purpose: Changes character's pose
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+
+int handle;
+int pose;
+position pos;
+direction dir;
