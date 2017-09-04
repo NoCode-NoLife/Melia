@@ -25,7 +25,7 @@ namespace Melia.Channel.Database
 		/// <summary>
 		/// List of the revealed maps the user has explored.
 		/// </summary>
-		private IList<RevealedMap> _revealedMaps;
+		private Dictionary<int, RevealedMap> _revealedMaps;
 
 		/// <summary>
 		/// Account id
@@ -66,7 +66,7 @@ namespace Melia.Channel.Database
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
 			_chatMacros = new List<ChatMacro>();
-			_revealedMaps = new List<RevealedMap>();
+			_revealedMaps = new Dictionary<int, RevealedMap>();
 		}
 
 		/// <summary>
@@ -103,11 +103,11 @@ namespace Melia.Channel.Database
 		{
 			lock (_revealedMaps)
 			{
-				var oldMap = _revealedMaps.FirstOrDefault(x => x.MapId == revealedMap.MapId);
-				if (oldMap == null)
-					_revealedMaps.Add(revealedMap);
+				RevealedMap map;
+				if (_revealedMaps.TryGetValue(revealedMap.MapId, out map))
+					map.Update(revealedMap.Explored, revealedMap.Percentage);
 				else
-					oldMap.Update(revealedMap.Explored, revealedMap.Percentage);
+					_revealedMaps[revealedMap.MapId] = revealedMap;
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace Melia.Channel.Database
 		public RevealedMap[] GetRevealedMaps()
 		{
 			lock (_revealedMaps)
-				return _revealedMaps.ToArray();
+				return _revealedMaps.Values.ToArray();
 		}
 
 		/// <summary>

@@ -1201,12 +1201,22 @@ namespace Melia.Channel.Network
 			var mapId = packet.GetInt();
 			var visible = packet.GetBin(128);
 
-			var mapData = ChannelServer.Instance.Data.MapDb
-				.FirstOrDefault(x => x.Id == mapId);
-
+			// Check if the map exists
+			var mapData = ChannelServer.Instance.Data.MapDb.Find(mapId);
 			if (mapData == null)
 			{
-				Log.Error("CZ_MAP_REVEAL_INFO: User '{0}' tried to update the map ID '{1}' which doesn't exist.", conn.Account.Name, mapId);
+				Log.Warning("CZ_MAP_REVEAL_INFO: User '{0}' tried to send an update for map '{1}', which doesn't exist.", conn.Account.Name, mapId);
+				return;
+			}
+
+			// Check if character is actually on the map
+			// The existence check prevents flooding, and this one ensures
+			// players can only reveal maps they are actually on.
+			// Eventually we might want to improve this further,
+			// checking the character's position.
+			if (conn.SelectedCharacter.MapId != mapId)
+			{
+				Log.Warning("CZ_MAP_REVEAL_INFO: User '{0}' tried to send an update for a different map than they're on.", conn.Account.Name);
 				return;
 			}
 
@@ -1233,7 +1243,7 @@ namespace Melia.Channel.Network
 				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the map '{1}' which doesn't exist.", conn.Account.Name, map);
 				return;
 			}
-			
+
 			if (percentage < 0 || percentage > 100)
 			{
 				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, map);
