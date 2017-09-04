@@ -1155,7 +1155,7 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_EXCHANGE_REQUEST)]
-		public static void CZ_EXCHANGE_REQUEST(ChannelConnection conn, Packet packet)
+		public void CZ_EXCHANGE_REQUEST(ChannelConnection conn, Packet packet)
 		{
 			var targetHandle = packet.GetInt();
 		}

@@ -13,6 +13,7 @@
 
 short op;
 int sequence;
+int checksum;
 
 int64 petGuid;
 int64 characterId;
