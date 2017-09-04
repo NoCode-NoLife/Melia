@@ -512,7 +512,7 @@ namespace Melia.Channel.Network
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutString(message);
-
+			packet.PutEmptyBin(16); // message starts at 180 bytes.
 			character.Map.Broadcast(packet, character);
 		}
 
