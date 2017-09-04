@@ -3,13 +3,14 @@
 //
 //      File: ZC_CHAT.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i11257: i3 was added
+//   - i11257:  i3 was added
+//   - i170175: bin2 was added
 //------------------------------------------------
 
 short op;
@@ -28,4 +29,5 @@ byte bin1[2];
 int i2;
 int i3;
 float displayTime;
+byte bin2[16];
 string message;
