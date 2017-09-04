@@ -47,6 +47,7 @@ namespace Melia.Login.World
 		{
 			this.Level = 1;
 			this.Channel = 1;
+			this.BarrackLayer = 1;
 			this.Equipment = Items.DefaultItems.ToArray();
 		}
 
