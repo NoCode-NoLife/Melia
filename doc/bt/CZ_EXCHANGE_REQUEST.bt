@@ -4,7 +4,7 @@
 //      File: CZ_EXCHANGE_REQUEST.bt
 //   Authors: celophi
 //   Version: i170175
-//   Purpose: Indicates to the client a request to trade with another character.
+//   Purpose: Indicates to the server a request to trade with another character.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
