@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_ITEM_EQUIP.bt
+//   Authors: exec
+//   Version: i170175
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int64 worldId;
+byte equipSlot;
