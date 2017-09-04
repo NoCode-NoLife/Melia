@@ -1799,6 +1799,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the faction for the handle.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="monster"></param>
+		public static void ZC_FACTION(ChannelConnection conn, Monster monster, FactionType faction)
+		{
+			var packet = new Packet(Op.ZC_FACTION);
+			packet.PutInt(monster.Handle);
+			packet.PutInt((int)faction);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Acknowledges the client that the loading screen has completed.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1823,5 +1836,12 @@ namespace Melia.Channel.Network
 			this.Key = key;
 			this.Value = value;
 		}
+	}
+
+	public enum FactionType : int
+	{
+		PLAYER = 1,
+		MONSTER = 2,
+		NPC = 3,
 	}
 }
