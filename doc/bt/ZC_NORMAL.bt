@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_NORMAL.bt
-//   Authors: exec
+//   Authors: exec, celophi
 //   Version: i11XXX
 //   Purpose: 
 //  Category: 
@@ -79,4 +79,10 @@ else if(type == 0xEA)
 
     int count;
     JobRank jobs[count] <optimize=false>;
+}
+
+// Sets the session key.
+else if(type == 0x14E)
+{
+    lpString sessionKey;
 }

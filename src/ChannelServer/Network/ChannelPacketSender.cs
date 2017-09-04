@@ -1202,6 +1202,18 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x14E);
+			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates exp and max exp.
 		/// </summary>
 		/// <param name="character"></param>
