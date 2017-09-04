@@ -1767,19 +1767,19 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_HELP_LIST(Character character)
 		{
-			var packet = new Packet(Op.ZC_HELP_LIST);
-			packet.PutInt(HelpTopics.Default.Length);
-			foreach (var topic in HelpTopics.Default)
-			{
-				var data = ChannelServer.Instance.Data.HelpDb.Find(topic);
-				if (data == null)
-				{
-					Log.Error("ZC_HELP_LIST: Help data '{0}' not found.", topic);
-					return;
-				}
+			// Get only the basic help topics for now. We probably need
+			// a character or account based list of help topics the
+			// player can see, potentially incl. the information of
+			// whether they've read a specific topic yet.
 
+			var defaultList = ChannelServer.Instance.Data.HelpDb.Entries.Values.Where(a => a.BasicHelp);
+
+			var packet = new Packet(Op.ZC_HELP_LIST);
+			packet.PutInt(defaultList.Count());
+			foreach (var data in defaultList)
+			{
 				packet.PutInt(data.Id);
-				packet.PutByte(0); // Unknown.
+				packet.PutByte(0); // Unknown, maybe "has seen" toggle?
 			}
 
 			character.Connection.Send(packet);
