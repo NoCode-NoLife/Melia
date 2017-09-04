@@ -1235,18 +1235,16 @@ namespace Melia.Channel.Network
 			var map = packet.GetString(41);
 			float percentage = packet.GetFloat();
 
-			var mapData = ChannelServer.Instance.Data.MapDb
-				.FirstOrDefault(x => x.ClassName == map);
-
+			var mapData = ChannelServer.Instance.Data.MapDb.Find(map);
 			if (mapData == null)
 			{
-				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the map '{1}' which doesn't exist.", conn.Account.Name, map);
+				Log.Warning("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the map '{1}' which doesn't exist.", conn.Account.Name, map);
 				return;
 			}
 
 			if (percentage < 0 || percentage > 100)
 			{
-				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, map);
+				Log.Warning("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, map);
 				return;
 			}
 
