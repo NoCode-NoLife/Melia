@@ -1769,18 +1769,16 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_HELP_LIST);
 			packet.PutInt(HelpTopics.Default.Length);
-			foreach (string topic in HelpTopics.Default)
+			foreach (var topic in HelpTopics.Default)
 			{
-				var data = ChannelServer.Instance.Data.HelpDb
-					.FirstOrDefault(x => x.ClassName == topic);
-
+				var data = ChannelServer.Instance.Data.HelpDb.Find(topic);
 				if (data == null)
 				{
 					Log.Error("ZC_HELP_LIST: Help data '{0}' not found.", topic);
 					return;
 				}
 
-				packet.PutInt(data.HelpId);
+				packet.PutInt(data.Id);
 				packet.PutByte(0); // Unknown.
 			}
 

@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -9,29 +10,39 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class HelpData
 	{
-		public int HelpId { get; set; }
-		public string ClassName { get; set; }
-		public string DbSave { get; set; }
-		public string BasicHelp { get; set; }
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public bool DbSave { get; set; }
+		public bool BasicHelp { get; set; }
 	}
 
 	/// <summary>
-	/// Help database indexed by the help ID.
+	/// Help database indexed by the help id.
 	/// </summary>
 	public class HelpDb : DatabaseJsonIndexed<int, HelpData>
 	{
+		private Dictionary<string, HelpData> _nameIndex = new Dictionary<string, HelpData>();
+
+		public HelpData Find(string name)
+		{
+			HelpData result;
+			_nameIndex.TryGetValue(name, out result);
+			return result;
+		}
+
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("HelpId", "ClassName", "DbSave", "BasicHelp");
+			entry.AssertNotMissing("id", "name", "dbSave", "basicHelp");
 
-			var info = new HelpData();
+			var data = new HelpData();
 
-			info.HelpId = entry.ReadInt("HelpId");
-			info.ClassName = entry.ReadString("ClassName");
-			info.DbSave = entry.ReadString("DbSave");
-			info.BasicHelp = entry.ReadString("BasicHelp");
+			data.Id = entry.ReadInt("id");
+			data.Name = entry.ReadString("name");
+			data.DbSave = entry.ReadBool("dbSave");
+			data.BasicHelp = entry.ReadBool("basicHelp");
 
-			this.Entries[info.HelpId] = info;
+			this.Entries[data.Id] = data;
+			_nameIndex[data.Name] = data;
 		}
 	}
 }
