@@ -499,11 +499,10 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			// The client sends the entire list of chat macros each as a single packet.
+			// Empty macros are also sent, but there's no reason to persist them.
 			if (String.IsNullOrEmpty(message) && pose == 0)
-			{
-				Log.Warning("CZ_CHAT_MACRO: User '{0}' tried to save an empty chat macro.", conn.Account.Name);
 				return;
-			}
 
 			var macro = new ChatMacro(index, message, pose);
 			conn.Account.AddChatMacro(macro);
