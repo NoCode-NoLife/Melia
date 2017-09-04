@@ -2,9 +2,9 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_ADDON_MSG.bt
-//   Authors: Tachiorz
-//   Version: i11XXX
-//   Purpose: 
+//   Authors: Tachiorz, celophi
+//   Version: i170175
+//   Purpose: Used for controlling various UI's and game states.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -19,4 +19,4 @@ byte len;
 int i1;
 byte notUsed;
 char functionName[len];
-char buffer[size-(len+14)];
+char parameter[size-(len+14)];

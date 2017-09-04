@@ -512,7 +512,7 @@ namespace Melia.Channel.Network
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutString(message);
-
+			packet.PutEmptyBin(16); // message starts at 180 bytes.
 			character.Map.Broadcast(packet, character);
 		}
 
@@ -1272,14 +1272,17 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg)
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
-			packet.PutByte((byte)(msg.Length + 1));
+			packet.PutByte((byte)(msg.Length));
 			packet.PutInt(0);
 			packet.PutByte(1);
-			packet.PutString(msg);
-			// + parameters?
+			packet.PutString(msg, msg.Length);
+
+			if (parameter != null)
+				packet.PutString(parameter, parameter.Length);
 
 			character.Connection.Send(packet);
 		}
@@ -1780,6 +1783,15 @@ namespace Melia.Channel.Network
 			}
 
 			character.Connection.Send(packet);
+		}
+
+		/// Request the client to send information that needs to be saved before exiting?
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SAVE_INFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SAVE_INFO);
+			conn.Send(packet);
 		}
 
 		/// <summary>
