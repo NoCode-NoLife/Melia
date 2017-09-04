@@ -27,11 +27,11 @@ namespace Melia.Login.Network.Helpers
 			packet.PutInt(ObjectProperty.Account.Medal);
 			packet.PutFloat(account.Medals);
 
-			packet.PutInt(ObjectProperty.Account.ReceiveGiftMedal);
-			packet.PutFloat(5);
+			packet.PutInt(ObjectProperty.Account.PremiumMedal);
+			packet.PutFloat(account.PremiumMedals);
 
 			packet.PutInt(ObjectProperty.Account.GiftMedal);
-			packet.PutFloat(10);
+			packet.PutFloat(account.GiftMedals);
 
 			packet.PutInt(ObjectProperty.Account.SelectedBarrack);
 			packet.PutFloat(account.SelectedBarrack);

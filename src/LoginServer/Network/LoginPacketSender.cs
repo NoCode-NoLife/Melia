@@ -257,7 +257,7 @@ namespace Melia.Login.Network
 			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
 
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0E); // subOp
+			packet.PutInt(0x0F); // subOp
 			packet.PutLpString(str);
 
 			conn.Send(packet);

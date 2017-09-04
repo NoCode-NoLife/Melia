@@ -84,6 +84,9 @@ namespace Melia.Login.Database
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("teamName", account.TeamName);
 				cmd.Set("password", account.Password);
+				cmd.Set("medals", account.Medals);
+				cmd.Set("giftMedals", account.GiftMedals);
+				cmd.Set("premiumMedals", account.PremiumMedals);
 
 				return cmd.Execute() > 0;
 			}
@@ -111,6 +114,9 @@ namespace Melia.Login.Database
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
 					account.Password = reader.GetStringSafe("password");
+					account.Medals = reader.GetInt32("medals");
+					account.GiftMedals = reader.GetInt32("giftMedals");
+					account.PremiumMedals = reader.GetInt32("premiumMedals");
 
 					// Upgrade MD5 hashes
 					if (account.Password.Length == 32)
