@@ -45,17 +45,17 @@ namespace Melia.Login.Database
 		private string _teamName;
 
 		/// <summary>
-		/// Amount of medals (iCoins).
+		/// Amount of Free TP.
 		/// </summary>
 		public int Medals { get; set; }
 
 		/// <summary>
-		/// 
+		/// Amount of Event TP.
 		/// </summary>
 		public int GiftMedals { get; set; }
 
 		/// <summary>
-		/// 
+		/// Amount of TP.
 		/// </summary>
 		public int PremiumMedals { get; set; }
 
