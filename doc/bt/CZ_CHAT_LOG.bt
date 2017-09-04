@@ -1,21 +1,19 @@
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_MAP_REVEAL_LIST.bt
-//   Authors: exec, celophi
+//      File: CZ_CHAT_LOG.bt
+//   Authors: exec
 //   Version: i170175
-//   Purpose: Sends an array of revealed maps and their bitmaps to the client.
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
-
 short op;
 int sequence;
-short size;
+int checksum;
 
-int count;
-mapRevealData dataSets[count];
+short size;
+string message;

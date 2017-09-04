@@ -23,6 +23,11 @@ namespace Melia.Channel.Database
 		private IList<ChatMacro> _chatMacros;
 
 		/// <summary>
+		/// List of the revealed maps the user has explored.
+		/// </summary>
+		private Dictionary<int, RevealedMap> _revealedMaps;
+
+		/// <summary>
 		/// Account id
 		/// </summary>
 		public long Id { get; set; }
@@ -61,6 +66,7 @@ namespace Melia.Channel.Database
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
 			_chatMacros = new List<ChatMacro>();
+			_revealedMaps = new Dictionary<int, RevealedMap>();
 		}
 
 		/// <summary>
@@ -87,6 +93,32 @@ namespace Melia.Channel.Database
 		{
 			lock (_chatMacros)
 				return _chatMacros.ToArray();
+		}
+
+		/// <summary>
+		/// Adds a revealed map to the account.
+		/// </summary>
+		/// <param name="map"></param>
+		public void AddRevealedMap(RevealedMap revealedMap)
+		{
+			lock (_revealedMaps)
+			{
+				RevealedMap map;
+				if (_revealedMaps.TryGetValue(revealedMap.MapId, out map))
+					map.Update(revealedMap.Explored, revealedMap.Percentage);
+				else
+					_revealedMaps[revealedMap.MapId] = revealedMap;
+			}
+		}
+
+		/// <summary>
+		/// Returns an array of revealed maps.
+		/// </summary>
+		/// <returns></returns>
+		public RevealedMap[] GetRevealedMaps()
+		{
+			lock (_revealedMaps)
+				return _revealedMaps.Values.ToArray();
 		}
 
 		/// <summary>

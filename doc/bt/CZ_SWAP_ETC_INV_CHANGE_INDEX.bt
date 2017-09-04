@@ -1,10 +1,10 @@
-//--------------------------------------
+//------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_ITEM_REMOVE.bt
+//      File: CZ_SWAP_ETC_INV_CHANGE_INDEX.bt
 //   Authors: exec
 //   Version: i170175
-//   Purpose: 
+//   Purpose: Notification about inventory item index change
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,8 +13,10 @@
 
 short op;
 int sequence;
+int checksum;
 
-int64 worldId;
-int amount;
-byte msg;
 byte invType;
+int64 worldId1;
+int index1;
+int64 worldId2;
+int index2;

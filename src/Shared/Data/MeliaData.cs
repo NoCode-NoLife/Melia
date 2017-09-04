@@ -11,6 +11,7 @@ namespace Melia.Shared.Data
 	public class MeliaData
 	{
 		public BarrackDb BarrackDb = new BarrackDb();
+		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
 		public ExpDb ExpDb = new ExpDb();
 		public ItemDb ItemDb = new ItemDb();
@@ -20,5 +21,6 @@ namespace Melia.Shared.Data
 		public ServerDb ServerDb = new ServerDb();
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
+		public HelpDb HelpDb = new HelpDb();
 	}
 }

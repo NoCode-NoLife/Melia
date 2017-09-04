@@ -75,7 +75,7 @@ namespace Melia.Channel.Network
 
 			packet.PutLpString(conn.SessionKey);
 			packet.AddCommander(character);
-			
+
 			conn.Send(packet);
 		}
 
@@ -238,6 +238,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(skills.Length); // count
 
 			packet.PutShort(0); // No compression
+
 			//packet.BeginZlib();
 			foreach (var skill in skills)
 				packet.AddSkill(skill);
@@ -382,6 +383,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(abilities.Length); // count
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
+
 			//packet.BeginZlib();
 			foreach (var ability in abilities)
 			{
@@ -439,7 +441,7 @@ namespace Melia.Channel.Network
 				packet.PutInt(item.Value.Amount);
 				packet.PutInt(item.Value.Price);
 				packet.PutInt(item.Key);
-				packet.PutInt(1); // ?
+				packet.PutInt(1);
 				//packet.PutEmptyBin(0);
 			}
 
@@ -512,7 +514,7 @@ namespace Melia.Channel.Network
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutString(message);
-
+			packet.PutEmptyBin(16); // message starts at 180 bytes.
 			character.Map.Broadcast(packet, character);
 		}
 
@@ -1284,14 +1286,17 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg)
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
-			packet.PutByte((byte)(msg.Length + 1));
+			packet.PutByte((byte)(msg.Length));
 			packet.PutInt(0);
 			packet.PutByte(1);
-			packet.PutString(msg);
-			// + parameters?
+			packet.PutString(msg, msg.Length);
+
+			if (parameter != null)
+				packet.PutString(parameter, parameter.Length);
 
 			character.Connection.Send(packet);
 		}
@@ -1342,6 +1347,26 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_LOGIN_TIME);
 			packet.PutLong(now.ToUnixTimeSeconds() * 1000);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the visible areas of a map to a character.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_MAP_REVEAL_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MAP_REVEAL_LIST);
+
+			RevealedMap[] revealedMaps = conn.Account.GetRevealedMaps();
+
+			packet.PutInt(revealedMaps.Count());
+			foreach (var revealedMap in revealedMaps)
+			{
+				packet.PutInt(revealedMap.MapId);
+				packet.PutBin(revealedMap.Explored);
+			}
 
 			conn.Send(packet);
 		}
@@ -1608,7 +1633,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
 			packet.PutInt(character.Handle);
-			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
+			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
 			packet.PutInt(id); // SkillId
 			packet.PutInt(1); // Skill Level ?
 			packet.PutFloat(position.X);
@@ -1844,6 +1869,40 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_FACTION);
 			packet.PutInt(monster.Handle);
 			packet.PutInt((int)faction);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends a list of help topics to the client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_HELP_LIST(Character character)
+		{
+			// Get only the basic help topics for now. We probably need
+			// a character or account based list of help topics the
+			// player can see, potentially incl. the information of
+			// whether they've read a specific topic yet.
+
+			var defaultList = ChannelServer.Instance.Data.HelpDb.Entries.Values.Where(a => a.BasicHelp);
+
+			var packet = new Packet(Op.ZC_HELP_LIST);
+			packet.PutInt(defaultList.Count());
+			foreach (var data in defaultList)
+			{
+				packet.PutInt(data.Id);
+				packet.PutByte(0); // Unknown, maybe "has seen" toggle?
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// Request the client to send information that needs to be saved before exiting?
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SAVE_INFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SAVE_INFO);
 			conn.Send(packet);
 		}
 
