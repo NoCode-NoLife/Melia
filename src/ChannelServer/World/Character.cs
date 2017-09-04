@@ -21,6 +21,7 @@ namespace Melia.Channel.World
 		private bool _warping;
 
 		private object _lookAroundLock = new object();
+		private object _hpLock = new object();
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
@@ -112,7 +113,7 @@ namespace Melia.Channel.World
 		/// A higher value indicates the latest damage taken.
 		/// I'm not sure when this gets rolled over; More investigation is needed.
 		/// </summary>
-		public int HPChangeCounter { get; set; }
+		public int HpChangeCounter { get; set; }
 
 		/// <summary>
 		/// Specifies whether the character currently updates the visible
@@ -140,7 +141,7 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
-			this.HPChangeCounter = 0;
+			this.HpChangeCounter = 0;
 		}
 
 		/// <summary>
@@ -335,6 +336,56 @@ namespace Melia.Channel.World
 		public void LevelUp()
 		{
 			this.LevelUp(1);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="amount"></param>
+		public void AddHp(int amount)
+		{
+			int hp;
+			int priority;
+
+			lock (_hpLock)
+			{
+				this.HpChangeCounter += 1;
+				this.Hp += amount;
+
+				if (this.Hp > this.MaxHp)
+					this.Hp = this.MaxHp;
+
+				hp = this.Hp;
+				priority = this.HpChangeCounter;
+			}
+
+			// Do not place a send call inside of a lock.
+			Send.ZC_ADD_HP(this, amount, false, hp, priority);
+		}
+
+		/// <summary>
+		/// Subtracts the character's hp.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void SubtractHp(int amount)
+		{
+			int hp;
+			int priority;
+
+			lock (_hpLock)
+			{
+				this.HpChangeCounter += 1;
+				this.Hp -= amount;
+
+				if (this.Hp < 0)
+					this.Hp = 0;
+
+				hp = this.Hp;
+				priority = this.HpChangeCounter;
+			}
+
+			// Do not place a send call inside of a lock.
+			Send.ZC_ADD_HP(this, amount, true, hp, priority);
 		}
 
 		/// <summary>
