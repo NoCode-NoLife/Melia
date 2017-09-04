@@ -1764,11 +1764,11 @@ namespace Melia.Channel.Network
 		/// <param name="priority"></param>
 		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int currentHp, int priority)
 		{
+			// For some reason this is '1' for damage.
+			var healing = (isDamage ? 1 : amount);
+
 			var packet = new Packet(Op.ZC_ADD_HP);
 			packet.PutInt(character.Handle);
-
-			// for some reason this is '1' for damage.
-			int healing = (isDamage ? 1 : amount);
 			packet.PutInt(healing);
 			packet.PutInt(currentHp);
 			packet.PutInt(priority);

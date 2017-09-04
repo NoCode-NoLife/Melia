@@ -113,7 +113,7 @@ namespace Melia.Channel.World
 		/// A higher value indicates the latest damage taken.
 		/// I'm not sure when this gets rolled over; More investigation is needed.
 		/// </summary>
-		public int HpChangeCounter { get; set; }
+		public int HpChangeCounter { get; private set; }
 
 		/// <summary>
 		/// Specifies whether the character currently updates the visible
@@ -339,53 +339,25 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// 
+		/// Modifies character's HP by the given amount and updates the
+		/// client with ZC_ADD_HP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void AddHp(int amount)
+		public void ModifyHp(int amount)
 		{
-			int hp;
-			int priority;
+			int hp, priority;
+			var negative = (amount < 0);
 
+			// Make sure it's not possible for two calls to interfere
+			// with each other, so that the correct amount makes it to
+			// the client, with the correct priority.
 			lock (_hpLock)
 			{
-				this.HpChangeCounter += 1;
-				this.Hp += amount;
-
-				if (this.Hp > this.MaxHp)
-					this.Hp = this.MaxHp;
-
-				hp = this.Hp;
-				priority = this.HpChangeCounter;
+				hp = (this.Hp += amount);
+				priority = (this.HpChangeCounter += 1);
 			}
 
-			// Do not place a send call inside of a lock.
-			Send.ZC_ADD_HP(this, amount, false, hp, priority);
-		}
-
-		/// <summary>
-		/// Subtracts the character's hp.
-		/// </summary>
-		/// <param name="amount"></param>
-		public void SubtractHp(int amount)
-		{
-			int hp;
-			int priority;
-
-			lock (_hpLock)
-			{
-				this.HpChangeCounter += 1;
-				this.Hp -= amount;
-
-				if (this.Hp < 0)
-					this.Hp = 0;
-
-				hp = this.Hp;
-				priority = this.HpChangeCounter;
-			}
-
-			// Do not place a send call inside of a lock.
-			Send.ZC_ADD_HP(this, amount, true, hp, priority);
+			Send.ZC_ADD_HP(this, amount, negative, hp, priority);
 		}
 
 		/// <summary>
@@ -444,7 +416,7 @@ namespace Melia.Channel.World
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 					Send.ZC_FACTION(this.Connection, monster, FactionType.Npc);
 				}
-					
+
 				foreach (var monster in disappearMonsters)
 					Send.ZC_LEAVE(this.Connection, monster);
 
