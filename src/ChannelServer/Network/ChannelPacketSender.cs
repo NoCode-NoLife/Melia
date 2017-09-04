@@ -75,7 +75,7 @@ namespace Melia.Channel.Network
 
 			packet.PutLpString(conn.SessionKey);
 			packet.AddCommander(character);
-			
+
 			conn.Send(packet);
 		}
 
@@ -238,6 +238,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(skills.Length); // count
 
 			packet.PutShort(0); // No compression
+
 			//packet.BeginZlib();
 			foreach (var skill in skills)
 				packet.AddSkill(skill);
@@ -382,6 +383,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(abilities.Length); // count
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
+
 			//packet.BeginZlib();
 			foreach (var ability in abilities)
 			{
@@ -439,7 +441,7 @@ namespace Melia.Channel.Network
 				packet.PutInt(item.Value.Amount);
 				packet.PutInt(item.Value.Price);
 				packet.PutInt(item.Key);
-				packet.PutInt(1); // ?
+				packet.PutInt(1);
 				//packet.PutEmptyBin(0);
 			}
 

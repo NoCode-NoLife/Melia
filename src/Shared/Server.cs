@@ -126,7 +126,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.HelpDb, "db/help.txt", reload);
 				}
-        
+
 				if ((toLoad & DataToLoad.CustomCommands) != 0)
 				{
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt", reload);
