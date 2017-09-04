@@ -227,34 +227,36 @@ namespace Melia.Login.Database
 		{
 			lock (_moneyLock)
 			{
-				if (!this.CanAffordPurchase(cost))
-					return false;
+				var medals = this.Medals;
+				var giftMedals = this.GiftMedals;
+				var premiumMedals = this.PremiumMedals;
 
-				var oldMedals = this.Medals;
-				var oldGiftMedals = this.GiftMedals;
-				var oldPremiumMedals = this.PremiumMedals;
-
-				this.Medals -= cost;
-				if (this.Medals >= 0)
+				// Take only medals if possible
+				if (cost <= medals)
+				{
+					this.Medals -= cost;
 					return true;
+				}
 
-				this.GiftMedals += this.Medals;
-				this.Medals = 0;
-				if (this.GiftMedals >= 0)
+				// Take only medals and gift medals if possible
+				if (cost <= medals + giftMedals)
+				{
+					this.Medals = 0;
+					this.GiftMedals -= (cost - medals);
 					return true;
+				}
 
-				this.PremiumMedals += this.GiftMedals;
-				this.GiftMedals = 0;
-				if (this.PremiumMedals >= 0)
+				// Take it all
+				if (cost <= medals + giftMedals + premiumMedals)
+				{
+					this.Medals = 0;
+					this.GiftMedals = 0;
+					this.PremiumMedals -= (cost - medals - giftMedals);
 					return true;
-
-				// Revert the transaction.
-				this.Medals = oldMedals;
-				this.GiftMedals = oldGiftMedals;
-				this.PremiumMedals = oldPremiumMedals;
-
-				return false;
+				}
 			}
+
+			return false;
 		}
 
 		/// <summary>
