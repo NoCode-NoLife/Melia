@@ -107,6 +107,7 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
 			Send.ZC_CHAT_MACRO_LIST(character);
+			Send.ZC_MAP_REVEAL_LIST(conn);
 			Send.ZC_NPC_STATE_LIST(character);
 			Send.ZC_HELP_LIST(character);
 			// ZC_MYPAGE_MAP
@@ -1187,6 +1188,60 @@ namespace Melia.Channel.Network
 			}
 
 			Log.Info("CZ_RUN_GAMEEXIT_TIMER: User {0} is transferring to {1} state.", conn.Account.Name, destination);
+		}
+
+		/// <summary>
+		/// Contains newly uncovered areas of a map.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_MAP_REVEAL_INFO)]
+		public void CZ_MAP_REVEAL_INFO(ChannelConnection conn, Packet packet)
+		{
+			var mapId = packet.GetInt();
+			var visible = packet.GetBin(128);
+
+			var mapData = ChannelServer.Instance.Data.MapDb
+				.FirstOrDefault(x => x.Id == mapId);
+
+			if (mapData == null)
+			{
+				Log.Error("CZ_MAP_REVEAL_INFO: User '{0}' tried to update the map ID '{1}' which doesn't exist.", conn.Account.Name, mapId);
+				return;
+			}
+
+			var revealedMap = new RevealedMap(mapId, visible, 0);
+			conn.Account.AddRevealedMap(revealedMap);
+		}
+
+		/// <summary>
+		/// Reports to the server a percentage of the map that has been explored.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_MAP_SEARCH_INFO)]
+		public void CZ_MAP_SEARCH_INFO(ChannelConnection conn, Packet packet)
+		{
+			var map = packet.GetString(41);
+			float percentage = packet.GetFloat();
+
+			var mapData = ChannelServer.Instance.Data.MapDb
+				.FirstOrDefault(x => x.ClassName == map);
+
+			if (mapData == null)
+			{
+				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the map '{1}' which doesn't exist.", conn.Account.Name, map);
+				return;
+			}
+			
+			if (percentage < 0 || percentage > 100)
+			{
+				Log.Error("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, map);
+				return;
+			}
+
+			var revealedMap = new RevealedMap(mapData.Id, null, percentage);
+			conn.Account.AddRevealedMap(revealedMap);
 		}
 
 		/// <summary>
