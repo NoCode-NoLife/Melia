@@ -11,31 +11,17 @@
 //   History: 
 //------------------------------------------------
 
-typedef struct
-{
-    int itemId;
-    short propertiesSize;
-    byte empty[2];
-    int64 worldId;
-    int amount;
-    int price;
-    int index;
-    int i1;
-    if(propertiesSize > 0)
-        byte properties[propertiesSize];
-}
-Item;
+#include "common.bt"
 
 short op;
 int sequence;
 
 short size;
 int itemCount;
-short compression;
 
-if(compression != 0)
+if (checkCompression())
 {
-    byte compressedData[size-6-8];
+    compressedData compressed;
 }
 else
 {

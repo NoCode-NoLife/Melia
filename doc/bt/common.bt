@@ -256,3 +256,23 @@ typedef struct
     char msg[128];  // This may also be a class ID of an emoji.
     int pose;
 } CHAT_MACRO_INFO;
+
+typedef struct
+{
+    ushort header;
+    short size;
+    byte data[size];
+}
+compressedData <read=compressedDataRead>;
+
+string compressedDataRead(compressedData &v)
+{
+    local string result;
+    SPrintf(result, "Compressed data (%d)", v.size);
+    return result;
+}
+
+byte checkCompression()
+{
+    return (ReadUShort() == 0xFA8D);
+}
