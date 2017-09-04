@@ -45,4 +45,30 @@ namespace Melia.Shared.Const
 
 		// ...
 	}
+
+	/// <summary>
+	/// Constant strings that may be sent with the packet `ZC_ADDON_MSG`.
+	/// </summary>
+	public static class AddonMessage
+	{
+		/// <summary>
+		/// Used for quitting the game, transitioning from the zone to the barrack, and possibly other reasons.
+		/// </summary>
+		public const string EXPIREDITEM_ALERT_OPEN = "EXPIREDITEM_ALERT_OPEN";
+
+		public const string RESET_STAT_UP = "RESET_STAT_UP";
+		public const string FAIL_SHOP_BUY = "FAIL_SHOP_BUY";
+
+		/// <summary>
+		/// Opens the event banner.
+		/// </summary>
+		public const string DO_OPEN_EVENTBANNER_UI = "DO_OPEN_EVENTBANNER_UI";
+		public const string SET_CHAT_MACRO_DEFAULT = "SET_CHAT_MACRO_DEFAULT";
+		public const string FISHING_SUCCESS_COUNT = "FISHING_SUCCESS_COUNT";
+
+		/// <summary>
+		/// The UI for first time players showing how to move using the keyboard.
+		/// </summary>
+		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
+	}
 }
