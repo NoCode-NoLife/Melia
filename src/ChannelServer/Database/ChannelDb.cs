@@ -111,12 +111,12 @@ namespace Melia.Channel.Database
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
-					character.Hp = reader.GetInt32("hp");
 					character.MaxHp = reader.GetInt32("maxHp");
-					character.Sp = reader.GetInt32("sp");
+					character.Hp = reader.GetInt32("hp");
 					character.MaxSp = reader.GetInt32("maxSp");
-					character.Stamina = reader.GetInt32("stamina");
+					character.Sp = reader.GetInt32("sp");
 					character.MaxStamina = reader.GetInt32("maxStamina");
+					character.Stamina = reader.GetInt32("stamina");
 					character.Str = reader.GetFloat("str");
 					character.Con = reader.GetFloat("con");
 					character.Int = reader.GetFloat("int");
@@ -432,7 +432,7 @@ namespace Melia.Channel.Database
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Persists the account's chat macros to the database.
 		/// </summary>

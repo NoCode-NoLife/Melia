@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Shared.Util;
 
 namespace Melia.Shared.World
 {
@@ -85,7 +86,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Health points.
 		/// </summary>
-		public int Hp { get; set; }
+		public int Hp
+		{
+			get { return _hp; }
+			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
+		}
+		private int _hp;
 
 		/// <summary>
 		/// Maximum health points.
@@ -95,7 +101,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Spell points.
 		/// </summary>
-		public int Sp { get; set; }
+		public int Sp
+		{
+			get { return _sp; }
+			set { _sp = Math2.Clamp(0, this.MaxSp, value); }
+		}
+		private int _sp;
 
 		/// <summary>
 		/// Maximum spell points.
@@ -105,7 +116,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Stamina points.
 		/// </summary>
-		public int Stamina { get; set; }
+		public int Stamina
+		{
+			get { return _stamina; }
+			set { _stamina = Math2.Clamp(0, this.MaxStamina, value); }
+		}
+		private int _stamina;
 
 		/// <summary>
 		/// Maximum stamina points.
