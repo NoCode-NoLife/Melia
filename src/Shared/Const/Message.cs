@@ -71,4 +71,12 @@ namespace Melia.Shared.Const
 		/// </summary>
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
 	}
+
+	/// <summary>
+	/// Constant strings sent with `BC_NORMAL_Run`.
+	/// </summary>
+	public static class BarrackMessage
+	{
+		public const string THEMA_BUY_SUCCESS = "THEMA_BUY_SUCCESS";
+	}
 }

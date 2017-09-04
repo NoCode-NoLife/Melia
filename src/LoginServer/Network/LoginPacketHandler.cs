@@ -187,7 +187,7 @@ namespace Melia.Login.Network
 
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
@@ -398,17 +398,16 @@ namespace Melia.Login.Network
 				return;
 
 			// Check medals
-			if (conn.Account.Medals < barrackData.Price)
+			if (!conn.Account.Charge(barrackData.Price))
 			{
-				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy barrack without having the necessary coins.");
+				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy barrack without having the necessary medals.");
 				return;
 			}
-
-			conn.Account.Medals -= barrackData.Price;
+			
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, "THEMA_BUY_SUCCESS");
+			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>

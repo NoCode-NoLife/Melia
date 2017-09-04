@@ -2,11 +2,8 @@
 // For more information, see license file in the main folder
 
 using Melia.Login.World;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Login.Database
 {
@@ -15,6 +12,7 @@ namespace Melia.Login.Database
 	/// </summary>
 	public class Account
 	{
+		private object _moneyLock = new object();
 		private List<Character> _characters;
 
 		/// <summary>
@@ -47,9 +45,19 @@ namespace Melia.Login.Database
 		private string _teamName;
 
 		/// <summary>
-		/// Amount of medals (iCoins).
+		/// Amount of Free TP.
 		/// </summary>
 		public int Medals { get; set; }
+
+		/// <summary>
+		/// Amount of Event TP.
+		/// </summary>
+		public int GiftMedals { get; set; }
+
+		/// <summary>
+		/// Amount of TP.
+		/// </summary>
+		public int PremiumMedals { get; set; }
 
 		/// <summary>
 		/// Id of the barrack map.
@@ -197,6 +205,56 @@ namespace Melia.Login.Database
 		public void SetSelectedBarrackLayer(int layer)
 		{
 			this.SelectedBarracklayer = layer;
+		}
+
+		/// <summary>
+		/// Used to check if the account has enough combined medals to afford a purchase.
+		/// </summary>
+		/// <param name="cost"></param>
+		/// <returns></returns>
+		public bool CanAffordPurchase(int cost)
+		{
+			lock (_moneyLock)
+				return cost <= this.Medals + this.GiftMedals + this.PremiumMedals;
+		}
+
+		/// <summary>
+		/// Processes a charge attempt on the account.
+		/// </summary>
+		/// <param name="cost"></param>
+		/// <returns>Returns 'true' on a successful charge.</returns>
+		public bool Charge(int cost)
+		{
+			lock (_moneyLock)
+			{
+				if (!this.CanAffordPurchase(cost))
+					return false;
+
+				var oldMedals = this.Medals;
+				var oldGiftMedals = this.GiftMedals;
+				var oldPremiumMedals = this.PremiumMedals;
+
+				this.Medals -= cost;
+				if (this.Medals >= 0)
+					return true;
+
+				this.GiftMedals += this.Medals;
+				this.Medals = 0;
+				if (this.GiftMedals >= 0)
+					return true;
+
+				this.PremiumMedals += this.GiftMedals;
+				this.GiftMedals = 0;
+				if (this.PremiumMedals >= 0)
+					return true;
+
+				// Revert the transaction.
+				this.Medals = oldMedals;
+				this.GiftMedals = oldGiftMedals;
+				this.PremiumMedals = oldPremiumMedals;
+
+				return false;
+			}
 		}
 
 		/// <summary>
