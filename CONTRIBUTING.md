@@ -54,6 +54,7 @@ you to follow the following guidelines.
 
 Coding conventions
 ------------------------------
+## C#
 * Base: [MS Naming Guidelines](http://msdn.microsoft.com/en-us/library/xzf533w0%28v=vs.71%29.aspx),
         [MS C# Coding Conventions](http://msdn.microsoft.com/en-us/library/ff926074.aspx)
 * Exceptions:
@@ -65,11 +66,34 @@ Coding conventions
 * Excessive usage of the auto-formatting feature is encouraged.
   (Addon Suggestion: [Format document on Save](https://marketplace.visualstudio.com/items?itemName=mynkow.FormatdocumentonSave))
 * Avoid overuse of regions.
+* A space should be used after a comment. For example, `// comment`.
 
 EditorConfig compatible IDEs like VS2017 will automatically switch to
 formatting settings that match the coding conventions as much as possible.
 
-Branching Streategy
+## JSON
+* Our JSON based databases are arrays of objects on the lowest indent level.
+  Only sub-objects and -array may be indented with tabs.
+* All keys should use `camelCase` and no quotation.
+* All values should use a representing type. For example, bool instead
+  of "YES" and "NO" strings.
+* No comments should be placed at the end of lines.
+* Comments should only be used sparingly, to categorize data. Comments
+  that explain data or functions should go into the header.
+* A space should be used after a comment. For example, `// comment`.
+
+## Lua
+* Lua scripts should use tabs for indention.
+* Words in variables and functions should run together, as done in standard
+  Lua, e.g. `somefunction`. Underscores are acceptable as separators in
+  some situations, such as between the name and the "category" of a
+  function, e.g. `npchandler_nameofnpc`.
+* Constants should be all upper-case, with words separated by underscores.
+  For example, `SOME_CONSTANT`.
+* Locals should be used in favor of globals whenever possible.
+* A space should be used after a comment. For example, `-- comment`.
+
+Branching Strategy
 ------------------------------
 `master` is the stable branch, geared towards normal users. It should be
 compilable and working at all times, with little to no debug or test code.
