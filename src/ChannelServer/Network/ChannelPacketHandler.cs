@@ -1253,6 +1253,32 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Indicates a request from the client to trade with another character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_REQUEST)]
+		public void CZ_EXCHANGE_REQUEST(ChannelConnection conn, Packet packet)
+		{
+			var targetHandle = packet.GetInt();
+		}
+
+		/// <summary>
+		/// Specifies various commands found in 'customcommand.ies'.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CUSTOM_COMMAND)]
+		public void CZ_CUSTOM_COMMAND(ChannelConnection conn, Packet packet)
+		{
+			var command = packet.GetInt();
+			var classId = packet.GetInt();
+			var cmdArg = packet.GetInt();
+			
+			Log.Debug("CZ_CUSTOM_COMMAND: Received command of classId '{1}' with arg '{2}' but no handler was found.", classId, cmdArg);
+		}
+
+		/// <summary>
 		/// Sent after a loading screen is completed.
 		/// </summary>
 		/// <param name="conn"></param>

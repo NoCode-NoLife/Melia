@@ -881,7 +881,7 @@ namespace Melia.Channel.Network
 			packet.PutLong(character.Id);
 			foreach (var property in properties)
 			{
-				packet.PutShort(property);
+				packet.PutInt(property);
 				switch (property)
 				{
 					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
@@ -1204,6 +1204,18 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x14E);
+			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates exp and max exp.
 		/// </summary>
 		/// <param name="character"></param>
@@ -1348,7 +1360,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_MAP_REVEAL_LIST);
 
 			RevealedMap[] revealedMaps = conn.Account.GetRevealedMaps();
-			
+
 			packet.PutInt(revealedMaps.Count());
 			foreach (var revealedMap in revealedMaps)
 			{
@@ -1560,6 +1572,48 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Adjusts the time speed of the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="timeFactor"></param>
+		public static void ZC_TIME_FACTOR(ChannelConnection conn, float timeFactor = 1)
+		{
+			var packet = new Packet(Op.ZC_TIME_FACTOR);
+			packet.PutFloat(timeFactor);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sets the team ID for an entity.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="entity"></param>
+		/// <param name="team">The team ID which is a value of either '0', '1', or '2'.</param>
+		public static void ZC_TEAMID(ChannelConnection conn, IEntity entity, byte team)
+		{
+			var packet = new Packet(Op.ZC_TEAMID);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(team);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sets the entity's owner to the specified character handle.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="monster"></param>
+		public static void ZC_OWNER(Character character, IEntity entity)
+		{
+			var packet = new Packet(Op.ZC_OWNER);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Creates a skill in client
 		/// </summary>
 		/// <param name="character"></param>
@@ -1579,7 +1633,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(0x57);
 			packet.PutInt(character.Handle);
-			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect 
+			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
 			packet.PutInt(id); // SkillId
 			packet.PutInt(1); // Skill Level ?
 			packet.PutFloat(position.X);
@@ -1701,6 +1755,28 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates a characters HP for damage and healing.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="amount"></param>
+		/// <param name="isDamage"></param>
+		/// <param name="currentHp"></param>
+		/// <param name="priority"></param>
+		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int currentHp, int priority)
+		{
+			var packet = new Packet(Op.ZC_ADD_HP);
+			packet.PutInt(character.Handle);
+
+			// for some reason this is '1' for damage.
+			int healing = (isDamage ? 1 : amount);
+			packet.PutInt(healing);
+			packet.PutInt(currentHp);
+			packet.PutInt(priority);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Update creature basic stats (hp, mp)
 		/// </summary>
 		/// <param name="character"></param>
@@ -1782,6 +1858,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends the faction for the handle.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="monster"></param>
+		public static void ZC_FACTION(ChannelConnection conn, Monster monster, FactionType faction)
+		{
+			var packet = new Packet(Op.ZC_FACTION);
+			packet.PutInt(monster.Handle);
+			packet.PutInt((int)faction);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends a list of help topics to the client.
 		/// </summary>
 		/// <param name="character"></param>
@@ -1839,5 +1929,12 @@ namespace Melia.Channel.Network
 			this.Key = key;
 			this.Value = value;
 		}
+	}
+
+	public enum FactionType : int
+	{
+		Player = 1,
+		Monster = 2,
+		Npc = 3,
 	}
 }
