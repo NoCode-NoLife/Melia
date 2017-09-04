@@ -64,6 +64,7 @@
     <Compile Include="Const\Option.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\Shops.cs" />
     <Compile Include="Data\Database\Dialogues.cs" />
     <Compile Include="Data\Database\Skills.cs" />

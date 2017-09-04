@@ -1757,6 +1757,32 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends a list of help topics to the client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_HELP_LIST(Character character)
+		{
+			var packet = new Packet(Op.ZC_HELP_LIST);
+			packet.PutInt(HelpTopics.Default.Length);
+			foreach (string topic in HelpTopics.Default)
+			{
+				var data = ChannelServer.Instance.Data.HelpDb
+					.FirstOrDefault(x => x.ClassName == topic);
+
+				if (data == null)
+				{
+					Log.Error("ZC_HELP_LIST: Help data '{0}' not found.", topic);
+					return;
+				}
+
+				packet.PutInt(data.HelpId);
+				packet.PutByte(0); // Unknown.
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Acknowledges the client that the loading screen has completed.
 		/// </summary>
 		/// <param name="conn"></param>
