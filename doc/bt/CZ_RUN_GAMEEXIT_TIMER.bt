@@ -15,4 +15,4 @@ short op;
 int sequence;
 int checksum;
 
-string destination; // Maximum length is 32 characters.
+char destination[32];
