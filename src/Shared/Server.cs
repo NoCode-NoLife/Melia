@@ -122,6 +122,11 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt", reload);
 				}
 
+				if ((toLoad & DataToLoad.Help) != 0)
+				{
+					this.LoadDb(this.Data.HelpDb, "db/help.txt", reload);
+				}
+        
 				if ((toLoad & DataToLoad.CustomCommands) != 0)
 				{
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt", reload);
@@ -228,7 +233,8 @@ namespace Melia.Shared
 		Exp = 0x80,
 		Dialogues = 0x100,
 		Shops = 0x200,
-		CustomCommands = 0x400,
+		Help = 0x400,
+		CustomCommands = 0x800,
 
 		All = 0x7FFFFFFF,
 	}
