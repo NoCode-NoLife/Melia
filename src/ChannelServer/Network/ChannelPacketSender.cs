@@ -1935,8 +1935,8 @@ namespace Melia.Channel.Network
 
 	public enum FactionType : int
 	{
-		PLAYER = 1,
-		MONSTER = 2,
-		NPC = 3,
+		Player = 1,
+		Monster = 2,
+		Npc = 3,
 	}
 }

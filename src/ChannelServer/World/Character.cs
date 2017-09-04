@@ -391,7 +391,7 @@ namespace Melia.Channel.World
 				foreach (var monster in appearMonsters)
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
-					Send.ZC_FACTION(this.Connection, monster, FactionType.NPC);
+					Send.ZC_FACTION(this.Connection, monster, FactionType.Npc);
 				}
 					
 				foreach (var monster in disappearMonsters)
