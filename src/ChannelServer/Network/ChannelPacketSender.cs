@@ -989,6 +989,7 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(0); // handle?
 			packet.PutShort(arguments.Length);
+			packet.PutByte(0); // [i171032] ?
 			foreach (var arg in arguments)
 				packet.PutLpString(arg);
 

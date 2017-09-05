@@ -3,12 +3,13 @@
 //
 //      File: ZC_DIALOG_SELECT.bt
 //   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Version: i171032
+//   Purpose: Shows a dialog message and options to choose from
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i171032: b1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -19,4 +20,5 @@ short size;
 
 int handle;
 short count;
+byte b1;
 lpString strings[count] <optimize=false>;
