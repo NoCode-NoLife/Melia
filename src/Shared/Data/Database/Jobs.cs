@@ -25,6 +25,7 @@ namespace Melia.Shared.Data.Database
 		public int BarrackStance { get; set; }
 
 		public ISet<string> DefaultSkills { get; set; }
+		public ISet<string> DefaultAbilities { get; set; }
 	}
 
 	/// <summary>
@@ -58,8 +59,15 @@ namespace Melia.Shared.Data.Database
 			info.DefaultSkills = new HashSet<string>();
 			if (entry.ContainsKey("defaultSkills"))
 			{
-				foreach (var skillName in entry["defaultSkills"])
-					info.DefaultSkills.Add((string)skillName);
+				foreach (var name in entry["defaultSkills"])
+					info.DefaultSkills.Add((string)name);
+			}
+
+			info.DefaultAbilities = new HashSet<string>();
+			if (entry.ContainsKey("defaultAbilities"))
+			{
+				foreach (var name in entry["defaultAbilities"])
+					info.DefaultAbilities.Add((string)name);
 			}
 
 			this.Entries[info.Id] = info;
