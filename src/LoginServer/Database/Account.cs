@@ -4,6 +4,7 @@
 using Melia.Login.World;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Melia.Login.Database
 {
@@ -221,10 +222,16 @@ namespace Melia.Login.Database
 		/// <summary>
 		/// Processes a charge attempt on the account.
 		/// </summary>
-		/// <param name="cost"></param>
+		/// <param name="cost">Amount of medals to remove.</param>
 		/// <returns>Returns 'true' on a successful charge.</returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if cost is negative.
+		/// </exception>
 		public bool Charge(int cost)
 		{
+			if (cost < 0)
+				throw new ArgumentException("Cost must be a positive value.");
+
 			lock (_moneyLock)
 			{
 				var medals = this.Medals;
