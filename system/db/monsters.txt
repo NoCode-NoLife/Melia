@@ -4058,4 +4058,5 @@
 { monsterId: 60016, className: "parrotbill_dummy", name: "Battlebird", level: 40, exp: 192, classExp: 126 },
 { monsterId: 60017, className: "Pet_Rocksodon", name: "Rocksodon", level: 40, exp: 192, classExp: 126 },
 { monsterId: 60018, className: "penguin_green", name: "Leaf Penguin", level: 40, exp: 192, classExp: 126 },
+{ monsterId: 60020, className: "penguin_marine", name: "Pengmarine", level: 40, exp: 57, classExp: 37 },
 ]
