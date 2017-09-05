@@ -31,7 +31,7 @@ namespace Melia.Shared.Network
 		public const int BC_COMMANDER_CREATE = 0x14; // Size: 342
 		public const int BC_COMMANDER_DESTROY = 0x15; // Size: 7
 		public const int BC_START_GAMEOK = 0x16; // Size: 33
-		public const int BC_SINGLE_INFO = 0x17; // Size: 325
+		public const int BC_SINGLE_INFO = 0x17; // Size: 333
 		public const int BC_MESSAGE = 0x18; // Size: 0
 		public const int BC_ECHO = 0x19; // Size: 26
 		public const int BC_MYPAGE_MAP = 0x1A; // Size: 0
@@ -712,7 +712,7 @@ namespace Melia.Shared.Network
 			_sizes[Op.BC_COMMANDER_CREATE] = 342;
 			_sizes[Op.BC_COMMANDER_DESTROY] = 7;
 			_sizes[Op.BC_START_GAMEOK] = 33;
-			_sizes[Op.BC_SINGLE_INFO] = 325;
+			_sizes[Op.BC_SINGLE_INFO] = 333;
 			_sizes[Op.BC_MESSAGE] = 0;
 			_sizes[Op.BC_ECHO] = 26;
 			_sizes[Op.BC_MYPAGE_MAP] = 0;
