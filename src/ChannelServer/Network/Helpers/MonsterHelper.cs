@@ -52,7 +52,8 @@ namespace Melia.Channel.Network.Helpers
 			// it was, like this in IDA o.o
 			packet.PutByte(0); // parameters size
 			packet.PutByte(0); // ??
-			packet.PutByte(0); // i170175 unknown
+			packet.PutByte(0); // [i170175] ?
+			packet.PutInt(0); // [i171032] ?
 
 			packet.PutLpString(monster.Name);
 			packet.PutLpString(""); // UniqueName
