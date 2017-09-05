@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_CLICK_TRIGGER
+//   Authors: exec
+//   Version: i171032
+//   Purpose: Sent when requesting to talk to an NPC
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int handle;
+byte b1;
