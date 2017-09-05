@@ -26,5 +26,6 @@ namespace Melia.Shared.Const
 		UseCameraVibration2 = 53, // Sometimes sent as 52, sometimes as 53... bug? 52 should be "EnableNaturalEffect".
 		ApplyDeadParts = 54,
 		ApplyCharacterSilhouettes = 55,
+		MinimapSize = 44,
 	}
 }
