@@ -26,6 +26,7 @@ namespace Melia.Shared.Data.Database
 
 		public ISet<string> DefaultSkills { get; set; }
 		public ISet<string> DefaultAbilities { get; set; }
+		public ISet<string> DefaultItems { get; set; }
 	}
 
 	/// <summary>
@@ -56,6 +57,10 @@ namespace Melia.Shared.Data.Database
 			info.Dex = entry.ReadInt("dex");
 			info.BarrackStance = entry.ReadInt("barrackStance");
 
+			// TODO: It would be good if we could check right here whether
+			//   these skills and items and such actually exist.
+
+			// Skills
 			info.DefaultSkills = new HashSet<string>();
 			if (entry.ContainsKey("defaultSkills"))
 			{
@@ -63,11 +68,20 @@ namespace Melia.Shared.Data.Database
 					info.DefaultSkills.Add((string)name);
 			}
 
+			// Abilities
 			info.DefaultAbilities = new HashSet<string>();
 			if (entry.ContainsKey("defaultAbilities"))
 			{
 				foreach (var name in entry["defaultAbilities"])
 					info.DefaultAbilities.Add((string)name);
+			}
+
+			// Items
+			info.DefaultItems = new HashSet<string>();
+			if (entry.ContainsKey("defaultItems"))
+			{
+				foreach (var name in entry["defaultItems"])
+					info.DefaultItems.Add((string)name);
 			}
 
 			this.Entries[info.Id] = info;
