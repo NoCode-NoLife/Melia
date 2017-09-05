@@ -27,6 +27,7 @@ namespace Melia.Shared.Data.Database
 		public ISet<string> DefaultSkills { get; set; }
 		public ISet<string> DefaultAbilities { get; set; }
 		public ISet<string> DefaultItems { get; set; }
+		public IDictionary<EquipSlot, string> DefaultEquip { get; set; }
 	}
 
 	/// <summary>
@@ -84,7 +85,44 @@ namespace Melia.Shared.Data.Database
 					info.DefaultItems.Add((string)name);
 			}
 
+			// Equip
+			info.DefaultEquip = new Dictionary<EquipSlot, string>();
+			if (entry.ContainsKey("defaultEquip"))
+			{
+				var equipEntry = (JObject)entry["defaultEquip"];
+				foreach (var pair in equipEntry)
+				{
+					var slot = StringToEquipSlot(pair.Key);
+					var name = pair.Value;
+
+					info.DefaultEquip[slot] = (string)name;
+				}
+			}
+
 			this.Entries[info.Id] = info;
+		}
+
+		/// <summary>
+		/// Returns equip slot for given default equip key.
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		private static EquipSlot StringToEquipSlot(string str)
+		{
+			// TODO: Which slots are body and outer again?
+
+			switch (str)
+			{
+				case "rightHand": return EquipSlot.RightHand;
+				//case "body": return EquipSlot.;
+				case "shirt": return EquipSlot.Top;
+				//case "outer": return EquipSlot.;
+				case "pants": return EquipSlot.Pants;
+				case "gloves": return EquipSlot.Gloves;
+				case "boots": return EquipSlot.Shoes;
+			}
+
+			throw new DatabaseErrorException("Unknown equip slot '" + str + "'.");
 		}
 	}
 }
