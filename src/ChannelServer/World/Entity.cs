@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using Melia.Shared.World;
+
 namespace Melia.Channel.World
 {
 	public interface IEntity

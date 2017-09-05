@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Shared.Const;
 using System;
+using Melia.Shared.Const;
 
 namespace Melia.Shared.Network.Helpers
 {
@@ -26,7 +26,7 @@ namespace Melia.Shared.Network.Helpers
 			if (equipIds.Length != Items.EquipSlotCount)
 				throw new InvalidOperationException("Incorrect amount of equipment (" + equipIds.Length + ").");
 
-			for (int i = 0; i < equipIds.Length; ++i)
+			for (var i = 0; i < equipIds.Length; ++i)
 				packet.PutInt(equipIds[i]);
 
 			// [i10671, 2015-10-26 iCBT2] ?
@@ -40,7 +40,7 @@ namespace Melia.Shared.Network.Helpers
 
 			// Team ID
 			packet.PutInt(0);
-			
+
 			// Unknown. This could be a buffer just to keep the structure the same size since the equipment count changes.
 			packet.PutInt(0);
 		}

@@ -16,9 +16,9 @@ namespace Melia.Shared.Util.Commands
 		{
 			_commands = new Dictionary<string, ConsoleCommand>();
 
-			this.Add("help", "Displays this help", HandleHelp);
-			this.Add("exit", "Closes application/server", HandleExit);
-			this.Add("status", "Displays application status", HandleStatus);
+			this.Add("help", "Displays this help", this.HandleHelp);
+			this.Add("exit", "Closes application/server", this.HandleExit);
+			this.Add("status", "Displays application status", this.HandleStatus);
 		}
 
 		/// <summary>

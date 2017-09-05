@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using MsgPack.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MsgPack.Serialization;
 
 namespace Melia.Shared.Data
 {
@@ -134,7 +134,7 @@ namespace Melia.Shared.Data
 			{
 				using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
 				{
-					var serializer = MessagePackSerializer.Create<TList>();
+					var serializer = MessagePackSerializer.Get<TList>();
 					this.Entries = serializer.Unpack(stream);
 				}
 			}
@@ -168,7 +168,7 @@ namespace Melia.Shared.Data
 				{
 					using (var stream = new FileStream(path, FileMode.OpenOrCreate))
 					{
-						var serializer = MessagePackSerializer.Create<TList>();
+						var serializer = MessagePackSerializer.Get<TList>();
 						serializer.Pack(stream, this.Entries);
 					}
 

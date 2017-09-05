@@ -1,15 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Channel.Network;
-using Melia.Shared.Const;
-using Melia.Shared.Network;
-using Melia.Shared.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Melia.Channel.Network;
+using Melia.Shared.Const;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.World
 {
@@ -74,7 +71,7 @@ namespace Melia.Channel.World
 			{
 				foreach (var category in _items)
 				{
-					for (int i = 0; i < category.Value.Count; ++i)
+					for (var i = 0; i < category.Value.Count; ++i)
 						result.Add(category.Key.GetIndex(i), category.Value[i]);
 				}
 			}
@@ -95,7 +92,7 @@ namespace Melia.Channel.World
 			{
 				foreach (var category in _items)
 				{
-					for (int i = 0; i < category.Value.Count; ++i)
+					for (var i = 0; i < category.Value.Count; ++i)
 					{
 						var index = category.Key.GetIndex(i);
 						var item = category.Value[i];
@@ -121,7 +118,7 @@ namespace Melia.Channel.World
 			{
 				foreach (var category in _items)
 				{
-					for (int i = 0; i < category.Value.Count; ++i)
+					for (var i = 0; i < category.Value.Count; ++i)
 						result.Add(category.Key.GetIndex(i), category.Value[i].WorldId);
 				}
 			}
@@ -144,7 +141,7 @@ namespace Melia.Channel.World
 					throw new ArgumentException("Unknown item category.");
 
 				var items = _items[category];
-				for (int i = 0; i < items.Count; ++i)
+				for (var i = 0; i < items.Count; ++i)
 					result.Add(category.GetIndex(i), items[i].WorldId);
 			}
 
@@ -372,7 +369,7 @@ namespace Melia.Channel.World
 			lock (_syncLock)
 			{
 				var categoryItems = _items[cat];
-				for (int i = 0; i < categoryItems.Count; ++i)
+				for (var i = 0; i < categoryItems.Count; ++i)
 				{
 					var item = categoryItems[i];
 					if (item.Id == itemId && item.Amount < item.Data.MaxStack)
@@ -676,7 +673,7 @@ namespace Melia.Channel.World
 			foreach (var category in _items)
 			{
 				Log.Debug("  {0}", category.Key);
-				for (int i = 0; i < category.Value.Count; ++i)
+				for (var i = 0; i < category.Value.Count; ++i)
 					Log.Debug("    {0} : {1}", category.Key.GetIndex(i), category.Value[i].Data.ClassName);
 			}
 

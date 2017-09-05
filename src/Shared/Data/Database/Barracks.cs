@@ -2,10 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
-using Melia.Shared.Const;
 
 namespace Melia.Shared.Data.Database
 {

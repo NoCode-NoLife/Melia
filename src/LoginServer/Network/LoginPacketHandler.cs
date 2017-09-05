@@ -1,22 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System.Linq;
 using Melia.Login.Database;
 using Melia.Login.World;
 using Melia.Shared.Const;
-using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
 using Melia.Shared.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Melia.Login.Network
 {
@@ -166,7 +158,7 @@ namespace Melia.Login.Network
 				return;
 
 			// Check validity
-			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => Char.IsWhiteSpace(a)));
+			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => char.IsWhiteSpace(a)));
 			if (!valid)
 			{
 				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamChangeFailed);
@@ -403,7 +395,7 @@ namespace Melia.Login.Network
 				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy barrack without having the necessary medals.");
 				return;
 			}
-			
+
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
@@ -483,7 +475,7 @@ namespace Melia.Login.Network
 		{
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
-			byte command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
+			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
 		}
 	}
 }

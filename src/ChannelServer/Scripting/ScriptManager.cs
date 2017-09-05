@@ -3,20 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeluaLib;
-using Melia.Shared.Util;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
+using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Util;
 using Melia.Shared.World;
-using Melia.Channel.Network;
-using System.Runtime.CompilerServices;
-using Melia.Shared.Network;
-using System.Threading;
-using System.Text.RegularExpressions;
+using MeluaLib;
 
 namespace Melia.Channel.Scripting
 {
@@ -92,7 +87,7 @@ namespace Melia.Channel.Scripting
 				new Melua.LuaLib("math", Melua.luaopen_math),
 			});
 
-			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, OnPanic));
+			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, this.OnPanic));
 
 			// Functions
 			// --------------------------------------------------------------

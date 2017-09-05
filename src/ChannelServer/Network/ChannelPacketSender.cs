@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Melia.Channel.Network.Helpers;
 using Melia.Channel.World;
 using Melia.Shared.Const;
@@ -8,13 +12,6 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Channel.Network
 {
@@ -1359,7 +1356,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_MAP_REVEAL_LIST);
 
-			RevealedMap[] revealedMaps = conn.Account.GetRevealedMaps();
+			var revealedMaps = conn.Account.GetRevealedMaps();
 
 			packet.PutInt(revealedMaps.Count());
 			foreach (var revealedMap in revealedMaps)

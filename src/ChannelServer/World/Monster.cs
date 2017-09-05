@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using System;
 
 namespace Melia.Channel.World
 {

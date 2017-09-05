@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System.Collections.Generic;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
-using System.Collections.Generic;
 
 namespace Melia.Login.Util
 {
@@ -11,8 +11,8 @@ namespace Melia.Login.Util
 	{
 		public LoginConsoleCommands()
 		{
-			this.Add("auth", "<account> <level>", "Changes authority level of account", HandleAuth);
-			this.Add("passwd", "<account> <password>", "Changes password of account", HandlePasswd);
+			this.Add("auth", "<account> <level>", "Changes authority level of account", this.HandleAuth);
+			this.Add("passwd", "<account> <password>", "Changes password of account", this.HandlePasswd);
 		}
 
 		private CommandResult HandleAuth(string command, IList<string> args)

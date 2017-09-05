@@ -2,11 +2,6 @@
 // For more information, see license file in the main folder
 
 using Melia.Shared.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Shared.Network.Helpers
 {
@@ -47,7 +42,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutShort(0); // MaxShield
 		}
 	}
-	
+
 	public interface ICommander : IAppearancePc
 	{
 		int Handle { get; }

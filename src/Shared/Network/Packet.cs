@@ -2,13 +2,11 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Shared.Network
 {
@@ -174,7 +172,7 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public string GetString()
 		{
-			for (int i = _ptr; i < _buffer.Length; ++i)
+			for (var i = _ptr; i < _buffer.Length; ++i)
 			{
 				if (_buffer[i] == 0)
 				{
@@ -201,7 +199,7 @@ namespace Melia.Shared.Network
 			var size = Marshal.SizeOf(typeof(TStruct));
 			var buffer = this.GetBin(size);
 
-			IntPtr intPtr = Marshal.AllocHGlobal(buffer.Length);
+			var intPtr = Marshal.AllocHGlobal(buffer.Length);
 			Marshal.Copy(buffer, 0, intPtr, buffer.Length);
 			var val = Marshal.PtrToStructure(intPtr, typeof(TStruct));
 			Marshal.FreeHGlobal(intPtr);
@@ -602,12 +600,12 @@ namespace Melia.Shared.Network
 			sb.AppendLine();
 			sb.AppendLine(spacer);
 
-			for (int i = 0; i < length; i += 16)
+			for (var i = 0; i < length; i += 16)
 			{
 				sb.AppendFormat("{0:X4}   ", i);
 
-				int k = 0;
-				for (int j = 0; j < 16; ++j, ++k)
+				var k = 0;
+				for (var j = 0; j < 16; ++j, ++k)
 				{
 					if (i + j > length - 1)
 						break;
@@ -619,7 +617,7 @@ namespace Melia.Shared.Network
 				sb.Append("".PadLeft((16 - k) * 3, ' '));
 				sb.Append("  ");
 
-				for (int j = 0; j < 16; ++j)
+				for (var j = 0; j < 16; ++j)
 				{
 					if (i + j > length - 1)
 						break;

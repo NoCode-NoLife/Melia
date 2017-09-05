@@ -3,9 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 using Melia.Shared.Const;
+using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
 {

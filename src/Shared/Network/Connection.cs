@@ -1,17 +1,11 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Shared.Database;
-using Melia.Shared.Network.Crypto;
-using Melia.Shared.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading;
+using Melia.Shared.Network.Crypto;
+using Melia.Shared.Util;
 
 namespace Melia.Shared.Network
 {
@@ -109,7 +103,7 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public void BeginReceive()
 		{
-			_socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, OnReceive, null);
+			_socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, this.OnReceive, null);
 		}
 
 		/// <summary>

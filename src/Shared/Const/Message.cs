@@ -1,12 +1,6 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Melia.Shared.Const
 {
 	/// <summary>
@@ -23,7 +17,7 @@ namespace Melia.Shared.Const
 		NameAlreadyExists = 6,
 		CannotCreateCharacter = 7,
 		CharacterNameTooShort = 8, // "The character name must be at least %s characters.
-		// 9
+								   // 9
 		CannotDeleteCharacter1 = 10,
 		CreateCharFail = 11,
 		CharacterNameTooLong = 12, // "The character name must be less than %s characters.

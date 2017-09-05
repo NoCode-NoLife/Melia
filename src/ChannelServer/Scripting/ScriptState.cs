@@ -3,7 +3,6 @@
 
 using Melia.Channel.Network;
 using Melia.Channel.World;
-using System;
 
 namespace Melia.Channel.Scripting
 {

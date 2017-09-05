@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Globalization;
 
 namespace Melia.Shared.Util.Configuration
 {
@@ -57,7 +56,7 @@ namespace Melia.Shared.Util.Configuration
 			{
 				foreach (var line in fr)
 				{
-					int pos = -1;
+					var pos = -1;
 
 					// Check for seperator
 					if ((pos = line.Value.IndexOf(':')) < 0)

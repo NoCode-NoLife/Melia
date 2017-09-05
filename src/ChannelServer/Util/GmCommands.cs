@@ -1,20 +1,16 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Channel.Network;
-using Melia.Channel.World;
-using Melia.Shared.Const;
-using Melia.Shared.Data;
-using Melia.Shared.Network;
-using Melia.Shared.Util;
-using Melia.Shared.Util.Commands;
-using Melia.Shared.World;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Melia.Channel.Network;
+using Melia.Channel.World;
+using Melia.Shared.Const;
+using Melia.Shared.Util;
+using Melia.Shared.Util.Commands;
+using Melia.Shared.World;
 
 namespace Melia.Channel.Util
 {
@@ -32,30 +28,30 @@ namespace Melia.Channel.Util
 			// in the configuration file "commands.conf".
 
 			// Official
-			Add("requpdateequip", "", HandleReqUpdateEquip);
+			Add("requpdateequip", "", this.HandleReqUpdateEquip);
 
 			// Normal
-			Add("where", "", HandleWhere);
-			Add("name", "<new name>", HandleName);
+			Add("where", "", this.HandleWhere);
+			Add("name", "<new name>", this.HandleName);
 
 			// GMs
-			Add("jump", "<x> <y> <z>", HandleJump);
-			Add("warp", "<map id> <x> <y> <z>", HandleWarp);
-			Add("item", "<item id> [amount]", HandleItem);
-			Add("spawn", "<monster id> [amount=1]", HandleSpawn);
-			Add("madhatter", "", HandleGetAllHats);
-			Add("job", "<job id>", HandleJob);
-			Add("levelup", "<levels>", HandleLevelUp);
-			Add("speed", "<speed>", HandleSpeed);
-			Add("iteminfo", "<name>", HandleItemInfo);
-			Add("monsterinfo", "<name>", HandleMonsterInfo);
-			Add("go", "<destination>", HandleGo);
-			Add("clearinv", "", HandleClearInventory);
+			Add("jump", "<x> <y> <z>", this.HandleJump);
+			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
+			Add("item", "<item id> [amount]", this.HandleItem);
+			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
+			Add("madhatter", "", this.HandleGetAllHats);
+			Add("job", "<job id>", this.HandleJob);
+			Add("levelup", "<levels>", this.HandleLevelUp);
+			Add("speed", "<speed>", this.HandleSpeed);
+			Add("iteminfo", "<name>", this.HandleItemInfo);
+			Add("monsterinfo", "<name>", this.HandleMonsterInfo);
+			Add("go", "<destination>", this.HandleGo);
+			Add("clearinv", "", this.HandleClearInventory);
 
 			// Dev
-			Add("test", "", HandleTest);
-			Add("reloadscripts", "", HandleReloadScripts);
-			Add("reloadconf", "", HandleReloadConf);
+			Add("test", "", this.HandleTest);
+			Add("reloadscripts", "", this.HandleReloadScripts);
+			Add("reloadconf", "", this.HandleReloadConf);
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
@@ -265,7 +261,7 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 
 			int itemId;
-			int amount = 1;
+			var amount = 1;
 
 			// Get and check id
 			if (!int.TryParse(args[1], out itemId))
@@ -314,7 +310,7 @@ namespace Melia.Channel.Util
 			}
 
 			var rnd = new Random(Environment.TickCount);
-			for (int i = 0; i < amount; ++i)
+			for (var i = 0; i < amount; ++i)
 			{
 				var monster = new Monster(id, NpcType.Monster);
 
@@ -343,7 +339,7 @@ namespace Melia.Channel.Util
 		private CommandResult HandleGetAllHats(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			var added = 0;
-			for (int itemId = 628001; itemId <= 629502; ++itemId)
+			for (var itemId = 628001; itemId <= 629502; ++itemId)
 			{
 				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 					continue;
@@ -476,7 +472,7 @@ namespace Melia.Channel.Util
 
 			var eItems = items.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
 			var max = 20;
-			for (int i = 0; eItems.MoveNext() && i < max; ++i)
+			for (var i = 0; eItems.MoveNext() && i < max; ++i)
 			{
 				var item = eItems.Current;
 				this.SystemMessage(sender, "{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
@@ -502,7 +498,7 @@ namespace Melia.Channel.Util
 
 			var entries = monsters.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
 			var max = 20;
-			for (int i = 0; entries.MoveNext() && i < max; ++i)
+			for (var i = 0; entries.MoveNext() && i < max; ++i)
 			{
 				var current = entries.Current;
 				this.SystemMessage(sender, "{0}: {1}", current.Id, current.Name);

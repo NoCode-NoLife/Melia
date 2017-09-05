@@ -13,8 +13,8 @@ namespace Melia.Login.Network.Helpers
 			packet.AddAppearanceBarrackPc(pc);
 
 			// Equip properties, short->length
-			int[] properties = pc.GetEquipmentProperties();
-			for (int i = 0; i < properties.Count(); ++i)
+			var properties = pc.GetEquipmentProperties();
+			for (var i = 0; i < properties.Count(); ++i)
 				packet.PutShort(0);
 
 			// Unknown

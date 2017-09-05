@@ -1,22 +1,17 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.IO;
+using System.Linq;
 using Melia.Login.Database;
 using Melia.Login.Network;
 using Melia.Login.Util;
+using Melia.Login.Util.Configuration;
 using Melia.Shared;
-using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
-using Melia.Shared.Util.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Login.Util.Configuration;
 
 namespace Melia.Login
 {

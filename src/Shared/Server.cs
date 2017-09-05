@@ -1,16 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.IO;
 using Melia.Shared.Data;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Shared
 {
@@ -203,7 +199,7 @@ namespace Melia.Shared
 		public void NavigateToRoot()
 		{
 			// Go back max 2 folders, the bins should be in [root]/bin/(Debug|Release)
-			for (int i = 0; i < 3; ++i)
+			for (var i = 0; i < 3; ++i)
 			{
 				if (Directory.Exists("system") && Directory.Exists("user"))
 				{

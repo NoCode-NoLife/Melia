@@ -2,11 +2,8 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Shared.Util
 {

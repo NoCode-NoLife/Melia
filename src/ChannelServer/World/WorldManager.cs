@@ -3,10 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {
@@ -46,7 +43,7 @@ namespace Melia.Channel.World
 
 			// Start timer on the next HeartbeatTime
 			// (eg on the next full 500 ms) and run it regularly afterwards.
-			_heartbeatTimer = new Timer(Heartbeat, null, HeartbeatTime - (now.Ticks / 10000 % HeartbeatTime), HeartbeatTime);
+			_heartbeatTimer = new Timer(this.Heartbeat, null, HeartbeatTime - (now.Ticks / 10000 % HeartbeatTime), HeartbeatTime);
 		}
 
 		/// <summary>

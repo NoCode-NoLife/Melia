@@ -24,7 +24,7 @@ namespace Melia.Shared.Data
 			using (var fs = new FileStream(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			using (var reader = new StreamReader(fs))
 			{
-				for (int i = 0; !reader.EndOfStream; ++i)
+				for (var i = 0; !reader.EndOfStream; ++i)
 				{
 					var entry = this.GetEntry(reader.ReadLine());
 					if (entry.Count < 1)
@@ -50,7 +50,7 @@ namespace Melia.Shared.Data
 			{
 				int ptr = 0, braces = 0;
 				bool inString = false, comment = false;
-				for (int i = 0; i < csv.Length; ++i)
+				for (var i = 0; i < csv.Length; ++i)
 				{
 					// End of line?
 					var eol = (i == csv.Length - 1);
@@ -72,7 +72,7 @@ namespace Melia.Shared.Data
 					if (!inString && csv[i] == '/' && csv[i + 1] == '/')
 						comment = true;
 
-					if ((csv[i] == Seperator && braces == 0 && !inString) || eol || comment)
+					if ((csv[i] == this.Seperator && braces == 0 && !inString) || eol || comment)
 					{
 						// Inc by one to get the last char
 						if (eol) i++;

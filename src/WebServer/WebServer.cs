@@ -1,18 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.Collections.Generic;
 using Melia.Shared;
+using Melia.Shared.Database;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.Util.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Swebs;
-using Melia.Shared.Database;
 
 namespace Melia.Web
 {

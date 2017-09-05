@@ -1,23 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
-using Melia.Shared.World;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Melia.Channel.Network
 {
@@ -501,7 +492,7 @@ namespace Melia.Channel.Network
 
 			// The client sends the entire list of chat macros each as a single packet.
 			// Empty macros are also sent, but there's no reason to persist them.
-			if (String.IsNullOrEmpty(message) && pose == 0)
+			if (string.IsNullOrEmpty(message) && pose == 0)
 				return;
 
 			var macro = new ChatMacro(index, message, pose);
@@ -821,7 +812,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			for (int i = 0; i < count; ++i)
+			for (var i = 0; i < count; ++i)
 			{
 				var targetHandle = packet.GetInt();
 
@@ -860,7 +851,7 @@ namespace Melia.Channel.Network
 					if (count != 5)
 						throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
 
-					for (int i = 0; i < count; ++i)
+					for (var i = 0; i < count; ++i)
 					{
 						var stat = packet.GetInt();
 
@@ -994,7 +985,7 @@ namespace Melia.Channel.Network
 
 			var size = packet.GetShort();
 			var count = packet.GetInt();
-			for (int i = 0; i < count; ++i)
+			for (var i = 0; i < count; ++i)
 			{
 				var productId = packet.GetInt();
 				var amount = packet.GetInt();
@@ -1094,7 +1085,7 @@ namespace Melia.Channel.Network
 
 			var size = packet.GetShort();
 			var count = packet.GetInt();
-			for (int i = 0; i < count; ++i)
+			for (var i = 0; i < count; ++i)
 			{
 				var worldId = packet.GetLong();
 				var amount = packet.GetInt();
@@ -1232,7 +1223,7 @@ namespace Melia.Channel.Network
 		public void CZ_MAP_SEARCH_INFO(ChannelConnection conn, Packet packet)
 		{
 			var map = packet.GetString(41);
-			float percentage = packet.GetFloat();
+			var percentage = packet.GetFloat();
 
 			var mapData = ChannelServer.Instance.Data.MapDb.Find(map);
 			if (mapData == null)
@@ -1273,7 +1264,7 @@ namespace Melia.Channel.Network
 			var command = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
-			
+
 			Log.Debug("CZ_CUSTOM_COMMAND: Received command of classId '{1}' with arg '{2}' but no handler was found.", classId, cmdArg);
 		}
 

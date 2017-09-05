@@ -1,18 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
 using Melia.Shared.Const;
-using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Melia.Channel.World
 {

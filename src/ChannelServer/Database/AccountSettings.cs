@@ -1,12 +1,10 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Shared.Const;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Melia.Shared.Const;
 
 namespace Melia.Channel.Database
 {
@@ -47,7 +45,7 @@ namespace Melia.Channel.Database
 			if (split.Length % 2 != 0)
 				throw new ArgumentException("String doesn't contain an even amount of keys and values.");
 
-			for (int i = 0; i < split.Length; i += 2)
+			for (var i = 0; i < split.Length; i += 2)
 			{
 				int option, value;
 
