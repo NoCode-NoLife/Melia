@@ -23,6 +23,8 @@ namespace Melia.Shared.Data.Database
 		public int Spr { get; set; }
 		public int Dex { get; set; }
 		public int BarrackStance { get; set; }
+
+		public ISet<string> DefaultSkills { get; set; }
 	}
 
 	/// <summary>
@@ -52,6 +54,13 @@ namespace Melia.Shared.Data.Database
 			info.Spr = entry.ReadInt("spr");
 			info.Dex = entry.ReadInt("dex");
 			info.BarrackStance = entry.ReadInt("barrackStance");
+
+			info.DefaultSkills = new HashSet<string>();
+			if (entry.ContainsKey("defaultSkills"))
+			{
+				foreach (var skillName in entry["defaultSkills"])
+					info.DefaultSkills.Add((string)skillName);
+			}
 
 			this.Entries[info.Id] = info;
 		}
