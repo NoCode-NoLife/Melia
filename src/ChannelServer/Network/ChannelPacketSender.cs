@@ -510,8 +510,9 @@ namespace Melia.Channel.Network
 			}
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
+			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutString(message);
-			packet.PutEmptyBin(16); // message starts at 180 bytes.
+
 			character.Map.Broadcast(packet, character);
 		}
 
@@ -541,6 +542,7 @@ namespace Melia.Channel.Network
 			}
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
+			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutString(message);
 
 			conn.Send(packet);
