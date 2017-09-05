@@ -11,8 +11,7 @@
 //   History: 
 //   - i11025:  BARRACK_PC.i1 was added
 //   - i11257:  AccountProperties.s1 was added
-//   - i170175: BARRACK_PC.b1~b5 were added
-//   - i170175: BARRACK_PC.jobIdCount doesn't seem to be a list anymore
+//   - i170175: BARRACK_PC.b1~b3 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -29,9 +28,15 @@ AccountProperties;
 
 typedef struct
 {
-    APPEARANCE_BARRACK_PC abpc;
     ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
-  
+}
+EquipProperties;
+
+typedef struct
+{
+    APPEARANCE_BARRACK_PC abpc;
+    EquipProperties equipProperties;
+    
     byte b1;
     byte b2;
     byte b3;
@@ -41,7 +46,13 @@ typedef struct
     short jobIds[jobIdCount];
     
     int i1;
-} BARRACK_PC;
+}
+BARRACK_PC <read=readBARRACK_PC>;
+
+string readBARRACK_PC(BARRACK_PC &v)
+{
+    return v.abpc.appearancePc.name;
+}
 
 short op;
 int sequence;
