@@ -1833,6 +1833,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates the stance of a character.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_STANCE_CHANGE(Character character)
+		{
+			var packet = new Packet(Op.ZC_STANCE_CHANGE);
+			packet.PutInt(character.Handle);
+			packet.PutInt(character.Stance);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
 		/// Reply packet when skill melee ground is placed
 		/// </summary>
 		/// <param name="character"></param>
