@@ -13,11 +13,13 @@
 //   - i11025:  APPEARANCE_PC.teamId was added
 //   - i11025:  MONSTER.s1~s2 were removed
 //   - i11025:  EquipSlotCount increased to 21
-//   - i170175: EquipSlotCount increased to 22
+//   - i170175: EquipSlotCount increased to 22 (lens)
 //   - i170175: APPEARANCE_PC.i9 was added
+//   - i171032: APPEARANCE_PC.i9 was removed
+//   - i171032: EquipSlotCount increased to 23 (wings)
 //------------------------------------------------
 
-const int EquipSlotCount = 22;
+const int EquipSlotCount = 23;
 
 // Length-prefixed string
 typedef struct
@@ -121,7 +123,6 @@ typedef struct
     short hair;
     short pose;
     int teamId;
-    int i9;
 }
 APPEARANCE_PC;
 

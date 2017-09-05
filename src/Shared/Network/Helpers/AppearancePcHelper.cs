@@ -40,9 +40,6 @@ namespace Melia.Shared.Network.Helpers
 
 			// Team ID
 			packet.PutInt(0);
-
-			// Unknown. This could be a buffer just to keep the structure the same size since the equipment count changes.
-			packet.PutInt(0);
 		}
 	}
 

@@ -160,6 +160,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
+			packet.PutInt(0);
 
 			// [i11025 (2016-02-26)] Removed?
 			//packet.PutString("None", 49); // Party name

@@ -44,6 +44,7 @@ int titleAchievementId;
 int i3;
 byte b2;
 APPEARANCE_PC appearancePc;
+int i5;
 
 //char partyName[49];
 
