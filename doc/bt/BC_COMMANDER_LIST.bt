@@ -35,11 +35,11 @@ typedef struct
     byte b1;
     byte b2;
     byte b3;
-    byte b4;
-    byte b5;
-
+    
     // maybe job history?
-    short jobIdCount;   // this is the current job now?
+    short jobIdCount;
+    short jobIds[jobIdCount];
+    
     int i1;
 } BARRACK_PC;
 
@@ -63,3 +63,7 @@ if (s1 != 0)
 // 02 00
 // 0B 00 00 00 01 00
 // 0C 00 00 00 00 00
+
+short s2;
+int i2;
+short s3;
