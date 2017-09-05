@@ -17,7 +17,11 @@ namespace Melia.Login.Network.Helpers
 			for (var i = 0; i < properties.Count(); ++i)
 				packet.PutShort(0);
 
-			// Unknown
+			// [i171032] ?
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			// [i170175] ?
 			packet.PutByte(1);
 			packet.PutByte(1);
 			packet.PutByte(1);

@@ -3,7 +3,7 @@
 //
 //      File: BC_COMMANDER_LIST.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i171032
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,6 +12,7 @@
 //   - i11025:  BARRACK_PC.i1 was added
 //   - i11257:  AccountProperties.s1 was added
 //   - i170175: BARRACK_PC.b1~b3 were added
+//   - i171032: BARRACK_PC.b4~b5 were added (apparently in front of b1)
 //------------------------------------------------
 
 #include "common.bt"
@@ -37,6 +38,8 @@ typedef struct
     APPEARANCE_BARRACK_PC abpc;
     EquipProperties equipProperties;
     
+    byte b4;
+    byte b5;
     byte b1;
     byte b2;
     byte b3;
@@ -75,6 +78,7 @@ if (s1 != 0)
 // 0B 00 00 00 01 00
 // 0C 00 00 00 00 00
 
+// Junk?
 short s2;
 int i2;
 short s3;
