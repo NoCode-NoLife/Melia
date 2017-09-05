@@ -5,6 +5,7 @@ using System.Linq;
 using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
 using Melia.Shared.World;
+using Melia.Shared.Util;
 
 namespace Melia.Login.World
 {
@@ -63,6 +64,34 @@ namespace Melia.Login.World
 		{
 			// TODO: This needs to return the actual properties of equipment which have variable lengths.
 			return this.GetEquipIds();
+		}
+
+		/// <summary>
+		/// Sets the default equipment for a character.
+		/// </summary>
+		/// <returns></returns>
+		public bool SetDefaultEquipment()
+		{
+			var jobData = LoginServer.Instance.Data.JobDb.Find(this.Job);
+			if (jobData == null)
+			{
+				Log.Error("SetDefaultEquipment : Unable to set default equipment for job '{0}' because it doesn't exist.", this.Job);
+				return false;
+			}
+
+			foreach (var equip in jobData.DefaultEquip)
+			{
+				var itemData = LoginServer.Instance.Data.ItemDb.Find(equip.Value);
+				if (itemData == null)
+				{
+					Log.Error("SetDefaultEquipment : Unable to find item data with class name '{0}'.", equip.Value);
+					return false;
+				}
+
+				this.Equipment[(int)equip.Key] = itemData.Id;
+			}
+
+			return true;
 		}
 	}
 }

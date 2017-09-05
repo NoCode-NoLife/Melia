@@ -258,6 +258,12 @@ namespace Melia.Login.Network
 			character.Spr = jobData.Spr;
 			character.Dex = jobData.Dex;
 
+			if (!character.SetDefaultEquipment())
+			{
+				Log.Error("CB_COMMANDER_CREATE: An error occurred while setting the default equipment for a new character.");
+				return;
+			}
+
 			conn.Account.CreateCharacter(character);
 
 			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
