@@ -9,7 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History:
-//   - i170175: i1 was added
+//   - i170175: isTrickPacket was added
 //   - i170175: property id type changed from short to int
 //------------------------------------------------
 
@@ -86,7 +86,8 @@ if (isTrickPacket == 0)
         property prop;
         i += sizeof(prop);
     }
-} else
+}
+else
 {
     // TRICK_PACKET_ZC_OBJECT_PROPERTY
     // This can be a PC, PCEtc, Account, etc. type of property.

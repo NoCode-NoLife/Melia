@@ -878,7 +878,10 @@ namespace Melia.Channel.Network
 				return;
 
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+
 			packet.PutLong(character.Id);
+			packet.PutInt(0); // isTrickPacket
+
 			foreach (var property in properties)
 			{
 				packet.PutInt(property);
