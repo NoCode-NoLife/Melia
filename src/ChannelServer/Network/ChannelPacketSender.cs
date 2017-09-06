@@ -1216,7 +1216,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_SetSkillSpeed(Character character, int skillId, float value)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x78);
+			packet.PutInt(SubOp.Zone.SetSkillSpeed);
 			packet.PutInt(skillId);
 			packet.PutFloat(value);
 
@@ -1231,13 +1231,13 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_SetHitDelay(Character character, int skillId, float value)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x79);
+			packet.PutInt(SubOp.Zone.SetHitDelay);
 			packet.PutInt(skillId);
 			packet.PutFloat(value);
 
 			character.Connection.Send(packet);
 		}
-		
+
 		/// <summary>
 		/// Sends the session key to the client.
 		/// </summary>
@@ -1257,7 +1257,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_HatVisibleState(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x181); // subop
+			packet.PutInt(SubOp.Zone.HatVisibleState);
 
 			packet.PutInt(character.Handle);
 			packet.PutByte((character.VisibleHats & HatVisibleStates.Hat1) != 0);
@@ -1758,7 +1758,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_AccountUpdate(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x4C); // SubOp
+			packet.PutInt(SubOp.Zone.AccountUpdate);
 			packet.PutLong(character.AccountId);
 			packet.AddAccountProperties(character.Connection.Account);
 

@@ -27,9 +27,10 @@ namespace Melia.Shared.Network
 			public const int AccountUpdate = 0x4C;
 			public const int Skill = 0x57;
 			public const int ParticleEffect = 0x61;
-			public const int SetSklSpeed = 0x78;
+			public const int SetSkillSpeed = 0x78;
 			public const int SetHitDelay = 0x79;
 			public const int SetSessionKey = 0x14E;
+			public const int HatVisibleState = 0x181;
 		}
 	}
 }
