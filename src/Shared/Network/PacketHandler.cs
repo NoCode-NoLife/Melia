@@ -113,10 +113,11 @@ namespace Melia.Shared.Network
 						foreach (var op in attr.Ops)
 							this.Register(op, func);
 					}
-				} catch (Exception)
+				}
+				catch (Exception ex)
 				{
-					Log.Error("An error occurred while attempting to register the '{0}' method. Please make certain it is defined correctly.", method.Name);
-					throw;
+					Log.Error("Failed to register packet handler '{0}': {1}", method.Name, ex);
+					CliUtil.Exit(1);
 				}
 			}
 		}
