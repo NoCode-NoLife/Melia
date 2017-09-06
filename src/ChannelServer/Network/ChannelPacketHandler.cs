@@ -905,7 +905,7 @@ namespace Melia.Channel.Network
 				case TxType.Skills:
 					// TODO: Handle skill learning
 					var jobId = packet.GetInt();
-					Send.ZC_CHAT(conn, character, "Skills can't be learned yet.");
+					character.ServerMessage("Skills can't be learned yet.");
 					break;
 
 				default:

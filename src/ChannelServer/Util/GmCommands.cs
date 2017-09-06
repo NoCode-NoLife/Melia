@@ -118,7 +118,7 @@ namespace Melia.Channel.Util
 			var command = this.GetCommand(commandName);
 			if (command == null)
 			{
-				this.SystemMessage(character, "Command not found.");
+				character.ServerMessage("Command not found.");
 				return true;
 			}
 
@@ -128,7 +128,7 @@ namespace Melia.Channel.Util
 			{
 				if (args.Length < 2)
 				{
-					this.SystemMessage(character, "Char commands require a target.");
+					character.ServerMessage("Char commands require a target.");
 					return true;
 				}
 
@@ -136,7 +136,7 @@ namespace Melia.Channel.Util
 				target = ChannelServer.Instance.World.GetCharacterByTeamName(targetName);
 				if (target == null)
 				{
-					this.SystemMessage(character, "Target not found.");
+					character.ServerMessage("Target not found.");
 					return true;
 				}
 
@@ -150,13 +150,13 @@ namespace Melia.Channel.Util
 			var auth = ChannelServer.Instance.Conf.Commands.GetAuth(commandName);
 			if ((!isCharCommand && auth.Auth < 0) || (isCharCommand && auth.CharAuth < 0))
 			{
-				this.SystemMessage(character, "This command has been disabled.");
+				character.ServerMessage("This command has been disabled.");
 				return true;
 			}
 
 			if ((!isCharCommand && conn.Account.Authority < auth.Auth) || (isCharCommand && conn.Account.Authority < auth.CharAuth))
 			{
-				this.SystemMessage(character, "Your authority level is too low to use this command.");
+				character.ServerMessage("Your authority level is too low to use this command.");
 				return true;
 			}
 
@@ -164,27 +164,14 @@ namespace Melia.Channel.Util
 			var result = command.Func(conn, character, target, message, args);
 			if (result == CommandResult.Fail)
 			{
-				this.SystemMessage(character, "Failed to execute command.");
+				character.ServerMessage("Failed to execute command.");
 			}
 			else if (result == CommandResult.InvalidArgument)
 			{
-				this.SystemMessage(character, "Invalid argument, usage: {0}{1} {2}", ChannelServer.Instance.Conf.Commands.Prefix, commandName, command.Usage);
+				character.ServerMessage("Invalid argument, usage: {0}{1} {2}", ChannelServer.Instance.Conf.Commands.Prefix, commandName, command.Usage);
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Sends system message to character.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="format"></param>
-		/// <param name="args"></param>
-		private void SystemMessage(Character character, string format, params object[] args)
-		{
-			// Since there doesn't seem to be a custom system message packet,
-			// we'll misuse chat for now.
-			Send.ZC_CHAT(character.Connection, character, string.Format(format, args));
 		}
 
 		//-------------------------------------------------------------------
@@ -198,7 +185,7 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleWhere(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			this.SystemMessage(character, "You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+			character.ServerMessage("You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
 
 			return CommandResult.Okay;
 		}
@@ -232,7 +219,7 @@ namespace Melia.Channel.Util
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
 				{
-					this.SystemMessage(character, "Map not found.");
+					character.ServerMessage("Map not found.");
 					return CommandResult.Okay;
 				}
 
@@ -251,7 +238,7 @@ namespace Melia.Channel.Util
 			}
 			catch (ArgumentException)
 			{
-				this.SystemMessage(character, "Map not found.");
+				character.ServerMessage("Map not found.");
 			}
 
 			return CommandResult.Okay;
@@ -271,7 +258,7 @@ namespace Melia.Channel.Util
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 			{
-				this.SystemMessage(character, "Item not found.");
+				character.ServerMessage("Item not found.");
 				return CommandResult.Okay;
 			}
 
@@ -307,7 +294,7 @@ namespace Melia.Channel.Util
 			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
 			if (monsterData == null)
 			{
-				this.SystemMessage(character, "Monster not found.");
+				character.ServerMessage("Monster not found.");
 				return CommandResult.Okay;
 			}
 
@@ -353,7 +340,7 @@ namespace Melia.Channel.Util
 				}
 			}
 
-			this.SystemMessage(target, "Added {0} hats to inventory.", added);
+			target.ServerMessage("Added {0} hats to inventory.", added);
 
 			return CommandResult.Okay;
 		}
@@ -372,7 +359,7 @@ namespace Melia.Channel.Util
 			// TODO: Keep a list of all account characters after all?
 			if (ChannelServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
 			{
-				this.SystemMessage(character, "Name already exists.");
+				character.ServerMessage("Name already exists.");
 				return CommandResult.Okay;
 			}
 
@@ -393,7 +380,7 @@ namespace Melia.Channel.Util
 
 			if (!Enum.IsDefined(typeof(Job), jobId))
 			{
-				this.SystemMessage(character, "Unknown job.");
+				character.ServerMessage("Unknown job.");
 				return CommandResult.Okay;
 			}
 
@@ -406,22 +393,22 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleReloadScripts(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			this.SystemMessage(character, "Reloading scripts...");
+			character.ServerMessage("Reloading scripts...");
 
 			ChannelServer.Instance.ScriptManager.Reload();
 
-			this.SystemMessage(character, "Done.");
+			character.ServerMessage("Done.");
 
 			return CommandResult.Okay;
 		}
 
 		private CommandResult HandleReloadConf(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
-			this.SystemMessage(character, "Reloading configuration...");
+			character.ServerMessage("Reloading configuration...");
 
 			ChannelServer.Instance.Conf.LoadAll();
 
-			this.SystemMessage(character, "Done.");
+			character.ServerMessage("Done.");
 
 			return CommandResult.Okay;
 		}
@@ -468,7 +455,7 @@ namespace Melia.Channel.Util
 			var items = ChannelServer.Instance.Data.ItemDb.FindAll(search);
 			if (items.Count == 0)
 			{
-				this.SystemMessage(sender, "No items found for '{0}'.", search);
+				sender.ServerMessage("No items found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
@@ -477,10 +464,10 @@ namespace Melia.Channel.Util
 			for (var i = 0; eItems.MoveNext() && i < max; ++i)
 			{
 				var item = eItems.Current;
-				this.SystemMessage(sender, "{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
+				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 			}
 
-			this.SystemMessage(sender, "Results: {0} (Max. {1} shown)", items.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, max);
 
 			return CommandResult.Okay;
 		}
@@ -494,7 +481,7 @@ namespace Melia.Channel.Util
 			var monsters = ChannelServer.Instance.Data.MonsterDb.FindAll(search);
 			if (monsters.Count == 0)
 			{
-				this.SystemMessage(sender, "No monsters found for '{0}'.", search);
+				sender.ServerMessage("No monsters found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
@@ -503,10 +490,10 @@ namespace Melia.Channel.Util
 			for (var i = 0; entries.MoveNext() && i < max; ++i)
 			{
 				var current = entries.Current;
-				this.SystemMessage(sender, "{0}: {1}", current.Id, current.Name);
+				sender.ServerMessage("{0}: {1}", current.Id, current.Name);
 			}
 
-			this.SystemMessage(sender, "Results: {0} (Max. {1} shown)", monsters.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
 
 			return CommandResult.Okay;
 		}
@@ -515,7 +502,7 @@ namespace Melia.Channel.Util
 		{
 			if (args.Length < 2)
 			{
-				this.SystemMessage(sender, "Destinations: klaipeda, orsha");
+				sender.ServerMessage("Destinations: klaipeda, orsha");
 				return CommandResult.InvalidArgument;
 			}
 
@@ -524,7 +511,7 @@ namespace Melia.Channel.Util
 			else if (args[1].StartsWith("ors"))
 				target.Warp("c_orsha", 271, 176, 292);
 			else
-				this.SystemMessage(sender, "Unknown destination.");
+				sender.ServerMessage("Unknown destination.");
 
 			return CommandResult.Okay;
 		}
@@ -541,14 +528,14 @@ namespace Melia.Channel.Util
 			var character = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
 			if (character == null)
 			{
-				this.SystemMessage(sender, "Character not found.");
+				sender.ServerMessage("Character not found.");
 				return CommandResult.Okay;
 			}
 
 			var location = character.GetLocation();
 			target.Warp(location);
 
-			this.SystemMessage(target, "You've been warped to {0}.", location);
+			target.ServerMessage("You've been warped to {0}.", location);
 
 			return CommandResult.Okay;
 		}
@@ -565,14 +552,14 @@ namespace Melia.Channel.Util
 			var character = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
 			if (character == null)
 			{
-				this.SystemMessage(sender, "Character not found.");
+				sender.ServerMessage("Character not found.");
 				return CommandResult.Okay;
 			}
 
 			var location = target.GetLocation();
 			character.Warp(location);
 
-			this.SystemMessage(character, "You've been warped to {0}.", location);
+			character.ServerMessage("You've been warped to {0}.", location);
 
 			return CommandResult.Okay;
 		}
@@ -581,7 +568,7 @@ namespace Melia.Channel.Util
 		{
 			target.Inventory.Clear();
 
-			this.SystemMessage(sender, "Inventory cleared.");
+			sender.ServerMessage("Inventory cleared.");
 
 			return CommandResult.Okay;
 		}
