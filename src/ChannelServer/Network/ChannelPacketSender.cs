@@ -1220,6 +1220,25 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sets the state of whether a hat is visible or not.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="state"></param>
+		public static void ZC_NORMAL_HatVisibleState(Character character)
+		{
+			// TODO: Accept state parameters to set the visibility correctly.
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x181); // subop
+			packet.PutInt(character.Handle);
+			packet.PutByte(1); // Set head item type 1 visible?
+			packet.PutByte(1); // Set head item type 2 visible?
+			packet.PutByte(1); // Set head item type 3 visible?
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Updates exp and max exp.
 		/// </summary>
 		/// <param name="character"></param>

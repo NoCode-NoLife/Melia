@@ -3,7 +3,7 @@
 //
 //      File: ZC_NORMAL.bt
 //   Authors: exec, celophi
-//   Version: i11XXX
+//   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -85,4 +85,14 @@ else if(type == 0xEA)
 else if(type == 0x14E)
 {
     lpString sessionKey;
+}
+
+
+// Set a hat item's visible or invisible state
+else if(type == 0x181)
+{
+    int handle;
+    byte b1; // Set hair type 1 visible?
+    byte b2; // Set hair type 2 visible?
+    byte b3; // Set hair type 3 visible?
 }
