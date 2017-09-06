@@ -339,7 +339,7 @@ namespace Melia.Channel.Util
 		private CommandResult HandleGetAllHats(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			var added = 0;
-			for (var itemId = 628001; itemId <= 629502; ++itemId)
+			for (var itemId = 628001; itemId <= 629503; ++itemId)
 			{
 				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 					continue;
