@@ -74,6 +74,7 @@ namespace Melia.Shared.Const
 		Necklace, // NECK
 		Hat, // HAT_T
 		Lens, // LENS
+		Wing, // WING
 	}
 
 	public enum InventoryItemRemoveMsg : byte
