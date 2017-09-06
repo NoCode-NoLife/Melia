@@ -105,11 +105,18 @@ namespace Melia.Shared.Network
 		{
 			foreach (var method in this.GetType().GetMethods())
 			{
-				foreach (PacketHandlerAttribute attr in method.GetCustomAttributes(typeof(PacketHandlerAttribute), false))
+				try
 				{
-					var func = (PacketHandlerFunc)Delegate.CreateDelegate(typeof(PacketHandlerFunc), this, method);
-					foreach (var op in attr.Ops)
-						this.Register(op, func);
+					foreach (PacketHandlerAttribute attr in method.GetCustomAttributes(typeof(PacketHandlerAttribute), false))
+					{
+						var func = (PacketHandlerFunc)Delegate.CreateDelegate(typeof(PacketHandlerFunc), this, method);
+						foreach (var op in attr.Ops)
+							this.Register(op, func);
+					}
+				} catch (Exception)
+				{
+					Log.Error("An error occurred while attempting to register the '{0}' method. Please make certain it is defined correctly.", method.Name);
+					throw;
 				}
 			}
 		}
