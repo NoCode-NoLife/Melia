@@ -49,6 +49,18 @@ else if(type == 0x51)
     int i2; // disappear delay?
     int i3; // disappear delay?
 }
+// Set skill speed
+else if(type == 0x78)
+{
+    int skillId;
+    float sklSpdRate;
+}
+// Set hit delay
+else if(type == 0x79)
+{
+    int skillId;
+    float hitDelay;
+}
 // ?
 else if(type == 0x139)
 {
