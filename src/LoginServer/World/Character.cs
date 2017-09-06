@@ -6,6 +6,8 @@ using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
 using Melia.Shared.World;
 using Melia.Shared.Util;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Melia.Login.World
 {
@@ -67,31 +69,13 @@ namespace Melia.Login.World
 		}
 
 		/// <summary>
-		/// Sets the default equipment for a character.
+		/// Sets the equipment for a character.
 		/// </summary>
 		/// <returns></returns>
-		public bool SetDefaultEquipment()
+		public void SetEquipment(IDictionary<EquipSlot, int> equipment)
 		{
-			var jobData = LoginServer.Instance.Data.JobDb.Find(this.Job);
-			if (jobData == null)
-			{
-				Log.Error("SetDefaultEquipment : Unable to set default equipment for job '{0}' because it doesn't exist.", this.Job);
-				return false;
-			}
-
-			foreach (var equip in jobData.DefaultEquip)
-			{
-				var itemData = LoginServer.Instance.Data.ItemDb.FindByClass(equip.Value);
-				if (itemData == null)
-				{
-					Log.Error("SetDefaultEquipment : Unable to find item data with class name '{0}'.", equip.Value);
-					return false;
-				}
-
-				this.Equipment[(int)equip.Key] = itemData.Id;
-			}
-
-			return true;
+			foreach (var item in equipment)
+				this.Equipment[(int)item.Key] = item.Value;
 		}
 	}
 }

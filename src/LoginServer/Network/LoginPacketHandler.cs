@@ -9,6 +9,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
 using Melia.Shared.World;
+using System.Collections.Generic;
 
 namespace Melia.Login.Network
 {
@@ -258,11 +259,22 @@ namespace Melia.Login.Network
 			character.Spr = jobData.Spr;
 			character.Dex = jobData.Dex;
 
-			if (!character.SetDefaultEquipment())
+			// Initialize with the default equipment set.
+			var equipment = new Dictionary<EquipSlot, int>();
+			foreach (var equip in jobData.DefaultEquip)
 			{
-				Log.Error("CB_COMMANDER_CREATE: An error occurred while setting the default equipment for a new character.");
-				return;
+				var itemData = LoginServer.Instance.Data.ItemDb.FindByClass(equip.Value);
+				if (itemData == null)
+				{
+					Log.Error("CB_COMMANDER_CREATE : Unable to find item data with class name '{0}'.", equip.Value);
+					Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+					return;
+				}
+
+				equipment[equip.Key] = itemData.Id;
 			}
+
+			character.SetEquipment(equipment);
 
 			conn.Account.CreateCharacter(character);
 
