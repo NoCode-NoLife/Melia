@@ -1208,6 +1208,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Adjusts the skill speed for a skill.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		/// <param name="value"></param>
+		public static void ZC_NORMAL_SetSkillSpeed(Character character, int skillId, float value)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x78);
+			packet.PutInt(skillId);
+			packet.PutFloat(value);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Adjusts the hit delay for a skill.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_NORMAL_SetHitDelay(Character character, int skillId, float value)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x79);
+			packet.PutInt(skillId);
+			packet.PutFloat(value);
+
+			character.Connection.Send(packet);
+		}
+		
+		/// <summary>
 		/// Sends the session key to the client.
 		/// </summary>
 		/// <param name="conn"></param>
