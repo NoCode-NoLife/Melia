@@ -496,5 +496,32 @@ namespace Melia.Channel.World
 		{
 			return new Location(this.MapId, this.Position);
 		}
+
+		/// <summary>
+		/// Sends server message to character.
+		/// </summary>
+		/// <remarks>
+		/// Abuses a certain system message that takes two parameters,
+		/// which are then output, separated by a colon. Since there's
+		/// no customizable server message packet I know of, this will
+		/// serve as the next best thing for now, and is certainly an
+		/// improvement over using ZC_CHAT.
+		/// </remarks>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void ServerMessage(string format)
+		{
+			Send.ZC_SYSTEM_MSG(this, 21254, new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
+		}
+
+		/// <summary>
+		/// Sends server message to character.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void ServerMessage(string format, params object[] args)
+		{
+			this.ServerMessage(string.Format(format, args));
+		}
 	}
 }
