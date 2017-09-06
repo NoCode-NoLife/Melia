@@ -134,39 +134,59 @@ namespace Melia.Login.Database
 		public void CreateCharacter(long accountId, Character character)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new InsertCommand("INSERT INTO `characters` {0}", conn))
+			using (var trans = conn.BeginTransaction())
 			{
-				cmd.Set("accountId", accountId);
-				cmd.Set("name", character.Name);
-				cmd.Set("teamName", character.TeamName);
-				cmd.Set("job", character.Job);
-				cmd.Set("gender", character.Gender);
-				cmd.Set("hair", character.Hair);
+				using (var cmd = new InsertCommand("INSERT INTO `characters` {0}", conn))
+				{
+					cmd.Set("accountId", accountId);
+					cmd.Set("name", character.Name);
+					cmd.Set("teamName", character.TeamName);
+					cmd.Set("job", character.Job);
+					cmd.Set("gender", character.Gender);
+					cmd.Set("hair", character.Hair);
 
-				cmd.Set("zone", character.MapId);
-				cmd.Set("x", character.Position.X);
-				cmd.Set("y", character.Position.Y);
-				cmd.Set("z", character.Position.Z);
-				cmd.Set("bx", character.BarrackPosition.X);
-				cmd.Set("by", character.BarrackPosition.Y);
-				cmd.Set("bz", character.BarrackPosition.Z);
+					cmd.Set("zone", character.MapId);
+					cmd.Set("x", character.Position.X);
+					cmd.Set("y", character.Position.Y);
+					cmd.Set("z", character.Position.Z);
+					cmd.Set("bx", character.BarrackPosition.X);
+					cmd.Set("by", character.BarrackPosition.Y);
+					cmd.Set("bz", character.BarrackPosition.Z);
 
-				cmd.Set("hp", character.Hp);
-				cmd.Set("maxHp", character.MaxHp);
-				cmd.Set("sp", character.Sp);
-				cmd.Set("maxSp", character.MaxSp);
-				cmd.Set("stamina", character.Stamina);
-				cmd.Set("maxStamina", character.MaxStamina);
-				cmd.Set("str", character.Str);
-				cmd.Set("con", character.Con);
-				cmd.Set("int", character.Int);
-				cmd.Set("spr", character.Spr);
-				cmd.Set("dex", character.Dex);
+					cmd.Set("hp", character.Hp);
+					cmd.Set("maxHp", character.MaxHp);
+					cmd.Set("sp", character.Sp);
+					cmd.Set("maxSp", character.MaxSp);
+					cmd.Set("stamina", character.Stamina);
+					cmd.Set("maxStamina", character.MaxStamina);
+					cmd.Set("str", character.Str);
+					cmd.Set("con", character.Con);
+					cmd.Set("int", character.Int);
+					cmd.Set("spr", character.Spr);
+					cmd.Set("dex", character.Dex);
 
-				cmd.Set("barrackLayer", character.BarrackLayer);
+					cmd.Set("barrackLayer", character.BarrackLayer);
 
-				cmd.Execute();
-				character.Id = cmd.LastId;
+					cmd.Execute();
+					character.Id = cmd.LastId;
+				}
+
+				var i = 0;
+				foreach (var item in character.Equipment)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", item);
+						cmd.Set("amount", 1);
+						cmd.Set("sort", 0);
+						cmd.Set("equipSlot", i++);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
 			}
 		}
 

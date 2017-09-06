@@ -33,6 +33,12 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
 		}
 
+		public ItemData FindByClass(string name)
+		{
+			name = name.ToLower();
+			return this.Entries.FirstOrDefault(a => a.Value.ClassName.ToLower() == name).Value;
+		}
+
 		public List<ItemData> FindAll(string name)
 		{
 			name = name.ToLower();

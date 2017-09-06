@@ -5,6 +5,9 @@ using System.Linq;
 using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
 using Melia.Shared.World;
+using Melia.Shared.Util;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Melia.Login.World
 {
@@ -68,6 +71,16 @@ namespace Melia.Login.World
 		{
 			// TODO: This needs to return the actual properties of equipment which have variable lengths.
 			return this.GetEquipIds();
+		}
+
+		/// <summary>
+		/// Sets the equipment for a character.
+		/// </summary>
+		/// <returns></returns>
+		public void SetEquipment(IDictionary<EquipSlot, int> equipment)
+		{
+			foreach (var item in equipment)
+				this.Equipment[(int)item.Key] = item.Value;
 		}
 	}
 }
