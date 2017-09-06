@@ -63,7 +63,7 @@ namespace Melia.Channel.Database
 		/// <summary>
 		/// Id of the barrack map.
 		/// </summary>
-		public int SelectedBarrack { get; set; }
+		public int SelectedBarrack { get; }
 
 		/// <summary>
 		/// The account's settings.
@@ -80,6 +80,7 @@ namespace Melia.Channel.Database
 		/// </summary>
 		public Account()
 		{
+			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
