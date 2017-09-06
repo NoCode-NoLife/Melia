@@ -21,11 +21,12 @@ int itemCount;
 byte b1;
 byte b2;
 
-//if (checkCompression())
-//{
+if (checkCompression())
+{
     compressedData compressed;
-//}
-//else
-//{
-//    Item items[itemCount] <optimize=false>;
-//}
+}
+else
+{
+    short compression;
+    Item items[itemCount] <optimize=false>;
+}
