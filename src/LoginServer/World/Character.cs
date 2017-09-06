@@ -81,7 +81,7 @@ namespace Melia.Login.World
 
 			foreach (var equip in jobData.DefaultEquip)
 			{
-				var itemData = LoginServer.Instance.Data.ItemDb.Find(equip.Value);
+				var itemData = LoginServer.Instance.Data.ItemDb.FindByClass(equip.Value);
 				if (itemData == null)
 				{
 					Log.Error("SetDefaultEquipment : Unable to find item data with class name '{0}'.", equip.Value);

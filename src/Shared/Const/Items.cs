@@ -52,28 +52,28 @@ namespace Melia.Shared.Const
 	/// </remarks>
 	public enum EquipSlot : byte
 	{
-		HairAccessory,
-		SubsidiaryAccessory,
-		Hair, // [i11025 (2016-02-26)]
-		_Outer1,
-		Top,
-		Costume,
-		Shoes,
-		_Helmet,
-		Armband,
-		LeftHand,
-		RightHand,
-		Gloves,
-		_Ring1,
-		_Ring2,
-		_Outer2,
-		Pants,
-		_Ring3,
-		_Ring4,
-		Bracelet1,
-		Bracelet2,
-		Necklace,
-		Lens,
+		HairAccessory, // HAT
+		SubsidiaryAccessory, // HAT_L
+		Hair, // HAIR
+		Top, // SHIRT
+		Gloves, // GLOVES
+		Shoes, // BOOTS
+		Helmet, // HELMET
+		Armband, // ARMBAND
+		RightHand, // RH
+		LeftHand, // LH
+		Outer1, // OUTER
+		Ring1, // OUTERADD1
+		Ring2, // OUTERADD2
+		Outer2, // BODY
+		Pants, // PANTS
+		Ring3, // PANTSADD1
+		Ring4, // PANTSADD2
+		Bracelet1, // RING1
+		Bracelet2, // RING2
+		Necklace, // NECK
+		Hat, // HAT_T
+		Lens, // LENS
 	}
 
 	public enum InventoryItemRemoveMsg : byte

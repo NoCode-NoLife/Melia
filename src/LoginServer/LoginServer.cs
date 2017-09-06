@@ -45,7 +45,7 @@ namespace Melia.Login
 			CliUtil.LoadingTitle();
 
 			// Data
-			this.LoadData(DataToLoad.Jobs | DataToLoad.Maps | DataToLoad.Barracks | DataToLoad.Servers, true);
+			this.LoadData(DataToLoad.Jobs | DataToLoad.Maps | DataToLoad.Barracks | DataToLoad.Servers | DataToLoad.Items, true);
 
 			// Conf
 			this.LoadConf(this.Conf = new LoginConf());
