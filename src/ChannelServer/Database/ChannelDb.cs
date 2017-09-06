@@ -67,6 +67,9 @@ namespace Melia.Channel.Database
 					account.TeamName = reader.GetStringSafe("teamName");
 					account.Authority = reader.GetInt32("authority");
 					account.Settings.Parse(reader.GetStringSafe("settings"));
+					account.Medals = reader.GetInt32("medals");
+					account.GiftMedals = reader.GetInt32("giftMedals");
+					account.PremiumMedals = reader.GetInt32("premiumMedals");
 
 				}
 			}

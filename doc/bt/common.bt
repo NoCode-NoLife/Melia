@@ -287,3 +287,13 @@ byte checkCompression()
 {
     return (ReadUShort() == 0xFA8D);
 }
+
+typedef struct
+{
+    short size;
+    short s1;
+
+    if(size > 0)
+        byte properties[size-2]; // todo, short:val list
+}
+AccountProperties;

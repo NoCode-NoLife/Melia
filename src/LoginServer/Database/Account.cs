@@ -5,13 +5,14 @@ using Melia.Login.World;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Login.Database
 {
 	/// <summary>
 	/// A player's account.
 	/// </summary>
-	public class Account
+	public class Account : IAccount
 	{
 		private object _moneyLock = new object();
 		private List<Character> _characters;

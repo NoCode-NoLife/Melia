@@ -10,6 +10,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Login.Network
 {
