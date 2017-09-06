@@ -63,7 +63,7 @@ namespace Melia.Channel.Database
 		/// <summary>
 		/// Id of the barrack map.
 		/// </summary>
-		public int SelectedBarrack { get; }
+		public int SelectedBarrack { get; set; }
 
 		/// <summary>
 		/// The account's settings.
