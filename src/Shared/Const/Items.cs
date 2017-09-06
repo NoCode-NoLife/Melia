@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+
 namespace Melia.Shared.Const
 {
 	public enum InventoryCategory
@@ -135,5 +137,16 @@ namespace Melia.Shared.Const
 	public static class ItemId
 	{
 		public const int Silver = 900011;
+	}
+
+	/// <summary>
+	/// Specifies which hats are visible for a character.
+	/// </summary>
+	[Flags]
+	public enum HatVisibleStates : byte
+	{
+		Hat1 = 0x01,
+		Hat2 = 0x02,
+		Hat3 = 0x04,
 	}
 }

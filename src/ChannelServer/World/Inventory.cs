@@ -426,7 +426,6 @@ namespace Melia.Channel.World
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
-			Send.ZC_NORMAL_HatVisibleState(_character);
 
 			return InventoryResult.Success;
 		}
@@ -450,7 +449,6 @@ namespace Melia.Channel.World
 
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
-			Send.ZC_NORMAL_HatVisibleState(_character);
 
 			this.Add(item, InventoryAddType.NotNew);
 

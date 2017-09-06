@@ -36,6 +36,11 @@ namespace Melia.Login.World
 		public int Channel { get; set; }
 
 		/// <summary>
+		/// Specifies which hats are visible on the character.
+		/// </summary>
+		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

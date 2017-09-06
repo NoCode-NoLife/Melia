@@ -123,6 +123,14 @@ namespace Melia.Channel.World
 		public Variables Variables { get; private set; }
 
 		/// <summary>
+		/// Specifies which hats are visible on the character.
+		/// </summary>
+		/// <remarks>
+		/// TODO: Handle toggling and save/load with character.
+		/// </remarks>
+		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat3; } }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()

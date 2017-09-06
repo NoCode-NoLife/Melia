@@ -121,8 +121,18 @@ typedef struct
     int i6;
     int i7;
     short hair;
-    short pose;
-    int teamId;
+
+    // Up until i171032 we had these as "pose" and "team id",
+    // but they actually contain the visible hats, so we either
+    // had them wrong, or they changed. This was first noticed in
+    // i170175.
+    //short pose;
+    //int teamId;
+    byte b2;
+    byte hat1Visible;
+    byte hat2Visible;
+    byte hat3Visible;
+    short s2;
 }
 APPEARANCE_PC;
 
