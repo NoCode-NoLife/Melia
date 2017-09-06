@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Scripting;
 using Melia.Channel.World;
+using Melia.Shared.Util;
 
 namespace Melia.Channel.Database
 {
@@ -87,6 +88,26 @@ namespace Melia.Channel.Database
 		/// <returns></returns>
 		public ChatMacro[] GetChatMacros()
 		{
+			// Initialize with the default set of macros if none exist.
+			if (_chatMacros.Count() == 0)
+			{
+				var macroData = ChannelServer.Instance.Data.ChatMacroDb
+					.Where(x => x.Id <= 10) // maximum number of chat macros allowed.
+					.OrderBy(x => x.Id);
+
+				if (macroData == null)
+				{
+					Log.Error("GetChatMacros : Attempted to initialize the default chat macros, but the data set was empty!");
+					return new ChatMacro[0];
+				}
+
+				foreach (var data in macroData)
+				{
+					var macro = new ChatMacro(data.Id, data.Text, data.Pose);
+					this.AddChatMacro(macro);
+				}
+			}
+
 			lock (_chatMacros)
 				return _chatMacros.ToArray();
 		}
