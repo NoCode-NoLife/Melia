@@ -128,7 +128,7 @@ namespace Melia.Channel.World
 		/// <remarks>
 		/// TODO: Handle toggling and save/load with character.
 		/// </remarks>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat3; } }
+		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
 
 		/// <summary>
 		/// Creates new character.
