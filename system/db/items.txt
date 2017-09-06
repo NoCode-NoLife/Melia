@@ -2667,6 +2667,7 @@
 { itemId: 636022, className: "T_NECK100_101", name: "[Kupole] Kupole Necklace", category: 2, weight: 10, maxStack: 1, price: 19603, sellPrice: 3920 },
 { itemId: 636023, className: "T_BRC100_101", name: "[Kupole] Kupole Bracelet", category: 2, weight: 40, maxStack: 1, price: 19603, sellPrice: 3920 },
 { itemId: 636024, className: "T_SHD100_101", name: "[Kupole] Steel Buckler", category: 2, weight: 100, maxStack: 1, price: 19603, sellPrice: 3920 },
+{ itemId: 637999, className: "WingTest", name: "날개테스트", category: 2, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 9999993, className: "NoWeapon_Shield", name: "Empty_weapon", category: 2, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 
 // Sub-Weapons
