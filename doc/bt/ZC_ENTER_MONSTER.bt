@@ -3,7 +3,7 @@
 //
 //      File: ZC_ENTER_MONSTER.bt
 //   Authors: exec
-//   Version: i171032
+//   Version: i171140
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,6 +12,7 @@
 //   - i11025:  s2 was added
 //   - i170175: b5 was added
 //   - i171032: i1 was added
+//   - i171140: i1 was removed
 //------------------------------------------------
 
 #include "common.bt";
@@ -35,7 +36,7 @@ int namesSize;
 byte propertiesSize;
 byte b4;
 byte b5;
-int i1;
+//int i1;
 
 lpString name;
 lpString uniqueName;

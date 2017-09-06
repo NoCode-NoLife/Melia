@@ -1012,14 +1012,14 @@ namespace Melia.Channel.Network
 			// Check amount
 			if (count > 10)
 			{
-				Log.Warning("CZ_ITEM_BUY: User '{0}' tried buy more than 10 items at once.", conn.Account.Name);
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy more than 10 items at once.", conn.Account.Name);
 				return;
 			}
 
 			// Check open shop
 			if (conn.ScriptState.CurrentNpc == null || conn.ScriptState.CurrentShop == null)
 			{
-				Log.Warning("CZ_ITEM_BUY: User '{0}' tried buy something with no shop open.", conn.Account.Name);
+				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy something with no shop open.", conn.Account.Name);
 				return;
 			}
 
