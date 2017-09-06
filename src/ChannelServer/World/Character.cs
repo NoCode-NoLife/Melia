@@ -487,5 +487,14 @@ namespace Melia.Channel.World
 			this.SetHeadDirection(d1, d2);
 			Send.ZC_HEAD_ROTATE(this);
 		}
+
+		/// <summary>
+		/// Returns the character's current location.
+		/// </summary>
+		/// <returns></returns>
+		public Location GetLocation()
+		{
+			return new Location(this.MapId, this.Position);
+		}
 	}
 }
