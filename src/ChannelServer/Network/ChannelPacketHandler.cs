@@ -467,10 +467,23 @@ namespace Melia.Channel.Network
 			var unkLong = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var result = character.Inventory.Remove(worldId);
+			var item = character.Inventory.GetItem(worldId);
 
-			if (result == InventoryResult.ItemNotFound)
-				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete non-existent item ({1}).", conn.Account.Name, worldId);
+			if (item == null)
+			{
+				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete non-existent item.", conn.Account.Name);
+				return;
+			}
+			else if (item.IsLocked)
+			{
+				// The client should stop the player from attempting to do this.
+				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete locked item.", conn.Account.Name);
+				return;
+			}
+
+			var result = character.Inventory.Remove(worldId);
+			if (result != InventoryResult.Success)
+				Log.Warning("CZ_ITEM_DELETE: Removing an item for '{0}' failed despite checks.", conn.Account.Name);
 		}
 
 		/// <summary>
@@ -1289,6 +1302,34 @@ namespace Melia.Channel.Network
 		public void CZ_LOAD_COMPLETE(ChannelConnection conn, Packet packet)
 		{
 			Send.ZC_LOAD_COMPLETE(conn);
+		}
+
+		/// <summary>
+		/// Sent when (un)locking an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_INV_ITEM_LOCK)]
+		public void CZ_INV_ITEM_LOCK(ChannelConnection conn, Packet packet)
+		{
+			var worldId = packet.GetLong();
+			var lockItem = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+			var item = character.Inventory.GetItem(worldId);
+			if (item == null)
+			{
+				Log.Warning("CZ_INV_ITEM_LOCK: User '{0}' tried to lock non-existent item.", conn.Account.Name);
+				return;
+			}
+
+			item.IsLocked = lockItem;
+
+			// Officials send the dict key as the item name, we might want
+			// to add those to the item data.
+			// <Item> item locked.
+			// <Item> item unlocked.
+			Send.ZC_SYSTEM_MSG(character, lockItem ? 4138 : 4139, new MsgParameter("Item", item.Data.Name));
 		}
 	}
 

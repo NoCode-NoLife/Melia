@@ -89,6 +89,15 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads byte from buffer and returns it as bool (true != 0).
+		/// </summary>
+		/// <returns></returns>
+		public bool GetBool()
+		{
+			return (this.GetByte() != 0);
+		}
+
+		/// <summary>
 		/// Reads short from buffer.
 		/// </summary>
 		/// <returns></returns>

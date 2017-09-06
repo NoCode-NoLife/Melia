@@ -57,6 +57,15 @@ namespace Melia.Channel.World
 		public int Price { get; private set; }
 
 		/// <summary>
+		/// Specifies whether the item is locked.
+		/// </summary>
+		/// <remarks>
+		/// XXX: Should this be saved? If so, we have to figure out where
+		///   that goes in the item data.
+		/// </remarks>
+		public bool IsLocked { get; set; }
+
+		/// <summary>
 		/// Creates new item.
 		/// </summary>
 		/// <param name="itemId"></param>
