@@ -1703,6 +1703,20 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet, character);
 		}
 
+		/// <summary>
+		/// Sends account properties.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_AccountUpdate(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(0x4C); // SubOp
+			packet.PutLong(character.AccountId);
+			packet.AddAccountProperties(character.Connection.Account);
+
+			character.Connection.Send(packet);
+		}
+
 
 		/// <summary>
 		/// Set a Range type "FAN" shape in a given position

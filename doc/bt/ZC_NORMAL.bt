@@ -41,6 +41,12 @@ else if(type == 0x14)
     float effectSize;
     byte bin[8];
 }
+// Account update
+else if(type == 0x4C)
+{
+    int64 characterId;
+    AccountProperties properties;
+}
 // NPC chat bubble
 else if(type == 0x51)
 {
