@@ -46,6 +46,8 @@ namespace Melia.Channel.Util
 			Add("iteminfo", "<name>", this.HandleItemInfo);
 			Add("monsterinfo", "<name>", this.HandleMonsterInfo);
 			Add("go", "<destination>", this.HandleGo);
+			Add("goto", "<team name>", this.HandleGoTo);
+			Add("recall", "<team name>", this.HandleRecall);
 			Add("clearinv", "", this.HandleClearInventory);
 
 			// Dev
@@ -339,7 +341,7 @@ namespace Melia.Channel.Util
 		private CommandResult HandleGetAllHats(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			var added = 0;
-			for (var itemId = 628001; itemId <= 629502; ++itemId)
+			for (var itemId = 628001; itemId <= 629503; ++itemId)
 			{
 				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 					continue;
@@ -523,6 +525,54 @@ namespace Melia.Channel.Util
 				target.Warp("c_orsha", 271, 176, 292);
 			else
 				this.SystemMessage(sender, "Unknown destination.");
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleGoTo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			// TODO: Once we have support for more than one map server,
+			//   we have to search for characters across all of them.
+
+			var teamName = args[1];
+			var character = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
+			if (character == null)
+			{
+				this.SystemMessage(sender, "Character not found.");
+				return CommandResult.Okay;
+			}
+
+			var location = character.GetLocation();
+			target.Warp(location);
+
+			this.SystemMessage(target, "You've been warped to {0}.", location);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleRecall(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			// TODO: Once we have support for more than one map server,
+			//   we have to search for characters across all of them.
+
+			var teamName = args[1];
+			var character = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
+			if (character == null)
+			{
+				this.SystemMessage(sender, "Character not found.");
+				return CommandResult.Okay;
+			}
+
+			var location = target.GetLocation();
+			character.Warp(location);
+
+			this.SystemMessage(character, "You've been warped to {0}.", location);
 
 			return CommandResult.Okay;
 		}

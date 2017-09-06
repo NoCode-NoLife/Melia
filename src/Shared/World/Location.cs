@@ -43,6 +43,19 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
+		/// Creates new location from map id and position.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="position"></param>
+		public Location(int mapId, Position pos)
+		{
+			this.MapId = mapId;
+			this.X = pos.X;
+			this.Y = pos.Y;
+			this.Z = pos.Z;
+		}
+
+		/// <summary>
 		/// Creates new location from location.
 		/// </summary>
 		/// <param name="loc"></param>

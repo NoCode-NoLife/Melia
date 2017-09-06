@@ -3,7 +3,7 @@
 //
 //      File: ZC_NORMAL.bt
 //   Authors: exec, celophi
-//   Version: i11XXX
+//   Version: i170175
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -18,71 +18,98 @@ int sequence;
 short size;
 
 int type;
+switch (type)
+{
+	// Lv up effect
+	case 0x11:
+		int handle;
+		short s1;
+		short s2;
+		float effectSize;
+		int i1;
+		byte bin1[4];
+		float f2;
+		byte bin2[4];
+		break;
+		
+	// Class lv up effect
+	case 0x14:
+		int handle;
+		byte b1;
+		int i1;
+		byte b2;
+		float effectSize;
+		byte bin[8];
+		break;
+	
+	// Account update
+	case 0x4C:
+		int64 characterId;
+		AccountProperties properties;
+		break;
+		
+	// NPC chat bubble
+	case 0x51:
+		int handle;
+		lpString dialogKey; // ?
+		int i2; // disappear delay?
+		int i3; // disappear delay?
+		break;
+		
+	// Set skill speed
+	case 0x78:
+		int skillId;
+		float sklSpdRate;
+		break;
+		
+	// Set hit delay
+	case 0x79:
+		int skillId;
+		float hitDelay;
+		break;
+		
+	// ?
+	case 0x139:
+		lpString sessionKey;
+		break;
+		
+	// ?
+	case 0xE5:
+		typedef struct
+		{
+			lpString str;
+			int val;
+		}
+		entry;
 
-// Lv up effect
-if(type == 0x11)
-{
-    int handle;
-    short s1;
-    short s2;
-    float effectSize;
-    int i1;
-    byte bin1[4];
-    float f2;
-    byte bin2[4];
-}
-// Class lv up effect
-else if(type == 0x14)
-{
-    int handle;
-    byte b1;
-    int i1;
-    byte b2;
-    float effectSize;
-    byte bin[8];
-}
-// NPC chat bubble
-else if(type == 0x51)
-{
-    int handle;
-    lpString dialogKey; // ?
-    int i2; // disappear delay?
-    int i3; // disappear delay?
-}
-// ?
-else if(type == 0x139)
-{
-    lpString sessionKey;
-}
-// ?
-else if(type == 0xE5)
-{
-    typedef struct
-    {
-        lpString str;
-        int val;
-    } entry;
+		int count;
+		entry entries[count] <optimize=false>;
+		break;
+		
+	// Job ranks?
+	// (Was this 0xE5 in the iCBT2?)
+	case 0xEA:
+		typedef struct
+		{
+			lpString job;
+			int rank;
+		}
+		JobRank;
 
-    int count;
-    entry entries[count] <optimize=false>;
-}
-// Job ranks?
-// (Was this 0xE5 in the iCBT2?)
-else if(type == 0xEA)
-{
-    typedef struct
-    {
-        lpString job;
-        int rank;
-    }
-    JobRank;
+		int count;
+		JobRank jobs[count] <optimize=false>;
+		break;
 
-    int count;
-    JobRank jobs[count] <optimize=false>;
-}
-
-// Sets the session key.
-else if(type == 0x14E)
-{
-    lpString sessionKey;
+	// Sets the session key.
+	case 0x14E:
+		lpString sessionKey;
+		break;
+		
+	// Set a hat item's visible or invisible state
+	case 0x181:
+		int handle;
+		byte b1; // Set hair type 1 visible?
+		byte b2; // Set hair type 2 visible?
+		byte b3; // Set hair type 3 visible?
+		break;
 }

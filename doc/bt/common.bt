@@ -121,8 +121,18 @@ typedef struct
     int i6;
     int i7;
     short hair;
-    short pose;
-    int teamId;
+
+    // Up until i171032 we had these as "pose" and "team id",
+    // but they actually contain the visible hats, so we either
+    // had them wrong, or they changed. This was first noticed in
+    // i170175.
+    //short pose;
+    //int teamId;
+    byte b2;
+    byte hat1Visible;
+    byte hat2Visible;
+    byte hat3Visible;
+    short s2;
 }
 APPEARANCE_PC;
 
@@ -277,3 +287,13 @@ byte checkCompression()
 {
     return (ReadUShort() == 0xFA8D);
 }
+
+typedef struct
+{
+    short size;
+    short s1;
+
+    if(size > 0)
+        byte properties[size-2]; // todo, short:val list
+}
+AccountProperties;

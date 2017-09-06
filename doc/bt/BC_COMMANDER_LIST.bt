@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_COMMANDER_LIST.bt
-//   Authors: exec
+//   Authors: exec, celophi
 //   Version: i171032
 //   Purpose: 
 //  Category: 
@@ -15,16 +15,6 @@
 //------------------------------------------------
 
 #include "common.bt"
-
-typedef struct
-{
-    short size;
-    short s1;
-
-    if(size > 0)
-        byte properties[size]; // todo, short:val list
-}
-AccountProperties;
 
 typedef struct
 {

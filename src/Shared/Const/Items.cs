@@ -1,27 +1,43 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using System;
+
 namespace Melia.Shared.Const
 {
+	/// <summary>
+	/// Inventory category indexes.
+	/// </summary>
+	/// <remarks>
+	/// Used as category in our item database, which is kind of unofficial,
+	/// as the client has separate tables for different kinds of items.
+	/// As a result, the category in our data dictates where an item appears
+	/// in the inventory.
+	/// </remarks>
 	public enum InventoryCategory
 	{
-		Weapon = 1,
-		Armor = 2,
-		SubWeapon = 3,
-		Costume = 4,
-		Accessory = 5,
-		Consumable = 6,
-		Gem = 7,
-		Material = 8,
-		Card = 9,
-		Collection = 10,
-		Book = 11,
-		Quest = 12,
-		PetWeapon = 13,
-		PetArmor = 14,
-		Unused = 15,
-		Etc = 16,
-		Premium = 17,
+		Premium = 1,
+		Weapon = 2,
+		Armor = 3,
+		SubWeapon = 4,
+		Costume = 5,
+		Accessory = 6,
+		Consumable = 7,
+		Gem = 8,
+		RecipeWeapon = 9,
+		Card = 10,
+		Collection = 11,
+		Book = 12,
+		Quest = 13,
+		PetWeapon = 14,
+		PetArmor = 15,
+		Money = 16, // invisible
+		Material = 17,
+		Cube = 18,
+		RecipeArmor = 19,
+		RecipeAccessory = 20,
+		RecipePremium = 21,
+		RecipeOther = 22, // and above
 	}
 
 	public static class InventoryCategoryExtension
@@ -135,5 +151,16 @@ namespace Melia.Shared.Const
 	public static class ItemId
 	{
 		public const int Silver = 900011;
+	}
+
+	/// <summary>
+	/// Specifies which hats are visible for a character.
+	/// </summary>
+	[Flags]
+	public enum HatVisibleStates : byte
+	{
+		Hat1 = 0x01,
+		Hat2 = 0x02,
+		Hat3 = 0x04,
 	}
 }

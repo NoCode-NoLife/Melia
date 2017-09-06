@@ -79,7 +79,7 @@ namespace Melia.Shared.World
 		public int MaxExp { get; set; }
 
 		/// <summary>
-		/// Health points.
+		/// Gets or set HP, clamped between 0 and MaxHp.
 		/// </summary>
 		public int Hp
 		{
@@ -94,7 +94,7 @@ namespace Melia.Shared.World
 		public int MaxHp { get; set; }
 
 		/// <summary>
-		/// Spell points.
+		/// Gets or set SP, clamped between 0 and MaxSp.
 		/// </summary>
 		public int Sp
 		{
@@ -109,7 +109,7 @@ namespace Melia.Shared.World
 		public int MaxSp { get; set; }
 
 		/// <summary>
-		/// Stamina points.
+		/// Gets or set Stamina, clamped between 0 and MaxStamina.
 		/// </summary>
 		public int Stamina
 		{
