@@ -50,3 +50,26 @@ Inserts blank inline space.
 
 {ds} Drop shadow
 Text that follows has a black drop shadow.
+
+{@st41} Style
+Displays following text in a pre-defined style.
+Styles:
+- 41: Silver, outline, drop shadow
+- 43: Big, silver, outline, drop shadow
+- 44: Big, silver, outline
+- 45: Big, black
+- 46: Big, silver with outline, drop shadow
+- 47: Big, red with outline, drop shadow
+- 48: Small, silver, outline, drop shadow
+- 49: Very small, silver, outline, drop shadow
+- 50: Very small, yellow, outline, drop shadow
+- 51: Very small, light gray
+- 52: Very small, light gray, outline, drop shadow
+- 53: Big, brown, outline, drop shadow
+- 54: Brown, outline
+- 55: Big, italic, brown, outline, drop shadow
+- ...
+
+{a TOGGLE_PCMACRO_COND} ?
+Used in a dialog the text following this code doesn't start until the player
+clicks or presses space to advance the dialog.
