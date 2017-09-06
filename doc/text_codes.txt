@@ -26,6 +26,10 @@ Assumingly a reference to clientmessage.xml, with "..." being the key.
 
 {b} Bold
 Everything that follows is bold.
+Doesn't seem to be working anymore in i171032.
+
+{i} Italic
+Everything that follows is italic.
 
 {ol} Outline
 Text gets a black outline.
@@ -37,3 +41,12 @@ Text gets a black drop shadow.
 
 {#hex} Color
 Changes text color. Default dialog color appears to be #111111.
+
+{spd50} Speed
+Changes the text speed.
+
+{spc20} Space
+Inserts blank inline space.
+
+{ds} Drop shadow
+Text that follows has a black drop shadow.
