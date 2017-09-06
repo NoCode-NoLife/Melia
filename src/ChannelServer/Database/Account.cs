@@ -6,13 +6,14 @@ using System.Linq;
 using Melia.Channel.Scripting;
 using Melia.Channel.World;
 using Melia.Shared.Util;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Channel.Database
 {
 	/// <summary>
 	/// A player's account.
 	/// </summary>
-	public class Account
+	public class Account : IAccount
 	{
 		/// <summary>
 		/// List of chat macros associated with the account.
@@ -46,6 +47,26 @@ namespace Melia.Channel.Database
 		public int Authority { get; set; }
 
 		/// <summary>
+		/// Amount of Free TP.
+		/// </summary>
+		public int Medals { get; set; }
+
+		/// <summary>
+		/// Amount of Event TP.
+		/// </summary>
+		public int GiftMedals { get; set; }
+
+		/// <summary>
+		/// Amount of TP.
+		/// </summary>
+		public int PremiumMedals { get; set; }
+
+		/// <summary>
+		/// Id of the barrack map.
+		/// </summary>
+		public int SelectedBarrack { get; set; }
+
+		/// <summary>
 		/// The account's settings.
 		/// </summary>
 		public AccountSettings Settings { get; private set; }
@@ -60,6 +81,8 @@ namespace Melia.Channel.Database
 		/// </summary>
 		public Account()
 		{
+			// TODO: Remove the selected barrack once those are saved to the database.
+			this.SelectedBarrack = 11;
 			this.Settings = new AccountSettings();
 			this.Variables = new Variables();
 			_chatMacros = new List<ChatMacro>();

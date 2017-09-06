@@ -25,5 +25,6 @@ if (checkCompression())
 }
 else
 {
+    short compression;
     Item items[itemCount] <optimize=false>;
 }

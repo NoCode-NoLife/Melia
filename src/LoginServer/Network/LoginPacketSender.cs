@@ -10,6 +10,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Login.Network
 {
@@ -139,7 +140,7 @@ namespace Melia.Login.Network
 		public static void BC_NORMAL_SetPosition(LoginConnection conn, byte index, Position position)
 		{
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x02); // subop
+			packet.PutInt(SubOp.Barrack.SetPosition);
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(index);
 			packet.PutFloat(position.X);
@@ -156,7 +157,7 @@ namespace Melia.Login.Network
 		public static void BC_NORMAL_TeamUI(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0B); // SubOp
+			packet.PutInt(SubOp.Barrack.TeamUI);
 
 			packet.PutLong(conn.Account.Id);
 
@@ -182,7 +183,7 @@ namespace Melia.Login.Network
 			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0C); //SubOp
+			packet.PutInt(SubOp.Barrack.ZoneTraffic);
 
 			packet.BeginZlib();
 			packet.PutShort(zoneMaxPcCount);
@@ -250,7 +251,7 @@ namespace Melia.Login.Network
 			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
 
 			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(0x0F); // subOp
+			packet.PutInt(SubOp.Barrack.Run);
 			packet.PutLpString(str);
 
 			conn.Send(packet);

@@ -36,10 +36,21 @@ namespace Melia.Shared.Network.Helpers
 			}
 
 			packet.PutShort(appearancePc.Hair);
-			packet.PutShort(0); // Pose
 
-			// Team ID
-			packet.PutInt(0);
+			// Up until i171032 we had these as "pose" and "team id",
+			// but they actually contain the visible hats, so we either
+			// had them wrong, or they changed. This was first noticed in
+			// i170175.
+			{
+				//packet.PutShort(0); // Pose
+				//packet.PutInt(0); // Team ID
+
+				packet.PutByte(0);
+				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat1) != 0);
+				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat2) != 0);
+				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat3) != 0);
+				packet.PutShort(0);
+			}
 		}
 	}
 
@@ -53,6 +64,7 @@ namespace Melia.Shared.Network.Helpers
 		Gender Gender { get; }
 		int Level { get; }
 		byte Hair { get; }
+		HatVisibleStates VisibleHats { get; }
 
 		int[] GetEquipIds();
 	}

@@ -119,6 +119,7 @@ namespace Melia.Channel.Network
 			// ZC_SKILL_ADD...
 			Send.ZC_JOB_PTS(character);
 			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_NORMAL_AccountUpdate(character);
 
 			character.OpenEyes();
 		}
@@ -1264,8 +1265,19 @@ namespace Melia.Channel.Network
 			var command = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
+			var i1 = packet.GetInt();
 
-			Log.Debug("CZ_CUSTOM_COMMAND: Received command of classId '{1}' with arg '{2}' but no handler was found.", classId, cmdArg);
+			switch (command)
+			{
+				// Hat visbility toggle
+				case 0x28:
+					// classId = 0~2 (hats 1~3)
+					goto default;
+
+				default:
+					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
+					break;
+			}
 		}
 
 		/// <summary>

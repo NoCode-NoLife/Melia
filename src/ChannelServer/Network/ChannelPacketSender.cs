@@ -1176,7 +1176,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_LevelUp(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x11);
+			packet.PutInt(SubOp.Zone.LevelUp);
 			packet.PutInt(character.Handle);
 			packet.PutShort(8351);
 			packet.PutShort(39);
@@ -1196,7 +1196,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_ClassLevelUp(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x14);
+			packet.PutInt(SubOp.Zone.ClassLevelUp);
 			packet.PutInt(character.Handle);
 			packet.PutByte(1);
 			packet.PutInt(2);
@@ -1208,15 +1208,63 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Adjusts the skill speed for a skill.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		/// <param name="value"></param>
+		public static void ZC_NORMAL_SetSkillSpeed(Character character, int skillId, float value)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.SetSkillSpeed);
+			packet.PutInt(skillId);
+			packet.PutFloat(value);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Adjusts the hit delay for a skill.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_NORMAL_SetHitDelay(Character character, int skillId, float value)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.SetHitDelay);
+			packet.PutInt(skillId);
+			packet.PutFloat(value);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends the session key to the client.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x14E);
+			packet.PutInt(SubOp.Zone.SetSessionKey);
 			packet.PutLpString(conn.SessionKey);
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sets the state of whether a hat is visible or not.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_HatVisibleState(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.HatVisibleState);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte((character.VisibleHats & HatVisibleStates.Hat1) != 0);
+			packet.PutByte((character.VisibleHats & HatVisibleStates.Hat2) != 0);
+			packet.PutByte((character.VisibleHats & HatVisibleStates.Hat3) != 0);
+
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1635,7 +1683,7 @@ namespace Melia.Channel.Network
 				skillState = 1;
 
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x57);
+			packet.PutInt(SubOp.Zone.Skill);
 			packet.PutInt(character.Handle);
 			packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
 			packet.PutInt(id); // SkillId
@@ -1670,7 +1718,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_ParticleEffect(Character character, int actorId, int enable)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x61);
+			packet.PutInt(SubOp.Zone.ParticleEffect);
 			packet.PutInt(actorId);
 			packet.PutInt(enable);
 
@@ -1687,7 +1735,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(0x1c);
+			packet.PutInt(SubOp.Zone.Unkown_1c);
 			packet.PutByte(0);
 			packet.PutBinFromHex("9F D2 42 0B"); // This is not a fixed value, check more packets
 			packet.PutInt(id); // Target ActorId (seems to be)
@@ -1701,6 +1749,20 @@ namespace Melia.Channel.Network
 			packet.PutFloat(0); // Unk
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Sends account properties.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_AccountUpdate(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.AccountUpdate);
+			packet.PutLong(character.AccountId);
+			packet.AddAccountProperties(character.Connection.Account);
+
+			character.Connection.Send(packet);
 		}
 
 
