@@ -650,6 +650,36 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sent when the character requests to use an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_USE)]
+		public void CZ_ITEM_USE(ChannelConnection conn, Packet packet)
+		{
+			var worldId = packet.GetLong();
+			var handle = packet.GetInt();
+
+			// Get item.
+			var item = conn.SelectedCharacter.Inventory.GetItem(worldId);
+			if (item == null)
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a non-existent item.", conn.Account.Name);
+				return;
+			}
+
+			// Do not allow use of locked items.
+			if (item.IsLocked)
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
+				return;
+			}
+
+			// TODO: Implement use of item.
+			Log.Warning("CZ_ITEM_USE: User '{0}' attempted to use an item, but item usage has not been implemented yet.", conn.Account.Name);
+		}
+
+		/// <summary>
 		/// Sent when "clicking" an NPC.
 		/// </summary>
 		/// <param name="conn"></param>
