@@ -297,3 +297,24 @@ typedef struct
         byte properties[size-2]; // todo, short:val list
 }
 AccountProperties;
+
+typedef struct
+{
+    int64 skillObjectId;
+    int id;
+    short propertiesSize;
+    byte bin1[2];
+    int i1;
+    short s1;
+    byte bin2[2];
+    byte properties[propertiesSize];
+}
+Skill <read=readSkill>;
+
+string readSkill(Skill &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}
+
