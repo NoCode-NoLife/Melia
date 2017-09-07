@@ -660,8 +660,10 @@ namespace Melia.Channel.Network
 			var worldId = packet.GetLong();
 			var handle = packet.GetInt();
 
+			var character = conn.SelectedCharacter;
+
 			// Get item.
-			var item = conn.SelectedCharacter.Inventory.GetItem(worldId);
+			var item = character.Inventory.GetItem(worldId);
 			if (item == null)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a non-existent item.", conn.Account.Name);
@@ -676,7 +678,8 @@ namespace Melia.Channel.Network
 			}
 
 			// TODO: Implement use of item.
-			Log.Warning("CZ_ITEM_USE: User '{0}' attempted to use an item, but item usage has not been implemented yet.", conn.Account.Name);
+
+			character.ServerMessage("Items can't be used yet.");
 		}
 
 		/// <summary>
