@@ -473,6 +473,23 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Unequips an item and optionally shows a UI message.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <param name="message"></param>
+		public static void ZC_EQUIP_ITEM_REMOVE(Character character, Item item, int message)
+		{
+			var packet = new Packet(Op.ZC_EQUIP_ITEM_REMOVE);
+			packet.PutLong(item.WorldId);
+
+			// TODO: Make message an enumeration.
+			packet.PutInt(message);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Broadcasts ZC_CHAT in range of character.
 		/// </summary>
 		/// <param name="character"></param>
