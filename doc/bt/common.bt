@@ -318,3 +318,18 @@ string readSkill(Skill &v)
     return result;
 }
 
+typedef struct
+{
+    int64 l1;
+    int id;
+    short s1; // properties?
+    short s2;
+}
+Ability <read=readAbility>;
+
+string readAbility(Ability &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}

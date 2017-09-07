@@ -1,0 +1,31 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ABILITY_LIST
+//   Authors: exec
+//   Version: i170175
+//   Purpose: List of abilities sent upon login.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+short size;
+
+int handle;
+short abilityCount;
+
+if (checkCompression())
+{
+    compressedData data;
+}
+else
+{
+    short compression;
+    Ability abilities[abilityCount];
+}
