@@ -65,8 +65,13 @@ Coding conventions
   are irrevelant.
 * Excessive usage of the auto-formatting feature is encouraged.
   (Addon Suggestion: [Format document on Save](https://marketplace.visualstudio.com/items?itemName=mynkow.FormatdocumentonSave))
-* Avoid overuse of regions.
+* Regions should be used sparingly.
 * A space should be used after a comment. For example, `// comment`.
+* Property setters and getters should be simple and not do anything
+  that is not directly related to setting or getting the value.
+  They should not run complicated calculations or send packets.
+* Pure getter methods should be avoided in favor of properties,
+  unless they do more than just returning a value.
 
 EditorConfig compatible IDEs like VS2017 will automatically switch to
 formatting settings that match the coding conventions as much as possible.
