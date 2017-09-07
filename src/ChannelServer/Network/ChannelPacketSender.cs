@@ -1733,6 +1733,31 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Updates the skill UI with character job data.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_UpdateSkillUI(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.UpdateSkillUI);
+			packet.PutLong(character.Id);
+
+			var jobs = character.GetJobCount();
+			packet.PutInt(jobs);
+
+			for (int i = 0; i < jobs; i++)
+			{
+				packet.PutShort((short)character.Job); // Job ID.
+				packet.PutEmptyBin(6); // Unknown.
+
+				// Number of available points.
+				packet.PutShort(character.GetAvailableSkillPoints(character.Job));
+
+				packet.PutShort(1); // Job tier (number of stars).
+			}
+			character.Connection.Send(packet);
+		}
 
 		/// <summary>
 		/// Set a Range type "FAN" shape in a given position

@@ -175,6 +175,27 @@ namespace Melia.Channel.World
 			return 1;
 		}
 
+        /// <summary>
+        /// Returns the number of unallocated skill points for a job.
+        /// </summary>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        public int GetAvailableSkillPoints(Job job)
+        {
+            // TODO: Return the available skill points the character has for the particular job.
+            return 0;
+        }
+
+        /// <summary>
+        /// Returns the number of jobs this character has.
+        /// </summary>
+        /// <returns></returns>
+        public int GetJobCount()
+        {
+            // TODO: Return the number of jobs that this character has.
+            return 1;
+        }
+
 		/// <summary>
 		/// Starts movement.
 		/// </summary>
