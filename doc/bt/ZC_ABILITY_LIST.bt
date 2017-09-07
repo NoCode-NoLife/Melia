@@ -20,12 +20,5 @@ short size;
 int handle;
 short abilityCount;
 
-if (checkCompression())
-{
-    compressedData data;
-}
-else
-{
-    short compression;
+if (!checkCompression())
     Ability abilities[abilityCount];
-}

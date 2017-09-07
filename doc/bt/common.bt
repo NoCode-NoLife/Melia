@@ -285,7 +285,16 @@ string compressedDataRead(compressedData &v)
 
 byte checkCompression()
 {
-    return (ReadUShort() == 0xFA8D);
+    if (ReadUShort() == 0xFA8D)
+    {
+        compressedData data;
+        return 1;
+    }
+    else
+    {
+        short noCompression;
+        return false;
+    }
 }
 
 typedef struct

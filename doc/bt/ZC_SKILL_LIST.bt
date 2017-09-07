@@ -20,12 +20,5 @@ short size;
 int handle;
 short skillCount;
 
-if (checkCompression())
-{
-    compressedData data;
-}
-else
-{
-    short compression;
+if (!checkCompression())
     Skill skills[skillCount] <optimize=false>;
-}

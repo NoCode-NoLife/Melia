@@ -19,12 +19,5 @@ int sequence;
 short size;
 int itemCount;
 
-if (checkCompression())
-{
-    compressedData compressed;
-}
-else
-{
-    short compression;
+if (!checkCompression())
     Item items[itemCount] <optimize=false>;
-}

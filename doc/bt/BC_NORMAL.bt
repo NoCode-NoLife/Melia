@@ -42,13 +42,8 @@ switch(type)
 		
     // Message Box
     case 0x10:
-        if (checkCompression())
+        if (!checkCompression())
         {
-		    compressedData data;
-        }
-        else
-        {
-            short compression;
             byte b1;
             int i1;
             int messageCount;
