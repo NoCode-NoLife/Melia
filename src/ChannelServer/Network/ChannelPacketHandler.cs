@@ -676,6 +676,7 @@ namespace Melia.Channel.Network
 			}
 
 			// TODO: Implement use of item.
+			Log.Warning("CZ_ITEM_USE: User '{0}' attempted to use an item, but item usage has not been implemented yet.", conn.Account.Name);
 		}
 
 		/// <summary>
