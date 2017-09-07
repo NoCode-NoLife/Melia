@@ -88,15 +88,25 @@ namespace Melia.Channel.Database
 			_chatMacros = new List<ChatMacro>();
 			_revealedMaps = new Dictionary<int, RevealedMap>();
 
-			// Initialize with the default set of macros.
-			var macroData = ChannelServer.Instance.Data.ChatMacroDb
-				.Where(x => x.Id <= 10) // maximum number of chat macros allowed.
-				.OrderBy(x => x.Id);
+			this.LoadDefaultChatMacros();
+		}
 
+		/// <summary>
+		/// Loads default chat macros from data.
+		/// </summary>
+		private void LoadDefaultChatMacros()
+		{
+			// Get all and add a maximum of 10
+			var macroData = ChannelServer.Instance.Data.ChatMacroDb.OrderBy(x => x.Id);
+
+			var i = 1;
 			foreach (var data in macroData)
 			{
-				var macro = new ChatMacro(data.Id, data.Text, data.Pose);
+				var macro = new ChatMacro(i, data.Text, data.Pose);
 				this.AddChatMacro(macro);
+
+				if (++i > 10)
+					break;
 			}
 		}
 
