@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_EQUIP_ITEM_REMOVE.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Unequips an item with a UI message.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int64 objectId;
+int messageType; // This determines what UI message is shown.
