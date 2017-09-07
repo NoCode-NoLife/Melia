@@ -3,13 +3,13 @@
 //---------------------------------------------------------------------------
 
 [
-{ "id": "1", "name": "Set1", "pose": "8", "text": "@dicID_^*$ETC_20151001_014770$*^" },
-{ "id": "2", "name": "Set2", "pose": "9", "text": "@dicID_^*$ETC_20151001_014771$*^" },
-{ "id": "3", "name": "Set3", "pose": "10", "text": "@dicID_^*$ETC_20151001_014772$*^" },
-{ "id": "4", "name": "Set4", "pose": "16", "text": "@dicID_^*$ETC_20151001_014773$*^" },
-{ "id": "5", "name": "Set5", "pose": "17", "text": "@dicID_^*$ETC_20151001_014774$*^" },
-{ "id": "6", "name": "Set6", "pose": "1", "text": "@dicID_^*$ETC_20151001_014775$*^" },
-{ "id": "7", "name": "Set7", "pose": "6", "text": "@dicID_^*$ETC_20151001_014776$*^" },
+{ "id": "1", "name": "Set1", "pose": "8", "text": "{img emoticon_0022 30 30} I'm sorry" },
+{ "id": "2", "name": "Set2", "pose": "9", "text": "{img emoticon_0001 30 30} Thanks" },
+{ "id": "3", "name": "Set3", "pose": "10", "text": "{img emoticon_0002 30 30} Good" },
+{ "id": "4", "name": "Set4", "pose": "16", "text": "{img emoticon_0010 30 30} Surprised" },
+{ "id": "5", "name": "Set5", "pose": "17", "text": "{img emoticon_0016 30 30} Crying" },
+{ "id": "6", "name": "Set6", "pose": "1", "text": "{img emoticon_0007 30 30} Love" },
+{ "id": "7", "name": "Set7", "pose": "6", "text": "{img emoticon_0006 30 30} Hello" },
 { "id": "8", "name": "Set8", "pose": "0", "text": "" },
 { "id": "9", "name": "Set9", "pose": "0", "text": "" },
 { "id": "10", "name": "Set10", "pose": "0", "text": "" },
