@@ -31,6 +31,7 @@ namespace Melia.Shared.Network
 			public const int SetHitDelay = 0x79;
 			public const int SetSessionKey = 0x14E;
 			public const int HatVisibleState = 0x181;
+			public const int UpdateSkillUI = 0x18E;
 		}
 	}
 }
