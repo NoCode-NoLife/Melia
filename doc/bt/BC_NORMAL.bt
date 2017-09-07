@@ -40,6 +40,33 @@ switch(type)
 		int i1;
         break;
 		
+    // Message Box
+    case 0x10:
+        if (checkCompression())
+        {
+		    compressedData data;
+        }
+        else
+        {
+            short compression;
+            byte b1;
+            int i1;
+            int messageCount;
+            if (messageCount != 0)
+                Message messages[messageCount] <optimize=false>;
+        }
+        break;
+
+    // Message Box item update
+    case 0x13:
+        int64 messageId;
+        byte b1;
+        int i1;
+        int itemCount;
+        if (itemCount != 0)
+            MessageItem items[itemCount] <optimize=false>;
+        break;
+		
 	// Team UI
 	// Updates the client UI with character slots, team experience,
 	// names, etc.
