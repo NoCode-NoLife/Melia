@@ -387,10 +387,8 @@ namespace Melia.Channel.Network
 			{
 				packet.PutLong(0); // Some kind of GUID? o.O
 				packet.PutInt(ability);
-				packet.PutShort(6); // properties size (some abilities doesn't have properties, like weapon wielding)
-				packet.PutShort(255); // ?
-				packet.PutShort(25); //Level
-				packet.PutFloat(10);
+				packet.PutShort(0); // properties?
+				packet.PutShort(0);
 			}
 			//packet.EndZlib();
 
