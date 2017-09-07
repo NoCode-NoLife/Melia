@@ -1741,10 +1741,10 @@ namespace Melia.Channel.Network
 			packet.PutInt(SubOp.Zone.UpdateSkillUI);
 			packet.PutLong(character.Id);
 
-			var jobs = character.GetJobCount();
-			packet.PutInt(jobs);
+			var jobCount = character.JobCount;
+			packet.PutInt(jobCount);
 
-			for (int i = 0; i < jobs; i++)
+			for (var i = 0; i < jobCount; i++)
 			{
 				packet.PutShort((short)character.Job); // Job ID.
 				packet.PutEmptyBin(6); // Unknown.
@@ -1754,6 +1754,7 @@ namespace Melia.Channel.Network
 
 				packet.PutShort(1); // Job tier (number of stars).
 			}
+
 			character.Connection.Send(packet);
 		}
 

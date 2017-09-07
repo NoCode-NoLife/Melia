@@ -131,6 +131,15 @@ namespace Melia.Channel.World
 		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
 
 		/// <summary>
+		/// Returns the number of jobs this character has.
+		/// </summary>
+		/// <remarks>
+		/// // TODO: Return the number of jobs that this character has.
+		/// </remarks>
+		/// <returns></returns>
+		public int JobCount { get { return 1; } }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -184,16 +193,6 @@ namespace Melia.Channel.World
 		{
 			// TODO: Return the available skill points the character has for the particular job.
 			return 0;
-		}
-
-		/// <summary>
-		/// Returns the number of jobs this character has.
-		/// </summary>
-		/// <returns></returns>
-		public int GetJobCount()
-		{
-			// TODO: Return the number of jobs that this character has.
-			return 1;
 		}
 
 		/// <summary>
