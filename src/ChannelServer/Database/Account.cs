@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Scripting;
 using Melia.Channel.World;
+using Melia.Shared.Util;
 using Melia.Shared.Network.Helpers;
 
 namespace Melia.Channel.Database
@@ -86,6 +87,17 @@ namespace Melia.Channel.Database
 			this.Variables = new Variables();
 			_chatMacros = new List<ChatMacro>();
 			_revealedMaps = new Dictionary<int, RevealedMap>();
+
+			// Initialize with the default set of macros.
+			var macroData = ChannelServer.Instance.Data.ChatMacroDb
+				.Where(x => x.Id <= 10) // maximum number of chat macros allowed.
+				.OrderBy(x => x.Id);
+
+			foreach (var data in macroData)
+			{
+				var macro = new ChatMacro(data.Id, data.Text, data.Pose);
+				this.AddChatMacro(macro);
+			}
 		}
 
 		/// <summary>

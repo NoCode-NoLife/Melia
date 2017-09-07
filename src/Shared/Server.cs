@@ -127,6 +127,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.ChatMacros) != 0)
+				{
+					this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -231,6 +236,7 @@ namespace Melia.Shared
 		Shops = 0x200,
 		Help = 0x400,
 		CustomCommands = 0x800,
+		ChatMacros = 0x1000,
 
 		All = 0x7FFFFFFF,
 	}
