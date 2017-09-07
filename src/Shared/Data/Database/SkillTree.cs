@@ -11,7 +11,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class SkillTreeData
 	{
-		public Job JobId { get; set; }
+		public JobId JobId { get; set; }
 		public int SkillId { get; set; }
 		public int UnlockCircle { get; set; }
 		public int LevelsPerCircle { get; set; }
@@ -29,7 +29,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
 		/// <returns></returns>
-		public SkillTreeData[] FindSkills(Job jobId, int circle)
+		public SkillTreeData[] FindSkills(JobId jobId, int circle)
 		{
 			return this.Entries.Where(a => a.JobId == jobId && a.UnlockCircle <= circle).ToArray();
 		}
@@ -40,7 +40,7 @@ namespace Melia.Shared.Data.Database
 
 			var data = new SkillTreeData();
 
-			data.JobId = (Job)entry.ReadInt("jobId");
+			data.JobId = (JobId)entry.ReadInt("jobId");
 			data.SkillId = entry.ReadInt("skillId");
 			data.UnlockCircle = entry.ReadInt("unlockCircle");
 			data.LevelsPerCircle = entry.ReadInt("levelsPerCircle");

@@ -34,7 +34,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class JobDb : DatabaseJsonIndexed<int, JobData>
 	{
-		public JobData Find(Job job)
+		public JobData Find(JobId job)
 		{
 			return this.Find((int)job);
 		}

@@ -196,7 +196,7 @@ namespace Melia.Login.Network
 		{
 			var charPosition = packet.GetByte();
 			var name = packet.GetString(65);
-			var job = (Job)packet.GetShort();
+			var job = (JobId)packet.GetShort();
 			var gender = (Gender)packet.GetByte();
 			var bx = packet.GetFloat();
 			var by = packet.GetFloat();
@@ -204,7 +204,7 @@ namespace Melia.Login.Network
 			var hair = packet.GetByte();
 
 			// Check job
-			if (job != Job.Swordsman && job != Job.Wizard && job != Job.Archer && job != Job.Cleric)
+			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric)
 			{
 				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid job '{1}'.", conn.Account.Name, job);
 				conn.Close();

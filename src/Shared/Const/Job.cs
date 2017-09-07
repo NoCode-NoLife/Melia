@@ -5,7 +5,7 @@ using System;
 
 namespace Melia.Shared.Const
 {
-	public enum Job : short
+	public enum JobId : short
 	{
 		Swordsman = 1001,
 		Highlander = 1002,
@@ -95,7 +95,7 @@ namespace Melia.Shared.Const
 
 	public static class JobExtension
 	{
-		public static Class ToClass(this Job job)
+		public static Class ToClass(this JobId job)
 		{
 			var result = (Class)((int)job / 1000);
 

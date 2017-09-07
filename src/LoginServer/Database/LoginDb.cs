@@ -251,7 +251,7 @@ namespace Melia.Login.Database
 							character.Id = reader.GetInt64("characterId");
 							character.AccountId = accountId;
 							character.Name = reader.GetStringSafe("name");
-							character.Job = (Job)reader.GetInt16("job");
+							character.Job = (JobId)reader.GetInt16("job");
 							character.Gender = (Gender)reader.GetByte("gender");
 							character.Hair = reader.GetByte("hair");
 							character.Level = reader.GetInt32("level");

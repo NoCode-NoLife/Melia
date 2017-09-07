@@ -189,7 +189,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="job"></param>
 		/// <returns></returns>
-		public int GetAvailableSkillPoints(Job job)
+		public int GetAvailableSkillPoints(JobId job)
 		{
 			// TODO: Return the available skill points the character has for the particular job.
 			return 0;

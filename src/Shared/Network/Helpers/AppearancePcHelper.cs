@@ -60,7 +60,7 @@ namespace Melia.Shared.Network.Helpers
 		string Name { get; }
 		string TeamName { get; }
 		int Stance { get; }
-		Job Job { get; }
+		JobId Job { get; }
 		Gender Gender { get; }
 		int Level { get; }
 		byte Hair { get; }

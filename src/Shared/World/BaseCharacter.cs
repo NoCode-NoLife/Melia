@@ -31,7 +31,7 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Character's job.
 		/// </summary>
-		public Job Job { get; set; }
+		public JobId Job { get; set; }
 
 		/// <summary>
 		/// Character's gender.

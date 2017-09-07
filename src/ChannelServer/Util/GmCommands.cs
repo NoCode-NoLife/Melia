@@ -378,13 +378,13 @@ namespace Melia.Channel.Util
 			if (!short.TryParse(args[1], out jobId))
 				return CommandResult.InvalidArgument;
 
-			if (!Enum.IsDefined(typeof(Job), jobId))
+			if (!Enum.IsDefined(typeof(JobId), jobId))
 			{
 				character.ServerMessage("Unknown job.");
 				return CommandResult.Okay;
 			}
 
-			target.Job = (Job)jobId;
+			target.Job = (JobId)jobId;
 			Send.ZC_PC(target, PcUpdateType.Job, (short)jobId);
 			Send.ZC_UPDATED_PCAPPEARANCE(target);
 
