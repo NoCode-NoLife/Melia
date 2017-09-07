@@ -14,23 +14,24 @@ namespace Melia.Channel.Network.Helpers
 			var skill = ChannelServer.Instance.Data.SkillDb.Find(skillId);
 			if (skill == null)
 				throw new NullReferenceException("Tried to add non-existing skill'" + skillId + "' ");
+
 			packet.PutLong(0); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
 			packet.PutInt(skillId);
-			packet.PutShort(6 * 4); // properties size
+			packet.PutShort(4 * (sizeof(int) * 2)); // properties size, 4 * (int key + int val)
 			packet.PutEmptyBin(2); // alignment
 			packet.PutInt(0); // ?
 			packet.PutShort(0); // ?
 			packet.PutEmptyBin(2); // alignment
+
 			// Properties
-			packet.PutShort(ObjectProperty.Skill.Level);
+			packet.PutInt(ObjectProperty.Skill.Level);
 			packet.PutFloat(1);
-			packet.PutShort(ObjectProperty.Skill.WaveLength);
+			packet.PutInt(ObjectProperty.Skill.WaveLength);
 			packet.PutFloat(skill.WaveLength);
-			packet.PutShort(ObjectProperty.Skill.SplAngle);
+			packet.PutInt(ObjectProperty.Skill.SplAngle);
 			packet.PutFloat(skill.SplashAngle);
-			packet.PutShort(ObjectProperty.Skill.SplRange);
+			packet.PutInt(ObjectProperty.Skill.SplRange);
 			packet.PutFloat(skill.SplashRange);
 		}
-
 	}
 }
