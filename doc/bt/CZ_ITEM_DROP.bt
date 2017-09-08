@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_ITEM_DROP.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Drops an item from inventory.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int64 worldId;
+int count;
