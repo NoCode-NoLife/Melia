@@ -1375,6 +1375,20 @@ namespace Melia.Channel.Network
 		{
 			// No parameters
 		}
+
+		/// <summary>
+		/// Sent regularly. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_I_NEED_PARTY)]
+		public void CZ_I_NEED_PARTY(ChannelConnection conn, Packet packet)
+		{                              // if not in party? :
+			var b1 = packet.GetByte(); // 0
+			var i1 = packet.GetInt();  // 110
+			var i2 = packet.GetInt();  // -1
+			var i3 = packet.GetInt();  // 1111
+		}
 	}
 
 	public enum TxType : short
