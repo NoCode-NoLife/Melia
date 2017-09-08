@@ -60,6 +60,7 @@ int getPropertyType(int id)
         case 41: 
         case 4591:
         case 7118:
+        case 10618: // coordinates? (-1246/-648)
             return OBJP_STRING;
             break;
         case 4601:
