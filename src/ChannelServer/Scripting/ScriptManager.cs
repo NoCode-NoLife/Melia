@@ -798,7 +798,7 @@ namespace Melia.Channel.Scripting
 			// Get arguments, first argument is the message, everything afterwards
 			// is one option to select from.
 			var args = new string[argc];
-			for (int i = 1; i <= argc; ++i)
+			for (var i = 1; i <= argc; ++i)
 			{
 				var arg = Melua.luaL_checkstring(L, i);
 				this.HandleCustomCode(conn, ref arg);
@@ -926,21 +926,21 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Result:
 		/// {
-		///     string  name,     -- Character's name
-		///     string  teamName, -- Character's team name
-		///     integer gender,   -- Character's gender
-		///     integer level,    -- Character's level
-		///     integer hp,       -- Character's HP
-		///     integer maxHp,    -- Character's max HP
-		///     integer sp,       -- Character's SP
-		///     integer maxSp,    -- Character's max SP
-		///     integer stamina,  -- Character's stamina
-		///     integer hair,     -- Character's hair
-		///     integer job,      -- Character's job
+		///     string  name,         -- Character's name
+		///     string  teamname,     -- Character's team name
+		///     integer gender,       -- Character's gender
+		///     integer level,        -- Character's level
+		///     integer hp,           -- Character's HP
+		///     integer maxhp,        -- Character's max HP
+		///     integer sp,           -- Character's SP
+		///     integer maxsp,        -- Character's max SP
+		///     integer stamina,      -- Character's stamina
+		///     integer hair,         -- Character's hair
+		///     integer job,          -- Character's job
 		///     table account
 		///     {
-		///         string  name, -- Account's name
-		///         integer auth, -- Account's authority level
+		///         string  name,     -- Account's name
+		///         integer auth,     -- Account's authority level
 		///     }
 		/// }
 		/// </remarks>
@@ -959,7 +959,7 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushstring(L, character.Name);
 			Melua.lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "teamName");
+			Melua.lua_pushstring(L, "teamname");
 			Melua.lua_pushstring(L, character.TeamName);
 			Melua.lua_settable(L, -3);
 
@@ -975,7 +975,7 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, character.Hp);
 			Melua.lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "maxHp");
+			Melua.lua_pushstring(L, "maxhp");
 			Melua.lua_pushinteger(L, character.MaxHp);
 			Melua.lua_settable(L, -3);
 
@@ -983,7 +983,7 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, character.Sp);
 			Melua.lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "maxSp");
+			Melua.lua_pushstring(L, "maxsp");
 			Melua.lua_pushinteger(L, character.MaxSp);
 			Melua.lua_settable(L, -3);
 
