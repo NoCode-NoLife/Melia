@@ -495,5 +495,19 @@ namespace Melia.Login.Network
 			var characterId = packet.GetLong();
 			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
 		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_NOT_AUTHORIZED_ADDON_LIST)]
+		public void CB_NOT_AUTHORIZED_ADDON_LIST(LoginConnection conn, Packet packet)
+		{
+			// I assume it's some kind of anti-cheat? I doubt we'll care
+			// about this any time soon. Btw, if it is an anti-cheat:
+			// Good thinking, IMC. Let the client tell the server about
+			// its files, what could go wrong.
+		}
 	}
 }
