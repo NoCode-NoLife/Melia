@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_CHANGE_EQUIP_DURABILITY.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Updates the durability of an item in an equpiment slot.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+byte equipmentSlot;
+int durability; // This is represented in thousandths.
+                // Example: For an item with displayed durability of 39/42,
+                // the value would be sent as '3900'.

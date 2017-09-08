@@ -490,6 +490,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates the durability of an item in an equipment slot.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="slot"></param>
+		/// <param name="durability">Value in thousandths that the item has remaining.</param>
+		public static void ZC_CHANGE_EQUIP_DURABILITY(Character character, EquipSlot slot, int durability)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_EQUIP_DURABILITY);
+			packet.PutByte((byte)slot);
+			packet.PutInt(durability);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Broadcasts ZC_CHAT in range of character.
 		/// </summary>
 		/// <param name="character"></param>
