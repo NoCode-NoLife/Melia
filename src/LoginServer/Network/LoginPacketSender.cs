@@ -16,12 +16,20 @@ namespace Melia.Login.Network
 {
 	public static class Send
 	{
+		/// <summary>
+		/// Sends notification that login packet was received.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_LOGIN_PACKET_RECEIVED(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_LOGIN_PACKET_RECEIVED);
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends positive response to login attempt.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_LOGINOK(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_LOGINOK);
@@ -36,10 +44,13 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends positive response to logout attempt.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_LOGOUTOK(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_LOGOUTOK);
-
 			conn.Send(packet);
 		}
 
@@ -70,7 +81,7 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sends the number of the new character's index.
+		/// Sends the new character's index.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
@@ -84,6 +95,11 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends information about newly created character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		public static void BC_COMMANDER_CREATE(LoginConnection conn, Character character)
 		{
 			var packet = new Packet(Op.BC_COMMANDER_CREATE);
@@ -92,6 +108,11 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends response to team name change request.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="result"></param>
 		public static void BC_BARRACKNAME_CHANGE(LoginConnection conn, TeamNameChangeResult result)
 		{
 			var response = new Packet(Op.BC_BARRACKNAME_CHANGE);
@@ -102,6 +123,11 @@ namespace Melia.Login.Network
 			conn.Send(response);
 		}
 
+		/// <summary>
+		/// Sends pre-defined message to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msgType"></param>
 		public static void BC_MESSAGE(LoginConnection conn, MsgType msgType)
 		{
 			var packet = new Packet(Op.BC_MESSAGE);
@@ -110,6 +136,11 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends custom message to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msg"></param>
 		public static void BC_MESSAGE(LoginConnection conn, string msg)
 		{
 			var packet = new Packet(Op.BC_MESSAGE);
@@ -120,6 +151,11 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Removes character from barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="index"></param>
 		public static void BC_COMMANDER_DESTROY(LoginConnection conn, byte index)
 		{
 			var packet = new Packet(Op.BC_COMMANDER_DESTROY);
@@ -165,6 +201,10 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends zone traffic list.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters();
@@ -193,6 +233,13 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends positive response to game start request.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="ip"></param>
+		/// <param name="port"></param>
 		public static void BC_START_GAMEOK(LoginConnection conn, Character character, string ip, int port)
 		{
 			var packet = new Packet(Op.BC_START_GAMEOK);
@@ -209,6 +256,14 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends social server connection information?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="ip1"></param>
+		/// <param name="port1"></param>
+		/// <param name="ip2"></param>
+		/// <param name="port2"></param>
 		public static void BC_SERVER_ENTRY(LoginConnection conn, string ip1, int port1, string ip2, int port2)
 		{
 			var packet = new Packet(Op.BC_SERVER_ENTRY);
@@ -221,6 +276,11 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Updates account's properties on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="account"></param>
 		public static void BC_ACCOUNT_PROP(LoginConnection conn, Account account)
 		{
 			var packet = new Packet(Op.BC_ACCOUNT_PROP);

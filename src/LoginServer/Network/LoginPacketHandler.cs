@@ -40,7 +40,6 @@ namespace Melia.Login.Network
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
-
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
 			{
@@ -382,7 +381,7 @@ namespace Melia.Login.Network
 			var channelServer = LoginServer.Instance.Data.ServerDb.FindChannel(channelId);
 			if (channelServer == null)
 			{
-				Log.Error("Channel with id '{0}' not found.", channelId);
+				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", channelId);
 				return;
 			}
 
