@@ -72,6 +72,11 @@ namespace Melia.Login.Database
 		public int SelectedBarracklayer { get; set; }
 
 		/// <summary>
+		/// Returns the number of characters the account has.
+		/// </summary>
+		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()

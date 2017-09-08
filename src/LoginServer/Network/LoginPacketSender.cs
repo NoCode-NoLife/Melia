@@ -50,21 +50,17 @@ namespace Melia.Login.Network
 		/// <param name="layer">This is the number on the left side of the character list in the client.</param>
 		public static void BC_COMMANDER_LIST(LoginConnection conn, int layer = 1)
 		{
-			var characters = conn.Account.GetCharacters()
-				.Where(x => x.BarrackLayer == layer);
+			var characters = conn.Account.GetCharacters().Where(x => x.BarrackLayer == layer);
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
 			packet.PutByte((byte)characters.Count());
 			packet.PutString(conn.Account.TeamName, 64);
-
 			packet.AddAccountProperties(conn.Account);
 
 			foreach (var character in characters)
-			{
 				packet.AddBarrackPc(character);
-			}
 
 			// Null terminated list of some kind?
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
@@ -80,10 +76,11 @@ namespace Melia.Login.Network
 		/// <param name="character"></param>
 		public static void BC_COMMANDER_CREATE_SLOTID(LoginConnection conn, Character character)
 		{
-			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
-			var characterCount = (byte)conn.Account.GetCharacters().Count();
+			var characterCount = conn.Account.CharacterCount;
 
-			packet.PutByte(characterCount);
+			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
+			packet.PutByte((byte)characterCount);
+
 			conn.Send(packet);
 		}
 
@@ -156,21 +153,14 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		public static void BC_NORMAL_TeamUI(LoginConnection conn)
 		{
+			var characters = conn.Account.GetCharacters();
+
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.TeamUI);
-
 			packet.PutLong(conn.Account.Id);
-
-			// Need to check the number of slots bought.
-			// slots = (mapDefault - 4 + bought)
-			packet.PutShort(0);
-
-			// Team experience. Displayed under "Team Info"
-			packet.PutInt(0);
-
-			// Sum of characters and pets.
-			var characters = conn.Account.GetCharacters();
-			packet.PutShort(characters.Count());
+			packet.PutShort(0); // Number of additional character slots
+			packet.PutInt(0); // Team experience. Displayed under "Team Info"
+			packet.PutShort(characters.Count()); // Sum of characters and pets.
 
 			conn.Send(packet);
 		}
@@ -248,8 +238,6 @@ namespace Melia.Login.Network
 		/// <param name="str"></param>
 		public static void BC_NORMAL_Run(LoginConnection conn, string str)
 		{
-			// Probably runs a lua function? Example string: THEMA_BUY_SUCCESS
-
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.Run);
 			packet.PutLpString(str);

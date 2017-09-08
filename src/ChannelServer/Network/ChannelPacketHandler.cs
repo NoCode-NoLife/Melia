@@ -1220,11 +1220,11 @@ namespace Melia.Channel.Network
 					Send.ZC_ADDON_MSG(conn.SelectedCharacter, AddonMessage.EXPIREDITEM_ALERT_OPEN, destination);
 					break;
 				default:
-					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User {0} tried to transfer to {1} which is an unknown state.", conn.Account.Name, destination);
+					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
 					return;
 			}
 
-			Log.Info("CZ_RUN_GAMEEXIT_TIMER: User {0} is transferring to {1} state.", conn.Account.Name, destination);
+			Log.Info("User '{0}' is transferring to '{1}' state.", conn.Account.Name, destination);
 		}
 
 		/// <summary>
