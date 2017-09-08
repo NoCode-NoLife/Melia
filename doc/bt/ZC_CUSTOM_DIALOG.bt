@@ -2,9 +2,9 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_CUSTOM_DIALOG.bt
-//   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Authors: exec, celophi
+//   Version: i171140
+//   Purpose: Closes one dialog and runs a dialog related lua function.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,4 +14,6 @@
 short op;
 int sequence;
 
-char str[69]; // ?
+char closeArgStr[33];   // The argument string associated with "DIALOG_CLOSE".
+char dialogStr[32];     // Concatenated with "OPEN_DLG_" which runs the registered lua function.
+int argNum;             // Number of arguments associated with "OPEN_DLG_"
