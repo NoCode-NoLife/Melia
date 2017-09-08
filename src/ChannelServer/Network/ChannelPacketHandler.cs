@@ -1389,6 +1389,17 @@ namespace Melia.Channel.Network
 			var i2 = packet.GetInt();  // -1
 			var i3 = packet.GetInt();  // 1111
 		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_FIXED_NOTICE_SHOW)]
+		public void CZ_FIXED_NOTICE_SHOW(ChannelConnection conn, Packet packet)
+		{
+			// No parameters
+		}
 	}
 
 	public enum TxType : short

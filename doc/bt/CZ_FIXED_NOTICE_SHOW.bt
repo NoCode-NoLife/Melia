@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_FIXED_NOTICE_SHOW
+//   Authors: exec
+//   Version: i171140
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
