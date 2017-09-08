@@ -935,6 +935,7 @@ namespace Melia.Channel.Scripting
 		///     integer sp,           -- Character's SP
 		///     integer maxsp,        -- Character's max SP
 		///     integer stamina,      -- Character's stamina
+		///     integer maxstamina,   -- Character's max stamina
 		///     integer hair,         -- Character's hair
 		///     integer job,          -- Character's job
 		///     table account
@@ -989,6 +990,10 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "stamina");
 			Melua.lua_pushinteger(L, character.Stamina);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "maxstamina");
+			Melua.lua_pushinteger(L, character.MaxStamina);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "hair");
