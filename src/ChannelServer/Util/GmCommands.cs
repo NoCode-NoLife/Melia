@@ -58,6 +58,7 @@ namespace Melia.Channel.Util
 			// Aliases
 			AddAlias("iteminfo", "ii");
 			AddAlias("monsterinfo", "mi");
+			AddAlias("reloadscripts", "rs");
 		}
 
 		/// <summary>
