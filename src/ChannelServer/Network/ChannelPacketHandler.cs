@@ -1364,6 +1364,17 @@ namespace Melia.Channel.Network
 			// <Item> item unlocked.
 			Send.ZC_SYSTEM_MSG(character, lockItem ? 4138 : 4139, new MsgParameter("Item", item.Data.Name));
 		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WIKI_RECIPE_UPDATE)]
+		public void CZ_WIKI_RECIPE_UPDATE(ChannelConnection conn, Packet packet)
+		{
+			// No parameters
+		}
 	}
 
 	public enum TxType : short
