@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_DIALOG_STRINGINPUT
+//   Authors: exec
+//   Version: i11XXX
+//   Purpose: Requests string input from client.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+short size;
+
+int i1;
+string message;
