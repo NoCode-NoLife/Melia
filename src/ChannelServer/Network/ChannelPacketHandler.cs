@@ -785,8 +785,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_STRINGINPUT)]
 		public void CZ_DIALOG_STRINGINPUT(ChannelConnection conn, Packet packet)
 		{
-			var input = packet.GetString(16);
-			//var unkBin = packet.GetBin(138 - 16 - 10);
+			var input = packet.GetString(128);
 
 			// Check state
 			if (conn.ScriptState.CurrentNpc == null)

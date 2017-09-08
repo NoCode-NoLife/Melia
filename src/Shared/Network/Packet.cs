@@ -154,7 +154,8 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
-		/// Reads given amount of bytes from buffer and returns them as UTF8 string.
+		/// Reads given number of bytes from buffer and returns them as
+		/// UTF8 string. Stops reading at the first null-byte.
 		/// </summary>
 		/// <param name="length"></param>
 		/// <returns></returns>
