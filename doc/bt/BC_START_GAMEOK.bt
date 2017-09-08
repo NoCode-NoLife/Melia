@@ -2,9 +2,9 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_START_GAMEOK.bt
-//   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Authors: exec, celophi
+//   Version: i171140
+//   Purpose: Signals the client that connection to the zone server can proceed.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -16,11 +16,11 @@
 short op;
 int sequence;
 
-int i1; // some ip?
+int zoneId;
 IP ip;
 int port;
 int mapId;
-byte b1;
+byte channelId;
 int64 characterId;
-byte b2;
-byte b3;
+byte abort;         // When true, the CZ_CONNECT packet is not sent.
+byte connectArg;    // This byte is sent back in CZ_CONNECT.
