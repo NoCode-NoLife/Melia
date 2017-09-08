@@ -207,11 +207,11 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_START_GAMEOK);
 
-			packet.PutInt(0);
+			packet.PutInt(0); // Zone ID.
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(character.MapId);
-			packet.PutByte(0);
+			packet.PutByte(1); // Channel ID.
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0
 			packet.PutByte(1); // Passed to a function if ^ is 0
