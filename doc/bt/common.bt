@@ -132,6 +132,7 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
+    short s2;
 }
 APPEARANCE_PC;
 
