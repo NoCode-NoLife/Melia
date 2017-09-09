@@ -13,6 +13,14 @@
 
 #include "common.bt"
 
+typedef struct
+{
+    short size;
+    if(size > 0)
+        byte properties[size]; // todo, short:val list
+}
+AccountProperties;
+
 short op;
 int sequence;
 short size;

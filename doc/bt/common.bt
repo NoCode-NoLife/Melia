@@ -132,7 +132,6 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
-    short s2;
 }
 APPEARANCE_PC;
 
@@ -296,16 +295,6 @@ byte checkCompression()
         return false;
     }
 }
-
-typedef struct
-{
-    short size;
-    short s1;
-
-    if(size > 0)
-        byte properties[size-2]; // todo, short:val list
-}
-AccountProperties;
 
 typedef struct
 {

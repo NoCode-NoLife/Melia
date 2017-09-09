@@ -18,6 +18,16 @@
 
 typedef struct
 {
+    short size;
+    short s1;
+
+    if(size > 0)
+        byte properties[size]; // todo, short:val list
+}
+AccountProperties;
+
+typedef struct
+{
     ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
 }
 EquipProperties;
