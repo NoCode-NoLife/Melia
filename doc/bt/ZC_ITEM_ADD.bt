@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 short op;
 int sequence;
 
@@ -25,4 +27,4 @@ float notificationDelay;
 byte invType;
 byte bin1[2];
 if(propertiesSize > 0)
-    byte properties[propertiesSize];
+    getProperties(propertiesSize);

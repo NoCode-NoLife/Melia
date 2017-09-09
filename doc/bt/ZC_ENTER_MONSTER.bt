@@ -45,4 +45,4 @@ lpString warpName; // ?
 lpString str3;
 
 if(propertiesSize > 0)
-    byte properties[propertiesSize];
+    getProperties(propertiesSize);

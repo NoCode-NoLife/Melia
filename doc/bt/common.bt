@@ -101,7 +101,7 @@ typedef struct
 {
     short size;
     if(size > 0)
-        byte properties[size]; // todo, short:val list
+        getProperties(size);
 }
 ItemProperties;
 
@@ -229,7 +229,7 @@ typedef struct
     int index;
     int i1;
     if (propertiesSize > 0)
-        byte properties[propertiesSize];
+        getProperties(propertiesSize);
 }
 Item;
 
@@ -250,7 +250,7 @@ typedef struct
     byte bin1[3];
     int i1;
     if (propertiesSize > 0)
-        byte properties[propertiesSize];
+        getProperties(propertiesSize);
 }
 EquipItem;
 

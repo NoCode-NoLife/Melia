@@ -22,7 +22,7 @@ typedef struct
     short s1;
 
     if(size > 0)
-        byte properties[size]; // todo, short:val list
+        getProperties(size);
 }
 AccountProperties;
 
