@@ -19,7 +19,9 @@ Changes the text's size, with the number being the size.
 
 {img ...} Image
 Displays in-line image.
-Example: {img minimap_1_MAIN 16 16}
+Examples:
+  {img minimap_1_MAIN 16 16}
+  {img icon_item_silver 20 20}
 
 !@#ScpArgMsg$...#@! Client message?
 Assumingly a reference to clientmessage.xml, with "..." being the key.
