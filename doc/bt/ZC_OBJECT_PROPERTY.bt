@@ -15,63 +15,6 @@
 
 #include "common.bt"
 
-enum OBJP_TYPES { OBJP_FLOAT, OBJP_INT, OBJP_STRING };
-
-typedef struct 
-{
-    int id;
-    switch(getPropertyType(id)) {
-        case OBJP_STRING:
-            lpString val;
-            break;
-        case OBJP_INT:
-            int32 val;
-            break;
-        case OBJP_FLOAT:
-            float val;
-            break;
-    }
-}
-property <read=propertyRead, optimize=false>;
-
-string propertyRead(property &p)
-{
-    local char ret[];
-    local char val_type[];
-    
-    switch(getPropertyType(p.id)) {
-        case OBJP_STRING:
-            SPrintf(ret, "%d : %s ", p.id, p.val.text);
-            break;
-        case OBJP_INT:
-            SPrintf(ret, "%d : %d" , p.id, p.val);
-            break;
-        case OBJP_FLOAT:
-            SPrintf(ret, "%d : %.0f" , p.id, p.val);
-            break;
-    }
-
-    return ret;
-}
-
-int getPropertyType(int id)
-{
-    switch(id) {
-        case 41: 
-        case 4591:
-        case 7118:
-        case 10618: // coordinates? (-1246/-648)
-            return OBJP_STRING;
-            break;
-        case 4601:
-            return OBJP_INT;
-            break;
-        default:
-            return OBJP_FLOAT;
-            break;
-    }
-}
-
 short op;
 int sequence;
 short size;
@@ -81,12 +24,7 @@ int isTrickPacket;
 
 if (isTrickPacket == 0)
 {
-    local int i<hidden=true>;
-    for (i = 0; i < (size - 20); i = i)
-    {
-        property prop;
-        i += sizeof(prop);
-    }
+    getProperties(size - 20);
 }
 else
 {
