@@ -246,12 +246,9 @@ namespace Melia.Login.Network
 			character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
 			character.BarrackPosition = new Position(bx, by, bz);
 
-			character.MaxHp = 100;
-			character.Hp = 100;
-			character.MaxSp = 50;
-			character.Sp = 50;
-			character.MaxStamina = 25000;
-			character.Stamina = 25000;
+			character.Hp = character.MaxHp = jobData.GetInitialHp();
+			character.Sp = character.MaxSp = jobData.GetInitialSp();
+			character.Stamina = character.MaxStamina = 25000;
 			character.Str = jobData.Str;
 			character.Con = jobData.Con;
 			character.Int = jobData.Int;

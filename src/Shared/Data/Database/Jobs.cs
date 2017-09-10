@@ -29,6 +29,36 @@ namespace Melia.Shared.Data.Database
 		public ISet<string> DefaultAbilities { get; set; }
 		public ISet<string> DefaultItems { get; set; }
 		public IDictionary<EquipSlot, string> DefaultEquip { get; set; }
+
+		/// <summary>
+		/// Returns initial HP for this job on level 1.
+		/// </summary>
+		/// <returns></returns>
+		public int GetInitialHp()
+		{
+			var rate = this.HpRate;
+			var con = this.Con;
+
+			var levelHp = Math.Floor(400 * rate);
+			var conHp = Math.Floor(((con * 0.005f) + (Math.Floor(con / 10.0f) * 0.015f)) * levelHp);
+
+			return (int)(levelHp + conHp);
+		}
+
+		/// <summary>
+		/// Returns initial HP for this job on level 1.
+		/// </summary>
+		/// <returns></returns>
+		public int GetInitialSp()
+		{
+			var rate = this.SpRate;
+			var spr = this.Spr;
+
+			var levelSp = Math.Floor(200 * rate);
+			var sprSp = Math.Floor(((spr * 0.005) + (Math.Floor(spr / 10.0) * 0.015)) * levelSp);
+
+			return (int)(levelSp + sprSp);
+		}
 	}
 
 	/// <summary>
