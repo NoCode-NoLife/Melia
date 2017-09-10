@@ -204,6 +204,16 @@ typedef struct
 
 typedef struct
 {
+    int revision;
+    lpString oldValue;
+    lpString newValue;
+    lpString author;
+    lpString editDate;
+    lpString editLog;
+} IES_MANAGER_EDIT_INFO;
+
+typedef struct
+{
     ubyte b1;
     ubyte b2;
     ubyte b3;
