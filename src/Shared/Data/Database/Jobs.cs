@@ -23,6 +23,7 @@ namespace Melia.Shared.Data.Database
 		public int Dex { get; set; }
 		public float HpRate { get; set; }
 		public float SpRate { get; set; }
+		public int Stamina { get; set; }
 		public int BarrackStance { get; set; }
 
 		public ISet<string> DefaultSkills { get; set; }
@@ -73,7 +74,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "barrackStance");
+			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "stamina", "barrackStance");
 
 			var info = new JobData();
 
@@ -82,13 +83,14 @@ namespace Melia.Shared.Data.Database
 			info.Initial = entry.ReadString("initial");
 			info.Name = entry.ReadString("name");
 			info.Rank = entry.ReadInt("rank");
-			info.Str = entry.ReadInt("str");
-			info.Con = entry.ReadInt("con");
-			info.Int = entry.ReadInt("int");
-			info.Spr = entry.ReadInt("spr");
-			info.Dex = entry.ReadInt("dex");
+			info.Str = entry.ReadInt("str", 1);
+			info.Con = entry.ReadInt("con", 1);
+			info.Int = entry.ReadInt("int", 1);
+			info.Spr = entry.ReadInt("spr", 1);
+			info.Dex = entry.ReadInt("dex", 1);
 			info.HpRate = entry.ReadFloat("hpRate", 1);
 			info.SpRate = entry.ReadFloat("spRate", 1);
+			info.Stamina = entry.ReadInt("stamina", 25000);
 			info.BarrackStance = entry.ReadInt("barrackStance");
 
 			// TODO: It would be good if we could check right here whether

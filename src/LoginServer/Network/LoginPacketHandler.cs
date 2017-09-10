@@ -246,9 +246,13 @@ namespace Melia.Login.Network
 			character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
 			character.BarrackPosition = new Position(bx, by, bz);
 
+			// XXX: Maybe we could get rid of this and the (sub-)stats in
+			//   Character by passing the jobData to the database, for it
+			//   get them itself? The creation is the only reason the stats
+			//   exist in that class.
 			character.Hp = character.MaxHp = jobData.GetInitialHp();
 			character.Sp = character.MaxSp = jobData.GetInitialSp();
-			character.Stamina = character.MaxStamina = 25000;
+			character.Stamina = character.MaxStamina = jobData.Stamina;
 			character.Str = jobData.Str;
 			character.Con = jobData.Con;
 			character.Int = jobData.Int;
