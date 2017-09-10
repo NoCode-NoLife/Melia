@@ -168,9 +168,10 @@ namespace Melia.Channel.World
 		/// Returns maximum weight the character can carry.
 		/// </summary>
 		/// <remarks>
-		/// Base 5000, plus 5 for each Str/Con.
+		/// At release: Base 5000, plus 5 for each Str/Con.
+		/// Now: Base 8000 plus bonuses?
 		/// </remarks>
-		public float MaxWeight { get { return (5000 + this.Str * 5 + this.Con * 5); } }
+		public float MaxWeight { get { return (8000); } }
 
 		/// <summary>
 		/// Returns ratio between NowWeight and MaxWeight.
