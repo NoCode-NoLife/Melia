@@ -333,7 +333,7 @@ string readSkill(Skill &v)
 
 typedef struct
 {
-    int64 l1;
+    int64 objectId;
     int id;
     short s1; // properties?
     short s2;

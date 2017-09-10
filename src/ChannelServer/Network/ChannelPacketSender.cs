@@ -373,19 +373,22 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_ABILITY_LIST(Character character)
 		{
+			// The abilities need a unique object id to appear properly,
+			// otherwise their tooltip is the same for all of them.
+
+			var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
+			var objectId = 0xE1A9001690B2;
+
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
-
-			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001 };
-
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Length); // count
+			packet.PutShort(abilities.Length);
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
 
 			//packet.BeginZlib();
 			foreach (var ability in abilities)
 			{
-				packet.PutLong(0); // Some kind of GUID? o.O
+				packet.PutLong(objectId++);
 				packet.PutInt(ability);
 				packet.PutShort(0); // properties?
 				packet.PutShort(0);
