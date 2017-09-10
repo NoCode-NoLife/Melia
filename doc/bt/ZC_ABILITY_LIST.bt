@@ -22,3 +22,6 @@ short abilityCount;
 
 if (!checkCompression())
     Ability abilities[abilityCount];
+
+// Ends with a copy of the last few bytes (~50, uncompressed)
+// of the abilities, bug?
