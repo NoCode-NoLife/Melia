@@ -1769,21 +1769,26 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_NORMAL_UpdateSkillUI(Character character)
 		{
+			// While the client will apparently gladly accept any combination
+			// of jobs, the skill UI will only appear correctly if job
+			// data for the character's current "display job" is sent.
+			// For example, if the display job is Archer, data for *that*
+			// job must be sent. Other base classes or higher jobs in the
+			// same class do not work. Same thing for when the display
+			// job is a higher job.
+
+			var jobCount = character.JobCount;
+
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.UpdateSkillUI);
 			packet.PutLong(character.Id);
 
-			var jobCount = character.JobCount;
 			packet.PutInt(jobCount);
-
 			for (var i = 0; i < jobCount; i++)
 			{
-				packet.PutShort((short)character.Job); // Job ID.
-				packet.PutEmptyBin(6); // Unknown.
-
-				// Number of available points.
+				packet.PutShort((short)character.Job);
+				packet.PutEmptyBin(6);
 				packet.PutShort(character.GetAvailableSkillPoints(character.Job));
-
 				packet.PutShort(1); // Job tier (number of stars).
 			}
 
