@@ -12,7 +12,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Character : Shared.World.BaseCharacter, IEntity, ICommander
+	public class Character : IEntity, ICommander
 	{
 		private bool _warping;
 
@@ -27,11 +27,73 @@ namespace Melia.Channel.World
 		public ChannelConnection Connection { get; set; }
 
 		/// <summary>
+		/// Character's unique id.
+		/// </summary>
+		public long Id { get; set; }
+
+		/// <summary>
+		/// Id of the character's account.
+		/// </summary>
+		public long AccountId { get; set; }
+
+		/// <summary>
 		/// Index in world collection?
 		/// </summary>
 		public int Handle { get; set; }
 
-		private Map _map = Map.Limbo;
+		/// <summary>
+		/// Character's name.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Character's team name.
+		/// </summary>
+		public string TeamName { get; set; }
+
+		/// <summary>
+		/// Character's job.
+		/// </summary>
+		public JobId Job { get; set; }
+
+		/// <summary>
+		/// Character's gender.
+		/// </summary>
+		public Gender Gender { get; set; }
+
+		/// <summary>
+		/// Character's hair style.
+		/// </summary>
+		public byte Hair { get; set; }
+
+		/// <summary>
+		/// Returns stance, based on job and other factors.
+		/// </summary>
+		/// <remarks>
+		/// The stance is affected by the equipped items and other factors.
+		/// For the official conditions see stancecondition.ies.
+		/// </remarks>
+		public int Stance
+		{
+			get
+			{
+				switch (this.Job.ToClass())
+				{
+					default:
+					case Class.Swordsman: return 10000;
+					case Class.Wizard: return 10006;
+					case Class.Archer: return 10008;
+					case Class.Cleric:
+					case Class.GM: return 10004;
+				}
+			}
+		}
+
+		/// <summary>
+		/// The map the character is in.
+		/// </summary>
+		public int MapId { get; set; }
+
 		/// <summary>
 		/// The map the character is currently on.
 		/// </summary>
@@ -40,6 +102,22 @@ namespace Melia.Channel.World
 		/// will only ever be set once, upon connection.
 		/// </remarks>
 		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
+		private Map _map = Map.Limbo;
+
+		/// <summary>
+		/// Character's current position.
+		/// </summary>
+		public Position Position { get; set; }
+
+		/// <summary>
+		/// Character's direction.
+		/// </summary>
+		public Direction Direction { get; set; }
+
+		/// <summary>
+		/// Character's head's direction.
+		/// </summary>
+		public Direction HeadDirection { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the character is moving.
@@ -140,6 +218,91 @@ namespace Melia.Channel.World
 		public int JobCount { get { return 1; } }
 
 		/// <summary>
+		/// Character's level.
+		/// </summary>
+		public int Level { get; set; }
+
+		/// <summary>
+		/// Current experience points.
+		/// </summary>
+		public int Exp { get; set; }
+
+		/// <summary>
+		/// Current maximum experience points.
+		/// </summary>
+		public int MaxExp { get; set; }
+
+		/// <summary>
+		/// Gets or set HP, clamped between 0 and MaxHp.
+		/// </summary>
+		public int Hp
+		{
+			get { return _hp; }
+			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
+		}
+		private int _hp;
+
+		/// <summary>
+		/// Maximum HP.
+		/// </summary>
+		public int MaxHp { get; set; }
+
+		/// <summary>
+		/// Gets or sets SP, clamped between 0 and MaxSp.
+		/// </summary>
+		public int Sp
+		{
+			get { return _sp; }
+			set { _sp = Math2.Clamp(0, this.MaxSp, value); }
+		}
+		private int _sp;
+
+		/// <summary>
+		/// Maximum SP.
+		/// </summary>
+		public int MaxSp { get; set; }
+
+		/// <summary>
+		/// Gets or set Stamina, clamped between 0 and MaxStamina.
+		/// </summary>
+		public int Stamina
+		{
+			get { return _stamina; }
+			set { _stamina = Math2.Clamp(0, this.MaxStamina, value); }
+		}
+		private int _stamina;
+
+		/// <summary>
+		/// Maximum stamina.
+		/// </summary>
+		public int MaxStamina { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's strength (STR).
+		/// </summary>
+		public float Str { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's vitality (CON).
+		/// </summary>
+		public float Con { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's intelligence (INT).
+		/// </summary>
+		public float Int { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's spirit (SPR/MNA).
+		/// </summary>
+		public float Spr { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's agility (DEX).
+		/// </summary>
+		public float Dex { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -193,6 +356,37 @@ namespace Melia.Channel.World
 		{
 			// TODO: Return the available skill points the character has for the particular job.
 			return 0;
+		}
+
+		/// <summary>
+		/// Sets character's position.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		public void SetPosition(float x, float y, float z)
+		{
+			this.Position = new Position(x, y, z);
+		}
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetDirection(float x, float y)
+		{
+			this.Direction = new Direction(x, y);
+		}
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetHeadDirection(float x, float y)
+		{
+			this.HeadDirection = new Direction(x, y);
 		}
 
 		/// <summary>

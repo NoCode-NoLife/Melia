@@ -95,7 +95,6 @@
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Math2.cs" />
     <Compile Include="Util\Security\BCrypt.cs" />
-    <Compile Include="World\BaseCharacter.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
     <Compile Include="Database\MySqlDataReaderExtension.cs" />
