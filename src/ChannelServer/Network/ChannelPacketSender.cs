@@ -1789,7 +1789,7 @@ namespace Melia.Channel.Network
 				packet.PutShort((short)character.Job);
 				packet.PutEmptyBin(6);
 				packet.PutShort(character.GetAvailableSkillPoints(character.Job));
-				packet.PutShort(1); // Job tier (number of stars).
+				packet.PutShort((short)SkillCircle.First);
 			}
 
 			character.Connection.Send(packet);

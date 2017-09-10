@@ -62,6 +62,7 @@
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\ObjectProperty.cs" />
     <Compile Include="Const\Option.cs" />
+    <Compile Include="Const\Skills.cs" />
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
