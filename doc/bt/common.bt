@@ -19,6 +19,10 @@
 //   - i171032: EquipSlotCount increased to 23 (wings)
 //------------------------------------------------
 
+#ifdef PROPERTY_NAMES
+#include "inc/ObjectPropertyNames.bt"
+#endif
+
 const int EquipSlotCount = 23;
 
 // Length-prefixed string
