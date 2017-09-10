@@ -21,7 +21,7 @@ short op;
 int sequence;
 short size;
 
-int64 characterId;
+int64 objectId <format=hex>;
 int isTrickPacket;
 
 if (isTrickPacket == 0)

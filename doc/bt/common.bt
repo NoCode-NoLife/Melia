@@ -420,11 +420,13 @@ string propertyRead(property &p)
 int getPropertyType(int id)
 {
     switch(id) {
-        case 41: 
+        case 41:
+        case 1328:
         case 4591:
         case 6303:
         case 7118:
         case 10618: // coordinates? (-1246/-648)
+        case 10620:
         case 32575:
         case 101000:
             return OBJP_STRING;
