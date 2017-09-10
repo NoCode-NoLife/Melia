@@ -2025,6 +2025,35 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends session objects to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SESSION_OBJECTS(Character character)
+		{
+			// The exact purpose of those objects is unknown right now,
+			// but apparently they hold some properties of importance.
+			// For now we will send a single one, to get rid of the
+			// message "You can buy items from a shop", which has been
+			// bugging me. I know I can buy items! I coded that!
+
+			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
+			packet.PutShort(1); // object count
+			{
+				packet.PutInt(770001); // some kind of id?
+				packet.PutInt(-926557701);
+				packet.PutLong(0xE1A90004F4BA); // object id
+				packet.PutInt(0);
+
+				packet.PutShort(8); // property size
+				packet.PutShort(2054);
+				packet.PutInt(1486); // property id (Shop_Able_Clicked)
+				packet.PutFloat(1);  // property value
+			}
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

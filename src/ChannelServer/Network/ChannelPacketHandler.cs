@@ -93,6 +93,7 @@ namespace Melia.Channel.Network
 
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_LIST(character);
+			Send.ZC_SESSION_OBJECTS(character);
 			// ZC_NORMAL
 			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
