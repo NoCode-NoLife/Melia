@@ -396,17 +396,19 @@ string propertyRead(property &p)
     local char ret[];
     local char val_type[];
     
+#ifdef OPN
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING:
-            SPrintf(ret, "%d : %s ", p.id, p.val.text);
-            break;
-        case OBJP_INT:
-            SPrintf(ret, "%d : %d" , p.id, p.val);
-            break;
-        case OBJP_FLOAT:
-            SPrintf(ret, "%d : %.0f" , p.id, p.val);
-            break;
+        case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
+        case OBJP_INT:    SPrintf(ret, "%s : %d",   getPropertyName(p.id), p.val); break;
+        case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
     }
+#else
+    switch(getPropertyType(p.id)) {
+        case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
+        case OBJP_INT:    SPrintf(ret, "%d : %d",   p.id, p.val); break;
+        case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
+    }
+#endif
 
     return ret;
 }

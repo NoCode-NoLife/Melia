@@ -13,6 +13,7 @@
 //   - i170175: property id type changed from short to int
 //------------------------------------------------
 
+//#include "inc/ObjectPropertyNames.bt"
 #include "common.bt"
 
 short op;
