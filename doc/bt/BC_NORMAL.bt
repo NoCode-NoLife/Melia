@@ -30,7 +30,7 @@ switch(type)
         break;
 		
     case 0x04:
-        int64 sessionId;
+        int64 accountId;
         int barrackMapId; // ? matches id, but doesn't seem to work
         byte bin1[5];
         break;
@@ -81,14 +81,33 @@ switch(type)
     case 0x0C:
         byte bin1[size-12]; // zipped zone information
         break;
+
+    // Enable packets from client to barrack.
+    // (CB packets are disabled normally after connecting to the zone server.)
+    case 0x0E:
+        break;
 		
 	// Run lua function
-    case 0x0E:
+    case 0x0F:
         lpString function; // ? (THEMA_BUY_SUCCESS)
         break;
 		
 	// Login queue
     case 0x14:
         int currentPosition;
+        break;
+
+    // Client integrity check failure.
+    // The client will respond with CB_CLIENT_INTEGRITY_FAIL
+    case 0x18:
+        break;
+
+    // Update the number of purchased character slots in the barrack.
+    case 0x19:
+        int count;
+        break;
+
+    // Nexon Game Security Callback.
+    case 0x1A;
         break;
 }

@@ -1171,6 +1171,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates the number of purchased character slots.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="count"></param>
+		public static void ZC_NORMAL_BarrackSlotCount(ChannelConnection conn, int count)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Zone.BarrackSlotCount);
+			packet.PutInt(count);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Plays level up effect.
 		/// </summary>
 		/// <param name="character"></param>

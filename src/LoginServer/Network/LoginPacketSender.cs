@@ -165,6 +165,23 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sets the barrack, but not working for some reason.
+		/// Use the account property to do this.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="id"></param>
+		public static void BC_NORMAL_SetBarrack(LoginConnection conn, int id)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.SetBarrack);
+			packet.PutLong(conn.Account.Id);
+			packet.PutInt(id);
+			packet.PutByte(0);
+			packet.PutInt(0);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Moves a character in the barrack.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -317,6 +334,44 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.Run);
 			packet.PutLpString(str);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_SetSessionKey(LoginConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Barrack.SetSessionKey);
+			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the client that it has failed the integrity check of its files.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_ClientIntegrityFailure(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.ClientIntegrityFailure);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the number of purchased character slots.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="count"></param>
+		public static void BC_NORMAL_BarrackSlotCount(LoginConnection conn, int count)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.BarrackSlotCount);
+			packet.PutInt(count);
 
 			conn.Send(packet);
 		}
