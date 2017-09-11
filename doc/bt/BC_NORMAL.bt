@@ -52,6 +52,11 @@ switch(type)
         }
         break;
 
+    // PostBox State
+    case 0x12:
+        int64 messageId;
+        PostBoxState state;
+
     // Message Box item update
     case 0x13:
         int64 messageId;

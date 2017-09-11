@@ -292,6 +292,22 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Updates the state of a postbox message.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="messageId"></param>
+		/// <param name="state"></param>
+		public static void BC_NORMAL_UpdatePostBoxState(LoginConnection conn, long messageId, PostBoxMessageState state)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.PostBoxState);
+			packet.PutLong(messageId);
+			packet.PutByte((byte)state);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Invokes a lua function.
 		/// </summary>
 		/// <param name="conn"></param>
