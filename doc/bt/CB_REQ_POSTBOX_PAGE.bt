@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CB_REQ_POSTBOX_PAGE.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Requests to send the next postbox page.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int messageCount;
