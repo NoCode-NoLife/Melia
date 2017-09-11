@@ -443,3 +443,13 @@ void getProperties(int size)
         i += sizeof(prop);
     }
 }
+
+enum <int> PostBoxState 
+{
+    POST_BOX_STATE_NONE = 0,
+    POST_BOX_STATE_READ = 1,
+    POST_BOX_STATE_STORE = 2,
+    POST_BOX_STATE_DELETE = 3,
+    POST_BOX_STATE_REQ_LOAD = 4,
+    POST_BOX_STATE_COUNT = 5,
+};
