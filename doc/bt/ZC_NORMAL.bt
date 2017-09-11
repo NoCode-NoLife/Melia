@@ -118,8 +118,8 @@ switch (type)
 		lpString sessionKey;
 		break;
 
-    // Nexon Game Security Callback.
-    case 0x16D;
+    // Nexon Game Security Callback
+    case 0x16D:
         break;
 		
 	// Set a hat item's visible or invisible state
