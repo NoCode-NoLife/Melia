@@ -335,10 +335,12 @@ typedef struct
 {
     int64 objectId;
     int id;
-    short s1; // properties?
+    short propertiesSize;
     short s2;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
 }
-Ability <read=readAbility>;
+Ability <read=readAbility, optimize=false>;
 
 string readAbility(Ability &v)
 {

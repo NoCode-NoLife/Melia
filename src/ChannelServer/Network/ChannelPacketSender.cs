@@ -388,8 +388,9 @@ namespace Melia.Channel.Network
 				{
 					zpacket.PutLong(objectId++);
 					zpacket.PutInt(ability);
-					zpacket.PutShort(0); // properties?
+					zpacket.PutShort(0); // properties size
 					zpacket.PutShort(0);
+					// properties
 				}
 			});
 
