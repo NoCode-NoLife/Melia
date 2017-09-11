@@ -2040,7 +2040,13 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 			packet.PutShort(1); // object count
 			{
-				packet.PutInt(770001); // some kind of id?
+				// 770001 = Only entry in sessionobject_jansori.ies
+				// There's very little data in the table, but apparently
+				// "Jansori is scolding, nagging, and grumbling" in
+				// Korean? I guess that's a fitting name for the Navi-
+				// like feature that keeps telling me how to do stuff.
+
+				packet.PutInt(770001); // session object id?
 				packet.PutInt(-926557701);
 				packet.PutLong(0xE1A90004F4BA); // object id
 				packet.PutInt(0);
