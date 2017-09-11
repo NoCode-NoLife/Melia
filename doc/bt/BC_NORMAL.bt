@@ -79,7 +79,32 @@ switch(type)
 		
 	// Zone traffic
     case 0x0C:
-        byte bin1[size-12]; // zipped zone information
+        typedef struct
+        {
+            short zone;
+            short playerCount;
+            
+        }
+        ZoneTrafficServer <optimize=false>;
+        
+        typedef struct
+        {
+            short mapId;
+            short zoneServerCount;
+            ZoneTrafficServer servers [zoneServerCount];
+        }
+        ZoneTrafficMap <optimize=false>;
+        
+        typedef struct
+        {
+            short zoneMaxPlayerCount;
+            short mapAvailableCount;
+            ZoneTrafficMap maps [mapAvailableCount];
+        }
+        ZoneTraffic <optimize=false>;
+        
+        if (!checkCompression())
+            ZoneTraffic traffic;
         break;
 
     // Enable packets from client to barrack.
