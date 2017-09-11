@@ -232,20 +232,21 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.ZoneTraffic);
 
-			packet.BeginZlib();
-			packet.PutShort(zoneMaxPcCount);
-			packet.PutShort(mapAvailableCount);
-			for (var i = 0; i < mapAvailableCount; ++i)
+			packet.Zlib(true, zpacket =>
 			{
-				packet.PutShort(characters[i].MapId);
-				packet.PutShort(zoneServerCount);
-				for (var zone = 0; zone < zoneServerCount; ++zone)
+				zpacket.PutShort(zoneMaxPcCount);
+				zpacket.PutShort(mapAvailableCount);
+				for (var i = 0; i < mapAvailableCount; ++i)
 				{
-					packet.PutShort(zone);
-					packet.PutShort(1); // currentPlayersCount
+					zpacket.PutShort(characters[i].MapId);
+					zpacket.PutShort(zoneServerCount);
+					for (var zone = 0; zone < zoneServerCount; ++zone)
+					{
+						zpacket.PutShort(zone);
+						zpacket.PutShort(1); // currentPlayersCount
+					}
 				}
-			}
-			packet.EndZlib();
+			});
 
 			conn.Send(packet);
 		}

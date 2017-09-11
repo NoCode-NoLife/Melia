@@ -235,12 +235,11 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutShort(skills.Length); // count
 
-			packet.PutShort(0); // No compression
-
-			//packet.BeginZlib();
-			foreach (var skill in skills)
-				packet.AddSkill(skill);
-			//packet.EndZlib();
+			packet.Zlib(false, zpacket =>
+			{
+				foreach (var skill in skills)
+					zpacket.AddSkill(skill);
+			});
 
 			character.Connection.Send(packet);
 		}
@@ -383,17 +382,16 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length);
 
-			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
-
-			//packet.BeginZlib();
-			foreach (var ability in abilities)
+			packet.Zlib(true, zpacket =>
 			{
-				packet.PutLong(objectId++);
-				packet.PutInt(ability);
-				packet.PutShort(0); // properties?
-				packet.PutShort(0);
-			}
-			//packet.EndZlib();
+				foreach (var ability in abilities)
+				{
+					zpacket.PutLong(objectId++);
+					zpacket.PutInt(ability);
+					zpacket.PutShort(0); // properties?
+					zpacket.PutShort(0);
+				}
+			});
 
 			character.Connection.Send(packet);
 		}
@@ -430,19 +428,21 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
 
 			packet.PutInt(items.Count);
-			packet.PutShort(0); // Compression
-			foreach (var item in items)
+			packet.Zlib(false, zpacket =>
 			{
-				packet.PutInt(item.Value.Id);
-				packet.PutShort(0); // Size of the object at the end
-				packet.PutEmptyBin(2);
-				packet.PutLong(item.Value.WorldId);
-				packet.PutInt(item.Value.Amount);
-				packet.PutInt(item.Value.Price);
-				packet.PutInt(item.Key);
-				packet.PutInt(1);
-				//packet.PutEmptyBin(0);
-			}
+				foreach (var item in items)
+				{
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(0); // Size of the object at the end
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.WorldId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(item.Key);
+					zpacket.PutInt(1);
+					//zpacket.PutEmptyBin(0);
+				}
+			});
 
 			character.Connection.Send(packet);
 		}
