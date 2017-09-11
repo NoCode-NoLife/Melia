@@ -323,6 +323,18 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_SetSessionKey(LoginConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Barrack.SetSessionKey);
+			packet.PutLpString(conn.SessionKey);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Notifies the client that it has failed the integrity check of its files.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -330,6 +342,20 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.ClientIntegrityFailure);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the number of purchased character slots.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="count"></param>
+		public static void BC_NORMAL_BarrackSlotCount(LoginConnection conn, int count)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.BarrackSlotCount);
+			packet.PutInt(count);
 
 			conn.Send(packet);
 		}

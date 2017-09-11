@@ -96,4 +96,13 @@ switch(type)
     // The client will respond with CB_CLIENT_INTEGRITY_FAIL
     case 0x18:
         break;
+
+    // Update the number of purchased character slots in the barrack.
+    case 0x19:
+        int count;
+        break;
+
+    // Nexon Game Security Callback.
+    case 0x1A;
+        break;
 }

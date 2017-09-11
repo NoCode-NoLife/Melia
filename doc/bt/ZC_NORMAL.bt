@@ -49,6 +49,11 @@ switch (type)
 		float effectSize;
 		byte bin[8];
 		break;
+
+    // Update the number of purchased character slots in the barrack.
+    case 0x3C:
+        int count;
+        break;
 	
 	// Account update
 	case 0x4C:
@@ -112,6 +117,10 @@ switch (type)
 	case 0x14E:
 		lpString sessionKey;
 		break;
+
+    // Nexon Game Security Callback.
+    case 0x16D;
+        break;
 		
 	// Set a hat item's visible or invisible state
 	case 0x181:
