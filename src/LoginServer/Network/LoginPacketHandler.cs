@@ -497,6 +497,35 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Request to update the state of a postbox message.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_CHANGE_POSTBOX_STATE)]
+		public void CB_REQ_CHANGE_POSTBOX_STATE(LoginConnection conn, Packet packet)
+		{
+			var dbType = packet.GetByte();
+			var messageId = packet.GetLong();
+			var state = (PostBoxMessageState)packet.GetByte();
+
+			// TODO: Implement use of changing state.
+			Send.BC_MESSAGE(conn, "Updating mail isn't working yet.");
+		}
+
+		/// <summary>
+		/// Request to get the next page of mail with a count.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		public void CB_REQ_POSTBOX_PAGE(LoginConnection conn, Packet packet)
+		{
+			var count = packet.GetInt();
+
+			// TODO: Implement postbox message paging.
+			Send.BC_MESSAGE(conn, "Fetching mail isn't working yet.");
+		}
+
+		/// <summary>
 		/// Sent upon login. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
