@@ -19,6 +19,10 @@
 //   - i171032: EquipSlotCount increased to 23 (wings)
 //------------------------------------------------
 
+#ifdef PROPERTY_NAMES
+#include "inc/ObjectPropertyNames.bt"
+#endif
+
 const int EquipSlotCount = 23;
 
 // Length-prefixed string
@@ -329,7 +333,7 @@ string readSkill(Skill &v)
 
 typedef struct
 {
-    int64 l1;
+    int64 objectId;
     int id;
     short s1; // properties?
     short s2;
@@ -416,11 +420,13 @@ string propertyRead(property &p)
 int getPropertyType(int id)
 {
     switch(id) {
-        case 41: 
+        case 41:
+        case 1328:
         case 4591:
         case 6303:
         case 7118:
         case 10618: // coordinates? (-1246/-648)
+        case 10620:
         case 32575:
         case 101000:
             return OBJP_STRING;
@@ -443,3 +449,13 @@ void getProperties(int size)
         i += sizeof(prop);
     }
 }
+
+enum <int> PostBoxState 
+{
+    POST_BOX_STATE_NONE = 0,
+    POST_BOX_STATE_READ = 1,
+    POST_BOX_STATE_STORE = 2,
+    POST_BOX_STATE_DELETE = 3,
+    POST_BOX_STATE_REQ_LOAD = 4,
+    POST_BOX_STATE_COUNT = 5,
+};

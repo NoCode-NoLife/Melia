@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#define OPN 1
+#define OPN
 
 string getPropertyName(int id)
 {

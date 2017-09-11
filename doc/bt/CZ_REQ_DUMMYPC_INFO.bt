@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_REQ_DUMMYPC_INFO.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Requests the server to perform various commands upon a dummy PC.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+enum <int> Command 
+{   
+    CheckHaveInfo = 0,
+    Hire = 1,
+    Fire = 2, 
+    ToMainPC = 3, 
+    DummyPCDialog = 4,
+};
+
+short op;
+int sequence;
+int checksum;
+
+int handle;
+Command command;

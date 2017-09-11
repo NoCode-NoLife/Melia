@@ -373,19 +373,22 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_ABILITY_LIST(Character character)
 		{
+			// The abilities need a unique object id to appear properly,
+			// otherwise their tooltip is the same for all of them.
+
+			var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
+			var objectId = 0xE1A9001690B2;
+
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
-
-			var abilities = new[] { 10001, 10003, 10009, 10012, 10013, 10014, 101001 };
-
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Length); // count
+			packet.PutShort(abilities.Length);
 
 			packet.PutShort(0); // No compression (client handler tests this short for compression marker, comment this line if using compression)
 
 			//packet.BeginZlib();
 			foreach (var ability in abilities)
 			{
-				packet.PutLong(0); // Some kind of GUID? o.O
+				packet.PutLong(objectId++);
 				packet.PutInt(ability);
 				packet.PutShort(0); // properties?
 				packet.PutShort(0);
@@ -2034,6 +2037,35 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_LOAD_COMPLETE);
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends session objects to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SESSION_OBJECTS(Character character)
+		{
+			// The exact purpose of those objects is unknown right now,
+			// but apparently they hold some properties of importance.
+			// For now we will send a single one, to get rid of the
+			// message "You can buy items from a shop", which has been
+			// bugging me. I know I can buy items! I coded that!
+
+			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
+			packet.PutShort(1); // object count
+			{
+				packet.PutInt(770001); // some kind of id?
+				packet.PutInt(-926557701);
+				packet.PutLong(0xE1A90004F4BA); // object id
+				packet.PutInt(0);
+
+				packet.PutShort(8); // property size
+				packet.PutShort(2054);
+				packet.PutInt(1486); // property id (Shop_Able_Clicked)
+				packet.PutFloat(1);  // property value
+			}
+
+			character.Connection.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

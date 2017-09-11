@@ -1,0 +1,47 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SESSION_OBJECTS
+//   Authors: exec
+//   Version: i171149
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    short size;
+    short s1;
+    if(size > 0)
+        getProperties(size-2);
+}
+Properties;
+
+typedef struct
+{
+    int i1;
+    int i2;
+    int64 objectId <format=hex>;
+    int i3;
+    Properties properties;
+}
+SessionObject <read=readSessionObject, optimize=false>;
+
+string readSessionObject(SessionObject &v)
+{
+    string result;
+    SPrintf(result, "%LXh", v.objectId);
+    return result;
+}
+
+short op;
+int sequence;
+short size;
+
+short count;
+SessionObject objects[count];
