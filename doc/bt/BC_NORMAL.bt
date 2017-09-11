@@ -108,6 +108,6 @@ switch(type)
         break;
 
     // Nexon Game Security Callback.
-    case 0x1A;
+    case 0x1A:
         break;
 }
