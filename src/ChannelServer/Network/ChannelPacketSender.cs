@@ -382,7 +382,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length);
 
-			packet.Zlib(true, zpacket =>
+			packet.Zlib(false, zpacket =>
 			{
 				foreach (var ability in abilities)
 				{
