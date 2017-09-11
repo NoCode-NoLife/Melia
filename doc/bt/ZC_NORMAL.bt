@@ -21,6 +21,15 @@ typedef struct
 }
 AccountProperties;
 
+typedef struct
+{
+    short jobId;
+    byte b1[6]; // Unknown.
+    short unusedSkillPoints;
+    short circle;
+}
+Job;
+
 short op;
 int sequence;
 short size;
@@ -129,15 +138,11 @@ switch (type)
 		byte b2; // Set hair type 2 visible?
 		byte b3; // Set hair type 3 visible?
 		break;
-	// Updates the skill UI.
-	case 0x18E:
-		int64 characterId;
-		int jobCount;
-
-		// The following data may be an array.
-		short jobId;
-		byte b1[6]; // Unknown.
-		short unusedSkillPoints;
-		short jobTier; // Number of stars.
-		break;
+    
+    // Updates the skill UI
+    case 0x18E:
+        int64 characterId;
+        int jobCount;
+        Job jobs[jobCount];
+        break;
 }
