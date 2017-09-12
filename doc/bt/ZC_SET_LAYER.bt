@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SET_LAYER.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Sets a UI overlay. This is used for cutscenes and possibly other cases.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int layer;
