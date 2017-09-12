@@ -177,6 +177,19 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads length-prefixed string from buffer and returns it as
+		/// UTF8 string.
+		/// </summary>
+		/// <returns></returns>
+		public string GetLpString()
+		{
+			this.AssertGotEnough(sizeof(short));
+
+			var length = this.GetShort();
+			return this.GetString(length);
+		}
+
+		/// <summary>
 		/// Reads null-terminated string from buffer and returns it as UTF8.
 		/// </summary>
 		/// <param name="length"></param>
