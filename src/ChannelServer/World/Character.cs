@@ -39,7 +39,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
-		public int Handle { get; set; }
+		public int Handle { get; private set; }
 
 		/// <summary>
 		/// Character's name.
