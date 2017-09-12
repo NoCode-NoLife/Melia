@@ -12,7 +12,7 @@ namespace Melia.Channel.World
 	/// The exact purpose of those objects is unknown right now,
 	/// but apparently they hold some properties of importance.
 	/// </remarks>
-	public class SessionObject
+	public class SessionObject : IPropertyObject
 	{
 		/// <summary>
 		/// The object's unique, global id.

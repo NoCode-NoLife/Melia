@@ -892,7 +892,7 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
 		/// <param name="propertyIds"></param>
-		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, SessionObject obj, params int[] propertyIds)
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj, params int[] propertyIds)
 		{
 			var properties = obj.Properties.GetAll(propertyIds);
 			var propertiesSize = properties.Sum(a => a.Size);
