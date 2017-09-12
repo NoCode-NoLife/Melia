@@ -16,5 +16,5 @@ int sequence;
 short size;
 
 int classId;
-int64 timeRemaining;
-int i1;
+int64 i1
+int i2;
