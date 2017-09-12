@@ -12634,6 +12634,7 @@
 { classId: 5010097, className: "NPC_EVENT_STEAM_YC_DLG4" },
 { classId: 5010098, className: "NPC_EVENT_STEAM_YC_DLG5" },
 { classId: 5010099, className: "NPC_EVENT_STEAM_YC_DLG6" },
+{ classId: 5010102, className: "NPC_EVENT_STEAM_TOGETHER_MASTER_1" },
 { classId: 5015000, className: "NPC_KUPOLE_TESTSERVER_DLG_01" },
 { classId: 5015001, className: "NPC_KUPOLE_TESTSERVER_DLG_02" },
 { classId: 5200100, className: "NPC_SHOP_EQUIP_NORMAL_270_315" },

@@ -44,6 +44,7 @@
 { mapId: 517, className: "mission_gele_01_event", engName: "Pledge of the Blade Certificate", localKey: "ETC_20170726_028232" },
 { mapId: 520, className: "mission_groundtower_1", engName: "Earth Tower", localKey: "ETC_20150317_001365" },
 { mapId: 521, className: "mission_groundtower_2", engName: "Earth Tower", localKey: "ETC_20150317_001365" },
+{ mapId: 522, className: "E_f_katyn_12_Mission", engName: "Letas Stream Mission", localKey: "ETC_20170908_028518" },
 { mapId: 981, className: "c_fedimian", engName: "?", localKey: "?" },
 { mapId: 1001, className: "c_Klaipe", engName: "Klaipeda", localKey: "ETC_20150317_001144" },
 { mapId: 1002, className: "c_highlander", engName: "Highlander Master's Training Hall", localKey: "ETC_20150317_001145" },

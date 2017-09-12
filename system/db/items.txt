@@ -2667,7 +2667,7 @@
 { itemId: 636022, className: "T_NECK100_101", name: "[Kupole] Kupole Necklace", category: 3, weight: 10, maxStack: 1, price: 240, sellPrice: 0 },
 { itemId: 636023, className: "T_BRC100_101", name: "[Kupole] Kupole Bracelet", category: 3, weight: 40, maxStack: 1, price: 240, sellPrice: 0 },
 { itemId: 636024, className: "T_SHD100_101", name: "[Kupole] Steel Buckler", category: 3, weight: 100, maxStack: 1, price: 240, sellPrice: 0 },
-{ itemId: 637999, className: "WingTest", name: "날개테스트", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 637999, className: "WingTest", name: "Wing Test", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 9999993, className: "NoWeapon_Shield", name: "Empty_weapon", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 
 // Sub-Weapons
@@ -9285,4 +9285,6 @@
 { itemId: 900377, className: "Event_CB_Ticket", name: "Returning Player Badge", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 900385, className: "Event_Steam_YC_5", name: "[Event] Restored Goddess Sculpture", category: 9999, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 900386, className: "Event_Steam_YC_6", name: "[Event] Golden Chest of Grace", category: 9999, weight: 1, maxStack: 32767, price: 100, sellPrice: 0 },
+{ itemId: 900388, className: "Event_Steam_Master_Cube", name: "Master Cube", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 900389, className: "Event_Steam_Master_Item", name: "Master Badge", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 ]
