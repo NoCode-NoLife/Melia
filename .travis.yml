@@ -1,5 +1,4 @@
 language: csharp
-mono: 3.8.0
 solution: Melia.sln
 branches:
   only:
@@ -19,3 +18,4 @@ install:
 script:
   - xbuild /p:Configuration=Release Melia.sln
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.ChannelServer/bin/Release/Test.ChannelServer.dll
+  - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.Shared/bin/Release/Test.Shared.dll
