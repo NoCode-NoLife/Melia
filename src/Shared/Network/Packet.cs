@@ -362,7 +362,7 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
-		/// Writes string to buffer, without null terminator, but prefixed
+		/// Writes string to buffer, incl. null terminator, and prefixed
 		/// with a short describing its length.
 		/// </summary>
 		/// <param name="val"></param>
