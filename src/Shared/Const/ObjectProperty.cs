@@ -8,6 +8,7 @@ namespace Melia.Shared.Const
 	/// </summary>
 	public static class ObjectProperty
 	{
+#pragma warning disable IDE1006
 		public static class Account
 		{
 			public const int MaxPVPGrade = 6299;
@@ -15275,5 +15276,6 @@ namespace Melia.Shared.Const
 			public const int F_CO_OP_REMAINS_40 = 101225;
 			public const int MG_Last_170628_Rain_Mission = 101227;
 		}
+#pragma warning restore IDE1006
 	}
 }
