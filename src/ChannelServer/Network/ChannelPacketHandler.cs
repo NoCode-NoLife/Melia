@@ -1414,6 +1414,30 @@ namespace Melia.Channel.Network
 		{
 			// No parameters
 		}
+
+		/// <summary>
+		/// Sent upon logout. Presumably cancels "dungeon matching"?
+		/// (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CANCEL_INDUN_MATCHING)]
+		public void CZ_CANCEL_INDUN_MATCHING(ChannelConnection conn, Packet packet)
+		{
+			// No parameters
+		}
+
+		/// <summary>
+		/// Sent upon logout. Presumably cancels "dungeon registration"?
+		/// (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLEAR_INDUN_REG)]
+		public void CZ_CLEAR_INDUN_REG(ChannelConnection conn, Packet packet)
+		{
+			// No parameters
+		}
 	}
 
 	public enum TxType : short
