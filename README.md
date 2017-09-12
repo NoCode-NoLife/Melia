@@ -21,14 +21,13 @@ not guaranteed, and in fact unlikely.
 Requirements
 ------------------------------
 To *run* Melia, you need
-* .NET 4.5 (Mono 3.0 or above)
+* .NET 4.5 (Mono 4 or above)
 * MySQL 5 compatible database
 
 To *compile* Melia, you need
-* C# 5 compiler, such as:
-  * [Visual Studio](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) (2012 or later)
-  * [Monodevelop](http://monodevelop.com/) (With mono version 3 or greater)
-  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/) (Version 4.4 or greater)
+* C# 6 compiler, such as:
+  * [Visual Studio](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) (2017 or later)
+  * [Monodevelop](http://monodevelop.com/) (With mono version 4 or greater)
 
 Installation
 ------------------------------
