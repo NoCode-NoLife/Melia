@@ -1466,6 +1466,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends an updated value for the shield to an entity.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="shield"></param>
+		public static void ZC_UPDATE_SHIELD(Character character, IEntity entity, int shield)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_SHIELD);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(shield);
+
+			character.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
 		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
 		/// characters about the movement.
 		/// </summary>

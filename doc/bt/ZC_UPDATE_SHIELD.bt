@@ -1,10 +1,10 @@
-//--------------------------------------
+//------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_LEAVE_HOOK.bt
-//   Authors: exec, celophi
+//      File: ZC_UPDATE_SHIELD.bt
+//   Authors: celophi
 //   Version: i171140
-//   Purpose: Notifies the client that the entity is leaving a trigger event.
+//   Purpose: Updates an actor's shield value.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,3 +15,4 @@ short op;
 int sequence;
 
 int handle;
+int shield;

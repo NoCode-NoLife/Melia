@@ -1,10 +1,10 @@
-//--------------------------------------
+//------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_LEAVE_HOOK.bt
-//   Authors: exec, celophi
+//      File: ZC_ENTER_HOOK.bt
+//   Authors: celophi
 //   Version: i171140
-//   Purpose: Notifies the client that the entity is leaving a trigger event.
+//   Purpose: Notifies the client that the entity is entering a trigger event.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
