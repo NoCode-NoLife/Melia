@@ -11,10 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-typedef struct {
-  int key;
-  int value;
-} Property;
+#include "common.bt"
 
 short op;
 int sequence;
@@ -26,11 +23,10 @@ byte getFromSkillList;
 int64 i1;
 int64 IesId;
 int skillId;
-short propertyLength;
+short propertiesSize;
 short reserved;
 int i2;
 int i3;
 
-local int i<hidden=true>;
-for (i = 0; i < (propertyLength/8); i++)
-    Property property;
+if (propertiesSize > 0)
+    getProperties(propertiesSize);
