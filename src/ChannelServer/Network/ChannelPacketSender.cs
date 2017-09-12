@@ -848,11 +848,11 @@ namespace Melia.Channel.Network
 		public static void ZC_OBJECT_PROPERTY_Init(Character character)
 		{
 			ZC_OBJECT_PROPERTY(character,
-				ObjectProperty.PC.HP, ObjectProperty.PC.MHP,
-				ObjectProperty.PC.SP, ObjectProperty.PC.MSP,
-				ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-				ObjectProperty.PC.NowWeight, ObjectProperty.PC.MaxWeight,
-				ObjectProperty.PC.StatByLevel, ObjectProperty.PC.StatByBonus, ObjectProperty.PC.UsedStat
+				PropertyId.PC.HP, PropertyId.PC.MHP,
+				PropertyId.PC.SP, PropertyId.PC.MSP,
+				PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
+				PropertyId.PC.NowWeight, PropertyId.PC.MaxWeight,
+				PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat
 			);
 		}
 
@@ -889,23 +889,23 @@ namespace Melia.Channel.Network
 				packet.PutInt(property);
 				switch (property)
 				{
-					case ObjectProperty.PC.HP: packet.PutFloat(character.Hp); break;
-					case ObjectProperty.PC.MHP: packet.PutFloat(character.MaxHp); break;
-					case ObjectProperty.PC.SP: packet.PutFloat(character.Sp); break;
-					case ObjectProperty.PC.MSP: packet.PutFloat(character.MaxSp); break;
+					case PropertyId.PC.HP: packet.PutFloat(character.Hp); break;
+					case PropertyId.PC.MHP: packet.PutFloat(character.MaxHp); break;
+					case PropertyId.PC.SP: packet.PutFloat(character.Sp); break;
+					case PropertyId.PC.MSP: packet.PutFloat(character.MaxSp); break;
 
-					case ObjectProperty.PC.STR: packet.PutFloat(character.Str); break;
-					case ObjectProperty.PC.CON: packet.PutFloat(character.Con); break;
-					case ObjectProperty.PC.INT: packet.PutFloat(character.Int); break;
-					case ObjectProperty.PC.MNA: packet.PutFloat(character.Spr); break;
-					case ObjectProperty.PC.DEX: packet.PutFloat(character.Dex); break;
+					case PropertyId.PC.STR: packet.PutFloat(character.Str); break;
+					case PropertyId.PC.CON: packet.PutFloat(character.Con); break;
+					case PropertyId.PC.INT: packet.PutFloat(character.Int); break;
+					case PropertyId.PC.MNA: packet.PutFloat(character.Spr); break;
+					case PropertyId.PC.DEX: packet.PutFloat(character.Dex); break;
 
-					case ObjectProperty.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
-					case ObjectProperty.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
+					case PropertyId.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
+					case PropertyId.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
 
-					case ObjectProperty.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
-					case ObjectProperty.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
-					case ObjectProperty.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
+					case PropertyId.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
+					case PropertyId.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
+					case PropertyId.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
 
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}

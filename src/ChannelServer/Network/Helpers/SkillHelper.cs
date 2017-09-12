@@ -24,13 +24,13 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutEmptyBin(2); // alignment
 
 			// Properties
-			packet.PutInt(ObjectProperty.Skill.Level);
+			packet.PutInt(PropertyId.Skill.Level);
 			packet.PutFloat(1);
-			packet.PutInt(ObjectProperty.Skill.WaveLength);
+			packet.PutInt(PropertyId.Skill.WaveLength);
 			packet.PutFloat(skill.WaveLength);
-			packet.PutInt(ObjectProperty.Skill.SplAngle);
+			packet.PutInt(PropertyId.Skill.SplAngle);
 			packet.PutFloat(skill.SplashAngle);
-			packet.PutInt(ObjectProperty.Skill.SplRange);
+			packet.PutInt(PropertyId.Skill.SplRange);
 			packet.PutFloat(skill.SplashRange);
 		}
 	}

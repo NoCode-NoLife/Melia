@@ -17,16 +17,16 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutShort(4 * 8); // Account properties size
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
 
-			packet.PutInt(ObjectProperty.Account.Medal);
+			packet.PutInt(PropertyId.Account.Medal);
 			packet.PutFloat(account.Medals);
 
-			packet.PutInt(ObjectProperty.Account.PremiumMedal);
+			packet.PutInt(PropertyId.Account.PremiumMedal);
 			packet.PutFloat(account.PremiumMedals);
 
-			packet.PutInt(ObjectProperty.Account.GiftMedal);
+			packet.PutInt(PropertyId.Account.GiftMedal);
 			packet.PutFloat(account.GiftMedals);
 
-			packet.PutInt(ObjectProperty.Account.SelectedBarrack);
+			packet.PutInt(PropertyId.Account.SelectedBarrack);
 			packet.PutFloat(account.SelectedBarrack);
 		}
 	}

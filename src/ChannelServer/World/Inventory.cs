@@ -256,7 +256,7 @@ namespace Melia.Channel.World
 				this.AddStack(item, addType, false);
 			}
 
-			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 		}
 
 		/// <summary>
@@ -484,7 +484,7 @@ namespace Melia.Channel.World
 
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
-			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 
 			return InventoryResult.Success;
 		}
@@ -513,7 +513,7 @@ namespace Melia.Channel.World
 				item.Amount -= amount;
 
 				Send.ZC_ITEM_REMOVE(_character, item.WorldId, amount, msg, InventoryType.Inventory);
-				Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 			}
 
 			return InventoryResult.Success;
@@ -560,7 +560,7 @@ namespace Melia.Channel.World
 			}
 
 			if (result != 0)
-				Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 
 			return result;
 		}
@@ -710,7 +710,7 @@ namespace Melia.Channel.World
 				Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, category);
 
 			// Update weight
-			Send.ZC_OBJECT_PROPERTY(_character, ObjectProperty.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 
 			return InventoryResult.Success;
 		}

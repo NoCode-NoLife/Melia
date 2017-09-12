@@ -16,21 +16,21 @@ namespace Test.Shared.World
 		public void TypeException()
 		{
 			var properties = new Properties();
-			Assert.DoesNotThrow(() => properties.Set(ObjectProperty.Skill.Level, 2));
-			Assert.DoesNotThrow(() => properties.Set(ObjectProperty.Skill.SplAngle, 300));
-			Assert.DoesNotThrow(() => properties.Set(ObjectProperty.PC.JobName, "Char1_1"));
-			Assert.Throws<ArgumentException>(() => properties.Set(ObjectProperty.Skill.Level, "2"));
-			Assert.Throws<ArgumentException>(() => properties.Set(ObjectProperty.Skill.SplAngle, "300"));
-			Assert.Throws<ArgumentException>(() => properties.Set(ObjectProperty.PC.JobName, 1));
+			Assert.DoesNotThrow(() => properties.Set(PropertyId.Skill.Level, 2));
+			Assert.DoesNotThrow(() => properties.Set(PropertyId.Skill.SplAngle, 300));
+			Assert.DoesNotThrow(() => properties.Set(PropertyId.PC.JobName, "Char1_1"));
+			Assert.Throws<ArgumentException>(() => properties.Set(PropertyId.Skill.Level, "2"));
+			Assert.Throws<ArgumentException>(() => properties.Set(PropertyId.Skill.SplAngle, "300"));
+			Assert.Throws<ArgumentException>(() => properties.Set(PropertyId.PC.JobName, 1));
 		}
 
 		[Fact]
 		public void GetAll()
 		{
 			var properties = new Properties();
-			properties.Set(ObjectProperty.Skill.Level, 2);
-			properties.Set(ObjectProperty.Skill.SplAngle, 300);
-			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+			properties.Set(PropertyId.Skill.Level, 2);
+			properties.Set(PropertyId.Skill.SplAngle, 300);
+			properties.Set(PropertyId.PC.JobName, "Char1_1");
 
 			var all = properties.GetAll();
 			Assert.Equal(3, all.Length);
@@ -43,11 +43,11 @@ namespace Test.Shared.World
 		public void GetAll2()
 		{
 			var properties = new Properties();
-			properties.Set(ObjectProperty.Skill.Level, 2);
-			properties.Set(ObjectProperty.Skill.SplAngle, 300);
-			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+			properties.Set(PropertyId.Skill.Level, 2);
+			properties.Set(PropertyId.Skill.SplAngle, 300);
+			properties.Set(PropertyId.PC.JobName, "Char1_1");
 
-			var all = properties.GetAll(ObjectProperty.Skill.Level, ObjectProperty.PC.JobName);
+			var all = properties.GetAll(PropertyId.Skill.Level, PropertyId.PC.JobName);
 			Assert.Equal(2, all.Length);
 			Assert.Equal(PropertyType.Float, all[0].Type);
 			Assert.Equal(PropertyType.String, all[1].Type);
@@ -57,9 +57,9 @@ namespace Test.Shared.World
 		public void Remove()
 		{
 			var properties = new Properties();
-			properties.Set(ObjectProperty.Skill.Level, 2);
-			properties.Set(ObjectProperty.Skill.SplAngle, 300);
-			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+			properties.Set(PropertyId.Skill.Level, 2);
+			properties.Set(PropertyId.Skill.SplAngle, 300);
+			properties.Set(PropertyId.PC.JobName, "Char1_1");
 
 			var all = properties.GetAll();
 			Assert.Equal(3, all.Length);
@@ -67,7 +67,7 @@ namespace Test.Shared.World
 			Assert.Equal(PropertyType.Float, all[1].Type);
 			Assert.Equal(PropertyType.String, all[2].Type);
 
-			properties.Remove(ObjectProperty.Skill.SplAngle);
+			properties.Remove(PropertyId.Skill.SplAngle);
 
 			all = properties.GetAll();
 			Assert.Equal(2, all.Length);
@@ -79,21 +79,21 @@ namespace Test.Shared.World
 		public void GetOne()
 		{
 			var properties = new Properties();
-			properties.Set(ObjectProperty.Skill.SplAngle, 300);
-			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+			properties.Set(PropertyId.Skill.SplAngle, 300);
+			properties.Set(PropertyId.PC.JobName, "Char1_1");
 
-			Assert.Equal(null, properties.Get(ObjectProperty.Skill.Level));
-			Assert.Equal(300, (properties.Get(ObjectProperty.Skill.SplAngle) as FloatProperty).Value);
-			Assert.Equal("Char1_1", (properties.Get(ObjectProperty.PC.JobName) as StringProperty).Value);
+			Assert.Equal(null, properties.Get(PropertyId.Skill.Level));
+			Assert.Equal(300, (properties.Get(PropertyId.Skill.SplAngle) as FloatProperty).Value);
+			Assert.Equal("Char1_1", (properties.Get(PropertyId.PC.JobName) as StringProperty).Value);
 		}
 
 		[Fact]
 		public void Packet()
 		{
 			var properties = new Properties();
-			properties.Set(ObjectProperty.Skill.Level, 2);
-			properties.Set(ObjectProperty.Skill.SplAngle, 300);
-			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+			properties.Set(PropertyId.Skill.Level, 2);
+			properties.Set(PropertyId.Skill.SplAngle, 300);
+			properties.Set(PropertyId.PC.JobName, "Char1_1");
 
 			var allProperties = properties.GetAll();
 
@@ -123,11 +123,11 @@ namespace Test.Shared.World
 
 			packet = new Packet(buffer);
 			Assert.Equal(propertiesSize, packet.GetShort());
-			Assert.Equal(ObjectProperty.Skill.Level, packet.GetInt());
+			Assert.Equal(PropertyId.Skill.Level, packet.GetInt());
 			Assert.Equal(2, packet.GetFloat());
-			Assert.Equal(ObjectProperty.Skill.SplAngle, packet.GetInt());
+			Assert.Equal(PropertyId.Skill.SplAngle, packet.GetInt());
 			Assert.Equal(300, packet.GetFloat());
-			Assert.Equal(ObjectProperty.PC.JobName, packet.GetInt());
+			Assert.Equal(PropertyId.PC.JobName, packet.GetInt());
 			Assert.Equal("Char1_1", packet.GetLpString());
 		}
 	}

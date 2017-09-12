@@ -537,7 +537,7 @@ namespace Melia.Channel.World
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
-			Send.ZC_OBJECT_PROPERTY(this, ObjectProperty.PC.StatByLevel);
+			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByLevel);
 			Send.ZC_NORMAL_LevelUp(this);
 
 			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);

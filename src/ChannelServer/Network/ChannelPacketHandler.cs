@@ -928,8 +928,8 @@ namespace Melia.Channel.Network
 
 					// Official doesn't update UsedStat with this packet =<
 					Send.ZC_OBJECT_PROPERTY(character,
-						ObjectProperty.PC.STR, ObjectProperty.PC.CON, ObjectProperty.PC.INT, ObjectProperty.PC.MNA, ObjectProperty.PC.DEX,
-						ObjectProperty.PC.UsedStat
+						PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
+						PropertyId.PC.UsedStat
 					);
 
 					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
