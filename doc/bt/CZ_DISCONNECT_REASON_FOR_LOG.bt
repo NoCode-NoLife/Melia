@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_DISCONNECT_REASON_FOR_LOG
+//   Authors: exec
+//   Version: i171960
+//   Purpose: Sent at login after an unexpected disconnect?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    lpString key1;
+    lpString value1;
+}
+KeyValuePair <optimize=false>;
+
+short op;
+int sequence;
+int checksum;
+short size;
+
+int valueCount;
+int i2;
+int i3;
+
+KeyValuePair values[valueCount];
+
+// Rest unknown, looks like a bunch of numbers,
+// probably with i2 and i3 as counts.
