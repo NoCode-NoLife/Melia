@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_ACHIEVE_REWARD.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Requests a reward for a specific achievement ID.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int achievementId;
