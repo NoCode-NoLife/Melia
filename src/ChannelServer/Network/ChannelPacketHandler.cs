@@ -1316,6 +1316,19 @@ namespace Melia.Channel.Network
 
 			switch (command)
 			{
+				case 0x0C:
+					// Disable "You can buy items" tooltip, sent after
+					// opening a shop.
+					if (classId == 5 && cmdArg == 1)
+					{
+						// The property is on the session object "Jansori".
+						var jansori = conn.SelectedCharacter.SessionObjects.Get(SessionObjectId.Jansori);
+						jansori.Properties.Set(PropertyId.SessionObject.Shop_Able_Clicked, 1);
+						Send.ZC_OBJECT_PROPERTY(conn, jansori, PropertyId.SessionObject.Shop_Able_Clicked);
+						break;
+					}
+					goto default;
+
 				// Hat visbility toggle
 				case 0x28:
 					// classId = 0~2 (hats 1~3)

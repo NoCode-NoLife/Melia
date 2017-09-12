@@ -851,6 +851,11 @@ namespace Melia.Channel.Network
 			packet.PutLong(character.Id);
 			packet.PutInt(0); // isTrickPacket
 
+			// XXX: Turn Character properties into wrappers for the object
+			//   properties, so we can send this in a loop, instead of a
+			//   switch? Or write both immediate value *and* property on
+			//   set? (That would improve getter performance.)
+
 			foreach (var property in properties)
 			{
 				packet.PutInt(property);
@@ -877,6 +882,26 @@ namespace Melia.Channel.Network
 					default: throw new ArgumentException("Unknown property '" + property + "'.");
 				}
 			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates session object's ids.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="obj"></param>
+		/// <param name="propertyIds"></param>
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, SessionObject obj, params int[] propertyIds)
+		{
+			var properties = obj.Properties.GetAll(propertyIds);
+			var propertiesSize = properties.Sum(a => a.Size);
+
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+
+			packet.PutLong(obj.ObjectId);
+			packet.PutInt(0); // isTrickPacket
+			packet.AddProperties(properties);
 
 			conn.Send(packet);
 		}
