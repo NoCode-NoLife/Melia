@@ -10,6 +10,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
 
 namespace Melia.Channel.Database
@@ -136,8 +137,88 @@ namespace Melia.Channel.Database
 
 			this.LoadCharacterItems(character);
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
+			this.LoadSessionObjects(character);
 
 			return character;
+		}
+
+		/// <summary>
+		/// Loads character's session objects.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadSessionObjects(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `session_objects_properties` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var sessionObjectId = reader.GetInt32("sessionObjectId");
+						var propertyId = reader.GetInt32("propertyId");
+						var value = reader.GetString("value");
+
+						var sessionObject = character.SessionObjects.GetOrCreate(sessionObjectId);
+						switch (Properties.GetPropertyType(propertyId))
+						{
+							case PropertyType.Float:
+								var floatValue = Convert.ToSingle(value, CultureInfo.InvariantCulture);
+								sessionObject.Properties.Set(propertyId, floatValue);
+								break;
+
+							case PropertyType.String:
+								sessionObject.Properties.Set(propertyId, value);
+								break;
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves character's session objects.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveSessionObjects(Character character)
+		{
+			var sessionObjects = character.SessionObjects.GetList();
+
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				foreach (var sessionObject in sessionObjects)
+				{
+					using (var cmd = new MySqlCommand("DELETE FROM `session_objects_properties` WHERE `characterId` = @characterId AND `sessionObjectId` = @sessionObjectId", conn, trans))
+					{
+						cmd.Parameters.AddWithValue("@characterId", character.Id);
+						cmd.Parameters.AddWithValue("@sessionObjectId", sessionObject.Id);
+						cmd.ExecuteNonQuery();
+					}
+
+					var properties = sessionObject.Properties.GetAll();
+					foreach (var property in properties)
+					{
+						using (var cmd = new InsertCommand("INSERT INTO `session_objects_properties` {0}", conn, trans))
+						{
+							cmd.Set("characterId", character.Id);
+							cmd.Set("sessionObjectId", sessionObject.Id);
+							cmd.Set("propertyId", property.Id);
+							switch (property)
+							{
+								case FloatProperty floatProperty: cmd.Set("value", floatProperty.Value.ToString(CultureInfo.InvariantCulture)); break;
+								case StringProperty stringProperty: cmd.Set("value", stringProperty.Value); break;
+							}
+
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
 		}
 
 		/// <summary>
@@ -182,6 +263,7 @@ namespace Melia.Channel.Database
 
 			this.SaveCharacterItems(character);
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
+			this.SaveSessionObjects(character);
 
 			return false;
 		}
