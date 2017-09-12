@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_PROPERTY_COMPARE
+//   Authors: exec
+//   Version: i171960
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+int handle;
+byte b1; // 1 when requesting character info
+byte b2; // 1 when liking a character
