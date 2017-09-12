@@ -1,0 +1,31 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_PARTY_INFO
+//   Authors: Tachiorz
+//   Version: i11XXX
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+short op;
+int sequence;
+
+byte partyType; // 0: normal, 1: guild
+byte b1;
+
+// PARTY_INFO
+int64 characterId;
+int64 partyId;
+char partyName[56];
+char leaderName[56];
+int i1;
+
+short propertiesSize;
+if (propertiesSize > 0)
+    getProperties(propertiesSize);

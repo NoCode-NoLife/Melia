@@ -17,40 +17,6 @@ namespace Melia.Channel.Network
 {
 	public static class Send
 	{
-		// Triggers CZ_MOVE_ZONE_OK response from client, doesn't unstuck.
-		//packet = new Packet(Op.ZC_MOVE_ZONE);
-		//packet.PutByte(0);
-		//conn.Send(packet);
-
-		//packet = new Packet(Op.ZC_JOB_EXP_UP);
-		//packet.PutInt(30);
-		//conn.Send(packet);
-
-		//var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
-		//packet.PutInt(character.WorldId);
-		//packet.PutInt(character.Hp );
-		//packet.PutInt(character.MaxHp );
-		//packet.PutShort(character.Sp);
-		//packet.PutShort(character.MaxSp);
-		//packet.PutInt(X);
-		//conn.Send(packet);
-
-		//var p = new Packet(Op.ZC_PARTY_INFO);
-		//p.PutByte(0); // party type - 0: normal party, 1: guild info
-		//p.PutByte(0);
-		//// PARTY_INFO
-		//{
-		//	p.PutLong(conn.SelectedCharacter.Id);  //?
-		//	p.PutLong(666);  // partyID
-		//	p.PutString("Mah Party", 56);
-		//	p.PutLong(conn.SelectedCharacter.Id);
-		//	p.PutString("John Connor", 56);
-		//	p.PutInt(1);
-		//}
-		//// properties
-		//p.PutShort(0); //size
-		//conn.Send(p);
-
 		/// <summary>
 		/// Sends ZC_CONNECT_OK to connection, verifying the connection and
 		/// giving information about the character.
