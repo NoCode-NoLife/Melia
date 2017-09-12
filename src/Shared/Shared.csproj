@@ -118,6 +118,8 @@
     <Compile Include="Util\Log.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Location.cs" />
+    <Compile Include="World\ObjectProperties\Properties.cs" />
+    <Compile Include="World\ObjectProperties\Property.cs" />
     <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup />
