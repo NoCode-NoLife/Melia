@@ -45,8 +45,7 @@ namespace Melia.Shared.Util.Configuration.Files
 					continue;
 				}
 
-				int auth1, auth2;
-				if (!int.TryParse(sAuth[0], out auth1) || !int.TryParse(sAuth[1], out auth2))
+				if (!int.TryParse(sAuth[0], out var auth1) || !int.TryParse(sAuth[1], out var auth2))
 				{
 					Log.Error("CommandsConfFile.Load: Unable to parse auth for '{0}'.", option.Key);
 					continue;
@@ -66,8 +65,7 @@ namespace Melia.Shared.Util.Configuration.Files
 		/// <returns></returns>
 		public CommandAuthConf GetAuth(string command)
 		{
-			CommandAuthConf result;
-			this.Auth.TryGetValue(command, out result);
+			this.Auth.TryGetValue(command, out var result);
 			if (result == null)
 				result = new CommandAuthConf(99, 99);
 

@@ -196,8 +196,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 4)
 				return CommandResult.InvalidArgument;
 
-			float x, y, z;
-			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
 				return CommandResult.InvalidArgument;
 
 			target.Position = new Position(x, y, z);
@@ -212,10 +211,9 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int mapId;
 			float x = 0, y = 0, z = 0;
 
-			if (!int.TryParse(args[1], out mapId))
+			if (!int.TryParse(args[1], out var mapId))
 			{
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
@@ -250,11 +248,10 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int itemId;
 			var amount = 1;
 
 			// Get and check id
-			if (!int.TryParse(args[1], out itemId))
+			if (!int.TryParse(args[1], out var itemId))
 				return CommandResult.InvalidArgument;
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
@@ -282,8 +279,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int id;
-			if (!int.TryParse(args[1], out id))
+			if (!int.TryParse(args[1], out var id))
 				return CommandResult.InvalidArgument;
 
 			var amount = 1;
@@ -375,8 +371,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			short jobId;
-			if (!short.TryParse(args[1], out jobId))
+			if (!short.TryParse(args[1], out var jobId))
 				return CommandResult.InvalidArgument;
 
 			if (!Enum.IsDefined(typeof(JobId), jobId))
@@ -419,8 +414,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			int levels;
-			if (!int.TryParse(args[1], out levels) || levels < 1)
+			if (!int.TryParse(args[1], out var levels) || levels < 1)
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
@@ -437,8 +431,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			float speed;
-			if (!float.TryParse(args[1], out speed))
+			if (!float.TryParse(args[1], out var speed))
 				return CommandResult.InvalidArgument;
 
 			target.Speed = speed;

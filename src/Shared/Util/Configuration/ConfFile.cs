@@ -76,8 +76,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected bool GetBool(string option, bool defaultValue = false)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
 			value = value.ToLower().Trim();
@@ -94,12 +93,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected byte GetByte(string option, byte defaultValue = 0)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			byte ret;
-			if (byte.TryParse(value, out ret))
+			if (byte.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -115,12 +112,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected short GetShort(string option, short defaultValue = 0)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			short ret;
-			if (short.TryParse(value, out ret))
+			if (short.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -136,12 +131,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected int GetInt(string option, int defaultValue = 0)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			int ret;
-			if (int.TryParse(value, out ret))
+			if (int.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -157,12 +150,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected long GetLong(string option, long defaultValue = 0)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			long ret;
-			if (long.TryParse(value, out ret))
+			if (long.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -178,8 +169,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected string GetString(string option, string defaultValue = "")
 		{
-			string value;
-			return !_options.TryGetValue(option, out value) ? defaultValue : value;
+			return !_options.TryGetValue(option, out var value) ? defaultValue : value;
 		}
 
 		/// <summary>
@@ -191,12 +181,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected float GetFloat(string option, float defaultValue = 0)
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			float ret;
-			if (float.TryParse(value, out ret))
+			if (float.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -216,12 +204,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected DateTime GetDateTime(string option, DateTime defaultValue = default(DateTime))
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			DateTime ret;
-			if (DateTime.TryParse(value, out ret))
+			if (DateTime.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -243,12 +229,10 @@ namespace Melia.Shared.Util.Configuration
 		/// <returns></returns>
 		protected TimeSpan GetTimeSpan(string option, TimeSpan defaultValue = default(TimeSpan))
 		{
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			TimeSpan ret;
-			if (TimeSpan.TryParse(value, out ret))
+			if (TimeSpan.TryParse(value, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);
@@ -268,13 +252,10 @@ namespace Melia.Shared.Util.Configuration
 			if (!typeof(T).IsEnum)
 				throw new NotSupportedException("Type " + typeof(T) + " is not an enum.");
 
-			string value;
-			if (!_options.TryGetValue(option, out value))
+			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
 
-			T ret;
-
-			if (Enum.TryParse<T>(value, true, out ret))
+			if (Enum.TryParse<T>(value, true, out var ret))
 				return ret;
 
 			Log.Warning("Invalid value for '{0}', defaulting to '{1}'", option, defaultValue);

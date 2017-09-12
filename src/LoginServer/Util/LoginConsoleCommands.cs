@@ -22,8 +22,7 @@ namespace Melia.Login.Util
 
 			var accountName = args[1];
 
-			int level;
-			if (!int.TryParse(args[2], out level))
+			if (!int.TryParse(args[2], out var level))
 				return CommandResult.InvalidArgument;
 
 			if (!LoginServer.Instance.Database.AccountExists(accountName))

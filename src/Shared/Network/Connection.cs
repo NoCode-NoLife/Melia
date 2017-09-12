@@ -222,9 +222,7 @@ namespace Melia.Shared.Network
 		/// </summary>
 		private void OnClosed()
 		{
-			var ev = this.Closed;
-			if (ev != null)
-				ev(this, null);
+			this.Closed?.Invoke(this, null);
 
 			lock (_cleanUpLock)
 			{

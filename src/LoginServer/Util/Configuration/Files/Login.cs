@@ -47,8 +47,7 @@ namespace Melia.Login.Util.Configuration.Files
 				goto L_Default;
 			}
 
-			int x, y, z;
-			if (!int.TryParse(split[1], out x) || !int.TryParse(split[2], out y) || !int.TryParse(split[3], out z))
+			if (!int.TryParse(split[1], out var x) || !int.TryParse(split[2], out var y) || !int.TryParse(split[3], out var z))
 			{
 				Log.Warning("login.conf: Invalid coordinates for start_location, using default location.");
 				goto L_Default;

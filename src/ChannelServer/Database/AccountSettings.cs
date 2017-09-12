@@ -47,12 +47,10 @@ namespace Melia.Channel.Database
 
 			for (var i = 0; i < split.Length; i += 2)
 			{
-				int option, value;
-
-				if (!int.TryParse(split[i], out option))
+				if (!int.TryParse(split[i], out var option))
 					throw new ArgumentException("Invalid key '" + split[i] + "'.");
 
-				if (!int.TryParse(split[i + 1], out value))
+				if (!int.TryParse(split[i + 1], out var value))
 					throw new ArgumentException("Invalid value '" + split[i + 1] + "'.");
 
 				this.Set((Option)option, value);

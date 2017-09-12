@@ -144,8 +144,7 @@ namespace Melia.Channel.Database
 		{
 			lock (_revealedMaps)
 			{
-				RevealedMap map;
-				if (_revealedMaps.TryGetValue(revealedMap.MapId, out map))
+				if (_revealedMaps.TryGetValue(revealedMap.MapId, out var map))
 					map.Update(revealedMap.Explored, revealedMap.Percentage);
 				else
 					_revealedMaps[revealedMap.MapId] = revealedMap;
