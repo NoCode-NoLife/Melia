@@ -130,5 +130,26 @@ namespace Test.Shared.World
 			Assert.Equal(PropertyId.PC.JobName, packet.GetInt());
 			Assert.Equal("Char1_1", packet.GetLpString());
 		}
+
+		[Fact]
+		public void RefFunc()
+		{
+			var properties = new Properties();
+			properties.Add(new FloatProperty(1, 123));
+			properties.Add(new RefFloatProperty(2, () => 345));
+			properties.Add(new RefFloatProperty(3, RefFuncTest));
+
+			Assert.Equal(123, (properties.Get(1) as FloatProperty).Value);
+			Assert.Equal(345, (properties.Get(2) as FloatProperty).Value);
+			Assert.Equal(901, (properties.Get(3) as FloatProperty).Value);
+
+			Assert.Equal(678, new RefFloatProperty(3, () => 678).Value);
+			Assert.Equal(901, new RefFloatProperty(3, RefFuncTest).Value);
+		}
+
+		private static float RefFuncTest()
+		{
+			return 901;
+		}
 	}
 }

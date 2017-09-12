@@ -95,6 +95,20 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Adds the given property
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="value"></param>
+		public void Add(IProperty property)
+		{
+			if (!Enum.IsDefined(typeof(PropertyType), property.Type))
+				throw new ArgumentException($"Invalid property type '{property.Type}'.");
+
+			lock (_properties)
+				_properties[property.Id] = property;
+		}
+
+		/// <summary>
 		/// Removes given property, returns false if the property didn't
 		/// exist.
 		/// </summary>
