@@ -2,7 +2,6 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
@@ -10,10 +9,11 @@ using Melia.Shared.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
 {
-	public class Character : IEntity, ICommander
+	public class Character : IEntity, ICommander, IPropertyObject
 	{
 		private bool _warping;
 
@@ -31,6 +31,17 @@ namespace Melia.Channel.World
 		/// Character's unique id.
 		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// Character's globally unique id.
+		/// </summary>
+		/// <remarks>
+		/// This is basically the same as Id... but until we're entirely
+		/// sure this object business works the way we think it does,
+		/// I'll leave it as a reference. At least it seems like the
+		/// id doesn't change across play sessions.
+		/// </remarks>
+		public long ObjectId => this.Id;
 
 		/// <summary>
 		/// Id of the character's account.
@@ -187,8 +198,9 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Holds the order of successive changes in character HP.
 		/// A higher value indicates the latest damage taken.
-		/// I'm not sure when this gets rolled over; More investigation is needed.
 		/// </summary>
+		/// TODO: I'm not sure when this gets rolled over;
+		///   More investigation is needed.
 		public int HpChangeCounter { get; private set; }
 
 		/// <summary>
@@ -310,6 +322,16 @@ namespace Melia.Channel.World
 		public SessionObjects SessionObjects { get; } = new SessionObjects();
 
 		/// <summary>
+		/// Character's properties.
+		/// </summary>
+		/// <remarks>
+		/// Beware, some of these are reference properties, that can't be
+		/// set directly. Use this object's actual properties whenever
+		/// possible.
+		/// </remarks>
+		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -324,14 +346,50 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
-			this.HpChangeCounter = 0;
 
+			this.AddSessionObjects();
+			this.AddReferenceProperties();
+		}
+
+		/// <summary>
+		/// Adds default session objects.
+		/// </summary>
+		private void AddSessionObjects()
+		{
 			// The exact purpose of those objects is unknown right now,
 			// but apparently they hold some properties of importance.
 			// For now we'll add only one, to be able to get rid of the
 			// message "You can buy items from a shop", which has been
 			// bugging me. I know I can buy items! I coded that!
 			this.SessionObjects.Add(new SessionObject(SessionObjectId.Jansori));
+		}
+
+		/// <summary>
+		/// Adds default reference properties.
+		/// </summary>
+		private void AddReferenceProperties()
+		{
+			// Beautiful. No duplication of any data, and we can use our
+			// normal C# properties. XXX: We could technically use reflection
+			// to add these automatically.
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.Hp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT, () => this.Int));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA, () => this.Spr));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX, () => this.Dex));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => this.StatByLevel));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 		}
 
 		/// <summary>

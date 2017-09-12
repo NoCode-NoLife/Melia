@@ -829,61 +829,9 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="properties"></param>
-		public static void ZC_OBJECT_PROPERTY(Character character, params short[] properties)
+		public static void ZC_OBJECT_PROPERTY(Character character, params int[] properties)
 		{
 			ZC_OBJECT_PROPERTY(character.Connection, character, properties);
-		}
-
-		/// <summary>
-		/// Sends ZC_OBJECT_PROPERTY to connection, containing a list of the
-		/// given properties, using values from character.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
-		/// <param name="properties"></param>
-		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, Character character, params short[] properties)
-		{
-			if (properties == null || properties.Length == 0)
-				return;
-
-			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-
-			packet.PutLong(character.Id);
-			packet.PutInt(0); // isTrickPacket
-
-			// XXX: Turn Character properties into wrappers for the object
-			//   properties, so we can send this in a loop, instead of a
-			//   switch? Or write both immediate value *and* property on
-			//   set? (That would improve getter performance.)
-
-			foreach (var property in properties)
-			{
-				packet.PutInt(property);
-				switch (property)
-				{
-					case PropertyId.PC.HP: packet.PutFloat(character.Hp); break;
-					case PropertyId.PC.MHP: packet.PutFloat(character.MaxHp); break;
-					case PropertyId.PC.SP: packet.PutFloat(character.Sp); break;
-					case PropertyId.PC.MSP: packet.PutFloat(character.MaxSp); break;
-
-					case PropertyId.PC.STR: packet.PutFloat(character.Str); break;
-					case PropertyId.PC.CON: packet.PutFloat(character.Con); break;
-					case PropertyId.PC.INT: packet.PutFloat(character.Int); break;
-					case PropertyId.PC.MNA: packet.PutFloat(character.Spr); break;
-					case PropertyId.PC.DEX: packet.PutFloat(character.Dex); break;
-
-					case PropertyId.PC.NowWeight: packet.PutFloat(character.NowWeight); break;
-					case PropertyId.PC.MaxWeight: packet.PutFloat(character.MaxWeight); break;
-
-					case PropertyId.PC.StatByLevel: packet.PutFloat(character.StatByLevel); break;
-					case PropertyId.PC.StatByBonus: packet.PutFloat(character.StatByBonus); break;
-					case PropertyId.PC.UsedStat: packet.PutFloat(character.UsedStat); break;
-
-					default: throw new ArgumentException("Unknown property '" + property + "'.");
-				}
-			}
-
-			conn.Send(packet);
 		}
 
 		/// <summary>
