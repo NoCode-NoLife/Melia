@@ -27,7 +27,7 @@ To *run* Melia, you need
 To *compile* Melia, you need
 * C# 6 compiler, such as:
   * [Visual Studio](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) (2017 or later)
-  * [Monodevelop](http://monodevelop.com/) (With mono version 4 or greater)
+  * [Monodevelop](http://monodevelop.com/) (With Mono version 5 or greater)
 
 Installation
 ------------------------------
