@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SESSION_OBJ_ADD.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Adds a single session object.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+short size;
+
+int classId;
+int64 timeRemaining;
+int i1;

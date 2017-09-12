@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SESSION_OBJ_TIME.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Changes a session object's remaining time.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int classId;
+int64 time;     // The server application time is subtracted from this to get the remaining time.
