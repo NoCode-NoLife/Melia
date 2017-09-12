@@ -378,7 +378,7 @@ typedef struct
 Message;
 
 
-enum OBJP_TYPES { OBJP_FLOAT, OBJP_INT, OBJP_STRING };
+enum OBJP_TYPES { OBJP_FLOAT, OBJP_STRING };
 
 typedef struct 
 {
@@ -386,9 +386,6 @@ typedef struct
     switch(getPropertyType(id)) {
         case OBJP_STRING:
             lpString val;
-            break;
-        case OBJP_INT:
-            int32 val;
             break;
         case OBJP_FLOAT:
             float val;
@@ -405,13 +402,11 @@ string propertyRead(property &p)
 #ifdef OPN
     switch(getPropertyType(p.id)) {
         case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
-        case OBJP_INT:    SPrintf(ret, "%s : %d",   getPropertyName(p.id), p.val); break;
         case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
     }
 #else
     switch(getPropertyType(p.id)) {
         case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
-        case OBJP_INT:    SPrintf(ret, "%d : %d",   p.id, p.val); break;
         case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
     }
 #endif
@@ -424,6 +419,7 @@ int getPropertyType(int id)
     switch(id) {
         case 41:
         case 1328:
+        case 3927:
         case 4591:
         case 6303:
         case 7118:
@@ -432,9 +428,6 @@ int getPropertyType(int id)
         case 32575:
         case 101000:
             return OBJP_STRING;
-            break;
-        case 4601:
-            return OBJP_INT;
             break;
         default:
             return OBJP_FLOAT;

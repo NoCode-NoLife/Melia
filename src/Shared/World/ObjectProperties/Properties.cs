@@ -111,12 +111,13 @@ namespace Melia.Shared.World.ObjectProperties
 			{
 				case ObjectProperty.Account.Medal_Get_Date:
 				case ObjectProperty.Account.LimitPaymentStateBySteam:
-				case ObjectProperty.PC.JobName:
+				case ObjectProperty.PC.JobName:                          // Char1_1
 				case ObjectProperty.PC.LastExp:
 				case ObjectProperty.PCEtc.Kill_boss_Velmosquy:
+				case ObjectProperty.PCEtc.LastUIOpenPos:                 // f_siauliai_2/219/151.86210632324/706/worldmap (this feels so wrong)
 				case ObjectProperty.Party.P_PARTY_Q_030_TicketLifeTime:
 				case ObjectProperty.SessionObject.QSTARTZONETYPE:
-				case ObjectProperty.SessionObject.LastGenPosServer:
+				case ObjectProperty.SessionObject.LastGenPosServer:      // -1246/-648
 				case ObjectProperty.SessionObject.DROPITEM_REQUEST1_TRL:
 					return PropertyType.String;
 				default:
