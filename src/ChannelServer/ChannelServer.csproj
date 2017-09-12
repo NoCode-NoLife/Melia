@@ -79,6 +79,8 @@
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
     <Compile Include="World\RevealedMap.cs" />
+    <Compile Include="World\SessionObject.cs" />
+    <Compile Include="World\SessionObjects.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

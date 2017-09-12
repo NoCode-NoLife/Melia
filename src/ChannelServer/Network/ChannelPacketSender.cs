@@ -12,6 +12,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.Network
 {
@@ -2012,30 +2013,24 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_SESSION_OBJECTS(Character character)
 		{
-			// The exact purpose of those objects is unknown right now,
-			// but apparently they hold some properties of importance.
-			// For now we will send a single one, to get rid of the
-			// message "You can buy items from a shop", which has been
-			// bugging me. I know I can buy items! I coded that!
+			var sessionObjects = character.SessionObjects.GetList();
 
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
-			packet.PutShort(1); // object count
-			{
-				// 770001 = Only entry in sessionobject_jansori.ies
-				// There's very little data in the table, but apparently
-				// "Jansori is scolding, nagging, and grumbling" in
-				// Korean? I guess that's a fitting name for the Navi-
-				// like feature that keeps telling me how to do stuff.
 
-				packet.PutInt(770001); // session object id?
+			packet.PutShort(sessionObjects.Length);
+			foreach (var obj in sessionObjects)
+			{
+				var properties = obj.Properties.GetAll();
+				var propertiesSize = obj.Properties.Size;
+
+				packet.PutInt(obj.Id);
 				packet.PutInt(-926557701);
-				packet.PutLong(0xE1A90004F4BA); // object id
+				packet.PutLong(obj.ObjectId);
 				packet.PutInt(0);
 
-				packet.PutShort(8); // property size
-				packet.PutShort(2054);
-				packet.PutInt(1486); // property id (Shop_Able_Clicked)
-				packet.PutFloat(1);  // property value
+				packet.PutShort(propertiesSize);
+				packet.PutShort(0);
+				packet.AddProperties(properties);
 			}
 
 			character.Connection.Send(packet);

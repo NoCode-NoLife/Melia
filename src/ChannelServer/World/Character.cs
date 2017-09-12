@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
@@ -304,6 +305,11 @@ namespace Melia.Channel.World
 		public float Dex { get; set; }
 
 		/// <summary>
+		/// Character's session objects.
+		/// </summary>
+		public SessionObjects SessionObjects { get; } = new SessionObjects();
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -319,6 +325,13 @@ namespace Melia.Channel.World
 			this.Variables = new Variables();
 			this.Speed = 30;
 			this.HpChangeCounter = 0;
+
+			// The exact purpose of those objects is unknown right now,
+			// but apparently they hold some properties of importance.
+			// For now we'll add only one, to be able to get rid of the
+			// message "You can buy items from a shop", which has been
+			// bugging me. I know I can buy items! I coded that!
+			this.SessionObjects.Add(new SessionObject(SessionObjectId.Jansori));
 		}
 
 		/// <summary>

@@ -13,6 +13,7 @@ namespace Melia.Channel.World
 		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
 
 		private int _handles = 0;
+		private long _sessionObjectIds = 0xE1A900000000;
 
 		private Dictionary<int, Map> _mapsId;
 		private Dictionary<string, Map> _mapsName;
@@ -82,6 +83,19 @@ namespace Melia.Channel.World
 			//   need a fallback, or a way to release handles of logged out
 			//   characters or killed monsters.
 			return Interlocked.Increment(ref _handles);
+		}
+
+		/// <summary>
+		/// Returns a new object id that can be used for a session object.
+		/// </summary>
+		/// <returns></returns>
+		public long CreateSessionObjectId()
+		{
+			// XXX: How exactly do these unique ids work? Do they all come
+			// from the same pool? Are there ranges? Do they have to be
+			// unique between multiple types? Can we use one getter for
+			// all "objects"?
+			return Interlocked.Increment(ref _sessionObjectIds);
 		}
 
 		/// <summary>
