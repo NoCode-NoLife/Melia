@@ -54,6 +54,28 @@ namespace Test.Shared.World
 		}
 
 		[Fact]
+		public void Remove()
+		{
+			var properties = new Properties();
+			properties.Set(ObjectProperty.Skill.Level, 2);
+			properties.Set(ObjectProperty.Skill.SplAngle, 300);
+			properties.Set(ObjectProperty.PC.JobName, "Char1_1");
+
+			var all = properties.GetAll();
+			Assert.Equal(3, all.Length);
+			Assert.Equal(PropertyType.Float, all[0].Type);
+			Assert.Equal(PropertyType.Float, all[1].Type);
+			Assert.Equal(PropertyType.String, all[2].Type);
+
+			properties.Remove(ObjectProperty.Skill.SplAngle);
+
+			all = properties.GetAll();
+			Assert.Equal(2, all.Length);
+			Assert.Equal(PropertyType.Float, all[0].Type);
+			Assert.Equal(PropertyType.String, all[1].Type);
+		}
+
+		[Fact]
 		public void GetOne()
 		{
 			var properties = new Properties();

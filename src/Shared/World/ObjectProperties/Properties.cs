@@ -95,6 +95,18 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Removes given property, returns false if the property didn't
+		/// exist.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <returns></returns>
+		public bool Remove(int propertyId)
+		{
+			lock (_properties)
+				return _properties.Remove(propertyId);
+		}
+
+		/// <summary>
 		/// Returns the given property's type.
 		/// </summary>
 		/// <param name="propertyId"></param>
