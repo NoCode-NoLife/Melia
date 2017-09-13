@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_MYPAGE_COMMENT_DELETE.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Requests to delete a comment page.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int ownerHandle;
+int pageIndex;
