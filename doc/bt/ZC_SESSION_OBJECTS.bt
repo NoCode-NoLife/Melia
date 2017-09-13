@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+//#define PROPERTY_NAMES
+
 #include "common.bt"
 
 typedef struct
@@ -20,7 +22,14 @@ typedef struct
     if(size > 0)
         getProperties(size-2);
 }
-Properties;
+Properties <read=readProperties, optimize=false>;
+
+string readProperties(Properties &v)
+{
+    string result;
+    SPrintf(result, "size: %d", v.size);
+    return result;
+}
 
 typedef struct
 {
