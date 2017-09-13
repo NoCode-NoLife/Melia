@@ -22,9 +22,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([03 00] [00 00 00 00] [0A 06 00 00]) 61 73 64 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 15 69 6E CB F1 C9 6E 68 94 B7 79 45 6D 33 0E 00 01 C0 A8 B2 14 52 93 3A 5C F0 16 79
-		/// </example>
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(LoginConnection conn, Packet packet)
 		{
@@ -80,9 +77,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([03 00] [00 00 00 00] [0A 06 00 00]) (00*1016) 01 01 XX XX XX 02 01 00 10 01 XX XX XX 14 00 00 00 00
-		/// </example>
 		[PacketHandler(Op.CB_LOGIN_BY_PASSPORT)]
 		public void CB_LOGIN_BY_PASSPORT(LoginConnection conn, Packet packet)
 		{
@@ -95,9 +89,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([05 00] [04 00 00 00] [01 00 00 00]) 92 0B 79 73 19 ED
-		/// </example>
 		[PacketHandler(Op.CB_LOGOUT)]
 		public void CB_LOGOUT(LoginConnection conn, Packet packet)
 		{
@@ -113,9 +104,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([06 00] [01 00 00 00] [07 00 00 00]) 00 | 43 07 5D A9 B7
-		/// </example>
 		[PacketHandler(Op.CB_START_BARRACK)]
 		public void CB_START_BARRACK(LoginConnection conn, Packet packet)
 		{
@@ -132,9 +120,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([4E 00] [02 00 00 00] [F1 00 00 00]) 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 | CB
-		/// </example>
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
@@ -145,9 +130,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([0A 00] [03 00 00 00] [18 02 00 00]) 53 6F 6D 65 4E 61 6D 65 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 99 0C 9A C2 A8 6A
-		/// </example>
 		[PacketHandler(Op.CB_BARRACKNAME_CHANGE)]
 		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
 		{
@@ -187,9 +169,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([07 00] [03 00 00 00] [9F 04 00 00]) 01 5A 65 72 6F 6E 6F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E9 03 01 00 00 98 41 C9 1F DE 41 00 00 E8 41 15 | 00 00 00 00
-		/// </example>
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
 		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
 		{
@@ -287,9 +266,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([08 00] [05 00 00 00] [0C 00 00 00]) 01 | 3A 72 F6 59 1A
-		/// </example>
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
@@ -321,9 +297,6 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([0B 00] [06 00 00 00] [AD 04 00 00]) 02 C5 C4 F0 C1 BD 63 90 41 BF 6F A8 C1 00 00 00 00 00 00 00 00 | C1
-		/// </example>
 		[PacketHandler(Op.CB_COMMANDER_MOVE)]
 		public void CB_COMMANDER_MOVE(LoginConnection conn, Packet packet)
 		{
@@ -357,9 +330,6 @@ namespace Melia.Login.Network
 		/// <summary>
 		/// Sent when clicking [Start Game], to connect to the selected channel.
 		/// </summary>
-		/// <example>
-		/// ([09 00] [15 00 00 00] [1D 00 00 00]) 00 00 01 | 69 7D E4
-		/// </example>
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(LoginConnection conn, Packet packet)
 		{
@@ -392,9 +362,6 @@ namespace Melia.Login.Network
 		/// <summary>
 		/// Sent when clicking [Purchase] on a barrack.
 		/// </summary>
-		/// <example>
-		/// ([4C 00] [15 00 00 00] [5E 00 00 00]) 00 00 00 00 0C 00 00 00 0B 00 00 00 | 0E 30
-		/// </example>
 		[PacketHandler(Op.CB_BUY_THEMA)]
 		public void CB_BUY_THEMA(LoginConnection conn, Packet packet)
 		{
@@ -423,13 +390,6 @@ namespace Melia.Login.Network
 		/// <summary>
 		/// Sent upon login, contains checksum of client files?
 		/// </summary>
-		/// <example>
-		/// 0000   09 00 01 00 00 00 12 04  00 00 39 64 34 39 61 35   ..........9d49a5
-		/// 0010   33 36 34 38 32 63 33 33  38 39 33 31 66 31 32 62   36482c338931f12b
-		/// 0020   36 30 38 65 33 31 37 61  30 65 00 00 00 00 00 00   608e317a0e......
-		/// 0030   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
-		/// 0040   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ................
-		/// </example>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
 		{

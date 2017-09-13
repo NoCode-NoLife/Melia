@@ -21,9 +21,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([B9 0B] [00 00 00 00] [E4 66 00 00]) 23 04 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 66 6F 6F 62 61 72 00 00 CC 0C 50 01 CC 0C 23 74 ...
-		/// </example>
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
@@ -83,9 +80,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([FE 0B] [01 00 00 00] [08 01 00 00]) | F3 C0 A9 C2 72 F2
-		/// </example>
 		[PacketHandler(Op.CZ_GAME_READY)]
 		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
 		{
@@ -131,9 +125,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([BC 0B] [03 00 00 00] [C4 00 00 00]) | FC 11 D0 A5 72 F2
-		/// </example>
 		[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
 		public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
 		{
@@ -147,9 +138,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([59 0C] [02 00 00 00] [65 00 00 00]) 02 00 00 00 00 00 00 00 | E7 B1 5E C8 25 CB	
-		/// </example>
 		[PacketHandler(Op.CZ_CAMPINFO)]
 		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
 		{
@@ -166,9 +154,6 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([1E 0C] [08 00 00 00] [98 01 00 00]) 14 00 74 65 73 74 31 32 33 00 |? 32 B8 E6 39
-		/// </example>
 		[PacketHandler(Op.CZ_CHAT)]
 		public void CZ_CHAT(ChannelConnection conn, Packet packet)
 		{
@@ -190,9 +175,6 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([1F 0C] [09 00 00 00] [98 01 00 00]) 14 00 74 65 73 74 31 32 33 00 |? 53 82 83 79
-		/// </example>
 		[PacketHandler(Op.CZ_CHAT_LOG)]
 		public void CZ_CHAT_LOG(ChannelConnection conn, Packet packet)
 		{
@@ -205,9 +187,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([01 0C] [1F 00 00 00] [12 00 00 00]) 00 | 63 D6 14 F1 60
-		/// </example>
 		[PacketHandler(Op.CZ_MOVE_BARRACK)]
 		public void CZ_MOVE_BARRACK(ChannelConnection conn, Packet packet)
 		{
@@ -224,9 +203,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([00 0C] [0A 00 00 00] [06 00 00 00]) 00 | 63 D6 14 F1 60
-		/// </example>
 		[PacketHandler(Op.CZ_LOGOUT)]
 		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
 		{
@@ -243,9 +219,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([0B 0C] [33 4A 00 00] [6E 00 00 00]) 00 | 7B 0D 5C 04 70
-		/// </example>
 		[PacketHandler(Op.CZ_JUMP)]
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
@@ -261,9 +234,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([09 0C] [1F 00 00 00] [59 07 00 00]) 00 3A E4 9C 42 99 EB 14 43 D2 A4 B4 41 00 00 80 BF 1F 5A 67 33 01 00 00 00 00 00 5D 3C DE 45 | C1 D1 C0 D9 8C C0 0F
-		/// </example>
 		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
@@ -288,9 +258,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([0F 0C] [24 00 00 00] [3F 06 00 00]) 00 EF C4 79 42 D4 EC 14 43 EF 0A 29 42 F3 04 35 3F F3 04 35 3F 18 46 DE 45 | 7D 34 0C CF 24
-		/// </example>
 		[PacketHandler(Op.CZ_MOVE_STOP)]
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
@@ -340,9 +307,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([12 0C] [06 00 00 00] [18 00 00 00]) | 7B 90 AC BC 3B 98
-		/// </example>
 		[PacketHandler(Op.CZ_ON_AIR)]
 		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
 		{
@@ -356,9 +320,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([12 0C] [06 00 00 00] [18 00 00 00]) | 7B 90 AC BC 3B 98
-		/// </example>
 		[PacketHandler(Op.CZ_ON_GROUND)]
 		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
 		{
@@ -372,9 +333,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([13 0C] [0A 00 00 00] [78 03 00 00]) 00 00 80 C3 C3 BC AD 6B 43 00 00 95 C3 | D8
-		/// </example>
 		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
 		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
 		{
@@ -395,9 +353,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([10 0C] [08 00 00 00] [14 00 00 00]) | D5 47 39 10 2B 7F
-		/// </example>
 		[PacketHandler(Op.CZ_REST_SIT)]
 		public void CZ_REST_SIT(ChannelConnection conn, Packet packet)
 		{
@@ -433,9 +388,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([29 0C] [0A 00 00 00] [2E 00 00 00]) 11 | A9 D6 37 E5 55
-		/// </example>
 		[PacketHandler(Op.CZ_ITEM_UNEQUIP)]
 		public void CZ_ITEM_UNEQUIP(ChannelConnection conn, Packet packet)
 		{
@@ -455,11 +407,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([22 0C] [4C 00 00 00] [58 00 00 00]) 20 00 01 00 00 00  1A 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
-		/// ([22 0C] [09 00 00 00] [34 00 00 00]) 20 00 01 00 00 00  33 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
-		/// ([22 0C] [0A 00 00 00] [30 00 00 00]) 20 00 01 00 00 00  34 00 00 00 00 00 50 00  01 00 00 00 00 00 50 00
-		/// </example>
 		[PacketHandler(Op.CZ_ITEM_DELETE)]
 		public void CZ_ITEM_DELETE(ChannelConnection conn, Packet packet)
 		{
@@ -521,9 +468,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([E2 0C] [08 00 00 00] [F6 01 00 00]) 00 04 00 00 00 00 00 50 00 11 27 00 00 04 00 00 00 00 00 50 00 11 27 00 00 | BA A6 FE 2C 3D
-		/// </example>
 		[PacketHandler(Op.CZ_SWAP_ETC_INV_CHANGE_INDEX)]
 		public void CZ_SWAP_ETC_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
 		{
@@ -552,9 +496,6 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([E4 0C] [08 00 00 00] [F8 00 00 00]) 00 | 58 EA 0F 1E 8B
-		/// </example>
 		[PacketHandler(Op.CZ_SORT_INV)]
 		public void CZ_SORT_INV(ChannelConnection conn, Packet packet)
 		{
@@ -579,12 +520,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([CB 0C] [0C 00 00 00] [FD 07 00 00]) 31 00  21 00 00 00  5B C0 30 E0 80 D9 7B 2A 27 83 38 D8 19 01 03 EE 98 51 07 0C 92 10 60 44 76 07 13 32 87 19 99 03 00 2B 60 F3 A0 4C AE E4
-		/// ([CB 0C] [0A 00 00 00] [8A 04 00 00]) 31 00  21 00 00 00  5B C0 30 E0 80 39 68 2A 27 43 12 D8 19 01 03 EE 98 51 07 0C 92 10 60 44 76 07 13 32 87 19 99 03 00 9E 2D E1 C7 E1 6E 46
-		/// ([CB 0C] [0A 00 00 00] [89 05 00 00]) 31 00  21 00 00 00  5B C0 30 E0 80 39 70 2A 27 C3 4A B0 33 02 06 DC 31 A3 0E 18 24 21 C0 88 EC 0E 26 64 0E 33 32 07 00 6C 53 FB F5 76 21 C1
-		/// ([CB 0C] [0A 00 00 00] [53 06 00 00]) 31 00  21 00 00 00  5B C0 30 B8 00 73 F4 54 4E 86 9F 60 37 05 0C 2E 97 8D BA 86 AE 21 C0 88 6C 1B 13 32 87 19 99 03 00 5A 4B F4 1C 0E 39 EC
-		/// </example>
 		[PacketHandler(Op.CZ_QUICKSLOT_LIST)]
 		public void CZ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
@@ -596,11 +531,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([1D 0C] [0F 00 00 00] [92 03 00 00]) 01 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 00 D4 DB 42 E4 8E
-		/// ([1D 0C] [10 00 00 00] [9D 03 00 00]) 11 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 BA 12 97 70 4C 98
-		/// ([1D 0C] [11 00 00 00] [C2 03 00 00]) 0F 00 00 00 00 00 C9 C3 23 14 67 43 00 80 9A C3 01 00 80 3F 01 00 40 | B4 E2 CE 60 30 BF F4
-		/// </example>
 		[PacketHandler(Op.CZ_POSE)]
 		public void CZ_POSE(ChannelConnection conn, Packet packet)
 		{
@@ -688,9 +618,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([08 0C] [53 00 00 00] [49 00 00 00]) 01 00 0F 00 00 | 65
-		/// </example>
 		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
 		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
 		{
@@ -721,9 +648,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([44 0C] [13 00 00 00] [41 00 00 00]) 02 | E8 E0 26 3A 29
-		/// </example>
 		[PacketHandler(Op.CZ_DIALOG_SELECT)]
 		public void CZ_DIALOG_SELECT(ChannelConnection conn, Packet packet)
 		{
@@ -744,9 +668,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([43 0C] [0B 00 00 00] [45 00 00 00]) 01 00 00 00 | F0 14
-		/// </example>
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
@@ -780,9 +701,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([45 0C] [0B 00 00 00] [C4 0D 00 00]) 74 68 61 74 27 73 20 72 69 67 68 00 00 00 00 00 04 CF E5 33 05 01 FF 07 00 00 00 00 80 0B D0 2A 00 60 57 2A 00 70 57 2A 20 C8 8B 35 04 00 00 00 20 3C 84 43 07 0A C3 43 A0 B2 49 0F C0 A9 49 0F 08 00 00 00 FC 68 1D 43 00 CA 8B 35 00 60 EF 43 40 3C 84 43 07 0A 53 43 A0 B2 49 0F C0 A9 49 0F 08 00 00 00 00 00 00 00 A0 CA 8B 35 00 00 00 00 60 3C 84 43 07 0A 00 00 A0 B2 49 0F C0 A9 49 0F F0 90 A8 77 0D 4C
-		/// </example>
 		[PacketHandler(Op.CZ_DIALOG_STRINGINPUT)]
 		public void CZ_DIALOG_STRINGINPUT(ChannelConnection conn, Packet packet)
 		{
@@ -803,9 +721,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([BD 0C] [08 00 00 00] [E8 00 00 00]) 2B 00 00 00 02 00 00 00 | 3C BE 92 68 C2 09
-		/// </example>
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(ChannelConnection conn, Packet packet)
 		{
@@ -825,9 +740,6 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([96 0D] [0D 00 00 00] [B2 00 00 00]) 1C 00 00 00 | D1 E0
-		/// </example>
 		[PacketHandler(Op.CZ_REVEAL_NPC_STATE)]
 		public void CZ_REVEAL_NPC_STATE(ChannelConnection conn, Packet packet)
 		{
@@ -839,9 +751,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([49 0D] [3C 00 00 00] [1F 0D 00 00] [45 00]) 00 00 00 00 01 00 00 00 65 EB 54 C4 E5 56 A1 43 4E 9B 9A 43 34 D9 4D C4 E5 56 A1 43 B1 BF A8 43 F3 04 35 3F F2 04 35 3F 01 00 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 | 91 27 2D
-		/// </example>
 		[PacketHandler(Op.CZ_CLIENT_HIT_LIST)]
 		public void CZ_CLIENT_HIT_LIST(ChannelConnection conn, Packet packet)
 		{
@@ -881,9 +790,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// ([94 0C] [42 01 00 00] [C0 00 00 00] [26 00]) 01 00 05 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00
-		/// </example>
 		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
@@ -964,9 +870,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		/// <example>
-		/// 
-		/// </example>
 		[PacketHandler(Op.CZ_SKILL_GROUND)]
 		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
 		{
