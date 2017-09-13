@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_JOB_PTS
+//   Authors: exec
+//   Version: i171960
+//   Purpose: Updates skill points.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+
+int characterId;
+short jobId;
+short skillPoints;
