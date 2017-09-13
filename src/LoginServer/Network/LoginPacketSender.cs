@@ -77,6 +77,10 @@ namespace Melia.Login.Network
 			// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
 			packet.PutShort(0); // count?
 
+			packet.PutShort(0);
+			packet.PutInt(0);
+			packet.PutShort(0);
+
 			conn.Send(packet);
 		}
 
