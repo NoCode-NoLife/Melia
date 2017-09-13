@@ -1452,9 +1452,8 @@ namespace Melia.Channel.Network
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
 
-			// TODO: Sanity checks. 
-			// Make certain that the displacement from the current position is realistic.
-			conn.SelectedCharacter.SetPosition(x, y, z);
+			// Sanity checks...
+			// Sync position for the character with the handle? ...
 		}
 	}
 
