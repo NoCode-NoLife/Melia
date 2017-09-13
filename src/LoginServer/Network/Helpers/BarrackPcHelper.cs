@@ -27,7 +27,7 @@ namespace Melia.Login.Network.Helpers
 				//   put value
 			}
 
-			// [i170175] ?
+			// [i170175] maybe hat visibility?
 			packet.PutByte(1);
 			packet.PutByte(1);
 			packet.PutByte(1);
