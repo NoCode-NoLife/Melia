@@ -1438,6 +1438,24 @@ namespace Melia.Channel.Network
 		{
 			// No parameters
 		}
+
+		/// <summary>
+		/// Attempts to sync the character position with the server and other entities on the map.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SYNC_POS)]
+		public void CZ_SYNC_POS(ChannelConnection conn, Packet packet)
+		{
+			var handle = packet.GetInt();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+
+			// TODO: Sanity checks. 
+			// Make certain that the displacement from the current position is realistic.
+			conn.SelectedCharacter.SetPosition(x, y, z);
+		}
 	}
 
 	public enum TxType : short
