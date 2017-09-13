@@ -25,7 +25,7 @@ To *run* Melia, you need
 * MySQL 5 compatible database
 
 To *compile* Melia, you need
-* C# 6 compiler, such as:
+* C# 7 compiler, such as:
   * [Visual Studio](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) (2017 or later)
   * [Monodevelop](http://monodevelop.com/) (With Mono version 5 or greater)
 
