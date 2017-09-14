@@ -140,6 +140,17 @@ typedef struct
 }
 APPEARANCE_PC;
 
+typedef struct
+{
+    int hp;
+    int maxHp;
+    short sp;
+    short maxSP;
+    int stamina;
+    int maxStamina;
+    int shield;
+} BASE_STAT;
+
 typedef struct {
     int handle;
     int i1;
@@ -150,14 +161,7 @@ typedef struct {
     int totalExp;
     int64 characterId;
     int64 socialInfoId;
-    int hp;
-    int maxHp;
-    short sp;
-    short maxSP;
-    int stamina;
-    int maxStamina;
-    short shield;
-    short maxShield;
+    BASE_STAT baseStat;
 } COMMANDER;
 
 typedef struct
