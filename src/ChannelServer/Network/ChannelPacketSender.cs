@@ -321,13 +321,14 @@ namespace Melia.Channel.Network
 		/// Sends ZC_JOB_PTS to character, updating their job points.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_JOB_PTS(Character character)
+		/// <param name="job"></param>
+		public static void ZC_JOB_PTS(Character character, Job job)
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
 			packet.PutLong(character.Id);
-			packet.PutShort((short)character.Job);
-			packet.PutShort(50);
+			packet.PutShort((short)job.Id);
+			packet.PutShort((short)job.SkillPoints);
 
 			character.Connection.Send(packet);
 		}
