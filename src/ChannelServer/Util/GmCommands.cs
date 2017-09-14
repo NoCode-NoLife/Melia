@@ -40,7 +40,6 @@ namespace Melia.Channel.Util
 			Add("item", "<item id> [amount]", this.HandleItem);
 			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
 			Add("madhatter", "", this.HandleGetAllHats);
-			Add("job", "<job id>", this.HandleJob);
 			Add("levelup", "<levels>", this.HandleLevelUp);
 			Add("speed", "<speed>", this.HandleSpeed);
 			Add("iteminfo", "<name>", this.HandleItemInfo);
@@ -362,27 +361,6 @@ namespace Melia.Channel.Util
 
 			target.Name = newName;
 			Send.ZC_PC(target, PcUpdateType.Name, newName);
-
-			return CommandResult.Okay;
-		}
-
-		private CommandResult HandleJob(ChannelConnection conn, Character character, Character target, string command, string[] args)
-		{
-			if (args.Length < 2)
-				return CommandResult.InvalidArgument;
-
-			if (!short.TryParse(args[1], out var jobId))
-				return CommandResult.InvalidArgument;
-
-			if (!Enum.IsDefined(typeof(JobId), jobId))
-			{
-				character.ServerMessage("Unknown job.");
-				return CommandResult.Okay;
-			}
-
-			target.Job = (JobId)jobId;
-			Send.ZC_PC(target, PcUpdateType.Job, (short)jobId);
-			Send.ZC_UPDATED_PCAPPEARANCE(target);
 
 			return CommandResult.Okay;
 		}
