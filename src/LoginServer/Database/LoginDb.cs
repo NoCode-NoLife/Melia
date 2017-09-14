@@ -136,7 +136,7 @@ namespace Melia.Login.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `characters` {0}", conn))
+				using (var cmd = new InsertCommand("INSERT INTO `characters` {0}", conn, trans))
 				{
 					cmd.Set("accountId", accountId);
 					cmd.Set("name", character.Name);
@@ -174,7 +174,7 @@ namespace Melia.Login.Database
 				var i = 0;
 				foreach (var item in character.Equipment)
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", item);
