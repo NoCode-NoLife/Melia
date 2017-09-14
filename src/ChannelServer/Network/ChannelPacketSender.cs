@@ -197,7 +197,7 @@ namespace Melia.Channel.Network
 		public static void ZC_SKILL_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_LIST);
-			var skills = new[] { 1, 101, 105, 108, 20, 3, 100, 10002, 10003 };
+			var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
 
 			packet.PutInt(character.Handle);
 			packet.PutShort(skills.Length); // count
