@@ -116,6 +116,8 @@ namespace Melia.Channel.Scripting
 			// Jobs
 			Register(isjob);
 			Register(isjobclass);
+			Register(addjob);
+			Register(removejob);
 
 			// Inventory
 			Register(hasitem);
@@ -1565,6 +1567,7 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
+			// Return
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
@@ -1579,7 +1582,6 @@ namespace Melia.Channel.Scripting
 		/// <remarks>
 		/// Parameters:
 		/// - int jobId
-		/// - (optional) int circle
 		/// 
 		/// Result:
 		/// - bool
@@ -1595,12 +1597,73 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pop(L, argc);
 
+			// Return
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
 			Melua.lua_pushboolean(L, character.Job.ToClass() == jobClass);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Adds job to character or changes its circle.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int jobId
+		/// - (optional) int circle
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int addjob(IntPtr L)
+		{
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+
+			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+			var circle = Circle.First;
+
+			if (argc > 1)
+				circle = (Circle)Melua.luaL_checkint(L, 2);
+
+			Melua.lua_pop(L, argc);
+
+			// Add job
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			var job = new Job(jobId) { Circle = circle };
+			character.Jobs.Add(job);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Removes job from character.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int jobId
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int removejob(IntPtr L)
+		{
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+
+			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+
+			Melua.lua_pop(L, argc);
+
+			// Remove job
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			character.Jobs.Remove(jobId);
+
+			return 0;
 		}
 	}
 }
