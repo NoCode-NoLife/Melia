@@ -171,6 +171,7 @@ namespace Melia.Login.Database
 					character.Id = cmd.LastId;
 				}
 
+				// Equip
 				var i = 0;
 				foreach (var item in character.Equipment)
 				{
@@ -186,7 +187,14 @@ namespace Melia.Login.Database
 					}
 				}
 
-				// Add job to db...
+				// Job
+				using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
+				{
+					cmd.Set("characterId", character.Id);
+					cmd.Set("jobId", character.Job);
+
+					cmd.Execute();
+				}
 
 				trans.Commit();
 			}
@@ -272,6 +280,7 @@ namespace Melia.Login.Database
 
 				foreach (var character in result)
 				{
+					// Items
 					using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId AND `equipSlot` != 127", conn))
 					{
 						mc.Parameters.AddWithValue("@characterId", character.Id);
@@ -288,7 +297,21 @@ namespace Melia.Login.Database
 						}
 					}
 
-					// Load jobs...
+					// Jobs
+					using (var mc = new MySqlCommand("SELECT `jobId` FROM `jobs` WHERE `characterId` = @characterId", conn))
+					{
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+
+						using (var reader = mc.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								var jobId = (JobId)reader.GetInt32("jobId");
+
+								character.Jobs.Add(jobId);
+							}
+						}
+					}
 
 					if (character.Jobs.Count == 0)
 						character.Jobs.Add(character.Job);

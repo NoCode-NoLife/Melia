@@ -149,8 +149,27 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void LoadJobs(Character character)
 		{
-			// Load...
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `jobs` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.Id);
 
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var jobId = (JobId)reader.GetInt32("jobId");
+						var circle = (Circle)reader.GetInt32("circle");
+						var skillPoints = reader.GetInt32("skillPoints");
+
+						var job = new Job(jobId) { Circle = circle, SkillPoints = skillPoints };
+
+						character.Jobs.Add(job);
+					}
+				}
+			}
+
+			// Fallback if the character doesn't have a job for some reason
 			if (character.Jobs.Count == 0)
 				character.Jobs.Add(new Job(character.Job));
 		}
@@ -288,7 +307,32 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void SaveJobs(Character character)
 		{
-			// Save...
+			var jobs = character.Jobs.GetList();
+
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `jobs` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var job in jobs)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("jobId", job.Id);
+						cmd.Set("circle", job.Circle);
+						cmd.Set("skillPoints", job.SkillPoints);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
 		}
 
 		/// <summary>
