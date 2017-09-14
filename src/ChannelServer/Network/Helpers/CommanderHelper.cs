@@ -49,7 +49,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutShort(commander.BaseStat.MaxSp);
 			packet.PutInt(commander.BaseStat.Stamina);
 			packet.PutInt(commander.BaseStat.MaxStamina);
-			packet.PutInt(0); // Shield
+			packet.PutInt(commander.BaseStat.Shield);
 		}
 	}
 
