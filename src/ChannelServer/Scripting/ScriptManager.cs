@@ -113,6 +113,10 @@ namespace Melia.Channel.Scripting
 			Register(getnpc);
 			Register(gettime);
 
+			// Jobs
+			Register(isjob);
+			Register(isjobclass);
+
 			// Inventory
 			Register(hasitem);
 			Register(countitem);
@@ -1531,6 +1535,70 @@ namespace Melia.Channel.Scripting
 			else if (value is bool) Melua.lua_pushboolean(L, (bool)value);
 			else
 				return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns whether the character has a given job and circle.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int jobId
+		/// - (optional) int circle
+		/// 
+		/// Result:
+		/// - bool
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int isjob(IntPtr L)
+		{
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+
+			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+			var circle = Circle.First;
+
+			if (argc > 1)
+				circle = (Circle)Melua.luaL_checkint(L, 2);
+
+			Melua.lua_pop(L, argc);
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			Melua.lua_pushboolean(L, character.Jobs.Has(jobId, circle));
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns whether the character has the given job class.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - int jobId
+		/// - (optional) int circle
+		/// 
+		/// Result:
+		/// - bool
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int isjobclass(IntPtr L)
+		{
+			// Get parameters
+			var argc = Melua.lua_gettop(L);
+
+			var jobClass = (Class)Melua.luaL_checkint(L, 1);
+
+			Melua.lua_pop(L, argc);
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			Melua.lua_pushboolean(L, character.Job.ToClass() == jobClass);
 
 			return 1;
 		}
