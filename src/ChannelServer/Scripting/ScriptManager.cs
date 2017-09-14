@@ -1173,7 +1173,7 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Resets the player's stat points
+		/// Resets the player's stat points.
 		/// </summary>
 		/// <param name="L"></param>
 		/// <returns></returns>
