@@ -977,23 +977,23 @@ namespace Melia.Channel.Scripting
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "maxhp");
-			Melua.lua_pushinteger(L, character.MaxHp);
+			Melua.lua_pushinteger(L, character.BaseStat.MaxHp);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "sp");
-			Melua.lua_pushinteger(L, character.Sp);
+			Melua.lua_pushinteger(L, character.BaseStat.Sp);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "maxsp");
-			Melua.lua_pushinteger(L, character.MaxSp);
+			Melua.lua_pushinteger(L, character.BaseStat.MaxSp);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "stamina");
-			Melua.lua_pushinteger(L, character.Stamina);
+			Melua.lua_pushinteger(L, character.BaseStat.Stamina);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "maxstamina");
-			Melua.lua_pushinteger(L, character.MaxStamina);
+			Melua.lua_pushinteger(L, character.BaseStat.MaxStamina);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "hair");

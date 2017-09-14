@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Channel.World;
 using Melia.Shared.World;
 
 namespace Melia.Shared.Network.Helpers
@@ -60,16 +61,5 @@ namespace Melia.Shared.Network.Helpers
 		int MaxExp { get; }
 		long Id { get; }
 		IBaseStat BaseStat { get; }
-	}
-
-	public interface IBaseStat
-	{
-		int Hp { get; }
-		int MaxHp { get; }
-		int Sp { get; }
-		int MaxSp { get; }
-		int Stamina { get; }
-		int MaxStamina { get; }
-		int Shield { get; }
 	}
 }
