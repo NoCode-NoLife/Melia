@@ -147,5 +147,24 @@ namespace Melia.Channel.World
 
 			return true;
 		}
+
+		/// <summary>
+		/// Modifies given job's skill points if it exists and updates
+		/// the client. Returns false if job wasn't found.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <param name="modifier"></param>
+		/// <returns></returns>
+		public bool ModifySkillPoints(JobId jobId, int modifier)
+		{
+			var job = this.Get(jobId);
+			if (job == null)
+				return false;
+
+			job.SkillPoints += modifier;
+			Send.ZC_JOB_PTS(this.Character, job);
+
+			return true;
+		}
 	}
 }

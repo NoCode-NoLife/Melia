@@ -800,5 +800,19 @@ namespace Melia.Channel.World
 		{
 			this.ServerMessage(string.Format(format, args));
 		}
+
+		/// <summary>
+		/// Adds amount to character's stat points and updates the client.
+		/// </summary>
+		/// <param name="modifier"></param>
+		public void AddStatPoints(int amount)
+		{
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be negative.");
+
+			this.StatByBonus += amount;
+
+			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByBonus);
+		}
 	}
 }

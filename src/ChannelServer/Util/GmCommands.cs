@@ -50,6 +50,8 @@ namespace Melia.Channel.Util
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
 			Add("removejob", "<job id>", this.HandleRemoveJob);
+			Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
+			Add("statpoints", "<amount>", this.HandleStatPoints);
 
 			// Dev
 			Add("test", "", this.HandleTest);
@@ -614,6 +616,54 @@ namespace Melia.Channel.Util
 			}
 
 			sender.ServerMessage("Job '{0}' was removed. Login again to see the change.", jobId);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleSkillPoints(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 3)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var iJobId))
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[2], out var modifier))
+				return CommandResult.InvalidArgument;
+
+			var jobId = (JobId)iJobId;
+
+			if (!target.Jobs.ModifySkillPoints(jobId, modifier))
+			{
+				sender.ServerMessage("The job doesn't exist.");
+				return CommandResult.Okay;
+			}
+
+			sender.ServerMessage("Modified {0}'s skill points by {1:+0;-0;0}.", jobId, modifier);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleStatPoints(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var amount) || amount < 1)
+				return CommandResult.InvalidArgument;
+
+			// Modification for stat points is a little tricky, because ToS
+			// has 3 stat points properties:
+			// - Stat points gained by leveling
+			// - Stat points gained in another way
+			// - Used stat points
+			// When increasing stats, "Used" is increased and the others are
+			// left alone. I'll make this adding-only for now, until I feel
+			// like untangling modifying them.
+
+			target.AddStatPoints(amount);
+
+			sender.ServerMessage("Added {0} stat points.", amount);
 
 			return CommandResult.Okay;
 		}
