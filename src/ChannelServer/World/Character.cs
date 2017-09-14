@@ -172,19 +172,37 @@ namespace Melia.Channel.World
 		public float StatPoints { get { return (this.StatByLevel + this.StatByBonus - this.UsedStat); } }
 
 		/// <summary>
-		/// Stat points acquired by leveling?
+		/// Stat points acquired by leveling.
 		/// </summary>
-		public float StatByLevel { get; set; }
+		public float StatByLevel
+		{
+			get { return _statByLevel; }
+			set { _statByLevel = Math2.Clamp(0, short.MaxValue, value); }
+		}
+		private float _statByLevel;
 
 		/// <summary>
-		/// Bonus stat points?
+		/// Stat points acquired by other means than leveling.
 		/// </summary>
-		public float StatByBonus { get; set; }
+		public float StatByBonus
+		{
+			get { return _statByBonus; }
+			set { _statByBonus = Math2.Clamp(0, short.MaxValue, value); }
+		}
+		private float _statByBonus;
 
 		/// <summary>
 		/// Amount of stat points spent.
 		/// </summary>
-		public float UsedStat { get; set; }
+		/// <remarks>
+		/// Clamped between 0 and total amount of character's stat points.
+		/// </remarks>
+		public float UsedStat
+		{
+			get { return _usedStat; }
+			set { _usedStat = Math2.Clamp(0, this.StatByLevel + this.StatByBonus, value); }
+		}
+		private float _usedStat;
 
 		/// <summary>
 		/// Returns maximum weight the character can carry.
