@@ -57,6 +57,11 @@ namespace Melia.Login.World
 		public int[] Equipment { get; private set; }
 
 		/// <summary>
+		/// List of character's jobs.
+		/// </summary>
+		public HashSet<JobId> Jobs { get; } = new HashSet<JobId>();
+
+		/// <summary>
 		/// Specifies which hats are visible on the character.
 		/// </summary>
 		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
@@ -195,7 +200,8 @@ namespace Melia.Login.World
 		/// <returns></returns>
 		public int[] GetEquipmentProperties()
 		{
-			// TODO: This needs to return the actual properties of equipment which have variable lengths.
+			// TODO: This needs to return the actual properties of equipment
+			//   which have variable lengths.
 			return this.GetEquipIds();
 		}
 
@@ -207,6 +213,15 @@ namespace Melia.Login.World
 		{
 			foreach (var item in equipment)
 				this.Equipment[(int)item.Key] = item.Value;
+		}
+
+		/// <summary>
+		/// Returns ids of character's jobs.
+		/// </summary>
+		/// <returns></returns>
+		public JobId[] GetJobIds()
+		{
+			return this.Jobs.OrderBy(a => a).ToArray();
 		}
 	}
 }

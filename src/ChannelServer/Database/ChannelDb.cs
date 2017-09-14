@@ -138,8 +138,21 @@ namespace Melia.Channel.Database
 			this.LoadCharacterItems(character);
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
 			this.LoadSessionObjects(character);
+			this.LoadJobs(character);
 
 			return character;
+		}
+
+		/// <summary>
+		/// Loads character's jobs from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadJobs(Character character)
+		{
+			// Load...
+
+			if (character.Jobs.Count == 0)
+				character.Jobs.Add(new Job(character.Job));
 		}
 
 		/// <summary>
@@ -264,8 +277,18 @@ namespace Melia.Channel.Database
 			this.SaveCharacterItems(character);
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
 			this.SaveSessionObjects(character);
+			this.SaveJobs(character);
 
 			return false;
+		}
+
+		/// <summary>
+		/// Saves character's jobs to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveJobs(Character character)
+		{
+			// Save...
 		}
 
 		/// <summary>

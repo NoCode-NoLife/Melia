@@ -1750,19 +1750,19 @@ namespace Melia.Channel.Network
 			// same class do not work. Same thing for when the display
 			// job is a higher job.
 
-			var jobCount = character.JobCount;
+			var jobs = character.Jobs.GetList();
 
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.UpdateSkillUI);
 			packet.PutLong(character.Id);
 
-			packet.PutInt(jobCount);
-			for (var i = 0; i < jobCount; i++)
+			packet.PutInt(jobs.Length);
+			foreach (var job in jobs)
 			{
-				packet.PutShort((short)character.Job);
+				packet.PutShort((short)job.Id);
 				packet.PutEmptyBin(6);
-				packet.PutShort(character.GetAvailableSkillPoints(character.Job));
-				packet.PutShort((short)SkillCircle.First);
+				packet.PutShort(job.SkillPoints);
+				packet.PutShort((short)job.Circle);
 			}
 
 			character.Connection.Send(packet);

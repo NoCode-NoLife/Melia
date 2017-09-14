@@ -15,6 +15,8 @@ namespace Melia.Login.Network.Helpers
 			if (equipProperties.Length != Items.EquipSlotCount)
 				throw new InvalidOperationException("Expected " + Items.EquipSlotCount + " items for property list.");
 
+			var jobIds = pc.GetJobIds();
+
 			packet.AddAppearanceBarrackPc(pc);
 
 			// Equip properties
@@ -35,10 +37,9 @@ namespace Melia.Login.Network.Helpers
 			// Job list?
 			// Example: A Mage that switched to Pyromancer has two
 			//   elements in this list, 2001 and 2002.
-			packet.PutShort(1); // count
-			{ // foreach
-				packet.PutShort((short)pc.Job);
-			}
+			packet.PutShort(jobIds.Length);
+			foreach (var jobId in jobIds)
+				packet.PutShort((short)jobId);
 
 			packet.PutInt(0);
 		}
@@ -50,5 +51,6 @@ namespace Melia.Login.Network.Helpers
 	public interface IBarrackPc : IAppearanceBarrackPc
 	{
 		int[] GetEquipmentProperties();
+		JobId[] GetJobIds();
 	}
 }

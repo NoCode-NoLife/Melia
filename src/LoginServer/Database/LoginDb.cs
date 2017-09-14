@@ -186,6 +186,8 @@ namespace Melia.Login.Database
 					}
 				}
 
+				// Add job to db...
+
 				trans.Commit();
 			}
 		}
@@ -285,6 +287,11 @@ namespace Melia.Login.Database
 							}
 						}
 					}
+
+					// Load jobs...
+
+					if (character.Jobs.Count == 0)
+						character.Jobs.Add(character.Job);
 				}
 			}
 

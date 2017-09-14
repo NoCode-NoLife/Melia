@@ -64,9 +64,19 @@ namespace Melia.Channel.World
 		public string TeamName { get; set; }
 
 		/// <summary>
-		/// Character's job.
+		/// Character's base job.
 		/// </summary>
 		public JobId Job { get; set; }
+
+		/// <summary>
+		/// Character's jobs.
+		/// </summary>
+		/// <remarks>
+		/// A character has one base job which determines, for example,
+		/// what items they can equip, but they can have various jobs,
+		/// that all come with their own skills and abilities.
+		/// </remarks>
+		public Jobs Jobs { get; } = new Jobs();
 
 		/// <summary>
 		/// Character's gender.
@@ -221,15 +231,6 @@ namespace Melia.Channel.World
 		/// TODO: Handle toggling and save/load with character.
 		/// </remarks>
 		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
-
-		/// <summary>
-		/// Returns the number of jobs this character has.
-		/// </summary>
-		/// <remarks>
-		/// // TODO: Return the number of jobs that this character has.
-		/// </remarks>
-		/// <returns></returns>
-		public int JobCount { get { return 1; } }
 
 		/// <summary>
 		/// Character's level.
@@ -417,17 +418,6 @@ namespace Melia.Channel.World
 		public int GetJumpType()
 		{
 			return 1;
-		}
-
-		/// <summary>
-		/// Returns the number of unallocated skill points for a job.
-		/// </summary>
-		/// <param name="job"></param>
-		/// <returns></returns>
-		public int GetAvailableSkillPoints(JobId job)
-		{
-			// TODO: Return the available skill points the character has for the particular job.
-			return 0;
 		}
 
 		/// <summary>
