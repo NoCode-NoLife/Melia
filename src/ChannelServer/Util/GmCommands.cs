@@ -48,6 +48,8 @@ namespace Melia.Channel.Util
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
 			Add("clearinv", "", this.HandleClearInventory);
+			Add("addjob", "<job id> [circle]", this.HandleAddJob);
+			Add("removejob", "<job id>", this.HandleRemoveJob);
 
 			// Dev
 			Add("test", "", this.HandleTest);
@@ -549,6 +551,80 @@ namespace Melia.Channel.Util
 		{
 			// Command is sent when the inventory is opened, purpose unknown,
 			// officials don't seem to send anything back.
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleAddJob(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var iJobId))
+				return CommandResult.InvalidArgument;
+
+			if (!ChannelServer.Instance.Data.JobDb.Exists(iJobId))
+			{
+				sender.ServerMessage("Job data for '{0}' not found.", iJobId);
+				return CommandResult.Okay;
+			}
+
+			var jobId = (JobId)iJobId;
+			var circle = Circle.First;
+
+			if (args.Length > 2)
+			{
+				if (!short.TryParse(args[2], out var iCircle) || iCircle < (short)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
+					return CommandResult.InvalidArgument;
+
+				circle = (Circle)iCircle;
+			}
+
+			var job = target.Jobs.Get(jobId);
+			if (job != null && job.Circle >= circle)
+			{
+				sender.ServerMessage("The job exists already, at an equal or higher circle.");
+				return CommandResult.Okay;
+			}
+
+			if (job == null)
+			{
+				var newJob = new Job(jobId) { Circle = circle };
+				target.Jobs.Add(newJob);
+			}
+			else
+			{
+				job.Circle = circle;
+			}
+
+			Send.ZC_NORMAL_UpdateSkillUI(target);
+
+			sender.ServerMessage("Job '{0}' was added at circle '{1}'.", jobId, (int)circle);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleRemoveJob(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var iJobId))
+				return CommandResult.InvalidArgument;
+
+			var jobId = (JobId)iJobId;
+
+			if (!target.Jobs.Remove(jobId))
+			{
+				sender.ServerMessage("The job doesn't exist.");
+				return CommandResult.Okay;
+			}
+
+			// XXX: Seems like this is not enough to get rid of the jobs at
+			//   run-time. Is there a way for us to refresh the UI?
+			Send.ZC_NORMAL_UpdateSkillUI(target);
+
+			sender.ServerMessage("Job '{0}' was removed. Login again to see the change.", jobId);
 
 			return CommandResult.Okay;
 		}
