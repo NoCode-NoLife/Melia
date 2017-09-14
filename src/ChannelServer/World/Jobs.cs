@@ -65,5 +65,23 @@ namespace Melia.Channel.World
 			lock (_jobs)
 				return _jobs.Values.ToArray();
 		}
+
+		/// <summary>
+		/// Returns true if the job exists, and whether it's at least at the
+		/// given circle.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <param name="circle"></param>
+		/// <returns></returns>
+		public bool Has(JobId jobId, Circle circle = Circle.First)
+		{
+			lock (_jobs)
+			{
+				if (!_jobs.TryGetValue(jobId, out var job))
+					return false;
+
+				return (job.Circle >= circle);
+			}
+		}
 	}
 }
