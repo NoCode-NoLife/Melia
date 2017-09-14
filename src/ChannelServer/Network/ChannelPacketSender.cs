@@ -1235,11 +1235,9 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Exp);
 			packet.PutInt(character.MaxExp);
 
-			// [i11037 (2016-03-0X)] ?
-			// acq 43, exp 36, max 462, ? 316
-			{
-				packet.PutInt(0);
-			}
+			// TODO: Add a method to the character class to calculate total accumulated Exp.
+			// This can be done by using the level table and adding the current Exp to the base.
+			packet.PutInt(0);
 
 			character.Connection.Send(packet);
 		}
@@ -1271,7 +1269,10 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
-			packet.PutInt(jobExperience); // jobExp?
+
+			// TODO: Add a method to the character class to calculate total accumulated Exp.
+			// This can be done by using the level table and adding the current Exp to the base.
+			packet.PutInt(0); // totalExp.
 
 			character.Connection.Send(packet);
 		}
