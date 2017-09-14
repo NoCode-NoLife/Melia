@@ -14,6 +14,6 @@
 short op;
 int sequence;
 
-int characterId;
+int64 characterId;
 short jobId;
 short skillPoints;
