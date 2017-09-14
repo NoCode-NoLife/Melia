@@ -19,7 +19,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Gets or sets the circle this job is on.
 		/// </summary>
-		public SkillCircle Circle { get; set; }
+		public Circle Circle { get; set; }
 
 		/// <summary>
 		/// Gets or sets skill points available for this job.
@@ -38,7 +38,7 @@ namespace Melia.Channel.World
 		public Job(JobId id)
 		{
 			this.Id = id;
-			this.Circle = SkillCircle.First;
+			this.Circle = Circle.First;
 			this.SkillPoints = 0;
 		}
 	}

@@ -93,6 +93,14 @@ namespace Melia.Shared.Const
 		GM = 9,
 	}
 
+	public enum Circle : short
+	{
+		None,
+		First,
+		Second,
+		Third,
+	}
+
 	public static class JobExtension
 	{
 		public static Class ToClass(this JobId job)
