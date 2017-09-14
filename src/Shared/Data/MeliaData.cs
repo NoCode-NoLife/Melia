@@ -11,6 +11,7 @@ namespace Melia.Shared.Data
 	public class MeliaData
 	{
 		public AbilityDb AbilityDb = new AbilityDb();
+		public AbilityTreeDb AbilityTreeDb = new AbilityTreeDb();
 		public BarrackDb BarrackDb = new BarrackDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();

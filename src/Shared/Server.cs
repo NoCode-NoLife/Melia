@@ -108,6 +108,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt", reload);
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt", reload);
 					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt", reload);
+					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt", reload);
 				}
 
 				if ((toLoad & DataToLoad.Exp) != 0)

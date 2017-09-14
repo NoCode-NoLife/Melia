@@ -63,6 +63,7 @@
     <Compile Include="Const\Properties.cs" />
     <Compile Include="Const\Option.cs" />
     <Compile Include="Const\SessionObjects.cs" />
+    <Compile Include="Data\Database\AbilityTree.cs" />
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
