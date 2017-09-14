@@ -76,7 +76,7 @@ namespace Melia.Channel.World
 		/// what items they can equip, but they can have various jobs,
 		/// that all come with their own skills and abilities.
 		/// </remarks>
-		public Jobs Jobs { get; } = new Jobs();
+		public Jobs Jobs { get; }
 
 		/// <summary>
 		/// Character's gender.
@@ -345,6 +345,7 @@ namespace Melia.Channel.World
 			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
+			this.Jobs = new Jobs(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 

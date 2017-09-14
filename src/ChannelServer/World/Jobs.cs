@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 
 namespace Melia.Channel.World
@@ -15,30 +17,74 @@ namespace Melia.Channel.World
 		private Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
 
 		/// <summary>
+		/// The owner of this object.
+		/// </summary>
+		public Character Character { get; }
+
+		/// <summary>
+		/// Creates new instance for character.
+		/// </summary>
+		/// <param name="character"></param>
+		public Jobs(Character character)
+		{
+			this.Character = character ?? throw new ArgumentNullException(nameof(character));
+		}
+
+		/// <summary>
 		/// Returns the amount of jobs in the collection.
 		/// </summary>
 		public int Count { get { lock (_jobs) return _jobs.Count; } }
 
 		/// <summary>
-		/// Adds given job to collection.
+		/// Adds given without updating the client. Replaces existing
+		/// jobs.
 		/// </summary>
 		/// <param name="job"></param>
-		public void Add(Job job)
+		public void AddSilent(Job job)
 		{
 			lock (_jobs)
 				_jobs[job.Id] = job;
 		}
 
 		/// <summary>
-		/// Removes session object with given id, returns false if it
-		/// didn't exist.
+		/// Adds given job and updates the client. Replaces existing
+		/// jobs.
+		/// </summary>
+		/// <param name="job"></param>
+		public void Add(Job job)
+		{
+			this.AddSilent(job);
+			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+		}
+
+		/// <summary>
+		/// Removes job with given id, returns false if it
+		/// didn't exist. Doesn't update the client.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <returns></returns>
+		public bool RemoveSilent(JobId jobId)
+		{
+			lock (_jobs)
+				return _jobs.Remove(jobId);
+		}
+
+		/// <summary>
+		/// Removes job with given id, returns false if it
+		/// didn't exist. Updates the client on success.
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <returns></returns>
 		public bool Remove(JobId jobId)
 		{
-			lock (_jobs)
-				return _jobs.Remove(jobId);
+			if (!this.RemoveSilent(jobId))
+				return false;
+
+			// XXX: Seems like this is not enough to get rid of the jobs at
+			//   run-time. Is there a way for us to refresh the UI?
+			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+
+			return true;
 		}
 
 		/// <summary>
@@ -82,6 +128,24 @@ namespace Melia.Channel.World
 
 				return (job.Circle >= circle);
 			}
+		}
+
+		/// <summary>
+		/// Changes job's circle if it exists, returns false if not.
+		/// Updates client on success.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <param name="circle"></param>
+		public bool ChangeCircle(JobId jobId, Circle circle)
+		{
+			var job = this.Get(jobId);
+			if (job == null)
+				return false;
+
+			job.Circle = circle;
+			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+
+			return true;
 		}
 	}
 }

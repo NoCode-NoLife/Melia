@@ -588,16 +588,9 @@ namespace Melia.Channel.Util
 			}
 
 			if (job == null)
-			{
-				var newJob = new Job(jobId) { Circle = circle };
-				target.Jobs.Add(newJob);
-			}
+				target.Jobs.Add(new Job(jobId) { Circle = circle });
 			else
-			{
-				job.Circle = circle;
-			}
-
-			Send.ZC_NORMAL_UpdateSkillUI(target);
+				target.Jobs.ChangeCircle(jobId, circle);
 
 			sender.ServerMessage("Job '{0}' was added at circle '{1}'.", jobId, (int)circle);
 
@@ -619,10 +612,6 @@ namespace Melia.Channel.Util
 				sender.ServerMessage("The job doesn't exist.");
 				return CommandResult.Okay;
 			}
-
-			// XXX: Seems like this is not enough to get rid of the jobs at
-			//   run-time. Is there a way for us to refresh the UI?
-			Send.ZC_NORMAL_UpdateSkillUI(target);
 
 			sender.ServerMessage("Job '{0}' was removed. Login again to see the change.", jobId);
 

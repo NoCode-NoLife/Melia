@@ -164,14 +164,14 @@ namespace Melia.Channel.Database
 
 						var job = new Job(jobId) { Circle = circle, SkillPoints = skillPoints };
 
-						character.Jobs.Add(job);
+						character.Jobs.AddSilent(job);
 					}
 				}
 			}
 
 			// Fallback if the character doesn't have a job for some reason
 			if (character.Jobs.Count == 0)
-				character.Jobs.Add(new Job(character.Job));
+				character.Jobs.AddSilent(new Job(character.Job));
 		}
 
 		/// <summary>
