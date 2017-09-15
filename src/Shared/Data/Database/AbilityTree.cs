@@ -16,7 +16,9 @@ namespace Melia.Shared.Data.Database
 		public int AbilityId { get; set; }
 		public int MaxLevel { get; set; }
 		public int Price { get; set; }
-		public string PriceCalc { get; set; }
+		public int Time { get; set; }
+		public string PriceTime { get; set; }
+		public string Unlock { get; set; }
 	}
 
 	/// <summary>
@@ -48,7 +50,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "abilityId", "maxLevel");
+			entry.AssertNotMissing("jobId", "abilityId", "maxLevel", "unlock");
 
 			var data = new AbilityTreeData();
 
@@ -56,7 +58,9 @@ namespace Melia.Shared.Data.Database
 			data.AbilityId = entry.ReadInt("abilityId");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.Price = entry.ReadInt("price", 0);
-			data.PriceCalc = entry.ReadString("priceCalc", "");
+			data.Time = entry.ReadInt("time", 0);
+			data.PriceTime = entry.ReadString("priceTime", "");
+			data.Unlock = entry.ReadString("unlock", "");
 
 			this.Entries.RemoveAll(a => a.JobId == data.JobId && a.AbilityId == data.AbilityId);
 			this.Entries.Add(data);
