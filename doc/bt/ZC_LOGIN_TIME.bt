@@ -3,7 +3,7 @@
 //
 //      File: ZC_LOGIN_TIME.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i171960
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,4 +14,4 @@
 short op;
 int sequence;
 
-int64 timestamp;
+FILETIME time;
