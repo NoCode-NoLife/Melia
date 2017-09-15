@@ -122,6 +122,39 @@ switch (type)
 		JobRank jobs[count] <optimize=false>;
 		break;
 
+	// Some kind of job data
+    case 0xF1:
+        typedef struct
+        {
+            lpString ident;
+            int i4;
+        }
+        JobF1 <optimize=false>;
+
+        int i1;
+        int i2;
+        int count;
+        JobF1 jobs[count];
+        break;
+
+	// Some kind of job data
+	case 0xF2:
+        typedef struct
+        {
+            int index; // ?
+            short jobId;
+            short circle; // ?
+            int i2;
+            int i3;
+            FILETIME creation; // ?
+        }
+        JobF2 <optimize=false>;
+
+		int64 objectId <format=hex>;
+        int count;
+        JobF2 jobs[count];
+		break;
+
 	// Sets the session key.
 	case 0x14E:
 		lpString sessionKey;
