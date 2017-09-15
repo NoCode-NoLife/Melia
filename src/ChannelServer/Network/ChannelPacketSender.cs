@@ -809,24 +809,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_OBJECT_PROPERTY to character, containing a list of some
-		/// default properties always needed after connecting.
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_OBJECT_PROPERTY_Init(Character character)
-		{
-			ZC_OBJECT_PROPERTY(character,
-				PropertyId.PC.HP, PropertyId.PC.MHP,
-				PropertyId.PC.SP, PropertyId.PC.MSP,
-				PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
-				PropertyId.PC.NowWeight, PropertyId.PC.MaxWeight,
-				PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat
-			);
-		}
-
-		/// <summary>
-		/// Sends ZC_OBJECT_PROPERTY to character, containing a list of the
-		/// given properties.
+		/// Updates character's given properties.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="properties"></param>
@@ -836,7 +819,27 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Updates session object's ids.
+		/// Updates all of object's properties.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="obj"></param>
+		/// <param name="propertyIds"></param>
+		public static void ZC_OBJECT_PROPERTY_All(ChannelConnection conn, IPropertyObject obj)
+		{
+			var properties = obj.Properties.GetAll();
+			var propertiesSize = properties.Sum(a => a.Size);
+
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+
+			packet.PutLong(obj.ObjectId);
+			packet.PutInt(0); // isTrickPacket
+			packet.AddProperties(properties);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates object's given properties.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
