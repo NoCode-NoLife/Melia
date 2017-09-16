@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Melia.Channel.Network;
@@ -99,6 +100,7 @@ namespace Melia.Channel.Scripting
 			// General
 			Register(var);
 			Register(logdebug);
+			Register(sqlquery);
 
 			// Dialog
 			Register(msg);
@@ -421,7 +423,7 @@ namespace Melia.Channel.Scripting
 			// Log error if result is not success or yield
 			if (result != 0 && result != Melua.LUA_YIELD)
 			{
-				Log.Error("ScriptManager.Call: Error while executing '{0}' for {1}.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
+				Log.Error("ScriptManager.Call: Error while executing '{0}' for user '{1}'.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
 				result = 0; // Set to 0 to close dialog on error
 			}
 
@@ -1664,6 +1666,85 @@ namespace Melia.Channel.Scripting
 			character.Jobs.Remove(jobId);
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Executes SQL query on server's database.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string SQL query
+		/// 
+		/// Result:
+		/// - table Results
+		/// - int Number of affected rows
+		/// - string Last inserted id
+		/// 
+		/// Example:
+		/// local results, affected, lastid = sqlquery("SELECT * FROM `updates`")
+		/// print("affected: " .. tostring(affected))
+		/// print("lastid: " .. tostring(lastid))
+		/// print("results: ")
+		/// for i,v in ipairs(results) do
+		/// 	print("  " .. v["path"])
+		/// end
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int sqlquery(IntPtr L)
+		{
+			var sqlQuery = Melua.luaL_checkstring(L, 1);
+			Melua.lua_pop(L, 1);
+
+			List<Dictionary<string, object>> result;
+			int affectedRows;
+			long lastInsertId;
+
+			try
+			{
+				result = ChannelServer.Instance.Database.GetQueryResult(sqlQuery, out affectedRows, out lastInsertId);
+			}
+			catch (Exception ex)
+			{
+				return Melua.melua_error(L, "Failed to execute SQL query: {0}", ex.Message);
+			}
+
+			Melua.lua_newtable(L);
+
+			var key = 1;
+			foreach (var row in result)
+			{
+				// Prepare table for new row's values
+				Melua.lua_pushinteger(L, key++);
+				Melua.lua_newtable(L);
+
+				foreach (var field in row)
+				{
+					// Push key and value to row's table
+					Melua.lua_pushstring(L, field.Key);
+					switch (field.Value)
+					{
+						case sbyte value: Melua.lua_pushinteger(L, value); break;
+						case byte value: Melua.lua_pushinteger(L, value); break;
+						case short value: Melua.lua_pushinteger(L, value); break;
+						case ushort value: Melua.lua_pushinteger(L, value); break;
+						case int value: Melua.lua_pushinteger(L, value); break;
+						case uint value: Melua.lua_pushinteger(L, (int)value); break;
+						case float value: Melua.lua_pushnumber(L, value); break;
+						case double value: Melua.lua_pushnumber(L, value); break;
+						default: Melua.lua_pushstring(L, field.Value.ToString()); break;
+					}
+					Melua.lua_settable(L, -3);
+				}
+
+				// Push row table to result table
+				Melua.lua_settable(L, -3);
+			}
+
+			Melua.lua_pushinteger(L, affectedRows);
+			Melua.lua_pushstring(L, lastInsertId.ToString());
+
+			return 3;
 		}
 	}
 }

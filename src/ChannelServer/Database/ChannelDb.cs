@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Melia.Channel.Scripting;
@@ -670,6 +671,47 @@ namespace Melia.Channel.Database
 
 				trans.Commit();
 			}
+		}
+
+		/// <summary>
+		/// Executes query and returns list of returned rows. Also returns
+		/// the amount of affected rows and the last insert id via out.
+		/// </summary>
+		/// <param name="sqlQuery"></param>
+		/// <param name="affectedRows"></param>
+		/// <param name="lastInsertId"></param>
+		/// <returns></returns>
+		public List<Dictionary<string, object>> GetQueryResult(string sqlQuery, out int affectedRows, out long lastInsertId)
+		{
+			var result = new List<Dictionary<string, object>>();
+			affectedRows = 0;
+			lastInsertId = 0;
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand(sqlQuery, conn))
+			{
+				using (var reader = cmd.ExecuteReader())
+				{
+					affectedRows = reader.RecordsAffected;
+					lastInsertId = cmd.LastInsertedId;
+
+					while (reader.Read())
+					{
+						var row = new Dictionary<string, object>();
+						for (var i = 0; i < reader.FieldCount; ++i)
+						{
+							var columnName = reader.GetName(i);
+							var value = reader.GetValue(i);
+
+							row[columnName] = value;
+						}
+
+						result.Add(row);
+					}
+				}
+			}
+
+			return result;
 		}
 	}
 }
