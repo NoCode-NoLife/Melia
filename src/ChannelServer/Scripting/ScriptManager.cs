@@ -13,6 +13,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using MeluaLib;
+using MySql.Data.MySqlClient;
 
 namespace Melia.Channel.Scripting
 {
@@ -101,6 +102,7 @@ namespace Melia.Channel.Scripting
 			Register(var);
 			Register(logdebug);
 			Register(sqlquery);
+			Register(sqlescape);
 
 			// Dialog
 			Register(msg);
@@ -1745,6 +1747,29 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushstring(L, lastInsertId.ToString());
 
 			return 3;
+		}
+
+		/// <summary>
+		/// Escapes string for safe use in an SQL query.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string String to escape
+		/// 
+		/// Result:
+		/// - string Escaped string
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int sqlescape(IntPtr L)
+		{
+			var str = Melua.luaL_checkstring(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var result = MySqlHelper.EscapeString(str);
+			Melua.melua_pushstring(L, result);
+
+			return 1;
 		}
 	}
 }
