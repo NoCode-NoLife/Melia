@@ -754,8 +754,8 @@ namespace Melia.Channel.Network
 		public void CZ_CLIENT_HIT_LIST(ChannelConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var unkInt = packet.GetInt();
-			var count = packet.GetInt(); // ?
+			var i1 = packet.GetInt();
+			var handleCount = packet.GetInt();
 			var attackerX = packet.GetFloat();
 			var attackerY = packet.GetFloat();
 			var attackerZ = packet.GetFloat();
@@ -764,19 +764,27 @@ namespace Melia.Channel.Network
 			var targetZ = packet.GetFloat();
 			var targetDx = packet.GetFloat();
 			var targetDy = packet.GetFloat();
-			var unkBin = packet.GetBin(13); // 01 00 00 00 00 00 00 00 00 00 00 00 00
+			var bin1 = packet.GetBin(9); // 01 00 00 00 00 00 00 00 00
+			var f1 = packet.GetFloat();
+
+			var handles = new int[handleCount];
+			if (handleCount > 0)
+			{
+				var f2 = packet.GetFloat();
+
+				for (var i = 0; i < handleCount; ++i)
+					handles[i] = packet.GetInt();
+			}
 
 			var character = conn.SelectedCharacter;
 
-			for (var i = 0; i < count; ++i)
+			foreach (var handle in handles)
 			{
-				var targetHandle = packet.GetInt();
-
 				// Get target
-				var target = character.Map.GetMonster(targetHandle);
+				var target = character.Map.GetMonster(handle);
 				if (target == null)
 				{
-					Log.Warning("User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
+					Log.Warning("User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 					continue;
 				}
 
