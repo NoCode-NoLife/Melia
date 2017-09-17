@@ -320,7 +320,8 @@ typedef struct
     int i1;
     short s1;
     byte bin2[2];
-    byte properties[propertiesSize];
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
 }
 Skill <read=readSkill>;
 
