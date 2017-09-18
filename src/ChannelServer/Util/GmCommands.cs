@@ -29,6 +29,7 @@ namespace Melia.Channel.Util
 
 			// Official
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
+			Add("buyabilpoint", "", this.HandleBuyAbilPoint);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
@@ -553,6 +554,39 @@ namespace Melia.Channel.Util
 		{
 			// Command is sent when the inventory is opened, purpose unknown,
 			// officials don't seem to send anything back.
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleBuyAbilPoint(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length < 0)
+			{
+				Log.Debug("HandleBuyAbilPoint: No amount given by user '{0}'.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			if (!int.TryParse(args[1], out var amount))
+			{
+				Log.Debug("HandleBuyAbilPoint: Invalid amount '{0}' by user '{1}'.", amount, conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			var cost = (amount * 1000);
+			var silver = sender.Inventory.CountItem(ItemId.Silver);
+			if (silver < cost)
+			{
+				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
+			sender.ModifyAbilityPoints(amount);
+			Send.ZC_ADDON_MSG(sender, "SUCCESS_BUY_ABILITY_POINTBLANK");
 
 			return CommandResult.Okay;
 		}
