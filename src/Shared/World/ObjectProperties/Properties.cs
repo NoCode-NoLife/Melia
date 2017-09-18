@@ -139,6 +139,7 @@ namespace Melia.Shared.World.ObjectProperties
 				case PropertyId.Account.LimitPaymentStateBySteam:
 				case PropertyId.PC.JobName:                          // Char1_1
 				case PropertyId.PC.LastExp:
+				case PropertyId.PC.AbilityPoint:
 				case PropertyId.PCEtc.Kill_boss_Velmosquy:
 				case PropertyId.PCEtc.LastUIOpenPos:                 // f_siauliai_2/219/151.86210632324/706/worldmap (this feels so wrong)
 				case PropertyId.Party.P_PARTY_Q_030_TicketLifeTime:

@@ -424,6 +424,7 @@ int getPropertyType(int id)
         case 4591:
         case 6303:
         case 7118:
+        case 7122:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
         case 32575:
