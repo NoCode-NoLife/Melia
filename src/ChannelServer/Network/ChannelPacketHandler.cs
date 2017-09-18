@@ -805,59 +805,59 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			switch (txType)
+			if (txType == TxType.Stats)
 			{
-				case TxType.Stats:
-					var count = packet.GetInt();
-					if (count != 5)
-						throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
+				var count = packet.GetInt();
+				if (count != 5)
+					throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
 
-					for (var i = 0; i < count; ++i)
+				for (var i = 0; i < count; ++i)
+				{
+					var stat = packet.GetInt();
+
+					if (stat == 0)
+						continue;
+
+					if (character.StatPoints < stat)
 					{
-						var stat = packet.GetInt();
-
-						if (stat == 0)
-							continue;
-
-						if (character.StatPoints < stat)
-						{
-							Log.Warning("User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
-							break;
-						}
-
-						character.UsedStat += stat;
-
-						switch (i)
-						{
-							case 0: character.Str += stat; break;
-							case 1: character.Con += stat; break;
-							case 2: character.Int += stat; break;
-							case 3: character.Spr += stat; break;
-							case 4: character.Dex += stat; break;
-						}
+						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+						break;
 					}
 
-					Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP);
+					character.UsedStat += stat;
 
-					// Official doesn't update UsedStat with this packet =<
-					Send.ZC_OBJECT_PROPERTY(character,
-						PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
-						PropertyId.PC.UsedStat
-					);
+					switch (i)
+					{
+						case 0: character.Str += stat; break;
+						case 1: character.Con += stat; break;
+						case 2: character.Int += stat; break;
+						case 3: character.Spr += stat; break;
+						case 4: character.Dex += stat; break;
+					}
+				}
 
-					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
-					//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
-					break;
+				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP);
 
-				case TxType.Skills:
-					// TODO: Handle skill learning
-					var jobId = packet.GetInt();
-					character.ServerMessage("Skills can't be learned yet.");
-					break;
+				// Official doesn't update UsedStat with this packet,
+				// but presumably the PROP_UPDATE below. Why send more
+				// packets than necessary though?
+				Send.ZC_OBJECT_PROPERTY(character,
+					PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
+					PropertyId.PC.UsedStat
+				);
 
-				default:
-					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG txType {0} not handled.", txType);
-					break;
+				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
+				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
+			}
+			else if (txType == TxType.Skills)
+			{
+				// TODO: Handle skill learning
+				var jobId = packet.GetInt();
+				character.ServerMessage("Skills can't be learned yet.");
+			}
+			else
+			{
+				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: txType {0} not handled.", txType);
 			}
 		}
 
