@@ -205,6 +205,19 @@ namespace Melia.Channel.World
 		private float _usedStat;
 
 		/// <summary>
+		/// Gets or set the character's ability points.
+		/// </summary>
+		/// <remarks>
+		/// Clamped between 0 and short.Max.
+		/// </remarks>
+		public int AbilityPoints
+		{
+			get { return _abilityPoints; }
+			set { _abilityPoints = Math2.Clamp(0, short.MaxValue, value); }
+		}
+		private int _abilityPoints;
+
+		/// <summary>
 		/// Returns maximum weight the character can carry.
 		/// </summary>
 		/// <remarks>
@@ -410,6 +423,7 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => this.StatByLevel));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
+			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
 		}
 
 		/// <summary>
@@ -657,6 +671,17 @@ namespace Melia.Channel.World
 			}
 
 			Send.ZC_ADD_HP(this, amount, negative, hp, priority);
+		}
+
+		/// <summary>
+		/// Modifies the character's ability points by the given amount
+		/// and updates the respective property on the client.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void ModifyAbilityPoints(int amount)
+		{
+			this.AbilityPoints += amount;
+			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.AbilityPoint);
 		}
 
 		/// <summary>
