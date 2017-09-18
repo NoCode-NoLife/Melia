@@ -809,13 +809,15 @@ namespace Melia.Channel.Network
 			{
 				var count = packet.GetInt();
 				if (count != 5)
-					throw new Exception("Unknown CZ_REQ_NORMAL_TX_NUMARG format, expected 5 stats.");
+				{
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an invalid number of stat changes.", conn.Account.Name);
+					return;
+				}
 
 				for (var i = 0; i < count; ++i)
 				{
 					var stat = packet.GetInt();
-
-					if (stat == 0)
+					if (stat <= 0)
 						continue;
 
 					if (character.StatPoints < stat)
