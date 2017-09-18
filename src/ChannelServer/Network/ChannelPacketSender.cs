@@ -196,11 +196,13 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_SKILL_LIST(Character character)
 		{
-			var packet = new Packet(Op.ZC_SKILL_LIST);
-			var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
+			//var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
+			var skillNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultSkills;
+			var skills = ChannelServer.Instance.Data.SkillDb.Where(a => skillNames.Contains(a.ClassName)).Select(a => a.Id);
 
+			var packet = new Packet(Op.ZC_SKILL_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(skills.Length); // count
+			packet.PutShort(skills.Count());
 
 			packet.Zlib(false, zpacket =>
 			{
@@ -343,12 +345,14 @@ namespace Melia.Channel.Network
 			// The abilities need a unique object id to appear properly,
 			// otherwise their tooltip is the same for all of them.
 
-			var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
+			//var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
+			var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
+			var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
 			var objectId = 0xE1A9001690B2;
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Length);
+			packet.PutShort(abilities.Count());
 
 			packet.Zlib(false, zpacket =>
 			{
