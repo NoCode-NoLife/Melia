@@ -802,15 +802,15 @@ namespace Melia.Channel.Network
 		{
 			var size = packet.GetShort();
 			var txType = (TxType)packet.GetShort();
+			var count = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
 
 			if (txType == TxType.Stats)
 			{
-				var count = packet.GetInt();
 				if (count != 5)
 				{
-					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an invalid number of stat changes.", conn.Account.Name);
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of stat changes ({1}).", conn.Account.Name, count);
 					return;
 				}
 
@@ -822,7 +822,7 @@ namespace Melia.Channel.Network
 
 					if (character.StatPoints < stat)
 					{
-						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than he has.", conn.Account.Name);
+						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
 						break;
 					}
 
@@ -853,8 +853,38 @@ namespace Melia.Channel.Network
 			}
 			else if (txType == TxType.Skills)
 			{
+				var jobId = (JobId)packet.GetInt();
+
+				// Check job
+				var job = character.Jobs.Get(jobId);
+				if (job == null)
+				{
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to learn skills of a job they don't have.", conn.Account.Name);
+					return;
+				}
+
+				// Check skill data
+				var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Circle);
+				if (count - 1 != skillTreeData.Length)
+				{
+					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of skill level changes ({1}).", conn.Account.Name, count);
+					return;
+				}
+
+				// The count-1 is the number of skills available to the
+				// given job. Similar to the stats no ids are sent,
+				// just the number of levels to raise the skill at the
+				// given index.
+				for (var i = 0; i < count - 1; ++i)
+				{
+					var add = packet.GetInt();
+					if (add <= 0)
+						continue;
+
+					Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Add {0} points to '{1}'.", add, skillTreeData[i].SkillId);
+				}
+
 				// TODO: Handle skill learning
-				var jobId = packet.GetInt();
 				character.ServerMessage("Skills can't be learned yet.");
 			}
 			else

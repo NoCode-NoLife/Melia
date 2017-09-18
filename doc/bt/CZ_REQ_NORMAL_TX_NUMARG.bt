@@ -16,6 +16,18 @@ int sequence;
 int checksum;
 
 short size;
-short s1; // type?
-int count;
-int stats[count];
+short txType;
+
+// Stats
+if (txType == 1)
+{
+    int count; // Should always be 5?
+    int stats[count];
+}
+// Skills
+else if (txType == 2)
+{
+    int count; // Number of ints following, incl. jobId
+    int jobId;
+    int skill[count-1];
+}
