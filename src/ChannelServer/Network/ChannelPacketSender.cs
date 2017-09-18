@@ -114,13 +114,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // Pose
 			packet.PutFloat(character.GetSpeed());
 			packet.PutInt(0);
-			packet.PutInt(character.Hp);
-			packet.PutInt(character.MaxHp);
-			packet.PutShort(character.Sp);
-			packet.PutShort(character.MaxSp);
-			packet.PutInt(0); // [i11025 (2016-02-26)]
-			packet.PutInt(character.Stamina);
-			packet.PutInt(character.MaxStamina);
+			packet.AddBaseStat(character);
 			packet.PutByte(0);
 			packet.PutShort(0);
 			packet.PutInt(-1); // titleAchievmentId

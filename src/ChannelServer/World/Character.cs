@@ -18,7 +18,7 @@ namespace Melia.Channel.World
 		private bool _warping;
 
 		private object _lookAroundLock = new object();
-		private object _hpLock = new object();
+		
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
@@ -224,14 +224,6 @@ namespace Melia.Channel.World
 		public float Speed { get; set; }
 
 		/// <summary>
-		/// Holds the order of successive changes in character HP.
-		/// A higher value indicates the latest damage taken.
-		/// </summary>
-		/// TODO: I'm not sure when this gets rolled over;
-		///   More investigation is needed.
-		public int HpChangeCounter { get; private set; }
-
-		/// <summary>
 		/// Specifies whether the character currently updates the visible
 		/// entities around the character.
 		/// </summary>
@@ -266,51 +258,6 @@ namespace Melia.Channel.World
 		public int MaxExp { get; set; }
 
 		/// <summary>
-		/// Gets or set HP, clamped between 0 and MaxHp.
-		/// </summary>
-		public int Hp
-		{
-			get { return _hp; }
-			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
-		}
-		private int _hp;
-
-		/// <summary>
-		/// Maximum HP.
-		/// </summary>
-		public int MaxHp { get; set; }
-
-		/// <summary>
-		/// Gets or sets SP, clamped between 0 and MaxSp.
-		/// </summary>
-		public int Sp
-		{
-			get { return _sp; }
-			set { _sp = Math2.Clamp(0, this.MaxSp, value); }
-		}
-		private int _sp;
-
-		/// <summary>
-		/// Maximum SP.
-		/// </summary>
-		public int MaxSp { get; set; }
-
-		/// <summary>
-		/// Gets or set Stamina, clamped between 0 and MaxStamina.
-		/// </summary>
-		public int Stamina
-		{
-			get { return _stamina; }
-			set { _stamina = Math2.Clamp(0, this.MaxStamina, value); }
-		}
-		private int _stamina;
-
-		/// <summary>
-		/// Maximum stamina.
-		/// </summary>
-		public int MaxStamina { get; set; }
-
-		/// <summary>
 		/// Gets or sets character's strength (STR).
 		/// </summary>
 		public float Str { get; set; }
@@ -334,6 +281,13 @@ namespace Melia.Channel.World
 		/// Gets or sets character's agility (DEX).
 		/// </summary>
 		public float Dex { get; set; }
+		
+		/// <summary>
+		/// Returns the HP base stat.
+		/// TODO: This is only to satisfy the entity interface requirements.
+		/// If entities also include base stats, then that interface should be updated, and this property should be removed.
+		/// </summary>
+		public int Hp { get { return this.BaseStat.Hp; } }
 
 		/// <summary>
 		/// Character's session objects.
@@ -350,6 +304,8 @@ namespace Melia.Channel.World
 		/// </remarks>
 		public Properties Properties { get; } = new Properties();
 
+		public IBaseStat BaseStat { get; }
+
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
@@ -365,6 +321,7 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
 			this.Variables = new Variables();
+			this.BaseStat = new BaseStat(this);
 			this.Speed = 30;
 
 			this.AddSessionObjects();
@@ -393,10 +350,10 @@ namespace Melia.Channel.World
 			// normal C# properties. XXX: We could technically use reflection
 			// to add these automatically.
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.Hp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.BaseStat.Hp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.BaseStat.MaxHp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.BaseStat.Sp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.BaseStat.MaxSp));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
@@ -635,28 +592,6 @@ namespace Melia.Channel.World
 		public void LevelUp()
 		{
 			this.LevelUp(1);
-		}
-
-		/// <summary>
-		/// Modifies character's HP by the given amount and updates the
-		/// client with ZC_ADD_HP.
-		/// </summary>
-		/// <param name="amount"></param>
-		public void ModifyHp(int amount)
-		{
-			int hp, priority;
-			var negative = (amount < 0);
-
-			// Make sure it's not possible for two calls to interfere
-			// with each other, so that the correct amount makes it to
-			// the client, with the correct priority.
-			lock (_hpLock)
-			{
-				hp = (this.Hp += amount);
-				priority = (this.HpChangeCounter += 1);
-			}
-
-			Send.ZC_ADD_HP(this, amount, negative, hp, priority);
 		}
 
 		/// <summary>

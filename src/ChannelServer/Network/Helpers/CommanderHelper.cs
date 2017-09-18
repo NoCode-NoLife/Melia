@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
+using Melia.Channel.World;
 using Melia.Shared.World;
 
 namespace Melia.Shared.Network.Helpers
@@ -32,14 +33,23 @@ namespace Melia.Shared.Network.Helpers
 			// TODO: Assign new IDs to characters such that the social ID does not conflict.
 			packet.PutLong(commander.Id + 1);   // SocialInfoId
 
-			packet.PutInt(commander.Hp);
-			packet.PutInt(commander.MaxHp);
-			packet.PutShort(commander.Sp);
-			packet.PutShort(commander.MaxSp);
-			packet.PutInt(commander.Stamina);
-			packet.PutInt(commander.MaxStamina);
-			packet.PutShort(0); // Shield
-			packet.PutShort(0); // MaxShield
+			packet.AddBaseStat(commander);
+		}
+
+		/// <summary>
+		/// Serializes a comamnder's base stats into a packet.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="commander"></param>
+		public static void AddBaseStat(this Packet packet, ICommander commander)
+		{
+			packet.PutInt(commander.BaseStat.Hp);
+			packet.PutInt(commander.BaseStat.MaxHp);
+			packet.PutShort(commander.BaseStat.Sp);
+			packet.PutShort(commander.BaseStat.MaxSp);
+			packet.PutInt(commander.BaseStat.Stamina);
+			packet.PutInt(commander.BaseStat.MaxStamina);
+			packet.PutInt(commander.BaseStat.Shield);
 		}
 	}
 
@@ -50,11 +60,6 @@ namespace Melia.Shared.Network.Helpers
 		int Exp { get; }
 		int MaxExp { get; }
 		long Id { get; }
-		int Hp { get; }
-		int MaxHp { get; }
-		int Sp { get; }
-		int MaxSp { get; }
-		int Stamina { get; }
-		int MaxStamina { get; }
+		IBaseStat BaseStat { get; }
 	}
 }
