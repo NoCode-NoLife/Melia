@@ -166,5 +166,19 @@ namespace Melia.Channel.World
 
 			return true;
 		}
+
+		/// <summary>
+		/// Returns the circle the character is on on the given job.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <returns></returns>
+		public Circle GetCircle(JobId jobId)
+		{
+			var job = this.Get(jobId);
+			if (job == null)
+				return Circle.None;
+
+			return job.Circle;
+		}
 	}
 }
