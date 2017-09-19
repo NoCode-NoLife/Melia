@@ -127,6 +127,7 @@ namespace Melia.Channel.Database
 					character.StatByLevel = reader.GetInt32("statByLevel");
 					character.StatByBonus = reader.GetInt32("statByBonus");
 					character.UsedStat = reader.GetInt32("usedStat");
+					character.AbilityPoints = reader.GetInt32("abilityPoints");
 
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
@@ -290,6 +291,7 @@ namespace Melia.Channel.Database
 				cmd.Set("statByLevel", character.StatByLevel);
 				cmd.Set("statByBonus", character.StatByBonus);
 				cmd.Set("usedStat", character.UsedStat);
+				cmd.Set("abilityPoints", character.AbilityPoints);
 
 				cmd.Execute();
 			}
