@@ -39,6 +39,18 @@ namespace Melia.Channel.World
 		public int Level { get; set; }
 
 		/// <summary>
+		/// Returns the amount of SP necessary to use the skill.
+		/// </summary>
+		public int SpendSp
+		{
+			get
+			{
+				var lvUpSpendSpRounded = Math.Round(this.Data.LvUpSpendSp, 4);
+				return (int)(this.Data.BasicSp + (this.Level - 1) * lvUpSpendSpRounded);
+			}
+		}
+
+		/// <summary>
 		/// The skill's data from the skill database.
 		/// </summary>
 		/// <remarks>
@@ -70,6 +82,7 @@ namespace Melia.Channel.World
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.Level, () => this.Level));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.LevelByDB, () => this.Level));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendSP, () => this.SpendSp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplAngle, () => this.Data.SplashAngle));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplRange, () => this.Data.SplashRange));
