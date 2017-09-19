@@ -155,6 +155,12 @@ namespace Melia.Channel.Database
 			// load...
 
 			// Load default skills of all jobs
+			// Interestingly, it seems like officials don't actually save
+			// those skills, they add them via ZC_SKILL_ADD on every login,
+			// the skill list only containing the skills from the jobs'
+			// skill trees. Abilities on the other hand are all sent in
+			// their normal list. Should we mimic that? Could there be a
+			// reason for it, aside from saving space in the db?
 			if (character.Skills.Count == 0)
 			{
 				foreach (var job in character.Jobs.GetList())
