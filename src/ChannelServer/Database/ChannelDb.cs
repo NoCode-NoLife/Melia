@@ -119,14 +119,14 @@ namespace Melia.Channel.Database
 					character.Sp = reader.GetInt32("sp");
 					character.MaxStamina = reader.GetInt32("maxStamina");
 					character.Stamina = reader.GetInt32("stamina");
-					character.Str = reader.GetFloat("str");
-					character.Con = reader.GetFloat("con");
-					character.Int = reader.GetFloat("int");
-					character.Spr = reader.GetFloat("spr");
-					character.Dex = reader.GetFloat("dex");
-					character.StatByLevel = reader.GetFloat("statByLevel");
-					character.StatByBonus = reader.GetFloat("statByBonus");
-					character.UsedStat = reader.GetFloat("usedStat");
+					character.Str = reader.GetInt32("str");
+					character.Con = reader.GetInt32("con");
+					character.Int = reader.GetInt32("int");
+					character.Spr = reader.GetInt32("spr");
+					character.Dex = reader.GetInt32("dex");
+					character.StatByLevel = reader.GetInt32("statByLevel");
+					character.StatByBonus = reader.GetInt32("statByBonus");
+					character.UsedStat = reader.GetInt32("usedStat");
 
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");

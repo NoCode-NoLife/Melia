@@ -169,27 +169,27 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Stat points.
 		/// </summary>
-		public float StatPoints { get { return (this.StatByLevel + this.StatByBonus - this.UsedStat); } }
+		public int StatPoints { get { return (this.StatByLevel + this.StatByBonus - this.UsedStat); } }
 
 		/// <summary>
 		/// Stat points acquired by leveling.
 		/// </summary>
-		public float StatByLevel
+		public int StatByLevel
 		{
 			get { return _statByLevel; }
 			set { _statByLevel = Math2.Clamp(0, short.MaxValue, value); }
 		}
-		private float _statByLevel;
+		private int _statByLevel;
 
 		/// <summary>
 		/// Stat points acquired by other means than leveling.
 		/// </summary>
-		public float StatByBonus
+		public int StatByBonus
 		{
 			get { return _statByBonus; }
 			set { _statByBonus = Math2.Clamp(0, short.MaxValue, value); }
 		}
-		private float _statByBonus;
+		private int _statByBonus;
 
 		/// <summary>
 		/// Amount of stat points spent.
@@ -197,12 +197,12 @@ namespace Melia.Channel.World
 		/// <remarks>
 		/// Clamped between 0 and total amount of character's stat points.
 		/// </remarks>
-		public float UsedStat
+		public int UsedStat
 		{
 			get { return _usedStat; }
 			set { _usedStat = Math2.Clamp(0, this.StatByLevel + this.StatByBonus, value); }
 		}
-		private float _usedStat;
+		private int _usedStat;
 
 		/// <summary>
 		/// Gets or set the character's ability points.
@@ -224,7 +224,7 @@ namespace Melia.Channel.World
 		/// At release: Base 5000, plus 5 for each Str/Con.
 		/// Now: Base 8000 plus bonuses?
 		/// </remarks>
-		public float MaxWeight { get { return (8000); } }
+		public int MaxWeight { get { return (8000); } }
 
 		/// <summary>
 		/// Returns ratio between NowWeight and MaxWeight.
@@ -326,27 +326,27 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Gets or sets character's strength (STR).
 		/// </summary>
-		public float Str { get; set; }
+		public int Str { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's vitality (CON).
 		/// </summary>
-		public float Con { get; set; }
+		public int Con { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's intelligence (INT).
 		/// </summary>
-		public float Int { get; set; }
+		public int Int { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's spirit (SPR/MNA).
 		/// </summary>
-		public float Spr { get; set; }
+		public int Spr { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's agility (DEX).
 		/// </summary>
-		public float Dex { get; set; }
+		public int Dex { get; set; }
 
 		/// <summary>
 		/// Character's session objects.

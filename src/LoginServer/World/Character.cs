@@ -152,27 +152,27 @@ namespace Melia.Login.World
 		/// <summary>
 		/// Gets or sets character's strength (STR).
 		/// </summary>
-		public float Str { get; set; }
+		public int Str { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's vitality (CON).
 		/// </summary>
-		public float Con { get; set; }
+		public int Con { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's intelligence (INT).
 		/// </summary>
-		public float Int { get; set; }
+		public int Int { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's spirit (SPR/MNA).
 		/// </summary>
-		public float Spr { get; set; }
+		public int Spr { get; set; }
 
 		/// <summary>
 		/// Gets or sets character's agility (DEX).
 		/// </summary>
-		public float Dex { get; set; }
+		public int Dex { get; set; }
 
 		/// <summary>
 		/// Creates new character.
