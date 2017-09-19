@@ -67,11 +67,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class JobDb : DatabaseJsonIndexed<JobId, JobData>
 	{
-		public JobData Find(JobId job)
-		{
-			return this.Find(job);
-		}
-
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "stamina", "barrackStance");
