@@ -135,5 +135,36 @@ namespace Melia.Channel.World
 
 			return skill.Level;
 		}
+
+		/// <summary>
+		/// Returns the max level the character can currently reach on the
+		/// given skill.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		/// <returns></returns>
+		public int GetMaxLevel(int skillId)
+		{
+			// I don't like this, but I don't have a better idea for
+			// handling it right now. A skill's max level could technically
+			// be different for each job if a skill can be obtained on
+			// more than one, so we have to go through all jobs to find the
+			// "max max".
+
+			var maxLevel = 0;
+
+			foreach (var job in this.Character.Jobs.GetList())
+			{
+				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Circle).Where(a => a.SkillId == skillId);
+				foreach (var data in skillTreeDataList)
+				{
+					var jobsMaxLevel = Math.Min(data.MaxLevel, data.LevelsPerCircle * (int)job.Circle);
+					if (jobsMaxLevel > maxLevel)
+						maxLevel = jobsMaxLevel;
+				}
+			}
+
+			return maxLevel;
+		}
 	}
 }

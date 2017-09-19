@@ -55,13 +55,21 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="level"></param>
 		public Skill(int skillId, int level)
 		{
 			this.Id = skillId;
 			this.Level = level;
 			this.Data = ChannelServer.Instance.Data.SkillDb.Find(skillId) ?? throw new ArgumentException($"Unknown skill '{skillId}'.");
 
+			// I don't know what exactly LevelByDB's purpose is, but if
+			// it's not sent, skills can be leveled past their max level.
+			// It's like that's the value the client uses to calculate
+			// the current max level.
+
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.Level, () => this.Level));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.LevelByDB, () => this.Level));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplAngle, () => this.Data.SplashAngle));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplRange, () => this.Data.SplashRange));

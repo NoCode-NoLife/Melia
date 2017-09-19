@@ -892,7 +892,7 @@ namespace Melia.Channel.Network
 					var skillId = data.SkillId;
 
 					// Check max level
-					var maxLevel = Math.Min(data.MaxLevel, data.LevelsPerCircle * (int)job.Circle);
+					var maxLevel = character.Skills.GetMaxLevel(skillId);
 					var currentLevel = character.Skills.GetLevel(skillId);
 					var newLevel = (currentLevel + add);
 
