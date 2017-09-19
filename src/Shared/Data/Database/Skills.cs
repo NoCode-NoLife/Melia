@@ -14,6 +14,9 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string EngName { get; set; }
 
+		public float BasicSp { get; set; }
+		public float LvUpSpendSp { get; set; }
+
 		public float Angle { get; set; }
 		public float MaxRange { get; set; }
 		public float WaveLength { get; set; }
@@ -50,13 +53,16 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "engName", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate");
+			entry.AssertNotMissing("skillId", "className", "engName", "basicSp", "lvUpSpendSp", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate");
 
 			var info = new SkillData();
 
 			info.Id = entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
 			info.EngName = entry.ReadString("engName");
+
+			info.BasicSp = entry.ReadFloat("basicSp");
+			info.LvUpSpendSp = entry.ReadFloat("lvUpSpendSp");
 
 			info.Angle = entry.ReadFloat("angle");
 			info.MaxRange = entry.ReadFloat("maxRange");
