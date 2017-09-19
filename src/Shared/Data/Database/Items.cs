@@ -20,6 +20,9 @@ namespace Melia.Shared.Data.Database
 		public int MaxStack { get; set; }
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
+
+		public EquipType EquipType1 { get; set; }
+		public EquipType EquipType2 { get; set; }
 	}
 
 	/// <summary>
@@ -60,7 +63,60 @@ namespace Melia.Shared.Data.Database
 			info.Price = entry.ReadInt("price");
 			info.SellPrice = entry.ReadInt("sellPrice");
 
+			var equipType1 = entry.ReadString("equipType1", null);
+			if (equipType1 != null)
+			{
+				if (!Enum.TryParse<EquipType>(equipType1, out var type))
+					throw new DatabaseErrorException($"Invalid equip type '{equipType1}'.");
+				info.EquipType1 = type;
+			}
+
+			var equipType2 = entry.ReadString("equipType2", null);
+			if (equipType2 != null)
+			{
+				if (!Enum.TryParse<EquipType>(equipType2, out var type))
+					throw new DatabaseErrorException($"Invalid equip type '{equipType2}'.");
+				info.EquipType2 = type;
+			}
+
 			this.Entries[info.Id] = info;
 		}
+	}
+
+	public enum EquipType
+	{
+		None,
+		Sword,
+		THSword,
+		Dagger,
+		Staff,
+		THStaff,
+		Bow,
+		THBow,
+		Mace,
+		Spear,
+		THSpear,
+		Rapier,
+		Musket,
+		Gun,
+		Pistol,
+		Cannon,
+		Shield,
+		Charm,
+		Outer,
+		Pants,
+		Gloves,
+		Boots,
+		Shirt,
+		Armband,
+		Helmet,
+		Hat,
+		Premium,
+		Neck,
+		Ring,
+		Hair,
+		Lens,
+		Wing,
+		Artefact,
 	}
 }
