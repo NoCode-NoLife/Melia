@@ -22,6 +22,7 @@ namespace Melia.Shared.Data.Database
 		public string Unlock { get; set; }
 
 		public bool HasUnlock => !string.IsNullOrWhiteSpace(this.Unlock);
+		public bool HasPriceTime => !string.IsNullOrWhiteSpace(this.PriceTime);
 	}
 
 	/// <summary>
