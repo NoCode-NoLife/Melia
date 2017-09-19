@@ -120,5 +120,20 @@ namespace Melia.Channel.World
 			lock (_skills)
 				return _skills.ContainsKey(skillId);
 		}
+
+		/// <summary>
+		/// Returns current level of given skill, returns 0 if skill
+		/// doesn't exist.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <returns></returns>
+		public int GetLevel(int skillId)
+		{
+			var skill = this.Get(skillId);
+			if (skill == null)
+				return 0;
+
+			return skill.Level;
+		}
 	}
 }

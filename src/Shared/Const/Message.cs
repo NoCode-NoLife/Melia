@@ -51,6 +51,7 @@ namespace Melia.Shared.Const
 		public const string EXPIREDITEM_ALERT_OPEN = "EXPIREDITEM_ALERT_OPEN";
 
 		public const string RESET_STAT_UP = "RESET_STAT_UP";
+		public const string RESET_SKL_UP = "RESET_SKL_UP";
 		public const string FAIL_SHOP_BUY = "FAIL_SHOP_BUY";
 
 		/// <summary>
