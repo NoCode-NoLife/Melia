@@ -152,7 +152,28 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void LoadSkills(Character character)
 		{
-			// load...
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `skills` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var skillId = reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							var skill = new Skill(skillId, level);
+
+							character.Skills.AddSilent(skill);
+						}
+					}
+				}
+
+				// Properties?
+			}
 
 			// Load default skills of all jobs
 			// Interestingly, it seems like officials don't actually save
@@ -350,7 +371,31 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void SaveSkills(Character character)
 		{
-			// ...
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				var skills = character.Skills.GetList();
+				foreach (var skill in skills)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", skill.Id);
+						cmd.Set("level", skill.Level);
+						cmd.Execute();
+					}
+
+					// Properties?
+				}
+
+				trans.Commit();
+			}
 		}
 
 		/// <summary>
