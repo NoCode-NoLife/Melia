@@ -279,6 +279,11 @@ namespace Melia.Channel.World
 		public int MaxExp { get; set; }
 
 		/// <summary>
+		/// Total number of accumulated experience points.
+		/// </summary>
+		public int TotalExp { get; set; }
+
+		/// <summary>
 		/// Gets or set HP, clamped between 0 and MaxHp.
 		/// </summary>
 		public int Hp

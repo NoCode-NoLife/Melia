@@ -22,10 +22,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutFloat(commander.Position.Z);
 			packet.PutInt(commander.Exp);
 			packet.PutInt(commander.MaxExp);
-
-			// TODO: Add a method to the character class to calculate total accumulated Exp.
-			// This can be done by using the level table and adding the current Exp to the base.
-			packet.PutInt(0);   // Total accumulated Exp.
+			packet.PutInt(commander.TotalExp);
 
 			packet.PutLong(commander.Id);
 
@@ -49,6 +46,7 @@ namespace Melia.Shared.Network.Helpers
 		Position Position { get; }
 		int Exp { get; }
 		int MaxExp { get; }
+		int TotalExp { get; }
 		long Id { get; }
 		int Hp { get; }
 		int MaxHp { get; }
