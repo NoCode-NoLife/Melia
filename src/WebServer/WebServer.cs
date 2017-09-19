@@ -95,6 +95,8 @@ namespace Melia.Web
 			{
 				this.HttpServer.Start();
 
+				Log.Info("ServerListURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/serverlist.cs");
+				Log.Info("StaticConfigURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/");
 				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
 			}
 			catch (NHttpException)
