@@ -13,7 +13,8 @@ namespace Melia.Channel.World
 		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
 
 		private int _handles = 0;
-		private long _sessionObjectIds = 0xE1A900000000;
+		private long _sessionObjectIds = 0x0000E1A900000000;
+		private long _skillObjectIds = 0x000054B600000000;
 
 		private Dictionary<int, Map> _mapsId;
 		private Dictionary<string, Map> _mapsName;
@@ -96,6 +97,15 @@ namespace Melia.Channel.World
 			// unique between multiple types? Can we use one getter for
 			// all "objects"?
 			return Interlocked.Increment(ref _sessionObjectIds);
+		}
+
+		/// <summary>
+		/// Returns a new object id that can be used for a skill object.
+		/// </summary>
+		/// <returns></returns>
+		public long CreateSkillObjectId()
+		{
+			return Interlocked.Increment(ref _skillObjectIds);
 		}
 
 		/// <summary>

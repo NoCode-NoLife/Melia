@@ -141,8 +141,41 @@ namespace Melia.Channel.Database
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
+			this.LoadSkills(character);
 
 			return character;
+		}
+
+		/// <summary>
+		/// Loads character's skills.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadSkills(Character character)
+		{
+			// load...
+
+			// Load default skills of all jobs
+			if (character.Skills.Count == 0)
+			{
+				foreach (var job in character.Jobs.GetList())
+				{
+					foreach (var skillName in job.Data.DefaultSkills)
+					{
+						var skillData = ChannelServer.Instance.Data.SkillDb.Find(skillName);
+						if (skillData == null)
+						{
+							Log.Warning("ChannelDb.LoadSkills: Skill '{0}' not found.", skillName);
+							continue;
+						}
+
+						if (character.Skills.Has(skillData.Id))
+							continue;
+
+						var skill = new Skill(skillData.Id, 1);
+						character.Skills.AddSilent(skill);
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -300,8 +333,18 @@ namespace Melia.Channel.Database
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
 			this.SaveSessionObjects(character);
 			this.SaveJobs(character);
+			this.SaveSkills(character);
 
 			return false;
+		}
+
+		/// <summary>
+		/// Saves character's skills.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveSkills(Character character)
+		{
+			// ...
 		}
 
 		/// <summary>

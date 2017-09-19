@@ -77,6 +77,7 @@
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
     <Compile Include="World\Job.cs" />
+    <Compile Include="World\Skills.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\Monster.cs" />
     <Compile Include="World\PropertyObject.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="World\SessionObject.cs" />
     <Compile Include="World\Jobs.cs" />
     <Compile Include="World\SessionObjects.cs" />
+    <Compile Include="World\Skill.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

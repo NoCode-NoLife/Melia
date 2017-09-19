@@ -359,6 +359,11 @@ namespace Melia.Channel.World
 		public SessionObjects SessionObjects { get; } = new SessionObjects();
 
 		/// <summary>
+		/// Character's skills.
+		/// </summary>
+		public Skills Skills { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -382,6 +387,7 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
+			this.Skills = new Skills(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 
