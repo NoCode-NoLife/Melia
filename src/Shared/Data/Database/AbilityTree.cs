@@ -12,6 +12,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class AbilityTreeData
 	{
+		public string Category { get; set; }
 		public JobId JobId { get; set; }
 		public int AbilityId { get; set; }
 		public int MaxLevel { get; set; }
@@ -50,10 +51,11 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "abilityId", "maxLevel", "unlock");
+			entry.AssertNotMissing("category", "jobId", "abilityId", "maxLevel", "unlock");
 
 			var data = new AbilityTreeData();
 
+			data.Category = entry.ReadString("category");
 			data.JobId = (JobId)entry.ReadInt("jobId");
 			data.AbilityId = entry.ReadInt("abilityId");
 			data.MaxLevel = entry.ReadInt("maxLevel");
