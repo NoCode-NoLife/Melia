@@ -821,12 +821,11 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Updates all of object's properties.
+		/// Updates object's given properties.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
-		/// <param name="propertyIds"></param>
-		public static void ZC_OBJECT_PROPERTY_All(ChannelConnection conn, IPropertyObject obj)
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj)
 		{
 			var properties = obj.Properties.GetAll();
 			var propertiesSize = properties.Sum(a => a.Size);

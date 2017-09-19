@@ -106,7 +106,7 @@ namespace Melia.Channel.Network
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
-			Send.ZC_OBJECT_PROPERTY_All(conn, character);
+			Send.ZC_OBJECT_PROPERTY(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
