@@ -20,6 +20,8 @@ namespace Melia.Shared.Data.Database
 		public int Time { get; set; }
 		public string PriceTime { get; set; }
 		public string Unlock { get; set; }
+
+		public bool HasUnlock => !string.IsNullOrWhiteSpace(this.Unlock);
 	}
 
 	/// <summary>
