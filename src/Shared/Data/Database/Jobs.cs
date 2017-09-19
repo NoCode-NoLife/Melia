@@ -144,14 +144,12 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		private static EquipSlot StringToEquipSlot(string str)
 		{
-			// TODO: Which slots are body and outer again?
-
 			switch (str)
 			{
 				case "rightHand": return EquipSlot.RightHand;
-				//case "body": return EquipSlot.;
+				case "body": return EquipSlot.Outer2;
 				case "shirt": return EquipSlot.Top;
-				//case "outer": return EquipSlot.;
+				case "outer": return EquipSlot.Outer2;
 				case "pants": return EquipSlot.Pants;
 				case "gloves": return EquipSlot.Gloves;
 				case "boots": return EquipSlot.Shoes;
