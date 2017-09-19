@@ -30,6 +30,7 @@ namespace Melia.Channel.Util
 			// Official
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
 			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
+			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
@@ -588,6 +589,12 @@ namespace Melia.Channel.Util
 			sender.ModifyAbilityPoints(amount);
 			Send.ZC_ADDON_MSG(sender, "SUCCESS_BUY_ABILITY_POINTBLANK");
 
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleLearnPcAbil(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			sender.ServerMessage("Abilities can't be learned yet.");
 			return CommandResult.Okay;
 		}
 
