@@ -1089,8 +1089,6 @@ namespace Melia.Channel.Scripting
 		{
 			var now = DateTime.Now;
 
-			// TODO: Could a general table generation like this be cached?
-
 			Melua.lua_newtable(L);
 
 			Melua.lua_pushstring(L, "year");
