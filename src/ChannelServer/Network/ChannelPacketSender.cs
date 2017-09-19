@@ -220,6 +220,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
+			packet.PutLong(character.Id);
 			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
