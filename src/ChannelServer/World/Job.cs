@@ -34,10 +34,10 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Creates new instance
 		/// </summary>
-		/// <param name="id"></param>
-		public Job(JobId id)
+		/// <param name="jobId"></param>
+		public Job(JobId jobId)
 		{
-			this.Id = id;
+			this.Id = jobId;
 			this.Circle = Circle.First;
 			this.SkillPoints = 0;
 		}

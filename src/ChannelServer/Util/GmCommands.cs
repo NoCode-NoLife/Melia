@@ -606,13 +606,13 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out var iJobId))
 				return CommandResult.InvalidArgument;
 
-			if (!ChannelServer.Instance.Data.JobDb.Exists(iJobId))
+			var jobId = (JobId)iJobId;
+			if (!ChannelServer.Instance.Data.JobDb.Exists(jobId))
 			{
-				sender.ServerMessage("Job data for '{0}' not found.", iJobId);
+				sender.ServerMessage("Job data for '{0}' not found.", jobId);
 				return CommandResult.Okay;
 			}
 
-			var jobId = (JobId)iJobId;
 			var circle = Circle.First;
 
 			if (args.Length > 2)
