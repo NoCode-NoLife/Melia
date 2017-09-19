@@ -19,7 +19,7 @@ namespace Melia.Channel.Network.Helpers
 			var properties = skill.Properties.GetAll();
 			var propertiesSize = skill.Properties.Size;
 
-			packet.PutLong(0); // skill object id (can be used to change skill properties with ZC_OBJECT_PROPERTY)
+			packet.PutLong(skill.ObjectId);
 			packet.PutInt(skill.Id);
 			packet.PutShort(propertiesSize);
 			packet.PutEmptyBin(2); // alignment
