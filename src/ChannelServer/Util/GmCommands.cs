@@ -29,7 +29,7 @@ namespace Melia.Channel.Util
 
 			// Official
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
-			Add("buyabilpoint", "", this.HandleBuyAbilPoint);
+			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
