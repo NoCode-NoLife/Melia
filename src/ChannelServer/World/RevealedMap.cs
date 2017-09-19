@@ -20,6 +20,12 @@ namespace Melia.Channel.World
 		/// </summary>
 		public float Percentage { get; set; }
 
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="explored"></param>
+		/// <param name="percentage"></param>
 		public RevealedMap(int mapId, byte[] explored, float percentage)
 		{
 			this.MapId = mapId;

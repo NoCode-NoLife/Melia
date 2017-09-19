@@ -20,6 +20,12 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int Pose { get; set; }
 
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="message"></param>
+		/// <param name="pose"></param>
 		public ChatMacro(int index, string message, int pose = 0)
 		{
 			this.Index = index;
