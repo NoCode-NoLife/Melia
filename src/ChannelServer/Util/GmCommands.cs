@@ -554,6 +554,15 @@ namespace Melia.Channel.Util
 			//   we have to search for characters across all of them.
 
 			var characters = ChannelServer.Instance.World.GetCharacters();
+
+			// If the player count exceeds the max. channel capacity, cancel command.
+			if (characters.Count() > Shared.Const.Channel.ZoneMaxPcCount)
+			{
+				sender.ServerMessage("Player count exceeds channel capacity of {0}.", Shared.Const.Channel.ZoneMaxPcCount);
+				return CommandResult.Okay;
+			}
+
+			// Recall each player to current location.
 			foreach (var character in characters)
 			{
 				if (character.Id != target.Id)
@@ -567,7 +576,8 @@ namespace Melia.Channel.Util
 				}
 			}
 
-			sender.ServerMessage("No characters not found.");
+			// No players found.
+			sender.ServerMessage("No players found.");
 			return CommandResult.Okay;
 		}
 

@@ -231,14 +231,13 @@ namespace Melia.Login.Network
 			var characters = conn.Account.GetCharacters();
 			var mapAvailableCount = characters.Length;
 			var zoneServerCount = 1;
-			var zoneMaxPcCount = 150;
 
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.ZoneTraffic);
 
 			packet.Zlib(true, zpacket =>
 			{
-				zpacket.PutShort(zoneMaxPcCount);
+				zpacket.PutShort(Channel.ZoneMaxPcCount);
 				zpacket.PutShort(mapAvailableCount);
 				for (var i = 0; i < mapAvailableCount; ++i)
 				{
