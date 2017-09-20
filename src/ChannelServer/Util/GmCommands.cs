@@ -25,7 +25,7 @@ namespace Melia.Channel.Util
 		public GmCommands()
 		{
 			// The required authority levels for commands can be specified
-			// in the configuration file "commands.conf".
+			// in the configuration file "system/conf/commands.conf".
 
 			// Official
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
@@ -49,6 +49,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
+			Add("recallall", string.Empty, this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
 			Add("removejob", "<job id>", this.HandleRemoveJob);
@@ -539,6 +540,34 @@ namespace Melia.Channel.Util
 
 			character.ServerMessage("You've been warped to {0}.", location);
 
+			return CommandResult.Okay;
+		}
+
+		private CommandResult HandleRecallAll(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length > 1)
+			{
+				return CommandResult.InvalidArgument;
+			}
+
+			// TODO: Once we have support for more than one map server,
+			//   we have to search for characters across all of them.
+
+			var characters = ChannelServer.Instance.World.GetCharacters();
+			foreach (var character in characters)
+			{
+				if (character.Id != target.Id)
+				{
+					var location = target.GetLocation();
+					character.Warp(location);
+
+					character.ServerMessage("You've been warped to {0}.", location);
+
+					return CommandResult.Okay;
+				}
+			}
+
+			sender.ServerMessage("No characters not found.");
 			return CommandResult.Okay;
 		}
 

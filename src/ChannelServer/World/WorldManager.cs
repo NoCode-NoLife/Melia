@@ -177,5 +177,23 @@ namespace Melia.Channel.World
 
 			return null;
 		}
+
+		/// <summary>
+		/// Returns all Characters that are currently online.
+		/// </summary>
+		public Character[] GetCharacters()
+		{
+			var result = new List<Character>();
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					var characters = map.GetCharacters();
+					result.AddRange(characters);
+				}
+			}
+
+			return result.ToArray();
+		}
 	}
 }
