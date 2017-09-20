@@ -102,23 +102,14 @@ namespace Melia.Login.World
 		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
-		/// <remarks>
-		/// The stance is affected by the equipped items and other factors.
-		/// For the official conditions see stancecondition.ies.
-		/// </remarks>
 		public int Stance
 		{
 			get
 			{
-				switch (this.Job.ToClass())
-				{
-					default:
-					case Class.Swordsman: return 10000;
-					case Class.Wizard: return 10006;
-					case Class.Archer: return 10008;
-					case Class.Cleric:
-					case Class.GM: return 10004;
-				}
+				var rightHand = this.Equipment[(int)EquipSlot.RightHand].Type;
+				var leftHand = this.Equipment[(int)EquipSlot.LeftHand].Type;
+
+				return LoginServer.Instance.Data.StanceConditionDb.FindStanceId(this.Job, false, rightHand, leftHand);
 			}
 		}
 
