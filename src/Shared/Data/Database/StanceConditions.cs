@@ -37,7 +37,17 @@ namespace Melia.Shared.Data.Database
 		{
 			var data = this.Entries.FirstOrDefault(a => a.JobId == jobId && a.Riding == riding && a.RightHand == rightHand && a.LeftHand == leftHand);
 			if (data == null)
-				return 10000;
+			{
+				switch (jobId.ToClass())
+				{
+					default:
+					case Class.Swordsman: return 10000;
+					case Class.Wizard: return 10006;
+					case Class.Archer: return 10008;
+					case Class.Cleric:
+					case Class.GM: return 10004;
+				}
+			}
 
 			return data.StanceId;
 		}
