@@ -3,9 +3,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Login.World
 {
@@ -52,9 +55,9 @@ namespace Melia.Login.World
 		public byte Hair { get; set; }
 
 		/// <summary>
-		/// Ids of equipped items.
+		/// Equipped items.
 		/// </summary>
-		public int[] Equipment { get; private set; }
+		public EquipItem[] Equipment { get; private set; }
 
 		/// <summary>
 		/// List of character's jobs.
@@ -182,7 +185,13 @@ namespace Melia.Login.World
 			this.Level = 1;
 			this.Channel = 1;
 			this.BarrackLayer = 1;
-			this.Equipment = Items.DefaultItems.ToArray();
+
+			this.Equipment = new EquipItem[Items.EquipSlotCount];
+			for (var i = 0; i < Items.EquipSlotCount; ++i)
+			{
+				var itemId = Items.DefaultItems[i];
+				this.Equipment[i] = new EquipItem(itemId);
+			}
 		}
 
 		/// <summary>
@@ -191,18 +200,16 @@ namespace Melia.Login.World
 		/// <returns></returns>
 		public int[] GetEquipIds()
 		{
-			return this.Equipment;
+			return this.Equipment.Select(a => a.Id).ToArray();
 		}
 
 		/// <summary>
 		/// Returns the equipment properties as an array.
 		/// </summary>
 		/// <returns></returns>
-		public int[] GetEquipmentProperties()
+		public Properties[] GetEquipmentProperties()
 		{
-			// TODO: This needs to return the actual properties of equipment
-			//   which have variable lengths.
-			return this.GetEquipIds();
+			return this.Equipment.Select(a => a.Properties).ToArray();
 		}
 
 		/// <summary>
@@ -212,7 +219,7 @@ namespace Melia.Login.World
 		public void SetEquipment(IDictionary<EquipSlot, int> equipment)
 		{
 			foreach (var item in equipment)
-				this.Equipment[(int)item.Key] = item.Value;
+				this.Equipment[(int)item.Key] = new EquipItem(item.Value);
 		}
 
 		/// <summary>

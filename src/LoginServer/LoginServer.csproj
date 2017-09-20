@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Account.cs" />
+    <Compile Include="Database\EquipItem.cs" />
     <Compile Include="Network\Helpers\BarrackPcHelper.cs" />
     <Compile Include="Util\Configuration\LoginConf.cs" />
     <Compile Include="Util\Configuration\Files\Login.cs" />

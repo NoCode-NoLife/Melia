@@ -292,7 +292,7 @@ namespace Melia.Login.Database
 								var itemId = reader.GetInt32("itemId");
 								var equipSlot = reader.GetByte("equipSlot");
 
-								character.Equipment[equipSlot] = itemId;
+								character.Equipment[equipSlot] = new EquipItem(itemId);
 							}
 						}
 					}
