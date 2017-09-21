@@ -185,9 +185,16 @@ namespace Melia.Channel.World
 		public Character[] GetCharacters()
 		{
 			lock (_mapsLock)
-			{
 				return _mapsId.Values.SelectMany(a => a.GetCharacters()).ToArray();
-			}
+		}
+
+		/// <summary>
+		/// Returns all online characters that match the given predicate.
+		/// </summary>
+		public Character[] GetCharacters(Func<Character, bool> predicate)
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.SelectMany(a => a.GetCharacters(predicate)).ToArray();
 		}
 	}
 }

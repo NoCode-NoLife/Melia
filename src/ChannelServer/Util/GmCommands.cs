@@ -552,7 +552,8 @@ namespace Melia.Channel.Util
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
 
-			var characters = ChannelServer.Instance.World.GetCharacters();
+			// Check characters
+			var characters = ChannelServer.Instance.World.GetCharacters(a => a != target);
 			if (!characters.Any())
 			{
 				sender.ServerMessage("No players found.");
@@ -562,14 +563,13 @@ namespace Melia.Channel.Util
 			// Recall each player to current location.
 			foreach (var character in characters)
 			{
-				if (character.Id != target.Id)
-				{
-					var location = target.GetLocation();
-					character.Warp(location);
+				var location = target.GetLocation();
+				character.Warp(location);
 
-					character.ServerMessage("You've been warped to {0}.", location);
-				}
+				character.ServerMessage("You've been warped to {0}.", location);
 			}
+
+			sender.ServerMessage("You have called {0} characters to target location.", characters.Length);
 
 			return CommandResult.Okay;
 		}

@@ -192,6 +192,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all characters on this map that match the given predicate.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Character[] GetCharacters(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Returns all characters in visible range of character.
 		/// </summary>
 		/// <param name="character"></param>
