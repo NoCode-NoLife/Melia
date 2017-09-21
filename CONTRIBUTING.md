@@ -72,6 +72,10 @@ Coding conventions
   They should not run complicated calculations or send packets.
 * Pure getter methods should be avoided in favor of properties,
   unless they do more than just returning a value.
+* Unless the full name of a class is necessary to clarify to the compiler
+  which class is to be used, the `using` directive should always be used,
+  so the full name isn't necessary in the actual code. For example, use
+  `Console.WriteLine(...)` instead of `System.Console.WriteLine(...)`.
 
 EditorConfig compatible IDEs like VS2017 will automatically switch to
 formatting settings that match the coding conventions as much as possible.
