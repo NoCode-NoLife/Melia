@@ -388,6 +388,8 @@ namespace Melia.Channel.World
 		{
 			lock (_syncLock)
 				_equip[slot] = item;
+
+			_character.UpdateStance();
 		}
 
 		/// <summary>
@@ -420,6 +422,9 @@ namespace Melia.Channel.World
 				_items[item.Data.Category].Remove(item);
 				_itemsWorldIndex.Remove(item.WorldId);
 			}
+
+			// Update character
+			_character.UpdateStance();
 
 			// Update client
 			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
