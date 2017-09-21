@@ -18,7 +18,18 @@ namespace Melia.Channel.World
 		/// </summary>
 		public const int VisibleRange = 500;
 
+		/// <summary>
+		/// Collection of characters.
+		/// <para>Key: <see cref="Character.Handle"/></para>
+		/// <para>Value: <see cref="Character"/></para>
+		/// </summary>
 		private Dictionary<int, Character> _characters;
+
+		/// <summary>
+		/// Collection of monsters.
+		/// <para>Key: <see cref="Monster.Handle"/></para>
+		/// <para>Value: <see cref="Monster"/></para>
+		/// </summary>
 		private Dictionary<int, Monster> _monsters;
 
 		/// <summary>

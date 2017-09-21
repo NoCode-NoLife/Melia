@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Melia.Channel.World
@@ -176,6 +177,17 @@ namespace Melia.Channel.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Returns all Characters that are currently online.
+		/// </summary>
+		public Character[] GetCharacters()
+		{
+			lock (_mapsLock)
+			{
+				return _mapsId.Values.SelectMany(a => a.GetCharacters()).ToArray();
+			}
 		}
 	}
 }
