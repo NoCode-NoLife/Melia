@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Melia.Channel.World
@@ -183,17 +184,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		public Character[] GetCharacters()
 		{
-			var result = new List<Character>();
 			lock (_mapsLock)
 			{
-				foreach (var map in _mapsId.Values)
-				{
-					var characters = map.GetCharacters();
-					result.AddRange(characters);
-				}
+				return _mapsId.Values.SelectMany(a => a.GetCharacters()).ToArray();
 			}
-
-			return result.ToArray();
 		}
 	}
 }

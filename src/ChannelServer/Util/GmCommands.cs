@@ -49,7 +49,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
-			Add("recallall", string.Empty, this.HandleRecallAll);
+			Add("recallall", "", this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
 			Add("removejob", "<job id>", this.HandleRemoveJob);
@@ -555,12 +555,7 @@ namespace Melia.Channel.Util
 
 			var characters = ChannelServer.Instance.World.GetCharacters();
 
-			// If the player count exceeds the max. channel capacity, cancel command.
-			if (characters.Count() > Shared.Const.Channel.ZoneMaxPcCount)
-			{
-				sender.ServerMessage("Player count exceeds channel capacity of {0}.", Shared.Const.Channel.ZoneMaxPcCount);
-				return CommandResult.Okay;
-			}
+			// TODO : Once we have support for channels, restrict recall above channel player count.
 
 			// Recall each player to current location.
 			foreach (var character in characters)
@@ -571,9 +566,8 @@ namespace Melia.Channel.Util
 					character.Warp(location);
 
 					character.ServerMessage("You've been warped to {0}.", location);
-
-					return CommandResult.Okay;
 				}
+				return CommandResult.Okay;
 			}
 
 			// No players found.
