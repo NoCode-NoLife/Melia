@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 
@@ -14,6 +15,8 @@ namespace Melia.Channel.World
 	/// </summary>
 	public class Jobs
 	{
+		private static readonly Regex JobClassName = new Regex(@"^Char_(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
+
 		private Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
 
 		/// <summary>
@@ -179,6 +182,34 @@ namespace Melia.Channel.World
 				return Circle.None;
 
 			return job.Circle;
+		}
+
+		/// <summary>
+		/// Returns the circle the character is on on the given job.
+		/// </summary>
+		/// <param name="jobClassName"></param>
+		/// <returns></returns>
+		public Circle GetCircle(string jobClassName)
+		{
+			var jobId = GetJobIdFromClassName(jobClassName);
+			return this.GetCircle(jobId);
+		}
+
+		/// <summary>
+		/// Converts job class name to job id and returns it.
+		/// </summary>
+		/// <param name="jobClassName"></param>
+		/// <returns></returns>
+		private static JobId GetJobIdFromClassName(string jobClassName)
+		{
+			var match = JobClassName.Match(jobClassName);
+			if (!match.Success)
+				throw new ArgumentException($"Invalid job class name format '{jobClassName}'.");
+
+			var jobClass = int.Parse(match.Groups["class"].Value);
+			var index = int.Parse(match.Groups["index"].Value);
+
+			return (JobId)((jobClass * 1000) + index);
 		}
 	}
 }
