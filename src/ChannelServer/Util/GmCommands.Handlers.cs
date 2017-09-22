@@ -321,17 +321,24 @@ namespace Melia.Channel.Util
 
 		private CommandResult HandleLevelUp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			if (args.Length < 2)
-				return CommandResult.InvalidArgument;
-
-			if (!int.TryParse(args[1], out var levels) || levels < 1)
+			var levels = 1;
+			if (args.Length > 1 && (!int.TryParse(args[1], out levels) || levels < 1))
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
 			// exp bar if the exp didn't change.
 			target.Exp = 0;
-
 			target.LevelUp(levels);
+
+			if (sender == target)
+			{
+				sender.ServerMessage("Your level was changed.");
+			}
+			else
+			{
+				target.ServerMessage("Your level was changed by {0}.", sender.TeamName);
+				sender.ServerMessage("The target's level was changed.");
+			}
 
 			return CommandResult.Okay;
 		}
