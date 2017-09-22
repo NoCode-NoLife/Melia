@@ -154,7 +154,7 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleItem(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleItem(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
@@ -167,7 +167,7 @@ namespace Melia.Channel.Util
 
 			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 			{
-				character.ServerMessage("Item not found.");
+				sender.ServerMessage("Item not found.");
 				return CommandResult.Okay;
 			}
 
@@ -181,6 +181,10 @@ namespace Melia.Channel.Util
 			// Create and add item
 			var item = new Item(itemId, amount);
 			target.Inventory.Add(item, InventoryAddType.PickUp);
+
+			sender.ServerMessage("Item created.");
+			if (sender != target)
+				target.ServerMessage("An item was added to your inventory by {0}.", sender.TeamName);
 
 			return CommandResult.Okay;
 		}
