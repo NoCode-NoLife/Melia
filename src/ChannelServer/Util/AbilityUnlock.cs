@@ -49,11 +49,11 @@ namespace Melia.Channel.Util
 			var parameters = method.GetParameters();
 			if (
 				method.ReturnType != typeof(bool) ||
-				parameters.Length != 3 ||
+				parameters.Length != 4 ||
 				parameters[0].ParameterType != typeof(Character) ||
 				parameters[1].ParameterType != typeof(string) ||
 				parameters[2].ParameterType != typeof(int) ||
-				parameters[2].ParameterType != typeof(AbilityTreeData)
+				parameters[3].ParameterType != typeof(AbilityData)
 			)
 			{
 				Log.Warning("AbilityUnlock.IsUnlocked: Function '{0}' has an invalid signature.", funcName);
@@ -62,7 +62,7 @@ namespace Melia.Channel.Util
 
 			var result = (bool)method.Invoke(null, new object[] { character, strParam, numParam, abilityData });
 
-			return false;
+			return result;
 		}
 
 		/// <summary>
