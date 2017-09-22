@@ -642,7 +642,7 @@ namespace Melia.Channel.Util
 
 			sender.ServerMessage("Job '{0}' was added at circle '{1}'.", jobId, (int)circle);
 			if (sender != target)
-				sender.ServerMessage("Job '{0}' was added to your character at circle '{1}' by {2}.", jobId, (int)circle, sender.TeamName);
+				target.ServerMessage("Job '{0}' was added to your character at circle '{1}' by {2}.", jobId, (int)circle, sender.TeamName);
 
 			return CommandResult.Okay;
 		}
@@ -663,7 +663,15 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			sender.ServerMessage("Job '{0}' was removed. Login again to see the change.", jobId);
+			if (sender == target)
+			{
+				sender.ServerMessage("Job '{0}' was removed. Login again to see the change.", jobId);
+			}
+			else
+			{
+				target.ServerMessage("Job '{0}' was removed by {1}. Login again to see the change.", jobId, sender.TeamName);
+				sender.ServerMessage("Job '{0}' was removed from target.", jobId);
+			}
 
 			return CommandResult.Okay;
 		}
