@@ -432,7 +432,20 @@ namespace Melia.Channel.Util
 			else if (args[1].StartsWith("ors"))
 				target.Warp("c_orsha", 271, 176, 292);
 			else
+			{
 				sender.ServerMessage("Unknown destination.");
+				return CommandResult.Okay;
+			}
+
+			if (sender == target)
+			{
+				sender.ServerMessage("You were warped to {0}.", target.GetLocation());
+			}
+			else
+			{
+				target.ServerMessage("You were warped to {0} by {1}.", target.GetLocation(), sender.TeamName);
+				sender.ServerMessage("Target was warped.");
+			}
 
 			return CommandResult.Okay;
 		}
