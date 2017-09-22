@@ -9,8 +9,11 @@ using Melia.Shared.Util;
 
 namespace Melia.Channel.Util
 {
-	// This is all a little temporary. I don't know if we might want to
-	// use Lua for this, or maybe something else entirely.
+	// These functions should not be changed, unless the respective
+	// functions on the client are changed as well, as the client displays
+	// and checks the requests based on its own data before sending it
+	// to the server.
+
 	public static class AbilityPriceTime
 	{
 		private static readonly Regex CallRegex = new Regex(@"^\s*(?<funcName>[a-z0-9_]+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);

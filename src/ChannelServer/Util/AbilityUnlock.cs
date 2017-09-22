@@ -10,6 +10,11 @@ using Melia.Shared.Util;
 
 namespace Melia.Channel.Util
 {
+	// These functions should not be changed, unless the respective
+	// functions on the client are changed as well, as the client displays
+	// and checks the requests based on its own data before sending it
+	// to the server.
+
 	public static class AbilityUnlock
 	{
 		private static readonly Regex UnlockCallRegex = new Regex(@"^\s*(?<funcName>[a-z0-9_]+)\s*\(""(?<strParam>[^""]*)""\s*,\s*(?<numParam>[0-9]+)\s*\)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
