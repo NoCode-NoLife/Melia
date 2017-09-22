@@ -550,6 +550,8 @@ namespace Melia.Channel.Util
 			target.Inventory.Clear();
 
 			sender.ServerMessage("Inventory cleared.");
+			if (sender != target)
+				target.ServerMessage("Your inventory was cleared by {0}.", sender.TeamName);
 
 			return CommandResult.Okay;
 		}
