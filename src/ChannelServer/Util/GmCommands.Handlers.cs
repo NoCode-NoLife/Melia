@@ -189,7 +189,7 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleSpawn(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleSpawn(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
@@ -206,7 +206,7 @@ namespace Melia.Channel.Util
 			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
 			if (monsterData == null)
 			{
-				character.ServerMessage("Monster not found.");
+				sender.ServerMessage("Monster not found.");
 				return CommandResult.Okay;
 			}
 
@@ -233,6 +233,10 @@ namespace Melia.Channel.Util
 
 				target.Map.AddMonster(monster);
 			}
+
+			sender.ServerMessage("Monsters were spawned.");
+			if (sender != target)
+				target.ServerMessage("Monsters were spawned at your location by {0}.", sender.TeamName);
 
 			return CommandResult.Okay;
 		}
