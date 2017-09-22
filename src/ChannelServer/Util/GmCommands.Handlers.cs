@@ -73,9 +73,12 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleWhere(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			character.ServerMessage("You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+			if (sender == target)
+				sender.ServerMessage("You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+			else
+				sender.ServerMessage("{3} is here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position, target.TeamName);
 
 			return CommandResult.Okay;
 		}
