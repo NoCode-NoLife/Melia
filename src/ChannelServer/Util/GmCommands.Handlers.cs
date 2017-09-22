@@ -107,7 +107,7 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleWarp(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleWarp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
@@ -119,7 +119,7 @@ namespace Melia.Channel.Util
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
 				if (data == null)
 				{
-					character.ServerMessage("Map not found.");
+					sender.ServerMessage("Map not found.");
 					return CommandResult.Okay;
 				}
 
@@ -135,10 +135,20 @@ namespace Melia.Channel.Util
 			try
 			{
 				target.Warp(mapId, x, y, z);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("You were warped to {0}.", target.GetLocation());
+				}
+				else
+				{
+					target.ServerMessage("You were warped to {0} by {1}.", target.GetLocation(), sender.TeamName);
+					sender.ServerMessage("Target was warped.");
+				}
 			}
 			catch (ArgumentException)
 			{
-				character.ServerMessage("Map not found.");
+				sender.ServerMessage("Map not found.");
 			}
 
 			return CommandResult.Okay;
