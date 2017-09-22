@@ -12,6 +12,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string EngName { get; set; }
+		public int Level { get; set; }
 	}
 
 	/// <summary>
@@ -21,13 +22,14 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "className", "engName");
+			entry.AssertNotMissing("id", "className", "engName", "level");
 
 			var data = new AbilityData();
 
 			data.Id = entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
 			data.EngName = entry.ReadString("engName");
+			data.Level = entry.ReadInt("level");
 
 			this.Entries[data.Id] = data;
 		}
