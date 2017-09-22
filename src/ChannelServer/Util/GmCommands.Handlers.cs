@@ -66,6 +66,16 @@ namespace Melia.Channel.Util
 			AddAlias("reloadscripts", "rs");
 		}
 
+		/// <summary>
+		/// Test command, modify to quickly test something, but never
+		/// commit the changes to it.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleTest(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			Log.Debug("test!!");
@@ -73,6 +83,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Tells the sender where the target currently is.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (sender == target)
@@ -83,6 +102,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps target to given position on their current map.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleJump(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 4)
@@ -107,6 +135,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps target to given location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleWarp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -154,6 +191,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Spawns item in target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleItem(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -189,6 +235,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Spawns monsters at target's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleSpawn(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -241,6 +296,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Adds all available hats to target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleGetAllHats(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			var addedCount = 0;
@@ -269,6 +333,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Changes target's name (not team name).
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleName(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -297,6 +370,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Reloads all scripts.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleReloadScripts(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			character.ServerMessage("Reloading scripts...");
@@ -308,6 +390,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Reloads all conf files.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleReloadConf(ChannelConnection conn, Character character, Character target, string command, string[] args)
 		{
 			character.ServerMessage("Reloading configuration...");
@@ -319,6 +410,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Levels up target.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleLevelUp(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			var levels = 1;
@@ -343,6 +443,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Changes target's speed.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleSpeed(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -367,6 +476,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Searches item database for given string.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleItemInfo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -393,6 +511,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Searches monster database for given string.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleMonsterInfo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -419,6 +546,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps target to a pre-defined location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleGo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -450,6 +586,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps target to a specific character's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleGoTo(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -481,6 +626,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps specific character to target.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleRecall(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -507,6 +661,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps all players on the server to target's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleRecallAll(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length > 1)
@@ -545,6 +708,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Removes all items from target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleClearInventory(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			target.Inventory.Clear();
@@ -556,6 +728,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Official slash command, purpose unknown.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleReqUpdateEquip(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			// Command is sent when the inventory is opened, purpose unknown,
@@ -564,6 +745,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Official slash command, exchanges silver for ability points.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleBuyAbilPoint(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			// Since this command is sent via UI interactions, we'll not
@@ -597,12 +787,30 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Official slash command to learn abilities.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleLearnPcAbil(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			sender.ServerMessage("Abilities can't be learned yet.");
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Adds job to target.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleAddJob(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
@@ -676,6 +884,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Modifies target's skill points for the given job.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleSkillPoints(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 3)
@@ -708,6 +925,15 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Adds stat points to target character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleStatPoints(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
