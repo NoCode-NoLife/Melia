@@ -13,7 +13,7 @@ namespace Melia.Channel.Util
 	// use Lua for this, or maybe something else entirely.
 	public static class AbilityPriceTime
 	{
-		private static readonly Regex UnlockCallRegex = new Regex(@"^\s*(?<funcName>[a-z0-9_]+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		private static readonly Regex CallRegex = new Regex(@"^\s*(?<funcName>[a-z0-9_]+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		/// <summary>
 		/// Returns price and time to level up ability for character.
@@ -34,8 +34,8 @@ namespace Melia.Channel.Util
 			// If we leave it as C#, we might not want to use reflection,
 			// or at least cache the methods, but for now it will work fine.
 
-			var call = abilityTreeData.Unlock;
-			var match = UnlockCallRegex.Match(call);
+			var call = abilityTreeData.PriceTime;
+			var match = CallRegex.Match(call);
 			if (!match.Success)
 			{
 				Log.Warning("AbilityPriceTime.Get: Invalid unlock call '{0}'.", call);
@@ -46,7 +46,7 @@ namespace Melia.Channel.Util
 			var abilityClassName = abilityData.ClassName;
 			var maxLevel = abilityTreeData.MaxLevel;
 
-			var method = typeof(AbilityUnlock).GetMethod(funcName);
+			var method = typeof(AbilityPriceTime).GetMethod(funcName);
 			if (method == null)
 			{
 				Log.Warning("AbilityPriceTime.Get: Unknown function '{0}'.", funcName);
@@ -61,8 +61,8 @@ namespace Melia.Channel.Util
 				parameters[1].ParameterType != typeof(string) ||
 				parameters[2].ParameterType != typeof(int) ||
 				parameters[3].ParameterType != typeof(int) ||
-				parameters[4].ParameterType != typeof(int) || !parameters[4].IsOut ||
-				parameters[5].ParameterType != typeof(int) || !parameters[5].IsOut
+				parameters[4].ParameterType.GetElementType() != typeof(int) || !parameters[4].IsOut ||
+				parameters[5].ParameterType.GetElementType() != typeof(int) || !parameters[5].IsOut
 			)
 			{
 				Log.Warning("AbilityPriceTime.Get: Function '{0}' has an invalid signature.", funcName);
