@@ -702,7 +702,7 @@ namespace Melia.Channel.Util
 			else
 			{
 				sender.ServerMessage("Modified target {0}'s skill points by {1:+0;-0;0}.", jobId, modifier);
-				target.ServerMessage("Your {0}'s skill points were modified by.", jobId, sender.TeamName);
+				target.ServerMessage("Your {0}'s skill points were modified by {1}.", jobId, sender.TeamName);
 			}
 
 			return CommandResult.Okay;
@@ -728,6 +728,8 @@ namespace Melia.Channel.Util
 			target.AddStatPoints(amount);
 
 			sender.ServerMessage("Added {0} stat points.", amount);
+			if (sender != target)
+				sender.ServerMessage("{1} added {0} stat points to your character.", amount, sender.TeamName);
 
 			return CommandResult.Okay;
 		}
