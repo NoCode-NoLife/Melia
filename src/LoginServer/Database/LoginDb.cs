@@ -178,7 +178,7 @@ namespace Melia.Login.Database
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
-						cmd.Set("itemId", item);
+						cmd.Set("itemId", item.Id);
 						cmd.Set("amount", 1);
 						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", i++);
