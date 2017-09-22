@@ -641,6 +641,8 @@ namespace Melia.Channel.Util
 				target.Jobs.ChangeCircle(jobId, circle);
 
 			sender.ServerMessage("Job '{0}' was added at circle '{1}'.", jobId, (int)circle);
+			if (sender != target)
+				sender.ServerMessage("Job '{0}' was added to your character at circle '{1}' by {2}.", jobId, (int)circle, sender.TeamName);
 
 			return CommandResult.Okay;
 		}
