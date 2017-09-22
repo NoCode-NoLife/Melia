@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Melia.Channel.World
@@ -13,7 +14,8 @@ namespace Melia.Channel.World
 		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
 
 		private int _handles = 0;
-		private long _sessionObjectIds = 0xE1A900000000;
+		private long _sessionObjectIds = 0x0000E1A900000000;
+		private long _skillObjectIds = 0x000054B600000000;
 
 		private Dictionary<int, Map> _mapsId;
 		private Dictionary<string, Map> _mapsName;
@@ -99,6 +101,15 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns a new object id that can be used for a skill object.
+		/// </summary>
+		/// <returns></returns>
+		public long CreateSkillObjectId()
+		{
+			return Interlocked.Increment(ref _skillObjectIds);
+		}
+
+		/// <summary>
 		/// Initializes world.
 		/// </summary>
 		public void Initialize()
@@ -166,6 +177,24 @@ namespace Melia.Channel.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Returns all Characters that are currently online.
+		/// </summary>
+		public Character[] GetCharacters()
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.SelectMany(a => a.GetCharacters()).ToArray();
+		}
+
+		/// <summary>
+		/// Returns all online characters that match the given predicate.
+		/// </summary>
+		public Character[] GetCharacters(Func<Character, bool> predicate)
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.SelectMany(a => a.GetCharacters(predicate)).ToArray();
 		}
 	}
 }

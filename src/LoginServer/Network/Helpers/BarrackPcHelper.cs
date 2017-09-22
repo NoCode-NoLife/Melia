@@ -2,8 +2,11 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Linq;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Login.Network.Helpers
 {
@@ -20,13 +23,13 @@ namespace Melia.Login.Network.Helpers
 			packet.AddAppearanceBarrackPc(pc);
 
 			// Equip properties
-			foreach (var item in equipProperties)
+			foreach (var propertiesObj in equipProperties)
 			{
-				packet.PutShort(0); // byte length of properties
+				var properties = propertiesObj.GetAll();
+				var propertiesSize = properties.Sum(a => a.Size);
 
-				// foreach item.properties
-				//   put key
-				//   put value
+				packet.PutShort(propertiesSize);
+				packet.AddProperties(properties);
 			}
 
 			// [i170175] maybe hat visibility?
@@ -50,7 +53,7 @@ namespace Melia.Login.Network.Helpers
 	/// </summary>
 	public interface IBarrackPc : IAppearanceBarrackPc
 	{
-		int[] GetEquipmentProperties();
+		Properties[] GetEquipmentProperties();
 		JobId[] GetJobIds();
 	}
 }

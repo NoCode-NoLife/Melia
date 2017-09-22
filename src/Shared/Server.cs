@@ -76,6 +76,7 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Jobs) != 0)
 				{
 					this.LoadDb(this.Data.JobDb, "db/jobs.txt", reload);
+					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt", reload);
 				}
 
 				if ((toLoad & DataToLoad.Maps) != 0)

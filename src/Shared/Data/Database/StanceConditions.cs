@@ -1,0 +1,80 @@
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see license file in the main folder
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Melia.Shared.Const;
+using Newtonsoft.Json.Linq;
+
+namespace Melia.Shared.Data.Database
+{
+	[Serializable]
+	public class StanceConditionData
+	{
+		public JobId JobId { get; set; }
+		public bool Riding { get; set; }
+		public EquipType RightHand { get; set; }
+		public EquipType LeftHand { get; set; }
+		public int StanceId { get; set; }
+	}
+
+	/// <summary>
+	/// Stance condition database.
+	/// </summary>
+	public class StanceConditionDb : DatabaseJson<StanceConditionData>
+	{
+		/// <summary>
+		/// Returns first matching stance based on given parameters,
+		/// defaults to 10000 if no stances were found.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <param name="riding"></param>
+		/// <param name="rightHand"></param>
+		/// <param name="leftHand"></param>
+		/// <returns></returns>
+		public int FindStanceId(JobId jobId, bool riding, EquipType rightHand, EquipType leftHand)
+		{
+			var data = this.Entries.FirstOrDefault(a => a.JobId == jobId && a.Riding == riding && a.RightHand == rightHand && a.LeftHand == leftHand);
+			if (data == null)
+			{
+				switch (jobId.ToClass())
+				{
+					default:
+					case Class.Swordsman: return 10000;
+					case Class.Wizard: return 10006;
+					case Class.Archer: return 10008;
+					case Class.Cleric:
+					case Class.GM: return 10004;
+				}
+			}
+
+			return data.StanceId;
+		}
+
+		protected override void ReadEntry(JObject entry)
+		{
+			entry.AssertNotMissing("jobId", "riding", "rightHand", "leftHand", "stanceId");
+
+			var data = new StanceConditionData();
+
+			data.JobId = (JobId)entry.ReadInt("jobId");
+			data.Riding = entry.ReadBool("riding");
+			data.StanceId = entry.ReadInt("stanceId");
+
+			var rightHand = entry.ReadString("rightHand", null);
+			if (!Enum.TryParse<EquipType>(rightHand, out var rightHandType))
+				throw new DatabaseErrorException($"Invalid equip type '{rightHand}'.");
+			data.RightHand = rightHandType;
+
+			var leftHand = entry.ReadString("leftHand", null);
+			if (!Enum.TryParse<EquipType>(leftHand, out var leftHandType))
+				throw new DatabaseErrorException($"Invalid equip type '{leftHand}'.");
+			data.LeftHand = leftHandType;
+
+			// XXX: Maybe index on a hash of the values?
+
+			this.Entries.Add(data);
+		}
+	}
+}

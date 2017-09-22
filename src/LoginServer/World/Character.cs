@@ -3,9 +3,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Login.World
 {
@@ -52,9 +55,9 @@ namespace Melia.Login.World
 		public byte Hair { get; set; }
 
 		/// <summary>
-		/// Ids of equipped items.
+		/// Equipped items.
 		/// </summary>
-		public int[] Equipment { get; private set; }
+		public EquipItem[] Equipment { get; private set; }
 
 		/// <summary>
 		/// List of character's jobs.
@@ -99,23 +102,14 @@ namespace Melia.Login.World
 		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
-		/// <remarks>
-		/// The stance is affected by the equipped items and other factors.
-		/// For the official conditions see stancecondition.ies.
-		/// </remarks>
 		public int Stance
 		{
 			get
 			{
-				switch (this.Job.ToClass())
-				{
-					default:
-					case Class.Swordsman: return 10000;
-					case Class.Wizard: return 10006;
-					case Class.Archer: return 10008;
-					case Class.Cleric:
-					case Class.GM: return 10004;
-				}
+				var rightHand = this.Equipment[(int)EquipSlot.RightHand].Type;
+				var leftHand = this.Equipment[(int)EquipSlot.LeftHand].Type;
+
+				return LoginServer.Instance.Data.StanceConditionDb.FindStanceId(this.Job, false, rightHand, leftHand);
 			}
 		}
 
@@ -182,7 +176,15 @@ namespace Melia.Login.World
 			this.Level = 1;
 			this.Channel = 1;
 			this.BarrackLayer = 1;
-			this.Equipment = Items.DefaultItems.ToArray();
+
+			this.Equipment = new EquipItem[Items.EquipSlotCount];
+			for (var i = 0; i < Items.EquipSlotCount; ++i)
+			{
+				var itemId = Items.DefaultItems[i];
+				var slot = (EquipSlot)i;
+
+				this.Equipment[i] = new EquipItem(itemId, slot);
+			}
 		}
 
 		/// <summary>
@@ -191,18 +193,16 @@ namespace Melia.Login.World
 		/// <returns></returns>
 		public int[] GetEquipIds()
 		{
-			return this.Equipment;
+			return this.Equipment.Select(a => a.Id).ToArray();
 		}
 
 		/// <summary>
 		/// Returns the equipment properties as an array.
 		/// </summary>
 		/// <returns></returns>
-		public int[] GetEquipmentProperties()
+		public Properties[] GetEquipmentProperties()
 		{
-			// TODO: This needs to return the actual properties of equipment
-			//   which have variable lengths.
-			return this.GetEquipIds();
+			return this.Equipment.Select(a => a.Properties).ToArray();
 		}
 
 		/// <summary>
@@ -212,7 +212,12 @@ namespace Melia.Login.World
 		public void SetEquipment(IDictionary<EquipSlot, int> equipment)
 		{
 			foreach (var item in equipment)
-				this.Equipment[(int)item.Key] = item.Value;
+			{
+				var slot = item.Key;
+				var itemId = item.Value;
+
+				this.Equipment[(int)slot] = new EquipItem(itemId, slot);
+			}
 		}
 
 		/// <summary>

@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 
 namespace Melia.Channel.World
@@ -32,14 +34,20 @@ namespace Melia.Channel.World
 		private int _skillPoints;
 
 		/// <summary>
+		/// Reference to the job's data from the job database.
+		/// </summary>
+		public JobData Data { get; }
+
+		/// <summary>
 		/// Creates new instance
 		/// </summary>
-		/// <param name="id"></param>
-		public Job(JobId id)
+		/// <param name="jobId"></param>
+		public Job(JobId jobId)
 		{
-			this.Id = id;
+			this.Id = jobId;
 			this.Circle = Circle.First;
 			this.SkillPoints = 0;
+			this.Data = ChannelServer.Instance.Data.JobDb.Find(jobId) ?? throw new ArgumentException($"Unknown job '{jobId}'.");
 		}
 	}
 }

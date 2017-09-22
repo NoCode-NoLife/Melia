@@ -196,9 +196,7 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_SKILL_LIST(Character character)
 		{
-			//var skills = new[] { 1, 101, 105, 108, 20, 3, 100 };
-			var skillNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultSkills;
-			var skills = ChannelServer.Instance.Data.SkillDb.Where(a => skillNames.Contains(a.ClassName)).Select(a => a.Id);
+			var skills = character.Skills.GetList();
 
 			var packet = new Packet(Op.ZC_SKILL_LIST);
 			packet.PutInt(character.Handle);
@@ -218,14 +216,15 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_ADD(Character character, int skillId)
+		public static void ZC_SKILL_ADD(Character character, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
+			packet.PutLong(character.Id);
 			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
-			packet.AddSkill(skillId);
+			packet.AddSkill(skill);
 
 			character.Connection.Send(packet);
 		}
@@ -823,12 +822,11 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Updates all of object's properties.
+		/// Updates object's given properties.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
-		/// <param name="propertyIds"></param>
-		public static void ZC_OBJECT_PROPERTY_All(ChannelConnection conn, IPropertyObject obj)
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj)
 		{
 			var properties = obj.Properties.GetAll();
 			var propertiesSize = properties.Sum(a => a.Size);

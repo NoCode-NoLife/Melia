@@ -15,13 +15,13 @@
 
 short op;
 int sequence;
-short packetLength;
+short size;
 
 int64 characterId;
 byte registerQuickSkill;
 byte getFromSkillList;
-int64 i1;
-int64 IesId;
+int64 l1;
+int64 objectId;
 int skillId;
 short propertiesSize;
 short reserved;

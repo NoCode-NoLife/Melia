@@ -88,7 +88,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns session object with given id, or null if it didn't
+		/// Returns job with given id, or null if it didn't
 		/// exist.
 		/// </summary>
 		/// <param name="jobId"></param>
@@ -103,7 +103,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns a list with all session objects.
+		/// Returns a list with all jobs.
 		/// </summary>
 		/// <returns></returns>
 		public Job[] GetList()

@@ -18,7 +18,18 @@ namespace Melia.Channel.World
 		/// </summary>
 		public const int VisibleRange = 500;
 
+		/// <summary>
+		/// Collection of characters.
+		/// <para>Key: <see cref="Character.Handle"/></para>
+		/// <para>Value: <see cref="Character"/></para>
+		/// </summary>
 		private Dictionary<int, Character> _characters;
+
+		/// <summary>
+		/// Collection of monsters.
+		/// <para>Key: <see cref="Monster.Handle"/></para>
+		/// <para>Value: <see cref="Monster"/></para>
+		/// </summary>
 		private Dictionary<int, Monster> _monsters;
 
 		/// <summary>
@@ -178,6 +189,17 @@ namespace Melia.Channel.World
 		{
 			lock (_characters)
 				return _characters.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Returns all characters on this map that match the given predicate.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Character[] GetCharacters(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.Where(predicate).ToArray();
 		}
 
 		/// <summary>

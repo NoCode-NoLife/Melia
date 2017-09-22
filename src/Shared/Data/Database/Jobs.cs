@@ -11,7 +11,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class JobData
 	{
-		public int Id { get; set; }
+		public JobId Id { get; set; }
 		public string ClassName { get; set; }
 		public string Initial { get; set; }
 		public string Name { get; set; }
@@ -65,20 +65,15 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Job database, indexed by job id.
 	/// </summary>
-	public class JobDb : DatabaseJsonIndexed<int, JobData>
+	public class JobDb : DatabaseJsonIndexed<JobId, JobData>
 	{
-		public JobData Find(JobId job)
-		{
-			return this.Find((int)job);
-		}
-
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "stamina", "barrackStance");
 
 			var info = new JobData();
 
-			info.Id = entry.ReadInt("jobId");
+			info.Id = (JobId)entry.ReadInt("jobId");
 			info.ClassName = entry.ReadString("className");
 			info.Initial = entry.ReadString("initial");
 			info.Name = entry.ReadString("name");

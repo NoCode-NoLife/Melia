@@ -106,7 +106,7 @@ namespace Melia.Channel.Network
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
-			Send.ZC_OBJECT_PROPERTY_All(conn, character);
+			Send.ZC_OBJECT_PROPERTY(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
@@ -881,11 +881,45 @@ namespace Melia.Channel.Network
 					if (add <= 0)
 						continue;
 
-					Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Add {0} points to '{1}'.", add, skillTreeData[i].SkillId);
+					// Check skill points
+					if (job.SkillPoints < add)
+					{
+						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to use more skill points than they have.", conn.Account.Name);
+						break;
+					}
+
+					var data = skillTreeData[i];
+					var skillId = data.SkillId;
+
+					// Check max level
+					var maxLevel = character.Skills.GetMaxLevel(skillId);
+					var currentLevel = character.Skills.GetLevel(skillId);
+					var newLevel = (currentLevel + add);
+
+					if (newLevel > maxLevel)
+					{
+						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
+						continue;
+					}
+
+					// Create skill or update its level
+					var skill = character.Skills.Get(skillId);
+					if (skill == null)
+					{
+						skill = new Skill(skillId, newLevel);
+						character.Skills.Add(skill);
+					}
+					else
+					{
+						skill.Level = newLevel;
+						Send.ZC_OBJECT_PROPERTY(conn, skill);
+					}
+
+					job.SkillPoints -= add;
 				}
 
-				// TODO: Handle skill learning
-				character.ServerMessage("Skills can't be learned yet.");
+				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
+				Send.ZC_JOB_PTS(character, job);
 			}
 			else
 			{

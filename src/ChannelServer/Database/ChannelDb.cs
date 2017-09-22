@@ -141,8 +141,68 @@ namespace Melia.Channel.Database
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
+			this.LoadSkills(character);
 
 			return character;
+		}
+
+		/// <summary>
+		/// Loads character's skills.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadSkills(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `skills` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var skillId = reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							var skill = new Skill(skillId, level);
+
+							character.Skills.AddSilent(skill);
+						}
+					}
+				}
+
+				// Properties?
+			}
+
+			// Load default skills of all jobs
+			// Interestingly, it seems like officials don't actually save
+			// those skills, they add them via ZC_SKILL_ADD on every login,
+			// the skill list only containing the skills from the jobs'
+			// skill trees. Abilities on the other hand are all sent in
+			// their normal list. Should we mimic that? Could there be a
+			// reason for it, aside from saving space in the db?
+			if (character.Skills.Count == 0)
+			{
+				foreach (var job in character.Jobs.GetList())
+				{
+					foreach (var skillName in job.Data.DefaultSkills)
+					{
+						var skillData = ChannelServer.Instance.Data.SkillDb.Find(skillName);
+						if (skillData == null)
+						{
+							Log.Warning("ChannelDb.LoadSkills: Skill '{0}' not found.", skillName);
+							continue;
+						}
+
+						if (character.Skills.Has(skillData.Id))
+							continue;
+
+						var skill = new Skill(skillData.Id, 1);
+						character.Skills.AddSilent(skill);
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -300,8 +360,42 @@ namespace Melia.Channel.Database
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
 			this.SaveSessionObjects(character);
 			this.SaveJobs(character);
+			this.SaveSkills(character);
 
 			return false;
+		}
+
+		/// <summary>
+		/// Saves character's skills.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveSkills(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				var skills = character.Skills.GetList();
+				foreach (var skill in skills)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", skill.Id);
+						cmd.Set("level", skill.Level);
+						cmd.Execute();
+					}
+
+					// Properties?
+				}
+
+				trans.Commit();
+			}
 		}
 
 		/// <summary>
@@ -407,7 +501,10 @@ namespace Melia.Channel.Database
 					}
 				}
 
-				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem)))
+				// Save only non-dummy equip to the database, and make sure
+				// that dummy equip that was loaded into the character as a
+				// normal item wrongfully isn't saved again.
+				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !Items.DefaultItems.Contains(a.Value.Id)))
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{

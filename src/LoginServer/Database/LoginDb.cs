@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Melia.Login.World;
@@ -172,16 +173,16 @@ namespace Melia.Login.Database
 				}
 
 				// Equip
-				var i = 0;
-				foreach (var item in character.Equipment)
+				// Only save items that aren't default equipment
+				foreach (var item in character.Equipment.Where(a => !Items.DefaultItems.Contains(a.Id)))
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
-						cmd.Set("itemId", item);
+						cmd.Set("itemId", item.Id);
 						cmd.Set("amount", 1);
 						cmd.Set("sort", 0);
-						cmd.Set("equipSlot", i++);
+						cmd.Set("equipSlot", item.Slot);
 
 						cmd.Execute();
 					}
@@ -292,7 +293,7 @@ namespace Melia.Login.Database
 								var itemId = reader.GetInt32("itemId");
 								var equipSlot = reader.GetByte("equipSlot");
 
-								character.Equipment[equipSlot] = itemId;
+								character.Equipment[equipSlot] = new EquipItem(itemId, (EquipSlot)equipSlot);
 							}
 						}
 					}

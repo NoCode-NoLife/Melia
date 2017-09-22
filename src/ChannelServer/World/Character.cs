@@ -91,25 +91,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
-		/// <remarks>
-		/// The stance is affected by the equipped items and other factors.
-		/// For the official conditions see stancecondition.ies.
-		/// </remarks>
-		public int Stance
-		{
-			get
-			{
-				switch (this.Job.ToClass())
-				{
-					default:
-					case Class.Swordsman: return 10000;
-					case Class.Wizard: return 10006;
-					case Class.Archer: return 10008;
-					case Class.Cleric:
-					case Class.GM: return 10004;
-				}
-			}
-		}
+		public int Stance { get; protected set; }
 
 		/// <summary>
 		/// The map the character is in.
@@ -359,6 +341,11 @@ namespace Melia.Channel.World
 		public SessionObjects SessionObjects { get; } = new SessionObjects();
 
 		/// <summary>
+		/// Character's skills.
+		/// </summary>
+		public Skills Skills { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -382,6 +369,7 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
+			this.Skills = new Skills(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 
@@ -861,6 +849,22 @@ namespace Melia.Channel.World
 			this.StatByBonus += amount;
 
 			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByBonus);
+		}
+
+		/// <summary>
+		/// Sets and returns the currently correct stance, based on this
+		/// character's properties. Does not update client.
+		/// </summary>
+		public int UpdateStance()
+		{
+			var jobId = this.Job;
+			var riding = false;
+			var rightHand = this.Inventory.GetItem(EquipSlot.RightHand).Data.EquipType1;
+			var leftHand = this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1;
+
+			this.Stance = ChannelServer.Instance.Data.StanceConditionDb.FindStanceId(jobId, riding, rightHand, leftHand);
+
+			return this.Stance;
 		}
 	}
 }
