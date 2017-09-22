@@ -2024,6 +2024,81 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends premium state properties to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SEND_CASH_VALUE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SEND_CASH_VALUE);
+
+			// Premium state 0?
+			packet.PutInt(4); // count?
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(0);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(1);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(30);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(1);
+			}
+
+			// Premium state 1?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(5);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(3);
+			}
+
+			// Premium state 2?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(10);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(2);
+			}
+
+			// ?
+			packet.PutInt(4);
+			{
+				packet.PutInt(7);
+				packet.PutFloat(2.5f);
+
+				packet.PutInt(5);
+				packet.PutFloat(2);
+
+				packet.PutInt(3);
+				packet.PutFloat(1.5f);
+
+				packet.PutInt(1);
+				packet.PutFloat(1);
+			}
+
+			conn.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
