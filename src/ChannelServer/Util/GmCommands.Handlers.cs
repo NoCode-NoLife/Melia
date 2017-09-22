@@ -269,13 +269,13 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleName(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleName(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
 			var newName = args[1];
-			if (newName == character.Name)
+			if (newName == sender.Name)
 				return CommandResult.Okay;
 
 			// TODO: Can you rename any time, without cooldown?
@@ -283,12 +283,16 @@ namespace Melia.Channel.Util
 			// TODO: Keep a list of all account characters after all?
 			if (ChannelServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
 			{
-				character.ServerMessage("Name already exists.");
+				sender.ServerMessage("Name already exists.");
 				return CommandResult.Okay;
 			}
 
 			target.Name = newName;
 			Send.ZC_PC(target, PcUpdateType.Name, newName);
+
+			sender.ServerMessage("Name changed.", target.Position);
+			if (sender != target)
+				target.ServerMessage("Your name was changed by {0}.", sender.TeamName);
 
 			return CommandResult.Okay;
 		}
