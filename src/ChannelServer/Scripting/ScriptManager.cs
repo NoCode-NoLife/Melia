@@ -103,6 +103,7 @@ namespace Melia.Channel.Scripting
 			Register(logdebug);
 			Register(sqlquery);
 			Register(sqlescape);
+			Register(addonmsg);
 
 			// Dialog
 			Register(msg);
@@ -1768,6 +1769,29 @@ namespace Melia.Channel.Scripting
 			Melua.melua_pushstring(L, result);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Sends an addon message to player's client.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string Message to send to client
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int addonmsg(IntPtr L)
+		{
+			var msg = Melua.luaL_checkstring(L, 1);
+			var param = Melua.luaL_checkstring(L, 2);
+			Melua.lua_pop(L, 2);
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_ADDON_MSG(character, msg, param);
+
+			return 0;
 		}
 	}
 }
