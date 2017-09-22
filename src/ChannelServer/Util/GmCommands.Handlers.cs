@@ -524,16 +524,23 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// Recall each player to current location.
+			// Recall each player to target's location.
+			var location = target.GetLocation();
 			foreach (var character in characters)
 			{
-				var location = target.GetLocation();
 				character.Warp(location);
-
-				character.ServerMessage("You've been warped to {0}.", location);
+				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
 			}
 
-			sender.ServerMessage("You have called {0} characters to target location.", characters.Length);
+			if (sender == target)
+			{
+				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
+			}
+			else
+			{
+				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
+				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
+			}
 
 			return CommandResult.Okay;
 		}
