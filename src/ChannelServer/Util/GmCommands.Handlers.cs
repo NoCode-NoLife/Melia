@@ -241,22 +241,30 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleGetAllHats(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleGetAllHats(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			var added = 0;
+			var addedCount = 0;
 			for (var itemId = 628001; itemId <= 629503; ++itemId)
 			{
 				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
 					continue;
 
-				if (!character.Inventory.HasItem(itemId))
+				if (!sender.Inventory.HasItem(itemId))
 				{
-					character.Inventory.Add(new Item(itemId), InventoryAddType.PickUp);
-					added++;
+					sender.Inventory.Add(new Item(itemId), InventoryAddType.PickUp);
+					addedCount++;
 				}
 			}
 
-			target.ServerMessage("Added {0} hats to inventory.", added);
+			if (sender == target)
+			{
+				sender.ServerMessage("Added {0} hats to your inventory.", addedCount);
+			}
+			else
+			{
+				target.ServerMessage("{1} added {0} hats to your inventory.", addedCount, sender.TeamName);
+				sender.ServerMessage("Added {0} hats to target's inventory.", addedCount);
+			}
 
 			return CommandResult.Okay;
 		}
