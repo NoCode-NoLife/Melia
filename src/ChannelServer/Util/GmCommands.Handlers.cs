@@ -354,6 +354,16 @@ namespace Melia.Channel.Util
 			target.Speed = speed;
 			Send.ZC_MOVE_SPEED(target);
 
+			if (sender == target)
+			{
+				sender.ServerMessage("Your speed was changed.");
+			}
+			else
+			{
+				target.ServerMessage("Your speed was changed by {0}.", sender.TeamName);
+				sender.ServerMessage("Target's speed was changed.");
+			}
+
 			return CommandResult.Okay;
 		}
 
