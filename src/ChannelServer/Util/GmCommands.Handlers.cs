@@ -497,10 +497,12 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			var location = target.GetLocation();
-			character.Warp(location);
+			character.Warp(target.GetLocation());
 
-			character.ServerMessage("You've been warped to {0}.", location);
+			character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
+			sender.ServerMessage("Character was warped.");
+			if (sender != target)
+				target.ServerMessage("{0} was warped to your location by {1}.", character.TeamName, sender.TeamName);
 
 			return CommandResult.Okay;
 		}
