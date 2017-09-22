@@ -83,7 +83,7 @@ namespace Melia.Channel.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleJump(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleJump(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (args.Length < 4)
 				return CommandResult.InvalidArgument;
@@ -92,8 +92,17 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 
 			target.Position = new Position(x, y, z);
-
 			Send.ZC_SET_POS(target);
+
+			if (sender == target)
+			{
+				sender.ServerMessage("You were warped to {0}.", target.Position);
+			}
+			else
+			{
+				target.ServerMessage("You were warped to {0} by {1}.", target.Position, sender.TeamName);
+				sender.ServerMessage("Target was warped.");
+			}
 
 			return CommandResult.Okay;
 		}
