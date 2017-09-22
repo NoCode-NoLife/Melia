@@ -695,7 +695,15 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			sender.ServerMessage("Modified {0}'s skill points by {1:+0;-0;0}.", jobId, modifier);
+			if (sender == target)
+			{
+				sender.ServerMessage("Modified {0}'s skill points by {1:+0;-0;0}.", jobId, modifier);
+			}
+			else
+			{
+				sender.ServerMessage("Modified target {0}'s skill points by {1:+0;-0;0}.", jobId, modifier);
+				target.ServerMessage("Your {0}'s skill points were modified by.", jobId, sender.TeamName);
+			}
 
 			return CommandResult.Okay;
 		}
