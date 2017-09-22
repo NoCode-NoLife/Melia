@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Melia.Login.World;
@@ -172,7 +173,8 @@ namespace Melia.Login.Database
 				}
 
 				// Equip
-				foreach (var item in character.Equipment)
+				// Only save items that aren't default equipment
+				foreach (var item in character.Equipment.Where(a => !Items.DefaultItems.Contains(a.Id)))
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{

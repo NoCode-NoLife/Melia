@@ -501,7 +501,10 @@ namespace Melia.Channel.Database
 					}
 				}
 
-				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem)))
+				// Save only non-dummy equip to the database, and make sure
+				// that dummy equip that was loaded into the character as a
+				// normal item wrongfully isn't saved again.
+				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !Items.DefaultItems.Contains(a.Value.Id)))
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{
