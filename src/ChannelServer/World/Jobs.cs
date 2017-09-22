@@ -211,5 +211,29 @@ namespace Melia.Channel.World
 
 			return (JobId)((jobClass * 1000) + index);
 		}
+
+		/// <summary>
+		/// Returns the character's job rank.
+		/// </summary>
+		/// <remarks>
+		/// I currently don't know how *exactly* this is supposed to work.
+		/// It's the equivilant of the client's "GetTotalJobCount" function,
+		/// which, I assume returns the rank the character is on with its
+		/// jobs, which is kind of based on the amount of jobs, or rather
+		/// the circle sum.
+		/// 
+		/// For example:
+		/// - Swordman Circle 1 = 1
+		/// - Swordman Circle 2 = 2
+		/// - Swordman Circle 2 + Highlander Circle 1 = 3
+		/// - Swordman Circle 2 + Highlander Circle 2 = 4
+		/// - etc.
+		/// </remarks>
+		/// <returns></returns>
+		public int GetCurrentRank()
+		{
+			lock (_jobs)
+				return _jobs.Values.Sum(a => (int)a.Circle);
+		}
 	}
 }
