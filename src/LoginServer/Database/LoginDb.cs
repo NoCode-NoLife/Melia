@@ -172,7 +172,6 @@ namespace Melia.Login.Database
 				}
 
 				// Equip
-				var i = 0;
 				foreach (var item in character.Equipment)
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
@@ -181,7 +180,7 @@ namespace Melia.Login.Database
 						cmd.Set("itemId", item.Id);
 						cmd.Set("amount", 1);
 						cmd.Set("sort", 0);
-						cmd.Set("equipSlot", i++);
+						cmd.Set("equipSlot", item.Slot);
 
 						cmd.Execute();
 					}
@@ -292,7 +291,7 @@ namespace Melia.Login.Database
 								var itemId = reader.GetInt32("itemId");
 								var equipSlot = reader.GetByte("equipSlot");
 
-								character.Equipment[equipSlot] = new EquipItem(itemId);
+								character.Equipment[equipSlot] = new EquipItem(itemId, (EquipSlot)equipSlot);
 							}
 						}
 					}

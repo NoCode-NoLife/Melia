@@ -181,7 +181,9 @@ namespace Melia.Login.World
 			for (var i = 0; i < Items.EquipSlotCount; ++i)
 			{
 				var itemId = Items.DefaultItems[i];
-				this.Equipment[i] = new EquipItem(itemId);
+				var slot = (EquipSlot)i;
+
+				this.Equipment[i] = new EquipItem(itemId, slot);
 			}
 		}
 
@@ -210,7 +212,12 @@ namespace Melia.Login.World
 		public void SetEquipment(IDictionary<EquipSlot, int> equipment)
 		{
 			foreach (var item in equipment)
-				this.Equipment[(int)item.Key] = new EquipItem(item.Value);
+			{
+				var slot = item.Key;
+				var itemId = item.Value;
+
+				this.Equipment[(int)slot] = new EquipItem(itemId, slot);
+			}
 		}
 
 		/// <summary>
