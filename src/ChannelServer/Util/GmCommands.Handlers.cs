@@ -221,7 +221,7 @@ namespace Melia.Channel.Util
 			// Get amount
 			if (args.Length > 2)
 			{
-				if (!int.TryParse(args[2], out amount))
+				if (!int.TryParse(args[2], out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
 			}
 
