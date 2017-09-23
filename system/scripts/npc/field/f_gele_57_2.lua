@@ -1,18 +1,26 @@
-addnpc(147405, "QUEST_LV_0100_20150317_000726", "f_gele_57_2", -137.5469, 375.3896, -432.8909, -29, "npc_dummy")
-addnpc(20026, "ETC_20150317_009335", "f_gele_57_2", -79.04425, 375.3896, -871.4721, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 417.8377, 418.7272, 454.5295, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 565.9486, 418.7272, 715.6943, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 794.8522, 462.1169, 1126.695, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 973.1722, 462.1169, 851.5128, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 1221.911, 462.1169, 1032.672, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 512.6088, 418.7272, 133.5517, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 406.8191, 418.7272, -107.2374, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_004901", "f_gele_57_2", 780.0152, 463.0132, -174.3496, 45, "npc_dummy")
-addnpc(147404, "QUEST_LV_0100_20150317_001116", "f_gele_57_2", 193.1334, 375.3896, -428.808, -31, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_gele_57_2", -10.46671, 375.3896, -921.0132, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_2", -25.60147, 375.3896, -589.0922, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_2", -10.04869, 375.3896, 1183.469, 45, "npc_dummy")
-addnpc(40070, "ETC_20150406_010846", "f_gele_57_2", -89.34569, 375.3896, -396.8012, -45, "npc_dummy")
-addnpc(40070, "ETC_20150406_010846", "f_gele_57_2", -135.2215, 375.3896, 1019.43, -45, "npc_dummy")
-addnpc(147395, "ETC_20150714_013114", "f_gele_57_2", -659, 418.99, -72.39, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_gele_57_2", -1049.22, 418.99, -641.81, 45, "npc_dummy")
+--- Watcher Basil --- 
+--- npcselectdialog.ies | ClassName: GELE572_NPC_BASIL ---
+--- QuestIDs: GELE572_MQ_03 | GELE572_MQ_08 | GELE572_MQ_09 ---
+addnpc(147405, "QUEST_LV_0100_20150317_000726", "f_gele_57_2", -138, 375, -433, -29, "npc_dummy")
+
+--- Watcher Molly --- 
+--- npcselectdialog.ies | ClassName: GELE572_NPC_MORI ---
+--- QuestIDs: GELE572_MQ_04 | GELE572_MQ_05 | GELE572_MQ_06 | GELE572_MQ_07 | GELE572_RP_1 ---
+addnpc(147404, "QUEST_LV_0100_20150317_001116", "f_gele_57_2", 193, 375, -429, -31, "npc_dummy")
+
+--- To the other side --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(40070, "ETC_20150406_010846", "f_gele_57_2", -89, 375, -397, -45, "npc_dummy")
+
+--- To the other side --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(40070, "ETC_20150406_010846", "f_gele_57_2", -135, 375, 1019, -45, "npc_dummy")
+
+--- Lv5 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147395, "ETC_20150714_013114", "f_gele_57_2", -659, 419, -72, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "f_gele_57_2", -1049, 419, -642, 45, "npc_dummy")
+

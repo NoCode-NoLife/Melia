@@ -1,13 +1,24 @@
-addnpc(147364, "ETC_20150317_009271", "f_coral_35_2", -1459.947, 10.93515, 1175.967, 45, "npc_dummy")
-addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", 146.2341, 224.3551, 447.2502, 45, "npc_dummy")
-addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", -567.0117, 172.6379, 2054.977, 225, "npc_dummy")
-addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", -609.454, 96.05452, 49.57537, 180, "npc_dummy")
-addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", 917.8735, 218.6318, 591.5031, 0, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 393.2448, 224.9958, 2098.052, 45, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 362.8327, 224.9958, 2098.364, 45, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 394.0107, 224.9958, 2127.55, 45, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 363.9207, 224.9958, 2064.711, 45, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 363.9486, 224.9958, 2130.956, 45, "npc_dummy")
-addnpc(47264, "QUEST_LV_0300_20160323_001904", "f_coral_35_2", 427.2691, 225.873, 2124.429, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_coral_35_2", 514.9768, 227.033, 407.4947, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_coral_35_2", 146.2652, 224.3551, 447.1102, 45, "npc_dummy")
+--- Kabbalist Lutas --- 
+--- npcselectdialog.ies | ClassName: CORAL_35_2_LUTAS ---
+--- QuestIDs: CORAL_35_2_SQ_4 | CORAL_35_2_SQ_5 | CORAL_35_2_SQ_12 | CORAL_35_2_SQ_13 | CORAL_35_2_SQ_14 ---
+addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", 146, 224, 447, 45, "npc_dummy")
+
+--- Kabbalist Lutas --- 
+--- npcselectdialog.ies | ClassName: CORAL_35_2_LUTAS_2 ---
+--- QuestIDs: CORAL_35_2_SQ_5 | CORAL_35_2_SQ_6 | CORAL_35_2_SQ_7 | CORAL_35_2_SQ_8 | CORAL_35_2_SQ_9 ---
+addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", -567, 173, 2055, 225, "npc_dummy")
+
+--- Kabbalist Lutas --- 
+--- npcselectdialog.ies | ClassName: CORAL_35_2_LUTAS_3 ---
+--- QuestIDs: CORAL_35_2_SQ_9 | CORAL_35_2_SQ_10 ---
+addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", -609, 96, 50, 180, "npc_dummy")
+
+--- Kabbalist Lutas --- 
+--- npcselectdialog.ies | ClassName: CORAL_35_2_LUTAS_4 ---
+--- QuestIDs: CORAL_35_2_SQ_10 | CORAL_35_2_SQ_11 | CORAL_35_2_SQ_12 ---
+addnpc(156030, "QUEST_20160323_003873", "f_coral_35_2", 918, 219, 592, 0, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "f_coral_35_2", -275, 3, 684, 135, "npc_dummy")
+

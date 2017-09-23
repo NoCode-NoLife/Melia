@@ -1,27 +1,56 @@
-addnpc(147500, "ETC_20150317_001215", "d_firetower_45", -1215.601, 185.0355, -2087.144, 45, "npc_dummy")
+--- Mage Tower 4F --- 
+addnpc(147500, "ETC_20150317_001215", "d_firetower_45", -1216, 185, -2087, 45, "npc_dummy")
+
+--- Simon Shaw --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_SQ_01 ---
+--- QuestIDs: FTOWER45_SQ_01 | FTOWER45_SQ_02 ---
 addnpc(20139, "QUEST_LV_0100_20150317_001081", "d_firetower_45", -1361, 347, -1314, 45, "npc_dummy")
+
+--- Simon Shaw --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_SQ_03 ---
+--- QuestIDs: FTOWER45_SQ_02 | FTOWER45_SQ_03 | FIRETOWER_45_HQ_01 | FIRETOWER_45_HQ_02 ---
 addnpc(20139, "QUEST_LV_0100_20150317_001081", "d_firetower_45", -1239, 610, 24, 45, "npc_dummy")
+
+--- Sealed Stone --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_SQ_04 ---
+--- QuestIDs: FTOWER45_SQ_04 | FTOWER45_SQ_05 ---
 addnpc(151050, "QUEST_LV_0100_20150317_001036", "d_firetower_45", 599, 245, 1146, 45, "npc_dummy")
+
+--- Magic Suppressor --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_MQ_01_D ---
+--- QuestIDs: FTOWER45_MQ_01 ---
 addnpc(151003, "ETC_20150317_007252", "d_firetower_45", -576, 282, -1092, -45, "npc_dummy")
+
+--- Magic Suppressor --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_MQ_02_D ---
+--- QuestIDs: FTOWER45_MQ_02 ---
 addnpc(151003, "ETC_20150317_007252", "d_firetower_45", -501, 467, -745, 0, "npc_dummy")
+
+--- Magic Suppressor --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_MQ_03_D ---
+--- QuestIDs: FTOWER45_MQ_03 ---
 addnpc(151003, "ETC_20150317_007252", "d_firetower_45", -12, 378, 26, 46, "npc_dummy")
+
+--- Magic Suppressor --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_MQ_04_D ---
+--- QuestIDs: FTOWER45_MQ_04 ---
 addnpc(151003, "ETC_20150317_007252", "d_firetower_45", -223, 246, 1036, 27, "npc_dummy")
-addnpc(147452, "QUEST_20150317_000280", "d_firetower_45", 837.07, 254.17, 2330.39, -45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_firetower_45", -1689.079, 420.4852, -643.7197, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009271", "d_firetower_45", -1246.584, 185.0728, -1979.472, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009271", "d_firetower_45", -1233.915, 569.9911, -32.16641, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009271", "d_firetower_45", 829.4332, 254.1666, 2297.354, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -1254.422, 228.9243, -1707.802, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -1617.685, 418.7239, -1272.035, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -854.4996, 276.1944, -1269.478, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -1251.839, 516.5464, -754.6408, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -576.4988, 467.3636, -645.8988, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -1569.004, 606.9202, -194.6122, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", 45.18335, 387.0039, 120.1435, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -96.45741, 246.8437, 1038.356, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", 483.8544, 156.2763, 641.0698, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", -28.27198, 150.0263, 1524.074, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", 773.9018, 250.3736, 1890.253, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "d_firetower_45", 985.4691, 194.2568, 1263.354, 45, "npc_dummy")
-addnpc(147311, "QUEST_20151102_002930", "d_firetower_45", -117.4209, 150.2385, 1675.798, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_firetower_45", -1706.06, 607.02, -187.25, 45, "npc_dummy")
+
+--- Goddess Gabija --- 
+--- npcselectdialog.ies | ClassName: FTOWER45_MQ_06_D ---
+--- QuestIDs: FTOWER45_MQ_06 ---
+addnpc(147452, "QUEST_20150317_000280", "d_firetower_45", 837, 254, 2330, -45, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+--- npcselectdialog.ies | ClassName: STOUP_CAMP ---
+--- QuestIDs: JOB_KRIVI4_3 ---
+addnpc(40120, "QUEST_20150317_000002", "d_firetower_45", -1689, 420, -644, 45, "npc_dummy")
+
+--- Psychokino Tome Volume 5 --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147311, "QUEST_20151102_002930", "d_firetower_45", -117, 150, 1676, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "d_firetower_45", -1706, 607, -187, 45, "npc_dummy")
+

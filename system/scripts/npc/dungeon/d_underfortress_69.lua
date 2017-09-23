@@ -1,24 +1,84 @@
-addnpc(147363, "ETC_20150317_009233", "d_underfortress_69", 2215.243, 566.564, 47.14974, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_underfortress_69", -2592.031, 751.4979, 86.91229, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_underfortress_69", -2112.576, 769.7769, 39.89876, 45, "npc_dummy")
-addnpc(153139, "QUEST_20151001_002608", "d_underfortress_69", 1738.012, 443.7903, -374.9366, 29, "npc_dummy")
-addnpc(153139, "QUEST_20151001_002608", "d_underfortress_69", -141.9625, 739.9205, -44.74924, 45, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_69", 2120.198, 566.1923, 37.30257, -83, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_69", 507.5736, 668.9306, 479.6252, 45, "npc_dummy")
-addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", 724.8575, 663.3065, 1618.591, -19, "npc_dummy")
-addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", -822.0668, 732.5118, -2174.77, 45, "npc_dummy")
-addnpc(153059, "ETC_20151001_014756", "d_underfortress_69", -107.35, 740.35, -42.18, 45, "npc_dummy")
-addnpc(147399, "QUEST_UNUSED_20151016_000789", "d_underfortress_69", -895.8342, 1026.8, 2277.886, -23, "npc_dummy")
-addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1868.617, 1011.414, 1546.313, 45, "npc_dummy")
-addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1984.754, 923.4109, 1232.882, 45, "npc_dummy")
-addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1747.956, 998.3405, 1711.679, 45, "npc_dummy")
-addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1517.152, 779.1074, 1187.814, 45, "npc_dummy")
-addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1666.857, 792.4999, 1190.854, 45, "npc_dummy")
-addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -939.8206, 732.1218, -1999.217, -6, "npc_dummy")
-addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -758.5464, 746.9449, -2294.013, 27, "npc_dummy")
-addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -614.6599, 736.8249, -2082.985, -15, "npc_dummy")
-addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -1049.651, 732.3186, -2229.135, 45, "npc_dummy")
-addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", 940.2893, 743.7545, -136.1656, 27, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "d_underfortress_69", 1743.25, 443.9023, -377.9014, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_underfortress_69", 1734.104, 491.8457, 498.2167, 0, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "d_underfortress_69", 1818.958, 490.0808, 469.1689, 45, "npc_dummy")
+--- Premier Eminent --- 
+--- npcselectdialog.ies | ClassName: EMINENT_69_1 ---
+--- QuestIDs: UNDERFORTRESS_69_MQ020 ---
+addnpc(153139, "QUEST_20151001_002608", "d_underfortress_69", 1738, 444, -375, 29, "npc_dummy")
+
+--- Premier Eminent --- 
+--- npcselectdialog.ies | ClassName: EMINENT_69_2 ---
+--- QuestIDs: UNDERFORTRESS_69_MQ050 ---
+addnpc(153139, "QUEST_20151001_002608", "d_underfortress_69", -142, 740, -45, 45, "npc_dummy")
+
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_69_1 ---
+--- QuestIDs: UNDERFORTRESS_69_MQ010 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_69", 2120, 566, 37, -83, "npc_dummy")
+
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_69_2 ---
+--- QuestIDs: UNDERFORTRESS_69_MQ030 | UNDERFORTRESS_69_MQ040 | UNDERFORTRESS_69_MQ060 | UNDERFORTRESS_69_MQ050 | UNDERFORTRESS_69_MQ020 | UNDERFORTRESS_69_SQ010 | UNDERFORTRESS_69_SQ020 | UNDERFORTRESS69_HQ1 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_69", 508, 669, 480, 45, "npc_dummy")
+
+--- Defensive Magic Circle Foundation Stone --- 
+--- npcselectdialog.ies | ClassName: UNDER69_MQ3_DEVICE_REPAIR ---
+--- QuestIDs: UNDERFORTRESS_69_MQ030 ---
+addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", 725, 663, 1619, -19, "npc_dummy")
+
+--- Defensive Magic Circle Foundation Stone --- 
+--- npcselectdialog.ies | ClassName: UNDER69_MQ4_DEVICE ---
+--- QuestIDs: UNDERFORTRESS_69_MQ040 ---
+addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", -822, 733, -2175, 45, "npc_dummy")
+
+--- Ruklys' Device --- 
+--- npcselectdialog.ies | ClassName: UNDER69_MQ5 ---
+--- QuestIDs: UNDERFORTRESS_69_MQ060 ---
+addnpc(153059, "ETC_20151001_014756", "d_underfortress_69", -107, 740, -42, 45, "npc_dummy")
+
+--- Ruklys Army Soldier's Spirit --- 
+--- npcselectdialog.ies | ClassName: UNDER69_SQ030_GHOST ---
+--- QuestIDs: UNDERFORTRESS_69_SQ030 ---
+addnpc(147399, "QUEST_UNUSED_20151016_000789", "d_underfortress_69", -896, 1027, 2278, -23, "npc_dummy")
+
+--- Defensive Battle Field Trap --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1869, 1011, 1546, 45, "npc_dummy")
+
+--- Defensive Battle Field Trap --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1985, 923, 1233, 45, "npc_dummy")
+
+--- Defensive Battle Field Trap --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1748, 998, 1712, 45, "npc_dummy")
+
+--- Defensive Battle Field Trap --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1517, 779, 1188, 45, "npc_dummy")
+
+--- Defensive Battle Field Trap --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47107, "ETC_20151016_015901", "d_underfortress_69", 1667, 792, 1191, 45, "npc_dummy")
+
+--- Demon Totem --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -940, 732, -1999, -6, "npc_dummy")
+
+--- Demon Totem --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -759, 747, -2294, 27, "npc_dummy")
+
+--- Demon Totem --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -615, 737, -2083, -15, "npc_dummy")
+
+--- Demon Totem --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(153070, "ETC_20151001_014711", "d_underfortress_69", -1050, 732, -2229, 45, "npc_dummy")
+
+--- Defensive Magic Circle Foundation Stone --- 
+addnpc(147414, "ETC_20151016_015900", "d_underfortress_69", 940, 744, -136, 27, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+--- npcselectdialog.ies | ClassName: STOUP_CAMP ---
+--- QuestIDs: JOB_KRIVI4_3 ---
+addnpc(40120, "QUEST_20150317_000002", "d_underfortress_69", 1734, 492, 498, 0, "npc_dummy")
+

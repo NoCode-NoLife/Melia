@@ -1,34 +1,70 @@
-addnpc(147482, "QUEST_LV_0200_20150714_007411", "id_catacomb_38_2", 1638.774, 35.4427, 141.474, 45, "npc_dummy")
-addnpc(147486, "QUEST_LV_0200_20150714_007432", "id_catacomb_38_2", -377.7834, 2.4037, -1014.826, 45, "npc_dummy")
-addnpc(151051, "ETC_20150714_013183", "id_catacomb_38_2", -389.2628, -279.9601, 1460.534, 45, "npc_dummy")
-addnpc(47254, "ETC_20150714_012113", "id_catacomb_38_2", -2431.969, -134.8228, -747.7094, 45, "npc_dummy")
-addnpc(147311, "QUEST_20150714_002095", "id_catacomb_38_2", -2357.178, -134.8228, -861.1367, 135, "npc_dummy")
-addnpc(147311, "QUEST_20150714_002099", "id_catacomb_38_2", -2016.992, -134.8228, -265.5501, 0, "npc_dummy")
-addnpc(147312, "ETC_20150714_012114", "id_catacomb_38_2", -1865.796, -134.8228, -410.7773, 75, "npc_dummy")
-addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2404.445, 35.15652, 161.2741, -85, "npc_dummy")
-addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2421.691, 1.781, -309.5009, -85, "npc_dummy")
-addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2347.812, 1.781, -135.4374, 55, "npc_dummy")
-addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2211.666, 1.781, -314.4012, 90, "npc_dummy")
-addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2262.9, 1.781, 25.73061, 165, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 1038.445, 2.2554, -869.0204, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 1456.181, 2.2554, -627.4724, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 2224.788, 1.781, -85.97009, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", -176.252, 182.0752, -1712.883, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 257.0062, 2.4037, -783.6602, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", -346.4471, 2.4037, -536.8143, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 7.342981, -143.875, 441.4915, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", -178.1994, -279.9601, 1160.082, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", 243.9427, -279.9601, 1550.724, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", -2163.186, -134.8228, -444.8596, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_2", -1078.553, 2.4037, -756.8302, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "id_catacomb_38_2", 265.5167, -279.9601, 1848.505, -45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", 248.6369, -279.9601, 1829.465, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", -4.218346, -279.9601, 2030.633, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", -376.575, 2.403698, -909.4868, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", -232.0862, 2.403687, -1024.906, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", 1728.606, 35.44273, 179.1661, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", -1682.78, 266.8977, -1484.368, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_2", 1226.652, 2.255372, -1290.33, 45, "npc_dummy")
-addnpc(151069, "ETC_20151224_019981", "id_catacomb_38_2", 399.1917, -279.9601, 1812.767, -45, "npc_dummy")
-addnpc(151070, "ETC_20151224_019982", "id_catacomb_38_2", 143.8976, -279.9601, 1882.239, 0, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "id_catacomb_38_2", 1424.84, 2.36, -371.59, -45, "npc_dummy")
+--- Disciple Laius --- 
+--- npcselectdialog.ies | ClassName: CATACOMB_38_2_NPC_01 ---
+--- QuestIDs: CATACOMB_38_2_SQ_01 | CATACOMB_38_2_SQ_02 | CATACOMB_38_2_SQ_03 | CATACOMB_38_2_SQ_11 ---
+addnpc(147482, "QUEST_LV_0200_20150714_007411", "id_catacomb_38_2", 1639, 35, 141, 45, "npc_dummy")
+
+--- Disciple Hones --- 
+--- npcselectdialog.ies | ClassName: CATACOMB_38_2_NPC_02 ---
+--- QuestIDs: CATACOMB_38_2_SQ_03 | CATACOMB_38_2_SQ_04 | CATACOMB_38_2_SQ_05 | CATACOMB_38_2_SQ_06 | CATACOMB_04_SQ_09 ---
+addnpc(147486, "QUEST_LV_0200_20150714_007432", "id_catacomb_38_2", -378, 2, -1015, 45, "npc_dummy")
+
+--- Hardened Astral Body Crystal --- 
+--- npcselectdialog.ies | ClassName: CATACOMB_38_2_OBJ_01 ---
+--- QuestIDs: CATACOMB_38_2_SQ_03 ---
+addnpc(151051, "ETC_20150714_013183", "id_catacomb_38_2", -389, -280, 1461, 45, "npc_dummy")
+
+--- Kareras' Memoir --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(47254, "ETC_20150714_012113", "id_catacomb_38_2", -2432, -135, -748, 45, "npc_dummy")
+
+--- Records about Disciple Laius --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147311, "QUEST_20150714_002095", "id_catacomb_38_2", -2357, -135, -861, 135, "npc_dummy")
+
+--- Records about Disciple Hones --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147311, "QUEST_20150714_002099", "id_catacomb_38_2", -2017, -135, -266, 0, "npc_dummy")
+
+--- Finishing the research --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147312, "ETC_20150714_012114", "id_catacomb_38_2", -1866, -135, -411, 75, "npc_dummy")
+
+--- Storage Box --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2404, 35, 161, -85, "npc_dummy")
+
+--- Storage Box --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2422, 2, -310, -85, "npc_dummy")
+
+--- Storage Box --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2348, 2, -135, 55, "npc_dummy")
+
+--- Storage Box --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2212, 2, -314, 90, "npc_dummy")
+
+--- Storage Box --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(151030, "ETC_20150714_013184", "id_catacomb_38_2", 2263, 2, 26, 165, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+--- npcselectdialog.ies | ClassName: STOUP_CAMP ---
+--- QuestIDs: JOB_KRIVI4_3 ---
+addnpc(40120, "QUEST_20150317_000002", "id_catacomb_38_2", 266, -280, 1849, -45, "npc_dummy")
+
+--- [Warlock Master]Melanie Melachim --- 
+--- npcselectdialog.ies | ClassName: WARLOCK_MASTER ---
+--- QuestIDs: JOB_WARLOCK_7_1 | JOB_WARLOCK_8_1 | CATACOMB38_2_HQ1 ---
+addnpc(151069, "ETC_20151224_019981", "id_catacomb_38_2", 399, -280, 1813, -45, "npc_dummy")
+
+--- [Featherfoot Master]Kyoll Lurawa --- 
+--- npcselectdialog.ies | ClassName: FEATHERFOOT_MASTER ---
+--- QuestIDs: JOB_FEATHERFOOT_7_1 | JOB_FEATHERFOOT_8_1 ---
+addnpc(151070, "ETC_20151224_019982", "id_catacomb_38_2", 144, -280, 1882, 0, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "id_catacomb_38_2", 1425, 2, -372, -45, "npc_dummy")
+

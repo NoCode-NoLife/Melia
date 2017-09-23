@@ -1,20 +1,53 @@
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", 695.9851, 599.8887, -1597.089, 152, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", -537.0524, 174.7112, -693.9525, -15, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", 582.7185, 238.7984, 170.6073, -77, "npc_dummy")
-addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 458.2367, 326.157, -709.408, 45, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", 392.1516, 99.20201, -1166.115, 45, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", 209.3366, 99.202, -1027.207, 33, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", -168.5831, 99.202, -1220.917, 45, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", -182.0019, 98.82617, -742.488, 45, "npc_dummy")
-addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 965.4435, 99.2021, -746.9342, 45, "npc_dummy")
-addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", -22.83236, 248.7983, -446.5052, 45, "npc_dummy")
-addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", -649.7289, 252.2664, -107.0903, 45, "npc_dummy")
-addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 550.0936, 99.20203, -1030.845, 45, "npc_dummy")
-addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", -350.48, 303.23, 760, 45, "npc_dummy")
-addnpc(147469, "ETC_20150317_001246", "d_underfortress_65", -412.5195, 303.2323, 616.1574, 45, "npc_dummy")
-addnpc(147394, "ETC_20151001_014751", "d_underfortress_65", -336.02, 303.23, 796.36, -72, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", 139.5764, 99.20198, -1239.388, 45, "npc_dummy")
-addnpc(47201, "ITEM_20151001_007091", "d_underfortress_65", 11.47386, 99.20197, -982.937, 45, "npc_dummy")
-addnpc(147459, "ITEM_20150714_005468", "d_underfortress_65", -660.9693, 252.2664, 94.89284, 45, "npc_dummy")
-addnpc(147459, "ITEM_20150714_005468", "d_underfortress_65", 1166.35, 99.20209, -703.4342, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "d_underfortress_65", 537.7255, 602.314, -1996.485, 0, "npc_dummy")
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_65_1 ---
+--- QuestIDs: UNDERFORTRESS_65_MQ010 | UNDERFORTRESS_65_MQ020 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", 696, 600, -1597, 152, "npc_dummy")
+
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_65_2 ---
+--- QuestIDs: UNDERFORTRESS_65_MQ020 | UNDERFORTRESS_65_MQ030 | UNDERFORTRESS_65_MQ040 | UNDERFORTRESS_65_MQ050 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", -537, 175, -694, -15, "npc_dummy")
+
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_65_3 ---
+--- QuestIDs: UNDERFORTRESS_65_MQ050 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", 583, 239, 171, -77, "npc_dummy")
+
+--- Royal Army Guard --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 458, 326, -709, 45, "npc_dummy")
+
+--- Royal Army Guard --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 965, 99, -747, 45, "npc_dummy")
+
+--- Royal Army Guard --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", -23, 249, -447, 45, "npc_dummy")
+
+--- Royal Army Guard --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", -650, 252, -107, 45, "npc_dummy")
+
+--- Royal Army Guard --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(103010, "ETC_20150317_005122", "d_underfortress_65", 550, 99, -1031, 45, "npc_dummy")
+
+--- [Amanda Grave Robbers]Amanda --- 
+--- npcselectdialog.ies | ClassName: AMANDA_65_4 ---
+--- QuestIDs: UNDERFORTRESS_66_MQ070 ---
+addnpc(153040, "ETC_20150714_013166", "d_underfortress_65", -350, 303, 760, 45, "npc_dummy")
+
+--- Drill Ground of Confliction --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147469, "ETC_20170330_027523", "d_underfortress_65", -413, 303, 616, 45, "npc_dummy")
+
+--- Unknown Box --- 
+--- QuestIDs: UNDERFORTRESS_66_MQ070 ---
+addnpc(147394, "ETC_20151001_014751", "d_underfortress_65", -336, 303, 796, -72, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+--- npcselectdialog.ies | ClassName: STOUP_CAMP ---
+--- QuestIDs: JOB_KRIVI4_3 ---
+addnpc(40120, "QUEST_20150317_000002", "d_underfortress_65", 538, 602, -1996, 0, "npc_dummy")
+

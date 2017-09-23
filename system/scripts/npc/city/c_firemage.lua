@@ -1,2 +1,5 @@
+--- [Pyromancer Master] Abreh Melinn --- 
+--- npcselectdialog.ies | ClassName: MASTER_FIREMAGE ---
+--- QuestIDs: JOB_FIREMAGE1 | JOB_PYROMANCER2_1 | JOB_PYROMANCER3_1 | JOB_PYROMANCER3_2 | JOB_PYROMANCER4_1 | JOB_PYROMANCER5_1 | SIAULIAI_50_1_SQ_010 | SIAULIAI_50_1_SQ_020 | SIAULIAI_50_1_SQ_030 | SIAULIAI_50_1_SQ_040 | SIAULIAI_50_1_SQ_090 ---
 addnpc(20027, "ETC_20150317_009188", "c_firemage", -172, 6, -7, 3.919998, "npc_dummy")
-addnpc(20041, "ETC_20150317_009062", "c_firemage", 195, 3, 5, 45, "npc_dummy")
+

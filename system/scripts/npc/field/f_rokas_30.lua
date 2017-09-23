@@ -1,35 +1,80 @@
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 1329, 148, -429, 18, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 602, 326, 354, 18, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", -622, 215, -314, 18, "npc_dummy")
+--- Stonemason Pipoti --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_PIPOTI ---
+--- QuestIDs: ROKAS30_PIPOTI01 ---
 addnpc(20109, "QUEST_LV_0100_20150317_001266", "f_rokas_30", 1406, 284, 662, -45, "npc_dummy")
-addnpc(20108, "QUEST_LV_0100_20150317_001313", "f_rokas_30", 950.13, 148.17, -782.25, 0, "npc_dummy")
+
+--- Liaison Officer Bale --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_BAIL ---
+--- QuestIDs: ROKAS30_MQ1 ---
+addnpc(20108, "QUEST_LV_0100_20150317_001313", "f_rokas_30", 950, 148, -782, 0, "npc_dummy")
+
+--- Historian Colin --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_COLLIN ---
+--- QuestIDs: ROKAS30_MQ1_BRIDGE | ROKAS_30_HQ_01 ---
 addnpc(147421, "QUEST_LV_0100_20150317_001316", "f_rokas_30", 1140, 148, -476, 45, "npc_dummy")
+
+--- Historian Cyrenia Odell --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_ODEL ---
+--- QuestIDs: ROKAS30_MQ2 ---
 addnpc(147345, "QUEST_LV_0100_20150317_001304", "f_rokas_30", 1551, 284, 410, 45, "npc_dummy")
+
+--- Soldier's Corpse --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_MQ2_1_SCAR ---
+--- QuestIDs: ROKAS30_MQ2_1 ---
 addnpc(10023, "ETC_20151001_015276", "f_rokas_30", 741, 326, 623, -45, "npc_dummy")
+
+--- Sviesa Altar --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_SAELDEVICE2 ---
+--- QuestIDs: ROKAS30_MQ7 ---
 addnpc(47102, "ETC_20150323_009811", "f_rokas_30", -1351, 193, -873, 45, "npc_dummy")
+
+--- Chesed Altar --- 
+--- npcselectdialog.ies | ClassName:  ---
 addnpc(47102, "ETC_20150317_006579", "f_rokas_30", 542, 402, 1065, 45, "npc_dummy")
+
+--- Gedulah Altar --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_SAELDEVICE1 ---
+--- QuestIDs: ROKAS30_MQ5 ---
 addnpc(47102, "ETC_20150317_006580", "f_rokas_30", -205, 348, 484, 45, "npc_dummy")
+
+--- Tzedej Altar --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_SEALDESTROY2 ---
+--- QuestIDs: ROKAS30_MQ6 | ROKAS30_MQ6_1 ---
 addnpc(47102, "QUEST_LV_0100_20150317_005847", "f_rokas_30", -310, 215, -250, 46, "npc_dummy")
+
+--- Historian Cyrenia Odell --- 
+--- QuestIDs: ROKAS30_MQ8 ---
 addnpc(147345, "QUEST_LV_0100_20150317_001304", "f_rokas_30", -1397, 215, -493, 45, "npc_dummy")
+
+--- Zachariel's Brave Protector --- 
+--- npcselectdialog.ies | ClassName:  ---
 addnpc(20011, "QUEST_20150317_000352", "f_rokas_30", -164, 348, 488, 45, "npc_dummy")
+
+--- Zachariel's Faithful Protector --- 
+--- npcselectdialog.ies | ClassName:  ---
 addnpc(20015, "QUEST_20150317_000355", "f_rokas_30", -1313, 179, -838, 45, "npc_dummy")
-addnpc(152002, "QUEST_LV_0100_20150317_001320", "f_rokas_30", 752.5544, 326.1654, 475.0016, -28, "npc_dummy")
+
+--- Wounded Historian Laulas --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_HURT ---
+--- QuestIDs: ROKAS30_MQ3 ---
+addnpc(152002, "QUEST_LV_0100_20150317_001320", "f_rokas_30", 753, 326, 475, -28, "npc_dummy")
+
+--- Historian Cyrenia Odell --- 
+--- npcselectdialog.ies | ClassName: ROKAS_ODEL2 ---
+--- QuestIDs: ROKAS30_MQ6 | ROKAS30_MQ7 ---
 addnpc(147345, "QUEST_LV_0100_20150317_001304", "f_rokas_30", 145, 325, 385, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_rokas_30", 961.0912, 148.1685, -951.2369, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_rokas_30", 1137.24, 148.17, -502.44, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_rokas_30", 1407.99, 284.07, 652.19, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_rokas_30", 1593.11, 284.07, 446.59, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_rokas_30", 825.83, 148.17, -989.87, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", -501.57, 215.75, 7.04, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", -118.13, 348.69, 639, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 460.26, 402.11, 975.82, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 396.29, 325.14, 310.8, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 1277.84, 284.07, 534.1, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 1164.01, 148.17, -117.04, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 950.75, 148.17, -756.94, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", 774.88, 148.17, -952.11, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", -1195.3, 172.05, -905.35, 45, "npc_dummy")
-addnpc(45136, "QUEST_LV_0200_20150317_000504", "f_rokas_30", -1336.83, 215.75, 65.31, 45, "npc_dummy")
-addnpc(147363, "ETC_20150317_009233", "f_rokas_30", 774.587, 326.2405, 582.9858, 45, "npc_dummy")
-addnpc(40030, "ETC_20150317_006051", "f_rokas_30", 359.9, 402.11, 1077.96, 46, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_rokas_30", -433.94, 348.79, 306.96, 45, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+--- npcselectdialog.ies | ClassName: STOUP_CAMP ---
+--- QuestIDs: JOB_KRIVI4_3 ---
+addnpc(40120, "QUEST_20150317_000002", "f_rokas_30", 826, 148, -990, 45, "npc_dummy")
+
+--- Treasure Chest --- 
+--- npcselectdialog.ies | ClassName: ROKAS30_PIPOTI02_TREASUREBOX ---
+--- QuestIDs: ROKAS30_PIPOTI02 ---
+addnpc(147392, "ETC_20150317_006051", "f_rokas_30", 360, 402, 1078, 46, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "f_rokas_30", -434, 349, 307, 45, "npc_dummy")
+

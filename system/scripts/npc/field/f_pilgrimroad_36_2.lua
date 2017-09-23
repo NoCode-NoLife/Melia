@@ -1,14 +1,47 @@
-addnpc(47160, "ETC_20150729_014023", "f_pilgrimroad_36_2", 1212.06, 119.5623, -463.182, 45, "npc_dummy")
-addnpc(152061, "QUEST_LV_0100_20151001_008390", "f_pilgrimroad_36_2", 1424.565, 119.5623, -219.7391, 225, "npc_dummy")
-addnpc(155035, "QUEST_LV_0100_20151001_008399", "f_pilgrimroad_36_2", -212.0811, 225.3776, -574.3744, -36, "npc_dummy")
-addnpc(155036, "QUEST_LV_0100_20151001_008410", "f_pilgrimroad_36_2", 815.4304, 130.9243, 558.3114, 45, "npc_dummy")
-addnpc(152058, "QUEST_LV_0100_20151001_008420", "f_pilgrimroad_36_2", -1466.564, 95.0484, -811.6622, 45, "npc_dummy")
-addnpc(152062, "QUEST_LV_0100_20151001_008445", "f_pilgrimroad_36_2", -1651.547, 95.0484, -933.2919, 45, "npc_dummy")
-addnpc(155033, "ETC_20151001_015264", "f_pilgrimroad_36_2", 1139.878, 130.9243, 690.5364, -56, "npc_dummy")
-addnpc(152059, "ETC_20151001_014736", "f_pilgrimroad_36_2", -1605.681, 95.0484, -1054.656, 140, "npc_dummy")
-addnpc(20026, "ETC_20151001_015265", "f_pilgrimroad_36_2", 1420.525, 119.5623, -286.3961, 45, "npc_dummy")
-addnpc(20026, "ETC_20151001_015266", "f_pilgrimroad_36_2", -250.1871, 225.3776, -607.5973, 45, "npc_dummy")
-addnpc(20026, "ETC_20151001_015267", "f_pilgrimroad_36_2", 1408.766, 119.5623, -220.6874, 45, "npc_dummy")
-addnpc(20026, "ETC_20151001_015268", "f_pilgrimroad_36_2", 1253.899, 119.5623, -407.2492, 45, "npc_dummy")
-addnpc(20026, "ETC_20151016_015915", "f_pilgrimroad_36_2", 803.1058, 130.9243, 244.1496, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_36_2", -297.14, 225.48, -545.6, 90, "npc_dummy")
+--- The luggage of someone --- 
+--- npcselectdialog.ies | ClassName: JOB_DOPPELSOELDNER_6_1_OBJ01 ---
+--- QuestIDs: JOB_DOPPELSOELDNER_6_1 ---
+addnpc(47160, "ETC_20150729_014023", "f_pilgrimroad_36_2", 1212, 120, -463, 45, "npc_dummy")
+
+--- Albinas --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_ALBINAS ---
+--- QuestIDs: PILGRIM_36_2_SQ_020 ---
+addnpc(152061, "QUEST_LV_0100_20151001_008390", "f_pilgrimroad_36_2", 1425, 120, -220, 225, "npc_dummy")
+
+--- Damijonas --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_DAMIJONAS ---
+--- QuestIDs: PILGRIM_36_2_SQ_155 | PILGRIM_36_2_SQ_040 | PILGRIM_36_2_SQ_050 | PILGRIM_36_2_SQ_060 | PILGRIM_36_2_SQ_080 | PILGRIM_36_2_SQ_055 ---
+addnpc(155035, "QUEST_LV_0100_20151001_008399", "f_pilgrimroad_36_2", -212, 225, -574, -36, "npc_dummy")
+
+--- Eduinas --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_EDVINAS ---
+--- QuestIDs: PILGRIM_36_2_SQ_060 | PILGRIM_36_2_SQ_070 | PILGRIM_36_2_SQ_140 | PILGRIM_36_2_SQ_155 ---
+addnpc(155036, "QUEST_LV_0100_20151001_008410", "f_pilgrimroad_36_2", 815, 131, 558, 45, "npc_dummy")
+
+--- Gedas --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_GEDAS ---
+--- QuestIDs: PILGRIM_36_2_SQ_090 | PILGRIM_36_2_SQ_100 | PILGRIM_36_2_SQ_105 | PILGRIM_36_2_SQ_110 | PILGRIM_36_2_SQ_130 | PILGRIM_36_2_SQ_140 | PILGRIM_36_2_SQ_150 | PILGRIM_36_2_SQ_155 ---
+addnpc(152058, "QUEST_LV_0100_20151001_008420", "f_pilgrimroad_36_2", -1467, 95, -812, 45, "npc_dummy")
+
+--- Barte --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_BARTE ---
+--- QuestIDs: PILGRIM_36_2_SQ_110 | PILGRIM_36_2_SQ_120 | PILGRIM_36_2_SQ_130 | PILGRIMROAD362_HQ1 ---
+addnpc(152062, "QUEST_LV_0100_20151001_008445", "f_pilgrimroad_36_2", -1652, 95, -933, 45, "npc_dummy")
+
+--- Nijole --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_NIJOLE ---
+addnpc(155033, "ETC_20151001_015264", "f_pilgrimroad_36_2", 1140, 131, 691, -56, "npc_dummy")
+
+--- Fabijus --- 
+--- npcselectdialog.ies | ClassName: PILGRIM_36_2_FABIJUS ---
+addnpc(152059, "ETC_20151001_014736", "f_pilgrimroad_36_2", -1606, 95, -1055, 140, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+--- npcselectdialog.ies | ClassName:  ---
+addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_36_2", -297, 225, -546, 90, "npc_dummy")
+
+--- Merchant Dolonas --- 
+--- npcselectdialog.ies | ClassName: PILGRIM362_RP_1_NPC ---
+--- QuestIDs: PILGRIM362_RP_1 ---
+addnpc(152060, "QUEST_LV_0200_20160718_010482", "f_pilgrimroad_36_2", -661, 153, 825, -36, "npc_dummy")
+
