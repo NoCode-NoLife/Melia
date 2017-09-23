@@ -39,6 +39,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", this.HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
 			Add("item", "<item id> [amount]", this.HandleItem);
+			Add("silver", "<modifier>", this.HandleSilver);
 			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
 			Add("madhatter", "", this.HandleGetAllHats);
 			Add("levelup", "<levels>", this.HandleLevelUp);
@@ -232,6 +233,60 @@ namespace Melia.Channel.Util
 			sender.ServerMessage("Item created.");
 			if (sender != target)
 				target.ServerMessage("An item was added to your inventory by {0}.", sender.TeamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Adds or removes silver from target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleSilver(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var modifier) || modifier == 0)
+				return CommandResult.InvalidArgument;
+
+			// Create and add silver item
+			if (modifier > 0)
+			{
+				var item = new Item(ItemId.Silver, modifier);
+				target.Inventory.Add(item, InventoryAddType.PickUp);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were added to your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were added to target's inventory.", modifier);
+					target.ServerMessage("{0} added {1:n0} silver to your inventory.", sender.TeamName, modifier);
+				}
+			}
+			// Remove silver items
+			else
+			{
+				modifier = -modifier;
+
+				target.Inventory.Remove(ItemId.Silver, modifier, InventoryItemRemoveMsg.Destroyed);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were removed from your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were removed from target's inventory.", modifier);
+					target.ServerMessage("{0} removed {1:n0} silver from your inventory.", sender.TeamName, modifier);
+				}
+			}
 
 			return CommandResult.Okay;
 		}
