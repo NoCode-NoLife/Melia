@@ -676,32 +676,28 @@ namespace Melia.Channel.Util
 			if (args.Length > 2)
 				return CommandResult.InvalidArgument;
 
-			Character[] characters = null;
-			
-			// Recall same map.
-			if (args.Length == 1)
-				characters = target.Map.GetCharacters(a => a != target);
+			var map = target.Map;
 
-			// Recall other map
-			if (args.Length == 2)
+			// TODO: Once we have support for channels and map servers,
+			//   add warp from other servers and restrict recall to
+			//   channel's max player count.
+			if (args.Length > 1)
 			{
-				// TODO: Once we have support for channels and map servers,
-				//   add warp from other servers and restrict recall to
-				//   channel's max player count.
+				// Search for map by name and id
+				if (int.TryParse(args[1], out var mapId))
+					map = ChannelServer.Instance.World.GetMap(mapId);
+				else
+					map = ChannelServer.Instance.World.GetMap(args[1]);
 
-				// Get map id
-				if (!int.TryParse(args[1], out int mapId))
-					return CommandResult.InvalidArgument;
-
-				var map = ChannelServer.Instance.World.GetMap(mapId);
+				// Check map
 				if (map == null)
 				{
-					sender.ServerMessage("Invalid map id.");
+					sender.ServerMessage("Unknown map.");
 					return CommandResult.Okay;
 				}
-
-				characters = map.GetCharacters(a => a != target);
 			}
+
+			var characters = map.GetCharacters(a => a != target);
 
 			// Check for characters
 			if (!characters.Any())
