@@ -48,6 +48,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
+			Add("recallmap", "[map id]", this.HandleRecallMap);
 			Add("recallall", "", this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
@@ -662,6 +663,56 @@ namespace Melia.Channel.Util
 		}
 
 		/// <summary>
+		/// Warps all players on the map to target's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleRecallMap(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length > 2)
+				return CommandResult.InvalidArgument;
+
+			var map = target.Map;
+
+			// TODO: Once we have support for channels and map servers,
+			//   add warp from other servers and restrict recall to
+			//   channel's max player count.
+			if (args.Length > 1)
+			{
+				// Search for map by name and id
+				if (int.TryParse(args[1], out var mapId))
+					map = ChannelServer.Instance.World.GetMap(mapId);
+				else
+					map = ChannelServer.Instance.World.GetMap(args[1]);
+
+				// Check map
+				if (map == null)
+				{
+					sender.ServerMessage("Unknown map.");
+					return CommandResult.Okay;
+				}
+			}
+
+			var characters = map.GetCharacters(a => a != target);
+
+			// Check for characters
+			if (!characters.Any())
+			{
+				sender.ServerMessage("No players found.");
+				return CommandResult.Okay;
+			}
+
+			// Recall each player to target's location.
+			RecallCharacters(sender, target, characters);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Warps all players on the server to target's location.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -679,7 +730,7 @@ namespace Melia.Channel.Util
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
 
-			// Check characters
+			// Check for characters
 			var characters = ChannelServer.Instance.World.GetCharacters(a => a != target);
 			if (!characters.Any())
 			{
@@ -688,22 +739,7 @@ namespace Melia.Channel.Util
 			}
 
 			// Recall each player to target's location.
-			var location = target.GetLocation();
-			foreach (var character in characters)
-			{
-				character.Warp(location);
-				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
-			}
-
-			if (sender == target)
-			{
-				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
-			}
-			else
-			{
-				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
-				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
-			}
+			RecallCharacters(sender, target, characters);
 
 			return CommandResult.Okay;
 		}
