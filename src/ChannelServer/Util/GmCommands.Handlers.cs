@@ -48,7 +48,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
-			Add("recallmap", "[map id]", this.HandleRecallMap);
+			Add("recallmap", "[map id/name]", this.HandleRecallMap);
 			Add("recallall", "", this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
@@ -706,7 +706,6 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// Recall each player to target's location.
 			RecallCharacters(sender, target, characters);
 
 			return CommandResult.Okay;
@@ -738,7 +737,6 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// Recall each player to target's location.
 			RecallCharacters(sender, target, characters);
 
 			return CommandResult.Okay;

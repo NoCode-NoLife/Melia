@@ -130,7 +130,8 @@ namespace Melia.Channel.Util
 		}
 
 		/// <summary>
-		/// Recalls multiple characters.
+		/// Recalls characters to target's location and sends appropriate
+		/// server messages.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
