@@ -7,6 +7,7 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.World;
@@ -782,7 +783,7 @@ namespace Melia.Channel.Util
 
 			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
-			Send.ZC_ADDON_MSG(sender, "SUCCESS_BUY_ABILITY_POINTBLANK");
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
 
 			return CommandResult.Okay;
 		}
@@ -798,7 +799,94 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleLearnPcAbil(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			sender.ServerMessage("Abilities can't be learned yet.");
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length != 3 || !int.TryParse(args[2], out var levels) || levels < 1)
+			{
+				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				return CommandResult.Okay;
+			}
+
+			var className = args[1];
+
+			var abilityData = ChannelServer.Instance.Data.AbilityDb.Find(className);
+			if (abilityData == null)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to lern non-existent ability '{1}'.", conn.Account.Name, className);
+				return CommandResult.Okay;
+			}
+
+			// All we get here is the ability name, but whether it can
+			// be learned or not potentially depends on any of the job's
+			// ability tree's entries. We have to check whether the ability
+			// can be learned by any of the character's jobs.
+
+			var abilityId = abilityData.Id;
+			var canLearn = false;
+			var jobs = sender.Jobs.GetList();
+
+			AbilityTreeData abilityTreeData = null;
+			foreach (var job in jobs)
+			{
+				// An ability can be learned by a job if there's an entry
+				// for it in the tree and an unlock condition is given.
+				var jobAbilityTreeData = ChannelServer.Instance.Data.AbilityTreeDb.Find(job.Id, abilityId);
+				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlock)
+				{
+					var unlocked = AbilityUnlock.IsUnlocked(sender, abilityData, jobAbilityTreeData);
+					if (unlocked)
+					{
+						canLearn = true;
+						abilityTreeData = jobAbilityTreeData;
+						break;
+					}
+				}
+			}
+
+			if (!canLearn)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn ability '{1}', which they can't learn (yet).", conn.Account.Name, className);
+				return CommandResult.Okay;
+			}
+
+			// Price and time can come either from the actual values,
+			// or from functions that return both.
+
+			var price = abilityTreeData.Price;
+			var time = abilityTreeData.Time;
+			var currentLevel = 0;
+			var newLevel = (currentLevel + levels);
+
+			if (abilityTreeData.HasPriceTime)
+			{
+				price = 0;
+
+				for (var i = currentLevel + 1; i <= newLevel; ++i)
+				{
+					AbilityPriceTime.Get(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
+					price += addPrice;
+				}
+			}
+
+			var points = sender.AbilityPoints;
+			if (points < price)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			// learn ability...
+			Log.Debug("Learn: {0}", abilityData.EngName);
+			Log.Debug("- From: {0}", currentLevel);
+			Log.Debug("- To: {0}", newLevel);
+			Log.Debug("- Price: {0}", price);
+			Log.Debug("- Time: {0}", time);
+
+			//sender.ModifyAbilityPoints(-price);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
+
 			return CommandResult.Okay;
 		}
 
