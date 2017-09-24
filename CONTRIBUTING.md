@@ -76,6 +76,8 @@ Coding conventions
   which class is to be used, the `using` directive should always be used,
   so the full name isn't necessary in the actual code. For example, use
   `Console.WriteLine(...)` instead of `System.Console.WriteLine(...)`.
+* File names should generally not have prefixes, like for example "I" for a
+  file containing an interface.
 
 EditorConfig compatible IDEs like VS2017 will automatically switch to
 formatting settings that match the coding conventions as much as possible.
