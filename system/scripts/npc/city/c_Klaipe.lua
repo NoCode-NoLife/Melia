@@ -55,9 +55,13 @@ end
 
 --- Equipment Merchant Dunkel
 function npc_equipmentmerchantdunkel()
-	msg("sup?")
-	close()
-	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
+	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", ndict("weapon", "ETC_20150317_004443"), ndict("armor", "ETC_20150317_004444"), auto("JongLyo"))
+
+	if selection == "weapon" then
+		openshop("Klapeda_Weapon")
+	elseif selection == "armor" then
+		openshop("Klapeda_Armor")
+	end
 end
 
 --- Indifferent Widow
