@@ -345,23 +345,27 @@ namespace Melia.Channel.Network
 			// otherwise their tooltip is the same for all of them.
 
 			//var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
-			var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
-			var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
-			var objectId = 0xE1A9001690B2;
+			//var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
+			//var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
+			//var objectId = 0xE1A9001690B2;
+			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Count());
+			packet.PutShort(abilities.Length);
 
 			packet.Zlib(false, zpacket =>
 			{
 				foreach (var ability in abilities)
 				{
-					zpacket.PutLong(objectId++);
-					zpacket.PutInt(ability);
-					zpacket.PutShort(0); // properties size
+					var properties = ability.Properties.GetAll();
+					var propertiesSize = ability.Properties.Size;
+
+					zpacket.PutLong(ability.ObjectId);
+					zpacket.PutInt(ability.Id);
+					zpacket.PutShort((short)propertiesSize);
 					zpacket.PutShort(0);
-					// properties
+					zpacket.AddProperties(properties);
 				}
 			});
 
@@ -2022,6 +2026,81 @@ namespace Melia.Channel.Network
 			}
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends premium state properties to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SEND_CASH_VALUE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SEND_CASH_VALUE);
+
+			// Premium state 0?
+			packet.PutInt(4); // count?
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(0);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(1);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(30);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(1);
+			}
+
+			// Premium state 1?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(5);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(3);
+			}
+
+			// Premium state 2?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(10);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(2);
+			}
+
+			// ?
+			packet.PutInt(4);
+			{
+				packet.PutInt(7);
+				packet.PutFloat(2.5f);
+
+				packet.PutInt(5);
+				packet.PutFloat(2);
+
+				packet.PutInt(3);
+				packet.PutFloat(1.5f);
+
+				packet.PutInt(1);
+				packet.PutFloat(1);
+			}
+
+			conn.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

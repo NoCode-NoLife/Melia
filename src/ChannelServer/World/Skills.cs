@@ -101,6 +101,18 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns skill with given class name, or null if it didn't
+		/// exist.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <returns></returns>
+		public Skill Get(string skillClassName)
+		{
+			lock (_skills)
+				return _skills.Values.FirstOrDefault(a => a.Data.ClassName == skillClassName);
+		}
+
+		/// <summary>
 		/// Returns a list with all skills.
 		/// </summary>
 		/// <returns></returns>

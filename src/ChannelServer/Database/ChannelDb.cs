@@ -142,6 +142,7 @@ namespace Melia.Channel.Database
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
+			this.LoadAbilities(character);
 
 			return character;
 		}
@@ -200,6 +201,59 @@ namespace Melia.Channel.Database
 
 						var skill = new Skill(skillData.Id, 1);
 						character.Skills.AddSilent(skill);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadAbilities(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `abilities` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var abilityId = reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							var ability = new Ability(abilityId, level);
+
+							character.Abilities.AddSilent(ability);
+						}
+					}
+				}
+
+				// Properties?
+			}
+
+			// Load default abilities of all jobs
+			if (character.Abilities.Count == 0)
+			{
+				foreach (var job in character.Jobs.GetList())
+				{
+					foreach (var abilityName in job.Data.DefaultAbilities)
+					{
+						var data = ChannelServer.Instance.Data.AbilityDb.Find(abilityName);
+						if (data == null)
+						{
+							Log.Warning("ChannelDb.LoadAbilitys: Ability '{0}' not found.", abilityName);
+							continue;
+						}
+
+						if (character.Abilities.Has(data.Id))
+							continue;
+
+						var ability = new Ability(data.Id, 1);
+						character.Abilities.AddSilent(ability);
 					}
 				}
 			}
@@ -361,6 +415,7 @@ namespace Melia.Channel.Database
 			this.SaveSessionObjects(character);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
+			this.SaveAbilities(character);
 
 			return false;
 		}
@@ -388,6 +443,39 @@ namespace Melia.Channel.Database
 						cmd.Set("characterId", character.Id);
 						cmd.Set("id", skill.Id);
 						cmd.Set("level", skill.Level);
+						cmd.Execute();
+					}
+
+					// Properties?
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Saves character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveAbilities(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `abilities` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				var abilities = character.Abilities.GetList();
+				foreach (var ability in abilities)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `abilities` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", ability.Id);
+						cmd.Set("level", ability.Level);
 						cmd.Execute();
 					}
 

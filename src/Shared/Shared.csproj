@@ -98,6 +98,7 @@
     <Compile Include="Util\Configuration\Files\Web.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\Math2.cs" />
+    <Compile Include="Util\RandomProvider.cs" />
     <Compile Include="Util\Security\BCrypt.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
