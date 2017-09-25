@@ -345,23 +345,27 @@ namespace Melia.Channel.Network
 			// otherwise their tooltip is the same for all of them.
 
 			//var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
-			var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
-			var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
-			var objectId = 0xE1A9001690B2;
+			//var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
+			//var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
+			//var objectId = 0xE1A9001690B2;
+			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Count());
+			packet.PutShort(abilities.Length);
 
 			packet.Zlib(false, zpacket =>
 			{
 				foreach (var ability in abilities)
 				{
-					zpacket.PutLong(objectId++);
-					zpacket.PutInt(ability);
-					zpacket.PutShort(0); // properties size
+					var properties = ability.Properties.GetAll();
+					var propertiesSize = ability.Properties.Size;
+
+					zpacket.PutLong(ability.ObjectId);
+					zpacket.PutInt(ability.Id);
+					zpacket.PutShort((short)propertiesSize);
 					zpacket.PutShort(0);
-					// properties
+					zpacket.AddProperties(properties);
 				}
 			});
 

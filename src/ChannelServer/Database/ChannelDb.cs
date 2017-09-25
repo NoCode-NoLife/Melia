@@ -142,6 +142,7 @@ namespace Melia.Channel.Database
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
+			this.LoadAbilities(character);
 
 			return character;
 		}
@@ -200,6 +201,38 @@ namespace Melia.Channel.Database
 
 						var skill = new Skill(skillData.Id, 1);
 						character.Skills.AddSilent(skill);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadAbilities(Character character)
+		{
+			// load from db...
+
+			// Load default abilities of all jobs
+			if (character.Abilities.Count == 0)
+			{
+				foreach (var job in character.Jobs.GetList())
+				{
+					foreach (var abilityName in job.Data.DefaultAbilities)
+					{
+						var data = ChannelServer.Instance.Data.AbilityDb.Find(abilityName);
+						if (data == null)
+						{
+							Log.Warning("ChannelDb.LoadAbilitys: Ability '{0}' not found.", abilityName);
+							continue;
+						}
+
+						if (character.Abilities.Has(data.Id))
+							continue;
+
+						var ability = new Ability(data.Id, 1);
+						character.Abilities.AddSilent(ability);
 					}
 				}
 			}
@@ -361,6 +394,7 @@ namespace Melia.Channel.Database
 			this.SaveSessionObjects(character);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
+			this.SaveAbilities(character);
 
 			return false;
 		}
@@ -396,6 +430,15 @@ namespace Melia.Channel.Database
 
 				trans.Commit();
 			}
+		}
+
+		/// <summary>
+		/// Saves character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveAbilities(Character character)
+		{
+			// save...
 		}
 
 		/// <summary>
