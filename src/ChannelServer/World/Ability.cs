@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using Melia.Shared.Const;
 using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
@@ -41,6 +42,8 @@ namespace Melia.Channel.World
 
 			this.Id = abilityId;
 			this.Level = level;
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.Ability.Level, () => this.Level));
 		}
 	}
 }

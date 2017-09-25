@@ -1221,6 +1221,25 @@ namespace Melia.Shared.Const
 			public const int Rank = 100947;
 		}
 
+		public static class Ability
+		{
+			public const int Name = 129;
+			public const int Icon = 130;
+			public const int Desc = 131;
+			public const int Job = 132;
+			public const int Level = 133;
+			public const int AddSpend = 134;
+			public const int ActiveGroup = 135;
+			public const int SkillCategory = 136;
+			public const int BuyGroup = 137;
+			public const int AlwaysActive = 138;
+			public const int ActiveState = 139;
+			public const int Script = 140;
+			public const int Desc2 = 141;
+			public const int ScriptTX = 32602;
+			public const int IsEquipItemAbil = 32603;
+		}
+
 		public static class PC
 		{
 			public const int Name = 6862;
