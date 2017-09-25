@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Channel.Network;
 
 namespace Melia.Channel.World
 {
@@ -50,7 +51,7 @@ namespace Melia.Channel.World
 		public void Add(Ability ability)
 		{
 			this.AddSilent(ability);
-			//Send.
+			Send.ZC_ABILITY_LIST(this.Character);
 		}
 
 		/// <summary>
