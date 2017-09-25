@@ -851,13 +851,14 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
+			var ability = sender.Abilities.Get(abilityId);
+			var currentLevel = (ability == null ? 0 : ability.Level);
+			var newLevel = (currentLevel + levels);
 			// Price and time can come either from the actual values,
 			// or from functions that return both.
 
 			var price = abilityTreeData.Price;
 			var time = abilityTreeData.Time;
-			var currentLevel = 0;
-			var newLevel = (currentLevel + levels);
 
 			if (abilityTreeData.HasPriceTime)
 			{
@@ -877,14 +878,24 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// learn ability...
-			Log.Debug("Learn: {0}", abilityData.EngName);
-			Log.Debug("- From: {0}", currentLevel);
-			Log.Debug("- To: {0}", newLevel);
-			Log.Debug("- Price: {0}", price);
-			Log.Debug("- Time: {0}", time);
+			//Log.Debug("Learn: {0}", abilityData.EngName);
+			//Log.Debug("- From: {0}", currentLevel);
+			//Log.Debug("- To: {0}", newLevel);
+			//Log.Debug("- Price: {0}", price);
+			//Log.Debug("- Time: {0}", time);
 
-			//sender.ModifyAbilityPoints(-price);
+			// Add ability if character doesn't have it yet
+			if (ability == null)
+			{
+				ability = new Ability(abilityId, 0);
+				sender.Abilities.Add(ability);
+			}
+
+			// Update ability
+			ability.Level += levels;
+			Send.ZC_OBJECT_PROPERTY(sender.Connection, ability);
+
+			sender.ModifyAbilityPoints(-price);
 			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
 
 			return CommandResult.Okay;
