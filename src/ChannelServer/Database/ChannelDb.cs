@@ -212,7 +212,28 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void LoadAbilities(Character character)
 		{
-			// load from db...
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `abilities` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var abilityId = reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							var ability = new Ability(abilityId, level);
+
+							character.Abilities.AddSilent(ability);
+						}
+					}
+				}
+
+				// Properties?
+			}
 
 			// Load default abilities of all jobs
 			if (character.Abilities.Count == 0)
@@ -438,7 +459,31 @@ namespace Melia.Channel.Database
 		/// <param name="character"></param>
 		private void SaveAbilities(Character character)
 		{
-			// save...
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `abilities` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				var abilities = character.Abilities.GetList();
+				foreach (var ability in abilities)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `abilities` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", ability.Id);
+						cmd.Set("level", ability.Level);
+						cmd.Execute();
+					}
+
+					// Properties?
+				}
+
+				trans.Commit();
+			}
 		}
 
 		/// <summary>
