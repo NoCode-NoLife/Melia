@@ -40,6 +40,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", this.HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
 			Add("item", "<item id> [amount]", this.HandleItem);
+			Add("silver", "<modifier>", this.HandleSilver);
 			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
 			Add("madhatter", "", this.HandleGetAllHats);
 			Add("levelup", "<levels>", this.HandleLevelUp);
@@ -49,6 +50,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
+			Add("recallmap", "[map id/name]", this.HandleRecallMap);
 			Add("recallall", "", this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
@@ -221,7 +223,7 @@ namespace Melia.Channel.Util
 			// Get amount
 			if (args.Length > 2)
 			{
-				if (!int.TryParse(args[2], out amount))
+				if (!int.TryParse(args[2], out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
 			}
 
@@ -232,6 +234,60 @@ namespace Melia.Channel.Util
 			sender.ServerMessage("Item created.");
 			if (sender != target)
 				target.ServerMessage("An item was added to your inventory by {0}.", sender.TeamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Adds or removes silver from target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleSilver(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var modifier) || modifier == 0)
+				return CommandResult.InvalidArgument;
+
+			// Create and add silver item
+			if (modifier > 0)
+			{
+				var item = new Item(ItemId.Silver, modifier);
+				target.Inventory.Add(item, InventoryAddType.PickUp);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were added to your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were added to target's inventory.", modifier);
+					target.ServerMessage("{0} added {1:n0} silver to your inventory.", sender.TeamName, modifier);
+				}
+			}
+			// Remove silver items
+			else
+			{
+				modifier = -modifier;
+
+				target.Inventory.Remove(ItemId.Silver, modifier, InventoryItemRemoveMsg.Destroyed);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were removed from your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were removed from target's inventory.", modifier);
+					target.ServerMessage("{0} removed {1:n0} silver from your inventory.", sender.TeamName, modifier);
+				}
+			}
 
 			return CommandResult.Okay;
 		}
@@ -663,6 +719,55 @@ namespace Melia.Channel.Util
 		}
 
 		/// <summary>
+		/// Warps all players on the map to target's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleRecallMap(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length > 2)
+				return CommandResult.InvalidArgument;
+
+			var map = target.Map;
+
+			// TODO: Once we have support for channels and map servers,
+			//   add warp from other servers and restrict recall to
+			//   channel's max player count.
+			if (args.Length > 1)
+			{
+				// Search for map by name and id
+				if (int.TryParse(args[1], out var mapId))
+					map = ChannelServer.Instance.World.GetMap(mapId);
+				else
+					map = ChannelServer.Instance.World.GetMap(args[1]);
+
+				// Check map
+				if (map == null)
+				{
+					sender.ServerMessage("Unknown map.");
+					return CommandResult.Okay;
+				}
+			}
+
+			var characters = map.GetCharacters(a => a != target);
+
+			// Check for characters
+			if (!characters.Any())
+			{
+				sender.ServerMessage("No players found.");
+				return CommandResult.Okay;
+			}
+
+			RecallCharacters(sender, target, characters);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Warps all players on the server to target's location.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -680,7 +785,7 @@ namespace Melia.Channel.Util
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
 
-			// Check characters
+			// Check for characters
 			var characters = ChannelServer.Instance.World.GetCharacters(a => a != target);
 			if (!characters.Any())
 			{
@@ -688,23 +793,7 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// Recall each player to target's location.
-			var location = target.GetLocation();
-			foreach (var character in characters)
-			{
-				character.Warp(location);
-				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
-			}
-
-			if (sender == target)
-			{
-				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
-			}
-			else
-			{
-				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
-				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
-			}
+			RecallCharacters(sender, target, characters);
 
 			return CommandResult.Okay;
 		}
