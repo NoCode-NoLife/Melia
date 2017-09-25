@@ -74,6 +74,8 @@
     <Compile Include="Util\AbilityPriceTime.cs" />
     <Compile Include="Util\AbilityUnlock.cs" />
     <Compile Include="Util\GmCommands.cs" />
+    <Compile Include="World\Abilities.cs" />
+    <Compile Include="World\Ability.cs" />
     <Compile Include="World\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Entity.cs" />

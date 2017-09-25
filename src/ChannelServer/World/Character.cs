@@ -346,6 +346,11 @@ namespace Melia.Channel.World
 		public Skills Skills { get; }
 
 		/// <summary>
+		/// Character's abilities.
+		/// </summary>
+		public Abilities Abilities { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -370,6 +375,7 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
 			this.Skills = new Skills(this);
+			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 
