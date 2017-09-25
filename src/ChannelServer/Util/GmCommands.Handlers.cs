@@ -814,7 +814,7 @@ namespace Melia.Channel.Util
 			var abilityData = ChannelServer.Instance.Data.AbilityDb.Find(className);
 			if (abilityData == null)
 			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to lern non-existent ability '{1}'.", conn.Account.Name, className);
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn non-existent ability '{1}'.", conn.Account.Name, className);
 				return CommandResult.Okay;
 			}
 
@@ -854,6 +854,14 @@ namespace Melia.Channel.Util
 			var ability = sender.Abilities.Get(abilityId);
 			var currentLevel = (ability == null ? 0 : ability.Level);
 			var newLevel = (currentLevel + levels);
+			var maxLevel = abilityTreeData.MaxLevel;
+
+			if (newLevel > maxLevel)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to increase ability '{1}'s level past the max level of {2}.", conn.Account.Name, className, maxLevel);
+				return CommandResult.Okay;
+			}
+
 			// Price and time can come either from the actual values,
 			// or from functions that return both.
 
