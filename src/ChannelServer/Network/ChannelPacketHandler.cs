@@ -1269,7 +1269,11 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var revealedMap = new RevealedMap(mapData.Id, null, percentage);
+			// Originally null was passed as "explored", but then the server
+			// would try to save the null to the database if the map data
+			// didn't exist yet.
+
+			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
