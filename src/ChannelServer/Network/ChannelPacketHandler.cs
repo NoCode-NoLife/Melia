@@ -32,9 +32,14 @@ namespace Melia.Channel.Network
 			// When using passprt login, this is the account id as string,
 			// and it's 18 (?) bytes long.
 			var accountName = packet.GetString(33); // ?
+			var bin2 = packet.GetBin(23);
 
 			var unk = packet.GetBin(1037);
 			var sessionKey = packet.GetString(64);
+			var bin1 = packet.GetBin(4);
+			var mac = packet.GetString(32);
+			var l1 = packet.GetLong();
+			var bin3 = packet.GetBin(8);
 
 			// TODO: Check session key or something.
 

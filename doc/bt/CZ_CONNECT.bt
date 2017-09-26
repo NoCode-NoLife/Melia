@@ -10,6 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //   - i170175: bin1, mac, and l1 were added
+//   - i174236: bin2+3 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -21,10 +22,12 @@ short s2;
 int64 accountId;
 int64 characterId;
 char accountName[33];
+byte bin2[23];
 
 byte unk[1037];
 
 char sessionKey[64];
 byte bin1[4];
 char mac[32];
-int64 l1; // same checksum (?) that appears in BC_LOGINOK, kind of looks like 2 ints
+int64 l1; // same object id (?) that appears in BC_LOGINOK
+byte bin3[8];
