@@ -11,6 +11,7 @@
 //   History: 
 //   - i10725:  i2 was added
 //   - i170175: l1 was added
+//   - i174236: bin1 was added
 //------------------------------------------------
 
 short op;
@@ -19,7 +20,8 @@ int sequence;
 short s1;
 int64 accountId;
 char accountName[33]; // accountId as string?
+byte bin1[23]; // maybe accountName got longer?
 int accountPrivileges;
 char sessionKey[64]; // ?
 int i2;
-int64 l1; // some checksum?
+int64 l1; // some object id?
