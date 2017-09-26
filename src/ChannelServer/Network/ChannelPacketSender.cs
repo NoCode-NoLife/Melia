@@ -2010,6 +2010,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
 			packet.PutShort(sessionObjects.Length);
+			packet.PutByte(0);
 			foreach (var obj in sessionObjects)
 			{
 				var properties = obj.Properties.GetAll();
