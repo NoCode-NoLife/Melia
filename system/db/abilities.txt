@@ -283,6 +283,7 @@
 { id: 114011, className: "Dragoon11", engName: "Dethrone: Enhance", level: 1, passive: true },
 { id: 114012, className: "Dragoon12", engName: "Serpentine: Additional Damage", level: 1, passive: false },
 { id: 114013, className: "Dragoon13", engName: "Dragon Dive: Enhance", level: 1, passive: true },
+{ id: 114014, className: "Dragoon14", engName: "Dethrone: Remove Knockback", level: 1, passive: false },
 { id: 115001, className: "Murmillo1", engName: "Murmillo: Enhanced Manica", level: 1, passive: true },
 { id: 115002, className: "Murmillo2", engName: "Frenzied Slash: Enhance", level: 1, passive: true },
 { id: 115003, className: "Murmillo3", engName: "Evade Thrust: Enhance", level: 1, passive: true },
@@ -306,6 +307,7 @@
 { id: 116007, className: "Lancer7", engName: "Unhorsing: Enhance", level: 1, passive: true },
 { id: 116008, className: "Lancer8", engName: "Quintain: Enhance", level: 1, passive: true },
 { id: 117001, className: "Templar1", engName: "Mortal Slash: Enhance", level: 1, passive: true },
+{ id: 117002, className: "Templar2", engName: "Buff Share: Increased Range", level: 1, passive: false },
 { id: 900055, className: "Highlander5", engName: "Wagon Wheel: Knockdown Damage", level: 1, passive: false },
 { id: 900057, className: "Highlander8", engName: "Cross Guard: Defense", level: 1, passive: false },
 { id: 900058, className: "Hoplite6", engName: "Synchro Thrusting: Critical Rate", level: 1, passive: false },
@@ -770,6 +772,7 @@
 { id: 314005, className: "Hackapell5", engName: "Leg Shot: Decreased Movement Speed", level: 1, passive: false },
 { id: 314006, className: "Hackapell6", engName: "Hacka Pelle", level: 1, passive: true },
 { id: 314007, className: "Hackapell7", engName: "Storm Bolt: Enhance", level: 1, passive: true },
+{ id: 314008, className: "Hackapell8", engName: "Cavalry Charge: Defense", level: 1, passive: false },
 { id: 315001, className: "Mergen1", engName: "Mergen: Expanded Range", level: 1, passive: false },
 { id: 315002, className: "Mergen2", engName: "Spread Shot: Enhance", level: 1, passive: true },
 { id: 315003, className: "Mergen3", engName: "Homing Arrow: Enhance", level: 1, passive: true },
@@ -796,6 +799,7 @@
 
 // Cleric
 //---------------------------------------------------------------------------
+{ id: 10025, className: "THMace", engName: "Use Two-handed Blunt Weapon", level: 1, passive: true },
 { id: 401001, className: "Cleric11", engName: "Cure: Enhance", level: 1, passive: true },
 { id: 401002, className: "Cleric14", engName: "Cure: Enhance 2", level: 1, passive: true },
 { id: 401003, className: "Cleric15", engName: "Cure: Enhance 3", level: 1, passive: true },
@@ -901,6 +905,7 @@
 { id: 407013, className: "Paladin8", engName: "Conversion: Penance", level: 1, passive: false },
 { id: 407014, className: "Paladin9", engName: "Barrier: Distant Defense", level: 1, passive: false },
 { id: 407015, className: "Paladin19", engName: "Barrier: Increased Range", level: 1, passive: false },
+{ id: 407016, className: "Paladin20", engName: "Barrier: Devotion", level: 1, passive: false },
 { id: 408001, className: "Monk12", engName: "Double Punch: Enhance", level: 1, passive: true },
 { id: 408002, className: "Monk13", engName: "Double Punch: Enhance 2", level: 1, passive: true },
 { id: 408003, className: "Monk15", engName: "Palm Strike: Enhance", level: 1, passive: true },

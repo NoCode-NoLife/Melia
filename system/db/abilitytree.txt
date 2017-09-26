@@ -260,10 +260,12 @@
 { category: "Dragoon", jobId: 1015, abilityId: 114010, name: "Two-handed Spear Mastery: Big Game Hunter", maxLevel: 5, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 1)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114011, name: "Dethrone: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114012, name: "Serpentine: Additional Damage", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
+{ category: "Dragoon", jobId: 1015, abilityId: 114014, name: "Dethrone: Remove Knockback", maxLevel: 1, priceTime: 'ABIL_CATAPHRACT30_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
 
 // Templar
 //---------------------------------------------------------------------------
 { category: "Templar", jobId: 1016, abilityId: 117001, name: "Mortal Slash: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_16", 2)' },
+{ category: "Templar", jobId: 1016, abilityId: 117002, name: "Buff Share: Increased Range", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_16", 2)' },
 
 // Lancer
 //---------------------------------------------------------------------------
@@ -597,6 +599,7 @@
 { category: "Hackapell", jobId: 3007, abilityId: 314004, name: "Leg Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314005, name: "Leg Shot: Decreased Movement Speed", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314006, name: "Hacka Pelle", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
+{ category: "Hackapell", jobId: 3007, abilityId: 314008, name: "Cavalry Charge: Defense", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 
 // Scout
 //---------------------------------------------------------------------------
@@ -845,6 +848,7 @@
 
 // Monk
 //---------------------------------------------------------------------------
+{ category: "Monk", jobId: 4009, abilityId: 10025, name: "Use Two-handed Blunt Weapon", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_9", 1)' },
 { category: "Monk", jobId: 4009, abilityId: 408001, name: "Double Punch: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_9", 1)' },
 { category: "Monk", jobId: 4009, abilityId: 408003, name: "Palm Strike: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_9", 1)' },
 { category: "Monk", jobId: 4009, abilityId: 408005, name: "Hand Knife: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_9", 1)' },
@@ -874,6 +878,7 @@
 
 // Paladin
 //---------------------------------------------------------------------------
+{ category: "Paladin", jobId: 4011, abilityId: 10025, name: "Use Two-handed Blunt Weapon", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
 { category: "Paladin", jobId: 4011, abilityId: 407001, name: "Restoration: Enhance", maxLevel: 50, priceTime: 'ABIL_4RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Paladin_Restoration", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407002, name: "Smite: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
 { category: "Paladin", jobId: 4011, abilityId: 407005, name: "Resist Elements: Resist", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
@@ -886,6 +891,7 @@
 { category: "Paladin", jobId: 4011, abilityId: 407012, name: "Resist Elements: Enhance", maxLevel: 50, priceTime: 'ABIL_4RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Paladin_ResistElements", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407014, name: "Barrier: Distant Defense", maxLevel: 3, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407015, name: "Barrier: Increased Range", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
+{ category: "Paladin", jobId: 4011, abilityId: 407016, name: "Barrier: Devotion", maxLevel: 3, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
 
 // Chaplain
 //---------------------------------------------------------------------------

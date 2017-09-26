@@ -253,7 +253,7 @@
 { jobId: 2014, skillId: 21403, skillName: "Micro Dimension", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2014, skillId: 21404, skillName: "Ultimate Dimension", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2014, skillId: 21405, skillName: "Blink", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
-{ jobId: 2014, skillId: 21408, skillName: "Missile Hole", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2014, skillId: 21408, skillName: "Missile Hole", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 5 },
 { jobId: 2018, skillId: 21504, skillName: "Agility", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2018, skillId: 21505, skillName: "Enchant Armor", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2018, skillId: 21506, skillName: "Craft Spellbook", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },

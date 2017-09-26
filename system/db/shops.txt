@@ -49,10 +49,11 @@
 { shopName: "Klapeda_Weapon", productId: 238, itemId: 201124, priceMultiplier: 1.75 },
 { shopName: "Klapeda_Weapon", productId: 239, itemId: 201128, priceMultiplier: 2 },
 { shopName: "Klapeda_Weapon", productId: 240, itemId: 201125, priceMultiplier: 2.25 },
-{ shopName: "Klapeda_Weapon", productId: 241, itemId: 241109, priceMultiplier: 1.75 },
-{ shopName: "Klapeda_Weapon", productId: 242, itemId: 241110, priceMultiplier: 2 },
-{ shopName: "Klapeda_Weapon", productId: 243, itemId: 241111, priceMultiplier: 2.25 },
-{ shopName: "Klapeda_Weapon", productId: 244, itemId: 251107, priceMultiplier: 2.25 },
+{ shopName: "Klapeda_Weapon", productId: 241, itemId: 210100, priceMultiplier: 2.25 },
+{ shopName: "Klapeda_Weapon", productId: 242, itemId: 241109, priceMultiplier: 1.75 },
+{ shopName: "Klapeda_Weapon", productId: 243, itemId: 241110, priceMultiplier: 2 },
+{ shopName: "Klapeda_Weapon", productId: 244, itemId: 241111, priceMultiplier: 2.25 },
+{ shopName: "Klapeda_Weapon", productId: 245, itemId: 251107, priceMultiplier: 2.25 },
 
 { shopName: "Klapeda_Armor", productId: 601, itemId: 501129, priceMultiplier: 1 },
 { shopName: "Klapeda_Armor", productId: 602, itemId: 511129, priceMultiplier: 1 },
@@ -168,9 +169,10 @@
 { shopName: "Fedimian_Weapon", productId: 2105, itemId: 161137, priceMultiplier: 2.5 },
 { shopName: "Fedimian_Weapon", productId: 2106, itemId: 181130, priceMultiplier: 2.5 },
 { shopName: "Fedimian_Weapon", productId: 2107, itemId: 201136, priceMultiplier: 2.5 },
-{ shopName: "Fedimian_Weapon", productId: 2108, itemId: 241119, priceMultiplier: 2.5 },
-{ shopName: "Fedimian_Weapon", productId: 2109, itemId: 251111, priceMultiplier: 2.5 },
-{ shopName: "Fedimian_Weapon", productId: 2110, itemId: 111007, priceMultiplier: 2.5 },
+{ shopName: "Fedimian_Weapon", productId: 2108, itemId: 210101, priceMultiplier: 2.5 },
+{ shopName: "Fedimian_Weapon", productId: 2109, itemId: 241119, priceMultiplier: 2.5 },
+{ shopName: "Fedimian_Weapon", productId: 2110, itemId: 251111, priceMultiplier: 2.5 },
+{ shopName: "Fedimian_Weapon", productId: 2111, itemId: 111007, priceMultiplier: 2.5 },
 
 { shopName: "REQ_SEMPLE_06", productId: 2301, itemId: 640013, priceMultiplier: 1 },
 
@@ -194,6 +196,8 @@
 { shopName: "Klapeda_Guild", productId: 3101, itemId: 640151, priceMultiplier: 1 },
 { shopName: "Klapeda_Guild", productId: 3102, itemId: 649401, priceMultiplier: 1 },
 { shopName: "Klapeda_Guild", productId: 3103, itemId: 630009, priceMultiplier: 1 },
+{ shopName: "Klapeda_Guild", productId: 3104, itemId: 640154, priceMultiplier: 1 },
+{ shopName: "Klapeda_Guild", productId: 3105, itemId: 640155, priceMultiplier: 1 },
 
 { shopName: "Orsha_Misc", productId: 3201, itemId: 640002, priceMultiplier: 1 },
 { shopName: "Orsha_Misc", productId: 3202, itemId: 640003, priceMultiplier: 1 },

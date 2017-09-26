@@ -79,6 +79,7 @@
 { id: 300, name: "TUTO_FIELD_BOSS", dbSave: true, basicHelp: true },
 { id: 350, name: "TUTO_GUILD_WAR", dbSave: true, basicHelp: true },
 { id: 351, name: "TUTO_GUILD_BATTLE", dbSave: true, basicHelp: true },
+{ id: 352, name: "TUTO_GUILD_EMBLEM", dbSave: true, basicHelp: true },
 { id: 400, name: "TUTO_INSTANT_DUNGEON", dbSave: true, basicHelp: false },
 { id: 401, name: "TUTO_GROUNDTOWER", dbSave: true, basicHelp: false },
 { id: 402, name: "TUTO_PAST_FANTASYLIBRARY", dbSave: true, basicHelp: false },
@@ -86,5 +87,6 @@
 { id: 451, name: "TUTO_UPHILL_DEFENSE", dbSave: true, basicHelp: false },
 { id: 452, name: "TUTO_SAALUS_NUNNERY", dbSave: true, basicHelp: false },
 { id: 500, name: "TUTO_FREE_DUNGEON", dbSave: true, basicHelp: false },
+{ id: 550, name: "TUTO_GUILD_COLONY", dbSave: true, basicHelp: true },
 { id: 1553, name: "NORPAT_1", dbSave: false, basicHelp: false },
 ]
