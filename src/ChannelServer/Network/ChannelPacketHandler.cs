@@ -1427,6 +1427,20 @@ namespace Melia.Channel.Network
 			// Sanity checks...
 			// Sync position for the character with the handle? ...
 		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ADVENTURE_BOOK_RANK)]
+		public void CZ_REQ_ADVENTURE_BOOK_RANK(ChannelConnection conn, Packet packet)
+		{
+			var str = packet.GetString(128);
+			var i1 = packet.GetInt();
+
+			// TODO: Send.ZC_ADVENTURE_BOOK_INFO
+		}
 	}
 
 	public enum TxType : short
