@@ -18,6 +18,7 @@
 //   - i171032: APPEARANCE_PC.i9 was removed
 //   - i171032: EquipSlotCount increased to 23 (wings)
 //   - i174236: compressedData.size changed from short to int
+//   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -47,6 +48,7 @@ typedef struct
 {
     short op;
     int sequence;
+    int checksum;
 }
 ServerHeaderFixed <optimize=false>;
 
@@ -54,6 +56,7 @@ typedef struct
 {
     short op;
     int sequence;
+    int checksum;
     short size;
 }
 ServerHeaderDynamic <optimize=false>;
