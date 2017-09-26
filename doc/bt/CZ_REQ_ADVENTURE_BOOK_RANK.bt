@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_REQ_ADVENTURE_BOOK_RANK
+//   Authors: exec
+//   Version: i174236
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+// guessed
+char str[128];
+int i1;
