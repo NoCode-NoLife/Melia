@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i174236: l1+f1 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -17,3 +18,5 @@ ServerHeaderDynamic header;
 
 int count;
 mapRevealData dataSets[count];
+int64 l1;
+float f1;

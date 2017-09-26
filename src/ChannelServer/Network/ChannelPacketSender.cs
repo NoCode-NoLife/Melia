@@ -1381,6 +1381,8 @@ namespace Melia.Channel.Network
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
 			}
+			packet.PutLong(0);
+			packet.PutFloat(56.45161f);
 
 			conn.Send(packet);
 		}
