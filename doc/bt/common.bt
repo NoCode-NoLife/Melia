@@ -17,6 +17,7 @@
 //   - i170175: APPEARANCE_PC.i9 was added
 //   - i171032: APPEARANCE_PC.i9 was removed
 //   - i171032: EquipSlotCount increased to 23 (wings)
+//   - i174236: compressedData.size changed from short to int
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -285,7 +286,7 @@ typedef struct
 typedef struct
 {
     ushort header;
-    short size;
+    int size;
     byte data[size];
 }
 compressedData <read=compressedDataRead>;
