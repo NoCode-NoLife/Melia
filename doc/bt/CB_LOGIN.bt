@@ -9,7 +9,8 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i10671: b3 was added
+//   - i10671:  b3 was added
+//   - i174236: bin1+2 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -19,8 +20,10 @@ int sequence;
 int checksum;
 
 char accountName[33];
+byte bin1[23]; // accountName+?
 byte md5password[16];
 byte b1;
 byte b2;
 byte b3;
 IP ip;
+byte bin2[4360]; // includes string "Enter"
