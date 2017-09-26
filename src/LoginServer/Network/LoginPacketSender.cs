@@ -36,10 +36,11 @@ namespace Melia.Login.Network
 			packet.PutShort(0);
 			packet.PutLong(conn.Account.Id);
 			packet.PutString(conn.Account.Name, 33);
+			packet.PutEmptyBin(23);
 			packet.PutInt(3); // accountPrivileges? <= 3 enables a kind of debug context menu
 			packet.PutString(conn.SessionKey, 64);
-			packet.PutInt(4475); // [i10725 (2015-11-03)] ?
-			packet.PutLong(0); // This is appears to be a checksum of some sort. It is set globally and never checked.
+			packet.PutInt(4475);
+			packet.PutLong(0);
 
 			conn.Send(packet);
 		}

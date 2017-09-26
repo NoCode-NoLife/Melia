@@ -845,7 +845,7 @@ namespace Melia.Channel.Database
 
 				foreach (var revealedMap in account.GetRevealedMaps())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("map", revealedMap.MapId);

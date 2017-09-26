@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef struct
 {
     int productId;
@@ -18,10 +20,7 @@ typedef struct
 }
 Purchase;
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderDynamic header;
 
-short size;
 int count;
 Purchase purchases[count];

@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i174236: b1 was added
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
@@ -48,9 +49,8 @@ string readSessionObject(SessionObject &v)
     return result;
 }
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 short count;
+byte b1;
 SessionObject objects[count];

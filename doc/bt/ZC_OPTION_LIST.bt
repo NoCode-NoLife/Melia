@@ -11,8 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-short size;
+#include "common.bt"
+
+ServerHeaderDynamic header;
 
 string s1; // format: <option> <value> <option> <value>...

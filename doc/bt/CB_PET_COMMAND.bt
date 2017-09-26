@@ -11,15 +11,15 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 enum <byte> CommandType
 { 
     REVIVE = 0,
     DELETE = 1,
 };
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderFixed header;
 
 int64 petGuid;
 int64 characterId;

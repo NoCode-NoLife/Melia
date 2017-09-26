@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int cheksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 int64 worldId;
 int handle;

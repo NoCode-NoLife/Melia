@@ -39,7 +39,7 @@ namespace Melia.Shared.Network
 			public const int SetSessionKey = 0x14E;
 			public const int NGSCallback = 0x16D;
 			public const int HatVisibleState = 0x181;
-			public const int UpdateSkillUI = 0x18E;
+			public const int UpdateSkillUI = 0x188;
 		}
 	}
 }

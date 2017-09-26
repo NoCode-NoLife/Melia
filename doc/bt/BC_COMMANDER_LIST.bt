@@ -54,9 +54,7 @@ string readBARRACK_PC(BARRACK_PC &v)
     return v.abpc.appearancePc.name;
 }
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int64 accountId;
 byte b1;

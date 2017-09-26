@@ -12,8 +12,9 @@
 //   - i11257: b1 was added
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 int handle;
 float speed;

@@ -32,9 +32,14 @@ namespace Melia.Channel.Network
 			// When using passprt login, this is the account id as string,
 			// and it's 18 (?) bytes long.
 			var accountName = packet.GetString(33); // ?
+			var bin2 = packet.GetBin(23);
 
 			var unk = packet.GetBin(1037);
 			var sessionKey = packet.GetString(64);
+			var bin1 = packet.GetBin(4);
+			var mac = packet.GetString(32);
+			var l1 = packet.GetLong();
+			var bin3 = packet.GetBin(8);
 
 			// TODO: Check session key or something.
 
@@ -115,6 +120,7 @@ namespace Melia.Channel.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_NORMAL_AccountUpdate(character);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
+			Send.ZC_NO_GUILD_INDEX(character);
 			Send.ZC_SEND_CASH_VALUE(conn);
 
 			character.OpenEyes();
@@ -1263,7 +1269,11 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var revealedMap = new RevealedMap(mapData.Id, null, percentage);
+			// Originally null was passed as "explored", but then the server
+			// would try to save the null to the database if the map data
+			// didn't exist yet.
+
+			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
@@ -1357,17 +1367,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent upon login. (Dummy handler)
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_WIKI_RECIPE_UPDATE)]
-		public void CZ_WIKI_RECIPE_UPDATE(ChannelConnection conn, Packet packet)
-		{
-			// No parameters
-		}
-
-		/// <summary>
 		/// Sent regularly. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1431,6 +1430,20 @@ namespace Melia.Channel.Network
 
 			// Sanity checks...
 			// Sync position for the character with the handle? ...
+		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ADVENTURE_BOOK_RANK)]
+		public void CZ_REQ_ADVENTURE_BOOK_RANK(ChannelConnection conn, Packet packet)
+		{
+			var str = packet.GetString(128);
+			var i1 = packet.GetInt();
+
+			// TODO: Send.ZC_ADVENTURE_BOOK_INFO
 		}
 	}
 

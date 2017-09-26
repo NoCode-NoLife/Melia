@@ -11,11 +11,10 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
 
-short size;
+ClientHeaderDynamic header;
+
 short txType;
 
 // Stats

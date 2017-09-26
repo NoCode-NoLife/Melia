@@ -13,7 +13,6 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 APPEARANCE_BARRACK_PC abpc;

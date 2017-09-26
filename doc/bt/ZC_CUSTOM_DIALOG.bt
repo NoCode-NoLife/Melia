@@ -11,8 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 char closeArgStr[33];   // The argument string associated with "DIALOG_CLOSE".
 char dialogStr[32];     // Concatenated with "OPEN_DLG_" which runs the registered lua function.

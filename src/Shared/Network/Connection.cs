@@ -266,18 +266,24 @@ namespace Melia.Shared.Network
 			if (size == -1)
 				throw new ArgumentException("Size for op '" + packet.Op.ToString("X4") + "' unknown.");
 
+			// Prior to i174236 packet headers sent from the server to the
+			// client were 4 bytes shorter, as they didn't have the part
+			// that we call "checksum". Now they all have it. Should this
+			// change again at some point, the respective sizeof(int)s need
+			// to be removed again.
+
 			// Calculate length
-			var fixHeaderSize = (sizeof(short) + sizeof(int) + packet.Length);
-			var dynHeaderSize = (sizeof(short) + sizeof(int) + sizeof(short) + packet.Length);
+			var fixHeaderSize = (sizeof(short) + sizeof(int) + sizeof(int) + packet.Length);
+			var dynHeaderSize = (sizeof(short) + sizeof(int) + sizeof(int) + sizeof(short) + packet.Length);
 			var length = (size == 0 ? dynHeaderSize : size);
 
 			// Check table length
 			if (size != 0)
 			{
-				if (length < sizeof(short) + sizeof(int) + packet.Length)
+				if (length < sizeof(short) + sizeof(int) + sizeof(int) + packet.Length)
 					throw new Exception("Packet is bigger than specified in the packet size table.");
 
-				if (size != sizeof(short) + sizeof(int) + packet.Length)
+				if (size != sizeof(short) + sizeof(int) + sizeof(int) + packet.Length)
 					Log.Warning("Packet size doesn't match packet table size. (op: {3} ({0:X4}), size: {1}, expected: {2})", packet.Op, fixHeaderSize, size, Op.GetName(packet.Op));
 			}
 
@@ -286,11 +292,11 @@ namespace Melia.Shared.Network
 			Buffer.BlockCopy(BitConverter.GetBytes((short)packet.Op), 0, buffer, 0, sizeof(short));
 			Buffer.BlockCopy(BitConverter.GetBytes(-1), 0, buffer, sizeof(short), sizeof(int)); // checksum?
 
-			var offset = 6;
+			var offset = (sizeof(short) + sizeof(int) + sizeof(int));
 			if (size == 0)
 			{
-				Buffer.BlockCopy(BitConverter.GetBytes((short)length), 0, buffer, 6, sizeof(short));
-				offset += 2;
+				Buffer.BlockCopy(BitConverter.GetBytes((short)length), 0, buffer, offset, sizeof(short));
+				offset += sizeof(short);
 			}
 
 			packet.Build(ref buffer, offset);

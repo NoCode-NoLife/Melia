@@ -90,6 +90,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
@@ -128,22 +129,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-
-			// [i11025 (2016-02-26)] Removed?
-			//packet.PutString("None", 49); // Party name
-
-			// [i10622 (2015-10-22)] ?
-			// [i11025 (2016-02-26)] Removed?
-			{
-				//packet.PutShort(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-			}
+			packet.PutByte(0);
 
 			conn.Send(packet);
 		}
@@ -1380,6 +1366,8 @@ namespace Melia.Channel.Network
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
 			}
+			packet.PutLong(0);
+			packet.PutFloat(56.45161f);
 
 			conn.Send(packet);
 		}
@@ -2010,6 +1998,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
 			packet.PutShort(sessionObjects.Length);
+			packet.PutByte(0);
 			foreach (var obj in sessionObjects)
 			{
 				var properties = obj.Properties.GetAll();
@@ -2101,6 +2090,18 @@ namespace Melia.Channel.Network
 			}
 
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies client that character doesn't have a guild?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NO_GUILD_INDEX(Character character)
+		{
+			var packet = new Packet(Op.ZC_NO_GUILD_INDEX);
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

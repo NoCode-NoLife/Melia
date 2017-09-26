@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef struct
 {
     short s1;
@@ -35,8 +37,7 @@ typedef struct
 }
 hit;
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 short size;
 int attackerHandle;

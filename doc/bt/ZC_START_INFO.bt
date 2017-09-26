@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef struct
 {
     short job;
@@ -20,8 +22,7 @@ typedef struct
 }
 Entry;
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 short size;
 int count;

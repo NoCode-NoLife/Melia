@@ -11,10 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
-short size;
+#include "common.bt"
+
+ClientHeaderDynamic header;
 
 int compressedSize;
 byte compressedData[compressedSize];
