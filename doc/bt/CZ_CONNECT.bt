@@ -12,9 +12,9 @@
 //   - i170175: bin1, mac, and l1 were added
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 short s1;
 short s2;

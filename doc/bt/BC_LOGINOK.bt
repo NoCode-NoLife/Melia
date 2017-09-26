@@ -14,8 +14,9 @@
 //   - i174236: bin1 was added
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 short s1;
 int64 accountId;

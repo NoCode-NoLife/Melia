@@ -11,10 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
 
-short size;
+ServerHeaderDynamic header;
 
 byte b1;
 int i1;

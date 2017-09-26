@@ -11,12 +11,12 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-short size;
+#include "common.bt"
+
+ServerHeaderDynamic header;
 
 byte len;
 int i1;
 byte notUsed;
 char functionName[len];
-char parameter[size-(len+14)];
+char parameter[header.size-(len+sizeof(header)+sizeof(short)+sizeof(int))];

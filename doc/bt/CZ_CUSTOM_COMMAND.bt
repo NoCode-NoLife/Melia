@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 int command;
 int classId;

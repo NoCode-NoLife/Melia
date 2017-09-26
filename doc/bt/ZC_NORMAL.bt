@@ -30,9 +30,7 @@ typedef struct
 }
 Job;
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int type;
 switch (type)

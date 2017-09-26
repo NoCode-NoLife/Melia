@@ -11,10 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt";
+#include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 int i1;
 IP ip;

@@ -13,8 +13,7 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 byte partyType; // 0: normal, 1: guild
 byte b1;

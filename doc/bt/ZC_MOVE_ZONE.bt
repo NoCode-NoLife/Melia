@@ -11,7 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 byte b1;

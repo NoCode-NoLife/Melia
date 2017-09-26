@@ -13,10 +13,10 @@
 //   - i170175: bin2 was added
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
 
-short size;
+ServerHeaderDynamic header;
+
 int handle;
 char teamName[64];
 char name[65];

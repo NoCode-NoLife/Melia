@@ -12,9 +12,9 @@
 //   - i10622: order was added
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 byte b1;
 byte order;

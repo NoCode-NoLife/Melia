@@ -41,10 +41,7 @@ string KeyValueIntFloatRead(KeyValueIntFloat &v)
     return result;
 }
 
-short op;
-int sequence;
-
-short size;
+ServerHeaderDynamic header;
 
 int count1;
 KeyValueLpStrFloat values1[count1] <optimize=false>;

@@ -17,8 +17,7 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 int handle;
 float x;

@@ -40,10 +40,8 @@ typedef struct
 }
 Ies;
 
-short op;
-int sequence;
+ServerHeaderDynamic header;
 
-short size;
 short count;
 if(count != 0)
     Ies iess[count] <optimize=false>;

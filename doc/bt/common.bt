@@ -26,6 +26,38 @@
 
 const int EquipSlotCount = 23;
 
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ClientHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    short size;
+}
+ClientHeaderDynamic <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+}
+ServerHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    short size;
+}
+ServerHeaderDynamic <optimize=false>;
+
 // Length-prefixed string
 typedef struct
 {

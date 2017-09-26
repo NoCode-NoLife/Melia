@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 ushort s1;
 short s2;

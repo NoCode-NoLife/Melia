@@ -11,8 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 int handle;
 byte b1;    // I think this might be a boolean enabling a debuff that prevents moving.

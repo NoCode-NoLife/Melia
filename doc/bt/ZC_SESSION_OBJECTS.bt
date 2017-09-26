@@ -48,9 +48,7 @@ string readSessionObject(SessionObject &v)
     return result;
 }
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 short count;
 SessionObject objects[count];

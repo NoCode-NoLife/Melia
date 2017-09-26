@@ -11,7 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 float timeFactor; // The value of '1' is normal.

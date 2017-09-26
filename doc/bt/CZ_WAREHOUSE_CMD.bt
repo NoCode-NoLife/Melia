@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef enum <byte>
 {
     IN,
@@ -18,9 +20,7 @@ typedef enum <byte>
 }
 WAREHOUSE_DIRECTION;
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderFixed header;
 
 int64 worldId; // ?
 int i1;

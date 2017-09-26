@@ -16,11 +16,9 @@
 //   - i171960: i1 was added (make up your mind!!!)
 //------------------------------------------------
 
-#include "common.bt";
+#include "common.bt"
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int handle;
 float x,y,z;

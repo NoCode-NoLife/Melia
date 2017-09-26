@@ -17,16 +17,14 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int64 objectId <format=hex>;
 int isTrickPacket;
 
 if (isTrickPacket == 0)
 {
-    getProperties(size - 20);
+    getProperties(header.size - sizeof(header)-sizeof(int)-sizeof(int64));
 }
 else
 {
