@@ -55,7 +55,7 @@ end
 
 --- Equipment Merchant Dunkel
 function npc_equipmentmerchantdunkel()
-	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", ndict("weapon", "ETC_20150317_004443"), ndict("armor", "ETC_20150317_004444"), auto("JongLyo"))
+	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:ETC_20150317_004443", "armor:ETC_20150317_004444", "!@#$Auto_JongLyo#@!")
 
 	if selection == "weapon" then
 		openshop("Klapeda_Weapon")
