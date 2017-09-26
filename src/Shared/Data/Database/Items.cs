@@ -94,6 +94,7 @@ namespace Melia.Shared.Data.Database
 		Bow,
 		THBow,
 		Mace,
+		THMace,
 		Spear,
 		THSpear,
 		Rapier,
