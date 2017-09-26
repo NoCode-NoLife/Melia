@@ -129,22 +129,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-
-			// [i11025 (2016-02-26)] Removed?
-			//packet.PutString("None", 49); // Party name
-
-			// [i10622 (2015-10-22)] ?
-			// [i11025 (2016-02-26)] Removed?
-			{
-				//packet.PutShort(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-			}
+			packet.PutByte(0);
 
 			conn.Send(packet);
 		}
