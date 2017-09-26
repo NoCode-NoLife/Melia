@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i174236: b1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,3 +19,4 @@ ServerHeaderFixed header;
 float x;
 float y;
 float z;
+byte b1;
