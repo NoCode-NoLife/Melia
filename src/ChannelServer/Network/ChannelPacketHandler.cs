@@ -1357,17 +1357,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent upon login. (Dummy handler)
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_WIKI_RECIPE_UPDATE)]
-		public void CZ_WIKI_RECIPE_UPDATE(ChannelConnection conn, Packet packet)
-		{
-			// No parameters
-		}
-
-		/// <summary>
 		/// Sent regularly. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
