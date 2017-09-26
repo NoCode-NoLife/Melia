@@ -2107,6 +2107,18 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Notifies client that character doesn't have a guild?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NO_GUILD_INDEX(Character character)
+		{
+			var packet = new Packet(Op.ZC_NO_GUILD_INDEX);
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}

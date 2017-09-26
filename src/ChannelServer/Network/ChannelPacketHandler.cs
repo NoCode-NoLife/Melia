@@ -120,6 +120,7 @@ namespace Melia.Channel.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_NORMAL_AccountUpdate(character);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
+			Send.ZC_NO_GUILD_INDEX(character);
 			Send.ZC_SEND_CASH_VALUE(conn);
 
 			character.OpenEyes();
