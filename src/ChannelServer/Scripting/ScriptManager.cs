@@ -816,6 +816,9 @@ namespace Melia.Channel.Scripting
 				args[i - 1] = arg;
 			}
 
+			if (argc > 12)
+				Log.Warning("ScriptManager.select: {0} options given, but the client only displays 11.", argc - 1);
+
 			Melua.lua_pop(L, argc);
 
 			this.AttachNpcName(conn, ref args[0]);
