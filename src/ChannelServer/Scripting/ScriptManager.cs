@@ -1018,6 +1018,33 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, (int)character.Job);
 			Melua.lua_settable(L, -3);
 
+			Melua.lua_pushstring(L, "jobclass");
+			Melua.lua_pushinteger(L, (int)character.Job.ToClass());
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "rank");
+			Melua.lua_pushinteger(L, (int)character.Jobs.GetCurrentRank());
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "jobs");
+			Melua.lua_newtable(L);
+			foreach (var job in character.Jobs.GetList())
+			{
+				Melua.lua_pushinteger(L, (int)job.Id);
+				Melua.lua_newtable(L);
+				{
+					Melua.lua_pushstring(L, "circle");
+					Melua.lua_pushinteger(L, (int)job.Circle);
+					Melua.lua_settable(L, -3);
+
+					Melua.lua_pushstring(L, "skillpoints");
+					Melua.lua_pushinteger(L, job.SkillPoints);
+					Melua.lua_settable(L, -3);
+				}
+				Melua.lua_settable(L, -3);
+			}
+			Melua.lua_settable(L, -3);
+
 			// Account data
 			// --------------------------------------------------------------
 			Melua.lua_newtable(L);
