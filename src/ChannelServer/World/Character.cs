@@ -361,6 +361,16 @@ namespace Melia.Channel.World
 		public Properties Properties { get; } = new Properties();
 
 		/// <summary>
+		/// The character's splash rate?
+		/// </summary>
+		/// <remarks>
+		/// Used together with skill's splash rates.
+		/// TODO: Figure out where it comes from (official name: SR).
+		/// TODO: Check if it changes with jobs, items, stances, etc.
+		/// </remarks>
+		public float SplashRate { get; } = 4;
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -405,6 +415,9 @@ namespace Melia.Channel.World
 			// normal C# properties. XXX: We could technically use reflection
 			// to add these automatically.
 
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Lv, () => this.Level));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BeforeLv, () => this.Level));
+
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.Hp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
@@ -423,6 +436,8 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.SplashRate));
 		}
 
 		/// <summary>
