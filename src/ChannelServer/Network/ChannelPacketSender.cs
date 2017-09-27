@@ -802,6 +802,16 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates all of character's  properties.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="properties"></param>
+		public static void ZC_OBJECT_PROPERTY(Character character)
+		{
+			ZC_OBJECT_PROPERTY(character.Connection, character);
+		}
+
+		/// <summary>
 		/// Updates character's given properties.
 		/// </summary>
 		/// <param name="character"></param>
