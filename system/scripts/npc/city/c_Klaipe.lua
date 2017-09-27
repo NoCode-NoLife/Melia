@@ -18,7 +18,7 @@ addnpc(20137, "ETC_20151224_019889", "c_Klaipe", -205, 79, -515, 51.17, "npc_dum
 addnpc(20041, "ETC_20150317_009062", "c_Klaipe", -336, 79, -548, 51.17, "npc_dummy")
 addnpc(147445, "ETC_20150317_009202", "c_Klaipe", -461, 240, 743, -48.73, "npc_dummy")
 addnpc(147343, "ETC_20150317_009203", "c_Klaipe", -488.78, 148.61, 27, 51.17, "npc_dummy")
-addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -295, 240, 790, 45, "npc_dummy")
+addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -295, 240, 790, 45, "npc_swordsmanmasterrashua")
 addnpc(20021, "ETC_20150317_009205", "c_Klaipe", -100, 96, -275, -45, "npc_dummy")
 addnpc(147447, "ETC_20150317_009206", "c_Klaipe", -887, 240, 120, 45, "npc_dummy")
 addnpc(40070, "QUEST_20150317_000081", "c_Klaipe", -66, -1, -752, -47.99, "npc_dummy")
@@ -121,4 +121,12 @@ function npc_worriedwife()
 			msg("KLAPEDA_NPC_04_basic07")
 		end
 	end
+end
+
+--- Swordsman Master Rashua
+-- Swordsman ability trainer
+function npc_swordsmanmasterrashua()
+	msg("MASTER_SWORDMAN_basic2")
+	close()
+	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
 end
