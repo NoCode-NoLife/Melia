@@ -29,6 +29,11 @@ namespace Melia.Channel.World
 		public Properties Properties { get; } = new Properties();
 
 		/// <summary>
+		/// The skill's owner.
+		/// </summary>
+		public Character Character { get; }
+
+		/// <summary>
 		/// Returns the skill's id.
 		/// </summary>
 		public int Id { get; }
@@ -67,10 +72,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
+		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="level"></param>
-		public Skill(int skillId, int level)
+		public Skill(Character character, int skillId, int level)
 		{
+			this.Character = character;
 			this.Id = skillId;
 			this.Level = level;
 			this.Data = ChannelServer.Instance.Data.SkillDb.Find(skillId) ?? throw new ArgumentException($"Unknown skill '{skillId}'.");

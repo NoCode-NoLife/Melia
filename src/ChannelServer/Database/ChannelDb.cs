@@ -166,7 +166,7 @@ namespace Melia.Channel.Database
 							var skillId = reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
-							var skill = new Skill(skillId, level);
+							var skill = new Skill(character, skillId, level);
 
 							character.Skills.AddSilent(skill);
 						}
@@ -199,7 +199,7 @@ namespace Melia.Channel.Database
 						if (character.Skills.Has(skillData.Id))
 							continue;
 
-						var skill = new Skill(skillData.Id, 1);
+						var skill = new Skill(character, skillData.Id, 1);
 						character.Skills.AddSilent(skill);
 					}
 				}

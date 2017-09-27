@@ -913,7 +913,7 @@ namespace Melia.Channel.Network
 					var skill = character.Skills.Get(skillId);
 					if (skill == null)
 					{
-						skill = new Skill(skillId, newLevel);
+						skill = new Skill(character, skillId, newLevel);
 						character.Skills.Add(skill);
 					}
 					else
