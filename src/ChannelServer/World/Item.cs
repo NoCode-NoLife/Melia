@@ -5,10 +5,11 @@ using System;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
 {
-	public class Item
+	public class Item : IPropertyObject
 	{
 		private static long _worldId = 0x0050000000000000;
 
@@ -44,12 +45,9 @@ namespace Melia.Channel.World
 		public bool IsStackable { get { return this.Data.MaxStack > 1; } }
 
 		/// <summary>
-		/// Item's world id...?
+		/// Item's unique object id.
 		/// </summary>
-		/// <remarks>
-		/// Is there an entity id like system?
-		/// </remarks>
-		public long WorldId { get; private set; }
+		public long ObjectId { get; set; }
 
 		/// <summary>
 		/// Item's price.
@@ -66,6 +64,11 @@ namespace Melia.Channel.World
 		public bool IsLocked { get; set; }
 
 		/// <summary>
+		/// Item's properties.
+		/// </summary>
+		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
 		/// Creates new item.
 		/// </summary>
 		/// <param name="itemId"></param>
@@ -76,7 +79,7 @@ namespace Melia.Channel.World
 			this.Id = itemId;
 			this.LoadData();
 
-			this.WorldId = Interlocked.Increment(ref _worldId);
+			this.ObjectId = Interlocked.Increment(ref _worldId);
 			this.Amount = amount;
 		}
 

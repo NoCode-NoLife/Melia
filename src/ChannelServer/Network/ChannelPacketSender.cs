@@ -397,7 +397,7 @@ namespace Melia.Channel.Network
 					zpacket.PutInt(item.Value.Id);
 					zpacket.PutShort(0); // Size of the object at the end
 					zpacket.PutEmptyBin(2);
-					zpacket.PutLong(item.Value.WorldId);
+					zpacket.PutLong(item.Value.ObjectId);
 					zpacket.PutInt(item.Value.Amount);
 					zpacket.PutInt(item.Value.Price);
 					zpacket.PutInt(item.Key);
@@ -427,7 +427,7 @@ namespace Melia.Channel.Network
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutShort(0); // Object size
 				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.WorldId);
+				packet.PutLong(equipItem.Value.ObjectId);
 				packet.PutByte((byte)equipItem.Key);
 				packet.PutEmptyBin(3);
 				packet.PutInt(0);
@@ -446,7 +446,7 @@ namespace Melia.Channel.Network
 		public static void ZC_EQUIP_ITEM_REMOVE(Character character, Item item, int message)
 		{
 			var packet = new Packet(Op.ZC_EQUIP_ITEM_REMOVE);
-			packet.PutLong(item.WorldId);
+			packet.PutLong(item.ObjectId);
 
 			// TODO: Make message an enumeration.
 			packet.PutInt(message);
@@ -664,7 +664,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
-			packet.PutLong(item.WorldId);
+			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
