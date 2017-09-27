@@ -394,15 +394,18 @@ namespace Melia.Channel.Network
 			{
 				foreach (var item in items)
 				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
 					zpacket.PutInt(item.Value.Id);
-					zpacket.PutShort(0); // Size of the object at the end
+					zpacket.PutShort(propertiesSize);
 					zpacket.PutEmptyBin(2);
 					zpacket.PutLong(item.Value.ObjectId);
 					zpacket.PutInt(item.Value.Amount);
 					zpacket.PutInt(item.Value.Price);
 					zpacket.PutInt(item.Key);
 					zpacket.PutInt(1);
-					//zpacket.PutEmptyBin(0);
+					zpacket.AddProperties(properties);
 				}
 			});
 
@@ -424,14 +427,17 @@ namespace Melia.Channel.Network
 
 			foreach (var equipItem in equip)
 			{
+				var properties = equipItem.Value.Properties.GetAll();
+				var propertiesSize = equipItem.Value.Properties.Size;
+
 				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(0); // Object size
+				packet.PutShort(propertiesSize);
 				packet.PutEmptyBin(2);
 				packet.PutLong(equipItem.Value.ObjectId);
 				packet.PutByte((byte)equipItem.Key);
 				packet.PutEmptyBin(3);
 				packet.PutInt(0);
-				//packet.PutEmptyBin(0); // Object
+				packet.AddProperties(properties);
 			}
 
 			character.Connection.Send(packet);
