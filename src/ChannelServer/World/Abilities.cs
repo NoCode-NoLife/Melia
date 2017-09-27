@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
+using Melia.Shared.Const;
 
 namespace Melia.Channel.World
 {
@@ -101,6 +103,30 @@ namespace Melia.Channel.World
 				_abilities.TryGetValue(abilityId, out var ability);
 				return ability;
 			}
+		}
+
+		/// <summary>
+		/// Toggles ability with the given class name on or off.
+		/// Returns whether it was successfully toggled.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <returns></returns>
+		public bool Toggle(string className)
+		{
+			var data = ChannelServer.Instance.Data.AbilityDb.Find(className);
+			if (data == null || data.Passive)
+				return false;
+
+			var ability = this.Get(data.Id);
+			if (ability == null)
+				return false;
+
+			ability.Active = !ability.Active;
+
+			Send.ZC_OBJECT_PROPERTY(this.Character.Connection, ability);
+			Send.ZC_ADDON_MSG(this.Character, AddonMessage.RESET_ABILITY_ACTIVE, "Swordman28");
+
+			return true;
 		}
 	}
 }

@@ -1445,6 +1445,34 @@ namespace Melia.Channel.Network
 
 			// TODO: Send.ZC_ADVENTURE_BOOK_INFO
 		}
+
+		/// <summary>
+		/// Presumably multiple functions, one of them being toggling
+		/// ability states.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_NORMAL_TX)]
+		public void CZ_REQ_NORMAL_TX(ChannelConnection conn, Packet packet)
+		{
+			var type = packet.GetShort(); // ?
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				// Toggle ability state
+				case 0x0D:
+					var className = packet.GetString(33);
+					if (!character.Abilities.Toggle(className))
+						Log.Warning("CZ_REQ_NORMAL_TX: User '{0}' tried to toggle ability '{1}', which they either don't have or is passive.", conn.Account.Name, className);
+					break;
+
+				default:
+					Log.Debug("CZ_REQ_NORMAL_TX: Unhandled type '{0}'.", type);
+					break;
+			}
+		}
 	}
 
 	public enum TxType : short

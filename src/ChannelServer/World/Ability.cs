@@ -29,7 +29,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// The ability's level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
+
+		/// <summary>
+		/// Whether the ability is active.
+		/// </summary>
+		public bool Active { get; set; } = true;
 
 		/// <summary>
 		/// Creates new instance.
@@ -44,6 +49,7 @@ namespace Melia.Channel.World
 			this.Level = level;
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.Ability.Level, () => this.Level));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Ability.ActiveState, () => this.Active ? 1 : 0));
 		}
 	}
 }
