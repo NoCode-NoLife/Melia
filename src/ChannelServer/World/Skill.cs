@@ -96,7 +96,8 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SR, () => this.Data.SplashRate));
 
 			// This property's value is the result of a Lua function,
-			// see skill.ies.
+			// see skill.ies. Does the item's SR (SCR_Get_Skl_SR) count
+			// towards this as well?
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.SplashRate));
 		}
 	}
