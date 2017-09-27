@@ -832,6 +832,10 @@ namespace Melia.Channel.Util
 			// Command is sent when the inventory is opened, purpose unknown,
 			// officials don't seem to send anything back.
 
+			// Comment in the client's Lua files:
+			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
+			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
+
 			return CommandResult.Okay;
 		}
 
