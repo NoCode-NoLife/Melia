@@ -279,7 +279,7 @@ namespace Melia.Channel.Database
 						var circle = (Circle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
 
-						var job = new Job(character, jobId) { Circle = circle, SkillPoints = skillPoints };
+						var job = new Job(character, jobId, circle, skillPoints);
 
 						character.Jobs.AddSilent(job);
 					}

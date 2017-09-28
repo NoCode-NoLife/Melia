@@ -48,12 +48,14 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="jobId"></param>
-		public Job(Character character, JobId jobId)
+		/// <param name="circle"></param>
+		/// <param name="skillPoints"></param>
+		public Job(Character character, JobId jobId, Circle circle = Circle.First, int skillPoints = 0)
 		{
 			this.Character = character;
 			this.Id = jobId;
-			this.Circle = Circle.First;
-			this.SkillPoints = 0;
+			this.Circle = circle;
+			this.SkillPoints = skillPoints;
 			this.Data = ChannelServer.Instance.Data.JobDb.Find(jobId) ?? throw new ArgumentException($"Unknown job '{jobId}'.");
 		}
 	}

@@ -1044,7 +1044,7 @@ namespace Melia.Channel.Util
 			}
 
 			if (job == null)
-				target.Jobs.Add(new Job(target, jobId) { Circle = circle });
+				target.Jobs.Add(new Job(target, jobId, circle));
 			else
 				target.Jobs.ChangeCircle(jobId, circle);
 
