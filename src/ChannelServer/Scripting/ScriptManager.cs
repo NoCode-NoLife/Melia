@@ -1666,7 +1666,7 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var job = new Job(jobId) { Circle = circle };
+			var job = new Job(character, jobId) { Circle = circle };
 			character.Jobs.Add(job);
 
 			return 0;

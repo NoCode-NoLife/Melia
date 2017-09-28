@@ -14,6 +14,11 @@ namespace Melia.Channel.World
 	public class Job
 	{
 		/// <summary>
+		/// The owner of the job.
+		/// </summary>
+		public Character Character { get; }
+
+		/// <summary>
 		/// Returns this job's id.
 		/// </summary>
 		public JobId Id { get; }
@@ -41,9 +46,11 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Creates new instance
 		/// </summary>
+		/// <param name="character"></param>
 		/// <param name="jobId"></param>
-		public Job(JobId jobId)
+		public Job(Character character, JobId jobId)
 		{
+			this.Character = character;
 			this.Id = jobId;
 			this.Circle = Circle.First;
 			this.SkillPoints = 0;

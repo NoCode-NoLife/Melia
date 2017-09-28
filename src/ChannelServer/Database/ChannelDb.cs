@@ -279,7 +279,7 @@ namespace Melia.Channel.Database
 						var circle = (Circle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
 
-						var job = new Job(jobId) { Circle = circle, SkillPoints = skillPoints };
+						var job = new Job(character, jobId) { Circle = circle, SkillPoints = skillPoints };
 
 						character.Jobs.AddSilent(job);
 					}
@@ -288,7 +288,7 @@ namespace Melia.Channel.Database
 
 			// Fallback if the character doesn't have a job for some reason
 			if (character.Jobs.Count == 0)
-				character.Jobs.AddSilent(new Job(character.Job));
+				character.Jobs.AddSilent(new Job(character, character.Job));
 		}
 
 		/// <summary>
