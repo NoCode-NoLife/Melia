@@ -630,34 +630,10 @@ namespace Melia.Channel.World
 			this.StatByLevel += amount;
 			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
 
-			// packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-			//packet.PutLong(target.Id);
-			//packet.PutBinFromHex("8E 10 00 00 00 40 98 10 00 00 40 41 33 11 00 00 E4 42 29 11 00 80 83 43 36 11 00 00 A0 40 37 11 00 00 A0 40 59 11 00 00 00 41 70 11 00 00 10 41 2F 11 00 00 A0 40 6B 11 00 00 10 41 D5 11 00 00 E0 40 CD 11 00 00 E0 40 CF 11 00 00 50 41 D2 11 00 00 40 41 E0 11 00 00 48 42 D7 11 00 00 0C 43 DE 10 53 9A 0E 40");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_NORMAL);
-			//packet.PutBinFromHex("1C 00 00 00 ");
-			//packet.PutInt(target.Handle);
-			//packet.PutBinFromHex("00 75 77 78 04 00 00 00 00 9A E7 8A C4 74 76 82 43 39 0C 09 C4 F2 04 35 BF F4 04 35 BF 00 00 00 00 00 00 00 00 00 00 00 00");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
-			//packet.PutInt(target.Handle);
-			//packet.PutBinFromHex("07 01 00 00 07 01 00 00 72 00 72 00 09 00 00 00");
-			//conn.Send(packet);
-
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_NORMAL_LevelUp(this);
-
-			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			//packet.PutBinFromHex("DA 10 00");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			//packet.PutBinFromHex("0F 11 00");
-			//conn.Send(packet);
 		}
 
 		/// <summary>
