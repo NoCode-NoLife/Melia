@@ -1153,6 +1153,7 @@ namespace Melia.Channel.Network
 			packet.PutEmptyBin(4);
 			packet.PutFloat(1);
 			packet.PutEmptyBin(4);
+			packet.PutEmptyBin(4);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1291,6 +1292,7 @@ namespace Melia.Channel.Network
 		public static void ZC_JOB_EXP_UP(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
+			packet.PutLong(character.Id);
 			packet.PutInt(exp);
 
 			character.Connection.Send(packet);
