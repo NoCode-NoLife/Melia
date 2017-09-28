@@ -619,10 +619,13 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Increases character's level by the given amount of levels.
+		/// Increases character's level by the given amount.
 		/// </summary>
-		public void LevelUp(int amount)
+		public void LevelUp(int amount = 1)
 		{
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
 			this.Level += amount;
 			this.StatByLevel += amount;
 			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
@@ -655,14 +658,6 @@ namespace Melia.Channel.World
 			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);
 			//packet.PutBinFromHex("0F 11 00");
 			//conn.Send(packet);
-		}
-
-		/// <summary>
-		/// Increases character's level by one.
-		/// </summary>
-		public void LevelUp()
-		{
-			this.LevelUp(1);
 		}
 
 		/// <summary>
