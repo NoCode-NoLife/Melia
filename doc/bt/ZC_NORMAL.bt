@@ -25,7 +25,8 @@ AccountProperties;
 typedef struct
 {
     short jobId;
-    byte b1[6]; // Unknown.
+    short s1; // 177
+    int totalExp;
     short unusedSkillPoints;
     short circle;
 }
