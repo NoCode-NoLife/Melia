@@ -25,7 +25,7 @@ namespace Melia.Shared.Data.Database
 		private List<ClassExpData> _classExp = new List<ClassExpData>();
 
 		/// <summary>
-		/// Returns total exp required to reach the next level after the
+		/// Returns exp required to reach the next level after the
 		/// given one.
 		/// </summary>
 		/// <remarks>
@@ -50,7 +50,7 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the total exp required to reach the next class level
+		/// Returns the exp required to reach the next class level
 		/// after the given level, in the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
