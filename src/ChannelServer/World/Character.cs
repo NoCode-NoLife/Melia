@@ -701,6 +701,7 @@ namespace Melia.Channel.World
 		{
 			this.Exp += exp;
 			// TODO: jobExp
+			this.TotalExp += exp;
 
 			Send.ZC_EXP_UP_BY_MONSTER(this, exp, 0, monster);
 			Send.ZC_EXP_UP(this, exp, 0);

@@ -113,6 +113,7 @@ namespace Melia.Channel.Database
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
+					character.TotalExp = reader.GetInt32("totalExp");
 					character.MaxHp = reader.GetInt32("maxHp");
 					character.Hp = reader.GetInt32("hp");
 					character.MaxSp = reader.GetInt32("maxSp");
@@ -391,6 +392,7 @@ namespace Melia.Channel.Database
 				cmd.Set("z", character.Position.Z);
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
+				cmd.Set("totalExp", character.TotalExp);
 				cmd.Set("hp", character.Hp);
 				cmd.Set("maxHp", character.MaxHp);
 				cmd.Set("sp", character.Sp);
