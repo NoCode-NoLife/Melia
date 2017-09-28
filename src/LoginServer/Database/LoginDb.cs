@@ -165,6 +165,7 @@ namespace Melia.Login.Database
 					cmd.Set("int", character.Int);
 					cmd.Set("spr", character.Spr);
 					cmd.Set("dex", character.Dex);
+					cmd.Set("maxExp", LoginServer.Instance.Data.ExpDb.GetExp(1));
 
 					cmd.Set("barrackLayer", character.BarrackLayer);
 
