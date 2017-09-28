@@ -37,7 +37,7 @@ int type;
 switch (type)
 {
 	// Lv up effect
-	case 0x11:
+	case 0x12:
 		int handle;
 		short s1;
 		short s2;
@@ -46,10 +46,11 @@ switch (type)
 		byte bin1[4];
 		float f2;
 		byte bin2[4];
+		byte bin3[4];
 		break;
-		
+
 	// Class lv up effect
-	case 0x14:
+	case 0x15:
 		int handle;
 		byte b1;
 		int i1;

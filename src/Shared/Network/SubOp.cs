@@ -27,8 +27,8 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public static class Zone
 		{
-			public const int LevelUp = 0x11;
-			public const int ClassLevelUp = 0x14;
+			public const int LevelUp = 0x12;
+			public const int ClassLevelUp = 0x15;
 			public const int Unkown_1D = 0x1D;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AccountUpdate = 0x4C;
