@@ -58,5 +58,16 @@ namespace Melia.Channel.World
 			this.SkillPoints = skillPoints;
 			this.Data = ChannelServer.Instance.Data.JobDb.Find(jobId) ?? throw new ArgumentException($"Unknown job '{jobId}'.");
 		}
+
+		/// <summary>
+		/// Modifies job's skill points updates the client.
+		/// </summary>
+		/// <param name="modifier"></param>
+		/// <returns></returns>
+		public void ModifySkillPoints(int modifier)
+		{
+			this.SkillPoints += modifier;
+			Send.ZC_JOB_PTS(this.Character, this);
+		}
 	}
 }

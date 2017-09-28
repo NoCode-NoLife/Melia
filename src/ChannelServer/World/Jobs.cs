@@ -164,8 +164,7 @@ namespace Melia.Channel.World
 			if (job == null)
 				return false;
 
-			job.SkillPoints += modifier;
-			Send.ZC_JOB_PTS(this.Character, job);
+			job.ModifySkillPoints(modifier);
 
 			return true;
 		}
