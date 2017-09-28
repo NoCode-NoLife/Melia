@@ -80,8 +80,14 @@ namespace Melia.Shared.Data.Database
 
 		protected void ReadExpEntry(JObject expEntry)
 		{
-			foreach (var exp in expEntry["exp"])
+			foreach (JObject entry in expEntry["exp"])
+			{
+				entry.AssertNotMissing("level", "exp");
+
+				var exp = entry.ReadInt("exp");
+
 				_exp.Add((int)exp);
+			}
 		}
 
 		protected void ReadClassExpEntry(JObject classExpEntry)
