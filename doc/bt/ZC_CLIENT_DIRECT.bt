@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_CLIENT_DIRECT
+//   Authors: exec
+//   Version: i174379
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+
+int characterHandle;
+int i1; // same as CZ_CLIENT_DIRECT
+char str1[16]; // actual string same as CZ_CLIENT_DIRECT
