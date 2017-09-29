@@ -1770,7 +1770,7 @@ namespace Melia.Channel.Network
 			foreach (var job in jobs)
 			{
 				packet.PutShort((short)job.Id);
-				packet.PutShort(177);
+				packet.PutShort(177); // 174
 				packet.PutInt(job.TotalExp);
 				packet.PutShort(job.SkillPoints);
 				packet.PutShort((short)job.Circle);

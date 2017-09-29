@@ -621,6 +621,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Increases character's level by the given amount.
 		/// </summary>
+		/// <param name="amount"></param>
 		public void LevelUp(int amount = 1)
 		{
 			if (amount < 1)
@@ -633,6 +634,7 @@ namespace Melia.Channel.World
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
+			//Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
 		}
 
