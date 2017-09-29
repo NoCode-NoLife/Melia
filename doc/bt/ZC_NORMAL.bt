@@ -230,7 +230,7 @@ switch (type)
         break;
         
     // Sets the session key.
-    case 0x14E:
+    case 0x148:
         lpString sessionKey;
         break;
 
