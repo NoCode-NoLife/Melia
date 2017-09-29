@@ -13,11 +13,10 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
+ServerHeaderDynamic header;
 
-short size;
 int i1;
 int i2;
 
 // packets inside a packet >_>
-byte packets[size-6-10];
+byte packets[header.size-sizeof(header)-sizeof(int)*2];
