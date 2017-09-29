@@ -224,9 +224,15 @@ switch (type)
         }
         break;
 
+    // outdated
+    //case 0x139:
+    //    lpString sessionKey;
+    //    break;
+        
     // ?
     case 0x139:
-        lpString sessionKey;
+        float f1;
+        byte bin1[16]; // no idea what this could be
         break;
         
     // Sets the session key.
