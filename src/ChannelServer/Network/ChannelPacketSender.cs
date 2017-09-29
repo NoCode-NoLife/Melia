@@ -1274,12 +1274,12 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="totalExp"></param>
-		public static void ZC_EXP_UP(Character character, int exp, int totalExp)
+		/// <param name="classExp"></param>
+		public static void ZC_EXP_UP(Character character, int exp, int classExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
-			packet.PutInt(totalExp);
+			packet.PutInt(classExp);
 
 			character.Connection.Send(packet);
 		}

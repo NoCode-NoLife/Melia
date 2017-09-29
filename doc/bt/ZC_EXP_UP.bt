@@ -16,4 +16,4 @@
 ServerHeaderFixed header;
 
 int exp;
-int totalExp;
+int classExp;
