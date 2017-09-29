@@ -123,6 +123,11 @@ namespace Melia.Channel.Network
 			Send.ZC_NO_GUILD_INDEX(character);
 			Send.ZC_SEND_CASH_VALUE(conn);
 
+			// HACK: This call triggers an EXP bar refresh, which the client
+			//   doesn't do by itself right now for some reason. Maybe a
+			//   NORMAL is missing.
+			Send.ZC_JOB_EXP_UP(character, 0);
+
 			character.OpenEyes();
 		}
 
