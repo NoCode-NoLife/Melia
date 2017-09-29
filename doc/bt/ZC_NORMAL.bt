@@ -79,7 +79,7 @@ switch (type)
     
     // Account update
     case 0x4C:
-        int64 characterId;
+        int64 accountId;
         AccountProperties properties;
         break;
         
