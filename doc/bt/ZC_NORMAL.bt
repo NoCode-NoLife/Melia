@@ -139,6 +139,24 @@ switch (type)
         JobRank jobs[count] <optimize=false>;
         break;
 
+    // ?
+    case 0xED:
+        typedef struct
+        {
+            int i1; // rank?
+            short jobId;
+            short circle; // ?
+            int i2;
+            int level;
+            byte bin1[8];
+        }
+        JobED <optimize=false>;
+        
+        int64 objectId <format=hex>;
+        int count;
+        JobED jobs[count];
+        break;
+
     // Some kind of job data
     case 0xF1:
         typedef struct
