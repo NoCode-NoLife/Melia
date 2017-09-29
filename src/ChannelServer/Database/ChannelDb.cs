@@ -278,8 +278,9 @@ namespace Melia.Channel.Database
 						var jobId = (JobId)reader.GetInt32("jobId");
 						var circle = (Circle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
+						var totalExp = reader.GetInt32("totalExp");
 
-						var job = new Job(character, jobId, circle, skillPoints);
+						var job = new Job(character, jobId, totalExp, circle, skillPoints);
 
 						character.Jobs.AddSilent(job);
 					}
@@ -513,6 +514,7 @@ namespace Melia.Channel.Database
 						cmd.Set("jobId", job.Id);
 						cmd.Set("circle", job.Circle);
 						cmd.Set("skillPoints", job.SkillPoints);
+						cmd.Set("totalExp", job.TotalExp);
 
 						cmd.Execute();
 					}
