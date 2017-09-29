@@ -1257,13 +1257,13 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="jobExp"></param>
+		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int jobExp, Monster monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 			packet.PutInt(exp);
-			packet.PutInt(jobExp);
+			packet.PutInt(classExp);
 			packet.PutInt(monster.Handle);
 
 			character.Connection.Send(packet);
