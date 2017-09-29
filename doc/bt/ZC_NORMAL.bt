@@ -37,31 +37,31 @@ ServerHeaderDynamic header;
 int type;
 switch (type)
 {
-	// Lv up effect
-	case 0x12:
-		int handle;
-		short s1;
-		short s2;
-		float effectSize;
-		int i1;
-		byte bin1[4];
-		float f2;
-		byte bin2[4];
-		byte bin3[4];
-		break;
+    // Lv up effect
+    case 0x12:
+        int handle;
+        short s1;
+        short s2;
+        float effectSize;
+        int i1;
+        byte bin1[4];
+        float f2;
+        byte bin2[4];
+        byte bin3[4];
+        break;
 
-	// Class lv up effect
-	case 0x15:
-		int handle;
-		byte b1;
-		int i1;
-		byte b2;
-		float effectSize;
-		byte bin[8];
-		break;
+    // Class lv up effect
+    case 0x15:
+        int handle;
+        byte b1;
+        int i1;
+        byte b2;
+        float effectSize;
+        byte bin[8];
+        break;
 
-	// ?
-	case 0x1D:
+    // ?
+    case 0x1D:
         int handle1;
         byte bin1[5];
         int handle2;
@@ -70,74 +70,74 @@ switch (type)
         float f1;
         float f2;
         float f3;
-		break;
-		
+        break;
+        
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
         break;
-	
-	// Account update
-	case 0x4C:
-		int64 characterId;
-		AccountProperties properties;
-		break;
-		
-	// NPC chat bubble
-	case 0x51:
-		int handle;
-		lpString dialogKey; // ?
-		int i2; // disappear delay?
-		int i3; // disappear delay?
-		break;
-		
-	// Set skill speed
-	case 0x78:
-		int skillId;
-		float sklSpdRate;
-		break;
-		
-	// Set hit delay
-	case 0x79:
-		int skillId;
-		float hitDelay;
-		break;
-		
-	// ?
-	case 0xD6:
-		short s1;
+    
+    // Account update
+    case 0x4C:
+        int64 characterId;
+        AccountProperties properties;
+        break;
+        
+    // NPC chat bubble
+    case 0x51:
+        int handle;
+        lpString dialogKey; // ?
+        int i2; // disappear delay?
+        int i3; // disappear delay?
+        break;
+        
+    // Set skill speed
+    case 0x78:
+        int skillId;
+        float sklSpdRate;
+        break;
+        
+    // Set hit delay
+    case 0x79:
+        int skillId;
+        float hitDelay;
+        break;
+        
+    // ?
+    case 0xD6:
+        short s1;
         int64 objectId <format=hex>;
         int i1;
         break;
-		
-	// ?
-	case 0xE5:
-		typedef struct
-		{
-			lpString str;
-			int val;
-		}
-		entry;
+        
+    // ?
+    case 0xE5:
+        typedef struct
+        {
+            lpString str;
+            int val;
+        }
+        entry;
 
-		int count;
-		entry entries[count] <optimize=false>;
-		break;
-		
-	// Job ranks?
-	// (Was this 0xE5 in the iCBT2?)
-	case 0xEA:
-		typedef struct
-		{
-			lpString job;
-			int rank;
-		}
-		JobRank;
+        int count;
+        entry entries[count] <optimize=false>;
+        break;
+        
+    // Job ranks?
+    // (Was this 0xE5 in the iCBT2?)
+    case 0xEA:
+        typedef struct
+        {
+            lpString job;
+            int rank;
+        }
+        JobRank;
 
-		int count;
-		JobRank jobs[count] <optimize=false>;
-		break;
+        int count;
+        JobRank jobs[count] <optimize=false>;
+        break;
 
-	// Some kind of job data
+    // Some kind of job data
     case 0xF1:
         typedef struct
         {
@@ -152,8 +152,8 @@ switch (type)
         JobF1 jobs[count];
         break;
 
-	// Some kind of job data
-	case 0xF2:
+    // Some kind of job data
+    case 0xF2:
         typedef struct
         {
             int index; // ?
@@ -165,32 +165,32 @@ switch (type)
         }
         JobF2 <optimize=false>;
 
-		int64 objectId <format=hex>;
+        int64 objectId <format=hex>;
         int count;
         JobF2 jobs[count];
-		break;
+        break;
 
-	// ?
-	case 0x139:
-		lpString sessionKey;
-		break;
-		
-	// Sets the session key.
-	case 0x14E:
-		lpString sessionKey;
-		break;
+    // ?
+    case 0x139:
+        lpString sessionKey;
+        break;
+        
+    // Sets the session key.
+    case 0x14E:
+        lpString sessionKey;
+        break;
 
     // Nexon Game Security Callback
     case 0x16D:
         break;
-		
-	// Set a hat item's visible or invisible state
-	case 0x181:
-		int handle;
-		byte b1; // Set hair type 1 visible?
-		byte b2; // Set hair type 2 visible?
-		byte b3; // Set hair type 3 visible?
-		break;
+        
+    // Set a hat item's visible or invisible state
+    case 0x181:
+        int handle;
+        byte b1; // Set hair type 1 visible?
+        byte b2; // Set hair type 2 visible?
+        byte b3; // Set hair type 3 visible?
+        break;
     
     // Updates the skill UI
     case 0x188:
