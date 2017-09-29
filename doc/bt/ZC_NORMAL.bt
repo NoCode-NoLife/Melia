@@ -245,11 +245,11 @@ switch (type)
         break;
         
     // Set a hat item's visible or invisible state
-    case 0x181:
+    case 0x17B:
         int handle;
-        byte b1; // Set hair type 1 visible?
-        byte b2; // Set hair type 2 visible?
-        byte b3; // Set hair type 3 visible?
+        byte hat1Visible;
+        byte hat2Visible;
+        byte hat3Visible;
         break;
     
     // ?
