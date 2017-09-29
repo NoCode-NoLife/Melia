@@ -452,6 +452,7 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
