@@ -669,6 +669,22 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Gives skill points to the current job and updates client.
+		/// </summary>
+		/// <param name="amount"></param>
+		private void ClassLevelUp(int amount = 1)
+		{
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
+			this.Jobs.ModifySkillPoints(this.Job, amount);
+
+			Send.ZC_OBJECT_PROPERTY(this);
+			//Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_NORMAL_ClassLevelUp(this);
+		}
+
+		/// <summary>
 		/// Modifies character's HP by the given amount and updates the
 		/// client with ZC_ADD_HP.
 		/// </summary>
@@ -705,20 +721,40 @@ namespace Melia.Channel.World
 		/// Grants exp to character and handles level ups.
 		/// </summary>
 		/// <param name="exp"></param>
-		public void GiveExp(int exp, int jobExp, Monster monster)
+		/// <param name="classExp"></param>
+		/// <param name="monster"></param>
+		public void GiveExp(int exp, int classExp, Monster monster)
 		{
+			// Base EXP
 			this.Exp += exp;
-			// TODO: jobExp
 			this.TotalExp += exp;
 
-			Send.ZC_EXP_UP_BY_MONSTER(this, exp, 0, monster);
-			Send.ZC_EXP_UP(this, exp, 0);
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
+			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent?
 
 			while (this.Exp >= this.MaxExp)
 			{
 				this.Exp -= this.MaxExp;
 				this.LevelUp();
 			}
+
+			// Class EXP
+			var classLevel = this.ClassLevel;
+			var rank = this.Jobs.GetCurrentRank();
+			var job = this.Jobs.Get(this.Job);
+			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetTotalClassExp(rank, 15);
+
+			// Limit EXP to the total max, otherwise the client will
+			// display level 1 with 0%.
+			job.TotalExp = (int)Math.Min(maxTotalExp, ((long)job.TotalExp + classExp));
+
+			var newClassLevel = this.ClassLevel;
+			var diff = (newClassLevel - classLevel);
+
+			Send.ZC_JOB_EXP_UP(this, classExp);
+
+			if (diff > 0)
+				this.ClassLevelUp(diff);
 		}
 
 		/// <summary>
