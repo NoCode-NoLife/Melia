@@ -205,6 +205,17 @@ switch (type)
         break;
 
     // ?
+    case 0x12C:
+        if (!checkCompression())
+        {
+            int i1;
+            short s1;
+            int i2;
+            short s2;
+        }
+        break;
+
+    // ?
     case 0x136:
         if (!checkCompression())
         {
