@@ -105,9 +105,11 @@ switch (type)
         
     // ?
     case 0xD6:
-        short s1;
-        int64 objectId <format=hex>;
-        int i1;
+        if (!checkCompression())
+        {
+            int64 objectId <format=hex>;
+            int i1;
+        }
         break;
         
     // ?
