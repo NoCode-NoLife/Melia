@@ -191,6 +191,15 @@ switch (type)
         break;
 
     // ?
+    case 0x136:
+        if (!checkCompression())
+        {
+            int64 objectId <format=hex>;
+            byte bin1[7]; // 1
+        }
+        break;
+
+    // ?
     case 0x139:
         lpString sessionKey;
         break;
