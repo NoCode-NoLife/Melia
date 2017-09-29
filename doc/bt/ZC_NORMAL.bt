@@ -221,6 +221,12 @@ switch (type)
         byte b3; // Set hair type 3 visible?
         break;
     
+    // ?
+    case 0x183:
+        int64 objectId <format=hex>;
+        int i1;
+        break;
+    
     // Updates the skill UI
     case 0x188:
         int64 characterId;
