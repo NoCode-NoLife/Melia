@@ -231,8 +231,14 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public int GetCurrentRank()
 		{
+			var rank = 0;
 			lock (_jobs)
-				return _jobs.Values.Sum(a => (int)a.Circle);
+				rank = _jobs.Values.Sum(a => (int)a.Circle);
+
+			// Even if _jobs is empty right now for some reason, rank 1
+			// is always the minimum.
+
+			return Math.Max(1, rank);
 		}
 	}
 }
