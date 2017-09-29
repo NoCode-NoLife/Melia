@@ -251,6 +251,36 @@ namespace Melia.Channel.World
 		public int Level { get; set; }
 
 		/// <summary>
+		/// Character's class level.
+		/// </summary>
+		public int ClassLevel
+		{
+			get
+			{
+				// TODO: This should be improved, but I'll be lazy
+				//   for the moment, in case all this doesn't work out the
+				//   way I expect it to.
+
+				var jobId = this.Job;
+				var rank = this.Jobs.GetCurrentRank();
+				var totalExp = this.Jobs.Get(jobId).TotalExp;
+				var max = 15; // TODO: Const? Conf? Determine based on exp db?
+
+				// Search for the first level which's requirement we can't
+				// fulfill, as that will be the level we're on.
+				for (var i = 1; i < max; ++i)
+				{
+					var needed = ChannelServer.Instance.Data.ExpDb.GetTotalClassExp(rank, i);
+					if (totalExp < needed)
+						return i;
+				}
+
+				// Found none? It's the max then.
+				return max;
+			}
+		}
+
+		/// <summary>
 		/// Current experience points.
 		/// </summary>
 		public int Exp { get; set; }
