@@ -50,22 +50,24 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the exp required to reach the next class level
+		/// Returns the total exp required to reach the next class level
 		/// after the given level, in the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public int GetClassExp(int rank, int level)
+		public int GetTotalClassExp(int rank, int level)
 		{
 			if (level < 1 || level > 15)
 				throw new ArgumentException("Invalid level (expected: 1~15).");
 
-			var data = _classExp.FirstOrDefault(a => a.Rank == rank && a.Level == level);
-			if (data == null)
-				throw new KeyNotFoundException("No exp data found for rank '" + rank + "' and level '" + level + "'.");
+			var data = _classExp.Where(a => a.Rank == rank);
+			if (!data.Any())
+				throw new KeyNotFoundException("No class exp data found for rank '" + rank + "' and level '" + level + "'.");
 
-			return data.Exp;
+			var result = data.Where(a => a.Level <= level).Sum(a => a.Exp);
+
+			return result;
 		}
 
 		protected override void ReadEntry(JObject entry)
