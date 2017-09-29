@@ -152,7 +152,7 @@ switch (type)
         }
         JobED <optimize=false>;
         
-        int64 objectId <format=hex>;
+        int64 characterId <format=hex>;
         int count;
         JobED jobs[count];
         break;
@@ -194,7 +194,7 @@ switch (type)
     case 0x136:
         if (!checkCompression())
         {
-            int64 objectId <format=hex>;
+            int64 characterId <format=hex>;
             byte bin1[7]; // 1
         }
         break;
@@ -223,7 +223,7 @@ switch (type)
     
     // ?
     case 0x183:
-        int64 objectId <format=hex>;
+        int64 characterId <format=hex>;
         int i1;
         break;
     
