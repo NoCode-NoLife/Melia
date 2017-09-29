@@ -104,11 +104,6 @@ switch (type)
 		break;
 		
 	// ?
-	case 0x139:
-		lpString sessionKey;
-		break;
-		
-	// ?
 	case 0xE5:
 		typedef struct
 		{
@@ -168,6 +163,11 @@ switch (type)
         JobF2 jobs[count];
 		break;
 
+	// ?
+	case 0x139:
+		lpString sessionKey;
+		break;
+		
 	// Sets the session key.
 	case 0x14E:
 		lpString sessionKey;
