@@ -266,6 +266,11 @@ switch (type)
         break;
     
     // ?
+    case 0x197:
+        int i1;
+        break;
+    
+    // ?
     case 0x19C:
         byte b1;
         break;
