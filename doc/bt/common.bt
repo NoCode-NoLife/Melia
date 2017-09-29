@@ -492,3 +492,36 @@ enum <int> PostBoxState
     POST_BOX_STATE_REQ_LOAD = 4,
     POST_BOX_STATE_COUNT = 5,
 };
+
+typedef struct
+{
+    short size;
+    short s1;
+    if(size > 0)
+        getProperties(size-2);
+}
+SessionProperties <read=readSessionProperties, optimize=false>;
+
+string readSessionProperties(SessionProperties &v)
+{
+    string result;
+    SPrintf(result, "size: %d", v.size);
+    return result;
+}
+
+typedef struct
+{
+    int i1;
+    int i2;
+    int64 objectId <format=hex>;
+    int i3;
+    SessionProperties properties;
+}
+SessionObject <read=readSessionObject, optimize=false>;
+
+string readSessionObject(SessionObject &v)
+{
+    string result;
+    SPrintf(result, "%LXh", v.objectId);
+    return result;
+}
