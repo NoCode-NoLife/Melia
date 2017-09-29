@@ -227,4 +227,9 @@ switch (type)
         int jobCount;
         Job jobs[jobCount];
         break;
+    
+    // ?
+    case 0x19C:
+        byte b1;
+        break;
 }
