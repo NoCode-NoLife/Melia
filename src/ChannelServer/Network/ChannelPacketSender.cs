@@ -1171,7 +1171,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(2);
 			packet.PutByte(1);
 			packet.PutFloat(6); // Effect size
-			packet.PutEmptyBin(8);
+			packet.PutBinFromHex("9E 20 27 00 00 00 00 00"); // Necessary for it to play
 
 			character.Map.Broadcast(packet, character);
 		}
