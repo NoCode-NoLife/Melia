@@ -138,6 +138,20 @@ switch (type)
         int count;
         JobRank jobs[count] <optimize=false>;
         break;
+        
+    // ?
+    case 0xEC:
+        typedef struct
+        {
+            lpString jobName;
+            int i1; // decremending number?
+        }
+        JobEC <optimize=false>;
+        
+        int64 characterId <format=hex>;
+        int count;
+        JobEC jobs[count];
+        break;
 
     // ?
     case 0xED:
