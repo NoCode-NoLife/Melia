@@ -270,7 +270,7 @@ namespace Melia.Channel.World
 				// fulfill, as that will be the level we're on.
 				for (var i = 1; i < max; ++i)
 				{
-					var needed = ChannelServer.Instance.Data.ExpDb.GetTotalClassExp(rank, i);
+					var needed = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
 					if (totalExp < needed)
 						return i;
 				}
@@ -660,7 +660,7 @@ namespace Melia.Channel.World
 
 			this.Level += amount;
 			this.StatByLevel += amount;
-			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
+			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp(this.Level);
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
@@ -743,7 +743,7 @@ namespace Melia.Channel.World
 			var classLevel = this.ClassLevel;
 			var rank = this.Jobs.GetCurrentRank();
 			var job = this.Jobs.Get(this.Job);
-			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetTotalClassExp(rank, 15);
+			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.

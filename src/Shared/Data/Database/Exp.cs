@@ -35,7 +35,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="level"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException">Thrown if level is invalid (< 1).</exception>
-		public int GetExp(int level)
+		public int GetNextExp(int level)
 		{
 			if (level < 1)
 				throw new ArgumentException("Invalid level (too low).");
@@ -58,7 +58,7 @@ namespace Melia.Shared.Data.Database
 		{
 			var result = 0;
 			for (var i = 1; i < level; ++i)
-				result += this.GetExp(i);
+				result += this.GetNextExp(i);
 
 			return result;
 		}
@@ -70,7 +70,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="rank"></param>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public int GetTotalClassExp(int rank, int level)
+		public int GetNextTotalClassExp(int rank, int level)
 		{
 			if (level < 1 || level > 15)
 				throw new ArgumentException("Invalid level (expected: 1~15).");
