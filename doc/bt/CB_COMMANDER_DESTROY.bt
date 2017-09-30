@@ -3,8 +3,8 @@
 //
 //      File: CB_COMMANDER_DESTROY.bt
 //   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Version: i174379
+//   Purpose: Request to delete character
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,4 +15,4 @@
 
 ClientHeaderFixed header;
 
-byte index;
+int64 id;
