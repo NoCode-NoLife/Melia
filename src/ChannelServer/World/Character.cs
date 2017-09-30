@@ -432,8 +432,14 @@ namespace Melia.Channel.World
 				//if(hasBuff("Warrior_RH_VisibleObject"))
 				//    value -= rightHand.MinAtk
 
-				// buffs...
-				// rate buffs...
+				// Buffs: "PATK_BM", "MINPATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
 
 				var maxPatk = this.MaxPAtk;
 				if (value > maxPatk)
@@ -465,8 +471,14 @@ namespace Melia.Channel.World
 				//if(hasBuff("Warrior_RH_VisibleObject"))
 				//    value -= rightHand.MaxAtk;
 
-				// buffs...
-				// rate buffs...
+				// Buffs: "PATK_BM", "MAXPATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
 
 				return (int)value;
 			}
