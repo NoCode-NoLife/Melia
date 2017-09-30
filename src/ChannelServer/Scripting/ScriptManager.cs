@@ -952,7 +952,17 @@ namespace Melia.Channel.Scripting
 		///     integer stamina,      -- Character's stamina
 		///     integer maxstamina,   -- Character's max stamina
 		///     integer hair,         -- Character's hair
-		///     integer job,          -- Character's job
+		///     integer job,          -- Character's current main job
+		///     integer jobclass,     -- Character's job's class (Swordsman, Archer, etc.)
+		///     integer rank,         -- Character's current job rank
+		///     table jobs
+		///     {
+		///         integer jobId:
+		///         {
+		///             integer circle;       -- Job's circle
+		///             integer skillpoints;  -- Skill points
+		///         }
+		///     }
 		///     table account
 		///     {
 		///         string  name,     -- Account's name
