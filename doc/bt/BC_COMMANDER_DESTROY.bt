@@ -15,4 +15,4 @@
 
 ServerHeaderFixed header;
 
-int64 characterId;
+byte index;
