@@ -411,6 +411,68 @@ namespace Melia.Channel.World
 		public float SplashRate { get; } = 4;
 
 		/// <summary>
+		/// Returns minimum physical ATK.
+		/// </summary>
+		public int MinPAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MINATK", "PATK", "ADD_MINATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MinAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MinAtk
+
+				// buffs...
+				// rate buffs...
+
+				var maxPatk = this.MaxPAtk;
+				if (value > maxPatk)
+					return maxPatk;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns maximum physical ATK.
+		/// </summary>
+		public int MaxPAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MAXATK", "PATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MaxAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MaxAtk;
+
+				// buffs...
+				// rate buffs...
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -479,6 +541,9 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.SplashRate));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINPATK, () => this.MinPAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXPATK, () => this.MaxPAtk));
 		}
 
 		/// <summary>
