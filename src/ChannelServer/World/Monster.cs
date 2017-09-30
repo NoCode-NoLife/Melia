@@ -136,6 +136,8 @@ namespace Melia.Channel.World
 			this.Data = ChannelServer.Instance.Data.MonsterDb.Find(this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
+
+			this.Hp = this.MaxHp = this.Data.Hp;
 		}
 
 		/// <summary>

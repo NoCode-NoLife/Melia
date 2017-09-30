@@ -17,6 +17,7 @@ namespace Melia.Shared.Data.Database
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
+		public int Hp { get; set; }
 	}
 
 	/// <summary>
@@ -38,7 +39,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp");
+			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "hp");
 
 			var info = new MonsterData();
 
@@ -48,6 +49,7 @@ namespace Melia.Shared.Data.Database
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");
 			info.ClassExp = entry.ReadInt("classExp");
+			info.Hp = entry.ReadInt("hp");
 
 			this.Entries[info.Id] = info;
 		}
