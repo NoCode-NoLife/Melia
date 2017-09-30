@@ -179,6 +179,7 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
+			var b1 = packet.GetByte();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric)
