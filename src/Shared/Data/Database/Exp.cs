@@ -50,6 +50,20 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns the EXP required to reach the given level.
+		/// </summary>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public int GetTotalExp(int level)
+		{
+			var result = 0;
+			for (var i = 1; i < level; ++i)
+				result += this.GetExp(i);
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns the total exp required to reach the next class level
 		/// after the given level, in the given rank.
 		/// </summary>
