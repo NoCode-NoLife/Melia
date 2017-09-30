@@ -15,5 +15,5 @@
 
 ServerHeaderDynamic header;
 
-int handles[(size-sizeof(header)-sizeof(int)) / 4];
+int handles[(header.size-sizeof(header)-sizeof(int)) / 4];
 int end;
