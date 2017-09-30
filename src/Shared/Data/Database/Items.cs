@@ -23,6 +23,7 @@ namespace Melia.Shared.Data.Database
 
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
+		public int MinLevel { get; set; }
 	}
 
 	/// <summary>
@@ -78,6 +79,8 @@ namespace Melia.Shared.Data.Database
 					throw new DatabaseErrorException($"Invalid equip type '{equipType2}'.");
 				info.EquipType2 = type;
 			}
+
+			info.MinLevel = entry.ReadInt("minLevel");
 
 			this.Entries[info.Id] = info;
 		}
