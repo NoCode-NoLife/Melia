@@ -41,11 +41,11 @@ namespace Melia.Shared.Data.Database
 				switch (jobId.ToClass())
 				{
 					default:
-					case Class.Swordsman: return 10000;
-					case Class.Wizard: return 10006;
-					case Class.Archer: return 10008;
-					case Class.Cleric:
-					case Class.GM: return 10004;
+					case JobClass.Swordsman: return 10000;
+					case JobClass.Wizard: return 10006;
+					case JobClass.Archer: return 10008;
+					case JobClass.Cleric:
+					case JobClass.GM: return 10004;
 				}
 			}
 

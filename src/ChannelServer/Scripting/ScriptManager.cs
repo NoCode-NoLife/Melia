@@ -1641,7 +1641,7 @@ namespace Melia.Channel.Scripting
 			// Get parameters
 			var argc = Melua.lua_gettop(L);
 
-			var jobClass = (Class)Melua.luaL_checkint(L, 1);
+			var jobClass = (JobClass)Melua.luaL_checkint(L, 1);
 
 			Melua.lua_pop(L, argc);
 

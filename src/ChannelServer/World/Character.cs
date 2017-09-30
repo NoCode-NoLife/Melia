@@ -71,7 +71,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Character's base job's class.
 		/// </summary>
-		public Class JobClass => this.JobId.ToClass();
+		public JobClass JobClass => this.JobId.ToClass();
 
 		/// <summary>
 		/// Returns reference to character's base job, based on JobId.
