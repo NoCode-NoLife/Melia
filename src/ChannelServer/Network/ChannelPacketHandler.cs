@@ -93,7 +93,6 @@ namespace Melia.Channel.Network
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
 			Send.ZC_SESSION_OBJECTS(character);
-			// ZC_NORMAL
 			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
@@ -103,25 +102,47 @@ namespace Melia.Channel.Network
 			Send.ZC_HELP_LIST(character);
 			// ZC_MYPAGE_MAP
 			// ZC_GUESTPAGE_MAP
-			Send.ZC_START_INFO(conn);
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			// ZC_NORMAL...
+			// ZC_OBJECT_PROPERTY
+			// ZC_NORMAL...
+			// ZC_COLONY_OCCUPATION_INFO
+			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
+			Send.ZC_MOVE_SPEED(character);
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_MOVE_SPEED
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_HOLD_EXP_BOOK_TIME
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
-			// ZC_OBJECT_PROPERTY...
-			// ZC_SKILL_ADD...
-			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_NO_GUILD_INDEX(character);
+			// ZC_NO_GUILD_INDEX
+			// ZC_UPDATED_PCAPPEARANCE
+			// ZC_NORMAL
+			// ZC_SESSION_OBJECTS
+			// ZC_NORMAL...
+			// ZC_ZC_ADVENTURE_BOOK_INFO
+			// ZC_NORMAL...
+			// ZC_ZC_SKILL_ADD...
+			// ZC_NORMAL
+			// ZC_ZC_ADVENTURE_BOOK_INFO
 			Send.ZC_NORMAL_AccountUpdate(character);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
-			Send.ZC_NO_GUILD_INDEX(character);
+			// ZC_NORMAL
+			// ZC_MOVE_SPEED
+			// ZC_NORMAL...
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_ZC_ADVENTURE_BOOK_INFO
 			Send.ZC_SEND_CASH_VALUE(conn);
+			// ZC_SEND_PREMIUM_STATE
+			// ZC_NO_GUILD_INDEX...
 
 			// HACK: This call triggers an EXP bar refresh, which the client
 			//   doesn't do by itself right now for some reason. Maybe a
