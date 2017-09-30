@@ -64,9 +64,14 @@ namespace Melia.Channel.World
 		public string TeamName { get; set; }
 
 		/// <summary>
-		/// Character's base job.
+		/// Character's base job's id.
 		/// </summary>
 		public JobId JobId { get; set; }
+
+		/// <summary>
+		/// Returns reference to character's base job, based on JobId.
+		/// </summary>
+		public Job Job => this.Jobs.Get(this.JobId);
 
 		/// <summary>
 		/// Character's jobs.
@@ -742,7 +747,7 @@ namespace Melia.Channel.World
 			// Class EXP
 			var classLevel = this.ClassLevel;
 			var rank = this.Jobs.GetCurrentRank();
-			var job = this.Jobs.Get(this.JobId);
+			var job = this.Job;
 			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
 
 			// Limit EXP to the total max, otherwise the client will
