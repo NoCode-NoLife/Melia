@@ -1,5 +1,9 @@
 // Melia
 // Database file
+// 
+// The EXP need to be changed on both client and server, because the
+// client uses its local EXP data for some calculations, like the required
+// level to equip items.
 //---------------------------------------------------------------------------
 
 [
