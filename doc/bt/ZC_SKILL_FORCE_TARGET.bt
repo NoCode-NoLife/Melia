@@ -47,4 +47,6 @@ if (b1 > 0)
     int i21;
     int i22;
     int i23;
+    byte b2;
+    float f8;
 }
