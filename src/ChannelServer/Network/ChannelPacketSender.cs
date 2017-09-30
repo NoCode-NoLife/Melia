@@ -70,7 +70,7 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(1); // count
 			{
-				packet.PutShort((short)conn.SelectedCharacter.Job);
+				packet.PutShort((short)conn.SelectedCharacter.JobId);
 				packet.PutInt(0); // 1270153646, 2003304878
 				packet.PutInt(0);
 				packet.PutShort(1);
@@ -535,7 +535,7 @@ namespace Melia.Channel.Network
 			packet.PutString(character.TeamName, 64);
 			packet.PutString(character.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
-			packet.PutShort((short)character.Job);
+			packet.PutShort((short)character.JobId);
 			packet.PutInt(0); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);

@@ -16,7 +16,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutLong(appearancePc.AccountId);
 			packet.PutShort(appearancePc.Stance);
 			packet.PutShort(0);
-			packet.PutShort((short)appearancePc.Job);
+			packet.PutShort((short)appearancePc.JobId);
 			packet.PutByte((byte)appearancePc.Gender);
 			packet.PutByte(0);
 			packet.PutInt(appearancePc.Level);
@@ -60,7 +60,7 @@ namespace Melia.Shared.Network.Helpers
 		string Name { get; }
 		string TeamName { get; }
 		int Stance { get; }
-		JobId Job { get; }
+		JobId JobId { get; }
 		Gender Gender { get; }
 		int Level { get; }
 		byte Hair { get; }

@@ -142,7 +142,7 @@ namespace Melia.Login.Database
 					cmd.Set("accountId", accountId);
 					cmd.Set("name", character.Name);
 					cmd.Set("teamName", character.TeamName);
-					cmd.Set("job", character.Job);
+					cmd.Set("job", character.JobId);
 					cmd.Set("gender", character.Gender);
 					cmd.Set("hair", character.Hair);
 
@@ -193,7 +193,7 @@ namespace Melia.Login.Database
 				using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
 				{
 					cmd.Set("characterId", character.Id);
-					cmd.Set("jobId", character.Job);
+					cmd.Set("jobId", character.JobId);
 
 					cmd.Execute();
 				}
@@ -263,7 +263,7 @@ namespace Melia.Login.Database
 							character.Id = reader.GetInt64("characterId");
 							character.AccountId = accountId;
 							character.Name = reader.GetStringSafe("name");
-							character.Job = (JobId)reader.GetInt16("job");
+							character.JobId = (JobId)reader.GetInt16("job");
 							character.Gender = (Gender)reader.GetByte("gender");
 							character.Hair = reader.GetByte("hair");
 							character.Level = reader.GetInt32("level");
@@ -316,7 +316,7 @@ namespace Melia.Login.Database
 					}
 
 					if (character.Jobs.Count == 0)
-						character.Jobs.Add(character.Job);
+						character.Jobs.Add(character.JobId);
 				}
 			}
 

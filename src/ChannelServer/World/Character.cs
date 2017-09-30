@@ -66,7 +66,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Character's base job.
 		/// </summary>
-		public JobId Job { get; set; }
+		public JobId JobId { get; set; }
 
 		/// <summary>
 		/// Character's jobs.
@@ -261,7 +261,7 @@ namespace Melia.Channel.World
 				//   for the moment, in case all this doesn't work out the
 				//   way I expect it to.
 
-				var jobId = this.Job;
+				var jobId = this.JobId;
 				var rank = this.Jobs.GetCurrentRank();
 				var totalExp = this.Jobs.Get(jobId).TotalExp;
 				var max = 15; // TODO: Const? Conf? Determine based on exp db?
@@ -678,7 +678,7 @@ namespace Melia.Channel.World
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			this.Jobs.ModifySkillPoints(this.Job, amount);
+			this.Jobs.ModifySkillPoints(this.JobId, amount);
 
 			Send.ZC_OBJECT_PROPERTY(this);
 			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
@@ -742,7 +742,7 @@ namespace Melia.Channel.World
 			// Class EXP
 			var classLevel = this.ClassLevel;
 			var rank = this.Jobs.GetCurrentRank();
-			var job = this.Jobs.Get(this.Job);
+			var job = this.Jobs.Get(this.JobId);
 			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
 
 			// Limit EXP to the total max, otherwise the client will
@@ -919,7 +919,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int UpdateStance()
 		{
-			var jobId = this.Job;
+			var jobId = this.JobId;
 			var riding = false;
 			var rightHand = this.Inventory.GetItem(EquipSlot.RightHand).Data.EquipType1;
 			var leftHand = this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1;

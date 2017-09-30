@@ -106,7 +106,7 @@ namespace Melia.Channel.Database
 					character.AccountId = accountId;
 					character.Name = reader.GetStringSafe("name");
 					character.TeamName = reader.GetStringSafe("teamName");
-					character.Job = (JobId)reader.GetInt16("job");
+					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetByte("hair");
 					character.Level = reader.GetInt32("level");
@@ -289,7 +289,7 @@ namespace Melia.Channel.Database
 
 			// Fallback if the character doesn't have a job for some reason
 			if (character.Jobs.Count == 0)
-				character.Jobs.AddSilent(new Job(character, character.Job));
+				character.Jobs.AddSilent(new Job(character, character.JobId));
 		}
 
 		/// <summary>
@@ -383,7 +383,7 @@ namespace Melia.Channel.Database
 			{
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("name", character.Name);
-				cmd.Set("job", (short)character.Job);
+				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
 				cmd.Set("level", character.Level);

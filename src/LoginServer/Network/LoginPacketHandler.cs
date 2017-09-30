@@ -215,7 +215,7 @@ namespace Melia.Login.Network
 			// Create
 			var character = new Character();
 			character.Name = name;
-			character.Job = job;
+			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
 
