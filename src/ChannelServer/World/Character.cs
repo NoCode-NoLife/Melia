@@ -485,6 +485,76 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns minimum magic ATK.
+		/// </summary>
+		public int MinMAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Int;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MINATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MAtk
+
+				// Buffs: "MATK_BM", "MINMATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "MATK_RATE_BM", "MINMATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				var max = this.MaxMAtk;
+				if (value > max)
+					return max;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns maximum magic ATK.
+		/// </summary>
+		public int MaxMAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Int;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MAtk
+
+				// Buffs: "MATK_BM", "MAXMATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "MATK_RATE_BM", "MAXMATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -556,6 +626,8 @@ namespace Melia.Channel.World
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINPATK, () => this.MinPAtk));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXPATK, () => this.MaxPAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINMATK, () => this.MinMAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXMATK, () => this.MaxMAtk));
 		}
 
 		/// <summary>
