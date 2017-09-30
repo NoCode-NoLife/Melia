@@ -266,6 +266,16 @@ switch (type)
         break;
     
     // ?
+    case 0x194:
+        lpString str1; // AdventureBook
+        lpString str2;
+        int i1;
+        int i2; // i1+2=id?
+        int i3;
+        byte b1;
+        break;
+    
+    // ?
     case 0x197:
         int i1;
         break;
