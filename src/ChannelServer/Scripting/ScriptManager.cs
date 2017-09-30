@@ -1034,7 +1034,7 @@ namespace Melia.Channel.Scripting
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "jobclass");
-			Melua.lua_pushinteger(L, (int)character.JobId.ToClass());
+			Melua.lua_pushinteger(L, (int)character.JobClass);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "rank");
@@ -1629,7 +1629,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - int jobId
+		/// - int jobClass
 		/// 
 		/// Result:
 		/// - bool
@@ -1649,7 +1649,7 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			Melua.lua_pushboolean(L, character.JobId.ToClass() == jobClass);
+			Melua.lua_pushboolean(L, character.JobClass == jobClass);
 
 			return 1;
 		}
