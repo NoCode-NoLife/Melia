@@ -89,14 +89,24 @@ namespace Melia.Channel.World
 		public int Hp
 		{
 			get { return _hp; }
-			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
+			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
 		private int _hp;
 
 		/// <summary>
 		/// Maximum health points.
 		/// </summary>
-		public int MaxHp { get; set; }
+		public int MaxHp { get; private set; }
+
+		/// <summary>
+		/// Physical defense.
+		/// </summary>
+		public int Defense
+		{
+			get { return _defense; }
+			private set { _defense = Math.Max(0, value); }
+		}
+		private int _defense;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -138,6 +148,7 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
 			this.Hp = this.MaxHp = this.Data.Hp;
+			this.Defense = this.Data.Defense;
 		}
 
 		/// <summary>
