@@ -1003,5 +1003,18 @@ namespace Melia.Channel.World
 
 			return this.Stance;
 		}
+
+		/// <summary>
+		/// Returns a random physical ATK value between MinPAtk and MaxPAtk.
+		/// </summary>
+		/// <returns></returns>
+		public int GetRandomPAtk()
+		{
+			var rnd = RandomProvider.Get();
+			var min = this.MinPAtk;
+			var max = this.MaxPAtk;
+
+			return rnd.Next(min, max + 1);
+		}
 	}
 }

@@ -816,7 +816,9 @@ namespace Melia.Channel.Network
 					continue;
 				}
 
-				target.TakeDamage(target.MaxHp / 4, character);
+				var damage = character.GetRandomPAtk();
+
+				target.TakeDamage(damage, character);
 			}
 		}
 
