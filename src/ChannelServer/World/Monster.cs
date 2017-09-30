@@ -165,8 +165,13 @@ namespace Melia.Channel.World
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
 
-			var exp = (int)(this.Data.Exp * expRate);
-			var classExp = (int)(this.Data.ClassExp * classExpRate);
+			var exp = 0;
+			var classExp = 0;
+
+			if (this.Data.Exp > 0)
+				exp = (int)Math.Max(1, this.Data.Exp * expRate);
+			if (this.Data.ClassExp > 0)
+				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);
