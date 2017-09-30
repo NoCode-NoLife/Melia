@@ -102,6 +102,7 @@ namespace Melia.Channel.Network
 			Send.ZC_HELP_LIST(character);
 			// ZC_MYPAGE_MAP
 			// ZC_GUESTPAGE_MAP
+			Send.ZC_NORMAL_UpdateSkillUI(character);
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
@@ -134,7 +135,6 @@ namespace Melia.Channel.Network
 			// ZC_NORMAL
 			// ZC_ZC_ADVENTURE_BOOK_INFO
 			Send.ZC_NORMAL_AccountUpdate(character);
-			Send.ZC_NORMAL_UpdateSkillUI(character);
 			// ZC_NORMAL
 			// ZC_MOVE_SPEED
 			// ZC_NORMAL...
@@ -143,11 +143,6 @@ namespace Melia.Channel.Network
 			Send.ZC_SEND_CASH_VALUE(conn);
 			// ZC_SEND_PREMIUM_STATE
 			// ZC_NO_GUILD_INDEX...
-
-			// HACK: This call triggers an EXP bar refresh, which the client
-			//   doesn't do by itself right now for some reason. Maybe a
-			//   NORMAL is missing.
-			Send.ZC_JOB_EXP_UP(character, 0);
 
 			character.OpenEyes();
 		}
