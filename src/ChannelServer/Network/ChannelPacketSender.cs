@@ -413,6 +413,42 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_DIVISION_LIST to character, containing a list of
+		/// all items in their inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_ITEM_INVENTORY_DIVISION_LIST(Character character)
+		{
+			var items = character.Inventory.GetItems();
+
+			var packet = new Packet(Op.ZC_ITEM_INVENTORY_DIVISION_LIST);
+
+			packet.PutInt(items.Count);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			packet.Zlib(false, zpacket =>
+			{
+				foreach (var item in items)
+				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(propertiesSize);
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(item.Key);
+					zpacket.PutInt(1);
+					zpacket.AddProperties(properties);
+				}
+			});
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_ITEM_INVENTORY_LIST to character, containing a list of
 		/// all their equipment.
 		/// </summary>
