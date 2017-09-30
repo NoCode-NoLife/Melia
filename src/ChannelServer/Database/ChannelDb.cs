@@ -145,6 +145,10 @@ namespace Melia.Channel.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 
+			// Update stance, in case no equip was added, which would've
+			// triggered this call.
+			character.UpdateStance();
+
 			return character;
 		}
 
