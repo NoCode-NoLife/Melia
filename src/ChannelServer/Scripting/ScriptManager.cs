@@ -944,6 +944,7 @@ namespace Melia.Channel.Scripting
 		///     string  teamname,     -- Character's team name
 		///     integer gender,       -- Character's gender
 		///     integer level,        -- Character's level
+		///     integer classlevel,   -- Character's class level
 		///     integer hp,           -- Character's HP
 		///     integer maxhp,        -- Character's max HP
 		///     integer sp,           -- Character's SP
@@ -984,6 +985,10 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_pushstring(L, "level");
 			Melua.lua_pushinteger(L, character.Level);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "classlevel");
+			Melua.lua_pushinteger(L, character.ClassLevel);
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "hp");
