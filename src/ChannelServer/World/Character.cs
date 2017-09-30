@@ -665,7 +665,7 @@ namespace Melia.Channel.World
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
-			//Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
 		}
 
@@ -681,7 +681,7 @@ namespace Melia.Channel.World
 			this.Jobs.ModifySkillPoints(this.Job, amount);
 
 			Send.ZC_OBJECT_PROPERTY(this);
-			//Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_ClassLevelUp(this);
 		}
 

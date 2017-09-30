@@ -1337,15 +1337,29 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Executes Lua addon function.
 		/// </summary>
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		/// <param name="parameter"></param>
 		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
+		{
+			ZC_ADDON_MSG(character, 0, msg, parameter);
+		}
+
+		/// <summary>
+		/// Executes Lua addon function.
+		/// </summary>
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		/// <param name="character"></param>
+		/// <param name="duration">Duration in seconds messages are displayed?</param>
+		/// <param name="msg"></param>
+		/// <param name="parameter"></param>
+		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 			packet.PutByte((byte)(msg.Length));
-			packet.PutInt(0);
-			packet.PutByte(1);
+			packet.PutInt(duration);
+			packet.PutByte(0);
 			packet.PutString(msg, msg.Length);
 
 			if (parameter != null)
