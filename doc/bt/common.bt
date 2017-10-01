@@ -302,13 +302,45 @@ typedef struct
     if (propertiesSize > 0)
         getProperties(propertiesSize);
 }
-EquipItem;
+EquipItem <optimize=false,read=EquipItemRead>;
 
 string EquipItemRead(EquipItem &v)
 {
     local string result;
-    SPrintf(result, "%d : %d", v.slot, v.id);
+    local string slotName = GetEquipSlotName(v.slot);
+    SPrintf(result, "%s : %d", slotName, v.id);
     return result;
+}
+
+string GetEquipSlotName(int slotId)
+{
+    switch(slotId)
+    {
+        case 0: return "HairAccessory";
+        case 1: return "SubsidiaryAccessory";
+        case 2: return "Hair";
+        case 3: return "Top";
+        case 4: return "Gloves";
+        case 5: return "Shoes";
+        case 6: return "Helmet";
+        case 7: return "Armband";
+        case 8: return "RightHand";
+        case 9: return "LeftHand";
+        case 10: return "Outer1";
+        case 11: return "Ring1";
+        case 12: return "Ring2";
+        case 13: return "Outer2";
+        case 14: return "Pants";
+        case 15: return "Ring3";
+        case 16: return "Ring4";
+        case 17: return "Bracelet1";
+        case 18: return "Bracelet2";
+        case 19: return "Necklace";
+        case 20: return "Hat";
+        case 21: return "Lens";
+        case 22: return "Wing";
+        default: return "Unknown";
+    }
 }
 
 typedef struct
