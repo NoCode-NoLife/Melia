@@ -812,7 +812,7 @@ namespace Melia.Channel.Network
 				var target = character.Map.GetMonster(handle);
 				if (target == null)
 				{
-					Log.Warning("User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
+					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 					continue;
 				}
 
