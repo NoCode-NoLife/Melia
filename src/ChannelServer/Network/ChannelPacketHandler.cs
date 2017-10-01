@@ -824,6 +824,40 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sent when attacking a target with a skill, incl. the default
+		/// magic attack and bows.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_TARGET)]
+		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			// Check skill
+			var skill = character.Skills.Get(skillId);
+			if (skill == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0[' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check target
+			var target = character.Map.GetMonster(targetHandle);
+			if (target == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
+				return;
+			}
+
+			character.ServerMessage("Skill attacks haven't been implemented yet.");
+		}
+
+		/// <summary>
 		/// Sent when distributing stat points.
 		/// </summary>
 		/// <param name="conn"></param>
