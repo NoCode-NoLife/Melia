@@ -20,11 +20,9 @@ addnpc(46214, "ETC_20150714_012474", "d_firetower_61_2", -875, 334, 680, 45, "np
 addnpc(46214, "ETC_20150714_012474", "d_firetower_61_2", -926, 334, 425, 45, "npc_dummy")
 
 --- North Side --- 
---- npcselectdialog.ies | ClassName:  ---
 addnpc(147469, "ETC_20150714_012465", "d_firetower_61_2", -2074, 180, 1347, 45, "npc_dummy")
 
 --- South Side --- 
---- npcselectdialog.ies | ClassName:  ---
 addnpc(147469, "ETC_20150714_012466", "d_firetower_61_2", 1695, 180, -1557, 45, "npc_dummy")
 
 --- Blue Magical Crystal --- 
@@ -91,6 +89,5 @@ addnpc(46214, "ETC_20150714_013129", "d_firetower_61_2", 993, 288, -1008, 45, "n
 addnpc(46214, "ETC_20150714_013129", "d_firetower_61_2", 736, 333, 770, 45, "npc_dummy")
 
 --- Lv1 Treasure Chest --- 
---- npcselectdialog.ies | ClassName:  ---
 addnpc(147392, "ETC_20150317_009100", "d_firetower_61_2", 906, 333, 401, 180, "npc_dummy")
 

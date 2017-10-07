@@ -1,21 +1,13 @@
 --- Traveling Merchant Rose --- 
---- npcselectdialog.ies | ClassName: ABBEY642_ROZE01 ---
---- QuestIDs: ABBAY_64_2_MQ010 ---
 addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 920, 399, -114, 144, "npc_dummy")
 
 --- Edmundas --- 
---- npcselectdialog.ies | ClassName: ABBEY642_EDMONDAS ---
---- QuestIDs: ABBAY_64_2_MQ030 | ABBAY_64_2_MQ040 ---
 addnpc(153110, "ETC_20151102_016545", "d_abbey_64_2", -12, 981, -1335, 121, "npc_dummy")
 
 --- Traveling Merchant Rose --- 
---- npcselectdialog.ies | ClassName: ABBEY642_ROZE02 ---
---- QuestIDs: ABBAY_64_2_MQ020 | ABBAY_64_2_MQ030 ---
 addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 11, 983, -1272, -49, "npc_dummy")
 
 --- Experiment Victim Hilbeth --- 
---- npcselectdialog.ies | ClassName: ABBEY642_PEAPLE01 ---
---- QuestIDs: ABBAY_64_2_SQ010 | ABBAY_64_2_SQ020 | ABBAY_64_2_SQ030 ---
 addnpc(20063, "QUEST_LV_0100_20151224_011836", "d_abbey_64_2", 40, 299, 1557, 10, "npc_dummy")
 
 --- Demons' Experimental Tools --- 
@@ -46,11 +38,8 @@ addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -926, 0, 2107, -3, "npc_du
 addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -586, 300, 249, -16, "npc_dummy")
 
 --- Monk Abels --- 
---- npcselectdialog.ies | ClassName: ABBEY642_MONK01 ---
---- QuestIDs: ABBAY_64_2_SQ040 | ABBAY_64_2_SQ050 ---
 addnpc(155044, "QUEST_LV_0100_20151224_011895", "d_abbey_64_2", 610, 178, 884, -45, "npc_dummy")
 
 --- Lv1 Treasure Chest --- 
---- npcselectdialog.ies | ClassName:  ---
 addnpc(147392, "ETC_20150317_009100", "d_abbey_64_2", 97, 981, -1895, 0, "npc_dummy")
 
