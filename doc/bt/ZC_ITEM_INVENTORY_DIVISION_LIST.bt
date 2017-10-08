@@ -13,10 +13,8 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderDynamic header;
 
-short size;
 int itemCount;
 byte b1;
 byte b2;

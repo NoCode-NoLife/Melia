@@ -7,6 +7,7 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.World;
@@ -39,6 +40,7 @@ namespace Melia.Channel.Util
 			Add("jump", "<x> <y> <z>", this.HandleJump);
 			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
 			Add("item", "<item id> [amount]", this.HandleItem);
+			Add("silver", "<modifier>", this.HandleSilver);
 			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
 			Add("madhatter", "", this.HandleGetAllHats);
 			Add("levelup", "<levels>", this.HandleLevelUp);
@@ -48,6 +50,7 @@ namespace Melia.Channel.Util
 			Add("go", "<destination>", this.HandleGo);
 			Add("goto", "<team name>", this.HandleGoTo);
 			Add("recall", "<team name>", this.HandleRecall);
+			Add("recallmap", "[map id/name]", this.HandleRecallMap);
 			Add("recallall", "", this.HandleRecallAll);
 			Add("clearinv", "", this.HandleClearInventory);
 			Add("addjob", "<job id> [circle]", this.HandleAddJob);
@@ -220,7 +223,7 @@ namespace Melia.Channel.Util
 			// Get amount
 			if (args.Length > 2)
 			{
-				if (!int.TryParse(args[2], out amount))
+				if (!int.TryParse(args[2], out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
 			}
 
@@ -231,6 +234,60 @@ namespace Melia.Channel.Util
 			sender.ServerMessage("Item created.");
 			if (sender != target)
 				target.ServerMessage("An item was added to your inventory by {0}.", sender.TeamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Adds or removes silver from target's inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleSilver(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args[1], out var modifier) || modifier == 0)
+				return CommandResult.InvalidArgument;
+
+			// Create and add silver item
+			if (modifier > 0)
+			{
+				var item = new Item(ItemId.Silver, modifier);
+				target.Inventory.Add(item, InventoryAddType.PickUp);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were added to your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were added to target's inventory.", modifier);
+					target.ServerMessage("{0} added {1:n0} silver to your inventory.", sender.TeamName, modifier);
+				}
+			}
+			// Remove silver items
+			else
+			{
+				modifier = -modifier;
+
+				target.Inventory.Remove(ItemId.Silver, modifier, InventoryItemRemoveMsg.Destroyed);
+
+				if (sender == target)
+				{
+					sender.ServerMessage("{0:n0} silver were removed from your inventory.", modifier);
+				}
+				else
+				{
+					sender.ServerMessage("{0:n0} silver were removed from target's inventory.", modifier);
+					target.ServerMessage("{0} removed {1:n0} silver from your inventory.", sender.TeamName, modifier);
+				}
+			}
 
 			return CommandResult.Okay;
 		}
@@ -662,6 +719,55 @@ namespace Melia.Channel.Util
 		}
 
 		/// <summary>
+		/// Warps all players on the map to target's location.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleRecallMap(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length > 2)
+				return CommandResult.InvalidArgument;
+
+			var map = target.Map;
+
+			// TODO: Once we have support for channels and map servers,
+			//   add warp from other servers and restrict recall to
+			//   channel's max player count.
+			if (args.Length > 1)
+			{
+				// Search for map by name and id
+				if (int.TryParse(args[1], out var mapId))
+					map = ChannelServer.Instance.World.GetMap(mapId);
+				else
+					map = ChannelServer.Instance.World.GetMap(args[1]);
+
+				// Check map
+				if (map == null)
+				{
+					sender.ServerMessage("Unknown map.");
+					return CommandResult.Okay;
+				}
+			}
+
+			var characters = map.GetCharacters(a => a != target);
+
+			// Check for characters
+			if (!characters.Any())
+			{
+				sender.ServerMessage("No players found.");
+				return CommandResult.Okay;
+			}
+
+			RecallCharacters(sender, target, characters);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Warps all players on the server to target's location.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -679,7 +785,7 @@ namespace Melia.Channel.Util
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
 
-			// Check characters
+			// Check for characters
 			var characters = ChannelServer.Instance.World.GetCharacters(a => a != target);
 			if (!characters.Any())
 			{
@@ -687,23 +793,7 @@ namespace Melia.Channel.Util
 				return CommandResult.Okay;
 			}
 
-			// Recall each player to target's location.
-			var location = target.GetLocation();
-			foreach (var character in characters)
-			{
-				character.Warp(location);
-				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
-			}
-
-			if (sender == target)
-			{
-				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
-			}
-			else
-			{
-				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
-				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
-			}
+			RecallCharacters(sender, target, characters);
 
 			return CommandResult.Okay;
 		}
@@ -741,6 +831,10 @@ namespace Melia.Channel.Util
 		{
 			// Command is sent when the inventory is opened, purpose unknown,
 			// officials don't seem to send anything back.
+
+			// Comment in the client's Lua files:
+			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
+			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
 
 			return CommandResult.Okay;
 		}
@@ -782,7 +876,7 @@ namespace Melia.Channel.Util
 
 			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
-			Send.ZC_ADDON_MSG(sender, "SUCCESS_BUY_ABILITY_POINTBLANK");
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
 
 			return CommandResult.Okay;
 		}
@@ -798,7 +892,113 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleLearnPcAbil(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			sender.ServerMessage("Abilities can't be learned yet.");
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length != 3 || !int.TryParse(args[2], out var levels) || levels < 1)
+			{
+				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				return CommandResult.Okay;
+			}
+
+			var className = args[1];
+
+			var abilityData = ChannelServer.Instance.Data.AbilityDb.Find(className);
+			if (abilityData == null)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn non-existent ability '{1}'.", conn.Account.Name, className);
+				return CommandResult.Okay;
+			}
+
+			// All we get here is the ability name, but whether it can
+			// be learned or not potentially depends on any of the job's
+			// ability tree's entries. We have to check whether the ability
+			// can be learned by any of the character's jobs.
+
+			var abilityId = abilityData.Id;
+			var canLearn = false;
+			var jobs = sender.Jobs.GetList();
+
+			AbilityTreeData abilityTreeData = null;
+			foreach (var job in jobs)
+			{
+				// An ability can be learned by a job if there's an entry
+				// for it in the tree and an unlock condition is given.
+				var jobAbilityTreeData = ChannelServer.Instance.Data.AbilityTreeDb.Find(job.Id, abilityId);
+				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlock)
+				{
+					var unlocked = AbilityUnlock.IsUnlocked(sender, abilityData, jobAbilityTreeData);
+					if (unlocked)
+					{
+						canLearn = true;
+						abilityTreeData = jobAbilityTreeData;
+						break;
+					}
+				}
+			}
+
+			if (!canLearn)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn ability '{1}', which they can't learn (yet).", conn.Account.Name, className);
+				return CommandResult.Okay;
+			}
+
+			var ability = sender.Abilities.Get(abilityId);
+			var currentLevel = (ability == null ? 0 : ability.Level);
+			var newLevel = (currentLevel + levels);
+			var maxLevel = abilityTreeData.MaxLevel;
+
+			if (newLevel > maxLevel)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to increase ability '{1}'s level past the max level of {2}.", conn.Account.Name, className, maxLevel);
+				return CommandResult.Okay;
+			}
+
+			// Price and time can come either from the actual values,
+			// or from functions that return both.
+
+			var price = abilityTreeData.Price;
+			var time = abilityTreeData.Time;
+
+			if (abilityTreeData.HasPriceTime)
+			{
+				price = 0;
+
+				for (var i = currentLevel + 1; i <= newLevel; ++i)
+				{
+					AbilityPriceTime.Get(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
+					price += addPrice;
+				}
+			}
+
+			var points = sender.AbilityPoints;
+			if (points < price)
+			{
+				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			//Log.Debug("Learn: {0}", abilityData.EngName);
+			//Log.Debug("- From: {0}", currentLevel);
+			//Log.Debug("- To: {0}", newLevel);
+			//Log.Debug("- Price: {0}", price);
+			//Log.Debug("- Time: {0}", time);
+
+			// Add ability if character doesn't have it yet
+			if (ability == null)
+			{
+				ability = new Ability(abilityId, 0);
+				sender.Abilities.Add(ability);
+			}
+
+			// Update ability
+			ability.Level += levels;
+			Send.ZC_OBJECT_PROPERTY(sender.Connection, ability);
+
+			sender.ModifyAbilityPoints(-price);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
+
 			return CommandResult.Okay;
 		}
 
@@ -844,7 +1044,7 @@ namespace Melia.Channel.Util
 			}
 
 			if (job == null)
-				target.Jobs.Add(new Job(jobId) { Circle = circle });
+				target.Jobs.Add(new Job(target, jobId, circle));
 			else
 				target.Jobs.ChangeCircle(jobId, circle);
 

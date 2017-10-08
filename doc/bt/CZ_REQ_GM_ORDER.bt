@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 char teamName[64];
 char order[128]; // presumably, looks like string + garbage

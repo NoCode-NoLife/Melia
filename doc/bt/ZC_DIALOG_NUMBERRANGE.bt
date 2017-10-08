@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-short size;
+#include "common.bt"
+
+ServerHeaderDynamic header;
 
 int handle;
 char msg[128];

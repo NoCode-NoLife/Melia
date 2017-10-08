@@ -11,8 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 byte type; // 1=storage ?

@@ -489,7 +489,7 @@ namespace Melia.Shared.Network
 					var compressedVal = ms.ToArray();
 
 					this.PutShort(0xFA8D); // zlib header
-					this.PutShort(compressedVal.Length);
+					this.PutInt(compressedVal.Length);
 					this.PutBin(compressedVal);
 				}
 			}

@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 enum <int> Command 
 {   
     CheckHaveInfo = 0,
@@ -20,9 +22,7 @@ enum <int> Command
     DummyPCDialog = 4,
 };
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderFixed header;
 
 int handle;
 Command command;

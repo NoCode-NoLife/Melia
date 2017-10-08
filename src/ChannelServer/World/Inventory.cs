@@ -119,7 +119,7 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (var i = 0; i < category.Value.Count; ++i)
-						result.Add(category.Key.GetIndex(i), category.Value[i].WorldId);
+						result.Add(category.Key.GetIndex(i), category.Value[i].ObjectId);
 				}
 			}
 
@@ -142,7 +142,7 @@ namespace Melia.Channel.World
 
 				var items = _items[category];
 				for (var i = 0; i < items.Count; ++i)
-					result.Add(category.GetIndex(i), items[i].WorldId);
+					result.Add(category.GetIndex(i), items[i].ObjectId);
 			}
 
 			return result;
@@ -345,7 +345,7 @@ namespace Melia.Channel.World
 			lock (_syncLock)
 			{
 				_items[cat].Add(item);
-				_itemsWorldIndex[item.WorldId] = item;
+				_itemsWorldIndex[item.ObjectId] = item;
 
 				if (!silent)
 				{
@@ -420,14 +420,14 @@ namespace Melia.Channel.World
 			{
 				_equip[slot] = item;
 				_items[item.Data.Category].Remove(item);
-				_itemsWorldIndex.Remove(item.WorldId);
+				_itemsWorldIndex.Remove(item.ObjectId);
 			}
 
 			// Update character
 			_character.UpdateStance();
 
 			// Update client
-			Send.ZC_ITEM_REMOVE(_character, item.WorldId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
+			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
@@ -484,10 +484,10 @@ namespace Melia.Channel.World
 				if (!_items[item.Data.Category].Remove(item))
 					return InventoryResult.ItemNotFound;
 
-				_itemsWorldIndex.Remove(item.WorldId);
+				_itemsWorldIndex.Remove(item.ObjectId);
 			}
 
-			Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 
@@ -517,7 +517,7 @@ namespace Melia.Channel.World
 			{
 				item.Amount -= amount;
 
-				Send.ZC_ITEM_REMOVE(_character, item.WorldId, amount, msg, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, amount, msg, InventoryType.Inventory);
 				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 			}
 
@@ -555,12 +555,12 @@ namespace Melia.Channel.World
 					lock (_syncLock)
 					{
 						_items[category].Remove(item);
-						_itemsWorldIndex.Remove(item.WorldId);
+						_itemsWorldIndex.Remove(item.ObjectId);
 
 					}
 				}
 
-				Send.ZC_ITEM_REMOVE(_character, item.WorldId, reduce, msg, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
 				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			}
 
@@ -703,11 +703,11 @@ namespace Melia.Channel.World
 				lock (_syncLock)
 				{
 					_items[item.Data.Category].Remove(item);
-					_itemsWorldIndex.Remove(item.WorldId);
+					_itemsWorldIndex.Remove(item.ObjectId);
 				}
 
 				modifiedCategories.Add(item.Data.Category);
-				Send.ZC_ITEM_REMOVE(_character, item.WorldId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			}
 
 			// Update categories

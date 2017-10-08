@@ -11,8 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 int unused;     // Always '0'.
 int shopIndex;

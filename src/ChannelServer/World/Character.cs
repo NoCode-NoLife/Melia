@@ -64,9 +64,19 @@ namespace Melia.Channel.World
 		public string TeamName { get; set; }
 
 		/// <summary>
-		/// Character's base job.
+		/// Character's base job's id.
 		/// </summary>
-		public JobId Job { get; set; }
+		public JobId JobId { get; set; }
+
+		/// <summary>
+		/// Character's base job's class.
+		/// </summary>
+		public JobClass JobClass => this.JobId.ToClass();
+
+		/// <summary>
+		/// Returns reference to character's base job, based on JobId.
+		/// </summary>
+		public Job Job => this.Jobs.Get(this.JobId);
 
 		/// <summary>
 		/// Character's jobs.
@@ -251,6 +261,36 @@ namespace Melia.Channel.World
 		public int Level { get; set; }
 
 		/// <summary>
+		/// Character's class level.
+		/// </summary>
+		public int ClassLevel
+		{
+			get
+			{
+				// TODO: This should be improved, but I'll be lazy
+				//   for the moment, in case all this doesn't work out the
+				//   way I expect it to.
+
+				var jobId = this.JobId;
+				var rank = this.Jobs.GetCurrentRank();
+				var totalExp = this.Jobs.Get(jobId).TotalExp;
+				var max = 15; // TODO: Const? Conf? Determine based on exp db?
+
+				// Search for the first level which's requirement we can't
+				// fulfill, as that will be the level we're on.
+				for (var i = 1; i < max; ++i)
+				{
+					var needed = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
+					if (totalExp < needed)
+						return i;
+				}
+
+				// Found none? It's the max then.
+				return max;
+			}
+		}
+
+		/// <summary>
 		/// Current experience points.
 		/// </summary>
 		public int Exp { get; set; }
@@ -346,6 +386,11 @@ namespace Melia.Channel.World
 		public Skills Skills { get; }
 
 		/// <summary>
+		/// Character's abilities.
+		/// </summary>
+		public Abilities Abilities { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -354,6 +399,160 @@ namespace Melia.Channel.World
 		/// possible.
 		/// </remarks>
 		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
+		/// The character's splash rate?
+		/// </summary>
+		/// <remarks>
+		/// Used together with skill's splash rates.
+		/// TODO: Figure out where it comes from (official name: SR).
+		/// TODO: Check if it changes with jobs, items, stances, etc.
+		/// </remarks>
+		public float SplashRate { get; } = 4;
+
+		/// <summary>
+		/// Returns minimum physical ATK.
+		/// </summary>
+		public int MinPAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MINATK", "PATK", "ADD_MINATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MinAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MinAtk
+
+				// Buffs: "PATK_BM", "MINPATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				var maxPatk = this.MaxPAtk;
+				if (value > maxPatk)
+					return maxPatk;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns maximum physical ATK.
+		/// </summary>
+		public int MaxPAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MAXATK", "PATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MaxAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MaxAtk;
+
+				// Buffs: "PATK_BM", "MAXPATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns minimum magic ATK.
+		/// </summary>
+		public int MinMAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Int;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MINATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MAtk
+
+				// Buffs: "MATK_BM", "MINMATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "MATK_RATE_BM", "MINMATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				var max = this.MaxMAtk;
+				if (value > max)
+					return max;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns maximum magic ATK.
+		/// </summary>
+		public int MaxMAtk
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Int;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//    value -= rightHand.MAtk
+
+				// Buffs: "MATK_BM", "MAXMATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "MATK_RATE_BM", "MAXMATK_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Creates new character.
@@ -370,6 +569,7 @@ namespace Melia.Channel.World
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
 			this.Skills = new Skills(this);
+			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 
@@ -399,10 +599,14 @@ namespace Melia.Channel.World
 			// normal C# properties. XXX: We could technically use reflection
 			// to add these automatically.
 
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Lv, () => this.Level));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BeforeLv, () => this.Level));
+
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.Hp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
@@ -417,6 +621,13 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.SplashRate));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINPATK, () => this.MinPAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXPATK, () => this.MaxPAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINMATK, () => this.MinMAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXMATK, () => this.MaxMAtk));
 		}
 
 		/// <summary>
@@ -598,50 +809,39 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Increases character's level by the given amount of levels.
+		/// Increases character's level by the given amount.
 		/// </summary>
-		public void LevelUp(int amount)
+		/// <param name="amount"></param>
+		public void LevelUp(int amount = 1)
 		{
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
 			this.Level += amount;
 			this.StatByLevel += amount;
-			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetExp(this.Level);
-
-			// packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-			//packet.PutLong(target.Id);
-			//packet.PutBinFromHex("8E 10 00 00 00 40 98 10 00 00 40 41 33 11 00 00 E4 42 29 11 00 80 83 43 36 11 00 00 A0 40 37 11 00 00 A0 40 59 11 00 00 00 41 70 11 00 00 10 41 2F 11 00 00 A0 40 6B 11 00 00 10 41 D5 11 00 00 E0 40 CD 11 00 00 E0 40 CF 11 00 00 50 41 D2 11 00 00 40 41 E0 11 00 00 48 42 D7 11 00 00 0C 43 DE 10 53 9A 0E 40");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_NORMAL);
-			//packet.PutBinFromHex("1C 00 00 00 ");
-			//packet.PutInt(target.Handle);
-			//packet.PutBinFromHex("00 75 77 78 04 00 00 00 00 9A E7 8A C4 74 76 82 43 39 0C 09 C4 F2 04 35 BF F4 04 35 BF 00 00 00 00 00 00 00 00 00 00 00 00");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
-			//packet.PutInt(target.Handle);
-			//packet.PutBinFromHex("07 01 00 00 07 01 00 00 72 00 72 00 09 00 00 00");
-			//conn.Send(packet);
+			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp(this.Level);
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
-			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByLevel);
+			Send.ZC_OBJECT_PROPERTY(this);
+			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
-
-			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			//packet.PutBinFromHex("DA 10 00");
-			//conn.Send(packet);
-
-			//packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			//packet.PutBinFromHex("0F 11 00");
-			//conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Increases character's level by one.
+		/// Gives skill points to the current job and updates client.
 		/// </summary>
-		public void LevelUp()
+		/// <param name="amount"></param>
+		private void ClassLevelUp(int amount = 1)
 		{
-			this.LevelUp(1);
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
+			this.Jobs.ModifySkillPoints(this.JobId, amount);
+
+			Send.ZC_OBJECT_PROPERTY(this);
+			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_NORMAL_ClassLevelUp(this);
 		}
 
 		/// <summary>
@@ -681,19 +881,40 @@ namespace Melia.Channel.World
 		/// Grants exp to character and handles level ups.
 		/// </summary>
 		/// <param name="exp"></param>
-		public void GiveExp(int exp, int jobExp, Monster monster)
+		/// <param name="classExp"></param>
+		/// <param name="monster"></param>
+		public void GiveExp(int exp, int classExp, Monster monster)
 		{
+			// Base EXP
 			this.Exp += exp;
-			// TODO: jobExp
+			this.TotalExp += exp;
 
-			Send.ZC_EXP_UP_BY_MONSTER(this, exp, 0, monster);
-			Send.ZC_EXP_UP(this, exp, 0);
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
+			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent?
 
 			while (this.Exp >= this.MaxExp)
 			{
 				this.Exp -= this.MaxExp;
 				this.LevelUp();
 			}
+
+			// Class EXP
+			var classLevel = this.ClassLevel;
+			var rank = this.Jobs.GetCurrentRank();
+			var job = this.Job;
+			var maxTotalExp = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
+
+			// Limit EXP to the total max, otherwise the client will
+			// display level 1 with 0%.
+			job.TotalExp = (int)Math.Min(maxTotalExp, ((long)job.TotalExp + classExp));
+
+			var newClassLevel = this.ClassLevel;
+			var diff = (newClassLevel - classLevel);
+
+			Send.ZC_JOB_EXP_UP(this, classExp);
+
+			if (diff > 0)
+				this.ClassLevelUp(diff);
 		}
 
 		/// <summary>
@@ -857,7 +1078,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int UpdateStance()
 		{
-			var jobId = this.Job;
+			var jobId = this.JobId;
 			var riding = false;
 			var rightHand = this.Inventory.GetItem(EquipSlot.RightHand).Data.EquipType1;
 			var leftHand = this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1;
@@ -865,6 +1086,19 @@ namespace Melia.Channel.World
 			this.Stance = ChannelServer.Instance.Data.StanceConditionDb.FindStanceId(jobId, riding, rightHand, leftHand);
 
 			return this.Stance;
+		}
+
+		/// <summary>
+		/// Returns a random physical ATK value between MinPAtk and MaxPAtk.
+		/// </summary>
+		/// <returns></returns>
+		public int GetRandomPAtk()
+		{
+			var rnd = RandomProvider.Get();
+			var min = this.MinPAtk;
+			var max = this.MaxPAtk;
+
+			return rnd.Next(min, max + 1);
 		}
 	}
 }

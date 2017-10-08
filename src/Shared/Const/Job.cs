@@ -84,7 +84,7 @@ namespace Melia.Shared.Const
 		GM = 9001,
 	}
 
-	public enum Class
+	public enum JobClass
 	{
 		Swordsman = 1,
 		Wizard = 2,
@@ -103,11 +103,11 @@ namespace Melia.Shared.Const
 
 	public static class JobExtension
 	{
-		public static Class ToClass(this JobId job)
+		public static JobClass ToClass(this JobId job)
 		{
-			var result = (Class)((int)job / 1000);
+			var result = (JobClass)((int)job / 1000);
 
-			if (result < Class.Swordsman || (result > Class.Cleric && result != Class.GM))
+			if (result < JobClass.Swordsman || (result > JobClass.Cleric && result != JobClass.GM))
 				throw new Exception("Unknown job class.");
 
 			return result;

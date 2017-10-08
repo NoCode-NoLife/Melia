@@ -17,6 +17,8 @@
 //   - i170175: APPEARANCE_PC.i9 was added
 //   - i171032: APPEARANCE_PC.i9 was removed
 //   - i171032: EquipSlotCount increased to 23 (wings)
+//   - i174236: compressedData.size changed from short to int
+//   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -24,6 +26,40 @@
 #endif
 
 const int EquipSlotCount = 23;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ClientHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    short size;
+}
+ClientHeaderDynamic <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ServerHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    short size;
+}
+ServerHeaderDynamic <optimize=false>;
 
 // Length-prefixed string
 typedef struct
@@ -266,13 +302,45 @@ typedef struct
     if (propertiesSize > 0)
         getProperties(propertiesSize);
 }
-EquipItem;
+EquipItem <optimize=false,read=EquipItemRead>;
 
 string EquipItemRead(EquipItem &v)
 {
     local string result;
-    SPrintf(result, "%d : %d", v.slot, v.id);
+    local string slotName = GetEquipSlotName(v.slot);
+    SPrintf(result, "%s : %d", slotName, v.id);
     return result;
+}
+
+string GetEquipSlotName(int slotId)
+{
+    switch(slotId)
+    {
+        case 0: return "HairAccessory";
+        case 1: return "SubsidiaryAccessory";
+        case 2: return "Hair";
+        case 3: return "Top";
+        case 4: return "Gloves";
+        case 5: return "Shoes";
+        case 6: return "Helmet";
+        case 7: return "Armband";
+        case 8: return "RightHand";
+        case 9: return "LeftHand";
+        case 10: return "Outer1";
+        case 11: return "Ring1";
+        case 12: return "Ring2";
+        case 13: return "Outer2";
+        case 14: return "Pants";
+        case 15: return "Ring3";
+        case 16: return "Ring4";
+        case 17: return "Bracelet1";
+        case 18: return "Bracelet2";
+        case 19: return "Necklace";
+        case 20: return "Hat";
+        case 21: return "Lens";
+        case 22: return "Wing";
+        default: return "Unknown";
+    }
 }
 
 typedef struct
@@ -285,7 +353,7 @@ typedef struct
 typedef struct
 {
     ushort header;
-    short size;
+    int size;
     byte data[size];
 }
 compressedData <read=compressedDataRead>;
@@ -456,3 +524,36 @@ enum <int> PostBoxState
     POST_BOX_STATE_REQ_LOAD = 4,
     POST_BOX_STATE_COUNT = 5,
 };
+
+typedef struct
+{
+    short size;
+    short s1;
+    if(size > 0)
+        getProperties(size-2);
+}
+SessionProperties <read=readSessionProperties, optimize=false>;
+
+string readSessionProperties(SessionProperties &v)
+{
+    string result;
+    SPrintf(result, "size: %d", v.size);
+    return result;
+}
+
+typedef struct
+{
+    int i1;
+    int i2;
+    int64 objectId <format=hex>;
+    int i3;
+    SessionProperties properties;
+}
+SessionObject <read=readSessionObject, optimize=false>;
+
+string readSessionObject(SessionObject &v)
+{
+    string result;
+    SPrintf(result, "%LXh", v.objectId);
+    return result;
+}

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_REQ_NORMAL_TX
+//   Authors: exec
+//   Version: i172954
+//   Purpose: Sent to toggle an ability's state.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+short type; // ?
+char str[33];

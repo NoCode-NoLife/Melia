@@ -106,13 +106,14 @@ namespace Melia.Channel.Database
 					character.AccountId = accountId;
 					character.Name = reader.GetStringSafe("name");
 					character.TeamName = reader.GetStringSafe("teamName");
-					character.Job = (JobId)reader.GetInt16("job");
+					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetByte("hair");
 					character.Level = reader.GetInt32("level");
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
+					character.TotalExp = reader.GetInt32("totalExp");
 					character.MaxHp = reader.GetInt32("maxHp");
 					character.Hp = reader.GetInt32("hp");
 					character.MaxSp = reader.GetInt32("maxSp");
@@ -142,6 +143,11 @@ namespace Melia.Channel.Database
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
+			this.LoadAbilities(character);
+
+			// Update stance, in case no equip was added, which would've
+			// triggered this call.
+			character.UpdateStance();
 
 			return character;
 		}
@@ -165,7 +171,7 @@ namespace Melia.Channel.Database
 							var skillId = reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
-							var skill = new Skill(skillId, level);
+							var skill = new Skill(character, skillId, level);
 
 							character.Skills.AddSilent(skill);
 						}
@@ -198,8 +204,61 @@ namespace Melia.Channel.Database
 						if (character.Skills.Has(skillData.Id))
 							continue;
 
-						var skill = new Skill(skillData.Id, 1);
+						var skill = new Skill(character, skillData.Id, 1);
 						character.Skills.AddSilent(skill);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadAbilities(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `abilities` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var abilityId = reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							var ability = new Ability(abilityId, level);
+
+							character.Abilities.AddSilent(ability);
+						}
+					}
+				}
+
+				// Properties?
+			}
+
+			// Load default abilities of all jobs
+			if (character.Abilities.Count == 0)
+			{
+				foreach (var job in character.Jobs.GetList())
+				{
+					foreach (var abilityName in job.Data.DefaultAbilities)
+					{
+						var data = ChannelServer.Instance.Data.AbilityDb.Find(abilityName);
+						if (data == null)
+						{
+							Log.Warning("ChannelDb.LoadAbilitys: Ability '{0}' not found.", abilityName);
+							continue;
+						}
+
+						if (character.Abilities.Has(data.Id))
+							continue;
+
+						var ability = new Ability(data.Id, 1);
+						character.Abilities.AddSilent(ability);
 					}
 				}
 			}
@@ -223,8 +282,9 @@ namespace Melia.Channel.Database
 						var jobId = (JobId)reader.GetInt32("jobId");
 						var circle = (Circle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
+						var totalExp = reader.GetInt32("totalExp");
 
-						var job = new Job(jobId) { Circle = circle, SkillPoints = skillPoints };
+						var job = new Job(character, jobId, totalExp, circle, skillPoints);
 
 						character.Jobs.AddSilent(job);
 					}
@@ -233,7 +293,7 @@ namespace Melia.Channel.Database
 
 			// Fallback if the character doesn't have a job for some reason
 			if (character.Jobs.Count == 0)
-				character.Jobs.AddSilent(new Job(character.Job));
+				character.Jobs.AddSilent(new Job(character, character.JobId));
 		}
 
 		/// <summary>
@@ -327,7 +387,7 @@ namespace Melia.Channel.Database
 			{
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("name", character.Name);
-				cmd.Set("job", (short)character.Job);
+				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
 				cmd.Set("level", character.Level);
@@ -337,6 +397,7 @@ namespace Melia.Channel.Database
 				cmd.Set("z", character.Position.Z);
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
+				cmd.Set("totalExp", character.TotalExp);
 				cmd.Set("hp", character.Hp);
 				cmd.Set("maxHp", character.MaxHp);
 				cmd.Set("sp", character.Sp);
@@ -361,6 +422,7 @@ namespace Melia.Channel.Database
 			this.SaveSessionObjects(character);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
+			this.SaveAbilities(character);
 
 			return false;
 		}
@@ -399,6 +461,39 @@ namespace Melia.Channel.Database
 		}
 
 		/// <summary>
+		/// Saves character's abilities.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveAbilities(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `abilities` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				var abilities = character.Abilities.GetList();
+				foreach (var ability in abilities)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `abilities` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", ability.Id);
+						cmd.Set("level", ability.Level);
+						cmd.Execute();
+					}
+
+					// Properties?
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
 		/// Saves character's jobs to the database.
 		/// </summary>
 		/// <param name="character"></param>
@@ -423,6 +518,7 @@ namespace Melia.Channel.Database
 						cmd.Set("jobId", job.Id);
 						cmd.Set("circle", job.Circle);
 						cmd.Set("skillPoints", job.SkillPoints);
+						cmd.Set("totalExp", job.TotalExp);
 
 						cmd.Execute();
 					}
@@ -757,7 +853,7 @@ namespace Melia.Channel.Database
 
 				foreach (var revealedMap in account.GetRevealedMaps())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("map", revealedMap.MapId);

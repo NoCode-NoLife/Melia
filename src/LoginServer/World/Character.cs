@@ -6,7 +6,6 @@ using System.Linq;
 using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
 using Melia.Shared.Const;
-using Melia.Shared.Data.Database;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 
@@ -42,7 +41,7 @@ namespace Melia.Login.World
 		/// <summary>
 		/// Character's job.
 		/// </summary>
-		public JobId Job { get; set; }
+		public JobId JobId { get; set; }
 
 		/// <summary>
 		/// Character's gender.
@@ -109,7 +108,7 @@ namespace Melia.Login.World
 				var rightHand = this.Equipment[(int)EquipSlot.RightHand].Type;
 				var leftHand = this.Equipment[(int)EquipSlot.LeftHand].Type;
 
-				return LoginServer.Instance.Data.StanceConditionDb.FindStanceId(this.Job, false, rightHand, leftHand);
+				return LoginServer.Instance.Data.StanceConditionDb.FindStanceId(this.JobId, false, rightHand, leftHand);
 			}
 		}
 

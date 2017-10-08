@@ -14,9 +14,7 @@
 
 #include "common.bt"
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int handle;
 short count;

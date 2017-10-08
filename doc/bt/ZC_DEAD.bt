@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-short size;
+#include "common.bt"
 
-int handles[(size-12) / 4];
+ServerHeaderDynamic header;
+
+int handles[(header.size-sizeof(header)-sizeof(int)) / 4];
 int end;

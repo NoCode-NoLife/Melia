@@ -12,8 +12,9 @@
 //   - i11037: totalExp was added
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 int expAcquired;    // Newly acquired EXP to add.
 int exp;            // Sum of acquired EXP for the current level.

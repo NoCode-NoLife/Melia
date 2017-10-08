@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef struct
 {
     int64 worldId;
@@ -19,10 +21,7 @@ typedef struct
 }
 Sell;
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderDynamic header;
 
-short size;
 int count;
 Sell sells[count] <optimize=false>;

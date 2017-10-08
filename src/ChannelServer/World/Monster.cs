@@ -89,14 +89,24 @@ namespace Melia.Channel.World
 		public int Hp
 		{
 			get { return _hp; }
-			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
+			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
 		private int _hp;
 
 		/// <summary>
 		/// Maximum health points.
 		/// </summary>
-		public int MaxHp { get; set; }
+		public int MaxHp { get; private set; }
+
+		/// <summary>
+		/// Physical defense.
+		/// </summary>
+		public int Defense
+		{
+			get { return _defense; }
+			private set { _defense = Math.Max(0, value); }
+		}
+		private int _defense;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -136,6 +146,9 @@ namespace Melia.Channel.World
 			this.Data = ChannelServer.Instance.Data.MonsterDb.Find(this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
+
+			this.Hp = this.MaxHp = this.Data.Hp;
+			this.Defense = this.Data.Defense;
 		}
 
 		/// <summary>
@@ -165,8 +178,13 @@ namespace Melia.Channel.World
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
 
-			var exp = (int)(this.Data.Exp * expRate);
-			var classExp = (int)(this.Data.ClassExp * classExpRate);
+			var exp = 0;
+			var classExp = 0;
+
+			if (this.Data.Exp > 0)
+				exp = (int)Math.Max(1, this.Data.Exp * expRate);
+			if (this.Data.ClassExp > 0)
+				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);

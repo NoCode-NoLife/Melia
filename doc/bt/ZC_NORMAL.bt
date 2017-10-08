@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i174236: Skill UI update changed from 0x18E to 0x188
 //------------------------------------------------
 
 #include "common.bt"
@@ -24,105 +25,153 @@ AccountProperties;
 typedef struct
 {
     short jobId;
-    byte b1[6]; // Unknown.
+    short s1; // 177
+    int totalExp;
     short unusedSkillPoints;
     short circle;
 }
 Job;
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int type;
 switch (type)
 {
-	// Lv up effect
-	case 0x11:
-		int handle;
-		short s1;
-		short s2;
-		float effectSize;
-		int i1;
-		byte bin1[4];
-		float f2;
-		byte bin2[4];
-		break;
-		
-	// Class lv up effect
-	case 0x14:
-		int handle;
-		byte b1;
-		int i1;
-		byte b2;
-		float effectSize;
-		byte bin[8];
-		break;
+    // Lv up effect
+    case 0x12:
+        int handle;
+        short s1;
+        short s2;
+        float effectSize;
+        int i1;
+        byte bin1[4];
+        float f2;
+        byte bin2[4];
+        byte bin3[4];
+        break;
 
+    // Class lv up effect
+    case 0x15:
+        int handle;
+        byte b1;
+        int i1;
+        byte b2;
+        float effectSize;
+        byte bin[8];
+        break;
+
+    // ?
+    case 0x1D:
+        int handle1;
+        byte bin1[5];
+        int handle2;
+        position pos;
+        direction dir;
+        float f1;
+        float f2;
+        float f3;
+        break;
+        
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
         break;
-	
-	// Account update
-	case 0x4C:
-		int64 characterId;
-		AccountProperties properties;
-		break;
-		
-	// NPC chat bubble
-	case 0x51:
-		int handle;
-		lpString dialogKey; // ?
-		int i2; // disappear delay?
-		int i3; // disappear delay?
-		break;
-		
-	// Set skill speed
-	case 0x78:
-		int skillId;
-		float sklSpdRate;
-		break;
-		
-	// Set hit delay
-	case 0x79:
-		int skillId;
-		float hitDelay;
-		break;
-		
-	// ?
-	case 0x139:
-		lpString sessionKey;
-		break;
-		
-	// ?
-	case 0xE5:
-		typedef struct
-		{
-			lpString str;
-			int val;
-		}
-		entry;
+    
+    // Account update
+    case 0x4C:
+        int64 accountId;
+        AccountProperties properties;
+        break;
+        
+    // NPC chat bubble
+    case 0x51:
+        int handle;
+        lpString dialogKey; // ?
+        int i2; // disappear delay?
+        int i3; // disappear delay?
+        break;
+        
+    // Set skill speed
+    case 0x78:
+        int skillId;
+        float sklSpdRate;
+        break;
+        
+    // Set hit delay
+    case 0x79:
+        int skillId;
+        float hitDelay;
+        break;
+        
+    // ?
+    case 0xD6:
+        if (!checkCompression())
+        {
+            int64 objectId <format=hex>;
+            int i1;
+        }
+        break;
+        
+    // ?
+    case 0xE5:
+        typedef struct
+        {
+            lpString str;
+            int val;
+        }
+        entry;
 
-		int count;
-		entry entries[count] <optimize=false>;
-		break;
-		
-	// Job ranks?
-	// (Was this 0xE5 in the iCBT2?)
-	case 0xEA:
-		typedef struct
-		{
-			lpString job;
-			int rank;
-		}
-		JobRank;
+        int count;
+        entry entries[count] <optimize=false>;
+        break;
+        
+    // Job ranks?
+    // (Was this 0xE5 in the iCBT2?)
+    case 0xEA:
+        typedef struct
+        {
+            lpString job;
+            int rank;
+        }
+        JobRank;
 
-		int count;
-		JobRank jobs[count] <optimize=false>;
-		break;
+        int count;
+        JobRank jobs[count] <optimize=false>;
+        break;
+        
+    // ?
+    case 0xEC:
+        typedef struct
+        {
+            lpString jobName;
+            int i1; // decremending number?
+        }
+        JobEC <optimize=false>;
+        
+        int64 characterId <format=hex>;
+        int count;
+        JobEC jobs[count];
+        break;
 
-	// Some kind of job data
+    // ?
+    case 0xED:
+        typedef struct
+        {
+            int i1; // rank?
+            short jobId;
+            short circle; // ?
+            int i2;
+            int level;
+            byte bin1[8];
+        }
+        JobED <optimize=false>;
+        
+        int64 characterId <format=hex>;
+        int count;
+        JobED jobs[count];
+        break;
+
+    // Some kind of job data
     case 0xF1:
         typedef struct
         {
@@ -137,8 +186,8 @@ switch (type)
         JobF1 jobs[count];
         break;
 
-	// Some kind of job data
-	case 0xF2:
+    // Some kind of job data
+    case 0xF2:
         typedef struct
         {
             int index; // ?
@@ -150,32 +199,89 @@ switch (type)
         }
         JobF2 <optimize=false>;
 
-		int64 objectId <format=hex>;
+        int64 objectId <format=hex>;
         int count;
         JobF2 jobs[count];
-		break;
+        break;
 
-	// Sets the session key.
-	case 0x14E:
-		lpString sessionKey;
-		break;
+    // ?
+    case 0x12C:
+        if (!checkCompression())
+        {
+            int i1;
+            short s1;
+            int i2;
+            short s2;
+        }
+        break;
+
+    // ?
+    case 0x136:
+        if (!checkCompression())
+        {
+            int64 characterId <format=hex>;
+            byte bin1[7]; // 1
+        }
+        break;
+
+    // outdated
+    //case 0x139:
+    //    lpString sessionKey;
+    //    break;
+        
+    // ?
+    case 0x139:
+        float f1;
+        byte bin1[16]; // no idea what this could be
+        break;
+        
+    // Sets the session key.
+    case 0x148:
+        lpString sessionKey;
+        break;
 
     // Nexon Game Security Callback
     case 0x16D:
         break;
-		
-	// Set a hat item's visible or invisible state
-	case 0x181:
-		int handle;
-		byte b1; // Set hair type 1 visible?
-		byte b2; // Set hair type 2 visible?
-		byte b3; // Set hair type 3 visible?
-		break;
+        
+    // Set a hat item's visible or invisible state
+    case 0x17B:
+        int handle;
+        byte hat1Visible;
+        byte hat2Visible;
+        byte hat3Visible;
+        break;
+    
+    // ?
+    case 0x183:
+        int64 characterId <format=hex>;
+        int i1;
+        break;
     
     // Updates the skill UI
-    case 0x18E:
+    case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
+        break;
+    
+    // ?
+    case 0x194:
+        lpString str1; // AdventureBook
+        lpString str2;
+        int i1;
+        int i2; // i1+2=id?
+        int i3;
+        byte b1;
+        break;
+    
+    // ?
+    case 0x197:
+        int i1;
+        break;
+    
+    // ?
+    case 0x19C:
+        byte b1;
         break;
 }

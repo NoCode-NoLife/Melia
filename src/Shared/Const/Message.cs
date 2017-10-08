@@ -54,6 +54,10 @@ namespace Melia.Shared.Const
 		public const string RESET_SKL_UP = "RESET_SKL_UP";
 		public const string FAIL_SHOP_BUY = "FAIL_SHOP_BUY";
 
+		public const string RESET_ABILITY_UP = "RESET_ABILITY_UP";
+		public const string SUCCESS_BUY_ABILITY_POINT = "SUCCESS_BUY_ABILITY_POINT";
+		public const string RESET_ABILITY_ACTIVE = "RESET_ABILITY_ACTIVE";
+
 		/// <summary>
 		/// Opens the event banner.
 		/// </summary>

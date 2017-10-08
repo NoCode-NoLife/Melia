@@ -27,9 +27,9 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public static class Zone
 		{
-			public const int LevelUp = 0x11;
-			public const int ClassLevelUp = 0x14;
-			public const int Unkown_1c = 0x1C;
+			public const int LevelUp = 0x12;
+			public const int ClassLevelUp = 0x15;
+			public const int Unkown_1D = 0x1D;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AccountUpdate = 0x4C;
 			public const int Skill = 0x57;
@@ -39,7 +39,7 @@ namespace Melia.Shared.Network
 			public const int SetSessionKey = 0x14E;
 			public const int NGSCallback = 0x16D;
 			public const int HatVisibleState = 0x181;
-			public const int UpdateSkillUI = 0x18E;
+			public const int UpdateSkillUI = 0x188;
 		}
 	}
 }

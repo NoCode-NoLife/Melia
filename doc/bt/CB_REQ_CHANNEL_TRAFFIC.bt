@@ -11,8 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ClientHeaderFixed header;
 
 int i1;
-int i2;

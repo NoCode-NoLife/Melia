@@ -11,12 +11,12 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
 
-short size;
+ServerHeaderDynamic header;
+
 int i1;
 int i2;
 
 // packets inside a packet >_>
-byte packets[size-6-10];
+byte packets[header.size-sizeof(header)-sizeof(int)*2];

@@ -26,14 +26,13 @@ namespace Melia.Login.Network
 		public void CB_LOGIN(LoginConnection conn, Packet packet)
 		{
 			var accountName = packet.GetString(33);
+			var bin1 = packet.GetBin(23);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
-			var unkByte1 = packet.GetByte();
-			var unkByte2 = packet.GetByte();
-			var unkByte3 = packet.GetByte(); // [i10671 (2015-10-26)] ?
+			var b1 = packet.GetByte();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var unkInt1 = packet.GetInt();
-			var unkInt2 = packet.GetInt();
-			var sysLocale = packet.GetShort();
+			var bin2 = packet.GetBin(4360);
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
@@ -180,6 +179,7 @@ namespace Melia.Login.Network
 			var by = packet.GetFloat();
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
+			var b1 = packet.GetByte();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric)
@@ -216,7 +216,7 @@ namespace Melia.Login.Network
 			// Create
 			var character = new Character();
 			character.Name = name;
-			character.Job = job;
+			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
 

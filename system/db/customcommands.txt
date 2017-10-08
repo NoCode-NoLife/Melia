@@ -48,4 +48,7 @@
 { id: 43, name: "TAKE_ITEM", script: "SCR_TAKE_ITEM", useTx: true },
 { id: 44, name: "SCR_GM_QUEST_UI_QUEST_CHEAT", script: "SCR_GM_QUEST_UI_QUEST_CHEAT", useTx: true },
 { id: 45, name: "EVENT_BANNER_USERCOMMAND", script: "SCR_EVENT_BANNER_USERCOMMAND", useTx: true },
+{ id: 46, name: "DEPOSIT_GUILD_ASSET", script: "SCR_DEPOSIT_GUILD_ASSET", useTx: true },
+{ id: 47, name: "UPDATE_GUILD_TOWER_LEVEL", script: "SCR_UPDATE_GUILD_TOWER_LEVEL", useTx: true },
+{ id: 48, name: "CHANGE_COLONY_CONFIG", script: "SCR_CHANGE_COLONY_CONFIG", useTx: false },
 ]

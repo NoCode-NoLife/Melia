@@ -25,7 +25,7 @@ namespace Melia.Shared.Data.Database
 		private List<ClassExpData> _classExp = new List<ClassExpData>();
 
 		/// <summary>
-		/// Returns total exp required to reach the next level after the
+		/// Returns exp required to reach the next level after the
 		/// given one.
 		/// </summary>
 		/// <remarks>
@@ -35,7 +35,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="level"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException">Thrown if level is invalid (< 1).</exception>
-		public int GetExp(int level)
+		public int GetNextExp(int level)
 		{
 			if (level < 1)
 				throw new ArgumentException("Invalid level (too low).");
@@ -50,22 +50,38 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns the EXP required to reach the given level.
+		/// </summary>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public int GetTotalExp(int level)
+		{
+			var result = 0;
+			for (var i = 1; i < level; ++i)
+				result += this.GetNextExp(i);
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns the total exp required to reach the next class level
 		/// after the given level, in the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public int GetClassExp(int rank, int level)
+		public int GetNextTotalClassExp(int rank, int level)
 		{
 			if (level < 1 || level > 15)
 				throw new ArgumentException("Invalid level (expected: 1~15).");
 
-			var data = _classExp.FirstOrDefault(a => a.Rank == rank && a.Level == level);
-			if (data == null)
-				throw new KeyNotFoundException("No exp data found for rank '" + rank + "' and level '" + level + "'.");
+			var data = _classExp.Where(a => a.Rank == rank);
+			if (!data.Any())
+				throw new KeyNotFoundException("No class exp data found for rank '" + rank + "' and level '" + level + "'.");
 
-			return data.Exp;
+			var result = data.Where(a => a.Level <= level).Sum(a => a.Exp);
+
+			return result;
 		}
 
 		protected override void ReadEntry(JObject entry)
@@ -80,8 +96,14 @@ namespace Melia.Shared.Data.Database
 
 		protected void ReadExpEntry(JObject expEntry)
 		{
-			foreach (var exp in expEntry["exp"])
+			foreach (JObject entry in expEntry["exp"])
+			{
+				entry.AssertNotMissing("level", "exp");
+
+				var exp = entry.ReadInt("exp");
+
 				_exp.Add((int)exp);
+			}
 		}
 
 		protected void ReadClassExpEntry(JObject classExpEntry)

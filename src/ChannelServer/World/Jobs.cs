@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 
@@ -14,6 +15,8 @@ namespace Melia.Channel.World
 	/// </summary>
 	public class Jobs
 	{
+		private static readonly Regex JobClassName = new Regex(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
+
 		private Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
 
 		/// <summary>
@@ -161,8 +164,7 @@ namespace Melia.Channel.World
 			if (job == null)
 				return false;
 
-			job.SkillPoints += modifier;
-			Send.ZC_JOB_PTS(this.Character, job);
+			job.ModifySkillPoints(modifier);
 
 			return true;
 		}
@@ -179,6 +181,64 @@ namespace Melia.Channel.World
 				return Circle.None;
 
 			return job.Circle;
+		}
+
+		/// <summary>
+		/// Returns the circle the character is on on the given job.
+		/// </summary>
+		/// <param name="jobClassName"></param>
+		/// <returns></returns>
+		public Circle GetCircle(string jobClassName)
+		{
+			var jobId = GetJobIdFromClassName(jobClassName);
+			return this.GetCircle(jobId);
+		}
+
+		/// <summary>
+		/// Converts job class name to job id and returns it.
+		/// </summary>
+		/// <param name="jobClassName"></param>
+		/// <returns></returns>
+		private static JobId GetJobIdFromClassName(string jobClassName)
+		{
+			var match = JobClassName.Match(jobClassName);
+			if (!match.Success)
+				throw new ArgumentException($"Invalid job class name format '{jobClassName}'.");
+
+			var jobClass = int.Parse(match.Groups["class"].Value);
+			var index = int.Parse(match.Groups["index"].Value);
+
+			return (JobId)((jobClass * 1000) + index);
+		}
+
+		/// <summary>
+		/// Returns the character's job rank.
+		/// </summary>
+		/// <remarks>
+		/// I currently don't know how *exactly* this is supposed to work.
+		/// It's the equivilant of the client's "GetTotalJobCount" function,
+		/// which, I assume returns the rank the character is on with its
+		/// jobs, which is kind of based on the amount of jobs, or rather
+		/// the circle sum.
+		/// 
+		/// For example:
+		/// - Swordman Circle 1 = 1
+		/// - Swordman Circle 2 = 2
+		/// - Swordman Circle 2 + Highlander Circle 1 = 3
+		/// - Swordman Circle 2 + Highlander Circle 2 = 4
+		/// - etc.
+		/// </remarks>
+		/// <returns></returns>
+		public int GetCurrentRank()
+		{
+			var rank = 0;
+			lock (_jobs)
+				rank = _jobs.Values.Sum(a => (int)a.Circle);
+
+			// Even if _jobs is empty right now for some reason, rank 1
+			// is always the minimum.
+
+			return Math.Max(1, rank);
 		}
 	}
 }

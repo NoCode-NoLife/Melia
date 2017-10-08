@@ -11,9 +11,9 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-short size;
+#include "common.bt"
+
+ServerHeaderDynamic header;
 
 int skillId;
 int attackerHandle;
@@ -25,7 +25,7 @@ float f4;
 int i5;
 int i6;
 float f5;
-int i7;
+int targetHandle1;
 int i8;
 float f6;
 int i10;
@@ -33,8 +33,8 @@ byte b1; // count?
 
 if (b1 > 0)
 {
-    int i11; // handle?
-    int i12;
+    int i11;
+    int targetHandle2;
     int i13;
     int i14;
     int i15;
@@ -47,4 +47,6 @@ if (b1 > 0)
     int i21;
     int i22;
     int i23;
+    byte b2;
+    float f8;
 }

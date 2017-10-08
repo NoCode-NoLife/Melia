@@ -103,6 +103,7 @@ namespace Melia.Channel.Scripting
 			Register(logdebug);
 			Register(sqlquery);
 			Register(sqlescape);
+			Register(addonmsg);
 
 			// Dialog
 			Register(msg);
@@ -815,6 +816,9 @@ namespace Melia.Channel.Scripting
 				args[i - 1] = arg;
 			}
 
+			if (argc > 12)
+				Log.Warning("ScriptManager.select: {0} options given, but the client only displays 11.", argc - 1);
+
 			Melua.lua_pop(L, argc);
 
 			this.AttachNpcName(conn, ref args[0]);
@@ -940,6 +944,7 @@ namespace Melia.Channel.Scripting
 		///     string  teamname,     -- Character's team name
 		///     integer gender,       -- Character's gender
 		///     integer level,        -- Character's level
+		///     integer classlevel,   -- Character's class level
 		///     integer hp,           -- Character's HP
 		///     integer maxhp,        -- Character's max HP
 		///     integer sp,           -- Character's SP
@@ -947,7 +952,17 @@ namespace Melia.Channel.Scripting
 		///     integer stamina,      -- Character's stamina
 		///     integer maxstamina,   -- Character's max stamina
 		///     integer hair,         -- Character's hair
-		///     integer job,          -- Character's job
+		///     integer job,          -- Character's current main job
+		///     integer jobclass,     -- Character's job's class (Swordsman, Archer, etc.)
+		///     integer rank,         -- Character's current job rank
+		///     table jobs
+		///     {
+		///         integer jobId:
+		///         {
+		///             integer circle;       -- Job's circle
+		///             integer skillpoints;  -- Skill points
+		///         }
+		///     }
 		///     table account
 		///     {
 		///         string  name,     -- Account's name
@@ -982,6 +997,10 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, character.Level);
 			Melua.lua_settable(L, -3);
 
+			Melua.lua_pushstring(L, "classlevel");
+			Melua.lua_pushinteger(L, character.ClassLevel);
+			Melua.lua_settable(L, -3);
+
 			Melua.lua_pushstring(L, "hp");
 			Melua.lua_pushinteger(L, character.Hp);
 			Melua.lua_settable(L, -3);
@@ -1011,7 +1030,34 @@ namespace Melia.Channel.Scripting
 			Melua.lua_settable(L, -3);
 
 			Melua.lua_pushstring(L, "job");
-			Melua.lua_pushinteger(L, (int)character.Job);
+			Melua.lua_pushinteger(L, (int)character.JobId);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "jobclass");
+			Melua.lua_pushinteger(L, (int)character.JobClass);
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "rank");
+			Melua.lua_pushinteger(L, (int)character.Jobs.GetCurrentRank());
+			Melua.lua_settable(L, -3);
+
+			Melua.lua_pushstring(L, "jobs");
+			Melua.lua_newtable(L);
+			foreach (var job in character.Jobs.GetList())
+			{
+				Melua.lua_pushinteger(L, (int)job.Id);
+				Melua.lua_newtable(L);
+				{
+					Melua.lua_pushstring(L, "circle");
+					Melua.lua_pushinteger(L, (int)job.Circle);
+					Melua.lua_settable(L, -3);
+
+					Melua.lua_pushstring(L, "skillpoints");
+					Melua.lua_pushinteger(L, job.SkillPoints);
+					Melua.lua_settable(L, -3);
+				}
+				Melua.lua_settable(L, -3);
+			}
 			Melua.lua_settable(L, -3);
 
 			// Account data
@@ -1583,7 +1629,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - int jobId
+		/// - int jobClass
 		/// 
 		/// Result:
 		/// - bool
@@ -1595,7 +1641,7 @@ namespace Melia.Channel.Scripting
 			// Get parameters
 			var argc = Melua.lua_gettop(L);
 
-			var jobClass = (Class)Melua.luaL_checkint(L, 1);
+			var jobClass = (JobClass)Melua.luaL_checkint(L, 1);
 
 			Melua.lua_pop(L, argc);
 
@@ -1603,7 +1649,7 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			Melua.lua_pushboolean(L, character.Job.ToClass() == jobClass);
+			Melua.lua_pushboolean(L, character.JobClass == jobClass);
 
 			return 1;
 		}
@@ -1635,7 +1681,7 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var job = new Job(jobId) { Circle = circle };
+			var job = new Job(character, jobId, circle);
 			character.Jobs.Add(job);
 
 			return 0;
@@ -1768,6 +1814,29 @@ namespace Melia.Channel.Scripting
 			Melua.melua_pushstring(L, result);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Sends an addon message to player's client.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string Message to send to client
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int addonmsg(IntPtr L)
+		{
+			var msg = Melua.luaL_checkstring(L, 1);
+			var param = Melua.luaL_checkstring(L, 2);
+			Melua.lua_pop(L, 2);
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_ADDON_MSG(character, msg, param);
+
+			return 0;
 		}
 	}
 }

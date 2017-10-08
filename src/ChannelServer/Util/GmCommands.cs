@@ -6,6 +6,7 @@ using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
+using Melia.Shared.World;
 
 namespace Melia.Channel.Util
 {
@@ -126,6 +127,33 @@ namespace Melia.Channel.Util
 			}
 
 			return true;
+		}
+
+		/// <summary>
+		/// Recalls characters to target's location and sends appropriate
+		/// server messages.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="characters"></param>
+		private static void RecallCharacters(Character sender, Character target, Character[] characters)
+		{
+			var location = target.GetLocation();
+			foreach (var character in characters)
+			{
+				character.Warp(location);
+				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
+			}
+
+			if (sender == target)
+			{
+				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
+			}
+			else
+			{
+				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
+				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
+			}
 		}
 	}
 

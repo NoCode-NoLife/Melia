@@ -11,11 +11,11 @@
 //   History: 
 //------------------------------------------------
 
+//#define PROPERTY_NAMES
+
 #include "common.bt"
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int64 characterId;
 byte registerQuickSkill;

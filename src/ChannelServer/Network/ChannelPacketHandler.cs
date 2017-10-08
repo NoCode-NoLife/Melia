@@ -32,9 +32,14 @@ namespace Melia.Channel.Network
 			// When using passprt login, this is the account id as string,
 			// and it's 18 (?) bytes long.
 			var accountName = packet.GetString(33); // ?
+			var bin2 = packet.GetBin(23);
 
 			var unk = packet.GetBin(1037);
 			var sessionKey = packet.GetString(64);
+			var bin1 = packet.GetBin(4);
+			var mac = packet.GetString(32);
+			var l1 = packet.GetLong();
+			var bin3 = packet.GetBin(8);
 
 			// TODO: Check session key or something.
 
@@ -86,9 +91,8 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_IES_MODIFY_LIST(conn);
-			Send.ZC_ITEM_INVENTORY_LIST(character);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
 			Send.ZC_SESSION_OBJECTS(character);
-			// ZC_NORMAL
 			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
 			Send.ZC_ACHIEVE_POINT_LIST(character);
@@ -98,23 +102,47 @@ namespace Melia.Channel.Network
 			Send.ZC_HELP_LIST(character);
 			// ZC_MYPAGE_MAP
 			// ZC_GUESTPAGE_MAP
-			Send.ZC_START_INFO(conn);
+			Send.ZC_NORMAL_UpdateSkillUI(character);
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			// ZC_NORMAL...
+			// ZC_OBJECT_PROPERTY
+			// ZC_NORMAL...
+			// ZC_COLONY_OCCUPATION_INFO
+			// ZC_NORMAL...
 			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
+			Send.ZC_MOVE_SPEED(character);
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_MOVE_SPEED
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_HOLD_EXP_BOOK_TIME
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
-			// ZC_OBJECT_PROPERTY...
-			// ZC_SKILL_ADD...
-			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_NO_GUILD_INDEX(character);
+			// ZC_NO_GUILD_INDEX
+			// ZC_UPDATED_PCAPPEARANCE
+			// ZC_NORMAL
+			// ZC_SESSION_OBJECTS
+			// ZC_NORMAL...
+			// ZC_ZC_ADVENTURE_BOOK_INFO
+			// ZC_NORMAL...
+			// ZC_ZC_SKILL_ADD...
+			// ZC_NORMAL
+			// ZC_ZC_ADVENTURE_BOOK_INFO
 			Send.ZC_NORMAL_AccountUpdate(character);
-			Send.ZC_NORMAL_UpdateSkillUI(character);
+			// ZC_NORMAL
+			// ZC_MOVE_SPEED
+			// ZC_NORMAL...
+			// ZC_UPDATE_ALL_STATUS
+			// ZC_ZC_ADVENTURE_BOOK_INFO
+			Send.ZC_SEND_CASH_VALUE(conn);
+			// ZC_SEND_PREMIUM_STATE
+			// ZC_NO_GUILD_INDEX...
 
 			character.OpenEyes();
 		}
@@ -784,12 +812,49 @@ namespace Melia.Channel.Network
 				var target = character.Map.GetMonster(handle);
 				if (target == null)
 				{
-					Log.Warning("User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
+					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 					continue;
 				}
 
-				target.TakeDamage(target.MaxHp / 4, character);
+				var damage = character.GetRandomPAtk();
+				damage = Math.Max(0, damage - target.Defense);
+
+				target.TakeDamage(damage, character);
 			}
+		}
+
+		/// <summary>
+		/// Sent when attacking a target with a skill, incl. the default
+		/// magic attack and bows.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_TARGET)]
+		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			// Check skill
+			var skill = character.Skills.Get(skillId);
+			if (skill == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0[' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check target
+			var target = character.Map.GetMonster(targetHandle);
+			if (target == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
+				return;
+			}
+
+			character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
 		/// <summary>
@@ -906,7 +971,7 @@ namespace Melia.Channel.Network
 					var skill = character.Skills.Get(skillId);
 					if (skill == null)
 					{
-						skill = new Skill(skillId, newLevel);
+						skill = new Skill(character, skillId, newLevel);
 						character.Skills.Add(skill);
 					}
 					else
@@ -1262,7 +1327,11 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var revealedMap = new RevealedMap(mapData.Id, null, percentage);
+			// Originally null was passed as "explored", but then the server
+			// would try to save the null to the database if the map data
+			// didn't exist yet.
+
+			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
@@ -1356,17 +1425,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent upon login. (Dummy handler)
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_WIKI_RECIPE_UPDATE)]
-		public void CZ_WIKI_RECIPE_UPDATE(ChannelConnection conn, Packet packet)
-		{
-			// No parameters
-		}
-
-		/// <summary>
 		/// Sent regularly. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1430,6 +1488,48 @@ namespace Melia.Channel.Network
 
 			// Sanity checks...
 			// Sync position for the character with the handle? ...
+		}
+
+		/// <summary>
+		/// Sent upon login. (Dummy handler)
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ADVENTURE_BOOK_RANK)]
+		public void CZ_REQ_ADVENTURE_BOOK_RANK(ChannelConnection conn, Packet packet)
+		{
+			var str = packet.GetString(128);
+			var i1 = packet.GetInt();
+
+			// TODO: Send.ZC_ADVENTURE_BOOK_INFO
+		}
+
+		/// <summary>
+		/// Presumably multiple functions, one of them being toggling
+		/// ability states.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_NORMAL_TX)]
+		public void CZ_REQ_NORMAL_TX(ChannelConnection conn, Packet packet)
+		{
+			var type = packet.GetShort(); // ?
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				// Toggle ability state
+				case 0x0D:
+					var className = packet.GetString(33);
+					if (!character.Abilities.Toggle(className))
+						Log.Warning("CZ_REQ_NORMAL_TX: User '{0}' tried to toggle ability '{1}', which they either don't have or is passive.", conn.Account.Name, className);
+					break;
+
+				default:
+					Log.Debug("CZ_REQ_NORMAL_TX: Unhandled type '{0}'.", type);
+					break;
+			}
 		}
 	}
 

@@ -9,48 +9,15 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i174236: b1 was added
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
 
 #include "common.bt"
 
-typedef struct
-{
-    short size;
-    short s1;
-    if(size > 0)
-        getProperties(size-2);
-}
-Properties <read=readProperties, optimize=false>;
-
-string readProperties(Properties &v)
-{
-    string result;
-    SPrintf(result, "size: %d", v.size);
-    return result;
-}
-
-typedef struct
-{
-    int i1;
-    int i2;
-    int64 objectId <format=hex>;
-    int i3;
-    Properties properties;
-}
-SessionObject <read=readSessionObject, optimize=false>;
-
-string readSessionObject(SessionObject &v)
-{
-    string result;
-    SPrintf(result, "%LXh", v.objectId);
-    return result;
-}
-
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 short count;
+byte b1;
 SessionObject objects[count];

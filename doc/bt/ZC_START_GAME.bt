@@ -11,10 +11,11 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 float fpsModifier;
 float serverAppTimeOffset;
 float globalAppTimeOffset;
-int64 currentTime; // UTC filetime
+FILETIME currentTime;

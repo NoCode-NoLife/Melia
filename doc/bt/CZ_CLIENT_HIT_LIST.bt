@@ -14,11 +14,8 @@
 
 #include "common.bt";
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderDynamic header;
 
-short size;
 int i1;
 int count; // ?
 

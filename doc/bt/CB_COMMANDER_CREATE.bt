@@ -3,24 +3,26 @@
 //
 //      File: CB_COMMANDER_CREATE.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i174379
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i170175: startingCity was removed
+//   - i170175: b1 was added?
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
 
-byte position;
+ClientHeaderFixed header;
+
+byte index;
 char name[65];
 short job;
 byte gender;
-float x;
-float y;
-float z;
+position pos;
 byte hair;
-int startingCity; // i11025 (2016-02-26)
+//int startingCity; // i11025 (2016-02-26)
+byte b1;
+

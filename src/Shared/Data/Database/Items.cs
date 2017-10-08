@@ -23,6 +23,7 @@ namespace Melia.Shared.Data.Database
 
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
+		public int MinLevel { get; set; }
 	}
 
 	/// <summary>
@@ -79,6 +80,8 @@ namespace Melia.Shared.Data.Database
 				info.EquipType2 = type;
 			}
 
+			info.MinLevel = entry.ReadInt("minLevel");
+
 			this.Entries[info.Id] = info;
 		}
 	}
@@ -94,6 +97,7 @@ namespace Melia.Shared.Data.Database
 		Bow,
 		THBow,
 		Mace,
+		THMace,
 		Spear,
 		THSpear,
 		Rapier,

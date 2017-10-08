@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 enum <int> Acknowledgement
 {
     DialogEscape = -1,
@@ -18,8 +20,6 @@ enum <int> Acknowledgement
     DialogOk = 1,
 };
 
-short op;
-int sequence;
-int checksum;
+ClientHeaderFixed header;
 
 Acknowledgement ack;

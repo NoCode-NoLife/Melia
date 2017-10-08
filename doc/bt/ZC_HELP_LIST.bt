@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "common.bt"
+
 typedef struct 
 {
     int id;
@@ -25,9 +27,7 @@ string helpRead(help &v)
     return result;
 }
 
-short op;
-int sequence;
-short size;
+ServerHeaderDynamic header;
 
 int count;
 

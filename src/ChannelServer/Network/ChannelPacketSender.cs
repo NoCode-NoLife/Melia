@@ -70,7 +70,7 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(1); // count
 			{
-				packet.PutShort((short)conn.SelectedCharacter.Job);
+				packet.PutShort((short)conn.SelectedCharacter.JobId);
 				packet.PutInt(0); // 1270153646, 2003304878
 				packet.PutInt(0);
 				packet.PutShort(1);
@@ -90,6 +90,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
@@ -128,22 +129,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-
-			// [i11025 (2016-02-26)] Removed?
-			//packet.PutString("None", 49); // Party name
-
-			// [i10622 (2015-10-22)] ?
-			// [i11025 (2016-02-26)] Removed?
-			{
-				//packet.PutShort(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-				//packet.PutInt(0);
-			}
+			packet.PutByte(0);
 
 			conn.Send(packet);
 		}
@@ -345,23 +331,27 @@ namespace Melia.Channel.Network
 			// otherwise their tooltip is the same for all of them.
 
 			//var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
-			var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
-			var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
-			var objectId = 0xE1A9001690B2;
+			//var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
+			//var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
+			//var objectId = 0xE1A9001690B2;
+			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Count());
+			packet.PutShort(abilities.Length);
 
 			packet.Zlib(false, zpacket =>
 			{
 				foreach (var ability in abilities)
 				{
-					zpacket.PutLong(objectId++);
-					zpacket.PutInt(ability);
-					zpacket.PutShort(0); // properties size
+					var properties = ability.Properties.GetAll();
+					var propertiesSize = ability.Properties.Size;
+
+					zpacket.PutLong(ability.ObjectId);
+					zpacket.PutInt(ability.Id);
+					zpacket.PutShort((short)propertiesSize);
 					zpacket.PutShort(0);
-					// properties
+					zpacket.AddProperties(properties);
 				}
 			});
 
@@ -404,15 +394,54 @@ namespace Melia.Channel.Network
 			{
 				foreach (var item in items)
 				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
 					zpacket.PutInt(item.Value.Id);
-					zpacket.PutShort(0); // Size of the object at the end
+					zpacket.PutShort(propertiesSize);
 					zpacket.PutEmptyBin(2);
-					zpacket.PutLong(item.Value.WorldId);
+					zpacket.PutLong(item.Value.ObjectId);
 					zpacket.PutInt(item.Value.Amount);
 					zpacket.PutInt(item.Value.Price);
 					zpacket.PutInt(item.Key);
 					zpacket.PutInt(1);
-					//zpacket.PutEmptyBin(0);
+					zpacket.AddProperties(properties);
+				}
+			});
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_ITEM_INVENTORY_DIVISION_LIST to character, containing a list of
+		/// all items in their inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_ITEM_INVENTORY_DIVISION_LIST(Character character)
+		{
+			var items = character.Inventory.GetItems();
+
+			var packet = new Packet(Op.ZC_ITEM_INVENTORY_DIVISION_LIST);
+
+			packet.PutInt(items.Count);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			packet.Zlib(false, zpacket =>
+			{
+				foreach (var item in items)
+				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(propertiesSize);
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(item.Key);
+					zpacket.PutInt(1);
+					zpacket.AddProperties(properties);
 				}
 			});
 
@@ -434,14 +463,17 @@ namespace Melia.Channel.Network
 
 			foreach (var equipItem in equip)
 			{
+				var properties = equipItem.Value.Properties.GetAll();
+				var propertiesSize = equipItem.Value.Properties.Size;
+
 				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(0); // Object size
+				packet.PutShort(propertiesSize);
 				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.WorldId);
+				packet.PutLong(equipItem.Value.ObjectId);
 				packet.PutByte((byte)equipItem.Key);
 				packet.PutEmptyBin(3);
 				packet.PutInt(0);
-				//packet.PutEmptyBin(0); // Object
+				packet.AddProperties(properties);
 			}
 
 			character.Connection.Send(packet);
@@ -456,7 +488,7 @@ namespace Melia.Channel.Network
 		public static void ZC_EQUIP_ITEM_REMOVE(Character character, Item item, int message)
 		{
 			var packet = new Packet(Op.ZC_EQUIP_ITEM_REMOVE);
-			packet.PutLong(item.WorldId);
+			packet.PutLong(item.ObjectId);
 
 			// TODO: Make message an enumeration.
 			packet.PutInt(message);
@@ -503,7 +535,7 @@ namespace Melia.Channel.Network
 			packet.PutString(character.TeamName, 64);
 			packet.PutString(character.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
-			packet.PutShort((short)character.Job);
+			packet.PutShort((short)character.JobId);
 			packet.PutInt(0); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);
@@ -674,7 +706,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
-			packet.PutLong(item.WorldId);
+			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
@@ -809,6 +841,16 @@ namespace Melia.Channel.Network
 			}
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Updates all of character's  properties.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="properties"></param>
+		public static void ZC_OBJECT_PROPERTY(Character character)
+		{
+			ZC_OBJECT_PROPERTY(character.Connection, character);
 		}
 
 		/// <summary>
@@ -1147,6 +1189,7 @@ namespace Melia.Channel.Network
 			packet.PutEmptyBin(4);
 			packet.PutFloat(1);
 			packet.PutEmptyBin(4);
+			packet.PutEmptyBin(4);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1164,7 +1207,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(2);
 			packet.PutByte(1);
 			packet.PutFloat(6); // Effect size
-			packet.PutEmptyBin(8);
+			packet.PutBinFromHex("9E 20 27 00 00 00 00 00"); // Necessary for it to play
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1250,13 +1293,13 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="jobExp"></param>
+		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int jobExp, Monster monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 			packet.PutInt(exp);
-			packet.PutInt(jobExp);
+			packet.PutInt(classExp);
 			packet.PutInt(monster.Handle);
 
 			character.Connection.Send(packet);
@@ -1267,12 +1310,12 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="totalExp"></param>
-		public static void ZC_EXP_UP(Character character, int exp, int totalExp)
+		/// <param name="classExp"></param>
+		public static void ZC_EXP_UP(Character character, int exp, int classExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
-			packet.PutInt(totalExp);
+			packet.PutInt(classExp);
 
 			character.Connection.Send(packet);
 		}
@@ -1285,6 +1328,7 @@ namespace Melia.Channel.Network
 		public static void ZC_JOB_EXP_UP(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
+			packet.PutLong(character.Id);
 			packet.PutInt(exp);
 
 			character.Connection.Send(packet);
@@ -1293,15 +1337,29 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Executes Lua addon function.
 		/// </summary>
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		/// <param name="parameter"></param>
 		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
+		{
+			ZC_ADDON_MSG(character, 0, msg, parameter);
+		}
+
+		/// <summary>
+		/// Executes Lua addon function.
+		/// </summary>
+		/// <remarks>Strings are placed without terminating bytes.</remarks>
+		/// <param name="character"></param>
+		/// <param name="duration">Duration in seconds messages are displayed?</param>
+		/// <param name="msg"></param>
+		/// <param name="parameter"></param>
+		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 			packet.PutByte((byte)(msg.Length));
-			packet.PutInt(0);
-			packet.PutByte(1);
+			packet.PutInt(duration);
+			packet.PutByte(0);
 			packet.PutString(msg, msg.Length);
 
 			if (parameter != null)
@@ -1376,6 +1434,8 @@ namespace Melia.Channel.Network
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
 			}
+			packet.PutLong(0);
+			packet.PutFloat(56.45161f);
 
 			conn.Send(packet);
 		}
@@ -1700,24 +1760,24 @@ namespace Melia.Channel.Network
 		/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="id"></param>
+		/// <param name="handle"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Unkown_1c(Character character, int id, Position position, Direction direction)
+		public static void ZC_NORMAL_Unkown_1c(Character character, int handle, Position position, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Unkown_1c);
-			packet.PutByte(0);
-			packet.PutBinFromHex("9F D2 42 0B"); // This is not a fixed value, check more packets
-			packet.PutInt(id); // Target ActorId (seems to be)
+			packet.PutInt(SubOp.Zone.Unkown_1D);
+			packet.PutInt(character.Handle);
+			packet.PutBinFromHex("00 D9 DB 30 09"); // This is not a fixed value, check more packets
+			packet.PutInt(handle); // Target ActorId (seems to be)
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(direction.Cos); // Commented out for testing purposes
-			packet.PutFloat(direction.Sin); // Commented out for testing purposes
-			packet.PutFloat(0); // Unk
-			packet.PutFloat(0); // Unk
-			packet.PutFloat(0); // Unk
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1760,7 +1820,8 @@ namespace Melia.Channel.Network
 			foreach (var job in jobs)
 			{
 				packet.PutShort((short)job.Id);
-				packet.PutEmptyBin(6);
+				packet.PutShort(177); // 174
+				packet.PutInt(job.TotalExp);
 				packet.PutShort(job.SkillPoints);
 				packet.PutShort((short)job.Circle);
 			}
@@ -2006,6 +2067,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
 			packet.PutShort(sessionObjects.Length);
+			packet.PutByte(0);
 			foreach (var obj in sessionObjects)
 			{
 				var properties = obj.Properties.GetAll();
@@ -2020,6 +2082,93 @@ namespace Melia.Channel.Network
 				packet.PutShort(0);
 				packet.AddProperties(properties);
 			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends premium state properties to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SEND_CASH_VALUE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SEND_CASH_VALUE);
+
+			// Premium state 0?
+			packet.PutInt(4); // count?
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(0);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(1);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(30);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(1);
+			}
+
+			// Premium state 1?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(5);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(3);
+			}
+
+			// Premium state 2?
+			packet.PutInt(4);
+			{
+				packet.PutLpString("speedUp");
+				packet.PutFloat(3);
+
+				packet.PutLpString("marketUpMax");
+				packet.PutFloat(10);
+
+				packet.PutLpString("marketSellCom");
+				packet.PutFloat(10);
+
+				packet.PutLpString("abilityMax");
+				packet.PutFloat(2);
+			}
+
+			// ?
+			packet.PutInt(4);
+			{
+				packet.PutInt(7);
+				packet.PutFloat(2.5f);
+
+				packet.PutInt(5);
+				packet.PutFloat(2);
+
+				packet.PutInt(3);
+				packet.PutFloat(1.5f);
+
+				packet.PutInt(1);
+				packet.PutFloat(1);
+			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies client that character doesn't have a guild?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NO_GUILD_INDEX(Character character)
+		{
+			var packet = new Packet(Op.ZC_NO_GUILD_INDEX);
+			packet.PutInt(character.Handle);
 
 			character.Connection.Send(packet);
 		}

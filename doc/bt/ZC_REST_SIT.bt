@@ -12,8 +12,9 @@
 //   - i11257: isSitting was added
 //------------------------------------------------
 
-short op;
-int checksum;
+#include "common.bt"
+
+ServerHeaderFixed header;
 
 int handle;
 byte b1;

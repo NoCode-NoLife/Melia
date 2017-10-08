@@ -3,16 +3,16 @@
 //
 //      File: CB_COMMANDER_DESTROY.bt
 //   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Version: i174379
+//   Purpose: Request to delete character
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
 
-short op;
-int sequence;
-int checksum;
+#include "common.bt"
 
-byte index;
+ClientHeaderFixed header;
+
+int64 id;

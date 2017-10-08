@@ -11,10 +11,11 @@
 //   History: 
 //------------------------------------------------
 
+//#define PROPERTY_NAMES
+
 #include "common.bt"
 
-short op;
-int sequence;
+ServerHeaderFixed header;
 
 short size;
 while(!FEof())
