@@ -15,6 +15,7 @@
 //   - i171140: i1 was removed
 //   - i171960: i1 was added (make up your mind!!!)
 //   - i174236: i1 was removed... *sigh*
+//   - i175477: i1 was added (at this point they can only be trolling)
 //------------------------------------------------
 
 #include "common.bt"
@@ -36,7 +37,7 @@ int namesSize;
 byte propertiesSize;
 byte b4;
 byte b5;
-//int i1;
+int i1;
 
 lpString name;
 lpString uniqueName;
