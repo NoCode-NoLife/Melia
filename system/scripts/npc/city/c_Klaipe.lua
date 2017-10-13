@@ -1,43 +1,42 @@
 --- [Item Merchant] Mirina ---
 addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 511, -1, -349, 45, "npc_itemmerchantmirina")
 function npc_itemmerchantmirina()
-    msg("Emilia_Select_1")
-    openshop("Klapeda_Misc")
+	msg("Emilia_Select_1")
+	openshop("Klapeda_Misc")
 end
  
 --- [Equipment Merchant] Dunkel ---
 addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_equipmentmerchantdunkel")
 function npc_equipmentmerchantdunkel()
-    local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:@dicID_^*$ETC_20150317_004443$*^", "armor:@dicID_^*$ETC_20150317_004444$*^", "!@#$Auto_JongLyo#@!")
- 
-    if selection == "weapon" then
-        openshop("Klapeda_Weapon")
-    elseif selection == "armor" then
-        openshop("Klapeda_Armor")
-    end
+	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:ETC_20150317_004443", "armor:ETC_20150317_004444", "!@#$Auto_JongLyo#@!")
+
+	if selection == "weapon" then
+		openshop("Klapeda_Weapon")
+	elseif selection == "armor" then
+		openshop("Klapeda_Armor")
+	end
 end
  
 --- [Accessory Merchant]Ronesa ---
 addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 269, -1, -611, 45, "npc_accessorymerchantronesa")
 function npc_accessorymerchantronesa()
-    msg("Alfonso_Select_1")
-    openshop("Klapeda_Accessory")
+	msg("Alfonso_Select_1")
+	openshop("Klapeda_Accessory")
 end
  
 --- Indifferent Widow ---
-addnpc(20114, "QUEST_20150317_000083", "c_Klaipe", -409, -1, -647, -47.29, "npc_indifferentwidow")
 function npc_indifferentwidow()
-    if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
-        return
-    end
-    if select("TUTO_GIRL_basic_03", "!@#$TUTO_GIRL_select02#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
-        return
-    end
-    if select("TUTO_GIRL_basic_04", "!@#$TUTO_GIRL_select03#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
-        return
-    end
- 
-    msg("TUTO_GIRL_basic_05")
+	if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_03", "!@#$TUTO_GIRL_select02#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+	if select("TUTO_GIRL_basic_04", "!@#$TUTO_GIRL_select03#@!", "!@#$Auto_JongLyo#@!") ~= 1 then
+		return
+	end
+
+	msg("TUTO_GIRL_basic_05")
 end
  
 --- [Templar Master]Knight Commander Uska ---
@@ -170,44 +169,52 @@ addnpc(40090, "QUEST_20160723_004066", "c_Klaipe", 95, 149, 391, 225, "npc_dummy
 -- Uses one of two random dialogues.
 addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, "npc_klaipedagirl")
 function npc_klaipedagirl()
-    if math.random(2) == 1 then
-        msg("KLAFEDA_NPC_05_basic01")
-    else
-        msg("KLAFEDA_NPC_05_basic02")
-    end
+	if math.random(2) == 1 then
+		msg("KLAFEDA_NPC_05_basic01")
+	else
+		msg("KLAFEDA_NPC_05_basic02")
+	end
 end
  
 --- Worried Wife
 -- Tells stories about the various goddesses.
 addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, "npc_worriedwife")
 function npc_worriedwife()
-    if select("KLAPEDA_NPC_04_basic01", "!@#$Auto_KLAPEDA_NPC_04_S1#@!", "!@#$Auto_SinKyeongSseuJi_anNeunDa#@!") ~= 1 then
-        return
-    end
- 
-    local selection;
-    while selection ~= "leave" do
-        -- Select goddess
-        selection = nselect("KLAPEDA_NPC_04_basic02",
-            "ausrine:!@#$Auto_KLAPEDA_NPC_04_S2#@!",
-            "laima:!@#$Auto_KLAPEDA_NPC_04_S3#@!",
-            "gabija:!@#$Auto_KLAPEDA_NPC_04_S4#@!",
-            "zemyna:!@#$Auto_KLAPEDA_NPC_04_S5#@!",
-            "vakarine:!@#$Auto_KLAPEDA_NPC_04_S6#@!",
-            "leave:!@#$Auto_TteoNanDa#@!"
-        )
- 
-        -- Info about selected goddess
-        if selection == "ausrine" then
-            msg("KLAPEDA_NPC_04_basic03")
-        elseif selection == "laima" then
-            msg("KLAPEDA_NPC_04_basic04")
-        elseif selection == "gabija" then
-            msg("KLAPEDA_NPC_04_basic05")
-        elseif selection == "zemyna" then
-            msg("KLAPEDA_NPC_04_basic06")
-        elseif selection == "vakarine" then
-            msg("KLAPEDA_NPC_04_basic07")
-        end
-    end
+	if select("KLAPEDA_NPC_04_basic01", "!@#$Auto_KLAPEDA_NPC_04_S1#@!", "!@#$Auto_SinKyeongSseuJi_anNeunDa#@!") ~= 1 then
+		return
+	end
+
+	local selection;
+	while selection ~= "leave" do
+		-- Select goddess
+		selection = nselect("KLAPEDA_NPC_04_basic02",
+			"ausrine:!@#$Auto_KLAPEDA_NPC_04_S2#@!",
+			"laima:!@#$Auto_KLAPEDA_NPC_04_S3#@!",
+			"gabija:!@#$Auto_KLAPEDA_NPC_04_S4#@!",
+			"zemyna:!@#$Auto_KLAPEDA_NPC_04_S5#@!",
+			"vakarine:!@#$Auto_KLAPEDA_NPC_04_S6#@!",
+			"leave:!@#$Auto_TteoNanDa#@!"
+		)
+
+		-- Info about selected goddess
+		if selection == "ausrine" then
+			msg("KLAPEDA_NPC_04_basic03")
+		elseif selection == "laima" then
+			msg("KLAPEDA_NPC_04_basic04")
+		elseif selection == "gabija" then
+			msg("KLAPEDA_NPC_04_basic05")
+		elseif selection == "zemyna" then
+			msg("KLAPEDA_NPC_04_basic06")
+		elseif selection == "vakarine" then
+			msg("KLAPEDA_NPC_04_basic07")
+		end
+	end
+end
+
+--- Swordsman Master Rashua
+-- Swordsman ability trainer
+function npc_swordsmanmasterrashua()
+	msg("MASTER_SWORDMAN_basic2")
+	close()
+	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
 end
