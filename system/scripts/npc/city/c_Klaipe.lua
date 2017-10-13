@@ -81,9 +81,6 @@ addnpc(147445, "ETC_20150317_009202", "c_Klaipe", -236, 241, 867, 270, "npc_dumm
 --- [Ranger Master] Nemoken ---
 addnpc(147343, "ETC_20150317_009203", "c_Klaipe", -489, 149, 27, 51.17, "npc_dummy")
  
---- [Swordsman Master]Rashua ---
-addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -92, 241, 784, 270, "npc_dummy")
- 
 --- [Wizard Master]Lucia ---
 addnpc(20021, "ETC_20150317_009205", "c_Klaipe", -100, 96, -275, -45, "npc_dummy")
  
@@ -211,8 +208,9 @@ function npc_worriedwife()
 	end
 end
 
---- Swordsman Master Rashua
+--- [Swordsman Master]Rashua ---
 -- Swordsman ability trainer
+addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -92, 241, 784, 270, "npc_swordsmanmasterrashua")
 function npc_swordsmanmasterrashua()
 	msg("MASTER_SWORDMAN_basic2")
 	close()
