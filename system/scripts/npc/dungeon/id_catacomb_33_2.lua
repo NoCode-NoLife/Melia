@@ -1,11 +1,24 @@
-addnpc(156000, "ETC_20150730_014071", "id_catacomb_33_2", -736.3484, 159.6908, 329.2788, 45, "npc_dummy")
-addnpc(156001, "ETC_20150730_014072", "id_catacomb_33_2", 512.9343, 236.2643, 800.8774, -45, "npc_dummy")
-addnpc(152008, "QUEST_20150729_002304", "id_catacomb_33_2", 742.8414, 221.3699, 1451.652, -45, "npc_dummy")
-addnpc(20158, "ETC_20150803_014147", "id_catacomb_33_2", -1043.761, 241.8645, 1313.047, -45, "npc_dummy")
-addnpc(58112, "ETC_20151224_019980", "id_catacomb_33_2", -1277.005, 205.644, 1237.415, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "id_catacomb_33_2", -1419.046, 138.9898, 465.9399, 45, "npc_dummy")
-addnpc(58112, "ETC_20151224_019980", "id_catacomb_33_2", -762.6752, 205.644, 1244.969, 45, "npc_dummy")
-addnpc(155022, "ETC_20150803_014146", "id_catacomb_33_2", 742.423, 232.323, 1327.656, -45, "npc_dummy")
-addnpc(58112, "ETC_20151224_019980", "id_catacomb_33_2", -1245.142, 205.644, 1086.225, 45, "npc_dummy")
-addnpc(58112, "ETC_20151224_019980", "id_catacomb_33_2", -799.6606, 205.644, 1088.094, 45, "npc_dummy")
+--- Believer Gintas --- 
+addnpc(156000, "ETC_20150730_014071", "id_catacomb_33_2", -736, 160, 329, 45, "npc_dummy")
+
+--- Margiris --- 
+addnpc(156001, "ETC_20150730_014072", "id_catacomb_33_2", 513, 236, 801, -45, "npc_dummy")
+
+--- Holy Relic of the Order --- 
+addnpc(152008, "QUEST_20150729_002304", "id_catacomb_33_2", 743, 221, 1452, -45, "npc_dummy")
+
+--- Believer's Spirit --- 
+addnpc(20158, "ETC_20150803_014147", "id_catacomb_33_2", -1044, 242, 1313, -45, "npc_dummy")
+
+--- Carlyle's Spirit --- 
+addnpc(155022, "ETC_20150803_014146", "id_catacomb_33_2", 742, 232, 1328, -45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
 addnpc(147392, "ETC_20150317_009100", "id_catacomb_33_2", 1449, 153, 223, 45, "npc_dummy")
+
+--- Wandering Believer's Soul --- 
+addnpc(20139, "QUEST_LV_0100_20160718_015082", "id_catacomb_33_2", -242, 219, -176, 45, "npc_dummy")
+
+--- Suspicious Device --- 
+addnpc(151108, "ETC_20150918_014656", "id_catacomb_33_2", 67, 147, -1327, 0, "npc_dummy")
+

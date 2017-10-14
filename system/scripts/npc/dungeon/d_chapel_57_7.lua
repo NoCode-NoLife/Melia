@@ -1,33 +1,90 @@
+--- Follower Algis --- 
 addnpc(147390, "QUEST_20150317_000179", "d_chapel_57_7", 110, 165, -579, 135, "npc_dummy")
+
+--- Sventove Central Altar --- 
 addnpc(147358, "ETC_20150317_005085", "d_chapel_57_7", -27, 48, -137, 0, "npc_dummy")
+
+--- Malda Altar --- 
 addnpc(147357, "ETC_20150317_006701", "d_chapel_57_7", 1516, 48, -104, 0, "npc_dummy")
+
+--- Auka Altar --- 
 addnpc(147357, "ETC_20150317_006699", "d_chapel_57_7", -942, 48, -106, 0, "npc_dummy")
-addnpc(147390, "QUEST_20150317_000179", "d_chapel_57_7", -633.7751, 35.9174, -934.1711, 36, "npc_dummy")
-addnpc(147371, "QUEST_20150317_000170", "d_chapel_57_7", -352.3609, 35.9174, 106.8771, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -346.5401, 35.9174, -197.8865, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -340.3, 35.9174, -367.8275, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -131.7087, 35.9174, -380.3721, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 64.47857, 35.9174, -384.0647, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 247.7086, 35.9174, -377.229, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 259.531, 35.9174, -230.548, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 257.5233, 35.9174, -46.80219, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 250.7079, 35.9174, 173.8117, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 54.16486, 35.9174, 150.1834, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -329.22, 35.9174, 110.3992, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -349.8877, 35.9174, -12.43448, 45, "npc_dummy")
-addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -145.0195, 35.9174, 122.3284, 45, "npc_dummy")
-addnpc(147372, "ETC_20151001_015226", "d_chapel_57_7", 801.3845, 35.9174, -1249.958, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_chapel_57_7", 1015.049, 35.9174, -1307.737, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "d_chapel_57_7", 95.87236, 164.8635, -723.9396, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009237", "d_chapel_57_7", -228.6972, 35.9174, -309.131, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009238", "d_chapel_57_7", -34.40312, 35.9174, -298.2475, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009239", "d_chapel_57_7", 168.0245, 35.9174, -297.6519, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009240", "d_chapel_57_7", 164.4969, 35.9174, -132.6013, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009241", "d_chapel_57_7", 162.2024, 35.9174, 41.21947, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009242", "d_chapel_57_7", -33.61777, 35.9174, 38.77794, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009243", "d_chapel_57_7", -237.2599, 35.9174, 36.85686, 45, "npc_dummy")
-addnpc(147457, "ETC_20150317_009244", "d_chapel_57_7", -236.8307, 35.9174, -134.0267, 45, "npc_dummy")
+
+--- Follower Algis --- 
+addnpc(147390, "QUEST_20150317_000179", "d_chapel_57_7", -634, 36, -934, 36, "npc_dummy")
+
+--- Demon Queen Gesti --- 
+addnpc(147371, "QUEST_20150317_000170", "d_chapel_57_7", -352, 36, 107, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -347, 36, -198, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -340, 36, -368, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -132, 36, -380, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 64, 36, -384, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 248, 36, -377, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 260, 36, -231, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 258, 36, -47, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 251, 36, 174, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", 54, 36, 150, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -329, 36, 110, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -350, 36, -12, 45, "npc_dummy")
+
+--- Destroyed Altar Fragment --- 
+addnpc(147372, "ETC_20150317_009234", "d_chapel_57_7", -145, 36, 122, 45, "npc_dummy")
+
+--- Hidden Sanctuary's Wall Painting --- 
+addnpc(147372, "ETC_20151001_015226", "d_chapel_57_7", 801, 36, -1250, 45, "npc_dummy")
+
+--- Central Pillar 1 --- 
+addnpc(147457, "ETC_20150317_009237", "d_chapel_57_7", -229, 36, -309, 45, "npc_dummy")
+
+--- Central Pillar 2 --- 
+addnpc(147457, "ETC_20150317_009238", "d_chapel_57_7", -34, 36, -298, 45, "npc_dummy")
+
+--- Central Pillar 3 --- 
+addnpc(147457, "ETC_20150317_009239", "d_chapel_57_7", 168, 36, -298, 45, "npc_dummy")
+
+--- Central Pillar 4 --- 
+addnpc(147457, "ETC_20150317_009240", "d_chapel_57_7", 164, 36, -133, 45, "npc_dummy")
+
+--- Central Pillar 5 --- 
+addnpc(147457, "ETC_20150317_009241", "d_chapel_57_7", 162, 36, 41, 45, "npc_dummy")
+
+--- Central Pillar 6 --- 
+addnpc(147457, "ETC_20150317_009242", "d_chapel_57_7", -34, 36, 39, 45, "npc_dummy")
+
+--- Central Pillar 7 --- 
+addnpc(147457, "ETC_20150317_009243", "d_chapel_57_7", -237, 36, 37, 45, "npc_dummy")
+
+--- Central Pillar 8 --- 
+addnpc(147457, "ETC_20150317_009244", "d_chapel_57_7", -237, 36, -134, 45, "npc_dummy")
+
+--- Reading Desk --- 
 addnpc(147372, "QUEST_20150317_000986", "d_chapel_57_7", 844, 36, -1210, 45, "npc_dummy")
+
+--- Reading Desk --- 
 addnpc(147372, "QUEST_20150317_000986", "d_chapel_57_7", 1017, 36, -1213, 45, "npc_dummy")
-addnpc(20170, "ETC_20150414_011212", "d_chapel_57_7", 1339.51, 36.02, -339.81, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_chapel_57_7", -738.51, 36.02, 125.63, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "d_chapel_57_7", -739, 36, 126, 45, "npc_dummy")
+

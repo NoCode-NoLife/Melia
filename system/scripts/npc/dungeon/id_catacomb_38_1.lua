@@ -1,21 +1,30 @@
-addnpc(20154, "QUEST_20150317_001310", "id_catacomb_38_1", 1521.988, -114.3806, -1.610678, 45, "npc_dummy")
-addnpc(154016, "QUEST_LV_0200_20150714_007517", "id_catacomb_38_1", 1025.908, -66.9885, -337.438, 45, "npc_dummy")
-addnpc(20117, "ETC_20150714_013182", "id_catacomb_38_1", 119.7607, -109.6855, -495.1729, 45, "npc_dummy")
-addnpc(20145, "ETC_20150714_013182", "id_catacomb_38_1", 345.5188, -109.6854, -789.1042, 45, "npc_dummy")
-addnpc(20138, "ETC_20150714_013182", "id_catacomb_38_1", -466.176, 0.34, -634.2636, 45, "npc_dummy")
-addnpc(20147, "ETC_20150714_013182", "id_catacomb_38_1", -656.6006, 17.9915, -787.7794, 45, "npc_dummy")
-addnpc(47256, "ETC_20150714_011781", "id_catacomb_38_1", -1156, 135.178, -1468, 45, "npc_dummy")
-addnpc(20157, "QUEST_LV_0200_20150714_007532", "id_catacomb_38_1", 265.6646, -0.0042, 133.7653, 45, "npc_dummy")
-addnpc(153047, "ETC_20150714_011783", "id_catacomb_38_1", -835.7395, 166.4677, -3.363831, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_1", -2049.442, 236.1207, -929.4367, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_1", 1903.566, -53.55582, 59.48396, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_1", 1706.45, 248.5511, 1526.395, 45, "npc_dummy")
-addnpc(147364, "ETC_20150401_010678", "id_catacomb_38_1", 1032.604, -66.98846, -304.6313, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", 1282.192, -114.3807, 18.00401, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", -1027.005, 135.178, -1510.518, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", 419.4135, -109.6854, -522.2496, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", -547.9602, 118.868, 36.68208, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", -1369.87, 115.6379, 1038.894, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", 358.9082, 116.6349, 1123.409, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "id_catacomb_38_1", 1397.25, 253.3692, 1438.565, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "id_catacomb_38_1", -1782.17, 201.95, -1355.33, 90, "npc_dummy")
+--- Wandering Spirit --- 
+addnpc(20154, "QUEST_20150317_001310", "id_catacomb_38_1", 1522, -114, -2, 45, "npc_dummy")
+
+--- Kupole Vita --- 
+addnpc(154016, "QUEST_LV_0200_20150714_007517", "id_catacomb_38_1", 1026, -67, -337, 45, "npc_dummy")
+
+--- Wandering Spirit --- 
+addnpc(20117, "ETC_20150714_013182", "id_catacomb_38_1", 120, -110, -495, 45, "npc_dummy")
+
+--- Wandering Spirit --- 
+addnpc(20145, "ETC_20150714_013182", "id_catacomb_38_1", 346, -110, -789, 45, "npc_dummy")
+
+--- Wandering Spirit --- 
+addnpc(20138, "ETC_20150714_013182", "id_catacomb_38_1", -466, 0, -634, 45, "npc_dummy")
+
+--- Wandering Spirit --- 
+addnpc(20147, "ETC_20150714_013182", "id_catacomb_38_1", -657, 18, -788, 45, "npc_dummy")
+
+--- Pot of Silence --- 
+addnpc(47256, "ETC_20150714_011781", "id_catacomb_38_1", -1156, 135, -1468, 45, "npc_dummy")
+
+--- Rimos' Spirit --- 
+addnpc(20157, "QUEST_LV_0200_20150714_007532", "id_catacomb_38_1", 266, 0, 134, 45, "npc_dummy")
+
+--- Contract of Flesh --- 
+addnpc(153047, "ETC_20150714_011783", "id_catacomb_38_1", -836, 166, -3, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "id_catacomb_38_1", -1782, 202, -1355, 90, "npc_dummy")
+

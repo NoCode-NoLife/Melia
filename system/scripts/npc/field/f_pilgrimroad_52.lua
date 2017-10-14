@@ -1,25 +1,57 @@
+--- Great Merchant Gilliam --- 
 addnpc(20154, "QUEST_20150317_001050", "f_pilgrimroad_52", 205, 214, 553, 70, "npc_dummy")
-addnpc(155037, "QUEST_LV_0200_20150317_000601", "f_pilgrimroad_52", -993.1726, 139.4656, -2016.412, 45, "npc_dummy")
-addnpc(155038, "QUEST_LV_0200_20150317_000634", "f_pilgrimroad_52", -481.6351, 215.1778, 392.3651, 50, "npc_dummy")
-addnpc(152009, "ETC_20150317_005254", "f_pilgrimroad_52", -1336.022, 156.583, -22.18338, -33, "npc_dummy")
-addnpc(152009, "ETC_20150317_005254", "f_pilgrimroad_52", -738.9567, 245.719, 1115.345, -33, "npc_dummy")
-addnpc(147469, "QUEST_LV_0200_20150323_003312", "f_pilgrimroad_52", 1129.753, 219.5423, 2197.095, 45, "npc_dummy")
-addnpc(152012, "QUEST_20150323_001474", "f_pilgrimroad_52", 1041.164, 233.8956, 2276.617, -64, "npc_dummy")
-addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 418.0235, 215.1778, 881.3796, 45, "npc_dummy")
-addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 44.73014, 215.1778, 635.6563, 45, "npc_dummy")
-addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 561.8187, 139.8698, -137.3844, 45, "npc_dummy")
-addnpc(40070, "QUEST_20150317_000566", "f_pilgrimroad_52", -555.4303, 245.719, 1933.056, 45, "npc_dummy")
-addnpc(152009, "ETC_20150317_009417", "f_pilgrimroad_52", -453.0049, 215.1778, 391.303, -55, "npc_dummy")
-addnpc(152013, "QUEST_20150323_001474", "f_pilgrimroad_52", 1041.164, 233.8956, 2276.617, -39, "npc_dummy")
-addnpc(152007, "ETC_20150323_010401", "f_pilgrimroad_52", 1146.558, 233.8956, 2065.662, 0, "npc_dummy")
-addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 502.5437, 215.1778, 880.9619, -40, "npc_dummy")
-addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 108.3882, 215.1778, 641.5708, -25, "npc_dummy")
-addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 545.9645, 139.8698, -81.5094, 45, "npc_dummy")
-addnpc(40030, "ETC_20150428_011591", "f_pilgrimroad_52", 2652.372, 156.583, -374.2712, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", -1002.935, 139.4656, -2018.333, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", -486.656, 215.1778, 386.0914, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", -1188.226, 139.465, -3342.034, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", -488.4096, 245.719, 2043.479, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", -559.7771, 245.719, 2009.753, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_pilgrimroad_52", 1022.263, 47.4431, -680.9613, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_52", 991.91, 234, 1860.75, 45, "npc_dummy")
+
+--- Pilgrim Theophilis --- 
+addnpc(155037, "QUEST_LV_0200_20150317_000601", "f_pilgrimroad_52", -993, 139, -2016, 45, "npc_dummy")
+
+--- Pilgrim Witas --- 
+addnpc(155038, "QUEST_LV_0200_20150317_000634", "f_pilgrimroad_52", -482, 215, 392, 50, "npc_dummy")
+
+--- Tombstone --- 
+addnpc(152009, "ETC_20150317_005254", "f_pilgrimroad_52", -1336, 157, -22, -33, "npc_dummy")
+
+--- Tombstone --- 
+addnpc(152009, "ETC_20150317_005254", "f_pilgrimroad_52", -739, 246, 1115, -33, "npc_dummy")
+
+--- Pond of Silence --- 
+addnpc(147469, "QUEST_LV_0200_20150323_003312", "f_pilgrimroad_52", 1130, 220, 2197, 45, "npc_dummy")
+
+--- Tree of Faith --- 
+addnpc(152012, "QUEST_20150323_001474", "f_pilgrimroad_52", 1041, 234, 2277, -64, "npc_dummy")
+
+--- Pot Settling Area --- 
+addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 418, 215, 881, 45, "npc_dummy")
+
+--- Pot Settling Area --- 
+addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 45, 215, 636, 45, "npc_dummy")
+
+--- Pot Settling Area --- 
+addnpc(147469, "ETC_20150317_009416", "f_pilgrimroad_52", 562, 140, -137, 45, "npc_dummy")
+
+--- Warning --- 
+addnpc(40070, "QUEST_20150317_000566", "f_pilgrimroad_52", -555, 246, 1933, 45, "npc_dummy")
+
+--- Witas' Grave --- 
+addnpc(152009, "ETC_20150317_009417", "f_pilgrimroad_52", -453, 215, 391, -55, "npc_dummy")
+
+--- Tree of Faith --- 
+addnpc(152013, "QUEST_20150323_001474", "f_pilgrimroad_52", 1041, 234, 2277, -39, "npc_dummy")
+
+--- Tree of Faith Notice --- 
+addnpc(152007, "ETC_20150323_010401", "f_pilgrimroad_52", 1147, 234, 2066, 0, "npc_dummy")
+
+--- Tree of Brothers Notice --- 
+addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 503, 215, 881, -40, "npc_dummy")
+
+--- Tree of Brothers Notice --- 
+addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 108, 215, 642, -25, "npc_dummy")
+
+--- Tree of Brothers Notice --- 
+addnpc(40070, "QUEST_20150323_001477", "f_pilgrimroad_52", 546, 140, -82, 45, "npc_dummy")
+
+--- Hidden Treasure Chest --- 
+addnpc(40030, "ETC_20150428_011591", "f_pilgrimroad_52", 2652, 157, -374, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_pilgrimroad_52", 992, 234, 1861, 45, "npc_dummy")
+

@@ -1,42 +1,69 @@
+--- Tree Guard Post Barrier --- 
 addnpc(147413, "ETC_20150317_009336", "f_gele_57_3", 249, -21, -733, 45, "npc_dummy")
+
+--- Pumpura Hill Barrier --- 
 addnpc(147413, "ETC_20150317_009337", "f_gele_57_3", 823, 122, 90, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -568.3183, -12.9178, -914.6847, 45, "npc_dummy")
-addnpc(147422, "QUEST_LV_0100_20150317_000733", "f_gele_57_3", -770.3672, -68.1215, -1082.891, 47, "npc_dummy")
-addnpc(147400, "QUEST_LV_0100_20150317_000737", "f_gele_57_3", 265.9739, 281.9593, 545.847, 40, "npc_dummy")
+
+--- Watcher Allen --- 
+addnpc(147422, "QUEST_LV_0100_20150317_000733", "f_gele_57_3", -770, -68, -1083, 47, "npc_dummy")
+
+--- Follower Kayetonas --- 
+addnpc(147400, "QUEST_LV_0100_20150317_000737", "f_gele_57_3", 266, 282, 546, 40, "npc_dummy")
+
+--- [Paladin Master]  Valentinas Naimon --- 
 addnpc(57223, "ETC_20150317_009338", "f_gele_57_3", 62, 350, -135, 44, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 629.7709, -31.3909, -659.717, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 736.4069, -43.9761, -759.7635, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 877.0272, -76.1721, -664.9517, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1003.304, -109.0743, -638.2003, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1122.938, -109.2913, -571.8435, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1165.363, -109.267, -475.6978, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1079.588, -68.3158, -433.4249, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 940.1414, -68.3158, -472.973, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 807.8746, -35.58575, -463.4615, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 719.4147, -31.39079, -537.2673, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1018.89, -30.3317, -304.3327, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 870.9664, 29.466, -296.8158, 45, "npc_dummy")
-addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 943.3807, -96.59112, -624.7989, 45, "npc_dummy")
-addnpc(147406, "QUEST_LV_0100_20150317_001235", "f_gele_57_3", -637.7001, -107.0825, -1275.973, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_gele_57_3", -407.211, -107.0825, -1328.491, -30, "npc_dummy")
-addnpc(147423, "QUEST_LV_0100_20150317_000739", "f_gele_57_3", 798.9423, 110.2806, -183.3278, 123, "npc_dummy")
-addnpc(11281, "QUEST_20150317_000179", "f_gele_57_3", 85.68913, 350.0658, -109.7383, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -551.5234, -12.9178, -808.4291, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -656.9406, -12.9178, -806.6349, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -689.4714, -12.9178, -649.8161, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -567.6236, -12.9178, -592.9276, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -428.4077, -12.9178, -774.9576, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -414.4598, -12.9178, -922.5212, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -426.7418, -12.9178, -482.3641, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -268.4507, -12.9178, -497.9047, 45, "npc_dummy")
-addnpc(147380, "ITEM_20150317_003535", "f_gele_57_3", -233.4108, -12.9178, -650.9677, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_3", -622.6378, -70.92905, -1161.396, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_3", -569.7672, -107.0825, -1322.858, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_gele_57_3", 1198.211, -109.2913, -621.7024, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_gele_57_3", 827.7228, 110.008, -188.8375, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_gele_57_3", 199.8917, 284.1678, 1163.188, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_3", 283.7517, 281.9593, 539.5409, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_gele_57_3", 92.34354, 350.0658, -176.3521, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_gele_57_3", -1313.142, 168.4398, -670.6988, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_gele_57_3", 1495.091, -109.2913, -708.5871, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_gele_57_3", 1150.08, 217.61, 817.83, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 630, -31, -660, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 736, -44, -760, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 877, -76, -665, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1003, -109, -638, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1123, -109, -572, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1165, -109, -476, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1080, -68, -433, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 940, -68, -473, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 808, -36, -463, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 719, -31, -537, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 1019, -30, -304, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 871, 29, -297, 45, "npc_dummy")
+
+--- Demon Summoning Circle --- 
+addnpc(147372, "QUEST_LV_0100_20150317_003179", "f_gele_57_3", 943, -97, -625, 45, "npc_dummy")
+
+--- Watcher James --- 
+addnpc(147406, "QUEST_LV_0100_20150317_001235", "f_gele_57_3", -638, -107, -1276, 45, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+addnpc(40120, "QUEST_20150317_000002", "f_gele_57_3", -407, -107, -1328, -30, "npc_dummy")
+
+--- Watcher Kenneth --- 
+addnpc(147423, "QUEST_LV_0100_20150317_000739", "f_gele_57_3", 799, 110, -183, 123, "npc_dummy")
+
+--- Follower Algis --- 
+addnpc(11281, "QUEST_20150317_000179", "f_gele_57_3", 86, 350, -110, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_gele_57_3", 1150, 218, 818, 45, "npc_dummy")
+

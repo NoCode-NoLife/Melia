@@ -1,22 +1,45 @@
-addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 920.0567, 399.358, -114.0447, 144, "npc_dummy")
-addnpc(153110, "ETC_20151102_016545", "d_abbey_64_2", -13.76144, 982.5371, -1335.677, 121, "npc_dummy")
-addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 11, 982.54, -1272, -49, "npc_dummy")
-addnpc(20063, "QUEST_LV_0100_20151224_011836", "d_abbey_64_2", 28.79301, 299.358, 1562.411, 10, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 901.0209, 32.03433, 1273.661, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 899.2347, 58.64647, 1029.126, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 815.7805, 1.867821, 1564.166, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 1115.54, -0.6419983, 1679.463, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 1116.203, -0.6419983, 1442.014, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 604.7064, 0.8489277, 1644.885, 45, "npc_dummy")
-addnpc(151022, "ITEM_20151102_008459", "d_abbey_64_2", 535.8138, 1.153961, 1384.643, 45, "npc_dummy")
-addnpc(153063, "ETC_20151102_017413", "d_abbey_64_2", -1135.509, 400, 669.5549, -73, "npc_dummy")
-addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -1262.597, 399.4869, 867.3038, 45, "npc_dummy")
-addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -848.9944, 400, 634.3934, -112, "npc_dummy")
-addnpc(153063, "ETC_20151102_017413", "d_abbey_64_2", -921.9781, 400, 863.6972, -46, "npc_dummy")
-addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -1276.678, 399.4869, 460.811, -59, "npc_dummy")
-addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -970.2206, 399.4869, 466.1358, 128, "npc_dummy")
-addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", 45.02862, 300, 987.8319, 0, "npc_dummy")
-addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -926.4878, 0, 2107.158, -3, "npc_dummy")
-addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -586.4133, 299.6631, 248.9912, -16, "npc_dummy")
-addnpc(155044, "QUEST_LV_0100_20151224_011895", "d_abbey_64_2", 610.3942, 178.1192, 884.1901, -45, "npc_dummy")
+--- Traveling Merchant Rose --- 
+addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 920, 399, -114, 144, "npc_dummy")
+
+--- Edmundas --- 
+addnpc(153110, "ETC_20151102_016545", "d_abbey_64_2", -12, 981, -1335, 121, "npc_dummy")
+
+--- Traveling Merchant Rose --- 
+addnpc(153119, "QUEST_20151224_003205", "d_abbey_64_2", 11, 983, -1272, -49, "npc_dummy")
+
+--- Experiment Victim Hilbeth --- 
+addnpc(20063, "QUEST_LV_0100_20151224_011836", "d_abbey_64_2", 40, 299, 1557, 10, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153063, "ETC_20151102_017413", "d_abbey_64_2", -1136, 400, 670, -73, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -1263, 399, 867, 45, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -849, 400, 634, -112, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153063, "ETC_20151102_017413", "d_abbey_64_2", -922, 400, 864, -46, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -1277, 399, 461, -59, "npc_dummy")
+
+--- Demons' Experimental Tools --- 
+addnpc(153065, "ETC_20151102_017413", "d_abbey_64_2", -970, 399, 466, 128, "npc_dummy")
+
+--- Novaha Relic --- 
+addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", 45, 300, 988, 0, "npc_dummy")
+
+--- Novaha Relic --- 
+addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -926, 0, 2107, -3, "npc_dummy")
+
+--- Novaha Relic --- 
+addnpc(153026, "ETC_20151224_019917", "d_abbey_64_2", -586, 300, 249, -16, "npc_dummy")
+
+--- Monk Abels --- 
+addnpc(155044, "QUEST_LV_0100_20151224_011895", "d_abbey_64_2", 610, 178, 884, -45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
 addnpc(147392, "ETC_20150317_009100", "d_abbey_64_2", 97, 981, -1895, 0, "npc_dummy")
+

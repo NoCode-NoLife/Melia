@@ -1,44 +1,111 @@
-addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", -756.44, 260.42, -967.87, 165, "npc_dummy")
-addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", -715.38, 422.89, -438.79, 51, "npc_dummy")
-addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", 211.76, 244.12, -1346.69, 67, "npc_dummy")
-addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", 1296.55, 329.06, -674.73, 43, "npc_dummy")
+--- Monument of Lydia Schaffen --- 
+addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", -756, 260, -968, 165, "npc_dummy")
+
+--- Monument of Lydia Schaffen --- 
+addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", -715, 423, -439, 51, "npc_dummy")
+
+--- Monument of Lydia Schaffen --- 
+addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", 212, 244, -1347, 67, "npc_dummy")
+
+--- Monument of Lydia Schaffen --- 
+addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", 1297, 329, -675, 43, "npc_dummy")
+
+--- Monument of Lydia Schaffen --- 
 addnpc(47190, "QUEST_LV_0100_20150317_000832", "f_remains_38", 1429, 371, 908, 38, "npc_dummy")
-addnpc(47160, "QUEST_LV_0100_20150317_002346", "f_remains_38", -1346.752, 325.941, -1724.129, 45, "npc_dummy")
+
+--- Strange Sack --- 
+addnpc(47160, "QUEST_LV_0100_20150317_002346", "f_remains_38", -1347, 326, -1724, 45, "npc_dummy")
+
+--- Necromancer Drasius --- 
 addnpc(154022, "QUEST_LV_0100_20150317_000828", "f_remains_38", -1053, 260, -1249, 63, "npc_dummy")
-addnpc(20026, "ETC_20150317_009427", "f_remains_38", 161.56, 479, 1048.97, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_remains_38", 340.66, 277.95, -457.09, -45, "npc_dummy")
-addnpc(47245, "QUEST_LV_0200_20150317_000199", "f_remains_38", 562.67, 277.95, -302.92, -32, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+addnpc(40120, "QUEST_20150317_000002", "f_remains_38", 341, 278, -457, -45, "npc_dummy")
+
+--- Hunter Talus --- 
+addnpc(47245, "QUEST_LV_0200_20150317_000199", "f_remains_38", 563, 278, -303, -32, "npc_dummy")
+
+--- Jar of Sacrifice --- 
 addnpc(47258, "ETC_20150317_009428", "f_remains_38", -78, 423, 424, -27, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 346.84, 210.37, -876.25, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 244.42, 210.37, -814.28, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 130.74, 210.37, -761.53, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", -103.04, 210.37, -740.69, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 76.6, 210.37, -665.22, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 0.19, 210.37, -714.52, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 467.31, 210.37, -845.81, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 453.23, 210.37, -979.98, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 471.44, 210.37, -1071.52, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 563.79, 210.37, -804.54, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 600.88, 210.37, -702.69, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 702.05, 210.37, -586.63, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 751.34, 210.37, -451.76, 45, "npc_dummy")
-addnpc(47202, "ITEM_20150317_003622", "f_remains_38", 677.83, 210.37, -486.51, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -2034.91, 336.6681, 708.6932, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1846.443, 336.6681, 503.8444, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1875.278, 336.6681, 720.1697, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1688.227, 336.6681, 599.7369, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1684.586, 336.6681, 501.8316, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1862.839, 336.6681, 623.1876, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_remains_38", 415.3893, 277.9462, -470.112, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_remains_38", -974.6697, 260.4169, -1148.085, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_remains_38", -758.9287, 260.4169, -1093.507, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_remains_38", -1389.729, 325.941, -2182.073, 45, "npc_dummy")
-addnpc(147365, "ETC_20150317_009233", "f_remains_38", 1446.074, 432.0014, 1513.008, 45, "npc_dummy")
-addnpc(147393, "ETC_20150317_009082", "f_remains_38", 973.32, 244.22, -1043.33, -45, "npc_dummy")
-addnpc(147436, "ETC_20150317_009431", "f_remains_38", 234.3901, 277.9462, -530.2645, 45, "npc_dummy")
-addnpc(57225, "ETC_20150428_011592", "f_remains_38", 263.3964, 277.9462, -307.8141, -45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -2000.852, 336.6681, 856.5484, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -2011.872, 336.6681, 570.5366, 45, "npc_dummy")
-addnpc(41310, "ETC_20150317_000508", "f_remains_38", -1743.041, 336.6681, 706.083, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_remains_38", 1725.47, 370.31, 1206.89, 45, "npc_dummy")
-addnpc(151106, "ETC_20160224_020714", "f_remains_38", 681.3064, 244.1206, -1351.379, 45, "npc_dummy")
+
+--- Lv3 Treasure Chest --- 
+addnpc(147393, "ETC_20150317_009082", "f_remains_38", 973, 244, -1043, -45, "npc_dummy")
+
+--- [Fletcher Master]Visvaldas Black --- 
+addnpc(147436, "ETC_20150317_009431", "f_remains_38", 234, 278, -530, 45, "npc_dummy")
+
+--- [Monk Master] Olfas Grimm --- 
+addnpc(57225, "ETC_20150428_011592", "f_remains_38", 263, 278, -308, -45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_remains_38", 1725, 370, 1207, 45, "npc_dummy")
+
+--- [Rune Caster Master]Shelly Pennington --- 
+addnpc(151106, "ETC_20160224_020714", "f_remains_38", 681, 244, -1351, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", -100, 479, 1242, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", -220, 479, 1229, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", -41, 479, 1000, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 215, 479, 1215, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 347, 479, 1156, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 438, 479, 1036, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 360, 479, 1003, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 288, 479, 902, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 299, 479, 836, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 67, 479, 862, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 186, 471, 765, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 230, 423, 571, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 66, 423, 473, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 271, 423, 436, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 352, 423, 252, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 298, 423, 338, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 192, 423, 34, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 106, 423, 53, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 248, 423, 72, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", 127, 423, 559, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", -117, 423, 222, 45, "npc_dummy")
+
+--- Loosely Strewn Rock --- 
+addnpc(153149, "ETC_20160718_022662", "f_remains_38", -142, 423, 311, 45, "npc_dummy")
+

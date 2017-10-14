@@ -1,92 +1,108 @@
-addnpc(20026, "ETC_20150317_009509", "f_siauliai_out", -213, 245, -17, -120, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_siauliai_out", 190.5049, 42.7921, -1214.24, -45, "npc_dummy")
-addnpc(20025, "ETC_20150317_009512", "f_siauliai_out", -152.3597, 151.8962, -215.2353, 45, "npc_dummy")
+--- Statue of Goddess Vakarine --- 
+addnpc(40120, "QUEST_20150317_000002", "f_siauliai_out", 191, 43, -1214, -45, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1086, 42, -1522, 130, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1197, 42, -1627, 130, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1237, 90, -1457, 130, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1160, 171, -1225, 130, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1364, 171, -1002, 130, "npc_dummy")
-addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1576.49, 42.83, -1673.1, 130, "npc_dummy")
+
+--- Relief Box --- 
+addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1576, 43, -1673, 130, "npc_dummy")
+
+--- Relief Box --- 
 addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -1807, 43, -1853, 130, "npc_dummy")
-addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -2078.32, 42.83, -1782.61, 136, "npc_dummy")
+
+--- Relief Box --- 
+addnpc(46212, "ETC_20150317_009510", "f_siauliai_out", -2078, 43, -1783, 136, "npc_dummy")
+
+--- Healer Lady --- 
 addnpc(20168, "QUEST_LV_0100_20150317_001221", "f_siauliai_out", -1913, 40, -1428, 91, "npc_dummy")
+
+--- Healer Lady --- 
 addnpc(20168, "QUEST_LV_0100_20150317_001221", "f_siauliai_out", -1913, 40, -1428, -100, "npc_dummy")
+
+--- Kepa Wagon --- 
 addnpc(45315, "ETC_20150317_007048", "f_siauliai_out", -82, 156, -612, 16, "npc_dummy")
+
+--- Kepa Wagon --- 
 addnpc(45315, "ETC_20150317_007048", "f_siauliai_out", -41, 157, -608, -45, "npc_dummy")
+
+--- Kepa Wagon --- 
 addnpc(45315, "ETC_20150317_007048", "f_siauliai_out", -64, 161, -557, -45, "npc_dummy")
-addnpc(20109, "QUEST_LV_0100_20150317_001224", "f_siauliai_out", -1768.11, 170.55, -815.68, 225, "npc_dummy")
+
+--- Mine Manager Brinker --- 
+addnpc(20109, "QUEST_LV_0100_20150317_001224", "f_siauliai_out", -1759, 170, -814, 225, "npc_dummy")
+
+--- Mine Manager Brinker --- 
 addnpc(20109, "QUEST_LV_0100_20150317_001224", "f_siauliai_out", 355, 43, -1117, -45, "npc_dummy")
-addnpc(20118, "QUEST_LV_0100_20150317_000233", "f_siauliai_out", -87.64736, 145.2319, -802.0891, 45, "npc_dummy")
-addnpc(20110, "ETC_20150317_009246", "f_siauliai_out", 1309.119, 147.3516, 331.726, -41, "npc_dummy")
+
+--- Miners' Village Mayor --- 
+addnpc(20118, "QUEST_LV_0100_20150317_000233", "f_siauliai_out", -88, 145, -802, 45, "npc_dummy")
+
+--- [Alchemist Master]Vaidotas --- 
+addnpc(20110, "ETC_20150317_009246", "f_siauliai_out", 1309, 147, 332, -41, "npc_dummy")
+
+--- Hunter --- 
 addnpc(47245, "QUEST_LV_0100_20150317_001534", "f_siauliai_out", -945, 39, -1812, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1749, 171, -1110, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1704, 171, -1248, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1591, 171, -1208, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1514, 171, -1323, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1426, 171, -1163, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1229, 171, -1099, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1186, 171, -975, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1090, 171, -1151, 45, "npc_dummy")
-addnpc(10043, "ITEM_20150317_003048", "f_siauliai_out", -1560, 171, -826, 45, "npc_dummy")
-addnpc(20110, "ETC_20150317_009246", "f_siauliai_out", -38.88, 85.27, -1021.81, 45, "npc_dummy")
-addnpc(40095, "ETC_20150317_009511", "f_siauliai_out", -61, 157, -656, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1256, 42, -955, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1957, 119, -47, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1767.28, 147.35, 388.86, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -464, 42, -1451, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1283, 42, -1639, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1504, 170, -1178, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1772, 42, -1685, 45, "npc_dummy")
+
+--- [Alchemist Master]Vaidotas --- 
+addnpc(20110, "ETC_20150317_009246", "f_siauliai_out", -39, 85, -1022, 45, "npc_dummy")
+
+--- Notice --- 
 addnpc(40070, "QUEST_20150317_000560", "f_siauliai_out", -142, 153, -435, 45, "npc_dummy")
+
+--- Village Aunt --- 
 addnpc(20114, "QUEST_LV_0100_20150317_000206", "f_siauliai_out", -54, 85, -1064, 45, "npc_dummy")
+
+--- Miner --- 
 addnpc(20150, "QUEST_LV_0100_20150317_000366", "f_siauliai_out", 36, 85, -968, 45, "npc_dummy")
+
+--- Village Girl --- 
 addnpc(147473, "QUEST_LV_0100_20150317_000209", "f_siauliai_out", 66, 88, -1083, 45, "npc_dummy")
+
+--- Lot 2 Closure Notice --- 
 addnpc(40070, "ETC_20150317_005371", "f_siauliai_out", 129, 153, -18, 315, "npc_dummy")
-addnpc(155072, "ETC_20151224_019975", "f_siauliai_out", 554.1078, 42.7921, -879.4257, 0, "npc_dummy")
+
+--- [Psychokino Submaster]Cielle Gudan --- 
+addnpc(155072, "ETC_20151224_019975", "f_siauliai_out", 554, 43, -879, 0, "npc_dummy")
+
+--- [Linker Submaster]Roddie Kuska --- 
 addnpc(155073, "ETC_20151224_019976", "f_siauliai_out", 312, 88, -1010, -85, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", -949.56, 37.42, -1798.78, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_siauliai_out", 71.82, 88.36, -1047.46, 45, "npc_dummy")
-addnpc(147366, "ETC_20150317_009233", "f_siauliai_out", 197.06, 37.42, -1305.24, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", 1350.77, 147.35, 271.9, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", 1448.56, 229.56, 509.96, 45, "npc_dummy")
-addnpc(20026, "ETC_20150317_009515", "f_siauliai_out", -2108.24, 42.83, -1829.4, 76, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_siauliai_out", 1651.87, 147.35, 427.34, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_siauliai_out", 1733.196, 43.3667, -550.8875, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", -183.86, 246.08, -17.58, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_siauliai_out", 1652, 147, 427, 45, "npc_dummy")
+
+--- Statue of Goddess Zemyna --- 
 addnpc(40110, "ETC_20150317_007030", "f_siauliai_out", -2194, 40, -2055, 38.6, "npc_dummy")
-addnpc(152000, "ETC_20150317_005361", "f_siauliai_out", -2242.07, 42.83, -1971.59, 27, "npc_dummy")
+
+--- Refugee --- 
+addnpc(152000, "ETC_20150317_005361", "f_siauliai_out", -2242, 43, -1972, 27, "npc_dummy")
+
+--- Safety Instructions --- 
 addnpc(40070, "QUEST_20150317_000114", "f_siauliai_out", -58, 150, -133, 0, "npc_dummy")
-addnpc(20109, "ETC_20150317_009516", "f_siauliai_out", -1768.11, 170.55, -810.68, -30, "npc_dummy")
-addnpc(147493, "QUEST_LV_0100_20150317_000215", "f_siauliai_out", -47.84776, 85.2688, -1212.506, 45, "npc_dummy")
-addnpc(20016, "QUEST_LV_0100_20150317_000218", "f_siauliai_out", 90.9569, 50.21651, -1225.092, 45, "npc_dummy")
-addnpc(20019, "QUEST_LV_0100_20150317_000221", "f_siauliai_out", 429.0146, 42.7921, -1201.718, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1632.726, 170.5456, -878.3143, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1199.067, 170.5456, -1103.749, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -2124.531, 42.82632, -1766.132, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1756.949, 42.8264, -1536.579, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1119.281, 42.79255, -1493.997, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -796.1923, 37.4188, -1660.291, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -619.8731, 37.4188, -1567.635, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 12.45821, 37.4188, -1429.505, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 264.457, 37.4188, -1316.947, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 533.624, 42.7921, -1103.092, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -16.77349, 85.23676, -1044.74, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -80.62352, 151.2065, -387.8705, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -89.68266, 150.2328, -138.7407, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 69.51727, 151.5431, -170.1664, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 720.7574, 42.7922, -955.018, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1024.029, 37.4189, -991.2591, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1512.264, 43.3667, -537.8149, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1290.106, 198.036, 199.1855, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 450.8984, 39.26536, -1551.043, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 537.7366, 42.7921, -1799.194, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1677.181, 116.5033, -61.22932, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1990.857, 147.3516, 408.2743, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 2186.93, 147.3516, 368.886, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1753.848, 43.3667, -536.3814, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", -1959.701, 42.8263, -2100.372, 45, "npc_dummy")
-addnpc(45132, "QUEST_LV_0200_20150317_000504", "f_siauliai_out", 1367.657, 44.02708, -144.0956, 45, "npc_dummy")
-addnpc(147364, "ETC_20150317_009233", "f_siauliai_out", -1981.886, 42.8264, -1479.492, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", -2189.991, 42.8263, -2028.112, 45, "npc_dummy")
-addnpc(147362, "ETC_20150317_009233", "f_siauliai_out", -1722.428, 170.5456, -863.6018, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "f_siauliai_out", 1224.35, 198.02, 279.95, 45, "npc_dummy")
+
+--- Mine Manager Brinker --- 
+addnpc(20109, "ETC_20150317_009516", "f_siauliai_out", -1759, 170, -814, -30, "npc_dummy")
+
+--- Pharmacist Lady --- 
+addnpc(147493, "QUEST_LV_0100_20150317_000215", "f_siauliai_out", -48, 85, -1213, 45, "npc_dummy")
+
+--- Soldier Jace --- 
+addnpc(20016, "QUEST_LV_0100_20150317_000218", "f_siauliai_out", 91, 50, -1225, 45, "npc_dummy")
+
+--- Soldier Edgar --- 
+addnpc(20019, "QUEST_LV_0100_20150317_000221", "f_siauliai_out", 429, 43, -1202, 45, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_siauliai_out", 1224, 198, 280, 45, "npc_dummy")
+

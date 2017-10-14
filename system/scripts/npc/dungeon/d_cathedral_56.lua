@@ -1,31 +1,96 @@
-addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_56", 2149.983, 0.4988, 583.7394, 8, "npc_dummy")
-addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1737.574, 0, 726.4625, 13, "npc_dummy")
-addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1864.347, 0.4988, 116.6427, -12, "npc_dummy")
-addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1647.182, 0.4988, 323.8877, -51, "npc_dummy")
-addnpc(147311, "ETC_20150323_010350", "d_cathedral_56", 1941.211, 0.4988, 419.3699, 45, "npc_dummy")
-addnpc(147311, "ETC_20150323_010350", "d_cathedral_56", 2140.397, 0.4988, 104.7796, 110, "npc_dummy")
-addnpc(151024, "ETC_20150414_010875", "d_cathedral_56", 1414.536, 0.4988, -471.5474, 45, "npc_dummy")
-addnpc(153018, "ETC_20150323_009810", "d_cathedral_56", -1014.985, 0.4988, 254.2677, -45, "npc_dummy")
-addnpc(153017, "ETC_20150401_010453", "d_cathedral_56", -222.927, 0.4988, -1280.342, 90, "npc_dummy")
-addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -289.02, 0, -1299, 8, "npc_dummy")
-addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -289.5, 0, -1169, 8, "npc_dummy")
-addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -150.89, 0, -1303.78, 8, "npc_dummy")
-addnpc(147357, "QUEST_20150317_000906", "d_cathedral_56", -1672.602, 0, 835.2267, 5, "npc_dummy")
-addnpc(147357, "QUEST_20150317_000908", "d_cathedral_56", -1673.534, 0.4988, 622.1985, 1, "npc_dummy")
-addnpc(147357, "QUEST_20150317_000910", "d_cathedral_56", -1436.67, 0.4988, 854.257, 17, "npc_dummy")
-addnpc(147357, "QUEST_20150317_000912", "d_cathedral_56", -1378.549, 0, 693.3833, 3, "npc_dummy")
-addnpc(147357, "QUEST_20150317_000914", "d_cathedral_56", -1496.291, 0.4988, 567.7439, -1, "npc_dummy")
-addnpc(147389, "QUEST_LV_0200_20150323_003370", "d_cathedral_56", -585.6873, 0.4988, -818.9088, 145, "npc_dummy")
-addnpc(47254, "QUEST_20150317_000854", "d_cathedral_56", -2114.784, 0.4988, -427.7935, 49, "npc_dummy")
-addnpc(147469, "ETC_20150317_005172", "d_cathedral_56", -1544.092, 10.5952, 729.3548, 45, "npc_dummy")
-addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -159.56, 0, -1166, 8, "npc_dummy")
-addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_56", -1444.333, 0, 759.7528, -42, "npc_dummy")
-addnpc(147398, "QUEST_LV_0200_20150323_003374", "d_cathedral_56", -706.3752, 0.4988, -749.2646, 45, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1777.291, 0.4988, -533.2274, -84, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1418.371, 0.4988, -768.05, 103, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1016.882, 0.4988, -542.5093, -57, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1227.221, 0.4988, -635.9436, 75, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1597.06, 0.4988, -356.9529, 159, "npc_dummy")
-addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1514.441, 0.4988, -566.8978, -61, "npc_dummy")
-addnpc(147362, "ETC_20150729_014021", "d_cathedral_56", 2148.417, 0.4988, 483.0188, 45, "npc_dummy")
-addnpc(147392, "ETC_20150317_009100", "d_cathedral_56", -21.49, 0.6, -18.27, 45, "npc_dummy")
+--- Bishop Aurelius' Spirit --- 
+addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_56", 2150, 0, 584, 8, "npc_dummy")
+
+--- Torn Page --- 
+addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1738, 0, 726, 13, "npc_dummy")
+
+--- Torn Page --- 
+addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1864, 0, 117, -12, "npc_dummy")
+
+--- Torn Page --- 
+addnpc(147312, "ETC_20150323_010349", "d_cathedral_56", 1647, 0, 324, -51, "npc_dummy")
+
+--- Old Document --- 
+addnpc(147311, "ETC_20150323_010350", "d_cathedral_56", 1941, 0, 419, 45, "npc_dummy")
+
+--- Old Document --- 
+addnpc(147311, "ETC_20150323_010350", "d_cathedral_56", 2140, 0, 105, 110, "npc_dummy")
+
+--- Altar of Knowledge --- 
+addnpc(151024, "ETC_20150414_010875", "d_cathedral_56", 1415, 0, -472, 45, "npc_dummy")
+
+--- Apgaule Altar --- 
+addnpc(153018, "ETC_20150323_009810", "d_cathedral_56", -1015, 0, 254, -45, "npc_dummy")
+
+--- Secret Statue --- 
+addnpc(153017, "ETC_20150401_010453", "d_cathedral_56", -223, 0, -1280, 90, "npc_dummy")
+
+--- Great Cathedral Candlestick --- 
+addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -289, 0, -1299, 8, "npc_dummy")
+
+--- Great Cathedral Candlestick --- 
+addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -290, 0, -1169, 8, "npc_dummy")
+
+--- Great Cathedral Candlestick --- 
+addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -151, 0, -1304, 8, "npc_dummy")
+
+--- Red Marble --- 
+addnpc(147357, "QUEST_20150317_000906", "d_cathedral_56", -1673, 0, 835, 5, "npc_dummy")
+
+--- Blue Marble --- 
+addnpc(147357, "QUEST_20150317_000908", "d_cathedral_56", -1674, 0, 622, 1, "npc_dummy")
+
+--- Yellow Marble --- 
+addnpc(147357, "QUEST_20150317_000910", "d_cathedral_56", -1437, 0, 854, 17, "npc_dummy")
+
+--- Green Marble --- 
+addnpc(147357, "QUEST_20150317_000912", "d_cathedral_56", -1379, 0, 693, 3, "npc_dummy")
+
+--- Purple Marble --- 
+addnpc(147357, "QUEST_20150317_000914", "d_cathedral_56", -1496, 0, 568, -1, "npc_dummy")
+
+--- Priest Goda --- 
+addnpc(147389, "QUEST_LV_0200_20150323_003370", "d_cathedral_56", -586, 0, -819, 145, "npc_dummy")
+
+--- Chapel Table --- 
+addnpc(47254, "QUEST_20150317_000854", "d_cathedral_56", -2115, 0, -428, 49, "npc_dummy")
+
+--- Portal --- 
+addnpc(147469, "ETC_20150317_005172", "d_cathedral_56", -1544, 11, 729, 45, "npc_dummy")
+
+--- Great Cathedral Candlestick --- 
+addnpc(147358, "ETC_20150317_005097", "d_cathedral_56", -160, 0, -1166, 8, "npc_dummy")
+
+--- Bishop Aurelius' Spirit --- 
+addnpc(151033, "QUEST_LV_0200_20150317_000875", "d_cathedral_56", -1444, 0, 760, -42, "npc_dummy")
+
+--- Priest Prosit --- 
+addnpc(147398, "QUEST_LV_0200_20150323_003374", "d_cathedral_56", -706, 0, -749, 45, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1777, 0, -533, -84, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1418, 0, -768, 103, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1017, 0, -543, -57, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1227, 0, -636, 75, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1597, 0, -357, 159, "npc_dummy")
+
+--- Cursed Orb --- 
+addnpc(151022, "QUEST_LV_0200_20150323_004336", "d_cathedral_56", -1514, 0, -567, -61, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "d_cathedral_56", -21, 1, -18, 45, "npc_dummy")
+
+--- Incomplete Magic Circle --- 
+addnpc(47124, "ETC_20170313_026467", "d_cathedral_56", -1566, 0, -741, 45, "npc_dummy")
+
+--- Completed Magic Circle --- 
+addnpc(47124, "ETC_20170313_027487", "d_cathedral_56", -1567, 0, -741, 45, "npc_dummy")
+

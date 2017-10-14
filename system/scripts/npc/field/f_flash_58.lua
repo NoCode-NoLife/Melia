@@ -1,27 +1,90 @@
-addnpc(156023, "QUEST_UNUSED_20150717_000276", "f_flash_58", -231.9707, 407.5999, -954.7818, -33, "npc_dummy")
-addnpc(147364, "ETC_20150717_013607", "f_flash_58", -248.9047, 407.1871, -935.7498, 45, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_58", -0.2210999, 285.162, -585.1302, -43, "npc_dummy")
-addnpc(154027, "ETC_20150714_013156", "f_flash_58", -36.78524, 204.8384, 958.9805, 209, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_58", -855.1399, 249.8441, 122.8793, 45, "npc_dummy")
-addnpc(154035, "ETC_20150714_012039", "f_flash_58", -248.2362, 285.162, -130.5176, 98, "npc_dummy")
-addnpc(154035, "ETC_20150714_012039", "f_flash_58", -213.7281, 223.6598, 610.89, 128, "npc_dummy")
-addnpc(154035, "ETC_20150714_012039", "f_flash_58", -139.1798, 204.6379, 1341.125, 129, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2107.799, 234.4149, 244.0753, 45, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2175.326, 314.7893, -472.3681, 137, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2393.364, 314.7893, -423.1028, 108, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2148.512, 314.7893, -242.434, -91, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1820.089, 274.4157, -34.40541, -63, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1834.97, 261.1196, 262.5416, 144, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1825.777, 274.6332, -179.0226, 45, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2270.444, 234.2144, -22.73453, 151, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1162.266, 374.9737, 312.5594, 45, "npc_dummy")
-addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1908.865, 247.0956, 382.2201, -109, "npc_dummy")
-addnpc(154023, "ETC_20150714_013156", "f_flash_58", 28.87658, 284.9615, -408.3541, 45, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_58", -227.2038, 223.6598, 597.5536, 45, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_58", -136.3342, 204.6379, 1379.469, 45, "npc_dummy")
-addnpc(154031, "ETC_20150317_009332", "f_flash_58", -545.3301, 223.6598, 626.7958, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_58", -1302.627, 249.6436, 210.8961, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_58", 111.7691, 284.9615, -115.1703, 45, "npc_dummy")
-addnpc(154024, "ETC_20150317_009332", "f_flash_58", -280.0058, 204.6379, 958.2896, 45, "npc_dummy")
-addnpc(40120, "QUEST_20150317_000002", "f_flash_58", -694.7843, 407.5999, -1093.407, 0, "npc_dummy")
-addnpc(147364, "ETC_20150717_013607", "f_flash_58", -694.7843, 407.5999, -1093.407, 45, "npc_dummy")
+--- Svitrigaila --- 
+addnpc(156023, "QUEST_UNUSED_20150717_000276", "f_flash_58", -232, 408, -955, -33, "npc_dummy")
+
+--- Petrified Soldier --- 
+addnpc(154023, "ETC_20150714_013156", "f_flash_58", 0, 285, -585, -43, "npc_dummy")
+
+--- Petrified Soldier --- 
+addnpc(154027, "ETC_20150714_013156", "f_flash_58", -37, 205, 959, 209, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154031, "ETC_20150317_009332", "f_flash_58", -855, 250, 123, 45, "npc_dummy")
+
+--- Petrified Box --- 
+addnpc(154035, "ETC_20150714_012039", "f_flash_58", -248, 285, -131, 98, "npc_dummy")
+
+--- Petrified Box --- 
+addnpc(154035, "ETC_20150714_012039", "f_flash_58", -214, 224, 611, 128, "npc_dummy")
+
+--- Petrified Box --- 
+addnpc(154035, "ETC_20150714_012039", "f_flash_58", -139, 205, 1341, 129, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2108, 234, 244, 45, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2175, 315, -472, 137, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2393, 315, -423, 108, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2149, 315, -242, -91, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1820, 274, -34, -63, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1835, 261, 263, 144, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1826, 275, -179, 45, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 2270, 234, -23, 151, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1162, 375, 313, 45, "npc_dummy")
+
+--- Petrified Monster --- 
+addnpc(152074, "ETC_20150717_013609", "f_flash_58", 1909, 247, 382, -109, "npc_dummy")
+
+--- Petrified Soldier --- 
+addnpc(154023, "ETC_20150714_013156", "f_flash_58", 29, 285, -408, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154031, "ETC_20150317_009332", "f_flash_58", -227, 224, 598, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154031, "ETC_20150317_009332", "f_flash_58", -136, 205, 1379, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154031, "ETC_20150317_009332", "f_flash_58", -545, 224, 627, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154024, "ETC_20150317_009332", "f_flash_58", -1303, 250, 211, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154024, "ETC_20150317_009332", "f_flash_58", 112, 285, -115, 45, "npc_dummy")
+
+--- Petrified Grave Robber --- 
+addnpc(154024, "ETC_20150317_009332", "f_flash_58", -280, 205, 958, 45, "npc_dummy")
+
+--- Statue of Goddess Vakarine --- 
+addnpc(40120, "QUEST_20150317_000002", "f_flash_58", -695, 408, -1093, 0, "npc_dummy")
+
+--- Lv1 Treasure Chest --- 
+addnpc(147392, "ETC_20150317_009100", "f_flash_58", -995, 323, -1059, -90, "npc_dummy")
+
+--- Singing Sphere --- 
+addnpc(155097, "ETC_20170313_027494", "f_flash_58", -391, 224, 492, 45, "npc_dummy")
+
+--- Singing Sphere --- 
+addnpc(155097, "ETC_20170313_027494", "f_flash_58", 142, 285, -317, 45, "npc_dummy")
+
+--- Singing Sphere --- 
+addnpc(155097, "ETC_20170313_027494", "f_flash_58", -1037, 250, 172, 45, "npc_dummy")
+
+--- Singing Sphere --- 
+addnpc(155097, "ETC_20170313_027494", "f_flash_58", -176, 205, 1099, 45, "npc_dummy")
+
