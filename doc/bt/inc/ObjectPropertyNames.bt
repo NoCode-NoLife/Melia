@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i175477
+//   Version: i176638
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -311,6 +311,12 @@ string getPropertyName(int id)
         case 101211: return "FIELD_CO_OP_MGAME_SUCCESS";
         case 101212: return "FIELD_CO_OP_TIMECHECK";
         case 101664: return "STARTOWER762_EVENT1_COUNT";
+        case 101671: return "THANKSGIVING_COIN_RANKING_3";
+        case 101672: return "THANKSGIVING_COIN_RANKING_POINT_1";
+        case 101673: return "THANKSGIVING_COIN_RANKING_2";
+        case 101674: return "THANKSGIVING_COIN_RANKING_1";
+        case 101675: return "THANKSGIVING_COIN_RANKING_POINT_2";
+        case 101676: return "THANKSGIVING_COIN_RANKING_POINT_3";
         case 6299: return "MaxPVPGrade";
         case 6300: return "Medal";
         case 6301: return "SelectedBarrack";
@@ -923,6 +929,23 @@ string getPropertyName(int id)
         case 101240: return "HadVisited_4810";
         case 101665: return "NPC_EVENT_JP_DAY_CHECK_2";
         case 101666: return "NPC_EVENT_JP_DAY_CHECK_1";
+        case 101669: return "EV170927_JP_NRU_ALWAYS_1";
+        case 101684: return "HadVisited_524";
+        case 101686: return "EVENT_MYMON02_LV";
+        case 101687: return "EVENT_MYMON01_LV";
+        case 101688: return "EVENT_MYMON03_LV";
+        case 101689: return "EVENT_VSMON_STAGE";
+        case 101690: return "BLUEORB_MISSION_COUNT";
+        case 101691: return "EVENT_MYMON01";
+        case 101692: return "EVENT_MYMON02";
+        case 101693: return "EVENT_MYMON03";
+        case 101694: return "HadVisited_523";
+        case 101768: return "EV171017_STEAM_REWARD_COUNT";
+        case 101769: return "EV171017_STEAM_CB_CHECK";
+        case 101770: return "EV171017_STEAM_CB_DAY";
+        case 101771: return "EV171017_STEAM_NRU_AOBJ";
+        case 101772: return "EV171017_STEAM_CB_COUNT";
+        case 101773: return "EV171017_STEAM_REWARD_DAY";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9141,6 +9164,8 @@ string getPropertyName(int id)
         case 101485: return "WTREES22_3_SQ8_TRACK";
         case 101486: return "ABBEY22_4_SQ6_TRACK";
         case 101667: return "Kill_boss_kepa_event";
+        case 101682: return "HadVisited_524";
+        case 101685: return "HadVisited_523";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -15997,6 +16022,11 @@ string getPropertyName(int id)
         case 101659: return "FANTASYLIB481_SQ_1";
         case 101660: return "FANTASYLIB484_MQ_6";
         case 101661: return "F_3CMLAKE261_SQ07";
+        case 101668: return "F_3CMLAKE_26_2_ZEMINA_P";
+        case 101670: return "EV170927_JP_NRU_ALWAYS_2";
+        case 101683: return "MG_Last_EVENT_FEDIMIAN_RAID";
+        case 101695: return "MG_Last_MISSION_EVENT_BLUEORB";
+        case 101774: return "EV171017_STEAM_NRU_SOBJ";
         default: return "Unknown";
     }
 }
