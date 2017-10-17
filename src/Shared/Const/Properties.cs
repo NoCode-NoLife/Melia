@@ -623,6 +623,23 @@ namespace Melia.Shared.Const
 			public const int HadVisited_4810 = 101240;
 			public const int NPC_EVENT_JP_DAY_CHECK_2 = 101665;
 			public const int NPC_EVENT_JP_DAY_CHECK_1 = 101666;
+			public const int EV170927_JP_NRU_ALWAYS_1 = 101669;
+			public const int HadVisited_524 = 101684;
+			public const int EVENT_MYMON02_LV = 101686;
+			public const int EVENT_MYMON01_LV = 101687;
+			public const int EVENT_MYMON03_LV = 101688;
+			public const int EVENT_VSMON_STAGE = 101689;
+			public const int BLUEORB_MISSION_COUNT = 101690;
+			public const int EVENT_MYMON01 = 101691;
+			public const int EVENT_MYMON02 = 101692;
+			public const int EVENT_MYMON03 = 101693;
+			public const int HadVisited_523 = 101694;
+			public const int EV171017_STEAM_REWARD_COUNT = 101768;
+			public const int EV171017_STEAM_CB_CHECK = 101769;
+			public const int EV171017_STEAM_CB_DAY = 101770;
+			public const int EV171017_STEAM_NRU_AOBJ = 101771;
+			public const int EV171017_STEAM_CB_COUNT = 101772;
+			public const int EV171017_STEAM_REWARD_DAY = 101773;
 		}
 
 		public static class Monster
@@ -8861,6 +8878,8 @@ namespace Melia.Shared.Const
 			public const int WTREES22_3_SQ8_TRACK = 101485;
 			public const int ABBEY22_4_SQ6_TRACK = 101486;
 			public const int Kill_boss_kepa_event = 101667;
+			public const int HadVisited_524 = 101682;
+			public const int HadVisited_523 = 101685;
 		}
 
 		public static class Item
@@ -15729,6 +15748,11 @@ namespace Melia.Shared.Const
 			public const int FANTASYLIB481_SQ_1 = 101659;
 			public const int FANTASYLIB484_MQ_6 = 101660;
 			public const int F_3CMLAKE261_SQ07 = 101661;
+			public const int F_3CMLAKE_26_2_ZEMINA_P = 101668;
+			public const int EV170927_JP_NRU_ALWAYS_2 = 101670;
+			public const int MG_Last_EVENT_FEDIMIAN_RAID = 101683;
+			public const int MG_Last_MISSION_EVENT_BLUEORB = 101695;
+			public const int EV171017_STEAM_NRU_SOBJ = 101774;
 		}
 #pragma warning restore IDE1006
 	}
