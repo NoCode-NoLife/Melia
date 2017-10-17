@@ -711,6 +711,7 @@ namespace Melia.Shared.Network
 		public const int CZ_NXA_REQ_PICKUP_READY_ITEMS = 0xE6E; // Size: 523
 		public const int CZ_NXA_REQ_PURCHASE_CANCEL = 0xE6F; // Size: 10
 		public const int ZC_NXA_SELLITEMLIST = 0xE70; // Size: 0
+		public const int CZ_REQ_PARTY_INFO = 0xE71; // Size: 10
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
@@ -1417,6 +1418,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_NXA_REQ_PICKUP_READY_ITEMS] = 523;
 			_sizes[CZ_NXA_REQ_PURCHASE_CANCEL] = 10;
 			_sizes[ZC_NXA_SELLITEMLIST] = 0;
+			_sizes[CZ_REQ_PARTY_INFO] = 10;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
