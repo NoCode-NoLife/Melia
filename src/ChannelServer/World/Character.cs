@@ -401,18 +401,6 @@ namespace Melia.Channel.World
 		public Properties Properties { get; } = new Properties();
 
 		/// <summary>
-		/// The character's splash rate?
-		/// </summary>
-		/// <remarks>
-		/// Used together with skill's splash rates.
-		/// TODO: Figure out where it comes from (official name: SR).
-		/// TODO: Check if it changes with jobs, items, stances, etc.
-		/// Item Bonus: Aoe Attack Ratio (SR)
-		/// Changed to 'AoeRatio'
-		/// </remarks>
-		public float SplashRate { get; } = 4;
-
-		/// <summary>
 		/// Returns minimum physical ATK.
 		/// </summary>
 		public int MinPAtk
@@ -639,9 +627,9 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns Physical Defence.
+		/// Returns Physical Defense.
 		/// </summary>
-		public int Def
+		public int Defense
 		{
 			get
 			{
@@ -669,9 +657,9 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns Magic Defence.
+		/// Returns Magic Defense.
 		/// </summary>
-		public int Mdef
+		public int MagicDefense
 		{
 			get
 			{
@@ -737,18 +725,10 @@ namespace Melia.Channel.World
 
 				var value = byLevel + byItem;
 
-				//if(hasBuff("High Guard"))
-				//	value -= SkillLevel * 10
-				//if(hasBuff("Finestra"))
-				//	value += 60 + ((SkillLevel - 1) * 10)
-
 				// Buffs: "CRTHR_BM"
 				var byBuffs = 0;
 
 				// Rate buffs:
-				//if(hasBuff("Sneak Hit")) | Temporarily increases your Critical Chance when attacking enemies from behind.
-				//werewolf card give you x chance to do 'rare' attack (attacking enemies from behind)
-				//	rate += 32 + ((SkillLevel-1) * 2)
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -761,7 +741,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns Critical Resistance.
 		/// </summary>
-		public int CritRes
+		public int CritResistance
 		{
 			get
 			{
@@ -830,14 +810,6 @@ namespace Melia.Channel.World
 
 				var value = byLevel + byStat + byItem;
 
-				//if(hasBuff("Finestra"))
-				//	if(hasAttribute("Finestra: Splash")) | reduces evasion rate by x2 more of the existing value when [Finestra] is active
-				//		value -= (15 + ((SkillLevel - 1) * 15)) * 2
-				//	else
-				//		value -= 15 + ((SkillLevel - 1) * 15)
-
-
-
 				// Buffs: "DR_BM"
 				var byBuffs = 0;
 
@@ -885,7 +857,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns Block Penetration.
 		/// </summary>
-		public int BlockPen
+		public int BlockPenetration
 		{
 			get
 			{
@@ -942,7 +914,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns Aoe Defence Ratio.
 		/// </summary>
-		public int AoeRatioDef
+		public int AoeRatioDefense
 		{
 			get
 			{
@@ -967,7 +939,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns HP Recovery amount.
 		/// </summary>
-		public int RHp
+		public int HPRecovery
 		{
 			get
 			{
@@ -975,11 +947,11 @@ namespace Melia.Channel.World
 				var level = this.Level;
 				var stat = this.Con;
 
-				var ByLevel = level / 2f;
+				var byLevel = level / 2f;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
 				var byItem = 0f; // TODO: Cached HP Recovery for inventory/equip ("RHP")
 
-				var value = baseValue + ByLevel + byStat + byItem;
+				var value = baseValue + byLevel + byStat + byItem;
 
 				// Buffs: "HSP_BM"
 				var byBuffs = 0;
@@ -997,7 +969,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns SP Recovery amount.
 		/// </summary>
-		public int RSp
+		public int SPRecovery
 		{
 			get 
 			{
@@ -1005,11 +977,11 @@ namespace Melia.Channel.World
 				var level = this.Level;
 				var stat = this.Spr;
 
-				var ByLevel = level / 2f;
+				var byLevel = level / 2f;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
 				var byItem = 0f; // TODO: Cached SP Recovery for inventory/equip ("RSP")
 
-				var value = baseValue + ByLevel + byStat + byItem;
+				var value = baseValue + byLevel + byStat + byItem;
 
 				// Buffs: "RSP_BM"
 				var byBuffs = 0;
@@ -1076,8 +1048,8 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.RHp)); //HP Recovery
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.RSp)); //SP Recovery
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.HPRecovery)); //HP Recovery
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.SPRecovery)); //SP Recovery
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
@@ -1108,12 +1080,12 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HR, () => this.Accuracy));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DR, () => this.Evasion));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BLK, () => this.Block));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BLK_BREAK, () => this.BlockPen));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BLK_BREAK, () => this.BlockPenetration));
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEF, () => this.Def));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MDEF, () => this.Mdef));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CRTDR, () => this.CritRes));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SDR, () => this.AoeRatioDef));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEF, () => this.Defense));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MDEF, () => this.MagicDefense));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CRTDR, () => this.CritResistance));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SDR, () => this.AoeRatioDefense));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSPD, () => this.GetSpeed()));
 		}
