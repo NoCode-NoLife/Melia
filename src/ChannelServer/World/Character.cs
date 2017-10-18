@@ -407,6 +407,8 @@ namespace Melia.Channel.World
 		/// Used together with skill's splash rates.
 		/// TODO: Figure out where it comes from (official name: SR).
 		/// TODO: Check if it changes with jobs, items, stances, etc.
+		/// Item Bonus: Aoe Attack Ratio (SR)
+		/// Changed to 'AoeRatio'
 		/// </remarks>
 		public float SplashRate { get; } = 4;
 
@@ -436,6 +438,8 @@ namespace Melia.Channel.World
 				var byBuffs = 0;
 
 				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+				//if(hasBuff("Guardian"))
+				//	rate -= SkillLevel
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -475,6 +479,86 @@ namespace Melia.Channel.World
 				var byBuffs = 0;
 
 				// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
+				//if(hasBuff("Guardian"))
+				//	rate -= SkillLevel
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns minimum physical ATK.
+		/// </summary>
+		public int MinPAtk_Sub
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MINPATK_SUB for inventory/equip ("MINPATK_SUB", "PATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MinAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//	value -= rightHand.MinAtk
+
+				// Buffs: "PATK_BM", "MINPATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+				//if(hasBuff("Guardian"))
+				//	rate -= SkillLevel
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				var maxPatk_sub = this.MaxPAtk_Sub;
+				if (value > maxPatk_sub)
+					return maxPatk_sub;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns maximum physical ATK.
+		/// </summary>
+		public int MaxPAtk_Sub
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+				var byItem = 0; // TODO: Cached MAXPATK_SUB for inventory/equip ("MAXPATK_SUB", "PATK", "ADD_MAXATK")
+
+				var value = baseValue + byLevel + byStat + byItem;
+
+				// Reducation for shields and stuff?
+				//value -= leftHand.MaxAtk;
+				//if(hasBuff("Warrior_RH_VisibleObject"))
+				//	value -= rightHand.MaxAtk;
+
+				// Buffs: "PATK_BM", "MAXPATK_SUB_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "PATK_RATE_BM", "MAXPATK_SUB_RATE_BM"
+				//if(hasBuff("Guardian"))
+				//	rate -= SkillLevel
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -491,7 +575,7 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 20;
+				var baseValue = 22;
 				var level = this.Level;
 				var stat = this.Int;
 
@@ -528,7 +612,7 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 20;
+				var baseValue = 22;
 				var level = this.Level;
 				var stat = this.Int;
 
@@ -549,6 +633,392 @@ namespace Melia.Channel.World
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
 				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Physical Defence.
+		/// </summary>
+		public int Def
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+
+				var byLevel = level;
+				var byItem = 0f; // TODO: Cached Def for inventory/equip ("DEF", "DEF_Rate")
+
+				var value = baseValue + byLevel + byItem;
+
+				// Buffs: "DEF_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "DEF_RATE_BM"
+				//if(hasBuff("Guardian"))
+				//	rate += 13 + ((SkillLevel - 1) * 3)
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Magic Defence.
+		/// </summary>
+		public int Mdef
+		{
+			get
+			{
+				var baseValue = 20;
+				var level = this.Level;
+
+				var byLevel = level;
+				var byItem = 0f; // TODO: Cached MDef for inventory/equip ("MDEF", "MDEF_Rate")
+
+				var value = baseValue + byLevel + byItem;
+
+				// Buffs: "MDEF_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: "MDEF_RATE_BM"
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Critical Attack.
+		/// </summary>
+		public int CritATK
+		{
+			get
+			{
+				var stat = this.Dex;
+
+				var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
+				var byItem = 0; // TODO: Cached Crit ATK for inventory/equip
+
+				var value = byStat + byItem;
+
+				// Buffs: "CRTATK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: Does Tos have something like CritATK +x%?
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Critical Rate.
+		/// </summary>
+		public int CritRate
+		{
+			get
+			{
+				var Level = this.Level;
+
+				var byLevel = Level / 2f;
+				var byItem = 0; // TODO: Cached Crit Rate for inventory/equip
+
+				var value = byLevel + byItem;
+
+				//if(hasBuff("High Guard"))
+				//	value -= SkillLevel * 10
+				//if(hasBuff("Finestra"))
+				//	value += 60 + ((SkillLevel - 1) * 10)
+
+				// Buffs: "CRTHR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs:
+				//if(hasBuff("Sneak Hit")) | Temporarily increases your Critical Chance when attacking enemies from behind.
+				//werewolf card give you x chance to do 'rare' attack (attacking enemies from behind)
+				//	rate += 32 + ((SkillLevel-1) * 2)
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Critical Resistance.
+		/// </summary>
+		public int CritRes
+		{
+			get
+			{
+				var Level = this.Level;
+
+				var byLevel = Level / 2f;
+				var byItem = 0; // TODO: Cached Crit Resistance for inventory/equip
+
+				var value = byLevel + byItem;
+
+				// Buffs: "CRTDR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs:
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Accuracy.
+		/// </summary>
+		public int Accuracy
+		{
+			get
+			{
+				var Level = this.Level;
+				var stat = this.Str;
+
+				var byLevel = Level / 4f;
+				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+				var byItem = 0; // TODO: Cached Accuracy for inventory/equip
+
+				var value = byLevel + byStat + byItem;
+
+				// Buffs: "HR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: Does tos have something like Accuracy + x% ?
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Evasion.
+		/// </summary>
+		public int Evasion
+		{
+			get
+			{
+				var Level = this.Level;
+				var stat = this.Dex;
+
+				var byLevel = Level / 4f;
+				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+				var byItem = 0; // TODO: Cached Evasion for inventory/equip
+
+				var value = byLevel + byStat + byItem;
+
+				//if(hasBuff("Finestra"))
+				//	if(hasAttribute("Finestra: Splash")) | reduces evasion rate by x2 more of the existing value when [Finestra] is active
+				//		value -= (15 + ((SkillLevel - 1) * 15)) * 2
+				//	else
+				//		value -= 15 + ((SkillLevel - 1) * 15)
+
+
+
+				// Buffs: "DR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: Can't find the right property
+				//if(hasBuff("Evasive Action"))
+				//	rate += SkillLevel*2
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Block.
+		/// </summary>
+		public int Block
+		{
+			get
+			{
+				var byItem = 0f; // TODO: Cached Block for inventory/equip ("BLK")
+
+				var value = byItem;
+
+				//if(hasBuff("High Guard"))
+				//	value += 100 + ((SkillLevel - 1) * 30)
+				//if(hasBuff("Finestra"))
+				//	value += 40 + ((SkillLevel - 1) * 15)
+
+				// Buffs: "BLK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs:
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Block Penetration.
+		/// </summary>
+		public int BlockPen
+		{
+			get
+			{
+				var Level = this.Level;
+				var stat = this.Dex;
+
+				var byLevel = Level / 4f;
+				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+				var byItem = 0; // TODO: Cached Block Penetration for inventory/equip ("BLK_BREAK")
+
+				var value = byLevel + byStat + byItem;
+
+				// Buffs: "BLK_BREAK_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: 
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs + byRateBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Aoe Attack Ratio.
+		/// </summary>
+		public int AoeRatio
+		{
+			get
+			{
+				var baseValue = 4;
+				var byItem = 0f; // TODO: Cached Aoe Attack Ratio for inventory/equip  ("SR")
+
+				var value = baseValue + byItem;
+
+				//if(hasBuff("Finestra") && hasAttribute("Finestra: Splash"))
+				//	value += 3
+
+				// Buffs: "SR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: TOS don't have a Aoe attack Ratio rate bonus (correct me if im wrong)
+				//var rate = 0;
+				//var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns Aoe Defence Ratio.
+		/// </summary>
+		public int AoeRatioDef
+		{
+			get
+			{
+				var baseValue = 1;
+				var byItem = 0f; // TODO: Cached Aoe Defence Ratio for inventory/equip ("SDR")
+
+				var value = baseValue + byItem;
+
+				// Buffs: "SDR_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: TOS don't have a Aoe Defence Ratio rate bonus (correct me if im wrong)
+				//var rate = 0;
+				//var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns HP Recovery amount.
+		/// </summary>
+		public int RHp
+		{
+			get
+			{
+				var baseValue = 1;
+				var level = this.Level;
+				var stat = this.Con;
+
+				var ByLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
+				var byItem = 0f; // TODO: Cached HP Recovery for inventory/equip ("RHP")
+
+				var value = baseValue + ByLevel + byStat + byItem;
+
+				// Buffs: "HSP_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: 
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Returns SP Recovery amount.
+		/// </summary>
+		public int RSp
+		{
+			get 
+			{
+				var baseValue = 3;
+				var level = this.Level;
+				var stat = this.Spr;
+
+				var ByLevel = level / 2f;
+				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
+				var byItem = 0f; // TODO: Cached SP Recovery for inventory/equip ("RSP")
+
+				var value = baseValue + ByLevel + byStat + byItem;
+
+				// Buffs: "RSP_BM"
+				var byBuffs = 0;
+
+				// Rate buffs: 
+				var rate = 0;
+				var byRateBuffs = (float)Math.Floor(value * rate);
+
+				value += byBuffs;
 
 				return (int)value;
 			}
@@ -606,6 +1076,8 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.RHp)); //HP Recovery
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.RSp)); //SP Recovery
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
@@ -622,12 +1094,28 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.SplashRate));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.AoeRatio));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINPATK, () => this.MinPAtk));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXPATK, () => this.MaxPAtk));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINMATK, () => this.MinMAtk));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXMATK, () => this.MaxMAtk));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MINPATK_SUB, () => this.MinPAtk_Sub));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MAXPATK_SUB, () => this.MaxPAtk_Sub));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CRTATK, () => this.CritATK));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CRTHR, () => this.CritRate));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HR, () => this.Accuracy));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DR, () => this.Evasion));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BLK, () => this.Block));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BLK_BREAK, () => this.BlockPen));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEF, () => this.Def));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MDEF, () => this.Mdef));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CRTDR, () => this.CritRes));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SDR, () => this.AoeRatioDef));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSPD, () => this.GetSpeed()));
 		}
 
 		/// <summary>
