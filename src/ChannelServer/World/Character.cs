@@ -306,6 +306,11 @@ namespace Melia.Channel.World
 		public int TotalExp { get; set; }
 
 		/// <summary>
+		/// Gets or set Job HpRate
+		/// </summary>
+		public float HpRateByJob { get; set; }
+
+		/// <summary>
 		/// Gets or set HP, clamped between 0 and MaxHp.
 		/// </summary>
 		public int Hp
@@ -318,7 +323,35 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Maximum HP.
 		/// </summary>
-		public int MaxHp { get; set; }
+		public int MaxHp
+		{
+			get
+			{
+				var level = this.Level;
+				var rateByJob = this.HpRateByJob;
+				var stat = this.Con;
+
+				var byJob = Math.Floor(400 * rateByJob);
+				var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
+				var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
+				var byItem = 0; // TODO: "MHP"
+
+				// Buffs: "MHP_BM"
+				var byBuffs = 0;
+
+				// "MHP_Bonus"
+				var byBonus = 0;
+
+				var value = byLevel + byStat + byItem + byBuffs + byBonus;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or set Job SpRate
+		/// </summary>
+		public float SpRateByJob { get; set; }
 
 		/// <summary>
 		/// Gets or sets SP, clamped between 0 and MaxSp.
@@ -333,7 +366,35 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Maximum SP.
 		/// </summary>
-		public int MaxSp { get; set; }
+		public int MaxSp
+		{
+			get
+			{
+				var level = this.Level;
+				var rateByJob = this.SpRateByJob;
+				var stat = this.Spr;
+
+				var byJob = Math.Floor(200 * rateByJob);
+				var byLevel = Math.Floor(byJob + ((level - 1) * 12 * rateByJob));
+				var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
+				var byItem = 0; // TODO: "MSP"
+
+				// "MSP_Bonus"
+				var byBonus = 0;
+
+				// Buffs: "MSP_BM"
+				var byBuffs = 0;
+
+				var value = byLevel + byStat + byItem + byBuffs + byBonus;
+
+				return (int)value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or set Job Stamina.
+		/// </summary>
+		public int StaminaByJob { get; set; }
 
 		/// <summary>
 		/// Gets or set Stamina, clamped between 0 and MaxStamina.
@@ -346,34 +407,109 @@ namespace Melia.Channel.World
 		private int _stamina;
 
 		/// <summary>
-		/// Maximum stamina.
+		/// Maximum stamina. TODO: Item and buff bonus.
 		/// </summary>
-		public int MaxStamina { get; set; }
+		public int MaxStamina { get { return this.StaminaByJob; } }
 
 		/// <summary>
-		/// Gets or sets character's strength (STR).
+		/// Gets or sets character's Job strength (STR).
 		/// </summary>
-		public int Str { get; set; }
+		public int StrByJob { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's vitality (CON).
+		/// Gets or sets character's Invested strength (STR).
 		/// </summary>
-		public int Con { get; set; }
+		public int StrInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's intelligence (INT).
+		/// Gets or sets character's Item Bonus strength (STR).
 		/// </summary>
-		public int Int { get; set; }
+		public int StrBonus { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's spirit (SPR/MNA).
+		/// Gets character's strength (STR).
 		/// </summary>
-		public int Spr { get; set; }
+		public int Str { get { return this.StrByJob + this.StrInvested + this.StrBonus; } }
 
 		/// <summary>
-		/// Gets or sets character's agility (DEX).
+		/// Gets or sets character's Job vitality (CON).
 		/// </summary>
-		public int Dex { get; set; }
+		public int ConByJob { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Invested vitality (CON).
+		/// </summary>
+		public int ConInvested { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Item Bonus vitality (CON).
+		/// </summary>
+		public int ConBonus { get; set; }
+
+		/// <summary>
+		/// Gets character's vitality (CON).
+		/// </summary>
+		public int Con { get { return this.ConByJob + this.ConInvested + this.ConBonus; } }
+
+		/// <summary>
+		/// Gets or sets character's Job intelligence (INT).
+		/// </summary>
+		public int IntByJob { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Invested intelligence (INT).
+		/// </summary>
+		public int IntInvested { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Item Bonus intelligence (INT).
+		/// </summary>
+		public int IntBonus { get; set; }
+
+		/// <summary>
+		/// Gets character's intelligence (INT).
+		/// </summary>
+		public int Int { get { return this.IntByJob + this.IntInvested + this.IntBonus; } }
+
+		/// <summary>
+		/// Gets or sets character's Job spirit (SPR/MNA).
+		/// </summary>
+		public int SprByJob { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Invested spirit (SPR/MNA).
+		/// </summary>
+		public int SprInvested { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Item Bonus spirit (SPR/MNA).
+		/// </summary>
+		public int SprBonus { get; set; }
+
+		/// <summary>
+		/// Gets character's spirit (SPR/MNA).
+		/// </summary>
+		public int Spr { get { return this.SprByJob + this.SprInvested + this.SprBonus; } }
+
+		/// <summary>
+		/// Gets or sets character's Job agility (DEX).
+		/// </summary>
+		public int DexByJob { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Invested agility (DEX).
+		/// </summary>
+		public int DexInvested { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's Item Bonus agility (DEX).
+		/// </summary>
+		public int DexBonus { get; set; }
+
+		/// <summary>
+		/// Gets character's agility (DEX).
+		/// </summary>
+		public int Dex { get { return this.DexByJob + this.DexInvested + this.DexBonus; } }
 
 		/// <summary>
 		/// Character's session objects.
@@ -491,7 +627,7 @@ namespace Melia.Channel.World
 
 				var byLevel = level / 2f;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MINPATK_SUB for inventory/equip ("MINPATK_SUB", "PATK", "ADD_MAXATK")
+				var byItem = 0; // TODO: "MINATK" "PATK" "ADD_MINATK"
 
 				var value = baseValue + byLevel + byStat + byItem;
 
@@ -500,10 +636,10 @@ namespace Melia.Channel.World
 				//if(hasBuff("Warrior_RH_VisibleObject"))
 				//	value -= rightHand.MinAtk
 
-				// Buffs: "PATK_BM", "MINPATK_BM"
+				// Buffs: "PATK_BM", "MINPATK_SUB_BM"
 				var byBuffs = 0;
 
-				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+				// Rate buffs: "PATK_RATE_BM", "MINPATK_SUB_RATE_BM"
 				//if(hasBuff("Guardian"))
 				//	rate -= SkillLevel
 				var rate = 0;
@@ -532,7 +668,7 @@ namespace Melia.Channel.World
 
 				var byLevel = level / 2f;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MAXPATK_SUB for inventory/equip ("MAXPATK_SUB", "PATK", "ADD_MAXATK")
+				var byItem = 0; // TODO: "MAXATK" "PATK" "ADD_MAXATK"
 
 				var value = baseValue + byLevel + byStat + byItem;
 
@@ -563,7 +699,7 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 22;
+				var baseValue = 20;
 				var level = this.Level;
 				var stat = this.Int;
 
@@ -600,7 +736,7 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 22;
+				var baseValue = 20;
 				var level = this.Level;
 				var stat = this.Int;
 
@@ -637,7 +773,7 @@ namespace Melia.Channel.World
 				var level = this.Level;
 
 				var byLevel = level;
-				var byItem = 0f; // TODO: Cached Def for inventory/equip ("DEF", "DEF_Rate")
+				var byItem = 0f; // TODO: "DEF" "DEF_Rate"
 
 				var value = baseValue + byLevel + byItem;
 
@@ -645,8 +781,6 @@ namespace Melia.Channel.World
 				var byBuffs = 0;
 
 				// Rate buffs: "DEF_RATE_BM"
-				//if(hasBuff("Guardian"))
-				//	rate += 13 + ((SkillLevel - 1) * 3)
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -667,7 +801,7 @@ namespace Melia.Channel.World
 				var level = this.Level;
 
 				var byLevel = level;
-				var byItem = 0f; // TODO: Cached MDef for inventory/equip ("MDEF", "MDEF_Rate")
+				var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
 
 				var value = baseValue + byLevel + byItem;
 
@@ -721,7 +855,7 @@ namespace Melia.Channel.World
 				var Level = this.Level;
 
 				var byLevel = Level / 2f;
-				var byItem = 0; // TODO: Cached Crit Rate for inventory/equip
+				var byItem = 0; // TODO: CRTHR
 
 				var value = byLevel + byItem;
 
@@ -748,7 +882,7 @@ namespace Melia.Channel.World
 				var Level = this.Level;
 
 				var byLevel = Level / 2f;
-				var byItem = 0; // TODO: Cached Crit Resistance for inventory/equip
+				var byItem = 0; // TODO: CRTDR
 
 				var value = byLevel + byItem;
 
@@ -777,14 +911,14 @@ namespace Melia.Channel.World
 
 				var byLevel = Level / 4f;
 				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: Cached Accuracy for inventory/equip
+				var byItem = 0; // TODO: "HR" "ADD_HR"
 
 				var value = byLevel + byStat + byItem;
 
 				// Buffs: "HR_BM"
 				var byBuffs = 0;
 
-				// Rate buffs: Does tos have something like Accuracy + x% ?
+				// Rate buffs: ADD_HR
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -806,16 +940,14 @@ namespace Melia.Channel.World
 
 				var byLevel = Level / 4f;
 				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: Cached Evasion for inventory/equip
+				var byItem = 0; // TODO: "DR" "ADD_DR"
 
 				var value = byLevel + byStat + byItem;
 
 				// Buffs: "DR_BM"
 				var byBuffs = 0;
 
-				// Rate buffs: Can't find the right property
-				//if(hasBuff("Evasive Action"))
-				//	rate += SkillLevel*2
+				// Rate buffs: "ADD_DR"
 				var rate = 0;
 				var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -832,25 +964,35 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var byItem = 0f; // TODO: Cached Block for inventory/equip ("BLK")
+				// TODO: Update it after equipment change.
+				// Shield/Dagger = Right hand.
+				if (this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 == Shared.Data.Database.EquipType.Shield)
+				{
+					var Level = this.Level;
+					var stat = this.Con;
 
-				var value = byItem;
+					var byLevel = Level / 4f;
+					var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+					var byItem = 0f; // TODO: "BLK" "BlockRate"
 
-				//if(hasBuff("High Guard"))
-				//	value += 100 + ((SkillLevel - 1) * 30)
-				//if(hasBuff("Finestra"))
-				//	value += 40 + ((SkillLevel - 1) * 15)
+					var value = byLevel + byStat + byItem;
 
-				// Buffs: "BLK_BM"
-				var byBuffs = 0;
+					// Buffs: "BLK_BM"
+					var byBuffs = 0;
 
-				// Rate buffs:
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+					// Rate buffs: BlockRate
+					var rate = 0;
+					var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+					value += byBuffs + byRateBuffs;
 
-				return (int)value;
+					return (int)value;
+				}
+				else
+				{
+					return 0;
+				}
+				
 			}
 		}
 
@@ -866,7 +1008,7 @@ namespace Melia.Channel.World
 
 				var byLevel = Level / 4f;
 				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: Cached Block Penetration for inventory/equip ("BLK_BREAK")
+				var byItem = 0; // TODO: "BLK_BREAK"
 
 				var value = byLevel + byStat + byItem;
 
@@ -890,20 +1032,21 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 4;
-				var byItem = 0f; // TODO: Cached Aoe Attack Ratio for inventory/equip  ("SR")
+				var baseValue = 3;
+				if (this.Jobs.Has(JobId.Swordsman, Circle.First))
+				{
+					baseValue = 4;
+				}
+				if (this.Jobs.Has(JobId.Archer, Circle.First))
+				{
+					baseValue = 0;
+				}
+				var byItem = 0f; // TODO: "SR"
 
 				var value = baseValue + byItem;
 
-				//if(hasBuff("Finestra") && hasAttribute("Finestra: Splash"))
-				//	value += 3
-
 				// Buffs: "SR_BM"
 				var byBuffs = 0;
-
-				// Rate buffs: TOS don't have a Aoe attack Ratio rate bonus (correct me if im wrong)
-				//var rate = 0;
-				//var byRateBuffs = (float)Math.Floor(value * rate);
 
 				value += byBuffs;
 
@@ -919,16 +1062,12 @@ namespace Melia.Channel.World
 			get
 			{
 				var baseValue = 1;
-				var byItem = 0f; // TODO: Cached Aoe Defence Ratio for inventory/equip ("SDR")
+				var byItem = 0f; // TODO: "SDR"
 
 				var value = baseValue + byItem;
 
 				// Buffs: "SDR_BM"
 				var byBuffs = 0;
-
-				// Rate buffs: TOS don't have a Aoe Defence Ratio rate bonus (correct me if im wrong)
-				//var rate = 0;
-				//var byRateBuffs = (float)Math.Floor(value * rate);
 
 				value += byBuffs;
 
@@ -943,17 +1082,17 @@ namespace Melia.Channel.World
 		{
 			get
 			{
-				var baseValue = 1;
 				var level = this.Level;
 				var stat = this.Con;
+				var rateByJob = this.HpRateByJob;
 
-				var byLevel = level / 2f;
+				var byLevel = level * rateByJob;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-				var byItem = 0f; // TODO: Cached HP Recovery for inventory/equip ("RHP")
+				var byItem = 0f; // TODO: "RHP"
 
-				var value = baseValue + byLevel + byStat + byItem;
+				var value = byLevel + byStat + byItem;
 
-				// Buffs: "HSP_BM"
+				// Buffs: "RHP_BM"
 				var byBuffs = 0;
 
 				// Rate buffs: 
@@ -967,21 +1106,47 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns HP Recovery time.
+		/// </summary>
+		public float HPRecoveryTime
+		{
+			get
+			{
+				var baseValue = 20000;
+
+				var byItem = 0f; // TODO: "RHPTIME"
+
+				// Buffs: "RHPTIME_BM"
+				var byBuffs = 0;
+
+				var value = baseValue - byItem - byBuffs;
+
+				if (this.IsSitting)
+					value = value * 0.5f;
+
+				if (value < 1000)
+					value = 1000;
+
+				return (float)Math.Floor(value);
+			}
+		}
+
+		/// <summary>
 		/// Returns SP Recovery amount.
 		/// </summary>
 		public int SPRecovery
 		{
 			get 
 			{
-				var baseValue = 3;
 				var level = this.Level;
 				var stat = this.Spr;
+				var rateByJob = this.SpRateByJob;
 
-				var byLevel = level / 2f;
+				var byLevel = level * rateByJob;
 				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-				var byItem = 0f; // TODO: Cached SP Recovery for inventory/equip ("RSP")
+				var byItem = 0f; // TODO: "RSP"
 
-				var value = baseValue + byLevel + byStat + byItem;
+				var value = byLevel + byStat + byItem;
 
 				// Buffs: "RSP_BM"
 				var byBuffs = 0;
@@ -997,16 +1162,37 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns SP Recovery time.
+		/// </summary>
+		public float SPRecoveryTime
+		{
+			get
+			{
+				var baseValue = 20000;
+
+				var byItem = 0f; // TODO: "RSPTIME"
+
+				// Buffs: "RSPTIME_BM"
+				var byBuffs = 0;
+
+				var value = baseValue - byItem - byBuffs;
+
+				if (this.IsSitting)
+					value = value * 0.5f;
+
+				if (value < 1000)
+					value = 1000;
+
+				return (float)Math.Floor(value);
+			}
+		}
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
 		{
 			this.Level = 1;
-			this.Str = 1;
-			this.Con = 1;
-			this.Int = 1;
-			this.Spr = 1;
-			this.Dex = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
@@ -1048,15 +1234,32 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.HPRecovery)); //HP Recovery
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.SPRecovery)); //SP Recovery
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.HPRecovery));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.SPRecovery));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RHPTIME, () => this.HPRecoveryTime));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.RSPTIME, () => this.SPRecoveryTime));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_JOB, () => this.StrByJob));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_STAT, () => this.StrInvested));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_Bonus, () => this.StrBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_JOB, () => this.ConByJob));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_STAT, () => this.ConInvested));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_Bonus, () => this.ConBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT, () => this.Int));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_JOB, () => this.IntByJob));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_STAT, () => this.IntInvested));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_Bonus, () => this.IntBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA, () => this.Spr));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_JOB, () => this.SprByJob));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_STAT, () => this.SprInvested));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_Bonus, () => this.SprBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX, () => this.Dex));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_JOB, () => this.DexByJob));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_STAT, () => this.DexInvested));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_Bonus, () => this.DexBonus));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));
@@ -1280,9 +1483,13 @@ namespace Melia.Channel.World
 			this.Level += amount;
 			this.StatByLevel += amount;
 			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp(this.Level);
+			this.Hp = this.MaxHp;
+			this.Sp = this.MaxSp;
+			this.Stamina = this.MaxStamina;
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
+			Send.ZC_UPDATE_ALL_STATUS(this, this.Hp, this.MaxHp, this.Sp, this.MaxSp);
 			Send.ZC_OBJECT_PROPERTY(this);
 			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
@@ -1298,7 +1505,11 @@ namespace Melia.Channel.World
 				throw new ArgumentException("Amount can't be lower than 1.");
 
 			this.Jobs.ModifySkillPoints(this.JobId, amount);
+			this.Hp = this.MaxHp;
+			this.Sp = this.MaxSp;
+			this.Stamina = this.MaxStamina;
 
+			Send.ZC_UPDATE_ALL_STATUS(this, this.Hp, this.MaxHp, this.Sp, this.MaxSp);
 			Send.ZC_OBJECT_PROPERTY(this);
 			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_ClassLevelUp(this);

@@ -232,11 +232,6 @@ namespace Melia.Login.Network
 			character.Hp = character.MaxHp = jobData.GetInitialHp();
 			character.Sp = character.MaxSp = jobData.GetInitialSp();
 			character.Stamina = character.MaxStamina = jobData.Stamina;
-			character.Str = jobData.Str;
-			character.Con = jobData.Con;
-			character.Int = jobData.Int;
-			character.Spr = jobData.Spr;
-			character.Dex = jobData.Dex;
 
 			// Initialize with the default equipment set.
 			var equipment = new Dictionary<EquipSlot, int>();
