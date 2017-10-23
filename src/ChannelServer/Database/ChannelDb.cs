@@ -147,15 +147,15 @@ namespace Melia.Channel.Database
 			this.LoadAbilities(character);
 
 			// Job Stats
-			character.SpRateByJob = character.Job.Data.SpRate;
 			character.HpRateByJob = character.Job.Data.HpRate;
-			character.Sp = LastSp;
-			character.Hp = LastHp;
+			character.SpRateByJob = character.Job.Data.SpRate;
 			character.StrByJob = character.Job.Data.Str;
 			character.ConByJob = character.Job.Data.Con;
 			character.IntByJob = character.Job.Data.Int;
 			character.SprByJob = character.Job.Data.Spr;
 			character.DexByJob = character.Job.Data.Dex;
+			character.Hp = LastHp;
+			character.Sp = LastSp;
 			character.StaminaByJob = character.Job.Data.Stamina;
 			character.Stamina = LastStamina;
 
