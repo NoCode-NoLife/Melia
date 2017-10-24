@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_TEXT
+//   Authors: exec
+//   Version: i177946
+//   Purpose: Shows big text message on the screen.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+
+short s1; // maybe duration?
+string message;
