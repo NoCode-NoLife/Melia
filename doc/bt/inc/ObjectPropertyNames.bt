@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i176638
+//   Version: i177946
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -317,6 +317,7 @@ string getPropertyName(int id)
         case 101674: return "THANKSGIVING_COIN_RANKING_1";
         case 101675: return "THANKSGIVING_COIN_RANKING_POINT_2";
         case 101676: return "THANKSGIVING_COIN_RANKING_POINT_3";
+        case 101780: return "JOB_SHADOWMANCER_CREATE_TIME";
         case 6299: return "MaxPVPGrade";
         case 6300: return "Medal";
         case 6301: return "SelectedBarrack";
@@ -940,12 +941,27 @@ string getPropertyName(int id)
         case 101692: return "EVENT_MYMON02";
         case 101693: return "EVENT_MYMON03";
         case 101694: return "HadVisited_523";
+        case 101696: return "EVENT_1710_NEWCHARACTER_REWARD_COUNT";
+        case 101697: return "HadVisited_4940";
+        case 101698: return "EVENT_1710_RESET_LASTDATE";
         case 101768: return "EV171017_STEAM_REWARD_COUNT";
         case 101769: return "EV171017_STEAM_CB_CHECK";
         case 101770: return "EV171017_STEAM_CB_DAY";
         case 101771: return "EV171017_STEAM_NRU_AOBJ";
         case 101772: return "EV171017_STEAM_CB_COUNT";
         case 101773: return "EV171017_STEAM_REWARD_DAY";
+        case 101782: return "AGARIO_COUNT";
+        case 101783: return "AGARIO_DAY_CHECK";
+        case 101784: return "AGARIO_CHANGE_COUNT";
+        case 101785: return "AGARIO_EVENT_SHOP_02";
+        case 101786: return "AGARIO_EVENT_SHOP_04";
+        case 101787: return "AGARIO_HOUR_CHECK";
+        case 101788: return "AGARIO_EVENT_SHOP_01";
+        case 101789: return "AGARIO_EVENT_SHOP_03";
+        case 101790: return "HadVisited_4950";
+        case 101791: return "HadVisited_4960";
+        case 101794: return "AGARIO_NAME_CHECK";
+        case 101795: return "EVENT_1710_HALLOWEEN_TOT_DATE";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -1360,6 +1376,7 @@ string getPropertyName(int id)
         case 100889: return "HitRate";
         case 100890: return "DodgeRate";
         case 100891: return "CRTHitRate";
+        case 101739: return "SpaceMarkHeightOffset";
         case 6689: return "Level";
         case 6690: return "ClassType";
         case 6691: return "Icon";
@@ -1545,6 +1562,7 @@ string getPropertyName(int id)
         case 100894: return "AffectedByAttackSpeedRate";
         case 100946: return "Job";
         case 100947: return "Rank";
+        case 101740: return "MoveSpeed";
         case 129: return "Name";
         case 130: return "Icon";
         case 131: return "Desc";
@@ -2047,6 +2065,7 @@ string getPropertyName(int id)
         case 100990: return "STR_ITEM_BM";
         case 101662: return "LootingChance_BM";
         case 101663: return "LootingChance";
+        case 101779: return "LastRankRollbackIndex";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -9166,6 +9185,52 @@ string getPropertyName(int id)
         case 101667: return "Kill_boss_kepa_event";
         case 101682: return "HadVisited_524";
         case 101685: return "HadVisited_523";
+        case 101699: return "Hide_2636";
+        case 101700: return "JOB_ZEALOT_QUEST_COSTUME_TRACK";
+        case 101701: return "Hide_2615";
+        case 101702: return "Hide_2618";
+        case 101703: return "Hide_2621";
+        case 101704: return "Hide_2624";
+        case 101705: return "Hide_2627";
+        case 101706: return "Hide_2630";
+        case 101707: return "Hide_2633";
+        case 101708: return "Hide_2641";
+        case 101709: return "Hide_2644";
+        case 101710: return "HiddenJob_Char4_19";
+        case 101711: return "Kill_ID_boss_kucarry_balzermancer";
+        case 101712: return "HiddenJob_Char2_19";
+        case 101713: return "Hide_2616";
+        case 101714: return "Hide_2617";
+        case 101715: return "Hide_2619";
+        case 101716: return "Hide_2620";
+        case 101717: return "Hide_2622";
+        case 101718: return "Hide_2623";
+        case 101719: return "Hide_2625";
+        case 101720: return "Hide_2626";
+        case 101721: return "Hide_2628";
+        case 101722: return "Hide_2629";
+        case 101723: return "Hide_2631";
+        case 101724: return "Hide_2632";
+        case 101725: return "Hide_2634";
+        case 101726: return "Hide_2635";
+        case 101727: return "Hide_2642";
+        case 101728: return "Hide_2643";
+        case 101729: return "Hide_2645";
+        case 101730: return "JOB_BULLETMARKER1_TRACK";
+        case 101731: return "JOB_MATADOR1_TRACK";
+        case 101732: return "AchieveReward_ID_WHITETREES1_GIMMICK";
+        case 101733: return "JOB_SHADOWMANCER_Q1_TRACK";
+        case 101734: return "InDunCountType_10000";
+        case 101735: return "HadVisited_4940";
+        case 101736: return "InDunRewardCountType_100";
+        case 101737: return "HiddenJob_Char1_19";
+        case 101738: return "HiddenJob_Char3_18";
+        case 101775: return "Hide_2638";
+        case 101776: return "Hide_2639";
+        case 101777: return "Hide_2646";
+        case 101778: return "Kill_event_Spector_Halloween";
+        case 101792: return "HadVisited_4950";
+        case 101793: return "HadVisited_4960";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16026,7 +16091,35 @@ string getPropertyName(int id)
         case 101670: return "EV170927_JP_NRU_ALWAYS_2";
         case 101683: return "MG_Last_EVENT_FEDIMIAN_RAID";
         case 101695: return "MG_Last_MISSION_EVENT_BLUEORB";
+        case 101741: return "MG_Last_JOB_SHADOWMANCER_Q1";
+        case 101742: return "MG_Last_ID_WHITETREES_MINI_01";
+        case 101743: return "JOB_MATADOR1_PI";
+        case 101744: return "EVENT_1710_NEWCHARACTER_TPBOX_DATE";
+        case 101745: return "EVENT_1710_HOLIDAY_DATE";
+        case 101746: return "JOB_SHADOWMANCER_Q1";
+        case 101747: return "JOB_MATADOR1_SRL";
+        case 101748: return "JOB_ZEALOT_QUEST_COSTUME_SRL";
+        case 101749: return "EVENT_1710_NEWCHARACTER_CHECK";
+        case 101750: return "JOB_BULLETMARKER1_FC";
+        case 101751: return "JOB_SHADOWMANCER_Q1_R";
+        case 101752: return "JOB_SHADOWMANCER_Q1_PI";
+        case 101753: return "JOB_SHADOWMANCER_Q1_FC";
+        case 101754: return "JOB_BULLETMARKER1_PI";
+        case 101755: return "JOB_SHADOWMANCER_Q1_SRL";
+        case 101756: return "JOB_BULLETMARKER1_SRL";
+        case 101757: return "JOB_ZEALOT_QUEST_COSTUME_PI";
+        case 101758: return "JOB_ZEALOT_QUEST_COSTUME";
+        case 101759: return "JOB_BULLETMARKER1";
+        case 101760: return "JOB_ZEALOT_QUEST_COSTUME_FC";
+        case 101761: return "JOB_BULLETMARKER1_R";
+        case 101762: return "MG_Last_JOB_MATADOR_QUSET_MINIGAME";
+        case 101763: return "JOB_MATADOR1";
+        case 101764: return "JOB_ZEALOT_QUEST_COSTUME_R";
+        case 101765: return "JOB_MATADOR1_R";
+        case 101766: return "JOB_ZEALOT_TIMER";
+        case 101767: return "JOB_MATADOR1_FC";
         case 101774: return "EV171017_STEAM_NRU_SOBJ";
+        case 101781: return "MG_Last_AGARIO_MINI";
         default: return "Unknown";
     }
 }

@@ -634,12 +634,27 @@ namespace Melia.Shared.Const
 			public const int EVENT_MYMON02 = 101692;
 			public const int EVENT_MYMON03 = 101693;
 			public const int HadVisited_523 = 101694;
+			public const int EVENT_1710_NEWCHARACTER_REWARD_COUNT = 101696;
+			public const int HadVisited_4940 = 101697;
+			public const int EVENT_1710_RESET_LASTDATE = 101698;
 			public const int EV171017_STEAM_REWARD_COUNT = 101768;
 			public const int EV171017_STEAM_CB_CHECK = 101769;
 			public const int EV171017_STEAM_CB_DAY = 101770;
 			public const int EV171017_STEAM_NRU_AOBJ = 101771;
 			public const int EV171017_STEAM_CB_COUNT = 101772;
 			public const int EV171017_STEAM_REWARD_DAY = 101773;
+			public const int AGARIO_COUNT = 101782;
+			public const int AGARIO_DAY_CHECK = 101783;
+			public const int AGARIO_CHANGE_COUNT = 101784;
+			public const int AGARIO_EVENT_SHOP_02 = 101785;
+			public const int AGARIO_EVENT_SHOP_04 = 101786;
+			public const int AGARIO_HOUR_CHECK = 101787;
+			public const int AGARIO_EVENT_SHOP_01 = 101788;
+			public const int AGARIO_EVENT_SHOP_03 = 101789;
+			public const int HadVisited_4950 = 101790;
+			public const int HadVisited_4960 = 101791;
+			public const int AGARIO_NAME_CHECK = 101794;
+			public const int EVENT_1710_HALLOWEEN_TOT_DATE = 101795;
 		}
 
 		public static class Monster
@@ -1058,6 +1073,7 @@ namespace Melia.Shared.Const
 			public const int HitRate = 100889;
 			public const int DodgeRate = 100890;
 			public const int CRTHitRate = 100891;
+			public const int SpaceMarkHeightOffset = 101739;
 		}
 
 		public static class Skill
@@ -1247,6 +1263,7 @@ namespace Melia.Shared.Const
 			public const int AffectedByAttackSpeedRate = 100894;
 			public const int Job = 100946;
 			public const int Rank = 100947;
+			public const int MoveSpeed = 101740;
 		}
 
 		public static class Ability
@@ -1757,6 +1774,7 @@ namespace Melia.Shared.Const
 			public const int STR_ITEM_BM = 100990;
 			public const int LootingChance_BM = 101662;
 			public const int LootingChance = 101663;
+			public const int LastRankRollbackIndex = 101779;
 		}
 
 		public static class PCEtc
@@ -8880,6 +8898,52 @@ namespace Melia.Shared.Const
 			public const int Kill_boss_kepa_event = 101667;
 			public const int HadVisited_524 = 101682;
 			public const int HadVisited_523 = 101685;
+			public const int Hide_2636 = 101699;
+			public const int JOB_ZEALOT_QUEST_COSTUME_TRACK = 101700;
+			public const int Hide_2615 = 101701;
+			public const int Hide_2618 = 101702;
+			public const int Hide_2621 = 101703;
+			public const int Hide_2624 = 101704;
+			public const int Hide_2627 = 101705;
+			public const int Hide_2630 = 101706;
+			public const int Hide_2633 = 101707;
+			public const int Hide_2641 = 101708;
+			public const int Hide_2644 = 101709;
+			public const int HiddenJob_Char4_19 = 101710;
+			public const int Kill_ID_boss_kucarry_balzermancer = 101711;
+			public const int HiddenJob_Char2_19 = 101712;
+			public const int Hide_2616 = 101713;
+			public const int Hide_2617 = 101714;
+			public const int Hide_2619 = 101715;
+			public const int Hide_2620 = 101716;
+			public const int Hide_2622 = 101717;
+			public const int Hide_2623 = 101718;
+			public const int Hide_2625 = 101719;
+			public const int Hide_2626 = 101720;
+			public const int Hide_2628 = 101721;
+			public const int Hide_2629 = 101722;
+			public const int Hide_2631 = 101723;
+			public const int Hide_2632 = 101724;
+			public const int Hide_2634 = 101725;
+			public const int Hide_2635 = 101726;
+			public const int Hide_2642 = 101727;
+			public const int Hide_2643 = 101728;
+			public const int Hide_2645 = 101729;
+			public const int JOB_BULLETMARKER1_TRACK = 101730;
+			public const int JOB_MATADOR1_TRACK = 101731;
+			public const int AchieveReward_ID_WHITETREES1_GIMMICK = 101732;
+			public const int JOB_SHADOWMANCER_Q1_TRACK = 101733;
+			public const int InDunCountType_10000 = 101734;
+			public const int HadVisited_4940 = 101735;
+			public const int InDunRewardCountType_100 = 101736;
+			public const int HiddenJob_Char1_19 = 101737;
+			public const int HiddenJob_Char3_18 = 101738;
+			public const int Hide_2638 = 101775;
+			public const int Hide_2639 = 101776;
+			public const int Hide_2646 = 101777;
+			public const int Kill_event_Spector_Halloween = 101778;
+			public const int HadVisited_4950 = 101792;
+			public const int HadVisited_4960 = 101793;
 		}
 
 		public static class Item
@@ -15752,7 +15816,35 @@ namespace Melia.Shared.Const
 			public const int EV170927_JP_NRU_ALWAYS_2 = 101670;
 			public const int MG_Last_EVENT_FEDIMIAN_RAID = 101683;
 			public const int MG_Last_MISSION_EVENT_BLUEORB = 101695;
+			public const int MG_Last_JOB_SHADOWMANCER_Q1 = 101741;
+			public const int MG_Last_ID_WHITETREES_MINI_01 = 101742;
+			public const int JOB_MATADOR1_PI = 101743;
+			public const int EVENT_1710_NEWCHARACTER_TPBOX_DATE = 101744;
+			public const int EVENT_1710_HOLIDAY_DATE = 101745;
+			public const int JOB_SHADOWMANCER_Q1 = 101746;
+			public const int JOB_MATADOR1_SRL = 101747;
+			public const int JOB_ZEALOT_QUEST_COSTUME_SRL = 101748;
+			public const int EVENT_1710_NEWCHARACTER_CHECK = 101749;
+			public const int JOB_BULLETMARKER1_FC = 101750;
+			public const int JOB_SHADOWMANCER_Q1_R = 101751;
+			public const int JOB_SHADOWMANCER_Q1_PI = 101752;
+			public const int JOB_SHADOWMANCER_Q1_FC = 101753;
+			public const int JOB_BULLETMARKER1_PI = 101754;
+			public const int JOB_SHADOWMANCER_Q1_SRL = 101755;
+			public const int JOB_BULLETMARKER1_SRL = 101756;
+			public const int JOB_ZEALOT_QUEST_COSTUME_PI = 101757;
+			public const int JOB_ZEALOT_QUEST_COSTUME = 101758;
+			public const int JOB_BULLETMARKER1 = 101759;
+			public const int JOB_ZEALOT_QUEST_COSTUME_FC = 101760;
+			public const int JOB_BULLETMARKER1_R = 101761;
+			public const int MG_Last_JOB_MATADOR_QUSET_MINIGAME = 101762;
+			public const int JOB_MATADOR1 = 101763;
+			public const int JOB_ZEALOT_QUEST_COSTUME_R = 101764;
+			public const int JOB_MATADOR1_R = 101765;
+			public const int JOB_ZEALOT_TIMER = 101766;
+			public const int JOB_MATADOR1_FC = 101767;
 			public const int EV171017_STEAM_NRU_SOBJ = 101774;
+			public const int MG_Last_AGARIO_MINI = 101781;
 		}
 #pragma warning restore IDE1006
 	}
