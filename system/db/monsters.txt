@@ -4171,8 +4171,11 @@
 { monsterId: 157041, className: "f_whitetrees_23_1_elt", name: "23_1TransportationDevice", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
 { monsterId: 157042, className: "f_bracken_42_1_elt", name: "42_1TransportationDevice", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
 { monsterId: 157043, className: "f_bracken_42_1_elt2", name: "42_1TransportationDevice2", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
+{ monsterId: 157054, className: "halloween_scarecrow", name: "할로윈 허수아비", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
+{ monsterId: 157055, className: "magictrap_core_gimmick2", name: "Magic Power Hack", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 158000, className: "npc_paladin_follower1_3_copy", name: "Team Battle League", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
 { monsterId: 158001, className: "npc_friar_02_blacksmith", name: "Monk2 Blacksmith", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
+{ monsterId: 161000, className: "E_statue_zemina", name: "Statue of Goddess Zemyna", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 
 // Pets
 //---------------------------------------------------------------------------

@@ -374,6 +374,7 @@
 { mapId: 4920, className: "d_raidboss_velcoffer", engName: "Belcoper Gard Raid", localKey: "ETC_20170420_027698" },
 { mapId: 4930, className: "d_limestonecave_71_2", engName: "Limestone Cave 71_2", localKey: "ETC_20170420_027700" },
 { mapId: 4931, className: "d_limestonecave_71_1", engName: "Limestone Cave 71_1", localKey: "ETC_20170420_027701" },
+{ mapId: 4960, className: "c_Klaipe_event", engName: "Halloween Dungeon - Creepy Klaipeda", localKey: "ETC_20171023_029023" },
 { mapId: 10001, className: "mission_instance", engName: "?", localKey: "?" },
 { mapId: 20000, className: "infinite_map", engName: "Infinite Map", localKey: "ETC_20150317_001368" },
 { mapId: 20010, className: "pvp_tournament", engName: "Team Battle League Tournament", localKey: "ETC_20150729_013623" },

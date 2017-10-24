@@ -87,6 +87,7 @@
 { id: 451, name: "TUTO_UPHILL_DEFENSE", dbSave: true, basicHelp: false },
 { id: 452, name: "TUTO_SAALUS_NUNNERY", dbSave: true, basicHelp: false },
 { id: 500, name: "TUTO_FREE_DUNGEON", dbSave: true, basicHelp: false },
+{ id: 501, name: "TUTO_AGARIO_DUNGEON", dbSave: true, basicHelp: false },
 { id: 550, name: "TUTO_GUILD_COLONY", dbSave: true, basicHelp: true },
 { id: 1553, name: "NORPAT_1", dbSave: false, basicHelp: false },
 ]
