@@ -90,9 +90,7 @@ namespace Melia.Channel.Database
 		public Character GetCharacter(long accountId, long characterId)
 		{
 			var character = new Character();
-			int LastHp;
-			int LastSp;
-			int LastStamina;
+			int lastHp, lastSp, lastStamina;
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
@@ -117,9 +115,9 @@ namespace Melia.Channel.Database
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.TotalExp = reader.GetInt32("totalExp");
-					LastHp = reader.GetInt32("hp");
-					LastSp = reader.GetInt32("sp");
-					LastStamina = reader.GetInt32("stamina");
+					lastHp = reader.GetInt32("hp");
+					lastSp = reader.GetInt32("sp");
+					lastStamina = reader.GetInt32("stamina");
 					character.StrInvested = reader.GetInt32("str");
 					character.ConInvested = reader.GetInt32("con");
 					character.IntInvested = reader.GetInt32("int");
@@ -154,10 +152,10 @@ namespace Melia.Channel.Database
 			character.IntByJob = character.Job.Data.Int;
 			character.SprByJob = character.Job.Data.Spr;
 			character.DexByJob = character.Job.Data.Dex;
-			character.Hp = LastHp;
-			character.Sp = LastSp;
+			character.Hp = lastHp;
+			character.Sp = lastSp;
 			character.StaminaByJob = character.Job.Data.Stamina;
-			character.Stamina = LastStamina;
+			character.Stamina = lastStamina;
 
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.

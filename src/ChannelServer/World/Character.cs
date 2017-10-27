@@ -306,7 +306,7 @@ namespace Melia.Channel.World
 		public int TotalExp { get; set; }
 
 		/// <summary>
-		/// Gets or set Job HpRate
+		/// Hp multiplicator from the basic job.
 		/// </summary>
 		public float HpRateByJob { get; set; }
 
@@ -349,7 +349,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Gets or set Job SpRate
+		/// Sp multiplicator from the basic job.
 		/// </summary>
 		public float SpRateByJob { get; set; }
 
@@ -422,9 +422,25 @@ namespace Melia.Channel.World
 		public int StrInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's Item Bonus strength (STR).
+		/// Gets or sets character's Item and Buff Bonus strength (STR).
 		/// </summary>
-		public int StrBonus { get; set; }
+		public int StrBonus
+		{
+			get
+			{
+				var byItem = 0; // TODO: "STR"
+
+				// Buffs: "STR_BM"
+				var byBuffs = 0;
+
+				// "STR_ITEM_BM" Item Awakening/Enchantment ?
+				var byItemBuff = 0;
+
+				var value = byItem + byBuffs + byItemBuff;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Gets character's strength (STR).
@@ -442,9 +458,25 @@ namespace Melia.Channel.World
 		public int ConInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's Item Bonus vitality (CON).
+		/// Gets or sets character's Item and Buff Bonus vitality (CON).
 		/// </summary>
-		public int ConBonus { get; set; }
+		public int ConBonus
+		{
+			get
+			{
+				var byItem = 0; // TODO: "CON"
+
+				// Buffs: "CON_BM"
+				var byBuffs = 0;
+
+				// "CON_ITEM_BM" Item Awakening/Enchantment ?
+				var byItemBuff = 0;
+
+				var value = byItem + byBuffs + byItemBuff;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Gets character's vitality (CON).
@@ -462,9 +494,25 @@ namespace Melia.Channel.World
 		public int IntInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's Item Bonus intelligence (INT).
+		/// Gets or sets character's Item and Buff Bonus intelligence (INT).
 		/// </summary>
-		public int IntBonus { get; set; }
+		public int IntBonus
+		{
+			get
+			{
+				var byItem = 0; // TODO: "INT"
+
+				// Buffs: "INT_BM"
+				var byBuffs = 0;
+
+				// "INT_ITEM_BM" Item Awakening/Enchantment ?
+				var byItemBuff = 0;
+
+				var value = byItem + byBuffs + byItemBuff;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Gets character's intelligence (INT).
@@ -482,9 +530,25 @@ namespace Melia.Channel.World
 		public int SprInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's Item Bonus spirit (SPR/MNA).
+		/// Gets or sets character's Item and Buff Bonus spirit (SPR/MNA).
 		/// </summary>
-		public int SprBonus { get; set; }
+		public int SprBonus
+		{
+			get
+			{
+				var byItem = 0; // TODO: "SPR"
+
+				// Buffs: "SPR_BM"
+				var byBuffs = 0;
+
+				// "SPR_ITEM_BM" Item Awakening/Enchantment ?
+				var byItemBuff = 0;
+
+				var value = byItem + byBuffs + byItemBuff;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Gets character's spirit (SPR/MNA).
@@ -502,9 +566,25 @@ namespace Melia.Channel.World
 		public int DexInvested { get; set; }
 
 		/// <summary>
-		/// Gets or sets character's Item Bonus agility (DEX).
+		/// Gets or sets character's Item and Buff Bonus agility (DEX).
 		/// </summary>
-		public int DexBonus { get; set; }
+		public int DexBonus
+		{
+			get
+			{
+				var byItem = 0; // TODO: "DEX"
+
+				// Buffs: "DEX_BM"
+				var byBuffs = 0;
+
+				// "DEX_ITEM_BM" Item Awakening/Enchantment ?
+				var byItemBuff = 0;
+
+				var value = byItem + byBuffs + byItemBuff;
+
+				return (int)value;
+			}
+		}
 
 		/// <summary>
 		/// Gets character's agility (DEX).
