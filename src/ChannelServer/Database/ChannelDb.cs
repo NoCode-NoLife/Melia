@@ -413,7 +413,6 @@ namespace Melia.Channel.Database
 				cmd.Set("hp", character.Hp);
 				cmd.Set("sp", character.Sp);
 				cmd.Set("stamina", character.Stamina);
-				cmd.Set("maxStamina", character.MaxStamina);
 				cmd.Set("str", character.StrInvested);
 				cmd.Set("con", character.ConInvested);
 				cmd.Set("int", character.IntInvested);
