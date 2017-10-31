@@ -655,6 +655,7 @@ namespace Melia.Shared.Const
 			public const int HadVisited_4960 = 101791;
 			public const int AGARIO_NAME_CHECK = 101794;
 			public const int EVENT_1710_HALLOWEEN_TOT_DATE = 101795;
+			public const int AGARIO_EVENT_WEEK = 101797;
 		}
 
 		public static class Monster
@@ -8944,6 +8945,7 @@ namespace Melia.Shared.Const
 			public const int Kill_event_Spector_Halloween = 101778;
 			public const int HadVisited_4950 = 101792;
 			public const int HadVisited_4960 = 101793;
+			public const int Hide_2647 = 101796;
 		}
 
 		public static class Item
