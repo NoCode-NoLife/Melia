@@ -392,7 +392,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Gets or set Job Stamina.
+		/// Default value from the basic Job.
 		/// </summary>
 		public int StaminaByJob { get; set; }
 
@@ -2269,23 +2269,23 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_JOB, () => this.StrByJob));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_STAT, () => this.StrInvested));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_Bonus, () => this.StrBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.STR_ADD, () => this.StrBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_JOB, () => this.ConByJob));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_STAT, () => this.ConInvested));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_Bonus, () => this.ConBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CON_ADD, () => this.ConBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT, () => this.Int));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_JOB, () => this.IntByJob));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_STAT, () => this.IntInvested));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_Bonus, () => this.IntBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.INT_ADD, () => this.IntBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA, () => this.Spr));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_JOB, () => this.SprByJob));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_STAT, () => this.SprInvested));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_Bonus, () => this.SprBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MNA_ADD, () => this.SprBonus));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX, () => this.Dex));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_JOB, () => this.DexByJob));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_STAT, () => this.DexInvested));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_Bonus, () => this.DexBonus));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DEX_ADD, () => this.DexBonus));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));

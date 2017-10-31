@@ -90,7 +90,6 @@ namespace Melia.Channel.Database
 		public Character GetCharacter(long accountId, long characterId)
 		{
 			var character = new Character();
-			int lastHp, lastSp, lastStamina;
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
@@ -115,14 +114,22 @@ namespace Melia.Channel.Database
 					character.Exp = reader.GetInt32("exp");
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.TotalExp = reader.GetInt32("totalExp");
-					lastHp = reader.GetInt32("hp");
-					lastSp = reader.GetInt32("sp");
-					lastStamina = reader.GetInt32("stamina");
+					character.StaminaByJob = reader.GetInt32("staminaByJob");
+					character.Stamina = reader.GetInt32("stamina");
 					character.StrInvested = reader.GetInt32("str");
+					character.StrByJob = reader.GetInt32("strByJob");
 					character.ConInvested = reader.GetInt32("con");
+					character.ConByJob = reader.GetInt32("conByJob");
 					character.IntInvested = reader.GetInt32("int");
+					character.IntByJob = reader.GetInt32("intByJob");
 					character.SprInvested = reader.GetInt32("spr");
+					character.SprByJob = reader.GetInt32("sprByJob");
 					character.DexInvested = reader.GetInt32("dex");
+					character.DexByJob = reader.GetInt32("dexByJob");
+					character.HpRateByJob = reader.GetFloat("hpRate");
+					character.SpRateByJob = reader.GetFloat("spRate");
+					character.Hp = reader.GetInt32("hp");
+					character.Sp = reader.GetInt32("sp");
 					character.StatByLevel = reader.GetInt32("statByLevel");
 					character.StatByBonus = reader.GetInt32("statByBonus");
 					character.UsedStat = reader.GetInt32("usedStat");
@@ -143,19 +150,6 @@ namespace Melia.Channel.Database
 			this.LoadJobs(character);
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
-
-			// Job Stats
-			character.HpRateByJob = character.Job.Data.HpRate;
-			character.SpRateByJob = character.Job.Data.SpRate;
-			character.StrByJob = character.Job.Data.Str;
-			character.ConByJob = character.Job.Data.Con;
-			character.IntByJob = character.Job.Data.Int;
-			character.SprByJob = character.Job.Data.Spr;
-			character.DexByJob = character.Job.Data.Dex;
-			character.Hp = lastHp;
-			character.Sp = lastSp;
-			character.StaminaByJob = character.Job.Data.Stamina;
-			character.Stamina = lastStamina;
 
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.
@@ -411,13 +405,21 @@ namespace Melia.Channel.Database
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("totalExp", character.TotalExp);
 				cmd.Set("hp", character.Hp);
+				cmd.Set("hpRate", character.HpRateByJob);
 				cmd.Set("sp", character.Sp);
+				cmd.Set("spRate", character.SpRateByJob);
 				cmd.Set("stamina", character.Stamina);
+				cmd.Set("staminaByJob", character.StaminaByJob);
 				cmd.Set("str", character.StrInvested);
+				cmd.Set("strByJob", character.StrByJob);
 				cmd.Set("con", character.ConInvested);
+				cmd.Set("conByJob", character.ConByJob);
 				cmd.Set("int", character.IntInvested);
+				cmd.Set("intByJob", character.IntByJob);
 				cmd.Set("spr", character.SprInvested);
+				cmd.Set("sprByJob", character.SprByJob);
 				cmd.Set("dex", character.DexInvested);
+				cmd.Set("dexByJob", character.DexByJob);
 				cmd.Set("statByLevel", character.StatByLevel);
 				cmd.Set("statByBonus", character.StatByBonus);
 				cmd.Set("usedStat", character.UsedStat);
