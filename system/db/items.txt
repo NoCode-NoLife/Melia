@@ -3758,7 +3758,7 @@
 { itemId: 641815, className: "Leticia_MonsterGem_2Rank_Steam", name: "Monster Gem Box: Rank 2", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641816, className: "Leticia_MonsterGem_3Rank_Steam", name: "Monster Gem Box: Rank 3", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641817, className: "Leticia_MonsterGem_4Rank_Steam", name: "Monster Gem Box: Rank 4", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
-{ itemId: 641818, className: "Drug_Haste1_event_DLC", name: "고농축 이동속도 증가 포션", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 641818, className: "Drug_Haste1_event_DLC", name: "Highly Condensed Movement Speed Potion", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641901, className: "Event_moneyBox1", name: "Basic Silver Chest", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641902, className: "Event_moneyBox2", name: "Intermediate Silver Chest", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641903, className: "Event_moneyBox3", name: "Advanced Silver Chest", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
@@ -5611,7 +5611,7 @@
 { itemId: 643010, className: "Moru_Gold_14d", name: "Golden Anvil (14 Days)", category: 17, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 643014, className: "Moru_Gold_TA_NR", name: "Shining Golden Anvil", category: 17, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 643015, className: "Moru_Gold_Team_Trade", name: "황금 모루", category: 17, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
-{ itemId: 643017, className: "Moru_Silver_DLC", name: "은빛 모루", category: 17, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 643017, className: "Moru_Silver_DLC", name: "Silver Anvil", category: 17, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 645024, className: "leaf_hanaming", name: "Hanaming Petal", category: 17, weight: 1, maxStack: 32767, price: 8, sellPrice: 1 },
 { itemId: 645025, className: "TreasureboxKey2", name: "Lv2 Treasure Chest Key", category: 17, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 645026, className: "TreasureboxKey3", name: "Lv3 Treasure Chest Key", category: 17, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
@@ -9479,4 +9479,5 @@
 { itemId: 902028, className: "Event_Cb_Buff_Potion", name: "Returning Savior's Potion (30 Days)", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902029, className: "Event_Goddess_Medal", name: "Goddess' Medal", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902030, className: "Event_Lv315_Ore_Box", name: "Lv315 Crafter's Ore Chest (14 Days)", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 902033, className: "Event_CurseDoor_Cube", name: "생존 보상 큐브", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 ]
