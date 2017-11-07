@@ -656,6 +656,9 @@ namespace Melia.Shared.Const
 			public const int AGARIO_NAME_CHECK = 101794;
 			public const int EVENT_1710_HALLOWEEN_TOT_DATE = 101795;
 			public const int AGARIO_EVENT_WEEK = 101797;
+			public const int SURVIVAL2_COUNT = 101808;
+			public const int SURVIVAL2_REWARD = 101809;
+			public const int HadVisited_525 = 101810;
 		}
 
 		public static class Monster
@@ -8946,6 +8949,15 @@ namespace Melia.Shared.Const
 			public const int HadVisited_4950 = 101792;
 			public const int HadVisited_4960 = 101793;
 			public const int Hide_2647 = 101796;
+			public const int Kill_boss_FealtyHound = 101798;
+			public const int Kill_boss_ProddedHorse = 101799;
+			public const int Kill_boss_AmissDog = 101800;
+			public const int Kill_boss_TelHarsha = 101801;
+			public const int Kill_boss_LungerBoar = 101802;
+			public const int Kill_boss_madon_maiden = 101803;
+			public const int Kill_boss_Meskalord = 101804;
+			public const int Kill_boss_Quipmage = 101805;
+			public const int HadVisited_525 = 101807;
 		}
 
 		public static class Item
@@ -15847,6 +15859,7 @@ namespace Melia.Shared.Const
 			public const int JOB_MATADOR1_FC = 101767;
 			public const int EV171017_STEAM_NRU_SOBJ = 101774;
 			public const int MG_Last_AGARIO_MINI = 101781;
+			public const int MG_Last_MISSION_EVENT_CURSEDOOR = 101806;
 		}
 #pragma warning restore IDE1006
 	}

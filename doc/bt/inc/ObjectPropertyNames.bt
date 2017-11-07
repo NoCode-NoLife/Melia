@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i179074
+//   Version: i179943
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -963,6 +963,9 @@ string getPropertyName(int id)
         case 101794: return "AGARIO_NAME_CHECK";
         case 101795: return "EVENT_1710_HALLOWEEN_TOT_DATE";
         case 101797: return "AGARIO_EVENT_WEEK";
+        case 101808: return "SURVIVAL2_COUNT";
+        case 101809: return "SURVIVAL2_REWARD";
+        case 101810: return "HadVisited_525";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9233,6 +9236,15 @@ string getPropertyName(int id)
         case 101792: return "HadVisited_4950";
         case 101793: return "HadVisited_4960";
         case 101796: return "Hide_2647";
+        case 101798: return "Kill_boss_FealtyHound";
+        case 101799: return "Kill_boss_ProddedHorse";
+        case 101800: return "Kill_boss_AmissDog";
+        case 101801: return "Kill_boss_TelHarsha";
+        case 101802: return "Kill_boss_LungerBoar";
+        case 101803: return "Kill_boss_madon_maiden";
+        case 101804: return "Kill_boss_Meskalord";
+        case 101805: return "Kill_boss_Quipmage";
+        case 101807: return "HadVisited_525";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16122,6 +16134,7 @@ string getPropertyName(int id)
         case 101767: return "JOB_MATADOR1_FC";
         case 101774: return "EV171017_STEAM_NRU_SOBJ";
         case 101781: return "MG_Last_AGARIO_MINI";
+        case 101806: return "MG_Last_MISSION_EVENT_CURSEDOOR";
         default: return "Unknown";
     }
 }
