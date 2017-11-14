@@ -631,7 +631,7 @@ namespace Melia.Shared.Network
 		public const int CZ_PARTY_MEMBER_SKILL_USE = 0xE1D; // Size: 0
 		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE1E; // Size: 22
 		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE1F; // Size: 1099
-		public const int CZ_CHECK_PING = 0xE20; // Size: 10
+		public const int CZ_CHECK_PING = 0xE20; // Size: 16
 		public const int CZ_CANCEL_INDUN_MATCHING = 0xE21; // Size: 10
 		public const int CZ_CANCEL_INDUN_PARTY_MATCHING = 0xE22; // Size: 10
 		public const int CZ_REQ_GM_ORDER = 0xE23; // Size: 202
@@ -1338,7 +1338,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_PARTY_MEMBER_SKILL_USE] = 0;
 			_sizes[CZ_PARTY_MEMBER_SKILL_ACCEPT] = 22;
 			_sizes[CZ_SYSTEM_LOG_TO_SERVER] = 1099;
-			_sizes[CZ_CHECK_PING] = 10;
+			_sizes[CZ_CHECK_PING] = 16;
 			_sizes[CZ_CANCEL_INDUN_MATCHING] = 10;
 			_sizes[CZ_CANCEL_INDUN_PARTY_MATCHING] = 10;
 			_sizes[CZ_REQ_GM_ORDER] = 202;
