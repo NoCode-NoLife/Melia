@@ -659,6 +659,15 @@ namespace Melia.Shared.Const
 			public const int SURVIVAL2_COUNT = 101808;
 			public const int SURVIVAL2_REWARD = 101809;
 			public const int HadVisited_525 = 101810;
+			public const int AGARIO_HOUR_ENTER_COUNT = 101811;
+			public const int EV171114_STEAM_NRU_ACCOUNT_CHECK = 101816;
+			public const int EV171114_STEAM_REWARD_COUNT = 101817;
+			public const int EV171114_STEAM_ALL_JOIN_CHECK = 101818;
+			public const int EV171114_STEAM_CB_COUNT = 101819;
+			public const int EV171114_STEAM_CB_CHECK = 101820;
+			public const int EV171114_STEAM_CLOVER_DAY = 101821;
+			public const int EV171114_STEAM_NRU_DAY_CHECK = 101822;
+			public const int EV171114_STEAM_NRU_JOIN_CHECK = 101823;
 		}
 
 		public static class Monster
@@ -1779,6 +1788,10 @@ namespace Melia.Shared.Const
 			public const int LootingChance_BM = 101662;
 			public const int LootingChance = 101663;
 			public const int LastRankRollbackIndex = 101779;
+			public const int MSP_RATE_BM = 101812;
+			public const int MHP_RATE_BM = 101813;
+			public const int MOVESTA_RATE_BM = 101814;
+			public const int DASHSTA_RATE_BM = 101815;
 		}
 
 		public static class PCEtc
@@ -15860,6 +15873,7 @@ namespace Melia.Shared.Const
 			public const int EV171017_STEAM_NRU_SOBJ = 101774;
 			public const int MG_Last_AGARIO_MINI = 101781;
 			public const int MG_Last_MISSION_EVENT_CURSEDOOR = 101806;
+			public const int EV171114_STEAM_NRU_SESSION_CHECK = 101824;
 		}
 #pragma warning restore IDE1006
 	}

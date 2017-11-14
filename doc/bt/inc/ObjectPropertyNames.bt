@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i179943
+//   Version: i180670
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -966,6 +966,15 @@ string getPropertyName(int id)
         case 101808: return "SURVIVAL2_COUNT";
         case 101809: return "SURVIVAL2_REWARD";
         case 101810: return "HadVisited_525";
+        case 101811: return "AGARIO_HOUR_ENTER_COUNT";
+        case 101816: return "EV171114_STEAM_NRU_ACCOUNT_CHECK";
+        case 101817: return "EV171114_STEAM_REWARD_COUNT";
+        case 101818: return "EV171114_STEAM_ALL_JOIN_CHECK";
+        case 101819: return "EV171114_STEAM_CB_COUNT";
+        case 101820: return "EV171114_STEAM_CB_CHECK";
+        case 101821: return "EV171114_STEAM_CLOVER_DAY";
+        case 101822: return "EV171114_STEAM_NRU_DAY_CHECK";
+        case 101823: return "EV171114_STEAM_NRU_JOIN_CHECK";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2070,6 +2079,10 @@ string getPropertyName(int id)
         case 101662: return "LootingChance_BM";
         case 101663: return "LootingChance";
         case 101779: return "LastRankRollbackIndex";
+        case 101812: return "MSP_RATE_BM";
+        case 101813: return "MHP_RATE_BM";
+        case 101814: return "MOVESTA_RATE_BM";
+        case 101815: return "DASHSTA_RATE_BM";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -16135,6 +16148,7 @@ string getPropertyName(int id)
         case 101774: return "EV171017_STEAM_NRU_SOBJ";
         case 101781: return "MG_Last_AGARIO_MINI";
         case 101806: return "MG_Last_MISSION_EVENT_CURSEDOOR";
+        case 101824: return "EV171114_STEAM_NRU_SESSION_CHECK";
         default: return "Unknown";
     }
 }
