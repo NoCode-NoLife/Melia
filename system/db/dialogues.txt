@@ -324,6 +324,8 @@
 { classId: 625, className: "EVENT_1710_HALLOWEEN_DLG1" },
 { classId: 626, className: "EVENT_1710_HALLOWEEN_DLG2" },
 { classId: 627, className: "EVENT_1710_HALLOWEEN_DLG3" },
+{ classId: 628, className: "EVENT_1710_HALLOWEEN_DLG4" },
+{ classId: 629, className: "EVENT_1710_HALLOWEEN_DLG5" },
 { classId: 800, className: "SIAU_FRON_NPC_02_basic01" },
 { classId: 1000, className: "DROPITEM_REQUEST1_dlg1" },
 { classId: 1001, className: "DROPITEM_REQUEST1_dlg3" },
