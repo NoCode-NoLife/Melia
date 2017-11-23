@@ -12716,6 +12716,8 @@
 { classId: 5010111, className: "EVENT_SELECT_BOSSLV_07" },
 { classId: 5010112, className: "NPC_EVENT_TODAY_NUMBER_9" },
 { classId: 5010113, className: "NPC_EVENT_STEAM_REWARD_1" },
+{ classId: 5010114, className: "EVENT_SELECT_BOSSLV_08" },
+{ classId: 5010115, className: "EVENT_SELECT_BOSSLV_09" },
 { classId: 5015000, className: "NPC_KUPOLE_TESTSERVER_DLG_01" },
 { classId: 5015001, className: "NPC_KUPOLE_TESTSERVER_DLG_02" },
 { classId: 5200100, className: "NPC_SHOP_EQUIP_NORMAL_270_315" },

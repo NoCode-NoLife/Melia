@@ -2814,6 +2814,7 @@
 { monsterId: 450222, className: "boss_Golem_gray", name: "Gray Golem", level: 109, exp: 2520, classExp: 1940, hp: 74387, defense: 355 },
 { monsterId: 450225, className: "Golem_NoTex", name: "Golem", level: 1, exp: 105, classExp: 75, hp: 120, defense: 29 },
 { monsterId: 710000, className: "boss_stone_whale_orange_E1", name: "[Event] Golden Stone Whale", level: 1, exp: 0, classExp: 0, hp: 1000000024, defense: 0 },
+{ monsterId: 710001, className: "raider_bow_Event", name: "Kepa Raider Magician", level: 1, exp: 21, classExp: 1, hp: 30, defense: 18 },
 { monsterId: 800001, className: "pc_summon_NetherBovine", name: "Netherbovine", level: 1, exp: 0, classExp: 0, hp: 271, defense: 26 },
 { monsterId: 800002, className: "pc_summon_necrovanter", name: "Necroventer", level: 1, exp: 0, classExp: 0, hp: 226, defense: 26 },
 { monsterId: 800003, className: "pc_summon_Mummyghast", name: "Mummyghast", level: 1, exp: 0, classExp: 0, hp: 271, defense: 26 },

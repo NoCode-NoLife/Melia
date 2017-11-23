@@ -5310,7 +5310,7 @@
 { itemId: 902022, className: "Event_Halloween_Squib", name: "Halloween Firecracker", category: 7, weight: 1, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902031, className: "Halloween_2017_Paper", name: "2017 Halloween Commemorative Note", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 1 },
 { itemId: 902032, className: "Achieve_Companions_forLife", name: "Title - Companions for Life", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
-{ itemId: 902034, className: "Achieve_Journal_1", name: "칭호 - 초일류 모험가", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902034, className: "Achieve_Journal_1", name: "Title - First-rate Adventurer", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 910001, className: "Scroll_SkillItem", name: "Skill Scroll", category: 7, weight: 1, maxStack: 32767, price: 50, sellPrice: 5 },
 { itemId: 910004, className: "Zombie_Capsule", name: "좀비 캡슐", category: 7, weight: 1, maxStack: 32767, price: 300, sellPrice: 5 },
 
