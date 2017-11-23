@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i180670
+//   Version: i181194
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -975,6 +975,17 @@ string getPropertyName(int id)
         case 101821: return "EV171114_STEAM_CLOVER_DAY";
         case 101822: return "EV171114_STEAM_NRU_DAY_CHECK";
         case 101823: return "EV171114_STEAM_NRU_JOIN_CHECK";
+        case 101825: return "EVENT171115_MYMON01_LV";
+        case 101826: return "EVENT171115_MYMON01";
+        case 101827: return "EVENT171115_MYMON02";
+        case 101828: return "EVENT171115_MYMON02_LV";
+        case 101829: return "EVENT171115_MYMON03";
+        case 101830: return "EVENT171115_MYMON03_LV";
+        case 101831: return "EVENT171115_VSMON_STAGE";
+        case 101832: return "BLUEORB171115_MISSION_COUNT";
+        case 101834: return "HadVisited_4961";
+        case 101842: return "BLUEORB_MISSION_CLEAR";
+        case 101843: return "BLUEORB_CLEAR_REWARD";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2083,6 +2094,12 @@ string getPropertyName(int id)
         case 101813: return "MHP_RATE_BM";
         case 101814: return "MOVESTA_RATE_BM";
         case 101815: return "DASHSTA_RATE_BM";
+        case 101836: return "Slash_Atk";
+        case 101837: return "Strike_Atk_BM";
+        case 101838: return "Aries_Atk";
+        case 101839: return "Aries_Atk_BM";
+        case 101840: return "Strike_Atk";
+        case 101841: return "Slash_Atk_BM";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -9258,6 +9275,8 @@ string getPropertyName(int id)
         case 101804: return "Kill_boss_Meskalord";
         case 101805: return "Kill_boss_Quipmage";
         case 101807: return "HadVisited_525";
+        case 101833: return "Pose_SIT";
+        case 101835: return "HadVisited_4961";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";

@@ -668,6 +668,17 @@ namespace Melia.Shared.Const
 			public const int EV171114_STEAM_CLOVER_DAY = 101821;
 			public const int EV171114_STEAM_NRU_DAY_CHECK = 101822;
 			public const int EV171114_STEAM_NRU_JOIN_CHECK = 101823;
+			public const int EVENT171115_MYMON01_LV = 101825;
+			public const int EVENT171115_MYMON01 = 101826;
+			public const int EVENT171115_MYMON02 = 101827;
+			public const int EVENT171115_MYMON02_LV = 101828;
+			public const int EVENT171115_MYMON03 = 101829;
+			public const int EVENT171115_MYMON03_LV = 101830;
+			public const int EVENT171115_VSMON_STAGE = 101831;
+			public const int BLUEORB171115_MISSION_COUNT = 101832;
+			public const int HadVisited_4961 = 101834;
+			public const int BLUEORB_MISSION_CLEAR = 101842;
+			public const int BLUEORB_CLEAR_REWARD = 101843;
 		}
 
 		public static class Monster
@@ -1792,6 +1803,12 @@ namespace Melia.Shared.Const
 			public const int MHP_RATE_BM = 101813;
 			public const int MOVESTA_RATE_BM = 101814;
 			public const int DASHSTA_RATE_BM = 101815;
+			public const int Slash_Atk = 101836;
+			public const int Strike_Atk_BM = 101837;
+			public const int Aries_Atk = 101838;
+			public const int Aries_Atk_BM = 101839;
+			public const int Strike_Atk = 101840;
+			public const int Slash_Atk_BM = 101841;
 		}
 
 		public static class PCEtc
@@ -8971,6 +8988,8 @@ namespace Melia.Shared.Const
 			public const int Kill_boss_Meskalord = 101804;
 			public const int Kill_boss_Quipmage = 101805;
 			public const int HadVisited_525 = 101807;
+			public const int Pose_SIT = 101833;
+			public const int HadVisited_4961 = 101835;
 		}
 
 		public static class Item
