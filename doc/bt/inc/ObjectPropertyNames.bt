@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i181194
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -986,6 +986,44 @@ string getPropertyName(int id)
         case 101834: return "HadVisited_4961";
         case 101842: return "BLUEORB_MISSION_CLEAR";
         case 101843: return "BLUEORB_CLEAR_REWARD";
+        case 101858: return "JUNK_SHOP_BUY_COUNT";
+        case 101859: return "JUNK_BUY_COUNT_RESET_DAY";
+        case 101860: return "HadVisited_526";
+        case 101866: return "EVENT_1712_SECOND_ITEM_TRADE8";
+        case 101867: return "EVENT_1712_SECOND_MIN";
+        case 101868: return "EVENT_1712_SECOND_ITEM_TRADE14";
+        case 101869: return "EVENT_1712_SECOND_ITEM_TRADE12";
+        case 101870: return "EVENT_1712_XMAS_MIN_ITEM_GIVE";
+        case 101871: return "EVENT_1712_SECOND_ITEM_TRADE5";
+        case 101872: return "EVENT_1712_SECOND_DATE";
+        case 101873: return "EVENT_1712_SECOND_BUFF_DATE";
+        case 101874: return "EVENT_1712_SECOND_ITEM_TRADE1";
+        case 101875: return "EVENT_1712_SECOND_ITEM_TRADE2";
+        case 101876: return "EVENT_1712_SECOND_ITEM_TRADE3";
+        case 101877: return "EVENT_1712_SECOND_ITEM_TRADE4";
+        case 101878: return "EVENT_1712_SECOND_ITEM_TRADE6";
+        case 101879: return "EVENT_1712_SECOND_ITEM_TRADE7";
+        case 101880: return "EVENT_1712_SECOND_ITEM_TRADE10";
+        case 101881: return "EVENT_1712_SECOND_ITEM_TRADE11";
+        case 101882: return "EVENT_1712_SECOND_MIN_ITEM_GIVE";
+        case 101883: return "EVENT_1712_SECOND_ITEM_TRADE9";
+        case 101884: return "EVENT_1712_SECOND_ITEM_TRADE13";
+        case 101885: return "EVENT_1712_XMAS_DATE";
+        case 101886: return "EVENT_1712_XMAS_MIN";
+        case 101897: return "STEAM_CHRISTMAS_NPC_SELECT";
+        case 101898: return "STEAM_CHRISTMAS_HIDDEN_COUNT";
+        case 101899: return "STEAM_CHRISTMAS_DAYCHECK";
+        case 101900: return "STEAM_CHRISTMAS_COUNT";
+        case 101901: return "EV171212_SETTLE_RAND_REWARD";
+        case 101902: return "EV171212_STEAM_RETURN_COUNT";
+        case 101903: return "EV171212_STEAM_BEGINNER_JOIN_CHECK";
+        case 101904: return "EV171212_STEAM_SETTL_JOIN_CHECK";
+        case 101905: return "EV171212_STEAM_RETURN_DAY";
+        case 101906: return "EV171212_SETTLE_COUNT";
+        case 101907: return "EV171212_SETTLE_DAY_CHECK";
+        case 101908: return "EV171212_STEAM_RETURN_CHECK";
+        case 101909: return "EV171212_STEAM_BEGINNER_COSTUM_CHECK";
+        case 101910: return "EV171212_STEAM_BEGINNER_ACCOUNT_CHECK";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2100,6 +2138,7 @@ string getPropertyName(int id)
         case 101839: return "Aries_Atk_BM";
         case 101840: return "Strike_Atk";
         case 101841: return "Slash_Atk_BM";
+        case 101856: return "FixedMinSDR_BM";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -9277,6 +9316,29 @@ string getPropertyName(int id)
         case 101807: return "HadVisited_525";
         case 101833: return "Pose_SIT";
         case 101835: return "HadVisited_4961";
+        case 101844: return "JUNK_SILVER_GACHA_LAST_RESET_DAY";
+        case 101845: return "Kill_M_random_boss_succubus";
+        case 101846: return "Kill_M_random_boss_Rambandgad";
+        case 101847: return "Kill_M_random_boss_Lapene";
+        case 101848: return "Kill_M_random_boss_Armaox";
+        case 101849: return "Kill_M_random_boss_woodspirit";
+        case 101850: return "Kill_M_random_boss_SwordBallista";
+        case 101851: return "Kill_pc_summon_boss_SwordBallista";
+        case 101852: return "Kill_pc_summon_boss_Spector_F";
+        case 101853: return "JUNK_SILVER_GACHA_COUNT";
+        case 101854: return "Kill_M_random_boss_stonefroster";
+        case 101855: return "Kill_M_random_boss_froster_lord";
+        case 101865: return "HadVisited_526";
+        case 101887: return "Kill_M_boss_woodhoungan_thorn";
+        case 101888: return "Kill_M_boss_tutu_thorn";
+        case 101889: return "Kill_M_boss_Centaurus_thorn";
+        case 101890: return "Kill_M_boss_simorph_thorn";
+        case 101891: return "Kill_M_boss_RingCrawler_thorn";
+        case 101892: return "Kill_M_boss_bebraspion_thorn";
+        case 101893: return "Kill_M_boss_Yeti_thorn";
+        case 101894: return "Kill_M_boss_lepus_thorn";
+        case 101895: return "Kill_M_boss_Spector_F_thorn";
+        case 101896: return "Kill_M_boss_unicorn_thorn";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16168,6 +16230,12 @@ string getPropertyName(int id)
         case 101781: return "MG_Last_AGARIO_MINI";
         case 101806: return "MG_Last_MISSION_EVENT_CURSEDOOR";
         case 101824: return "EV171114_STEAM_NRU_SESSION_CHECK";
+        case 101857: return "BALANCE_7_GIVE_ITEM";
+        case 101861: return "MG_Last_EVENT_JUMP_MISSION";
+        case 101862: return "EVENT_JUMP_NPC_REWARD";
+        case 101863: return "EVENT_JUMP_BOX_REWARD";
+        case 101864: return "CHRISTMAS_ARTEFACT_30D";
+        case 101911: return "EV171212_STEAM_BEGINNER_SESSION_CHECK";
         default: return "Unknown";
     }
 }

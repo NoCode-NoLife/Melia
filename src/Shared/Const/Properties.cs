@@ -679,6 +679,44 @@ namespace Melia.Shared.Const
 			public const int HadVisited_4961 = 101834;
 			public const int BLUEORB_MISSION_CLEAR = 101842;
 			public const int BLUEORB_CLEAR_REWARD = 101843;
+			public const int JUNK_SHOP_BUY_COUNT = 101858;
+			public const int JUNK_BUY_COUNT_RESET_DAY = 101859;
+			public const int HadVisited_526 = 101860;
+			public const int EVENT_1712_SECOND_ITEM_TRADE8 = 101866;
+			public const int EVENT_1712_SECOND_MIN = 101867;
+			public const int EVENT_1712_SECOND_ITEM_TRADE14 = 101868;
+			public const int EVENT_1712_SECOND_ITEM_TRADE12 = 101869;
+			public const int EVENT_1712_XMAS_MIN_ITEM_GIVE = 101870;
+			public const int EVENT_1712_SECOND_ITEM_TRADE5 = 101871;
+			public const int EVENT_1712_SECOND_DATE = 101872;
+			public const int EVENT_1712_SECOND_BUFF_DATE = 101873;
+			public const int EVENT_1712_SECOND_ITEM_TRADE1 = 101874;
+			public const int EVENT_1712_SECOND_ITEM_TRADE2 = 101875;
+			public const int EVENT_1712_SECOND_ITEM_TRADE3 = 101876;
+			public const int EVENT_1712_SECOND_ITEM_TRADE4 = 101877;
+			public const int EVENT_1712_SECOND_ITEM_TRADE6 = 101878;
+			public const int EVENT_1712_SECOND_ITEM_TRADE7 = 101879;
+			public const int EVENT_1712_SECOND_ITEM_TRADE10 = 101880;
+			public const int EVENT_1712_SECOND_ITEM_TRADE11 = 101881;
+			public const int EVENT_1712_SECOND_MIN_ITEM_GIVE = 101882;
+			public const int EVENT_1712_SECOND_ITEM_TRADE9 = 101883;
+			public const int EVENT_1712_SECOND_ITEM_TRADE13 = 101884;
+			public const int EVENT_1712_XMAS_DATE = 101885;
+			public const int EVENT_1712_XMAS_MIN = 101886;
+			public const int STEAM_CHRISTMAS_NPC_SELECT = 101897;
+			public const int STEAM_CHRISTMAS_HIDDEN_COUNT = 101898;
+			public const int STEAM_CHRISTMAS_DAYCHECK = 101899;
+			public const int STEAM_CHRISTMAS_COUNT = 101900;
+			public const int EV171212_SETTLE_RAND_REWARD = 101901;
+			public const int EV171212_STEAM_RETURN_COUNT = 101902;
+			public const int EV171212_STEAM_BEGINNER_JOIN_CHECK = 101903;
+			public const int EV171212_STEAM_SETTL_JOIN_CHECK = 101904;
+			public const int EV171212_STEAM_RETURN_DAY = 101905;
+			public const int EV171212_SETTLE_COUNT = 101906;
+			public const int EV171212_SETTLE_DAY_CHECK = 101907;
+			public const int EV171212_STEAM_RETURN_CHECK = 101908;
+			public const int EV171212_STEAM_BEGINNER_COSTUM_CHECK = 101909;
+			public const int EV171212_STEAM_BEGINNER_ACCOUNT_CHECK = 101910;
 		}
 
 		public static class Monster
@@ -1809,6 +1847,7 @@ namespace Melia.Shared.Const
 			public const int Aries_Atk_BM = 101839;
 			public const int Strike_Atk = 101840;
 			public const int Slash_Atk_BM = 101841;
+			public const int FixedMinSDR_BM = 101856;
 		}
 
 		public static class PCEtc
@@ -8990,6 +9029,29 @@ namespace Melia.Shared.Const
 			public const int HadVisited_525 = 101807;
 			public const int Pose_SIT = 101833;
 			public const int HadVisited_4961 = 101835;
+			public const int JUNK_SILVER_GACHA_LAST_RESET_DAY = 101844;
+			public const int Kill_M_random_boss_succubus = 101845;
+			public const int Kill_M_random_boss_Rambandgad = 101846;
+			public const int Kill_M_random_boss_Lapene = 101847;
+			public const int Kill_M_random_boss_Armaox = 101848;
+			public const int Kill_M_random_boss_woodspirit = 101849;
+			public const int Kill_M_random_boss_SwordBallista = 101850;
+			public const int Kill_pc_summon_boss_SwordBallista = 101851;
+			public const int Kill_pc_summon_boss_Spector_F = 101852;
+			public const int JUNK_SILVER_GACHA_COUNT = 101853;
+			public const int Kill_M_random_boss_stonefroster = 101854;
+			public const int Kill_M_random_boss_froster_lord = 101855;
+			public const int HadVisited_526 = 101865;
+			public const int Kill_M_boss_woodhoungan_thorn = 101887;
+			public const int Kill_M_boss_tutu_thorn = 101888;
+			public const int Kill_M_boss_Centaurus_thorn = 101889;
+			public const int Kill_M_boss_simorph_thorn = 101890;
+			public const int Kill_M_boss_RingCrawler_thorn = 101891;
+			public const int Kill_M_boss_bebraspion_thorn = 101892;
+			public const int Kill_M_boss_Yeti_thorn = 101893;
+			public const int Kill_M_boss_lepus_thorn = 101894;
+			public const int Kill_M_boss_Spector_F_thorn = 101895;
+			public const int Kill_M_boss_unicorn_thorn = 101896;
 		}
 
 		public static class Item
@@ -15893,6 +15955,12 @@ namespace Melia.Shared.Const
 			public const int MG_Last_AGARIO_MINI = 101781;
 			public const int MG_Last_MISSION_EVENT_CURSEDOOR = 101806;
 			public const int EV171114_STEAM_NRU_SESSION_CHECK = 101824;
+			public const int BALANCE_7_GIVE_ITEM = 101857;
+			public const int MG_Last_EVENT_JUMP_MISSION = 101861;
+			public const int EVENT_JUMP_NPC_REWARD = 101862;
+			public const int EVENT_JUMP_BOX_REWARD = 101863;
+			public const int CHRISTMAS_ARTEFACT_30D = 101864;
+			public const int EV171212_STEAM_BEGINNER_SESSION_CHECK = 101911;
 		}
 #pragma warning restore IDE1006
 	}
