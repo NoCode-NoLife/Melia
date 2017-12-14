@@ -27,7 +27,7 @@
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 23;
+const int EquipSlotCount = 24;
 
 typedef struct
 {
