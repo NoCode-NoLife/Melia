@@ -3,13 +3,14 @@
 //
 //      File: ZC_MAX_EXP_CHANGED.bt
 //   Authors: exec, celophi
-//   Version: i171140
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i11037: totalExp was added
+//   - i184075: i1~3 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,5 +19,8 @@ ServerHeaderFixed header;
 
 int expAcquired;    // Newly acquired EXP to add.
 int exp;            // Sum of acquired EXP for the current level.
+int i1;
 int maxExp;         // Maximum EXP for next level.
+int i2;
 int totalExp;       // Total EXP acquired since creation.
+int i3;

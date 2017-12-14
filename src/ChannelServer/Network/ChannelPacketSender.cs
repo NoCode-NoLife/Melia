@@ -1282,8 +1282,11 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
 			packet.PutInt(exp);
 			packet.PutInt(character.Exp);
+			packet.PutInt(0);
 			packet.PutInt(character.MaxExp);
+			packet.PutInt(0);
 			packet.PutInt(character.TotalExp);
+			packet.PutInt(0);
 
 			character.Connection.Send(packet);
 		}
@@ -1299,7 +1302,9 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 			packet.PutInt(exp);
+			packet.PutInt(0);
 			packet.PutInt(classExp);
+			packet.PutInt(0);
 			packet.PutInt(monster.Handle);
 
 			character.Connection.Send(packet);
@@ -1315,7 +1320,9 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 			packet.PutInt(exp);
+			packet.PutInt(0);
 			packet.PutInt(classExp);
+			packet.PutInt(0);
 
 			character.Connection.Send(packet);
 		}
@@ -1330,6 +1337,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
 			packet.PutLong(character.Id);
 			packet.PutInt(exp);
+			packet.PutInt(0);
 
 			character.Connection.Send(packet);
 		}

@@ -3,12 +3,13 @@
 //
 //      File: ZC_JOB_EXP_UP
 //   Authors: exec
-//   Version: i171140
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i184075: i1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -17,3 +18,4 @@ ServerHeaderFixed header;
 
 int64 objectId;
 int jobExp;
+int i1;
