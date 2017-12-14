@@ -20,9 +20,13 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutFloat(commander.Position.X);
 			packet.PutFloat(commander.Position.Y);
 			packet.PutFloat(commander.Position.Z);
+			packet.PutInt(0);
 			packet.PutInt(commander.Exp);
+			packet.PutInt(0);
 			packet.PutInt(commander.MaxExp);
+			packet.PutInt(0);
 			packet.PutInt(commander.TotalExp);
+			packet.PutInt(0);
 
 			packet.PutLong(commander.Id);
 

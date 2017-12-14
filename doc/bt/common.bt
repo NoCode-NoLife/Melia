@@ -21,6 +21,7 @@
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //   - i184075: APPEARANCE_PC.bin2 was added
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
+//   - i184075: COMMANDER.i2~5 were added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -185,9 +186,13 @@ typedef struct {
     int i1;
     APPEARANCE_PC appearancePc;
     position pos;
+    int i2;
     int currentExp;
+    int i3;
     int maxExp;
+    int i4;
     int totalExp;
+    int i5;
     int64 characterId;
     int64 socialInfoId;
     int hp;
@@ -198,7 +203,8 @@ typedef struct {
     int maxStamina;
     short shield;
     short maxShield;
-} COMMANDER;
+}
+COMMANDER;
 
 typedef struct
 {
