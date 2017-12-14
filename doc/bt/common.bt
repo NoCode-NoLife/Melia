@@ -20,6 +20,7 @@
 //   - i174236: compressedData.size changed from short to int
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //   - i184075: APPEARANCE_PC.bin2 was added
+//   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -227,7 +228,9 @@ typedef struct
     short s1;
     int i1;
     int i2;   // max xp?
-    int i3;    
+    int i3;
+    int i6;
+    int i7;
 
     float x;
     float y;
