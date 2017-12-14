@@ -3,7 +3,7 @@
 //
 //      File: common.bt
 //   Authors: exec, celophi
-//   Version: i170175
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -19,6 +19,7 @@
 //   - i171032: EquipSlotCount increased to 23 (wings)
 //   - i174236: compressedData.size changed from short to int
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
+//   - i184075: APPEARANCE_PC.bin2 was added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -149,7 +150,7 @@ typedef struct
 {
     char name[65];
     char teamName[64];
-    byte bin[7];
+    byte bin1[7];
     int64 accountId;
     short stance;
     short s1;
@@ -173,6 +174,8 @@ typedef struct
     byte hat2Visible;
     byte hat3Visible;
     short s2;
+
+    byte bin2[4];
 }
 APPEARANCE_PC;
 
