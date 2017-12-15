@@ -3,13 +3,15 @@
 //
 //      File: ZC_NORMAL.bt
 //   Authors: exec, celophi
-//   Version: i170175
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i174236: Skill UI update changed from 0x18E to 0x188
+//   - i184075: Skill UI update changed from 0x188 to 0x189
+//   - i184075: Job.i1+i2+bin1 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -26,9 +28,12 @@ typedef struct
 {
     short jobId;
     short s1; // 177
+    int i1;
     int totalExp;
+    int i2;
     short unusedSkillPoints;
     short circle;
+    byte bin1[4];
 }
 Job;
 
@@ -259,7 +264,7 @@ switch (type)
         break;
     
     // Updates the skill UI
-    case 0x188:
+    case 0x189:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];

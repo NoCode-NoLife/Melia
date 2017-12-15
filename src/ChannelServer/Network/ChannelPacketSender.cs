@@ -1829,9 +1829,12 @@ namespace Melia.Channel.Network
 			{
 				packet.PutShort((short)job.Id);
 				packet.PutShort(177); // 174
+				packet.PutInt(0);
 				packet.PutInt(job.TotalExp);
+				packet.PutInt(0);
 				packet.PutShort(job.SkillPoints);
 				packet.PutShort((short)job.Circle);
+				packet.PutEmptyBin(4);
 			}
 
 			character.Connection.Send(packet);
