@@ -187,6 +187,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SKILL_LIST);
 			packet.PutInt(character.Handle);
 			packet.PutShort(skills.Count());
+			packet.PutByte(0);
 
 			packet.Zlib(false, zpacket =>
 			{
