@@ -122,5 +122,6 @@ namespace Melia.Shared.Data.Database
 		Lens,
 		Wing,
 		Artefact,
+		SpecialCostume,
 	}
 }

@@ -218,6 +218,8 @@
 { category: "Murmillo", jobId: 1012, abilityId: 115012, name: "Enhanced Rodelero Shield Attack", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_12", 1)' },
 { category: "Murmillo", jobId: 1012, abilityId: 115013, name: "Repeated Hits Attack Boost", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_12", 1)' },
 { category: "Murmillo", jobId: 1012, abilityId: 115014, name: "Enhanced Hoplite Shield Attack", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_12", 1)' },
+{ category: "Murmillo", jobId: 1012, abilityId: 115015, name: "Sheild Train: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_12", 2)' },
+{ category: "Murmillo", jobId: 1012, abilityId: 115016, name: "Scutum Hit: AoE", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_12", 2)' },
 
 // Shinobi
 //---------------------------------------------------------------------------
@@ -261,11 +263,16 @@
 { category: "Dragoon", jobId: 1015, abilityId: 114011, name: "Dethrone: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114012, name: "Serpentine: Additional Damage", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114014, name: "Dethrone: Remove Knockback", maxLevel: 1, priceTime: 'ABIL_CATAPHRACT30_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 2)' },
+{ category: "Dragoon", jobId: 1015, abilityId: 114015, name: "Dragon Fall: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 3)' },
+{ category: "Dragoon", jobId: 1015, abilityId: 114016, name: "Dragon Soar: Ascension", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Dragoon_Dragon_Soar", 11)' },
+{ category: "Dragoon", jobId: 1015, abilityId: 114017, name: "Gae Bulg: Retrieve", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 3)' },
+{ category: "Dragoon", jobId: 1015, abilityId: 114018, name: "Dragon Fall: Counterweight", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_15", 3)' },
 
 // Templar
 //---------------------------------------------------------------------------
 { category: "Templar", jobId: 1016, abilityId: 117001, name: "Mortal Slash: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_16", 2)' },
 { category: "Templar", jobId: 1016, abilityId: 117002, name: "Buff Share: Increased Range", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_16", 2)' },
+{ category: "Templar", jobId: 1016, abilityId: 117003, name: "Mortal Slash: Commands", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_16", 3)' },
 
 // Lancer
 //---------------------------------------------------------------------------
@@ -277,11 +284,13 @@
 { category: "Lancer", jobId: 1017, abilityId: 116006, name: "Joust: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116007, name: "Unhorsing: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116008, name: "Quintain: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
+{ category: "Lancer", jobId: 1017, abilityId: 116009, name: "Rhongomiant: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 2)' },
+{ category: "Lancer", jobId: 1017, abilityId: 116010, name: "Rhongomiant: Stun", maxLevel: 5, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 2)' },
+{ category: "Lancer", jobId: 1017, abilityId: 116011, name: "Quintain: Sure Victory", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 2)' },
 
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", jobId: 2001, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 2)' },
-{ category: "Wizard", jobId: 2001, abilityId: 10023, name: "Increased Maximum Buff Count", maxLevel: 1, priceTime: 'ABIL_ADDBUFFCOUNT_PRICE', unlock: 'UNLOCK_ABIL_RANK("", 5)' },
 { category: "Wizard", jobId: 2001, abilityId: 201001, name: "Energy Bolt: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
 { category: "Wizard", jobId: 2001, abilityId: 201004, name: "Reflect Shield: Reflect Damage", maxLevel: 20, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Wizard_ReflectShield", 3)' },
 { category: "Wizard", jobId: 2001, abilityId: 201005, name: "Lethargy: Enhance", maxLevel: 50, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Wizard_Lethargy", 3)' },
@@ -448,6 +457,9 @@
 { category: "Sage", jobId: 2014, abilityId: 216005, name: "Blink: Duration", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 1)' },
 { category: "Sage", jobId: 2014, abilityId: 216008, name: "Micro Dimension: Duplicate", maxLevel: 1, priceTime: 'ABIL_SAGE8_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 1)' },
 { category: "Sage", jobId: 2014, abilityId: 216009, name: "Ultimate Dimension: Enlarged Magic Circle", maxLevel: 1, priceTime: 'ABIL_SAGE9_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 1)' },
+{ category: "Sage", jobId: 2014, abilityId: 216010, name: "Dimension Compression: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 2)' },
+{ category: "Sage", jobId: 2014, abilityId: 216011, name: "Micro Dimension: After Effects", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 2)' },
+{ category: "Sage", jobId: 2014, abilityId: 216012, name: "Ultimate Dimension: After Effects", maxLevel: 5, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_14", 2)' },
 
 // Warlock
 //---------------------------------------------------------------------------
@@ -463,6 +475,10 @@
 { category: "Warlock", jobId: 2015, abilityId: 212012, name: "Invocation: Duration", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 2)' },
 { category: "Warlock", jobId: 2015, abilityId: 212013, name: "Mastema: Phantom Pain", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 2)' },
 { category: "Warlock", jobId: 2015, abilityId: 212014, name: "Invocation: Demon Spirit", maxLevel: 30, priceTime: 'ABIL_WARLOCK14_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 2)' },
+{ category: "Warlock", jobId: 2015, abilityId: 212015, name: "Demon Scratch: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 3)' },
+{ category: "Warlock", jobId: 2015, abilityId: 212016, name: "Dark Theurge:  Anguish", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 1)' },
+{ category: "Warlock", jobId: 2015, abilityId: 212017, name: "Darkness Fear", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 3)' },
+{ category: "Warlock", jobId: 2015, abilityId: 212018, name: "Dark Theurge: Tough Evil Spirit", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_15", 3)' },
 
 // Featherfoot
 //---------------------------------------------------------------------------
@@ -478,6 +494,10 @@
 { category: "Featherfoot", jobId: 2016, abilityId: 213012, name: "Blood Curse: Limit", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 2)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213013, name: "Bone Pointing: Repeated Hits", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 2)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213014, name: "Kurdaitcha: Increased Movement Speed", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 2)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213015, name: "Kurdaitcha: Blood's Footprint", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 3)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213016, name: "Blood Curse: Drop of Blood", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 3)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213017, name: "Kundela Slash: Curse of Curses", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 3)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213018, name: "Levitation: Cursed Blood", maxLevel: 3, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_16", 3)' },
 
 // RuneCaster
 //---------------------------------------------------------------------------
@@ -491,11 +511,11 @@
 // Enchanter
 //---------------------------------------------------------------------------
 { category: "Enchanter", jobId: 2018, abilityId: 215001, name: "Craft Inchant Round", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 1)' },
+{ category: "Enchanter", jobId: 2018, abilityId: 215004, name: "Lightning Hands: Magic Shock", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 2)' },
 
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", jobId: 3001, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char3_1", 2)' },
-{ category: "Archer", jobId: 3001, abilityId: 10023, name: "Increased Maximum Buff Count", maxLevel: 1, priceTime: 'ABIL_ADDBUFFCOUNT_PRICE', unlock: 'UNLOCK_ABIL_RANK("", 5)' },
 { category: "Archer", jobId: 3001, abilityId: 301001, name: "Multi Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_1", 1)' },
 { category: "Archer", jobId: 3001, abilityId: 301004, name: "Full Draw: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_1", 1)' },
 { category: "Archer", jobId: 3001, abilityId: 301007, name: "Kneeling Shot: Enhance", maxLevel: 50, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Archer_Kneelingshot", 3)' },
@@ -600,6 +620,9 @@
 { category: "Hackapell", jobId: 3007, abilityId: 314005, name: "Leg Shot: Decreased Movement Speed", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314006, name: "Hacka Pelle", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314008, name: "Cavalry Charge: Defense", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
+{ category: "Hackapell", jobId: 3007, abilityId: 314009, name: "Grind Cutter: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 2)' },
+{ category: "Hackapell", jobId: 3007, abilityId: 314010, name: "Skarphuggning: Enhance AoE", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 2)' },
+{ category: "Hackapell", jobId: 3007, abilityId: 314011, name: "Storm Bolt: Lightning", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 2)' },
 
 // Scout
 //---------------------------------------------------------------------------
@@ -640,6 +663,7 @@
 { category: "Schwarzereiter", jobId: 3010, abilityId: 311009, name: "Caracole: Nonskid", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_10", 3)' },
 { category: "Schwarzereiter", jobId: 3010, abilityId: 311010, name: "Caracole: Spread", maxLevel: 1, priceTime: 'ABIL_SCHWARZEREITER17_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_10", 3)' },
 { category: "Schwarzereiter", jobId: 3010, abilityId: 311011, name: "Limacon: Spread", maxLevel: 1, priceTime: 'ABIL_SCHWARZEREITER17_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_10", 3)' },
+{ category: "Schwarzereiter", jobId: 3010, abilityId: 311012, name: "Marching Fire: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_10", 3)' },
 
 // Fletcher
 //---------------------------------------------------------------------------
@@ -698,6 +722,12 @@
 { category: "Cannoneer", jobId: 3015, abilityId: 312012, name: "Cannon Barrage: Stun", maxLevel: 3, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 2)' },
 { category: "Cannoneer", jobId: 3015, abilityId: 312013, name: "Siege Burst: Focus", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 1)' },
 { category: "Cannoneer", jobId: 3015, abilityId: 312014, name: "Kneeling Shot: Precise Attack", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 2)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312015, name: "SweepingCannon: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312016, name: "Bazooka: Veteran Merceneary", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312017, name: "Cannon Shot: Chain Explosion", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312018, name: "Shootdown: Chain Explosion", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312019, name: "Siege Burst: Critical", maxLevel: 5, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
+{ category: "Cannoneer", jobId: 3015, abilityId: 312020, name: "Cannon Barrage: Weight Reduction", maxLevel: 5, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_15", 3)' },
 
 // Musketeer
 //---------------------------------------------------------------------------
@@ -722,6 +752,12 @@
 { category: "Musketeer", jobId: 3016, abilityId: 313017, name: "Penetration Shot: Kneeling Penetrate", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 2)' },
 { category: "Musketeer", jobId: 3016, abilityId: 313019, name: "Butt Stroke: Great Attack", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 2)' },
 { category: "Musketeer", jobId: 3016, abilityId: 313020, name: "Butt Stroke: Additional Damage", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 2)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313021, name: "Snipe: Perfect one step", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313022, name: "Snipers Serenity:trapping", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313023, name: "Snipers Serenity: Armor Break", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313024, name: "Bayonet Thrust: Safe Distance", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313025, name: "Penetration Shot: Wild Shot", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
+{ category: "Musketeer", jobId: 3016, abilityId: 313026, name: "Birdfall: Fire Master", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_16", 3)' },
 
 // Mergen
 //---------------------------------------------------------------------------
@@ -730,12 +766,15 @@
 { category: "Mergen", jobId: 3017, abilityId: 315003, name: "Homing Arrow: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
 { category: "Mergen", jobId: 3017, abilityId: 315005, name: "Triple Arrow: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
 { category: "Mergen", jobId: 3017, abilityId: 315006, name: "Arrow Sprinkle: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
+{ category: "Mergen", jobId: 3017, abilityId: 315007, name: "Jump Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
 { category: "Mergen", jobId: 3017, abilityId: 315009, name: "Spread Shot: Ricochet", maxLevel: 20, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
+{ category: "Mergen", jobId: 3017, abilityId: 315011, name: "Down Fall: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
+{ category: "Mergen", jobId: 3017, abilityId: 315012, name: "Homing Arrow: Quick Charge", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
+{ category: "Mergen", jobId: 3017, abilityId: 315013, name: "Triple Arrow: Triple", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
 
 // Cleric
 //---------------------------------------------------------------------------
 { category: "Cleric", jobId: 4001, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 2)' },
-{ category: "Cleric", jobId: 4001, abilityId: 10023, name: "Increased Maximum Buff Count", maxLevel: 1, priceTime: 'ABIL_ADDBUFFCOUNT_PRICE', unlock: 'UNLOCK_ABIL_RANK("", 5)' },
 { category: "Cleric", jobId: 4001, abilityId: 401001, name: "Cure: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 401004, name: "Heal: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 401007, name: "Deprotected Zone: Enhance", maxLevel: 50, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Cleric_DeprotectedZone", 3)' },
@@ -753,12 +792,11 @@
 
 // Priest
 //---------------------------------------------------------------------------
-{ category: "Priest", jobId: 4002, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 10018, name: "Increased Maximum Weight", maxLevel: 10, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403001, name: "Aspersion: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403004, name: "Blessing: Enhance", maxLevel: 50, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Blessing", 3)' },
 { category: "Priest", jobId: 4002, abilityId: 403006, name: "Exorcise: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 3)' },
-{ category: "Priest", jobId: 4002, abilityId: 403007, name: "Blessing: Attack Count", maxLevel: 3, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403008, name: "Blessing: Additional Buff", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403009, name: "Sacrament: Dark Property resistance", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 2)' },
 { category: "Priest", jobId: 4002, abilityId: 403010, name: "Resurrection: Revive Count", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
@@ -779,6 +817,10 @@
 { category: "Kriwi", jobId: 4003, abilityId: 402010, name: "Zalciai: Magic Amplification", maxLevel: 4, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402011, name: "Divine Stigma: Duration", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 2)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402013, name: "Zalciai: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kriwi_Zalciai", 3)' },
+{ category: "Kriwi", jobId: 4003, abilityId: 402014, name: "Aukuras: Goddess of Fire", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 2)' },
+{ category: "Kriwi", jobId: 4003, abilityId: 402015, name: "Divine Stigma: Defeat Devil", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kriwi_DivineStigma", 10)' },
+{ category: "Kriwi", jobId: 4003, abilityId: 402016, name: "Divine Stigma: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 2)' },
+{ category: "Kriwi", jobId: 4003, abilityId: 402017, name: "Daino: Additional Attack", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 3)' },
 
 // Bokor
 //---------------------------------------------------------------------------
@@ -845,6 +887,8 @@
 { category: "Oracle", jobId: 4008, abilityId: 411008, name: "Death Sentence: Slow", maxLevel: 4, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_8", 2)' },
 { category: "Oracle", jobId: 4008, abilityId: 411010, name: "Counter Spell: Enemy Target", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_8", 1)' },
 { category: "Oracle", jobId: 4008, abilityId: 411012, name: "Prophecy: Additional Damage", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_8", 3)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411013, name: "DeathVerdict: Penalty Reduction", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_8", 2)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411014, name: "Foretell: Decreased movement speed", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_8", 3)' },
 
 // Monk
 //---------------------------------------------------------------------------
@@ -875,10 +919,12 @@
 { category: "Pardoner", jobId: 4010, abilityId: 409005, name: "Spell Shop: Duration", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 2)' },
 { category: "Pardoner", jobId: 4010, abilityId: 409006, name: "Pardoner: Donation", maxLevel: 100, priceTime: 'ABIL_PARDONER5_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 1)' },
 { category: "Pardoner", jobId: 4010, abilityId: 409007, name: "Increase Magic Defense: Duration", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 1)' },
+{ category: "Pardoner", jobId: 4010, abilityId: 409008, name: "Decatose: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 3)' },
 
 // Paladin
 //---------------------------------------------------------------------------
 { category: "Paladin", jobId: 4011, abilityId: 10025, name: "Use Two-handed Blunt Weapon", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
+{ category: "Paladin", jobId: 4011, abilityId: 102015, name: "Peltasta: Guard", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407001, name: "Restoration: Enhance", maxLevel: 50, priceTime: 'ABIL_4RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Paladin_Restoration", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407002, name: "Smite: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
 { category: "Paladin", jobId: 4011, abilityId: 407005, name: "Resist Elements: Resist", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 1)' },
@@ -892,6 +938,8 @@
 { category: "Paladin", jobId: 4011, abilityId: 407014, name: "Barrier: Distant Defense", maxLevel: 3, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407015, name: "Barrier: Increased Range", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
 { category: "Paladin", jobId: 4011, abilityId: 407016, name: "Barrier: Devotion", maxLevel: 3, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 3)' },
+{ category: "Paladin", jobId: 4011, abilityId: 407017, name: "Demolition: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 2)' },
+{ category: "Paladin", jobId: 4011, abilityId: 407018, name: "Demolition: Stun", maxLevel: 10, priceTime: 'ABIL_5RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_11", 2)' },
 
 // Chaplain
 //---------------------------------------------------------------------------
@@ -914,6 +962,9 @@
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412011, name: "Disenchant: Boosted Debuff Level", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412012, name: "Disenchant: Neutralize Gear", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412013, name: "Incinerate: Infect", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412014, name: "Pandemic: IncinerationSpread", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PlagueDoctor_Pandemic", 11)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412015, name: "Incineration: Fast Response", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 3)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412016, name: "Black Death Steam: Fast Contagion", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 3)' },
 
 // Kabbalist
 //---------------------------------------------------------------------------
@@ -921,15 +972,17 @@
 { category: "Kabbalist", jobId: 4015, abilityId: 413002, name: "Revenged Sevenfold: Curse", maxLevel: 3, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413006, name: "Ein Sof: Maintain Time", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413008, name: "Merkabah: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
-{ category: "Kabbalist", jobId: 4015, abilityId: 413009, name: "Merkabah: Petrification", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413010, name: "Ein Sof: SP Recovery", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_Ayin_sof", 3)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413011, name: "Merkabah: Reduced Movement Speed", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413012, name: "Merkabah: Divine Protection", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413013, name: "Enhanced Defense Formation: Saved Time", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413014, name: "Enhanced Defense Formation: Target Increased", maxLevel: 3, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
-{ category: "Kabbalist", jobId: 4015, abilityId: 413016, name: "Merkabah: Enhanced Durability", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
-{ category: "Kabbalist", jobId: 4015, abilityId: 413017, name: "Merkabah: Increased Magic Defense", maxLevel: 20, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413018, name: "Ein Sof: Stacked Healing", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413019, name: "Multiple Hit Chance: Minimal Correction", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413020, name: "Gevura: Minimal Correction", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413021, name: "Staff of Kabbalah", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413022, name: "Kabbalah Garments", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413023, name: "Ein Sof: Double Magic Circle", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
 
 // Inquisitor
 //---------------------------------------------------------------------------
@@ -939,11 +992,14 @@
 { category: "Inquisitor", jobId: 4016, abilityId: 415009, name: "Inquisitor: Darkness Resistance", maxLevel: 20, priceTime: 'ABIL_INQUISITOR9_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_16", 1)' },
 { category: "Inquisitor", jobId: 4016, abilityId: 415010, name: "God Smash: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_16", 1)' },
 { category: "Inquisitor", jobId: 4016, abilityId: 415011, name: "Malleus Maleficarum: Mana Burn", maxLevel: 4, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_16", 1)' },
+{ category: "Inquisitor", jobId: 4016, abilityId: 415012, name: "God Smash: Demon Punisher", maxLevel: 3, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_16", 2)' },
 
 // Daoshi
 //---------------------------------------------------------------------------
 { category: "Daoshi", jobId: 4017, abilityId: 416009, name: "Begone Demon: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_17", 1)' },
 { category: "Daoshi", jobId: 4017, abilityId: 416010, name: "Storm Calling: Additional Damage", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_17", 1)' },
+{ category: "Daoshi", jobId: 4017, abilityId: 416011, name: "Divine Punishment: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_17", 2)' },
+{ category: "Daoshi", jobId: 4017, abilityId: 416012, name: "Storm Calling: Zaibas", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_17", 2)' },
 
 // Miko
 //---------------------------------------------------------------------------

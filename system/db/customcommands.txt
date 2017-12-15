@@ -51,4 +51,5 @@
 { id: 46, name: "DEPOSIT_GUILD_ASSET", script: "SCR_DEPOSIT_GUILD_ASSET", useTx: true },
 { id: 47, name: "UPDATE_GUILD_TOWER_LEVEL", script: "SCR_UPDATE_GUILD_TOWER_LEVEL", useTx: true },
 { id: 48, name: "CHANGE_COLONY_CONFIG", script: "SCR_CHANGE_COLONY_CONFIG", useTx: false },
+{ id: 49, name: "RIDING_ONLY_VEHICLE", script: "SCR_RIDING_ONLY_VEHICLE", useTx: false },
 ]

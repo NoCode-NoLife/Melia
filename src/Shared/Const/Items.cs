@@ -91,6 +91,7 @@ namespace Melia.Shared.Const
 		Hat, // HAT_T
 		Lens, // LENS
 		Wing, // WING
+		SpecialCostume, // ?
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -126,14 +127,15 @@ namespace Melia.Shared.Const
 		/// [i11025]  20->21, hair
 		/// [i170175] 21->22, lens
 		/// [i171032] 22->23, wings
+		/// [i184075] 23->24, special costume
 		/// </remarks>
-		public const int EquipSlotCount = 23;
+		public const int EquipSlotCount = 24;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2, 4, 4 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2, 4, 4, 4 };
 	}
 
 	public enum InventoryOrder : byte

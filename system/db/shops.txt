@@ -345,11 +345,11 @@
 { shopName: "Shop_Armor_Normal_270_315", productId: 5124, itemId: 511211, priceMultiplier: 1 },
 { shopName: "Shop_Armor_Normal_270_315", productId: 5125, itemId: 501211, priceMultiplier: 1 },
 
-{ shopName: "Event_Shop_Moru", productId: 5201, itemId: 643002, priceMultiplier: 1 },
-
 { shopName: "Fish_Shop_Manager", productId: 5400, itemId: 730000, priceMultiplier: 1 },
 { shopName: "Fish_Shop_Manager", productId: 5401, itemId: 730200, priceMultiplier: 1 },
 { shopName: "Fish_Shop_Manager", productId: 5402, itemId: 730202, priceMultiplier: 1 },
 { shopName: "Fish_Shop_Manager", productId: 5403, itemId: 730400, priceMultiplier: 1 },
 { shopName: "Fish_Shop_Manager", productId: 5404, itemId: 730600, priceMultiplier: 1 },
+
+{ shopName: "Master_Sage", productId: 5500, itemId: 646064, priceMultiplier: 1 },
 ]

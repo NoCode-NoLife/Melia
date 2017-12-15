@@ -3,12 +3,13 @@
 //
 //      File: ZC_SKILL_LIST
 //   Authors: exec
-//   Version: i170175
+//   Version: i184075
 //   Purpose: List of skills sent upon login.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i184075: b1 was added
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
@@ -19,6 +20,7 @@ ServerHeaderDynamic header;
 
 int handle;
 short skillCount;
+byte b1;
 
 if (!checkCompression())
     Skill skills[skillCount] <optimize=false>;

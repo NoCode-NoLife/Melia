@@ -3,7 +3,7 @@
 //
 //      File: common.bt
 //   Authors: exec, celophi
-//   Version: i170175
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -19,13 +19,16 @@
 //   - i171032: EquipSlotCount increased to 23 (wings)
 //   - i174236: compressedData.size changed from short to int
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
+//   - i184075: APPEARANCE_PC.bin2 was added
+//   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
+//   - i184075: COMMANDER.i2~5 were added
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 23;
+const int EquipSlotCount = 24;
 
 typedef struct
 {
@@ -149,7 +152,7 @@ typedef struct
 {
     char name[65];
     char teamName[64];
-    byte bin[7];
+    byte bin1[7];
     int64 accountId;
     short stance;
     short s1;
@@ -173,6 +176,8 @@ typedef struct
     byte hat2Visible;
     byte hat3Visible;
     short s2;
+
+    byte bin2[4];
 }
 APPEARANCE_PC;
 
@@ -181,9 +186,13 @@ typedef struct {
     int i1;
     APPEARANCE_PC appearancePc;
     position pos;
+    int i2;
     int currentExp;
+    int i3;
     int maxExp;
+    int i4;
     int totalExp;
+    int i5;
     int64 characterId;
     int64 socialInfoId;
     int hp;
@@ -194,7 +203,8 @@ typedef struct {
     int maxStamina;
     short shield;
     short maxShield;
-} COMMANDER;
+}
+COMMANDER;
 
 typedef struct
 {
@@ -224,7 +234,9 @@ typedef struct
     short s1;
     int i1;
     int i2;   // max xp?
-    int i3;    
+    int i3;
+    int i6;
+    int i7;
 
     float x;
     float y;

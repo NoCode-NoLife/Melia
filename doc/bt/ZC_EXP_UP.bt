@@ -3,12 +3,13 @@
 //
 //      File: ZC_EXP_UP
 //   Authors: exec, celophi
-//   Version: i171140
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i184075: i1+2 were added
 //------------------------------------------------
 
 #include "common.bt"
@@ -16,4 +17,6 @@
 ServerHeaderFixed header;
 
 int exp;
+int i1;
 int classExp;
+int i2;

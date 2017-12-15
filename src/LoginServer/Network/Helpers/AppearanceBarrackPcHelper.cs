@@ -28,6 +28,8 @@ namespace Melia.Login.Network.Helpers
 			packet.PutInt(0);
 			packet.PutInt(0); // maxXP
 			packet.PutInt(0); // currentExp
+			packet.PutInt(0);
+			packet.PutInt(0);
 
 			// Position?
 			packet.PutFloat(pc.BarrackPosition.X);
