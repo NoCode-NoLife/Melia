@@ -3,12 +3,13 @@
 //
 //      File: ZC_NPC_STATE_LIST.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i184075
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i184075: s1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -24,6 +25,7 @@ state <optimize=false>;
 ServerHeaderDynamic header;
 
 int count;
+short s1;
 
 local int i;
 state states[count];

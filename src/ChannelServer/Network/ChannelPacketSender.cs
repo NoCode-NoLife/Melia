@@ -284,7 +284,13 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
 
-			packet.PutInt(0); // ?
+			packet.PutInt(0); // count
+			packet.PutShort(0);
+
+			// loop
+			//   int mapId;
+			//   int i1;
+			//   int i2;
 
 			character.Connection.Send(packet);
 		}
