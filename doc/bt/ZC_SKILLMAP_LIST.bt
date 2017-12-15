@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SKILLMAP_LIST
+//   Authors: exec
+//   Version: i184075
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+int i1; // count?
+// ...
