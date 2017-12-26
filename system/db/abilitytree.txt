@@ -160,7 +160,7 @@
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111004, name: "Cyclone: Movement", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 1)' },
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111005, name: "Double Pay Earn: Damage Taken", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 1)' },
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111006, name: "Mordschlag: Cloth Armor", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 1)' },
-{ category: "Doppelsoeldner", jobId: 1009, abilityId: 111008, name: "Zonhau: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 2)' },
+{ category: "Doppelsoeldner", jobId: 1009, abilityId: 111008, name: "Zornhau: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 2)' },
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111009, name: "Redel: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 2)' },
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111010, name: "Zucken: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_9", 2)' },
 { category: "Doppelsoeldner", jobId: 1009, abilityId: 111011, name: "Cyclone: Resistance", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Doppelsoeldner_Cyclone", 3)' },
@@ -427,7 +427,7 @@
 { category: "Thaumaturge", jobId: 2010, abilityId: 206007, name: "Shrink Body: Additional Damage", maxLevel: 3, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 1)' },
 { category: "Thaumaturge", jobId: 2010, abilityId: 206008, name: "Swell Left Arm: Shrink Size Speciality", maxLevel: 4, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Thaumaturge_ShrinkBody", 2)' },
 { category: "Thaumaturge", jobId: 2010, abilityId: 206009, name: "Swell Left Arm: Swell Body Speciality", maxLevel: 4, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Thaumaturge_SwellBody", 2)' },
-{ category: "Thaumaturge", jobId: 2010, abilityId: 206010, name: "Swell Arm Enhance: Swiftness", maxLevel: 4, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 2)' },
+{ category: "Thaumaturge", jobId: 2010, abilityId: 206010, name: "Swell Right Arm: Swiftness", maxLevel: 4, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 2)' },
 { category: "Thaumaturge", jobId: 2010, abilityId: 206011, name: "Transpose: Equilibrium", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 1)' },
 
 // Elementalist
@@ -647,7 +647,7 @@
 { category: "Rogue", jobId: 3009, abilityId: 308008, name: "Burrow: Damage", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_9", 3)' },
 { category: "Rogue", jobId: 3009, abilityId: 308009, name: "Lachrymator: Increased Range", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_9", 2)' },
 { category: "Rogue", jobId: 3009, abilityId: 308010, name: "Feint: Back Roll", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_9", 1)' },
-{ category: "Rogue", jobId: 3009, abilityId: 308011, name: "Capturing: Ally Magic Circle", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_9", 1)' },
+{ category: "Rogue", jobId: 3009, abilityId: 308011, name: "Capture: Ally Magic Circle", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_9", 1)' },
 
 // Schwarzereiter
 //---------------------------------------------------------------------------

@@ -289,7 +289,7 @@
 { jobId: 2019, skillId: 21603, skillName: "Shadow Pool", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2019, skillId: 21604, skillName: "Hallucination", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2019, skillId: 21605, skillName: "Shadow Condensation", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
-{ jobId: 2019, skillId: 21606, skillName: "Shadow Fetter", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2019, skillId: 21606, skillName: "Shadow Fatter", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 
 // Archer
 //---------------------------------------------------------------------------
