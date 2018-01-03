@@ -792,7 +792,7 @@
 
 // Priest
 //---------------------------------------------------------------------------
-{ category: "Priest", jobId: 4002, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 10018, name: "Increased Maximum Weight", maxLevel: 10, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403001, name: "Aspersion: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403004, name: "Blessing: Enhance", maxLevel: 50, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Blessing", 3)' },

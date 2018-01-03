@@ -841,7 +841,7 @@
 { itemId: 210403, className: "TMAC04_104", name: "Primus Pajoritas Two-handed Mace", category: 2, weight: 250, maxStack: 1, price: 52276, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 220 },
 { itemId: 210404, className: "TMAC04_105", name: "Primus Migantis Two-handed Mace", category: 2, weight: 190, maxStack: 1, price: 64000, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 270 },
 { itemId: 210405, className: "TMAC04_106", name: "Primus Pevordimas Two-handed Mace", category: 2, weight: 210, maxStack: 1, price: 78080, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 315 },
-{ itemId: 210406, className: "TMAC04_107", name: "Primus Raffy Two-handed Mace", category: 2, weight: 190, maxStack: 1, price: 88745, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 350 },
+{ itemId: 210406, className: "TMAC04_107", name: "Primus Raffye Two-handed Mace", category: 2, weight: 190, maxStack: 1, price: 88745, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 350 },
 { itemId: 210407, className: "TMAC04_108", name: "Masinios Two-handed Mace", category: 2, weight: 220, maxStack: 1, price: 88745, sellPrice: 0, equipType1: "THMace", equipType2: "Mace", minLevel: 350 },
 { itemId: 210500, className: "TMAC05_101", name: "Lolopanther Two-handed Mace", category: 2, weight: 160, maxStack: 1, price: 64000, sellPrice: 9760, equipType1: "THMace", equipType2: "Mace", minLevel: 270 },
 { itemId: 210501, className: "TMAC05_102", name: "Solmiki Two-handed Mace", category: 2, weight: 180, maxStack: 1, price: 78080, sellPrice: 12952, equipType1: "THMace", equipType2: "Mace", minLevel: 330 },
@@ -6076,6 +6076,8 @@
 { itemId: 902050, className: "EVENT_STEAM_DLC_WEAPON_BOX", name: "New Rank Booster - Weapon Selection Box", category: 7, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902051, className: "EVENT_STEAM_DLC_ARMOR_BOX", name: "New Rank Booster - Armor Selection Box", category: 7, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902053, className: "Event_Steam_Happy_New_Year", name: "New Year's Soup (3 Days)", category: 7, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902057, className: "Scroll_Transform_Random_1day", name: "[Event] Transformation Scroll (1 Day)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902058, className: "Achieve_2018Happy_New_Year_Steam", name: "칭호 - 2018 Happy New Year", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 910001, className: "Scroll_SkillItem", name: "Skill Scroll", category: 7, weight: 1, maxStack: 32767, price: 50, sellPrice: 5 },
 { itemId: 910004, className: "Zombie_Capsule", name: "좀비 캡슐", category: 7, weight: 1, maxStack: 32767, price: 300, sellPrice: 5 },
 
@@ -10471,4 +10473,5 @@
 { itemId: 902040, className: "Event_Steam_Christmas_Box", name: "Present", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902049, className: "EVENT_STEAM_RETURN_BOX", name: "Homecoming Gift (14 Days)", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902052, className: "Ability_Point_Stone_500_14d", name: "Attribute Points: 500 (14 Days)", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902059, className: "Event_Steam_Happy_New_Year_Key", name: "Luck Key", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 ]
