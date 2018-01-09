@@ -51,8 +51,6 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat3) != 0);
 				packet.PutShort(0);
 			}
-
-			packet.PutEmptyBin(4);
 		}
 	}
 

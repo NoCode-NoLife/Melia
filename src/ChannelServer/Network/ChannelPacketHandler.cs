@@ -123,7 +123,7 @@ namespace Melia.Channel.Network
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
-			Send.ZC_NO_GUILD_INDEX(character);
+			//Send.ZC_NO_GUILD_INDEX(character); // (op removed)
 			// ZC_NO_GUILD_INDEX
 			// ZC_UPDATED_PCAPPEARANCE
 			// ZC_NORMAL
@@ -1530,6 +1530,27 @@ namespace Melia.Channel.Network
 					Log.Debug("CZ_REQ_NORMAL_TX: Unhandled type '{0}'.", type);
 					break;
 			}
+		}
+
+		/// <summary>
+		/// ? (Dummy)
+		/// </summary>
+		/// <remarks>
+		/// The client sends this packet repeatedly until it gets an
+		/// appropriate response.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
+		public void CZ_REQUEST_GUILD_INDEX(ChannelConnection conn, Packet packet)
+		{
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+
+			// ...
+
+			Send.ZC_RESPONSE_GUILD_INDEX(character);
 		}
 	}
 

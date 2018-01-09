@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_REQUEST_GUILD_INDEX
+//      File: ZC_RESPONSE_GUILD_INDEX
 //   Authors: exec
 //   Version: i186893
 //   Purpose: 
@@ -13,5 +13,9 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
-int64 l1;
+ServerHeaderFixed header;
+
+int characterHandle;
+int i1;
+int i2;
+short s1;

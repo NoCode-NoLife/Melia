@@ -23,13 +23,15 @@
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //   - i184075: COMMANDER.i2~5 were added
 //   - i184075: EquipSlotCount increased to 24 (special costume)
+//   - i186893: EquipSlotCount increased to 25 (effect costume)
+//   - i186893: APPEARANCE_PC.bin2 was removed
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 24;
+const int EquipSlotCount = 25;
 
 typedef struct
 {
@@ -177,8 +179,6 @@ typedef struct
     byte hat2Visible;
     byte hat3Visible;
     short s2;
-
-    byte bin2[4];
 }
 APPEARANCE_PC;
 
@@ -510,6 +510,7 @@ int getPropertyType(int id)
         case 10620:
         case 32575:
         case 101000:
+        case 101822:
             return OBJP_STRING;
             break;
         default:

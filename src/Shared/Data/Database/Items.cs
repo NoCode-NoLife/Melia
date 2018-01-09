@@ -123,5 +123,6 @@ namespace Melia.Shared.Data.Database
 		Wing,
 		Artefact,
 		SpecialCostume,
+		EffectCostume,
 	}
 }

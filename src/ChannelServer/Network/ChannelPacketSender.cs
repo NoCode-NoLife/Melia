@@ -2180,13 +2180,16 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Notifies client that character doesn't have a guild?
+		/// Sends ZC_RESPONSE_GUILD_INDEX to client (dummy).
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_NO_GUILD_INDEX(Character character)
+		/// <param name="conn"></param>
+		public static void ZC_RESPONSE_GUILD_INDEX(Character character)
 		{
-			var packet = new Packet(Op.ZC_NO_GUILD_INDEX);
+			var packet = new Packet(Op.ZC_RESPONSE_GUILD_INDEX);
 			packet.PutInt(character.Handle);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutShort(1003);
 
 			character.Connection.Send(packet);
 		}
