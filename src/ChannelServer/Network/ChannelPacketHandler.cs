@@ -123,7 +123,7 @@ namespace Melia.Channel.Network
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			// ZC_NORMAL...
-			Send.ZC_NO_GUILD_INDEX(character);
+			//Send.ZC_NO_GUILD_INDEX(character); // (op removed)
 			// ZC_NO_GUILD_INDEX
 			// ZC_UPDATED_PCAPPEARANCE
 			// ZC_NORMAL
