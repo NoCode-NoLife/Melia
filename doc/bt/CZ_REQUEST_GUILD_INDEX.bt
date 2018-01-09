@@ -3,8 +3,8 @@
 //
 //      File: CZ_REQUEST_GUILD_INDEX
 //   Authors: exec
-//   Version: i174236
-//   Purpose: Spammed if ZC_NO_GUILD_INDEX isn't sent
+//   Version: i186893
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,5 +15,3 @@
 
 ClientHeaderFixed header;
 int64 l1;
-short s1;
-int i1;
