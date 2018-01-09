@@ -1531,6 +1531,27 @@ namespace Melia.Channel.Network
 					break;
 			}
 		}
+
+		/// <summary>
+		/// ? (Dummy)
+		/// </summary>
+		/// <remarks>
+		/// The client sends this packet repeatedly until it gets an
+		/// appropriate response.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
+		public void CZ_REQUEST_GUILD_INDEX(ChannelConnection conn, Packet packet)
+		{
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+
+			// ...
+
+			Send.ZC_RESPONSE_GUILD_INDEX(character);
+		}
 	}
 
 	public enum TxType : short

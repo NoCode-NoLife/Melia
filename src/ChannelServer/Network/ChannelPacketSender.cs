@@ -2179,6 +2179,21 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_RESPONSE_GUILD_INDEX to client (dummy).
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_RESPONSE_GUILD_INDEX(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESPONSE_GUILD_INDEX);
+			packet.PutInt(character.Handle);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutShort(1003);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
