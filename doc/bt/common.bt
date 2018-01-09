@@ -511,6 +511,7 @@ int getPropertyType(int id)
         case 10620:
         case 32575:
         case 101000:
+        case 101822:
             return OBJP_STRING;
             break;
         default:
