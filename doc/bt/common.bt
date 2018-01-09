@@ -22,6 +22,7 @@
 //   - i184075: APPEARANCE_PC.bin2 was added
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //   - i184075: COMMANDER.i2~5 were added
+//   - i184075: EquipSlotCount increased to 24 (special costume)
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
