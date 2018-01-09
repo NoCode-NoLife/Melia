@@ -23,13 +23,14 @@
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //   - i184075: COMMANDER.i2~5 were added
 //   - i184075: EquipSlotCount increased to 24 (special costume)
+//   - i186893: EquipSlotCount increased to 25 (effect costume)
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 24;
+const int EquipSlotCount = 25;
 
 typedef struct
 {
