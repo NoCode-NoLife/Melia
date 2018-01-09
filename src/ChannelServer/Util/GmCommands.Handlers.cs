@@ -485,6 +485,7 @@ namespace Melia.Channel.Util
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
 			// exp bar if the exp didn't change.
 			target.Exp = 0;
+			target.TotalExp = ChannelServer.Instance.Data.ExpDb.GetTotalExp(target.Level + levels);
 			target.LevelUp(levels);
 
 			if (sender == target)
