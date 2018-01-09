@@ -717,6 +717,22 @@ namespace Melia.Shared.Const
 			public const int EV171212_STEAM_RETURN_CHECK = 101908;
 			public const int EV171212_STEAM_BEGINNER_COSTUM_CHECK = 101909;
 			public const int EV171212_STEAM_BEGINNER_ACCOUNT_CHECK = 101910;
+			public const int COLLECT_314 = 101947;
+			public const int COLLECT_313 = 101948;
+			public const int COLLECT_315 = 101949;
+			public const int REWARD_5DAY_COUNT = 101964;
+			public const int REWARD_5DAY_NEXT = 101965;
+			public const int REWARD_5DAY_SELECT = 101966;
+			public const int EV180109_STEAM_BEGINNER_JOIN_CHECK = 101968;
+			public const int EV180109_STEAM_BEGINNER_COSTUM_CHECK = 101969;
+			public const int EV180109_STEAM_RETURN_JOIN_CHECK = 101970;
+			public const int EV180109_STEAM_RETURN_DAY_CHECK = 101971;
+			public const int EV180109_STEAM_RETURN_REWARD_CHECK = 101972;
+			public const int EV180109_STEAM_SETTLE_DAY_CHECK = 101973;
+			public const int EV180109_STEAM_SETTLE_RAND_REWARD = 101974;
+			public const int EV180109_STEAM_BEGINNER_ACCOUNT_CHECK = 101975;
+			public const int EV180109_STEAM_SETTLE_COUNT = 101976;
+			public const int EV180109_STEAM_SETTL_JOIN_CHECK = 101977;
 		}
 
 		public static class Monster
@@ -9052,6 +9068,41 @@ namespace Melia.Shared.Const
 			public const int Kill_M_boss_lepus_thorn = 101894;
 			public const int Kill_M_boss_Spector_F_thorn = 101895;
 			public const int Kill_M_boss_unicorn_thorn = 101896;
+			public const int HiddenJob_Char1_20 = 101915;
+			public const int Hide_2401 = 101916;
+			public const int Hide_2648 = 101917;
+			public const int Hide_2649 = 101918;
+			public const int Hide_2650 = 101919;
+			public const int Hide_2651 = 101920;
+			public const int Hide_2652 = 101921;
+			public const int Hide_2653 = 101922;
+			public const int Hide_2654 = 101923;
+			public const int Hide_2655 = 101924;
+			public const int Hide_2656 = 101925;
+			public const int Hide_2657 = 101926;
+			public const int Hide_2658 = 101927;
+			public const int Hide_2659 = 101928;
+			public const int Hide_2660 = 101929;
+			public const int Hide_2661 = 101930;
+			public const int Hide_2663 = 101931;
+			public const int Hide_2664 = 101932;
+			public const int Hide_2665 = 101933;
+			public const int Hide_2666 = 101934;
+			public const int Hide_2667 = 101935;
+			public const int CollectionRead_309 = 101950;
+			public const int CollectionRead_313 = 101951;
+			public const int CollectionRead_310 = 101952;
+			public const int CollectionRead_314 = 101953;
+			public const int HaveEmoticon_47 = 101954;
+			public const int HaveEmoticon_48 = 101955;
+			public const int HaveEmoticon_49 = 101956;
+			public const int HaveEmoticon_50 = 101957;
+			public const int HaveEmoticon_51 = 101958;
+			public const int HaveEmoticon_52 = 101959;
+			public const int CollectionRead_311 = 101960;
+			public const int CollectionRead_315 = 101961;
+			public const int CollectionRead_312 = 101962;
+			public const int Reward_id_catacomb_04_event = 101963;
 		}
 
 		public static class Item
@@ -15961,6 +16012,17 @@ namespace Melia.Shared.Const
 			public const int EVENT_JUMP_BOX_REWARD = 101863;
 			public const int CHRISTMAS_ARTEFACT_30D = 101864;
 			public const int EV171212_STEAM_BEGINNER_SESSION_CHECK = 101911;
+			public const int MG_Last_GFB_ROCKTORTUGA_01 = 101936;
+			public const int MG_Last_GFB_CACTUSVEL_01 = 101937;
+			public const int MG_Last_GFB_KURMIS_01 = 101938;
+			public const int MG_Last_GFB_BEBRASPION_01 = 101939;
+			public const int MG_Last_GFB_RITERIS_01 = 101940;
+			public const int String6 = 101941;
+			public const int MG_Last_GM_MISSION_D_CASTLE_01 = 101942;
+			public const int MG_Last_GFB_COLIMENCIA_01 = 101943;
+			public const int MG_Last_GFB_PANTOREX_01 = 101944;
+			public const int MG_Last_GFB_KIMELEECH_01 = 101945;
+			public const int EV180109_STEAM_BEGINNER_SESSION_CHECK = 101967;
 		}
 #pragma warning restore IDE1006
 	}
