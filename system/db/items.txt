@@ -3374,7 +3374,6 @@
 { itemId: 638002, className: "SpecialCostume_BulletMarker", name: "Tuned Fireworks", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "SpecialCostume", minLevel: 1 },
 { itemId: 638003, className: "SpecialCostume_Zealot", name: "Prophecy Wings", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "SpecialCostume", minLevel: 1 },
 { itemId: 638999, className: "SpecialCostume_Test", name: "Special Costume Test", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "SpecialCostume", minLevel: 1 },
-{ itemId: 640000, className: "Effect_SnowFlower", name: "White Snowflake Footprint", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "EffectCostume", minLevel: 1 },
 { itemId: 830000, className: "Hat_628030_Adv", name: "Explorer's Rosa Rugosa", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Hat", minLevel: 1 },
 { itemId: 830001, className: "Hat_628008_Adv", name: "Explorer's Fedora", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Hat", minLevel: 1 },
 { itemId: 830002, className: "Hat_628133_Adv", name: "Explorer's Red Flower Headgear", category: 3, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Hat", minLevel: 1 },
@@ -6089,6 +6088,7 @@
 { itemId: 902053, className: "Event_Steam_Happy_New_Year", name: "New Year's Soup (3 Days)", category: 7, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902057, className: "Scroll_Transform_Random_1day", name: "[Event] Transformation Scroll (1 Day)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902058, className: "Achieve_2018Happy_New_Year_Steam", name: "칭호 - 2018 Happy New Year", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902063, className: "Achieve_NewClassArtist_Steam", name: "칭호 - New Class Artist", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 910001, className: "Scroll_SkillItem", name: "Skill Scroll", category: 7, weight: 1, maxStack: 32767, price: 50, sellPrice: 5 },
 { itemId: 910004, className: "Zombie_Capsule", name: "좀비 캡슐", category: 7, weight: 1, maxStack: 32767, price: 300, sellPrice: 5 },
 
@@ -10164,6 +10164,7 @@
 { itemId: 637004, className: "Wing_Bat", name: "Bat Wings", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Wing", minLevel: 1 },
 { itemId: 637005, className: "Wing_Net", name: "Spider Web Wings", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Wing", minLevel: 1 },
 { itemId: 637007, className: "Wing_Ice", name: "Ice Crystal Wings", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Wing", minLevel: 1 },
+{ itemId: 640000, className: "Effect_SnowFlower", name: "White Snowflake Footprint", category: 9999, weight: 1, maxStack: 1, price: 0, sellPrice: 0, equipType1: "EffectCostume", minLevel: 1 },
 { itemId: 641942, className: "Event_1704_SilverBox", name: "Lottery Silver Chest (14-Days)", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 642601, className: "Gacha_F_001", name: "Abomination Cube", category: 9999, weight: 5, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 642602, className: "Gacha_F_002", name: "Obscene Deathweaver Cube", category: 9999, weight: 5, maxStack: 32767, price: 0, sellPrice: 0 },
