@@ -4396,4 +4396,5 @@
 { monsterId: 60018, className: "penguin_green", name: "Leaf Penguin", level: 40, exp: 268, classExp: 132, hp: 2448, defense: 0 },
 { monsterId: 60020, className: "penguin_marine", name: "Pengmarine", level: 40, exp: 80, classExp: 39, hp: 489, defense: 0 },
 { monsterId: 60023, className: "pet_sled", name: "Christmas Sled", level: 40, exp: 80, classExp: 39, hp: 391, defense: 0 },
+{ monsterId: 60025, className: "pet_goro_suit", name: "Goro", level: 60, exp: 83, classExp: 41, hp: 741, defense: 0 },
 ]
