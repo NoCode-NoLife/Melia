@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i186893
+//   Version: i188460
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1041,6 +1041,22 @@ string getPropertyName(int id)
         case 101975: return "EV180109_STEAM_BEGINNER_ACCOUNT_CHECK";
         case 101976: return "EV180109_STEAM_SETTLE_COUNT";
         case 101977: return "EV180109_STEAM_SETTL_JOIN_CHECK";
+        case 101978: return "AccountWareHouseExtendByItem";
+        case 101979: return "EVENT_1801_ORB_GIVE_DATE";
+        case 101980: return "EVENT_1801_ORB_SHOP1";
+        case 101981: return "EVENT_1801_ORB_SHOP2";
+        case 101982: return "EVENT_1801_ORB_SHOP3";
+        case 101983: return "EVENT_1801_ORB_SHOP4";
+        case 101984: return "EVENT_1801_ORB_SHOP5";
+        case 101985: return "EVENT_1801_ORB_SHOP6";
+        case 102021: return "EV180123_REWARDCOUNT";
+        case 102022: return "EV180123_MONCOUNT";
+        case 102023: return "EV180123_BUFFCOUNT";
+        case 102024: return "EV180123_BUFFDAY";
+        case 102025: return "EV180123_MAPNAME";
+        case 102026: return "EV180123_DAY";
+        case 102027: return "LEGEND_CARD_LIFT_TEAM_COMPLETE_COUNT";
+        case 102028: return "EV180123_BUFFLV";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9391,6 +9407,36 @@ string getPropertyName(int id)
         case 101961: return "CollectionRead_315";
         case 101962: return "CollectionRead_312";
         case 101963: return "Reward_id_catacomb_04_event";
+        case 101986: return "EquipCardExp_Slot13";
+        case 101987: return "LEVELINFORM_WEAPONCHANGE2";
+        case 101988: return "LEVELINFORM_WEAPONCHANGE6";
+        case 101989: return "LEVELINFORM_INDUNSTART";
+        case 101990: return "LEVELINFORM_NUNNERYMISSION";
+        case 101991: return "LEVELINFORM_WEAPONCHANGE4";
+        case 101992: return "LEVELINFORM_WEAPONCHANGE8";
+        case 101993: return "LEVELINFORM_CARDEQUIP";
+        case 101994: return "LEVELINFORM_REQUESTQUEST";
+        case 101995: return "LEVELINFORM_CHALLENGESTART";
+        case 101996: return "Kill_Pc_summon_Legend_card_Helgasercle";
+        case 101997: return "Kill_Pc_summon_Legend_card_Nuaelle";
+        case 101998: return "Kill_Pc_summon_Legend_card_Blud";
+        case 101999: return "LEVELINFORM_WEAPONCHANGE1";
+        case 102000: return "LEVELINFORM_WEAPONCHANGE5";
+        case 102001: return "LEVELINFORM_WEAPONCHANGE9";
+        case 102002: return "LEVELINFORM_REQUESTPARTY";
+        case 102003: return "LEVELINFORM_UNIQUERAID";
+        case 102004: return "Kill_Pc_summon_Legend_card_Mirtis";
+        case 102005: return "Kill_Pc_summon_Legend_card_Lecifer";
+        case 102006: return "Kill_Pc_summon_Legend_card_Marnoks";
+        case 102007: return "Kill_Pc_summon_Legend_card_Zawra";
+        case 102008: return "LEVELINFORM_WEAPONCHANGE3";
+        case 102009: return "LEVELINFORM_WEAPONCHANGE7";
+        case 102010: return "LEVELINFORM_REQUESTMISSION";
+        case 102011: return "LEVELINFORM_UPHILLDEFFENSE";
+        case 102012: return "EquipCardID_Slot13";
+        case 102013: return "IS_LEGEND_CARD_OPEN";
+        case 102014: return "EquipCardBelongingCount_Slot13";
+        case 102016: return "EquipCardLv_Slot13";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16299,6 +16345,10 @@ string getPropertyName(int id)
         case 101944: return "MG_Last_GFB_PANTOREX_01";
         case 101945: return "MG_Last_GFB_KIMELEECH_01";
         case 101967: return "EV180109_STEAM_BEGINNER_SESSION_CHECK";
+        case 102017: return "LEGEND_CARD_LIFT";
+        case 102018: return "EVENT_1801_SHINOBI_DATE";
+        case 102019: return "EVENT_1801_WIZARD_DATE";
+        case 102020: return "TUTO_REGEND_CARD";
         default: return "Unknown";
     }
 }

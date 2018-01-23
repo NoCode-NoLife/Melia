@@ -733,6 +733,22 @@ namespace Melia.Shared.Const
 			public const int EV180109_STEAM_BEGINNER_ACCOUNT_CHECK = 101975;
 			public const int EV180109_STEAM_SETTLE_COUNT = 101976;
 			public const int EV180109_STEAM_SETTL_JOIN_CHECK = 101977;
+			public const int AccountWareHouseExtendByItem = 101978;
+			public const int EVENT_1801_ORB_GIVE_DATE = 101979;
+			public const int EVENT_1801_ORB_SHOP1 = 101980;
+			public const int EVENT_1801_ORB_SHOP2 = 101981;
+			public const int EVENT_1801_ORB_SHOP3 = 101982;
+			public const int EVENT_1801_ORB_SHOP4 = 101983;
+			public const int EVENT_1801_ORB_SHOP5 = 101984;
+			public const int EVENT_1801_ORB_SHOP6 = 101985;
+			public const int EV180123_REWARDCOUNT = 102021;
+			public const int EV180123_MONCOUNT = 102022;
+			public const int EV180123_BUFFCOUNT = 102023;
+			public const int EV180123_BUFFDAY = 102024;
+			public const int EV180123_MAPNAME = 102025;
+			public const int EV180123_DAY = 102026;
+			public const int LEGEND_CARD_LIFT_TEAM_COMPLETE_COUNT = 102027;
+			public const int EV180123_BUFFLV = 102028;
 		}
 
 		public static class Monster
@@ -9103,6 +9119,36 @@ namespace Melia.Shared.Const
 			public const int CollectionRead_315 = 101961;
 			public const int CollectionRead_312 = 101962;
 			public const int Reward_id_catacomb_04_event = 101963;
+			public const int EquipCardExp_Slot13 = 101986;
+			public const int LEVELINFORM_WEAPONCHANGE2 = 101987;
+			public const int LEVELINFORM_WEAPONCHANGE6 = 101988;
+			public const int LEVELINFORM_INDUNSTART = 101989;
+			public const int LEVELINFORM_NUNNERYMISSION = 101990;
+			public const int LEVELINFORM_WEAPONCHANGE4 = 101991;
+			public const int LEVELINFORM_WEAPONCHANGE8 = 101992;
+			public const int LEVELINFORM_CARDEQUIP = 101993;
+			public const int LEVELINFORM_REQUESTQUEST = 101994;
+			public const int LEVELINFORM_CHALLENGESTART = 101995;
+			public const int Kill_Pc_summon_Legend_card_Helgasercle = 101996;
+			public const int Kill_Pc_summon_Legend_card_Nuaelle = 101997;
+			public const int Kill_Pc_summon_Legend_card_Blud = 101998;
+			public const int LEVELINFORM_WEAPONCHANGE1 = 101999;
+			public const int LEVELINFORM_WEAPONCHANGE5 = 102000;
+			public const int LEVELINFORM_WEAPONCHANGE9 = 102001;
+			public const int LEVELINFORM_REQUESTPARTY = 102002;
+			public const int LEVELINFORM_UNIQUERAID = 102003;
+			public const int Kill_Pc_summon_Legend_card_Mirtis = 102004;
+			public const int Kill_Pc_summon_Legend_card_Lecifer = 102005;
+			public const int Kill_Pc_summon_Legend_card_Marnoks = 102006;
+			public const int Kill_Pc_summon_Legend_card_Zawra = 102007;
+			public const int LEVELINFORM_WEAPONCHANGE3 = 102008;
+			public const int LEVELINFORM_WEAPONCHANGE7 = 102009;
+			public const int LEVELINFORM_REQUESTMISSION = 102010;
+			public const int LEVELINFORM_UPHILLDEFFENSE = 102011;
+			public const int EquipCardID_Slot13 = 102012;
+			public const int IS_LEGEND_CARD_OPEN = 102013;
+			public const int EquipCardBelongingCount_Slot13 = 102014;
+			public const int EquipCardLv_Slot13 = 102016;
 		}
 
 		public static class Item
@@ -16023,6 +16069,10 @@ namespace Melia.Shared.Const
 			public const int MG_Last_GFB_PANTOREX_01 = 101944;
 			public const int MG_Last_GFB_KIMELEECH_01 = 101945;
 			public const int EV180109_STEAM_BEGINNER_SESSION_CHECK = 101967;
+			public const int LEGEND_CARD_LIFT = 102017;
+			public const int EVENT_1801_SHINOBI_DATE = 102018;
+			public const int EVENT_1801_WIZARD_DATE = 102019;
+			public const int TUTO_REGEND_CARD = 102020;
 		}
 #pragma warning restore IDE1006
 	}
