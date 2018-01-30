@@ -749,6 +749,14 @@ namespace Melia.Shared.Const
 			public const int EV180123_DAY = 102026;
 			public const int LEGEND_CARD_LIFT_TEAM_COMPLETE_COUNT = 102027;
 			public const int EV180123_BUFFLV = 102028;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_4 = 102029;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_3 = 102030;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_5 = 102031;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_1 = 102032;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_2 = 102033;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_7 = 102034;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_8 = 102035;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_6 = 102036;
 		}
 
 		public static class Monster
