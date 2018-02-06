@@ -510,7 +510,7 @@
 
 // Enchanter
 //---------------------------------------------------------------------------
-{ category: "Enchanter", jobId: 2018, abilityId: 215001, name: "Craft Inchant Round", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 1)' },
+{ category: "Enchanter", jobId: 2018, abilityId: 215001, name: "Craft Enchant Round", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 1)' },
 { category: "Enchanter", jobId: 2018, abilityId: 215004, name: "Lightning Hands: Magic Shock", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 2)' },
 
 // Archer

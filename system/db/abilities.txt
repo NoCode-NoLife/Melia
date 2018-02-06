@@ -554,7 +554,7 @@
 { id: 214005, className: "RuneCaster5", engName: "Rune of Justice: Enhance", level: 1, passive: true },
 { id: 214006, className: "RuneCaster6", engName: "Rune of Protection: Critical Resistance", level: 1, passive: false },
 { id: 214007, className: "RuneCaster7", engName: "Rune of Protection: Knockdown Resistance", level: 1, passive: false },
-{ id: 215001, className: "Enchanter_Bomb", engName: "Craft Inchant Round", level: 1, passive: true },
+{ id: 215001, className: "Enchanter_Bomb", engName: "Craft Enchant Round", level: 1, passive: true },
 { id: 215002, className: "Enchanter1", engName: "Magic Powder: Enhance", level: 1, passive: true },
 { id: 215003, className: "Enchanter2", engName: "Magic Powder: Duration", level: 1, passive: false },
 { id: 215004, className: "Enchanter3", engName: "Lightning Hands: Magic Shock", level: 1, passive: false },
