@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i189194
+//   Version: i190059
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1065,6 +1065,27 @@ string getPropertyName(int id)
         case 102034: return "EV180130_STEAM_NIGHT_MARKET_SHOP_7";
         case 102035: return "EV180130_STEAM_NIGHT_MARKET_SHOP_8";
         case 102036: return "EV180130_STEAM_NIGHT_MARKET_SHOP_6";
+        case 102048: return "EV180206_VALENTINE_DAY";
+        case 102049: return "EV180206_VALENTINE_REWARD";
+        case 102050: return "EV180206_VALENTINE_MAP";
+        case 102051: return "EV2018_STEAM_RETURN_CHECK";
+        case 102052: return "EV2018_STEAM_DAYDAY_CHECK";
+        case 102053: return "EV2018_STEAM_DAYDAY_COUNT";
+        case 102054: return "EV2018_STEAM_GUIDE_CHECK";
+        case 102055: return "EVENT_1802_NEWYEAR_TRADE_COUNT6";
+        case 102056: return "EVENT_1802_NEWYEAR_TRADE_COUNT11";
+        case 102057: return "EVENT_1802_NEWYEAR_TRADE_COUNT8";
+        case 102058: return "EVENT_1802_NEWYEAR_TRADE_COUNT2";
+        case 102059: return "EVENT_1802_NEWYEAR_TRADE_COUNT10";
+        case 102060: return "EVENT_1802_NEWYEAR_FORTUNEPOUCH_DATE";
+        case 102061: return "EVENT_1802_NEWYEAR_TRADE_COUNT4";
+        case 102062: return "EVENT_1802_NEWYEAR_TRADE_COUNT1";
+        case 102063: return "EVENT_1802_NEWYEAR_TRADE_COUNT3";
+        case 102064: return "EVENT_1802_NEWYEAR_TRADE_COUNT12";
+        case 102065: return "EVENT_1802_NEWYEAR_TRADE_COUNT5";
+        case 102066: return "EVENT_1802_NEWYEAR_TRADE_COUNT7";
+        case 102067: return "EVENT_1802_NEWYEAR_TRADE_COUNT9";
+        case 102068: return "EV2018_STEAM_DAYDAY_LOG";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2180,6 +2201,14 @@ string getPropertyName(int id)
         case 101840: return "Strike_Atk";
         case 101841: return "Slash_Atk_BM";
         case 101856: return "FixedMinSDR_BM";
+        case 102037: return "PATK_MAIN_RATE_BM";
+        case 102038: return "MAXPATK_MAIN_BM";
+        case 102039: return "MINPATK_MAIN_RATE_BM";
+        case 102040: return "PATK_MAIN_BM";
+        case 102041: return "MINPATK_MAIN_BM";
+        case 102042: return "PATK_SUB_RATE_BM";
+        case 102043: return "MAXPATK_MAIN_RATE_BM";
+        case 102044: return "PATK_SUB_BM";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -9445,6 +9474,8 @@ string getPropertyName(int id)
         case 102013: return "IS_LEGEND_CARD_OPEN";
         case 102014: return "EquipCardBelongingCount_Slot13";
         case 102016: return "EquipCardLv_Slot13";
+        case 102045: return "IndunWeeklyResetTime";
+        case 102046: return "IndunWeeklyEnteredCount_400";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -9821,6 +9852,7 @@ string getPropertyName(int id)
         case 101258: return "RandomOptionValue_3";
         case 101259: return "RandomOptionValue_5";
         case 101260: return "RandomOptionValue_1";
+        case 102047: return "ReopenDiscountRatio";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";

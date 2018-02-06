@@ -757,6 +757,27 @@ namespace Melia.Shared.Const
 			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_7 = 102034;
 			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_8 = 102035;
 			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_6 = 102036;
+			public const int EV180206_VALENTINE_DAY = 102048;
+			public const int EV180206_VALENTINE_REWARD = 102049;
+			public const int EV180206_VALENTINE_MAP = 102050;
+			public const int EV2018_STEAM_RETURN_CHECK = 102051;
+			public const int EV2018_STEAM_DAYDAY_CHECK = 102052;
+			public const int EV2018_STEAM_DAYDAY_COUNT = 102053;
+			public const int EV2018_STEAM_GUIDE_CHECK = 102054;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT6 = 102055;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT11 = 102056;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT8 = 102057;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT2 = 102058;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT10 = 102059;
+			public const int EVENT_1802_NEWYEAR_FORTUNEPOUCH_DATE = 102060;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT4 = 102061;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT1 = 102062;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT3 = 102063;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT12 = 102064;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT5 = 102065;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT7 = 102066;
+			public const int EVENT_1802_NEWYEAR_TRADE_COUNT9 = 102067;
+			public const int EV2018_STEAM_DAYDAY_LOG = 102068;
 		}
 
 		public static class Monster
@@ -1888,6 +1909,14 @@ namespace Melia.Shared.Const
 			public const int Strike_Atk = 101840;
 			public const int Slash_Atk_BM = 101841;
 			public const int FixedMinSDR_BM = 101856;
+			public const int PATK_MAIN_RATE_BM = 102037;
+			public const int MAXPATK_MAIN_BM = 102038;
+			public const int MINPATK_MAIN_RATE_BM = 102039;
+			public const int PATK_MAIN_BM = 102040;
+			public const int MINPATK_MAIN_BM = 102041;
+			public const int PATK_SUB_RATE_BM = 102042;
+			public const int MAXPATK_MAIN_RATE_BM = 102043;
+			public const int PATK_SUB_BM = 102044;
 		}
 
 		public static class PCEtc
@@ -9157,6 +9186,8 @@ namespace Melia.Shared.Const
 			public const int IS_LEGEND_CARD_OPEN = 102013;
 			public const int EquipCardBelongingCount_Slot13 = 102014;
 			public const int EquipCardLv_Slot13 = 102016;
+			public const int IndunWeeklyResetTime = 102045;
+			public const int IndunWeeklyEnteredCount_400 = 102046;
 		}
 
 		public static class Item
@@ -9537,6 +9568,7 @@ namespace Melia.Shared.Const
 			public const int RandomOptionValue_3 = 101258;
 			public const int RandomOptionValue_5 = 101259;
 			public const int RandomOptionValue_1 = 101260;
+			public const int ReopenDiscountRatio = 102047;
 		}
 
 		public static class Party
