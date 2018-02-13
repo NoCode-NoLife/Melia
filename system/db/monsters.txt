@@ -4399,4 +4399,5 @@
 { monsterId: 60023, className: "pet_sled", name: "Christmas Sled", level: 40, exp: 80, classExp: 39, hp: 391, defense: 0 },
 { monsterId: 60025, className: "pet_goro_suit", name: "Goro", level: 60, exp: 83, classExp: 41, hp: 741, defense: 0 },
 { monsterId: 60026, className: "Pet_Golddog", name: "Golden Dog", level: 60, exp: 83, classExp: 41, hp: 741, defense: 0 },
+{ monsterId: 60027, className: "pet_winter_penguine", name: "Golden Pup", level: 60, exp: 83, classExp: 41, hp: 741, defense: 0 },
 ]
