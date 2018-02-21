@@ -32,7 +32,7 @@ namespace Melia.Login.Network
 			var b2 = packet.GetByte();
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var bin2 = packet.GetBin(4360);
+			var bin2 = packet.GetBin(4368);
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 
