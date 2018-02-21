@@ -11,7 +11,7 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 4449
+		public const int CB_LOGIN = 0x03; // Size: 4457
 		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1154
 		public const int CB_LOGOUT = 0x05; // Size: 10
 		public const int CB_START_BARRACK = 0x06; // Size: 11
@@ -651,7 +651,7 @@ namespace Melia.Shared.Network
 		public const int CZ_FIXED_NOTICE_SHOW = 0xE31; // Size: 10
 		public const int CZ_SAGE_SKILL_GO_FRIEND = 0xE32; // Size: 90
 		public const int CZ_REQUEST_CHANGE_NAME = 0xE33; // Size: 66
-		public const int CZ_REQUEST_CHANGE_PET_NAME = 0xE34; // Size: 42
+		public const int CZ_REQUEST_CHANGE_PET_NAME = 0xE34; // Size: 50
 		public const int CZ_CYOU_CTU_CLIENT_MSG = 0xE35; // Size: 1054
 		public const int ZC_CYOU_KICK_USER_EXIT_CLIENT = 0xE37; // Size: 10
 		public const int ZC_HOLD_EXP_BOOK_TIME = 0xE38; // Size: 25
@@ -721,13 +721,14 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_PARTY_INFO = 0xE78; // Size: 10
 		public const int CZ_ANS_GIVEUP_PREV_PLAYING_INDUN = 0xE79; // Size: 11
 		public const int CZ_REQ_RETURN_ORIGIN_SERVER = 0xE7A; // Size: 10
+		public const int CZ_BADPLAYER_REPORT = 0xE7B; // Size: 146
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
 
 		static Op()
 		{
-			_sizes[CB_LOGIN] = 4449;
+			_sizes[CB_LOGIN] = 4457;
 			_sizes[CB_LOGIN_BY_PASSPORT] = 1154;
 			_sizes[CB_LOGOUT] = 10;
 			_sizes[CB_START_BARRACK] = 11;
@@ -1367,7 +1368,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_FIXED_NOTICE_SHOW] = 10;
 			_sizes[CZ_SAGE_SKILL_GO_FRIEND] = 90;
 			_sizes[CZ_REQUEST_CHANGE_NAME] = 66;
-			_sizes[CZ_REQUEST_CHANGE_PET_NAME] = 42;
+			_sizes[CZ_REQUEST_CHANGE_PET_NAME] = 50;
 			_sizes[CZ_CYOU_CTU_CLIENT_MSG] = 1054;
 			_sizes[ZC_CYOU_KICK_USER_EXIT_CLIENT] = 10;
 			_sizes[ZC_HOLD_EXP_BOOK_TIME] = 25;
@@ -1437,6 +1438,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_REQ_PARTY_INFO] = 10;
 			_sizes[CZ_ANS_GIVEUP_PREV_PLAYING_INDUN] = 11;
 			_sizes[CZ_REQ_RETURN_ORIGIN_SERVER] = 10;
+			_sizes[CZ_BADPLAYER_REPORT] = 146;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
