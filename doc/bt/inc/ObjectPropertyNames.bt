@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i190059
+//   Version: i191615
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1086,6 +1086,14 @@ string getPropertyName(int id)
         case 102066: return "EVENT_1802_NEWYEAR_TRADE_COUNT7";
         case 102067: return "EVENT_1802_NEWYEAR_TRADE_COUNT9";
         case 102068: return "EV2018_STEAM_DAYDAY_LOG";
+        case 102146: return "EVENT_1802_MASTER_GIVE_DATE";
+        case 102154: return "EVENT_KOR_Fortunecookie_COUNT";
+        case 102178: return "EV180220_LAST_WINTER_TIME_CHECK";
+        case 102179: return "EV180220_LAST_WINTER_KEY_CHECK";
+        case 102180: return "EV180220_LAST_WINTER_DAY_CHECK";
+        case 102181: return "EV180220_LAST_WINTER_EGG_CHECK";
+        case 102182: return "EV_7DAY_COUNT";
+        case 102183: return "EV_7DAY_DAY";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9476,6 +9484,40 @@ string getPropertyName(int id)
         case 102016: return "EquipCardLv_Slot13";
         case 102045: return "IndunWeeklyResetTime";
         case 102046: return "IndunWeeklyEnteredCount_400";
+        case 102083: return "MASTER_SCOUT1_TRACK";
+        case 102084: return "MASTER_FLETCHER1_TRACK";
+        case 102085: return "AchieveStatReward_Grade";
+        case 102086: return "MASTER_HIGHLANDER2_3_TRACK";
+        case 102087: return "MASTER_ICEMAGE1_TRACK";
+        case 102088: return "MASTER_LANCER1_TRACK";
+        case 102089: return "MASTER_CRYOMANCER2_2_TRACK";
+        case 102090: return "MASTER_HUNTER1_3_TRACK";
+        case 102091: return "MASTER_FIREMAGE1_TRACK";
+        case 102092: return "MASTER_WUGUSHI1_TRACK";
+        case 102093: return "SUBMASTER_LINKER1_2_TRACK";
+        case 102094: return "MASTER_PELTASTA2_3_TRACK";
+        case 102095: return "MASTER_SAPPER1_1_TRACK";
+        case 102096: return "MASTER_HUNTER1_1_TRACK";
+        case 102097: return "MASTER_RANGER2_2_TRACK";
+        case 102098: return "MASTER_SQUIRE1_TRACK";
+        case 102099: return "MASTER_QUARRELSHOOTER1_TRACK";
+        case 102100: return "MASTER_HOPLITE1_TRACK";
+        case 102147: return "HiddenJob_Char2_20";
+        case 102148: return "InDunCountType_8000";
+        case 102149: return "HiddenJob_Char1_18";
+        case 102165: return "JOB_ONMYOJI_Q1_TRACK";
+        case 102166: return "Hide_2672";
+        case 102167: return "Hide_2676";
+        case 102168: return "Hide_2680";
+        case 102169: return "Hide_2668";
+        case 102170: return "Hide_2669";
+        case 102171: return "Hide_2673";
+        case 102172: return "Hide_2677";
+        case 102173: return "Hide_2681";
+        case 102174: return "JOB_RETIARII1_TRACK";
+        case 102175: return "Hide_2670";
+        case 102176: return "Hide_2674";
+        case 102177: return "Hide_2678";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16389,6 +16431,79 @@ string getPropertyName(int id)
         case 102018: return "EVENT_1801_SHINOBI_DATE";
         case 102019: return "EVENT_1801_WIZARD_DATE";
         case 102020: return "TUTO_REGEND_CARD";
+        case 102069: return "JS_Quest_Reward_ABBAY_64_3_MQ050";
+        case 102070: return "JS_Quest_Reward_FLASH_29_1_SQ_070";
+        case 102071: return "JS_Quest_Reward_CASTLE65_3_MQ09";
+        case 102072: return "JS_Quest_Reward_UNDERFORTRESS_69_MQ060";
+        case 102073: return "JS_Quest_Reward_F_DCAPITAL_20_6_SQ_110";
+        case 102074: return "JS_Quest_Reward_ZACHA5F_MQ_05";
+        case 102075: return "JS_Quest_Reward_CMINE6_TO_KATYN7_2";
+        case 102076: return "JS_Quest_Reward_CASTLE_20_1_SQ_10";
+        case 102077: return "JS_Quest_Reward_PRISON_82_MQ_11";
+        case 102078: return "JS_Quest_Reward_FTOWER45_MQ_06";
+        case 102079: return "JS_Quest_Reward_REMAINS37_1_SQ_080";
+        case 102080: return "JS_Quest_Reward_KATYN_45_3_SQ_14";
+        case 102081: return "JS_Quest_Reward_CHAPLE577_MQ_10";
+        case 102082: return "JS_Quest_Reward_VPRISON515_MQ_07";
+        case 102101: return "MASTER_SAPPER1_1";
+        case 102102: return "MASTER_HIGHLANDER2_3";
+        case 102103: return "MASTER_PELTASTA2_3";
+        case 102104: return "MASTER_HUNTER1_3";
+        case 102105: return "MASTER_LANCER1";
+        case 102106: return "MASTER_PELTASTA2_1";
+        case 102107: return "MASTER_CORSAIR1";
+        case 102108: return "MASTER_HUNTER1_1";
+        case 102109: return "MASTER_HIGHLANDER2_2";
+        case 102110: return "MASTER_PSYCHOKINO1";
+        case 102111: return "MASTER_DRAGOON1";
+        case 102112: return "SUBMASTER_LINKER1_2";
+        case 102113: return "MASTER_SAPPER1_3";
+        case 102114: return "MASTER_WUGUSHI1";
+        case 102115: return "MASTER_FIREMAGE1";
+        case 102116: return "MASTER_SQUIRE2";
+        case 102117: return "MASTER_RANGER2_2";
+        case 102118: return "MASTER_HIGHLANDER2_1";
+        case 102119: return "MASTER_CHRONO1";
+        case 102120: return "MASTER_HIGHLANDER2_4";
+        case 102121: return "MASTER_ROGUE1";
+        case 102122: return "MASTER_PELTASTA2_4";
+        case 102123: return "MASTER_RANGER2_1";
+        case 102124: return "MASTER_SAGE1";
+        case 102125: return "MASTER_SORCERER1";
+        case 102126: return "MASTER_RANGER1";
+        case 102127: return "MASTER_ALCHEMIST1";
+        case 102128: return "MASTER_HOPLITE1";
+        case 102129: return "MASTER_QUARRELSHOOTER1";
+        case 102130: return "SUBMASTER_LINKER1_1";
+        case 102131: return "MASTER_CRYOMANCER2_1";
+        case 102132: return "MASTER_CRYOMANCER2_2";
+        case 102133: return "MASTER_SAPPER1_4";
+        case 102134: return "MASTER_HUNTER1_4";
+        case 102135: return "MASTER_SAPPER1_2";
+        case 102136: return "MASTER_PELTASTA2_2";
+        case 102137: return "MASTER_FLETCHER1";
+        case 102138: return "MASTER_ICEMAGE1";
+        case 102139: return "MASTER_HIGHLANDER1_1";
+        case 102140: return "MASTER_PELTASTA1_1";
+        case 102141: return "MASTER_PELTASTA1_2";
+        case 102142: return "MASTER_HIGHLANDER1_2";
+        case 102143: return "MASTER_SQUIRE1";
+        case 102144: return "MASTER_HUNTER1_2";
+        case 102145: return "MASTER_SCOUT1";
+        case 102150: return "MG_Last_EVENT_1802_MASTER_MISSION4";
+        case 102151: return "MG_Last_EVENT_1802_MASTER_MISSION3";
+        case 102152: return "MG_Last_EVENT_1802_MASTER_MISSION1";
+        case 102153: return "MG_Last_EVENT_1802_MASTER_MISSION2";
+        case 102155: return "JOB_RETIARII1_R";
+        case 102156: return "JOB_RETIARII1_FC";
+        case 102157: return "JOB_RETIARII1";
+        case 102158: return "JOB_RETIARII1_PI";
+        case 102159: return "JOB_RETIARII1_SRL";
+        case 102160: return "JOB_ONMYOJI_Q1_PI";
+        case 102161: return "JOB_ONMYOJI_Q1_FC";
+        case 102162: return "JOB_ONMYOJI_Q1_SRL";
+        case 102163: return "JOB_ONMYOJI_Q1_R";
+        case 102164: return "JOB_ONMYOJI_Q1";
         default: return "Unknown";
     }
 }
