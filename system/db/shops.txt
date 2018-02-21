@@ -120,6 +120,7 @@
 { shopName: "Master_Alchemist", productId: 1404, itemId: 640025, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1405, itemId: 640027, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1406, itemId: 640030, priceMultiplier: 1 },
+{ shopName: "Master_Alchemist", productId: 1407, itemId: 690057, priceMultiplier: 1 },
 
 { shopName: "Master_Wugushi", productId: 1501, itemId: 645569, priceMultiplier: 1 },
 
@@ -233,7 +234,7 @@
 
 { shopName: "Master_Inquisitor", productId: 3901, itemId: 645924, priceMultiplier: 1 },
 
-{ shopName: "Master_Appraiser", productId: 4001, itemId: 646044, priceMultiplier: 1 },
+{ shopName: "Master_Appraiser", productId: 4051, itemId: 646044, priceMultiplier: 1 },
 
 { shopName: "Skill_Misc_Shop_Warrior", productId: 4100, itemId: 645525, priceMultiplier: 1 },
 { shopName: "Skill_Misc_Shop_Warrior", productId: 4101, itemId: 645534, priceMultiplier: 1 },
@@ -344,6 +345,8 @@
 { shopName: "Shop_Armor_Normal_270_315", productId: 5123, itemId: 521211, priceMultiplier: 1 },
 { shopName: "Shop_Armor_Normal_270_315", productId: 5124, itemId: 511211, priceMultiplier: 1 },
 { shopName: "Shop_Armor_Normal_270_315", productId: 5125, itemId: 501211, priceMultiplier: 1 },
+
+{ shopName: "Event_Shop_Moru", productId: 5201, itemId: 643002, priceMultiplier: 1 },
 
 { shopName: "Fish_Shop_Manager", productId: 5400, itemId: 730000, priceMultiplier: 1 },
 { shopName: "Fish_Shop_Manager", productId: 5401, itemId: 730200, priceMultiplier: 1 },
