@@ -16,6 +16,7 @@ install:
   - wget http://aura-project.org/xunit.runners.1.9.2.zip
   - unzip xunit.runners.1.9.2.zip
 script:
-  - xbuild /p:Configuration=Release Melia.sln
+  #- xbuild /p:Configuration=Release Melia.sln
+  - msbuild Melia.sln /property:Configuration=Release
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.ChannelServer/bin/Release/Test.ChannelServer.dll
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.Shared/bin/Release/Test.Shared.dll
