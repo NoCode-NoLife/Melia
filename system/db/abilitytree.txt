@@ -283,7 +283,7 @@
 { category: "Lancer", jobId: 1017, abilityId: 10016, name: "Companion Riding", maxLevel: 1, price: 0, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116001, name: "Lancer: Knockdown Chance", maxLevel: 30, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116002, name: "Crush: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
-{ category: "Lancer", jobId: 1017, abilityId: 116003, name: "Crush: Gear Destroy", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
+{ category: "Lancer", jobId: 1017, abilityId: 116003, name: "Crush: Destroy Equipment", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116006, name: "Joust: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116007, name: "Unhorsing: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },
 { category: "Lancer", jobId: 1017, abilityId: 116008, name: "Quintain: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_17", 1)' },

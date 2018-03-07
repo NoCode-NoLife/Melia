@@ -308,7 +308,7 @@
 { id: 115016, className: "Murmillo16", engName: "Scutum Hit: Wide Area Attack", level: 1, passive: false },
 { id: 116001, className: "Lancer1", engName: "Lancer: Knockdown Chance", level: 1, passive: false },
 { id: 116002, className: "Lancer2", engName: "Crush: Enhance", level: 1, passive: true },
-{ id: 116003, className: "Lancer3", engName: "Crush: Gear Destroy", level: 1, passive: false },
+{ id: 116003, className: "Lancer3", engName: "Crush: Destroy Equipment", level: 1, passive: false },
 { id: 116004, className: "Lancer4", engName: "Head Strike: Enhance", level: 1, passive: true },
 { id: 116005, className: "Lancer5", engName: "Head Strike: Stun", level: 1, passive: false },
 { id: 116006, className: "Lancer6", engName: "Joust: Enhance", level: 1, passive: true },
