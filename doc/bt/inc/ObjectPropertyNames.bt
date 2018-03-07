@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i191615
+//   Version: i192760
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1094,6 +1094,30 @@ string getPropertyName(int id)
         case 102181: return "EV180220_LAST_WINTER_EGG_CHECK";
         case 102182: return "EV_7DAY_COUNT";
         case 102183: return "EV_7DAY_DAY";
+        case 102188: return "BarrackLayer3_6";
+        case 102189: return "BarrackLayer3_9";
+        case 102190: return "BarrackLayer3_3";
+        case 102191: return "EVENT_1803_NEWCLASS_RTA_TEAM_COUNT";
+        case 102192: return "EVENT_1803_NEWCHARACTER_ABILITY_BOX_DATE";
+        case 102193: return "EVENT_1803_NEWCLASS_OMJ_TEAM_COUNT";
+        case 102194: return "EVENT_1803_NEWCHARACTER_REWARD_COUNT";
+        case 102195: return "BarrackLayer3_2";
+        case 102196: return "BarrackLayer3_5";
+        case 102197: return "BarrackLayer3_8";
+        case 102198: return "BarrackLayer3_10";
+        case 102199: return "BarrackLayer3_11";
+        case 102200: return "BarrackLayer3_14";
+        case 102201: return "BarrackLayer3_12";
+        case 102202: return "BarrackLayer3_16";
+        case 102203: return "BarrackLayer3_1";
+        case 102204: return "BarrackLayer3_4";
+        case 102205: return "BarrackLayer3_13";
+        case 102206: return "BarrackLayer3_15";
+        case 102207: return "BarrackLayer3_7";
+        case 102212: return "GACHA_TP_BOUNS";
+        case 102213: return "GACHA_HAIRACC_COUNT";
+        case 102214: return "GACHA_HAIRACC_BOUNS";
+        case 102215: return "GACHA_TP_COUNT";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9518,6 +9542,10 @@ string getPropertyName(int id)
         case 102175: return "Hide_2670";
         case 102176: return "Hide_2674";
         case 102177: return "Hide_2678";
+        case 102208: return "Kill_Raid_boss_Velcoffer";
+        case 102209: return "Kill_Gagoyle_purple";
+        case 102210: return "Kill_d_raid_boss_RytaSwort_minimal";
+        case 102211: return "InDunRewardCountType_400";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16504,6 +16532,10 @@ string getPropertyName(int id)
         case 102162: return "JOB_ONMYOJI_Q1_SRL";
         case 102163: return "JOB_ONMYOJI_Q1_R";
         case 102164: return "JOB_ONMYOJI_Q1";
+        case 102184: return "EVENT_1803_NEWCLASS_OMJ_PC_COUNT";
+        case 102185: return "EVENT_1803_NEWCLASS_RTA_PC_COUNT";
+        case 102186: return "EVENT_1803_NEWCHARACTER_CHECK";
+        case 102187: return "MG_Last_RAID_VELCOPFFER_RARE_MINI";
         default: return "Unknown";
     }
 }

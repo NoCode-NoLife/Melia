@@ -786,6 +786,30 @@ namespace Melia.Shared.Const
 			public const int EV180220_LAST_WINTER_EGG_CHECK = 102181;
 			public const int EV_7DAY_COUNT = 102182;
 			public const int EV_7DAY_DAY = 102183;
+			public const int BarrackLayer3_6 = 102188;
+			public const int BarrackLayer3_9 = 102189;
+			public const int BarrackLayer3_3 = 102190;
+			public const int EVENT_1803_NEWCLASS_RTA_TEAM_COUNT = 102191;
+			public const int EVENT_1803_NEWCHARACTER_ABILITY_BOX_DATE = 102192;
+			public const int EVENT_1803_NEWCLASS_OMJ_TEAM_COUNT = 102193;
+			public const int EVENT_1803_NEWCHARACTER_REWARD_COUNT = 102194;
+			public const int BarrackLayer3_2 = 102195;
+			public const int BarrackLayer3_5 = 102196;
+			public const int BarrackLayer3_8 = 102197;
+			public const int BarrackLayer3_10 = 102198;
+			public const int BarrackLayer3_11 = 102199;
+			public const int BarrackLayer3_14 = 102200;
+			public const int BarrackLayer3_12 = 102201;
+			public const int BarrackLayer3_16 = 102202;
+			public const int BarrackLayer3_1 = 102203;
+			public const int BarrackLayer3_4 = 102204;
+			public const int BarrackLayer3_13 = 102205;
+			public const int BarrackLayer3_15 = 102206;
+			public const int BarrackLayer3_7 = 102207;
+			public const int GACHA_TP_BOUNS = 102212;
+			public const int GACHA_HAIRACC_COUNT = 102213;
+			public const int GACHA_HAIRACC_BOUNS = 102214;
+			public const int GACHA_TP_COUNT = 102215;
 		}
 
 		public static class Monster
@@ -9230,6 +9254,10 @@ namespace Melia.Shared.Const
 			public const int Hide_2670 = 102175;
 			public const int Hide_2674 = 102176;
 			public const int Hide_2678 = 102177;
+			public const int Kill_Raid_boss_Velcoffer = 102208;
+			public const int Kill_Gagoyle_purple = 102209;
+			public const int Kill_d_raid_boss_RytaSwort_minimal = 102210;
+			public const int InDunRewardCountType_400 = 102211;
 		}
 
 		public static class Item
@@ -16228,6 +16256,10 @@ namespace Melia.Shared.Const
 			public const int JOB_ONMYOJI_Q1_SRL = 102162;
 			public const int JOB_ONMYOJI_Q1_R = 102163;
 			public const int JOB_ONMYOJI_Q1 = 102164;
+			public const int EVENT_1803_NEWCLASS_OMJ_PC_COUNT = 102184;
+			public const int EVENT_1803_NEWCLASS_RTA_PC_COUNT = 102185;
+			public const int EVENT_1803_NEWCHARACTER_CHECK = 102186;
+			public const int MG_Last_RAID_VELCOPFFER_RARE_MINI = 102187;
 		}
 #pragma warning restore IDE1006
 	}
