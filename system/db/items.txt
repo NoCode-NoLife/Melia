@@ -6128,6 +6128,7 @@
 { itemId: 900380, className: "Gacha_img_vote_ev", name: "Illustration Contest Cube", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 900387, className: "Achieve_GivingShade", name: "Title - Giving Shade", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 900409, className: "161215Event_Seed_EVENT_1710_NEWCHARACTER", name: "[E-Run] Miracle Seeds", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 900411, className: "Drug_Event_Looting_Potion_14d", name: "Looting Chance Potion (14 Days)", category: 7, weight: 5, maxStack: 32767, price: 0, sellPrice: 25 },
 { itemId: 902000, className: "Event_1710_Thanksgiving_Coin", name: "Pitch-pot", category: 7, weight: 1, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902001, className: "Event_1709_NewField_Coupon", name: "Invitation Badge", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902019, className: "Achieve_MonsterInker", name: "Title - Monster Inker", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
@@ -6152,6 +6153,7 @@
 { itemId: 902075, className: "Achieve_SilverRanker", name: "Title - TBL 2nd", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902076, className: "Achieve_BronzeRanker", name: "Title - TBL 3rd", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902077, className: "Event_2018VALENTINE_Choco", name: "포장된 초콜릿", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 904007, className: "Achieve_Event_Happy2Year_Steam", name: "칭호 - Happy 2nd Anniversary!", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 910001, className: "Scroll_SkillItem", name: "Skill Scroll", category: 7, weight: 1, maxStack: 32767, price: 50, sellPrice: 5 },
 { itemId: 910004, className: "Zombie_Capsule", name: "좀비 캡슐", category: 7, weight: 1, maxStack: 32767, price: 300, sellPrice: 5 },
 
@@ -10656,4 +10658,7 @@
 { itemId: 902094, className: "Event_Nru2_Box_7_re", name: "Team Lv3 가이드 상자 (14일)", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902096, className: "Event_Steam_Last_Winter_Key", name: "겨울 열쇠", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902097, className: "Event_Steam_Last_Winter_Icicle", name: "고드름(14일)", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902098, className: "Event_Steam_Server_Material_1", name: "Lena Token", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 902099, className: "Event_Steam_Server_Material_2", name: "Rosia Token", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
+{ itemId: 902100, className: "Event_Steam_Server_Material_3", name: "Vaivora Token", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 ]

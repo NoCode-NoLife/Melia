@@ -13687,6 +13687,7 @@
 { classId: 5010151, className: "NPC_EVENT_LAST_WINTER_DLG3" },
 { classId: 5010152, className: "NPC_EVENT_LAST_WINTER_DLG4" },
 { classId: 5010153, className: "NPC_EVENT_LAST_WINTER_DLG5" },
+{ classId: 5010154, className: "EVENT_COOPERATION_DLG1" },
 { classId: 5015000, className: "NPC_KUPOLE_TESTSERVER_DLG_01" },
 { classId: 5015001, className: "NPC_KUPOLE_TESTSERVER_DLG_02" },
 { classId: 5200000, className: "NPC_JUNK_SHOP" },
