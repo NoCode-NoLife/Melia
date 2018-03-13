@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i192760
+//   Version: i193460
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1118,6 +1118,13 @@ string getPropertyName(int id)
         case 102213: return "GACHA_HAIRACC_COUNT";
         case 102214: return "GACHA_HAIRACC_BOUNS";
         case 102215: return "GACHA_TP_COUNT";
+        case 102216: return "Event_Cooperation_Team";
+        case 102217: return "Event_Cooperation_TradeCount2";
+        case 102218: return "Event_Cooperation_TradeCount4";
+        case 102219: return "Event_Cooperation_TradeCount5";
+        case 102220: return "Guild_Attendance_Reward";
+        case 102221: return "Event_Cooperation_TradeCount1";
+        case 102222: return "Event_Cooperation_TradeCount3";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";

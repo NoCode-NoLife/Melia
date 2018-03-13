@@ -810,6 +810,13 @@ namespace Melia.Shared.Const
 			public const int GACHA_HAIRACC_COUNT = 102213;
 			public const int GACHA_HAIRACC_BOUNS = 102214;
 			public const int GACHA_TP_COUNT = 102215;
+			public const int Event_Cooperation_Team = 102216;
+			public const int Event_Cooperation_TradeCount2 = 102217;
+			public const int Event_Cooperation_TradeCount4 = 102218;
+			public const int Event_Cooperation_TradeCount5 = 102219;
+			public const int Guild_Attendance_Reward = 102220;
+			public const int Event_Cooperation_TradeCount1 = 102221;
+			public const int Event_Cooperation_TradeCount3 = 102222;
 		}
 
 		public static class Monster
