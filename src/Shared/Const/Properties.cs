@@ -16267,6 +16267,8 @@ namespace Melia.Shared.Const
 			public const int EVENT_1803_NEWCLASS_RTA_PC_COUNT = 102185;
 			public const int EVENT_1803_NEWCHARACTER_CHECK = 102186;
 			public const int MG_Last_RAID_VELCOPFFER_RARE_MINI = 102187;
+			public const int VELCOFFER_MQ1 = 102223;
+			public const int VELCOFFER_MQ2 = 102224;
 		}
 #pragma warning restore IDE1006
 	}
