@@ -248,7 +248,7 @@
 { category: "Fencer", jobId: 1014, abilityId: 112006, name: "Esquive Toucher: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 1)' },
 { category: "Fencer", jobId: 1014, abilityId: 112007, name: "Flanconnade: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 1)' },
 { category: "Fencer", jobId: 1014, abilityId: 112008, name: "Balestra Fente: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
-{ category: "Fencer", jobId: 1014, abilityId: 112009, name: "Attaque Au Fer: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
+{ category: "Fencer", jobId: 1014, abilityId: 112009, name: "Attaque au Fer: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
 
 // Dragoon
 //---------------------------------------------------------------------------

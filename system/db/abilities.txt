@@ -262,7 +262,7 @@
 { id: 112006, className: "Fencer6", engName: "Esquive Toucher: Enhance", level: 1, passive: true },
 { id: 112007, className: "Fencer7", engName: "Flanconnade: Enhance", level: 1, passive: true },
 { id: 112008, className: "Fencer8", engName: "Balestra Fente: Enhance", level: 1, passive: true },
-{ id: 112009, className: "Fencer9", engName: "Attaque Au Fer: Enhance", level: 1, passive: true },
+{ id: 112009, className: "Fencer9", engName: "Attaque au Fer: Enhance", level: 1, passive: true },
 { id: 113001, className: "Shinobi1", engName: "Kunai: Enhance", level: 1, passive: true },
 { id: 113002, className: "Shinobi2", engName: "Katon no Jutsu: Enhance", level: 1, passive: true },
 { id: 113003, className: "Shinobi3", engName: "Mijin no Jutsu: Enhance", level: 1, passive: true },
