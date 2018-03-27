@@ -143,6 +143,7 @@
 { shopName: "Master_Fletcher", productId: 1706, itemId: 645571, priceMultiplier: 1 },
 
 { shopName: "Master_Chronomancer", productId: 1801, itemId: 645606, priceMultiplier: 1 },
+{ shopName: "Master_Chronomancer", productId: 1802, itemId: 646070, priceMultiplier: 1 },
 
 { shopName: "Master_Sapper", productId: 1901, itemId: 645604, priceMultiplier: 1 },
 { shopName: "Master_Sapper", productId: 1902, itemId: 645605, priceMultiplier: 1 },
@@ -355,4 +356,14 @@
 { shopName: "Fish_Shop_Manager", productId: 5404, itemId: 730600, priceMultiplier: 1 },
 
 { shopName: "Master_Sage", productId: 5500, itemId: 646064, priceMultiplier: 1 },
+
+{ shopName: "MASTER_WIZARD", productId: 5600, itemId: 645810, priceMultiplier: 1 },
+
+{ shopName: "SORCERER4_1", productId: 5700, itemId: 645923, priceMultiplier: 1 },
+
+{ shopName: "Master_Thaumaturge", productId: 5800, itemId: 645810, priceMultiplier: 1 },
+
+{ shopName: "Magic_Society", productId: 6000, itemId: 646069, priceMultiplier: 1 },
+
+{ shopName: "job_2_thaumaturge_master", productId: 6100, itemId: 645810, priceMultiplier: 1 },
 ]

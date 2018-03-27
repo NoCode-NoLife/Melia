@@ -69,6 +69,7 @@
 { id: 155, name: "TUTO_MONSTER_CARD", dbSave: true, basicHelp: false },
 { id: 156, name: "TUTO_ITEM_APPRAISE", dbSave: true, basicHelp: false },
 { id: 157, name: "TUTO_ITEM_ENCHANT", dbSave: true, basicHelp: false },
+{ id: 158, name: "TUTO_REGEND_CARD", dbSave: true, basicHelp: false },
 { id: 200, name: "TUTO_ESCAPE_ORB", dbSave: true, basicHelp: true },
 { id: 201, name: "TUTO_STREET_STALL", dbSave: true, basicHelp: true },
 { id: 202, name: "TUTO_GEM_ROASTING", dbSave: true, basicHelp: false },

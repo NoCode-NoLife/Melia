@@ -817,6 +817,22 @@ namespace Melia.Shared.Const
 			public const int Guild_Attendance_Reward = 102220;
 			public const int Event_Cooperation_TradeCount1 = 102221;
 			public const int Event_Cooperation_TradeCount3 = 102222;
+			public const int EVENT_1804_ARBOR_WEEKREWARD4 = 102233;
+			public const int EVENT_1804_ARBOR_INPUT_DATE = 102234;
+			public const int EVENT_1804_ARBOR_BUFF_DATE = 102235;
+			public const int EVENT_1804_ARBOR_WEEKREWARD3 = 102236;
+			public const int EVENT_1804_ARBOR_WEEKREWARD5 = 102237;
+			public const int EVENT_1804_ARBOR_GIMMICK1_MAXPOINT = 102238;
+			public const int EVENT_1804_ARBOR_BUFF_COUNT = 102239;
+			public const int EVENT_1804_ARBOR_WEEKREWARD6 = 102240;
+			public const int EVENT_1804_ARBOR_INPUT_COUNT = 102241;
+			public const int EVENT_FLOWER_HIDDEN_A = 102254;
+			public const int HadVisited_516 = 102255;
+			public const int EVENT_FLOWER_HAIRACC_A = 102256;
+			public const int STEAM_2YEARS_MASTER_YDAY = 102258;
+			public const int STEAM_2YEARS_MASTER_COUNT = 102259;
+			public const int STEAM_2YEARS_MASTER_DLC_CHECK = 102260;
+			public const int STEAM_2YEARS_MASTER_COSTUME_CHECK = 102261;
 		}
 
 		public static class Monster
@@ -1426,6 +1442,7 @@ namespace Melia.Shared.Const
 			public const int Job = 100946;
 			public const int Rank = 100947;
 			public const int MoveSpeed = 101740;
+			public const int CommonType = 102228;
 		}
 
 		public static class Ability
@@ -9646,6 +9663,10 @@ namespace Melia.Shared.Const
 			public const int RandomOptionValue_5 = 101259;
 			public const int RandomOptionValue_1 = 101260;
 			public const int ReopenDiscountRatio = 102047;
+			public const int Extractable = 102229;
+			public const int LegendGroup = 102230;
+			public const int InheritanceItemName = 102231;
+			public const int LegendPrefix = 102232;
 		}
 
 		public static class Party
@@ -16269,6 +16290,12 @@ namespace Melia.Shared.Const
 			public const int MG_Last_RAID_VELCOPFFER_RARE_MINI = 102187;
 			public const int VELCOFFER_MQ1 = 102223;
 			public const int VELCOFFER_MQ2 = 102224;
+			public const int EVENT_1804_ARBOR_BALLOON1_DATE = 102249;
+			public const int EVENT_1804_ARBOR_BALLOON2_DATE = 102250;
+			public const int MG_Last_EVENT_FLOWER_MISSION = 102251;
+			public const int EVENT_FLOWER_HIDDEN_S = 102252;
+			public const int EVENT_FLOWER_HAIRACC_S = 102253;
+			public const int STEAM_2YEARS_MASTER_LIST_CHECK = 102257;
 		}
 #pragma warning restore IDE1006
 	}
