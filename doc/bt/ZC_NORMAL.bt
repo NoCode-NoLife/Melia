@@ -12,6 +12,7 @@
 //   - i174236: Skill UI update changed from 0x18E to 0x188
 //   - i184075: Skill UI update changed from 0x188 to 0x189
 //   - i184075: Job.i1+i2+bin1 were added
+//   - i195396: Skill UI update changed from 0x189 to 0x188
 //------------------------------------------------
 
 #include "common.bt"
@@ -264,7 +265,7 @@ switch (type)
         break;
     
     // Updates the skill UI
-    case 0x189:
+    case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
