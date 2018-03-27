@@ -22,7 +22,6 @@
 { id: 17, name: "CHANGE_PET_TYPE", script: "SCR_CHANGE_PET_TYPE", useTx: false },
 { id: 18, name: "SMARTGEN_QUESTMON", script: "SCR_SMARTGEN_QUESTMON", useTx: false },
 { id: 19, name: "CLICK_CHANGEJOB_BUTTON", script: "SCR_CLICK_CHANGEJOB_BUTTON", useTx: true },
-{ id: 20, name: "REQUEST_JOURNAL_RANK_UPDATE", script: "SCR_REQUEST_JOURNAL_RANK_UPDATE", useTx: false },
 { id: 21, name: "COMPANION_STROKE", script: "SCR_COMPANION_STROKE", useTx: true },
 { id: 22, name: "PUT_CAMPFIRE", script: "SCR_PUT_CAMPFIRE", useTx: true },
 { id: 23, name: "ADOPT_COMPANION", script: "SCR_ADOPT_COMPANION", useTx: false },
@@ -51,5 +50,4 @@
 { id: 46, name: "DEPOSIT_GUILD_ASSET", script: "SCR_DEPOSIT_GUILD_ASSET", useTx: true },
 { id: 47, name: "UPDATE_GUILD_TOWER_LEVEL", script: "SCR_UPDATE_GUILD_TOWER_LEVEL", useTx: true },
 { id: 48, name: "CHANGE_COLONY_CONFIG", script: "SCR_CHANGE_COLONY_CONFIG", useTx: false },
-{ id: 49, name: "RIDING_ONLY_VEHICLE", script: "SCR_RIDING_ONLY_VEHICLE", useTx: false },
 ]

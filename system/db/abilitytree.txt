@@ -70,11 +70,13 @@
 { category: "Peltasta", jobId: 1003, abilityId: 102017, name: "Umbo Blow: Add Knockdown", maxLevel: 3, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 1)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102019, name: "High Guard: Rim Blow Speciality", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Peltasta_RimBlow", 6)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102020, name: "High Guard: Umbo Blow Speciality", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Peltasta_UmboBlow", 6)' },
-{ category: "Peltasta", jobId: 1003, abilityId: 102021, name: "Swash Buckling: Provoque Specialty", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 3)' },
+{ category: "Peltasta", jobId: 1003, abilityId: 102021, name: "Swash Buckling: Provoque Specialty", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 2)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102022, name: "Guardian: Evasion", maxLevel: 3, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 1)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102023, name: "Umbo Thrust: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 3)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102024, name: "Langort: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 3)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102025, name: "Langort: Blocking", maxLevel: 4, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 3)' },
+{ category: "Peltasta", jobId: 1003, abilityId: 102027, name: "Swash Buckling: Maintain Provocation", maxLevel: 3, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 2)' },
+{ category: "Peltasta", jobId: 1003, abilityId: 102028, name: "Peltasta: Double Provocation", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 1)' },
 
 // Hoplite
 //---------------------------------------------------------------------------
@@ -153,6 +155,7 @@
 { category: "Corsair", jobId: 1008, abilityId: 109009, name: "Pistol Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_8", 3)' },
 { category: "Corsair", jobId: 1008, abilityId: 109010, name: "Pistol Shot: Ricochet", maxLevel: 10, priceTime: 'ABIL_7RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_8", 3)' },
 { category: "Corsair", jobId: 1008, abilityId: 109011, name: "Pillaging", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_8", 1)' },
+{ category: "Corsair", jobId: 1008, abilityId: 109012, name: "Impale Dagger: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_8", 3)' },
 
 // Doppelsoeldner
 //---------------------------------------------------------------------------
@@ -234,8 +237,8 @@
 { category: "Shinobi", jobId: 1013, abilityId: 113005, name: "Katon no Jutsu: Stealth", maxLevel: 4, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_13", 1)' },
 { category: "Shinobi", jobId: 1013, abilityId: 113006, name: "Bunshin no Jutsu: Endurance", maxLevel: 4, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_13", 1)' },
 { category: "Shinobi", jobId: 1013, abilityId: 113007, name: "Mokuton no Jutsu: Bind", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_13", 1)' },
-{ category: "Shinobi", jobId: 1013, abilityId: 113008, name: "Bunshin no Jutsu: Decreased Damage", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Shinobi_Bunshin_no_jutsu", 2)' },
 { category: "Shinobi", jobId: 1013, abilityId: 113009, name: "Shinobi: Ninja Walk", maxLevel: 1, priceTime: 'ABIL_SHINOBIARUKI_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_13", 1)' },
+{ category: "Shinobi", jobId: 1013, abilityId: 113010, name: "Kunai: Deadly Dagger", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_13", 1)' },
 
 // Fencer
 //---------------------------------------------------------------------------
@@ -295,12 +298,14 @@
 //---------------------------------------------------------------------------
 { category: "Wizard", jobId: 2001, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 2)' },
 { category: "Wizard", jobId: 2001, abilityId: 201001, name: "Energy Bolt: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
-{ category: "Wizard", jobId: 2001, abilityId: 201004, name: "Reflect Shield: Reflect Damage", maxLevel: 20, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Wizard_ReflectShield", 3)' },
-{ category: "Wizard", jobId: 2001, abilityId: 201005, name: "Lethargy: Enhance", maxLevel: 50, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Wizard_Lethargy", 3)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201004, name: "Reflect Shield: Reflect Damage", maxLevel: 20, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 2)' },
 { category: "Wizard", jobId: 2001, abilityId: 201006, name: "Earthquake: Enhance", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
-{ category: "Wizard", jobId: 2001, abilityId: 201008, name: "Magic Missile: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 3)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201008, name: "Magic Missile: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 2)' },
 { category: "Wizard", jobId: 2001, abilityId: 201009, name: "Energy Bolt: Additional Sleep Damage", maxLevel: 3, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
-{ category: "Wizard", jobId: 2001, abilityId: 201010, name: "Lethargy: Additional Damage", maxLevel: 5, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201010, name: "Lethargy: Additional Damage", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 3)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201013, name: "Earthquake: Remove Knockdown", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 1)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201014, name: "Lethargy: Tile Speciality", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_1", 2)' },
+{ category: "Wizard", jobId: 2001, abilityId: 201015, name: "Sleep: Dream Eater", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_WIZARD25("Char2_1", 6)' },
 
 // FireMage
 //---------------------------------------------------------------------------
@@ -317,6 +322,9 @@
 { category: "FireMage", jobId: 2002, abilityId: 202019, name: "Staff Mastery: Fire", maxLevel: 3, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 1)' },
 { category: "FireMage", jobId: 2002, abilityId: 202020, name: "Flare: Additional Damage", maxLevel: 10, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 1)' },
 { category: "FireMage", jobId: 2002, abilityId: 202021, name: "Flame Ground: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 1)' },
+{ category: "FireMage", jobId: 2002, abilityId: 202022, name: "Flame Ground: Diffusion", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 2)' },
+{ category: "FireMage", jobId: 2002, abilityId: 202023, name: "Fire Wall: Knockback", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 3)' },
+{ category: "FireMage", jobId: 2002, abilityId: 202024, name: "Fireball: Residual Heat", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 2)' },
 
 // FrostMage
 //---------------------------------------------------------------------------
@@ -324,9 +332,8 @@
 { category: "FrostMage", jobId: 2003, abilityId: 203001, name: "Ice Bolt: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203004, name: "Ice Pike: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203007, name: "Ice Blast: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
-{ category: "FrostMage", jobId: 2003, abilityId: 203010, name: "Snow Rolling: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 3)' },
+{ category: "FrostMage", jobId: 2003, abilityId: 203010, name: "Snow Rolling: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 2)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203011, name: "Ice Bolt: Chance of Freeze", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
-{ category: "FrostMage", jobId: 2003, abilityId: 203012, name: "Gust: Collision Damage", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 2)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203013, name: "Rod Mastery: Ice", maxLevel: 3, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203015, name: "Subzero Shield: Duration", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 2)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203016, name: "Ice Blast: Additional Damage", maxLevel: 10, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
@@ -334,6 +341,7 @@
 { category: "FrostMage", jobId: 2003, abilityId: 203018, name: "Subzero Shield: Counterattack Enhance", maxLevel: 4, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 2)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203019, name: "Shield Mastery: Enchant", maxLevel: 5, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 1)' },
 { category: "FrostMage", jobId: 2003, abilityId: 203020, name: "Ice Wall: Duration", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 3)' },
+{ category: "FrostMage", jobId: 2003, abilityId: 203021, name: "Frost Pillar: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 3)' },
 
 // Psychokino
 //---------------------------------------------------------------------------
@@ -348,6 +356,9 @@
 { category: "Psychokino", jobId: 2004, abilityId: 204016, name: "Swap: Shackle", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 1)' },
 { category: "Psychokino", jobId: 2004, abilityId: 204017, name: "Psychic Pressure: Focus", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 3)' },
 { category: "Psychokino", jobId: 2004, abilityId: 204018, name: "Gravity Pole: Focus", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 3)' },
+{ category: "Psychokino", jobId: 2004, abilityId: 204019, name: "Heavy Gravity: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 2)' },
+{ category: "Psychokino", jobId: 2004, abilityId: 204020, name: "Heavy Gravity: Slow Movement", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 2)' },
+{ category: "Psychokino", jobId: 2004, abilityId: 204021, name: "Heavy Gravity: Duration", maxLevel: 2, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_4", 3)' },
 
 // Alchemist
 //---------------------------------------------------------------------------
@@ -384,6 +395,10 @@
 { category: "Linker", jobId: 2007, abilityId: 205007, name: "Joint Penalty: Lightning", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 1)' },
 { category: "Linker", jobId: 2007, abilityId: 205008, name: "Joint Penalty: Poison", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 1)' },
 { category: "Linker", jobId: 2007, abilityId: 205009, name: "Joint Penalty: Earth", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 1)' },
+{ category: "Linker", jobId: 2007, abilityId: 205011, name: "Spiritual Chain: Enhance", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 2)' },
+{ category: "Linker", jobId: 2007, abilityId: 205012, name: "Spirit Shock: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 2)' },
+{ category: "Linker", jobId: 2007, abilityId: 205013, name: "Spirit Shock: Confusion", maxLevel: 10, priceTime: 'ABIL_4RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 2)' },
+{ category: "Linker", jobId: 2007, abilityId: 205014, name: "Spirit Shock: Mental Pressure", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_7", 3)' },
 
 // Chronomancer
 //---------------------------------------------------------------------------
@@ -432,24 +447,28 @@
 { category: "Thaumaturge", jobId: 2010, abilityId: 206009, name: "Swell Left Arm: Swell Body Speciality", maxLevel: 4, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Thaumaturge_SwellBody", 2)' },
 { category: "Thaumaturge", jobId: 2010, abilityId: 206010, name: "Swell Right Arm: Swiftness", maxLevel: 4, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 2)' },
 { category: "Thaumaturge", jobId: 2010, abilityId: 206011, name: "Transpose: Equilibrium", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 1)' },
+{ category: "Thaumaturge", jobId: 2010, abilityId: 206013, name: "Swell Brain: Fast Operation", maxLevel: 50, priceTime: 'ABIL_6RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 3)' },
+{ category: "Thaumaturge", jobId: 2010, abilityId: 206014, name: "Swell Left Arm: Summons", maxLevel: 10, priceTime: 'ABIL_4RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 1)' },
+{ category: "Thaumaturge", jobId: 2010, abilityId: 206015, name: "Swell Right Arm: Summons", maxLevel: 10, priceTime: 'ABIL_5RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_10", 2)' },
 
 // Elementalist
 //---------------------------------------------------------------------------
 { category: "Elementalist", jobId: 2011, abilityId: 207001, name: "Prominence: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207004, name: "Hail: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207007, name: "Electrocute: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207010, name: "Meteor: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207012, name: "Electrocute: Freezing Magic Damage", maxLevel: 2, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207010, name: "Meteor: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207013, name: "Stone Curse: Increased Petrification", maxLevel: 3, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207014, name: "Prominence: Prominence Wandering", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207015, name: "Hail: Freeze", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207016, name: "Meteor: Evasion", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207017, name: "Elementalist: Resistance", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 1)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207018, name: "Fire Property: Explosion", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_2", 2)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207019, name: "Ice Property: Slow", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_3", 2)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207020, name: "Rain: Monsoon", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207021, name: "Frost Cloud: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207022, name: "Freezing Sphere: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207024, name: "Prominence: Additional Summon", maxLevel: 4, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207025, name: "Storm Dust: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207026, name: "Storm Dust: Slow", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207027, name: "Storm Dust: Humpback", maxLevel: 2, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207028, name: "Meteor: Flame Ground", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 
 // Sage
 //---------------------------------------------------------------------------
@@ -510,11 +529,13 @@
 { category: "RuneCaster", jobId: 2017, abilityId: 214004, name: "Rune of Giants: HP", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_17", 1)' },
 { category: "RuneCaster", jobId: 2017, abilityId: 214005, name: "Rune of Justice: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_17", 1)' },
 { category: "RuneCaster", jobId: 2017, abilityId: 214006, name: "Rune of Protection: Critical Resistance", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_17", 1)' },
+{ category: "RuneCaster", jobId: 2017, abilityId: 214008, name: "Rune of Destruction: Magic Defense Destruction", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_17", 1)' },
 
 // Enchanter
 //---------------------------------------------------------------------------
 { category: "Enchanter", jobId: 2018, abilityId: 215001, name: "Craft Enchant Round", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 1)' },
 { category: "Enchanter", jobId: 2018, abilityId: 215004, name: "Lightning Hands: Magic Shock", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 2)' },
+{ category: "Enchanter", jobId: 2018, abilityId: 215005, name: "Enchant Lightning: Psychic", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_18", 2)' },
 
 // Archer
 //---------------------------------------------------------------------------
