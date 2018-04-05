@@ -467,7 +467,7 @@
 { category: "Elementalist", jobId: 2011, abilityId: 207024, name: "Prominence: Additional Summon", maxLevel: 4, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207025, name: "Storm Dust: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207026, name: "Storm Dust: Slow", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 2)' },
-{ category: "Elementalist", jobId: 2011, abilityId: 207027, name: "Storm Dust: Humpback", maxLevel: 2, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
+{ category: "Elementalist", jobId: 2011, abilityId: 207027, name: "Storm Dust: Second Storm", maxLevel: 2, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 { category: "Elementalist", jobId: 2011, abilityId: 207028, name: "Meteor: Flame Ground", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_11", 3)' },
 
 // Sage

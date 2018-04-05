@@ -496,7 +496,7 @@
 { id: 207024, className: "Elementalist26", engName: "Prominence: Additional Summon", level: 1, passive: false },
 { id: 207025, className: "Elementalist27", engName: "Storm Dust: Enhance", level: 1, passive: true },
 { id: 207026, className: "Elementalist28", engName: "Storm Dust: Slow", level: 1, passive: false },
-{ id: 207027, className: "Elementalist29", engName: "Storm Dust: Humpback", level: 1, passive: false },
+{ id: 207027, className: "Elementalist29", engName: "Storm Dust: Second Storm", level: 1, passive: false },
 { id: 207028, className: "Elementalist30", engName: "Meteor: Flame Ground", level: 1, passive: false },
 { id: 208001, className: "Sorcerer11", engName: "Summon Familar: Enhance", level: 1, passive: true },
 { id: 208002, className: "Sorcerer1", engName: "Summon Familar: Splash", level: 1, passive: false },
