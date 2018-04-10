@@ -3,13 +3,14 @@
 //
 //      File: ZC_MYPC_ENTER.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i197611
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i174236: b1 was added
+//   - i197611: b2 was added (presumably moved from ZC_ENTER_PC)
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,3 +19,4 @@ ServerHeaderFixed header;
 
 position pos;
 byte b1;
+byte b2;

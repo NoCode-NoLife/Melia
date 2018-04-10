@@ -91,6 +91,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
 			packet.PutByte(0);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
