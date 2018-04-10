@@ -129,7 +129,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			//packet.PutByte(0);
 
 			conn.Send(packet);
 		}

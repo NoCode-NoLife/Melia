@@ -3,7 +3,7 @@
 //
 //      File: ZC_ENTER_PC.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i197611
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,7 @@
 //   - i11025:  i4 was added
 //   - i11025:  partyName was removed
 //   - i174236: b3 was added
+//   - i197611: b3 was removed
 //------------------------------------------------
 
 #include "common.bt"
@@ -45,4 +46,4 @@ int i3;
 byte b2;
 APPEARANCE_PC appearancePc;
 int i5;
-byte b3;
+//byte b3;
