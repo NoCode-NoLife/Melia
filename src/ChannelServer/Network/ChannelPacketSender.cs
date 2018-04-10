@@ -91,6 +91,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
 			packet.PutByte(0);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
@@ -129,7 +130,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			//packet.PutByte(0);
 
 			conn.Send(packet);
 		}

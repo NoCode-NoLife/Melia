@@ -14301,6 +14301,8 @@
 { classId: 5010165, className: "NPC_EVENT_2YEARS_DLG5" },
 { classId: 5010166, className: "NPC_EVENT_2YEARS_DLG6" },
 { classId: 5010170, className: "NPC_EVENT_2YEARS_DLG7" },
+{ classId: 5010171, className: "NPC_EVENT_MAGAZINE_NUM1_DLG1" },
+{ classId: 5010172, className: "NPC_EVENT_MAGAZINE_NUM1_DLG2" },
 { classId: 5015000, className: "NPC_KUPOLE_TESTSERVER_DLG_01" },
 { classId: 5015001, className: "NPC_KUPOLE_TESTSERVER_DLG_02" },
 { classId: 5200000, className: "NPC_JUNK_SHOP" },

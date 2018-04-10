@@ -833,6 +833,9 @@ namespace Melia.Shared.Const
 			public const int STEAM_2YEARS_MASTER_COUNT = 102259;
 			public const int STEAM_2YEARS_MASTER_DLC_CHECK = 102260;
 			public const int STEAM_2YEARS_MASTER_COSTUME_CHECK = 102261;
+			public const int GOLD_STATUE_FIRST_DATA = 102263;
+			public const int EVENT_1804_ROOT_DATE = 102267;
+			public const int EVENT_MAGAZINE_NUM1_ACHIEVE = 102268;
 		}
 
 		public static class Monster
@@ -9282,6 +9285,7 @@ namespace Melia.Shared.Const
 			public const int Kill_Gagoyle_purple = 102209;
 			public const int Kill_d_raid_boss_RytaSwort_minimal = 102210;
 			public const int InDunRewardCountType_400 = 102211;
+			public const int Kill_d_raid_velcoffer_fallen_statue_gray = 102264;
 		}
 
 		public static class Item
@@ -9667,6 +9671,7 @@ namespace Melia.Shared.Const
 			public const int LegendGroup = 102230;
 			public const int InheritanceItemName = 102231;
 			public const int LegendPrefix = 102232;
+			public const int ItemExpString = 102262;
 		}
 
 		public static class Party
@@ -16296,6 +16301,8 @@ namespace Melia.Shared.Const
 			public const int EVENT_FLOWER_HIDDEN_S = 102252;
 			public const int EVENT_FLOWER_HAIRACC_S = 102253;
 			public const int STEAM_2YEARS_MASTER_LIST_CHECK = 102257;
+			public const int EVENT_STrigger_Time = 102265;
+			public const int EVENT_CurrentZone = 102266;
 		}
 #pragma warning restore IDE1006
 	}

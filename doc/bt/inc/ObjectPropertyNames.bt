@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i195396
+//   Version: i197611
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1151,6 +1151,9 @@ string getPropertyName(int id)
         case 102259: return "STEAM_2YEARS_MASTER_COUNT";
         case 102260: return "STEAM_2YEARS_MASTER_DLC_CHECK";
         case 102261: return "STEAM_2YEARS_MASTER_COSTUME_CHECK";
+        case 102263: return "GOLD_STATUE_FIRST_DATA";
+        case 102267: return "EVENT_1804_ROOT_DATE";
+        case 102268: return "EVENT_MAGAZINE_NUM1_ACHIEVE";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9580,6 +9583,7 @@ string getPropertyName(int id)
         case 102209: return "Kill_Gagoyle_purple";
         case 102210: return "Kill_d_raid_boss_RytaSwort_minimal";
         case 102211: return "InDunRewardCountType_400";
+        case 102264: return "Kill_d_raid_velcoffer_fallen_statue_gray";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -9961,6 +9965,7 @@ string getPropertyName(int id)
         case 102230: return "LegendGroup";
         case 102231: return "InheritanceItemName";
         case 102232: return "LegendPrefix";
+        case 102262: return "ItemExpString";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";
@@ -16582,6 +16587,8 @@ string getPropertyName(int id)
         case 102252: return "EVENT_FLOWER_HIDDEN_S";
         case 102253: return "EVENT_FLOWER_HAIRACC_S";
         case 102257: return "STEAM_2YEARS_MASTER_LIST_CHECK";
+        case 102265: return "EVENT_STrigger_Time";
+        case 102266: return "EVENT_CurrentZone";
         default: return "Unknown";
     }
 }
