@@ -6194,6 +6194,7 @@
 { itemId: 902076, className: "Achieve_BronzeRanker", name: "Title - TBL 3rd", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 902077, className: "Event_2018VALENTINE_Choco", name: "포장된 초콜릿", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902105, className: "Achieve_Event_Steam_Honorary", name: "칭호 - Honorary TPP Reporter", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902107, className: "Achieve_Event_Steam_Magazine_Num1", name: "칭호 - [EVENT]Crystal Mine Revelation", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 904007, className: "Achieve_Event_Happy2Year_Steam", name: "칭호 - Happy 2nd Anniversary!", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 910001, className: "Scroll_SkillItem", name: "Skill Scroll", category: 7, weight: 1, maxStack: 32767, price: 50, sellPrice: 5 },
 { itemId: 910004, className: "Zombie_Capsule", name: "좀비 캡슐", category: 7, weight: 1, maxStack: 32767, price: 300, sellPrice: 5 },
@@ -10823,4 +10824,5 @@
 { itemId: 902100, className: "Event_Steam_Server_Material_3", name: "Vaivora Token", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902102, className: "Event_Steam_2Years_Master_List", name: "마스터 명단 리스트", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 902103, className: "Event_Steam_2Years_Master_DLC", name: "이벤트 워프 주문서 - 2주년 이벤트 시작", category: 9999, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 902106, className: "Event_Steam_Magazine_Num1", name: "[이벤트]첫번째 계시", category: 9999, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 ]
