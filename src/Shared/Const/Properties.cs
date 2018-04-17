@@ -836,6 +836,31 @@ namespace Melia.Shared.Const
 			public const int GOLD_STATUE_FIRST_DATA = 102263;
 			public const int EVENT_1804_ROOT_DATE = 102267;
 			public const int EVENT_MAGAZINE_NUM1_ACHIEVE = 102268;
+			public const int PVP_MINE_MAX = 102269;
+			public const int BLESSEDSTONE_DAY_FIRST_REWARD_COUNT = 102270;
+			public const int PVP_MINE_TEAM = 102271;
+			public const int PVP_MINE_RESET = 102272;
+			public const int BLESSEDSTONE_DAY_FIRST_REWARD_DATE = 102273;
+			public const int PVP_MINE_POINT = 102274;
+			public const int PVP_MINE_PCID = 102275;
+			public const int HadVisited_8021 = 102276;
+			public const int EV180130_STEAM_NIGHT_MARKET_NPC = 102281;
+			public const int EV180130_STEAM_NIGHT_MARKET_SHOP_9 = 102282;
+			public const int EVENT_1804_TRANSCEND_SUCCESS_COUNT = 102283;
+			public const int EVENT_1804_TRANSCEND_SHOP_TRADE1 = 102284;
+			public const int EVENT_1804_TRANSCEND_SHOP_TRADE2 = 102285;
+			public const int MISSION_SURVIVAL_EVENT2_REWARD_COUNT = 102289;
+			public const int HadVisited_700 = 102290;
+			public const int MISSION_SURVIVAL_EVENT2_REWARD_DATE = 102291;
+			public const int EVENT_1804_TRANSCEND_SHOP_TRADE3 = 102294;
+			public const int STEAM_COLONY_WAR_FIRST_ENTRY_REWARD_CHECK = 102295;
+			public const int STEAM_COLONY_WAR_ONEDAY_REWARD_CHECK = 102296;
+			public const int STEAM_COLONY_WAR_FIVE_TIME_REWARD_CHECK = 102297;
+			public const int EVENT_COLONYWAR_1DAY = 102298;
+			public const int EVENT_COLONYWAR_7DAY = 102299;
+			public const int EVENT_COLONYWAR_GIVETIME = 102300;
+			public const int STEAM_COLONY_WAR_ONEDAY_REWARD_COUNT = 102301;
+			public const int STEAM_COLONY_WAR_FIVE_TIME_REWARD_COUNT = 102302;
 		}
 
 		public static class Monster
@@ -9286,6 +9311,12 @@ namespace Melia.Shared.Const
 			public const int Kill_d_raid_boss_RytaSwort_minimal = 102210;
 			public const int InDunRewardCountType_400 = 102211;
 			public const int Kill_d_raid_velcoffer_fallen_statue_gray = 102264;
+			public const int Kill_PVP_mine_bearkaras = 102277;
+			public const int HadVisited_8021 = 102278;
+			public const int Kill_PVP_mine_Genmagnus = 102279;
+			public const int HadVisited_700 = 102286;
+			public const int Pose_DANCECLAP = 102287;
+			public const int Pose_EXERCISE = 102288;
 		}
 
 		public static class Item
@@ -16303,6 +16334,9 @@ namespace Melia.Shared.Const
 			public const int STEAM_2YEARS_MASTER_LIST_CHECK = 102257;
 			public const int EVENT_STrigger_Time = 102265;
 			public const int EVENT_CurrentZone = 102266;
+			public const int MG_Last_PVP_MINE = 102280;
+			public const int MG_Last_MISSION_SURVIVAL_EVENT2 = 102292;
+			public const int TUTO_RESOURCE_BATTLE = 102293;
 		}
 #pragma warning restore IDE1006
 	}

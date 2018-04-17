@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i197611
+//   Version: i198412
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -329,6 +329,8 @@ string getPropertyName(int id)
         case 102246: return "EVENT_1804_ARBOR_TREE_INPUT_COUNT";
         case 102247: return "MOLE_BINGO_RANKING_POINT_1";
         case 102248: return "MOLE_BINGO_RANKING_3";
+        case 102303: return "ColonyWarFirstEntryReward";
+        case 102304: return "ColonyWarFirstVictoryReward";
         case 6299: return "MaxPVPGrade";
         case 6300: return "Medal";
         case 6301: return "SelectedBarrack";
@@ -1154,6 +1156,31 @@ string getPropertyName(int id)
         case 102263: return "GOLD_STATUE_FIRST_DATA";
         case 102267: return "EVENT_1804_ROOT_DATE";
         case 102268: return "EVENT_MAGAZINE_NUM1_ACHIEVE";
+        case 102269: return "PVP_MINE_MAX";
+        case 102270: return "BLESSEDSTONE_DAY_FIRST_REWARD_COUNT";
+        case 102271: return "PVP_MINE_TEAM";
+        case 102272: return "PVP_MINE_RESET";
+        case 102273: return "BLESSEDSTONE_DAY_FIRST_REWARD_DATE";
+        case 102274: return "PVP_MINE_POINT";
+        case 102275: return "PVP_MINE_PCID";
+        case 102276: return "HadVisited_8021";
+        case 102281: return "EV180130_STEAM_NIGHT_MARKET_NPC";
+        case 102282: return "EV180130_STEAM_NIGHT_MARKET_SHOP_9";
+        case 102283: return "EVENT_1804_TRANSCEND_SUCCESS_COUNT";
+        case 102284: return "EVENT_1804_TRANSCEND_SHOP_TRADE1";
+        case 102285: return "EVENT_1804_TRANSCEND_SHOP_TRADE2";
+        case 102289: return "MISSION_SURVIVAL_EVENT2_REWARD_COUNT";
+        case 102290: return "HadVisited_700";
+        case 102291: return "MISSION_SURVIVAL_EVENT2_REWARD_DATE";
+        case 102294: return "EVENT_1804_TRANSCEND_SHOP_TRADE3";
+        case 102295: return "STEAM_COLONY_WAR_FIRST_ENTRY_REWARD_CHECK";
+        case 102296: return "STEAM_COLONY_WAR_ONEDAY_REWARD_CHECK";
+        case 102297: return "STEAM_COLONY_WAR_FIVE_TIME_REWARD_CHECK";
+        case 102298: return "EVENT_COLONYWAR_1DAY";
+        case 102299: return "EVENT_COLONYWAR_7DAY";
+        case 102300: return "EVENT_COLONYWAR_GIVETIME";
+        case 102301: return "STEAM_COLONY_WAR_ONEDAY_REWARD_COUNT";
+        case 102302: return "STEAM_COLONY_WAR_FIVE_TIME_REWARD_COUNT";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9584,6 +9611,12 @@ string getPropertyName(int id)
         case 102210: return "Kill_d_raid_boss_RytaSwort_minimal";
         case 102211: return "InDunRewardCountType_400";
         case 102264: return "Kill_d_raid_velcoffer_fallen_statue_gray";
+        case 102277: return "Kill_PVP_mine_bearkaras";
+        case 102278: return "HadVisited_8021";
+        case 102279: return "Kill_PVP_mine_Genmagnus";
+        case 102286: return "HadVisited_700";
+        case 102287: return "Pose_DANCECLAP";
+        case 102288: return "Pose_EXERCISE";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16589,6 +16622,9 @@ string getPropertyName(int id)
         case 102257: return "STEAM_2YEARS_MASTER_LIST_CHECK";
         case 102265: return "EVENT_STrigger_Time";
         case 102266: return "EVENT_CurrentZone";
+        case 102280: return "MG_Last_PVP_MINE";
+        case 102292: return "MG_Last_MISSION_SURVIVAL_EVENT2";
+        case 102293: return "TUTO_RESOURCE_BATTLE";
         default: return "Unknown";
     }
 }
