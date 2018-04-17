@@ -267,7 +267,7 @@ namespace Melia.Shared.Network
 		public const int CZ_UI_EVENT = 0xCAF; // Size: 0
 		public const int ZC_PLAY_SOUND = 0xCB0; // Size: 19
 		public const int ZC_STOP_SOUND = 0xCB1; // Size: 18
-		public const int ZC_PLAY_MUSICQUEUE = 0xCB2; // Size: 18
+		public const int ZC_PLAY_MUSICQUEUE = 0xCB2; // Size: 20
 		public const int ZC_STOP_MUSICQUEUE = 0xCB3; // Size: 18
 		public const int ZC_PLAY_ANI = 0xCB4; // Size: 28
 		public const int ZC_PLAY_ANI_SELFISH = 0xCB5; // Size: 23
@@ -692,7 +692,7 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_GUILD_ASSET_LOG = 0xE5B; // Size: 10
 		public const int ZC_CANCEL_MOUSE_MOVE = 0xE5C; // Size: 14
 		public const int ZC_COLONY_OCCUPATION_INFO = 0xE5D; // Size: 0
-		public const int ZC_BROAD_CAST_MY_INFO = 0xE5E; // Size: 30
+		public const int ZC_BROAD_CAST_MY_INFO = 0xE5E; // Size: 31
 		public const int CZ_REQ_RETURN_TO_CITY_FROM_COLONY_WAR = 0xE5F; // Size: 10
 		public const int CZ_LOAD_COMPLETE = 0xE60; // Size: 10
 		public const int ZC_LOAD_COMPLETE = 0xE61; // Size: 10
@@ -1002,7 +1002,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_UI_EVENT] = 0;
 			_sizes[ZC_PLAY_SOUND] = 19;
 			_sizes[ZC_STOP_SOUND] = 18;
-			_sizes[ZC_PLAY_MUSICQUEUE] = 18;
+			_sizes[ZC_PLAY_MUSICQUEUE] = 20;
 			_sizes[ZC_STOP_MUSICQUEUE] = 18;
 			_sizes[ZC_PLAY_ANI] = 28;
 			_sizes[ZC_PLAY_ANI_SELFISH] = 23;
@@ -1427,7 +1427,7 @@ namespace Melia.Shared.Network
 			_sizes[CZ_REQ_GUILD_ASSET_LOG] = 10;
 			_sizes[ZC_CANCEL_MOUSE_MOVE] = 14;
 			_sizes[ZC_COLONY_OCCUPATION_INFO] = 0;
-			_sizes[ZC_BROAD_CAST_MY_INFO] = 30;
+			_sizes[ZC_BROAD_CAST_MY_INFO] = 31;
 			_sizes[CZ_REQ_RETURN_TO_CITY_FROM_COLONY_WAR] = 10;
 			_sizes[CZ_LOAD_COMPLETE] = 10;
 			_sizes[ZC_LOAD_COMPLETE] = 10;
