@@ -366,4 +366,8 @@
 { shopName: "Magic_Society", productId: 6000, itemId: 646069, priceMultiplier: 1 },
 
 { shopName: "job_2_thaumaturge_master", productId: 6100, itemId: 645810, priceMultiplier: 1 },
+
+{ shopName: "ONMYOJI_MASTER", productId: 6200, itemId: 646074, priceMultiplier: 1 },
+
+{ shopName: "RETIARII_MASTER", productId: 6300, itemId: 646072, priceMultiplier: 1 },
 ]

@@ -159,6 +159,13 @@
 { jobId: 1020, skillId: 11803, skillName: "Sok Chiang", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 1020, skillId: 11804, skillName: "Te Trong", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 1020, skillId: 11805, skillName: "Khao Loi", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11901, skillName: "Pull Rete", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 10 },
+{ jobId: 1018, skillId: 11902, skillName: "Throw Rete", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11903, skillName: "Dagger Guard", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11904, skillName: "Trident Finish", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11905, skillName: "Disarm", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11906, skillName: "Dagger Finish", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 1018, skillId: 11907, skillName: "Vital Protection", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -296,6 +303,12 @@
 { jobId: 2019, skillId: 21604, skillName: "Hallucination", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2019, skillId: 21605, skillName: "Shadow Condensation", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2019, skillId: 21606, skillName: "Shadow Fetter", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21607, skillName: "Fire Fox Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21608, skillName: "Greenwood Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21609, skillName: "White Tiger Howling", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21610, skillName: "Water Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21611, skillName: "Genbu Armor", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 5 },
+{ jobId: 2020, skillId: 21612, skillName: "Toyou", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 
 // Archer
 //---------------------------------------------------------------------------
