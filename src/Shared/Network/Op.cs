@@ -73,6 +73,7 @@ namespace Melia.Shared.Network
 		public const int CB_GEMSCOOL_PCINFO = 0x53; // Size: 1290
 		public const int CB_NOT_AUTHORIZED_ADDON_LIST = 0x54; // Size: 1039
 		public const int CB_DEBUG_LOG_FILE = 0x55; // Size: 0
+		public const int CB_CLIENT_REMOTE_LOG = 0x56; // Size: 2572
 		public const int ZC_TREASUREMARK_LIST_MAP = 0xD8; // Size: 0
 		public const int CS_LOGIN = 0xB55; // Size: 91
 		public const int SC_NORMAL = 0xB56; // Size: 0
@@ -727,19 +728,22 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_PARTY_INFO = 0xE7E; // Size: 10
 		public const int CZ_REQ_RETURN_ORIGIN_SERVER = 0xE7F; // Size: 10
 		public const int CZ_ANS_GIVEUP_PREV_PLAYING_INDUN = 0xE80; // Size: 11
-		public const int ZC_SET_WEBSERVICE_URL = 0xE81; // Size: 74
-		public const int CZ_CREATE_GUILD_BY_WEB = 0xE82; // Size: 59
-		public const int CZ_GUILD_MEMBER_INVITE_BY_WEB = 0xE83; // Size: 75
-		public const int ZC_GUILD_MEMBER_INVITE_BY_WEB = 0xE84; // Size: 83
-		public const int CZ_GUILD_MEMBER_INVITE_ACCEPT_BY_WEB = 0xE85; // Size: 90
-		public const int CZ_GUILD_APPLICATION_USER_ACCEPT = 0xE86; // Size: 18
-		public const int ZC_DECREASE_SILVER = 0xE87; // Size: 14
-		public const int CZ_POST_GUILE_EMBLEM = 0xE88; // Size: 20014
-		public const int CZ_BADPLAYER_REPORT = 0xE89; // Size: 146
-		public const int ZC_ERROR_INFO = 0xE8A; // Size: 78
-		public const int ZC_SEND_JSON_DUMP = 0xE8B; // Size: 0
-		public const int CZ_SEND_JSON_DUMP = 0xE8C; // Size: 0
-		public const int CZ_CLIENT_REMOTE_LOG = 0xE8D; // Size: 2572
+		public const int ZC_FOLLOW_TO_ACTOR = 0xE81; // Size: 39
+		public const int ZC_STOP_FOLLOW_TO_ACTOR = 0xE82; // Size: 14
+		public const int ZC_SET_WEBSERVICE_URL = 0xE83; // Size: 74
+		public const int CZ_CREATE_GUILD_BY_WEB = 0xE84; // Size: 59
+		public const int CZ_GUILD_MEMBER_INVITE_BY_WEB = 0xE85; // Size: 75
+		public const int ZC_GUILD_MEMBER_INVITE_BY_WEB = 0xE86; // Size: 83
+		public const int CZ_GUILD_MEMBER_INVITE_ACCEPT_BY_WEB = 0xE87; // Size: 90
+		public const int CZ_GUILD_APPLICATION_USER_ACCEPT = 0xE88; // Size: 18
+		public const int ZC_DECREASE_SILVER = 0xE89; // Size: 14
+		public const int CZ_POST_GUILE_EMBLEM = 0xE8A; // Size: 20014
+		public const int CZ_BADPLAYER_REPORT = 0xE8B; // Size: 146
+		public const int ZC_ERROR_INFO = 0xE8C; // Size: 78
+		public const int ZC_SEND_JSON_DUMP = 0xE8D; // Size: 0
+		public const int CZ_SEND_JSON_DUMP = 0xE8E; // Size: 0
+		public const int CZ_CLIENT_REMOTE_LOG = 0xE8F; // Size: 2572
+		public const int CZ_REQ_QUICKSLOT_LIST = 0xE90; // Size: 10
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
@@ -808,6 +812,7 @@ namespace Melia.Shared.Network
 			_sizes[CB_GEMSCOOL_PCINFO] = 1290;
 			_sizes[CB_NOT_AUTHORIZED_ADDON_LIST] = 1039;
 			_sizes[CB_DEBUG_LOG_FILE] = 0;
+			_sizes[CB_CLIENT_REMOTE_LOG] = 2572;
 			_sizes[ZC_TREASUREMARK_LIST_MAP] = 0;
 			_sizes[CS_LOGIN] = 91;
 			_sizes[SC_NORMAL] = 0;
@@ -1462,6 +1467,8 @@ namespace Melia.Shared.Network
 			_sizes[CZ_REQ_PARTY_INFO] = 10;
 			_sizes[CZ_REQ_RETURN_ORIGIN_SERVER] = 10;
 			_sizes[CZ_ANS_GIVEUP_PREV_PLAYING_INDUN] = 11;
+			_sizes[ZC_FOLLOW_TO_ACTOR] = 39;
+			_sizes[ZC_STOP_FOLLOW_TO_ACTOR] = 14;
 			_sizes[ZC_SET_WEBSERVICE_URL] = 74;
 			_sizes[CZ_CREATE_GUILD_BY_WEB] = 59;
 			_sizes[CZ_GUILD_MEMBER_INVITE_BY_WEB] = 75;
@@ -1475,6 +1482,7 @@ namespace Melia.Shared.Network
 			_sizes[ZC_SEND_JSON_DUMP] = 0;
 			_sizes[CZ_SEND_JSON_DUMP] = 0;
 			_sizes[CZ_CLIENT_REMOTE_LOG] = 2572;
+			_sizes[CZ_REQ_QUICKSLOT_LIST] = 10;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
