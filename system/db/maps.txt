@@ -375,7 +375,7 @@
 { mapId: 4890, className: "d_catacomb_80_1", engName: "Rancid Labyrinth", localKey: "ETC_20170420_027695" },
 { mapId: 4900, className: "d_catacomb_80_2", engName: "Balaam Camp Site", localKey: "ETC_20170420_027696" },
 { mapId: 4910, className: "d_catacomb_80_3", engName: "Michmas Temple", localKey: "ETC_20170420_027697" },
-{ mapId: 4920, className: "d_raidboss_velcoffer", engName: "Belcoper Gard Raid", localKey: "ETC_20170420_027698" },
+{ mapId: 4920, className: "d_raidboss_velcoffer", engName: "velcoffer Gard Raid", localKey: "ETC_20170420_027698" },
 { mapId: 4930, className: "d_limestonecave_71_2", engName: "Limestone Cave 71_2", localKey: "ETC_20170420_027700" },
 { mapId: 4931, className: "d_limestonecave_71_1", engName: "Limestone Cave 71_1", localKey: "ETC_20170420_027701" },
 { mapId: 4940, className: "id_whitetrees1", engName: "?", localKey: "?" },

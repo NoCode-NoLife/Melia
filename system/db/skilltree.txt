@@ -305,7 +305,7 @@
 { jobId: 2019, skillId: 21606, skillName: "Shadow Fetter", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2020, skillId: 21607, skillName: "Fire Fox Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2020, skillId: 21608, skillName: "Greenwood Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
-{ jobId: 2020, skillId: 21609, skillName: "White Tiger Howling", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 2020, skillId: 21609, skillName: "Howling White Tiger", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2020, skillId: 21610, skillName: "Water Shikigami", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 2020, skillId: 21611, skillName: "Genbu Armor", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 5 },
 { jobId: 2020, skillId: 21612, skillName: "Toyou", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
