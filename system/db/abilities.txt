@@ -895,7 +895,7 @@
 { id: 314003, className: "Hackapell3", engName: "Cavalry Charge: Enhance", level: 1, passive: true },
 { id: 314004, className: "Hackapell4", engName: "Leg Shot: Enhance", level: 1, passive: true },
 { id: 314005, className: "Hackapell5", engName: "Leg Shot: Decreased Movement Speed", level: 1, passive: false },
-{ id: 314006, className: "Hackapell6", engName: "Hacka Pelle", level: 1, passive: true },
+{ id: 314006, className: "Hackapell6", engName: "Hakka Palle", level: 1, passive: true },
 { id: 314007, className: "Hackapell7", engName: "Storm Bolt: Enhance", level: 1, passive: true },
 { id: 314008, className: "Hackapell8", engName: "Cavalry Charge: Defense", level: 1, passive: false },
 { id: 314009, className: "Hackapell9", engName: "Grind Cutter: Enhance", level: 1, passive: true },

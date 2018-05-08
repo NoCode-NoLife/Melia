@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i198412
+//   Version: i201078
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1181,6 +1181,23 @@ string getPropertyName(int id)
         case 102300: return "EVENT_COLONYWAR_GIVETIME";
         case 102301: return "STEAM_COLONY_WAR_ONEDAY_REWARD_COUNT";
         case 102302: return "STEAM_COLONY_WAR_FIVE_TIME_REWARD_COUNT";
+        case 102305: return "PVP_MINE_TradeCount1";
+        case 102306: return "PVP_MINE_TradeCount_Reset";
+        case 102308: return "EVENT_1805_WEDDING1_DATE";
+        case 102309: return "EVENT_1805_WEDDING1_COUNT";
+        case 102313: return "HadVisited_8023";
+        case 102314: return "EVENT_BEAUTY_POSE_GIVE_CHECK";
+        case 102315: return "EVENT_BEAUTY_BUY_CHECK";
+        case 102316: return "HadVisited_1008";
+        case 102324: return "TeamBattleLeague_Penalty_LeftCoolTime";
+        case 102325: return "TeamBattleLeague_Penalty_LeftPenaltyTime";
+        case 102326: return "STEAM_USER_ROUTE_Ex";
+        case 102327: return "PCBANG_REWARD_MONTHLY";
+        case 102328: return "PCBANG_REWARD_DAILY";
+        case 102329: return "STEAM_USER_ROUTE_Rookie";
+        case 102330: return "STEAM_USER_ROUTE_Returning";
+        case 102331: return "TeamBattleLeague_Penalty_PenaltyLevel";
+        case 102332: return "STEAM_USER_ROUTE_Returning_CHECK";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9617,6 +9634,13 @@ string getPropertyName(int id)
         case 102286: return "HadVisited_700";
         case 102287: return "Pose_DANCECLAP";
         case 102288: return "Pose_EXERCISE";
+        case 102307: return "IndunWeeklyEnteredCount_500";
+        case 102311: return "HadVisited_8023";
+        case 102312: return "Hide_2774";
+        case 102317: return "HadVisited_1008";
+        case 102318: return "BeautyshopStartHair";
+        case 102319: return "StartHairColorName";
+        case 102323: return "HAIR_WIG_Visible";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16625,6 +16649,10 @@ string getPropertyName(int id)
         case 102280: return "MG_Last_PVP_MINE";
         case 102292: return "MG_Last_MISSION_SURVIVAL_EVENT2";
         case 102293: return "TUTO_RESOURCE_BATTLE";
+        case 102310: return "MG_Last_GM_WHITETREES_56_1";
+        case 102320: return "EVENT_1805_BEAUTY_NPC_3";
+        case 102321: return "EVENT_1805_BEAUTY_NPC_2";
+        case 102322: return "EVENT_1805_BEAUTY_NPC_1";
         default: return "Unknown";
     }
 }

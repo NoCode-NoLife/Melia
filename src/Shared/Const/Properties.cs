@@ -861,6 +861,23 @@ namespace Melia.Shared.Const
 			public const int EVENT_COLONYWAR_GIVETIME = 102300;
 			public const int STEAM_COLONY_WAR_ONEDAY_REWARD_COUNT = 102301;
 			public const int STEAM_COLONY_WAR_FIVE_TIME_REWARD_COUNT = 102302;
+			public const int PVP_MINE_TradeCount1 = 102305;
+			public const int PVP_MINE_TradeCount_Reset = 102306;
+			public const int EVENT_1805_WEDDING1_DATE = 102308;
+			public const int EVENT_1805_WEDDING1_COUNT = 102309;
+			public const int HadVisited_8023 = 102313;
+			public const int EVENT_BEAUTY_POSE_GIVE_CHECK = 102314;
+			public const int EVENT_BEAUTY_BUY_CHECK = 102315;
+			public const int HadVisited_1008 = 102316;
+			public const int TeamBattleLeague_Penalty_LeftCoolTime = 102324;
+			public const int TeamBattleLeague_Penalty_LeftPenaltyTime = 102325;
+			public const int STEAM_USER_ROUTE_Ex = 102326;
+			public const int PCBANG_REWARD_MONTHLY = 102327;
+			public const int PCBANG_REWARD_DAILY = 102328;
+			public const int STEAM_USER_ROUTE_Rookie = 102329;
+			public const int STEAM_USER_ROUTE_Returning = 102330;
+			public const int TeamBattleLeague_Penalty_PenaltyLevel = 102331;
+			public const int STEAM_USER_ROUTE_Returning_CHECK = 102332;
 		}
 
 		public static class Monster
@@ -9317,6 +9334,13 @@ namespace Melia.Shared.Const
 			public const int HadVisited_700 = 102286;
 			public const int Pose_DANCECLAP = 102287;
 			public const int Pose_EXERCISE = 102288;
+			public const int IndunWeeklyEnteredCount_500 = 102307;
+			public const int HadVisited_8023 = 102311;
+			public const int Hide_2774 = 102312;
+			public const int HadVisited_1008 = 102317;
+			public const int BeautyshopStartHair = 102318;
+			public const int StartHairColorName = 102319;
+			public const int HAIR_WIG_Visible = 102323;
 		}
 
 		public static class Item
@@ -16337,6 +16361,10 @@ namespace Melia.Shared.Const
 			public const int MG_Last_PVP_MINE = 102280;
 			public const int MG_Last_MISSION_SURVIVAL_EVENT2 = 102292;
 			public const int TUTO_RESOURCE_BATTLE = 102293;
+			public const int MG_Last_GM_WHITETREES_56_1 = 102310;
+			public const int EVENT_1805_BEAUTY_NPC_3 = 102320;
+			public const int EVENT_1805_BEAUTY_NPC_2 = 102321;
+			public const int EVENT_1805_BEAUTY_NPC_1 = 102322;
 		}
 #pragma warning restore IDE1006
 	}

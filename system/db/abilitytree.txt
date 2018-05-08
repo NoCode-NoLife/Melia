@@ -642,7 +642,7 @@
 { category: "Hackapell", jobId: 3007, abilityId: 314003, name: "Cavalry Charge: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314004, name: "Leg Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314005, name: "Leg Shot: Decreased Movement Speed", maxLevel: 10, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
-{ category: "Hackapell", jobId: 3007, abilityId: 314006, name: "Hacka Pelle", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
+{ category: "Hackapell", jobId: 3007, abilityId: 314006, name: "Hakka Palle", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314008, name: "Cavalry Charge: Defense", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 1)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314009, name: "Grind Cutter: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 2)' },
 { category: "Hackapell", jobId: 3007, abilityId: 314010, name: "Skarphuggning: Enhance AoE", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_7", 2)' },
