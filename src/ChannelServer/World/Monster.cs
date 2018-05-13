@@ -118,6 +118,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public MonsterData Data { get; private set; }
 
+		public SpawnZone spawnZone;
+
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
@@ -188,6 +190,11 @@ namespace Melia.Channel.World
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);
+
+			if (this.spawnZone != null)
+			{
+				this.spawnZone.NotifyEntityDeath(this.Handle);
+			}
 
 			Send.ZC_DEAD(this);
 		}
