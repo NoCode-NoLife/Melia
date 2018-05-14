@@ -178,7 +178,7 @@ namespace Melia.Channel.World
 
 				if (i == 50)
 				{
-					Log.Warning("Polyon seems complicated in spawn {0} {1}", this.Id, this.Data.spawnName);
+					Log.Warning("Polygon seems complicated in spawn {0} {1}", this.Id, this.Data.spawnName);
 				}
 			}
 
@@ -210,7 +210,7 @@ namespace Melia.Channel.World
 				if (_countEntities < _calculatedTotalEntities)
 				{
 					Log.Debug("Task scheduled in time {0}", this.Data.respawnTime * 1000);
-					//TasksPoolManager.Instance.AddGeneralTask(DoSpawn, null, this.Data.respawnTime * 1000);
+					TasksPoolManager.Instance.AddGeneralTask(DoSpawn, null, this.Data.respawnTime * 1000);
 				}
 			}
 		}
