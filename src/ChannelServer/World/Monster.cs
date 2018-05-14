@@ -198,5 +198,11 @@ namespace Melia.Channel.World
 
 			Send.ZC_DEAD(this);
 		}
+
+
+		public void Process()
+		{
+		//TODO
+		}
 	}
 }

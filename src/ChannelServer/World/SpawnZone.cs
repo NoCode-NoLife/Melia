@@ -106,7 +106,7 @@ namespace Melia.Channel.World
 		public void DoSpawn(Object obj)
 		{
 			Log.Debug("DoSpawn");
-			if (!_isInitialized)
+			if (!_isInitialized && !_respawnEnabled)
 				return;
 
 
