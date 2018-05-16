@@ -14416,6 +14416,8 @@
 { classId: 5010170, className: "NPC_EVENT_2YEARS_DLG7" },
 { classId: 5010171, className: "NPC_EVENT_MAGAZINE_NUM1_DLG1" },
 { classId: 5010172, className: "NPC_EVENT_MAGAZINE_NUM1_DLG2" },
+{ classId: 5010173, className: "NPC_EVENT_VIVID_CITY_DLG1" },
+{ classId: 5010174, className: "NPC_EVENT_VIVID_CITY_DLG2" },
 { classId: 5010176, className: "NPC_EVENT_USER_ROUTE_DLG1" },
 { classId: 5010177, className: "NPC_EVENT_USER_ROUTE_DLG2" },
 { classId: 5010178, className: "NPC_EVENT_USER_ROUTE_DLG3" },
