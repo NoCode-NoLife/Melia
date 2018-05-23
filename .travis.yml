@@ -20,3 +20,5 @@ script:
   - msbuild Melia.sln /property:Configuration=Release
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.ChannelServer/bin/Release/Test.ChannelServer.dll
   - mono --debug ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./src/Test.Shared/bin/Release/Test.Shared.dll
+
+  
