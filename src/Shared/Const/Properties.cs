@@ -878,6 +878,25 @@ namespace Melia.Shared.Const
 			public const int STEAM_USER_ROUTE_Returning = 102330;
 			public const int TeamBattleLeague_Penalty_PenaltyLevel = 102331;
 			public const int STEAM_USER_ROUTE_Returning_CHECK = 102332;
+			public const int ExistingUserFlag = 102346;
+			public const int EVENT_1805_NEWUSER_REWARD_COUNT = 102347;
+			public const int EVENT_1805_NEWCHARACTER_REWARD_COUNT = 102348;
+			public const int PVP_MINE_Kill = 102349;
+			public const int EVENT_1805_GUILD_WEEK_REWARD_DATE = 102352;
+			public const int EVENT_1805_NEWCLASS_EXO_TEAM_COUNT = 102353;
+			public const int EVENT_1805_GUILD_QUEST_SUCCESS_COUNT = 102354;
+			public const int EVENT_1805_GUILD_CARD_COUNT = 102355;
+			public const int EVENT_1805_GUILD_WEEK_REWARD_COUNT = 102356;
+			public const int EVENT_1805_NEWCLASS_PDP_TEAM_COUNT = 102357;
+			public const int EVENT_1805_GUILD_DAY_MIC_REWARD_DATE = 102358;
+			public const int EVENT_1805_WEDDING2_REWARD_DATE = 102380;
+			public const int EVENT_1805_WEDDING2_ACC_COUNT = 102381;
+			public const int EVENT_1805_WEDDING2_ACC_REWARD = 102382;
+			public const int EVENT_1805_WEDDING2_REWARD_COUNT = 102383;
+			public const int HadVisited_701 = 102384;
+			public const int HadVisited_527 = 102385;
+			public const int HadVisited_528 = 102386;
+			public const int HadVisited_529 = 102387;
 		}
 
 		public static class Monster
@@ -2018,6 +2037,9 @@ namespace Melia.Shared.Const
 			public const int PATK_SUB_RATE_BM = 102042;
 			public const int MAXPATK_MAIN_RATE_BM = 102043;
 			public const int PATK_SUB_BM = 102044;
+			public const int HEAL_PWR = 102377;
+			public const int HEAL_PWR_BM = 102378;
+			public const int HEAL_PWR_RATE_BM = 102379;
 		}
 
 		public static class PCEtc
@@ -9341,6 +9363,24 @@ namespace Melia.Shared.Const
 			public const int BeautyshopStartHair = 102318;
 			public const int StartHairColorName = 102319;
 			public const int HAIR_WIG_Visible = 102323;
+			public const int Hide_2690 = 102342;
+			public const int Hide_2691 = 102343;
+			public const int JOB_PIED_PIPER_Q1_TRACK = 102344;
+			public const int HiddenJob_Char3_12 = 102345;
+			public const int Hide_2684 = 102359;
+			public const int Hide_2687 = 102360;
+			public const int JOB_EXORCIST1_TRACK = 102361;
+			public const int HiddenJob_Char4_20 = 102362;
+			public const int Hide_2689 = 102363;
+			public const int Hide_2682 = 102364;
+			public const int Hide_2685 = 102365;
+			public const int Hide_2688 = 102366;
+			public const int Hide_2683 = 102367;
+			public const int Hide_2686 = 102368;
+			public const int HadVisited_701 = 102374;
+			public const int HadVisited_527 = 102402;
+			public const int HadVisited_529 = 102403;
+			public const int HadVisited_528 = 102404;
 		}
 
 		public static class Item
@@ -16365,6 +16405,38 @@ namespace Melia.Shared.Const
 			public const int EVENT_1805_BEAUTY_NPC_3 = 102320;
 			public const int EVENT_1805_BEAUTY_NPC_2 = 102321;
 			public const int EVENT_1805_BEAUTY_NPC_1 = 102322;
+			public const int EVENT_1804_CLR_DATE = 102333;
+			public const int EVENT_1805_NEWCHARACTER_CHECK = 102334;
+			public const int EVENT_1805_NEWCLASS_RESET_DATE = 102335;
+			public const int JOB_PIED_PIPER_Q1 = 102336;
+			public const int JOB_PIED_PIPER_Q1_FC = 102337;
+			public const int JOB_PIED_PIPER_Q1_SRL = 102338;
+			public const int JOB_PIED_PIPER_Q1_R = 102339;
+			public const int JOB_PIED_PIPER_Q1_PI = 102340;
+			public const int EVENT_1805_NEWCLASS_RESET_ACC_COUNT = 102341;
+			public const int EVENT_1805_NEWCLASS_PDP_PC_COUNT = 102350;
+			public const int EVENT_1805_NEWCLASS_EXO_PC_COUNT = 102351;
+			public const int JOB_EXORCIST1 = 102369;
+			public const int JOB_EXORCIST1_R = 102370;
+			public const int JOB_EXORCIST1_FC = 102371;
+			public const int JOB_EXORCIST1_PI = 102372;
+			public const int JOB_EXORCIST1_SRL = 102373;
+			public const int MG_Last_MISSION_EVENT_1805_WEDDING2 = 102375;
+			public const int EVENT_1805_NEWCHARACTER_ABILITY_BOX_DATE = 102376;
+			public const int MG_Last_GUILD_COLONY_F_FARM_47_2 = 102388;
+			public const int EVENT_VIVID_KLAIPE_POINT1 = 102389;
+			public const int EVENT_VIVID_ORSHA_POINT1 = 102390;
+			public const int MG_Last_GUILD_COLONY_F_SIAULIAI_47_4 = 102391;
+			public const int EVENT_VIVID_FEDIMIAN_POINT1 = 102392;
+			public const int EVENT_VIVID_FEDIMIAN_POINT2 = 102393;
+			public const int EVENT_VIVID_ORSHA_POINT2 = 102394;
+			public const int EVENT_VIVID_KLAIPE_POINT4 = 102395;
+			public const int EVENT_VIVID_ORSHA_POINT3 = 102396;
+			public const int EVENT_VIVID_ORSHA_POINT4 = 102397;
+			public const int EVENT_VIVID_FEDIMIAN_POINT3 = 102398;
+			public const int EVENT_VIVID_FEDIMIAN_POINT4 = 102399;
+			public const int EVENT_VIVID_KLAIPE_POINT3 = 102400;
+			public const int EVENT_VIVID_KLAIPE_POINT2 = 102401;
 		}
 #pragma warning restore IDE1006
 	}

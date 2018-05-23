@@ -14430,6 +14430,7 @@
 { classId: 5010185, className: "NPC_EVENT_USER_ROUTE_DLG10" },
 { classId: 5010186, className: "NPC_EVENT_USER_ROUTE_DLG11" },
 { classId: 5010187, className: "NPC_EVENT_USER_ROUTE_DLG12" },
+{ classId: 5010188, className: "NPC_EVENT_VIVID_TIMECHECK" },
 { classId: 5015000, className: "NPC_KUPOLE_TESTSERVER_DLG_01" },
 { classId: 5015001, className: "NPC_KUPOLE_TESTSERVER_DLG_02" },
 { classId: 5200000, className: "NPC_JUNK_SHOP" },

@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i202202
+//   Version: i203489
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1198,6 +1198,25 @@ string getPropertyName(int id)
         case 102330: return "STEAM_USER_ROUTE_Returning";
         case 102331: return "TeamBattleLeague_Penalty_PenaltyLevel";
         case 102332: return "STEAM_USER_ROUTE_Returning_CHECK";
+        case 102346: return "ExistingUserFlag";
+        case 102347: return "EVENT_1805_NEWUSER_REWARD_COUNT";
+        case 102348: return "EVENT_1805_NEWCHARACTER_REWARD_COUNT";
+        case 102349: return "PVP_MINE_Kill";
+        case 102352: return "EVENT_1805_GUILD_WEEK_REWARD_DATE";
+        case 102353: return "EVENT_1805_NEWCLASS_EXO_TEAM_COUNT";
+        case 102354: return "EVENT_1805_GUILD_QUEST_SUCCESS_COUNT";
+        case 102355: return "EVENT_1805_GUILD_CARD_COUNT";
+        case 102356: return "EVENT_1805_GUILD_WEEK_REWARD_COUNT";
+        case 102357: return "EVENT_1805_NEWCLASS_PDP_TEAM_COUNT";
+        case 102358: return "EVENT_1805_GUILD_DAY_MIC_REWARD_DATE";
+        case 102380: return "EVENT_1805_WEDDING2_REWARD_DATE";
+        case 102381: return "EVENT_1805_WEDDING2_ACC_COUNT";
+        case 102382: return "EVENT_1805_WEDDING2_ACC_REWARD";
+        case 102383: return "EVENT_1805_WEDDING2_REWARD_COUNT";
+        case 102384: return "HadVisited_701";
+        case 102385: return "HadVisited_527";
+        case 102386: return "HadVisited_528";
+        case 102387: return "HadVisited_529";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2322,6 +2341,9 @@ string getPropertyName(int id)
         case 102042: return "PATK_SUB_RATE_BM";
         case 102043: return "MAXPATK_MAIN_RATE_BM";
         case 102044: return "PATK_SUB_BM";
+        case 102377: return "HEAL_PWR";
+        case 102378: return "HEAL_PWR_BM";
+        case 102379: return "HEAL_PWR_RATE_BM";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -9641,6 +9663,24 @@ string getPropertyName(int id)
         case 102318: return "BeautyshopStartHair";
         case 102319: return "StartHairColorName";
         case 102323: return "HAIR_WIG_Visible";
+        case 102342: return "Hide_2690";
+        case 102343: return "Hide_2691";
+        case 102344: return "JOB_PIED_PIPER_Q1_TRACK";
+        case 102345: return "HiddenJob_Char3_12";
+        case 102359: return "Hide_2684";
+        case 102360: return "Hide_2687";
+        case 102361: return "JOB_EXORCIST1_TRACK";
+        case 102362: return "HiddenJob_Char4_20";
+        case 102363: return "Hide_2689";
+        case 102364: return "Hide_2682";
+        case 102365: return "Hide_2685";
+        case 102366: return "Hide_2688";
+        case 102367: return "Hide_2683";
+        case 102368: return "Hide_2686";
+        case 102374: return "HadVisited_701";
+        case 102402: return "HadVisited_527";
+        case 102403: return "HadVisited_529";
+        case 102404: return "HadVisited_528";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -16653,6 +16693,38 @@ string getPropertyName(int id)
         case 102320: return "EVENT_1805_BEAUTY_NPC_3";
         case 102321: return "EVENT_1805_BEAUTY_NPC_2";
         case 102322: return "EVENT_1805_BEAUTY_NPC_1";
+        case 102333: return "EVENT_1804_CLR_DATE";
+        case 102334: return "EVENT_1805_NEWCHARACTER_CHECK";
+        case 102335: return "EVENT_1805_NEWCLASS_RESET_DATE";
+        case 102336: return "JOB_PIED_PIPER_Q1";
+        case 102337: return "JOB_PIED_PIPER_Q1_FC";
+        case 102338: return "JOB_PIED_PIPER_Q1_SRL";
+        case 102339: return "JOB_PIED_PIPER_Q1_R";
+        case 102340: return "JOB_PIED_PIPER_Q1_PI";
+        case 102341: return "EVENT_1805_NEWCLASS_RESET_ACC_COUNT";
+        case 102350: return "EVENT_1805_NEWCLASS_PDP_PC_COUNT";
+        case 102351: return "EVENT_1805_NEWCLASS_EXO_PC_COUNT";
+        case 102369: return "JOB_EXORCIST1";
+        case 102370: return "JOB_EXORCIST1_R";
+        case 102371: return "JOB_EXORCIST1_FC";
+        case 102372: return "JOB_EXORCIST1_PI";
+        case 102373: return "JOB_EXORCIST1_SRL";
+        case 102375: return "MG_Last_MISSION_EVENT_1805_WEDDING2";
+        case 102376: return "EVENT_1805_NEWCHARACTER_ABILITY_BOX_DATE";
+        case 102388: return "MG_Last_GUILD_COLONY_F_FARM_47_2";
+        case 102389: return "EVENT_VIVID_KLAIPE_POINT1";
+        case 102390: return "EVENT_VIVID_ORSHA_POINT1";
+        case 102391: return "MG_Last_GUILD_COLONY_F_SIAULIAI_47_4";
+        case 102392: return "EVENT_VIVID_FEDIMIAN_POINT1";
+        case 102393: return "EVENT_VIVID_FEDIMIAN_POINT2";
+        case 102394: return "EVENT_VIVID_ORSHA_POINT2";
+        case 102395: return "EVENT_VIVID_KLAIPE_POINT4";
+        case 102396: return "EVENT_VIVID_ORSHA_POINT3";
+        case 102397: return "EVENT_VIVID_ORSHA_POINT4";
+        case 102398: return "EVENT_VIVID_FEDIMIAN_POINT3";
+        case 102399: return "EVENT_VIVID_FEDIMIAN_POINT4";
+        case 102400: return "EVENT_VIVID_KLAIPE_POINT3";
+        case 102401: return "EVENT_VIVID_KLAIPE_POINT2";
         default: return "Unknown";
     }
 }
