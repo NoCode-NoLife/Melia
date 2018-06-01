@@ -121,6 +121,7 @@
 { shopName: "Master_Alchemist", productId: 1405, itemId: 640027, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1406, itemId: 640030, priceMultiplier: 1 },
 { shopName: "Master_Alchemist", productId: 1407, itemId: 690057, priceMultiplier: 1 },
+{ shopName: "Master_Alchemist", productId: 1408, itemId: 699003, priceMultiplier: 1 },
 
 { shopName: "Master_Wugushi", productId: 1501, itemId: 645569, priceMultiplier: 1 },
 
@@ -370,4 +371,6 @@
 { shopName: "ONMYOJI_MASTER", productId: 6200, itemId: 646074, priceMultiplier: 1 },
 
 { shopName: "RETIARII_MASTER", productId: 6300, itemId: 646072, priceMultiplier: 1 },
+
+{ shopName: "Teliavelis", productId: 6400, itemId: 643020, priceMultiplier: 1 },
 ]

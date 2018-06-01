@@ -47,4 +47,5 @@
 { id: 42, name: "DEPOSIT_GUILD_ASSET", script: "SCR_DEPOSIT_GUILD_ASSET", useTx: true },
 { id: 43, name: "UPDATE_GUILD_TOWER_LEVEL", script: "SCR_UPDATE_GUILD_TOWER_LEVEL", useTx: true },
 { id: 44, name: "CHANGE_COLONY_CONFIG", script: "SCR_CHANGE_COLONY_CONFIG", useTx: false },
+{ id: 45, name: "REQ_LEGEND_ITEM_DIALOG", script: "SCR_REQ_LEGEND_ITEM_DIALOG", useTx: true },
 ]

@@ -77,6 +77,7 @@
 { category: "Peltasta", jobId: 1003, abilityId: 102025, name: "Langort: Blocking", maxLevel: 4, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 3)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102027, name: "Swash Buckling: Maintain Provocation", maxLevel: 3, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 2)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102028, name: "Peltasta: Double Provocation", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_3", 1)' },
+{ category: "Peltasta", jobId: 1003, abilityId: 102029, name: "Guardian: Reduce Damage", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_PELTASTA33("Char1_3", 6)' },
 
 // Hoplite
 //---------------------------------------------------------------------------
@@ -252,6 +253,7 @@
 { category: "Fencer", jobId: 1014, abilityId: 112007, name: "Flanconnade: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 1)' },
 { category: "Fencer", jobId: 1014, abilityId: 112008, name: "Balestra Fente: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
 { category: "Fencer", jobId: 1014, abilityId: 112009, name: "Attaque au Fer: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
+{ category: "Fencer", jobId: 1014, abilityId: 112010, name: "Fleche: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_14", 3)' },
 
 // Dragoon
 //---------------------------------------------------------------------------
@@ -369,7 +371,6 @@
 { category: "Alchemist", jobId: 2005, abilityId: 211006, name: "Tincturing: Magic Amplification Potion", maxLevel: 15, priceTime: 'ABIL_TINCTURINGPOTION_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Alchemist_Tincturing", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211007, name: "Combustion: Using Silver", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211008, name: "Alchemistic Missile: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 3)' },
-{ category: "Alchemist", jobId: 2005, abilityId: 211009, name: "Briquetting: Select Appearance", maxLevel: 1, priceTime: 'ABIL_ALCHEMIST10_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 3)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211010, name: "Item Awakening: Quick and Prompt Decision", maxLevel: 10, priceTime: 'ABIL_7RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 2)' },
 
 // Sorcerer
@@ -621,6 +622,7 @@
 { category: "Sapper", jobId: 3005, abilityId: 304024, name: "Broom Trap: Firepower Boost", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_5", 3)' },
 { category: "Sapper", jobId: 3005, abilityId: 304025, name: "Spike Shooter: Firepower Boost", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_5", 3)' },
 { category: "Sapper", jobId: 3005, abilityId: 304026, name: "Punji Stake: Implacable", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_5", 2)' },
+{ category: "Sapper", jobId: 3005, abilityId: 304027, name: "Sapper: Subweapon Attack", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_5", 1)' },
 
 // Wugushi
 //---------------------------------------------------------------------------
@@ -633,6 +635,7 @@
 { category: "Wugushi", jobId: 3006, abilityId: 306012, name: "Wugushi: Poison Reserve", maxLevel: 50, priceTime: 'ABIL_SAVEPOISON_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 2)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306013, name: "Jincan Gu: Vitality", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 3)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306014, name: "Zhendu: Decreased Poison Resistance", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306017, name: "Wugushi: Two-handed Poison", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 
 // Hackapell
 //---------------------------------------------------------------------------
@@ -790,6 +793,7 @@
 { category: "Mergen", jobId: 3017, abilityId: 315006, name: "Arrow Sprinkle: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
 { category: "Mergen", jobId: 3017, abilityId: 315007, name: "Jump Shot: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
 { category: "Mergen", jobId: 3017, abilityId: 315009, name: "Spread Shot: Ricochet", maxLevel: 20, priceTime: 'ABIL_8RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
+{ category: "Mergen", jobId: 3017, abilityId: 315010, name: "Parthian Shaft: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 1)' },
 { category: "Mergen", jobId: 3017, abilityId: 315011, name: "Down Fall: Enhance", maxLevel: 100, priceTime: 'ABIL_9RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
 { category: "Mergen", jobId: 3017, abilityId: 315012, name: "Homing Arrow: Quick Charge", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
 { category: "Mergen", jobId: 3017, abilityId: 315013, name: "Triple Arrow: Triple", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_17", 2)' },
@@ -855,7 +859,7 @@
 { category: "Bokor", jobId: 4004, abilityId: 404010, name: "Effigy: Blind", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 1)' },
 { category: "Bokor", jobId: 4004, abilityId: 404011, name: "Ogouveve: Decreased Strength", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 3)' },
 { category: "Bokor", jobId: 4004, abilityId: 404012, name: "Damballa: Chance of Zombification", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 3)' },
-{ category: "Bokor", jobId: 4004, abilityId: 404013, name: "Bwa Kayiman: Zombie Defense", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 2)' },
+{ category: "Bokor", jobId: 4004, abilityId: 404013, name: "Bwa Kayiman: zombie defense", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 2)' },
 { category: "Bokor", jobId: 4004, abilityId: 404015, name: "Hexing: Dark", maxLevel: 3, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 1)' },
 { category: "Bokor", jobId: 4004, abilityId: 404016, name: "Samediveve: Increased Range", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 2)' },
 { category: "Bokor", jobId: 4004, abilityId: 404017, name: "Ogouveve: Increased Range", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_4", 3)' },
