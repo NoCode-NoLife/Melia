@@ -897,6 +897,15 @@ namespace Melia.Shared.Const
 			public const int HadVisited_527 = 102385;
 			public const int HadVisited_528 = 102386;
 			public const int HadVisited_529 = 102387;
+			public const int EVENT_1805_SLATE_START_SLATE_LIST = 102410;
+			public const int EVENT_1805_SLATE_START_STATE = 102411;
+			public const int EVENT_1805_SLATE_START_TARGET_LIST = 102412;
+			public const int SOLO_DUNGEON_WEEK_NUMBER = 102413;
+			public const int EVENT_1805_SLATE_START_DATE = 102414;
+			public const int EVENT_1805_SLATE_ACC_REWARD = 102415;
+			public const int SOLO_DUNGEON_YEAR = 102416;
+			public const int HadVisited_8022 = 102417;
+			public const int EVENT_STEAM_TRANSCEND_ANVIL = 102418;
 		}
 
 		public static class Monster
@@ -9381,6 +9390,8 @@ namespace Melia.Shared.Const
 			public const int HadVisited_527 = 102402;
 			public const int HadVisited_529 = 102403;
 			public const int HadVisited_528 = 102404;
+			public const int HadVisited_8022 = 102407;
+			public const int Hide_2777 = 102408;
 		}
 
 		public static class Item
@@ -9767,6 +9778,8 @@ namespace Melia.Shared.Const
 			public const int InheritanceItemName = 102231;
 			public const int LegendPrefix = 102232;
 			public const int ItemExpString = 102262;
+			public const int IsAlwaysHatVisible = 102405;
+			public const int DisableContents = 102406;
 		}
 
 		public static class Party
@@ -16437,6 +16450,7 @@ namespace Melia.Shared.Const
 			public const int EVENT_VIVID_FEDIMIAN_POINT4 = 102399;
 			public const int EVENT_VIVID_KLAIPE_POINT3 = 102400;
 			public const int EVENT_VIVID_KLAIPE_POINT2 = 102401;
+			public const int MG_Last_SOLO_DUNGEON_MINI = 102409;
 		}
 #pragma warning restore IDE1006
 	}

@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i203489
+//   Version: i204337
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1217,6 +1217,15 @@ string getPropertyName(int id)
         case 102385: return "HadVisited_527";
         case 102386: return "HadVisited_528";
         case 102387: return "HadVisited_529";
+        case 102410: return "EVENT_1805_SLATE_START_SLATE_LIST";
+        case 102411: return "EVENT_1805_SLATE_START_STATE";
+        case 102412: return "EVENT_1805_SLATE_START_TARGET_LIST";
+        case 102413: return "SOLO_DUNGEON_WEEK_NUMBER";
+        case 102414: return "EVENT_1805_SLATE_START_DATE";
+        case 102415: return "EVENT_1805_SLATE_ACC_REWARD";
+        case 102416: return "SOLO_DUNGEON_YEAR";
+        case 102417: return "HadVisited_8022";
+        case 102418: return "EVENT_STEAM_TRANSCEND_ANVIL";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9681,6 +9690,8 @@ string getPropertyName(int id)
         case 102402: return "HadVisited_527";
         case 102403: return "HadVisited_529";
         case 102404: return "HadVisited_528";
+        case 102407: return "HadVisited_8022";
+        case 102408: return "Hide_2777";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -10063,6 +10074,8 @@ string getPropertyName(int id)
         case 102231: return "InheritanceItemName";
         case 102232: return "LegendPrefix";
         case 102262: return "ItemExpString";
+        case 102405: return "IsAlwaysHatVisible";
+        case 102406: return "DisableContents";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";
@@ -16725,6 +16738,7 @@ string getPropertyName(int id)
         case 102399: return "EVENT_VIVID_FEDIMIAN_POINT4";
         case 102400: return "EVENT_VIVID_KLAIPE_POINT3";
         case 102401: return "EVENT_VIVID_KLAIPE_POINT2";
+        case 102409: return "MG_Last_SOLO_DUNGEON_MINI";
         default: return "Unknown";
     }
 }
