@@ -18,6 +18,25 @@ Melia is only compatible to the latest iTOS client,
 compatibility to any other clients or versions is
 not guaranteed, and in fact unlikely.
 
+State of Development
+------------------------------
+Melia is not being actively developed at the current time, and hasn't been
+since the game's release. As a result the implemented features are few,
+and the only updates that are regularly made are to keep up the compatibility
+to the latest client. However, you're very welcome to work on Melia, make
+pull requests, and ask questions on the chat at any time.
+
+The features that are currently working are the following:
+- Login Server
+  - Character management
+- Channel Server
+  - Chat
+  - Inventory management
+  - Equipment
+  - Stats
+  - Skill list
+  - Very basic test melee combat
+
 Requirements
 ------------------------------
 To *run* Melia, you need
