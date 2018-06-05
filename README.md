@@ -66,9 +66,10 @@ Check the file CONTRIBUTING.md for instructions on how you may contribute.
 Links
 ------------------------------
 * GitHub: https://github.com/aura-project
-* Gitter chat: https://gitter.im/aura-project/melia
+* Chat: https://gitter.im/aura-project/melia
 * Backlog: [https://github.com/aura-project/melia/issues](https://github.com/aura-project/aura/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abacklog)
 * Wiki: https://github.com/aura-project/melia/wiki
+* Forum: https://nocodenolife.org/forum/65-melia/
 
 Build Status
 ------------------------------
