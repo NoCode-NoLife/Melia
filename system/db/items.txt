@@ -4814,7 +4814,7 @@
 { itemId: 641939, className: "Event_Goddess_Statue", name: "Goddess Sculpture (14 Days)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 641940, className: "CS_IndunReset_GTower_14d", name: "Earth Tower 1 Extra Entry Voucher (14 Days)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 641941, className: "CS_IndunReset_Nunnery_14d", name: "Saalus Mission One Entry Voucher (14 Days)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
-{ itemId: 641943, className: "Leticia_IndunReset_GTower", name: "Earth Tower 1 Extra Entry Voucher", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
+{ itemId: 641943, className: "Leticia_IndunReset_GTower", name: "Earth Tower 1 Extra Entry Voucher", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641945, className: "Event_Goddess_Statue_DLC", name: "Goddess Sculpture", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
 { itemId: 641946, className: "Event_drug_steam_1h_DLC", name: "Lv2 Settlement Support Potion", category: 7, weight: 0, maxStack: 32767, price: 0, sellPrice: 0 },
 { itemId: 641952, className: "Event_1710_NexonCashBox", name: "Lucky Golden Week Chest (1 Hour)", category: 7, weight: 0, maxStack: 1, price: 0, sellPrice: 0 },
