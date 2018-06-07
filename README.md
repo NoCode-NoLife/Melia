@@ -73,4 +73,4 @@ Links
 
 Build Status
 ------------------------------
-[![Build Status](https://travis-ci.org/aura-project/melia.png?branch=master)](https://travis-ci.org/aura-project/melia)
+[![Build Status](https://travis-ci.org/NoCode-NoLife/melia.png?branch=master)](https://travis-ci.org/aura-project/melia)
