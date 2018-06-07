@@ -57,7 +57,7 @@ Installation
 
 Afterwards, you should be able to start Melia via the provided scripts or
 directly from the bin directories. If not, or if you need a more detailed guide,
-head over to our [Gitter chat](https://gitter.im/aura-project/melia) or [wiki](https://github.com/aura-project/melia/wiki).
+head over to our forum, the chat, or the wiki.
 
 Contribution
 ------------------------------
@@ -65,9 +65,9 @@ Check the file CONTRIBUTING.md for instructions on how you may contribute.
 
 Links
 ------------------------------
-* GitHub: https://github.com/aura-project
-* Backlog: [https://github.com/aura-project/melia/issues](https://github.com/aura-project/aura/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abacklog)
-* Wiki: https://github.com/aura-project/melia/wiki
+* GitHub: https://github.com/NoCode-NoLife/melia
+* Backlog: [https://github.com/NoCode-NoLife/melia/issues](https://github.com/NoCode-NoLife/melia/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abacklog)
+* Wiki: https://github.com/NoCode-NoLife/melia/wiki
 * Forum: https://nocodenolife.org/forum/65-melia/
 * Chat: https://discord.gg/5sszEgw
 
