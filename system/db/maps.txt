@@ -52,6 +52,7 @@
 { mapId: 527, className: "VIVID_c_Klaipe", engName: "Rainbow Klaipeda", localKey: "ETC_20180514_032517" },
 { mapId: 528, className: "VIVID_c_orsha", engName: "Rainbow Orsha", localKey: "ETC_20180514_032518" },
 { mapId: 529, className: "VIVID_c_fedimian", engName: "Rainbow Fedimian", localKey: "ETC_20180514_032519" },
+{ mapId: 530, className: "Steam_f_coral_44_1", engName: "[Event] The Cursed Shore", localKey: "ETC_20180615_033136" },
 { mapId: 700, className: "f_pilgrimroad_41_1_event", engName: "Treasure Chest Event", localKey: "ETC_20180517_032524" },
 { mapId: 981, className: "c_fedimian", engName: "?", localKey: "?" },
 { mapId: 1001, className: "c_Klaipe", engName: "Klaipeda", localKey: "ETC_20150317_001144" },

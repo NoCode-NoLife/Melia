@@ -520,7 +520,7 @@
 { jobId: 4010, skillId: 40808, skillName: "Increase Magic Defense", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 4010, skillId: 40804, skillName: "Oblation", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 4010, skillId: 40805, skillName: "Spell Shop", unlockCircle: 2, levelsPerCircle: 5, maxLevel: 5 },
-{ jobId: 4010, skillId: 40809, skillName: "Decatose", unlockCircle: 3, levelsPerCircle: 5, maxLevel: 20 },
+{ jobId: 4010, skillId: 40809, skillName: "Dekatos", unlockCircle: 3, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 4011, skillId: 40601, skillName: "Smite", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 4011, skillId: 40602, skillName: "Restoration", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },
 { jobId: 4011, skillId: 40603, skillName: "Resist Elements", unlockCircle: 1, levelsPerCircle: 5, maxLevel: 20 },

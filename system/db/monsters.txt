@@ -1821,6 +1821,7 @@
 { monsterId: 58326, className: "Photowall_christmas_santa", name: "Christmas Santa Pop-up Book", level: 999, exp: 0, classExp: 0, hp: 78161, defense: 3866 },
 { monsterId: 58327, className: "photowall_golddog", name: "Golden Pup Popup Book", level: 999, exp: 0, classExp: 0, hp: 78161, defense: 3579 },
 { monsterId: 58328, className: "photowall_fairy_wedding", name: "Fairy Wedding Popup Book", level: 999, exp: 0, classExp: 0, hp: 78161, defense: 3579 },
+{ monsterId: 58329, className: "photowall_soccer", name: "Soccer Podium Popup Book", level: 999, exp: 0, classExp: 0, hp: 78161, defense: 3579 },
 { monsterId: 58382, className: "sardina", name: "Sardine", level: 1, exp: 0, classExp: 0, hp: 30, defense: 16 },
 { monsterId: 58383, className: "anvil_platinum_mon", name: "Platinum Anvil", level: 1, exp: 0, classExp: 0, hp: 3, defense: 21 },
 { monsterId: 58384, className: "ID_Siaulav", name: "Siaulav", level: 260, exp: 36115, classExp: 23184, hp: 198694, defense: 728 },
@@ -3127,6 +3128,7 @@
 { monsterId: 20070, className: "SkillTrigger1", name: "", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 20071, className: "SkillTrigger2", name: "", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 20079, className: "Raima", name: "여신 라이마", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
+{ monsterId: 20080, className: "HiddenObbBox1", name: "", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 20100, className: "npc_combat_transport_section_2_sit", name: "Merchant 2 Sit", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 20101, className: "HiddenTrigger5", name: "　", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 20102, className: "npc_combat_transport_section_1", name: "Merchant 1", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
@@ -4444,6 +4446,7 @@
 { monsterId: 161000, className: "E_statue_zemina", name: "Statue of Goddess Zemyna", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 161001, className: "npc_kupole_Velcoffer", name: "큐폴 시모나", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
 { monsterId: 161002, className: "npc_Teliavelis", name: "대장장이 테리아베리스", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
+{ monsterId: 161007, className: "npc_keeper_event_2", name: "펭키퍼", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 
 // Pets
 //---------------------------------------------------------------------------

@@ -945,7 +945,7 @@
 { category: "Pardoner", jobId: 4010, abilityId: 409005, name: "Spell Shop: Duration", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 2)' },
 { category: "Pardoner", jobId: 4010, abilityId: 409006, name: "Pardoner: Donation", maxLevel: 100, priceTime: 'ABIL_PARDONER5_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 1)' },
 { category: "Pardoner", jobId: 4010, abilityId: 409007, name: "Increase Magic Defense: Duration", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 1)' },
-{ category: "Pardoner", jobId: 4010, abilityId: 409008, name: "Decatose: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 3)' },
+{ category: "Pardoner", jobId: 4010, abilityId: 409008, name: "Dekatos: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_10", 3)' },
 
 // Paladin
 //---------------------------------------------------------------------------
@@ -987,7 +987,7 @@
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412010, name: "Pandemic: Increased Range", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412011, name: "Disenchant: Boosted Debuff Level", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412012, name: "Disenchant: Neutralize Gear", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
-{ category: "PlagueDoctor", jobId: 4014, abilityId: 412013, name: "Incinerate: Infect", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412013, name: "Incineration: Infect", maxLevel: 5, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 2)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412014, name: "Pandemic: Spread Incineration", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PlagueDoctor_Pandemic", 11)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412015, name: "Incineration: Fast Response", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 3)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412016, name: "Black Death Steam: Fast Contagion", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_14", 3)' },
