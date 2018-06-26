@@ -4446,7 +4446,7 @@
 { monsterId: 161000, className: "E_statue_zemina", name: "Statue of Goddess Zemyna", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 { monsterId: 161001, className: "npc_kupole_Velcoffer", name: "큐폴 시모나", level: 1, exp: 0, classExp: 0, hp: 60, defense: 0 },
 { monsterId: 161002, className: "npc_Teliavelis", name: "대장장이 테리아베리스", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
-{ monsterId: 161007, className: "npc_keeper_event_2", name: "펭키퍼", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
+{ monsterId: 161011, className: "npc_keeper_event_2", name: "Goalkeeper", level: 1, exp: 0, classExp: 0, hp: 48, defense: 0 },
 
 // Pets
 //---------------------------------------------------------------------------

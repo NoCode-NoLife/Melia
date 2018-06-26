@@ -906,6 +906,22 @@ namespace Melia.Shared.Const
 			public const int SOLO_DUNGEON_YEAR = 102416;
 			public const int HadVisited_8022 = 102417;
 			public const int EVENT_STEAM_TRANSCEND_ANVIL = 102418;
+			public const int EVENT_1806_NUMBER_GAMES_NUMBER = 102419;
+			public const int EVENT_1806_NUMBER_GAMES_ACC_COUNT = 102420;
+			public const int EVENT_1806_NUMBER_GAMES_DATE = 102421;
+			public const int EVENT_1806_SOCCER_REWARD_DATE = 102422;
+			public const int EVENT_1806_NUMBER_GAMES_ACC_REWARD = 102423;
+			public const int HadVisited_702 = 102424;
+			public const int EV1806_PENALTY_REWARD = 102425;
+			public const int EVENT_1806_STORY_1_DATE = 102430;
+			public const int EVENT_1806_STORY_1_KILLLV = 102431;
+			public const int EVENT_1806_STORY_1_KILLCOUNT = 102432;
+			public const int EVENT_1806_STORY_1_HELPHAWK = 102433;
+			public const int EVENT_1806_STORY_1_HELPHAWK_POS = 102434;
+			public const int EVENT_1806_STORY_1_REWARDCOUNT = 102435;
+			public const int EVENT_1806_STORY_1_ACC_REWARD = 102436;
+			public const int EVENT_STEAM_SOCCER_SELECT = 102440;
+			public const int HadVisited_530 = 102441;
 		}
 
 		public static class Monster
@@ -9392,6 +9408,19 @@ namespace Melia.Shared.Const
 			public const int HadVisited_528 = 102404;
 			public const int HadVisited_8022 = 102407;
 			public const int Hide_2777 = 102408;
+			public const int HadVisited_702 = 102428;
+			public const int Hide_2788 = 102429;
+			public const int InDunCountType_8001 = 102437;
+			public const int Kill_uniq_id_boss_Spector_F = 102438;
+			public const int Kill_steam_event_boss_stone_whale_orange = 102442;
+			public const int Kill_steam_event_boss_Confinedion = 102443;
+			public const int Kill_steam_event_VarleAnchor = 102444;
+			public const int HadVisited_530 = 102445;
+			public const int Kill_steam_event_afisher = 102446;
+			public const int Kill_steam_event_anchor_purple = 102447;
+			public const int Kill_steam_event_VarleHenchman = 102448;
+			public const int Kill_steam_event_VarleHelmsman = 102449;
+			public const int Kill_steam_event_tombstone_turtle = 102450;
 		}
 
 		public static class Item
@@ -9780,6 +9809,7 @@ namespace Melia.Shared.Const
 			public const int ItemExpString = 102262;
 			public const int IsAlwaysHatVisible = 102405;
 			public const int DisableContents = 102406;
+			public const int SpineTooltipImage = 102426;
 		}
 
 		public static class Party
@@ -16451,6 +16481,8 @@ namespace Melia.Shared.Const
 			public const int EVENT_VIVID_KLAIPE_POINT3 = 102400;
 			public const int EVENT_VIVID_KLAIPE_POINT2 = 102401;
 			public const int MG_Last_SOLO_DUNGEON_MINI = 102409;
+			public const int MG_Last_MISSION_EVENT_1806_SOCCER = 102427;
+			public const int MG_Last_UNIQUE_RAID_PAST_FANTASY_LIBRARY = 102439;
 		}
 #pragma warning restore IDE1006
 	}

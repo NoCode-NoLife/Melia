@@ -536,7 +536,7 @@
 { id: 210003, className: "Necromancer15", engName: "Flesh Hoop: Enhance", level: 1, passive: true },
 { id: 210004, className: "Necromancer1", engName: "Flesh Canon: Decompose", level: 1, passive: false },
 { id: 210005, className: "Necromancer2", engName: "Flesh Hoop: Demoralize", level: 1, passive: false },
-{ id: 210006, className: "Necromancer3", engName: "Create Shoggoth: Decay", level: 1, passive: false },
+{ id: 210006, className: "Necromancer3", engName: "Create Shoggoth: Corruption", level: 1, passive: false },
 { id: 210007, className: "Necromancer4", engName: "Disinter: Increased Range", level: 1, passive: false },
 { id: 210008, className: "Necromancer5", engName: "Create Shoggoth: Enhance", level: 1, passive: true },
 { id: 210009, className: "Necromancer6", engName: "Corpse Tower: Enhance", level: 1, passive: true },

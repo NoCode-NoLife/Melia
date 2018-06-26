@@ -418,7 +418,7 @@
 { category: "Necromancer", jobId: 2009, abilityId: 210003, name: "Flesh Hoop: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
 { category: "Necromancer", jobId: 2009, abilityId: 210004, name: "Flesh Canon: Decompose", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
 { category: "Necromancer", jobId: 2009, abilityId: 210005, name: "Flesh Hoop: Demoralize", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
-{ category: "Necromancer", jobId: 2009, abilityId: 210006, name: "Create Shoggoth: Decay", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
+{ category: "Necromancer", jobId: 2009, abilityId: 210006, name: "Create Shoggoth: Corruption", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
 { category: "Necromancer", jobId: 2009, abilityId: 210007, name: "Disinter: Increased Range", maxLevel: 3, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 2)' },
 { category: "Necromancer", jobId: 2009, abilityId: 210008, name: "Create Shoggoth: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 1)' },
 { category: "Necromancer", jobId: 2009, abilityId: 210009, name: "Corpse Tower: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_9", 2)' },

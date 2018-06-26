@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i204337
+//   Version: i207317
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1226,6 +1226,22 @@ string getPropertyName(int id)
         case 102416: return "SOLO_DUNGEON_YEAR";
         case 102417: return "HadVisited_8022";
         case 102418: return "EVENT_STEAM_TRANSCEND_ANVIL";
+        case 102419: return "EVENT_1806_NUMBER_GAMES_NUMBER";
+        case 102420: return "EVENT_1806_NUMBER_GAMES_ACC_COUNT";
+        case 102421: return "EVENT_1806_NUMBER_GAMES_DATE";
+        case 102422: return "EVENT_1806_SOCCER_REWARD_DATE";
+        case 102423: return "EVENT_1806_NUMBER_GAMES_ACC_REWARD";
+        case 102424: return "HadVisited_702";
+        case 102425: return "EV1806_PENALTY_REWARD";
+        case 102430: return "EVENT_1806_STORY_1_DATE";
+        case 102431: return "EVENT_1806_STORY_1_KILLLV";
+        case 102432: return "EVENT_1806_STORY_1_KILLCOUNT";
+        case 102433: return "EVENT_1806_STORY_1_HELPHAWK";
+        case 102434: return "EVENT_1806_STORY_1_HELPHAWK_POS";
+        case 102435: return "EVENT_1806_STORY_1_REWARDCOUNT";
+        case 102436: return "EVENT_1806_STORY_1_ACC_REWARD";
+        case 102440: return "EVENT_STEAM_SOCCER_SELECT";
+        case 102441: return "HadVisited_530";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -9692,6 +9708,19 @@ string getPropertyName(int id)
         case 102404: return "HadVisited_528";
         case 102407: return "HadVisited_8022";
         case 102408: return "Hide_2777";
+        case 102428: return "HadVisited_702";
+        case 102429: return "Hide_2788";
+        case 102437: return "InDunCountType_8001";
+        case 102438: return "Kill_uniq_id_boss_Spector_F";
+        case 102442: return "Kill_steam_event_boss_stone_whale_orange";
+        case 102443: return "Kill_steam_event_boss_Confinedion";
+        case 102444: return "Kill_steam_event_VarleAnchor";
+        case 102445: return "HadVisited_530";
+        case 102446: return "Kill_steam_event_afisher";
+        case 102447: return "Kill_steam_event_anchor_purple";
+        case 102448: return "Kill_steam_event_VarleHenchman";
+        case 102449: return "Kill_steam_event_VarleHelmsman";
+        case 102450: return "Kill_steam_event_tombstone_turtle";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -10076,6 +10105,7 @@ string getPropertyName(int id)
         case 102262: return "ItemExpString";
         case 102405: return "IsAlwaysHatVisible";
         case 102406: return "DisableContents";
+        case 102426: return "SpineTooltipImage";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";
@@ -16739,6 +16769,8 @@ string getPropertyName(int id)
         case 102400: return "EVENT_VIVID_KLAIPE_POINT3";
         case 102401: return "EVENT_VIVID_KLAIPE_POINT2";
         case 102409: return "MG_Last_SOLO_DUNGEON_MINI";
+        case 102427: return "MG_Last_MISSION_EVENT_1806_SOCCER";
+        case 102439: return "MG_Last_UNIQUE_RAID_PAST_FANTASY_LIBRARY";
         default: return "Unknown";
     }
 }
