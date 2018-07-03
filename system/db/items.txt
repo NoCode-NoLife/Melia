@@ -3559,7 +3559,7 @@
 { itemId: 11130, className: "ABAND01_130", name: "스팀 2주년 암밴드", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 1 },
 { itemId: 11131, className: "ABAND01_119_COLONY_30", name: "Territory Wars Tester Armband (30days)", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 40 },
 { itemId: 11132, className: "ABAND01_119_COLONY_90", name: "Territory Wars Tester Armband  (90days)", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 40 },
-{ itemId: 11134, className: "ABAND01_132", name: "캡틴 암밴드", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 1 },
+{ itemId: 11134, className: "ABAND01_132", name: "Captain Armband", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 1 },
 { itemId: 11135, className: "ABAND01_133", name: "Supporters Armband", category: 4, weight: 10, maxStack: 1, price: 0, sellPrice: 0, equipType1: "Armband", equipType2: "Armband", minLevel: 1 },
 { itemId: 111001, className: "DAG01_101", name: "Knife", category: 4, weight: 90, maxStack: 1, price: 9312, sellPrice: 1862, equipType1: "Dagger", minLevel: 120 },
 { itemId: 111002, className: "DAG01_102", name: "Superior Knife", category: 4, weight: 90, maxStack: 1, price: 9312, sellPrice: 2582, equipType1: "Dagger", minLevel: 120 },
