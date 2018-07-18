@@ -200,8 +200,8 @@
 // Squire
 //---------------------------------------------------------------------------
 { category: "Squire", jobId: 1011, abilityId: 108001, name: "Arrest: Slow", maxLevel: 5, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 1)' },
-{ category: "Squire", jobId: 1011, abilityId: 108002, name: "Weapon Maintenance: Increased Count", maxLevel: 100, priceTime: 'ABIL_SQUIRE_TOUCHUP_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Squire_WeaponTouchUp", 3)' },
-{ category: "Squire", jobId: 1011, abilityId: 108003, name: "Armor Maintenance: Increased Count", maxLevel: 100, priceTime: 'ABIL_SQUIRE_TOUCHUP_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Squire_ArmorTouchUp", 3)' },
+{ category: "Squire", jobId: 1011, abilityId: 108002, name: "Weapon Maintenance: Increased Count", maxLevel: 100, priceTime: 'ABIL_SQUIRE_TOUCHUP_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 1)' },
+{ category: "Squire", jobId: 1011, abilityId: 108003, name: "Armor Maintenance: Increased Count", maxLevel: 100, priceTime: 'ABIL_SQUIRE_TOUCHUP_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 1)' },
 { category: "Squire", jobId: 1011, abilityId: 108004, name: "Refreshment Table: Salad", maxLevel: 10, priceTime: 'ABIL_SQUIRE_FOODTABLE_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 2)' },
 { category: "Squire", jobId: 1011, abilityId: 108005, name: "Refreshment Table: Sandwich", maxLevel: 10, priceTime: 'ABIL_SQUIRE_FOODTABLE_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 2)' },
 { category: "Squire", jobId: 1011, abilityId: 108006, name: "Refreshment Table: Soup", maxLevel: 10, priceTime: 'ABIL_SQUIRE_FOODTABLE_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_11", 2)' },
@@ -365,13 +365,11 @@
 // Alchemist
 //---------------------------------------------------------------------------
 { category: "Alchemist", jobId: 2005, abilityId: 211001, name: "Combustion: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 1)' },
-{ category: "Alchemist", jobId: 2005, abilityId: 211003, name: "Item Awakening: Dungeon Event", maxLevel: 3, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211004, name: "Tincturing: Block Potion", maxLevel: 15, priceTime: 'ABIL_TINCTURINGPOTION_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Alchemist_Tincturing", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211005, name: "Tincturing: Critical Attack Potion", maxLevel: 15, priceTime: 'ABIL_TINCTURINGPOTION_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Alchemist_Tincturing", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211006, name: "Tincturing: Magic Amplification Potion", maxLevel: 15, priceTime: 'ABIL_TINCTURINGPOTION_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Alchemist_Tincturing", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211007, name: "Combustion: Using Silver", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 1)' },
 { category: "Alchemist", jobId: 2005, abilityId: 211008, name: "Alchemistic Missile: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 3)' },
-{ category: "Alchemist", jobId: 2005, abilityId: 211010, name: "Item Awakening: Quick and Prompt Decision", maxLevel: 10, priceTime: 'ABIL_7RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char2_5", 2)' },
 
 // Sorcerer
 //---------------------------------------------------------------------------
@@ -581,7 +579,6 @@
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303007, name: "Rapid Fire: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 2)' },
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303009, name: "Teardown: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 2)' },
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303012, name: "Scatter Caltrops: Duration", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 1)' },
-{ category: "QuarrelShooter", jobId: 3003, abilityId: 303014, name: "Stone Picking: Quantity", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 1)' },
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303015, name: "Teardown: Teardown Statue", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 2)' },
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303016, name: "Shield Mastery: Projectile Defense", maxLevel: 4, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 1)' },
 { category: "QuarrelShooter", jobId: 3003, abilityId: 303017, name: "Deploy Pavise: Bleeding Chance", maxLevel: 10, priceTime: 'ABIL_QUARRELSHOOTER9_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_3", 1)' },
@@ -601,6 +598,11 @@
 { category: "Ranger", jobId: 3004, abilityId: 302016, name: "Spiral Arrow: Weakness Attack", maxLevel: 3, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 3)' },
 { category: "Ranger", jobId: 3004, abilityId: 302017, name: "Spiral Arrow: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 3)' },
 { category: "Ranger", jobId: 3004, abilityId: 302018, name: "High Anchoring: Critical Chance", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 1)' },
+{ category: "Ranger", jobId: 3004, abilityId: 302019, name: "Steady Aim: Two-handed Bow Specialization", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 2)' },
+{ category: "Ranger", jobId: 3004, abilityId: 302020, name: "Steady Aim: Pro Ranger", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 3)' },
+{ category: "Ranger", jobId: 3004, abilityId: 302021, name: "High Anchoring: Continuous Fire", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 3)' },
+{ category: "Ranger", jobId: 3004, abilityId: 302022, name: "Time Bomb Arrow: Remove Knockdown", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 2)' },
+{ category: "Ranger", jobId: 3004, abilityId: 302023, name: "Time Bomb Arrow: Extend Fuse", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_4", 3)' },
 
 // Sapper
 //---------------------------------------------------------------------------
@@ -626,9 +628,8 @@
 
 // Wugushi
 //---------------------------------------------------------------------------
-{ category: "Wugushi", jobId: 3006, abilityId: 306001, name: "Needle Blow: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306004, name: "Wugong Gu: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
-{ category: "Wugushi", jobId: 3006, abilityId: 306007, name: "Throw Gu Pot: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 2)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306007, name: "Throw Gu Pot: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306009, name: "Detoxify: Poison Immunity", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306010, name: "Wugong Gu: Continuous Infection", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306011, name: "Throw Gu Pot: Residual Poison", maxLevel: 2, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 2)' },
@@ -636,6 +637,12 @@
 { category: "Wugushi", jobId: 3006, abilityId: 306013, name: "Jincan Gu: Vitality", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 3)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306014, name: "Zhendu: Decreased Poison Resistance", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
 { category: "Wugushi", jobId: 3006, abilityId: 306017, name: "Wugushi: Two-handed Poison", maxLevel: 1, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306018, name: "Latent Venom: Enhance", maxLevel: 100, priceTime: 'ABIL_4RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 1)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306019, name: "Detoxify: Level 3", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 3)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306020, name: "Crescendo Bane: Poison to Poison", maxLevel: 1, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 3)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306021, name: "Wide Miasma: Stealth", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 3)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306022, name: "Wide Miasma: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 2)' },
+{ category: "Wugushi", jobId: 3006, abilityId: 306023, name: "Jincan Gu: Enhance", maxLevel: 100, priceTime: 'ABIL_5RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_6", 2)' },
 
 // Hackapell
 //---------------------------------------------------------------------------
@@ -705,6 +712,7 @@
 { category: "Fletcher", jobId: 3011, abilityId: 309014, name: "Magic Arrow: Silence", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_11", 2)' },
 { category: "Fletcher", jobId: 3011, abilityId: 309015, name: "Divine Machine Arrow: Shock", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_11", 3)' },
 { category: "Fletcher", jobId: 3011, abilityId: 309016, name: "Arrow Crafting", maxLevel: 1, priceTime: 'ABIL_5RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_11", 1)' },
+{ category: "Fletcher", jobId: 3011, abilityId: 309017, name: "Fletcher: Expanded Range", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char3_11", 1)' },
 
 // Appraiser
 //---------------------------------------------------------------------------
@@ -811,10 +819,11 @@
 { category: "Cleric", jobId: 4001, abilityId: 401012, name: "Divine Might: Devil-type Damage", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 2)' },
 { category: "Cleric", jobId: 4001, abilityId: 401013, name: "Deprotected Zone: Sword Attack", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 401014, name: "Safety Zone: Increased Range", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
-{ category: "Cleric", jobId: 4001, abilityId: 401015, name: "Guardian Saint: Decreased Damage", maxLevel: 10, priceTime: 'ABIL_CLERIC9_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 3)' },
 { category: "Cleric", jobId: 4001, abilityId: 401016, name: "Heal: Remove Damage", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 401017, name: "Safety Zone: Block Count", maxLevel: 20, priceTime: 'ABIL_CLERIC18_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 2)' },
-{ category: "Cleric", jobId: 4001, abilityId: 401018, name: "Guardian Saint: Change Target", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 3)' },
+{ category: "Cleric", jobId: 4001, abilityId: 401019, name: "Heal: Open Sanctuary", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
+{ category: "Cleric", jobId: 4001, abilityId: 401020, name: "Heal: Exclude Summons", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 1)' },
+{ category: "Cleric", jobId: 4001, abilityId: 401021, name: "Heal: Linger", maxLevel: 10, priceTime: 'ABIL_3RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_1", 3)' },
 
 // Priest
 //---------------------------------------------------------------------------
@@ -829,12 +838,13 @@
 { category: "Priest", jobId: 4002, abilityId: 403011, name: "Revive: Duration", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_PRIEST21("Priest_Resurrection", 2)' },
 { category: "Priest", jobId: 4002, abilityId: 403012, name: "Monstrance: Duration", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403014, name: "Exorcise: Duration", maxLevel: 5, priceTime: 'ABIL_4RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 3)' },
+{ category: "Priest", jobId: 4002, abilityId: 403015, name: "Mass Heal: Enhance", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_2", 2)' },
 
 // Kriwi
 //---------------------------------------------------------------------------
 { category: "Kriwi", jobId: 4003, abilityId: 10000, name: "Weapon Swap", maxLevel: 1, price: 1, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402001, name: "Zaibas: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
-{ category: "Kriwi", jobId: 4003, abilityId: 402004, name: "Aukuras: Enhance", maxLevel: 50, priceTime: 'ABIL_2RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kriwi_Aukuras", 3)' },
+{ category: "Kriwi", jobId: 4003, abilityId: 402004, name: "Aukuras: Enhance", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402005, name: "Krivis: Fire Property Resistance", maxLevel: 5, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402006, name: "Zaibas: Splash", maxLevel: 1, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 2)' },
 { category: "Kriwi", jobId: 4003, abilityId: 402007, name: "Daino: Duration", maxLevel: 3, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_3", 1)' },
@@ -877,6 +887,10 @@
 { category: "Druid", jobId: 4005, abilityId: 410008, name: "Druid: Insect-type Speciality", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 1)' },
 { category: "Druid", jobId: 4005, abilityId: 410009, name: "Carnivory: Duration Time", maxLevel: 5, priceTime: 'ABIL_6RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 1)' },
 { category: "Druid", jobId: 4005, abilityId: 410012, name: "Telepath: Crowd Control", maxLevel: 10, priceTime: 'ABIL_DRUID12_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 3)' },
+{ category: "Druid", jobId: 4005, abilityId: 410014, name: "Lycanthropy: Human Form", maxLevel: 1, priceTime: 'ABIL_8RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 3)' },
+{ category: "Druid", jobId: 4005, abilityId: 410015, name: "Chortasmata: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 1)' },
+{ category: "Druid", jobId: 4005, abilityId: 410016, name: "Seed Bomb: Enhance", maxLevel: 100, priceTime: 'ABIL_6RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 1)' },
+{ category: "Druid", jobId: 4005, abilityId: 410017, name: "Thorn: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_5", 2)' },
 
 // Sadhu
 //---------------------------------------------------------------------------
@@ -996,6 +1010,7 @@
 //---------------------------------------------------------------------------
 { category: "Kabbalist", jobId: 4015, abilityId: 413001, name: "Revenged Sevenfold: Duration", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413002, name: "Revenged Sevenfold: Curse", maxLevel: 3, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413003, name: "Nachash: Enhance", maxLevel: 100, priceTime: 'ABIL_8RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 2)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413006, name: "Ein Sof: Maintain Time", maxLevel: 5, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413008, name: "Merkabah: Enhance", maxLevel: 100, priceTime: 'ABIL_7RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413010, name: "Ein Sof: SP Recovery", maxLevel: 1, priceTime: 'ABIL_7RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_Ayin_sof", 3)' },
@@ -1009,6 +1024,7 @@
 { category: "Kabbalist", jobId: 4015, abilityId: 413021, name: "Staff of Kabbalah", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413022, name: "Kabbalah Garments", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413023, name: "Ein Sof: Double Magic Circle", maxLevel: 1, priceTime: 'ABIL_9RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413024, name: "Tree of Sepiroth: Enhance", maxLevel: 10, priceTime: 'ABIL_9RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char4_15", 3)' },
 
 // Inquisitor
 //---------------------------------------------------------------------------
