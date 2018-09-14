@@ -48,4 +48,6 @@
 { id: 43, name: "UPDATE_GUILD_TOWER_LEVEL", script: "SCR_UPDATE_GUILD_TOWER_LEVEL", useTx: true },
 { id: 44, name: "CHANGE_COLONY_CONFIG", script: "SCR_CHANGE_COLONY_CONFIG", useTx: false },
 { id: 45, name: "REQ_LEGEND_ITEM_DIALOG", script: "SCR_REQ_LEGEND_ITEM_DIALOG", useTx: true },
+{ id: 46, name: "EXCHANGE_BEAUTYSHOP_COUPON", script: "SCR_EXCHANGE_BEAUTYSHOP_COUPON", useTx: true },
+{ id: 47, name: "HAIR_WIG_VISIBLE_STATE", script: "SCR_HAIR_WIG_VISIBLE_STATE", useTx: false },
 ]
