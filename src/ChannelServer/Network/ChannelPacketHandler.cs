@@ -754,6 +754,12 @@ namespace Melia.Channel.Network
 			var option = (Option)packet.GetInt();
 			var value = packet.GetInt();
 
+			if (!Enum.IsDefined(typeof(Option), option))
+			{
+				Log.Debug("CZ_CHANGE_CONFIG: Unknown option '{0}'.", option);
+				return;
+			}
+
 			conn.Account.Settings.Set(option, value);
 		}
 
