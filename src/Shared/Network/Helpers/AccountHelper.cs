@@ -16,6 +16,7 @@ namespace Melia.Shared.Network.Helpers
 		{
 			packet.PutShort(4 * 8); // Account properties size
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
+			packet.PutInt(1);
 
 			packet.PutInt(PropertyId.Account.Medal);
 			packet.PutFloat(account.Medals);
