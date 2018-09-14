@@ -22,9 +22,9 @@ namespace Melia.Login.Network.Helpers
 				packet.PutByte(181);
 			}
 
+			packet.PutShort(0);
 			packet.PutShort(pc.MapId);
 			packet.PutShort(pc.Channel);
-			packet.PutShort(0);
 			packet.PutInt(0);
 			packet.PutInt(0); // maxXP
 			packet.PutInt(0); // currentExp

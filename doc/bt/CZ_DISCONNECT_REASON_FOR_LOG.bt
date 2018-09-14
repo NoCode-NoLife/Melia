@@ -3,7 +3,7 @@
 //
 //      File: CZ_DISCONNECT_REASON_FOR_LOG
 //   Authors: exec
-//   Version: i171960
+//   Version: i218535
 //   Purpose: Sent at login after an unexpected disconnect?
 //  Category: 
 // File Mask: 
@@ -30,3 +30,6 @@ KeyValuePair values[valueCount];
 
 // Rest unknown, looks like a bunch of numbers,
 // probably with i2 and i3 as counts.
+//int i4[i2];
+//int i5[i3];
+//int i6[i3];

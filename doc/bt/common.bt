@@ -25,6 +25,7 @@
 //   - i184075: EquipSlotCount increased to 24 (special costume)
 //   - i186893: EquipSlotCount increased to 25 (effect costume)
 //   - i186893: APPEARANCE_PC.bin2 was removed
+//   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -230,9 +231,9 @@ typedef struct
     byte index;
     byte b1;
 
+    short s1;
     short mapId;
     short channel;
-    short s1;
     int i1;
     int i2;   // max xp?
     int i3;
@@ -251,7 +252,7 @@ typedef struct
     float d12;
     float d22;
 
-    int i5;
+    int i5; // float?
 
 } APPEARANCE_BARRACK_PC;
 

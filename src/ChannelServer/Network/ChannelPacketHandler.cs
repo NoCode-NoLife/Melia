@@ -754,6 +754,12 @@ namespace Melia.Channel.Network
 			var option = (Option)packet.GetInt();
 			var value = packet.GetInt();
 
+			if (!Enum.IsDefined(typeof(Option), option))
+			{
+				Log.Debug("CZ_CHANGE_CONFIG: Unknown option '{0}'.", option);
+				return;
+			}
+
 			conn.Account.Settings.Set(option, value);
 		}
 
@@ -1551,6 +1557,30 @@ namespace Melia.Channel.Network
 			// ...
 
 			Send.ZC_RESPONSE_GUILD_INDEX(character);
+		}
+
+		/// <summary>
+		/// Sent during login after an unexpected disconnect.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DISCONNECT_REASON_FOR_LOG)]
+		public void CZ_DISCONNECT_REASON_FOR_LOG(ChannelConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var valueCount = packet.GetInt();
+			var i2 = packet.GetInt();
+			var i3 = packet.GetInt();
+
+			Log.Debug("CZ_DISCONNECT_REASON_FOR_LOG:");
+
+			for (var i = 0; i < valueCount; ++i)
+			{
+				var name = packet.GetLpString();
+				var value = packet.GetLpString();
+
+				Log.Debug("  {0}: {1}", name, value);
+			}
 		}
 	}
 

@@ -37,6 +37,8 @@ namespace Melia.Login.Network.Helpers
 			packet.PutByte(1);
 			packet.PutByte(1);
 
+			packet.PutByte(1);
+
 			// Job list?
 			// Example: A Mage that switched to Pyromancer has two
 			//   elements in this list, 2001 and 2002.

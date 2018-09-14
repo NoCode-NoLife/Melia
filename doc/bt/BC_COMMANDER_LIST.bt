@@ -3,7 +3,7 @@
 //
 //      File: BC_COMMANDER_LIST.bt
 //   Authors: exec, celophi
-//   Version: i171032
+//   Version: i218535
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,6 +12,8 @@
 //   - i11025:  BARRACK_PC.i1 was added
 //   - i11257:  AccountProperties.s1 was added
 //   - i170175: BARRACK_PC.b1~b3 were added
+//   - i218535: BARRACK_PC.b4 was added
+//   - i218535: AccountProperties.i1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -20,6 +22,7 @@ typedef struct
 {
     short size;
     short s1;
+    int i1;
 
     if(size > 0)
         getProperties(size);
@@ -40,6 +43,7 @@ typedef struct
     byte b1;
     byte b2;
     byte b3;
+    byte b4;
     
     // maybe job history?
     short jobIdCount;

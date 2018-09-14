@@ -966,6 +966,30 @@ namespace Melia.Shared.Const
 			public const int HadVisited_8010 = 102788;
 			public const int EVENT_1807_RANK_ZONEENTER_REWARD = 102789;
 			public const int STEAM_COLONY_WAR_FIRST_VICTORY_REWARD_CHECK = 102976;
+			public const int EVENT_1807_NEWCHARACTER_COUNT = 102980;
+			public const int EVENT_1807_HOTTIME_REWARD1 = 102981;
+			public const int EVENT_1807_HOTTIME_REWARD2 = 102982;
+			public const int EVENT_VIVID_FINAL_COUNT = 103013;
+			public const int EVENT_VIVID_FINAL_YDAY = 103014;
+			public const int TWN180807_GACHA_HAIRACC_BOUNS = 103027;
+			public const int TWN180807_GACHA_HAIRACC_COUNT = 103028;
+			public const int EVENT_VIVID_SHOP2 = 103029;
+			public const int EVENT_VIVID_ACCOUNT_KLAIPE_POINT1 = 103030;
+			public const int EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT1 = 103031;
+			public const int EVENT_VIVID_ACCOUNT_ORSHA_POINT1 = 103032;
+			public const int EVENT_VIVID_ACCOUNT_KLAIPE_POINT4 = 103033;
+			public const int EVENT_VIVID_ACCOUNT_ORSHA_POINT3 = 103034;
+			public const int EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT2 = 103035;
+			public const int EVENT_VIVID_ACCOUNT_KLAIPE_POINT3 = 103036;
+			public const int EVENT_VIVID_ACCOUNT_ORSHA_POINT2 = 103037;
+			public const int EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT4 = 103038;
+			public const int EVENT_VIVID_SHOP1 = 103039;
+			public const int EVENT_VIVID_BEFORE_ZONE = 103040;
+			public const int EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT3 = 103041;
+			public const int EVENT_VIVID_ACCOUNT_KLAIPE_POINT2 = 103042;
+			public const int EVENT_VIVID_ACCOUNT_ORSHA_POINT4 = 103043;
+			public const int STEAM_EVENT_INVITE_FRIEND_ROOKIE_LV = 103065;
+			public const int STEAM_EVENT_INVITE_FRIEND_SAVIOR_LV = 103066;
 		}
 
 		public static class Monster
@@ -2112,6 +2136,22 @@ namespace Melia.Shared.Const
 			public const int HEAL_PWR_BM = 102378;
 			public const int HEAL_PWR_RATE_BM = 102379;
 			public const int OverReinforce = 102488;
+			public const int EnchantHitRate = 103047;
+			public const int EnchantMainWeaponDamageRate = 103048;
+			public const int EnchantMeleeReducedRate = 103049;
+			public const int EnchantPVPReducedRate = 103050;
+			public const int EnchantDodgeRate = 103051;
+			public const int EnchantMagicReducedRate = 103052;
+			public const int EnchantSubWeaponDamageRate = 103053;
+			public const int EnchantCriticalDodgeRate = 103054;
+			public const int EnchantBlockBreakRate = 103055;
+			public const int EnchantCriticalHitRate = 103056;
+			public const int EnchantBlockRate = 103057;
+			public const int EnchantSR = 103058;
+			public const int EnchantBossDamageRate = 103059;
+			public const int EnchantPVPDamageRate = 103060;
+			public const int EnchantCriticalDamage_Rate = 103061;
+			public const int EnchantMSPD = 103062;
 		}
 
 		public static class PCEtc
@@ -9756,6 +9796,17 @@ namespace Melia.Shared.Const
 			public const int Hide_2464 = 102770;
 			public const int HadVisited_4971 = 102771;
 			public const int HadVisited_8010 = 102772;
+			public const int Kill_Raid_boss_Velcoffer_event = 102978;
+			public const int Kill_Boss_TealSpecter = 103017;
+			public const int Hide_2812 = 103021;
+			public const int Hide_2813 = 103022;
+			public const int Hide_2814 = 103023;
+			public const int Hide_2815 = 103024;
+			public const int Hide_2816 = 103025;
+			public const int Hide_2817 = 103026;
+			public const int LEVELINFORM_SOLODUNGEON = 103044;
+			public const int LEVELINFORM_CMINEPVP = 103045;
+			public const int LEVELINFORM_WEAPONCHANGE10 = 103046;
 		}
 
 		public static class Item
@@ -10148,6 +10199,24 @@ namespace Melia.Shared.Const
 			public const int Category = 102477;
 			public const int RandomOptionRare = 102969;
 			public const int RandomOptionRareValue = 102972;
+			public const int RareOption_BlockBreakRate = 102983;
+			public const int RareOption_CriticalHitRate = 102984;
+			public const int RareOption_BossDamageRate = 102985;
+			public const int RareOption_MagicReducedRate = 102986;
+			public const int RareOption_CriticalDamage_Rate = 102987;
+			public const int RareOption_SubWeaponDamageRate = 102988;
+			public const int RareOption_PVPDamageRate = 102989;
+			public const int RareOption_HitRate = 102990;
+			public const int RareOption_BlockRate = 102991;
+			public const int RareOption_CriticalDodgeRate = 102992;
+			public const int RareOption_PVPReducedRate = 102993;
+			public const int RareOption_MainWeaponDamageRate = 102994;
+			public const int RareOption_DodgeRate = 102995;
+			public const int RareOption_MeleeReducedRate = 102996;
+			public const int BriquetingAble = 103015;
+			public const int MarketCategory = 103016;
+			public const int RareOption_SR = 103063;
+			public const int RareOption_MSPD = 103064;
 		}
 
 		public static class Party
@@ -16993,6 +17062,13 @@ namespace Melia.Shared.Const
 			public const int F_NICOPOLIS_81_2_SQ_07 = 102957;
 			public const int F_NICOPOLIS_81_1_SQ_03 = 102958;
 			public const int STARTOWER_91_MQ_30 = 102959;
+			public const int EVENT_1807_POOL_TABLE_BUFF_DATE = 102977;
+			public const int EVENT_1807_NEWCHARACTER_USE = 102979;
+			public const int F_3CMLAKE_86_EV_55_001_P = 103011;
+			public const int WARP_F_3CMLAKE_87 = 103012;
+			public const int TUTO_CLASS_WUGUSHI = 103018;
+			public const int TUTO_CLASS_NECROMANCER = 103019;
+			public const int TUTO_CLASS_SOCERER = 103020;
 		}
 #pragma warning restore IDE1006
 	}
