@@ -1265,7 +1265,13 @@ namespace Melia.Channel.Network
 				case "Logout":
 				case "Barrack":
 				case "Exit":
-					Send.ZC_ADDON_MSG(conn.SelectedCharacter, AddonMessage.EXPIREDITEM_ALERT_OPEN, destination);
+					//Send.ZC_ADDON_MSG(conn.SelectedCharacter, AddonMessage.EXPIREDITEM_ALERT_OPEN, destination);
+
+					// What we sent here caused the client to send this
+					// packet in an infinite loop in i218535. The following
+					// seems to be correct for now.
+
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", "None");
 					break;
 				default:
 					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
