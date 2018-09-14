@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i210863
+//   Version: i218535
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1287,6 +1287,30 @@ string getPropertyName(int id)
         case 102788: return "HadVisited_8010";
         case 102789: return "EVENT_1807_RANK_ZONEENTER_REWARD";
         case 102976: return "STEAM_COLONY_WAR_FIRST_VICTORY_REWARD_CHECK";
+        case 102980: return "EVENT_1807_NEWCHARACTER_COUNT";
+        case 102981: return "EVENT_1807_HOTTIME_REWARD1";
+        case 102982: return "EVENT_1807_HOTTIME_REWARD2";
+        case 103013: return "EVENT_VIVID_FINAL_COUNT";
+        case 103014: return "EVENT_VIVID_FINAL_YDAY";
+        case 103027: return "TWN180807_GACHA_HAIRACC_BOUNS";
+        case 103028: return "TWN180807_GACHA_HAIRACC_COUNT";
+        case 103029: return "EVENT_VIVID_SHOP2";
+        case 103030: return "EVENT_VIVID_ACCOUNT_KLAIPE_POINT1";
+        case 103031: return "EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT1";
+        case 103032: return "EVENT_VIVID_ACCOUNT_ORSHA_POINT1";
+        case 103033: return "EVENT_VIVID_ACCOUNT_KLAIPE_POINT4";
+        case 103034: return "EVENT_VIVID_ACCOUNT_ORSHA_POINT3";
+        case 103035: return "EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT2";
+        case 103036: return "EVENT_VIVID_ACCOUNT_KLAIPE_POINT3";
+        case 103037: return "EVENT_VIVID_ACCOUNT_ORSHA_POINT2";
+        case 103038: return "EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT4";
+        case 103039: return "EVENT_VIVID_SHOP1";
+        case 103040: return "EVENT_VIVID_BEFORE_ZONE";
+        case 103041: return "EVENT_VIVID_ACCOUNT_FEDIMIAN_POINT3";
+        case 103042: return "EVENT_VIVID_ACCOUNT_KLAIPE_POINT2";
+        case 103043: return "EVENT_VIVID_ACCOUNT_ORSHA_POINT4";
+        case 103065: return "STEAM_EVENT_INVITE_FRIEND_ROOKIE_LV";
+        case 103066: return "STEAM_EVENT_INVITE_FRIEND_SAVIOR_LV";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -2417,6 +2441,22 @@ string getPropertyName(int id)
         case 102378: return "HEAL_PWR_BM";
         case 102379: return "HEAL_PWR_RATE_BM";
         case 102488: return "OverReinforce";
+        case 103047: return "EnchantHitRate";
+        case 103048: return "EnchantMainWeaponDamageRate";
+        case 103049: return "EnchantMeleeReducedRate";
+        case 103050: return "EnchantPVPReducedRate";
+        case 103051: return "EnchantDodgeRate";
+        case 103052: return "EnchantMagicReducedRate";
+        case 103053: return "EnchantSubWeaponDamageRate";
+        case 103054: return "EnchantCriticalDodgeRate";
+        case 103055: return "EnchantBlockBreakRate";
+        case 103056: return "EnchantCriticalHitRate";
+        case 103057: return "EnchantBlockRate";
+        case 103058: return "EnchantSR";
+        case 103059: return "EnchantBossDamageRate";
+        case 103060: return "EnchantPVPDamageRate";
+        case 103061: return "EnchantCriticalDamage_Rate";
+        case 103062: return "EnchantMSPD";
         case 3907: return "FromMission";
         case 3908: return "OperSpeed";
         case 3909: return "WikiPoint";
@@ -10057,6 +10097,17 @@ string getPropertyName(int id)
         case 102770: return "Hide_2464";
         case 102771: return "HadVisited_4971";
         case 102772: return "HadVisited_8010";
+        case 102978: return "Kill_Raid_boss_Velcoffer_event";
+        case 103017: return "Kill_Boss_TealSpecter";
+        case 103021: return "Hide_2812";
+        case 103022: return "Hide_2813";
+        case 103023: return "Hide_2814";
+        case 103024: return "Hide_2815";
+        case 103025: return "Hide_2816";
+        case 103026: return "Hide_2817";
+        case 103044: return "LEVELINFORM_SOLODUNGEON";
+        case 103045: return "LEVELINFORM_CMINEPVP";
+        case 103046: return "LEVELINFORM_WEAPONCHANGE10";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -10445,6 +10496,24 @@ string getPropertyName(int id)
         case 102477: return "Category";
         case 102969: return "RandomOptionRare";
         case 102972: return "RandomOptionRareValue";
+        case 102983: return "RareOption_BlockBreakRate";
+        case 102984: return "RareOption_CriticalHitRate";
+        case 102985: return "RareOption_BossDamageRate";
+        case 102986: return "RareOption_MagicReducedRate";
+        case 102987: return "RareOption_CriticalDamage_Rate";
+        case 102988: return "RareOption_SubWeaponDamageRate";
+        case 102989: return "RareOption_PVPDamageRate";
+        case 102990: return "RareOption_HitRate";
+        case 102991: return "RareOption_BlockRate";
+        case 102992: return "RareOption_CriticalDodgeRate";
+        case 102993: return "RareOption_PVPReducedRate";
+        case 102994: return "RareOption_MainWeaponDamageRate";
+        case 102995: return "RareOption_DodgeRate";
+        case 102996: return "RareOption_MeleeReducedRate";
+        case 103015: return "BriquetingAble";
+        case 103016: return "MarketCategory";
+        case 103063: return "RareOption_SR";
+        case 103064: return "RareOption_MSPD";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";
@@ -17282,6 +17351,13 @@ string getPropertyName(int id)
         case 102957: return "F_NICOPOLIS_81_2_SQ_07";
         case 102958: return "F_NICOPOLIS_81_1_SQ_03";
         case 102959: return "STARTOWER_91_MQ_30";
+        case 102977: return "EVENT_1807_POOL_TABLE_BUFF_DATE";
+        case 102979: return "EVENT_1807_NEWCHARACTER_USE";
+        case 103011: return "F_3CMLAKE_86_EV_55_001_P";
+        case 103012: return "WARP_F_3CMLAKE_87";
+        case 103018: return "TUTO_CLASS_WUGUSHI";
+        case 103019: return "TUTO_CLASS_NECROMANCER";
+        case 103020: return "TUTO_CLASS_SOCERER";
         default: return "Unknown";
     }
 }

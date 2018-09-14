@@ -3,15 +3,10 @@
 //---------------------------------------------------------------------------
 
 [
-{ id: 1, name: "TOGGLE_REFUSE_FE", script: "SCR_REFUSE_FEVENT", useTx: false },
 { id: 2, name: "VIEW_LIKE_LIST", script: "SCR_VIEW_LIKE_LIST", useTx: false },
 { id: 3, name: "PARTYCREATE", script: "SCR_PARTYCREATE", useTx: false },
 { id: 4, name: "PARTY_ITEM_CHANGE", script: "SCR_PARTY_ITEM_CHANGE", useTx: false },
 { id: 5, name: "PARTY_R_ITEM_CHANGE", script: "SCR_PARTY_R_ITEM_CHANGE", useTx: false },
-{ id: 6, name: "MCY_BUY_ITEM", script: "SCR_MCY_BUY_ITEM", useTx: false },
-{ id: 7, name: "MCY_CHANGE_OBSERVE", script: "SCR_MCY_CHANGE_OBSERVE", useTx: false },
-{ id: 8, name: "MCY_CHANGE_OBSERVE_STR", script: "SCR_MCY_CHANGE_OBSERVE_STR", useTx: false },
-{ id: 9, name: "TEST_BOSS_RUN", script: "TEST_BOSS_RUN_CMD", useTx: false },
 { id: 10, name: "QUEST_SOBJ_CHECK", script: "QUEST_SOBJ_CHECK_SERV", useTx: false },
 { id: 11, name: "SMARTGEN_CHECK", script: "SCR_SMARTGEN_CHECK_CREATE", useTx: false },
 { id: 12, name: "SMARTGEN_CRYSTAL", script: "SCR_SMARTGEN_CRYSTAL", useTx: false },
@@ -50,4 +45,5 @@
 { id: 45, name: "REQ_LEGEND_ITEM_DIALOG", script: "SCR_REQ_LEGEND_ITEM_DIALOG", useTx: true },
 { id: 46, name: "EXCHANGE_BEAUTYSHOP_COUPON", script: "SCR_EXCHANGE_BEAUTYSHOP_COUPON", useTx: true },
 { id: 47, name: "HAIR_WIG_VISIBLE_STATE", script: "SCR_HAIR_WIG_VISIBLE_STATE", useTx: false },
+{ id: 48, name: "REQ_COLONY_MARKET_FEE_PAYMENT_LIST", script: "SCR_COLONY_MARKET_FEE_PAYMENT_LIST", useTx: false },
 ]
