@@ -575,6 +575,8 @@ namespace Melia.Channel.Network
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
 			packet.PutByte(1); // type? 0 = also show in red letters on the screen
+			packet.PutLong(0); // ?
+
 			foreach (var parameter in parameters)
 			{
 				packet.PutLpString(parameter.Key);

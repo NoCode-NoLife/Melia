@@ -3,12 +3,13 @@
 //
 //      File: ZC_SYSTEM_MSG.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i219527
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i219527: l1 was added.
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,6 +19,7 @@ ServerHeaderDynamic header;
 int clientMessage;
 byte paramCount;
 byte type; // 0 = also show in red letters on screen, 1 = don't
+int64 l1;
 
 if(paramCount != 0)
     msgParameter parameters[paramCount] <optimize=false>;
