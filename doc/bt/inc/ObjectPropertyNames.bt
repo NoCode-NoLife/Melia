@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i218535
+//   Version: i221666
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -1311,6 +1311,30 @@ string getPropertyName(int id)
         case 103043: return "EVENT_VIVID_ACCOUNT_ORSHA_POINT4";
         case 103065: return "STEAM_EVENT_INVITE_FRIEND_ROOKIE_LV";
         case 103066: return "STEAM_EVENT_INVITE_FRIEND_SAVIOR_LV";
+        case 103067: return "EVENT_1809_UCC_ADDCOUNT";
+        case 103068: return "EVENT_1809_DAYCHECK_DATE";
+        case 103069: return "EVENT_1809_DAYCHECK_REWARDLIST";
+        case 103070: return "EVENT_1809_DAYCHECK_DAYCOUNT";
+        case 103071: return "EVENT_1809_DAYCHECK_ADDREWARD";
+        case 103072: return "EVENT_1809_UCC_DATE";
+        case 103073: return "EVENT_1809_DAYCHECK_SELECTLIST";
+        case 103078: return "EVENT_1809_CHUSEOK_MOON_RANK_DATE";
+        case 103079: return "EVENT_1809_CHUSEOK_MOON_COUNT";
+        case 103080: return "EVENT_1809_CHUSEOK_MOON_ADDREWARD";
+        case 103081: return "Indun_Nicopolis_uniqe_raid_First_Clear_Reward";
+        case 103082: return "EVENT_1809_CHUSEOK_MOON_STATE";
+        case 103083: return "EVENT_1809_CHUSEOK_MOON_RANK_GIVECOUNT";
+        case 103084: return "HadVisited_4941";
+        case 103085: return "EVENT_1809_CHUSEOK_DAY_COUNT";
+        case 103086: return "EVENT_1809_CHUSEOK_MOON_DATE";
+        case 103087: return "EVENT_1809_CHUSEOK_DAY_DATE";
+        case 103095: return "HadVisited_10000";
+        case 103096: return "Indun_Bracken_uniqe_raid_First_Clear_Reward";
+        case 103105: return "EVENT_1810_UNIQUE_STATE";
+        case 103106: return "EVENT_1810_UNIQUE_YDAY";
+        case 103107: return "EVENT_1810_FALL_LEAF_DAY_STATE";
+        case 103108: return "COLLECT_100_REWARD";
+        case 103109: return "EVENT_1810_FALL_LEAF_DAY_DATE";
         case 6305: return "MonDmgRate";
         case 6306: return "BaseOffset";
         case 6307: return "QuestCount2";
@@ -10108,6 +10132,17 @@ string getPropertyName(int id)
         case 103044: return "LEVELINFORM_SOLODUNGEON";
         case 103045: return "LEVELINFORM_CMINEPVP";
         case 103046: return "LEVELINFORM_WEAPONCHANGE10";
+        case 103074: return "Kill_uniq_id_boss_Wastrel_Red";
+        case 103075: return "RepresentationClassID";
+        case 103076: return "Kill_uniq_id_boss_Wastrel";
+        case 103077: return "HadVisited_4941";
+        case 103091: return "Kill_uniq_boss_Mandara";
+        case 103092: return "HadVisited_10000";
+        case 103098: return "Hide_2811";
+        case 103101: return "IndunWeeklyEnteredCount_800";
+        case 103102: return "BerniceShard_Dungeon_Save_Stage";
+        case 103103: return "Pose_MAGICAL";
+        case 103104: return "InDunRewardCountType_800";
         case 7227: return "Desc";
         case 7228: return "Icon";
         case 7229: return "RefreshScp";
@@ -10514,6 +10549,8 @@ string getPropertyName(int id)
         case 103016: return "MarketCategory";
         case 103063: return "RareOption_SR";
         case 103064: return "RareOption_MSPD";
+        case 103088: return "TempUseItem";
+        case 103097: return "SkillWidthRange";
         case 0: return "UseLevelLimit";
         case 1: return "MinLv";
         case 2: return "IsPrivate";
@@ -17358,6 +17395,14 @@ string getPropertyName(int id)
         case 103018: return "TUTO_CLASS_WUGUSHI";
         case 103019: return "TUTO_CLASS_NECROMANCER";
         case 103020: return "TUTO_CLASS_SOCERER";
+        case 103089: return "MG_Last_ID_NNICOPOLIS_RAID_MINI";
+        case 103090: return "F_NICOPOLIS_UNIQUE_MQ1";
+        case 103093: return "MG_Last_raid_bracken";
+        case 103094: return "F_BRACKEN_UNIQUE_MQ1";
+        case 103099: return "EVENT_1809_CLR_DATE";
+        case 103100: return "COLLECT_50_REWARD";
+        case 103110: return "EVENT_1810_UNIQUE_PC_YDAY";
+        case 103111: return "EVENT_1810_UNIQUE_PC_STATE";
         default: return "Unknown";
     }
 }

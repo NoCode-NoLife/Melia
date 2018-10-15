@@ -990,6 +990,30 @@ namespace Melia.Shared.Const
 			public const int EVENT_VIVID_ACCOUNT_ORSHA_POINT4 = 103043;
 			public const int STEAM_EVENT_INVITE_FRIEND_ROOKIE_LV = 103065;
 			public const int STEAM_EVENT_INVITE_FRIEND_SAVIOR_LV = 103066;
+			public const int EVENT_1809_UCC_ADDCOUNT = 103067;
+			public const int EVENT_1809_DAYCHECK_DATE = 103068;
+			public const int EVENT_1809_DAYCHECK_REWARDLIST = 103069;
+			public const int EVENT_1809_DAYCHECK_DAYCOUNT = 103070;
+			public const int EVENT_1809_DAYCHECK_ADDREWARD = 103071;
+			public const int EVENT_1809_UCC_DATE = 103072;
+			public const int EVENT_1809_DAYCHECK_SELECTLIST = 103073;
+			public const int EVENT_1809_CHUSEOK_MOON_RANK_DATE = 103078;
+			public const int EVENT_1809_CHUSEOK_MOON_COUNT = 103079;
+			public const int EVENT_1809_CHUSEOK_MOON_ADDREWARD = 103080;
+			public const int Indun_Nicopolis_uniqe_raid_First_Clear_Reward = 103081;
+			public const int EVENT_1809_CHUSEOK_MOON_STATE = 103082;
+			public const int EVENT_1809_CHUSEOK_MOON_RANK_GIVECOUNT = 103083;
+			public const int HadVisited_4941 = 103084;
+			public const int EVENT_1809_CHUSEOK_DAY_COUNT = 103085;
+			public const int EVENT_1809_CHUSEOK_MOON_DATE = 103086;
+			public const int EVENT_1809_CHUSEOK_DAY_DATE = 103087;
+			public const int HadVisited_10000 = 103095;
+			public const int Indun_Bracken_uniqe_raid_First_Clear_Reward = 103096;
+			public const int EVENT_1810_UNIQUE_STATE = 103105;
+			public const int EVENT_1810_UNIQUE_YDAY = 103106;
+			public const int EVENT_1810_FALL_LEAF_DAY_STATE = 103107;
+			public const int COLLECT_100_REWARD = 103108;
+			public const int EVENT_1810_FALL_LEAF_DAY_DATE = 103109;
 		}
 
 		public static class Monster
@@ -9807,6 +9831,17 @@ namespace Melia.Shared.Const
 			public const int LEVELINFORM_SOLODUNGEON = 103044;
 			public const int LEVELINFORM_CMINEPVP = 103045;
 			public const int LEVELINFORM_WEAPONCHANGE10 = 103046;
+			public const int Kill_uniq_id_boss_Wastrel_Red = 103074;
+			public const int RepresentationClassID = 103075;
+			public const int Kill_uniq_id_boss_Wastrel = 103076;
+			public const int HadVisited_4941 = 103077;
+			public const int Kill_uniq_boss_Mandara = 103091;
+			public const int HadVisited_10000 = 103092;
+			public const int Hide_2811 = 103098;
+			public const int IndunWeeklyEnteredCount_800 = 103101;
+			public const int BerniceShard_Dungeon_Save_Stage = 103102;
+			public const int Pose_MAGICAL = 103103;
+			public const int InDunRewardCountType_800 = 103104;
 		}
 
 		public static class Item
@@ -10217,6 +10252,8 @@ namespace Melia.Shared.Const
 			public const int MarketCategory = 103016;
 			public const int RareOption_SR = 103063;
 			public const int RareOption_MSPD = 103064;
+			public const int TempUseItem = 103088;
+			public const int SkillWidthRange = 103097;
 		}
 
 		public static class Party
@@ -17069,6 +17106,14 @@ namespace Melia.Shared.Const
 			public const int TUTO_CLASS_WUGUSHI = 103018;
 			public const int TUTO_CLASS_NECROMANCER = 103019;
 			public const int TUTO_CLASS_SOCERER = 103020;
+			public const int MG_Last_ID_NNICOPOLIS_RAID_MINI = 103089;
+			public const int F_NICOPOLIS_UNIQUE_MQ1 = 103090;
+			public const int MG_Last_raid_bracken = 103093;
+			public const int F_BRACKEN_UNIQUE_MQ1 = 103094;
+			public const int EVENT_1809_CLR_DATE = 103099;
+			public const int COLLECT_50_REWARD = 103100;
+			public const int EVENT_1810_UNIQUE_PC_YDAY = 103110;
+			public const int EVENT_1810_UNIQUE_PC_STATE = 103111;
 		}
 #pragma warning restore IDE1006
 	}
