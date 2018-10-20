@@ -745,7 +745,7 @@ namespace Melia.Shared.Network
 		public const int ZC_RESPONSE_CERTAIN_WEBSERVICE_URL = 0xE92; // Size: 268
 		public const int CZ_GUILD_AGIT_ENTER = 0xE93; // Size: 147
 		public const int CZ_BADPLAYER_REPORT = 0xE94; // Size: 146
-		public const int ZC_ERROR_INFO = 0xE95; // Size: 78
+		public const int ZC_ERROR_INFO = 0xE95; // Size: 0
 		public const int ZC_SEND_JSON_DUMP = 0xE96; // Size: 0
 		public const int CZ_SEND_JSON_DUMP = 0xE97; // Size: 0
 		public const int CZ_CLIENT_REMOTE_LOG = 0xE98; // Size: 2572
@@ -1542,7 +1542,7 @@ namespace Melia.Shared.Network
 			_sizes[ZC_RESPONSE_CERTAIN_WEBSERVICE_URL] = 268;
 			_sizes[CZ_GUILD_AGIT_ENTER] = 147;
 			_sizes[CZ_BADPLAYER_REPORT] = 146;
-			_sizes[ZC_ERROR_INFO] = 78;
+			_sizes[ZC_ERROR_INFO] = 0;
 			_sizes[ZC_SEND_JSON_DUMP] = 0;
 			_sizes[CZ_SEND_JSON_DUMP] = 0;
 			_sizes[CZ_CLIENT_REMOTE_LOG] = 2572;
