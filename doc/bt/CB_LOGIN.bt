@@ -30,4 +30,4 @@ int i2;
 int LCID;        // system locale.
 int lodge;       // active lodge to display.
 int slot;        // active character to display.
-byte bin2[4356]; // includes string "Enter"
+byte bin1[4356]; // includes string "Enter"
