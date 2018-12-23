@@ -8,10 +8,8 @@
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
-//   - i10725:  i2 was added
+//   History:
 //   - i170175: l1 was added
-//   - i174236: bin1 was added
 //------------------------------------------------
 
 #include "common.bt"
