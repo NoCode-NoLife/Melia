@@ -10,6 +10,9 @@ using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
 using Melia.Shared.World;
 using System.Collections.Generic;
+using System.Text;
+using System.Security.Cryptography;
+using System;
 
 namespace Melia.Login.Network
 {
@@ -388,15 +391,23 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent upon login, contains checksum of client files?
+		/// Sent upon login. Asserts that the client IPF files are correct.
 		/// </summary>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
 		{
 			var checksum = packet.GetString(64);
+			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
+			
+			var md5 = MD5.Create();
+			md5.TransformFinalBlock(bytes, 0, bytes.Length);
 
-			// Ignore for now.
-			// TODO: Add option for accepted checksums.
+			var result = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+
+			if (checksum != result)
+			{
+				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
+			}
 		}
 
 		/// <summary>

@@ -4,6 +4,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
 
@@ -17,6 +18,7 @@ namespace Melia.Shared.Network
 
 		private object _cleanUpLock = new object();
 		private bool _cleanedUp;
+		private static readonly Random _random = new Random();
 
 		/// <summary>
 		/// State of the connection.
@@ -46,7 +48,12 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Session key for this connection.
 		/// </summary>
-		public string SessionKey { get; set; }
+		public readonly string SessionKey;
+
+		/// <summary>
+		/// Randomly generated value used for checking the integrity of IPF archives.
+		/// </summary>
+		public readonly int IntegritySeed;
 
 		/// <summary>
 		/// Creates new connection.
@@ -59,6 +66,14 @@ namespace Melia.Shared.Network
 
 			this.State = ConnectionState.Open;
 			this.Address = "?:?";
+			this.IntegritySeed = _random.Next();
+
+			// Generates a session key based on a GUID.
+			using (var sha = new SHA1Managed())
+			{
+				var hash = sha.ComputeHash(Guid.NewGuid().ToByteArray());
+				this.SessionKey = "*" + BitConverter.ToString(hash).Replace("-", String.Empty);
+			}
 		}
 
 		/// <summary>

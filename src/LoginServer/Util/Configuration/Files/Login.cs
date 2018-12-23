@@ -18,10 +18,13 @@ namespace Melia.Login.Util.Configuration.Files
 		/// </summary>
 		public Location StartLocation { get; protected set; }
 
+		public string IpfChecksum { get; private set; }
+
 		public void Load()
 		{
 			this.Require("system/conf/login.conf");
 
+			this.IpfChecksum = this.GetString("ipf_checksum");
 			this.StartLocation = this.LoadStartLocation();
 		}
 
