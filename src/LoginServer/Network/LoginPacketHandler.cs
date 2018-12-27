@@ -393,9 +393,17 @@ namespace Melia.Login.Network
 		/// <summary>
 		/// Sent upon login. Asserts that the client IPF files are correct.
 		/// </summary>
+		/// <remarks>
+		/// This must be configured in the login configuration file to be enabled.
+		/// </remarks>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
 		{
+			if (!LoginServer.Instance.Conf.Login.VerifyIpf)
+			{
+				return;
+			}
+
 			var checksum = packet.GetString(64);
 			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
 			
