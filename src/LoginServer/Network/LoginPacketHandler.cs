@@ -406,7 +406,7 @@ namespace Melia.Login.Network
 
 			var checksum = packet.GetString(64);
 			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
-			
+
 			var md5 = MD5.Create();
 			md5.TransformFinalBlock(bytes, 0, bytes.Length);
 
@@ -415,6 +415,16 @@ namespace Melia.Login.Network
 			if (checksum != result)
 			{
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
+
+				// Even though the integrity check fails, send these packets as well.
+				// This is done because the client is in a hanging state waiting for these packets.
+				// Without these, the invalid IPF message will not be visible.
+				Send.BC_COMMANDER_LIST(conn);
+				Send.BC_NORMAL_ZoneTraffic(conn);
+				Send.BC_NORMAL_TeamUI(conn);
+
+				// Terminate any further requests from the client at this point.
+				conn.IgnorePackets = true;
 			}
 		}
 

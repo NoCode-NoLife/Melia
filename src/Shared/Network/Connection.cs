@@ -56,6 +56,11 @@ namespace Melia.Shared.Network
 		public readonly int IntegritySeed;
 
 		/// <summary>
+		/// When set to 'true', client packets are ignored.
+		/// </summary>
+		public bool IgnorePackets = false;
+
+		/// <summary>
 		/// Creates new connection.
 		/// </summary>
 		public Connection()
@@ -139,6 +144,12 @@ namespace Melia.Shared.Network
 					this.OnClosed();
 					Log.Info("Connection was closed from '{0}'.", this.Address);
 					return;
+				}
+
+				// When set, ignore packets until the client eventually terminates the connection.
+				if (this.IgnorePackets)
+				{
+					this.BeginReceive();
 				}
 
 				while (read < length)
