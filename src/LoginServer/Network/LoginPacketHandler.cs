@@ -412,7 +412,7 @@ namespace Melia.Login.Network
 
 			var result = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
 
-			if (checksum != result)
+			if (checksum.ToLower() != result)
 			{
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 

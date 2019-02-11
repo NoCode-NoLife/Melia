@@ -18,7 +18,6 @@ namespace Melia.Shared.Network
 
 		private object _cleanUpLock = new object();
 		private bool _cleanedUp;
-		private static readonly Random _random = new Random();
 
 		/// <summary>
 		/// State of the connection.
@@ -71,7 +70,7 @@ namespace Melia.Shared.Network
 
 			this.State = ConnectionState.Open;
 			this.Address = "?:?";
-			this.IntegritySeed = _random.Next();
+			this.IntegritySeed = RandomProvider.Get().Next();
 
 			// Generates a session key based on a GUID.
 			using (var sha = new SHA1Managed())
@@ -145,13 +144,7 @@ namespace Melia.Shared.Network
 					Log.Info("Connection was closed from '{0}'.", this.Address);
 					return;
 				}
-
-				// When set, ignore packets until the client eventually terminates the connection.
-				if (this.IgnorePackets)
-				{
-					this.BeginReceive();
-				}
-
+				
 				while (read < length)
 				{
 					var packetLength = BitConverter.ToUInt16(_buffer, read);
@@ -215,7 +208,10 @@ namespace Melia.Shared.Network
 						// Handle
 						try
 						{
-							this.HandlePacket(packet);
+							if (!this.IgnorePackets)
+							{
+								this.HandlePacket(packet);
+							}
 						}
 						catch (Exception ex)
 						{

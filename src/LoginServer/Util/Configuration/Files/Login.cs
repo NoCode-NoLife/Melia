@@ -32,14 +32,11 @@ namespace Melia.Login.Util.Configuration.Files
 		{
 			this.Require("system/conf/login.conf");
 
+			this.IpfChecksum = this.GetString("ipf_checksum", String.Empty);
+			this.VerifyIpf = this.GetBool("ipf_verifying", false);
 			this.IpfChecksum = this.GetString("ipf_checksum");
-			this.StartLocation = this.LoadStartLocation();
-		}
 
-		private void LoadIpfSettings()
-		{
-			this.VerifyIpf = this.GetString("ipf_verifying") == "true";
-			this.IpfChecksum = this.GetString("ipf_checksum");
+			this.StartLocation = this.LoadStartLocation();
 		}
 
 		/// <summary>
