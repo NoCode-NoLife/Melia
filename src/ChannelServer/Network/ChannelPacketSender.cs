@@ -239,7 +239,8 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_OPTION_LIST);
 
-			packet.PutString(conn.Account.Settings.ToString());
+			packet.PutByte(0);
+			//packet.PutString(conn.Account.Settings.ToString());
 
 			conn.Send(packet);
 		}
@@ -431,27 +432,37 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_DIVISION_LIST);
 
-			packet.PutInt(items.Count);
-			packet.PutByte(1);
-			packet.PutByte(1);
-			packet.Zlib(false, zpacket =>
+			var count = 0;
+			if (count == 0)
 			{
-				foreach (var item in items)
+				packet.PutInt(0);
+				packet.PutByte(1);
+				packet.PutByte(1);
+			}
+			else
+			{
+				packet.PutInt(items.Count);
+				packet.PutByte(1);
+				packet.PutByte(1);
+				packet.Zlib(false, zpacket =>
 				{
-					var properties = item.Value.Properties.GetAll();
-					var propertiesSize = item.Value.Properties.Size;
+					foreach (var item in items)
+					{
+						var properties = item.Value.Properties.GetAll();
+						var propertiesSize = item.Value.Properties.Size;
 
-					zpacket.PutInt(item.Value.Id);
-					zpacket.PutShort(propertiesSize);
-					zpacket.PutEmptyBin(2);
-					zpacket.PutLong(item.Value.ObjectId);
-					zpacket.PutInt(item.Value.Amount);
-					zpacket.PutInt(item.Value.Price);
-					zpacket.PutInt(item.Key);
-					zpacket.PutInt(1);
-					zpacket.AddProperties(properties);
-				}
-			});
+						zpacket.PutInt(item.Value.Id);
+						zpacket.PutShort(propertiesSize);
+						zpacket.PutEmptyBin(2);
+						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutInt(item.Value.Amount);
+						zpacket.PutInt(item.Value.Price);
+						zpacket.PutInt(item.Key);
+						zpacket.PutInt(1);
+						zpacket.AddProperties(properties);
+					}
+				});
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -1257,6 +1268,19 @@ namespace Melia.Channel.Network
 		/// Sends the session key to the client.
 		/// </summary>
 		/// <param name="conn"></param>
+		public static void ZC_NORMAL_AdventureBook(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.AdventureBook);
+			packet.PutLpString("AdventureBook");
+			packet.PutLpString("Initialization_point");
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends the session key to the client.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_NORMAL_SetSessionKey(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -1467,51 +1491,57 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_IES_MODIFY_LIST);
 
-			packet.PutShort(1); // count
+			var iesModified = false;
+			if (!iesModified)
 			{
-				packet.PutLpString("SharedConst");
-				packet.PutShort(2); // row count
+				packet.PutShort(0); //
+			} else {
+			packet.PutShort(1); // count
 				{
-					packet.PutInt(251);
-					packet.PutShort(1); // col count
+					packet.PutLpString("SharedConst");
+					packet.PutShort(2); // row count
 					{
-						packet.PutLpString("Value");
-						packet.PutShort(5); // patch count
+						packet.PutInt(251);
+						packet.PutShort(1); // col count
 						{
-							packet.PutInt(6);
-							packet.PutLpString("0");
-							packet.PutLpString("0.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2016-3-30 3:15");
-							packet.PutLpString("Change By Tool");
+							packet.PutLpString("Value");
+							packet.PutShort(5); // patch count
+							{
+								packet.PutInt(6);
+								packet.PutLpString("0");
+								packet.PutLpString("0.00");
+								packet.PutLpString("YEJI");
+								packet.PutLpString("2016-3-30 3:15");
+								packet.PutLpString("Change By Tool");
 
-							packet.PutInt(5);
-							packet.PutLpString("0");
-							packet.PutLpString("0.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2016-3-30 3:15");
-							packet.PutLpString("Change By Tool");
+								packet.PutInt(5);
+								packet.PutLpString("0");
+								packet.PutLpString("0.00");
+								packet.PutLpString("YEJI");
+								packet.PutLpString("2016-3-30 3:15");
+								packet.PutLpString("Change By Tool");
 
-							packet.PutInt(4);
-							packet.PutLpString("0");
-							packet.PutLpString("0.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2016-3-30 3:15");
-							packet.PutLpString("Change By Tool");
+								packet.PutInt(4);
+								packet.PutLpString("0");
+								packet.PutLpString("0.00");
+								packet.PutLpString("YEJI");
+								packet.PutLpString("2016-3-30 3:15");
+								packet.PutLpString("Change By Tool");
 
-							packet.PutInt(3);
-							packet.PutLpString("0");
-							packet.PutLpString("0.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2016-3-30 3:15");
-							packet.PutLpString("Change By Tool");
+								packet.PutInt(3);
+								packet.PutLpString("0");
+								packet.PutLpString("0.00");
+								packet.PutLpString("YEJI");
+								packet.PutLpString("2016-3-30 3:15");
+								packet.PutLpString("Change By Tool");
 
-							packet.PutInt(2);
-							packet.PutLpString("0");
-							packet.PutLpString("0.00");
-							packet.PutLpString("YEJI");
-							packet.PutLpString("2016-3-30 3:15");
-							packet.PutLpString("Change By Tool");
+								packet.PutInt(2);
+								packet.PutLpString("0");
+								packet.PutLpString("0.00");
+								packet.PutLpString("YEJI");
+								packet.PutLpString("2016-3-30 3:15");
+								packet.PutLpString("Change By Tool");
+							}
 						}
 					}
 				}
@@ -1801,6 +1831,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sets the entity's owner to the specified character handle.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="monster"></param>
+		public static void ZC_NORMAL_Unknown_1B4(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_1B4);
+			packet.PutInt(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends account properties.
 		/// </summary>
 		/// <param name="character"></param>
@@ -2045,7 +2089,7 @@ namespace Melia.Channel.Network
 			// player can see, potentially incl. the information of
 			// whether they've read a specific topic yet.
 
-			var defaultList = ChannelServer.Instance.Data.HelpDb.Entries.Values.Where(a => a.BasicHelp);
+			var defaultList = ChannelServer.Instance.Data.HelpDb.Entries.Values.Where(a => a.BasicHelp).ToList();
 
 			var packet = new Packet(Op.ZC_HELP_LIST);
 			packet.PutInt(defaultList.Count());
@@ -2087,23 +2131,31 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
-			packet.PutShort(sessionObjects.Length);
-			packet.PutByte(0);
-			foreach (var obj in sessionObjects)
+			var count = 0;
+			if (count == 0)
 			{
-				var properties = obj.Properties.GetAll();
-				var propertiesSize = obj.Properties.Size;
-
-				packet.PutInt(obj.Id);
-				packet.PutInt(-926557701);
-				packet.PutLong(obj.ObjectId);
-				packet.PutInt(0);
-
-				packet.PutShort(propertiesSize);
-				packet.PutShort(0);
-				packet.AddProperties(properties);
+				packet.PutShort(count);
+				packet.PutInt(1212870396);
 			}
+			else
+			{
+				packet.PutShort(sessionObjects.Length);
+				packet.PutByte(0);
+				foreach (var obj in sessionObjects)
+				{
+					var properties = obj.Properties.GetAll();
+					var propertiesSize = obj.Properties.Size;
 
+					packet.PutInt(obj.Id);
+					packet.PutInt(-926557701);
+					packet.PutLong(obj.ObjectId);
+					packet.PutInt(0);
+
+					packet.PutShort(propertiesSize);
+					packet.PutShort(0);
+					packet.AddProperties(properties);
+				}
+			}
 			character.Connection.Send(packet);
 		}
 
@@ -2195,6 +2247,41 @@ namespace Melia.Channel.Network
 			packet.PutShort(1003);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_SET_CHATBALLOON_SKIN to client (dummy).
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SET_CHATBALLOON_SKIN(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SET_CHATBALLOON_SKIN);
+			packet.PutBinFromHex("00 00 01 00 00 00 00 00 00 00 00 00 01 00 00 80 00 00 00 00 98 4B");
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_MYPAGE_MAP to client (dummy).
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_MYPAGE_MAP(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_MYPAGE_MAP);
+			packet.PutInt(1);
+			packet.PutByte(0);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_GUESTPAGE_MAP to client (dummy).
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_GUESTPAGE_MAP(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_GUESTPAGE_MAP);
+			packet.PutInt(1);
+			packet.PutByte(0);
+			conn.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

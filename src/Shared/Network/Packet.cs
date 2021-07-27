@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 
 namespace Melia.Shared.Network
@@ -50,6 +51,17 @@ namespace Melia.Shared.Network
 		public Packet(int op)
 		{
 			_buffer = new byte[DefaultSize];
+			this.Op = op;
+		}
+
+		/// <summary>
+		/// Creates new packet with given op.
+		/// </summary>
+		/// <param name="op"></param>
+		public Packet(int op, int length)
+		{
+			_buffer = new byte[DefaultSize];
+			this.Length = length;
 			this.Op = op;
 		}
 
@@ -207,6 +219,15 @@ namespace Melia.Shared.Network
 			}
 
 			throw new Exception("String not null-terminated.");
+		}
+
+		/// <summary>
+		/// Reads FileTime from buffer, 8 byte representation.
+		/// </summary>
+		/// <returns>DateTime</returns>
+		public DateTime GetDate()
+		{
+			return DateTime.FromFileTime(this.GetLong());
 		}
 
 		/// <summary>
@@ -420,13 +441,7 @@ namespace Melia.Shared.Network
 			if (hex == "")
 				return;
 
-			var val =
-				Enumerable.Range(0, hex.Length)
-				.Where(x => x % 2 == 0)
-				.Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-				.ToArray();
-
-			this.PutBin(val);
+			this.PutBin(SoapHexBinary.Parse(hex).Value);
 		}
 
 		/// <summary>
@@ -460,6 +475,11 @@ namespace Melia.Shared.Network
 			Marshal.FreeHGlobal(ptr);
 
 			this.PutBin(arr);
+		}
+
+		public void PutDate(DateTime val)
+		{
+			PutLong(val.ToFileTime());
 		}
 
 		public void Zlib(bool compress, Action<Packet> zlibPacketFunc)

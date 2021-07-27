@@ -4,6 +4,8 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Text;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
 
@@ -46,7 +48,17 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Session key for this connection.
 		/// </summary>
-		public string SessionKey { get; set; }
+		public readonly string SessionKey;
+
+		/// <summary>
+		/// Randomly generated value used for checking the integrity of IPF archives.
+		/// </summary>
+		public readonly int IntegritySeed;
+
+		/// <summary>
+		/// When set to 'true', client packets are ignored.
+		/// </summary>
+		public bool IgnorePackets = false;
 
 		/// <summary>
 		/// Creates new connection.
@@ -59,6 +71,14 @@ namespace Melia.Shared.Network
 
 			this.State = ConnectionState.Open;
 			this.Address = "?:?";
+			this.IntegritySeed = RandomProvider.Get().Next();
+
+			// Generates a session key based on a GUID.
+			using (var sha = new SHA1Managed())
+			{
+				var hash = sha.ComputeHash(Guid.NewGuid().ToByteArray());
+				this.SessionKey = "*" + BitConverter.ToString(hash).Replace("-", String.Empty);
+			}
 		}
 
 		/// <summary>
@@ -145,16 +165,20 @@ namespace Melia.Shared.Network
 					var packet = new Packet(packetBuffer);
 
 					// Debug
-					//var opName = Op.GetName(packet.Op);
-					//var recvStr = BitConverter.ToString(packetBuffer).Replace("-", " ");
-					//recvStr = recvStr.Insert(0, "[");
-					//recvStr = recvStr.Insert(6, "]");
-					//recvStr = recvStr.Insert(8, "[");
-					//recvStr = recvStr.Insert(20, "]");
-					//recvStr = recvStr.Insert(22, "[");
-					//recvStr = recvStr.Insert(34, "]");
-					//Log.Debug("Recv: {0} {1}", opName, recvStr);
-					//Log.Debug("Recv:\n{0}", packet.ToString());
+					var debug = true;
+					if (debug)
+					{
+						var opName = Op.GetName(packet.Op);
+						var recvStr = BitConverter.ToString(packetBuffer).Replace("-", " ");
+						recvStr = recvStr.Insert(0, "[");
+						recvStr = recvStr.Insert(6, "]");
+						recvStr = recvStr.Insert(8, "[");
+						recvStr = recvStr.Insert(20, "]");
+						recvStr = recvStr.Insert(22, "[");
+						recvStr = recvStr.Insert(34, "]");
+						Log.Debug("Recv: {0} {1}", opName, recvStr);
+						//Log.Debug("Recv:\n{0}", packet.ToString());
+					}
 
 					// Check size from table?
 					var size = Op.GetSize(packet.Op);
@@ -281,7 +305,10 @@ namespace Melia.Shared.Network
 			if (size != 0)
 			{
 				if (length < sizeof(short) + sizeof(int) + sizeof(int) + packet.Length)
-					throw new Exception("Packet is bigger than specified in the packet size table.");
+				{
+					Log.Warning("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})", packet.Op, fixHeaderSize, size, Op.GetName(packet.Op));
+					throw new Exception("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})");
+				}
 
 				if (size != sizeof(short) + sizeof(int) + sizeof(int) + packet.Length)
 					Log.Warning("Packet size doesn't match packet table size. (op: {3} ({0:X4}), size: {1}, expected: {2})", packet.Op, fixHeaderSize, size, Op.GetName(packet.Op));
@@ -302,20 +329,22 @@ namespace Melia.Shared.Network
 			packet.Build(ref buffer, offset);
 
 			// Debug
-			//var opName = Op.GetName(packet.Op);
-			//var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
-			//sendStr = sendStr.Insert(0, "[");
-			//sendStr = sendStr.Insert(6, "]");
-			//sendStr = sendStr.Insert(8, "[");
-			//sendStr = sendStr.Insert(20, "]");
-			//if (size == 0)
-			//{
-			//	sendStr = sendStr.Insert(22, "[");
-			//	sendStr = sendStr.Insert(28, "]");
-			//}
-			//Log.Debug("Send: {0} {1}", opName, sendStr);
-
-			//Log.Debug("Send:\n{0}", packet.ToString());
+			var debug = true;
+			if (debug) {
+				var opName = Op.GetName(packet.Op);
+				var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
+				sendStr = sendStr.Insert(0, "[");
+				sendStr = sendStr.Insert(6, "]");
+				sendStr = sendStr.Insert(8, "[");
+				sendStr = sendStr.Insert(20, "]");
+				if (size == 0)
+				{
+					sendStr = sendStr.Insert(22, "[");
+					sendStr = sendStr.Insert(28, "]");
+				}
+				Log.Debug("Send: {0} {1}", opName, sendStr);
+				//Log.Debug("Send:\n{0}", packet.ToString());
+			}
 
 			//Send
 			_socket.Send(buffer);

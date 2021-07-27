@@ -39,6 +39,9 @@ namespace Melia.Login.Network.Helpers
 
 			packet.PutByte(1);
 
+			packet.PutBinFromHex("1000621C000000000000D61C00000000803F0212000022770200000000000000000000001000621C000000000000D61C00000000000003120000227702000000000000000000000000001000621C000000000000D61C00000000803F04120000227702000000000000000000000000000000000000000000000000000000000000000000000001010101");
+
+
 			// Job list?
 			// Example: A Mage that switched to Pyromancer has two
 			//   elements in this list, 2001 and 2002.
@@ -46,7 +49,8 @@ namespace Melia.Login.Network.Helpers
 			foreach (var jobId in jobIds)
 				packet.PutShort((short)jobId);
 
-			packet.PutInt(0);
+			packet.PutBinFromHex("000000000000000000120000227702000000");
+			//packet.PutInt(0);
 		}
 	}
 

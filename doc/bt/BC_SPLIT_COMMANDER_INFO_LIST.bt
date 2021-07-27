@@ -1,36 +1,17 @@
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: BC_COMMANDER_LIST.bt
-//   Authors: exec, celophi, Salman T. Khan
+//      File: BC_SPLIT_COMMANDER_INFO_LIST.bt
+//   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i11025:  BARRACK_PC.i1 was added
-//   - i11257:  AccountProperties.s1 was added
-//   - i170175: BARRACK_PC.b1~b3 were added
-//   - i218535: BARRACK_PC.b4 was added
-//   - i218535: AccountProperties.i1 was added
-//   - i336041: ???
 //------------------------------------------------
 
 #include "common.bt"
-
-typedef struct
-{
-    short size;
-    short serverId;
-    int barrackLayer;
-    byte b1;
-    byte b2;
-
-    if(size > 0)
-        getProperties(size);
-}
-AccountProperties;
 
 typedef struct
 {
@@ -42,7 +23,7 @@ typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
     EquipProperties equipProperties;
-    
+    short s4;
     byte b1;
     byte b2;
     byte b3;
@@ -53,6 +34,9 @@ typedef struct
     short jobIds[jobIdCount];
     
     int i1;
+    int i2;
+    int64 characterId;
+    short s2;
 }
 BARRACK_PC <read=readBARRACK_PC>;
 
@@ -62,16 +46,15 @@ string readBARRACK_PC(BARRACK_PC &v)
 }
 
 ServerHeaderDynamic header;
-
+int32 characterCount;
 int64 accountId;
 byte b1;
-byte characterCount;
-char teamName[64];
+byte b2;
+byte b3;
 
-AccountProperties properties;
+BARRACK_PC barrackPc[characterCount] <optimize=false>;
 
-short s1;
-int i1;
-int i2;
-int i3;
-short s2;
+lpString lpS1;
+lpString lpS2;
+lpString lpS3;
+lpString lpS4;

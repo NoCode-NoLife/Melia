@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: common.bt
-//   Authors: exec, celophi
-//   Version: i184075
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -26,13 +26,14 @@
 //   - i186893: EquipSlotCount increased to 25 (effect costume)
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
+//   - 7-25-21: EquipSlotCount increased to 30
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 25;
+const int EquipSlotCount = 30;
 
 typedef struct
 {
@@ -146,27 +147,28 @@ string mapRevealDataRead(mapRevealData &v)
 
 typedef struct
 {
-    short size;
-    if(size > 0)
-        getProperties(size);
+    short prop_id;
+    if(prop_id > 0)
+        getSimpleProperties(prop_id);
 }
 ItemProperties;
 
 typedef struct
 {
     char name[65];
-    char teamName[64];
-    byte bin1[7];
-    int64 accountId;
-    short stance;
-    short s1;
-    short job;
-    byte gender;
-    byte b1;
+    char team[65];
+    byte bin[14];
+    int stance;   
+    short job; //D1 07
+    short gender; //01
     int level;
+    int i1;
+    ubyte bin2[4];
+    int i2;
     int equipIds[EquipSlotCount];
-    int i6;
-    int i7;
+    byte bin3[12];
+    int equipIds2[EquipSlotCount];
+    byte bin4[12];
     short hair;
 
     // Up until i171032 we had these as "pose" and "team id",
@@ -199,12 +201,12 @@ typedef struct {
     int64 socialInfoId;
     int hp;
     int maxHp;
-    short sp;
-    short maxSP;
+    int sp;
+    int maxSP;
     int stamina;
     int maxStamina;
-    short shield;
-    short maxShield;
+    int shield;
+    int maxShield;
 }
 COMMANDER;
 
@@ -229,7 +231,7 @@ typedef struct
     APPEARANCE_PC appearancePc;
     int64 characterId;
     byte index;
-    byte b1;
+    ubyte b1;
 
     short s1;
     short mapId;
@@ -252,8 +254,11 @@ typedef struct
     float d12;
     float d22;
 
-    int i5; // float?
-
+    float f1; // float?
+    float f2;
+    float f3;
+    int i8;
+    short s2;
 } APPEARANCE_BARRACK_PC;
 
 typedef struct
@@ -444,7 +449,9 @@ MessageItem;
 typedef struct
 {
     lpString sender;
+    byte terminator;
     lpString title;
+    byte terminator;
     lpString text;
     FILETIME date1;
     FILETIME expiration;
@@ -454,6 +461,7 @@ typedef struct
     short s1;
     short read; // ?
     short s3;
+    byte b2;
     int itemCount;
     if (itemCount != 0)
         MessageItem items[itemCount] <optimize=false>;
@@ -512,6 +520,10 @@ int getPropertyType(int id)
         case 32575:
         case 101000:
         case 101822:
+        case 104893:
+        case 104895:
+        case 104897:
+        case 107234:
             return OBJP_STRING;
             break;
         default:
@@ -528,6 +540,13 @@ void getProperties(int size)
         property prop;
         i += sizeof(prop);
     }
+}
+
+void getSimpleProperties(int id)
+{
+    local int i;
+    property prop;
+    i += sizeof(prop);
 }
 
 enum <int> PostBoxState 

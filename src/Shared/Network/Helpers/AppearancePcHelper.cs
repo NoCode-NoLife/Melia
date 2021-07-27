@@ -11,16 +11,20 @@ namespace Melia.Shared.Network.Helpers
 		public static void AddAppearancePc(this Packet packet, IAppearancePc appearancePc)
 		{
 			packet.PutString(appearancePc.Name, 65);
-			packet.PutString(appearancePc.TeamName, 64);
-			packet.PutEmptyBin(7);
-			packet.PutLong(appearancePc.AccountId);
+			packet.PutString("", 65);
+			packet.PutEmptyBin(14);
 			packet.PutShort(appearancePc.Stance);
 			packet.PutShort(0);
 			packet.PutShort((short)appearancePc.JobId);
 			packet.PutByte((byte)appearancePc.Gender);
 			packet.PutByte(0);
 			packet.PutInt(appearancePc.Level);
-
+			packet.PutInt(0); // i1
+			packet.PutByte(0x80); //128
+			packet.PutByte(0x80); //128
+			packet.PutByte(0x80); //128
+			packet.PutByte(0xFF); //255
+			packet.PutInt(1); // i2
 			// Items
 			var equipIds = appearancePc.GetEquipIds();
 			if (equipIds.Length != Items.EquipSlotCount)
@@ -31,6 +35,18 @@ namespace Melia.Shared.Network.Helpers
 
 			// [i10671, 2015-10-26 iCBT2] ?
 			{
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
+
+			//Visual Equip Ids?
+			for (var i = 0; i < equipIds.Length; ++i)
+				packet.PutInt(equipIds[i]);
+
+			// [i336041, 2021-07-25]
+			{
+				packet.PutInt(0);
 				packet.PutInt(0);
 				packet.PutInt(0);
 			}

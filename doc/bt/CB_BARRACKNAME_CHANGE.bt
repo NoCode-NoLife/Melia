@@ -1,8 +1,8 @@
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_GAME_READY.bt
-//   Authors: exec, Salman T. Khan
+//      File: CB_CURRENT_BARRACK.bt
+//   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
 //  Category: 
@@ -14,5 +14,13 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-byte bin[12];
-ushort s1; //Guild ID?
+
+byte bin1[12];
+short serverId;
+char name[64];
+char message[128];
+byte bin2[24];
+int64 unk[9];
+char name2[16];
+int64 l1;
+int64 l2;

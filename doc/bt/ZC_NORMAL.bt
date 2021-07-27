@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_NORMAL.bt
-//   Authors: exec, celophi
-//   Version: i195396
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -28,12 +28,12 @@ AccountProperties;
 typedef struct
 {
     short jobId;
-    short s1; // 177
+    short circle;
     int i1;
     int totalExp;
     int i2;
-    short unusedSkillPoints;
-    short circle;
+    byte unusedSkillPoints;
+    ushort circle;
     byte bin1[4];
 }
 Job;
@@ -265,10 +265,12 @@ switch (type)
         break;
     
     // Updates the skill UI
+    case 0x186:
     case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
+        short sbin[16];
         break;
     
     // ?
@@ -283,6 +285,7 @@ switch (type)
     
     // ?
     case 0x197:
+    case 0x1B4:
         int i1;
         break;
     

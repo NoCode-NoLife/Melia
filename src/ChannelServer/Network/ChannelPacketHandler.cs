@@ -24,21 +24,19 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
-			var s1 = packet.GetShort();
-			var s2 = packet.GetShort();
+			var bin1 = packet.GetBin(1036);
+			var sessionKey = packet.GetString(64);
+			// When using passprt login, this is the account id as string,
+			// and it's 18 (?) bytes long.	
+			var accountName = packet.GetString(56);
+			var mac = packet.GetString(48);
+			var socialId = packet.GetLong();
+			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
+			var bin2 = packet.GetBin(12);
 
-			// When using passprt login, this is the account id as string,
-			// and it's 18 (?) bytes long.
-			var accountName = packet.GetString(33); // ?
-			var bin2 = packet.GetBin(23);
 
-			var unk = packet.GetBin(1037);
-			var sessionKey = packet.GetString(64);
-			var bin1 = packet.GetBin(4);
-			var mac = packet.GetString(32);
-			var l1 = packet.GetLong();
 			var bin3 = packet.GetBin(8);
 
 			// TODO: Check session key or something.
@@ -77,7 +75,11 @@ namespace Melia.Channel.Network
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
 
+			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
+			Send.ZC_NORMAL_AdventureBook(conn);
+			//Send.ZC_SET_CHATBALLOON_SKIN(conn);
+			Send.ZC_NORMAL_Unknown_1B4(character);
 		}
 
 		/// <summary>
@@ -88,6 +90,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_GAME_READY)]
 		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
+			var guildId = packet.GetShort();
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_IES_MODIFY_LIST(conn);
@@ -1588,6 +1592,19 @@ namespace Melia.Channel.Network
 				Log.Debug("  {0}: {1}", name, value);
 			}
 		}
+
+		/// <summary>
+		/// Sent during loading screen.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_HEARTBEAT)]
+		public void CZ_HEARTBEAT(ChannelConnection conn, Packet packet)
+		{
+			
+		}
+
+
 	}
 
 	public enum TxType : short
