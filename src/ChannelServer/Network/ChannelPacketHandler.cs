@@ -95,7 +95,7 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_IES_MODIFY_LIST(conn);
-			//Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
 			Send.ZC_SESSION_OBJECTS(character);
 			Send.ZC_OPTION_LIST(conn);
 			Send.ZC_SKILLMAP_LIST(character);
@@ -120,7 +120,7 @@ namespace Melia.Channel.Network
 			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(conn);
-			//character.OpenEyes();
+			character.OpenEyes();
 		}
 
 		/// <summary>
@@ -162,6 +162,8 @@ namespace Melia.Channel.Network
 		public void CZ_CHAT(ChannelConnection conn, Packet packet)
 		{
 			var len = packet.GetShort(); // length of dynamic packet without length from header
+			var extra = packet.GetBin(10);
+			var unknown = packet.GetShort();
 			var msg = packet.GetString();
 
 			var character = conn.SelectedCharacter;
@@ -969,6 +971,7 @@ namespace Melia.Channel.Network
 
 				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
 				Send.ZC_JOB_PTS(character, job);
+				//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
 			}
 			else
 			{
@@ -1616,6 +1619,17 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_PCBANG_SHOP_UI(ChannelConnection conn, Packet packet)
 		{
 
+		}
+
+		/// <summary>
+		/// Sent on Opening Skill Window
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_COMMON_SKILL_LIST)]
+		public void CZ_REQ_COMMON_SKILL_LIST(ChannelConnection conn, Packet packet)
+		{
+			Send.ZC_COMMON_SKILL_LIST(conn);
 		}
 	}
 

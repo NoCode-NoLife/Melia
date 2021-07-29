@@ -1,8 +1,8 @@
 //------------------------------------------------
-//--- 010 Editor v8.0 Binary Template
+//--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_RESPONSE_GUILD_INDEX
-//   Authors: exec, Salman T. Khan
+//      File: ZC_PLAY_ANI.bt
+//   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
 //  Category: 
@@ -10,11 +10,12 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-
 #include "common.bt"
 
 ServerHeaderFixed header;
 
 int handle;
-int64 characterId;
-ushort s1;
+short s1;
+int i1;
+int i2;
+float f1;

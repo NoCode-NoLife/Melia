@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PCBANG_SHOP_POINTSHOP_CATALOG.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: Logic isn't correct yet
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    char name[64];
+    int i[4];
+} ShopItem;
+
+ServerHeaderDynamic header;
+int i1;
+int id;
+while(!FEof())
+    ShopItem shopItem;

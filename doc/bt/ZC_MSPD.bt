@@ -2,13 +2,13 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_MSPD.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: i336041 - Added l1
 //------------------------------------------------
 
 #include "common.bt"
@@ -17,3 +17,4 @@ ServerHeaderFixed header;
 
 int handle;
 float val;
+int64 l1;

@@ -13,7 +13,7 @@
 //   - i184075: Skill UI update changed from 0x188 to 0x189
 //   - i184075: Job.i1+i2+bin1 were added
 //   - i195396: Skill UI update changed from 0x189 to 0x188
-//   - i336041: Added 0xA1, 0x194, 0x186
+//   - i336041: Added 0xA1, 0x194, 0x186, 0x135
 //------------------------------------------------
 
 #include "common.bt"
@@ -262,6 +262,12 @@ switch (type)
             int i2;
             short s2;
         }
+        break;
+
+    case 0x135:
+        int64 id;
+        int i1;
+        lpString message;
         break;
 
     // ?

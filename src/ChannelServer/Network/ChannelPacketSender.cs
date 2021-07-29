@@ -604,7 +604,7 @@ namespace Melia.Channel.Network
 			packet.PutString(character.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
 			packet.PutShort((short)character.JobId);
-			packet.PutInt(0); // 1, 10, 11
+			packet.PutInt((int)character.JobId); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);
 			packet.PutEmptyBin(2);
@@ -614,9 +614,13 @@ namespace Melia.Channel.Network
 			{
 				packet.PutInt(1004);
 			}
+			packet.PutInt(0); //i3
+			packet.PutInt(0); //i4
+			packet.PutInt(0); //i5
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutEmptyBin(16); // [i170175] ?
+			packet.PutByte(1);
 			packet.PutString(message);
 
 			character.Map.Broadcast(packet, character);
@@ -983,8 +987,8 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(1); // Seems to be 1
+			packet.PutByte(1); // Seems to be 1
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1619,6 +1623,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(pos.Z);
 			packet.PutFloat(dir.Cos);
 			packet.PutFloat(dir.Sin);
+			packet.PutByte(1);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -2880,6 +2885,57 @@ namespace Melia.Channel.Network
 			packet.PutLong(15000000);
 			packet.PutLong(0);
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PLAY_ANI to character, Play Animation?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PLAY_ANI(Character character, int animationId)
+		{
+			var packet = new Packet(Op.ZC_PLAY_ANI);
+			packet.PutInt(character.Handle);
+			packet.PutShort(animationId);
+			packet.PutInt(39);
+			packet.PutInt(0);
+			packet.PutFloat(1f);
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Sends ZC_COMMON_SKILL_LIST to character, Send Common Skill List
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_COMMON_SKILL_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutEmptyBin(18);
+			});
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PCBANG_POINT to character
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PCBANG_POINT(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			packet.PutInt(-1);
+			packet.PutInt(980); //Increasing Value each time this packet is sent
+			packet.PutInt(1620); //Max?
+			conn.Send(packet);
+		}
+
+		public static void ZC_MSPD(Character character)
+		{
+			var packet = new Packet(Op.ZC_MSPD);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(32f);
+			packet.PutLong(0);
+			character.Connection.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)
