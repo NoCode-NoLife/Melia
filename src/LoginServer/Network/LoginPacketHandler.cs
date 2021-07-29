@@ -10,6 +10,9 @@ using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
 using Melia.Shared.World;
 using System.Collections.Generic;
+using System;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace Melia.Login.Network
 {
@@ -25,6 +28,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var accountName = packet.GetString(33);
 			var bin1 = packet.GetBin(23);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
@@ -35,6 +39,7 @@ namespace Melia.Login.Network
 			var bin2 = packet.GetBin(4368);
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
+			Send.BC_DISCONNECT_PACKET_LOG_COUNT(conn);
 
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
@@ -109,9 +114,12 @@ namespace Melia.Login.Network
 			var unkByte = packet.GetByte();
 
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
+			Send.BC_NORMAL_SetBarrack(conn, 0x0B);
 			Send.BC_COMMANDER_LIST(conn);
+			Send.BC_NORMAL_CharacterInfo(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
 			Send.BC_NORMAL_TeamUI(conn);
+			//Send.BC_NORMAL_MESSAGE_MAIL(conn);
 		}
 
 		/// <summary>
@@ -122,6 +130,12 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
+			var accountId = packet.GetLong();
+			var unk_bin_2 = packet.GetBin(12);
+			var unk_byte_1 = packet.GetByte();
+			var unk_byte_2 = packet.GetByte();
+			var unk_int_1 = packet.GetInt();
 		}
 
 		/// <summary>
@@ -129,11 +143,19 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(Op.CB_BARRACKNAME_CHANGE)]
-		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
+		[PacketHandler(Op.CB_BARRACKNAME_CHECK)]
+		public void CB_BARRACKNAME_CHECK(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
+			var serverId = packet.GetShort();
 			var name = packet.GetString(64);
-
+			var unk_short_1 = packet.GetShort();
+			var message = packet.GetString(128);
+			var unknown_bin_1 = packet.GetBin(94);
+			var check_name = packet.GetString();
+			var l1 = packet.GetLong();
+			var l2 = packet.GetLong();
+			var l3 = packet.GetLong();
 			// Don't do anything if nothing's changed
 			if (name == conn.Account.TeamName)
 				return;
@@ -142,7 +164,7 @@ namespace Melia.Login.Network
 			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => char.IsWhiteSpace(a)));
 			if (!valid)
 			{
-				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamChangeFailed);
+				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamChangeFailed);
 				return;
 			}
 
@@ -150,7 +172,7 @@ namespace Melia.Login.Network
 			var exists = LoginServer.Instance.Database.TeamNameExists(name);
 			if (exists)
 			{
-				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamNameAlreadyExist);
+				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamNameAlreadyExist);
 				return;
 			}
 
@@ -158,7 +180,7 @@ namespace Melia.Login.Network
 			conn.Account.TeamName = name;
 			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
-			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay);
+			Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.Okay);
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
 			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
@@ -171,6 +193,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
 		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var charPosition = packet.GetByte();
 			var name = packet.GetString(65);
 			var job = (JobId)packet.GetShort();
@@ -180,6 +203,9 @@ namespace Melia.Login.Network
 			var bz = packet.GetFloat();
 			var hair = packet.GetByte();
 			var b1 = packet.GetByte();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
+			//FF CD 0C B4 7C 31 7E 93
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric)
@@ -300,6 +326,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_MOVE)]
 		public void CB_COMMANDER_MOVE(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var index = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -333,6 +360,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var channel = packet.GetShort();
 			var index = packet.GetByte();
 
@@ -388,15 +416,40 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
-		/// Sent upon login, contains checksum of client files?
+		/// Sent upon login. Asserts that the client IPF files are correct.
 		/// </summary>
+		/// <remarks>
+		/// This must be configured in the login configuration file to be enabled.
+		/// </remarks>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var checksum = packet.GetString(64);
+			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
+			if (!LoginServer.Instance.Conf.Login.VerifyIpf)
+			{
+				return;
+			}
+			var md5 = MD5.Create();
+			md5.TransformFinalBlock(bytes, 0, bytes.Length);
 
-			// Ignore for now.
-			// TODO: Add option for accepted checksums.
+			var result = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+
+			if (checksum.ToLower() != result)
+			{
+				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
+
+				// Even though the integrity check fails, send these packets as well.
+				// This is done because the client is in a hanging state waiting for these packets.
+				// Without these, the invalid IPF message will not be visible.
+				Send.BC_COMMANDER_LIST(conn);
+				Send.BC_NORMAL_ZoneTraffic(conn);
+				Send.BC_NORMAL_TeamUI(conn);
+
+				// Terminate any further requests from the client at this point.
+				conn.IgnorePackets = true;
+			}
 		}
 
 		/// <summary>
@@ -418,17 +471,23 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
 		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
 		{
+			//[46 00] [09 00 00 00] [4D 00 00 00]
+			//00 00 00 00
+			//00 00 00 00
+			//00 00 00 00 02 00 00 00 BE 7C AE 1D BD 40
+			var extra = packet.GetBin(12);
 			var layer = packet.GetInt();
 
 			// Only these two layers are valid currently.
-			if (layer < 1 || layer > 2)
+			if (layer < 1 || layer > 3)
 			{
 				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", layer, conn.Account.Name);
 				return;
 			}
-
 			conn.Account.SetSelectedBarrackLayer(layer);
-			Send.BC_COMMANDER_LIST(conn, conn.Account.SelectedBarracklayer);
+			Send.BC_NORMAL_SetBarrack(conn);
+			Send.BC_COMMANDER_LIST(conn);
+			//Send.(conn);
 		}
 
 		/// <summary>
@@ -497,6 +556,34 @@ namespace Melia.Login.Network
 			// about this any time soon. Btw, if it is an anti-cheat:
 			// Good thinking, IMC. Let the client tell the server about
 			// its files, what could go wrong.
+		}
+
+		[PacketHandler(Op.CB_SELECTED_LANGUAGE)]
+		public void CB_SELECTED_LANGUAGE(LoginConnection conn, Packet packet)
+		{
+			var int_1 = packet.GetInt();
+			var int_2 = packet.GetInt();
+			var int_3 = packet.GetInt();
+			var short_1 = packet.GetShort();
+		}
+
+		[PacketHandler(Op.CB_OS_INFO)]
+		public void CB_OS_INFO(LoginConnection conn, Packet packet)
+		{
+			//
+		}
+
+		[PacketHandler(Op.CB_VISIT)]
+		public void CB_VISIT(LoginConnection conn, Packet packet)
+		{
+			///3800090000000D09000000000000000000000000000000000FA473400100000030B066BC00000000D34788400100000030B066BC0000000030B066BC0000000000000000000000008952884001000000FEFFFFFFFFFF0100
+		}
+
+		[PacketHandler(Op.CB_CHECK_MARKET_REGISTERED)]
+		public void CB_CHECK_MARKET_REGISTERED(LoginConnection conn, Packet packet)
+		{
+			//57000A000000EA000000000000000000000000000000570300009E580100331C
+
 		}
 	}
 }

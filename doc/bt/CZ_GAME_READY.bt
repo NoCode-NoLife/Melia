@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_GAME_READY.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,3 +14,5 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
+byte bin[12];
+ushort s1; //Guild ID?

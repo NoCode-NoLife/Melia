@@ -17,7 +17,7 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-
+char extra[12];
 byte index;
 char name[65];
 short job;
@@ -26,3 +26,4 @@ position pos;
 //int startingCity; // i11025 (2016-02-26)
 uint lodge;
 ushort hair;
+ubyte bin[11];

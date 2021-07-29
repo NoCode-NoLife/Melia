@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_NORMAL.bt
-//   Authors: exec, celophi
-//   Version: i195396
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,6 +13,7 @@
 //   - i184075: Skill UI update changed from 0x188 to 0x189
 //   - i184075: Job.i1+i2+bin1 were added
 //   - i195396: Skill UI update changed from 0x189 to 0x188
+//   - i336041: Added 0xA1, 0x194, 0x186
 //------------------------------------------------
 
 #include "common.bt"
@@ -28,12 +29,12 @@ AccountProperties;
 typedef struct
 {
     short jobId;
-    short s1; // 177
+    short circle;
     int i1;
     int totalExp;
     int i2;
-    short unusedSkillPoints;
-    short circle;
+    byte unusedSkillPoints;
+    ushort circle;
     byte bin1[4];
 }
 Job;
@@ -98,6 +99,7 @@ switch (type)
         break;
         
     // Set skill speed
+    case 0x77: // Maybe 0x78 is now 0x77?
     case 0x78:
         int skillId;
         float sklSpdRate;
@@ -107,6 +109,11 @@ switch (type)
     case 0x79:
         int skillId;
         float hitDelay;
+        break;
+    
+    // ?
+    case 0xA1:
+        int64 i1;
         break;
         
     // ?
@@ -129,6 +136,19 @@ switch (type)
 
         int count;
         entry entries[count] <optimize=false>;
+        break;
+
+    case 0xEF:
+        int64 id;
+        int count;
+        entry entries[count] <optimize=false>;
+        //local int newFile = FileNew();
+        local int i;
+        for(i = 0; i < count; i++)
+        {
+            //FPrintf( newFile, "%s,%d\n", entries[i].str.text, entries[i].val );
+            //FPrintf( newFile, "packet.PutLpString(\"%s\");\npacket.PutInt(%d);\n", entries[i].str.text, entries[i].val );
+        }
         break;
         
     // Job ranks?
@@ -179,6 +199,13 @@ switch (type)
 
     // Some kind of job data
     case 0xF1:
+        byte b1;
+        byte b2;
+        int64 characterId;
+        int64 accountId;
+        int64 accountId2;
+        break;
+    case 0xFFFF:
         typedef struct
         {
             lpString ident;
@@ -208,6 +235,22 @@ switch (type)
         int64 objectId <format=hex>;
         int count;
         JobF2 jobs[count];
+        break;
+
+    // Map Data?
+    case 0x12A:
+        typedef struct
+        {
+            short id;
+            short s1;
+            short maxUsers; //?
+        } ChannelData;
+        if (!checkCompression())
+        {
+            short mapId;
+            short count;
+            ChannelData channels[count];
+        }
         break;
 
     // ?
@@ -265,10 +308,12 @@ switch (type)
         break;
     
     // Updates the skill UI
+    case 0x186:
     case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
+        short sbin[16];
         break;
     
     // ?
@@ -283,11 +328,37 @@ switch (type)
     
     // ?
     case 0x197:
+    case 0x1B4:
         int i1;
         break;
     
     // ?
     case 0x19C:
         byte b1;
+        break;
+
+    // ?
+    case 0x1B2:
+        typedef struct
+        {
+            int64 characterId;
+            char characterName[64];
+            byte bin[24];
+        } CharacterInfo;
+        typedef struct
+        {
+            lpString type;
+            lpString val;
+        } IndunInfo;
+        typedef struct
+        {
+            int64 characterId;
+            int indunCount;
+            IndunInfo infos[indunCount];
+        } Indun;
+        int count;
+        CharacterInfo characters[count];
+        int count2;
+        Indun indun[count2];
         break;
 }

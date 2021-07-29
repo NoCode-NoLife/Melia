@@ -15,7 +15,6 @@
 
 ServerHeaderFixed header;
 
-int characterHandle;
-int i1;
-int i2;
-short s1;
+int handle;
+int64 characterId;
+ushort s1;

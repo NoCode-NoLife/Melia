@@ -18,5 +18,7 @@
 ServerHeaderFixed header;
 
 short size;
+int i1;
+byte bin[12];
 while(!FEof())
     EquipItem item;

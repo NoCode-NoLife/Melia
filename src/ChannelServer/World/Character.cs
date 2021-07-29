@@ -229,6 +229,11 @@ namespace Melia.Channel.World
 		public float Speed { get; set; }
 
 		/// <summary>
+		/// Character's current casting speed.
+		/// </summary>
+		public float CastingSpeed { get; set; }
+
+		/// <summary>
 		/// Holds the order of successive changes in character HP.
 		/// A higher value indicates the latest damage taken.
 		/// </summary>
@@ -572,6 +577,7 @@ namespace Melia.Channel.World
 			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
+			this.CastingSpeed = 100;
 
 			this.AddSessionObjects();
 			this.AddReferenceProperties();
@@ -637,6 +643,15 @@ namespace Melia.Channel.World
 		public float GetSpeed()
 		{
 			return this.Speed;
+		}
+
+		/// <summary>
+		/// Returns character's current speed.
+		/// </summary>
+		/// <returns></returns>
+		public float GetCastingSpeed()
+		{
+			return this.CastingSpeed;
 		}
 
 		/// <summary>

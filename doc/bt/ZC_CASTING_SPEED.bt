@@ -1,0 +1,21 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_CASTING_SPEED.bt
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i336041: sp and maxSp is an int
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+float castingSpeed;
+int64 characterId;

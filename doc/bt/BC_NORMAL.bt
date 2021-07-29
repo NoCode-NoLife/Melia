@@ -27,7 +27,7 @@ switch(type)
 		position pos;
         break;
 		
-    case 0x04:
+    case 0x05:
         int64 accountId;
         int barrackMapId; // ? matches id, but doesn't seem to work
         byte bin1[5];
@@ -39,7 +39,7 @@ switch(type)
         break;
 		
     // Message Box
-    case 0x10:
+    case 0x11:
         if (!checkCompression())
         {
             byte b1;
@@ -68,7 +68,7 @@ switch(type)
 	// Team UI
 	// Updates the client UI with character slots, team experience,
 	// names, etc.
-    case 0x0B:
+    case 0x09:
         int64 accountId;
 		short purchasedBarrackSlots;
 		int teamExp;
@@ -76,7 +76,7 @@ switch(type)
         break;
 		
 	// Zone traffic
-    case 0x0C:
+    case 0x0D:
         typedef struct
         {
             short zone;
@@ -132,5 +132,18 @@ switch(type)
 
     // Nexon Game Security Callback.
     case 0x1A:
+        break;
+
+    case 0x1C:
+        typedef struct
+        {
+            int64 characterId;
+            char characterName[64];
+            char bin[24];
+        }
+        CharacterInfo <optimize=false>;
+        int64 accountId;
+        int characterCount;
+        CharacterInfo characters[characterCount];
         break;
 }

@@ -19,7 +19,8 @@
 
 ServerHeaderDynamic header;
 
-int64 objectId <format=hex>;
+//int64 objectId <format=hex>;
+int64 characterId;
 int isTrickPacket;
 
 if (isTrickPacket == 0)

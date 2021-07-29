@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_MOVE_DIR.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -24,4 +24,8 @@ float dy;
 byte b1;
 float speed;
 byte b2;
-float f1;
+short s[2];
+byte bin[23];
+int f1;
+int f2;
+byte b3;

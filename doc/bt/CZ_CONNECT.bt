@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_CONNECT.bt
-//   Authors: exec
-//   Version: i170175
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,23 +11,19 @@
 //   History: 
 //   - i170175: bin1, mac, and l1 were added
 //   - i174236: bin2+3 were added
+//   - i336041: characterId duplicates?
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
-short s1;
-short s2;
-int64 accountId;
-int64 characterId;
-char accountName[33];
-byte bin2[23];
-
-byte unk[1037];
-
+byte bin1[1036];
 char sessionKey[64];
-byte bin1[4];
-char mac[32];
+char accountName[56];
+char mac[48];
+int64 characterId;
 int64 l1; // same object id (?) that appears in BC_LOGINOK
-byte bin3[8];
+int64 accountId;
+int64 characterId2;
+byte bin3[12];
