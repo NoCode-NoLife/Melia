@@ -31,7 +31,7 @@ The features that are currently working are the following:
   - [x] Character management (Currently Only 1 Character Tested)
 - Channel Server
   - [x] Getting in-game
-  - [ ] Chat
+  - [x] Chat
   - [ ] Inventory management
   - [ ] Equipment
   - [ ] Stats
