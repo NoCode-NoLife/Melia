@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CUSTOM_COMMANDER_INFO.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//      File: ZC_BUFF_LIST.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,9 +12,6 @@
 //------------------------------------------------
 #include "common.bt"
 
-ServerHeaderFixed header;
-//int handle;
-int64 l1;
-int i1;
-short s1;
-int64 l2;
+ServerHeaderDynamic header;
+int id;
+byte b1;

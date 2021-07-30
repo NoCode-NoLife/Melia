@@ -1,0 +1,32 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SOLO_DUNGEON_RANKING.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    int64 accountId;
+    lpString rankerName;
+    int level;
+    int64 guidId;
+    lpString teamName;
+    int64 characterId;
+    int i[2];
+    int jobCount;
+    int jobIds[jobCount];
+} Ranker <optimize=false>;
+
+ServerHeaderDynamic header;
+int64 l1;
+int count;
+Ranker rankers[count];

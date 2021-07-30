@@ -107,9 +107,11 @@ namespace Melia.Channel.Network
 			Send.ZC_MYPAGE_MAP(conn);
 			Send.ZC_GUESTPAGE_MAP(conn);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
-			//Send.ZC_SKILL_LIST(character);
-			Send.ZC_START_GAME(conn);
+			Send.ZC_SKILL_LIST(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
+			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			character.SendPCProperties(); // Quick Hack to send required packets
+			Send.ZC_START_GAME(conn);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
@@ -120,6 +122,12 @@ namespace Melia.Channel.Network
 			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(conn);
+			Send.ZC_NORMAL_Unknown_EF(character);
+			Send.ZC_UPDATED_PCAPPEARANCE(character);
+			Send.ZC_CUSTOM_COMMANDER_INFO(character);
+			var characters = new List<Character>();
+			characters.Add(character);
+			Send.ZC_SOLO_DUNGEON_RANKING(conn, characters);
 			character.OpenEyes();
 		}
 
@@ -540,6 +548,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_POSE)]
 		public void CZ_POSE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var pose = packet.GetInt();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -552,7 +561,6 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
-
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
 			Send.ZC_POSE(character, pose);
@@ -566,6 +574,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var d1 = packet.GetFloat();
 			var d2 = packet.GetFloat();
 
@@ -1338,6 +1347,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CUSTOM_COMMAND)]
 		public void CZ_CUSTOM_COMMAND(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var command = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
@@ -1618,7 +1628,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_PCBANG_SHOP_UI)]
 		public void CZ_REQ_PCBANG_SHOP_UI(ChannelConnection conn, Packet packet)
 		{
-
+			Send.ZC_PCBANG_SHOP_COMMON(conn);
 		}
 
 		/// <summary>

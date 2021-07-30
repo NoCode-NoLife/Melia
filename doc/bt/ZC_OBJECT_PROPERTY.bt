@@ -13,19 +13,18 @@
 //   - i170175: property id type changed from short to int
 //------------------------------------------------
 
-//#define PROPERTY_NAMES
+#define PROPERTY_NAMES
 
 #include "common.bt"
 
 ServerHeaderDynamic header;
-
 //int64 objectId <format=hex>;
 int64 characterId;
 int isTrickPacket;
 
 if (isTrickPacket == 0)
 {
-    getProperties(header.size - sizeof(header)-sizeof(int)-sizeof(int64));
+    getPrintableProperties(header.size - sizeof(header)-sizeof(int)-sizeof(int64));
 }
 else
 {

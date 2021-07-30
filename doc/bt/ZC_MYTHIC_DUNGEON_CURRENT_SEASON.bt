@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CUSTOM_COMMANDER_INFO.bt
+//      File: ZC_MYTHIC_DUNGEON_CURRENT_SEASON.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -10,11 +10,15 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
+typedef struct
+{
+    int id[2];
+    short s[4];
+} DunInfo;
+
 ServerHeaderFixed header;
-//int handle;
-int64 l1;
-int i1;
 short s1;
-int64 l2;
+DunInfo info[2];
