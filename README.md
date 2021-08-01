@@ -36,8 +36,8 @@ The features that are currently working are the following:
   - [ ] Equipment
   - [ ] Stats
   - [ ] Skill list
-  - [ ] Very basic test melee combat
-  - [ ] NPC dialog
+  - [x] Very basic test melee combat
+  - [x] NPC dialog
   - [ ] NPC shops
 
 Requirements
