@@ -660,7 +660,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public float GetJumpStrength()
 		{
-			return 300;
+			return 350;
 		}
 
 		/// <summary>
@@ -701,6 +701,23 @@ namespace Melia.Channel.World
 		public void SetHeadDirection(float x, float y)
 		{
 			this.HeadDirection = new Direction(x, y);
+		}
+
+		/// <summary>
+		/// Starts movement.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="dx"></param>
+		/// <param name="dy"></param>
+		public void Jump(float x, float y, float z, float dx, float dy, float unkFloat, byte unkByte)
+		{
+			this.SetPosition(x, y, z);
+			this.SetDirection(dx, dy);
+			this.IsMoving = true;
+
+			Send.ZC_JUMP(this, x, y, z, dx, dy, unkFloat, unkByte);
 		}
 
 		/// <summary>
@@ -839,7 +856,7 @@ namespace Melia.Channel.World
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
-			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
 		}
 
@@ -855,7 +872,7 @@ namespace Melia.Channel.World
 			this.Jobs.ModifySkillPoints(this.JobId, amount);
 
 			Send.ZC_OBJECT_PROPERTY(this);
-			//Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_ClassLevelUp(this);
 		}
 
@@ -905,7 +922,7 @@ namespace Melia.Channel.World
 			this.TotalExp += exp;
 
 			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
-			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent?
+			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
 
 			while (this.Exp >= this.MaxExp)
 			{
@@ -1022,8 +1039,14 @@ namespace Melia.Channel.World
 		/// <param name="d2"></param>
 		public void Rotate(float d1, float d2)
 		{
-			this.SetDirection(d1, d2);
-			Send.ZC_ROTATE(this);
+			if (this.Direction.Cos != d1 || this.Direction.Sin != d2)
+			{
+				this.SetDirection(d1, d2);
+				Send.ZC_ROTATE(this);
+			} else
+			{
+				Log.Debug("Direction hasn't changed, so ignoring packet");
+			}
 		}
 
 		/// <summary>

@@ -11,8 +11,6 @@
 //   History: 
 //------------------------------------------------
 
-
-#include "inc\ObjectPropertyNames.bt"
 #include "common.bt"
 
 ServerHeaderFixed header;

@@ -17,8 +17,18 @@
 
 ServerHeaderFixed header;
 
+typedef struct
+{
+    int i[5];
+    int propertiesSize;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+EquipItem2 <optimize=false>;
+
 short size;
 int i1;
-byte bin[12];
+int64 l1;
+int i2;
 while(!FEof())
-    EquipItem item;
+    EquipItem2 item;

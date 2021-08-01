@@ -23,10 +23,5 @@ short count;
 byte b1;
 if (count == 0) {
     int i1;
-} else {
-    short s[4];
-    int i2;
-    int64 l[8];
-
 }
 SessionObject objects[count];

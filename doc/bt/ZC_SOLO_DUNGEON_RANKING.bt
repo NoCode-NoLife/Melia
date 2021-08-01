@@ -16,17 +16,19 @@
 typedef struct
 {
     int64 accountId;
-    lpString rankerName;
-    int level;
-    int64 guidId;
     lpString teamName;
+    int level;
+    int64 guildId;
+    lpString guildName;
     int64 characterId;
-    int i[2];
+    int highestStage;
+    int monsterKills;
     int jobCount;
     int jobIds[jobCount];
 } Ranker <optimize=false>;
 
 ServerHeaderDynamic header;
-int64 l1;
+int timePeriod; // This week = 1, Last week = 0, Overall = 2
+int page; // All = 0, Swordsman = 1, Wizard = 2, Archer = 3, Cleric = 4, Scout = 5
 int count;
 Ranker rankers[count];

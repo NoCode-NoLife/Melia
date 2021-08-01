@@ -3,12 +3,13 @@
 //
 //      File: ZC_SKILL_FORCE_TARGET
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i336041: i11 added
 //------------------------------------------------
 
 #include "common.bt"
@@ -29,6 +30,7 @@ int targetHandle1;
 int i8;
 float f6;
 int i10;
+int i11;
 byte b1; // count?
 
 if (b1 > 0)

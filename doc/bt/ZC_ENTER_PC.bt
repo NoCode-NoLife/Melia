@@ -46,4 +46,5 @@ int i3;
 byte b2;
 APPEARANCE_PC appearancePc;
 int i5;
-//byte b3;
+int i6;
+byte b3;

@@ -70,18 +70,24 @@ switch (type)
     // ?
     case 0x1D:
         int handle1;
-        byte bin1[5];
+        byte bin1[4];
         int handle2;
         position pos;
         direction dir;
         float f1;
         float f2;
         float f3;
+        float f4;
         break;
         
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
+        break;
+   
+    // ??
+    case 0x41:
+        int handle;
         break;
     
     // Account update
@@ -314,6 +320,10 @@ switch (type)
         byte hat2Visible;
         byte hat3Visible;
         break;
+
+    case 0x177:
+        ubyte b[12];
+        break;
     
     // ?
     case 0x183:
@@ -358,27 +368,35 @@ switch (type)
         break;
 
     // ?
+    case 0x1A5:
+        short s1;
+        int i[4];
+        int64 l1;
+        int i5;
+        break;
+
+    // ?
     case 0x1B2:
         typedef struct
         {
             int64 characterId;
             char characterName[64];
             byte bin[24];
-        } CharacterInfo;
+        } CharacterInfo <optimize=false>;
         typedef struct
         {
             lpString type;
             lpString val;
-        } IndunInfo;
+        } IndunInfo <optimize=false>;
         typedef struct
         {
             int64 characterId;
             int indunCount;
             IndunInfo infos[indunCount];
-        } Indun;
-        int count;
-        CharacterInfo characters[count];
-        int count2;
-        Indun indun[count2];
+        } Indun <optimize=false>;
+        int characterCount;
+        CharacterInfo characters[characterCount];
+        int inDunCount;
+        Indun indun[inDunCount];
         break;
 }

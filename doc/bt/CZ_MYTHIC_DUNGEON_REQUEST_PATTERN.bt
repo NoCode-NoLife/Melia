@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_QUICK_SLOT_LIST.bt
+//      File: CZ_MYTHIC_DUNGEON_REQUEST_PATTERN
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -10,8 +10,9 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
-ServerHeaderDynamic header;
-int size;
-byte b[size];
+ClientHeaderFixed header;
+byte bin[12]; // Should just add it to the header
+short s1;

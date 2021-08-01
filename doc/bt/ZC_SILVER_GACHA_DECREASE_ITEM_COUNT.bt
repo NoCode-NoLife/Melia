@@ -1,23 +1,19 @@
 //------------------------------------------------
-//--- 010 Editor v8.0 Binary Template
+//--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_COOLDOWN_CHANGED
-//   Authors: exec
+//      File: ZC_SILVER_GACHA_DECREASE_ITEM_COUNT
+//   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History:
-//   - i336041: b1 added
+//   History: 
 //------------------------------------------------
 
 #include "common.bt"
 
 ServerHeaderFixed header;
-
-int64 l1;
 int i1;
 int i2;
-int i3;
-byte b1;
+int64 id;

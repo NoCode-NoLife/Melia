@@ -113,21 +113,22 @@ namespace Melia.Channel.Network
 			character.SendPCProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
 			Send.ZC_MOVE_SPEED(character);
+			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
+			Send.ZC_UPDATE_SP(character, character.MaxSp);
+			Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
+			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_NORMAL_Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
-			Send.ZC_NORMAL_SetSkillSpeed(character, 4, 1.054772f);
-			Send.ZC_NORMAL_SetHitDelay(character, 4, 99f);
-			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_CUSTOM_COMMANDER_INFO(character);
-			var characters = new List<Character>();
-			characters.Add(character);
-			Send.ZC_SOLO_DUNGEON_RANKING(conn, characters);
+			//var characters = new List<Character>();
+			//characters.Add(character);
+			//Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			character.OpenEyes();
 		}
 
@@ -236,11 +237,21 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_JUMP)]
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte();
+			var extra = packet.GetBin(12);
+			var unkByte1 = packet.GetByte();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
+			var unkFloat = packet.GetFloat(); // timestamp?
+			var bin = packet.GetBin(13);
+			var unkByte2 = packet.GetByte();
+
 
 			var character = conn.SelectedCharacter;
 
-			Send.ZC_JUMP(character);
+			character.Jump(x, y, z, dx, dy, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -251,6 +262,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -275,6 +287,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_STOP)]
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -350,6 +363,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
 		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -636,6 +650,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
 		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var handle = packet.GetInt();
 			var unkByte = packet.GetByte();
 
@@ -827,9 +842,41 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TARGET)]
 		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
 			var skillId = packet.GetInt();
 			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var target = character.Map.GetMonster(targetHandle);
+
+			// Check skill
+			var skill = character.Skills.Get(skillId);
+			if (skill == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				return;
+			}
+
+			Send.ZC_COOLDOWN_CHANGED(character, skill);
+			Send.ZC_SKILL_FORCE_TARGET(character, skill, target);
+			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+		}
+
+		/// <summary>
+		/// Sent when attacking a target with a skill, incl. the default
+		/// magic attack and bows.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_TARGET_ANI)]
+		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var b1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
 
@@ -837,19 +884,15 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill == null)
 			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0[' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				Log.Debug(packet.ToString());
 				return;
 			}
-
-			// Check target
-			var target = character.Map.GetMonster(targetHandle);
-			if (target == null)
-			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
-				return;
-			}
-
-			character.ServerMessage("Skill attacks haven't been implemented yet.");
+			character.SetDirection(dx, dy);
+			//Send.ZC_OVER_CHANGED(character, skill);
+			Send.ZC_COOLDOWN_CHANGED(character, skill);
+			Send.ZC_SKILL_FORCE_TARGET(character, skill, null);
+			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
 		/// <summary>
@@ -1372,7 +1415,9 @@ namespace Melia.Channel.Network
 				case 0x28:
 					// classId = 0~2 (hats 1~3)
 					goto default;
+				case 0x71:
 
+					break;
 				default:
 					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
 					Log.Debug(packet.ToString());

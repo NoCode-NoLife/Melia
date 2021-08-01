@@ -24,7 +24,7 @@ int isTrickPacket;
 
 if (isTrickPacket == 0)
 {
-    getPrintableProperties(header.size - sizeof(header)-sizeof(int)-sizeof(int64));
+    getProperties(header.size - sizeof(header)-sizeof(int)-sizeof(int64));
 }
 else
 {

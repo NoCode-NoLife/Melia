@@ -15,20 +15,18 @@
 
 typedef struct
 {
-    ItemProperties itemProperties[EquipSlotCount] <optimize=false>;
-}
-EquipProperties;
+    short propertiesSize;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        int64 id2;
+        byte bin2[10];
+    }
+} BARRACK_PROPERTY <optimize=false>;
 
 typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
-    EquipProperties equipProperties;
-    short s4;
-    byte b1;
-    byte b2;
-    byte b3;
-    byte b4;
-    
+    BARRACK_PROPERTY properties[30];
     // maybe job history?
     short jobIdCount;
     short jobIds[jobIdCount];
@@ -37,6 +35,12 @@ typedef struct
     int i2;
     int64 characterId;
     short s2;
+    if (s2 > 0) {
+        lpString lpS1;
+        lpString lpS2;
+        lpString lpS3;
+        lpString lpS4;
+    }
 }
 BARRACK_PC <read=readBARRACK_PC>;
 
@@ -53,8 +57,3 @@ byte b2;
 byte b3;
 
 BARRACK_PC barrackPc[characterCount] <optimize=false>;
-
-lpString lpS1;
-lpString lpS2;
-lpString lpS3;
-lpString lpS4;

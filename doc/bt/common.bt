@@ -494,9 +494,9 @@ string propertyRead(property &p)
     
 #ifdef OPN
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING: SPrintf(ret, "%s,%s",   getPropertyName(p.id), p.val.text); break;
-        case OBJP_FLOAT:  SPrintf(ret, "%s,%.0f", getPropertyName(p.id), p.val); break;
-        case OBJP_FILETIME:  SPrintf(ret, "%s,%s", getPropertyName(p.id), FileTimeToString(p.val)); break;
+        case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
+        case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
+        case OBJP_FILETIME:  SPrintf(ret, "%s : %s", getPropertyName(p.id), FileTimeToString(p.val)); break;
     }
 #else
     switch(getPropertyType(p.id)) {
@@ -522,6 +522,7 @@ int getPropertyType(int id)
         case 10022:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
+        case 31587:
         case 32575:
         case 101000:
         case 101822:
@@ -533,7 +534,7 @@ int getPropertyType(int id)
         case 107234:
             return OBJP_STRING;
             break;
-        case 3912:
+        case 107249:
             //return OBJP_FILETIME;
         default:
             return OBJP_FLOAT;
@@ -611,6 +612,7 @@ typedef struct
     int i1;
     int i2;
     int64 objectId <format=hex>;
+    //int64 objectId;
     int i3;
     SessionProperties properties;
 }

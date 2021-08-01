@@ -33,12 +33,12 @@ namespace Melia.Shared.Network.Helpers
 			// TODO: Assign new IDs to characters such that the social ID does not conflict.
 			packet.PutLong(commander.Id + 1);   // SocialInfoId
 
-			packet.PutInt(commander.Hp);
+			packet.PutInt(commander.Sp);
 			packet.PutInt(commander.MaxHp);
 			packet.PutInt(commander.Sp);
 			packet.PutInt(commander.MaxSp);
-			packet.PutInt(commander.Stamina); // Not stamina (Value: 1000)
-			packet.PutInt(commander.MaxStamina); // Not max stamina (Value: 25000)
+			packet.PutInt(commander.Stamina);
+			packet.PutInt(commander.MaxStamina);
 			packet.PutInt(0); // Shield
 			packet.PutInt(0); // MaxShield
 		}

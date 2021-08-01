@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-//#define PROPERTY_NAMES
+#define PROPERTY_NAMES
 #include "common.bt" 
 
 ServerHeaderDynamic header;
@@ -28,7 +28,9 @@ typedef struct
     int i1;
     if (propertiesSize > 0)
         getProperties(propertiesSize);
-    short s0;
+    short s1;
+    int64 l1;
+    short s2;
 }
 Item2;
 

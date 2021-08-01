@@ -37,24 +37,17 @@ namespace Melia.Login.Network.Helpers
 			packet.PutFloat(0); //z
 
 			// Position?
-			//packet.PutFloat(pc.BarrackPosition.X);
-			//packet.PutFloat(pc.BarrackPosition.Y);
-			//packet.PutFloat(pc.BarrackPosition.Z);
-			//packet.PutFloat(0); // Vector direction
-			//packet.PutFloat(0); // Vector direction
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
+			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(0); // Vector direction
 
-			// ?
-			packet.PutFloat(43.48897F);
-			packet.PutFloat(18.0487F);
-			packet.PutFloat(-1.813926F);
-			packet.PutFloat(0.05891834F); // Vector direction
-			packet.PutFloat(0.9982628F); // Vector direction
-
-			packet.PutFloat(43.48897F);
-			packet.PutFloat(18.0487F);
-			packet.PutFloat(-1.813926F);
-			packet.PutFloat(0.05891834F); // Vector direction
-			packet.PutFloat(0.9982628F); // Vector direction
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
+			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(0); // Vector direction
 
 			packet.PutInt(0);
 			packet.PutShort(0);

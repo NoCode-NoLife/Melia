@@ -14,7 +14,10 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-
+byte extra[12];
 byte b1;
 int skillId;
 int targetHandle;
+byte b2;
+int i1;
+float f1;

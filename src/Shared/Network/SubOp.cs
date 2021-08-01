@@ -41,6 +41,7 @@ namespace Melia.Shared.Network
 			public const int HatVisibleState = 0x181;
 
 			//
+			public const int AttackCancel = 0x41;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknown_EF = 0xEF;
