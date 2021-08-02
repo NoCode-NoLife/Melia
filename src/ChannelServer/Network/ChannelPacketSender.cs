@@ -225,7 +225,7 @@ namespace Melia.Channel.Network
 		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
 		public static void ZC_SKILL_ADD(Character character, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
@@ -240,14 +240,36 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Allow character to use a skill again for character, by sending ZC_SKILL_READY to its connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_SKILL_READY(Character character, int skillId)
+		{
+			var packet = new Packet(Op.ZC_SKILL_READY);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skillId);
+			packet.PutFloat(1);
+			packet.PutFloat(1.054772f);
+			packet.PutInt(49920);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
+			packet.PutEmptyBin(12);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_FORCE_TARGET(Character character, Skill skill, IEntity target = null)
+		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target = null, int skillId = 1, int damage = -1)
 		{
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
-			packet.PutInt(skill.Id);
+			packet.PutInt(skillId);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -255,8 +277,9 @@ namespace Melia.Channel.Network
 			packet.PutFloat(521.4396f); // Skill Particle Speed?
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(190906);
+			packet.PutInt(190906); // Attacker Handle?
 			packet.PutFloat(1.054772f);
+			packet.PutInt(0);
 			if (target != null)
 			{
 				packet.PutInt(target.Handle);
@@ -264,11 +287,41 @@ namespace Melia.Channel.Network
 			{
 				packet.PutInt(0);
 			}
-			packet.PutInt(0);
 			packet.PutFloat(0);
 			packet.PutInt(1140850688);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			if (target != null && damage > 0)
+			{
+				packet.PutByte(1);
+			} else
+			{
+				packet.PutByte(0);
+			}
+
+			if (target != null)
+			{
+				packet.PutBinFromHex("00 09 00 00");
+				packet.PutInt(target.Handle);
+				packet.PutInt(damage);
+				packet.PutInt(target.Hp);
+				packet.PutInt(1); //attackCount?
+				packet.PutFloat(0);
+				packet.PutShort(0);
+				packet.PutShort(3);
+				packet.PutInt(1);
+				packet.PutInt(0);
+				packet.PutInt(549); // Max Hp?
+				packet.PutShort(0x63);
+				packet.PutByte(2);
+				packet.PutByte(1);
+				packet.PutInt(0);
+				packet.PutInt(190906);
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.PutShort(1);
+				packet.PutByte(3);
+				packet.PutFloat(-1000);
+			}
 
 			character.Map.Broadcast(packet);
 		}

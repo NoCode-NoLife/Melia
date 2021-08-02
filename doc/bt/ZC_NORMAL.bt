@@ -80,6 +80,10 @@ switch (type)
         float f4;
         break;
         
+    case 0x2D:
+        int i1;
+        break;
+
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;

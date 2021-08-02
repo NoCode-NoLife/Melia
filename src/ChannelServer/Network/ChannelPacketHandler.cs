@@ -859,7 +859,11 @@ namespace Melia.Channel.Network
 			}
 
 			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			Send.ZC_SKILL_FORCE_TARGET(character, skill, target);
+			Send.ZC_SKILL_READY(character, skillId);
+			var damage = character.GetRandomPAtk();
+			damage = Math.Max(0, damage - target.Defense);
+
+			target.TakeDamage(damage, character, skill);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
@@ -891,7 +895,7 @@ namespace Melia.Channel.Network
 			character.SetDirection(dx, dy);
 			//Send.ZC_OVER_CHANGED(character, skill);
 			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			Send.ZC_SKILL_FORCE_TARGET(character, skill, null);
+			Send.ZC_SKILL_FORCE_TARGET(character, null, skillId);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 

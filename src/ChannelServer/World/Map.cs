@@ -33,6 +33,16 @@ namespace Melia.Channel.World
 		private Dictionary<int, Monster> _monsters;
 
 		/// <summary>
+		/// Collection of Spawn Zones
+		/// </summary>
+		private List<SpawnZone> _spawns;
+
+		/// <summary>
+		/// Event to be raised for the monster's death
+		/// </summary>
+		public event EventHandler<OnEntityEventArgs> onEntityEvent;
+
+		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -54,6 +64,7 @@ namespace Melia.Channel.World
 		{
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
+			_spawns = new List<SpawnZone>();
 
 			this.Id = id;
 			this.Name = name;
@@ -144,6 +155,27 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Adds spawn data to map.
+		/// </summary>
+		/// <param name="SpawnData"></param>
+		public void AddSpawnZone(SpawnData spawnData)
+		{
+			SpawnZone spawnZone = new SpawnZone(spawnData);
+			if (spawnZone == null)
+			{
+				return;
+			}
+
+			lock (_spawns)
+			{
+				spawnZone.Id = _spawns.Count;
+				_spawns.Add(spawnZone);
+
+			}
+			spawnZone.Init();
+		}
+
+		/// <summary>
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
@@ -152,7 +184,10 @@ namespace Melia.Channel.World
 			monster.Map = this;
 
 			lock (_monsters)
+			{
+				Log.Debug("Added monster {0}", monster.Handle);
 				_monsters[monster.Handle] = monster;
+			}
 		}
 
 		/// <summary>
