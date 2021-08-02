@@ -39,6 +39,7 @@ The features that are currently working are the following:
   - [x] Very basic test melee combat
   - [x] NPC dialog
   - [ ] NPC shops
+  - [x] Monster spawning via script
 
 Requirements
 ------------------------------
