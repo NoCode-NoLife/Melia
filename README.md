@@ -28,14 +28,14 @@ pull requests, and ask questions on the chat at any time.
 
 The features that are currently working are the following:
 - Login Server
-  - [x] Character management (Currently Only 1 Character Tested)
+  - [x] Character management (Currently Only 1 Character in Each Lodge is visible)
 - Channel Server
   - [x] Getting in-game
   - [x] Chat
   - [ ] Inventory management
   - [ ] Equipment
   - [ ] Stats
-  - [ ] Skill list
+  - [x] Skill list
   - [x] Very basic test melee combat
   - [x] NPC dialog
   - [ ] NPC shops
