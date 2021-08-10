@@ -3,12 +3,13 @@
 //
 //      File: ZC_COOLDOWN_CHANGED
 //   Authors: exec
-//   Version: i174379
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History:
+//   - i336041: b1 added
 //------------------------------------------------
 
 #include "common.bt"
@@ -19,3 +20,4 @@ int64 l1;
 int i1;
 int i2;
 int i3;
+byte b1;

@@ -15,7 +15,7 @@
 
 ServerHeaderFixed header;
 
-int id;
+int handle;
 
 int i1;
 int i2;

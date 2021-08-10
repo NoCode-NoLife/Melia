@@ -12,7 +12,7 @@
 //------------------------------------------------
 #include "common.bt"
 
-ServerHeaderDynamic header;
+ServerHeaderFixed header;
 short s1;
 short s2;
 int64 l1;

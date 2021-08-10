@@ -2,19 +2,21 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_MOVE_STOP.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i336041: Added extra 12 bytes? Might be added to the header?
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
+byte extra[12];
 byte b1;
 float x;
 float y;

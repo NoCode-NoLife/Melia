@@ -8,8 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
-
 namespace Melia.Shared.Network
+
 {
 	public abstract class Connection
 	{
@@ -165,7 +165,7 @@ namespace Melia.Shared.Network
 					var packet = new Packet(packetBuffer);
 
 					// Debug
-					var debug = true;
+					var debug = false;
 					if (debug)
 					{
 						var opName = Op.GetName(packet.Op);
@@ -329,7 +329,7 @@ namespace Melia.Shared.Network
 			packet.Build(ref buffer, offset);
 
 			// Debug
-			var debug = true;
+			var debug = false;
 			if (debug) {
 				var opName = Op.GetName(packet.Op);
 				var sendStr = BitConverter.ToString(buffer).Replace("-", " ");

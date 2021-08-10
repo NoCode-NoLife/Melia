@@ -19,6 +19,6 @@ int targetHandle;
 int skillId;
 float f1;
 float f2;
-float f3;
+int casterHandle; //?
 position pos;
 byte bin1[12]; // 0

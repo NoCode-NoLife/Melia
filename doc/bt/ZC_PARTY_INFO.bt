@@ -13,18 +13,25 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
+ServerHeaderDynamic header;
 
-byte partyType; // 0: normal, 1: guild
-byte b1;
+short partyType; // 0: normal, 1: guild
 
 // PARTY_INFO
 int64 characterId;
 int64 partyId;
-char partyName[56];
-char leaderName[56];
+lpString partyName;
+int64 partyLeaderId;
+lpString leaderName;
 int i1;
-
 short propertiesSize;
-if (propertiesSize > 0)
-    getProperties(propertiesSize);
+byte b1;
+int i3;
+int64 l1;
+int i4;
+int64 l2;
+byte bin[20008];
+short s[20];
+//short propertiesSize;
+//if (propertiesSize > 0)
+    //getProperties(propertiesSize);

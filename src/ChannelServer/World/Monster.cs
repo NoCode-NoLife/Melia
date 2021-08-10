@@ -10,7 +10,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity
+	public class Monster : IEntity, IEntityEvent
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -108,6 +108,8 @@ namespace Melia.Channel.World
 		}
 		private int _defense;
 
+		public event EventHandler<OnEntityEventArgs> Died;
+
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
@@ -156,14 +158,20 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, Character from)
+		public void TakeDamage(int damage, Character from, Skill skill = null)
 		{
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
 			// use SKILL, and this doesn't create a double hit effect like
 			// the other.
-			Send.ZC_SKILL_HIT_INFO(from, this, damage);
+			if (skill == null)
+			{
+				Send.ZC_SKILL_HIT_INFO(from, this, damage);
+			} else
+			{
+				Send.ZC_SKILL_FORCE_TARGET(from, this, skill.Id, damage);
+			}
 
 			if (this.Hp == 0)
 				this.Kill(from);
@@ -186,8 +194,10 @@ namespace Melia.Channel.World
 			if (this.Data.ClassExp > 0)
 				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
 
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 			killer.GiveExp(exp, classExp, this);
+			this.Died?.Invoke(this, new OnEntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
 		}

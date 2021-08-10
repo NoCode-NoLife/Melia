@@ -36,15 +36,20 @@ namespace Melia.Shared.Network
 			public const int AccountUpdate = 0x4C;
 			public const int Skill = 0x57;
 			public const int ParticleEffect = 0x61;
-			public const int SetSkillSpeed = 0x78;
-			public const int SetHitDelay = 0x79;
 			public const int SetSessionKey = 0x14E;
 			public const int NGSCallback = 0x16D;
 			public const int HatVisibleState = 0x181;
 
 			//
+			public const int AttackCancel = 0x41;
+			public const int SetSkillSpeed = 0x77;
+			public const int SetHitDelay = 0x78;
+			public const int Unknown_EF = 0xEF;
+			public const int Unknown_A1 = 0xA1;
+			public const int Unknown_Map_12A = 0x12A;
 			public const int UpdateSkillUI = 0x186;
 			public const int AdventureBook = 0x194;
+			public const int Unknown_19B = 0x19B;
 			public const int Unknown_1B4 = 0x1B4;
 		}
 	}

@@ -10,12 +10,12 @@
 //  ID Bytes: 
 //   History: 
 //   - i184075: i1 was added
+//   - i336041: changed jobExp to int64 removed i1
 //------------------------------------------------
 
 #include "common.bt"
 
 ServerHeaderFixed header;
 
-int64 objectId;
-int jobExp;
-int i1;
+int64 characterId;
+int64 jobExp;

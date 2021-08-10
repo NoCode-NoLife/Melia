@@ -2,17 +2,20 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_CHAT_LOG.bt
-//   Authors: exec
-//   Version: i170175
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: i336041 - Extra 10 bytes and a short before message
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderDynamic header;
-
+byte extra[10];
+short s1;
 string message;
+byte b1;
+int i1;

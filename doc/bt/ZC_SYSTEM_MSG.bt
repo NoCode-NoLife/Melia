@@ -2,14 +2,15 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_SYSTEM_MSG.bt
-//   Authors: exec
-//   Version: i219527
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i219527: l1 was added.
+//   - i336041: paramCount now a short (was a byte)
 //------------------------------------------------
 
 #include "common.bt"
@@ -17,7 +18,7 @@
 ServerHeaderDynamic header;
 
 int clientMessage;
-byte paramCount;
+short paramCount;
 byte type; // 0 = also show in red letters on screen, 1 = don't
 int64 l1;
 

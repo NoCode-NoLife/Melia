@@ -29,9 +29,12 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_CONNECT_OK);
 
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
-			packet.PutInt(1292150020);
+			packet.PutInt(1281523659);
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
+			packet.PutInt(0);
+			packet.PutLong(character.Id);
+			packet.PutLong(0);
 
 			// These bytes set the integrated and integrated dungeon server settings.
 			packet.PutByte(0);
@@ -92,6 +95,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Position.Z);
 			packet.PutByte(0);
 			packet.PutByte(0);
+			packet.PutInt(0);
 
 			character.Connection.Send(packet);
 		}
@@ -135,6 +139,16 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		internal static void ZC_ANCIENT_CARD_RESET(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_ANCIENT_CARD_RESET);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			conn.Send(packet);
+		}
+
 		/// <summary>
 		/// Broadcasts ZC_ENTER_MONSTER on monster's map, making it appear.
 		/// </summary>
@@ -169,8 +183,10 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
 
-			packet.PutInt(0);
-			packet.PutShort(0);
+			packet.PutInt(48);
+			//packet.PutLong(conn.Account.Id);
+			//packet.PutShort(0);
+			packet.PutBinFromHex("63 60 52 F7 63 60 D0 33 62 60 38 13 C1 C8 30 20 80 39 FA 08 27 C3 77 43 88 0B 98 E3 80 9C 1F 30 4E 22 90 F3 13 C6 91 79 CD C9 F0 0B C6 79 2A C6 C5 F0 1B CA 19 10 57 8F 5A 4A DB 10 60 44 36 9E 09 99 C3 8C CC 61 00 00");
 			//...
 
 			conn.Send(packet);
@@ -190,11 +206,17 @@ namespace Melia.Channel.Network
 			packet.PutShort(skills.Count());
 			packet.PutByte(0);
 
-			packet.Zlib(false, zpacket =>
+			packet.Zlib(true, zpacket =>
 			{
 				foreach (var skill in skills)
 					zpacket.AddSkill(skill);
 			});
+			packet.PutInt(PropertyId.Skill.ReadyTime);
+			packet.PutFloat(0);
+			packet.PutInt(PropertyId.Skill.SR);
+			packet.PutFloat(0);
+			packet.PutShort(PropertyId.Skill.BackHitRange);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
@@ -203,7 +225,7 @@ namespace Melia.Channel.Network
 		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
 		public static void ZC_SKILL_ADD(Character character, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
@@ -213,6 +235,111 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
 			packet.AddSkill(skill);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Allow character to use a skill again for character, by sending ZC_SKILL_READY to its connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_SKILL_READY(Character character, int skillId)
+		{
+			var packet = new Packet(Op.ZC_SKILL_READY);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skillId);
+			packet.PutFloat(1);
+			packet.PutFloat(1.054772f);
+			packet.PutInt(49920);
+			packet.PutFloat(character.Position.X);
+			packet.PutFloat(character.Position.Y);
+			packet.PutFloat(character.Position.Z);
+			packet.PutEmptyBin(12);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target = null, int skillId = 1, int damage = -1)
+		{
+			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
+			packet.PutInt(skillId);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(character.Direction.Cos);
+			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(521.4396f); // Skill Particle Speed?
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(190906); // Attacker Handle?
+			packet.PutFloat(1.054772f);
+			packet.PutInt(0);
+			if (target != null)
+			{
+				packet.PutInt(target.Handle);
+			} else
+			{
+				packet.PutInt(0);
+			}
+			packet.PutFloat(0);
+			packet.PutInt(1140850688);
+			packet.PutInt(0);
+			if (target != null && damage > 0)
+			{
+				packet.PutByte(1);
+			} else
+			{
+				packet.PutByte(0);
+			}
+
+			if (target != null)
+			{
+				packet.PutBinFromHex("00 09 00 00");
+				packet.PutInt(target.Handle);
+				packet.PutInt(damage);
+				packet.PutInt(target.Hp);
+				packet.PutInt(1); //attackCount?
+				packet.PutFloat(0);
+				packet.PutShort(0);
+				packet.PutShort(3);
+				packet.PutInt(1);
+				packet.PutInt(0);
+				packet.PutInt(549); // Max Hp?
+				packet.PutShort(0x63);
+				packet.PutByte(2);
+				packet.PutByte(1);
+				packet.PutInt(0);
+				packet.PutInt(190906);
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.PutShort(1);
+				packet.PutByte(3);
+				packet.PutFloat(-1000);
+			}
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends skill to cooldown for a character, by sending ZC_COOLDOWN_CHANGED.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_COOLDOWN_CHANGED(Character character, Skill skill)
+		{
+			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
+
+			packet.PutLong(character.Id);
+			packet.PutInt(skill.Id);
+			packet.PutInt(500); // Cooldown value
+			packet.PutInt(500); // Cooldown value
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
@@ -287,8 +414,25 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
 
-			packet.PutInt(0); // count
-			packet.PutShort(0);
+			if (character.MapId == 1021)
+			{
+				var npcIDs = new int[] { 4, 28, 2019, 2031, 2032 };
+				packet.PutInt(npcIDs.Length); // count
+				packet.Zlib(true, zpacket =>
+				{
+					for (int i = 0; i < npcIDs.Length; i++)
+					{
+						zpacket.PutInt(character.MapId);
+						zpacket.PutInt(npcIDs[i]);
+						zpacket.PutInt(1);
+					}
+				});
+			}
+			else
+			{
+				packet.PutInt(0); // count
+				packet.PutShort(0);
+			}
 
 			// loop
 			//   int mapId;
@@ -349,7 +493,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length);
 
-			packet.Zlib(false, zpacket =>
+			packet.Zlib(true, zpacket =>
 			{
 				foreach (var ability in abilities)
 				{
@@ -383,6 +527,22 @@ namespace Melia.Channel.Network
 			{
 				packet.PutByte(0);
 			}
+			packet.PutLong(character.Id);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CASTING_SPEED(Character character)
+		{
+			var packet = new Packet(Op.ZC_CASTING_SPEED);
+
+			packet.PutInt(character.Handle);
+			packet.PutFloat(character.GetCastingSpeed());
+			packet.PutLong(character.Id);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -399,7 +559,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_LIST);
 
 			packet.PutInt(items.Count);
-			packet.Zlib(false, zpacket =>
+			packet.Zlib(true, zpacket =>
 			{
 				foreach (var item in items)
 				{
@@ -432,8 +592,10 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_ITEM_INVENTORY_DIVISION_LIST);
 
-			var count = 0;
-			if (count == 0)
+			packet.PutInt(items.Count);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			packet.Zlib(true, zpacket =>
 			{
 				packet.PutInt(0);
 				packet.PutByte(1);
@@ -446,23 +608,23 @@ namespace Melia.Channel.Network
 				packet.PutByte(1);
 				packet.Zlib(false, zpacket =>
 				{
-					foreach (var item in items)
-					{
-						var properties = item.Value.Properties.GetAll();
-						var propertiesSize = item.Value.Properties.Size;
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
 
-						zpacket.PutInt(item.Value.Id);
-						zpacket.PutShort(propertiesSize);
-						zpacket.PutEmptyBin(2);
-						zpacket.PutLong(item.Value.ObjectId);
-						zpacket.PutInt(item.Value.Amount);
-						zpacket.PutInt(item.Value.Price);
-						zpacket.PutInt(item.Key);
-						zpacket.PutInt(1);
-						zpacket.AddProperties(properties);
-					}
-				});
-			}
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(propertiesSize);
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(item.Key);
+					zpacket.PutInt(1);
+					zpacket.AddProperties(properties);
+					zpacket.PutShort(0);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutShort(0);
+				}
+			});
 
 			character.Connection.Send(packet);
 		}
@@ -555,7 +717,7 @@ namespace Melia.Channel.Network
 			packet.PutString(character.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
 			packet.PutShort((short)character.JobId);
-			packet.PutInt(0); // 1, 10, 11
+			packet.PutInt((int)character.JobId); // 1, 10, 11
 			packet.PutByte((byte)character.Gender);
 			packet.PutByte((byte)character.Hair);
 			packet.PutEmptyBin(2);
@@ -565,9 +727,13 @@ namespace Melia.Channel.Network
 			{
 				packet.PutInt(1004);
 			}
+			packet.PutInt(0); //i3
+			packet.PutInt(0); //i4
+			packet.PutInt(0); //i5
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutEmptyBin(16); // [i170175] ?
+			packet.PutByte(1);
 			packet.PutString(message);
 
 			character.Map.Broadcast(packet, character);
@@ -584,7 +750,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
 
 			packet.PutInt(clientMessage);
-			packet.PutByte((byte)parameters.Length);
+			packet.PutShort((short)parameters.Length);
 			packet.PutByte(1); // type? 0 = also show in red letters on the screen
 			packet.PutLong(0); // ?
 
@@ -601,14 +767,24 @@ namespace Melia.Channel.Network
 		/// Broadcasts ZC_JUMP in range of character, making them jump.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_JUMP(Character character)
+		public static void ZC_JUMP(Character character, float x, float y, float z, float dx, float dy, float unkFloat, byte unkByte)
 		{
 			var packet = new Packet(Op.ZC_JUMP);
 
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.GetJumpStrength());
 			packet.PutInt(character.GetJumpType());
-			packet.PutByte(1);  // 1 or 0
+			packet.PutByte(0);  // 1 or 0
+			packet.PutFloat(x);
+			packet.PutFloat(y);
+			packet.PutFloat(z);
+			packet.PutFloat(dx);
+			packet.PutFloat(dy);
+			packet.PutFloat(unkFloat);
+			packet.PutEmptyBin(13);
+			packet.PutLong(unkByte);
+			packet.PutShort(0);
+			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -908,6 +1084,24 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj, Properties properties)
+		{
+			var props = properties.GetAll();
+			var propertiesSize = props.Sum(a => a.Size);
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+
+			packet.PutLong(obj.ObjectId);
+			packet.PutInt(0); // isTrickPacket
+			packet.AddProperties(props);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates object's given properties.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="obj"></param>
 		/// <param name="propertyIds"></param>
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj, params int[] propertyIds)
 		{
@@ -934,8 +1128,8 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(1); // Seems to be 1
+			packet.PutByte(1); // Seems to be 1
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1234,6 +1428,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Attack broadcast?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		/// <param name="value"></param>
+		public static void ZC_NORMAL_AttackCancel(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.AttackCancel);
+			packet.PutInt(character.Handle);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
 		/// Adjusts the skill speed for a skill.
 		/// </summary>
 		/// <param name="character"></param>
@@ -1335,10 +1544,9 @@ namespace Melia.Channel.Network
 		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
-			packet.PutInt(exp);
-			packet.PutInt(0);
-			packet.PutInt(classExp);
-			packet.PutInt(0);
+			packet.PutLong(exp);
+			packet.PutLong(classExp);
+			packet.PutLong(exp);
 			packet.PutInt(monster.Handle);
 
 			character.Connection.Send(packet);
@@ -1353,10 +1561,9 @@ namespace Melia.Channel.Network
 		public static void ZC_EXP_UP(Character character, int exp, int classExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
-			packet.PutInt(exp);
-			packet.PutInt(0);
-			packet.PutInt(classExp);
-			packet.PutInt(0);
+			packet.PutLong(exp);
+			packet.PutLong(classExp);
+			packet.PutLong(exp);
 
 			character.Connection.Send(packet);
 		}
@@ -1570,6 +1777,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(pos.Z);
 			packet.PutFloat(dir.Cos);
 			packet.PutFloat(dir.Sin);
+			packet.PutByte(1);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1613,6 +1821,10 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.GetSpeed());
 			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
+			packet.PutEmptyBin(23);
+			packet.PutInt(1);
+			packet.PutInt(0);
+			packet.PutByte(1);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1657,7 +1869,8 @@ namespace Melia.Channel.Network
 			packet.PutByte(1);
 			packet.PutFloat(direction.Cos);
 			packet.PutFloat(direction.Sin);
-			packet.PutFloat(4238.274f); // ?
+			packet.PutFloat(228787.3f); // ?
+			packet.PutEmptyBin(24);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1831,10 +2044,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sets the entity's owner to the specified character handle.
+		/// Unknown purpose yet.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="monster"></param>
+		public static void ZC_NORMAL_Unknown_A1(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_A1);
+			packet.PutLong(4);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_NORMAL_Unknown_1B4(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -1856,6 +2081,252 @@ namespace Melia.Channel.Network
 			packet.AddAccountProperties(character.Connection.Account);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unknown_EF(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_EF);
+			packet.PutLong(character.Id);
+			packet.PutInt(98); // count
+			packet.PutLpString("Char3_4");
+			packet.PutInt(108213);
+			packet.PutLpString("Char4_2");
+			packet.PutInt(91582);
+			packet.PutLpString("Char2_2");
+			packet.PutInt(87664);
+			packet.PutLpString("Char1_2");
+			packet.PutInt(72125);
+			packet.PutLpString("Char2_1");
+			packet.PutInt(65701);
+			packet.PutLpString("Char2_3");
+			packet.PutInt(62257);
+			packet.PutLpString("Char1_3");
+			packet.PutInt(59394);
+			packet.PutLpString("Char1_1");
+			packet.PutInt(59326);
+			packet.PutLpString("Char3_1");
+			packet.PutInt(55356);
+			packet.PutLpString("Char3_3");
+			packet.PutInt(52974);
+			packet.PutLpString("Char4_1");
+			packet.PutInt(48879);
+			packet.PutLpString("Char1_6");
+			packet.PutInt(43388);
+			packet.PutLpString("Char4_3");
+			packet.PutInt(42821);
+			packet.PutLpString("Char1_4");
+			packet.PutInt(39746);
+			packet.PutLpString("Char2_11");
+			packet.PutInt(37070);
+			packet.PutLpString("Char2_7");
+			packet.PutInt(36189);
+			packet.PutLpString("Char2_6");
+			packet.PutInt(25420);
+			packet.PutLpString("Char2_10");
+			packet.PutInt(22025);
+			packet.PutLpString("Char2_9");
+			packet.PutInt(19903);
+			packet.PutLpString("Char2_4");
+			packet.PutInt(18620);
+			packet.PutLpString("Char4_11");
+			packet.PutInt(17977);
+			packet.PutLpString("Char1_9");
+			packet.PutInt(17797);
+			packet.PutLpString("Char4_7");
+			packet.PutInt(17423);
+			packet.PutLpString("Char3_14");
+			packet.PutInt(16096);
+			packet.PutLpString("Char1_7");
+			packet.PutInt(15377);
+			packet.PutLpString("Char4_4");
+			packet.PutInt(15097);
+			packet.PutLpString("Char2_8");
+			packet.PutInt(14413);
+			packet.PutLpString("Char3_5");
+			packet.PutInt(13485);
+			packet.PutLpString("Char4_14");
+			packet.PutInt(13288);
+			packet.PutLpString("Char4_5");
+			packet.PutInt(13265);
+			packet.PutLpString("Char4_9");
+			packet.PutInt(12484);
+			packet.PutLpString("Char1_15");
+			packet.PutInt(12448);
+			packet.PutLpString("Char2_15");
+			packet.PutInt(12387);
+			packet.PutLpString("Char3_6");
+			packet.PutInt(11803);
+			packet.PutLpString("Char3_11");
+			packet.PutInt(11666);
+			packet.PutLpString("Char1_8");
+			packet.PutInt(10493);
+			packet.PutLpString("Char3_10");
+			packet.PutInt(10420);
+			packet.PutLpString("Char5_12");
+			packet.PutInt(10043);
+			packet.PutLpString("Char3_17");
+			packet.PutInt(9334);
+			packet.PutLpString("Char4_6");
+			packet.PutInt(9327);
+			packet.PutLpString("Char2_5");
+			packet.PutInt(9088);
+			packet.PutLpString("Char2_16");
+			packet.PutInt(9036);
+			packet.PutLpString("Char2_20");
+			packet.PutInt(8883);
+			packet.PutLpString("Char1_14");
+			packet.PutInt(8851);
+			packet.PutLpString("Char5_2");
+			packet.PutInt(8739);
+			packet.PutLpString("Char3_2");
+			packet.PutInt(8667);
+			packet.PutLpString("Char3_16");
+			packet.PutInt(8256);
+			packet.PutLpString("Char4_16");
+			packet.PutInt(8138);
+			packet.PutLpString("Char1_10");
+			packet.PutInt(7980);
+			packet.PutLpString("Char3_8");
+			packet.PutInt(7662);
+			packet.PutLpString("Char4_20");
+			packet.PutInt(7097);
+			packet.PutLpString("Char3_9");
+			packet.PutInt(7025);
+			packet.PutLpString("Char4_12");
+			packet.PutInt(6932);
+			packet.PutLpString("Char4_15");
+			packet.PutInt(6616);
+			packet.PutLpString("Char2_19");
+			packet.PutInt(6610);
+			packet.PutLpString("Char2_14");
+			packet.PutInt(6378);
+			packet.PutLpString("Char4_19");
+			packet.PutInt(6357);
+			packet.PutLpString("Char1_11");
+			packet.PutInt(6293);
+			packet.PutLpString("Char4_8");
+			packet.PutInt(6212);
+			packet.PutLpString("Char3_15");
+			packet.PutInt(5508);
+			packet.PutLpString("Char2_18");
+			packet.PutInt(5332);
+			packet.PutLpString("Char3_18");
+			packet.PutInt(5286);
+			packet.PutLpString("Char4_10");
+			packet.PutInt(5122);
+			packet.PutLpString("Char5_5");
+			packet.PutInt(4875);
+			packet.PutLpString("Char5_11");
+			packet.PutInt(4704);
+			packet.PutLpString("Char5_8");
+			packet.PutInt(4383);
+			packet.PutLpString("Char1_12");
+			packet.PutInt(3968);
+			packet.PutLpString("Char1_17");
+			packet.PutInt(3783);
+			packet.PutLpString("Char3_13");
+			packet.PutInt(3740);
+			packet.PutLpString("Char5_7");
+			packet.PutInt(3675);
+			packet.PutLpString("Char1_22");
+			packet.PutInt(3675);
+			packet.PutLpString("Char2_17");
+			packet.PutInt(3333);
+			packet.PutLpString("Char2_21");
+			packet.PutInt(3233);
+			packet.PutLpString("Char4_18");
+			packet.PutInt(3021);
+			packet.PutLpString("Char5_9");
+			packet.PutInt(2965);
+			packet.PutLpString("Char1_16");
+			packet.PutInt(2906);
+			packet.PutLpString("Char5_3");
+			packet.PutInt(2737);
+			packet.PutLpString("Char1_19");
+			packet.PutInt(2736);
+			packet.PutLpString("Char4_21");
+			packet.PutInt(2634);
+			packet.PutLpString("Char1_13");
+			packet.PutInt(2617);
+			packet.PutLpString("Char5_10");
+			packet.PutInt(2569);
+			packet.PutLpString("Char3_12");
+			packet.PutInt(2498);
+			packet.PutLpString("Char4_17");
+			packet.PutInt(2488);
+			packet.PutLpString("Char2_22");
+			packet.PutInt(2451);
+			packet.PutLpString("Char1_18");
+			packet.PutInt(2426);
+			packet.PutLpString("Char3_20");
+			packet.PutInt(1813);
+			packet.PutLpString("Char5_14");
+			packet.PutInt(1744);
+			packet.PutLpString("Char5_13");
+			packet.PutInt(1612);
+			packet.PutLpString("Char5_4");
+			packet.PutInt(1582);
+			packet.PutLpString("Char3_7");
+			packet.PutInt(1326);
+			packet.PutLpString("Char2_23");
+			packet.PutInt(1116);
+			packet.PutLpString("Char1_21");
+			packet.PutInt(970);
+			packet.PutLpString("Char3_19");
+			packet.PutInt(852);
+			packet.PutLpString("Char5_15");
+			packet.PutInt(837);
+			packet.PutLpString("Char1_20");
+			packet.PutInt(641);
+			packet.PutLpString("Char5_16");
+			packet.PutInt(628);
+			packet.PutLpString("Char5_6");
+			packet.PutInt(596);
+			packet.PutLpString("Char3_21");
+			packet.PutInt(311);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unknown_19B(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_19B);
+			packet.PutLong(1);
+			packet.PutByte(0);
+		}
+
+		/// <summary>
+		/// Unknown purpose yet.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unknown_Map_12A(Character character)
+		{
+			if (character.MapId == 1021)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(SubOp.Zone.Unknown_Map_12A);
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutShort(character.MapId);
+					zpacket.PutShort(2); // Count?
+					zpacket.PutShort(0); //First Channel?
+					zpacket.PutShort(1); //Available? Online? User Count?
+					zpacket.PutShort(100); //User Limit?
+					zpacket.PutShort(0); //Second Channel?
+					zpacket.PutShort(1); //Available? Online? User Count?
+					zpacket.PutShort(100); //User Limit?
+				});
+			}
 		}
 
 		/// <summary>
@@ -1937,12 +2408,11 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="spValue"></param>
-		public static void ZC_UPDATE_SP(Character character, short spValue)
+		public static void ZC_UPDATE_SP(Character character, int spValue)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_SP);
 			packet.PutInt(character.Handle);
-			packet.PutShort(spValue);
-			packet.PutShort(0);
+			packet.PutInt(spValue);
 			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
@@ -1978,14 +2448,15 @@ namespace Melia.Channel.Network
 		/// <param name="maxHP"></param>
 		/// <param name="currentSP"></param>
 		/// <param name="maxSP"></param>
-		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP, int maxHP, int currentSP, int maxSP)
+		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP = -1, int maxHP = -1, int currentSP = -1, int maxSP = -1)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
 			packet.PutInt(character.Handle);
-			packet.PutInt(currentHP);
-			packet.PutInt(maxHP);
-			packet.PutInt(currentSP);
-			packet.PutInt(maxSP);
+			packet.PutInt(currentHP == -1 ? character.Hp : currentHP);
+			packet.PutInt(maxHP == -1 ? character.MaxHp : maxHP);
+			packet.PutInt(currentSP == -1 ? character.Sp : currentSP);
+			packet.PutInt(maxSP == -1 ? character.MaxSp : maxSP);
+			packet.PutInt(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -2131,13 +2602,6 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
-			var count = 0;
-			if (count == 0)
-			{
-				packet.PutShort(count);
-				packet.PutInt(1212870396);
-			}
-			else
 			{
 				packet.PutShort(sessionObjects.Length);
 				packet.PutByte(0);
@@ -2235,6 +2699,20 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends premium state properties to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SEND_PREMIUM_STATE(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SEND_PREMIUM_STATE);
+			packet.PutShort(2); // Count?
+			packet.PutShort(0x4E6C);
+			packet.PutShort(0xE8EF);
+			packet.PutInt(0);
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_RESPONSE_GUILD_INDEX to client (dummy).
 		/// </summary>
 		/// <param name="conn"></param>
@@ -2242,8 +2720,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_GUILD_INDEX);
 			packet.PutInt(character.Handle);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutLong(character.Id);
 			packet.PutShort(1003);
 
 			character.Connection.Send(packet);
@@ -2282,6 +2759,441 @@ namespace Melia.Channel.Network
 			packet.PutInt(1);
 			packet.PutByte(0);
 			conn.Send(packet);
+		}
+
+		public static void ZC_PCBANG_SHOP_RENTAL(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_PCBANG_SHOP_RENTAL);
+			packet.PutString("PC_SWD01_137", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TSW01_129", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_STF01_137", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TBW01_137", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_BOW01_130", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_MAC01_136", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_SPR01_119", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TSP01_111", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TSF01_129", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_RAP01_103", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TOP01_139", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_LEG01_139", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_FOOT01_139", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_HAND01_139", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TOP01_140", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_LEG01_140", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_FOOT01_140", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_HAND01_140", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TOP01_141", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_LEG01_141", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_FOOT01_141", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_HAND01_141", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_SHD100_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_DAG100_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_CAN100_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_PST100_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_MUS100_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TMAC02_103", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			packet.PutString("PC_TRK02_101", 64);
+			packet.PutInt(0);
+			packet.PutInt(11);
+			packet.PutInt(10);
+			packet.PutInt(1);
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_ATTENDANCE_REWARD_CHECK_UI_ON(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_ATTENDANCE_REWARD_CHECK_UI_ON);
+			packet.PutShort(0);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_ADDITIONAL_SKILL_POINT to character, something about additional skill points?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_ADDITIONAL_SKILL_POINT(Character character)
+		{
+			var packet = new Packet(Op.ZC_ADDITIONAL_SKILL_POINT);
+			packet.PutInt(0);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_SET_DAYLIGHT_INFO to character, something about daylight info?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SET_DAYLIGHT_INFO(Character character)
+		{
+			var packet = new Packet(Op.ZC_SET_DAYLIGHT_INFO);
+			packet.PutInt(292);
+			packet.PutLong(1);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_SET_DAYLIGHT_INFO to character, something about daylight info?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_DAYLIGHT_FIXED(Character character)
+		{
+			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			for (int i = 0; i < 5; i++)
+				packet.PutFloat(1f);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_STAMINA to character, something about daylight info?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_STAMINA(Character character, int stamina)
+		{
+			var packet = new Packet(Op.ZC_STAMINA);
+			packet.PutInt(stamina);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE to character, seems to increase each time it's sent
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE(Character character)
+		{
+			var packet = new Packet(Op.ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE);
+			packet.PutLong(42); // Subsequent packets increase this value
+			packet.PutInt(0);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PCBANG_SHOP_COMMON to character, something related to PCBANG_SHOP?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PCBANG_SHOP_COMMON(Connection conn)
+		{
+			var packet = new Packet(Op.ZC_PCBANG_SHOP_COMMON);
+			packet.PutInt(0x1DF); // 479
+			packet.PutInt(0xCB); // 203
+			packet.PutInt(0x1DF); // 479
+			packet.PutInt(0x1DF); // 479
+			packet.PutLong(0); // 0
+
+			packet.PutShort(2021);
+			packet.PutShort(7);
+			packet.PutShort(3);
+			packet.PutShort(28);
+			packet.PutLong(0);
+
+			packet.PutShort(2021);
+			packet.PutShort(10);
+			packet.PutShort(5);
+			packet.PutShort(1);
+			packet.PutLong(0);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_TRUST_INFO to character, something related to Trust Info?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_TRUST_INFO(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_TRUST_INFO);
+			packet.PutEmptyBin(20);
+			packet.PutLong(1000000); //
+			packet.PutLong(30000000); // 
+			packet.PutLong(15000000);
+			packet.PutLong(0);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PLAY_ANI to character, Play Animation?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PLAY_ANI(Character character, int animationId)
+		{
+			var packet = new Packet(Op.ZC_PLAY_ANI);
+			packet.PutInt(character.Handle);
+			packet.PutShort(animationId);
+			packet.PutInt(39);
+			packet.PutInt(0);
+			packet.PutFloat(1f);
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Sends ZC_COMMON_SKILL_LIST to character, Send Common Skill List
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_COMMON_SKILL_LIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutEmptyBin(18);
+			});
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PCBANG_POINT to character
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PCBANG_POINT(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			packet.PutInt(-1);
+			packet.PutInt(980); //Increasing Value each time this packet is sent
+			packet.PutInt(1620); //Max?
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_MSPD to character
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_MSPD(Character character)
+		{
+			var packet = new Packet(Op.ZC_MSPD);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(32f);
+			packet.PutLong(0);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_CUSTOM_COMMANDER_INFO to character
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CUSTOM_COMMANDER_INFO(Character character)
+		{
+			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
+			packet.PutLong(0);
+			packet.PutInt(0);
+			packet.PutShort(3);
+			packet.PutLong(0);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_EXEC_CLIENT_SCP to character
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_EXEC_CLIENT_SCP(ChannelConnection conn, string script)
+		{
+			var packet = new Packet(Op.ZC_EXEC_CLIENT_SCP);
+			//CHECK_APPLICATION_LIST("693014448046952")
+			packet.PutString(script);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_UPDATE_SP to character, regarding SP updates visually?
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_UPDATE_SP(Character character)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_SP);
+			packet.PutInt(character.Handle);
+			packet.PutInt(character.Sp);
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_SOLO_DUNGEON_RANKING to character
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SOLO_DUNGEON_RANKING(ChannelConnection conn, List<Character> characters)
+		{
+			var packet = new Packet(Op.ZC_SOLO_DUNGEON_RANKING);
+			packet.PutLong(1);
+			packet.PutInt(characters.Count); // Ranker Count
+			foreach(var character in characters)
+			{
+				packet.PutLong(character.AccountId);
+				packet.PutLpString(character.Name);
+				packet.PutInt(character.Level);
+				packet.PutLong(0); // Guild ID? Party ID? Team ID?
+				packet.PutLpString(character.TeamName);
+				packet.PutLong(character.Id);
+				packet.PutInt(character.Level);
+				packet.PutInt(17);
+				var jobs = character.Jobs.GetList().ToList();
+				packet.PutInt(jobs.Count);
+				foreach(var job in jobs)
+				{
+					packet.PutInt((int)job.Id);
+				}
+				conn.Send(packet);
+			}
+		}
+
+		/// <summary>
+		/// Sends ZC_RESET_VIEW to connection
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_RESET_VIEW(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_RESET_VIEW);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the client that the entity is leaving a trigger event.
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void ZC_LEAVE_HOOK(IEntity entity)
+		{
+			var packet = new Packet(Op.ZC_RESET_VIEW);
+			packet.PutInt(entity.Handle);
+			entity.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

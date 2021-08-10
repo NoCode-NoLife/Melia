@@ -104,50 +104,31 @@ namespace Melia.Channel.Network
 			Send.ZC_MAP_REVEAL_LIST(conn);
 			Send.ZC_NPC_STATE_LIST(character);
 			Send.ZC_HELP_LIST(character);
-			// ZC_MYPAGE_MAP
-			// ZC_GUESTPAGE_MAP
+			Send.ZC_MYPAGE_MAP(conn);
+			Send.ZC_GUESTPAGE_MAP(conn);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
-			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
-			Send.ZC_ABILITY_LIST(character);
-			Send.ZC_COOLDOWN_LIST(character);
-			Send.ZC_QUICK_SLOT_LIST(conn);
-			// ZC_NORMAL...
-			// ZC_OBJECT_PROPERTY
-			// ZC_NORMAL...
-			// ZC_COLONY_OCCUPATION_INFO
-			// ZC_NORMAL...
-			Send.ZC_START_GAME(conn);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
+			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			character.SendPCProperties(); // Quick Hack to send required packets
+			Send.ZC_START_GAME(conn);
 			Send.ZC_MOVE_SPEED(character);
-			// ZC_UPDATE_ALL_STATUS
-			// ZC_MOVE_SPEED
-			// ZC_UPDATE_ALL_STATUS
-			// ZC_HOLD_EXP_BOOK_TIME
+			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
+			Send.ZC_UPDATE_SP(character, character.MaxSp);
+			Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
-			// ZC_NORMAL...
-			//Send.ZC_NO_GUILD_INDEX(character); // (op removed)
-			// ZC_NO_GUILD_INDEX
-			// ZC_UPDATED_PCAPPEARANCE
-			// ZC_NORMAL
-			// ZC_SESSION_OBJECTS
-			// ZC_NORMAL...
-			// ZC_ZC_ADVENTURE_BOOK_INFO
-			// ZC_NORMAL...
-			// ZC_ZC_SKILL_ADD...
-			// ZC_NORMAL
-			// ZC_ZC_ADVENTURE_BOOK_INFO
-			Send.ZC_NORMAL_AccountUpdate(character);
-			// ZC_NORMAL
-			// ZC_MOVE_SPEED
-			// ZC_NORMAL...
-			// ZC_UPDATE_ALL_STATUS
-			// ZC_ZC_ADVENTURE_BOOK_INFO
-			Send.ZC_SEND_CASH_VALUE(conn);
-			// ZC_SEND_PREMIUM_STATE
-			// ZC_NO_GUILD_INDEX...
-
+			Send.ZC_UPDATE_ALL_STATUS(character);
+			Send.ZC_NORMAL_Unknown_1B4(character);
+			Send.ZC_CASTING_SPEED(character);
+			Send.ZC_ANCIENT_CARD_RESET(conn);
+			Send.ZC_QUICK_SLOT_LIST(conn);
+			Send.ZC_NORMAL_Unknown_EF(character);
+			Send.ZC_UPDATED_PCAPPEARANCE(character);
+			Send.ZC_CUSTOM_COMMANDER_INFO(character);
+			//var characters = new List<Character>();
+			//characters.Add(character);
+			//Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			character.OpenEyes();
 		}
 
@@ -172,9 +153,10 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CAMPINFO)]
 		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var accountId = packet.GetLong();
 
-			Send.ZC_CAMPINFO(conn);
+			//Send.ZC_CAMPINFO(conn);
 		}
 
 		/// <summary>
@@ -189,6 +171,8 @@ namespace Melia.Channel.Network
 		public void CZ_CHAT(ChannelConnection conn, Packet packet)
 		{
 			var len = packet.GetShort(); // length of dynamic packet without length from header
+			var extra = packet.GetBin(10);
+			var unknown = packet.GetShort();
 			var msg = packet.GetString();
 
 			var character = conn.SelectedCharacter;
@@ -253,11 +237,21 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_JUMP)]
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte();
+			var extra = packet.GetBin(12);
+			var unkByte1 = packet.GetByte();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
+			var unkFloat = packet.GetFloat(); // timestamp?
+			var bin = packet.GetBin(13);
+			var unkByte2 = packet.GetByte();
+
 
 			var character = conn.SelectedCharacter;
 
-			Send.ZC_JUMP(character);
+			character.Jump(x, y, z, dx, dy, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -268,6 +262,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -292,6 +287,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_STOP)]
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -367,6 +363,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
 		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -565,6 +562,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_POSE)]
 		public void CZ_POSE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var pose = packet.GetInt();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -577,7 +575,6 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
-
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
 			Send.ZC_POSE(character, pose);
@@ -591,6 +588,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var d1 = packet.GetFloat();
 			var d2 = packet.GetFloat();
 
@@ -652,6 +650,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
 		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var handle = packet.GetInt();
 			var unkByte = packet.GetByte();
 
@@ -755,6 +754,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var option = (Option)packet.GetInt();
 			var value = packet.GetInt();
 
@@ -842,9 +842,45 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TARGET)]
 		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
 			var skillId = packet.GetInt();
 			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var target = character.Map.GetMonster(targetHandle);
+
+			// Check skill
+			var skill = character.Skills.Get(skillId);
+			if (skill == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				return;
+			}
+
+			Send.ZC_COOLDOWN_CHANGED(character, skill);
+			Send.ZC_SKILL_READY(character, skillId);
+			var damage = character.GetRandomPAtk();
+			damage = Math.Max(0, damage - target.Defense);
+
+			target.TakeDamage(damage, character, skill);
+			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+		}
+
+		/// <summary>
+		/// Sent when attacking a target with a skill, incl. the default
+		/// magic attack and bows.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_TARGET_ANI)]
+		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var b1 = packet.GetByte();
+			var skillId = packet.GetInt();
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
 
@@ -852,19 +888,15 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill == null)
 			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0[' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				Log.Debug(packet.ToString());
 				return;
 			}
-
-			// Check target
-			var target = character.Map.GetMonster(targetHandle);
-			if (target == null)
-			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
-				return;
-			}
-
-			character.ServerMessage("Skill attacks haven't been implemented yet.");
+			character.SetDirection(dx, dy);
+			//Send.ZC_OVER_CHANGED(character, skill);
+			Send.ZC_COOLDOWN_CHANGED(character, skill);
+			Send.ZC_SKILL_FORCE_TARGET(character, null, skillId);
+			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
 		/// <summary>
@@ -995,22 +1027,12 @@ namespace Melia.Channel.Network
 
 				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
 				Send.ZC_JOB_PTS(character, job);
+				//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
 			}
 			else
 			{
 				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: txType {0} not handled.", txType);
 			}
-		}
-
-		/// <summary>
-		/// Sent once a minute to check ping?
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_CHECK_PING)]
-		public void CZ_CHECK_PING(ChannelConnection conn, Packet packet)
-		{
-			// No parameters, no response.
 		}
 
 		/// <summary>
@@ -1262,6 +1284,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_RUN_GAMEEXIT_TIMER)]
 		public void CZ_RUN_GAMEEXIT_TIMER(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var destination = packet.GetString();
 
 			switch (destination)
@@ -1293,6 +1316,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MAP_REVEAL_INFO)]
 		public void CZ_MAP_REVEAL_INFO(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var mapId = packet.GetInt();
 			var visible = packet.GetBin(128);
 
@@ -1370,6 +1394,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CUSTOM_COMMAND)]
 		public void CZ_CUSTOM_COMMAND(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var command = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
@@ -1394,9 +1419,12 @@ namespace Melia.Channel.Network
 				case 0x28:
 					// classId = 0~2 (hats 1~3)
 					goto default;
+				case 0x71:
 
+					break;
 				default:
 					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
+					Log.Debug(packet.ToString());
 					break;
 			}
 		}
@@ -1560,7 +1588,9 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
 		public void CZ_REQUEST_GUILD_INDEX(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var l1 = packet.GetLong();
+			var guildId = (ushort)packet.GetShort();
 
 			var character = conn.SelectedCharacter;
 
@@ -1577,6 +1607,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DISCONNECT_REASON_FOR_LOG)]
 		public void CZ_DISCONNECT_REASON_FOR_LOG(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var size = packet.GetShort();
 			var valueCount = packet.GetInt();
 			var i2 = packet.GetInt();
@@ -1604,7 +1635,61 @@ namespace Melia.Channel.Network
 			
 		}
 
+		/// <summary>
+		/// Sent during loading screen.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_MYTHIC_DUNGEON_REQUEST_CURRENT_SEASON)]
+		public void CZ_MYTHIC_DUNGEON_REQUEST_CURRENT_SEASON(ChannelConnection conn, Packet packet)
+		{
+			
+		}
 
+		/// <summary>
+		/// Sent on game loaded.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_QUICKSLOT_LIST)]
+		public void CZ_REQ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			Send.ZC_QUICK_SLOT_LIST(conn);
+		}
+
+		/// <summary>
+		/// Sent on game loaded.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DO_CLIENT_MOVE_CHECK)]
+		public void CZ_DO_CLIENT_MOVE_CHECK(ChannelConnection conn, Packet packet)
+		{
+
+		}
+
+		/// <summary>
+		/// Sent on Popo Shop Opening
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_PCBANG_SHOP_UI)]
+		public void CZ_REQ_PCBANG_SHOP_UI(ChannelConnection conn, Packet packet)
+		{
+			Send.ZC_PCBANG_SHOP_COMMON(conn);
+		}
+
+		/// <summary>
+		/// Sent on Opening Skill Window
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_COMMON_SKILL_LIST)]
+		public void CZ_REQ_COMMON_SKILL_LIST(ChannelConnection conn, Packet packet)
+		{
+			Send.ZC_COMMON_SKILL_LIST(conn);
+		}
 	}
 
 	public enum TxType : short

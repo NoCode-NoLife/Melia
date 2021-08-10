@@ -13,6 +13,7 @@
 //   - i184075: Skill UI update changed from 0x188 to 0x189
 //   - i184075: Job.i1+i2+bin1 were added
 //   - i195396: Skill UI update changed from 0x189 to 0x188
+//   - i336041: Added 0xA1, 0x194, 0x186, 0x135
 //------------------------------------------------
 
 #include "common.bt"
@@ -69,18 +70,28 @@ switch (type)
     // ?
     case 0x1D:
         int handle1;
-        byte bin1[5];
+        byte bin1[4];
         int handle2;
         position pos;
         direction dir;
         float f1;
         float f2;
         float f3;
+        float f4;
         break;
         
+    case 0x2D:
+        int i1;
+        break;
+
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
+        break;
+   
+    // ??
+    case 0x41:
+        int handle;
         break;
     
     // Account update
@@ -95,9 +106,11 @@ switch (type)
         lpString dialogKey; // ?
         int i2; // disappear delay?
         int i3; // disappear delay?
+        int i4; // Could be a float or 2 shorts or 4 bytes
         break;
         
     // Set skill speed
+    case 0x77: // Maybe 0x78 is now 0x77?
     case 0x78:
         int skillId;
         float sklSpdRate;
@@ -107,6 +120,11 @@ switch (type)
     case 0x79:
         int skillId;
         float hitDelay;
+        break;
+    
+    // ?
+    case 0xA1:
+        int64 i1;
         break;
         
     // ?
@@ -129,6 +147,19 @@ switch (type)
 
         int count;
         entry entries[count] <optimize=false>;
+        break;
+
+    case 0xEF:
+        int64 id;
+        int count;
+        entry entries[count] <optimize=false>;
+        //local int newFile = FileNew();
+        local int i;
+        for(i = 0; i < count; i++)
+        {
+            //FPrintf( newFile, "%s,%d\n", entries[i].str.text, entries[i].val );
+            //FPrintf( newFile, "packet.PutLpString(\"%s\");\npacket.PutInt(%d);\n", entries[i].str.text, entries[i].val );
+        }
         break;
         
     // Job ranks?
@@ -179,6 +210,20 @@ switch (type)
 
     // Some kind of job data
     case 0xF1:
+        byte b1;
+        byte b2;
+        int64 characterId;
+        int64 accountId;
+        int64 accountId2;
+        char name[64];
+        byte bin[16];
+        int mapId;
+        int handleId;
+        char name2[64];
+        char teamName[65];
+        int i[8];
+        break;
+    case 0xFFFF:
         typedef struct
         {
             lpString ident;
@@ -210,6 +255,22 @@ switch (type)
         JobF2 jobs[count];
         break;
 
+    // Map Data?
+    case 0x12A:
+        typedef struct
+        {
+            short id;
+            short s1;
+            short maxUsers; //?
+        } ChannelData;
+        if (!checkCompression())
+        {
+            short mapId;
+            short count;
+            ChannelData channels[count];
+        }
+        break;
+
     // ?
     case 0x12C:
         if (!checkCompression())
@@ -219,6 +280,12 @@ switch (type)
             int i2;
             short s2;
         }
+        break;
+
+    case 0x135:
+        int64 id;
+        int i1;
+        lpString message;
         break;
 
     // ?
@@ -257,6 +324,10 @@ switch (type)
         byte hat2Visible;
         byte hat3Visible;
         break;
+
+    case 0x177:
+        ubyte b[12];
+        break;
     
     // ?
     case 0x183:
@@ -288,9 +359,48 @@ switch (type)
     case 0x1B4:
         int i1;
         break;
+
+    // ?
+    case 0x19B:
+        int64 l1;
+        byte b1;
+        break;
     
     // ?
     case 0x19C:
         byte b1;
+        break;
+
+    // ?
+    case 0x1A5:
+        short s1;
+        int i[4];
+        int64 l1;
+        int i5;
+        break;
+
+    // ?
+    case 0x1B2:
+        typedef struct
+        {
+            int64 characterId;
+            char characterName[64];
+            byte bin[24];
+        } CharacterInfo <optimize=false>;
+        typedef struct
+        {
+            lpString type;
+            lpString val;
+        } IndunInfo <optimize=false>;
+        typedef struct
+        {
+            int64 characterId;
+            int indunCount;
+            IndunInfo infos[indunCount];
+        } Indun <optimize=false>;
+        int characterCount;
+        CharacterInfo characters[characterCount];
+        int inDunCount;
+        Indun indun[inDunCount];
         break;
 }

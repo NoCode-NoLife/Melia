@@ -20,44 +20,31 @@ namespace Melia.Login.Network.Helpers
 			// to be two byte, with the first being the index.
 			{
 				packet.PutByte(pc.Index);
-				packet.PutByte(1);
+				packet.PutByte(0);
 			}
 
-			packet.PutShort(0);
+			packet.PutShort(1);
 			packet.PutShort(pc.MapId);
 			packet.PutShort(pc.Channel);
-			packet.PutInt(0);
-			packet.PutInt(0); // maxXP
-			packet.PutInt(8); // currentExp (8 instead of 0)
-			packet.PutInt(0);
-			packet.PutInt(0);
-
-			packet.PutFloat(0); //x
-			packet.PutFloat(0); //y
-			packet.PutFloat(0); //z
-
-			// Position?
-			//packet.PutFloat(pc.BarrackPosition.X);
-			//packet.PutFloat(pc.BarrackPosition.Y);
-			//packet.PutFloat(pc.BarrackPosition.Z);
-			//packet.PutFloat(0); // Vector direction
-			//packet.PutFloat(0); // Vector direction
-
-			// ?
-			packet.PutFloat(43.48897F);
-			packet.PutFloat(18.0487F);
-			packet.PutFloat(-1.813926F);
-			packet.PutFloat(0.05891834F); // Vector direction
-			packet.PutFloat(0.9982628F); // Vector direction
-
-			packet.PutFloat(43.48897F);
-			packet.PutFloat(18.0487F);
-			packet.PutFloat(-1.813926F);
-			packet.PutFloat(0.05891834F); // Vector direction
-			packet.PutFloat(0.9982628F); // Vector direction
-
+			packet.PutLong(0); // maxXP
+			packet.PutLong(8); // currentExp (8 instead of 0)
 			packet.PutInt(0);
 			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutLong(0);
+
+			// Position?
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
+			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(0); // Vector direction
+
+			packet.PutFloat(pc.BarrackPosition.X);
+			packet.PutFloat(pc.BarrackPosition.Y);
+			packet.PutFloat(pc.BarrackPosition.Z);
+			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(0); // Vector direction
 		}
 	}
 

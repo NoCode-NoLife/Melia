@@ -142,6 +142,9 @@ namespace Melia.Shared.World.ObjectProperties
 				case PropertyId.PC.AbilityPoint:
 				case PropertyId.PCEtc.Kill_boss_Velmosquy:
 				case PropertyId.PCEtc.LastUIOpenPos:                 // f_siauliai_2/219/151.86210632324/706/worldmap (this feels so wrong)
+				case PropertyId.PCEtc.StartHairName:
+				case PropertyId.PCEtc.RepresentationClassID:
+				case PropertyId.PCEtc.SkintoneName:
 				case PropertyId.Party.P_PARTY_Q_030_TicketLifeTime:
 				case PropertyId.SessionObject.QSTARTZONETYPE:
 				case PropertyId.SessionObject.LastGenPosServer:      // -1246/-648

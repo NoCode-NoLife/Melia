@@ -1,0 +1,31 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PARTY_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "common.bt"
+
+typedef struct
+{
+    int64 partyId;
+    lpString partyName;
+    byte bin[30];
+    short propertiesSize;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+} Party;
+
+ServerHeaderDynamic header;
+int i1;
+int i2;
+int64 id;
+
+while(!FEof())
+    Party party;

@@ -10,11 +10,13 @@
 //  ID Bytes: 
 //   History: 
 //   - i10622: order was added
+//   - i336041: Extra 12 bytes before data added
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
+byte extra[12];
 byte b1;
 byte order;

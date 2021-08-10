@@ -21,12 +21,12 @@
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //   - i184075: APPEARANCE_PC.bin2 was added
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
-//   - i184075: COMMANDER.i2~5 were added
 //   - i184075: EquipSlotCount increased to 24 (special costume)
+//   - i184075: COMMANDER.i2~5 were added
 //   - i186893: EquipSlotCount increased to 25 (effect costume)
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
-//   - 7-25-21: EquipSlotCount increased to 30
+//   - i336041: EquipSlotCount increased to 30, Updated lpString cases
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -311,13 +311,12 @@ string ItemRead(Item &v)
 
 typedef struct
 {
-    int id;
-    short propertiesSize;
-    short b1;
-    int64 worldId;
-    byte slot;
-    byte bin1[3];
+    int slot;
     int i1;
+    short propertiesSize;
+    int id;
+    int64 worldId;
+    int i2;
     if (propertiesSize > 0)
         getProperties(propertiesSize);
 }
@@ -469,7 +468,7 @@ typedef struct
 Message;
 
 
-enum OBJP_TYPES { OBJP_FLOAT, OBJP_STRING };
+enum OBJP_TYPES { OBJP_FLOAT, OBJP_STRING, OBJP_FILETIME };
 
 typedef struct 
 {
@@ -480,6 +479,9 @@ typedef struct
             break;
         case OBJP_FLOAT:
             float val;
+            break;
+        case OBJP_FILETIME:
+            FILETIME val;
             break;
     }
 }
@@ -494,11 +496,13 @@ string propertyRead(property &p)
     switch(getPropertyType(p.id)) {
         case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
+        case OBJP_FILETIME:  SPrintf(ret, "%s : %s", getPropertyName(p.id), FileTimeToString(p.val)); break;
     }
 #else
     switch(getPropertyType(p.id)) {
         case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
+        case OBJP_FILETIME:  SPrintf(ret, "%d : %s", p.id, FileTimeToString(p.val)); break;
     }
 #endif
 
@@ -515,17 +519,23 @@ int getPropertyType(int id)
         case 6303:
         case 7118:
         case 7122:
+        case 10022:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
+        case 31587:
         case 32575:
         case 101000:
         case 101822:
+        case 103075:
+        case 104261:
         case 104893:
         case 104895:
         case 104897:
         case 107234:
             return OBJP_STRING;
             break;
+        case 107249:
+            //return OBJP_FILETIME;
         default:
             return OBJP_FLOAT;
             break;
@@ -539,6 +549,28 @@ void getProperties(int size)
     {
         property prop;
         i += sizeof(prop);
+    }
+}
+
+void getPrintableProperties(int size)
+{
+    local int newFile = FileNew();
+    local int i;
+    for (i = 0; i < size; i = i)
+    {
+        property prop;
+        i += sizeof(prop);
+#ifdef OPN
+        switch(getPropertyType(prop.id)) {
+            case OBJP_STRING: FPrintf( newFile, "Properties.Set(PropertyId.PC.%s,\"%s\");\n", getPropertyName(prop.id), prop.val.text ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(PropertyId.PC.%s,%lff);\n", getPropertyName(prop.id), prop.val ); break;
+        }
+#else
+        switch(getPropertyType(p.id)) {
+            case OBJP_STRING: FPrintf( newFile, "Properties.Set(%d,\"%s\");\n", prop.id, prop.val.text ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(%d,%lf);\n", prop.id, prop.val ); break;
+        }
+#endif
     }
 }
 
@@ -580,6 +612,7 @@ typedef struct
     int i1;
     int i2;
     int64 objectId <format=hex>;
+    //int64 objectId;
     int i3;
     SessionProperties properties;
 }

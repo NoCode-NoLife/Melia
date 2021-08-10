@@ -1073,7 +1073,6 @@ namespace Melia.Shared.Network
 
 		//Unsure if these exist using Zemyna Op codes
 		public const int CZ_I_NEED_PARTY = 0xE08; // Size: 23
-		public const int CZ_CHECK_PING = 0xE19; // Size: 16
 
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
