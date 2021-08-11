@@ -114,11 +114,11 @@ namespace Melia.Login.Network
 			var unkByte = packet.GetByte();
 
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
-			Send.BC_NORMAL_SetBarrack(conn, 0x0B);
+			Send.BC_NORMAL_SetBarrack(conn);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_CharacterInfo(conn);
-			Send.BC_NORMAL_ZoneTraffic(conn);
 			Send.BC_NORMAL_TeamUI(conn);
+			Send.BC_NORMAL_ZoneTraffic(conn);
 			//Send.BC_NORMAL_MESSAGE_MAIL(conn);
 		}
 
@@ -136,6 +136,8 @@ namespace Melia.Login.Network
 			var unk_byte_1 = packet.GetByte();
 			var unk_byte_2 = packet.GetByte();
 			var unk_int_1 = packet.GetInt();
+
+			//Send.BC_NORMAL_SetBarrack(conn);
 		}
 
 		/// <summary>
@@ -155,7 +157,6 @@ namespace Melia.Login.Network
 			var check_name = packet.GetString();
 			var l1 = packet.GetLong();
 			var l2 = packet.GetLong();
-			var l3 = packet.GetLong();
 			// Don't do anything if nothing's changed
 			if (name == conn.Account.TeamName)
 				return;
@@ -471,14 +472,10 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
 		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
 		{
-			//[46 00] [09 00 00 00] [4D 00 00 00]
-			//00 00 00 00
-			//00 00 00 00
-			//00 00 00 00 02 00 00 00 BE 7C AE 1D BD 40
 			var extra = packet.GetBin(12);
 			var layer = packet.GetInt();
 
-			// Only these two layers are valid currently.
+			// Only these three layers are valid currently.
 			if (layer < 1 || layer > 3)
 			{
 				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", layer, conn.Account.Name);
@@ -487,6 +484,8 @@ namespace Melia.Login.Network
 			conn.Account.SetSelectedBarrackLayer(layer);
 			Send.BC_NORMAL_SetBarrack(conn);
 			Send.BC_COMMANDER_LIST(conn);
+			Send.BC_NORMAL_CharacterInfo(conn);
+			Send.BC_NORMAL_TeamUI(conn);
 			//Send.(conn);
 		}
 
@@ -498,6 +497,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_PET_PC)]
 		public void CB_PET_PC(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
 		}
@@ -510,6 +510,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_PET_COMMAND)]
 		public void CB_PET_COMMAND(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
 			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
@@ -523,6 +524,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_REQ_CHANGE_POSTBOX_STATE)]
 		public void CB_REQ_CHANGE_POSTBOX_STATE(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
 			var state = (PostBoxMessageState)packet.GetByte();
@@ -538,6 +540,7 @@ namespace Melia.Login.Network
 		/// <param name="packet"></param>
 		public void CB_REQ_POSTBOX_PAGE(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var count = packet.GetInt();
 
 			// TODO: Implement postbox message paging.
@@ -570,18 +573,47 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_OS_INFO)]
 		public void CB_OS_INFO(LoginConnection conn, Packet packet)
 		{
-			//
+			var extra = packet.GetBin(12);
 		}
 
 		[PacketHandler(Op.CB_VISIT)]
 		public void CB_VISIT(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			///3800090000000D09000000000000000000000000000000000FA473400100000030B066BC00000000D34788400100000030B066BC0000000030B066BC0000000000000000000000008952884001000000FEFFFFFFFFFF0100
+		}
+
+		[PacketHandler(Op.CB_CHANGE_BARRACK_TARGET_LAYER)]
+		public void CB_CHANGE_BARRACK_TARGET_LAYER(LoginConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var characterId = packet.GetLong();
+			var targetLayer = packet.GetInt();
+
+
+			if (targetLayer < 1 || targetLayer > 3)
+			{
+				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", targetLayer, conn.Account.Name);
+				return;
+			}
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character != null)
+			{
+				character.BarrackLayer = targetLayer;
+				Send.BC_NORMAL_SetBarrack(conn);
+				Send.BC_COMMANDER_LIST(conn);
+				Send.BC_NORMAL_CharacterInfo(conn);
+				Send.BC_NORMAL_TeamUI(conn);
+				Send.BC_NORMAL_SetBarrackCharacter(conn, character);
+				Send.BC_LAYER_CHANGE_SYSTEM_MESSAGE(conn, targetLayer);
+			}
 		}
 
 		[PacketHandler(Op.CB_CHECK_MARKET_REGISTERED)]
 		public void CB_CHECK_MARKET_REGISTERED(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			//57000A000000EA000000000000000000000000000000570300009E580100331C
 
 		}

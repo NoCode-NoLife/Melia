@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -18,7 +19,23 @@ namespace Melia.Shared.Data.Database
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
 		public int Hp { get; set; }
-		public int Defense { get; set; }
+
+		public int PhysicalAttackMinimum { get; set; }
+		public int PhysicalAttackMaximum { get; set; }
+		public int MagicalAttackMinimum { get; set; }
+		public int MagicalAttackMaximum { get; set; }
+		public int PhysicalDefense { get; set; }
+		public int MagicalDefense { get; set; }
+		public List<DropData> Drops { get; internal set; }
+	}
+
+	[Serializable]
+	public class DropData
+	{
+		public int ItemId { get; set; }
+		public float DropChance { get; set; }
+		public int MinimumQuantity { get; set; }
+		public int MaximumQuantity { get; set; }
 	}
 
 	/// <summary>
@@ -40,7 +57,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "hp", "defense");
+			entry.AssertNotMissing("monsterId", "className", "name");
 
 			var info = new MonsterData();
 
@@ -51,8 +68,17 @@ namespace Melia.Shared.Data.Database
 			info.Exp = entry.ReadInt("exp");
 			info.ClassExp = entry.ReadInt("classExp");
 			info.Hp = entry.ReadInt("hp");
-			info.Defense = entry.ReadInt("defense");
-
+			info.PhysicalDefense = entry.ReadInt("physicalDefense");
+			var drops = entry.ReadArray("drops");
+			if (drops != null)
+			{
+				if (info.Drops == null)
+					info.Drops = new List<DropData>();
+				foreach (var drop in drops.ToObject<IList<DropData>>())
+				{
+					info.Drops.Add(drop);
+				}
+			}
 			this.Entries[info.Id] = info;
 		}
 	}

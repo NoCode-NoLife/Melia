@@ -10,7 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //   - i219527: l1 was added.
-//   - i336041: paramCount now a short (was a byte)
+//   - i336041: type now a short (was a byte) or an additional byte somewhere else
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,9 +18,8 @@
 ServerHeaderDynamic header;
 
 int clientMessage;
-short paramCount;
-byte type; // 0 = also show in red letters on screen, 1 = don't
+byte paramCount;
+short type; // 0 = also show in red letters on screen, 1 = don't
 int64 l1;
-
 if(paramCount != 0)
-    msgParameter parameters[paramCount] <optimize=false>;
+    msgParameter parameters[2] <optimize=false>;

@@ -15,7 +15,6 @@
 
 ClientHeaderFixed header;
 
-byte bin1[12];
 short serverId;
 char name[64];
 char message[128];

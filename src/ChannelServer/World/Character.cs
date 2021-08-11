@@ -1134,7 +1134,7 @@ namespace Melia.Channel.World
 		{
 			var rnd = RandomProvider.Get();
 			var min = this.MinPAtk;
-			var max = this.MaxPAtk;
+			var max = this.MaxPAtk + 100;
 
 			return rnd.Next(min, max + 1);
 		}

@@ -16,8 +16,5 @@
 ClientHeaderFixed header;
 
 byte idx;
-float x;
-float y;
-float z;
-float d1; // ?
-float d2; // ?
+position pos;
+direction dir;

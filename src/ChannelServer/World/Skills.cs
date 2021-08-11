@@ -167,10 +167,10 @@ namespace Melia.Channel.World
 
 			foreach (var job in this.Character.Jobs.GetList())
 			{
-				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Circle).Where(a => a.SkillId == skillId);
+				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.TotalExp).Where(a => a.SkillId == skillId);
 				foreach (var data in skillTreeDataList)
 				{
-					var jobsMaxLevel = Math.Min(data.MaxLevel, data.LevelsPerCircle * (int)job.Circle);
+					var jobsMaxLevel = data.MaxLevel;
 					if (jobsMaxLevel > maxLevel)
 						maxLevel = jobsMaxLevel;
 				}

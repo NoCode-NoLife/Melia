@@ -71,8 +71,14 @@ char teamName[64];
 
 AccountProperties properties;
 
-short s1;
-int i1;
-int i2;
-int i3;
-short s2;
+short disableAdditionalCharacterSlots;
+if (disableAdditionalCharacterSlots == 0) {
+    ushort additionalCharacterCount;
+    int teamExp;
+    int totalCharacterCount;
+} else {
+    int mapId;
+    int i2;
+    int teamExp; // ?
+    short characterCount2;
+}

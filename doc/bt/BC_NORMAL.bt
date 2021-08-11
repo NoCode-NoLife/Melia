@@ -2,22 +2,68 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_NORMAL.bt
-//   Authors: exec, celophi
-//   Version: i170175
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i336041: Added short maxPlayers to ZoneTrafficServer struct
 //------------------------------------------------
 
 #include "common.bt"
+
+typedef struct
+{
+    short propertiesSize;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        int64 id2;
+        byte bin2[10];
+    }
+} BARRACK_PROPERTY <optimize=false>;
+
+typedef struct
+{
+    APPEARANCE_BARRACK_PC abpc;
+    BARRACK_PROPERTY properties[19];
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
+    // maybe job history?
+    short jobIdCount;
+    short jobIds[jobIdCount];
+    
+    int i1;
+    int i2;
+    int64 characterId;
+    short s2;
+    if (s2 > 0) {
+        lpString lpS1;
+        lpString lpS2;
+        lpString lpS3;
+        lpString lpS4;
+    }
+}
+BARRACK_PC <read=readBARRACK_PC>;
+
+string readBARRACK_PC(BARRACK_PC &v)
+{
+    return v.abpc.appearancePc.name;
+}
 
 ServerHeaderDynamic header;
 
 int type;
 switch(type)
 {
+    case 0x00:
+        int64 accountId1;
+        int64 accountId2;
+        BARRACK_PC barrackPc[1] <optimize=false>;
+        break;
     // Set Position
 	// Notifies the client that the server successfully set the barrack
 	// position for an actor.
@@ -44,6 +90,7 @@ switch(type)
         {
             byte b1;
             int i1;
+            int newMessageCount;
             int messageCount;
             if (messageCount != 0)
                 Message messages[messageCount] <optimize=false>;
@@ -65,14 +112,24 @@ switch(type)
             MessageItem items[itemCount] <optimize=false>;
         break;
 		
-	// Team UI
+	// Old Team UI
 	// Updates the client UI with character slots, team experience,
 	// names, etc.
     case 0x09:
         int64 accountId;
-		short purchasedBarrackSlots;
-		int teamExp;
-		short characterCount;
+		short purchasedBarrackSlots; // 0
+		int teamExp; // 0
+		short characterCount; // 0
+        break;
+
+    // New Team UI Packet?
+	// Updates the client UI with character slots, team experience,
+	// names, etc.
+    case 0x0C:
+        int64 accountId;
+        short purchasedBarrackSlots; //  0
+		int teamExp; // 26
+		short characterCount; // 2
         break;
 		
 	// Zone traffic
@@ -81,7 +138,7 @@ switch(type)
         {
             short zone;
             short playerCount;
-            
+            short maxPlayers;
         }
         ZoneTrafficServer <optimize=false>;
         

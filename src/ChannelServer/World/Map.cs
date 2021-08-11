@@ -38,11 +38,6 @@ namespace Melia.Channel.World
 		private List<SpawnZone> _spawns;
 
 		/// <summary>
-		/// Event to be raised for the monster's death
-		/// </summary>
-		public event EventHandler<OnEntityEventArgs> onEntityEvent;
-
-		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -185,7 +180,6 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 			{
-				Log.Debug("Added monster {0}", monster.Handle);
 				_monsters[monster.Handle] = monster;
 			}
 		}

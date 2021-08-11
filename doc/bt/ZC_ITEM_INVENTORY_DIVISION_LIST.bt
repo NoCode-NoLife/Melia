@@ -19,8 +19,7 @@ ServerHeaderDynamic header;
 typedef struct
 {
     int id;
-    short propertiesSize;
-    short b1;
+    int propertiesSize;
     int64 worldId;
     int amount;
     int price;

@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_SKILL_GROUND
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+byte b1;
+int skillId;
+int targetHandle; // ?
+position originPosition;
+position castPosition;
+direction castDirection;
+int casterHandle; // Different from handleId
+int64 l1;
+int i2;
+byte b2;

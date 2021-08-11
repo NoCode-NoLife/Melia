@@ -8,8 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
-namespace Melia.Shared.Network
 
+namespace Melia.Shared.Network
 {
 	public abstract class Connection
 	{

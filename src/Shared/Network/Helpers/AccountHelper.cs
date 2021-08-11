@@ -14,23 +14,26 @@ namespace Melia.Shared.Network.Helpers
 		/// <param name="account"></param>
 		public static void AddAccountProperties(this Packet packet, IAccount account)
 		{
-			packet.PutShort(4 * 8); // Account properties size
+			packet.PutShort(77); // Account properties size
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
-			packet.PutInt(account.SelectedBarrack);
-			packet.PutByte(0);
+			packet.PutInt(account.SelectedBarrackLayer);
+			packet.PutByte(1);
 			packet.PutByte(1);
 
 			packet.PutInt(PropertyId.Account.Medal);
 			packet.PutFloat(account.Medals);
 
-			packet.PutInt(PropertyId.Account.PremiumMedal);
-			packet.PutFloat(account.PremiumMedals);
+			packet.PutInt(PropertyId.Account.CTT_TempProperty_AC_Str_2);
+			packet.PutLpString("x64_Client");
 
-			packet.PutInt(PropertyId.Account.GiftMedal);
-			packet.PutFloat(account.GiftMedals);
+			packet.PutInt(PropertyId.Account.CTT_TempProperty_AC_Str_3);
+			packet.PutLpString("x86_Client");
 
-			packet.PutInt(PropertyId.Account.SelectedBarrack);
-			packet.PutFloat(account.SelectedBarrack);
+			packet.PutInt(PropertyId.Account.CTT_TempProperty_AC_Str_1);
+			packet.PutLpString("x64_OS");
+
+			packet.PutInt(PropertyId.Account.Medal_Get_Date);
+			packet.PutLpString("202107321185720"); // Date 2021-07-3-21-18-57-20
 		}
 
 		public static void AddFullAccountProperties(this Packet packet, IAccount account)

@@ -12,7 +12,27 @@
 //------------------------------------------------
 #include "common.bt"
 
+typedef struct
+{
+    short year;
+    short month;
+    short day;
+    short hour;
+    short minutes;
+    short seconds;
+    short milliseconds;
+    short nanoseconds;
+} Date <optimize=false>;
+
 ServerHeaderDynamic header;
+
+Date lastLogin;
+Date date;
+short size;
+if (size > 0) {
+    int props[size];
+}
+Date date;
 
 // 198-10 (188?) Byte Structure without header
 //E5 07 07 00 04 00 16 00 0B 00 27 00 13 00 00 00

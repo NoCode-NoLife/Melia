@@ -15,20 +15,24 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
+ServerHeaderDynamic header;
 
 typedef struct
 {
-    int i[5];
+    int itemId;
     int propertiesSize;
-    if (propertiesSize > 0)
+    int64 worldId;
+    int slot;
+    int i1;
+    short s1;
+    if (propertiesSize > 0) {
         getProperties(propertiesSize);
+        short s2;
+        int64 worldId;
+        short s3;
+    }
 }
 EquipItem2 <optimize=false>;
 
-short size;
-int i1;
-int64 l1;
-int i2;
 while(!FEof())
     EquipItem2 item;

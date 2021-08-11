@@ -262,7 +262,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Adds skill for character, by sending ZC_SKILL_ADD to its connection.
+		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
@@ -274,10 +274,10 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(521.4396f); // Skill Particle Speed?
+			packet.PutFloat(521.4396f); // Skill Particle Distance?
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(190906); // Attacker Handle?
+			packet.PutInt(character.Handle); // Attacker Handle?
 			packet.PutFloat(1.054772f);
 			packet.PutInt(0);
 			if (target != null)
@@ -293,13 +293,6 @@ namespace Melia.Channel.Network
 			if (target != null && damage > 0)
 			{
 				packet.PutByte(1);
-			} else
-			{
-				packet.PutByte(0);
-			}
-
-			if (target != null)
-			{
 				packet.PutBinFromHex("00 09 00 00");
 				packet.PutInt(target.Handle);
 				packet.PutInt(damage);
@@ -310,17 +303,78 @@ namespace Melia.Channel.Network
 				packet.PutShort(3);
 				packet.PutInt(1);
 				packet.PutInt(0);
-				packet.PutInt(549); // Max Hp?
+				packet.PutInt(549);
 				packet.PutShort(0x63);
 				packet.PutByte(2);
 				packet.PutByte(1);
 				packet.PutInt(0);
-				packet.PutInt(190906);
+				packet.PutInt(character.Handle); // Attacker Handle?
 				packet.PutInt(0);
 				packet.PutShort(0);
 				packet.PutShort(1);
 				packet.PutByte(3);
-				packet.PutFloat(-1000);
+				packet.PutFloat(-1845);
+			} else
+			{
+				packet.PutByte(0);
+			}
+
+			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Shows skill use for character, by sending ZC_SKILL_MELEE_GROUND to its connection.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, float targetX, float targetY, float targetZ, IEntity target = null, int damage = 0)
+		{
+			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
+			packet.PutInt(skill.Id);
+			packet.PutInt(character.Handle);
+			packet.PutFloat(character.Direction.Cos);
+			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(387.5733f); // Range?
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
+			packet.PutFloat(1.083666f);
+			if (target != null)
+			{
+				packet.PutInt(target.Handle);
+			}
+			else
+			{
+				packet.PutInt(0);
+			}
+			packet.PutFloat(targetX);
+			packet.PutFloat(targetY);
+			packet.PutFloat(targetZ);
+
+			if (target != null && damage > 0)
+			{
+				packet.PutShort(1);
+
+				packet.PutInt(0x900);
+				packet.PutInt(target.Handle);
+				packet.PutInt(damage);
+				packet.PutInt(target.Hp);
+				packet.PutLong(2);
+				packet.PutShort(0);
+				packet.PutShort(3);
+				packet.PutLong(1);
+				packet.PutLong(72622047229902898);
+				packet.PutByte(0);
+				packet.PutByte(0); // Attack Index
+				packet.PutShort(0);
+				packet.PutInt((int)skill.ObjectId); // Skill Handle
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.PutShort(1);
+			} else
+			{
+				packet.PutShort(0);
 			}
 
 			character.Map.Broadcast(packet);
@@ -533,7 +587,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_MOVE_SPEED in range of character, updating their move speed.
+		/// Broadcasts ZC_CASTING_SPEED in range of character, updating their casting speed.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_CASTING_SPEED(Character character)
@@ -597,16 +651,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(1);
 			packet.Zlib(true, zpacket =>
 			{
-				packet.PutInt(0);
-				packet.PutByte(1);
-				packet.PutByte(1);
-			}
-			else
-			{
-				packet.PutInt(items.Count);
-				packet.PutByte(1);
-				packet.PutByte(1);
-				packet.Zlib(false, zpacket =>
+				foreach (var item in items)
 				{
 					var properties = item.Value.Properties.GetAll();
 					var propertiesSize = item.Value.Properties.Size;
@@ -648,13 +693,18 @@ namespace Melia.Channel.Network
 				var propertiesSize = equipItem.Value.Properties.Size;
 
 				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(propertiesSize);
-				packet.PutEmptyBin(2);
+				packet.PutInt(propertiesSize);
 				packet.PutLong(equipItem.Value.ObjectId);
-				packet.PutByte((byte)equipItem.Key);
-				packet.PutEmptyBin(3);
+				packet.PutInt((int)equipItem.Key);
 				packet.PutInt(0);
+				packet.PutShort(0);
 				packet.AddProperties(properties);
+				if (propertiesSize > 0)
+				{
+					packet.PutShort(0);
+					packet.PutLong(equipItem.Value.ObjectId);
+					packet.PutShort(0);
+				}
 			}
 
 			character.Connection.Send(packet);
@@ -750,8 +800,8 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
 
 			packet.PutInt(clientMessage);
-			packet.PutShort((short)parameters.Length);
-			packet.PutByte(1); // type? 0 = also show in red letters on the screen
+			packet.PutByte((byte)parameters.Length);
+			packet.PutShort(1); // type? 0 = also show in red letters on the screen
 			packet.PutLong(0); // ?
 
 			foreach (var parameter in parameters)
@@ -902,16 +952,22 @@ namespace Melia.Channel.Network
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ADD);
-
 			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(index);
+			packet.PutInt(410001);
 			packet.PutInt(item.Id);
-			packet.PutShort(0); // Size of the object at the end
+			packet.PutShort(8); // Size of the object at the end
 			packet.PutByte((byte)addType);
-			packet.PutFloat(0); // Notification delay
+			packet.PutFloat(5.0f); // Notification delay
 			packet.PutByte(0); // InvType
-			packet.PutEmptyBin(2);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutInt(7266); // Prop 1
+			packet.PutFloat(0); // Prop 1 value
+			packet.PutShort(0);
+			packet.PutLong(item.ObjectId);
+			packet.PutShort(0);
 			//packet.PutEmptyBin(0); // properties
 
 			character.Connection.Send(packet);
@@ -3191,9 +3247,21 @@ namespace Melia.Channel.Network
 		/// <param name="entity"></param>
 		public static void ZC_LEAVE_HOOK(IEntity entity)
 		{
-			var packet = new Packet(Op.ZC_RESET_VIEW);
+			var packet = new Packet(Op.ZC_LEAVE_HOOK);
 			packet.PutInt(entity.Handle);
 			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Not too sure what this does, maybe for store purchases?
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void ZC_SET_WEBSERVICE_URL(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
+			packet.PutString("https://52.58.92.141:9004", 128);
+			packet.PutString("https://52.29.227.229:9005", 128);
+			conn.Send(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

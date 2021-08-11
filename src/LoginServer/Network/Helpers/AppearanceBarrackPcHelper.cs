@@ -26,8 +26,9 @@ namespace Melia.Login.Network.Helpers
 			packet.PutShort(1);
 			packet.PutShort(pc.MapId);
 			packet.PutShort(pc.Channel);
-			packet.PutLong(0); // maxXP
-			packet.PutLong(8); // currentExp (8 instead of 0)
+			packet.PutLong(0); // Current XP?
+			packet.PutLong(8); // Max XP?
+
 			packet.PutInt(0);
 			packet.PutShort(0);
 			packet.PutShort(0);
@@ -55,5 +56,6 @@ namespace Melia.Login.Network.Helpers
 		int MapId { get; }
 		int Channel { get; }
 		Position BarrackPosition { get; }
+		Direction BarrackDirection { get; }
 	}
 }

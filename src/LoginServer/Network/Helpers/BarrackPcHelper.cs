@@ -36,11 +36,7 @@ namespace Melia.Login.Network.Helpers
 			packet.PutByte(1);
 			packet.PutByte(1);
 			packet.PutByte(1);
-
 			packet.PutByte(1);
-
-			packet.PutBinFromHex("1000621C000000000000D61C00000000803F0212000022770200000000000000000000001000621C000000000000D61C00000000000003120000227702000000000000000000000000001000621C000000000000D61C00000000803F04120000227702000000000000000000000000000000000000000000000000000000000000000000000001010101");
-
 
 			// Job list?
 			// Example: A Mage that switched to Pyromancer has two
@@ -48,8 +44,18 @@ namespace Melia.Login.Network.Helpers
 			packet.PutShort(jobIds.Length);
 			foreach (var jobId in jobIds)
 				packet.PutShort((short)jobId);
+			packet.PutInt(0);
+			packet.PutInt((int)pc.JobId);
 
-			packet.PutBinFromHex("000000000000000000120000227702000000");
+			packet.PutLong(pc.Id);
+			packet.PutShort(0); // Additional properties count?
+			//packet.PutShort(2); // Instance dungeon count
+			//packet.PutLpString("Indun_ResetTime");
+			//packet.PutLpString("21080800.000000");
+			//packet.PutLpString("IndunWeeklyResetTime");
+			//packet.PutLpString("21080906.000000");
+
+
 			//packet.PutInt(0);
 		}
 	}

@@ -2,16 +2,38 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_BUFF_LIST.bt
-//   Authors: 
-//   Version: 
+//   Authors: Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
-ServerHeaderDynamic header;
-int id;
+typedef struct
+{
+    int buffId;
+    int propertiesSize;
+    int i2;
+int i3;
+int i4;
+int i5;
+int i6;
+int i7;
+int i8;
+int i9; // Duration in ms?
+lpString characterName;
+int i1;
+int i12;
+int i13;
 byte b1;
+byte b2;
+} BuffData;
+
+ServerHeaderDynamic header;
+int handle;
+byte count; // Buff count?
+BuffData buffs[count];

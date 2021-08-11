@@ -13,6 +13,7 @@ namespace Melia.Shared.Data
 		public AbilityDb AbilityDb = new AbilityDb();
 		public AbilityTreeDb AbilityTreeDb = new AbilityTreeDb();
 		public BarrackDb BarrackDb = new BarrackDb();
+		public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();

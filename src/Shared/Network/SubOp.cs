@@ -10,10 +10,12 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public static class Barrack
 		{
+			public const int SetBarrackCharacter = 0x00;
 			public const int SetPosition = 0x02;
 			public const int SetBarrack = 0x05;
 			public const int PostBoxState = 0x12;
 			public const int TeamUI = 0x09;
+			public const int Unknown_0C = 0x0C;
 			public const int ZoneTraffic = 0x0D;
 			public const int Run = 0x0F;
 			public const int Message = 0x11;

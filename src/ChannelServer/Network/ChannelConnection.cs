@@ -48,14 +48,16 @@ namespace Melia.Channel.Network
 		/// </summary>
 		protected override void CleanUp()
 		{
-			this.Account.Save();
-
-			if (this.SelectedCharacter != null)
+			if (this.Account != null)
 			{
-				this.SelectedCharacter.Map.RemoveCharacter(this.SelectedCharacter);
-				ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
-			}
+				this.Account.Save();
 
+				if (this.SelectedCharacter != null)
+				{
+					this.SelectedCharacter.Map.RemoveCharacter(this.SelectedCharacter);
+					ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
+				}
+			}
 			this.ScriptState.Reset();
 		}
 	}

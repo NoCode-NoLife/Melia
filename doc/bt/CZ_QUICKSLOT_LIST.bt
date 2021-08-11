@@ -16,5 +16,5 @@
 ClientHeaderDynamic header;
 
 int compressedSize;
-byte compressedData[compressedSize];
+byte data[compressedSize];
 

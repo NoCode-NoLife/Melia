@@ -5,7 +5,7 @@
 //   Authors: exec
 //   Version: i11XXX
 //   Purpose: 
-//  Category: 
+//  Category: Rotation for NPCs?
 // File Mask: 
 //  ID Bytes: 
 //   History: 
@@ -16,5 +16,4 @@
 ServerHeaderFixed header;
 
 int handle;
-float dcos;
-float dsin;
+direction dir;

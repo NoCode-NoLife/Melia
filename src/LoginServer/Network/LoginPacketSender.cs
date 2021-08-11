@@ -64,13 +64,11 @@ namespace Melia.Login.Network
 		public static void BC_SPLIT_COMMANDER_INFO_LIST(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters().Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer).ToList();
-			//18 00 FF FF FF FF 00 00 00 00 1B 00 00 00 00 00 [F6 D3 BF 03 01 00 10 01] 00 01 01
 			var packet = new Packet(Op.BC_SPLIT_COMMANDER_INFO_LIST);
 			packet.PutInt(characters.Count());
 			packet.PutLong(conn.Account.Id);
 			if (characters != null && characters.Count == 0)
 			{
-				Log.Info("No Characters Found in Barrack {0}", conn.Account.SelectedBarrackLayer);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(1);
@@ -78,20 +76,12 @@ namespace Melia.Login.Network
 			else
 			{
 				packet.PutByte(0);
-				packet.PutByte(0);
 				packet.PutByte(1);
-				Log.Info("Characters Found in Barrack {0}", conn.Account.SelectedBarrackLayer);
+				packet.PutByte(1);
 				foreach (var character in characters)
 				{
 					packet.AddBarrackPc(character);
 				}
-				// Null terminated list of some kind?
-				// Example of != 0: 02 00 | 0B 00 00 00 01 00, 0C 00 00 00 00 00
-				packet.PutShort(0); // count?
-
-				packet.PutShort(0);
-				packet.PutInt(0);
-				packet.PutShort(0);
 			}
 
 			conn.Send(packet);
@@ -103,15 +93,17 @@ namespace Melia.Login.Network
 			var characters = conn.Account.GetCharacters().ToList();
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 			packet.PutLong(conn.Account.Id);
-			packet.PutShort(1);
+			packet.PutByte(0);
+			packet.PutByte(0);
 			packet.PutString(conn.Account.TeamName, 64);
-			packet.AddFullAccountProperties(conn.Account);
+			//packet.AddFullAccountProperties(conn.Account);
+			packet.AddAccountProperties(conn.Account);
 
 			packet.PutShort(1); // Additional Characters
-			packet.PutInt(0x0B);
-			packet.PutInt(1);
-			packet.PutInt(barrackCharacters.Count); // Character Count?
-			packet.PutShort(characters.Count); // Character Count on Current Lodge
+			packet.PutInt(0x0B); // MapID
+			packet.PutInt(barrackCharacters.Count); // Character Count on Current Lodge
+			packet.PutInt(100); // Team Exp
+			packet.PutShort(characters.Count); // Total Character Count
 			conn.Send(packet);
 
 			if (characters != null && characters.Count > 0)
@@ -415,6 +407,22 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sets the character for the barrack
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="id"></param>
+		public static void BC_NORMAL_SetBarrackCharacter(LoginConnection conn, Character character)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.SetBarrackCharacter);
+			packet.PutLong(conn.Account.Id);
+			packet.PutLong(conn.Account.Id);
+			packet.AddBarrackPc(character);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sets the barrack, but not working for some reason.
 		/// Use the account property to do this.
 		/// </summary>
@@ -426,8 +434,8 @@ namespace Melia.Login.Network
 			packet.PutInt(SubOp.Barrack.SetBarrack);
 			packet.PutLong(conn.Account.Id);
 			packet.PutInt(id);
-			packet.PutByte(0);
 			packet.PutInt(0);
+			packet.PutByte(0);
 			conn.Send(packet);
 		}
 
@@ -463,7 +471,23 @@ namespace Melia.Login.Network
 			packet.PutLong(conn.Account.Id);
 			packet.PutShort(0); // Number of additional character slots
 			packet.PutInt(0); // Team experience. Displayed under "Team Info"
-			packet.PutShort(characters.Count()); // Sum of characters and pets.
+			packet.PutShort(0); // Sum of characters and pets.
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends unknown packet in the barrack.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_NORMAL_UpdateTeamUI(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_NORMAL);
+			packet.PutInt(SubOp.Barrack.Unknown_0C);
+			packet.PutLong(conn.Account.Id);
+			packet.PutShort(0); // Number of additional character slots
+			packet.PutInt(0); // Team experience. Displayed under "Team Info"
+			packet.PutShort(conn.Account.CharacterCount); // Sum of characters and pets.
 
 			conn.Send(packet);
 		}
@@ -501,6 +525,7 @@ namespace Melia.Login.Network
 						{
 							zpacket.PutShort(zone);
 							zpacket.PutShort(1); // currentPlayersCount
+							zpacket.PutShort(zoneMaxPcCount);
 						}
 					}
 				}
@@ -652,14 +677,12 @@ namespace Melia.Login.Network
 				zpacket.PutByte(1);
 				zpacket.PutInt(0);
 				zpacket.PutInt(1); //Message Count?
-				string title = "GM.";
-				string message = "Compensation on for Temporary Maintenance";
-				zpacket.PutShort(title.Length);
-				zpacket.PutString(title, title.Length+1);
-				zpacket.PutShort(message.Length);
-				zpacket.PutString(message, message.Length+1);
-				zpacket.PutShort(1);
-				zpacket.PutString("", 1);
+				var sender = "GM.";
+				var title = "Compensation on for Temporary Maintenance";
+				var message = "";
+				zpacket.PutLpString(sender);
+				zpacket.PutLpString(title);
+				zpacket.PutLpString(message);
 				zpacket.PutDate(DateTime.Now); // Date Sent?
 				zpacket.PutDate(DateTime.Now); // Expiration
 				zpacket.PutDate(DateTime.Now);
@@ -692,11 +715,13 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
-		public static void BC_LAYER_CHANGE_SYSTEM_MESSAGE(LoginConnection conn)
+		public static void BC_LAYER_CHANGE_SYSTEM_MESSAGE(LoginConnection conn, int targetLayer, string script = "MoveBarrackLayer{target}")
 		{
-			//4700FFFFFFFF00000000
 			var packet = new Packet(Op.BC_LAYER_CHANGE_SYSTEM_MESSAGE);
-			//010000004D6F76654261727261636B4C617965727B7461726765747D00000000000000000000000000000000000000000000000000000000000000000000000000000000
+			packet.PutInt(targetLayer);
+			packet.PutString(script, 64);
+
+			conn.Send(packet);
 		}
 	}
 }

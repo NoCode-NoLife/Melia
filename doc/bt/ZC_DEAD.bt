@@ -15,5 +15,16 @@
 
 ServerHeaderDynamic header;
 
-int handles[(header.size-sizeof(header)-sizeof(int)) / 4];
-int end;
+//int handles[(header.size-sizeof(header)-sizeof(int)) / 4];
+int deadHandle;
+//byte b1;
+int i1;
+int64 l1;
+float f1;
+int i2;
+int killerHandle;
+int i3;
+int64 i4;
+int64 i6;
+int64 i7;
+

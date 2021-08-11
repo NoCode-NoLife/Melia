@@ -135,6 +135,7 @@ namespace Melia.Shared.Data
 		internal static float ReadFloat(this JObject obj, string key, float def = 0) { return (float)(obj[key] ?? def); }
 		internal static double ReadDouble(this JObject obj, string key, double def = 0) { return (double)(obj[key] ?? def); }
 		internal static string ReadString(this JObject obj, string key, string def = "") { return (string)(obj[key] ?? def); }
+		internal static JArray ReadArray(this JObject obj, string key, string def = null) { return (JArray)(obj[key] ?? null); }
 
 		internal static bool ContainsAnyKeys(this JObject obj, params string[] keys)
 		{

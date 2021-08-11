@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -150,7 +151,7 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
 			this.Hp = this.MaxHp = this.Data.Hp;
-			this.Defense = this.Data.Defense;
+			this.Defense = this.Data.PhysicalDefense;
 		}
 
 		/// <summary>
@@ -196,6 +197,16 @@ namespace Melia.Channel.World
 
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
+			if (this.Data.Drops != null)
+			{
+				foreach (var drops in this.Data.Drops)
+				{
+					var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
+					if (item != null) {
+						Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
+					}
+				}
+			}
 			killer.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, new OnEntityEventArgs(this.Handle));
 

@@ -21,3 +21,7 @@ byte notUsed;
 char functionName[len];
 char parameter[header.size-(len+sizeof(header)+sizeof(short)+sizeof(int))];
 
+//EVENTBANNER_USERTYPE : 1631028130
+//EVENTBANNER_SOLODUNGEON
+//EVENTBANNER_USERTYPE : 1631028130
+//EVENTBANNER_SOLODUNGEON

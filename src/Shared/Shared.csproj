@@ -69,6 +69,7 @@
     <Compile Include="Data\Database\Barracks.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
+    <Compile Include="Data\Database\Buffs.cs" />
     <Compile Include="Data\Database\StanceConditions.cs" />
     <Compile Include="Data\Database\Shops.cs" />
     <Compile Include="Data\Database\Dialogues.cs" />

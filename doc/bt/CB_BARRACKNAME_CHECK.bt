@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CB_BARRACKNAME_CHECK
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+short serverId;
+char name[64];
+char message[128];
+byte bin2[24];
+int64 unk[9];
+char name2[16];
+int64 l1;
+int64 l2;

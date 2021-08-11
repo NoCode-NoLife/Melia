@@ -21,12 +21,12 @@
 //   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
 //   - i184075: APPEARANCE_PC.bin2 was added
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
-//   - i184075: EquipSlotCount increased to 24 (special costume)
 //   - i184075: COMMANDER.i2~5 were added
+//   - i184075: EquipSlotCount increased to 24 (special costume)
 //   - i186893: EquipSlotCount increased to 25 (effect costume)
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
-//   - i336041: EquipSlotCount increased to 30, Updated lpString cases
+//   - i336041: Updated ClientHeaders to include extra 12 bytes, EquipSlotCount increased to 30, Updated lpString cases
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES
@@ -40,6 +40,7 @@ typedef struct
     short op;
     int sequence;
     int checksum;
+    byte extra[12];
 }
 ClientHeaderFixed <optimize=false>;
 
@@ -49,6 +50,7 @@ typedef struct
     int sequence;
     int checksum;
     short size;
+    byte extra[12];
 }
 ClientHeaderDynamic <optimize=false>;
 
@@ -157,10 +159,12 @@ typedef struct
 {
     char name[65];
     char team[65];
-    byte bin[14];
-    int stance;   
+    ubyte bin[14];
+    short stance1;
+    short stance2;
     short job; //D1 07
-    short gender; //01
+    byte gender; //01
+    byte b1;
     int level;
     int i1;
     ubyte bin2[4];
@@ -236,29 +240,18 @@ typedef struct
     short s1;
     short mapId;
     short channel;
+    int64 currentExp;
+    int64 maxExp;
     int i1;
-    int i2;   // max xp?
-    int i3;
-    int i6;
-    int i7;
-
-    float x;
-    float y;
-    float z;
-    float d1; // direction?
-    float d2; // direction?
-
-    float x2;
-    float y2;
-    float z2;
-    float d12;
-    float d22;
-
-    float f1; // float?
-    float f2;
-    float f3;
-    int i8;
     short s2;
+    short s3;
+    int64 l2;
+
+    position pos1;
+    direction dir1;
+
+    position pos2;
+    direction dir2;
 } APPEARANCE_BARRACK_PC;
 
 typedef struct
@@ -448,9 +441,7 @@ MessageItem;
 typedef struct
 {
     lpString sender;
-    byte terminator;
     lpString title;
-    byte terminator;
     lpString text;
     FILETIME date1;
     FILETIME expiration;
@@ -519,6 +510,7 @@ int getPropertyType(int id)
         case 6303:
         case 7118:
         case 7122:
+        case 8907:
         case 10022:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
@@ -527,6 +519,8 @@ int getPropertyType(int id)
         case 101000:
         case 101822:
         case 103075:
+        case 103327:
+        case 103331:
         case 104261:
         case 104893:
         case 104895:
@@ -609,12 +603,13 @@ string readSessionProperties(SessionProperties &v)
 
 typedef struct
 {
-    int i1;
+    int sessionClassId1;
     int i2;
     int64 objectId <format=hex>;
     //int64 objectId;
     int i3;
     SessionProperties properties;
+    int sessionClassId2;
 }
 SessionObject <read=readSessionObject, optimize=false>;
 

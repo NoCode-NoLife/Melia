@@ -9,13 +9,15 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i336041: extra 16 bytes before actual packet
+//   - i336041: extra 12 bytes before actual packet seems to be the change for 
+//              all client side packets, maybe to prevent older versions from working
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
-byte extra[16];
+int i1;
 float d1;
 float d2;
+ushort s1;

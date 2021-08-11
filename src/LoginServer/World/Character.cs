@@ -84,6 +84,11 @@ namespace Melia.Login.World
 		public Position BarrackPosition { get; set; }
 
 		/// <summary>
+		/// Character's direction in barracks.
+		/// </summary>
+		public Direction BarrackDirection { get; set; }
+
+		/// <summary>
 		/// The channel the character is currently on.
 		/// </summary>
 		public int Channel { get; set; }

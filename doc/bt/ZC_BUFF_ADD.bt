@@ -17,9 +17,19 @@ ServerHeaderDynamic header;
 
 int handle;
 int i1;
-int i2;
+int i2; // Buff Id?
 int i3;
 int i4;
 int i5;
-lpString str1;
 int i6;
+int i7;
+int i8;
+int i9; // Duration in ms?
+int i10;
+int i11;
+lpString characterName;
+int i1;
+int i12;
+int i13;
+byte b1;
+byte b2;
