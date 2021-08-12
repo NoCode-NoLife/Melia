@@ -1,4 +1,7 @@
 [
+
+// Monsters
+//---------------------------------------------------------------------------
 { monsterId: 10001, className: "Stone", name: "Stone", level: 1, exp: 64, classExp: 49, race: -1, rank: 2, size: 0, hp: 465, sp: 26, physicalAttackMin: 75, physicalAttackMax: 113, magicAttackMin: 75, magicAttackMax: 113, physicalDefense: 42, magicalDefense: 42, accuracy: 1, blockPenetration: 1, blockRate: 0, criticalDamage: 5, criticalDefense: 1, criticalRate: 1, evasion: 1 },
 { monsterId: 10005, className: "Bomb", name: "Vubbe Extermination Bomb", level: 1, exp: 64, classExp: 49, race: -1, rank: 2, size: 0, hp: 465, sp: 26, physicalAttackMin: 75, physicalAttackMax: 113, magicAttackMin: 75, magicAttackMax: 113, physicalDefense: 42, magicalDefense: 42, accuracy: 1, blockPenetration: 1, blockRate: 0, criticalDamage: 5, criticalDefense: 1, criticalRate: 1, evasion: 1 },
 { monsterId: 10006, className: "Bomb_Score", name: "Bomb Score", level: 1, exp: 64, classExp: 49, race: -1, rank: 2, size: 0, hp: 465, sp: 26, physicalAttackMin: 75, physicalAttackMax: 113, magicAttackMin: 75, magicAttackMax: 113, physicalDefense: 42, magicalDefense: 42, accuracy: 1, blockPenetration: 1, blockRate: 0, criticalDamage: 5, criticalDefense: 1, criticalRate: 1, evasion: 1 },
@@ -5182,6 +5185,7 @@
 { monsterId: 2600043, className: "Ancient_Misrus", name: "Misrus", level: 1, exp: 0, classExp: 0, race: 0, rank: 0, size: 1, hp: 328, sp: 13, physicalAttackMin: 650, physicalAttackMax: 795, magicAttackMin: 342, magicAttackMax: 418, physicalDefense: 928, magicalDefense: 618, accuracy: 2, blockPenetration: 1, blockRate: 0, criticalDamage: 7, criticalDefense: 1, criticalRate: 2, evasion: 1 },
 { monsterId: 2600044, className: "Ancient_Porahound", name: "Porahound", level: 1, exp: 0, classExp: 0, race: 5, rank: 0, size: 1, hp: 394, sp: 13, physicalAttackMin: 500, physicalAttackMax: 611, magicAttackMin: 489, magicAttackMax: 597, physicalDefense: 780, magicalDefense: 780, accuracy: 3, blockPenetration: 1, blockRate: 0, criticalDamage: 3, criticalDefense: 2, criticalRate: 0, evasion: 0 },
 { monsterId: 4014210, className: "Poiming", name: "Poiming", level: 1, exp: 64, classExp: 49, race: 5, rank: 2, size: 0, hp: 558, sp: 13, physicalAttackMin: 78, physicalAttackMax: 117, magicAttackMin: 73, magicAttackMax: 109, physicalDefense: 44, magicalDefense: 44, accuracy: 1, blockPenetration: 0, blockRate: 0, criticalDamage: 3, criticalDefense: 1, criticalRate: 0, evasion: 0 },
+
 
 // NPCs
 //---------------------------------------------------------------------------

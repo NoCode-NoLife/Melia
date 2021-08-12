@@ -196,7 +196,7 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		public static bool UNLOCK_ELEMENTALIST25(Character character, string _, int __, AbilityData data)
 		{
-			var circle = character.Jobs.GetCircle(JobId.Warlock1);
+			var circle = character.Jobs.GetCircle(JobId.Elementalist);
 			var skill = character.Skills.Get("Elementalist_Meteor");
 
 			return (circle >= Circle.Third && skill != null && skill.Level >= 10);

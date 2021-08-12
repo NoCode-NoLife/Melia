@@ -909,19 +909,25 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Check skill
-			var skill = character.Skills.Get(skillId);
-			if (skill == null)
+			if (skillId == 0)
 			{
-				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
-				Log.Debug(packet.ToString());
-				return;
+				//Send.SKILL_
 			}
-			character.SetDirection(dx, dy);
-			//Send.ZC_OVER_CHANGED(character, skill);
-			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			Send.ZC_SKILL_FORCE_TARGET(character, null, skillId);
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			else
+			{
+				// Check skill
+				var skill = character.Skills.Get(skillId);
+				if (skill == null)
+				{
+					Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+					Log.Debug(packet.ToString());
+					return;
+				}
+				character.SetDirection(dx, dy);
+				//Send.ZC_OVER_CHANGED(character, skill);
+				Send.ZC_COOLDOWN_CHANGED(character, skill);
+				Send.ZC_SKILL_FORCE_TARGET(character, null, skillId);
+			}
 		}
 
 		/// <summary>
@@ -1624,8 +1630,7 @@ namespace Melia.Channel.Network
 		/// ? (Dummy)
 		/// </summary>
 		/// <remarks>
-		/// The client sends this packet repeatedly until it gets an
-		/// appropriate response.
+		/// The client sends this packet repeatedly until it gets an appropriate response.
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1722,6 +1727,14 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_PCBANG_SHOP_UI(ChannelConnection conn, Packet packet)
 		{
 			Send.ZC_PCBANG_SHOP_COMMON(conn);
+		}
+
+		[PacketHandler(Op.CZ_REQ_COMMANDER_INFO)]
+		public void CZ_REQ_COMMANDER_INFO(ChannelConnection conn, Packet packet)
+		{
+			var unused = packet.GetBin(14);
+
+			Send.ZC_TRUST_INFO(conn);
 		}
 
 		/// <summary>

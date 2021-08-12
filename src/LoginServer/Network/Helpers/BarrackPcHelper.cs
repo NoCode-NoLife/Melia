@@ -23,15 +23,27 @@ namespace Melia.Login.Network.Helpers
 			packet.AddAppearanceBarrackPc(pc);
 
 			// Equip properties
+			var i = 0;
 			foreach (var propertiesObj in equipProperties)
 			{
 				var properties = propertiesObj.GetAll();
 				var propertiesSize = properties.Sum(a => a.Size);
-
-				packet.PutShort(propertiesSize);
-				packet.AddProperties(properties);
+				if (i == 3 || i == 10 || i == 17)
+				{
+					packet.PutShort(16);
+					packet.PutBinFromHex("621C000000000000D61C00000000803F");
+					packet.PutLong(pc.Id + (i + 1));
+				} else {
+					packet.PutShort(propertiesSize);
+					if (propertiesSize > 0)
+					{
+						packet.AddProperties(properties);
+						packet.PutLong(pc.Id + (i+1));
+					}
+				}
+				i++;
 			}
-
+			packet.PutEmptyBin(8);
 			// [i170175] maybe hat visibility?
 			packet.PutByte(1);
 			packet.PutByte(1);

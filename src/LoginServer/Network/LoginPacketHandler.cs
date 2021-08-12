@@ -209,7 +209,7 @@ namespace Melia.Login.Network
 			//FF CD 0C B4 7C 31 7E 93
 
 			// Check job
-			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric)
+			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
 			{
 				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid job '{1}'.", conn.Account.Name, job);
 				conn.Close();
