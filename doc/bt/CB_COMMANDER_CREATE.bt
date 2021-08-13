@@ -17,7 +17,8 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-byte index; // -1 = New Character
+char extra[12];
+byte index;
 char name[65];
 short job;
 byte gender;

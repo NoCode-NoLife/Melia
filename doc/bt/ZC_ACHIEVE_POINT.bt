@@ -15,6 +15,6 @@
 
 ServerHeaderFixed header;
 
-int i1;
-int i2;
-int i3;
+int achievementId; // Achievement ID
+int value; // Value?
+int i3; // Unused?

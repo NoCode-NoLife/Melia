@@ -486,7 +486,8 @@ namespace Melia.Channel.World
 
 				_itemsWorldIndex.Remove(item.ObjectId);
 			}
-
+			MsgParameter[] msgParameters = { new MsgParameter("ITEM", "@dicID_^*$ITEM_20150317_002105$*^"), new MsgParameter("COUNT", item.Amount.ToString()) };
+			Send.ZC_SYSTEM_MSG(_character, 2225, msgParameters);
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);

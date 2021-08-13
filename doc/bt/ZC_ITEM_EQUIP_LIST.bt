@@ -28,11 +28,18 @@ typedef struct
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         short s2;
-        int64 worldId;
+        int64 worldId2;
         short s3;
     }
 }
-EquipItem2 <optimize=false>;
+EquipItem2 <read=readEquipItem2, optimize=false>;
+
+string readEquipItem2(EquipItem2 &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.itemId);
+    return result;
+}
 
 while(!FEof())
     EquipItem2 item;

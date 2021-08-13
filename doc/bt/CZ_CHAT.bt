@@ -3,17 +3,17 @@
 //
 //      File: CZ_CHAT.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: i336041 - Extra 10 bytes and a short before message
+//   History:
 //------------------------------------------------
 
 #include "common.bt"
 
-ClientHeaderDynamic header;
-byte extra[10];
+ClientHeaderFixed header;
 short s1;
 string message;
+byte b1;

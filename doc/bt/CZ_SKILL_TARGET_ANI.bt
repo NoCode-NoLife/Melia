@@ -16,9 +16,8 @@
 
 ClientHeaderFixed header;
 
-byte extra[12];
 byte b1;
 int skillId;
 direction dir;
 byte b2;
-ushort s[2];
+ushort s[8];

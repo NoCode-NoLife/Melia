@@ -16,4 +16,5 @@
 ServerHeaderFixed header;
 int mapId;
 int npcId;
-int state;
+short state;
+short s1;

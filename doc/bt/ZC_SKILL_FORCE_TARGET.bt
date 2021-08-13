@@ -18,7 +18,8 @@ ServerHeaderDynamic header;
 
 int skillId;
 int characterHandle;
-direction dir;
+float f1;
+float f2;
 int i4;
 float f3;
 float f4;
@@ -27,19 +28,19 @@ int attackerHandle1;
 float f5;
 int i8;
 int targetHandle1;
-float f6;
-float f7;
+int i10;
+float f6; // 512?
 int i11;
-byte b1; // count?
+byte hitCount; // Hit Count
 
 if (b1 > 0)
 {
     int i12;
     int targetHandle2;
-    int damage;
+    int i13;
     int hpLeft;
-    int attackCount;
-    float f8;
+    int i15;
+    float f7;
     short s1;
     short s2;
     int i16;

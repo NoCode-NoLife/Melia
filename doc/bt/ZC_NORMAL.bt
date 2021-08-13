@@ -67,18 +67,17 @@ switch (type)
         byte bin[8];
         break;
 
-    // skill related effect?
+    // ?
     case 0x1D:
-        int characterHandle;
+        int handle1;
         byte bin1[4];
-        int f0;
-        int targetHandle;
+        int handle2;
         position pos;
         direction dir;
         float f1;
         float f2;
         float f3;
-        //float f4;
+        float f4;
         break;
         
     case 0x2D:
@@ -88,6 +87,24 @@ switch (type)
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
+        break;
+
+    case 0x40:
+        int handle1; // Character Handle
+        int i2;
+        int handle2; // Character Handle
+        float f1;
+        int i3;
+        int i4;
+        int i5; // Could be a float
+        float f2;
+        int i6;
+        int i7;
+        int i8; // Could be a float
+        float f3;
+        int i9;
+        float i10;
+        int i11;
         break;
    
     // ??
@@ -121,13 +138,6 @@ switch (type)
     case 0x79:
         int skillId;
         float hitDelay;
-        break;
-
-    // ?
-    case 0x8D:
-        int64 l1;
-        int i1;
-        byte b1;
         break;
     
     // ?
@@ -304,14 +314,6 @@ switch (type)
             byte bin1[7]; // 1
         }
         break;
-    
-    // ?
-    case 0x137:
-        float f1;
-        float f2;
-        int64 l1;
-        float f3;
-        break;
 
     // outdated
     //case 0x139:
@@ -322,6 +324,13 @@ switch (type)
     case 0x139:
         float f1;
         byte bin1[16]; // no idea what this could be
+        break;
+
+    case 0x13C:
+        int i1; // NPC Id? Handle? 3065
+        lpString name; //Script? Function? Squire_Repair
+        byte b1; // 0
+        byte b2; // 1
         break;
         
     // Sets the session key.
@@ -342,9 +351,7 @@ switch (type)
         break;
 
     case 0x177:
-        byte b1;
-        ushort s[6];
-        //float i2;
+        ubyte b[12];
         break;
     
     // ?
@@ -391,10 +398,10 @@ switch (type)
 
     // ?
     case 0x1A5:
-        short s1; // 1
-        int i[4]; // 50 | 50 | 100 | 100
-        int64 l1; // Account Id?
-        int i5; // 5000
+        short s1;
+        int i[4];
+        int64 l1;
+        int i5;
         break;
 
     // ?
@@ -420,11 +427,5 @@ switch (type)
         CharacterInfo characters[characterCount];
         int inDunCount;
         Indun indun[inDunCount];
-        break;
-
-    case 0x1BA:
-        int i1; //1
-        lpString lp1; //CollectSystemInfo
-        byte b1; //0
         break;
 }

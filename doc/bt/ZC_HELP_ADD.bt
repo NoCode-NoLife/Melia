@@ -1,9 +1,9 @@
 //------------------------------------------------
-//--- 010 Editor v8.0 Binary Template
+//--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_QUICKSLOT_LIST
-//   Authors: exec
-//   Version: i171960
+//      File: ZC_HELP_ADD.bt
+//   Authors: Salman T. Khan
+//   Version: 337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,8 +13,6 @@
 
 #include "common.bt"
 
-ClientHeaderDynamic header;
-
-int compressedSize;
-byte compressedData[compressedSize];
-
+ServerHeaderFixed header;
+int i1; // 34
+byte b1; // 1

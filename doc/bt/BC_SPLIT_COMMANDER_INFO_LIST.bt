@@ -10,7 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-#define PROPERTY_NAMES
+
 #include "common.bt"
 
 typedef struct
@@ -19,7 +19,7 @@ typedef struct
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         int64 id2;
-        //byte bin2[10];
+        byte bin2[10];
     }
 } BARRACK_PROPERTY <optimize=false>;
 
@@ -27,15 +27,9 @@ typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
     BARRACK_PROPERTY properties[30];
-    int64 l1;
-    short s4;
-    byte b1;
-    byte b2;
-    byte b3;
-    byte b4;
     // maybe job history?
-        short jobIdCount;
-        short jobIds[jobIdCount];
+    short jobIdCount;
+    short jobIds[jobIdCount];
     
     int i1;
     int i2;
@@ -62,5 +56,4 @@ byte b1;
 byte b2;
 byte b3;
 
-if (characterCount > 0)
-    BARRACK_PC barrackPc[characterCount] <optimize=false>;
+BARRACK_PC barrackPc[characterCount] <optimize=false>;

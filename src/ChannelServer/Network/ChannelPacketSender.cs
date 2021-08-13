@@ -689,35 +689,6 @@ namespace Melia.Channel.Network
 
 			foreach (var equipItem in equip)
 			{
-				if (equipItem.Value.Id == 531101)
-				{
-					if (equipItem.Value.Properties.Size == 0)
-					{
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MDEF, () => 19f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.DEF, () => 19f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.CoolDown, () => 0f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MaxSocket, () => 1f));
-					}
-				} else if (equipItem.Value.Id == 101101)
-				{
-					if (equipItem.Value.Properties.Size == 0)
-					{
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MAXATK, () => 38f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MINATK, () => 36f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.CoolDown, () => 0f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MaxSocket, () => 0f));
-					}
-				}
-				else if (equipItem.Value.Id == 521101)
-				{
-					if (equipItem.Value.Properties.Size == 0)
-					{
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MDEF, () => 19f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.DEF, () => 36f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.CoolDown, () => 0f));
-						equipItem.Value.Properties.Add(new RefFloatProperty(PropertyId.Item.MaxSocket, () => 1f));
-					}
-				}
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
 
@@ -831,7 +802,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
 			packet.PutShort(1); // type? 0 = also show in red letters on the screen
-			packet.PutLong(0); // ?
+			packet.PutByte(0); // ?
 
 			foreach (var parameter in parameters)
 			{
@@ -983,12 +954,12 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
+			packet.PutInt(0);
 			packet.PutInt(index);
-			packet.PutInt(410001);
 			packet.PutInt(item.Id);
 			packet.PutShort(8); // Size of the object at the end
 			packet.PutByte((byte)addType);
-			packet.PutFloat(30.0f); // Notification delay
+			packet.PutFloat(0f); // Notification delay
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
@@ -3122,16 +3093,16 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_TRUST_INFO to character, something related to Trust Info to show the client?
+		/// Sends ZC_TRUST_INFO to character, something related to Trust Info?
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_TRUST_INFO(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_TRUST_INFO);
 			packet.PutEmptyBin(20);
-			packet.PutLong(1000000); // ?
-			packet.PutLong(30000000); // ?
-			packet.PutLong(15000000); // ?
+			packet.PutLong(1000000); //
+			packet.PutLong(30000000); // 
+			packet.PutLong(15000000);
 			packet.PutLong(0);
 			conn.Send(packet);
 		}

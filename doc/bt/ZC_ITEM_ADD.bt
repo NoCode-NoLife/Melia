@@ -19,7 +19,7 @@ ServerHeaderDynamic header;
 int64 worldId;
 int amount;
 int index;
-int i1;
+int category; // Category Index 
 int itemId;
 //int i1;
 short propertiesSize;
@@ -27,8 +27,9 @@ byte addType;
 float notificationDelay;
 byte invType;
 byte bin1[2];
-if(propertiesSize > 0)
+if(propertiesSize > 0) {
     getProperties(propertiesSize);
-short s1;
-int64 l1;
-short i2;
+    short s1;
+    int64 l1;
+    short i2;
+}

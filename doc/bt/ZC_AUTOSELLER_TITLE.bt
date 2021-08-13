@@ -14,7 +14,7 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int handle;
-int i1; // 5 (Shop Type?)
-char name[64];
+int handle; // 1868 
+int i1; // 5 (Shop Type?) or Faction (0 for Kafra)
+char name[64]; // Kafra Support Buff [13.8]
 int64 l1; // 0

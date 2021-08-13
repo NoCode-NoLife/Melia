@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#define PROPERTY_NAMES
+//#define PROPERTY_NAMES
 #include "common.bt" 
 
 ServerHeaderDynamic header;
@@ -23,13 +23,17 @@ typedef struct
     int64 worldId;
     int amount;
     int price;
-    int index;
     int i1;
-    if (propertiesSize > 0)
-        getProperties(propertiesSize);
     short s1;
-    int64 l1;
-    short s2;
+    short index;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        if (worldId > 0) {
+            short s1;
+            int64 worldId2;
+            short s2;
+        }
+    }
 }
 Item2;
 

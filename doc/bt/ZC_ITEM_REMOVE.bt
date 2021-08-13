@@ -19,3 +19,6 @@ int64 worldId;
 int amount;
 byte msg;
 byte invType;
+byte b1;
+byte b2;
+short s1;

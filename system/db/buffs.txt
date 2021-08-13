@@ -1,3 +1,7 @@
+// Melia
+// Database file
+// 
+//---------------------------------------------------------------------------
 [
 { buffId: 1, className: "SoPowerful", name: "Increased Attack", level: 1, duration: 0.0, buffExpUp: 0.001, removable: true, removeOnDeath: true, removeBySkill: true, updateProperties: "ALL" },
 { buffId: 2, className: "Scud", name: "Spurt", level: 1, duration: 15.0, buffExpUp: 0.001, removable: true, removeOnDeath: true, removeBySkill: true, updateProperties: "ALL" },

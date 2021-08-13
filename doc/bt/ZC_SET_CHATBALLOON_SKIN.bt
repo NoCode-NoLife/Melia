@@ -13,10 +13,10 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int f1;
+short s1;
+short s2;
 int64 l1;
 short s3;
 ushort s4;
 int i1;
 short s5;
-short s6;

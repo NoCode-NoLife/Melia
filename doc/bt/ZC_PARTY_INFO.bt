@@ -24,7 +24,7 @@ lpString partyName;
 int64 partyLeaderId;
 lpString leaderName;
 int i1;
-short s1;
+short propertiesSize;
 byte b1;
 int i3;
 int64 l1;
@@ -32,10 +32,6 @@ int i4;
 int64 l2;
 byte bin[20008];
 short s[20];
-byte bin2[41];
-short s2[1];
-byte b4;
-short propertiesSize;
 //short propertiesSize;
-if (propertiesSize > 0)
-    getProperties(112);
+//if (propertiesSize > 0)
+    //getProperties(propertiesSize);

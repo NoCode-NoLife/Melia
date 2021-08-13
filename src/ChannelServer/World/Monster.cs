@@ -203,7 +203,8 @@ namespace Melia.Channel.World
 				{
 					var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
 					if (item != null) {
-						Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
+						killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
+						//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
 					}
 				}
 			}

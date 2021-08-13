@@ -3,37 +3,34 @@
 //
 //      File: ZC_BUFF_LIST.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-
 #include "common.bt"
 
 typedef struct
 {
-    int buffId;
-    int propertiesSize;
+    int buffId; // Buff Id?
+    int64 l1;
+    int64 l2;
     int i2;
-int i3;
-int i4;
-int i5;
-int i6;
-int i7;
-int i8;
-int i9; // Duration in ms?
-lpString characterName;
-int i1;
-int i12;
-int i13;
-byte b1;
-byte b2;
-} BuffData;
+    int i3;
+    int i4;
+    int64 l3;
+    lpString characterName;
+    int i5; // Buff World Id?
+    int i6;
+    int i7;
+    byte b1;
+    byte b2;
+} BuffData <optimize=false>;
 
 ServerHeaderDynamic header;
+
 int handle;
-byte count; // Buff count?
-BuffData buffs[count];
+byte b1;
+BuffData buffs[b1];
