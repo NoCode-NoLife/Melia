@@ -141,11 +141,6 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.BuffDb, "db/buffs.txt", reload);
 				}
-
-				if ((toLoad & DataToLoad.Achievements) != 0)
-				{
-					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
-				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -252,7 +247,6 @@ namespace Melia.Shared
 		CustomCommands = 0x800,
 		ChatMacros = 0x1000,
 		Buffs = 0x1200,
-		Achievements = 0x1400,
 
 		All = 0x7FFFFFFF,
 	}

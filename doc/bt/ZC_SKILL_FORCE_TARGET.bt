@@ -16,6 +16,29 @@
 
 ServerHeaderDynamic header;
 
+typedef struct
+{
+    int i1;
+    int targetHandle;
+    int damage;
+    int hpLeft;
+    int64 l1;
+    short s1;
+    short s2;
+    int64 l2;
+    int64 worldId;
+    byte b1;
+    byte attackIndex; //?
+    short s3;
+    int attackId; //?
+    int i6;
+    short s4;
+    short s5;
+    short s6;
+    byte b2;
+    short s7;
+} Attack <optimize=false>;
+
 int skillId;
 int characterHandle;
 float f1;
@@ -33,25 +56,7 @@ float f6; // 512?
 int i11;
 byte hitCount; // Hit Count
 
-if (b1 > 0)
+if (hitCount  > 0)
 {
-    int i12;
-    int targetHandle2;
-    int i13;
-    int hpLeft;
-    int i15;
-    float f7;
-    short s1;
-    short s2;
-    int i16;
-    int i17;
-    int i18;
-    int i19;
-    int i20;
-    int attackerHandle2;
-    int i21;
-    short i23;
-    short i24;
-    byte b2;
-    float f8;
+    Attack attacks[hitCount];
 }

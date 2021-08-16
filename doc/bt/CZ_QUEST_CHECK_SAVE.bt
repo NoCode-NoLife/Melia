@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START
+//      File: CZ_QUEST_CHECK_SAVE.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,8 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-int skillId;
-float f1;
-int i[6];
+
+int questId; // quest id? session object?
+int handle; // npc handle?
+byte bin[32];
+short s1;

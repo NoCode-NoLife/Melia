@@ -210,6 +210,14 @@ namespace Melia.Channel.World
 		private int _abilityPoints;
 
 		/// <summary>
+		/// Gets or set the character's greeting message.
+		/// </summary>
+		/// <remarks>
+		/// None yet
+		/// </remarks>
+		public string GreetingMessage { get; set;}
+
+		/// <summary>
 		/// Returns maximum weight the character can carry.
 		/// </summary>
 		/// <remarks>
@@ -1003,6 +1011,24 @@ namespace Melia.Channel.World
 			}
 		}
 
+		public void CastSkill(int skillId, float dx, float dy)
+		{
+			// Check skill
+			var skill = Skills.Get(skillId);
+			if (skill == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
+				Send.ZC_SKILL_CAST_CANCEL(this);
+				//Log.Debug(packet.ToString());
+				return;
+			} else
+			{
+				Send.ZC_OVERHEAT_CHANGED(this, skill);
+				Send.ZC_COOLDOWN_CHANGED(this, skill);
+				Send.ZC_SKILL_FORCE_TARGET(this, null, skillId);
+			}
+		}
+
 		/// <summary>
 		/// Starts auto-updates of visible entities.
 		/// </summary>
@@ -1343,6 +1369,30 @@ namespace Melia.Channel.World
 			foreach (var property in pcProps.GetAll())
 			{
 				Properties.Add(property);
+			}
+		}
+
+		public void SetGreetingMessage(int type, string message)
+		{
+			this.GreetingMessage = message;
+			Send.ZC_NORMAL_SetGreetingMessage(this);
+		}
+
+		public void SetProperty(int propertyId, float value)
+		{
+			Properties.Set(propertyId, value);
+			Send.ZC_OBJECT_PROPERTY(this, propertyId);
+		}
+
+		public void SetState(int type)
+		{
+			switch (type) {
+				case 0:
+					Speed = 40f;
+					SetProperty(PropertyId.PC.MSPD, 40);
+					SetProperty(PropertyId.PC.Sta_Run, 1250);
+					Send.ZC_MOVE_SPEED(this);
+					break;
 			}
 		}
 	}

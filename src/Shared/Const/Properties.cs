@@ -5981,7 +5981,7 @@ namespace Melia.Shared.Const
 			public const int Hide_266 = 3924;
 			public const int Necro_foresterCnt = 3925;
 			public const int CardBattle_Win = 3926;
-			public const int LastUIOpenPos = 3927;
+			public const int LastUIOpenPos = 3927; // f_siauliai_west/-512.11358642578/260.92541503906/-565.71746826172/foodtable_ui
 			public const int ZombiebyMonID_16 = 3928;
 			public const int LobbyInstID = 3929;
 			public const int LobbyChannel = 3931;

@@ -205,7 +205,7 @@ namespace Melia.Channel.World
 		{
 			Monster result;
 			lock (_monsters)
-				_monsters.TryGetValue(handle, out result);
+				result = _monsters.Values.Where(a => a.Handle == handle && a.NpcType != NpcType.Monster).FirstOrDefault();
 			return result;
 		}
 

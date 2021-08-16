@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START
+//      File: ZC_CHANGE_RELATION.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,7 +13,7 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
-int skillId;
-float f1;
-int i[6];
+ServerHeaderFixed header;
+
+int handle;
+byte relationship;

@@ -611,18 +611,19 @@ string readSessionProperties(SessionProperties &v)
 
 typedef struct
 {
-    int i1;
+    int sessionId;
     int i2;
-    int64 objectId <format=hex>;
-    //int64 objectId;
+    //int64 objectId <format=hex>;
+    int64 objectId;
     int i3;
     SessionProperties properties;
+    int sessionId;
 }
 SessionObject <read=readSessionObject, optimize=false>;
 
 string readSessionObject(SessionObject &v)
 {
     string result;
-    SPrintf(result, "%LXh", v.objectId);
+    SPrintf(result, "%LXh : %d", v.objectId, v.sessionId);
     return result;
 }

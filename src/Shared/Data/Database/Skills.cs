@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -12,7 +13,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public string EngName { get; set; }
+		public string Name { get; set; }
 
 		public float BasicSp { get; set; }
 		public float LvUpSpendSp { get; set; }
@@ -26,6 +27,16 @@ namespace Melia.Shared.Data.Database
 		public float SplashHeight { get; set; }
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
+
+		public int CoolDown { get; internal set; }
+		public string CoolDownGroup { get; internal set; }
+		public int OverHeat { get; internal set; }
+		public int OverHeatDelay { get; internal set; }
+		public string OverHeatGroup { get; internal set; }
+		public int ShootTime { get; internal set; }
+		public List<int> HitTime { get; internal set; }
+		public List<int> HoldTime { get; internal set; }
+		public int DeadHitTime { get; internal set; }
 	}
 
 	public enum SplashType
@@ -53,13 +64,13 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "engName", "basicSp", "lvUpSpendSp", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate");
+			entry.AssertNotMissing("skillId", "className", "name", "basicSp", "lvUpSpendSp", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate");
 
 			var info = new SkillData();
 
 			info.Id = entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
-			info.EngName = entry.ReadString("engName");
+			info.Name = entry.ReadString("name");
 
 			info.BasicSp = entry.ReadFloat("basicSp");
 			info.LvUpSpendSp = entry.ReadFloat("lvUpSpendSp");
@@ -73,6 +84,33 @@ namespace Melia.Shared.Data.Database
 			info.SplashHeight = entry.ReadFloat("splashHeight");
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
+
+			info.CoolDown = entry.ReadInt("coolDown");
+			info.CoolDownGroup = entry.ReadString("coolDownGroup");
+			if (entry.ContainsKey("overheat"))
+			{
+				info.OverHeat = entry.ReadInt("overheat");
+				info.OverHeatDelay = entry.ReadInt("overHeatDelay");
+				info.OverHeatGroup = entry.ReadString("overHeatGroup");
+			}
+			info.ShootTime = entry.ReadInt("shootTime");
+			info.HitTime = (List<int>)entry.ReadArray("hitTime").ToObject<IList<int>>();
+			info.HoldTime = (List<int>)entry.ReadArray("holdTime").ToObject<IList<int>>();
+			info.DeadHitTime = entry.ReadInt("deadHitDelay");
+
+			/**
+			 * result += format_string('coolDown', int(row['Prop_BasicCoolDown']))
+            result += format_string('coolDownGroup', row['CoolDownGroup'])
+            result += format_string('deadHitDelay', int(row['DeadHitDelay']), -1)
+            overheat = int(row['OverHeat'])
+            if overheat != 0:
+                result += format_string('overHeat', int(row['OverHeat']))
+                result += format_string('overHeatDelay', int(row['OverHeatDelay']))
+                result += format_string('overHeatGroup', row['OverHeatGroup'])
+            result += format_string('shootTime', int(row['ShootTime']))
+            result += split_string('hitTime', row['HitTime'])
+            result += split_string('holdTime', row['HoldTime'])
+			 */
 
 			this.Entries[info.Id] = info;
 		}

@@ -33,8 +33,9 @@ namespace Melia.Channel.Network
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 			packet.PutInt(0);
-			packet.PutLong(character.Id);
-			packet.PutLong(0);
+			packet.PutShort(0);
+			packet.PutInt(40588976);
+			packet.PutEmptyBin(10);
 
 			// These bytes set the integrated and integrated dungeon server settings.
 			packet.PutByte(0);
@@ -134,7 +135,24 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-			//packet.PutByte(0);
+			packet.PutFloat(405494.3f);
+			packet.PutByte(0);
+
+			conn.Send(packet);
+		}
+
+		public static void ZC_SESSION_OBJ_ADD(ChannelConnection conn, SessionObject sessionObject)
+		{
+			var properties = sessionObject.Properties.GetAll();
+			var propertiesSize = sessionObject.Properties.Size;
+
+			var packet = new Packet(Op.ZC_SESSION_OBJ_ADD);
+			packet.PutInt(sessionObject.Id);
+			packet.PutInt(propertiesSize);
+			packet.PutLong(sessionObject.ObjectId);
+			packet.PutInt(0);
+			packet.AddProperties(properties);
+			packet.PutInt(sessionObject.Id);
 
 			conn.Send(packet);
 		}
@@ -262,6 +280,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Cancel a skill cast, usually when a monster has died.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SKILL_CAST_CANCEL(Character character)
+		{
+			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
+
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
 		/// </summary>
 		/// <param name="character"></param>
@@ -335,7 +366,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(387.5733f); // Range?
+			packet.PutFloat(600f); // Range?
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
@@ -378,6 +409,29 @@ namespace Melia.Channel.Network
 			}
 
 			character.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends overheat data for a character, by sending ZC_OVERHEAT_CHANGED.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_OVERHEAT_CHANGED(Character character, Skill skill)
+		{
+			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
+
+			packet.PutLong(character.Id);
+			packet.PutInt(2255);
+			packet.PutInt(100000);
+			packet.PutInt(0);
+			packet.PutInt(25000);
+			packet.PutByte(0);
+			packet.PutByte(0xFF);
+			packet.PutByte(0xFF);
+			packet.PutByte(0xFF);
+			packet.PutLong(0);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -689,12 +743,54 @@ namespace Melia.Channel.Network
 
 			foreach (var equipItem in equip)
 			{
+				if (equipItem.Value.Id == 521101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
+				else if (equipItem.Value.Id == 101101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MINATK, 36f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MAXATK, 38f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+				}
+				else if (equipItem.Value.Id == 141101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MATK, 37f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+				}
+				else if (equipItem.Value.Id == 531101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
+				else if (equipItem.Value.Id == 521101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutInt(propertiesSize);
-				packet.PutLong(equipItem.Value.ObjectId);
+				if (equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10 || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 9999996)
+					packet.PutLong(0);
+				else
+					packet.PutLong(equipItem.Value.ObjectId);
 				packet.PutInt((int)equipItem.Key);
 				packet.PutInt(0);
 				packet.PutShort(0);
@@ -798,7 +894,7 @@ namespace Melia.Channel.Network
 		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, params MsgParameter[] parameters)
 		{
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
-
+			
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
 			packet.PutShort(1); // type? 0 = also show in red letters on the screen
@@ -875,6 +971,7 @@ namespace Melia.Channel.Network
 
 			packet.PutLong(worldId);
 			packet.PutInt(amount);
+			packet.PutInt(0);
 			packet.PutByte((byte)msg);
 			packet.PutByte((byte)invType);
 
@@ -2113,6 +2210,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sends account properties.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_SetGreetingMessage(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.AccountUpdate);
+			packet.PutLong(character.Id);
+			packet.PutInt(0);
+			packet.PutLpString(character.GreetingMessage);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Unknown purpose yet.
 		/// </summary>
 		/// <param name="character"></param>
@@ -3261,6 +3373,17 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
 			packet.PutString("https://52.58.92.141:9004", 128);
 			packet.PutString("https://52.29.227.229:9005", 128);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_RESPONSE_FIELD_BOSS_EXIST to character, something related to Map
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESPONSE_FIELD_BOSS_EXIST(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_RESPONSE_FIELD_BOSS_EXIST);
+			packet.PutInt(1); // 0 usually
 			conn.Send(packet);
 		}
 

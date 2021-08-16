@@ -70,6 +70,9 @@ namespace Melia.Shared.Const
 		/// The UI for first time players showing how to move using the keyboard.
 		/// </summary>
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
+
+
+		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 	}
 
 	/// <summary>

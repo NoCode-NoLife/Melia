@@ -49,6 +49,7 @@ namespace Melia.Shared.Network
 			public const int Unknown_EF = 0xEF;
 			public const int Unknown_A1 = 0xA1;
 			public const int Unknown_Map_12A = 0x12A;
+			public const int SetGreetingMessage = 0x135;
 			public const int UpdateSkillUI = 0x186;
 			public const int AdventureBook = 0x194;
 			public const int Unknown_19B = 0x19B;

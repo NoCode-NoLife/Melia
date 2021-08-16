@@ -651,7 +651,6 @@ namespace Melia.Channel.Network
 			}
 
 			// TODO: Implement use of item.
-
 			character.ServerMessage("Items can't be used yet.");
 		}
 
@@ -871,13 +870,19 @@ namespace Melia.Channel.Network
 			var targetHandle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var target = character.Map.GetMonster(targetHandle);
 
 			// Check skill
 			var skill = character.Skills.Get(skillId);
 			if (skill == null)
 			{
 				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
+				return;
+			}
+
+			var target = character.Map.GetMonster(targetHandle);
+			if (target == null)
+			{
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
 				return;
 			}
 
@@ -907,18 +912,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Check skill
-			var skill = character.Skills.Get(skillId);
-			if (skill == null)
-			{
-				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
-				Log.Debug(packet.ToString());
-				return;
-			}
-			character.SetDirection(dx, dy);
-			//Send.ZC_OVER_CHANGED(character, skill);
-			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			Send.ZC_SKILL_FORCE_TARGET(character, null, skillId);
+			character.CastSkill(skillId, dx, dy);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
@@ -1678,6 +1672,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sent when dashing.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DASHRUN)]
+		public void CZ_DASHRUN(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var unk1 = packet.GetShort();
+
+			var character = conn.SelectedCharacter;
+
+			character.SetState(Op.CZ_DASHRUN);
+		}
+
+		/// <summary>
 		/// Sent during loading screen.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1738,6 +1748,48 @@ namespace Melia.Channel.Network
 		{
 
 		}
+
+		/// <summary>
+		/// Sent on Opening Commander/Inventory Window
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_COMMANDER_INFO)]
+		public void CZ_REQ_COMMANDER_INFO(ChannelConnection conn, Packet packet)
+		{
+			Send.ZC_TRUST_INFO(conn);
+		}
+
+		/// <summary>
+		/// Sent on Opening Map from Quest Log
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_FIELD_BOSS_EXIST)]
+		public void CZ_REQ_FIELD_BOSS_EXIST(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			Send.ZC_RESPONSE_FIELD_BOSS_EXIST(conn);
+		}
+
+		/// <summary>
+		/// Sent when setting Custom Greeting Message
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PC_COMMENT_CHANGE)]
+		public void CZ_PC_COMMENT_CHANGE(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var type = packet.GetInt(); // 0?
+			var message = packet.GetLpString();
+
+			var character = conn.SelectedCharacter;
+			
+			character.SetGreetingMessage(type, message);
+		}
+		
+
 	}
 
 	public enum TxType : short

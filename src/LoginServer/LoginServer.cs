@@ -69,7 +69,7 @@ namespace Melia.Login
 			}
 
 			// Server
-			var mgr = new ConnectionManager<LoginConnection>(serverData.Port);
+			var mgr = new ConnectionManager<LoginConnection>(serverData.Ip, serverData.Port);
 			mgr.Start();
 
 			// Ready

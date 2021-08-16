@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
@@ -79,6 +80,7 @@ namespace Melia.Web
 			//_swebsReferences.Add(...);
 
 			var conf = new Configuration();
+			conf.Host = IPAddress.Parse(this.Conf.Web.Ip);
 			conf.Port = this.Conf.Web.Port;
 			conf.SourcePaths.Add("user/web/");
 			conf.SourcePaths.Add("system/web/");

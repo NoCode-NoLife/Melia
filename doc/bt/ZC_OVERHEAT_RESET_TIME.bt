@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START
+//      File: ZC_OVERHEAT_RESET_TIME.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -10,10 +10,9 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-
 #include "common.bt"
 
-ClientHeaderFixed header;
-int skillId;
-float f1;
-int i[6];
+ServerHeaderFixed header;
+int64 l1;
+int i1;
+int i2;

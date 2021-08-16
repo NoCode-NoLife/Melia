@@ -26,7 +26,7 @@ namespace Melia.Shared.Const
 		Retiarius = 1020,
 		Hackapell = 1021,
 		BlossomBlader = 1022,
-		
+
 		Wizard = 2001,
 		Pyromancer = 2002,
 		Cryomancer = 2003,

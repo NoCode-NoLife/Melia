@@ -145,6 +145,51 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_BARRACKNAME_CHANGE)]
+		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var serverId = packet.GetShort();
+			var name = packet.GetString(64);
+			var unk_short_1 = packet.GetShort();
+			var message = packet.GetString(128);
+			var unknown_bin_1 = packet.GetBin(94);
+			var check_name = packet.GetString();
+			var l1 = packet.GetLong();
+			var l2 = packet.GetLong();
+			// Don't do anything if nothing's changed
+			if (name == conn.Account.TeamName)
+				return;
+
+			// Check validity
+			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => char.IsWhiteSpace(a)));
+			if (!valid)
+			{
+				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamChangeFailed);
+				return;
+			}
+
+			// Check availability
+			var exists = LoginServer.Instance.Database.TeamNameExists(name);
+			if (exists)
+			{
+				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamNameAlreadyExist);
+				return;
+			}
+
+			// Set team name
+			conn.Account.TeamName = name;
+			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
+
+			Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.Okay);
+			Send.BC_ACCOUNT_PROP(conn, conn.Account);
+			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
+		}
+		/// <summary>
+		/// Sent when saving Team Name in Lodge Settings on barrack screen.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_BARRACKNAME_CHECK)]
 		public void CB_BARRACKNAME_CHECK(LoginConnection conn, Packet packet)
 		{

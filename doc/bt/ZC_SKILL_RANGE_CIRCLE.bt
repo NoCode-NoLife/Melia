@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START
+//      File: ZC_SKILL_RANGE_CIRCLE.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -13,7 +13,9 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
-int skillId;
-float f1;
-int i[6];
+ServerHeaderFixed header;
+int handle; //Character Handle
+short s1;
+position targetPosition;
+float f1; //SklSplRange
+int64 l1;

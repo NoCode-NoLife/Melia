@@ -332,6 +332,26 @@ switch (type)
         byte b1; // 0
         byte b2; // 1
         break;
+
+    typedef struct
+    {
+        int index;
+        int amount;
+        int i;
+    } FoodShopItem;
+
+    // Food shop ui?
+    case 0x140:
+        int handle;
+        byte b1;
+        int64 l1; // accountId?
+        int i[4];
+        position pos;
+        int i2;
+        int i3;
+        int i4;
+        FoodShopItem items[i4]; // [-45, 1, 6, 1, 976, 10, 2, 977, 10, 3, 980, 10, 4, 982, 10, 5, 977, 0, 6, 980, 0]
+        break;
         
     // Sets the session key.
     case 0x148:

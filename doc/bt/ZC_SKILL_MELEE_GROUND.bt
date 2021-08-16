@@ -23,19 +23,30 @@ typedef struct
     short s1;
     short s2;
     int64 l2;
-    int64 worldId;
+    //int64 worldId;
+    int i4;
+    //int i5;
+    short defaultHitDelay;
+    byte b11;
+    byte b12;
     byte b1;
     byte attackIndex; //?
     short s3;
     int attackId; //?
     int i6;
-    short s4;
-    short s5;
-    int64 l3;
-    short s6;
-    int i7;
-    byte b2;
-    float f1;
+    short s4; // Properties Count
+    if (s4 > 0) {
+        short s5;
+        int64 l3;
+        short s6;
+        int i7;
+        byte b2;
+        float f1;
+    } else {
+        short s7;
+        byte b2;
+        float f1;
+    }
 } Attack <optimize=false>;
 
 ServerHeaderDynamic header;
@@ -43,7 +54,7 @@ int skillId;
 int characterHandle;
 direction dir;
 int i2;
-float f1;
+float shootTime;
 float f2;
 int i3;
 int attackerHandle;
