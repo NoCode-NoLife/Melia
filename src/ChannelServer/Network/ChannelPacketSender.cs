@@ -2210,6 +2210,36 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Sent during login for unknown purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unknown_DA(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_DA);
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutLong(character.Id);
+				zpacket.PutInt(0);
+			});
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sent during login for unknown purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_Unknown_E4(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_E4);
+			packet.PutInt(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends account properties.
 		/// </summary>
 		/// <param name="character"></param>
@@ -2521,13 +2551,15 @@ namespace Melia.Channel.Network
 			foreach (var job in jobs)
 			{
 				packet.PutShort((short)job.Id);
-				packet.PutShort(177); // 174
+				packet.PutShort(1); // 174
 				packet.PutInt(0);
 				packet.PutInt(job.TotalExp);
 				packet.PutInt(0);
-				packet.PutShort(job.SkillPoints);
-				packet.PutShort((short)job.Circle);
-				packet.PutEmptyBin(4);
+				packet.PutByte((byte)job.SkillPoints);
+				packet.PutShort(41857);
+				packet.PutEmptyBin(5);
+				packet.PutLong(132735996030000000);
+				packet.PutLong(0);
 			}
 
 			character.Connection.Send(packet);
@@ -2798,19 +2830,26 @@ namespace Melia.Channel.Network
 			{
 				packet.PutShort(sessionObjects.Length);
 				packet.PutByte(0);
-				foreach (var obj in sessionObjects)
+				if (sessionObjects.Length == 0)
 				{
-					var properties = obj.Properties.GetAll();
-					var propertiesSize = obj.Properties.Size;
+					packet.PutFloat(565831.1f);
+				}
+				else
+				{
+					foreach (var obj in sessionObjects)
+					{
+						var properties = obj.Properties.GetAll();
+						var propertiesSize = obj.Properties.Size;
 
-					packet.PutInt(obj.Id);
-					packet.PutInt(-926557701);
-					packet.PutLong(obj.ObjectId);
-					packet.PutInt(0);
+						packet.PutInt(obj.Id);
+						packet.PutInt(-926557701);
+						packet.PutLong(obj.ObjectId);
+						packet.PutInt(0);
 
-					packet.PutShort(propertiesSize);
-					packet.PutShort(0);
-					packet.AddProperties(properties);
+						packet.PutShort(propertiesSize);
+						packet.PutShort(0);
+						packet.AddProperties(properties);
+					}
 				}
 			}
 			character.Connection.Send(packet);

@@ -107,14 +107,19 @@ namespace Melia.Channel.Network
 			Send.ZC_MYPAGE_MAP(conn);
 			Send.ZC_GUESTPAGE_MAP(conn);
 			Send.ZC_NORMAL_UpdateSkillUI(character);
+			// Official server sends Skintone Object Property around here
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
+			Send.ZC_ABILITY_LIST(character);
+			Send.ZC_COOLDOWN_LIST(character);
+			Send.ZC_NORMAL_Unknown_DA(character);
+			Send.ZC_NORMAL_Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			character.SendPCProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
 			Send.ZC_MOVE_SPEED(character);
-			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
+			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, 1, 1);
 			Send.ZC_UPDATE_SP(character, character.MaxSp);
 			Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
