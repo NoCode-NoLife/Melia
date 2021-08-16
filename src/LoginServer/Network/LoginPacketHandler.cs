@@ -149,14 +149,13 @@ namespace Melia.Login.Network
 		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			var serverId = packet.GetShort();
-			var name = packet.GetString(64);
+			var name = packet.GetString();
 			var unk_short_1 = packet.GetShort();
-			var message = packet.GetString(128);
-			var unknown_bin_1 = packet.GetBin(94);
-			var check_name = packet.GetString();
 			var l1 = packet.GetLong();
+			var check_name = packet.GetString();
 			var l2 = packet.GetLong();
+			var nameLength = packet.GetLong();
+			var l3 = packet.GetLong();
 			// Don't do anything if nothing's changed
 			if (name == conn.Account.TeamName)
 				return;
@@ -181,9 +180,7 @@ namespace Melia.Login.Network
 			conn.Account.TeamName = name;
 			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
-			Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.Okay);
-			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
+			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay, name);
 		}
 		/// <summary>
 		/// Sent when saving Team Name in Lodge Settings on barrack screen.

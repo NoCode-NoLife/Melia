@@ -2534,6 +2534,31 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Set a Range type "CIRCLE" shape in a given position
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="id"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_SKILL_RANGE_CIRCLE(Character character, IEntity entity, Skill skill, Position position, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_SKILL_RANGE_CIRCLE);
+			packet.PutInt(character.Handle);
+			if (entity == null)
+				packet.PutInt(0);
+			else
+				packet.PutInt(entity.Handle);
+			packet.PutShort(skill.Id);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Set a Range type "FAN" shape in a given position
 		/// </summary>
 		/// <param name="character"></param>

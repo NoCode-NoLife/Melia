@@ -98,20 +98,6 @@ namespace Melia.Shared.Data.Database
 			info.HoldTime = (List<int>)entry.ReadArray("holdTime").ToObject<IList<int>>();
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
 
-			/**
-			 * result += format_string('coolDown', int(row['Prop_BasicCoolDown']))
-            result += format_string('coolDownGroup', row['CoolDownGroup'])
-            result += format_string('deadHitDelay', int(row['DeadHitDelay']), -1)
-            overheat = int(row['OverHeat'])
-            if overheat != 0:
-                result += format_string('overHeat', int(row['OverHeat']))
-                result += format_string('overHeatDelay', int(row['OverHeatDelay']))
-                result += format_string('overHeatGroup', row['OverHeatGroup'])
-            result += format_string('shootTime', int(row['ShootTime']))
-            result += split_string('hitTime', row['HitTime'])
-            result += split_string('holdTime', row['HoldTime'])
-			 */
-
 			this.Entries[info.Id] = info;
 		}
 	}

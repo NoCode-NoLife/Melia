@@ -366,6 +366,24 @@ namespace Melia.Login.Network
 		}
 
 		/// <summary>
+		/// Sends response to team name change request.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="result"></param>
+		public static void BC_BARRACKNAME_CHANGE(LoginConnection conn, TeamNameChangeResult result, string teamName)
+		{
+			var packet = new Packet(Op.BC_BARRACKNAME_CHANGE);
+			packet.PutInt(1);
+			packet.PutByte((byte)result);
+
+			packet.PutString(teamName);
+
+			packet.PutBinFromHex("00B00C1E190000000008D05940010000000DCC0D4001000000020000000000000021241C40010000006E00FFFFFFFFFFFF60F01300000000");
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends pre-defined message to client.
 		/// </summary>
 		/// <param name="conn"></param>

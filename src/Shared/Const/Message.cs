@@ -36,7 +36,7 @@ namespace Melia.Shared.Const
 		UnableToDeletePartyLeader = 25,
 		NotCBTUser = 26,
 		RatedEsrbTeen = 27,
-		InvalidIpf = 29, // Client IPF files are invalid.
+		InvalidIpf = 28, // Client IPF files are invalid.
 
 		// ...
 	}
@@ -72,6 +72,7 @@ namespace Melia.Shared.Const
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
 
 
+		public const string PARTY_UPDATE = "PARTY_UPDATE";
 		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 	}
 
