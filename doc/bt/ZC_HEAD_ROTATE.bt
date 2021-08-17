@@ -16,5 +16,4 @@
 ServerHeaderFixed header;
 
 int handle;
-float d1;
-float d2;
+direction dir;

@@ -145,11 +145,11 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="result"></param>
-		public static void BC_BARRACKNAME_CHECK_RESULT(LoginConnection conn, TeamNameChangeResult result)
+		public static void BC_BARRACKNAME_CHECK_RESULT(LoginConnection conn, TeamNameChangeResult result, string teamName)
 		{
 			var response = new Packet(Op.BC_BARRACKNAME_CHECK_RESULT);
 			response.PutInt((int)result);
-			response.PutString("INPUT_TEAMNAME_EXEC_RESULT", 27);
+			response.PutString("INPUT_TEAMNAME_EXEC_RESULT");
 			//EC -> 9B 7/21
 			//13 -> 09 7/21
 			//10 00 00 00 -> 0D 00 00 00
@@ -316,7 +316,7 @@ namespace Melia.Login.Network
 			response.PutByte(0x08);
 			response.PutShort(0);
 			//4D 65 6C 69 61 00 00 00 00 00
-			response.PutString(conn.Account.TeamName, 10);
+			response.PutString(teamName, 10);
 			//A3 D0 42 40
 			//01 00 00 00 00 00 00 00
 			//01 00 00 00
