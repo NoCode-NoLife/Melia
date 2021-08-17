@@ -28,7 +28,7 @@ pull requests, and ask questions on the chat at any time.
 
 The features that are currently working are the following:
 - Login Server
-  - [x] Character management (Currently Only 1 Character in Each Lodge is visible)
+  - [x] Character management
 - Channel Server
   - [x] Getting in-game
   - [x] Chat
