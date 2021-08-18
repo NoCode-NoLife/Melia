@@ -119,8 +119,11 @@ namespace Melia.Channel.Network
 			character.SendPCProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
 			Send.ZC_MOVE_SPEED(character);
-			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, 1, 1);
+			character.Hp = character.MaxHp;
+			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
+			character.Sp = character.MaxSp;
 			Send.ZC_UPDATE_SP(character, character.MaxSp);
+			character.Stamina = 25000;
 			Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
@@ -131,10 +134,8 @@ namespace Melia.Channel.Network
 			Send.ZC_QUICK_SLOT_LIST(conn);
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
+			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_CUSTOM_COMMANDER_INFO(character);
-			//var characters = new List<Character>();
-			//characters.Add(character);
-			//Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			character.OpenEyes();
 		}
 

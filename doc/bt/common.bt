@@ -199,8 +199,8 @@ typedef struct {
     int i4;
     int totalExp;
     int i5;
-    int64 characterId;
-    int64 socialInfoId;
+    int64 characterId <format=hex>;
+    int64 socialInfoId <format=hex>;
     int hp;
     int maxHp;
     int sp;
@@ -238,29 +238,19 @@ typedef struct
     short s1;
     short mapId;
     short channel;
+    int64 currentExp;
+    int64 maxExp;   // max xp?
     int i1;
-    int i2;   // max xp?
-    int i3;
-    int i6;
-    int i7;
-
-    float x;
-    float y;
-    float z;
-    float d1; // direction?
-    float d2; // direction?
-
-    float x2;
-    float y2;
-    float z2;
-    float d12;
-    float d22;
-
-    float f1; // float?
-    float f2;
-    float f3;
-    int i8;
     short s2;
+    short s3;
+    int64 l1;
+
+    position pos1;
+    direction dir1;
+
+    position pos2;
+    direction dir2;
+    
 } APPEARANCE_BARRACK_PC;
 
 typedef struct

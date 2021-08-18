@@ -16,4 +16,6 @@
 ServerHeaderFixed header;
 int result;
 char result_text[27];
-short unk[32];
+byte bin1[229];
+char teamName[10];
+byte bin2[54];

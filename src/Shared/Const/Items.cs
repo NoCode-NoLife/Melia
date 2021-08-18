@@ -138,6 +138,7 @@ namespace Melia.Shared.Const
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
 		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 521101, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
+		public static readonly int[] DefaultItems2 = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
 	}
 
 	public enum InventoryOrder : byte

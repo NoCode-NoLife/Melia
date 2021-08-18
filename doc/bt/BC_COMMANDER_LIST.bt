@@ -70,12 +70,14 @@ byte characterCount;
 char teamName[64];
 
 AccountProperties properties;
-
 short disableAdditionalCharacterSlots;
 if (disableAdditionalCharacterSlots == 0) {
     ushort additionalCharacterCount;
     int teamExp;
-    int totalCharacterCount;
+    if (properties.size != 0)
+        int totalCharacterCount;
+    else
+        short characterCount2;
 } else {
     int mapId;
     int i2;

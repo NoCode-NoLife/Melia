@@ -42,8 +42,10 @@ namespace Melia.Shared.Network.Helpers
 			}
 
 			//Visual Equip Ids?
-			for (var i = 0; i < equipIds.Length; ++i)
-				packet.PutInt(0);
+			for (var i = 0; i < Items.DefaultItems2.Length; ++i)
+			{
+				packet.PutInt(Items.DefaultItems2[i]);
+			}
 
 			// [i336041, 2021-07-25]
 			{

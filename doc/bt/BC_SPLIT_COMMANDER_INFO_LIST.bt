@@ -18,22 +18,31 @@ typedef struct
     short propertiesSize;
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
-        int64 id2;
-        byte bin2[10];
+        int64 l1;
     }
-} BARRACK_PROPERTY <optimize=false>;
+} EquipProperties <optimize=false>;
+
+typedef struct
+{
+    EquipProperties properties[EquipSlotCount];
+} Equip <optimize=false>;
 
 typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
-    BARRACK_PROPERTY properties[30];
+    Equip equip;
+    byte bin[8];
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
     // maybe job history?
     short jobIdCount;
     short jobIds[jobIdCount];
     
     int i1;
     int i2;
-    int64 characterId;
+    int64 characterId <format=hex>;
     short s2;
     if (s2 > 0) {
         lpString lpS1;

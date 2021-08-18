@@ -3,7 +3,7 @@
 //
 //      File: CB_BARRACKNAME_CHANGE.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -22,7 +22,6 @@ int i1;
 short s1;
 int64 l2;
 int64 l3;
-short s1;
-int64 l4;
-int i2;
-ushort s2;
+short s2;
+short s[l2-1];
+ushort s3;

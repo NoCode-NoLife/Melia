@@ -186,13 +186,18 @@ namespace Melia.Login.Network
 		{
 			var extra = packet.GetBin(12);
 			var serverId = packet.GetShort();
-			var name = packet.GetString(64);
-			var unk_short_1 = packet.GetShort();
+			var name = packet.GetString(16);
+			var l1 = packet.GetLong();
+			var l2 = packet.GetLong();
+			var l3 = packet.GetLong();
+			var l4 = packet.GetLong();
+			var l5 = packet.GetLong();
+			var l6 = packet.GetLong();
 			var message = packet.GetString(128);
 			var unknown_bin_1 = packet.GetBin(94);
 			var check_name = packet.GetString();
-			var l1 = packet.GetLong();
-			var l2 = packet.GetLong();
+			var l7 = packet.GetLong();
+			var l8 = packet.GetLong();
 			// Don't do anything if nothing's changed
 			if (name == conn.Account.TeamName)
 				return;

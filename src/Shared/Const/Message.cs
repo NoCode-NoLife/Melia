@@ -76,6 +76,11 @@ namespace Melia.Shared.Const
 		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 	}
 
+	public static class SystemMessage
+	{
+		public const int PERSONAL_HOUSE_LEVEL_10_REQUIRED = 815111;
+	}
+
 	/// <summary>
 	/// Constant strings sent with `BC_NORMAL_Run`.
 	/// </summary>

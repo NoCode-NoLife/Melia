@@ -29,12 +29,12 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_CONNECT_OK);
 
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
-			packet.PutInt(1281523659);
+			packet.PutInt(1281523659); // was 1281523659 now 1277746433
 			packet.PutByte(3); // isGM (< 3)?
 			packet.PutEmptyBin(10);
 			packet.PutInt(0);
 			packet.PutShort(0);
-			packet.PutInt(40588976);
+			packet.PutInt(40588976); // 44266500
 			packet.PutEmptyBin(10);
 
 			// These bytes set the integrated and integrated dungeon server settings.
@@ -559,7 +559,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_LIST);
 
-			packet.PutLong(0); // socialInfoId ?
+			packet.PutLong(character.Id); // socialInfoId ?
 			packet.PutInt(0); // ?
 
 			character.Connection.Send(packet);
@@ -598,7 +598,11 @@ namespace Melia.Channel.Network
 			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
-			packet.PutInt(character.Handle);
+			packet.PutShort(0);
+			packet.PutInt(1);
+			packet.PutByte(0);
+			/**
+				packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length);
 
 			packet.Zlib(true, zpacket =>
@@ -615,6 +619,8 @@ namespace Melia.Channel.Network
 					zpacket.AddProperties(properties);
 				}
 			});
+			**/
+
 
 			character.Connection.Send(packet);
 		}
@@ -703,27 +709,33 @@ namespace Melia.Channel.Network
 			packet.PutInt(items.Count);
 			packet.PutByte(1);
 			packet.PutByte(1);
-			packet.Zlib(true, zpacket =>
+			if (items.Count != 0)
 			{
-				foreach (var item in items)
+				packet.Zlib(true, zpacket =>
 				{
-					var properties = item.Value.Properties.GetAll();
-					var propertiesSize = item.Value.Properties.Size;
+					foreach (var item in items)
+					{
+						var properties = item.Value.Properties.GetAll();
+						var propertiesSize = item.Value.Properties.Size;
 
-					zpacket.PutInt(item.Value.Id);
-					zpacket.PutShort(propertiesSize);
-					zpacket.PutEmptyBin(2);
-					zpacket.PutLong(item.Value.ObjectId);
-					zpacket.PutInt(item.Value.Amount);
-					zpacket.PutInt(item.Value.Price);
-					zpacket.PutInt(item.Key);
-					zpacket.PutInt(1);
-					zpacket.AddProperties(properties);
-					zpacket.PutShort(0);
-					zpacket.PutLong(item.Value.ObjectId);
-					zpacket.PutShort(0);
-				}
-			});
+						zpacket.PutInt(item.Value.Id);
+						zpacket.PutShort(propertiesSize);
+						zpacket.PutEmptyBin(2);
+						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutInt(item.Value.Amount);
+						zpacket.PutInt(item.Value.Price);
+						zpacket.PutInt(item.Key);
+						zpacket.PutInt(1);
+						zpacket.AddProperties(properties);
+						zpacket.PutShort(0);
+						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutShort(0);
+					}
+				});
+			} else
+			{
+				packet.PutBinFromHex("8DFA020000000300");
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -2651,7 +2663,7 @@ namespace Melia.Channel.Network
 		/// <param name="isDamage"></param>
 		/// <param name="currentHp"></param>
 		/// <param name="priority"></param>
-		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int currentHp, int priority)
+		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int maxHp, int priority)
 		{
 			// For some reason this is '1' for damage.
 			var healing = (isDamage ? 1 : amount);
@@ -2659,7 +2671,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_ADD_HP);
 			packet.PutInt(character.Handle);
 			packet.PutInt(healing);
-			packet.PutInt(currentHp);
+			packet.PutInt(maxHp);
 			packet.PutInt(priority);
 
 			character.Connection.Send(packet);

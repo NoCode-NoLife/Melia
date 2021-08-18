@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CB_BARRACKNAME_CHECK.bt
+//      File: BC_ACCOUNT_PROP.bt
 //   Authors: Salman T. Khan
 //   Version: i337645
 //   Purpose: 
@@ -10,16 +10,11 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
+#define PROPERTY_NAMES
 #include "common.bt"
 
-ClientHeaderFixed header;
-
-short serverId;
-char name[16];
-int64 i[6];
-char message[128];
-byte bin2[24];
-int64 unk[9];
-char name2[16];
-int64 l1;
-int64 l2;
+ServerHeaderDynamic header;
+int64 accountId;
+short propertySize;
+getProperties(propertySize);
