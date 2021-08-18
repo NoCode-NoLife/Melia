@@ -28,22 +28,24 @@ namespace Melia.Login.Network.Helpers
 			{
 				var properties = propertiesObj.GetAll();
 				var propertiesSize = properties.Sum(a => a.Size);
-				if (i == 3 || i == 10 || i == 17)
+				if (i == -1)
 				{
 					packet.PutShort(16);
 					packet.PutBinFromHex("621C000000000000D61C00000000803F");
 					packet.PutLong(pc.Id + (i + 1));
+					packet.PutShort(0);
 				} else {
 					packet.PutShort(propertiesSize);
 					if (propertiesSize > 0)
 					{
 						packet.AddProperties(properties);
 						packet.PutLong(pc.Id + (i+1));
+						packet.PutShort(0);
 					}
 				}
 				i++;
 			}
-			packet.PutEmptyBin(8);
+			packet.PutShort(0);
 			// [i170175] maybe hat visibility?
 			packet.PutByte(1);
 			packet.PutByte(1);

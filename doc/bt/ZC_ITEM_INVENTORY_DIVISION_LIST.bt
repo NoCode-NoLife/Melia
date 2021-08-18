@@ -24,8 +24,9 @@ typedef struct
     int amount;
     int price;
     int i1;
-    short s1;
-    short index;
+    //short s1;
+    //short index;
+    int category;
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         if (worldId > 0) {

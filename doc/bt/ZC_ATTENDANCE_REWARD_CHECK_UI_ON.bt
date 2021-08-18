@@ -10,7 +10,8 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
 ServerHeaderFixed header;
-short on; // ?
+short s1; // ?

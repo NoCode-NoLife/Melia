@@ -14,8 +14,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutString(appearancePc.TeamName, 65);
 			packet.PutEmptyBin(6);
 			packet.PutLong(appearancePc.AccountId);
-			packet.PutShort(appearancePc.Stance);
-			packet.PutShort(0);
+			packet.PutInt(appearancePc.Stance);
 			packet.PutShort((short)appearancePc.JobId);
 			packet.PutByte((byte)appearancePc.Gender);
 			packet.PutByte(0);

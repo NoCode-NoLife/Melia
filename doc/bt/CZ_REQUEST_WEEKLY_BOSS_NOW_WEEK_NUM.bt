@@ -1,23 +1,16 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_SET_CHATBALLOON_SKIN.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//      File: CZ_REQUEST_WEEKLY_BOSS_NOW_WEEK_NUM.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
-ServerHeaderFixed header;
-byte b1;
-ubyte b2;
-short s2;
-int64 l1;
-short s3;
-ushort s4;
-int i1;
-short s5;
+ClientHeaderFixed header;

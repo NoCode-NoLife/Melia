@@ -19,6 +19,7 @@ typedef struct
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         int64 l1;
+        short s1;
     }
 } EquipProperties <optimize=false>;
 
@@ -31,7 +32,8 @@ typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
     Equip equip;
-    byte bin[8];
+    //byte bin[8];
+    short s1;
     byte b1;
     byte b2;
     byte b3;

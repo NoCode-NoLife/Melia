@@ -78,7 +78,7 @@ namespace Melia.Channel.Network
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
 			Send.ZC_NORMAL_AdventureBook(conn);
-			//Send.ZC_SET_CHATBALLOON_SKIN(conn);
+			Send.ZC_SET_CHATBALLOON_SKIN(conn);
 			Send.ZC_NORMAL_Unknown_1B4(character);
 		}
 
@@ -118,6 +118,7 @@ namespace Melia.Channel.Network
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			character.SendPCProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
+			Send.ZC_UPDATE_ALL_STATUS(character, 1, character.MaxHp, 1, character.MaxSp);
 			Send.ZC_MOVE_SPEED(character);
 			character.Hp = character.MaxHp;
 			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
@@ -127,7 +128,6 @@ namespace Melia.Channel.Network
 			Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
-			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_NORMAL_Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);

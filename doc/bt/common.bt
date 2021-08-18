@@ -159,7 +159,8 @@ typedef struct
 {
     char name[65];
     char team[65];
-    byte bin[14];
+    byte bin[6];
+    int64 accountId;
     int stance;   
     short job; //D1 07
     short gender; //01

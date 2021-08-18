@@ -716,20 +716,29 @@ namespace Melia.Channel.Network
 					foreach (var item in items)
 					{
 						var properties = item.Value.Properties.GetAll();
-						var propertiesSize = item.Value.Properties.Size;
+						var propertiesSize = 8;
 
 						zpacket.PutInt(item.Value.Id);
-						zpacket.PutShort(propertiesSize);
-						zpacket.PutEmptyBin(2);
-						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutInt(propertiesSize);
+						if (item.Value.Id != 900011)
+							zpacket.PutLong(item.Value.ObjectId);
+						else
+							zpacket.PutLong(0);
 						zpacket.PutInt(item.Value.Amount);
 						zpacket.PutInt(item.Value.Price);
-						zpacket.PutInt(item.Key);
 						zpacket.PutInt(1);
-						zpacket.AddProperties(properties);
-						zpacket.PutShort(0);
-						zpacket.PutLong(item.Value.ObjectId);
-						zpacket.PutShort(0);
+						zpacket.PutInt(item.Key);
+						//zpacket.AddProperties(properties);
+						zpacket.PutBinFromHex("621C000000000000");
+						if (propertiesSize > 0)
+						{
+							if (item.Value.Id != 900011 && item.Value.ObjectId > 0)
+							{
+								zpacket.PutShort(0);
+								zpacket.PutLong(item.Value.ObjectId);
+								zpacket.PutShort(0);
+							}
+						}
 					}
 				});
 			} else
@@ -2839,6 +2848,8 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SESSION_OBJECTS);
 
+			packet.PutBinFromHex("090000ED4D104918730100000000007C2C060027CE01000000000000000000A0860100000000007E2C060027CE01000000000000000000905F0100000000007A2C060027CE01000000000018010000300500000B0053746172744C696E653100E48F01008035394808930100803539480E8F0100803539487A8D01008035394866A2010080473948C3A2010080473948A6A2010080473948B6A201008047394880A2010080473948C48F0100803539487EA2010080473948B1A201008047394875A201008047394876270000002239486AA2010080473948429301000000803F8EA20100804739487D8D0100803539480C9301000900323032313038313600108F0100803539486999010000D8F645788D01008035394890A201008047394868A2010080473948B2A2010080473948AD0700008023394895A2010080473948AAA20100804739480793010080353948850A0000000096436F8D0100803539488CA201008047394860EA000000000000812C060027CE010000000000000000000077010000000000802C060027CE01000000000000000000A03A000000000000822C060027CE0100000000000000000003000000000000007F2C060027CE0100000000000000000081380100000000007D2C060027CE0100000000001900000079290000F0120A497A2900000B002D3537332F2D313235380080380100000000007B2C060027CE01000000000000000000");
+			/**
 			{
 				packet.PutShort(sessionObjects.Length);
 				packet.PutByte(0);
@@ -2864,6 +2875,7 @@ namespace Melia.Channel.Network
 					}
 				}
 			}
+			**/
 			character.Connection.Send(packet);
 		}
 
@@ -2977,7 +2989,7 @@ namespace Melia.Channel.Network
 		public static void ZC_SET_CHATBALLOON_SKIN(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SET_CHATBALLOON_SKIN);
-			packet.PutBinFromHex("00 00 01 00 00 00 00 00 00 00 00 00 01 00 00 80 00 00 00 00 98 4B");
+			packet.PutBinFromHex("71820100010000000000000000000100008000000000D86E");
 			conn.Send(packet);
 		}
 
@@ -3462,6 +3474,30 @@ namespace Melia.Channel.Network
 			packet.PutInt(1); // 0 usually
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends ZC_WEEKLY_BOSS_NOW_WEEK_NUM to character, something related to Weekly Boss (F10)
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_WEEKLY_BOSS_NOW_WEEK_NUM(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_WEEKLY_BOSS_NOW_WEEK_NUM);
+			packet.PutInt(0x49); //
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_RESPONSE_BORUTA_NOW_WEEK_NUM to character, something related to Weekly Boss (F10)
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESPONSE_BORUTA_NOW_WEEK_NUM(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_RESPONSE_BORUTA_NOW_WEEK_NUM);
+			packet.PutInt(0x38); //
+			conn.Send(packet);
+		}
+
+		
 
 		public static void DUMMY(ChannelConnection conn)
 		{

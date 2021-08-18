@@ -382,11 +382,35 @@ switch (type)
     
     // Updates the skill UI
     case 0x186:
+        int64 characterId;
+        int jobCount;
+        Job jobs[jobCount];
+        byte b1;
+        int64 l1;
+        int64 l2;
+        break;
     case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
         short sbin[16];
+        break;
+
+    typedef struct
+    {
+        int64 accountId;
+        int points;
+        lpString name;
+    } AdventureBookRanker1 <optimize=false>;
+
+    // Adventure Book 
+    case 0x18D:
+        lpString pageName;
+        lpString pagePoint;
+        int i1; // Per Page? 20
+        int i2; // Offset? Start from this index Page 10 = 180 (9*20)
+        int i1; // Count? 20
+        AdventureBookRanker1 rankers[i1];
         break;
     
     // ?
@@ -397,6 +421,40 @@ switch (type)
         int i2; // i1+2=id?
         int i3;
         byte b1;
+        break;
+
+    typedef struct
+    {
+        int64 accountId;
+        lpString name;
+        int points;
+    } AdventureBookRanker2 <optimize=false>;
+
+    typedef struct
+    {
+        int totalPoints;
+        int64 id;
+        int rank;
+    } AdventureBookNearestRanks <optimize=false>;
+
+    // Adventure Book Main Page
+    case 0x195:
+        int currentRank; // Current Rank
+        int i2;
+        int currentPoints; // Current Points
+        int i4;
+        AdventureBookRanker2 rankers[i4];
+        AdventureBookNearestRanks nearestRanks[5];
+        int i[2];
+        int64 l1;
+        int i5;
+        int i6;
+        break;
+    // Adventure Book Item Page
+    case 0x196:
+        int count;
+        AdventureBookRanker2 rankers[count];
+        int currentRank;
         break;
     
     // ?
@@ -447,5 +505,11 @@ switch (type)
         CharacterInfo characters[characterCount];
         int inDunCount;
         Indun indun[inDunCount];
+        break;
+    
+    case 0x1BA:
+        int i1;
+        lpString lpstring;
+        byte b1;
         break;
 }
