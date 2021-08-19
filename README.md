@@ -32,8 +32,8 @@ The features that are currently working are the following:
 - Channel Server
   - [x] Getting in-game
   - [x] Chat
-  - [ ] Inventory management
-  - [ ] Equipment
+  - [x] Inventory management
+  - [x] Equipment
   - [ ] Stats
   - [x] Skill list
   - [x] Very basic test melee combat
