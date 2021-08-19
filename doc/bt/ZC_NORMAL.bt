@@ -317,6 +317,12 @@ switch (type)
         }
         break;
 
+    case 0x139:
+        int handle;
+        short s1; // type? 3 = Guild name?
+        lpString name;
+        break;
+
     // outdated
     //case 0x139:
     //    lpString sessionKey;
@@ -379,10 +385,11 @@ switch (type)
         byte hat2Visible;
         byte hat3Visible;
         break;
-
     // ?
     case 0x17E:
-        float f[32];
+        int i1;
+        int i2;
+        short s[64];
         break;
     
     // ?

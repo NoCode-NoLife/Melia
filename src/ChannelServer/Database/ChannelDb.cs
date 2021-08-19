@@ -250,7 +250,7 @@ namespace Melia.Channel.Database
 						var data = ChannelServer.Instance.Data.AbilityDb.Find(abilityName);
 						if (data == null)
 						{
-							Log.Warning("ChannelDb.LoadAbilitys: Ability '{0}' not found.", abilityName);
+							Log.Warning("ChannelDb.LoadAbilities: Ability '{0}' not found.", abilityName);
 							continue;
 						}
 

@@ -598,11 +598,7 @@ namespace Melia.Channel.Network
 			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
-			packet.PutShort(0);
-			packet.PutInt(1);
-			packet.PutByte(0);
-			/**
-				packet.PutInt(character.Handle);
+			packet.PutInt(character.Handle);
 			packet.PutShort(abilities.Length);
 
 			packet.Zlib(true, zpacket =>
@@ -617,9 +613,11 @@ namespace Melia.Channel.Network
 					zpacket.PutShort((short)propertiesSize);
 					zpacket.PutShort(0);
 					zpacket.AddProperties(properties);
+					zpacket.PutShort(0);
+					zpacket.PutLong(ability.ObjectId);
+					zpacket.PutShort(0);
 				}
 			});
-			**/
 
 
 			character.Connection.Send(packet);
@@ -802,6 +800,12 @@ namespace Melia.Channel.Network
 					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
 					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
 					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				} else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
+				{
+					
+				} else
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
 				}
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
@@ -844,6 +848,26 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Unequips an item and optionally shows a UI message.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <param name="message"></param>
+		public static void ZC_EQUIP_GEM_INFO(Character character, Item item)
+		{
+			var packet = new Packet(Op.ZC_EQUIP_GEM_INFO);
+			packet.PutInt(1); // Gem Count?
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutLong(item.ObjectId);
+				zpacket.PutShort(0); // Gem Data? Property Size?
+			});
+
+			character.Connection.Send(packet);
+		}
+
+		
 		/// <summary>
 		/// Updates the durability of an item in an equipment slot.
 		/// </summary>

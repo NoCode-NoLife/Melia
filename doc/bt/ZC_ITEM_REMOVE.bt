@@ -17,8 +17,8 @@ ServerHeaderFixed header;
 
 int64 worldId;
 int amount;
-byte msg;
-byte invType;
 byte b1;
 byte b2;
 short s1;
+byte msg;
+byte invType;

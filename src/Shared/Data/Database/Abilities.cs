@@ -35,13 +35,13 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "className", "engName", "level", "passive");
+			entry.AssertNotMissing("id", "className", "name", "level", "passive");
 
 			var data = new AbilityData();
 
 			data.Id = entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
-			data.EngName = entry.ReadString("engName");
+			data.EngName = entry.ReadString("name");
 			data.Level = entry.ReadInt("level");
 			data.Passive = entry.ReadBool("passive");
 
