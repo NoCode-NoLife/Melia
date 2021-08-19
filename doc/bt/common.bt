@@ -416,7 +416,8 @@ typedef struct
     int64 objectId;
     int id;
     short propertiesSize;
-    short s2;
+    short s1;
+    int i1;
     if (propertiesSize > 0)
         getProperties(propertiesSize);
 }

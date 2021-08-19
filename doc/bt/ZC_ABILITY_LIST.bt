@@ -2,13 +2,14 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_ABILITY_LIST
-//   Authors: exec
-//   Version: i170175
+//   Authors: exec, Salman T. Khan
+//   Version: i337645
 //   Purpose: List of abilities sent upon login.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      - i337645: Added s1, b1, and i1 to Ability, removed handle and compression
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
@@ -17,14 +18,9 @@
 
 ServerHeaderDynamic header;
 
-int handle;
-short abilityCount;
+short s1;
+byte b1;
+//int handle;
+int abilityCount;
 
-if (abilityCount > 0)
-{
-    if (!checkCompression())
-        Ability abilities[abilityCount];
-}
-
-// Ends with a copy of the last few bytes (~50, uncompressed)
-// of the abilities, bug?
+Ability abilities[abilityCount];

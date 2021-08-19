@@ -598,27 +598,22 @@ namespace Melia.Channel.Network
 			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
-			packet.PutInt(character.Handle);
-			packet.PutShort(abilities.Length);
+			packet.PutShort(0);
+			packet.PutByte(1);
+			packet.PutInt(abilities.Length);
 
-			packet.Zlib(true, zpacket =>
+			foreach (var ability in abilities)
 			{
-				foreach (var ability in abilities)
-				{
-					var properties = ability.Properties.GetAll();
-					var propertiesSize = ability.Properties.Size;
+				var properties = ability.Properties.GetAll();
+				var propertiesSize = ability.Properties.Size;
 
-					zpacket.PutLong(ability.ObjectId);
-					zpacket.PutInt(ability.Id);
-					zpacket.PutShort((short)propertiesSize);
-					zpacket.PutShort(0);
-					zpacket.AddProperties(properties);
-					zpacket.PutShort(0);
-					zpacket.PutLong(ability.ObjectId);
-					zpacket.PutShort(0);
-				}
-			});
-
+				packet.PutLong(ability.ObjectId);
+				packet.PutInt(ability.Id);
+				packet.PutShort(propertiesSize);
+				packet.PutShort(0);
+				//packet.AddProperties(properties);
+				packet.PutInt(0);
+			}
 
 			character.Connection.Send(packet);
 		}
