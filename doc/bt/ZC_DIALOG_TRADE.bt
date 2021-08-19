@@ -15,4 +15,10 @@
 
 ServerHeaderFixed header;
 
-char name[33]; // ?
+string name;
+int i1;
+ushort s1;
+ushort s2;
+int i2;
+short s3;
+byte b1;

@@ -23,3 +23,4 @@ enum <int> Acknowledgement
 ClientHeaderFixed header;
 
 Acknowledgement ack;
+float f1; //-2.798871

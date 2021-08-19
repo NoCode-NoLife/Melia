@@ -808,7 +808,7 @@ namespace Melia.Channel.Network
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutInt(propertiesSize);
-				if (equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10 || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 9999996)
+				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
 					packet.PutLong(0);
 				else
 					packet.PutLong(equipItem.Value.ObjectId);
@@ -3497,7 +3497,70 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		
+		/// <summary>
+		/// Unknown purpose, sent when changing map and tutorial related?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_ENABLE_CONTROL(ChannelConnection conn, byte enabled = 1)
+		{
+			var packet = new Packet(Op.ZC_ENABLE_CONTROL);
+
+			packet.PutInt(0);
+			packet.PutString("TUTORIAL_DIRECT");
+			packet.PutShort(0);
+			packet.PutLong(0x48); // 72
+			packet.PutInt(0);
+			if (enabled == 1)
+			{
+				packet.PutInt(0); // 32760 or 0
+				packet.PutInt(17314416);
+				packet.PutInt(0);
+				packet.PutInt(1075545872);
+				packet.PutInt(1);
+			} else
+			{
+				packet.PutInt(32760); // 32760 or 0
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
+			packet.PutLong(3037879632);
+			packet.PutInt(15);
+			packet.PutShort(0);
+			packet.PutByte(enabled); // 0 or 1
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown purpose, sent when changing map and tutorial related?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_LOCK_KEY(ChannelConnection conn)
+		{
+			var packet = new Packet(Op.ZC_LOCK_KEY);
+
+			packet.PutString("TUTORIAL_DIRECT");
+			packet.PutLong(0);
+			packet.PutInt(0xAA); // 170
+			packet.PutShort(0);
+			packet.PutInt(-1);
+			packet.PutInt(0);
+			packet.PutFloat(3.387241f);
+			packet.PutInt(1);
+			packet.PutFloat(-414.8486f);
+			packet.PutInt(0);
+			packet.PutByte(0x89);
+			packet.PutByte(0xE5);
+			packet.PutShort(32001);
+			packet.PutShort(728);
+			packet.PutByte(0);
+
+			conn.Send(packet);
+		}
+
+
 
 		public static void DUMMY(ChannelConnection conn)
 		{

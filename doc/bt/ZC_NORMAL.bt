@@ -124,7 +124,9 @@ switch (type)
         lpString dialogKey; // ?
         int i2; // disappear delay?
         int i3; // disappear delay?
-        int i4; // Could be a float or 2 shorts or 4 bytes
+        //short s1;
+        //short s2;
+        float i4; // heartbeat timer?
         break;
         
     // Set skill speed
@@ -361,7 +363,15 @@ switch (type)
     // Nexon Game Security Callback
     case 0x16D:
         break;
-        
+
+    // ?
+    case 0x177:
+        byte b1;
+        int64 accountId; // Character Id
+        int i1; // 1001
+        break;
+
+    
     // Set a hat item's visible or invisible state
     case 0x17B:
         int handle;
@@ -370,8 +380,9 @@ switch (type)
         byte hat3Visible;
         break;
 
-    case 0x177:
-        ubyte b[12];
+    // ?
+    case 0x17E:
+        float f[32];
         break;
     
     // ?

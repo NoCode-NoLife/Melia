@@ -429,6 +429,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_BUY_THEMA)]
 		public void CB_BUY_THEMA(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var unkInt = packet.GetInt();
 			var newMapId = packet.GetInt();
 			var oldMapId = packet.GetInt();

@@ -555,8 +555,8 @@ void getPrintableProperties(int size)
         i += sizeof(prop);
 #ifdef OPN
         switch(getPropertyType(prop.id)) {
-            case OBJP_STRING: FPrintf( newFile, "Properties.Set(PropertyId.PC.%s,\"%s\");\n", getPropertyName(prop.id), prop.val.text ); break;
-            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(PropertyId.PC.%s,%lff);\n", getPropertyName(prop.id), prop.val ); break;
+            case OBJP_STRING: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,\"%s\");\n", prop.id, getPropertyName(prop.id), prop.val.text ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,%lff);\n", prop.id, getPropertyName(prop.id), prop.val ); break;
         }
 #else
         switch(getPropertyType(p.id)) {

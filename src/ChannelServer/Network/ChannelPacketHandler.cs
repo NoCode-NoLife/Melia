@@ -116,7 +116,6 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
-			character.SendPCProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 1, character.MaxHp, 1, character.MaxSp);
 			Send.ZC_MOVE_SPEED(character);

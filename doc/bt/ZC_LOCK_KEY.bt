@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_EQUIP_GEM_INFO.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//      File: ZC_LOCK_KEY.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,9 +13,21 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-byte b1;
+ServerHeaderFixed header;
+
+string name; // TUTORIAL_DIRECT
+int64 l1;
 int i1;
+short s1;
 int i2;
 int i3;
+float f1;
+float f2;
+float f3;
 int i4;
+float f1;
+float f2;
+ushort s2;
+short s3;
+short s4;
+byte b1;
