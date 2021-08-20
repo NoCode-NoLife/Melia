@@ -588,13 +588,6 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_ABILITY_LIST(Character character)
 		{
-			// The abilities need a unique object id to appear properly,
-			// otherwise their tooltip is the same for all of them.
-
-			//var abilities = new[] { 10001, 10007, 10009, 10012, 10013, 10014 };
-			//var abilityNames = ChannelServer.Instance.Data.JobDb.Find(character.Job).DefaultAbilities;
-			//var abilities = ChannelServer.Instance.Data.AbilityDb.Where(a => abilityNames.Contains(a.ClassName)).Select(a => a.Id);
-			//var objectId = 0xE1A9001690B2;
 			var abilities = character.Abilities.GetList();
 
 			var packet = new Packet(Op.ZC_ABILITY_LIST);
@@ -611,8 +604,10 @@ namespace Melia.Channel.Network
 				packet.PutInt(ability.Id);
 				packet.PutShort(propertiesSize);
 				packet.PutShort(0);
-				//packet.AddProperties(properties);
-				packet.PutInt(0);
+				if (propertiesSize > 0)
+					packet.AddProperties(properties);
+				else
+					packet.PutInt(0);
 			}
 
 			character.Connection.Send(packet);

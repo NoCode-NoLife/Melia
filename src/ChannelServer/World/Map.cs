@@ -197,7 +197,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns monster by handle, or null if it doesn't exist.
+		/// Returns only monsters by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
@@ -206,6 +206,19 @@ namespace Melia.Channel.World
 			Monster result;
 			lock (_monsters)
 				result = _monsters.Values.Where(a => a.Handle == handle && a.NpcType == NpcType.Monster).FirstOrDefault();
+			return result;
+		}
+
+		/// <summary>
+		/// Returns only NPCs by handle, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Monster GetNPC(int handle)
+		{
+			Monster result;
+			lock (_monsters)
+				result = _monsters.Values.Where(a => a.Handle == handle && a.NpcType == NpcType.NPC).FirstOrDefault();
 			return result;
 		}
 

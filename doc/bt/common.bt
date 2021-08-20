@@ -161,7 +161,8 @@ typedef struct
     char team[65];
     byte bin[6];
     int64 accountId;
-    int stance;   
+    short stance;   
+    short s1;
     short job; //D1 07
     short gender; //01
     int level;
