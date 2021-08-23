@@ -472,7 +472,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var result = character.Inventory.Remove(worldId);
+			var result = character.Inventory.Remove(worldId, amount);
 			if (result != InventoryResult.Success)
 				Log.Warning("CZ_ITEM_DELETE: Removing an item for '{0}' failed despite checks.", conn.Account.Name);
 		}
@@ -1793,9 +1793,22 @@ namespace Melia.Channel.Network
 			
 			character.SetGreetingMessage(type, message);
 		}
-		
 
-	}
+		/// <summary>
+		/// Sent to continue dialog?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
+		public void CZ_REQ_LEARN_ABILITY(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var type = packet.GetString(32);
+
+		}
+
+
+		}
 
 	public enum TxType : short
 	{

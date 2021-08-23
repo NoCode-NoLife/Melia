@@ -26,7 +26,7 @@ typedef struct
     int i1;
     //short s1;
     //short index;
-    int category;
+    int category <format=hex>;
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         if (worldId > 0) {
@@ -36,11 +36,18 @@ typedef struct
         }
     }
 }
-Item2;
+Item2 <optimize=false,read=Item2Read>;
+
+string Item2Read(Item2 &v)
+{
+    local string result;
+    SPrintf(result, "%d : %d : %LXh ", v.id, v.amount, v.category);
+    return result;
+}
 
 int itemCount;
 byte b1;
 byte b2;
 
 if (!checkCompression())
-    Item2 items[itemCount] <optimize=false>;
+    Item2 items[itemCount];

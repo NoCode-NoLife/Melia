@@ -59,6 +59,13 @@ namespace Melia.Shared.Const
 		public const string SUCCESS_BUY_ABILITY_POINT = "SUCCESS_BUY_ABILITY_POINT";
 		public const string RESET_ABILITY_ACTIVE = "RESET_ABILITY_ACTIVE";
 
+
+		/// <summary>
+		/// Used for ability point update
+		/// </summary>
+		public const string UPDATE_ABILITY_POINT = "UPDATE_ABILITY_POINT";
+
+
 		/// <summary>
 		/// Opens the event banner.
 		/// </summary>
@@ -71,9 +78,11 @@ namespace Melia.Shared.Const
 		/// </summary>
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
 
+		public const string ENABLE_PCBANG_SHOP = "ENABLE_PCBANG_SHOP";
 
 		public const string PARTY_UPDATE = "PARTY_UPDATE";
 		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
+		public const string UPDATE_ATTENDANCE_REWARD = "UPDATE_ATTENDANCE_REWARD";
 	}
 
 	public static class SystemMessage

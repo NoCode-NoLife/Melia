@@ -1,19 +1,22 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CUSTOM_COMMANDER_INFO.bt
+//      File: ZC_WORLD_MSG.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
 ServerHeaderFixed header;
-int64 l1; // 0
-int i1; // 0
-short s1; // 3 type of commander status update?
-int64 l2; // 1000
+int i1;
+char name[64];
+int i2;
+int handle;
+int i3;
+byte b1;

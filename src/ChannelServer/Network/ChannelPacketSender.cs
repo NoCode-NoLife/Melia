@@ -3343,10 +3343,8 @@ namespace Melia.Channel.Network
 		public static void ZC_COMMON_SKILL_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
-			packet.Zlib(true, zpacket =>
-			{
-				zpacket.PutEmptyBin(18);
-			});
+			//packet.Zlib(true, zpacket => { zpacket.PutEmptyBin(18); });
+			packet.PutBinFromHex("000000008DFA02000000030000000000000000000000000000000000");
 			conn.Send(packet);
 		}
 

@@ -464,13 +464,13 @@ namespace Melia.Channel.World
 		/// Removes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
-		public InventoryResult Remove(long worldId)
+		public InventoryResult Remove(long worldId, int amount = 1)
 		{
 			var item = this.GetItem(worldId);
 			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
-			return this.Remove(item);
+			return this.Remove(item, amount, InventoryItemRemoveMsg.Destroyed);
 		}
 
 		/// <summary>
@@ -491,6 +491,7 @@ namespace Melia.Channel.World
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.MSPD);
 
 			return InventoryResult.Success;
 		}
