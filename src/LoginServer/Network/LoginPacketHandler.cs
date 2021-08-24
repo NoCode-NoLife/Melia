@@ -331,6 +331,7 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var id = packet.GetLong();
 
 			// Get character
@@ -646,12 +647,37 @@ namespace Melia.Login.Network
 			}
 		}
 
+		/// <summary>
+		/// Sent when character has no items equipped and a delete is requested, check if the character has items registered in the market?
+		/// </summary>
+		/// <param name="conn"></param>
 		[PacketHandler(Op.CB_CHECK_MARKET_REGISTERED)]
 		public void CB_CHECK_MARKET_REGISTERED(LoginConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			//57000A000000EA000000000000000000000000000000570300009E580100331C
+			var characterId = packet.GetLong();
 
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character != null)
+			{
+				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.Id);
+			}
+		}
+
+		/// <summary>
+		/// ? (Dummy)
+		/// </summary>
+		/// <remarks>
+		/// The client sends this packet repeatedly until it gets an appropriate response.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
+		public void CZ_REQUEST_GUILD_INDEX(LoginConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var guildId = packet.GetLong(); // ?
 		}
 	}
 }

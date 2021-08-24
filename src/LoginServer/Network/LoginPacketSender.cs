@@ -678,6 +678,10 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Unknown purpose, maybe logs packets on disconnect?
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_DISCONNECT_PACKET_LOG_COUNT(LoginConnection conn)
 		{
 			var packet = new Packet(Op.BC_DISCONNECT_PACKET_LOG_COUNT);
@@ -685,6 +689,10 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Mailbox
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_NORMAL_MESSAGE_MAIL(LoginConnection conn)
 		{
 
@@ -716,6 +724,10 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Updates the number of purchased character slots.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_NORMAL_CharacterInfo(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters().ToList();
@@ -733,11 +745,28 @@ namespace Melia.Login.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Updates character barrack layer
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_LAYER_CHANGE_SYSTEM_MESSAGE(LoginConnection conn, int targetLayer, string script = "MoveBarrackLayer{target}")
 		{
 			var packet = new Packet(Op.BC_LAYER_CHANGE_SYSTEM_MESSAGE);
 			packet.PutInt(targetLayer);
 			packet.PutString(script, 64);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the number of purchased character slots.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_RETURN_PC_MARKET_REGISTERED(LoginConnection conn, long characterId, bool hasMarketItems = false)
+		{
+			var packet = new Packet(Op.BC_RETURN_PC_MARKET_REGISTERED);
+			packet.PutLong(characterId);
+			packet.PutShort(hasMarketItems ? 1 : 0); // Has Items in Registered in Market
 
 			conn.Send(packet);
 		}
