@@ -13,7 +13,8 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int64 l1; // 0
-int i1; // 0
-short s1; // 3 type of commander status update?
-int64 l2; // 1000
+
+int64 l1;
+int i1;
+short commanderStatType; // 3 = Attribute Points
+int64 commanderStatValue; // 10000

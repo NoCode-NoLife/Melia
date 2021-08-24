@@ -59,6 +59,10 @@ namespace Melia.Shared.Const
 		public const string SUCCESS_BUY_ABILITY_POINT = "SUCCESS_BUY_ABILITY_POINT";
 		public const string RESET_ABILITY_ACTIVE = "RESET_ABILITY_ACTIVE";
 
+		/// <summary>
+		/// Sent when successfully an ability is learned
+		/// </summary>
+		public const string SUCCESS_LEARN_ABILITY = "SUCCESS_LEARN_ABILITY";
 
 		/// <summary>
 		/// Used for ability point update

@@ -16,11 +16,8 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
+position pos;
 byte b1;
-float dcos;
-float dsin;
+direction dir;
 float f1;
 byte bin[24];

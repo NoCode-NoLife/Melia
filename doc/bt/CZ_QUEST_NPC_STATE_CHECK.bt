@@ -15,5 +15,5 @@
 
 ClientHeaderFixed header;
 int handle; // or npcId?
-int i1; // state?
+uint i1; // state?
 short s1;

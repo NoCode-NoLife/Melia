@@ -16,4 +16,4 @@
 ServerHeaderFixed header;
 
 int entityHandle;
-int characterHandle;
+int characterHandle; // 0

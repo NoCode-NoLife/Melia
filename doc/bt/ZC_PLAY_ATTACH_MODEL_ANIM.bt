@@ -15,6 +15,6 @@
 
 ServerHeaderFixed header;
 int i0; //handle?
-int i1;
-int i2;
-int i3;
+int i1; // 0
+int i2; // 490282
+int i3; // 490253

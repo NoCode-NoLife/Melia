@@ -15,6 +15,7 @@
 
 ServerHeaderFixed header;
 int handle; // 1868 
-int i1; // 5 (Shop Type?) or Faction (0 for Kafra)
+int i1; // 5 (Shop Type?) or Faction (0 for Kafra) or 6 or 8
 char name[64]; // Kafra Support Buff [13.8]
-int64 l1; // 0
+int i2; // 0
+int i3; // 0 or 1 or 15

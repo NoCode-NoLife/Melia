@@ -240,8 +240,9 @@ switch (type)
         int mapId;
         int handleId;
         char name2[64];
-        char teamName[65];
-        int i[8];
+        char teamName[64];
+        short s1;
+        short s[20];
         break;
     case 0xFFFF:
         typedef struct

@@ -9,18 +9,14 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i336041: Added extra 12 bytes? Might be added to the header?
+//   - i337645
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
-byte extra[12];
-byte b1;
-float x;
-float y;
-float z;
-float dx;
-float dy;
-float f1;
+byte b1; // 0
+position pos;
+direction dir;
+float f1; //312.1994

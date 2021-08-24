@@ -1381,8 +1381,10 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_DIALOG_SELECT);
 
 			packet.PutInt(0); // handle?
-			packet.PutShort(arguments.Length);
-			packet.PutByte(0); // [i171032] ?
+			packet.PutByte((byte)arguments.Length);
+			packet.PutByte(1); // [i171032] ?
+			packet.PutByte(1); // [i337645] ?
+			packet.PutShort(0); // [i337645] ?
 			foreach (var arg in arguments)
 				packet.PutLpString(arg);
 

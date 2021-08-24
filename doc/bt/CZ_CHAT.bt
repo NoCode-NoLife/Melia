@@ -15,5 +15,4 @@
 
 ClientHeaderFixed header;
 short s1;
-string message;
-byte b1;
+string message; //buyabilpoint 1
