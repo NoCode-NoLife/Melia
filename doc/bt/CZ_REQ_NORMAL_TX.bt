@@ -16,4 +16,4 @@
 ClientHeaderFixed header;
 
 short type; // ?
-char str[33];
+char str[33]; //UITUTO_EQUIPCACABINET1

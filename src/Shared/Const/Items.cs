@@ -130,14 +130,16 @@ namespace Melia.Shared.Const
 		/// [i171032] 22->23, wings
 		/// [i184075] 23->24, special costume
 		/// [i186893] 24->25, effect costume
+		/// [i337645] 25->30
+		/// [i339415] 30->32
 		/// </remarks>
-		public const int EquipSlotCount = 30;
+		public const int EquipSlotCount = 32;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996 };
 	}
 
 	public enum InventoryOrder : byte

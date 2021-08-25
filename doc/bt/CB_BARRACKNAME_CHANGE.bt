@@ -25,3 +25,4 @@ int64 l3;
 short s2;
 short s[l2-1];
 ushort s3;
+ushort s4;

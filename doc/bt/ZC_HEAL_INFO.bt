@@ -1,10 +1,10 @@
 //------------------------------------------------
-//--- 010 Editor v8.0 Binary Template
+//--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_ITEM_USE.bt
-//   Authors: exec
-//   Version: i170175
-//   Purpose: Response to item use request
+//      File: ZC_HEAL_INFO.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,7 +14,6 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-
-//ushort s1;
-//short s2;
-int64 l1;
+int i1; // handle?
+int amount; //?
+int maxHp;

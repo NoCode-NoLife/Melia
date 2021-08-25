@@ -112,6 +112,14 @@ switch (type)
         int handle;
         break;
     
+    case 0x4B:
+        int64 i1; //76561199199698202
+        short s1; //8
+        ushort s2; //43944
+        int i1; //1
+        short s3; //17096
+        break;
+
     // Account update
     case 0x4C:
         int64 accountId;

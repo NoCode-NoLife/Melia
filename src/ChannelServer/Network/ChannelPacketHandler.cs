@@ -115,7 +115,7 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_DA(character);
 			Send.ZC_NORMAL_Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
-			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			//character.SendPCEtcProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 1, character.MaxHp, 1, character.MaxSp);
 			Send.ZC_MOVE_SPEED(character);
@@ -591,6 +591,7 @@ namespace Melia.Channel.Network
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
+
 			Log.Debug("CZ_POSE: {0}; {1}; {2}; {3}", pose, x, y, z);
 
 			Send.ZC_POSE(character, pose);
@@ -656,6 +657,7 @@ namespace Melia.Channel.Network
 			}
 
 			// TODO: Implement use of item.
+
 			character.ServerMessage("Items can't be used yet.");
 		}
 
@@ -884,6 +886,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			// Check target
 			var target = character.Map.GetMonster(targetHandle);
 			if (target == null)
 			{
@@ -960,11 +963,11 @@ namespace Melia.Channel.Network
 
 					switch (i)
 					{
-						case 0: character.Str += stat; break;
-						case 1: character.Con += stat; break;
-						case 2: character.Int += stat; break;
-						case 3: character.Spr += stat; break;
-						case 4: character.Dex += stat; break;
+						case 0: character.StrInvested += stat; break;
+						case 1: character.ConInvested += stat; break;
+						case 2: character.IntInvested += stat; break;
+						case 3: character.SprInvested += stat; break;
+						case 4: character.DexInvested += stat; break;
 					}
 				}
 
@@ -974,8 +977,12 @@ namespace Melia.Channel.Network
 				// but presumably the PROP_UPDATE below. Why send more
 				// packets than necessary though?
 				Send.ZC_OBJECT_PROPERTY(character,
-					PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
-					PropertyId.PC.UsedStat
+					PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.INT,
+					PropertyId.PC.INT_STAT, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.DEX, PropertyId.PC.DEX_STAT,
+					PropertyId.PC.UsedStat, PropertyId.PC.MINPATK, PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK,
+					PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB, PropertyId.PC.CRTATK,
+					PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.RHP, PropertyId.PC.RSP,
+					PropertyId.PC.MHP, PropertyId.PC.MSP
 				);
 
 				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
@@ -1510,20 +1517,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent regularly. (Dummy handler)
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_I_NEED_PARTY)]
-		public void CZ_I_NEED_PARTY(ChannelConnection conn, Packet packet)
-		{                              // if not in party? :
-			var b1 = packet.GetByte(); // 0
-			var i1 = packet.GetInt();  // 110
-			var i2 = packet.GetInt();  // -1
-			var i3 = packet.GetInt();  // 1111
-		}
-
-		/// <summary>
 		/// Sent upon login. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1689,7 +1682,11 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.SetState(Op.CZ_DASHRUN);
+			if (character != null)
+			{
+				character.Speed = 40f;
+				Send.ZC_MOVE_SPEED(character);
+			}
 		}
 
 		/// <summary>
@@ -1790,8 +1787,12 @@ namespace Melia.Channel.Network
 			var message = packet.GetLpString();
 
 			var character = conn.SelectedCharacter;
-			
-			character.SetGreetingMessage(type, message);
+
+			if (character != null)
+			{
+				character.GreetingMessage = message;
+				Send.ZC_NORMAL_SetGreetingMessage(character);
+			}
 		}
 
 		/// <summary>

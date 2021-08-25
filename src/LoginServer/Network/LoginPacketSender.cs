@@ -375,10 +375,9 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_BARRACKNAME_CHANGE);
 			packet.PutInt(1);
 			packet.PutByte((byte)result);
+			packet.PutString(teamName);
 
-			packet.PutString(teamName, 10);
-
-			packet.PutBinFromHex("00B00C1E190000000008D05940010000000DCC0D4001000000020000000000000021241C40010000006E00FFFFFFFFFFFF60F01300000000");
+			packet.PutEmptyBin(79 - (15 + teamName.Length));
 
 			conn.Send(packet);
 		}

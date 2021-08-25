@@ -33,7 +33,7 @@
 #include "inc/ObjectPropertyNames.bt"
 #endif
 
-const int EquipSlotCount = 30;
+const int EquipSlotCount = 32;
 
 typedef struct
 {
@@ -170,9 +170,9 @@ typedef struct
     ubyte bin2[4];
     int i2;
     int equipIds[EquipSlotCount];
-    byte bin3[12];
+    int ibin1[3];
     int equipIds2[EquipSlotCount];
-    byte bin4[12];
+    int ibin2[3];
     short hair;
 
     // Up until i171032 we had these as "pose" and "team id",
@@ -443,9 +443,7 @@ MessageItem;
 typedef struct
 {
     lpString sender;
-    byte terminator;
     lpString title;
-    byte terminator;
     lpString text;
     FILETIME date1;
     FILETIME expiration;

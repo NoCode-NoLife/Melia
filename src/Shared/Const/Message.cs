@@ -81,6 +81,7 @@ namespace Melia.Shared.Const
 		/// The UI for first time players showing how to move using the keyboard.
 		/// </summary>
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
+		public const string MINIMIZED_TUTORIALNOTE_EFFECT_CHECK = "MINIMIZED_TUTORIALNOTE_EFFECT_CHECK"; // Parameter: guide_1
 
 		public const string ENABLE_PCBANG_SHOP = "ENABLE_PCBANG_SHOP";
 
