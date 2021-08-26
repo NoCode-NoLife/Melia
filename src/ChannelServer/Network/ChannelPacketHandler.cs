@@ -688,6 +688,7 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
+			Send.ZC_SHARED_MSG(conn, 108);
 			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
 		}
 
@@ -1809,7 +1810,19 @@ namespace Melia.Channel.Network
 		}
 
 
+		/// <summary>
+		/// Sent to continue dialog?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_DRAW_TOSHERO_EMBLEM)]
+		public void CZ_REQUEST_DRAW_TOSHERO_EMBLEM(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+
+			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
 		}
+	}
 
 	public enum TxType : short
 	{

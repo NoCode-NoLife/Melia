@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_COLONY_TAX_RATE_LIST.bt
+//      File: CZ_HOUSING_REQUEST_GUILD_AGIT_INFO.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
 //   Purpose: 
@@ -10,16 +10,11 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt"
 
-ServerHeaderDynamic header;
+ClientHeaderFixed header;
 
-typedef struct
-{
-    int bin[21];
-    lpString name;
-    byte b1;
-} Owner <optimize=false>;
-
-int count;
-Owner owners[count];
+int i1; // 30
+int i2; // Guild ID?
+char script[128]; // Might be 64 + 64 for params?

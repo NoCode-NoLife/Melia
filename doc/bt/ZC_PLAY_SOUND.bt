@@ -15,5 +15,6 @@
 
 ServerHeaderFixed header;
 int handle;
-int i1; // Could be two shorts?
+short s1;
+short s2;
 byte b1;

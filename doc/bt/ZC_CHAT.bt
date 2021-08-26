@@ -20,8 +20,8 @@ ServerHeaderDynamic header;
 
 int handle;
 char teamName[64];
-char name[65];
-byte b1;
+char name[64];
+short s1;
 short job;
 int i1;
 byte gender;
@@ -33,6 +33,6 @@ int i4;
 int i5;
 int i6;
 float displayTime;
-byte bin2[16];
+byte bin2[32];
 byte b2;
 string message;

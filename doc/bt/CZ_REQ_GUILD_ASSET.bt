@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CREATE_SCROLLLOCKBOX.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//      File: CZ_REQ_GUILD_ASSET.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,6 +13,4 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
-int i;
-float f[7];
+ClientHeaderFixed header;

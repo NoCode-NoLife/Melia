@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CREATE_SCROLLLOCKBOX.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//      File: CZ_DIRECTION_MOVE_STATE.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,6 +13,7 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
-int i;
-float f[7];
+ClientHeaderFixed header;
+short s1; // Same as Packet Size? 280
+local int size = s1;
+float f[64];

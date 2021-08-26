@@ -16,15 +16,12 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
-float dx;
-float dy;
-byte b1;
-float speed;
+position pos;
+direction dir;
+byte b1; // 1
+float speed; // 33f
 float f1;
 byte bin[24];
-int f1;
 int f2;
+int f3;
 byte b3;

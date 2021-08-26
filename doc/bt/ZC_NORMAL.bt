@@ -501,6 +501,12 @@ switch (type)
         byte b1;
         break;
 
+    // Guild Related ?
+    case 0x19E:
+        int i1;
+        int i2;
+        break;
+
     // ?
     case 0x1A5:
         short s1;

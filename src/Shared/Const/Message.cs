@@ -88,6 +88,11 @@ namespace Melia.Shared.Const
 		public const string PARTY_UPDATE = "PARTY_UPDATE";
 		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 		public const string UPDATE_ATTENDANCE_REWARD = "UPDATE_ATTENDANCE_REWARD";
+
+		/// <summary>
+		/// The UI for new entries in adventure book
+		/// </summary>
+		public const string ADVENTURE_BOOK_NEW = "ADVENTURE_BOOK_NEW"; // Parameter: @dicID_^*$ETC_20150317_000001$*^
 	}
 
 	public static class SystemMessage

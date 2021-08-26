@@ -403,7 +403,7 @@ typedef struct
     if (propertiesSize > 0)
         getProperties(propertiesSize);
 }
-Skill <read=readSkill>;
+Skill <read=readSkill, optimize=false>;
 
 string readSkill(Skill &v)
 {

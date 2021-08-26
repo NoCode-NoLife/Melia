@@ -914,6 +914,7 @@ namespace Melia.Channel.Network
 
 			packet.PutFloat(0); // Display time in seconds, min cap 5s
 			packet.PutEmptyBin(16); // [i170175] ?
+			packet.PutEmptyBin(16); // [i339415] ?
 			packet.PutByte(1);
 			packet.PutString(message);
 
@@ -1318,6 +1319,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.Direction.Sin);
 			packet.PutByte(1); // Seems to be 1
 			packet.PutByte(1); // Seems to be 1
+			packet.PutInt(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -3574,7 +3576,51 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Shifts in-game camera to create cinematic effect, isn't removed automatically
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CREATE_SCROLLLOCKBOX(Character character)
+		{
+			var packet = new Packet(Op.ZC_CREATE_SCROLLLOCKBOX);
 
+			packet.PutInt(character.Handle); // 26717
+			packet.PutFloat(-1352);
+			packet.PutFloat(0);
+			packet.PutFloat(-784);
+			packet.PutFloat(-878);
+			packet.PutFloat(0);
+			packet.PutFloat(-310);
+			packet.PutFloat(474);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Remove scroll lock box
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_REMOVE_SCROLLLOCKBOX(Character character)
+		{
+			var packet = new Packet(Op.ZC_REMOVE_SCROLLLOCKBOX);
+
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_SHARED_MSG(ChannelConnection conn, int messageId)
+		{
+			var packet = new Packet(Op.ZC_SHARED_MSG);
+
+			packet.PutInt(messageId);
+
+			conn.Send(packet);
+		}
 
 		public static void DUMMY(ChannelConnection conn)
 		{
@@ -3598,5 +3644,6 @@ namespace Melia.Channel.Network
 		Player = 1,
 		Monster = 2,
 		Npc = 3,
+		Ally = 4,
 	}
 }

@@ -22,8 +22,9 @@ int handle;
 short skillCount;
 byte b1;
 
-if (!checkCompression())
-    Skill skills[skillCount] <optimize=false>;
-//getProperties(16);
-short s;
-byte b1;
+if (!checkCompression()) {
+    Skill skills[skillCount];
+    getProperties(16);
+    short s1;
+    byte b2;
+}
