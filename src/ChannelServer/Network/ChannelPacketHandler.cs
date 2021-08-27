@@ -134,6 +134,7 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
+			Send.ZC_CUSTOM_COMMANDER_INFO(character);
 			character.OpenEyes();
 		}
 

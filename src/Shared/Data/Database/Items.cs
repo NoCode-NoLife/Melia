@@ -15,9 +15,8 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		//public InventoryCategory Category { get; set; }
-		public ItemType Type { get; set; }
-		public float Weight { get; set; }
+		public InventoryCategory Category { get; set; }
+		public int Weight { get; set; }
 		public int MaxStack { get; set; }
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
@@ -25,17 +24,6 @@ namespace Melia.Shared.Data.Database
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
 		public int MinLevel { get; set; }
-
-		public string Script { get; set; }
-		public string Properties { get; set; }
-
-		public bool hasScript => !string.IsNullOrWhiteSpace(this.Script);
-	}
-
-	[Serializable]
-	public class ItemProperty
-	{
-
 	}
 
 	/// <summary>
@@ -61,33 +49,26 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
 		}
 
-		static Dictionary<string, int> ItemTypes = new Dictionary<string, int>();
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("itemId", "className", "name", "type");
+			entry.AssertNotMissing("itemId", "className", "name", "category", "weight", "maxStack", "price", "sellPrice");
 
 			var info = new ItemData();
 
 			info.Id = entry.ReadInt("itemId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
-			var itemType = entry.ReadString("type");
-			if (!ItemTypes.ContainsKey(itemType))
-			{
-				ItemTypes.Add(itemType, ItemTypes.Count);
-				Console.WriteLine("{0},{1}", itemType, ItemTypes.Count);
-			}
-			//info.Category = (InventoryCategory)entry.ReadInt("category");
-			info.Weight = entry.ReadFloat("weight", 0f);
-			info.MaxStack = entry.ReadInt("maxStack", 1);
-			info.Price = entry.ReadInt("price", 0);
-			info.SellPrice = entry.ReadInt("sellPrice", 0);
+			info.Category = (InventoryCategory)entry.ReadInt("category");
+			info.Weight = entry.ReadInt("weight");
+			info.MaxStack = entry.ReadInt("maxStack");
+			info.Price = entry.ReadInt("price");
+			info.SellPrice = entry.ReadInt("sellPrice");
 
 			var equipType1 = entry.ReadString("equipType1", null);
 			if (equipType1 != null)
 			{
 				if (!Enum.TryParse<EquipType>(equipType1, out var type))
-					throw new DatabaseErrorException($"Invalid equip type 1 '{equipType1}'.");
+					throw new DatabaseErrorException($"Invalid equip type '{equipType1}'.");
 				info.EquipType1 = type;
 			}
 
@@ -95,11 +76,11 @@ namespace Melia.Shared.Data.Database
 			if (equipType2 != null)
 			{
 				if (!Enum.TryParse<EquipType>(equipType2, out var type))
-					throw new DatabaseErrorException($"Invalid equip type 2 '{equipType2}'.");
+					throw new DatabaseErrorException($"Invalid equip type '{equipType2}'.");
 				info.EquipType2 = type;
 			}
 
-			info.MinLevel = entry.ReadInt("minLevel", 1);
+			info.MinLevel = entry.ReadInt("minLevel");
 
 			this.Entries[info.Id] = info;
 		}
@@ -143,9 +124,5 @@ namespace Melia.Shared.Data.Database
 		Artefact,
 		SpecialCostume,
 		EffectCostume,
-		Seal,
-		Trinket,
-		Relic,
-		Skin,
 	}
 }
