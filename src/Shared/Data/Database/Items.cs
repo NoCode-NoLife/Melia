@@ -15,7 +15,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		//public InventoryCategory Category { get; set; }
+		public InventoryCategory Category { get; set; }
 		public ItemType Type { get; set; }
 		public float Weight { get; set; }
 		public int MaxStack { get; set; }
@@ -30,6 +30,8 @@ namespace Melia.Shared.Data.Database
 		public string Properties { get; set; }
 
 		public bool hasScript => !string.IsNullOrWhiteSpace(this.Script);
+
+		public ItemGroup Group { get; internal set; }
 	}
 
 	[Serializable]
@@ -43,6 +45,47 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ItemDb : DatabaseJsonIndexed<int, ItemData>
 	{
+		/// <summary>
+		/// Helper Function for Item Group as String to ItemGroup
+		/// </summary>
+		/// <param name="group"></param>
+		/// <returns></returns>
+		public ItemGroup GetItemGroup(string group)
+		{
+			switch (group)
+			{
+				case "Premium": return ItemGroup.Premium;
+				case "Quest": return ItemGroup.Quest;
+				case "Arcane": return ItemGroup.Arcane;
+				case "Drug": return ItemGroup.Drug;
+				case "Material": return ItemGroup.Material;
+				case "Event": return ItemGroup.Event;
+				case "Misc": return ItemGroup.Misc;
+				case "Ark": return ItemGroup.Ark;
+				case "LegendMaterial": return ItemGroup.LegendMaterial;
+				case "MagicAmulet": return ItemGroup.MagicAmulet;
+				case "SpecialMaterial": return ItemGroup.SpecialMaterial;
+				case "Icor": return ItemGroup.Icor;
+				case "ExpOrb": return ItemGroup.ExpOrb;
+				case "SubExpOrb": return ItemGroup.SubExpOrb;
+				case "FishingRod": return ItemGroup.FishingRod;
+				case "PasteBait": return ItemGroup.PasteBait;
+				case "Unused": return ItemGroup.Unused;
+				case "HiddenAbility": return ItemGroup.HiddenAbility;
+				case "Entrance_Ticket": return ItemGroup.Entrance_Ticket;
+				case "Consume": return ItemGroup.Consume;
+				case "Armor": return ItemGroup.Armor;
+				case "Helmet": return ItemGroup.Helmet;
+				case "Weapon": return ItemGroup.Weapon;
+				case "Armband": return ItemGroup.Armband;
+				case "SubWeapon": return ItemGroup.SubWeapon;
+				case "Seal": return ItemGroup.Seal;
+				case "Relic": return ItemGroup.Relic;
+				case "Gem": return ItemGroup.Gem;
+				default: return ItemGroup.Unknown;
+			}
+		}
+
 		public ItemData Find(string name)
 		{
 			name = name.ToLower();
@@ -77,7 +120,8 @@ namespace Melia.Shared.Data.Database
 				ItemTypes.Add(itemType, ItemTypes.Count);
 				Console.WriteLine("{0},{1}", itemType, ItemTypes.Count);
 			}
-			//info.Category = (InventoryCategory)entry.ReadInt("category");
+			info.Group = GetItemGroup(entry.ReadString("group"));
+			info.Category = GetItemCategory(info.Group);
 			info.Weight = entry.ReadFloat("weight", 0f);
 			info.MaxStack = entry.ReadInt("maxStack", 1);
 			info.Price = entry.ReadInt("price", 0);
@@ -102,6 +146,39 @@ namespace Melia.Shared.Data.Database
 			info.MinLevel = entry.ReadInt("minLevel", 1);
 
 			this.Entries[info.Id] = info;
+		}
+
+		private InventoryCategory GetItemCategory(ItemGroup group)
+		{
+			switch(group)
+			{
+				case ItemGroup.Premium: return InventoryCategory.Premium;
+				case ItemGroup.Weapon: return InventoryCategory.Weapon;
+				case ItemGroup.Armor: return InventoryCategory.Armor;
+				case ItemGroup.SubWeapon: return InventoryCategory.SubWeapon;
+				//case ItemGroup.Costume: return InventoryCategory.Costume;
+				case ItemGroup.Event: return InventoryCategory.Accessory;
+				case ItemGroup.Consume: return InventoryCategory.Consumable;
+				case ItemGroup.Gem: return InventoryCategory.Gem;
+				//case ItemGroup.RecipeWeapon: return InventoryCategory.RecipeWeapon;
+				//case ItemGroup.Card: return InventoryCategory.Card;
+				//case ItemGroup.Collection: return InventoryCategory.Collection;
+				//case ItemGroup.Book: return InventoryCategory.Book;
+				case ItemGroup.Quest: return InventoryCategory.Quest;
+				//case ItemGroup.PetWeapon: return InventoryCategory.PetWeapon;
+				//case "FishingRod": return InventoryCategory.PetArmor;
+				case ItemGroup.Unused: return InventoryCategory.Money;
+				case ItemGroup.Material: return InventoryCategory.Material;
+				//case ItemGroup.Cube: return InventoryCategory.Cube;
+				//case ItemGroup.RecipeArmor: return InventoryCategory.RecipeArmor;
+				//case "Consume": return InventoryCategory.RecipeAccessory;
+				//case "Armor": return InventoryCategory.RecipePremium;
+				//case "Helmet": return InventoryCategory.RecipeOther;
+				case ItemGroup.MagicAmulet: return InventoryCategory.Bracelet;
+				case ItemGroup.Armband: return InventoryCategory.Necklace;
+				default: return InventoryCategory.Premium;
+
+			}
 		}
 	}
 

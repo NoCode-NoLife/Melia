@@ -17,27 +17,29 @@ namespace Melia.Shared.Const
 	public enum InventoryCategory
 	{
 		Premium = 1,
-		Weapon = 2,
-		Armor = 3,
+		Weapon = 15,
+		Armor = 26,
 		SubWeapon = 4,
 		Costume = 5,
-		Accessory = 6,
-		Consumable = 7,
+		Accessory = 30,
+		Consumable = 53,
 		Gem = 8,
 		RecipeWeapon = 9,
 		Card = 10,
 		Collection = 11,
 		Book = 12,
-		Quest = 13,
+		Quest = 85,
 		PetWeapon = 14,
 		PetArmor = 15,
-		Money = 16, // invisible
-		Material = 17,
-		Cube = 18,
+		Money = 94, // invisible
+		Material = 82,
+		Cube = 55,
 		RecipeArmor = 19,
 		RecipeAccessory = 20,
 		RecipePremium = 21,
 		RecipeOther = 22, // and above
+		Bracelet = 30,
+		Necklace = 30,
 	}
 
 	public enum ItemType
@@ -52,6 +54,7 @@ namespace Melia.Shared.Const
 
 	public enum ItemGroup
 	{
+		Unknown = -1,
 		Premium = 1,
 		Quest = 2,
 		Arcane = 3,
@@ -79,6 +82,7 @@ namespace Melia.Shared.Const
 		SubWeapon = 25,
 		Seal = 26,
 		Relic = 27,
+		Gem = 28,
 	}
 
 	public static class InventoryCategoryExtension
