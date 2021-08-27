@@ -40,6 +40,47 @@ namespace Melia.Shared.Const
 		RecipeOther = 22, // and above
 	}
 
+	public enum ItemType
+	{
+		Unknown = -1,
+		Consume = 1,
+		Equip = 2,
+		Quest = 3,
+		Etc = 4,
+		Unused = 5,
+	}
+
+	public enum ItemGroup
+	{
+		Premium = 1,
+		Quest = 2,
+		Arcane = 3,
+		Drug = 4,
+		Material = 5,
+		Event = 6,
+		Misc = 7,
+		Ark = 8,
+		LegendMaterial = 9,
+		MagicAmulet = 10,
+		SpecialMaterial = 11,
+		Icor = 12,
+		ExpOrb = 13,
+		SubExpOrb = 14,
+		FishingRod = 15,
+		PasteBait = 16,
+		Unused = 17,
+		HiddenAbility = 18,
+		Entrance_Ticket = 19,
+		Consume = 20,
+		Armor = 21,
+		Helmet = 22,
+		Weapon = 23,
+		Armband = 24,
+		SubWeapon = 25,
+		Seal = 26,
+		Relic = 27,
+	}
+
 	public static class InventoryCategoryExtension
 	{
 		/// <summary>
