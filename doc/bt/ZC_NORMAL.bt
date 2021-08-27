@@ -250,7 +250,29 @@ switch (type)
         char name2[64];
         char teamName[64];
         short s1;
-        short s[20];
+        short s2;
+        int i1;
+        int i2;
+        short s3;
+        short s4;
+        int i[5];
+        int i3;
+        int i4;
+        byte b1;
+        byte b2;
+        byte b3;
+        byte b4;
+        int i5;
+        int ibin1[3];
+        int i6;
+        float f1;
+        float f2;
+        float f3;
+        int64 l1;
+        int64 l2;
+        int i7;
+        int i8;
+        byte b5;
         break;
     case 0xFFFF:
         typedef struct

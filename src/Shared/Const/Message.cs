@@ -69,13 +69,12 @@ namespace Melia.Shared.Const
 		/// </summary>
 		public const string UPDATE_ABILITY_POINT = "UPDATE_ABILITY_POINT";
 
-
 		/// <summary>
 		/// Opens the event banner.
 		/// </summary>
 		public const string DO_OPEN_EVENTBANNER_UI = "DO_OPEN_EVENTBANNER_UI";
 		public const string SET_CHAT_MACRO_DEFAULT = "SET_CHAT_MACRO_DEFAULT";
-		public const string FISHING_SUCCESS_COUNT = "FISHING_SUCCESS_COUNT";
+		public const string FISHING_SUCCESS_COUNT = "FISHING_SUCCESS_COUNT"; // Parameter: 0
 
 		/// <summary>
 		/// The UI for first time players showing how to move using the keyboard.
@@ -93,6 +92,8 @@ namespace Melia.Shared.Const
 		/// The UI for new entries in adventure book
 		/// </summary>
 		public const string ADVENTURE_BOOK_NEW = "ADVENTURE_BOOK_NEW"; // Parameter: @dicID_^*$ETC_20150317_000001$*^
+
+		public const string SET_COIN_GET_GAUGE = "SET_COIN_GET_GAUGE";
 	}
 
 	public static class SystemMessage

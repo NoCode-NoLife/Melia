@@ -934,7 +934,9 @@ namespace Melia.Channel.Network
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
 			packet.PutShort(1); // type? 0 = also show in red letters on the screen
-			packet.PutByte(0); // ?
+			packet.PutLong(0); // added i219527
+			packet.PutByte(0); // added i336041
+			packet.PutByte(0); // added i339415
 
 			foreach (var parameter in parameters)
 			{
@@ -3381,15 +3383,16 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Sends ZC_CUSTOM_COMMANDER_INFO to character
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_CUSTOM_COMMANDER_INFO(Character character)
+		/// <param name="conn"></param>
+		public static void ZC_CUSTOM_COMMANDER_INFO(ChannelConnection conn, int type = 3, int amount = 0)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
 			packet.PutLong(0);
 			packet.PutInt(0);
-			packet.PutShort(3);
-			packet.PutLong(0);
-			character.Connection.Send(packet);
+			packet.PutShort(type); // Attribute Points = 3
+			packet.PutInt(amount);
+			packet.PutInt(0);
+			conn.Send(packet);
 		}
 
 		/// <summary>

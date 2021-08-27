@@ -1469,7 +1469,7 @@ namespace Melia.Channel.Network
 					// classId = 0~2 (hats 1~3)
 					goto default;
 				case 0x71:
-
+					Send.ZC_CUSTOM_COMMANDER_INFO(conn);
 					break;
 				default:
 					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
