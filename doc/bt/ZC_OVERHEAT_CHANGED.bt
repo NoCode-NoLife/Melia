@@ -17,7 +17,6 @@ int64 characterId;
 int i1; // 1551 or 2255
 int i2; // 0?
 int i3;
-int i4; // 25000
-int i5; 
-//byte b[4]; // 00 FF FF FF
+int i4; // 6000 or 25000
+int i5; // -256 = 00 FF FF FF
 int64 l2; // 0?

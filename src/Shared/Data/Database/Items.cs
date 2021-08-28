@@ -114,12 +114,7 @@ namespace Melia.Shared.Data.Database
 			info.Id = entry.ReadInt("itemId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
-			var itemType = entry.ReadString("type");
-			if (!ItemTypes.ContainsKey(itemType))
-			{
-				ItemTypes.Add(itemType, ItemTypes.Count);
-				Console.WriteLine("{0},{1}", itemType, ItemTypes.Count);
-			}
+			//info.Type = GetItemType(entry.ReadString("type"));
 			info.Group = GetItemGroup(entry.ReadString("group"));
 			info.Category = GetItemCategory(info.Group);
 			info.Weight = entry.ReadFloat("weight", 0f);
@@ -155,11 +150,11 @@ namespace Melia.Shared.Data.Database
 				case ItemGroup.Premium: return InventoryCategory.Premium;
 				case ItemGroup.Weapon: return InventoryCategory.Weapon;
 				case ItemGroup.Armor: return InventoryCategory.Armor;
-				case ItemGroup.SubWeapon: return InventoryCategory.SubWeapon;
+				//case ItemGroup.SubWeapon: return InventoryCategory.SubWeapon;
 				//case ItemGroup.Costume: return InventoryCategory.Costume;
 				case ItemGroup.Event: return InventoryCategory.Accessory;
 				case ItemGroup.Consume: return InventoryCategory.Consumable;
-				case ItemGroup.Gem: return InventoryCategory.Gem;
+				//case ItemGroup.Gem: return InventoryCategory.Gem;
 				//case ItemGroup.RecipeWeapon: return InventoryCategory.RecipeWeapon;
 				//case ItemGroup.Card: return InventoryCategory.Card;
 				//case ItemGroup.Collection: return InventoryCategory.Collection;
@@ -174,8 +169,8 @@ namespace Melia.Shared.Data.Database
 				//case "Consume": return InventoryCategory.RecipeAccessory;
 				//case "Armor": return InventoryCategory.RecipePremium;
 				//case "Helmet": return InventoryCategory.RecipeOther;
-				case ItemGroup.MagicAmulet: return InventoryCategory.Bracelet;
-				case ItemGroup.Armband: return InventoryCategory.Necklace;
+				case ItemGroup.MagicAmulet: return InventoryCategory.Accessory;
+				//case ItemGroup.Armband: return InventoryCategory.Necklace;
 				default: return InventoryCategory.Premium;
 
 			}

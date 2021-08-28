@@ -2415,6 +2415,15 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
+
+			//this.Properties.Add(new RefFloatProperty(PropertyId.PC.MovingShotable, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CastingSpeed, () => 100f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.HPDrain, () => 2f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.JumpPower, () => this.GetJumpStrength()));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.BOOST, () => 1f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Const, () => 1.909859f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CAST, () => 1f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Sta_Jump, () => 1000f));
 		}
 
 		/// <summary>
@@ -2798,7 +2807,7 @@ namespace Melia.Channel.World
 			var skill = Skills.Get(skillId);
 			if (skill == null)
 			{
-				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
+				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
 				Send.ZC_SKILL_CAST_CANCEL(this);
 				//Log.Debug(packet.ToString());
 				return;
@@ -2954,6 +2963,261 @@ namespace Melia.Channel.World
 
 			return rnd.Next(min, max + 1);
 		}
-		
+
+
+		/// <summary>
+		/// These should be reference properties?
+		/// PCETC Properties
+		/// </summary>
+		public void SendPCEtcProperties()
+		{
+			var pcEtcProps = new Properties();
+			pcEtcProps.Set(PropertyId.PCEtc.SkintoneName, "skintone2");
+			pcEtcProps.Set(PropertyId.PCEtc.StartHairName, "UnbalancedShortcut");
+			pcEtcProps.Set(PropertyId.PCEtc.LobbyMapID, MapId);
+			pcEtcProps.Set(PropertyId.PCEtc.RepresentationClassID, JobId.ToString());
+			pcEtcProps.Set(PropertyId.PCEtc.LastPlayDate, 20210728.000000f);
+			pcEtcProps.Set(PropertyId.PCEtc.CTRLTYPE_RESET_EXCEPT, 1f);
+			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
+			foreach (var property in pcEtcProps.GetAll())
+			{
+				Properties.Add(property);
+			}
+		}
+
+		public void SendPCProperties()
+		{
+			var pcProps = new Properties();
+
+			pcProps.Set(PropertyId.PC.MSPD, 30.000000f);
+			pcProps.Set(PropertyId.PC.MaxWeight, 8000.000000f);
+			pcProps.Set(PropertyId.PC.NowWeight, 355.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Run, 0.000000f);
+			pcProps.Set(PropertyId.PC.MovingShotable, 0.000000f);
+			pcProps.Set(PropertyId.PC.CastingSpeed, 100.000000f);
+			pcProps.Set(PropertyId.PC.ALLSTAT_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Melee_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Soul_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.ALLSTAT, 0.000000f);
+			pcProps.Set(PropertyId.PC.HateRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Leather_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantPVPDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.SDR, 1.000000f);
+			pcProps.Set(PropertyId.PC.JobName, this.Job.Data.ClassName);
+			pcProps.Set(PropertyId.PC.FireAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.BLK, 0.000000f);
+			pcProps.Set(PropertyId.PC.ADD_Cooldown, 1.000000f);
+			pcProps.Set(PropertyId.PC.BLK_BREAK, 1.000000f);
+			pcProps.Set(PropertyId.PC.FireDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Holy_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.DefAries, 0.000000f);
+			pcProps.Set(PropertyId.PC.MiddleSize_Def, 0.000000f);
+			pcProps.Set(PropertyId.PC.DefSlash, 0.000000f);
+			pcProps.Set(PropertyId.PC.AriesAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResEarth, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResIce, 0.000000f);
+			pcProps.Set(PropertyId.PC.MINMATK, 76.000000f);
+			pcProps.Set(PropertyId.PC.SkillWidthRange, 0.000000f);
+			pcProps.Set(PropertyId.PC.MAXPATK_SUB, 25.000000f);
+			pcProps.Set(PropertyId.PC.MissileDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.LootingChance, 0.000000f);
+			pcProps.Set(PropertyId.PC.StrikeDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Cannon_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.STR_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantDodgeRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.PlayTime, 131.220001f);
+			pcProps.Set(PropertyId.PC.Holy_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.MissileAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Const, 1.909859f);
+			pcProps.Set(PropertyId.PC.Magic_Dark_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Gun_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.HR, 1.000000f);
+			pcProps.Set(PropertyId.PC.EnchantSubWeaponDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_RunStart, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResHoly, 0.000000f);
+			pcProps.Set(PropertyId.PC.NormalASPD, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Step, 2500.000000f);
+			pcProps.Set(PropertyId.PC.LargeSize_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Cloth_Def, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Recover, 500.000000f);
+			pcProps.Set(PropertyId.PC.HolyAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Lightning_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.BLKABLE, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantCriticalHitRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.BOSS_ATK, 0.000000f);
+
+
+			pcProps.Set(PropertyId.PC.MSPD, 30.000000f);
+			pcProps.Set(PropertyId.PC.MaxWeight, 8000.000000f);
+			pcProps.Set(PropertyId.PC.NowWeight, 355.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Run, 0.000000f);
+			pcProps.Set(PropertyId.PC.MovingShotable, 0.000000f);
+			pcProps.Set(PropertyId.PC.CastingSpeed, 100.000000f);
+			pcProps.Set(PropertyId.PC.ALLSTAT_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Melee_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Soul_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.ALLSTAT, 0.000000f);
+			pcProps.Set(PropertyId.PC.HateRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Leather_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantPVPDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.SDR, 1.000000f);
+			pcProps.Set(PropertyId.PC.FireAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.BLK, 0.000000f);
+			pcProps.Set(PropertyId.PC.ADD_Cooldown, 1.000000f);
+			pcProps.Set(PropertyId.PC.BLK_BREAK, 1.000000f);
+			pcProps.Set(PropertyId.PC.FireDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Holy_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.DefAries, 0.000000f);
+			pcProps.Set(PropertyId.PC.MiddleSize_Def, 0.000000f);
+			pcProps.Set(PropertyId.PC.DefSlash, 0.000000f);
+			pcProps.Set(PropertyId.PC.AriesAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResEarth, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResIce, 0.000000f);
+			pcProps.Set(PropertyId.PC.MINMATK, 76.000000f);
+			pcProps.Set(PropertyId.PC.SkillWidthRange, 0.000000f);
+			pcProps.Set(PropertyId.PC.MAXPATK_SUB, 25.000000f);
+			pcProps.Set(PropertyId.PC.MissileDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.LootingChance, 0.000000f);
+			pcProps.Set(PropertyId.PC.StrikeDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Cannon_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.STR_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantDodgeRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.PlayTime, 131.220001f);
+			pcProps.Set(PropertyId.PC.Holy_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.MissileAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Const, 1.909859f);
+			pcProps.Set(PropertyId.PC.Magic_Dark_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Gun_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.HR, 1.000000f);
+			pcProps.Set(PropertyId.PC.EnchantSubWeaponDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_RunStart, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResHoly, 0.000000f);
+
+			pcProps.Set(PropertyId.PC.SkillASPD, 0.000000f);
+			pcProps.Set(PropertyId.PC.MAXPATK, 25.000000f);
+			pcProps.Set(PropertyId.PC.ResLightning, 0.000000f);
+			pcProps.Set(PropertyId.PC.CON_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.Dark_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Soul_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Fire_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.SlashAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Guardable, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Earth_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.MiddleSize_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.MINPATK_SUB, 25.000000f);
+			pcProps.Set(PropertyId.PC.SoulAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.CAST, 1.000000f);
+			pcProps.Set(PropertyId.PC.ArmorMaterial_ID, 2.000000f);
+			pcProps.Set(PropertyId.PC.RHP, 3.000000f);
+			pcProps.Set(PropertyId.PC.CRTATK, 7.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Poison_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Fire_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResAdd_Damage, 0.000000f);
+			pcProps.Set(PropertyId.PC.Chain_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.MAXMATK, 76.000000f);
+			pcProps.Set(PropertyId.PC.LUCK, 1.000000f);
+			pcProps.Set(PropertyId.PC.Revive, 0.000000f);
+			pcProps.Set(PropertyId.PC.PostDelay, 0.000000f);
+			pcProps.Set(PropertyId.PC.RHPTIME, 20000.000000f);
+			pcProps.Set(PropertyId.PC.CON, 3.000000f);
+			pcProps.Set(PropertyId.PC.PoisonAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Aries_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantSR, 0.000000f);
+			pcProps.Set(PropertyId.PC.HolyDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Forester_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.SlashDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.INT_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.CRTDR, 1.000000f);
+			pcProps.Set(PropertyId.PC.HitCount, 0.000000f);
+			pcProps.Set(PropertyId.PC.HPDrain, 2.000000f);
+			pcProps.Set(PropertyId.PC.StunRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResFire, 0.000000f);
+			pcProps.Set(PropertyId.PC.STR, 2.000000f);
+			pcProps.Set(PropertyId.PC.MNA, 8.000000f);
+			pcProps.Set(PropertyId.PC.DEX, 3.000000f);
+			pcProps.Set(PropertyId.PC.LightningAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Lv, 1.000000f);
+			pcProps.Set(PropertyId.PC.Ghost_Atk, 0.000000f);
+
+			pcProps.Set(PropertyId.PC.DEX_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.MNA_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.Earth_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.AddFever, 0.000000f);
+			pcProps.Set(PropertyId.PC.Permission, 3.000000f);
+			pcProps.Set(PropertyId.PC.MaxSta, 25000.000000f);
+			pcProps.Set(PropertyId.PC.AriesDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Slash_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Jump, 1000.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Ice_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EarthAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.SoulDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantBossDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.MHP, 343.000000f);
+			pcProps.Set(PropertyId.PC.MINPATK, 25.000000f);
+			pcProps.Set(PropertyId.PC.Widling_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Poison_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantHitRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.KnockDownHit, 0.000000f);
+			pcProps.Set(PropertyId.PC.Add_Damage_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResSoul, 0.000000f);
+			pcProps.Set(PropertyId.PC.MHR, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantCriticalDodgeRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.KDBonusDamage, 130.000000f);
+			pcProps.Set(PropertyId.PC.Cloth_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.SkillPower, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantMainWeaponDamageRate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Paramune_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantMeleeReducedRate, 0.000000f);
+
+			pcProps.Set(PropertyId.PC.JumpPower, 350.000000f);
+			pcProps.Set(PropertyId.PC.MGP, 500.000000f);
+			pcProps.Set(PropertyId.PC.Iron_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantMSPD, 0.000000f);
+			pcProps.Set(PropertyId.PC.KDBonusDefence, 40.000000f);
+			pcProps.Set(PropertyId.PC.IceDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.EnchantCriticalDamage_Rate, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_Runable, 0.000000f);
+			pcProps.Set(PropertyId.PC.SkillRange, 0.000000f);
+			pcProps.Set(PropertyId.PC.Sta_R_Delay, 1000.000000f);
+			pcProps.Set(PropertyId.PC.IceAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.ResDark, 0.000000f);
+			pcProps.Set(PropertyId.PC.DEF, 65.000000f);
+			pcProps.Set(PropertyId.PC.ResPoison, 0.000000f);
+			pcProps.Set(PropertyId.PC.StrikeAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.DR, 1.000000f);
+			pcProps.Set(PropertyId.PC.PoisonDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.ADD_OverHeat, 0.000000f);
+			pcProps.Set(PropertyId.PC.SkillAngle, 8.000000f);
+			pcProps.Set(PropertyId.PC.HEAL_PWR, 29.000000f);
+			pcProps.Set(PropertyId.PC.CRTMATK, 17.000000f);
+			pcProps.Set(PropertyId.PC.DarkAtkFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.EarthDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.LUCK_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.SR, 3.000000f);
+			pcProps.Set(PropertyId.PC.HPDrain_ADD, 0.000000f);
+			pcProps.Set(PropertyId.PC.BOOST, 1.000000f);
+
+			pcProps.Set(PropertyId.PC.DefStrike, 0.000000f);
+			pcProps.Set(PropertyId.PC.Magic_Lightning_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Iron_Def, 0.000000f);
+			pcProps.Set(PropertyId.PC.MSP, 200.000000f);
+			pcProps.Set(PropertyId.PC.CRTHR, 1.000000f);
+			pcProps.Set(PropertyId.PC.Arrow_Atk, 0.000000f);
+
+			pcProps.Set(PropertyId.PC.Klaida_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.Ice_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.SmallSize_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.CRTDEF, 0.000000f);
+			pcProps.Set(PropertyId.PC.LightningDefFactor_PC, 0.000000f);
+			pcProps.Set(PropertyId.PC.Strike_Atk, 0.000000f);
+			pcProps.Set(PropertyId.PC.INT, 9.000000f);
+
+			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcProps);
+			foreach (var property in pcProps.GetAll())
+			{
+				Properties.Add(property);
+			}
+		}
+
 	}
 }

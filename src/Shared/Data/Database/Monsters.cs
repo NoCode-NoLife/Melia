@@ -76,6 +76,8 @@ namespace Melia.Shared.Data.Database
 					info.Drops = new List<DropData>();
 				foreach (var drop in drops.ToObject<IList<DropData>>())
 				{
+					if (drop.ItemId == -1)
+						continue;
 					info.Drops.Add(drop);
 				}
 			}

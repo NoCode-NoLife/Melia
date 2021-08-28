@@ -19,27 +19,12 @@ namespace Melia.Shared.Const
 		Premium = 1,
 		Weapon = 15,
 		Armor = 26,
-		SubWeapon = 4,
-		Costume = 5,
 		Accessory = 30,
 		Consumable = 53,
-		Gem = 8,
-		RecipeWeapon = 9,
-		Card = 10,
-		Collection = 11,
-		Book = 12,
-		Quest = 85,
-		PetWeapon = 14,
-		PetArmor = 15,
-		Money = 94, // invisible
-		Material = 82,
 		Cube = 55,
-		RecipeArmor = 19,
-		RecipeAccessory = 20,
-		RecipePremium = 21,
-		RecipeOther = 22, // and above
-		Bracelet = 30,
-		Necklace = 30,
+		Material = 82,
+		Quest = 85,
+		Money = 94, // invisible
 	}
 
 	public enum ItemType

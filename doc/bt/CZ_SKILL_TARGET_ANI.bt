@@ -20,4 +20,4 @@ byte b1;
 int skillId;
 direction dir;
 byte b2;
-ushort s[8];
+byte b3;

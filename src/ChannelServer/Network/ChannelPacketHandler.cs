@@ -115,16 +115,12 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_DA(character);
 			Send.ZC_NORMAL_Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
-			//character.SendPCEtcProperties(); // Quick Hack to send required packets
+			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
-			Send.ZC_UPDATE_ALL_STATUS(character, 1, character.MaxHp, 1, character.MaxSp);
+			Send.ZC_UPDATE_ALL_STATUS(character, character.Hp, character.MaxHp, character.Sp, character.MaxSp);
 			Send.ZC_MOVE_SPEED(character);
-			character.Hp = character.MaxHp;
-			Send.ZC_ADD_HP(character, character.MaxHp - 1, false, character.MaxHp, 1);
-			character.Sp = character.MaxSp;
-			Send.ZC_UPDATE_SP(character, character.MaxSp);
-			character.Stamina = 25000;
-			Send.ZC_STAMINA(character, 25000);
+			//character.Stamina = 25000;
+			//Send.ZC_STAMINA(character, 25000);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL_Unknown_1B4(character);
@@ -134,6 +130,8 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
+			Send.ZC_SET_DAYLIGHT_INFO(character);
+			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
 		}
 
@@ -843,6 +841,13 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill != null)
 			{
+				// Should check state of the character
+				Send.ZC_OVERHEAT_CHANGED(character, skill);
+				Send.ZC_PC_ATKSTATE(character, true);
+				if (handleCount == 0)
+				{
+					Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
+				}
 				foreach (var handle in handles)
 				{
 					// Get target
@@ -854,8 +859,7 @@ namespace Melia.Channel.Network
 					}
 
 					var damage = character.GetRandomPAtk();
-					damage = Math.Max(0, damage - target.Defense);
-					Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, target, damage);
+					Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, target);
 
 					target.TakeDamage(damage, character);
 				}
@@ -897,7 +901,6 @@ namespace Melia.Channel.Network
 			Send.ZC_COOLDOWN_CHANGED(character, skill);
 			Send.ZC_SKILL_READY(character, skillId);
 			var damage = character.GetRandomPAtk();
-			damage = Math.Max(0, damage - target.Defense);
 
 			target.TakeDamage(damage, character, skill);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z

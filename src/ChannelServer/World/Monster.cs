@@ -201,10 +201,15 @@ namespace Melia.Channel.World
 			{
 				foreach (var drops in this.Data.Drops)
 				{
-					var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
-					if (item != null) {
-						killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
-						//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
+					Random random = new Random();
+					if (random.NextDouble() <= (drops.DropChance / 100f))
+					{
+						var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
+						if (item != null)
+						{
+							killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
+							//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
+						}
 					}
 				}
 			}

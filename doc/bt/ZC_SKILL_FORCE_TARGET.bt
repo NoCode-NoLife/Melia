@@ -22,7 +22,8 @@ typedef struct
     int targetHandle;
     int damage;
     int hpLeft;
-    int64 l1;
+    int i1;
+    int i2;
     short s1;
     short s2;
     int64 l2;
@@ -34,9 +35,9 @@ typedef struct
     int i6;
     short s4;
     short s5;
-    short s6;
-    byte b2;
-    short s7;
+    //short s6;
+    //byte b2;
+    //short s7;
 } Attack <optimize=false>;
 
 int skillId;

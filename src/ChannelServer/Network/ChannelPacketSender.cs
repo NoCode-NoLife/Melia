@@ -356,6 +356,9 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Shows skill use for character, by sending ZC_SKILL_MELEE_GROUND to its connection.
 		/// </summary>
+		/// <remarks>
+		/// i339415, looks hit info is being used instead of this for showing damage on a target
+		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, float targetX, float targetY, float targetZ, IEntity target = null, int damage = 0)
@@ -421,10 +424,10 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(2255);
-			packet.PutInt(100000);
+			packet.PutInt(1551);
 			packet.PutInt(0);
-			packet.PutInt(25000);
+			packet.PutInt(0);
+			packet.PutInt(6000);
 			packet.PutByte(0);
 			packet.PutByte(0xFF);
 			packet.PutByte(0xFF);

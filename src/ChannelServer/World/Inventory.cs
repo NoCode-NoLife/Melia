@@ -195,7 +195,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public Item GetItemByIndex(int index)
 		{
-			if (index < 5001 || index > 75000)
+			if (index < 5001 || index > 1750000)
 				throw new ArgumentOutOfRangeException("index");
 
 			var category = (InventoryCategory)(index / 5000);

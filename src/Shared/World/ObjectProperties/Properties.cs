@@ -146,9 +146,13 @@ namespace Melia.Shared.World.ObjectProperties
 				case PropertyId.PCEtc.RepresentationClassID:
 				case PropertyId.PCEtc.SkintoneName:
 				case PropertyId.Party.P_PARTY_Q_030_TicketLifeTime:
+				case PropertyId.SessionObject.DROPITEM_COLLECTINGQUEST_RR:
+				case PropertyId.SessionObject.LAST_EVENT_RESET_DATE:
 				case PropertyId.SessionObject.QSTARTZONETYPE:
 				case PropertyId.SessionObject.LastGenPosServer:      // -1246/-648
+				case PropertyId.SessionObject.DROPITEM_REQUEST1_RR:
 				case PropertyId.SessionObject.DROPITEM_REQUEST1_TRL:
+				case PropertyId.SessionObject.CHARACTER_ATTENDANCE_CHECK:
 					return PropertyType.String;
 				default:
 					return PropertyType.Float;

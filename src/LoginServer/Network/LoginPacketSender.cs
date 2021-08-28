@@ -377,7 +377,8 @@ namespace Melia.Login.Network
 			packet.PutByte((byte)result);
 			packet.PutString(teamName);
 
-			packet.PutEmptyBin(79 - (15 + teamName.Length));
+			// Filler bytes, official packet sends something here, that I have no clue what it does, but this works
+			packet.PutEmptyBin(79 - (16 + teamName.Length));
 
 			conn.Send(packet);
 		}

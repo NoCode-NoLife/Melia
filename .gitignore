@@ -174,10 +174,9 @@ $RECYCLE.BIN/
 Tree of Savior Offical - SE Asia.bat
 Tree of Savior Offical - NA.bat
 Tree of Savior Offical - Europe.bat
-Tree of Savior Local.bat
-system/db/monsters-old.txt
-system/db/items - old.txt
-system/db/drops.txt
 Tree of Savior Offical - S. America.bat
 Tree of Savior 192.168.68.129.bat
+Tree of Savior Local.bat
+*-old.txt
 *.bak
+*.conf

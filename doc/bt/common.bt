@@ -201,8 +201,8 @@ typedef struct {
     int i4;
     int totalExp;
     int i5;
-    int64 characterId <format=hex>;
-    int64 socialInfoId <format=hex>;
+    int64 characterId;
+    int64 socialInfoId;
     int hp;
     int maxHp;
     int sp;
@@ -507,12 +507,14 @@ int getPropertyType(int id)
     switch(id) {
         case 41:
         case 1328:
+        case 1967:
         case 3927:
         case 4591:
         case 6303:
         case 7118:
         case 7122:
         case 10022:
+        case 10100:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
         case 31587:
@@ -520,6 +522,7 @@ int getPropertyType(int id)
         case 101000:
         case 101822:
         case 103075:
+        case 103180:
         case 104261:
         case 104893:
         case 104895:
@@ -608,7 +611,7 @@ typedef struct
     int64 objectId;
     int i3;
     SessionProperties properties;
-    int sessionId;
+    //int sessionId;
 }
 SessionObject <read=readSessionObject, optimize=false>;
 
