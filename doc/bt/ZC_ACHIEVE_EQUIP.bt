@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_ACHIEVE_EQUIP.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt" 
+
+ServerHeaderFixed header;
+int64 l1; // 0
+int i1; // 0
+int handle; // 425100 // ?
+int i3; // 2160
+int i4; // -1

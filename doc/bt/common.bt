@@ -27,6 +27,7 @@
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
 //   - i336041: EquipSlotCount increased to 30, Updated lpString cases
+//   - i339415: EquipSlotCount increased to 32
 //------------------------------------------------
 
 #ifdef PROPERTY_NAMES

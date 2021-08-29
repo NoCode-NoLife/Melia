@@ -15,4 +15,4 @@
 
 ClientHeaderFixed header;
 
-byte type; // 1=storage ?
+byte type; // 1= storage ? 6=team storage

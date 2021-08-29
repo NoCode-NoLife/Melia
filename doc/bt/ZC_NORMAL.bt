@@ -14,6 +14,7 @@
 //   - i184075: Job.i1+i2+bin1 were added
 //   - i195396: Skill UI update changed from 0x189 to 0x188
 //   - i336041: Added 0xA1, 0x194, 0x186, 0x135
+//   - i339415: 
 //------------------------------------------------
 
 #include "common.bt"
@@ -323,6 +324,12 @@ switch (type)
         JobF2 jobs[count];
         break;
 
+    case 0xF9:
+        if (!checkCompression()) {
+
+        }
+        break;
+
     // Map Data?
     case 0x12A:
         typedef struct
@@ -527,6 +534,10 @@ switch (type)
     case 0x197:
     case 0x1B4:
         int i1;
+        break;
+
+    case 0x1BB:
+        lpString script; // TOS_STEAM_ACHIEVEMENT_ADVENTURE_BOOK
         break;
 
     // ?

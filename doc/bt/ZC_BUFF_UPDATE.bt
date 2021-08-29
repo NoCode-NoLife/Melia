@@ -3,15 +3,28 @@
 //
 //      File: ZC_BUFF_UPDATE.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "common.bt" 
 
-ServerHeaderFixed header;
-int handle;
-float f[2];
+ServerHeaderDynamic header;
+int64 characterId1; // 3706153049919694
+int buffId; // ? 7013/7014
+int i1; // 1
+int64 l2; // 0
+int64 l3; // 0
+int i2; // 1
+int i3; // Time? 14400000
+int64 l4; // 0
+short s2; // 9
+string characterName; // Real
+int64 characterId2; // 3706153049919694
+int64 l1;
+byte b1;
+byte b2;

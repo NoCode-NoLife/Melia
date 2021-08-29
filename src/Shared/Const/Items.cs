@@ -188,6 +188,7 @@ namespace Melia.Shared.Const
 	public static class ItemId
 	{
 		public const int Silver = 900011;
+		public const int Gold = 900012;
 	}
 
 	/// <summary>

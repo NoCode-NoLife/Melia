@@ -29,3 +29,4 @@ int i3;
 int i4;
 short s1;
 byte b1;
+int64 characterId;

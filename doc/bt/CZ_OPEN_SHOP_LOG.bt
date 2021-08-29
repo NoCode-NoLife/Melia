@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_OPEN_SHOP_LOG.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+string log_message;
+string str1;
+byte b1;
+float f1;
+int i1;
+int i2;
+short s2;
+
+/**
+string log_message[15]	tpshop_premium
+string str1[2]	L
+byte b1	0
+float f1
+int i1	1
+int i2	6
+short s2	0
+**/

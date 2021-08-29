@@ -3,12 +3,13 @@
 //
 //      File: ZC_AUTOSELLER_TITLE.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      - i339415: b1 added
 //------------------------------------------------
 
 #include "common.bt"
@@ -18,4 +19,5 @@ int handle; // 1868
 int i1; // 5 (Shop Type?) or Faction (0 for Kafra) or 6 or 8
 char name[64]; // Kafra Support Buff [13.8]
 int i2; // 0
-int i3; // 0 or 1 or 15
+int i3; // 0 or 1 or 15 or 5
+byte b1;

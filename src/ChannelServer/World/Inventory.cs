@@ -562,7 +562,10 @@ namespace Melia.Channel.World
 					}
 				}
 
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
+				if (item.Id != 900011 && item.Id != 900012)
+					Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
+				else
+					Send.ZC_ITEM_REMOVE(_character, 0, reduce, msg, InventoryType.Inventory);
 				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			}
 

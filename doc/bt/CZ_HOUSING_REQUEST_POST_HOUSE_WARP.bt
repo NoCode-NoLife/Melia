@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_HOUSING_REQUEST_POST_HOUSE_WARP.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+int64 accountId;
+int i1;
+ushort s1; // Handle?
+short s2;

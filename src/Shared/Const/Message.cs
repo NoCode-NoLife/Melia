@@ -92,8 +92,12 @@ namespace Melia.Shared.Const
 		/// The UI for new entries in adventure book
 		/// </summary>
 		public const string ADVENTURE_BOOK_NEW = "ADVENTURE_BOOK_NEW"; // Parameter: @dicID_^*$ETC_20150317_000001$*^
-
 		public const string SET_COIN_GET_GAUGE = "SET_COIN_GET_GAUGE";
+
+		/// <summary>
+		/// Opens the TP shop UI Help
+		/// </summary>
+		public const string TP_SHOP_UI_OPEN = "TP_SHOP_UI_OPEN";
 	}
 
 	public static class SystemMessage

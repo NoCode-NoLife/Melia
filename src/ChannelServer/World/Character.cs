@@ -2627,7 +2627,7 @@ namespace Melia.Channel.World
 				return;
 			}
 
-			Send.ZC_MOVE_ZONE_OK(this.Connection, channelServer.Ip, channelServer.Port, this.MapId);
+			Send.ZC_MOVE_ZONE_OK(this, channelServer.Ip, channelServer.Port, this.MapId);
 		}
 
 		/// <summary>

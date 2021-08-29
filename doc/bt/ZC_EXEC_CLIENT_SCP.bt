@@ -14,4 +14,4 @@
 #include "common.bt"
 
 ServerHeaderDynamic header;
-string script; // SQIORE_REPAIR_CENCEL()
+string script; // SQIORE_REPAIR_CENCEL(), WEAPONSWAP_UI_UPDATE()

@@ -733,69 +733,32 @@ namespace Melia.Channel.Network
 
 			foreach (var equipItem in equip)
 			{
-				if (equipItem.Value.Id == 521101)
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
-				}
-				else if (equipItem.Value.Id == 101101)
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MINATK, 36f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MAXATK, 38f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
-				}
-				else if (equipItem.Value.Id == 141101)
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MATK, 37f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
-				}
-				else if (equipItem.Value.Id == 531101)
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
-				}
-				else if (equipItem.Value.Id == 521101)
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
-				} else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
-				{
-					
-				} else
-				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-				}
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
 
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutInt(propertiesSize);
 				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
-					packet.PutLong(0);
-				else
-					packet.PutLong(equipItem.Value.ObjectId);
-				packet.PutInt((int)equipItem.Key);
-				packet.PutInt(0);
-				packet.PutShort(0);
-				packet.AddProperties(properties);
-				if (propertiesSize > 0)
 				{
-					packet.PutShort(0);
+					packet.PutInt(equipItem.Value.Id);
+					packet.PutInt(0);
+					packet.PutLong(0);
+					packet.PutInt((int)equipItem.Key);
+					packet.PutInt(0);
+					packet.PutShort(0);					
+				} else
+				{
+					packet.PutInt(equipItem.Value.Id);
+					packet.PutInt(propertiesSize);
 					packet.PutLong(equipItem.Value.ObjectId);
+					packet.PutInt((int)equipItem.Key);
+					packet.PutInt(0);
 					packet.PutShort(0);
+					packet.AddProperties(properties);
+					if (propertiesSize > 0)
+					{
+						packet.PutShort(0);
+						packet.PutLong(equipItem.Value.ObjectId);
+						packet.PutShort(0);
+					}
 				}
 			}
 
@@ -1143,11 +1106,11 @@ namespace Melia.Channel.Network
 		/// Sends ZC_MOVE_ZONE_OK to connection, telling the client where to
 		/// connect to, and which map to load.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
 		/// <param name="mapId"></param>
-		public static void ZC_MOVE_ZONE_OK(ChannelConnection conn, string ip, int port, int mapId)
+		public static void ZC_MOVE_ZONE_OK(Character character, string ip, int port, int mapId)
 		{
 			var packet = new Packet(Op.ZC_MOVE_ZONE_OK);
 
@@ -1165,8 +1128,9 @@ namespace Melia.Channel.Network
 			packet.PutInt(59);
 			packet.PutShort(0);
 			packet.PutByte(0);
+			packet.PutLong(character.Id);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -3658,7 +3622,62 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// When an item is sold
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		/// <param name="items"></param>
+		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, byte type, List<Item> items)
+		{
+			var packet = new Packet(Op.ZC_SOLD_ITEM_DIVISION_LIST);
+			packet.PutByte(type);
+			packet.PutInt(items.Count);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			packet.PutByte(1);
+			if (items.Count != 0)
+			{
+				packet.Zlib(true, zpacket =>
+				{
+					for (int i = 0; i < items.Count; i++)
+					{
+						var properties = items[i].Properties.GetAll();
+						var propertiesSize = properties.Sum(a => a.Size);
+
+						zpacket.PutInt(items[i].Id);
+						zpacket.PutInt(propertiesSize);
+						if (items[i].Id != 900011)
+							zpacket.PutLong(items[i].ObjectId);
+						else
+							zpacket.PutLong(0);
+						zpacket.PutInt(items[i].Amount);
+						zpacket.PutInt(items[i].Price);
+						zpacket.PutInt(1);
+						zpacket.PutInt(items.Count - i - 1);
+						zpacket.AddProperties(properties);
+						if (propertiesSize > 0)
+						{
+							if (items[i].Id != 900011 && items[i].ObjectId > 0)
+							{
+								zpacket.PutShort(0);
+								zpacket.PutLong(items[i].ObjectId);
+								zpacket.PutShort(0);
+							}
+						}
+					}
+				});
+			}
+			else
+			{
+				packet.PutBinFromHex("8DFA020000000300");
+			}
+
+			character.Connection.Send(packet);
+		}
+
+
+		/// <summary>
+		/// When view another player's character view the submenu
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>

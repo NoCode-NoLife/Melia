@@ -1152,6 +1152,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_BUY)]
 		public void CZ_ITEM_BUY(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var purchases = new Dictionary<int, int>();
 
 			var size = packet.GetShort();
@@ -1225,7 +1226,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			character.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.PaidWith);
+			character.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
 
 			// Give items
 			foreach (var purchase in purchaseList)
@@ -1241,6 +1242,7 @@ namespace Melia.Channel.Network
 			// price in the db usually being 0. This msg will reset the shop
 			// panel, to display the proper balance after confirming the
 			// transaction.
+			// 08-29-21 Update, Item Database is updated but equipment for the most part are still priced at 0
 			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY);
 		}
 
@@ -1252,6 +1254,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_SELL)]
 		public void CZ_ITEM_SELL(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var itemsToSell = new Dictionary<long, int>();
 
 			var size = packet.GetShort();
@@ -1276,6 +1279,7 @@ namespace Melia.Channel.Network
 
 			// Remove items and count revenue
 			var totalMoney = 0;
+			var itemsSold = new List<Item>();
 			foreach (var itemToSell in itemsToSell)
 			{
 				var worldId = itemToSell.Key;
@@ -1298,7 +1302,10 @@ namespace Melia.Channel.Network
 
 				// Try to remove item
 				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+				{
 					totalMoney += item.Data.SellPrice * amount;
+					itemsSold.Add(item);
+				}
 				else
 					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
 			}
@@ -1307,12 +1314,9 @@ namespace Melia.Channel.Network
 			if (totalMoney > 0)
 				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
-			// Temporary fix for differences in prices between client and
-			// server. Equip prices are being calculated somehow, with their
-			// price in the db usually being 0. This msg will reset the shop
-			// panel, to display the proper balance after confirming the
-			// transaction.
-			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY);
+			
+			// Need to keep track of items sold, server sends this list to the client
+			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, 3, itemsSold);
 		}
 
 		/// <summary>
