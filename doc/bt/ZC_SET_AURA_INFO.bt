@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CHANGE_RELATION.bt
-//   Authors: Salman T. Khan
-//   Version: i337645
+//      File: ZC_SET_AURA_INFO.bt
+//   Authors: 
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,7 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-
 int handle;
-byte relationship; // 0
+int64 characterId;
+short s1;
+int64 l[10];

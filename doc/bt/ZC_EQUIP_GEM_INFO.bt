@@ -14,8 +14,14 @@
 #include "common.bt"
 
 ServerHeaderDynamic header;
+
+typedef struct
+{
+    int64 l1;
+    short s1;
+} GEMINFO;
+
 byte b1;
-int i1;
-int i2;
-int i3;
-int i4;
+int count;
+short s1;
+GEMINFO info[count];

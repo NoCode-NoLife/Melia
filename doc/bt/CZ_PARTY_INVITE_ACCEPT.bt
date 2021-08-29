@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CHANGE_RELATION.bt
+//      File: CZ_PARTY_INVITE_ACCEPT.bt
 //   Authors: Salman T. Khan
-//   Version: i337645
-//   Purpose: 
+//   Version: i339415
+//   Purpose: Accepting a party invite
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,7 +13,6 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
-
-int handle;
-byte relationship; // 0
+ClientHeaderFixed header;
+byte b1;
+string teamName;

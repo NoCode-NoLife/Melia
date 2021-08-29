@@ -119,8 +119,8 @@ namespace Melia.Channel.Network
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, character.Hp, character.MaxHp, character.Sp, character.MaxSp);
 			Send.ZC_MOVE_SPEED(character);
-			//character.Stamina = 25000;
-			//Send.ZC_STAMINA(character, 25000);
+			Send.ZC_STAMINA(character, character.Stamina);
+			Send.ZC_UPDATE_SP(character, character.Sp);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL_Unknown_1B4(character);
@@ -846,22 +846,33 @@ namespace Melia.Channel.Network
 				Send.ZC_PC_ATKSTATE(character, true);
 				if (handleCount == 0)
 				{
-					Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
-				}
-				foreach (var handle in handles)
-				{
-					// Get target
-					var target = character.Map.GetMonster(handle);
-					if (target == null)
+					switch (skill.Data.UseType)
 					{
-						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
-						continue;
+						case SkillUseType.MELEE_GROUND:
+							Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
+							break;
+						case SkillUseType.FORCE:
+							Send.ZC_SKILL_FORCE_TARGET(character, null, skill, 0);
+							break;
+						default: Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+							break;
 					}
+				}
+				else
+				{
+					foreach (var handle in handles)
+					{
+						// Get target
+						var target = character.Map.GetMonster(handle);
+						if (target == null)
+						{
+							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
+							continue;
+						}
 
-					var damage = character.GetRandomPAtk();
-					Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, target);
-
-					target.TakeDamage(damage, character);
+						var damage = character.GetRandomPAtk();
+						target.TakeDamage(damage, character);
+					}
 				}
 			}
 		}
@@ -899,7 +910,7 @@ namespace Melia.Channel.Network
 			}
 
 			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			Send.ZC_SKILL_READY(character, skillId);
+			//Send.ZC_SKILL_READY(character, skillId);
 			var damage = character.GetRandomPAtk();
 
 			target.TakeDamage(damage, character, skill);
@@ -1096,19 +1107,7 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill != null)
 			{
-				// Get target
-				var target = character.Map.GetMonster(handle);
-				if (target == null)
-				{
-					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
-					return;
-				}
-
-				var damage = character.GetRandomPAtk();
-				damage = Math.Max(0, damage - target.Defense);
-				Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, target, damage);
-
-				target.TakeDamage(damage, character);
+				character.CastSkill(skill.Id, cos, sin);
 			}
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
@@ -1813,7 +1812,7 @@ namespace Melia.Channel.Network
 
 
 		/// <summary>
-		/// Sent to continue dialog?
+		/// ToS Hero Emblems?
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1824,6 +1823,26 @@ namespace Melia.Channel.Network
 
 			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
 		}
+
+		[PacketHandler(Op.CZ_PROPERTY_COMPARE)]
+		public void CZ_PROPERTY_COMPARE(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var handle = packet.GetInt();
+			var b1 = packet.GetByte();
+			var b2 = packet.GetByte();
+
+			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
+			if (character == null)
+			{
+				Log.Warning("Attempted to compare an unknown character '{0}'.", handle);
+				return;
+			}
+
+			Send.ZC_PROPERTY_COMPARE(conn, character);
+		}
+
+		
 	}
 
 	public enum TxType : short

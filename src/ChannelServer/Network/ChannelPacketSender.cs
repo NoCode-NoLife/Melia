@@ -258,28 +258,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Allow character to use a skill again for character, by sending ZC_SKILL_READY to its connection.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="skillId"></param>
-		public static void ZC_SKILL_READY(Character character, int skillId)
-		{
-			var packet = new Packet(Op.ZC_SKILL_READY);
-
-			packet.PutInt(character.Handle);
-			packet.PutInt(skillId);
-			packet.PutFloat(1);
-			packet.PutFloat(1.054772f);
-			packet.PutInt(49920);
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
-			packet.PutEmptyBin(12);
-
-			character.Connection.Send(packet);
-		}
-
-		/// <summary>
 		/// Cancel a skill cast, usually when a monster has died.
 		/// </summary>
 		/// <param name="character"></param>
@@ -297,10 +275,10 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target = null, int skillId = 1, int damage = -1)
+		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target, Skill skill, int damage)
 		{
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
-			packet.PutInt(skillId);
+			packet.PutInt(skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -2016,10 +1994,9 @@ namespace Melia.Channel.Network
 			packet.PutFloat(dy);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
 			packet.PutFloat(character.GetSpeed());
-			packet.PutByte(1);
 			packet.PutFloat(unkFloat);
-			packet.PutEmptyBin(23);
-			packet.PutInt(1);
+			packet.PutEmptyBin(24);
+			packet.PutInt(6);
 			packet.PutInt(0);
 			packet.PutByte(1);
 
@@ -2087,20 +2064,21 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
 		/// Inform client that the skill is ready
 		/// </summary>
-		/// <param name="attacker"></param>
+		/// <param name="character"></param>
 		/// <param name="id"></param>
 		/// <param name="position1"></param>
 		/// <param name="position2"></param>
-		public static void ZC_SKILL_READY(Character character, int id, Position position1, Position position2)
+		public static void ZC_SKILL_READY(Character character, Skill skill, Position position1, Position position2)
 		{
 			var packet = new Packet(Op.ZC_SKILL_READY);
 			packet.PutInt(character.Handle);
-			packet.PutInt(id);
+			packet.PutInt(skill.Id);
 			packet.PutFloat(1);
-			packet.PutBinFromHex("01 39 EC C0");
 			packet.PutFloat(1);
+			packet.PutInt(character.Handle);
 			packet.PutFloat(position1.X);
 			packet.PutFloat(position1.Y);
 			packet.PutFloat(position1.Z);
@@ -2108,8 +2086,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(position2.Y);
 			packet.PutFloat(position2.Z);
 
-
-			character.Map.Broadcast(packet, character);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -3627,6 +3604,179 @@ namespace Melia.Channel.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Reset Overheat
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_OVERHEAT_RESET_TIME(Character character, int i1, int overheat)
+		{
+			var packet = new Packet(Op.ZC_OVERHEAT_RESET_TIME);
+			packet.PutLong(character.Id);
+			packet.PutInt(i1); // 1551 or 2255
+			packet.PutInt(overheat);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SYNC_START(Character character, int i1, float f1)
+		{
+			var packet = new Packet(Op.ZC_SYNC_START);
+			packet.PutInt(i1);
+			packet.PutFloat(f1); // 1
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SYNC_END(Character character, int i1, float f1)
+		{
+			var packet = new Packet(Op.ZC_SYNC_END);
+			packet.PutInt(i1);
+			packet.PutFloat(-0.2f); // 0.2
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EQUIP_CARD_INFO(Character character)
+		{
+			var packet = new Packet(Op.ZC_EQUIP_CARD_INFO);
+			packet.PutShort(0); // Count?
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_PROPERTY_COMPARE(ChannelConnection conn, Character character)
+		{
+			var packet = new Packet(Op.ZC_PROPERTY_COMPARE);
+
+			var properties = character.Properties.GetAll();
+			var propertiesSize = properties.Sum(a => a.Size);
+			var equip = character.Inventory.GetEquip();
+
+			packet.PutInt(character.Handle);
+			packet.PutString(character.Name, 65);
+			packet.PutLong(character.Id);
+			packet.PutLong(character.AccountId);
+			packet.PutEmptyBin(5);
+			packet.PutByte(1);
+			packet.PutInt(1624);
+			packet.PutLong(1624);
+			packet.PutString(character.TeamName, 64);
+
+			packet.PutString(character.Name, 64);
+			packet.PutShort(0);
+			packet.PutShort((short)character.JobId);
+			packet.PutInt((int)character.JobId);
+			packet.PutInt(11);
+			packet.PutShort(1);
+			packet.PutLong(11);
+			packet.PutLong(0);
+			packet.PutEmptyBin(6);
+			packet.PutInt(1003);
+			packet.PutInt(10); // ?
+			packet.PutByte(0x80);
+			packet.PutByte(0x80);
+			packet.PutByte(0x80);
+			packet.PutByte(0xFF);
+			packet.PutLong((long)character.JobId);
+			packet.PutLong(0);
+			packet.PutShort(1490);
+			packet.PutShort(215);
+
+			packet.AddAppearancePc(character);
+			//packet.AddProperties(properties);
+			packet.PutBinFromHex("F39A010000000000FB1B000000000000981B000000001041F49A010000000000041B00000000AF43271C0000000020417E1B000000000000FB9A0100000000008A92010000000000F12C0000000000006F1B000000000000CF1B000000000000F092010000000000751B000000000000059B010000000000DE2C000000000000891B000000000000B91B0000000000004D1B0000000000000A9B010000000000031B0000000000408D1B000000000000FA1B000000000842E32C000000000000F89A0100000000009B1B000000000000DC2C000000000000F21B00000000803F8E92010000000000A398010000000000701B000000002041AD1B000000000000831B0000000000009D1B00000000803FCE8D010000000000D01B00000000803F191C000000007A44CD1B00000000803FFC9B0100000000001F1B00000000803F771B000000000000DD2C00000000000091920100000000009392010000000000E82C000000000000201B0000000000005D1B000000000000E02C000000000000DB1B0000000000009492010000000000141C000000000000051C000000005C43A21B000000000000261B0000EBC99840ED1A00000000F041089B010000000000CE1B0000080043686172325F31008892010000000000DE1A000034B33A437D1B000000000000431B00004AA40A48021C000000000842541B00000000803F8D92010000000000DC1A000000008041E792010000002842DF1A000000000040761B0000000030412F87000000000000121C00000000803F861B000000002842A51B000000000000EA2C000000000000B21B000000000000481B000000000000101C000000000000D08D0100000000009E1B000000000000E42C000000000000E12C000000000000931B00000000B643581B000000007A44991B000000009041DC1B000000000000EE2C0000000000008F92010000000000EF9201000000C842F02C0000000000001A1C0000000000008B1B000000000000F81A00000000C0406C1B00000000000092920100000000007C1B000000004040D31A0000000040403F7F00000600313034343900DF2C000000000000E71A000000008040ED92010000000000A298010000000000AC1B000000000000EB2C000000000000371B000000000842E72C000000000000A81B000000000000721B000000000000971B000000000000BB1B000000000000F01B000000007842E6920100000000003387000000000000B61B000000000000291B000000000000871B000000000000F192010000000000F41A00000050C346B01B000000000000921B000000000000A0980100000000001F8D0100000000009092010000000000D41A000000002041311C00000000803FE62C000000000000E92C000000000000B81B000000000000FD9B010000000000E01B000000000000E51B000000000000B11B0000000000009692010000000000FA1A000000008041049B010000000000A31B000000002041E52C0000000000008C920100000000009A1B0000004072446D1B00000000803F1E8D010000000000951B000000008042A198010000000000C51B00000000FA431B1B000000000842711B000000000000F51B000000007842E22C000000000000781B000000000000F51A00000000FA45EC2C000000000000A71B0000000000007B1B000000000000201C000000000000F91A000000409C46E499010000000000FA9A010000000000821B0000000000008B920100000000009F98010000000000AB1B000000002041CC8D010000000000F59A010000000000A61B000000007041D61B00000000FA43ED2C0000000000000F1C0000000030419C98010000000000A91B000000000000FD9A0100000000003087000000000000E98F010000008442251C000000401C45811B000000004041EF2C000000000000FC1B00000000000032870000000000009C1B00000000803FB51B000000000041531B000000000000959201000000000089920100000000008792010000000000A41B000000000000F81B000000000243231C000000000000069B0100000000000D2000000000803FE30F000000409D46A392010005003230303100052000000000803F459701000A00736B696E746F6E653200480F000046329A4B092000000000803F112000000000803F6F0F000000007B44262700000700526567656E7400F69201000000803F21A801000000803F6B9601000000803FA50F000000C07D44FF9201000000803F570F00004900635F4B6C616970652F2D39352E3737343430363433333130352F3134392E32303334363036393333362F3137352E35373734393933383936352F6974656D6275666672657061697200");
+
+			foreach (var equipItem in equip)
+			{
+				if (equipItem.Value.Id == 521101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
+				else if (equipItem.Value.Id == 101101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MINATK, 36f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MAXATK, 38f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+				}
+				else if (equipItem.Value.Id == 141101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MATK, 37f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+				}
+				else if (equipItem.Value.Id == 531101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
+				else if (equipItem.Value.Id == 521101)
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+				}
+				else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
+				{
+
+				}
+				else
+				{
+					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+				}
+				properties = equipItem.Value.Properties.GetAll();
+				propertiesSize = equipItem.Value.Properties.Size;
+
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutInt(propertiesSize);
+				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
+					packet.PutLong(0);
+				else
+					packet.PutLong(equipItem.Value.ObjectId);
+				packet.PutInt((int)equipItem.Key);
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.AddProperties(properties);
+				if (propertiesSize > 0)
+				{
+					packet.PutShort(0);
+					packet.PutLong(equipItem.Value.ObjectId);
+					packet.PutShort(0);
+				}
+			}
+
+			conn.Send(packet);
+		}
+
 
 		public static void DUMMY(ChannelConnection conn)
 		{

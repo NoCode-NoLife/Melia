@@ -1,0 +1,40 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_RESPONSE_DRAW_TOSHERO_EMBLEM.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    int64 date;
+    int64 l1; // 1 ?
+    int64 accountId;
+    int64 characterId;
+    char name[64];
+    char guild[64];
+    int jobId;
+    int i3;
+    int i4;
+    int i5;
+    int handle;
+    int i6;
+    int i7;
+    int64 l2;
+    short s1;
+    short s2;
+    int64 l2;
+} TOSHERO;
+
+ServerHeaderDynamic header;
+int i1; // Count?
+int i2; // Count?
+TOSHERO heroes[i1];

@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CHANGE_RELATION.bt
+//      File: ZC_ANCIENT_FRIENDLY_STATE.bt
 //   Authors: Salman T. Khan
-//   Version: i337645
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,4 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-
-int handle;
-byte relationship; // 0
+byte state; // 0 = not friendly?

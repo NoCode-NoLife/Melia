@@ -17,9 +17,20 @@ ServerHeaderFixed header;
 
 int targetHandle;
 int attackerHandle; // ?
-int i1;
+int skillId;
 int damage;
-int hp;
+int hpLeft;
+int i1;
+int i2; // ?
+byte b1; // ?
+byte b2; // ?
+short s1;
+byte b3;
+byte b4;
+int64 l1;
+int i3;
 int i4;
-int64 l1; // ?
-byte b1[22]; // 18 00...
+byte b5;
+float f1;
+int64 l2;
+int64 l3;

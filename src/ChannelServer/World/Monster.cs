@@ -171,7 +171,15 @@ namespace Melia.Channel.World
 				Send.ZC_SKILL_HIT_INFO(from, this, damage);
 			} else
 			{
-				Send.ZC_SKILL_FORCE_TARGET(from, this, skill.Id, damage);
+				switch(skill.Data.UseType)
+				{
+					case SkillUseType.FORCE:
+						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
+						break;
+					case SkillUseType.MELEE_GROUND:
+						Send.ZC_SKILL_MELEE_GROUND(from, skill, this.Position.X, this.Position.Y, this.Position.Z, this, damage);
+						break;
+				}
 			}
 
 			if (this.Hp == 0)

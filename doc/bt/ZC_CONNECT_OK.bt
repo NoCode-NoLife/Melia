@@ -3,7 +3,7 @@
 //
 //      File: ZC_CONNECT_OK.bt
 //   Authors: exec, celophi, Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,7 @@
 //   - i11257:  isIntegrateServer was added
 //   - i170175: isIntegrateIndunServer was added
 //   - i336041: Commander Struct updated, sp is now an int
+//   - i339415: Commander Struct updated, additional 2 equip ids
 //------------------------------------------------
 
 #include "common.bt"

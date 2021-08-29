@@ -68,16 +68,33 @@ switch (type)
         break;
 
     // ?
+    case 0x16:
+        int handle;
+        int handle1;
+        int handle2;
+        int handle;
+        ushort s1;
+        short s2;
+        float f2;
+        float f3;
+        float f4;
+        int i1;
+        byte b2;
+        float effectSize;
+        byte bin[8];
+        break;
+
     case 0x1D:
         int handle1;
         byte bin1[4];
+        short s1;
+        short s2;
         int handle2;
         position pos;
         direction dir;
         float f1;
         float f2;
         float f3;
-        float f4;
         break;
         
     case 0x2D:

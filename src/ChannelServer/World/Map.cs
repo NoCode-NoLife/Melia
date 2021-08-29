@@ -197,6 +197,20 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns only monsters in a certain range
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public List<Monster> GetMonstersInRange(float x, float y, float z, int range)
+		{
+			List<Monster> result;
+			Position position = new Position(x, y, z);
+			lock (_monsters)
+				result = _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster).ToList();
+			return result;
+		}
+
+		/// <summary>
 		/// Returns only monsters by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>

@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_CHANGE_RELATION.bt
+//      File: ZC_SYNC_START.bt
 //   Authors: Salman T. Khan
-//   Version: i337645
-//   Purpose: 
+//   Version: i339415
+//   Purpose: Related to a skill being casted Sync Start -> Missile Count * Normal 0x16 -> Sync End
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,6 +14,5 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-
 int handle;
-byte relationship; // 0
+float f1; // 1
