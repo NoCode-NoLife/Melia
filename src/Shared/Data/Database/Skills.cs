@@ -47,6 +47,7 @@ namespace Melia.Shared.Data.Database
 		Square,
 		Circle,
 		Fan,
+		Area,
 	}
 
 	public enum SkillUseType
