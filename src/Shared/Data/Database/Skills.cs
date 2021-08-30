@@ -94,7 +94,6 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 		}
 
-		public Dictionary<string, int> useTypes = new Dictionary<String, int>();
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("skillId", "className", "name");
@@ -131,7 +130,7 @@ namespace Melia.Shared.Data.Database
 			info.HoldTime = entry.ReadList<int>("holdTime");
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
 			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
-			info.UseType = GetSkillUseType(entry.ReadString("useType"));
+			info.UseType = this.GetSkillUseType(entry.ReadString("useType"));
 
 			if (entry.ContainsKey("overheat"))
 			{
