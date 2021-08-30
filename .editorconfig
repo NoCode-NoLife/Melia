@@ -8,7 +8,7 @@ root = true
 indent_style = tab
 indent_size = 4
 insert_final_newline = true
-charset = utf-8-bom
+#charset = utf-8-bom
 
 # Xml project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -66,6 +66,9 @@ dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = priva
 dotnet_naming_style.camel_case_underscore_style.required_prefix = _
 dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case 
 
+# Ignore unused parameters
+dotnet_diagnostic.IDE0060.severity = none
+
 # CSharp code style settings:
 [*.cs]
 # Prefer "var" everywhere
@@ -103,3 +106,6 @@ csharp_indent_labels = one_less_than_current
 
 # Object initializer
 csharp_style_object_initializer = false
+
+# Don't indent switch case contents when they use a block
+csharp_indent_case_contents_when_block = false
