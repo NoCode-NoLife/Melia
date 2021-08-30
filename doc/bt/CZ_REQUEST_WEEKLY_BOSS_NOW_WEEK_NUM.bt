@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_REQUEST_WEEKLY_BOSS_NOW_WEEK_NUM.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;

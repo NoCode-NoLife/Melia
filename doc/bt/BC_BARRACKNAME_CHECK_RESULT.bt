@@ -1,0 +1,21 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: BC_BARRACKNAME_CHECK_RESULT.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int result;
+char result_text[27];
+byte bin1[229];
+char teamName[10];
+byte bin2[54];

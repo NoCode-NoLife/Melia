@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_PC_MOVE_STOP.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,10 +16,8 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
+position pos;
 byte b1;
-float dcos;
-float dsin;
+direction dir;
 float f1;
+byte bin[24];

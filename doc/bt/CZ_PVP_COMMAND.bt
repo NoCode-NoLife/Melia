@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_PVP_COMMAND.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+byte b1; // 2
+int64 l1; // 0
+int i1; // 0 
+byte b[3]; // 0x3B, 0x4B, 0xAC

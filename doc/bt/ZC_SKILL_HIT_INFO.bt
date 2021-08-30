@@ -15,20 +15,21 @@
 
 typedef struct
 {
-    short s1;
-    short s2;
+    int i1;
     int targetHandle;
     int damage;
     int hp;
     int i3;
     short s3;
-    byte b1;
-    byte bin1[29];
+    short s[15];
     short s4;
+    int i4;
     short s5;
+    byte b2;
+    float f1; // -223 -981
 
     // ?
-    if(bin1[5] != 0)
+    if(i4 != 0)
         byte bin2[60];
 
     // ?

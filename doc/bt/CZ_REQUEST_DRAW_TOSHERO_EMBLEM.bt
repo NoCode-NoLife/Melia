@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_REQUEST_DRAW_TOSHERO_EMBLEM.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+int i1; // 1
+ushort s1;
+ushort s2;

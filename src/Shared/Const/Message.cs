@@ -36,6 +36,7 @@ namespace Melia.Shared.Const
 		UnableToDeletePartyLeader = 25,
 		NotCBTUser = 26,
 		RatedEsrbTeen = 27,
+		InvalidIpf = 28, // Client IPF files are invalid.
 
 		// ...
 	}
@@ -59,16 +60,49 @@ namespace Melia.Shared.Const
 		public const string RESET_ABILITY_ACTIVE = "RESET_ABILITY_ACTIVE";
 
 		/// <summary>
+		/// Sent when successfully an ability is learned
+		/// </summary>
+		public const string SUCCESS_LEARN_ABILITY = "SUCCESS_LEARN_ABILITY";
+
+		/// <summary>
+		/// Used for ability point update
+		/// </summary>
+		public const string UPDATE_ABILITY_POINT = "UPDATE_ABILITY_POINT";
+
+		/// <summary>
 		/// Opens the event banner.
 		/// </summary>
 		public const string DO_OPEN_EVENTBANNER_UI = "DO_OPEN_EVENTBANNER_UI";
 		public const string SET_CHAT_MACRO_DEFAULT = "SET_CHAT_MACRO_DEFAULT";
-		public const string FISHING_SUCCESS_COUNT = "FISHING_SUCCESS_COUNT";
+		public const string FISHING_SUCCESS_COUNT = "FISHING_SUCCESS_COUNT"; // Parameter: 0
 
 		/// <summary>
 		/// The UI for first time players showing how to move using the keyboard.
 		/// </summary>
 		public const string KEYBOARD_TUTORIAL = "KEYBOARD_TUTORIAL";
+		public const string MINIMIZED_TUTORIALNOTE_EFFECT_CHECK = "MINIMIZED_TUTORIALNOTE_EFFECT_CHECK"; // Parameter: guide_1
+
+		public const string ENABLE_PCBANG_SHOP = "ENABLE_PCBANG_SHOP";
+
+		public const string PARTY_UPDATE = "PARTY_UPDATE";
+		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
+		public const string UPDATE_ATTENDANCE_REWARD = "UPDATE_ATTENDANCE_REWARD";
+
+		/// <summary>
+		/// The UI for new entries in adventure book
+		/// </summary>
+		public const string ADVENTURE_BOOK_NEW = "ADVENTURE_BOOK_NEW"; // Parameter: @dicID_^*$ETC_20150317_000001$*^
+		public const string SET_COIN_GET_GAUGE = "SET_COIN_GET_GAUGE";
+
+		/// <summary>
+		/// Opens the TP shop UI Help
+		/// </summary>
+		public const string TP_SHOP_UI_OPEN = "TP_SHOP_UI_OPEN";
+	}
+
+	public static class SystemMessage
+	{
+		public const int PERSONAL_HOUSE_LEVEL_10_REQUIRED = 815111;
 	}
 
 	/// <summary>

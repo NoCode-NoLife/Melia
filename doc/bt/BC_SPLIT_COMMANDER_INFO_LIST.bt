@@ -1,0 +1,70 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: BC_SPLIT_COMMANDER_INFO_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    short propertiesSize;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        int64 l1;
+        short s1;
+    }
+} EquipProperties <optimize=false>;
+
+typedef struct
+{
+    EquipProperties properties[EquipSlotCount];
+} Equip <optimize=false>;
+
+typedef struct
+{
+    APPEARANCE_BARRACK_PC abpc;
+    Equip equip;
+    //byte bin[8];
+    short s1;
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
+    // maybe job history?
+    short jobIdCount;
+    short jobIds[jobIdCount];
+    
+    int i1;
+    int i2;
+    int64 characterId <format=hex>;
+    short s2;
+    if (s2 > 0) {
+        lpString lpS1;
+        lpString lpS2;
+        lpString lpS3;
+        lpString lpS4;
+    }
+}
+BARRACK_PC <read=readBARRACK_PC>;
+
+string readBARRACK_PC(BARRACK_PC &v)
+{
+    return v.abpc.appearancePc.name;
+}
+
+ServerHeaderDynamic header;
+int32 characterCount;
+int64 accountId;
+byte b1;
+byte b2;
+byte b3;
+
+BARRACK_PC barrackPc[characterCount] <optimize=false>;

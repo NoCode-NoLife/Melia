@@ -17,27 +17,57 @@ namespace Melia.Shared.Const
 	public enum InventoryCategory
 	{
 		Premium = 1,
-		Weapon = 2,
-		Armor = 3,
-		SubWeapon = 4,
-		Costume = 5,
-		Accessory = 6,
-		Consumable = 7,
-		Gem = 8,
-		RecipeWeapon = 9,
-		Card = 10,
-		Collection = 11,
-		Book = 12,
-		Quest = 13,
-		PetWeapon = 14,
-		PetArmor = 15,
-		Money = 16, // invisible
-		Material = 17,
-		Cube = 18,
-		RecipeArmor = 19,
-		RecipeAccessory = 20,
-		RecipePremium = 21,
-		RecipeOther = 22, // and above
+		Weapon = 15,
+		Armor = 26,
+		Accessory = 30,
+		Consumable = 53,
+		Cube = 55,
+		Material = 82,
+		Quest = 85,
+		Money = 94, // invisible
+	}
+
+	public enum ItemType
+	{
+		Unknown = -1,
+		Consume = 1,
+		Equip = 2,
+		Quest = 3,
+		Etc = 4,
+		Unused = 5,
+	}
+
+	public enum ItemGroup
+	{
+		Unknown = -1,
+		Premium = 1,
+		Quest = 2,
+		Arcane = 3,
+		Drug = 4,
+		Material = 5,
+		Event = 6,
+		Misc = 7,
+		Ark = 8,
+		LegendMaterial = 9,
+		MagicAmulet = 10,
+		SpecialMaterial = 11,
+		Icor = 12,
+		ExpOrb = 13,
+		SubExpOrb = 14,
+		FishingRod = 15,
+		PasteBait = 16,
+		Unused = 17,
+		HiddenAbility = 18,
+		Entrance_Ticket = 19,
+		Consume = 20,
+		Armor = 21,
+		Helmet = 22,
+		Weapon = 23,
+		Armband = 24,
+		SubWeapon = 25,
+		Seal = 26,
+		Relic = 27,
+		Gem = 28,
 	}
 
 	public static class InventoryCategoryExtension
@@ -130,14 +160,16 @@ namespace Melia.Shared.Const
 		/// [i171032] 22->23, wings
 		/// [i184075] 23->24, special costume
 		/// [i186893] 24->25, effect costume
+		/// [i337645] 25->30
+		/// [i339415] 30->32
 		/// </remarks>
-		public const int EquipSlotCount = 25;
+		public const int EquipSlotCount = 32;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 9, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996 };
 	}
 
 	public enum InventoryOrder : byte
@@ -156,6 +188,7 @@ namespace Melia.Shared.Const
 	public static class ItemId
 	{
 		public const int Silver = 900011;
+		public const int Gold = 900012;
 	}
 
 	/// <summary>

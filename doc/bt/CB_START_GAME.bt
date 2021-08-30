@@ -17,3 +17,5 @@ ClientHeaderFixed header;
 
 short channel;
 byte idx;
+byte bin[12];
+long id;

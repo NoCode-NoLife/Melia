@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PCBANG_SHOP_RENTAL.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    char name[64];
+    int i1;
+    int i2;
+    int i3;
+    int i4;
+} Shop;
+
+int count;
+Shop shops[count];
+local int i;
+local int newFile = FileNew();
+for (i = 0; i < count; i++)
+{
+    FPrintf( newFile, "packet.PutString(\"%s\", 64);\npacket.PutInt(%d);\npacket.PutInt(%d);\npacket.PutInt(%d);\npacket.PutInt(%d);\n\n", shops[i].name, shops[i].i1, shops[i].i2, shops[i].i3, shops[i].i4 );
+}

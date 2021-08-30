@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_HELP_ADD.bt
+//   Authors: Salman T. Khan
+//   Version: 337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int i1; // 34
+byte b1; // 1

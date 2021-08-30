@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_QUEST_NPC_STATE_CHECK.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+int handle; // or npcId?
+uint i1; // state?
+short s1;

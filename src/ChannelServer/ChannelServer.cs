@@ -107,7 +107,7 @@ namespace Melia.Channel
 			}
 
 			// Server
-			this.ConnectionManager = new ConnectionManager<ChannelConnection>(serverData.Port);
+			this.ConnectionManager = new ConnectionManager<ChannelConnection>(serverData.Ip, serverData.Port);
 			this.ConnectionManager.Start();
 
 			// Ready

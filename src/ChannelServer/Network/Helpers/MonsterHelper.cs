@@ -31,7 +31,7 @@ namespace Melia.Channel.Network.Helpers
 			// MONSTER
 			{
 				packet.PutInt(monster.Id);
-				packet.PutInt(0);
+				packet.PutInt(0); // 600?
 				packet.PutInt(monster.MaxHp);
 
 				// [i11025 (2016-02-26)] Removed?
@@ -46,15 +46,24 @@ namespace Melia.Channel.Network.Helpers
 				packet.PutEmptyBin(3);
 			}
 			packet.PutInt(0); // GenType
-			packet.PutInt(0);
+			packet.PutInt(5); // Name Size?
 
 			//packet.PutShort(0); // parameters size
 			// it was, like this in IDA o.o
 			packet.PutByte(0); // parameters size
 			packet.PutByte(0); // ??
 			packet.PutByte(0); // [i170175] ?
+			packet.PutByte(0);
 
 			packet.PutInt(0);  // keeps getting added and removed every other week
+
+			packet.PutShort(0); // Property Size?
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+
+			packet.PutShort(0);
+			packet.PutByte(0);
 
 			packet.PutLpString(monster.Name);
 			packet.PutLpString(""); // UniqueName

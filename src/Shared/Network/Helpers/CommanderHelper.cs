@@ -21,26 +21,22 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutFloat(commander.Position.Y);
 			packet.PutFloat(commander.Position.Z);
 			packet.PutInt(0);
-			packet.PutInt(commander.Exp);
-			packet.PutInt(0);
-			packet.PutInt(commander.MaxExp);
-			packet.PutInt(0);
-			packet.PutInt(commander.TotalExp);
-			packet.PutInt(0);
+			packet.PutLong(commander.Exp);
+			packet.PutLong(commander.MaxExp);
+			packet.PutLong(commander.TotalExp);
 
 			packet.PutLong(commander.Id);
-
 			// TODO: Assign new IDs to characters such that the social ID does not conflict.
 			packet.PutLong(commander.Id + 1);   // SocialInfoId
 
 			packet.PutInt(commander.Hp);
 			packet.PutInt(commander.MaxHp);
-			packet.PutShort(commander.Sp);
-			packet.PutShort(commander.MaxSp);
+			packet.PutInt(commander.Sp);
+			packet.PutInt(commander.MaxSp);
 			packet.PutInt(commander.Stamina);
 			packet.PutInt(commander.MaxStamina);
-			packet.PutShort(0); // Shield
-			packet.PutShort(0); // MaxShield
+			packet.PutInt(0); // Shield
+			packet.PutInt(0); // MaxShield
 		}
 	}
 

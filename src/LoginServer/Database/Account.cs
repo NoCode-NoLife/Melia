@@ -69,7 +69,7 @@ namespace Melia.Login.Database
 		/// <summary>
 		/// The layer that is currently selected as being viewed.
 		/// </summary>
-		public int SelectedBarracklayer { get; set; }
+		public int SelectedBarrackLayer { get; set; }
 
 		/// <summary>
 		/// Returns the number of characters the account has.
@@ -85,6 +85,7 @@ namespace Melia.Login.Database
 
 			this.Medals = 500;
 			this.SelectedBarrack = 11;
+			this.SelectedBarrackLayer = 1;
 		}
 
 		/// <summary>
@@ -211,7 +212,7 @@ namespace Melia.Login.Database
 		/// <param name="layer"></param>
 		public void SetSelectedBarrackLayer(int layer)
 		{
-			this.SelectedBarracklayer = layer;
+			this.SelectedBarrackLayer = layer;
 		}
 
 		/// <summary>

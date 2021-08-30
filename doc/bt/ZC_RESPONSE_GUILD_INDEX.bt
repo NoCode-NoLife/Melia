@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_RESPONSE_GUILD_INDEX
-//   Authors: exec
-//   Version: i186893
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,7 +15,6 @@
 
 ServerHeaderFixed header;
 
-int characterHandle;
-int i1;
-int i2;
-short s1;
+int handle;
+int64 characterId;
+ushort s1;

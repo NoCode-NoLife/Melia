@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_HEAL_INFO.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int i1; // handle?
+int amount; //?
+int maxHp;

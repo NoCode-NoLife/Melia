@@ -23,9 +23,9 @@
 ServerHeaderDynamic header;
 
 int handle;
-float x,y,z;
-float dx, dy;
-byte type;
+position pos;
+direction dir;
+byte type; // 0~2,  0: friendly?, 1: monster, 2: NPC
 byte b1; // bool?
 int hp, maxHp;
 short s1;
@@ -34,10 +34,16 @@ short s2;
 MONSTER monster;
 int i4; // npc state?
 int namesSize;
-byte propertiesSize;
+byte b2;
 byte b4;
 byte b5;
+byte b6;
 int i1;
+short propertiesSize;
+int i3;
+int i5;
+short i6;
+byte b7;
 
 lpString name;
 lpString uniqueName;

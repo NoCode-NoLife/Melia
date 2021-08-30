@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_COMMANDER_LIST.bt
-//   Authors: exec, celophi
-//   Version: i218535
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,15 +14,19 @@
 //   - i170175: BARRACK_PC.b1~b3 were added
 //   - i218535: BARRACK_PC.b4 was added
 //   - i218535: AccountProperties.i1 was added
+//   - i336041: ???
 //------------------------------------------------
 
+#define PROPERTY_NAMES
 #include "common.bt"
 
 typedef struct
 {
     short size;
-    short s1;
-    int i1;
+    short serverId;
+    int barrackLayer;
+    byte b1;
+    byte b2;
 
     if(size > 0)
         getProperties(size);
@@ -66,18 +70,17 @@ byte characterCount;
 char teamName[64];
 
 AccountProperties properties;
-
-BARRACK_PC barrackPc[characterCount] <optimize=false>;
-
-short s1;
-if (s1 != 0)
-    byte bin1[(4+2) * s1];
-
-// 02 00
-// 0B 00 00 00 01 00
-// 0C 00 00 00 00 00
-
-// Junk?
-short s2;
-int i2;
-short s3;
+short disableAdditionalCharacterSlots;
+if (disableAdditionalCharacterSlots == 0) {
+    ushort additionalCharacterCount;
+    int teamExp;
+    if (properties.size != 0)
+        int totalCharacterCount;
+    else
+        short characterCount2;
+} else {
+    int mapId;
+    int i2;
+    int teamExp; // ?
+    short characterCount2;
+}

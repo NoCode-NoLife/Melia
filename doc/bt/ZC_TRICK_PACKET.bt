@@ -18,5 +18,7 @@ ServerHeaderDynamic header;
 int i1;
 int i2;
 
+local int packetSize = header.size-sizeof(header)-sizeof(int)*2;
 // packets inside a packet >_>
-byte packets[header.size-sizeof(header)-sizeof(int)*2];
+if (packetSize > 0)
+    byte packets[packetSize];

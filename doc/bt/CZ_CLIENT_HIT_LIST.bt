@@ -17,7 +17,7 @@
 ClientHeaderDynamic header;
 
 int i1;
-int count; // ?
+int count; // How many targets
 
 position attackerPos;
 
@@ -30,7 +30,8 @@ position attackerPos;
 position targetPos;
 direction targetDir;
 
-byte bin1[9]; // 01 00...
+int skillId;
+byte bin1[5]; // 01 00...
 float f1;
 
 if (count > 0)
@@ -38,5 +39,3 @@ if (count > 0)
     float f2;
     int targetHandles[count];
 }
-
-byte bin2[7];

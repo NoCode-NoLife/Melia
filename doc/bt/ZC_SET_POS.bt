@@ -16,7 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
+position pos;
 byte b1;

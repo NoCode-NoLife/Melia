@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SKILL_RANGE_CIRCLE.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int handle; //Character Handle
+short s1;
+position targetPosition;
+float f1; //SklSplRange
+int64 l1;

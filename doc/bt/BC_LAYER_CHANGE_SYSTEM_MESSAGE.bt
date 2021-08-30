@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: BC_LAYER_CHANGE_SYSTEM_MESSAGE
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int targetLayer;
+char command[64];

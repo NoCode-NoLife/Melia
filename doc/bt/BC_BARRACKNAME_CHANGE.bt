@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: BC_BARRACKNAME_CHANGE.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int i1;
+byte b1;
+string name;
+byte bin[79-15-Strlen(name)-1];

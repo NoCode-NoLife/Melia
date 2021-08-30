@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_REQ_MARKET_MINMAX_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: Item's minimum/maximum value on the market if no info is available server sends ZC_SYSTEM_MESSAGE with messageId 10322
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+int64 worldId; // Item's World Id

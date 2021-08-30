@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_DIALOG_TX.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+short s1;
+int i1;
+int i2;
+short s2;
+int64 worldId;
+int i3;
+int i4; // Item ID
+float f1;

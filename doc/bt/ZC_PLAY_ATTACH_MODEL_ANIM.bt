@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PLAY_ATTACH_MODEL_ANIM.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt" 
+
+ServerHeaderFixed header;
+int i0; //handle?
+int i1; // 0
+int i2; // 490282
+int i3; // 490253

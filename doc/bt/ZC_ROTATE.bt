@@ -1,14 +1,15 @@
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_HEAD_ROTATE.bt
-//   Authors: exec
-//   Version: i11XXX
+//      File: ZC_ROTATE.bt
+//   Authors: exec, Salman T. Khan
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//  - i339415: i1 added
 //------------------------------------------------
 
 #include "common.bt"
@@ -20,3 +21,4 @@ float d1;
 float d2;
 byte b1;
 byte b2;
+int i1;

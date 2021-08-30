@@ -15,7 +15,21 @@
 
 ServerHeaderFixed header;
 
+enum <byte> InventoryRemoveType 
+{
+    GIVEN = 0,
+    SOLD = 1,
+    PAID_WITH = 2,
+    DESTROYED = 3,
+    EQUIPPED = 5,
+    CONSUMED1 = 7,
+    CONSUMED2 = 8,
+};
+
 int64 worldId;
 int amount;
+byte b1;
+byte b2;
+short s1;
 byte msg;
-byte invType;
+InventoryRemoveType invType;

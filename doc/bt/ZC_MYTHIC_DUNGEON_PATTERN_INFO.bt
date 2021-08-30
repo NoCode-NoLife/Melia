@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_MYTHIC_DUNGEON_PATTERN_INFO
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History:
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+
+int i1; // 34
+int i2; // 5
+int i[6]; // 11220, 407, 412, 419, 424, 426

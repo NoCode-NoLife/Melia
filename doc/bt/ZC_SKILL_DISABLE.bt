@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SKILL_DISABLE.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int i1; //?
+short s1;
+byte b1;
+ubyte b2;
+byte b3;

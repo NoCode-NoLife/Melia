@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_HOUSING_REQUEST_GUILD_AGIT_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+int i1; // 30
+int i2; // Guild ID?
+char script[128]; // Might be 64 + 64 for params?

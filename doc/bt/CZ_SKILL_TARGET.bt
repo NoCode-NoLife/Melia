@@ -3,7 +3,7 @@
 //
 //      File: CZ_SKILL_TARGET
 //   Authors: exec
-//   Version: i174379
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,7 +14,11 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-
 byte b1;
 int skillId;
 int targetHandle;
+byte b2;
+short s1;
+short s2;
+short s3;
+ushort s4;

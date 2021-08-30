@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_RESPONSE_BORUTA_NOW_WEEK_NUM.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int num; // 0x38

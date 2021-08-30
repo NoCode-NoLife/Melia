@@ -1,0 +1,27 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_EQUIP_GEM_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    int64 l1;
+    short s1;
+} GEMINFO;
+
+byte b1;
+int count;
+short s1;
+GEMINFO info[count];

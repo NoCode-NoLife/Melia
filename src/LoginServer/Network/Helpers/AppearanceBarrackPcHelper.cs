@@ -3,6 +3,7 @@
 
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 
 namespace Melia.Login.Network.Helpers
@@ -19,17 +20,19 @@ namespace Melia.Login.Network.Helpers
 			// to be two byte, with the first being the index.
 			{
 				packet.PutByte(pc.Index);
-				packet.PutByte(181);
+				packet.PutByte(0);
 			}
 
-			packet.PutShort(0);
+			packet.PutShort(1);
 			packet.PutShort(pc.MapId);
 			packet.PutShort(pc.Channel);
+			packet.PutLong(0); // Current XP?
+			packet.PutLong(8); // Max XP?
+
 			packet.PutInt(0);
-			packet.PutInt(0); // maxXP
-			packet.PutInt(0); // currentExp
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutLong(0);
 
 			// Position?
 			packet.PutFloat(pc.BarrackPosition.X);
@@ -38,14 +41,11 @@ namespace Melia.Login.Network.Helpers
 			packet.PutFloat(0); // Vector direction
 			packet.PutFloat(0); // Vector direction
 
-			// ?
 			packet.PutFloat(pc.BarrackPosition.X);
 			packet.PutFloat(pc.BarrackPosition.Y);
 			packet.PutFloat(pc.BarrackPosition.Z);
 			packet.PutFloat(0); // Vector direction
 			packet.PutFloat(0); // Vector direction
-
-			packet.PutInt(0);
 		}
 	}
 
@@ -56,5 +56,6 @@ namespace Melia.Login.Network.Helpers
 		int MapId { get; }
 		int Channel { get; }
 		Position BarrackPosition { get; }
+		Direction BarrackDirection { get; }
 	}
 }

@@ -2,13 +2,13 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_SEND_CASH_VALUE.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: i336041 - Added additional 4 bytes (int,float) between key and value.
 //------------------------------------------------
 
 #include "common.bt"
@@ -16,7 +16,8 @@
 typedef struct
 {
     lpString key;
-    float value;
+    float value1;
+    float value2;
 }
 KeyValueLpStrFloat <read=KeyValueLpStrFloatRead>;
 
@@ -30,7 +31,8 @@ string KeyValueLpStrFloatRead(KeyValueLpStrFloat &v)
 typedef struct
 {
     int key;
-    float value;
+    float value1;
+    float value2;
 }
 KeyValueIntFloat <read=KeyValueIntFloatRead>;
 

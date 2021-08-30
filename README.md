@@ -28,16 +28,18 @@ pull requests, and ask questions on the chat at any time.
 
 The features that are currently working are the following:
 - Login Server
-  - Character management
+  - [x] Character management
 - Channel Server
-  - Chat
-  - Inventory management
-  - Equipment
-  - Stats
-  - Skill list
-  - Very basic test melee combat
-  - NPC dialog
-  - NPC shops
+  - [x] Getting in-game
+  - [x] Chat
+  - [x] Inventory management
+  - [x] Equipment
+  - [ ] Stats
+  - [x] Skill list
+  - [x] Very basic test melee combat
+  - [x] NPC dialog
+  - [ ] NPC shops
+  - [x] Monster spawning via script
 
 Requirements
 ------------------------------

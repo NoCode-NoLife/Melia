@@ -48,8 +48,8 @@ namespace Melia.Channel.World
 			this.Id = abilityId;
 			this.Level = level;
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.Ability.Level, () => this.Level));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Ability.ActiveState, () => this.Active ? 1 : 0));
+			//this.Properties.Add(new RefFloatProperty(PropertyId.Ability.Level, () => this.Level));
+			//this.Properties.Add(new RefFloatProperty(PropertyId.Ability.ActiveState, () => this.Active ? 1 : 0));
 		}
 	}
 }

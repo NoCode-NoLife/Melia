@@ -33,6 +33,11 @@ namespace Melia.Channel.World
 		private Dictionary<int, Monster> _monsters;
 
 		/// <summary>
+		/// Collection of Spawn Zones
+		/// </summary>
+		private List<SpawnZone> _spawns;
+
+		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -54,6 +59,7 @@ namespace Melia.Channel.World
 		{
 			_characters = new Dictionary<int, Character>();
 			_monsters = new Dictionary<int, Monster>();
+			_spawns = new List<SpawnZone>();
 
 			this.Id = id;
 			this.Name = name;
@@ -144,6 +150,27 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Adds spawn data to map.
+		/// </summary>
+		/// <param name="SpawnData"></param>
+		public void AddSpawnZone(SpawnData spawnData)
+		{
+			SpawnZone spawnZone = new SpawnZone(spawnData);
+			if (spawnZone == null)
+			{
+				return;
+			}
+
+			lock (_spawns)
+			{
+				spawnZone.Id = _spawns.Count;
+				_spawns.Add(spawnZone);
+
+			}
+			spawnZone.Init();
+		}
+
+		/// <summary>
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
@@ -152,7 +179,9 @@ namespace Melia.Channel.World
 			monster.Map = this;
 
 			lock (_monsters)
+			{
 				_monsters[monster.Handle] = monster;
+			}
 		}
 
 		/// <summary>
@@ -168,7 +197,21 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns monster by handle, or null if it doesn't exist.
+		/// Returns only monsters in a certain range
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public List<Monster> GetMonstersInRange(float x, float y, float z, int range)
+		{
+			List<Monster> result;
+			Position position = new Position(x, y, z);
+			lock (_monsters)
+				result = _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster).ToList();
+			return result;
+		}
+
+		/// <summary>
+		/// Returns only monsters by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
@@ -176,7 +219,20 @@ namespace Melia.Channel.World
 		{
 			Monster result;
 			lock (_monsters)
-				_monsters.TryGetValue(handle, out result);
+				result = _monsters.Values.Where(a => a.Handle == handle && a.NpcType == NpcType.Monster).FirstOrDefault();
+			return result;
+		}
+
+		/// <summary>
+		/// Returns only NPCs by handle, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Monster GetNPC(int handle)
+		{
+			Monster result;
+			lock (_monsters)
+				result = _monsters.Values.Where(a => a.Handle == handle && a.NpcType == NpcType.NPC).FirstOrDefault();
 			return result;
 		}
 

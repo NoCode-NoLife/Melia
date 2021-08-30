@@ -14,9 +14,9 @@ namespace Melia.Test.Channel.Database
 		public void Setting()
 		{
 			var settings = new AccountSettings();
-			settings.Set(Option.ApplyBloom, 1);
-			settings.Set(Option.JoypadVibration, 1);
-			settings.Set(Option.UiMode, 2);
+			settings.Set(Option.EnableBloom, 1);
+			settings.Set(Option.JoyPadVibration, 1);
+			settings.Set(Option.ControlMode, 2);
 
 			Assert.Equal("23 1 46 1 43 2", settings.ToString());
 		}

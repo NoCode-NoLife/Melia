@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Melia.Channel</RootNamespace>
     <AssemblyName>ChannelServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -91,6 +91,7 @@
     <Compile Include="World\Jobs.cs" />
     <Compile Include="World\SessionObjects.cs" />
     <Compile Include="World\Skill.cs" />
+    <Compile Include="World\SpawnZone.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

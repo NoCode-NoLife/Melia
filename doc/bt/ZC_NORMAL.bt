@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_NORMAL.bt
-//   Authors: exec, celophi
-//   Version: i195396
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,6 +13,8 @@
 //   - i184075: Skill UI update changed from 0x188 to 0x189
 //   - i184075: Job.i1+i2+bin1 were added
 //   - i195396: Skill UI update changed from 0x189 to 0x188
+//   - i336041: Added 0xA1, 0x194, 0x186, 0x135
+//   - i339415: 
 //------------------------------------------------
 
 #include "common.bt"
@@ -28,12 +30,12 @@ AccountProperties;
 typedef struct
 {
     short jobId;
-    short s1; // 177
+    short circle;
     int i1;
     int totalExp;
     int i2;
-    short unusedSkillPoints;
-    short circle;
+    byte unusedSkillPoints;
+    ushort circle;
     byte bin1[4];
 }
 Job;
@@ -67,9 +69,27 @@ switch (type)
         break;
 
     // ?
+    case 0x16:
+        int handle;
+        int handle1;
+        int handle2;
+        int handle;
+        ushort s1;
+        short s2;
+        float f2;
+        float f3;
+        float f4;
+        int i1;
+        byte b2;
+        float effectSize;
+        byte bin[8];
+        break;
+
     case 0x1D:
         int handle1;
-        byte bin1[5];
+        byte bin1[4];
+        short s1;
+        short s2;
         int handle2;
         position pos;
         direction dir;
@@ -78,11 +98,46 @@ switch (type)
         float f3;
         break;
         
+    case 0x2D:
+        int i1;
+        break;
+
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;
         break;
+
+    case 0x40:
+        int handle1; // Character Handle
+        int i2;
+        int handle2; // Character Handle
+        float f1;
+        int i3;
+        int i4;
+        int i5; // Could be a float
+        float f2;
+        int i6;
+        int i7;
+        int i8; // Could be a float
+        float f3;
+        int i9;
+        float i10;
+        int i11;
+        break;
+   
+    // ??
+    case 0x41:
+        int handle;
+        break;
     
+    case 0x4B:
+        int64 i1; //76561199199698202
+        short s1; //8
+        ushort s2; //43944
+        int i1; //1
+        short s3; //17096
+        break;
+
     // Account update
     case 0x4C:
         int64 accountId;
@@ -95,9 +150,13 @@ switch (type)
         lpString dialogKey; // ?
         int i2; // disappear delay?
         int i3; // disappear delay?
+        //short s1;
+        //short s2;
+        float i4; // heartbeat timer?
         break;
         
     // Set skill speed
+    case 0x77: // Maybe 0x78 is now 0x77?
     case 0x78:
         int skillId;
         float sklSpdRate;
@@ -107,6 +166,11 @@ switch (type)
     case 0x79:
         int skillId;
         float hitDelay;
+        break;
+    
+    // ?
+    case 0xA1:
+        int64 i1;
         break;
         
     // ?
@@ -129,6 +193,19 @@ switch (type)
 
         int count;
         entry entries[count] <optimize=false>;
+        break;
+
+    case 0xEF:
+        int64 id;
+        int count;
+        entry entries[count] <optimize=false>;
+        //local int newFile = FileNew();
+        local int i;
+        for(i = 0; i < count; i++)
+        {
+            //FPrintf( newFile, "%s,%d\n", entries[i].str.text, entries[i].val );
+            //FPrintf( newFile, "packet.PutLpString(\"%s\");\npacket.PutInt(%d);\n", entries[i].str.text, entries[i].val );
+        }
         break;
         
     // Job ranks?
@@ -179,6 +256,43 @@ switch (type)
 
     // Some kind of job data
     case 0xF1:
+        byte b1;
+        byte b2;
+        int64 characterId;
+        int64 accountId;
+        int64 accountId2;
+        char name[64];
+        byte bin[16];
+        int mapId;
+        int handleId;
+        char name2[64];
+        char teamName[64];
+        short s1;
+        short s2;
+        int i1;
+        int i2;
+        short s3;
+        short s4;
+        int i[5];
+        int i3;
+        int i4;
+        byte b1;
+        byte b2;
+        byte b3;
+        byte b4;
+        int i5;
+        int ibin1[3];
+        int i6;
+        float f1;
+        float f2;
+        float f3;
+        int64 l1;
+        int64 l2;
+        int i7;
+        int i8;
+        byte b5;
+        break;
+    case 0xFFFF:
         typedef struct
         {
             lpString ident;
@@ -210,6 +324,28 @@ switch (type)
         JobF2 jobs[count];
         break;
 
+    case 0xF9:
+        if (!checkCompression()) {
+
+        }
+        break;
+
+    // Map Data?
+    case 0x12A:
+        typedef struct
+        {
+            short id;
+            short s1;
+            short maxUsers; //?
+        } ChannelData;
+        if (!checkCompression())
+        {
+            short mapId;
+            short count;
+            ChannelData channels[count];
+        }
+        break;
+
     // ?
     case 0x12C:
         if (!checkCompression())
@@ -221,6 +357,12 @@ switch (type)
         }
         break;
 
+    case 0x135:
+        int64 id;
+        int i1;
+        lpString message;
+        break;
+
     // ?
     case 0x136:
         if (!checkCompression())
@@ -228,6 +370,12 @@ switch (type)
             int64 characterId <format=hex>;
             byte bin1[7]; // 1
         }
+        break;
+
+    case 0x139:
+        int handle;
+        short s1; // type? 3 = Guild name?
+        lpString name;
         break;
 
     // outdated
@@ -240,6 +388,33 @@ switch (type)
         float f1;
         byte bin1[16]; // no idea what this could be
         break;
+
+    case 0x13C:
+        int i1; // NPC Id? Handle? 3065
+        lpString name; //Script? Function? Squire_Repair
+        byte b1; // 0
+        byte b2; // 1
+        break;
+
+    typedef struct
+    {
+        int index;
+        int amount;
+        int i;
+    } FoodShopItem;
+
+    // Food shop ui?
+    case 0x140:
+        int handle;
+        byte b1;
+        int64 l1; // accountId?
+        int i[4];
+        position pos;
+        int i2;
+        int i3;
+        int i4;
+        FoodShopItem items[i4]; // [-45, 1, 6, 1, 976, 10, 2, 977, 10, 3, 980, 10, 4, 982, 10, 5, 977, 0, 6, 980, 0]
+        break;
         
     // Sets the session key.
     case 0x148:
@@ -249,13 +424,27 @@ switch (type)
     // Nexon Game Security Callback
     case 0x16D:
         break;
-        
+
+    // ?
+    case 0x177:
+        byte b1;
+        int64 accountId; // Character Id
+        int i1; // 1001
+        break;
+
+    
     // Set a hat item's visible or invisible state
     case 0x17B:
         int handle;
         byte hat1Visible;
         byte hat2Visible;
         byte hat3Visible;
+        break;
+    // ?
+    case 0x17E:
+        int i1;
+        int i2;
+        short s[64];
         break;
     
     // ?
@@ -265,10 +454,36 @@ switch (type)
         break;
     
     // Updates the skill UI
+    case 0x186:
+        int64 characterId;
+        int jobCount;
+        Job jobs[jobCount];
+        byte b1;
+        int64 l1;
+        int64 l2;
+        break;
     case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
+        short sbin[16];
+        break;
+
+    typedef struct
+    {
+        int64 accountId;
+        int points;
+        lpString name;
+    } AdventureBookRanker1 <optimize=false>;
+
+    // Adventure Book 
+    case 0x18D:
+        lpString pageName;
+        lpString pagePoint;
+        int i1; // Per Page? 20
+        int i2; // Offset? Start from this index Page 10 = 180 (9*20)
+        int i1; // Count? 20
+        AdventureBookRanker1 rankers[i1];
         break;
     
     // ?
@@ -280,14 +495,104 @@ switch (type)
         int i3;
         byte b1;
         break;
+
+    typedef struct
+    {
+        int64 accountId;
+        lpString name;
+        int points;
+    } AdventureBookRanker2 <optimize=false>;
+
+    typedef struct
+    {
+        int totalPoints;
+        int64 id;
+        int rank;
+    } AdventureBookNearestRanks <optimize=false>;
+
+    // Adventure Book Main Page
+    case 0x195:
+        int currentRank; // Current Rank
+        int i2;
+        int currentPoints; // Current Points
+        int i4;
+        AdventureBookRanker2 rankers[i4];
+        AdventureBookNearestRanks nearestRanks[5];
+        int i[2];
+        int64 l1;
+        int i5;
+        int i6;
+        break;
+    // Adventure Book Item Page
+    case 0x196:
+        int count;
+        AdventureBookRanker2 rankers[count];
+        int currentRank;
+        break;
     
     // ?
     case 0x197:
+    case 0x1B4:
         int i1;
+        break;
+
+    case 0x1BB:
+        lpString script; // TOS_STEAM_ACHIEVEMENT_ADVENTURE_BOOK
+        break;
+
+    // ?
+    case 0x19B:
+        int64 l1;
+        byte b1;
         break;
     
     // ?
     case 0x19C:
+        byte b1;
+        break;
+
+    // Guild Related ?
+    case 0x19E:
+        int i1;
+        int i2;
+        break;
+
+    // ?
+    case 0x1A5:
+        short s1;
+        int i[4];
+        int64 l1;
+        int i5;
+        break;
+
+    // ?
+    case 0x1B2:
+        typedef struct
+        {
+            int64 characterId;
+            char characterName[64];
+            byte bin[24];
+        } CharacterInfo <optimize=false>;
+        typedef struct
+        {
+            lpString type;
+            lpString val;
+        } IndunInfo <optimize=false>;
+        typedef struct
+        {
+            int64 characterId;
+            int indunCount;
+            IndunInfo infos[indunCount];
+        } Indun <optimize=false>;
+        int characterCount;
+        CharacterInfo characters[characterCount];
+        int inDunCount;
+        Indun indun[inDunCount];
+        break;
+    
+    case 0x1BA:
+        int i1;
+        lpString lpstring;
         byte b1;
         break;
 }

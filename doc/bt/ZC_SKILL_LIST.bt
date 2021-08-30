@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_SKILL_LIST
+//      File: ZC_SKILL_LIST.bt
 //   Authors: exec
 //   Version: i184075
 //   Purpose: List of skills sent upon login.
@@ -12,7 +12,7 @@
 //   - i184075: b1 was added
 //------------------------------------------------
 
-//#define PROPERTY_NAMES
+#define PROPERTY_NAMES
 
 #include "common.bt"
 
@@ -22,5 +22,9 @@ int handle;
 short skillCount;
 byte b1;
 
-if (!checkCompression())
-    Skill skills[skillCount] <optimize=false>;
+if (!checkCompression()) {
+    Skill skills[skillCount];
+    getProperties(16);
+    short s1;
+    byte b2;
+}

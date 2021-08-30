@@ -195,7 +195,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public Item GetItemByIndex(int index)
 		{
-			if (index < 5001 || index > 75000)
+			if (index < 5001 || index > 1750000)
 				throw new ArgumentOutOfRangeException("index");
 
 			var category = (InventoryCategory)(index / 5000);
@@ -464,13 +464,13 @@ namespace Melia.Channel.World
 		/// Removes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>
-		public InventoryResult Remove(long worldId)
+		public InventoryResult Remove(long worldId, int amount = 1)
 		{
 			var item = this.GetItem(worldId);
 			if (item == null || item is DummyEquipItem)
 				return InventoryResult.ItemNotFound;
 
-			return this.Remove(item);
+			return this.Remove(item, amount, InventoryItemRemoveMsg.Destroyed);
 		}
 
 		/// <summary>
@@ -486,10 +486,12 @@ namespace Melia.Channel.World
 
 				_itemsWorldIndex.Remove(item.ObjectId);
 			}
-
+			MsgParameter[] msgParameters = { new MsgParameter("ITEM", "@dicID_^*$ITEM_20150317_002105$*^"), new MsgParameter("COUNT", item.Amount.ToString()) };
+			Send.ZC_SYSTEM_MSG(_character, 2225, msgParameters);
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.MSPD);
 
 			return InventoryResult.Success;
 		}
@@ -560,7 +562,10 @@ namespace Melia.Channel.World
 					}
 				}
 
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
+				if (item.Id != 900011 && item.Id != 900012)
+					Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
+				else
+					Send.ZC_ITEM_REMOVE(_character, 0, reduce, msg, InventoryType.Inventory);
 				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			}
 

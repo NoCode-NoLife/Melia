@@ -1,0 +1,34 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SOLO_DUNGEON_RANKING.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    int64 accountId;
+    lpString teamName;
+    int level;
+    int64 guildId;
+    lpString guildName;
+    int64 characterId;
+    int highestStage;
+    int monsterKills;
+    int jobCount;
+    int jobIds[jobCount];
+} Ranker <optimize=false>;
+
+ServerHeaderDynamic header;
+int timePeriod; // This week = 1, Last week = 0, Overall = 2
+int page; // All = 0, Swordsman = 1, Wizard = 2, Archer = 3, Cleric = 4, Scout = 5
+int count;
+Ranker rankers[count];

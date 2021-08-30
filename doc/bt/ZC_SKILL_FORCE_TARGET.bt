@@ -2,51 +2,62 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_SKILL_FORCE_TARGET
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i336041: i11 added, secondary part of the packet is damage data
 //------------------------------------------------
 
 #include "common.bt"
 
 ServerHeaderDynamic header;
 
+typedef struct
+{
+    int i1;
+    int targetHandle;
+    int damage;
+    int hpLeft;
+    int i1;
+    int i2;
+    short s1;
+    short s2;
+    int64 l2;
+    int64 worldId;
+    byte b1;
+    byte attackIndex; //?
+    short s3;
+    int attackId; //?
+    int i6;
+    short s4;
+    short s5;
+    //short s6;
+    //byte b2;
+    //short s7;
+} Attack <optimize=false>;
+
 int skillId;
-int attackerHandle;
+int characterHandle;
 float f1;
 float f2;
 int i4;
 float f3;
 float f4;
 int i5;
-int i6;
+int attackerHandle1;
 float f5;
-int targetHandle1;
 int i8;
-float f6;
+int targetHandle1;
 int i10;
-byte b1; // count?
+float f6; // 512?
+int i11;
+byte hitCount; // Hit Count
 
-if (b1 > 0)
+if (hitCount  > 0)
 {
-    int i11;
-    int targetHandle2;
-    int i13;
-    int i14;
-    int i15;
-    float f7;
-    int i16;
-    int i17;
-    int i18;
-    int i19;
-    int i20;
-    int i21;
-    int i22;
-    int i23;
-    byte b2;
-    float f8;
+    Attack attacks[hitCount];
 }

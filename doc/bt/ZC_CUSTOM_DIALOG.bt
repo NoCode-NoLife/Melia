@@ -18,3 +18,10 @@ ServerHeaderFixed header;
 char closeArgStr[33];   // The argument string associated with "DIALOG_CLOSE".
 char dialogStr[32];     // Concatenated with "OPEN_DLG_" which runs the registered lua function.
 int argNum;             // Number of arguments associated with "OPEN_DLG_"
+
+
+// 6D 61 72 6B 65 74 00 00 00 00 00 00 00 00 8D D9 market
+// 1F 40 01 00 00 00 19 E2 A3 00 00 00 00 00 AD 81
+// 1F 00 01 00 00 00 90 96 6F 11 00 00 00 00 90 96
+// 6F 11 00 00 00 00 03 00 00 00 00 00 00 00 40 2D
+// 38 00 00 00 00

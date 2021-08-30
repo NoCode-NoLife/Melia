@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_OPEN_AUTOSELLER.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: Shop? Response is ZC_NORMAL SubOp 0x140
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+
+int i1; // Shop Type? Faction? - 5
+int handle; // 1075
+int i2; // -1
+int i3; // 43786
+short s1;  // 0
+ushort s2; // 60800
+short s3; // 7932
+float f2; // 0
+byte bin[16]; // 0 x 16
+int64 l2; // 1
+float i4; // 2.439832
+int i5; // 1
+int64 l4; // 519892320
+float i6; // 2.45859
+short s4; // 1
+ushort s5;

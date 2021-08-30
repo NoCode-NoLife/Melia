@@ -17,3 +17,5 @@ ClientHeaderFixed header;
 
 int i1;
 char str1[16]; // guessed, rest looks like uncleared garbage
+int i2;
+short s1;

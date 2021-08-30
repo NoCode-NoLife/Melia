@@ -2,21 +2,21 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_EXP_UP
-//   Authors: exec, celophi
-//   Version: i184075
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i184075: i1+2 were added
+//   - i336041: exp2 was added (treating the exp1,jobExp,exp2 as int64 rather than ints)
 //------------------------------------------------
 
 #include "common.bt"
 
 ServerHeaderFixed header;
 
-int exp;
-int i1;
-int classExp;
-int i2;
+int64 exp1;
+int64 classExp;
+int64 exp2;

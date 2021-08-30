@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "common.bt"
+
+ServerHeaderFixed header;
+int64 l1; //?
+int i1;

@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PCBANG_SHOP_COMMON.bt
+//   Authors: Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "common.bt"
+
+ServerHeaderFixed header;
+int i[6]; //
+short s1[4]; // Date? 2021,8,0,22,0
+int64 l1; // 0
+short s2[4]; // Date? 2021,10,5,1,0
+int64 l2; // 0

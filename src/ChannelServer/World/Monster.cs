@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Collections.Generic;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -10,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity
+	public class Monster : IEntity, IEntityEvent
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -108,6 +109,8 @@ namespace Melia.Channel.World
 		}
 		private int _defense;
 
+		public event EventHandler<OnEntityEventArgs> Died;
+
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
@@ -148,7 +151,7 @@ namespace Melia.Channel.World
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
 			this.Hp = this.MaxHp = this.Data.Hp;
-			this.Defense = this.Data.Defense;
+			this.Defense = this.Data.PhysicalDefense;
 		}
 
 		/// <summary>
@@ -156,14 +159,28 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, Character from)
+		public void TakeDamage(int damage, Character from, Skill skill = null)
 		{
 			this.Hp -= damage;
 
 			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
 			// use SKILL, and this doesn't create a double hit effect like
 			// the other.
-			Send.ZC_SKILL_HIT_INFO(from, this, damage);
+			if (skill == null)
+			{
+				Send.ZC_SKILL_HIT_INFO(from, this, damage);
+			} else
+			{
+				switch(skill.Data.UseType)
+				{
+					case SkillUseType.FORCE:
+						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
+						break;
+					case SkillUseType.MELEE_GROUND:
+						Send.ZC_SKILL_MELEE_GROUND(from, skill, this.Position.X, this.Position.Y, this.Position.Z, this, damage);
+						break;
+				}
+			}
 
 			if (this.Hp == 0)
 				this.Kill(from);
@@ -186,8 +203,26 @@ namespace Melia.Channel.World
 			if (this.Data.ClassExp > 0)
 				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
 
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
+			if (this.Data.Drops != null)
+			{
+				foreach (var drops in this.Data.Drops)
+				{
+					Random random = new Random();
+					if (random.NextDouble() <= (drops.DropChance / 100f))
+					{
+						var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
+						if (item != null)
+						{
+							killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
+							//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
+						}
+					}
+				}
+			}
 			killer.GiveExp(exp, classExp, this);
+			this.Died?.Invoke(this, new OnEntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
 		}

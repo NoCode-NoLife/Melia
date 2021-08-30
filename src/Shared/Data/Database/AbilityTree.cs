@@ -15,6 +15,7 @@ namespace Melia.Shared.Data.Database
 		public string Category { get; set; }
 		public JobId JobId { get; set; }
 		public int AbilityId { get; set; }
+		public string ClassName { get; set; }
 		public int MaxLevel { get; set; }
 		public int Price { get; set; }
 		public int Time { get; set; }
@@ -61,6 +62,7 @@ namespace Melia.Shared.Data.Database
 			data.Category = entry.ReadString("category");
 			data.JobId = (JobId)entry.ReadInt("jobId");
 			data.AbilityId = entry.ReadInt("abilityId");
+			data.ClassName = entry.ReadString("className");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.Price = entry.ReadInt("price", 0);
 			data.Time = entry.ReadInt("time", 0);

@@ -3,12 +3,13 @@
 //
 //      File: ZC_SESSION_OBJ_ADD
 //   Authors: exec
-//   Version: i174379
-//   Purpose: 
+//   Version: i337645
+//   Purpose: Quest Progress Session Objects
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      i337645: Moved i1 into the SessionObject
 //------------------------------------------------
 
 #include "common.bt"
@@ -16,4 +17,3 @@
 ServerHeaderDynamic header;
 
 SessionObject object;
-int i1;

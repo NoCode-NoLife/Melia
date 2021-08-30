@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_CHAT.bt
-//   Authors: exec
-//   Version: i170175
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,6 +11,7 @@
 //   History: 
 //   - i11257:  i3 was added
 //   - i170175: bin2 was added
+//   - i336041: i4,i5,i6 and b2 added
 //------------------------------------------------
 
 #include "common.bt"
@@ -19,8 +20,8 @@ ServerHeaderDynamic header;
 
 int handle;
 char teamName[64];
-char name[65];
-byte b1;
+char name[64];
+short s1;
 short job;
 int i1;
 byte gender;
@@ -28,6 +29,10 @@ byte hair;
 byte bin1[2];
 int i2;
 int i3;
+int i4;
+int i5;
+int i6;
 float displayTime;
-byte bin2[16];
+byte bin2[32];
+byte b2;
 string message;

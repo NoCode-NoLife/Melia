@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_REQ_LEARN_ABILITY.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: Sent when character wants to learn a new ability
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    int id;
+    int level;
+} LearnAbility <optimize=false>;
+
+ClientHeaderFixed header;
+short size;
+char type[32]; //account_ability,Ability_Warrior
+int count;
+LearnAbility abilities[count];

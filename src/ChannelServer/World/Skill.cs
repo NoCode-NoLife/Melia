@@ -99,6 +99,31 @@ namespace Melia.Channel.World
 			// see skill.ies. Does the item's SR (SCR_Get_Skl_SR) count
 			// towards this as well?
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.SplashRate));
+
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.MaxR, () => this.Data.MaxRange));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CoolDown, () => this.Data.CoolDown));
+			//this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendItemCount, () => 1f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillFactor, () => this.Data.SkillFactor));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.HitDelay, () => this.Data.HitDelay));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendSta, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.AbleShootRotate, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SklSpdRate, () => 1f)); // Constant
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendPoison, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.ReadyTime, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillAtkAdd, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.EnableShootMove, () => this.Data.EnableCastMove ? 1f : 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.UseOverHeat, () => this.Data.OverHeat));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillASPD, () => 1f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.BackHitRange, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.Skill_Delay, () => 0f));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.ReinforceAtk, () => 0f));
+
+			//this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => 14f)); // Has to be calculated with Lua Script
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionTime, () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio, () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio2, () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio3, () => 0f)); // Needs to be calculated if used, uses lua script
 		}
 	}
 }

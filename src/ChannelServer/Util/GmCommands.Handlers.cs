@@ -999,6 +999,7 @@ namespace Melia.Channel.Util
 
 			sender.ModifyAbilityPoints(-price);
 			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_LEARN_ABILITY, abilityTreeData.Category);
 
 			return CommandResult.Okay;
 		}

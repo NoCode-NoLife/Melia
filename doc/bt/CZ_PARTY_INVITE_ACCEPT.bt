@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_PARTY_INVITE_ACCEPT.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: Accepting a party invite
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+byte b1;
+string teamName;

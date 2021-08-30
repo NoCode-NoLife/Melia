@@ -1,0 +1,54 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_TO_CLIENT.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+int type; // type?
+int64 accountId;
+switch (type)
+{
+    case 0x10:
+        lpString message;
+        break;
+    case 0x11:
+        lpString message;
+        lpString params;
+        int i1; // 2084 or 0? 
+        break;
+    case 0x13:
+        int handle; // Guild Id?
+        byte b1;
+        int id; // Guild Property Id?
+        lpString message;
+        break;
+}
+
+/** 16 Packet Example
+type = 16
+message = 202108029121007 (Timestamp?)
+**/
+
+/** 17 Packet Example
+type = 17
+message = GUILD_EVENT_WAITING_LOCATION
+params = -1581.000000;8.000000;-964.000000;
+i1? = 2084
+**/
+
+/** 17 Packet Example
+type = 17
+message = GUILD_EVENT_RECRUITING_ADD
+params = 76561198260836873
+i1? = 0
+**/

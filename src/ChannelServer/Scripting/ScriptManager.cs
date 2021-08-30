@@ -97,6 +97,7 @@ namespace Melia.Channel.Scripting
 			// Setup
 			Register(addnpc);
 			Register(addwarp);
+			Register(addspawn);
 
 			// General
 			Register(var);
@@ -673,6 +674,65 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Adds monster spawning to world.
+		/// </summary>
+		/// <remarks>
+		/// The parameters `minX`, `maxX`, `minZ`, `maxZ` represent a rectangle in which the monster will spawned if location isn't fixed via `isFixedLocation`
+		/// The parameter `direction` is an angle, with 0 being down/south.
+		/// Example:
+		/// - 0   South
+		/// - 90  Right
+		/// - -90 Left
+		/// 
+		/// Parameters:
+		/// - string spawnName
+		/// - string mapName
+		/// - string monsterName
+		/// - number minX
+		/// - number maxX
+		/// - number minZ
+		/// - number maxZ
+		/// - number x
+		/// - number y
+		/// - number z
+		/// - number direction
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int addspawn(IntPtr L)
+		{
+			SpawnData spawnData = new SpawnData();
+
+			spawnData.spawnName = Melua.luaL_checkstring(L, 1);
+			spawnData.mapName = Melua.luaL_checkstring(L, 2);
+			spawnData.monsterName = Melua.luaL_checkstring(L, 3);
+			spawnData.xMin = Melua.luaL_checkinteger(L, 4);
+			spawnData.xMax = Melua.luaL_checkinteger(L, 5);
+			spawnData.zMin = Melua.luaL_checkinteger(L, 6);
+			spawnData.zMax = Melua.luaL_checkinteger(L, 7);
+			spawnData.count = Melua.luaL_checkinteger(L, 8);
+			spawnData.countVariation = Melua.luaL_checkinteger(L, 9);
+			spawnData.respawnTime = Melua.luaL_checkinteger(L, 10);
+
+			spawnData.isFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
+			var x = (float)Melua.luaL_checknumber(L, 12);
+			var y = (float)Melua.luaL_checknumber(L, 13);
+			var z = (float)Melua.luaL_checknumber(L, 14);
+			spawnData.Position = new Position(x, y, z);
+
+			var direction = Melua.luaL_checkinteger(L, 15);
+			spawnData.Direction = new Direction(direction);
+
+			var map = ChannelServer.Instance.World.GetMap(spawnData.mapName);
+			if (map == null)
+				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.mapName, spawnData.spawnName);
+
+			map.AddSpawnZone(spawnData);
+
+			return 0;
+		}
+
+		/// <summary>
 		/// Adds warp to world.
 		/// </summary>
 		/// <remarks>
@@ -1230,22 +1290,32 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			character.StatByLevel += character.Str - 1;
-			character.StatByLevel += character.Con - 1;
-			character.StatByLevel += character.Int - 1;
-			character.StatByLevel += character.Spr - 1;
-			character.StatByLevel += character.Dex - 1;
+			character.StatByLevel += character.StrByJob - 1;
+			character.StatByLevel += character.ConByJob - 1;
+			character.StatByLevel += character.IntByJob - 1;
+			character.StatByLevel += character.SprByJob - 1;
+			character.StatByLevel += character.DexByJob - 1;
 			character.UsedStat = 0;
 
-			character.Str = 1;
-			character.Con = 1;
-			character.Int = 1;
-			character.Spr = 1;
-			character.Dex = 1;
+			character.StrInvested = 0;
+			character.ConInvested = 0;
+			character.IntInvested = 0;
+			character.SprInvested = 0;
+			character.DexInvested = 0;
+
+			character.StrByJob = 1;
+			character.ConByJob = 1;
+			character.IntByJob = 1;
+			character.SprByJob = 1;
+			character.DexByJob = 1;
 
 			Send.ZC_OBJECT_PROPERTY(character,
-				PropertyId.PC.STR, PropertyId.PC.CON, PropertyId.PC.INT, PropertyId.PC.MNA, PropertyId.PC.DEX,
-				PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat
+					PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
+					PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
+					PropertyId.PC.DEX, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB, PropertyId.PC.UsedStat, PropertyId.PC.MINPATK,
+					PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK, PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB,
+					PropertyId.PC.CRTATK, PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.BLK, PropertyId.PC.RHP,
+					PropertyId.PC.RSP, PropertyId.PC.MHP, PropertyId.PC.MSP
 			);
 
 			return 0;

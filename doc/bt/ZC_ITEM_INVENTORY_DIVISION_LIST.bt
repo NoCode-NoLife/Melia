@@ -11,13 +11,43 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+//#define PROPERTY_NAMES
+#include "common.bt" 
 
 ServerHeaderDynamic header;
+
+typedef struct
+{
+    int id;
+    int propertiesSize;
+    int64 worldId;
+    int amount;
+    int price;
+    int i1;
+    //short s1;
+    //short index;
+    int category;// <format=hex>;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        if (worldId > 0) {
+            short s1;
+            int64 worldId2;
+            short s2;
+        }
+    }
+}
+Item2 <optimize=false,read=Item2Read>;
+
+string Item2Read(Item2 &v)
+{
+    local string result;
+    SPrintf(result, "%d : %d : %d ", v.id, v.amount, v.category);
+    return result;
+}
 
 int itemCount;
 byte b1;
 byte b2;
 
 if (!checkCompression())
-    Item items[itemCount] <optimize=false>;
+    Item2 items[itemCount];

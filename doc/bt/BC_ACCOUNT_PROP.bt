@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: BC_ACCOUNT_PROP.bt
+//   Authors: Salman T. Khan
+//   Version: i337645
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#define PROPERTY_NAMES
+#include "common.bt"
+
+ServerHeaderDynamic header;
+int64 accountId;
+short propertySize;
+getProperties(propertySize);

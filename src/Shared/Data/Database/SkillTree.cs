@@ -13,8 +13,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public JobId JobId { get; set; }
 		public int SkillId { get; set; }
-		public Circle UnlockCircle { get; set; }
-		public int LevelsPerCircle { get; set; }
+		public int UnlockLevel { get; set; }
 		public int MaxLevel { get; set; }
 	}
 
@@ -29,21 +28,20 @@ namespace Melia.Shared.Data.Database
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
 		/// <returns></returns>
-		public SkillTreeData[] FindSkills(JobId jobId, Circle circle)
+		public SkillTreeData[] FindSkills(JobId jobId, int classLevel)
 		{
-			return this.Entries.Where(a => a.JobId == jobId && a.UnlockCircle <= circle).ToArray();
+			return this.Entries.Where(a => a.JobId == jobId && a.UnlockLevel <= classLevel).ToArray();
 		}
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "skillId", "unlockCircle", "levelsPerCircle", "maxLevel");
+			entry.AssertNotMissing("jobId", "skillId", "unlockLevel", "maxLevel");
 
 			var data = new SkillTreeData();
 
 			data.JobId = (JobId)entry.ReadInt("jobId");
 			data.SkillId = entry.ReadInt("skillId");
-			data.UnlockCircle = (Circle)entry.ReadInt("unlockCircle");
-			data.LevelsPerCircle = entry.ReadInt("levelsPerCircle");
+			data.UnlockLevel = entry.ReadInt("unlockLevel");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 
 			this.Entries.Add(data);

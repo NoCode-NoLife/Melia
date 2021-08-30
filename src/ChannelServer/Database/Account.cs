@@ -67,6 +67,11 @@ namespace Melia.Channel.Database
 		public int SelectedBarrack { get; set; }
 
 		/// <summary>
+		/// Barrack Layer
+		/// </summary>
+		public int SelectedBarrackLayer { get; set; }
+
+		/// <summary>
 		/// The account's settings.
 		/// </summary>
 		public AccountSettings Settings { get; private set; }

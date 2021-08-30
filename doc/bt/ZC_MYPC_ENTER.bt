@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_MYPC_ENTER.bt
-//   Authors: exec
-//   Version: i197611
+//   Authors: exec, Salman T. Khan
+//   Version: i336041
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,6 +11,7 @@
 //   History: 
 //   - i174236: b1 was added
 //   - i197611: b2 was added (presumably moved from ZC_ENTER_PC)
+//   - i336041: i1 was added
 //------------------------------------------------
 
 #include "common.bt"
@@ -20,3 +21,4 @@ ServerHeaderFixed header;
 position pos;
 byte b1;
 byte b2;
+int i1;

@@ -3,7 +3,7 @@
 //
 //      File: ZC_ITEM_EQUIP_LIST.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,12 +11,35 @@
 //   History: 
 //------------------------------------------------
 
-//#define PROPERTY_NAMES
+#define PROPERTY_NAMES
 
 #include "common.bt"
 
-ServerHeaderFixed header;
+ServerHeaderDynamic header;
 
-short size;
+typedef struct
+{
+    int itemId;
+    int propertiesSize;
+    int64 worldId;
+    int slot;
+    int i1;
+    short s1;
+    if (propertiesSize > 0) {
+        getProperties(propertiesSize);
+        short s2;
+        int64 worldId2;
+        short s3;
+    }
+}
+EquipItem2 <read=readEquipItem2, optimize=false>;
+
+string readEquipItem2(EquipItem2 &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.itemId);
+    return result;
+}
+
 while(!FEof())
-    EquipItem item;
+    EquipItem2 item;
