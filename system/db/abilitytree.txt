@@ -277,6 +277,67 @@
 { category: "Lancer", jobId: 1017, abilityId: 116027, className: "Lancer27", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lancer13", 65)' },
 { category: "Lancer", jobId: 1017, abilityId: 116028, className: "Lancer28", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_17", 45)' },
 
+// Matador
+//---------------------------------------------------------------------------
+{ category: "Matador", jobId: 1018, abilityId: 118001, className: "Matador1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_Muleta", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118002, className: "Matador2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_Faena", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118005, className: "Matador5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_PasoDoble", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118008, className: "Matador8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Matador", jobId: 1018, abilityId: 118010, className: "Matador10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Matador", jobId: 1018, abilityId: 118011, className: "Matador11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Matador", jobId: 1018, abilityId: 118012, className: "Matador12", maxLevel: 1, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_PasoDoble", 3)' },
+{ category: "Matador", jobId: 1018, abilityId: 118014, className: "Matador14", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_CorridaFinale", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118015, className: "Matador15", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Matador", jobId: 1018, abilityId: 118016, className: "Matador16", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Matador", jobId: 1018, abilityId: 118018, className: "Matador18", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Matador", jobId: 1018, abilityId: 118019, className: "Matador19", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_Capote", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118020, className: "Matador20", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matador_Ole", 1)' },
+{ category: "Matador", jobId: 1018, abilityId: 118021, className: "Matador21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_19", 45)' },
+{ category: "Matador", jobId: 1018, abilityId: 118022, className: "Matador22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matador1", 65)' },
+{ category: "Matador", jobId: 1018, abilityId: 118023, className: "Matador23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matador2", 65)' },
+{ category: "Matador", jobId: 1018, abilityId: 118024, className: "Matador24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matador5", 65)' },
+{ category: "Matador", jobId: 1018, abilityId: 118025, className: "Matador25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matador14", 65)' },
+{ category: "Matador", jobId: 1018, abilityId: 118026, className: "Matador26", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_19", 45)' },
+
+// NakMuay
+//---------------------------------------------------------------------------
+{ category: "NakMuay", jobId: 1019, abilityId: 119001, className: "NakMuay1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("NakMuay_TeKha", 1)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119002, className: "NakMuay2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("NakMuay_SokChiang", 1)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119003, className: "NakMuay3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("NakMuay_TeTrong", 1)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119004, className: "NakMuay4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("NakMuay_KhaoLoi", 1)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119005, className: "NakMuay5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("NakMuay_RamMuay", 1)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119007, className: "NakMuay7", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay5", 65)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119008, className: "NakMuay8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay1", 65)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119009, className: "NakMuay9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay2", 65)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119010, className: "NakMuay10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay3", 65)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119011, className: "NakMuay11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay4", 65)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119012, className: "NakMuay12", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_20", 45)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119013, className: "NakMuay13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_20", 45)' },
+
+// Retiarii
+//---------------------------------------------------------------------------
+{ category: "Retiarii", jobId: 1020, abilityId: 10032, className: "SpearMastery_Battle", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120003, className: "Retiarii3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_DaggerGuard", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120004, className: "Retiarii4", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120005, className: "Retiarii5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_TridentFinish", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120006, className: "Retiarii6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_EquipDesrption", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120007, className: "Retiarii7", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120008, className: "Retiarii8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_DaggerFinish", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120011, className: "Retiarii11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_BlandirCadena", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120012, className: "Retiarii12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120013, className: "Retiarii13", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120014, className: "Retiarii14", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120016, className: "Retiarii16", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_FishingNetsDraw", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120017, className: "Retiarii17", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Retiarii_ThrowingFishingNet", 1)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120018, className: "Retiarii18", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 400)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120019, className: "Retiarii19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_18", 45)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120020, className: "Retiarii20", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Retiarii5", 65)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120021, className: "Retiarii21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Retiarii6", 65)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120022, className: "Retiarii22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Retiarii8", 65)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120023, className: "Retiarii23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Retiarii11", 65)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120024, className: "Retiarii24", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_18", 45)' },
+{ category: "Retiarii", jobId: 1020, abilityId: 120025, className: "Retiarii25", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+
 // Hackapell
 //---------------------------------------------------------------------------
 { category: "Hackapell", jobId: 1021, abilityId: 314001, className: "Hackapell1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hackapell_Skarphuggning", 1)' },
@@ -294,6 +355,22 @@
 { category: "Hackapell", jobId: 1021, abilityId: 314021, className: "Hackapell21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hackapell13", 65)' },
 { category: "Hackapell", jobId: 1021, abilityId: 314022, className: "Hackapell22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hackapell15", 65)' },
 { category: "Hackapell", jobId: 1021, abilityId: 314023, className: "Hackapell23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_21", 45)' },
+
+// BlossomBlader
+//---------------------------------------------------------------------------
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121003, className: "Blossomblader3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("BlossomBlader_FallenBlossom", 1)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121004, className: "Blossomblader4", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121005, className: "Blossomblader5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("BlossomBlader_ControlBlade", 1)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121006, className: "Blossomblader6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("BlossomBlader_Flash", 1)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121007, className: "Blossomblader7", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121008, className: "Blossomblader8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("BlossomBlader_BlossomSlash", 1)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121012, className: "Blossomblader12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Blossomblader3", 65)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121013, className: "Blossomblader13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Blossomblader5", 65)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121014, className: "Blossomblader14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Blossomblader6", 65)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121015, className: "Blossomblader15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Blossomblader8", 65)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121018, className: "Blossomblader18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_22", 45)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121020, className: "Blossomblader20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "BlossomBlader", jobId: 1022, abilityId: 121021, className: "Blossomblader21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_22", 45)' },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -586,6 +663,44 @@
 { category: "RuneCaster", jobId: 2017, abilityId: 214024, className: "RuneCaster24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("RuneCaster23", 65)' },
 { category: "RuneCaster", jobId: 2017, abilityId: 214025, className: "RuneCaster25", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("RuneCaster_Berkana", 1)' },
 
+// Shadowmancer
+//---------------------------------------------------------------------------
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217001, className: "Shadowmancer1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Shadowmancer_ShadowThorn", 1)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217002, className: "Shadowmancer2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Shadowmancer_ShadowConjuration", 1)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217003, className: "Shadowmancer3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Shadowmancer_ShadowCondensation", 1)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217004, className: "Shadowmancer4", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217005, className: "Shadowmancer5", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217009, className: "Shadowmancer9", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217010, className: "Shadowmancer10", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Shadowmancer_Hallucination", 1)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217011, className: "Shadowmancer11", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_19", 45)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217012, className: "Shadowmancer12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Shadowmancer1", 65)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217013, className: "Shadowmancer13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Shadowmancer2", 65)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217014, className: "Shadowmancer14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Shadowmancer3", 65)' },
+{ category: "Shadowmancer", jobId: 2019, abilityId: 217016, className: "Shadowmancer16", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_19", 45)' },
+
+// Onmyoji
+//---------------------------------------------------------------------------
+{ category: "Onmyoji", jobId: 2020, abilityId: 218001, className: "Onmyoji1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_FireFoxShikigami", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218004, className: "Onmyoji4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_GreenwoodShikigami", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218005, className: "Onmyoji5", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218006, className: "Onmyoji6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_WhiteTigerHowling", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218008, className: "Onmyoji8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_250LV', unlock: 'UNLOCK_BASE_LEVEL("", 250)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218009, className: "Onmyoji9", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_WaterShikigami", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218012, className: "Onmyoji12", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218013, className: "Onmyoji13", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_Toyou", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218015, className: "Onmyoji15", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218019, className: "Onmyoji19", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_YinYangConsonance", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218021, className: "Onmyoji21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_20", 45)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218022, className: "Onmyoji22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji1", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218023, className: "Onmyoji23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji4", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218024, className: "Onmyoji24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji6", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218025, className: "Onmyoji25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji9", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218026, className: "Onmyoji26", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji13", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218027, className: "Onmyoji27", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji19", 65)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218028, className: "Onmyoji28", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_20", 45)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218032, className: "Onmyoji32", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Onmyoji_CrystalballShikigami", 1)' },
+{ category: "Onmyoji", jobId: 2020, abilityId: 218033, className: "Onmyoji33", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Onmyoji32", 65)' },
+
 // Daoshi
 //---------------------------------------------------------------------------
 { category: "Daoshi", jobId: 2021, abilityId: 416011, className: "Daoshi11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Daoshi_DivinePunishment", 1)' },
@@ -628,6 +743,26 @@
 { category: "Bokor", jobId: 2022, abilityId: 404027, className: "Bokor33", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Bokor_Samdiveve", 1)' },
 { category: "Bokor", jobId: 2022, abilityId: 404028, className: "Bokor34", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Bokor33", 65)' },
 { category: "Bokor", jobId: 2022, abilityId: 404029, className: "Bokor35", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_22", 45)' },
+
+// TerraMancer
+//---------------------------------------------------------------------------
+{ category: "TerraMancer", jobId: 2023, abilityId: 219001, className: "Terramancer1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TerraMancer_SandBlast", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219002, className: "Terramancer2", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219004, className: "Terramancer4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TerraMancer_StoneShower", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219005, className: "Terramancer5", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219006, className: "Terramancer6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TerraMancer_RollingStone", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219007, className: "Terramancer7", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219008, className: "Terramancer8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TerraMancer_Implosion", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219009, className: "Terramancer9", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TerraMancer_HornOfGolem", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219010, className: "Terramancer10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Terramancer1", 65)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219012, className: "Terramancer12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Terramancer4", 65)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219013, className: "Terramancer13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Terramancer6", 65)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219014, className: "Terramancer14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Terramancer8", 65)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219015, className: "Terramancer15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Terramancer9", 65)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219016, className: "Terramancer16", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_23", 45)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219017, className: "Terramancer17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219018, className: "Terramancer18", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "TerraMancer", jobId: 2023, abilityId: 219019, className: "Terramancer19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_23", 45)' },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -760,6 +895,20 @@
 { category: "Fletcher", jobId: 3011, abilityId: 309025, className: "Fletcher34", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_11", 45)' },
 { category: "Fletcher", jobId: 3011, abilityId: 309026, className: "Fletcher35", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 
+// PiedPiper
+//---------------------------------------------------------------------------
+{ category: "PiedPiper", jobId: 3012, abilityId: 318006, className: "PiedPiper6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_ABIL_SKILL("PiedPiper_HypnotischeFlote", 10)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318011, className: "PiedPiper11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PiedPiper_HamelnNagetier", 1)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318013, className: "PiedPiper13", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PiedPiper_HamelnNagetier", 5)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318015, className: "PiedPiper15", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318016, className: "PiedPiper16", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318017, className: "PiedPiper17", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_12", 45)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318018, className: "PiedPiper18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_12", 45)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318019, className: "PiedPiper19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_12", 45)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318020, className: "PiedPiper20", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_12", 45)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318021, className: "PiedPiper21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("PiedPiper11", 65)' },
+{ category: "PiedPiper", jobId: 3012, abilityId: 318022, className: "PiedPiper22", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_12", 45)' },
+
 // Appraiser
 //---------------------------------------------------------------------------
 { category: "Appraiser", jobId: 3013, abilityId: 316003, className: "Appraiser3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Appraiser_Blindside", 1)' },
@@ -854,6 +1003,80 @@
 { category: "Mergen", jobId: 3017, abilityId: 315023, className: "Mergen23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Mergen15", 65)' },
 { category: "Mergen", jobId: 3017, abilityId: 315024, className: "Mergen24", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_17", 45)' },
 { category: "Mergen", jobId: 3017, abilityId: 315025, className: "Mergen25", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+
+// Matross
+//---------------------------------------------------------------------------
+{ category: "Matross", jobId: 3101, abilityId: 319001, className: "Matross1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matross_FireAndRun", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319002, className: "Matross2", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Matross", jobId: 3101, abilityId: 319003, className: "Matross3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matross_Explosion", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319004, className: "Matross4", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Matross", jobId: 3101, abilityId: 319006, className: "Matross6", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Matross", jobId: 3101, abilityId: 319007, className: "Matross7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matross_CrouchingStrike", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319008, className: "Matross8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319009, className: "Matross9", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Matross", jobId: 3101, abilityId: 319011, className: "Matross11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319012, className: "Matross12", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Matross", jobId: 3101, abilityId: 319013, className: "Matross13", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Matross_CanisterShot", 1)' },
+{ category: "Matross", jobId: 3101, abilityId: 319014, className: "Matross14", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_18", 45)' },
+{ category: "Matross", jobId: 3101, abilityId: 319015, className: "Matross15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matross1", 65)' },
+{ category: "Matross", jobId: 3101, abilityId: 319016, className: "Matross16", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matross3", 65)' },
+{ category: "Matross", jobId: 3101, abilityId: 319017, className: "Matross17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matross7", 65)' },
+{ category: "Matross", jobId: 3101, abilityId: 319018, className: "Matross18", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Matross13", 65)' },
+{ category: "Matross", jobId: 3101, abilityId: 319019, className: "Matross19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_18", 45)' },
+
+// TigerHunter
+//---------------------------------------------------------------------------
+{ category: "TigerHunter", jobId: 3102, abilityId: 320001, className: "TigerHunter1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TigerHunter_PierceShot", 1)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320002, className: "TigerHunter2", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320003, className: "TigerHunter3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TigerHunter_RapidShot", 1)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320004, className: "TigerHunter4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("TigerHunter_Blitz", 1)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320005, className: "TigerHunter5", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320006, className: "TigerHunter6", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320007, className: "TigerHunter7", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320009, className: "TigerHunter9", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_19", 45)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320010, className: "TigerHunter10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("TigerHunter1", 65)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320011, className: "TigerHunter11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("TigerHunter3", 65)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320012, className: "TigerHunter12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("TigerHunter4", 65)' },
+{ category: "TigerHunter", jobId: 3102, abilityId: 320013, className: "TigerHunter13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_19", 45)' },
+
+// Arbalester
+//---------------------------------------------------------------------------
+{ category: "Arbalester", jobId: 3103, abilityId: 321001, className: "Arbalester1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_DarkJudgement", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321002, className: "Arbalester2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_GuidedShot", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321003, className: "Arbalester3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_FanwiseShots", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321005, className: "Arbalester5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_Escape", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321007, className: "Arbalester7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_DeadZone", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321008, className: "Arbalester8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arbalester_ShiningBurst", 1)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321009, className: "Arbalester9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester1", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321011, className: "Arbalester11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester2", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321012, className: "Arbalester12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester3", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321013, className: "Arbalester13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester5", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321014, className: "Arbalester14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester7", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321015, className: "Arbalester15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arbalester8", 65)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321018, className: "Arbalester18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_20", 45)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321019, className: "Arbalester19", maxLevel: 5, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ARBALESTER19_LEVEL("Char3_20", 45)' },
+{ category: "Arbalester", jobId: 3103, abilityId: 321021, className: "Arbalester21", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_ARBALESTER21_LEVEL("", 200)' },
+
+// Arquebusier
+//---------------------------------------------------------------------------
+{ category: "Arquebusier", jobId: 3104, abilityId: 321101, className: "Arquebusier1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_Prediction", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321102, className: "Arquebusier2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_PinpointFire", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321103, className: "Arquebusier3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_LuckyStrike", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321104, className: "Arquebusier4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_ArquebusBarrage", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321105, className: "Arquebusier5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_Salute", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321106, className: "Arquebusier6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_PrecisionFire", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321107, className: "Arquebusier7", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arquebusier2", 65)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321108, className: "Arquebusier8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arquebusier3", 65)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321109, className: "Arquebusier9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arquebusier4", 65)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321110, className: "Arquebusier10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arquebusier5", 65)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321111, className: "Arquebusier11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arquebusier6", 65)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321112, className: "Arquebusier12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321113, className: "Arquebusier13", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("Arquebusier_LuckyStrike", 200)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321114, className: "Arquebusier14", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("Arquebusier_PrecisionFire", 300)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321115, className: "Arquebusier15", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("Arquebusier_Salute", 350)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321116, className: "Arquebusier16", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("Arquebusier_DesperateDefense", 100)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321117, className: "Arquebusier17", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_21", 45)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321118, className: "Arquebusier18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_21", 45)' },
 
 // Cleric
 //---------------------------------------------------------------------------
@@ -1131,6 +1354,68 @@
 { category: "Miko", jobId: 4018, abilityId: 417013, className: "Miko12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Miko3", 65)' },
 { category: "Miko", jobId: 4018, abilityId: 417014, className: "Miko13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_18", 45)' },
 
+// Zealot
+//---------------------------------------------------------------------------
+{ category: "Zealot", jobId: 4019, abilityId: 418001, className: "Zealot1", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418002, className: "Zealot2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Zealot_Immolation", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418003, className: "Zealot3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Zealot_FanaticIllusion", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418004, className: "Zealot4", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418006, className: "Zealot6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418007, className: "Zealot7", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418008, className: "Zealot8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418009, className: "Zealot9", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418010, className: "Zealot10", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418011, className: "Zealot11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Zealot_EmphasisTrust", 1)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418012, className: "Zealot12", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_19", 45)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418013, className: "Zealot13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Zealot2", 65)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418014, className: "Zealot14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Zealot3", 65)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418015, className: "Zealot15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Zealot11", 65)' },
+{ category: "Zealot", jobId: 4019, abilityId: 418016, className: "Zealot16", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_19", 45)' },
+
+// Exorcist
+//---------------------------------------------------------------------------
+{ category: "Exorcist", jobId: 4020, abilityId: 419001, className: "Exorcist1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_Rubric", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419002, className: "Exorcist2", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419003, className: "Exorcist3", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419004, className: "Exorcist4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_Entity", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419006, className: "Exorcist6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_AquaBenedicta", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419008, className: "Exorcist8", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419009, className: "Exorcist9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419010, className: "Exorcist10", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_Gregorate", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419014, className: "Exorcist16", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_Koinonia", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419015, className: "Exorcist17", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Exorcist_Katadikazo", 1)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419017, className: "Exorcist19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_20", 45)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419018, className: "Exorcist20", maxLevel: 10, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_20", 45)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419019, className: "Exorcist21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist6", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419020, className: "Exorcist22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist10", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419021, className: "Exorcist23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist16", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419022, className: "Exorcist24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist17", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419023, className: "Exorcist25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist1", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419024, className: "Exorcist26", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Exorcist4", 65)' },
+{ category: "Exorcist", jobId: 4020, abilityId: 419025, className: "Exorcist27", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_20", 45)' },
+
+// Crusader
+//---------------------------------------------------------------------------
+{ category: "Crusader", jobId: 4021, abilityId: 420003, className: "Crusader3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_HolySmash", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420004, className: "Crusader4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_ProtectionOfGoddess", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420005, className: "Crusader5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_Retaliation", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420006, className: "Crusader6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_Condemn", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420007, className: "Crusader7", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader3", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420008, className: "Crusader8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader4", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420009, className: "Crusader9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader5", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420010, className: "Crusader10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader6", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420011, className: "Crusader11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_RingOfLight", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420012, className: "Crusader12", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_Sacred", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420013, className: "Crusader13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader11", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420014, className: "Crusader14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Crusader12", 65)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420015, className: "Crusader15", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 45)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420016, className: "Crusader16", maxLevel: 5, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Crusader_Sacred", 10)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420017, className: "Crusader17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 16)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420019, className: "Crusader19", maxLevel: 10, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 31)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420020, className: "Crusader20", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 1)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420021, className: "Crusader21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 45)' },
+{ category: "Crusader", jobId: 4021, abilityId: 420022, className: "Crusader22", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 45)' },
+
 // Scout
 //---------------------------------------------------------------------------
 { category: "Scout", jobId: 5001, abilityId: 501001, className: "Scout18", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Scout_Cloaking", 1)' },
@@ -1141,6 +1426,57 @@
 { category: "Scout", jobId: 5001, abilityId: 501006, className: "Scout23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_1", 15)' },
 { category: "Scout", jobId: 5001, abilityId: 501007, className: "Scout24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Scout19", 65)' },
 { category: "Scout", jobId: 5001, abilityId: 501008, className: "Scout25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Scout20", 65)' },
+
+// Assassin
+//---------------------------------------------------------------------------
+{ category: "Assassin", jobId: 5002, abilityId: 502001, className: "Assassin1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_Hasisas", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502003, className: "Assassin3", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502004, className: "Assassin4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_Behead", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502005, className: "Assassin5", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502006, className: "Assassin6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502007, className: "Assassin7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_InstantaneousAcceleration", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502008, className: "Assassin8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502009, className: "Assassin9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502010, className: "Assassin10", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_HallucinationSmoke", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502011, className: "Assassin11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502012, className: "Assassin12", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_PiercingHeart", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502013, className: "Assassin13", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502015, className: "Assassin15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Assassin_Annihilation", 1)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502016, className: "Assassin16", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502017, className: "Assassin17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502018, className: "Assassin18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_2", 45)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502019, className: "Assassin19", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Assassin4", 65)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502020, className: "Assassin20", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Assassin7", 65)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502021, className: "Assassin21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Assassin12", 65)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502022, className: "Assassin22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Assassin15", 65)' },
+{ category: "Assassin", jobId: 5002, abilityId: 502023, className: "Assassin23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_2", 45)' },
+
+// Outlaw
+//---------------------------------------------------------------------------
+{ category: "Outlaw", jobId: 5003, abilityId: 503001, className: "Outlaw1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_SprinkleSands", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503002, className: "Outlaw2", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_150LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503003, className: "Outlaw3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_BreakBrick", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503005, className: "Outlaw5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_Mangle", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503006, className: "Outlaw6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503007, className: "Outlaw7", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503008, className: "Outlaw8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_FireBlindly", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503009, className: "Outlaw9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503010, className: "Outlaw10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503011, className: "Outlaw11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_Bully", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503012, className: "Outlaw12", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503013, className: "Outlaw13", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503014, className: "Outlaw14", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503015, className: "Outlaw15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("OutLaw_Rampage", 1)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503016, className: "Outlaw16", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503017, className: "Outlaw17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503019, className: "Outlaw19", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503020, className: "Outlaw20", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_3", 45)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503021, className: "Outlaw21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Outlaw1", 65)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503022, className: "Outlaw22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Outlaw3", 65)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503023, className: "Outlaw23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Outlaw5", 65)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503024, className: "Outlaw24", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Outlaw8", 65)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503025, className: "Outlaw25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Outlaw15", 65)' },
+{ category: "Outlaw", jobId: 5003, abilityId: 503026, className: "Outlaw26", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_3", 45)' },
 
 // Squire
 //---------------------------------------------------------------------------
@@ -1257,4 +1593,101 @@
 { category: "Schwarzereiter", jobId: 5011, abilityId: 311027, className: "Schwarzereiter33", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Schwarzereiter_EvasiveAction", 1)' },
 { category: "Schwarzereiter", jobId: 5011, abilityId: 311028, className: "Schwarzereiter34", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_11", 45)' },
 { category: "Schwarzereiter", jobId: 5011, abilityId: 311029, className: "Schwarzereiter35", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+
+// Bulletmarker
+//---------------------------------------------------------------------------
+{ category: "Bulletmarker", jobId: 5012, abilityId: 311006, className: "Schwarzereiter2", maxLevel: 5, priceTime: 'ABIL_MASTERY_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317001, className: "Bulletmarker1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Bulletmarker_NapalmBullet", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317003, className: "Bulletmarker3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Bulletmarker_RestInPeace", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317004, className: "Bulletmarker4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Bulletmarker_BloodyOverdrive", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317005, className: "Bulletmarker5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Bulletmarker_MozambiqueDrill", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317008, className: "Bulletmarker8", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317009, className: "Bulletmarker9", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317010, className: "Bulletmarker10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317012, className: "Bulletmarker12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317014, className: "Bulletmarker14", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317016, className: "Bulletmarker16", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_12", 45)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317017, className: "Bulletmarker17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Bulletmarker1", 65)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317019, className: "Bulletmarker19", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Bulletmarker3", 65)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317020, className: "Bulletmarker20", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Bulletmarker4", 65)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317022, className: "Bulletmarker22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Bulletmarker5", 65)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317024, className: "Bulletmarker24", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Bulletmarker", jobId: 5012, abilityId: 317025, className: "Bulletmarker25", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_12", 45)' },
+
+// Arditi
+//---------------------------------------------------------------------------
+{ category: "Arditi", jobId: 5013, abilityId: 504001, className: "Arditi1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_Granata", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504002, className: "Arditi2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_TreGranata", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504003, className: "Arditi3", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504004, className: "Arditi4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_Ritirarsi", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504005, className: "Arditi5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_Recupero", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504006, className: "Arditi6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504007, className: "Arditi7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_Taglio", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504008, className: "Arditi8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504009, className: "Arditi9", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arditi_Invasione", 1)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504010, className: "Arditi10", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_13", 45)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504011, className: "Arditi11", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_13", 45)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504012, className: "Arditi12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arditi1", 65)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504013, className: "Arditi13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arditi2", 65)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504014, className: "Arditi14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arditi4", 65)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504015, className: "Arditi15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arditi9", 65)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504016, className: "Arditi16", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Arditi7", 65)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504017, className: "Arditi17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504018, className: "Arditi18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_13", 45)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504019, className: "Arditi19", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504020, className: "Arditi20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+{ category: "Arditi", jobId: 5013, abilityId: 504021, className: "Arditi21", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
+
+// Sheriff
+//---------------------------------------------------------------------------
+{ category: "Sheriff", jobId: 5014, abilityId: 505001, className: "Sheriff1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Sheriff_QuickDraw", 1)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505002, className: "Sheriff2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Sheriff_Fanning", 1)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505003, className: "Sheriff3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Sheriff_Peacemaker", 1)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505004, className: "Sheriff4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Sheriff_AimingShot", 1)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505005, className: "Sheriff5", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505006, className: "Sheriff6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_400LV', unlock: 'UNLOCK_BASE_LEVEL("", 400)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505007, className: "Sheriff7", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Sheriff_Peacemaker", 5)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505008, className: "Sheriff8", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_14", 45)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505009, className: "Sheriff9", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_14", 45)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505010, className: "Sheriff10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Sheriff1", 65)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505011, className: "Sheriff11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Sheriff2", 65)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505012, className: "Sheriff12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Sheriff3", 65)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505013, className: "Sheriff13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Sheriff4", 65)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505014, className: "Sheriff14", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505015, className: "Sheriff15", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_14", 45)' },
+
+// Rangda
+//---------------------------------------------------------------------------
+{ category: "Rangda", jobId: 5015, abilityId: 506001, className: "Rangda1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rangda_Barong", 1)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506002, className: "Rangda2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rangda_Luka", 1)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506003, className: "Rangda3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rangda_Kutukan", 1)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506004, className: "Rangda4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rangda_Rawa", 1)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506005, className: "Rangda5", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rangda1", 65)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506006, className: "Rangda6", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rangda2", 65)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506007, className: "Rangda7", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rangda3", 65)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506008, className: "Rangda8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rangda4", 65)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506009, className: "Rangda9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506010, className: "Rangda10", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506011, className: "Rangda11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506012, className: "Rangda12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506013, className: "Rangda13", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rangda_Penyerapan", 1)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506014, className: "Rangda14", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_15", 45)' },
+{ category: "Rangda", jobId: 5015, abilityId: 506015, className: "Rangda15", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_15", 45)' },
+
+// Clown
+//---------------------------------------------------------------------------
+{ category: "Clown", jobId: 5016, abilityId: 507001, className: "Clown1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Clown_SpinningKnife", 1)' },
+{ category: "Clown", jobId: 5016, abilityId: 507002, className: "Clown2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Clown_Replica", 1)' },
+{ category: "Clown", jobId: 5016, abilityId: 507003, className: "Clown3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Clown_FatalRoulette", 1)' },
+{ category: "Clown", jobId: 5016, abilityId: 507004, className: "Clown4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Clown_Climax", 1)' },
+{ category: "Clown", jobId: 5016, abilityId: 507005, className: "Clown5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Clown_TrickorTreat", 1)' },
+{ category: "Clown", jobId: 5016, abilityId: 507006, className: "Clown6", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Clown1", 65)' },
+{ category: "Clown", jobId: 5016, abilityId: 507007, className: "Clown7", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Clown2", 65)' },
+{ category: "Clown", jobId: 5016, abilityId: 507008, className: "Clown8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Clown3", 65)' },
+{ category: "Clown", jobId: 5016, abilityId: 507009, className: "Clown9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Clown4", 65)' },
+{ category: "Clown", jobId: 5016, abilityId: 507010, className: "Clown10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Clown", jobId: 5016, abilityId: 507011, className: "Clown11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Clown", jobId: 5016, abilityId: 507012, className: "Clown12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Clown", jobId: 5016, abilityId: 507013, className: "Clown13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_16", 45)' },
+{ category: "Clown", jobId: 5016, abilityId: 507014, className: "Clown14", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_16", 45)' },
 ]
