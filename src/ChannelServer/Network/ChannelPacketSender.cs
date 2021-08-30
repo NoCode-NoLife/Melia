@@ -1202,36 +1202,16 @@ namespace Melia.Channel.Network
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj)
-		{
-			var properties = obj.Properties.GetAll();
-			var propertiesSize = properties.Sum(a => a.Size);
-
-			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-
-			packet.PutLong(obj.ObjectId);
-			packet.PutInt(0); // isTrickPacket
-			packet.AddProperties(properties);
-
-			conn.Send(packet);
-		}
+			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetAll());
 
 		/// <summary>
 		/// Updates object's given properties.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
+		/// <param name="properties"></param>
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj, Properties properties)
-		{
-			var props = properties.GetAll();
-			var propertiesSize = props.Sum(a => a.Size);
-			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-
-			packet.PutLong(obj.ObjectId);
-			packet.PutInt(0); // isTrickPacket
-			packet.AddProperties(props);
-
-			conn.Send(packet);
-		}
+			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, properties.GetAll());
 
 		/// <summary>
 		/// Updates object's given properties.
@@ -1240,13 +1220,19 @@ namespace Melia.Channel.Network
 		/// <param name="obj"></param>
 		/// <param name="propertyIds"></param>
 		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, IPropertyObject obj, params int[] propertyIds)
-		{
-			var properties = obj.Properties.GetAll(propertyIds);
-			var propertiesSize = properties.Sum(a => a.Size);
+			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetAll(propertyIds));
 
+		/// <summary>
+		/// Updates object's given properties.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="objectId"></param>
+		/// <param name="properties"></param>
+		public static void ZC_OBJECT_PROPERTY(ChannelConnection conn, long objectId, IEnumerable<IProperty> properties)
+		{
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
-			packet.PutLong(obj.ObjectId);
+			packet.PutLong(objectId);
 			packet.PutInt(0); // isTrickPacket
 			packet.AddProperties(properties);
 
