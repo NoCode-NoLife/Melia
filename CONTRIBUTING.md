@@ -41,10 +41,10 @@ bug fixes, or updates. To make the process of reviewing and merging
 your PR as comfortable as possible for all involved parties, we ask
 you to follow the following guidelines.
 
-- Your pull request should be as concice as possible, focusing
-  on as few related things as possible (for example: one PR per bug fix).
-- Your commit messages should be clear and descriptive (for example:
-  "Fixed bug XY", "Added feature YZ").
+- Your pull requests and commits should be as concice as possible, focusing
+  on as few related things as possible. For example: one PR per bug fix.
+- Your commit messages should be clear and descriptive. For example:
+  "Fixed bug XY", "Added feature YZ".
 - You should give a short description of what your PR accomplishes.
 - The PR should be based on a resonably recent fork of the `master` branch.
 - Your code should follow the coding conventions below.
@@ -53,7 +53,7 @@ you to follow the following guidelines.
   overview of what all contributors are working on.
 
 Coding conventions
-------------------------------
+-----------------------------------------------------------------------------
 ## C#
 * Base: [MS Naming Guidelines](http://msdn.microsoft.com/en-us/library/xzf533w0%28v=vs.71%29.aspx),
         [MS C# Coding Conventions](http://msdn.microsoft.com/en-us/library/ff926074.aspx)
@@ -72,14 +72,15 @@ Coding conventions
   They should not run complicated calculations or send packets.
 * Pure getter methods should be avoided in favor of properties,
   unless they do more than just returning a value.
+* Variable types should be ommited wherever appropriate, in favor of `var`.
 * Unless the full name of a class is necessary to clarify to the compiler
   which class is to be used, the `using` directive should always be used,
   so the full name isn't necessary in the actual code. For example, use
-  `Console.WriteLine(...)` instead of `System.Console.WriteLine(...)`.
+  `Console.WriteLine(...)` over `System.Console.WriteLine(...)`.
 * File names should generally not have prefixes, like for example "I" for a
   file containing an interface.
 
-EditorConfig compatible IDEs like VS2017 will automatically switch to
+EditorConfig compatible IDEs like VS2017+ will automatically switch to
 formatting settings that match the coding conventions as much as possible.
 
 ## JSON
@@ -105,11 +106,40 @@ formatting settings that match the coding conventions as much as possible.
 * A space should be used after a comment. For example, `-- comment`.
 
 Branching Strategy
-------------------------------
+-----------------------------------------------------------------------------
+
 `master` is the stable branch, geared towards normal users. It should be
 compilable and working at all times, with little to no debug or test code.
 
-For every feature or fix that goes beyond a handful of lines, a branch is
-created, that acts as a kind of "beta" branch for that feature.
-These branches aren't merged into master until a core developer has
-reviewed the code.
+For every feature or fix that goes beyond a handful of lines, a
+branch is created, that acts as a kind of "beta" branch for that
+feature. These branches are to be named appropriately, based on
+their content and potentially the issues they reference. For example,
+a branch for implementing feature Foobar, that is outlined in issue
+#2447, might be named "feature-2447-foobar", and a branch for fixing
+a skill bug in issue #1029 might be named "fix-1029-skill-bug".
+
+Once the feature, fix, or update is complete, a PR is created, the branch
+is reviewed by the team members, and then merged into `master`.
+
+Fork and Pull Request Strategy
+-----------------------------------------------------------------------------
+
+For managing your work and pull requests for Melia as an outside
+contributor, we recommend the following process.
+
+1. Fork Melia on GitHub.
+2. Add the main repository as a remote.
+3. Pull the latest changes from Melia's `master` into your local branch
+   regularly.
+4. Never push to your fork's `master` branch directly.
+5. Adopt the same branching strategy as lined out above.
+6. Create pull requests from your branches to Melia's master once you're
+   done.
+
+With this approach, you always have a clean master to create new branches
+off of, your changes naturally make their way into your fork by updating
+from the upstream repository, and you keep your changes organized.
+
+This is just a suggestions however, and as long as you follow the other
+guidelines, your fork is your fork.
