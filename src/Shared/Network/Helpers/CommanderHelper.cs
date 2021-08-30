@@ -26,6 +26,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutLong(commander.TotalExp);
 
 			packet.PutLong(commander.Id);
+
 			// TODO: Assign new IDs to characters such that the social ID does not conflict.
 			packet.PutLong(commander.Id + 1);   // SocialInfoId
 

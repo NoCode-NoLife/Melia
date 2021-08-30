@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Melia.Channel.Network;
@@ -91,6 +90,8 @@ namespace Melia.Channel.Scripting
 
 			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, this.OnPanic));
 
+#pragma warning disable IDE0009 // Der Memberzugriff sollte qualifiziert sein.
+
 			// Functions
 			// --------------------------------------------------------------
 
@@ -137,6 +138,8 @@ namespace Melia.Channel.Scripting
 			Register(changehair);
 			Register(spawn);
 			Register(levelup);
+
+#pragma warning restore IDE0009 // Der Memberzugriff sollte qualifiziert sein.
 		}
 
 		/// <summary>
@@ -146,7 +149,7 @@ namespace Melia.Channel.Scripting
 		{
 			// TODO: Replace timer with time event.
 			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
-			_globalVarSaver = new Timer(SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
+			_globalVarSaver = new Timer(this.SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
 			_lastVarChange = DateTime.Now;
 		}
 
@@ -464,14 +467,19 @@ namespace Melia.Channel.Scripting
 			{
 				foreach (var arg in arguments)
 				{
-					if (arg is byte) Melua.lua_pushinteger(NL, (byte)arg);
-					else if (arg is short) Melua.lua_pushinteger(NL, (short)arg);
-					else if (arg is int) Melua.lua_pushinteger(NL, (int)arg);
-					else if (arg is string) Melua.lua_pushstring(NL, (string)arg);
-					else
+					switch (arg)
 					{
-						Log.Warning("ScriptManager.Resume: Invalid argument type '{0}'.", arg.GetType().Name);
-						Melua.lua_pushinteger(NL, 0);
+						case byte v: Melua.lua_pushinteger(NL, v); break;
+						case short v: Melua.lua_pushinteger(NL, v); break;
+						case int v: Melua.lua_pushinteger(NL, v); break;
+						case string v: Melua.lua_pushstring(NL, v); break;
+
+						default:
+						{
+							Log.Warning("ScriptManager.Resume: Invalid argument type '{0}'.", arg.GetType().Name);
+							Melua.lua_pushinteger(NL, 0);
+							break;
+						}
 					}
 				}
 
@@ -701,20 +709,20 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addspawn(IntPtr L)
 		{
-			SpawnData spawnData = new SpawnData();
+			var spawnData = new SpawnData();
 
-			spawnData.spawnName = Melua.luaL_checkstring(L, 1);
-			spawnData.mapName = Melua.luaL_checkstring(L, 2);
-			spawnData.monsterName = Melua.luaL_checkstring(L, 3);
-			spawnData.xMin = Melua.luaL_checkinteger(L, 4);
-			spawnData.xMax = Melua.luaL_checkinteger(L, 5);
-			spawnData.zMin = Melua.luaL_checkinteger(L, 6);
-			spawnData.zMax = Melua.luaL_checkinteger(L, 7);
-			spawnData.count = Melua.luaL_checkinteger(L, 8);
-			spawnData.countVariation = Melua.luaL_checkinteger(L, 9);
-			spawnData.respawnTime = Melua.luaL_checkinteger(L, 10);
+			spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
+			spawnData.MapName = Melua.luaL_checkstring(L, 2);
+			spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
+			spawnData.XMin = Melua.luaL_checkinteger(L, 4);
+			spawnData.XMax = Melua.luaL_checkinteger(L, 5);
+			spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
+			spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
+			spawnData.Count = Melua.luaL_checkinteger(L, 8);
+			spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
+			spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
 
-			spawnData.isFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
+			spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
 			var x = (float)Melua.luaL_checknumber(L, 12);
 			var y = (float)Melua.luaL_checknumber(L, 13);
 			var z = (float)Melua.luaL_checknumber(L, 14);
@@ -723,9 +731,9 @@ namespace Melia.Channel.Scripting
 			var direction = Melua.luaL_checkinteger(L, 15);
 			spawnData.Direction = new Direction(direction);
 
-			var map = ChannelServer.Instance.World.GetMap(spawnData.mapName);
+			var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
 			if (map == null)
-				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.mapName, spawnData.spawnName);
+				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
 
 			map.AddSpawnZone(spawnData);
 
@@ -1647,14 +1655,18 @@ namespace Melia.Channel.Scripting
 				vars[name] = value;
 
 			// Push return value
-			if (value == null) Melua.lua_pushnil(L);
-			else if (value is string) Melua.lua_pushstring(L, (string)value);
-			else if (value is double) Melua.lua_pushnumber(L, (double)value);
-			else if (value is float) Melua.lua_pushnumber(L, (float)value);
-			else if (value is int) Melua.lua_pushinteger(L, (int)value);
-			else if (value is bool) Melua.lua_pushboolean(L, (bool)value);
-			else
-				return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
+			switch (value)
+			{
+				case null: Melua.lua_pushnil(L); break;
+				case string v: Melua.lua_pushstring(L, v); ; break;
+				case double v: Melua.lua_pushnumber(L, v); ; break;
+				case float v: Melua.lua_pushnumber(L, v); ; break;
+				case int v: Melua.lua_pushinteger(L, v); ; break;
+				case bool v: Melua.lua_pushboolean(L, v); ; break;
+
+				default:
+					return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
+			}
 
 			return 1;
 		}

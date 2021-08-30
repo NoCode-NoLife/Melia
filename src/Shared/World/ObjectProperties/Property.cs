@@ -68,7 +68,7 @@ namespace Melia.Shared.World.ObjectProperties
 	/// </summary>
 	public class RefFloatProperty : FloatProperty
 	{
-		private Func<float> _func;
+		private readonly Func<float> _func;
 
 		/// <summary>
 		/// Returns this property's value, setting it doesn't do anything.
@@ -130,7 +130,7 @@ namespace Melia.Shared.World.ObjectProperties
 	/// </summary>
 	public class RefStringProperty : StringProperty
 	{
-		private Func<string> _func;
+		private readonly Func<string> _func;
 
 		/// <summary>
 		/// Returns this property's value, setting it doesn't do anything.

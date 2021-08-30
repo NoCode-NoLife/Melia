@@ -65,7 +65,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class SkillDb : DatabaseJsonIndexed<int, SkillData>
 	{
-
 		/// <summary>
 		/// Helper Function for Item Group as String to ItemGroup
 		/// </summary>
@@ -90,7 +89,7 @@ namespace Melia.Shared.Data.Database
 		/// </summary>
 		/// <param name="className"></param>
 		/// <returns></returns>
-			public SkillData Find(string className)
+		public SkillData Find(string className)
 		{
 			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 		}
@@ -101,9 +100,11 @@ namespace Melia.Shared.Data.Database
 			entry.AssertNotMissing("skillId", "className", "name");
 
 			var info = new SkillData();
+
 			//{ skillId: 20007, className: "Wizard_MagicMissile", name: "Magic Missile", maxLevel: 5, element: 6, basicSp: 100, angle: 90, maxRange: 140, waveLength: 35, splashRange: 12,
 			// splashAngle: 30, splashRate: -99.0, skillFactor: 115.0, skillFactorPerLevel: 115.300003, coolDown: 25000, coolDownGroup: "MagicMissile", hitDelay: 350, overHeat: 5,
 			// overHeatDelay: 30000, overHeatGroup: "MagicMissile_OH", shootTime: 600, hitTime: [ 0 ], holdTime: [ 400 ], useType: "MELEE_GROUND" },
+
 			info.Id = entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
@@ -123,12 +124,7 @@ namespace Melia.Shared.Data.Database
 
 			info.CoolDown = entry.ReadInt("coolDown");
 			info.CoolDownGroup = entry.ReadString("coolDownGroup");
-			if (entry.ContainsKey("overheat"))
-			{
-				info.OverHeat = entry.ReadInt("overheat");
-				info.OverHeatDelay = entry.ReadInt("overHeatDelay");
-				info.OverHeatGroup = entry.ReadString("overHeatGroup");
-			}
+
 			info.ShootTime = entry.ReadInt("shootTime");
 			info.HitDelay = entry.ReadInt("hitDelay");
 			info.HitTime = (List<int>)entry.ReadArray("hitTime").ToObject<IList<int>>();
@@ -136,6 +132,13 @@ namespace Melia.Shared.Data.Database
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
 			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
 			info.UseType = GetSkillUseType(entry.ReadString("useType"));
+
+			if (entry.ContainsKey("overheat"))
+			{
+				info.OverHeat = entry.ReadInt("overheat");
+				info.OverHeatDelay = entry.ReadInt("overHeatDelay");
+				info.OverHeatGroup = entry.ReadString("overHeatGroup");
+			}
 
 			this.Entries[info.Id] = info;
 		}

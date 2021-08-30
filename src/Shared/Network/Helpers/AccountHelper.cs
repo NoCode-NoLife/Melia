@@ -660,7 +660,6 @@ namespace Melia.Shared.Network.Helpers
 		int GiftMedals { get; }
 		int PremiumMedals { get; }
 		int SelectedBarrack { get; }
-
 		int SelectedBarrackLayer { get; }
 	}
 }

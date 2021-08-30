@@ -14,8 +14,8 @@ namespace Melia.Login.Database
 	/// </summary>
 	public class Account : IAccount
 	{
-		private object _moneyLock = new object();
-		private List<Character> _characters;
+		private readonly object _moneyLock = new object();
+		private readonly List<Character> _characters = new List<Character>();
 
 		/// <summary>
 		/// Account id.
@@ -49,7 +49,7 @@ namespace Melia.Login.Database
 		/// <summary>
 		/// Amount of Free TP.
 		/// </summary>
-		public int Medals { get; set; }
+		public int Medals { get; set; } = 500;
 
 		/// <summary>
 		/// Amount of Event TP.
@@ -64,29 +64,17 @@ namespace Melia.Login.Database
 		/// <summary>
 		/// Id of the barrack map.
 		/// </summary>
-		public int SelectedBarrack { get; set; }
+		public int SelectedBarrack { get; set; } = 11;
 
 		/// <summary>
 		/// The layer that is currently selected as being viewed.
 		/// </summary>
-		public int SelectedBarrackLayer { get; set; }
+		public int SelectedBarrackLayer { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the number of characters the account has.
 		/// </summary>
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
-
-		/// <summary>
-		/// Creates new account.
-		/// </summary>
-		public Account()
-		{
-			_characters = new List<Character>();
-
-			this.Medals = 500;
-			this.SelectedBarrack = 11;
-			this.SelectedBarrackLayer = 1;
-		}
 
 		/// <summary>
 		/// Returns list of all characters on account.

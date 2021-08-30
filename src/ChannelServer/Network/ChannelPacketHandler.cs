@@ -26,17 +26,17 @@ namespace Melia.Channel.Network
 		{
 			var bin1 = packet.GetBin(1036);
 			var sessionKey = packet.GetString(64);
+
 			// When using passprt login, this is the account id as string,
 			// and it's 18 (?) bytes long.	
 			var accountName = packet.GetString(56);
+
 			var mac = packet.GetString(48);
 			var socialId = packet.GetLong();
 			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
 			var bin2 = packet.GetBin(12);
-
-
 			var bin3 = packet.GetBin(8);
 
 			// TODO: Check session key or something.
@@ -540,14 +540,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SORT_INV)]
 		public void CZ_SORT_INV(ChannelConnection conn, Packet packet)
 		{
-			var order = InventoryOrder.Id;
-
 			var unkByte = packet.GetByte();
-
-			// [i10622 (2015-10-22)]
-			{
-				order = (InventoryOrder)packet.GetByte();
-			}
+			var order = (InventoryOrder)packet.GetByte(); // [i10622 (2015-10-22)] Added
 
 			var character = conn.SelectedCharacter;
 
@@ -670,10 +664,16 @@ namespace Melia.Channel.Network
 			var handle = packet.GetInt();
 			var unkByte = packet.GetByte();
 
-			var monster = conn.SelectedCharacter.Map.GetNPC(handle);
+			var monster = conn.SelectedCharacter.Map.GetMonster(handle);
 			if (monster == null)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to unknown monster.", conn.Account.Name);
+				return;
+			}
+
+			if (monster.NpcType == NpcType.Monster)
+			{
+				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to an actual monster.", conn.Account.Name);
 				return;
 			}
 
@@ -844,6 +844,7 @@ namespace Melia.Channel.Network
 				// Should check state of the character
 				Send.ZC_OVERHEAT_CHANGED(character, skill);
 				Send.ZC_PC_ATKSTATE(character, true);
+
 				if (handleCount == 0)
 				{
 					switch (skill.Data.UseType)
@@ -851,10 +852,13 @@ namespace Melia.Channel.Network
 						case SkillUseType.MELEE_GROUND:
 							Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
 							break;
+
 						case SkillUseType.FORCE:
 							Send.ZC_SKILL_FORCE_TARGET(character, null, skill, 0);
 							break;
-						default: Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+
+						default:
+							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
 							break;
 					}
 				}
@@ -864,7 +868,7 @@ namespace Melia.Channel.Network
 					{
 						// Get target
 						var target = character.Map.GetMonster(handle);
-						if (target == null)
+						if (target == null || target.NpcType != NpcType.Monster)
 						{
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 							continue;
@@ -903,7 +907,7 @@ namespace Melia.Channel.Network
 
 			// Check target
 			var target = character.Map.GetMonster(targetHandle);
-			if (target == null)
+			if (target == null || target.NpcType != NpcType.Monster)
 			{
 				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
 				return;
@@ -911,9 +915,10 @@ namespace Melia.Channel.Network
 
 			Send.ZC_COOLDOWN_CHANGED(character, skill);
 			//Send.ZC_SKILL_READY(character, skillId);
-			var damage = character.GetRandomPAtk();
 
+			var damage = character.GetRandomPAtk();
 			target.TakeDamage(damage, character, skill);
+
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
 
@@ -1314,7 +1319,7 @@ namespace Melia.Channel.Network
 			if (totalMoney > 0)
 				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
-			
+
 			// Need to keep track of items sold, server sends this list to the client
 			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, 3, itemsSold);
 		}
@@ -1457,6 +1462,7 @@ namespace Melia.Channel.Network
 			switch (command)
 			{
 				case 0x0C:
+				{
 					// Disable "You can buy items" tooltip, sent after
 					// opening a shop.
 					if (classId == 5 && cmdArg == 1)
@@ -1468,18 +1474,24 @@ namespace Melia.Channel.Network
 						break;
 					}
 					goto default;
-
+				}
 				// Hat visbility toggle
 				case 0x28:
+				{
 					// classId = 0~2 (hats 1~3)
 					goto default;
+				}
 				case 0x71:
+				{
 					Send.ZC_CUSTOM_COMMANDER_INFO(conn);
 					break;
+				}
 				default:
+				{
 					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
 					Log.Debug(packet.ToString());
 					break;
+				}
 			}
 		}
 
@@ -1597,7 +1609,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_NORMAL_TX)]
 		public void CZ_REQ_NORMAL_TX(ChannelConnection conn, Packet packet)
 		{
-			var type = packet.GetShort(); // ?
+			var type = packet.GetShort();
 
 			var character = conn.SelectedCharacter;
 
@@ -1605,14 +1617,17 @@ namespace Melia.Channel.Network
 			{
 				// Toggle ability state
 				case 0x0D:
+				{
 					var className = packet.GetString(33);
 					if (!character.Abilities.Toggle(className))
 						Log.Warning("CZ_REQ_NORMAL_TX: User '{0}' tried to toggle ability '{1}', which they either don't have or is passive.", conn.Account.Name, className);
 					break;
-
+				}
 				default:
+				{
 					Log.Debug("CZ_REQ_NORMAL_TX: Unhandled type '{0}'.", type);
 					break;
+				}
 			}
 		}
 
@@ -1672,7 +1687,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_HEARTBEAT)]
 		public void CZ_HEARTBEAT(ChannelConnection conn, Packet packet)
 		{
-			
 		}
 
 		/// <summary>
@@ -1703,7 +1717,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MYTHIC_DUNGEON_REQUEST_CURRENT_SEASON)]
 		public void CZ_MYTHIC_DUNGEON_REQUEST_CURRENT_SEASON(ChannelConnection conn, Packet packet)
 		{
-			
 		}
 
 		/// <summary>
@@ -1726,7 +1739,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DO_CLIENT_MOVE_CHECK)]
 		public void CZ_DO_CLIENT_MOVE_CHECK(ChannelConnection conn, Packet packet)
 		{
-
 		}
 
 		/// <summary>
@@ -1754,7 +1766,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_STOP_TIMEACTION)]
 		public void CZ_STOP_TIMEACTION(ChannelConnection conn, Packet packet)
 		{
-
 		}
 
 		/// <summary>
@@ -1777,6 +1788,7 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_FIELD_BOSS_EXIST(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
+
 			Send.ZC_RESPONSE_FIELD_BOSS_EXIST(conn);
 		}
 
@@ -1811,9 +1823,7 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var type = packet.GetString(32);
-
 		}
-
 
 		/// <summary>
 		/// ToS Hero Emblems?
@@ -1845,8 +1855,6 @@ namespace Melia.Channel.Network
 
 			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
-
-		
 	}
 
 	public enum TxType : short

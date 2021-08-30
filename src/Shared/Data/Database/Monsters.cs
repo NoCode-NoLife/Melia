@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -26,6 +25,7 @@ namespace Melia.Shared.Data.Database
 		public int MagicalAttackMaximum { get; set; }
 		public int PhysicalDefense { get; set; }
 		public int MagicalDefense { get; set; }
+
 		public List<DropData> Drops { get; internal set; }
 	}
 
@@ -34,8 +34,8 @@ namespace Melia.Shared.Data.Database
 	{
 		public int ItemId { get; set; }
 		public float DropChance { get; set; }
-		public int MinimumQuantity { get; set; }
-		public int MaximumQuantity { get; set; }
+		public int MinAmount { get; set; }
+		public int MaxAmount { get; set; }
 	}
 
 	/// <summary>
@@ -69,18 +69,22 @@ namespace Melia.Shared.Data.Database
 			info.ClassExp = entry.ReadInt("classExp");
 			info.Hp = entry.ReadInt("hp");
 			info.PhysicalDefense = entry.ReadInt("physicalDefense");
+
 			var drops = entry.ReadArray("drops");
 			if (drops != null)
 			{
 				if (info.Drops == null)
 					info.Drops = new List<DropData>();
+
 				foreach (var drop in drops.ToObject<IList<DropData>>())
 				{
 					if (drop.ItemId == -1)
 						continue;
+
 					info.Drops.Add(drop);
 				}
 			}
+
 			this.Entries[info.Id] = info;
 		}
 	}

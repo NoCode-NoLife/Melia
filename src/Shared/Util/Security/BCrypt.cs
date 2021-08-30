@@ -390,7 +390,7 @@ namespace Melia.Shared.Util.Security
 
 			StringBuilder rs = new StringBuilder(length * 2);
 
-			for (int offset = 0, c1, c2; offset < length; )
+			for (int offset = 0, c1, c2; offset < length;)
 			{
 				c1 = d[offset++] & 0xff;
 				rs.Append(base64_code[(c1 >> 2) & 0x3f]);
@@ -444,7 +444,7 @@ namespace Melia.Shared.Util.Security
 				throw new ArgumentOutOfRangeException("maximumLength", maximumLength, null);
 			}
 
-			for (int offset = 0, slen = s.Length, length = 0; offset < slen - 1 && length < maximumLength; )
+			for (int offset = 0, slen = s.Length, length = 0; offset < slen - 1 && length < maximumLength;)
 			{
 				int c1 = Char64(s[offset++]);
 				int c2 = Char64(s[offset++]);
@@ -493,7 +493,7 @@ namespace Melia.Shared.Util.Security
 			uint i, n, l = block[offset], r = block[offset + 1];
 
 			l ^= this.p[0];
-			for (i = 0; i <= BLOWFISH_NUM_ROUNDS - 2; )
+			for (i = 0; i <= BLOWFISH_NUM_ROUNDS - 2;)
 			{
 				// Feistel substitution on left word
 				n = this.s[(l >> 24) & 0xff];

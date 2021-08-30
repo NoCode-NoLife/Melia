@@ -5,7 +5,6 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
-using System.Text;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
 
@@ -13,11 +12,11 @@ namespace Melia.Shared.Network
 {
 	public abstract class Connection
 	{
-		private byte[] _buffer, _backBuffer;
+		private readonly byte[] _buffer;
 		private Socket _socket;
-		private TOSCrypto _crypto;
+		private readonly TOSCrypto _crypto;
 
-		private object _cleanUpLock = new object();
+		private readonly object _cleanUpLock = new object();
 		private bool _cleanedUp;
 
 		/// <summary>
@@ -48,12 +47,13 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Session key for this connection.
 		/// </summary>
-		public readonly string SessionKey;
+		public string SessionKey { get; }
 
 		/// <summary>
-		/// Randomly generated value used for checking the integrity of IPF archives.
+		/// Randomly generated value used for checking the integrity of
+		/// IPF archives.
 		/// </summary>
-		public readonly int IntegritySeed;
+		public int IntegritySeed { get; }
 
 		/// <summary>
 		/// When set to 'true', client packets are ignored.
@@ -66,7 +66,6 @@ namespace Melia.Shared.Network
 		public Connection()
 		{
 			_buffer = new byte[1024 * 500];
-			_backBuffer = new byte[ushort.MaxValue];
 			_crypto = new TOSCrypto();
 
 			this.State = ConnectionState.Open;
@@ -77,7 +76,7 @@ namespace Melia.Shared.Network
 			using (var sha = new SHA1Managed())
 			{
 				var hash = sha.ComputeHash(Guid.NewGuid().ToByteArray());
-				this.SessionKey = "*" + BitConverter.ToString(hash).Replace("-", String.Empty);
+				this.SessionKey = "*" + BitConverter.ToString(hash).Replace("-", "");
 			}
 		}
 
@@ -330,7 +329,8 @@ namespace Melia.Shared.Network
 
 			// Debug
 			var debug = false;
-			if (debug) {
+			if (debug)
+			{
 				var opName = Op.GetName(packet.Op);
 				var sendStr = BitConverter.ToString(buffer).Replace("-", " ");
 				sendStr = sendStr.Insert(0, "[");

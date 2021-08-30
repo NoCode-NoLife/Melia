@@ -212,10 +212,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Gets or set the character's greeting message.
 		/// </summary>
-		/// <remarks>
-		/// None yet
-		/// </remarks>
-		public string GreetingMessage { get; set;}
+		public string GreetingMessage { get; set; }
 
 		/// <summary>
 		/// Returns maximum weight the character can carry.
@@ -1095,7 +1092,7 @@ namespace Melia.Channel.World
 				{
 					return 0;
 				}
-				
+
 			}
 		}
 
@@ -1225,7 +1222,7 @@ namespace Melia.Channel.World
 				var value = baseValue - byItem - byBuffs;
 
 				if (this.IsSitting)
-					value = value * 0.5f;
+					value *= 0.5f;
 
 				if (value < 1000)
 					value = 1000;
@@ -1239,7 +1236,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		public int SPRecovery
 		{
-			get 
+			get
 			{
 				var level = this.Level;
 				var stat = this.Spr;
@@ -1281,7 +1278,7 @@ namespace Melia.Channel.World
 				var value = baseValue - byItem - byBuffs;
 
 				if (this.IsSitting)
-					value = value * 0.5f;
+					value *= 0.5f;
 
 				if (value < 1000)
 					value = 1000;
@@ -2804,14 +2801,14 @@ namespace Melia.Channel.World
 		public void CastSkill(int skillId, float dx, float dy)
 		{
 			// Check skill
-			var skill = Skills.Get(skillId);
+			var skill = this.Skills.Get(skillId);
 			if (skill == null)
 			{
 				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
 				Send.ZC_SKILL_CAST_CANCEL(this);
 				//Log.Debug(packet.ToString());
-				return;
-			} else
+			}
+			else
 			{
 				Send.ZC_OVERHEAT_CHANGED(this, skill);
 				Send.ZC_COOLDOWN_CHANGED(this, skill);
@@ -2857,7 +2854,8 @@ namespace Melia.Channel.World
 		{
 			if (this.Direction.Cos != d1 || this.Direction.Sin != d2)
 				this.SetDirection(d1, d2);
-				Send.ZC_ROTATE(this);
+
+			Send.ZC_ROTATE(this);
 		}
 
 		/// <summary>
@@ -2869,7 +2867,8 @@ namespace Melia.Channel.World
 		{
 			if (this.HeadDirection.Cos != d1 || this.HeadDirection.Sin != d2)
 				this.SetHeadDirection(d1, d2);
-				Send.ZC_HEAD_ROTATE(this);
+
+			Send.ZC_HEAD_ROTATE(this);
 		}
 
 		/// <summary>
@@ -2964,7 +2963,6 @@ namespace Melia.Channel.World
 			return rnd.Next(min, max + 1);
 		}
 
-
 		/// <summary>
 		/// These should be reference properties?
 		/// PCETC Properties
@@ -2974,15 +2972,15 @@ namespace Melia.Channel.World
 			var pcEtcProps = new Properties();
 			pcEtcProps.Set(PropertyId.PCEtc.SkintoneName, "skintone2");
 			pcEtcProps.Set(PropertyId.PCEtc.StartHairName, "UnbalancedShortcut");
-			pcEtcProps.Set(PropertyId.PCEtc.LobbyMapID, MapId);
-			pcEtcProps.Set(PropertyId.PCEtc.RepresentationClassID, JobId.ToString());
+			pcEtcProps.Set(PropertyId.PCEtc.LobbyMapID, this.MapId);
+			pcEtcProps.Set(PropertyId.PCEtc.RepresentationClassID, this.JobId.ToString());
 			pcEtcProps.Set(PropertyId.PCEtc.LastPlayDate, 20210728.000000f);
 			pcEtcProps.Set(PropertyId.PCEtc.CTRLTYPE_RESET_EXCEPT, 1f);
+
 			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
+
 			foreach (var property in pcEtcProps.GetAll())
-			{
-				Properties.Add(property);
-			}
+				this.Properties.Add(property);
 		}
 	}
 }

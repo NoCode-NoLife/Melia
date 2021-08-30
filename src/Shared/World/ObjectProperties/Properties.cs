@@ -10,7 +10,7 @@ namespace Melia.Shared.World.ObjectProperties
 {
 	public class Properties
 	{
-		private Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
+		private readonly Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
 
 		/// <summary>
 		/// Returns the byte size of all properties, as they would take

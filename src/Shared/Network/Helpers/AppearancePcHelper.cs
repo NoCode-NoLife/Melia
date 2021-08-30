@@ -25,6 +25,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte(0x80); //128
 			packet.PutByte(0xFF); //255
 			packet.PutInt(0); // i2 1 or 0
+
 			// Items
 			var equipIds = appearancePc.GetEquipIds();
 			if (equipIds.Length != Items.EquipSlotCount)
@@ -40,11 +41,9 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutInt(0);
 			}
 
-			//Visual Equip Ids?
+			// Visual Equip Ids?
 			for (var i = 0; i < Items.DefaultItems.Length; ++i)
-			{
 				packet.PutInt(Items.DefaultItems[i]);
-			}
 
 			// [i336041, 2021-07-25]
 			{

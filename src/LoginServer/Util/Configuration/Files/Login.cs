@@ -14,10 +14,6 @@ namespace Melia.Login.Util.Configuration.Files
 	public class LoginConfFile : ConfFile
 	{
 		/// <summary>
-		/// Server Address
-		/// </summary>
-		public string ServerAddress { get; private set; }
-		/// <summary>
 		/// Location new characters start at.
 		/// </summary>
 		public Location StartLocation { get; protected set; }
@@ -32,15 +28,15 @@ namespace Melia.Login.Util.Configuration.Files
 		/// </summary>
 		public string IpfChecksum { get; private set; }
 
-
+		/// <summary>
+		/// Loads login configuration file.
+		/// </summary>
 		public void Load()
 		{
 			this.Require("system/conf/login.conf");
 
-			this.ServerAddress = this.GetString("ServerAddress", "127.0.0.1");
-			this.IpfChecksum = this.GetString("ipf_checksum", String.Empty);
+			this.IpfChecksum = this.GetString("ipf_checksum", "");
 			this.VerifyIpf = this.GetBool("ipf_verifying", false);
-			this.IpfChecksum = this.GetString("ipf_checksum");
 
 			this.StartLocation = this.LoadStartLocation();
 		}

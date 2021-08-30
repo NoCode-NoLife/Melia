@@ -109,3 +109,6 @@ csharp_style_object_initializer = false
 
 # Don't indent switch case contents when they use a block
 csharp_indent_case_contents_when_block = false
+
+# Ignore unused variables
+csharp_style_unused_value_assignment_preference = unused_local_variable

@@ -26,10 +26,11 @@ namespace Melia.Shared.Data.Database
 		public EquipType EquipType2 { get; set; }
 		public int MinLevel { get; set; }
 		public string Script { get; set; }
-		public bool hasScript => !string.IsNullOrWhiteSpace(this.Script);
-		public bool hasProperties => this.Properties.Count > 0;
 		public Dictionary<int, int> Properties = new Dictionary<int, int>();
 		public ItemGroup Group { get; internal set; }
+
+		public bool HasScript => !string.IsNullOrWhiteSpace(this.Script);
+		public bool HasProperties => this.Properties.Count > 0;
 	}
 
 	/// <summary>
@@ -44,6 +45,9 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public ItemType GetItemType(string type)
 		{
+			// TODO: Use Enum.Parse, instead of manually mapping strings
+			//   to enum valuues.
+
 			switch (type)
 			{
 				case "Consume": return ItemType.Consume;
@@ -62,6 +66,9 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public ItemGroup GetItemGroup(string group)
 		{
+			// TODO: Use Enum.Parse, instead of manually mapping strings
+			//   to enum valuues.
+
 			switch (group)
 			{
 				case "Premium": return ItemGroup.Premium;
@@ -98,7 +105,10 @@ namespace Melia.Shared.Data.Database
 
 		public int GetProperty(string property)
 		{
-			switch(property)
+			// TODO: Use Enum.Parse, instead of manually mapping strings
+			//   to enum valuues.
+
+			switch (property)
 			{
 				case "Desc": return PropertyId.Item.Desc;
 				case "Icon": return PropertyId.Item.Icon;
@@ -593,7 +603,6 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
 		}
 
-		static Dictionary<string, int> ItemTypes = new Dictionary<string, int>();
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("itemId", "className", "name", "type");
@@ -603,17 +612,17 @@ namespace Melia.Shared.Data.Database
 			info.Id = entry.ReadInt("itemId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
-			info.Type = GetItemType(entry.ReadString("type"));
-			info.Group = GetItemGroup(entry.ReadString("group"));
-			info.Category = GetItemCategory(info.Group);
+			info.Type = this.GetItemType(entry.ReadString("type"));
+			info.Group = this.GetItemGroup(entry.ReadString("group"));
+			info.Category = this.GetItemCategory(info.Group);
 			info.Weight = entry.ReadFloat("weight", 0f);
-			if (info.Id == 900011 || info.Id == 900012)
-			{
-				info.MaxStack = int.MaxValue;
-			} else
-				info.MaxStack = (int)entry.ReadInt("maxStack", 1);
 			info.Price = entry.ReadInt("price", 0);
 			info.SellPrice = entry.ReadInt("sellPrice", 0);
+
+			if (info.Id == 900011 || info.Id == 900012)
+				info.MaxStack = int.MaxValue;
+			else
+				info.MaxStack = (int)entry.ReadInt("maxStack", 1);
 
 			var equipType1 = entry.ReadString("equipType1", null);
 			if (equipType1 != null && equipType1 != "False")
@@ -630,15 +639,17 @@ namespace Melia.Shared.Data.Database
 					throw new DatabaseErrorException($"Invalid equip type 2 '{equipType2}' for item '{info.Id}'.");
 				info.EquipType2 = type;
 			}
+
 			var cooldown = entry.ReadFloat("coolDown", 0);
 			info.Properties.Add(PropertyId.Item.CoolDown, (int)cooldown);
+
 			if (entry.ContainsKey("properties"))
 			{
 				var properties = entry.ReadString("properties");
-				foreach(var propString in properties.Replace("{", "").Replace("}", "").Split(','))
+				foreach (var propString in properties.Replace("{", "").Replace("}", "").Split(','))
 				{
 					var prop = propString.Split(':');
-					info.Properties.Add(GetProperty(prop[0].Trim()), int.Parse(prop[1].Trim()));
+					info.Properties.Add(this.GetProperty(prop[0].Trim()), int.Parse(prop[1].Trim()));
 				}
 			}
 
@@ -649,7 +660,10 @@ namespace Melia.Shared.Data.Database
 
 		private InventoryCategory GetItemCategory(ItemGroup group)
 		{
-			switch(group)
+			// TODO: Use Enum.Parse, instead of manually mapping strings
+			//   to enum valuues.
+
+			switch (group)
 			{
 				case ItemGroup.Premium: return InventoryCategory.Premium;
 				case ItemGroup.Weapon: return InventoryCategory.Weapon;
@@ -676,7 +690,6 @@ namespace Melia.Shared.Data.Database
 				case ItemGroup.MagicAmulet: return InventoryCategory.Accessory;
 				//case ItemGroup.Armband: return InventoryCategory.Necklace;
 				default: return InventoryCategory.Premium;
-
 			}
 		}
 	}

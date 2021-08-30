@@ -151,7 +151,7 @@ namespace Melia.Login.Network
 			var extra = packet.GetBin(12);
 			var name = packet.GetString(10);
 			var l1 = packet.GetLong();
-			var check_name = packet.GetString(10);
+			var checkName = packet.GetString(10);
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
 			var l2 = packet.GetLong();
@@ -166,16 +166,21 @@ namespace Melia.Login.Network
 				return;
 			}
 
-			if (name != check_name)
+			if (name != checkName)
+			{
+				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamChangeFailed, conn.Account.Name);
 				return;
+			}
 
 			// Set team name
 			conn.Account.TeamName = name;
 			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
+
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay, name);
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
 			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
+
 		/// <summary>
 		/// Sent when saving Team Name in Lodge Settings on barrack screen.
 		/// </summary>
@@ -195,9 +200,10 @@ namespace Melia.Login.Network
 			var l6 = packet.GetLong();
 			var message = packet.GetString(128);
 			var unknown_bin_1 = packet.GetBin(94);
-			var check_name = packet.GetString();
+			var checkName = packet.GetString();
 			var l7 = packet.GetLong();
 			var l8 = packet.GetLong();
+
 			// Don't do anything if nothing's changed
 			if (name == conn.Account.TeamName)
 				return;
@@ -466,11 +472,11 @@ namespace Melia.Login.Network
 		{
 			var extra = packet.GetBin(12);
 			var checksum = packet.GetString(64);
-			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
+
 			if (!LoginServer.Instance.Conf.Login.VerifyIpf)
-			{
 				return;
-			}
+
+			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
 			var md5 = MD5.Create();
 			md5.TransformFinalBlock(bytes, 0, bytes.Length);
 
@@ -480,9 +486,10 @@ namespace Melia.Login.Network
 			{
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 
-				// Even though the integrity check fails, send these packets as well.
-				// This is done because the client is in a hanging state waiting for these packets.
-				// Without these, the invalid IPF message will not be visible.
+				// Even though the integrity check fails, send these packets
+				// as well. This is done because the client is in a hanging
+				// state waiting for these packets. Without these, the invalid
+				// IPF message will not be visible.
 				Send.BC_COMMANDER_LIST(conn);
 				Send.BC_NORMAL_ZoneTraffic(conn);
 				Send.BC_NORMAL_TeamUI(conn);
@@ -520,12 +527,13 @@ namespace Melia.Login.Network
 				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", layer, conn.Account.Name);
 				return;
 			}
+
 			conn.Account.SetSelectedBarrackLayer(layer);
+
 			Send.BC_NORMAL_SetBarrack(conn);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL_CharacterInfo(conn);
 			Send.BC_NORMAL_TeamUI(conn);
-			//Send.(conn);
 		}
 
 		/// <summary>
@@ -629,7 +637,6 @@ namespace Melia.Login.Network
 			var characterId = packet.GetLong();
 			var targetLayer = packet.GetInt();
 
-
 			if (targetLayer < 1 || targetLayer > 3)
 			{
 				Log.Warning("CB_SELECT_BARRACK_LAYER: Invalid layer '{0}' received from '{1}'.", targetLayer, conn.Account.Name);
@@ -640,6 +647,7 @@ namespace Melia.Login.Network
 			if (character != null)
 			{
 				character.BarrackLayer = targetLayer;
+
 				Send.BC_NORMAL_SetBarrack(conn);
 				Send.BC_COMMANDER_LIST(conn);
 				Send.BC_NORMAL_CharacterInfo(conn);
@@ -662,9 +670,7 @@ namespace Melia.Login.Network
 			var character = conn.Account.GetCharacterById(characterId);
 
 			if (character != null)
-			{
 				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.Id);
-			}
 		}
 
 		/// <summary>
