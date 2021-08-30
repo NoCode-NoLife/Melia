@@ -28,18 +28,18 @@ namespace Melia.Shared.Data.Database
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
 		public float SkillFactor { get; set; }
-		public int CoolDown { get; internal set; }
-		public string CoolDownGroup { get; internal set; }
-		public int OverHeat { get; internal set; }
-		public int OverHeatDelay { get; internal set; }
-		public string OverHeatGroup { get; internal set; }
-		public int ShootTime { get; internal set; }
-		public List<int> HitTime { get; internal set; }
-		public List<int> HoldTime { get; internal set; }
-		public int DeadHitTime { get; internal set; }
-		public bool EnableCastMove { get; internal set; }
-		public int HitDelay { get; internal set; }
-		public SkillUseType UseType { get; internal set; }
+		public int CoolDown { get; set; }
+		public string CoolDownGroup { get; set; }
+		public int OverHeat { get; set; }
+		public int OverHeatDelay { get; set; }
+		public string OverHeatGroup { get; set; }
+		public int ShootTime { get; set; }
+		public List<int> HitTime { get; set; }
+		public List<int> HoldTime { get; set; }
+		public int DeadHitTime { get; set; }
+		public bool EnableCastMove { get; set; }
+		public int HitDelay { get; set; }
+		public SkillUseType UseType { get; set; }
 	}
 
 	public enum SplashType
