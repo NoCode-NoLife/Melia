@@ -12,9 +12,9 @@ namespace Melia.Shared.Data
 	{
 		public AbilityDb AbilityDb = new AbilityDb();
 		public AbilityTreeDb AbilityTreeDb = new AbilityTreeDb();
-		public AchievementDb AchievementDb = new AchievementDb();
+		//public AchievementDb AchievementDb = new AchievementDb();
 		public BarrackDb BarrackDb = new BarrackDb();
-		public BuffDb BuffDb = new BuffDb();
+		//public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
@@ -24,7 +24,7 @@ namespace Melia.Shared.Data
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
 		public ServerDb ServerDb = new ServerDb();
-		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
+		//public SessionObjectDb SessionObjectDb = new SessionObjectDb();
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();

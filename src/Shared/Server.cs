@@ -139,12 +139,12 @@ namespace Melia.Shared
 
 				if ((toLoad & DataToLoad.Buffs) != 0)
 				{
-					this.LoadDb(this.Data.BuffDb, "db/buffs.txt", reload);
+					//this.LoadDb(this.Data.BuffDb, "db/buffs.txt", reload);
 				}
 
 				if ((toLoad & DataToLoad.SessionObjects) != 0)
 				{
-					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt", reload);
+					//this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt", reload);
 				}
 			}
 			catch (DatabaseErrorException ex)
