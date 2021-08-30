@@ -20,11 +20,11 @@ not guaranteed, and in fact unlikely.
 
 State of Development
 ------------------------------
-Melia is not being actively developed at the current time, and hasn't been
-since the game's release. As a result the implemented features are few,
-and the only updates that are regularly made are to keep up the compatibility
-to the latest client. However, you're very welcome to work on Melia, make
-pull requests, and ask questions on the chat at any time.
+Unfortunately, Melia hasn't been in active development for years, though
+there's been some recent activity again. At the current time, Melia is
+mostly compatible to the latest version of iToS again, you're very welcome
+to work on Melia, make pull requests, and ask questions on the chat at any
+time. However, don't expect much outside of some base features yet.
 
 The features that are currently working are the following:
 - Login Server
