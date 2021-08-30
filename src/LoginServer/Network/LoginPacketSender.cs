@@ -13,6 +13,7 @@ using Melia.Shared.World;
 using Melia.Shared.Network.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Melia.Login.Network
 {
@@ -389,12 +390,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="msgType"></param>
 		public static void BC_MESSAGE(LoginConnection conn, MsgType msgType)
-		{
-			var packet = new Packet(Op.BC_MESSAGE);
-			packet.PutByte((byte)msgType);
-
-			conn.Send(packet);
-		}
+			=> BC_MESSAGE(conn, msgType, null);
 
 		/// <summary>
 		/// Sends custom message to client.
@@ -402,11 +398,24 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="msg"></param>
 		public static void BC_MESSAGE(LoginConnection conn, string msg)
+			=> BC_MESSAGE(conn, MsgType.Text, msg);
+
+		/// <summary>
+		/// Sends message to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msgType"></param>
+		/// <param name="msg"></param>
+		public static void BC_MESSAGE(LoginConnection conn, MsgType msgType, string msg)
 		{
 			var packet = new Packet(Op.BC_MESSAGE);
-			packet.PutByte((byte)MsgType.Text);
-			packet.PutEmptyBin(40);
-			packet.PutString(msg);
+			packet.PutByte((byte)msgType);
+
+			if (msg != null)
+			{
+				packet.PutEmptyBin(40);
+				packet.PutString(msg);
+			}
 
 			conn.Send(packet);
 		}

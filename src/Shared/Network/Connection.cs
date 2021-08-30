@@ -5,6 +5,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Melia.Shared.Network.Crypto;
 using Melia.Shared.Util;
 
@@ -115,6 +116,21 @@ namespace Melia.Shared.Network
 			this.OnClosed();
 
 			Log.Info("Closed connection from '{0}'.", this.Address);
+		}
+
+		/// <summary>
+		/// Closes the connection after the given delay in milliseconds.
+		/// </summary>
+		/// <remarks>
+		/// Useful in situations where a packet is sent right before
+		/// closing the connection, so the client has time to process
+		/// the packet. Otherwise it might ignore it if the connection
+		/// is closed right after sending the packet.
+		/// </remarks>
+		public async void Close(int millisecondsDelay)
+		{
+			await Task.Delay(millisecondsDelay);
+			this.Close();
 		}
 
 		/// <summary>

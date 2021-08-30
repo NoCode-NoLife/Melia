@@ -53,7 +53,7 @@ namespace Melia.Login.Network
 			if (!LoginServer.Instance.Database.AccountExists(accountName))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
-				conn.Close();
+				conn.Close(100);
 				return;
 			}
 
@@ -62,7 +62,7 @@ namespace Melia.Login.Network
 			if (!BCrypt.CheckPassword(password, account.Password))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect2);
-				conn.Close();
+				conn.Close(100);
 				return;
 			}
 
@@ -85,7 +85,7 @@ namespace Melia.Login.Network
 		public void CB_LOGIN_BY_PASSPORT(LoginConnection conn, Packet packet)
 		{
 			Send.BC_MESSAGE(conn, "Passport login not supported.");
-			conn.Close();
+			conn.Close(100);
 		}
 
 		/// <summary>
