@@ -136,8 +136,43 @@ namespace Melia.Shared.Data
 		internal static double ReadDouble(this JObject obj, string key, double def = 0) { return (double)(obj[key] ?? def); }
 		internal static string ReadString(this JObject obj, string key, string def = "") { return (string)(obj[key] ?? def); }
 
-		internal static JObject ReadObject(this JObject obj, string key, string def = null) { return (JObject)(obj[key] ?? null); }
-		internal static JArray ReadArray(this JObject obj, string key, string def = null) { return (JArray)(obj[key] ?? null); }
+		/// <summary>
+		/// Reads the array with the given key from the object and returns
+		/// its values as an array of the given type. If the key doesn't
+		/// exist, the default value is returned. If the default value is
+		/// null, instead of null, an empty list is returned.
+		/// </summary>
+		/// <typeparam name="TValue"></typeparam>
+		/// <param name="obj"></param>
+		/// <param name="key"></param>
+		/// <param name="def"></param>
+		/// <returns></returns>
+		internal static TValue[] ReadArray<TValue>(this JObject obj, string key, TValue[] def = null)
+		{
+			if (!obj.ContainsKey(key))
+				return def ?? new TValue[0];
+
+			return obj[key].Select(a => a.ToObject<TValue>()).ToArray();
+		}
+
+		/// <summary>
+		/// Reads the array with the given key from the object and returns
+		/// its values as a list. If the key doesn't exist, the default
+		/// value is returned. If the default value is null, instead of
+		/// null, an empty list is returned.
+		/// </summary>
+		/// <typeparam name="TValue"></typeparam>
+		/// <param name="obj"></param>
+		/// <param name="key"></param>
+		/// <param name="def"></param>
+		/// <returns></returns>
+		internal static List<TValue> ReadList<TValue>(this JObject obj, string key, List<TValue> def = null)
+		{
+			if (!obj.ContainsKey(key))
+				return def ?? new List<TValue>();
+
+			return obj[key].Select(a => a.ToObject<TValue>()).ToList();
+		}
 
 		internal static bool ContainsAnyKeys(this JObject obj, params string[] keys)
 		{

@@ -14,21 +14,21 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public QuestData QuestData { get; internal set; }
+		public QuestData QuestData { get; set; }
 	}
 
 	[Serializable]
 	public class QuestData
 	{
 		public string Name { get; set; }
-		public IList<string> InfoName { get; internal set; }
-		public IList<string> InfoViewType { get; internal set; }
-		public IList<int> InfoMaxCount { get; internal set; }
-		public IList<string> MapPointGroup { get; internal set; }
-		public IList<int> MapPointView { get; internal set; }
-		public IList<string> MonsterNameGroup { get; internal set; }
-		public IList<int> MonsterView { get; internal set; }
-		public IList<string> MonsterViewTerms { get; internal set; }
+		public List<string> InfoName { get; set; }
+		public List<string> InfoViewType { get; set; }
+		public List<int> InfoMaxCount { get; set; }
+		public List<string> MapPointGroup { get; set; }
+		public List<int> MapPointView { get; set; }
+		public List<string> MonsterNameGroup { get; set; }
+		public List<int> MonsterView { get; set; }
+		public List<string> MonsterViewTerms { get; set; }
 	}
 
 	/// <summary>
@@ -59,25 +59,21 @@ namespace Melia.Shared.Data.Database
 
 			if (entry.ContainsKey("quest"))
 			{
-				JObject questDataObj = entry.ReadObject("quest");
-				QuestData questData = new QuestData();
-				questData.Name = questDataObj.ReadString("name");
-				if (questDataObj.ContainsKey("infoName"))
-					questData.InfoName = questDataObj.ReadArray("infoName").ToObject<IList<string>>();
-				if (questDataObj.ContainsKey("infoViewType"))
-					questData.InfoViewType = questDataObj.ReadArray("infoViewType").ToObject<IList<string>>();
-				if (questDataObj.ContainsKey("infoMaxCount"))
-					questData.InfoMaxCount = questDataObj.ReadArray("infoMaxCount").ToObject<IList<int>>();
-				if (questDataObj.ContainsKey("mapPointGroup"))
-					questData.MapPointGroup = questDataObj.ReadArray("mapPointGroup").ToObject<IList<string>>();
-				if (questDataObj.ContainsKey("mapPointView"))
-					questData.MapPointView = questDataObj.ReadArray("mapPointView").ToObject<IList<int>>();
-				if (questDataObj.ContainsKey("monsterNameGroup"))
-					questData.MonsterNameGroup = questDataObj.ReadArray("monsterNameGroup").ToObject<IList<string>>();
-				if (questDataObj.ContainsKey("monsterView"))
-					questData.MonsterView = questDataObj.ReadArray("monsterView").ToObject<IList<int>>();
-				if (questDataObj.ContainsKey("monsterViewTerms"))
-					questData.MonsterViewTerms = questDataObj.ReadArray("monsterViewTerms").ToObject<IList<string>>();
+				var questEntry = (JObject)entry["quest"];
+				questEntry.AssertNotMissing("name");
+
+				var questData = new QuestData();
+				questData.Name = questEntry.ReadString("name");
+
+				questData.InfoName = questEntry.ReadList<string>("infoName", null);
+				questData.InfoViewType = questEntry.ReadList<string>("infoViewType", null);
+				questData.InfoMaxCount = questEntry.ReadList<int>("infoMaxCount", null);
+				questData.MapPointGroup = questEntry.ReadList<string>("mapPointGroup", null);
+				questData.MapPointView = questEntry.ReadList<int>("mapPointView", null);
+				questData.MonsterNameGroup = questEntry.ReadList<string>("monsterNameGroup", null);
+				questData.MonsterView = questEntry.ReadList<int>("monsterView", null);
+				questData.MonsterViewTerms = questEntry.ReadList<string>("monsterViewTerms", null);
+
 				info.QuestData = questData;
 			}
 

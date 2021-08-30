@@ -26,7 +26,7 @@ namespace Melia.Shared.Data.Database
 		public int PhysicalDefense { get; set; }
 		public int MagicalDefense { get; set; }
 
-		public List<DropData> Drops { get; internal set; }
+		public List<DropData> Drops { get; set; } = new List<DropData>();
 	}
 
 	[Serializable]
@@ -70,18 +70,20 @@ namespace Melia.Shared.Data.Database
 			info.Hp = entry.ReadInt("hp");
 			info.PhysicalDefense = entry.ReadInt("physicalDefense");
 
-			var drops = entry.ReadArray("drops");
-			if (drops != null)
+			if (entry.ContainsKey("drops"))
 			{
-				if (info.Drops == null)
-					info.Drops = new List<DropData>();
-
-				foreach (var drop in drops.ToObject<IList<DropData>>())
+				foreach (JObject dropEntry in entry["drops"])
 				{
-					if (drop.ItemId == -1)
-						continue;
+					dropEntry.AssertNotMissing("itemId", "dropChance", "minQuantity", "maxQuantity");
 
-					info.Drops.Add(drop);
+					var dropData = new DropData();
+
+					dropData.ItemId = dropEntry.ReadInt("itemId");
+					dropData.DropChance = dropEntry.ReadFloat("dropChance");
+					dropData.MinAmount = dropEntry.ReadInt("minQuantity");
+					dropData.MaxAmount = dropEntry.ReadInt("maxQuantity");
+
+					info.Drops.Add(dropData);
 				}
 			}
 

@@ -127,8 +127,8 @@ namespace Melia.Shared.Data.Database
 
 			info.ShootTime = entry.ReadInt("shootTime");
 			info.HitDelay = entry.ReadInt("hitDelay");
-			info.HitTime = (List<int>)entry.ReadArray("hitTime").ToObject<IList<int>>();
-			info.HoldTime = (List<int>)entry.ReadArray("holdTime").ToObject<IList<int>>();
+			info.HitTime = entry.ReadList<int>("hitTime");
+			info.HoldTime = entry.ReadList<int>("holdTime");
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
 			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
 			info.UseType = GetSkillUseType(entry.ReadString("useType"));
