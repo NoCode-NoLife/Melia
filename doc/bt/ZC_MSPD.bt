@@ -16,5 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-float val;
-int64 l1;
+float speed;
+int64 characterId;

@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: CZ_WAREHOUSE_TAKE_LIST.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,13 +13,17 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-
-int64 l1;
-int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
+typedef struct
+{
+    int64 worldId;
+    int amount;
     int i1;
-    byte bin[6];
 }
+WarehouseItem <optimize=false>; //Same Sell Item
+
+ClientHeaderFixed header;
+
+short s1; // 31/41 ?
+byte type; // 6
+int64 count;
+WarehouseItem items[count];

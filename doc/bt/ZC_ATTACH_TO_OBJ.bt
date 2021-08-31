@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_REQ_GUILD_ASSET.bt
+//      File: ZC_ATTACH_TO_OBJ.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
-//   Purpose: 
+//   Purpose: Related to Fly?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,4 +13,13 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
+ServerHeaderFixed header;
+int handle;
+int i1; // another handle? 497548
+int64 l1; //270089
+float f1; //1
+byte bin[16]; // Could be 4 ints? floats? All 0s
+short s1;
+short s2;
+short s3;
+byte b1;

@@ -17,4 +17,4 @@ ServerHeaderFixed header;
 
 int handle;
 int64 characterId;
-ushort s1;
+ushort s1; // guild id? or map id? = 1003

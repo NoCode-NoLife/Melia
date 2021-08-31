@@ -15,12 +15,6 @@
 
 ServerHeaderDynamic header;
 
-typedef struct
-{
-    int64 l1;
-    short s1;
-} GEMINFO;
-
 byte b1;
 int count;
 short s1;

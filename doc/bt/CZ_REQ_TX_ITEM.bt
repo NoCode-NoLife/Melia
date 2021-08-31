@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: CZ_REQ_TX_ITEM.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,13 +13,10 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-
-int64 l1;
-int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+ClientHeaderFixed header;
+short s1; // 57
+short s2; // 68
+byte bin[26]; // 26*0s
+int i1; // 1
+byte b1; // 0
+float f1; // -407.5436?

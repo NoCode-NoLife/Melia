@@ -14,5 +14,5 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int i1; // 34
+int type; // 34
 byte b1; // 1

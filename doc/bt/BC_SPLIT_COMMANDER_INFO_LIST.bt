@@ -19,21 +19,48 @@ typedef struct
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         int64 l1;
-        short s1;
+        short msgParamsCount;
+        local int i;
+        for (i = 0; i < msgParamsCount; i++) {
+            lpString param;
+            byte type;
+            if (type == 1)
+                lpString value;
+            else
+                int value;
+        }
     }
 } EquipProperties <optimize=false>;
 
 typedef struct
 {
+    short size;
+    if (size > 0) {
+        switch(size) {
+            case 1:
+                byte bin[100];
+                break;
+            case 6:
+                byte bin[480];
+                break;
+            default:
+                byte bin[size * 52];
+                break;
+        }
+    }
+} OtherProperties <optimize=false>;
+
+typedef struct
+{
     EquipProperties properties[EquipSlotCount];
-} Equip <optimize=false>;
+} Equipment <optimize=false>;
 
 typedef struct
 {
     APPEARANCE_BARRACK_PC abpc;
-    Equip equip;
+    Equipment equip;
     //byte bin[8];
-    short s1;
+    OtherProperties props;
     byte b1;
     byte b2;
     byte b3;
@@ -44,13 +71,10 @@ typedef struct
     
     int i1;
     int i2;
-    int64 characterId <format=hex>;
+    int64 characterId;
     short s2;
     if (s2 > 0) {
-        lpString lpS1;
-        lpString lpS2;
-        lpString lpS3;
-        lpString lpS4;
+        msgParameter msgParams[s2];
     }
 }
 BARRACK_PC <read=readBARRACK_PC>;

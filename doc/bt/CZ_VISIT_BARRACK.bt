@@ -17,3 +17,9 @@
 ClientHeaderFixed header;
 
 string teamName;
+int64 l1;
+int64 l2;
+int64 l3;
+int64 l4;
+int64 l5;
+int64 l6;

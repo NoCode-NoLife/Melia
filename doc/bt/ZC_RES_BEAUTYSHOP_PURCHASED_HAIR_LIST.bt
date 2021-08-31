@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: 
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,12 +14,10 @@
 #include "common.bt"
 
 ServerHeaderDynamic header;
-
-int64 l1;
 int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+byte b1;
+byte b2;
+byte b3;
+byte b4;
+
+//01 CD 05 2C 05 01 00 10 01 15 05 00 00

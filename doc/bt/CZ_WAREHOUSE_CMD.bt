@@ -22,8 +22,9 @@ WAREHOUSE_DIRECTION;
 
 ClientHeaderFixed header;
 
+byte warehouseType; // 1 = personal / 6 = team
 int64 worldId; // ?
 int i1;
 int amount;
-WAREHOUSE_DIRECTION direction; // 0=in, 1=out?
+WAREHOUSE_DIRECTION dir; // 0=in, 1=out?
 int i2;

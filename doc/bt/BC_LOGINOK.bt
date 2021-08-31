@@ -24,5 +24,5 @@ char accountName[33]; // accountId as string?
 byte bin1[23]; // maybe accountName got longer?
 int accountPrivileges;
 char sessionKey[64]; // ?
-int i2;
+int i1;
 int64 l1; // some object id?

@@ -17,7 +17,7 @@
 //   - i336041: ???
 //------------------------------------------------
 
-#define PROPERTY_NAMES
+//#define PROPERTY_NAMES
 #include "common.bt"
 
 typedef struct
@@ -80,7 +80,8 @@ if (disableAdditionalCharacterSlots == 0) {
         short characterCount2;
 } else {
     int mapId;
-    int i2;
+    short s1;
+    short additionalCharacterSlots;
     int teamExp; // ?
     short characterCount2;
 }

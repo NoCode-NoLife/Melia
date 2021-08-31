@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: ZC_MOVE_POS.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,13 +13,14 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-
-int64 l1;
-int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+ServerHeaderFixed header;
+int handle;
+float f1; // -137
+float f2; // 241
+float f3; // 828.0001
+float f4; // -152
+float f5; // 241
+float f6; // 871
+float f7; // 104
+int i1; // 0
+int i2; // 1

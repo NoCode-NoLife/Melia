@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: ZC_UPDATE_MHP.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i337645
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,13 +13,8 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
+ServerHeaderFixed header;
 
-int64 l1;
-int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+int handle;
+short maxHp;
+short s1;

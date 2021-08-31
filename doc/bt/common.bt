@@ -79,7 +79,7 @@ typedef struct
     if(length > 0)
         char text[length];
 }
-lpString <read=lpStringRead>;
+lpString <read=lpStringRead, optimize=false>;
 
 string lpStringRead(lpString &v)
 {
@@ -95,7 +95,7 @@ typedef struct
     lpString key;
     lpString value;
 }
-msgParameter <read=msgParameterRead>;
+msgParameter <read=msgParameterRead, optimize=false>;
 
 string msgParameterRead(msgParameter &v)
 {
@@ -155,6 +155,12 @@ typedef struct
         getSimpleProperties(prop_id);
 }
 ItemProperties;
+
+typedef struct
+{
+    int64 l1;
+    short s1;
+} GEMINFO <optimize=false>;
 
 typedef struct
 {
@@ -514,21 +520,79 @@ int getPropertyType(int id)
         case 6303:
         case 7118:
         case 7122:
+        case 7276:
+        case 7428:
+        case 7473:
+        case 7488:
+        case 7491:
+        case 7494:
         case 10022:
         case 10100:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
+        case 10988:
+        case 10990:
+        case 10992:
         case 31587:
+        case 31625:
+        case 32315:
+        case 32316:
         case 32575:
+        case 32593:
+        case 32594:
         case 101000:
+        case 101242:
+        case 101243:
+        case 101244:
+        case 101245:
+        case 101246:
+        case 101247:
+        case 101248:
+        case 101250:
+        case 101252:
+        case 101253:
+        case 101254:
+        case 101255:
+        case 101256:
+        case 101257:
+        case 101691:
+        case 101692:
         case 101822:
+        case 101859:
+        case 102050:
+        case 102231:
+        case 102232:
+        case 102315:
+        case 102969:
         case 103075:
         case 103180:
+        case 103216:
+        case 103224:
+        case 103245:
+        case 103382:
+        case 103387:
+        case 103948:
         case 104261:
+        case 104283:
+        case 104310:
+        case 104363:
+        case 104407:
+        case 104411:
+        case 104471:
         case 104893:
         case 104895:
         case 104897:
+        case 105083:
+        case 105178:
+        case 105365:
+        case 105651:
+        case 105652:
         case 107234:
+        case 107259:
+        case 108117:
+        case 108496:
+        case 100896:
+        case 108749:
             return OBJP_STRING;
             break;
         case 107249:

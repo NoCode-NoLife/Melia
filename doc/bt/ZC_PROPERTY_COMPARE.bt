@@ -4,7 +4,7 @@
 //      File: ZC_PROPERTY_COMPARE.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
-//   Purpose: 
+//   Purpose: View another player's equipment
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -21,8 +21,8 @@ typedef struct
     int64 characterId;
     int64 accountId;
     byte bin[6];
+    int64 i2; // -1 title achievement??
     int i1; // Property Count ?
-    int64 i2;
     char team[64];
 }
 COMPARE_APPEARANCE_PC;
@@ -40,7 +40,7 @@ typedef struct
     int i12; // 11
     int64 l2; // 0
     byte bin[6];
-    int i1; // Map ID? 1003
+    int mapId; // Map ID? 1003
     int i2; // 10
 
     // Up until i171032 we had these as "pose" and "team id",
@@ -53,10 +53,11 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
-    int64 jobId3;
+    short baseJob;
+    int currentJob; // 11
+    short s2;
     int64 l3;
-    short s3;
-    short s4;
+    int propCount;
 }
 COMPARE_APPEARANCE_PC2;
 
@@ -89,7 +90,7 @@ typedef struct {
     COMPARE_APPEARANCE_PC compareAppearancePc;
     COMPARE_APPEARANCE_PC2 compareAppearancePc2;
     APPEARANCE_PC appearancePc;
-    getProperties(compareAppearancePc.i1);
+    getProperties(compareAppearancePc2.propCount);
     EquipItem2 item[32];
 }
 COMPARE_COMMANDER;

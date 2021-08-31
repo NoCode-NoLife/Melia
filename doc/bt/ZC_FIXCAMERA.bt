@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: ZC_FIXCAMERA.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
-//   Purpose: 
+//   Version: i339415
+//   Purpose: Fixed Camera for smaller maps
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,13 +13,6 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-
-int64 l1;
-int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+ServerHeaderFixed header;
+position cameraPosition; // ?
+float angle; //?

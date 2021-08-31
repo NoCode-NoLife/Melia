@@ -41,10 +41,7 @@ typedef struct
     int64 characterId;
     short s2;
     if (s2 > 0) {
-        lpString lpS1;
-        lpString lpS2;
-        lpString lpS3;
-        lpString lpS4;
+        BARRACK_CHARACTER_PROPERTY characterProperties[s2];
     }
 }
 BARRACK_PC <read=readBARRACK_PC>;
@@ -53,6 +50,20 @@ string readBARRACK_PC(BARRACK_PC &v)
 {
     return v.abpc.appearancePc.name;
 }
+
+typedef struct
+{
+    int id;
+    int64 petId;
+    int64 ownerId;
+    short s1;
+    short s2;
+    int i2;
+    lpString petName;
+    position pos;
+    if (i2 > 0)
+        getProperties(i2);
+} PetInfo <optimize=false>;
 
 ServerHeaderDynamic header;
 
@@ -63,6 +74,7 @@ switch(type)
         int64 accountId1;
         int64 accountId2;
         BARRACK_PC barrackPc[1] <optimize=false>;
+        int jobId;
         break;
     // Set Position
 	// Notifies the client that the server successfully set the barrack
@@ -112,14 +124,11 @@ switch(type)
             MessageItem items[itemCount] <optimize=false>;
         break;
 		
-	// Old Team UI
-	// Updates the client UI with character slots, team experience,
-	// names, etc.
+	// Companion Packet
     case 0x09:
         int64 accountId;
-		short purchasedBarrackSlots; // 0
-		int teamExp; // 0
-		short characterCount; // 0
+		int count;
+        PetInfo pets[count];
         break;
 
     // New Team UI Packet?

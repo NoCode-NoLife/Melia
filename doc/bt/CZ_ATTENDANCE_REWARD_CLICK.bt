@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_TO_SOMEWHERE_CLIENT
+//      File: CZ_ATTENDANCE_REWARD_CLICK.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339415
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,13 +13,9 @@
 
 #include "common.bt"
 
-ServerHeaderDynamic header;
-
-int64 l1;
+ClientHeaderFixed header;
 int i1;
-int i2;
-lpString teamName;
-if (!checkCompression()) {
-    int i1;
-    byte bin[6];
-}
+byte b1;
+byte b2;
+byte b3;
+ubyte b4;
