@@ -67,7 +67,7 @@ addnpc(57228, "ETC_20150317_009209", "c_Klaipe", -1108, 240, 512, 360, "npc_dumm
 addnpc(20139, "QUEST_LV_0100_20150317_001418", "c_Klaipe", -60, 79, -446, -33.69, "npc_dummy")
  
 --- [Market Manager] Logi ---
-addnpc(20169, "ETC_20150317_009211", "c_Klaipe", 278, 79, 137, 45, "npc_dummy")
+addnpc(20169, "ETC_20150317_009211", "c_Klaipe", 278, 79, 137, 45, "npc_marketmanagerlogi")
  
 --- [Peltasta Master]Maria Leed ---
 addnpc(20028, "ETC_20150317_009200", "c_Klaipe", -225, 97, -385, -55, "npc_dummy")
@@ -127,7 +127,7 @@ addnpc(152005, "ETC_20150317_009214", "c_Klaipe", 68, 149, 486, -59, "npc_dummy"
 addnpc(152004, "ETC_20150317_009215", "c_Klaipe", -292, 149, 291, 360, "npc_dummy")
  
 --- [Storage Keeper] Rita ---
-addnpc(154018, "ETC_20150414_011199", "c_Klaipe", 262, 79, 233, 45, "npc_dummy")
+addnpc(154018, "ETC_20150414_011199", "c_Klaipe", 262, 79, 233, 45, "npc_storagekeeperrita")
  
 --- [Oracle Master]Apolonjia Barbora ---
 addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -1118, 240, 283, 45, "npc_dummy")
@@ -136,7 +136,7 @@ addnpc(57224, "ETC_20150414_011198", "c_Klaipe", -1118, 240, 283, 45, "npc_dummy
 addnpc(154039, "ETC_20150317_007031", "c_Klaipe", -207, 149, 99, 0, "npc_dummy")
  
 --- [TP Trader] Leticia ---
-addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_dummy")
+addnpc(20068, "ETC_20151224_019887", "c_Klaipe", 285, 79, 78, 45, "npc_tptraderleticia")
  
 --- Mercenary Post Manager Rota ---
 addnpc(151037, "ETC_20150317_009064", "c_Klaipe", -638, 240, 1017, 360, "npc_dummy")
@@ -215,4 +215,35 @@ function npc_swordsmanmasterrashua()
 	msg("MASTER_SWORDMAN_basic2")
 	close()
 	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
+end
+
+-- Storage Keeper Rita
+function npc_storagekeeperrita()
+	local selection,i = nselect("WAREHOUSE_DLG","warehouse:!@#$WareHouse#@!", "account_warehouse:!@#$AccountWareHouse#@!", "!@#$Close#@!")
+	if selection == "warehouse" then
+		close()
+		open("warehouse")
+	elseif selection == "account_warehouse" then
+		close()
+		open("accountwarehouse")
+	end
+end
+
+-- Market Manager Logi
+function npc_marketmanagerlogi()
+	msg("KLAPEDA_MARKET_SEL")
+	close()
+	open("market")
+	-- local selection,i = nselect("KLAPEDA_MARKET_SEL","market_open:!@#$KLAPEDA_MARKET_OPEN#@!", "!@#$Auto_DaeHwa_JongLyo#@!")
+	-- if selection == "market_open" then
+		-- close()
+		-- openmarket()
+	--end
+end
+
+-- Market Manager Logi
+function npc_tptraderleticia()
+	msg("TP_NPC_basic02")
+	close()
+	addonmsg("TP_SHOP_UI_OPEN", "")
 end
