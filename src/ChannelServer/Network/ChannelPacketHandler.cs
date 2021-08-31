@@ -1846,7 +1846,79 @@ namespace Melia.Channel.Network
 			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
 
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Sold" list.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_LIST)]
+		public void CZ_REQ_ITEM_LIST(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var type = packet.GetByte(); // 1 = Personal Storage, 6 = Team Storage
+
+			var character = conn.SelectedCharacter;
+
+			if (type != 1 && type != 6)
+			{
+				Log.Warning("CZ_REQ_ITEM_LIST: Unknown type requested '{0}'.", type);
+				return;
+			}
+
+			// ToDo load list of warehouse items and send them
+			// Currently sending an empty list
+			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, new List<Item>());
+		}
+
 		
+
+		/// <summary>
+		/// Sent when clicking Confirm in a shop, with items in the "Sold" list.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WAREHOUSE_CMD)]
+		public void CZ_WAREHOUSE_CMD(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var b1 = packet.GetByte();
+			var worldId = packet.GetLong();
+			var i1 = packet.GetInt();
+			var amount = packet.GetInt();
+			var unkInt = packet.GetInt();
+			var warehouseCommandType = packet.GetByte(); // 0 = IN 1 = OUT
+
+			var character = conn.SelectedCharacter;
+
+
+			var totalMoney = 0;
+			// Get item
+			var item = character.Inventory.GetItem(worldId);
+			if (item == null)
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store a non-existent item.", conn.Account.Name);
+				return;
+			}
+
+			// Check amount
+			if (item.Amount < amount)
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store more of an item than they own.", conn.Account.Name);
+				return;
+			}
+			
+			// Charge Player 20 silver for use
+			character.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given); // Fixed Cost
+
+			if (warehouseCommandType == 0)
+			// Try to remove item
+			if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
+				Log.Warning("CZ_WAREHOUSE_CMD: Failed to store an item from user '{0}' .", conn.Account.Name);
+			// ToDo move to storage?
+
+		}
+
+
 	}
 
 	public enum TxType : short

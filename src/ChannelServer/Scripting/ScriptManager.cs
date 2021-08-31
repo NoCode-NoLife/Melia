@@ -113,6 +113,7 @@ namespace Melia.Channel.Scripting
 			Register(input);
 			Register(numinput);
 			Register(openshop);
+			Register(open);
 
 			// Information
 			Register(getpc);
@@ -1529,6 +1530,35 @@ namespace Melia.Channel.Scripting
 			Melua.lua_pushinteger(L, removed);
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Instructs client to open the shop with the given name
+		/// and stops script until shop is closed.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string functionName
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int open(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+
+			var functionName = Melua.luaL_checkstring(L, 1);
+			if (functionName.Length > 69)
+				functionName = functionName.Substring(0, 69);
+
+			Melua.lua_pop(L, 1);
+
+			//if (!ChannelServer.Instance.Data.ShopDb.Exists(function))
+				//return Melua.melua_error(L, "Opening function '{0}' not found.", function);
+
+			//conn.ScriptState.CurrentShop = function;
+			Send.ZC_CUSTOM_DIALOG(conn, functionName);
+
+			return Melua.lua_yield(L, 0);
 		}
 
 		/// <summary>

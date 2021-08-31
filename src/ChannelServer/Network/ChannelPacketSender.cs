@@ -1500,6 +1500,14 @@ namespace Melia.Channel.Network
 			target.Map.Broadcast(packet);
 		}
 
+		public static void ZC_CUSTOM_DIALOG(ChannelConnection conn, string function)
+		{
+			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
+			packet.PutString(function, 69);
+
+			conn.Send(packet);
+		}
+
 		/// <summary>
 		/// Updates character's level.
 		/// </summary>
