@@ -1,0 +1,34 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_RESPONSE_SILVER_GACHA_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: Sent in response to CZ_REQUEST_SILVER_GACHA_INFO
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct {
+    int itemId; // 11035333
+    int amountLeft; // 9999996
+    int total; // 10000000
+    int index; // 2
+} GachaItem;
+
+ServerHeaderDynamic header;
+int64 worldId1;
+int64 l1;
+int64 worldId2;
+short s1; // 23
+short s2; // 59
+int i1; // 59
+int64 l2; // 13
+int i2; // 50000 silver cost?
+int itemCount; // 6
+char shopName[128]; // SilverShopPoint
+GachaItem items[itemCount];

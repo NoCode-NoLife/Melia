@@ -4,7 +4,7 @@
 //      File: ZC_CREATE_SCROLLLOCKBOX.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
-//   Purpose: 
+//   Purpose: Locks in-game camera to a specific point, have to call ZC_REMOVE_SCROLLLOCKBOX to remove.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -16,3 +16,7 @@
 ServerHeaderFixed header;
 int i;
 float f[7];
+
+// Print Scroll Box Values for use for later
+// local int globalFile = FileNew();
+// FPrintf( globalFile, "create_scroll_box(%5.2lf,%5.2lf,%5.2lf,%5.2lf,%5.2lf,%5.2lf,%5.2lf);\n", f[0], f[1], f[2], f[3], f[4], f[5], f[6] );

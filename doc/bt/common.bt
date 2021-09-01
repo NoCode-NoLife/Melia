@@ -624,12 +624,12 @@ void getPrintableProperties(int size)
 #ifdef OPN
         switch(getPropertyType(prop.id)) {
             case OBJP_STRING: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,\"%s\");\n", prop.id, getPropertyName(prop.id), prop.val.text ); break;
-            case OBJP_FLOAT: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,%lff);\n", prop.id, getPropertyName(prop.id), prop.val ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,%5.2lff);\n", prop.id, getPropertyName(prop.id), prop.val ); break;
         }
 #else
         switch(getPropertyType(prop.id)) {
             case OBJP_STRING: FPrintf( newFile, "Properties.Set(%d,\"%s\");\n", prop.id, prop.val.text ); break;
-            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(%d,%lf);\n", prop.id, prop.val ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(%d,%5.2lf);\n", prop.id, prop.val ); break;
         }
 #endif
     }

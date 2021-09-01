@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_HEAL_INFO.bt
+//      File: ZC_AUTOSELLER_LIST.bt
 //   Authors: Salman T. Khan
-//   Version: i339932
-//   Purpose: Heal Effect
+//   Version: i339415
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,9 +13,17 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
-int i1; // handle?
-int amount; //?
-int maxHp;
-int64 l1; // 61?
+ServerHeaderDynamic header;
+byte type;
+int64 l1;
 int64 l2;
+int i1;
+char seller_store_name[64];
+int i2;
+int64 l3;
+int i3;
+int i4;
+string str1;
+int i4;
+byte b1;
+int i5;

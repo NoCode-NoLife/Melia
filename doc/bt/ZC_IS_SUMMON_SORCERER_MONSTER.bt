@@ -1,0 +1,40 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_IS_SUMMON_SORCERER_MONSTER.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderFixed header;
+int handle;
+byte b1;
+
+/**
+Packet Order
+ZC_ENTER_MONSTER
+ZC_OWNER
+ZC_FACTION
+ZC_NORMAL 0x105
+ZC_BUFF_LIST
+ZC_SYNC_START
+ZC_BUFF_ADD
+ZC_IS_SUMMON_SORCERER_MONSTER
+ZC_OWNER
+ZC_FACTION
+ZC_NORMAL 0x96
+ZC_NORMAL 0xC5
+ZC_MSPD
+ZC_ADD_HP
+ZC_UPDATE_MHP
+ZC_MSPD
+ZC_SYNC_END
+ZC_SYNC_EXEC_BY_SKILL_TIME
+**/

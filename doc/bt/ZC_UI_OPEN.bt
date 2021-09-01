@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_HEAL_INFO.bt
+//      File: ZC_UI_OPEN.bt
 //   Authors: Salman T. Khan
-//   Version: i339932
-//   Purpose: Heal Effect
+//   Version: i339415
+//   Purpose: Sent in response to Alchemist Apply Stats or Dismantle Equipment
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,8 +14,5 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int i1; // handle?
-int amount; //?
-int maxHp;
-int64 l1; // 61?
-int64 l2;
+char function[32]; // legendprefix or legenddecompose
+byte b1;

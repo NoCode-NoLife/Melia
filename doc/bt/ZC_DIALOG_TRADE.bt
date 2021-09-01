@@ -22,3 +22,4 @@ ushort s2;
 int i2;
 short s3;
 byte b1;
+byte b2;
