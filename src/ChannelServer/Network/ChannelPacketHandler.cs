@@ -685,7 +685,6 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
-			Send.ZC_SHARED_MSG(conn, 108);
 			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
 		}
 

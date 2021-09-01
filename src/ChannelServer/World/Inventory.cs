@@ -486,8 +486,8 @@ namespace Melia.Channel.World
 
 				_itemsWorldIndex.Remove(item.ObjectId);
 			}
-			MsgParameter[] msgParameters = { new MsgParameter("ITEM", "@dicID_^*$ITEM_20150317_002105$*^"), new MsgParameter("COUNT", item.Amount.ToString()) };
-			Send.ZC_SYSTEM_MSG(_character, 2225, msgParameters);
+			//MsgParameter[] msgParameters = { new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount.ToString()) };
+			//Send.ZC_SYSTEM_MSG(_character, 2225, msgParameters);
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
@@ -501,7 +501,7 @@ namespace Melia.Channel.World
 		/// if amount becomes 0.
 		/// </summary>
 		/// <param name="slot"></param>
-		public InventoryResult Remove(Item item, int amount, InventoryItemRemoveMsg msg)
+		public InventoryResult Remove(Item item, int amount, InventoryItemRemoveMsg msg, InventoryType type = InventoryType.Inventory)
 		{
 			// Check if item exists in inventory
 			lock (_syncLock)
@@ -519,7 +519,7 @@ namespace Melia.Channel.World
 			{
 				item.Amount -= amount;
 
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, amount, msg, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, amount, msg, type);
 				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
 			}
 

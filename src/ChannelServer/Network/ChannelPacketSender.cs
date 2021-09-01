@@ -1472,7 +1472,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(damage);
 			packet.PutInt(target.Hp);
 			packet.PutInt(2);
-			packet.PutBinFromHex("01 00 00 60 06 68 03 00   18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+			packet.PutBinFromHex("01 00 00 60 06 68 03 00 18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
 
 			target.Map.Broadcast(packet);
 		}
@@ -3804,6 +3804,18 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_UI_OPEN to character
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_UI_OPEN(ChannelConnection conn, string script)
+		{
+			var packet = new Packet(Op.ZC_UI_OPEN);
+			packet.PutString(script, 32);
+			packet.PutByte(1);
+			conn.Send(packet);
+		}
+
 
 		public static void DUMMY(ChannelConnection conn)
 		{
@@ -3828,5 +3840,6 @@ namespace Melia.Channel.Network
 		Monster = 2,
 		Npc = 3,
 		Ally = 4,
+		Neutral = 6,
 	}
 }
