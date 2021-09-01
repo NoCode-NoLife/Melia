@@ -210,19 +210,22 @@ namespace Melia.Channel.World
 			{
 				var rnd = RandomProvider.Get();
 
-				foreach (var dropItem in this.Data.Drops)
+				foreach (var dropItemData in this.Data.Drops)
 				{
-					if (rnd.NextDouble() > (dropItem.DropChance / 100f))
+					if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
 						continue;
 
-					var item = ChannelServer.Instance.Data.ItemDb.Find(dropItem.ItemId);
-					if (item == null)
+					if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
 					{
-						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItem.ItemId);
+						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
 						continue;
 					}
 
-					killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
+					var dropItem = new Item(itemData.Id);
+					if (dropItemData.MinAmount > 1)
+						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
 					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
 				}
 			}

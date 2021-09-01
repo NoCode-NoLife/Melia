@@ -101,6 +101,11 @@ namespace Melia.Shared.Data
 			return this.Entries.GetValueOrDefault(key);
 		}
 
+		public bool TryFind(TIndex key, out TInfo info)
+		{
+			return this.Entries.TryGetValue(key, out info);
+		}
+
 		public bool Exists(TIndex key)
 		{
 			return this.Entries.ContainsKey(key);
