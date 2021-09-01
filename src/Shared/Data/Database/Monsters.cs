@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -14,8 +15,8 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public string Race { get; set; }
-		public string Size { get; set; }
+		public RaceType Race { get; set; }
+		public Size Size { get; set; }
 
 		public int Level { get; set; }
 		public int Exp { get; set; }
@@ -75,8 +76,8 @@ namespace Melia.Shared.Data.Database
 			info.Id = entry.ReadInt("monsterId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
-			info.Race = entry.ReadString("race");
-			info.Size = entry.ReadString("size");
+			info.Race = entry.ReadEnum<RaceType>("race");
+			info.Size = entry.ReadEnum<Size>("size");
 
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");

@@ -174,6 +174,31 @@ namespace Melia.Shared.Data
 			return obj[key].Select(a => a.ToObject<TValue>()).ToList();
 		}
 
+		/// <summary>
+		/// Reads the field's value as a string and attempts to convert
+		/// it to the enum. Returns the default if the key didn't exist.
+		/// </summary>
+		/// <typeparam name="TEnum"></typeparam>
+		/// <param name="obj"></param>
+		/// <param name="key"></param>
+		/// <param name="def"></param>
+		/// <returns></returns>
+		internal static TEnum ReadEnum<TEnum>(this JObject obj, string key, TEnum def = default(TEnum))
+		{
+			if (!obj.ContainsKey(key))
+				return def;
+
+			var str = obj.ReadString(key);
+
+			return (TEnum)Enum.Parse(typeof(TEnum), str);
+		}
+
+		/// <summary>
+		/// Returns true if the object contains any of the given keys.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="keys"></param>
+		/// <returns></returns>
 		internal static bool ContainsAnyKeys(this JObject obj, params string[] keys)
 		{
 			if (keys.Length == 1)
