@@ -733,30 +733,21 @@ namespace Melia.Channel.Network
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
 
-				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutShort(propertiesSize);
+				packet.PutEmptyBin(2);
+				packet.PutLong(equipItem.Value.ObjectId);
+				packet.PutByte((byte)equipItem.Key);
+				packet.PutEmptyBin(3);
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.AddProperties(properties);
+
+				if (equipItem.Value.ObjectId != 0)
 				{
-					packet.PutInt(equipItem.Value.Id);
-					packet.PutInt(0);
-					packet.PutLong(0);
-					packet.PutInt((int)equipItem.Key);
-					packet.PutInt(0);
 					packet.PutShort(0);
-				}
-				else
-				{
-					packet.PutInt(equipItem.Value.Id);
-					packet.PutInt(propertiesSize);
 					packet.PutLong(equipItem.Value.ObjectId);
-					packet.PutInt((int)equipItem.Key);
-					packet.PutInt(0);
 					packet.PutShort(0);
-					packet.AddProperties(properties);
-					if (propertiesSize > 0)
-					{
-						packet.PutShort(0);
-						packet.PutLong(equipItem.Value.ObjectId);
-						packet.PutShort(0);
-					}
 				}
 			}
 
