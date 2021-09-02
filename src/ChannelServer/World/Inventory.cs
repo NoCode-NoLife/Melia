@@ -72,7 +72,12 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (var i = 0; i < category.Value.Count; ++i)
-						result.Add(category.Key.GetIndex(i), category.Value[i]);
+					{
+						var index = category.Value[i].GetInventoryIndex(i);
+						var item = category.Value[i];
+
+						result.Add(index, item);
+					}
 				}
 			}
 
@@ -94,7 +99,7 @@ namespace Melia.Channel.World
 				{
 					for (var i = 0; i < category.Value.Count; ++i)
 					{
-						var index = category.Key.GetIndex(i);
+						var index = category.Value[i].GetInventoryIndex(i);
 						var item = category.Value[i];
 
 						if (predicate(item))
@@ -119,7 +124,12 @@ namespace Melia.Channel.World
 				foreach (var category in _items)
 				{
 					for (var i = 0; i < category.Value.Count; ++i)
-						result.Add(category.Key.GetIndex(i), category.Value[i].ObjectId);
+					{
+						var index = category.Value[i].GetInventoryIndex(i);
+						var itemObjectId = category.Value[i].ObjectId;
+
+						result.Add(index, itemObjectId);
+					}
 				}
 			}
 
@@ -142,7 +152,12 @@ namespace Melia.Channel.World
 
 				var items = _items[category];
 				for (var i = 0; i < items.Count; ++i)
-					result.Add(category.GetIndex(i), items[i].ObjectId);
+				{
+					var index = items[i].GetInventoryIndex(i);
+					var itemObjectId = items[i].ObjectId;
+
+					result.Add(index, itemObjectId);
+				}
 			}
 
 			return result;
@@ -316,7 +331,7 @@ namespace Melia.Channel.World
 
 					if (!silent)
 					{
-						var categoryIndex = cat.GetIndex(index);
+						var categoryIndex = categoryItem.GetInventoryIndex(index);
 
 						// Use given add type if this was the last of it,
 						// or NotNew if only some was just added to a stack.
@@ -349,7 +364,7 @@ namespace Melia.Channel.World
 
 				if (!silent)
 				{
-					var categoryIndex = cat.GetIndex(_items[cat].Count - 1);
+					var categoryIndex = item.GetInventoryIndex(_items[cat].Count - 1);
 					Send.ZC_ITEM_ADD(_character, item, categoryIndex, item.Amount, addType);
 				}
 			}
@@ -686,7 +701,12 @@ namespace Melia.Channel.World
 			{
 				Log.Debug("  {0}", category.Key);
 				for (var i = 0; i < category.Value.Count; ++i)
-					Log.Debug("    {0} : {1}", category.Key.GetIndex(i), category.Value[i].Data.ClassName);
+				{
+					var index = category.Value[i].GetInventoryIndex(i);
+					var item = category.Value[i];
+
+					Log.Debug("    {0} : {1}", index, item.Data.ClassName);
+				}
 			}
 
 			Log.Debug("Equip");

@@ -1066,7 +1066,7 @@ namespace Melia.Channel.World
 			{
 				// TODO: Update it after equipment change.
 				// Shield/Dagger = Right hand.
-				if (this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 == Shared.Data.Database.EquipType.Shield)
+				if (this.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 == EquipType.Shield)
 				{
 					var Level = this.Level;
 					var stat = this.Con;

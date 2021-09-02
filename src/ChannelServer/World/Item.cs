@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading;
+using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World.ObjectProperties;
@@ -82,8 +83,8 @@ namespace Melia.Channel.World
 			this.ObjectId = Interlocked.Increment(ref _worldId);
 			this.Amount = amount;
 
-			foreach (var property in this.Data.Properties)
-				this.Properties.Add(new FloatProperty(property.Key, (float)property.Value));
+			//foreach (var property in this.Data.Properties)
+			//	this.Properties.Add(new FloatProperty(property.Key, (float)property.Value));
 		}
 
 		/// <summary>
@@ -97,6 +98,41 @@ namespace Melia.Channel.World
 			this.Data = ChannelServer.Instance.Data.ItemDb.Find(this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No item data found for '" + this.Id + "'.");
+		}
+
+		/// <summary>
+		/// Returns the item's index in the inventory, using the given
+		/// index as an offset for the category the item belongs to.
+		/// </summary>
+		/// <example>
+		/// item = Drug_HP1
+		/// item.GetInventoryIndex(5) => 265001 + 5 = 265006
+		/// </example>
+		/// <remarks>
+		/// The client uses index ranges for categorizing the items.
+		/// For example:
+		/// 45000~109999:  Equipment/MainWeapon
+		/// 265000~274999: Item/Consumable
+		/// 
+		/// The server needs to put the items indices into the correct
+		/// ranges for them to appear where they belong, otherwise a
+		/// potion might be put into the equip category.
+		/// </remarks>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public int GetInventoryIndex(int index)
+		{
+			// If the category is none, use the index. This will put
+			// the item well below the first category at index 5000
+			// and effectively hide it.
+			if (this.Data.Category == InventoryCategory.None)
+				return index;
+
+			// Get the base id from the database, add the index and return it.
+			if (!ChannelServer.Instance.Data.InvBaseIdDb.TryFind(this.Data.Category, out var invBaseData))
+				throw new MissingFieldException($"Category '{this.Data.Category}' on item '{this.Id}' not found in base id database.");
+
+			return invBaseData.BaseId + index;
 		}
 	}
 }
