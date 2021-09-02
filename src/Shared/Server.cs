@@ -70,6 +70,7 @@ namespace Melia.Shared
 			{
 				if ((toLoad & DataToLoad.Items) != 0)
 				{
+					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt", reload);
 					this.LoadDb(this.Data.ItemDb, "db/items.txt", reload);
 				}
 
