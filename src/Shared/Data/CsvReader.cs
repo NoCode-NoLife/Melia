@@ -145,7 +145,7 @@ namespace Melia.Shared.Data
 
 		public bool ReadBool(int index = -1)
 		{
-			if (IsFieldEmpty(index))
+			if (this.IsFieldEmpty(index))
 			{
 				this.Pointer++;
 				return false;
@@ -155,28 +155,28 @@ namespace Melia.Shared.Data
 			return (val == "1" || val == "true" || val == "yes");
 		}
 
-		public byte ReadByte(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public sbyte ReadSByte(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToSByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public byte ReadByteHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
-		public sbyte ReadSByteHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToSByte(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public byte ReadByte(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public sbyte ReadSByte(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToSByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public byte ReadByteHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public sbyte ReadSByteHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToSByte(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
 
-		public short ReadShort(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt16(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public ushort ReadUShort(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt16(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public short ReadShortHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt16(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
-		public ushort ReadUShortHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt16(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public short ReadShort(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt16(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public ushort ReadUShort(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt16(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public short ReadShortHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt16(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public ushort ReadUShortHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt16(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
 
-		public int ReadInt(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt32(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public uint ReadUInt(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt32(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public int ReadIntHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt32(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
-		public uint ReadUIntHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt32(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public int ReadInt(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt32(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public uint ReadUInt(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt32(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public int ReadIntHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt32(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public uint ReadUIntHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt32(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
 
-		public long ReadLong(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt64(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public ulong ReadULong(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt64(this.Fields[index < 0 ? this.Pointer++ : index]); }
-		public long ReadLongHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt64(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
-		public ulong ReadULongHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt64(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public long ReadLong(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt64(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public ulong ReadULong(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt64(this.Fields[index < 0 ? this.Pointer++ : index]); }
+		public long ReadLongHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToInt64(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
+		public ulong ReadULongHex(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToUInt64(this.Fields[index < 0 ? this.Pointer++ : index], 16); }
 
-		public float ReadFloat(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return float.Parse(this.Fields[index < 0 ? this.Pointer++ : index], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US")); }
-		public double ReadDouble(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return double.Parse(this.Fields[index < 0 ? this.Pointer++ : index], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US")); }
+		public float ReadFloat(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return float.Parse(this.Fields[index < 0 ? this.Pointer++ : index], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US")); }
+		public double ReadDouble(int index = -1) { if (this.IsFieldEmpty(index)) { this.Pointer++; return 0; } return double.Parse(this.Fields[index < 0 ? this.Pointer++ : index], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US")); }
 
 		public string ReadString(int index = -1) { return (this.Fields[index < 0 ? this.Pointer++ : index]); }
 		public string[] ReadStringList(int index = -1) { return this.ReadString(index).Split(':'); }

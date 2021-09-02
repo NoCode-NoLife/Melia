@@ -13,7 +13,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Rank { get; set; }
 		public int Level { get; set; }
-		public int Exp { get; set; }
+		public long Exp { get; set; }
 	}
 
 	/// <summary>
@@ -54,7 +54,7 @@ namespace Melia.Shared.Data.Database
 		/// </summary>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public int GetTotalExp(int level)
+		public long GetTotalExp(int level)
 		{
 			var result = 0;
 			for (var i = 1; i < level; ++i)
@@ -70,7 +70,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="rank"></param>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public int GetNextTotalClassExp(int rank, int level)
+		public long GetNextTotalClassExp(int rank, int level)
 		{
 			if (level < 1 || level > 15)
 				throw new ArgumentException("Invalid level (expected: 1~15).");
@@ -100,7 +100,7 @@ namespace Melia.Shared.Data.Database
 			{
 				entry.AssertNotMissing("level", "exp");
 
-				var exp = entry.ReadInt("exp");
+				var exp = entry.ReadLong("exp");
 
 				_exp.Add((int)exp);
 			}
@@ -116,7 +116,7 @@ namespace Melia.Shared.Data.Database
 
 				data.Rank = entry.ReadInt("rank");
 				data.Level = entry.ReadInt("level");
-				data.Exp = entry.ReadInt("exp");
+				data.Exp = entry.ReadLong("exp");
 
 				_classExp.Add(data);
 			}

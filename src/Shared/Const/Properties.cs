@@ -4237,6 +4237,52 @@ namespace Melia.Shared.Const
 			public const int FAVORITE_INDUN_10 = 108386;
 			public const int EVENT_2105_CAMPING_SHOP_16 = 108387;
 			public const int USE_RELIC_IN_COLONY_LAST_DATE = 108388;
+			public const int product_ph_reputationReward_3 = 108389;
+			public const int ContentsTotalShop_2105_2 = 108390;
+			public const int HadVisited_7016 = 108391;
+			public const int HOUSINGCRAFT_COUPON_CNT = 108392;
+			public const int PersonalHousing_HasPlace_7016 = 108393;
+			public const int product_ph_reputationReward_5 = 108394;
+			public const int PH_REPUTATION_OPEN_REWARD = 108395;
+			public const int HOUSINGCRAFT_NEED_RECEIVE = 108396;
+			public const int product_ph_reputationReward_1 = 108397;
+			public const int HOUSINGCRAFT_COUPON_PER = 108398;
+			public const int HOUSINGCRAFT_END_TIME = 108399;
+			public const int product_ph_reputationReward_9 = 108400;
+			public const int ContentsTotalShop_2105_1 = 108401;
+			public const int product_ep13_f_siauliai_1_18 = 108402;
+			public const int HOUSING_CRAFT_VALUE_1 = 108403;
+			public const int product_ph_reputationReward_7 = 108404;
+			public const int HOUSINGCRAFT_RECEIVED = 108405;
+			public const int PersonalHousing_Point2_Reputation = 108406;
+			public const int cherryblossom_jp_thema = 108408;
+			public const int dress_cherryblossom_jp_3 = 108409;
+			public const int dress_cherryblossom_jp_2 = 108410;
+			public const int dress_cherryblossom_jp_5 = 108411;
+			public const int dress_cherryblossom_jp_4 = 108412;
+			public const int dress_cherryblossom_jp_6 = 108413;
+			public const int dress_cherryblossom_jp_1 = 108414;
+			public const int HairColor_pink = 108437;
+			public const int HairColor_blond = 108438;
+			public const int AllowedHairColor = 108439;
+			public const int HairColor_white = 108440;
+			public const int HairColor_brown = 108441;
+			public const int HairColor_green = 108442;
+			public const int HairColor_orange = 108443;
+			public const int HairColor_red = 108444;
+			public const int TeamBattleRewardInfo = 108445;
+			public const int HairColor_default = 108446;
+			public const int HairColor_midnightblue = 108447;
+			public const int TeamBattleRewardSeason = 108448;
+			public const int HairColor_blue = 108449;
+			public const int HairColor_lightsalmon = 108450;
+			public const int HairColor_purple = 108451;
+			public const int HairColor_gray = 108452;
+			public const int HairColor_black = 108453;
+			public const int EVENT_FLEX_BOX_SHOP_2 = 108469;
+			public const int EVENT_FLEX_BOX_SHOP_1 = 108470;
+			public const int EVENT_FLEX_BOX_SHOP_3 = 108471;
+			public const int EVENT_FLEX_BOX_SHOP_4 = 108472;
 			public const int EVENT_2106_SUMMER_FESTA_SHOP_11 = 108473;
 			public const int EVENT_2106_SUMMER_FESTA_SHOP_14 = 108474;
 			public const int EVENT_2106_SUMMER_FESTA_SHOP_3 = 108475;
@@ -4711,7 +4757,103 @@ namespace Melia.Shared.Const
 			public const int EP12_NECK06_HIGH_003_cabinet_upgrade = 109454;
 			public const int USE_RELIC_IN_BOSS_COOP_LAST_DATE = 109455;
 			public const int USE_RELIC_IN_GUILD_RAID_LAST_DATE = 109456;
-
+			public const int REGULAR_BURNING_EVENT_MYTHIC_AUTO_RESET = 109457;
+			public const int EVENT_2107_FISHING_KR_SHOP_13 = 109458;
+			public const int EVENT_2107_FISHING_KR_SHOP_2 = 109459;
+			public const int EVENT_2107_FISHING_KR_SHOP_7 = 109460;
+			public const int EVENT_2107_FISHING_KR_SHOP_11 = 109461;
+			public const int EVENT_2107_FISHING_KR_SHOP_1 = 109462;
+			public const int EVENT_2107_FISHING_KR_SHOP_9 = 109463;
+			public const int EVENT_2107_FISHING_ROD_RECEIVED_KR = 109464;
+			public const int EVENT_2107_FISHING_COUNT = 109465;
+			public const int EVENT_2107_FISHING_KR_SHOP_6 = 109466;
+			public const int EVENT_2107_FISHING_KR_SHOP_3 = 109467;
+			public const int EVENT_2107_FISHING_KR_SHOP_4 = 109468;
+			public const int EVENT_2107_FISHING_BAIT_RECEIVED_KR = 109469;
+			public const int EVENT_2107_FISHING_KR_SHOP_10 = 109470;
+			public const int EVENT_2107_FISHING_KR_SHOP_5 = 109471;
+			public const int EVENT_2107_FISHING_KR_SHOP_12 = 109472;
+			public const int EVENT_2107_FISHING_KR_SHOP_8 = 109473;
+			public const int UITUTO_EQUIPCACABINET3 = 109474;
+			public const int UITUTO_EQUIPCACABINET2 = 109475;
+			public const int UITUTO_GLASS1 = 109476;
+			public const int UITUTO_GODDESSEQUIP2 = 109477;
+			public const int UITUTO_GLASS3 = 109478;
+			public const int UITUTO_GLASS2 = 109479;
+			public const int UITUTO_EQUIPCACABINET1 = 109480;
+			public const int UITUTO_GODDESSEQUIP1 = 109481;
+			public const int EVENT_2108_ARCHEOLOGY_TITLE_A_COUNT = 109492;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_25 = 109493;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_11 = 109494;
+			public const int EVENT_2108_TICKET_COIN_COUNT = 109495;
+			public const int TITLE_Event_2108_Relic_A_4_CHECK = 109496;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_1 = 109497;
+			public const int TITLE_Event_2108_Relic_B_1_CHECK = 109498;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_6 = 109499;
+			public const int EVENT_2108_ARCHEOLOGY_TITLE_D_COUNT = 109500;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_3 = 109501;
+			public const int RidePet_4 = 109502;
+			public const int EVENT_2108_ARCHEOLOGY_SEARCH_COUNT = 109503;
+			public const int TITLE_Event_2108_Relic_C_1_CHECK = 109504;
+			public const int RidePet_3 = 109505;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_9 = 109506;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_23 = 109507;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_4 = 109508;
+			public const int EVENT_2108_ARCHEOLOGY_TITLE_C_COUNT = 109509;
+			public const int RidePet_Unlock = 109510;
+			public const int TITLE_Event_2108_Relic_B_2_CHECK = 109511;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_21 = 109512;
+			public const int TITLE_Event_2108_Relic_B_3_CHECK = 109513;
+			public const int RidePet_1 = 109514;
+			public const int TITLE_Event_2108_Relic_C_3_CHECK = 109515;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_24 = 109516;
+			public const int TITLE_Event_2108_Relic_C_4_CHECK = 109517;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_2 = 109518;
+			public const int RidePet_1000 = 109519;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_13 = 109520;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_8 = 109521;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_14 = 109522;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_15 = 109523;
+			public const int EVENT_2108_ARCHEOLOGY_PLAY_TIME = 109524;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_17 = 109525;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_10 = 109526;
+			public const int AchieveReward_Achieve_RidePet_4 = 109527;
+			public const int EVENT_2108_ARCHEOLOGY_TITLE_B_COUNT = 109528;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_5 = 109529;
+			public const int RidePet_5 = 109530;
+			public const int TITLE_Event_2108_Relic_A_1_CHECK = 109531;
+			public const int AchieveReward_Achieve_RidePet_3 = 109532;
+			public const int EVENT_2108_ARCHEOLOGY_SEARCH_COIN_COUNT = 109533;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_12 = 109534;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_18 = 109535;
+			public const int EVENT_2108_ARCHEOLOGY_SEARCH_ZONE_CHECK = 109536;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_19 = 109537;
+			public const int TITLE_Event_2108_Relic_A_3_CHECK = 109538;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_20 = 109539;
+			public const int RidePet_2 = 109540;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_22 = 109541;
+			public const int RidePet_6 = 109542;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_16 = 109543;
+			public const int TITLE_Event_2108_Relic_B_4_CHECK = 109544;
+			public const int SelectedRidePet = 109545;
+			public const int AchieveReward_Achieve_RidePet_2 = 109546;
+			public const int TITLE_Event_2108_Relic_A_2_CHECK = 109547;
+			public const int TITLE_Event_2108_Relic_C_2_CHECK = 109548;
+			public const int EVENT_2108_ARCHEOLOGY_SHOP_7 = 109549;
+			public const int RidePet_7 = 109551;
+			public const int PVPMineShopResetTime = 109552;
+			public const int EVENT_STM_MUST_TRANSCEND = 109570;
+			public const int EVENT_STM_MUST_REINFORCE = 109571;
+			public const int EVENT_STM_MUST_BUFF = 109572;
+			public const int EVENT_STM_MUST_MIC = 109573;
+			public const int EVENT_2108_JP_EVE_FESTIVAL_PLAY_TIME = 109574;
+			public const int LobbyZonePort = 109577;
+			public const int LobbyInstID = 109578;
+			public const int LobbyZoneIP = 109579;
+			public const int LobbyMapID = 109580;
+			public const int LobbyChannel = 109581;
+			public const int LobbyServerID = 109582;
+			public const int EVENT_2107_HOTWEEK_COUNT = 109583;
 		}
 
 		public static class Monster
@@ -5981,7 +6123,7 @@ namespace Melia.Shared.Const
 			public const int Hide_266 = 3924;
 			public const int Necro_foresterCnt = 3925;
 			public const int CardBattle_Win = 3926;
-			public const int LastUIOpenPos = 3927; // f_siauliai_west/-512.11358642578/260.92541503906/-565.71746826172/foodtable_ui
+			public const int LastUIOpenPos = 3927;
 			public const int ZombiebyMonID_16 = 3928;
 			public const int LobbyInstID = 3929;
 			public const int LobbyChannel = 3931;
@@ -15000,7 +15142,33 @@ namespace Melia.Shared.Const
 			public const int Kill_boss_Bounty01 = 109440;
 			public const int Kill_boss_Bounty02 = 109441;
 			public const int Kill_boss_Bounty04 = 109442;
-
+			public const int Kill_boss_Vasilissa_Solo = 109483;
+			public const int SelectedRidePet = 109484;
+			public const int Kill_boss_Bounty02_Hard = 109485;
+			public const int Kill_boss_Bounty01_Hard = 109486;
+			public const int Kill_boss_Bounty04_Hard = 109487;
+			public const int isRideKeep = 109488;
+			public const int Kill_boss_Bounty03_Hard = 109489;
+			public const int BountyHunt_Difficult = 109490;
+			public const int BountyHunt_NPC_TradeItem = 109491;
+			public const int PrevEquipItem_GLOVES = 109553;
+			public const int PrevEquipItem_HAT_L = 109554;
+			public const int PrevEquipItem_RH = 109555;
+			public const int PrevEquipItem_PANTS = 109556;
+			public const int PrevEquipItem_RING2 = 109557;
+			public const int PrevEquipItem_RH_SUB = 109558;
+			public const int PrevEquipItem_HAT_T = 109559;
+			public const int PrevEquipItem_LH_SUB = 109560;
+			public const int PrevEquipItem_RING1 = 109561;
+			public const int PrevEquipItem_BOOTS = 109562;
+			public const int PrevEquipItem_RELIC = 109563;
+			public const int PrevEquipItem_HAT = 109564;
+			public const int PrevEquipItem_LH = 109565;
+			public const int PrevEquipItem_NECK = 109566;
+			public const int PrevEquipItem_SEAL = 109567;
+			public const int PrevEquipItem_SHIRT = 109568;
+			public const int PrevEquipItem_ARK = 109569;
+			public const int RidePetCompanion = 109575;
 		}
 
 		public static class Guild
@@ -15321,7 +15489,6 @@ namespace Melia.Shared.Const
 		{
 			public const int Name = 9011;
 			public const int Contribution = 9012;
-
 		}
 
 		public static class Item
@@ -23516,6 +23683,9 @@ namespace Melia.Shared.Const
 			public const int CTT_TempProperty_SO_Num_9 = 109124;
 			public const int CTT_TempProperty_SO_Str_4 = 109125;
 			public const int CTT_TempProperty_SO_Num_13 = 109126;
+			public const int MG_Last_Goddess_Raid_Vasilissa_Solo = 109482;
+			public const int EVENT_2108_ARCHEOLOGY_BON_COUNT = 109550;
+			public const int MG_Last_battlefield5vs5 = 109576;
 		}
 
 		public static class ZoneObject

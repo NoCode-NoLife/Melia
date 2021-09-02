@@ -27,25 +27,32 @@ namespace Melia.Login.Network.Helpers
 			foreach (var propertiesObj in equipProperties)
 			{
 				var properties = propertiesObj.GetAll();
-				var propertiesSize = properties.Sum(a => a.Size);
+
 				if (i == -1)
 				{
 					packet.PutShort(16);
 					packet.PutBinFromHex("621C000000000000D61C00000000803F");
 					packet.PutLong(pc.Id + (i + 1));
 					packet.PutShort(0);
-				} else {
+				}
+				else
+				{
+					var propertiesSize = properties.Sum(a => a.Size);
+
 					packet.PutShort(propertiesSize);
 					if (propertiesSize > 0)
 					{
 						packet.AddProperties(properties);
-						packet.PutLong(pc.Id + (i+1));
+						packet.PutLong(pc.Id + (i + 1));
 						packet.PutShort(0);
 					}
 				}
+
 				i++;
 			}
+
 			packet.PutShort(0);
+
 			// [i170175] maybe hat visibility?
 			packet.PutByte(1);
 			packet.PutByte(1);
@@ -58,17 +65,18 @@ namespace Melia.Login.Network.Helpers
 			packet.PutShort(jobIds.Length);
 			foreach (var jobId in jobIds)
 				packet.PutShort((short)jobId);
+
 			packet.PutInt(0);
 			packet.PutInt((int)pc.JobId);
 
 			packet.PutLong(pc.Id);
 			packet.PutShort(0); // Additional properties count?
+
 			//packet.PutShort(2); // Instance dungeon count
 			//packet.PutLpString("Indun_ResetTime");
 			//packet.PutLpString("21080800.000000");
 			//packet.PutLpString("IndunWeeklyResetTime");
 			//packet.PutLpString("21080906.000000");
-
 
 			//packet.PutInt(0);
 		}

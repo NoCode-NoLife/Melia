@@ -28,18 +28,18 @@ namespace Melia.Shared.Data.Database
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
 		public float SkillFactor { get; set; }
-		public int CoolDown { get; internal set; }
-		public string CoolDownGroup { get; internal set; }
-		public int OverHeat { get; internal set; }
-		public int OverHeatDelay { get; internal set; }
-		public string OverHeatGroup { get; internal set; }
-		public int ShootTime { get; internal set; }
-		public List<int> HitTime { get; internal set; }
-		public List<int> HoldTime { get; internal set; }
-		public int DeadHitTime { get; internal set; }
-		public bool EnableCastMove { get; internal set; }
-		public int HitDelay { get; internal set; }
-		public SkillUseType UseType { get; internal set; }
+		public int CoolDown { get; set; }
+		public string CoolDownGroup { get; set; }
+		public int OverHeat { get; set; }
+		public int OverHeatDelay { get; set; }
+		public string OverHeatGroup { get; set; }
+		public int ShootTime { get; set; }
+		public List<int> HitTime { get; set; }
+		public List<int> HoldTime { get; set; }
+		public int DeadHitTime { get; set; }
+		public bool EnableCastMove { get; set; }
+		public int HitDelay { get; set; }
+		public SkillUseType UseType { get; set; }
 	}
 
 	public enum SplashType
@@ -47,6 +47,7 @@ namespace Melia.Shared.Data.Database
 		Square,
 		Circle,
 		Fan,
+		Area,
 	}
 
 	public enum SkillUseType
@@ -65,7 +66,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class SkillDb : DatabaseJsonIndexed<int, SkillData>
 	{
-
 		/// <summary>
 		/// Helper Function for Item Group as String to ItemGroup
 		/// </summary>
@@ -90,20 +90,21 @@ namespace Melia.Shared.Data.Database
 		/// </summary>
 		/// <param name="className"></param>
 		/// <returns></returns>
-			public SkillData Find(string className)
+		public SkillData Find(string className)
 		{
 			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 		}
 
-		public Dictionary<string, int> useTypes = new Dictionary<String, int>();
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("skillId", "className", "name");
 
 			var info = new SkillData();
+
 			//{ skillId: 20007, className: "Wizard_MagicMissile", name: "Magic Missile", maxLevel: 5, element: 6, basicSp: 100, angle: 90, maxRange: 140, waveLength: 35, splashRange: 12,
 			// splashAngle: 30, splashRate: -99.0, skillFactor: 115.0, skillFactorPerLevel: 115.300003, coolDown: 25000, coolDownGroup: "MagicMissile", hitDelay: 350, overHeat: 5,
 			// overHeatDelay: 30000, overHeatGroup: "MagicMissile_OH", shootTime: 600, hitTime: [ 0 ], holdTime: [ 400 ], useType: "MELEE_GROUND" },
+
 			info.Id = entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
@@ -123,19 +124,21 @@ namespace Melia.Shared.Data.Database
 
 			info.CoolDown = entry.ReadInt("coolDown");
 			info.CoolDownGroup = entry.ReadString("coolDownGroup");
+
+			info.ShootTime = entry.ReadInt("shootTime");
+			info.HitDelay = entry.ReadInt("hitDelay");
+			info.HitTime = entry.ReadList<int>("hitTime");
+			info.HoldTime = entry.ReadList<int>("holdTime");
+			info.DeadHitTime = entry.ReadInt("deadHitDelay");
+			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
+			info.UseType = this.GetSkillUseType(entry.ReadString("useType"));
+
 			if (entry.ContainsKey("overheat"))
 			{
 				info.OverHeat = entry.ReadInt("overheat");
 				info.OverHeatDelay = entry.ReadInt("overHeatDelay");
 				info.OverHeatGroup = entry.ReadString("overHeatGroup");
 			}
-			info.ShootTime = entry.ReadInt("shootTime");
-			info.HitDelay = entry.ReadInt("hitDelay");
-			info.HitTime = (List<int>)entry.ReadArray("hitTime").ToObject<IList<int>>();
-			info.HoldTime = (List<int>)entry.ReadArray("holdTime").ToObject<IList<int>>();
-			info.DeadHitTime = entry.ReadInt("deadHitDelay");
-			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
-			info.UseType = GetSkillUseType(entry.ReadString("useType"));
 
 			this.Entries[info.Id] = info;
 		}

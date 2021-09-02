@@ -109,7 +109,7 @@ namespace Melia.Channel.World
 		}
 		private int _defense;
 
-		public event EventHandler<OnEntityEventArgs> Died;
+		public event EventHandler<EntityEventArgs> Died;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -159,7 +159,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, Character from, Skill skill = null)
+		/// <returns>If damage is fatal</returns>
+		public bool TakeDamage(int damage, Character from, Skill skill = null)
 		{
 			this.Hp -= damage;
 
@@ -169,9 +170,10 @@ namespace Melia.Channel.World
 			if (skill == null)
 			{
 				Send.ZC_SKILL_HIT_INFO(from, this, damage);
-			} else
+			}
+			else
 			{
-				switch(skill.Data.UseType)
+				switch (skill.Data.UseType)
 				{
 					case SkillUseType.FORCE:
 						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
@@ -183,7 +185,11 @@ namespace Melia.Channel.World
 			}
 
 			if (this.Hp == 0)
+            {
 				this.Kill(from);
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -203,26 +209,34 @@ namespace Melia.Channel.World
 			if (this.Data.ClassExp > 0)
 				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
 
-
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
+
 			if (this.Data.Drops != null)
 			{
-				foreach (var drops in this.Data.Drops)
+				var rnd = RandomProvider.Get();
+
+				foreach (var dropItemData in this.Data.Drops)
 				{
-					Random random = new Random();
-					if (random.NextDouble() <= (drops.DropChance / 100f))
+					if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
+						continue;
+
+					if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
 					{
-						var item = ChannelServer.Instance.Data.ItemDb.Find(drops.ItemId);
-						if (item != null)
-						{
-							killer.Inventory.Add(new Item(item.Id), InventoryAddType.PickUp);
-							//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
-						}
+						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+						continue;
 					}
+
+					var dropItem = new Item(itemData.Id);
+					if (dropItemData.MinAmount > 1)
+						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
 				}
 			}
+
 			killer.GiveExp(exp, classExp, this);
-			this.Died?.Invoke(this, new OnEntityEventArgs(this.Handle));
+			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
 		}

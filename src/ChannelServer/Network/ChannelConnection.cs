@@ -58,6 +58,7 @@ namespace Melia.Channel.Network
 					ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
 				}
 			}
+
 			this.ScriptState.Reset();
 		}
 	}

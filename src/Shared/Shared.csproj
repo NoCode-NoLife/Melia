@@ -62,12 +62,15 @@
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\Properties.cs" />
     <Compile Include="Const\Option.cs" />
+    <Compile Include="Const\RaceType.cs" />
     <Compile Include="Const\SessionObjects.cs" />
+    <Compile Include="Const\Size.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
     <Compile Include="Data\Database\Buffs.cs" />

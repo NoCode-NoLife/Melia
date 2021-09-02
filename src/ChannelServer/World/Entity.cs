@@ -19,14 +19,16 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Event thrown on death
 		/// </summary>
-		event EventHandler<OnEntityEventArgs> Died; 
+		event EventHandler<EntityEventArgs> Died;
 	}
 
-	public class OnEntityEventArgs : EventArgs
+	public class EntityEventArgs : EventArgs
 	{
-		public OnEntityEventArgs(int handle) {
+		public int Handle { get; set; }
+
+		public EntityEventArgs(int handle)
+		{
 			this.Handle = handle;
 		}
-		public int Handle { get; set; }
 	}
 }

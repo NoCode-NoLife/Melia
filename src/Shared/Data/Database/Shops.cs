@@ -20,8 +20,7 @@ namespace Melia.Shared.Data.Database
 
 		public ProductData GetProduct(int id)
 		{
-			ProductData product;
-			this.Products.TryGetValue(id, out product);
+			this.Products.TryGetValue(id, out var product);
 			return product;
 		}
 	}

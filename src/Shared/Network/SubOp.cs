@@ -47,6 +47,7 @@ namespace Melia.Shared.Network
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknown_DA = 0xDA;
+			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;
 			public const int Unknown_EF = 0xEF;
 			public const int Unknown_A1 = 0xA1;

@@ -12,6 +12,8 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.Network.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Melia.Login.Network
 {
@@ -60,38 +62,36 @@ namespace Melia.Login.Network
 		/// Sends a list of characters to the client.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="layer">This is the number on the left side of the character list in the client.</param>
-		public static void BC_SPLIT_COMMANDER_INFO_LIST(LoginConnection conn)
+		/// <param name="characters"></param>
+		public static void BC_SPLIT_COMMANDER_INFO_LIST(LoginConnection conn, IEnumerable<Character> characters)
 		{
-			var characters = conn.Account.GetCharacters().Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer).ToList();
+			var characterCount = characters.Count();
+
 			var packet = new Packet(Op.BC_SPLIT_COMMANDER_INFO_LIST);
-			packet.PutInt(characters.Count());
+			packet.PutInt(characterCount);
 			packet.PutLong(conn.Account.Id);
-			if (characters != null && characters.Count == 0)
-			{
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(1);
-			}
-			else
-			{
-				packet.PutByte(0);
-				packet.PutByte(1);
-				packet.PutByte(1);
-				foreach (var character in characters)
-				{
-					packet.AddBarrackPc(character);
-				}
-			}
+
+			packet.PutByte(0);
+			packet.PutByte(characterCount != 0);
+			packet.PutByte(1);
+
+			foreach (var character in characters)
+				packet.AddBarrackPc(character);
 
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends character list and account information to client.
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void BC_COMMANDER_LIST(LoginConnection conn)
 		{
-			var barrackCharacters = conn.Account.GetCharacters().Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer).ToList();
-			var characters = conn.Account.GetCharacters().ToList();
+			var characters = conn.Account.GetCharacters();
+			var barrackCharacters = characters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
+
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
+
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
 			packet.PutByte(0);
@@ -101,15 +101,14 @@ namespace Melia.Login.Network
 
 			packet.PutShort(1); // Additional Characters
 			packet.PutInt(0x0B); // MapID
-			packet.PutInt(barrackCharacters.Count); // Character Count on Current Lodge
+			packet.PutInt(barrackCharacters.Count());
 			packet.PutInt(100); // Team Exp
-			packet.PutShort(characters.Count); // Total Character Count
+			packet.PutShort(characters.Length);
+
 			conn.Send(packet);
 
-			if (characters != null && characters.Count > 0)
-			{
-				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn);
-			}
+			if (characters.Length > 0)
+				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn, barrackCharacters);
 		}
 
 		/// <summary>
@@ -148,6 +147,7 @@ namespace Melia.Login.Network
 		public static void BC_BARRACKNAME_CHECK_RESULT(LoginConnection conn, TeamNameChangeResult result, string teamName)
 		{
 			var response = new Packet(Op.BC_BARRACKNAME_CHECK_RESULT);
+
 			response.PutInt((int)result);
 			response.PutString("INPUT_TEAMNAME_EXEC_RESULT");
 			//EC -> 9B 7/21
@@ -276,7 +276,7 @@ namespace Melia.Login.Network
 			//01 00 00 00
 			//C0 63 B7 40
 			//01 00 00 00
-			for (int i = 0; i < 2; i++)
+			for (var i = 0; i < 2; i++)
 			{
 				response.PutByte(0xC0);
 				response.PutByte(0x63);
@@ -377,7 +377,8 @@ namespace Melia.Login.Network
 			packet.PutByte((byte)result);
 			packet.PutString(teamName);
 
-			// Filler bytes, official packet sends something here, that I have no clue what it does, but this works
+			// Filler bytes, official packet sends something here,
+			// that I have no clue what it does, but this works
 			packet.PutEmptyBin(79 - (16 + teamName.Length));
 
 			conn.Send(packet);
@@ -389,12 +390,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="msgType"></param>
 		public static void BC_MESSAGE(LoginConnection conn, MsgType msgType)
-		{
-			var packet = new Packet(Op.BC_MESSAGE);
-			packet.PutByte((byte)msgType);
-
-			conn.Send(packet);
-		}
+			=> BC_MESSAGE(conn, msgType, null);
 
 		/// <summary>
 		/// Sends custom message to client.
@@ -402,11 +398,24 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="msg"></param>
 		public static void BC_MESSAGE(LoginConnection conn, string msg)
+			=> BC_MESSAGE(conn, MsgType.Text, msg);
+
+		/// <summary>
+		/// Sends message to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="msgType"></param>
+		/// <param name="msg"></param>
+		public static void BC_MESSAGE(LoginConnection conn, MsgType msgType, string msg)
 		{
 			var packet = new Packet(Op.BC_MESSAGE);
-			packet.PutByte((byte)MsgType.Text);
-			packet.PutEmptyBin(40);
-			packet.PutString(msg);
+			packet.PutByte((byte)msgType);
+
+			if (msg != null)
+			{
+				packet.PutEmptyBin(40);
+				packet.PutString(msg);
+			}
 
 			conn.Send(packet);
 		}
@@ -649,6 +658,7 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Barrack.SetSessionKey);
 			packet.PutLpString(conn.SessionKey);
+
 			conn.Send(packet);
 		}
 
@@ -686,6 +696,7 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_DISCONNECT_PACKET_LOG_COUNT);
 			packet.PutInt(0x1E);
+
 			conn.Send(packet);
 		}
 
@@ -695,17 +706,19 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		public static void BC_NORMAL_MESSAGE_MAIL(LoginConnection conn)
 		{
-
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.Message);
+
 			packet.Zlib(true, zpacket =>
 			{
 				zpacket.PutByte(1);
 				zpacket.PutInt(0);
 				zpacket.PutInt(1); //Message Count?
+
 				var sender = "GM.";
 				var title = "Compensation on for Temporary Maintenance";
 				var message = "";
+
 				zpacket.PutLpString(sender);
 				zpacket.PutLpString(title);
 				zpacket.PutLpString(message);
@@ -730,12 +743,14 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		public static void BC_NORMAL_CharacterInfo(LoginConnection conn)
 		{
-			var characters = conn.Account.GetCharacters().ToList();
+			var characters = conn.Account.GetCharacters();
+
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.CharacterInfo);
+
 			packet.PutLong(conn.Account.Id);
-			packet.PutInt(characters.Count);
-			foreach(var character in characters)
+			packet.PutInt(characters.Length);
+			foreach (var character in characters)
 			{
 				packet.PutLong(character.Id);
 				packet.PutString(character.Name, 64);

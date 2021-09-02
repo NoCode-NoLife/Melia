@@ -2,9 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -14,8 +12,8 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public bool useDaily { get; set; }
-		public bool useWeekly { get; set; }
+		public bool UseDaily { get; set; }
+		public bool UseWeekly { get; set; }
 	}
 
 	/// <summary>
@@ -34,7 +32,6 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FirstOrDefault(a => a.Id == achievementId);
 		}
 
-
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("achievementId", "className", "useDaily", "useWeekly");
@@ -43,8 +40,8 @@ namespace Melia.Shared.Data.Database
 
 			data.Id = entry.ReadInt("achievementId");
 			data.ClassName = entry.ReadString("className");
-			data.useDaily = entry.ReadBool("useDaily");
-			data.useWeekly = entry.ReadBool("useWeekly");
+			data.UseDaily = entry.ReadBool("useDaily");
+			data.UseWeekly = entry.ReadBool("useWeekly");
 
 			this.Entries.Add(data);
 		}

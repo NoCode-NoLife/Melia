@@ -19,6 +19,7 @@ namespace Melia.Shared.Data
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
 		public ExpDb ExpDb = new ExpDb();
+		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
 		public ItemDb ItemDb = new ItemDb();
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();

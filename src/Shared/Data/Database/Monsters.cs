@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -15,18 +15,30 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
+		public RaceType Race { get; set; }
+		public Size Size { get; set; }
+
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
 		public int Hp { get; set; }
+		public int Sp { get; set; }
 
-		public int PhysicalAttackMinimum { get; set; }
-		public int PhysicalAttackMaximum { get; set; }
-		public int MagicalAttackMinimum { get; set; }
-		public int MagicalAttackMaximum { get; set; }
+		public int PhysicalAttackMin { get; set; }
+		public int PhysicalAttackMax { get; set; }
+		public int MagicalAttackMin { get; set; }
+		public int MagicalAttackMax { get; set; }
 		public int PhysicalDefense { get; set; }
 		public int MagicalDefense { get; set; }
-		public List<DropData> Drops { get; internal set; }
+		public int HitRatio { get; set; }
+		public int BlockBreak { get; set; }
+		public int BlockRate { get; set; }
+		public int CritAttack { get; set; }
+		public int CritDefenseRate { get; set; }
+		public int CritHitRate { get; set; }
+		public int DodgeRate { get; set; }
+
+		public List<DropData> Drops { get; set; } = new List<DropData>();
 	}
 
 	[Serializable]
@@ -34,8 +46,8 @@ namespace Melia.Shared.Data.Database
 	{
 		public int ItemId { get; set; }
 		public float DropChance { get; set; }
-		public int MinimumQuantity { get; set; }
-		public int MaximumQuantity { get; set; }
+		public int MinAmount { get; set; }
+		public int MaxAmount { get; set; }
 	}
 
 	/// <summary>
@@ -57,30 +69,56 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name");
+			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "race", "size", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
 
 			var info = new MonsterData();
 
 			info.Id = entry.ReadInt("monsterId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
+			info.Race = entry.ReadEnum<RaceType>("race");
+			info.Size = entry.ReadEnum<Size>("size");
+
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");
 			info.ClassExp = entry.ReadInt("classExp");
 			info.Hp = entry.ReadInt("hp");
-			info.PhysicalDefense = entry.ReadInt("physicalDefense");
-			var drops = entry.ReadArray("drops");
-			if (drops != null)
+			info.Sp = entry.ReadInt("sp");
+
+			info.PhysicalAttackMin = entry.ReadInt("pAttackMin");
+			info.PhysicalAttackMax = entry.ReadInt("pAttackMax");
+			info.MagicalAttackMin = entry.ReadInt("mAttackMin");
+			info.MagicalAttackMax = entry.ReadInt("mAttackMax");
+			info.PhysicalDefense = entry.ReadInt("pDefense");
+			info.MagicalDefense = entry.ReadInt("mDefense");
+			info.HitRatio = entry.ReadInt("mDefense");
+			info.BlockBreak = entry.ReadInt("mDefense");
+			info.BlockRate = entry.ReadInt("mDefense");
+			info.CritAttack = entry.ReadInt("mDefense");
+			info.CritDefenseRate = entry.ReadInt("mDefense");
+			info.CritHitRate = entry.ReadInt("mDefense");
+			info.DodgeRate = entry.ReadInt("mDefense");
+
+			if (entry.ContainsKey("drops"))
 			{
-				if (info.Drops == null)
-					info.Drops = new List<DropData>();
-				foreach (var drop in drops.ToObject<IList<DropData>>())
+				foreach (JObject dropEntry in entry["drops"])
 				{
-					if (drop.ItemId == -1)
-						continue;
-					info.Drops.Add(drop);
+					dropEntry.AssertNotMissing("itemId", "chance");
+
+					var dropData = new DropData();
+
+					dropData.ItemId = dropEntry.ReadInt("itemId");
+					dropData.DropChance = dropEntry.ReadFloat("chance");
+					dropData.MinAmount = dropEntry.ReadInt("minQuantity", 1);
+					dropData.MaxAmount = dropEntry.ReadInt("maxQuantity", 1);
+
+					if (dropData.MaxAmount < dropData.MinAmount)
+						dropData.MaxAmount = dropData.MinAmount;
+
+					info.Drops.Add(dropData);
 				}
 			}
+
 			this.Entries[info.Id] = info;
 		}
 	}

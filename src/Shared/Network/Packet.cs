@@ -55,17 +55,6 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
-		/// Creates new packet with given op.
-		/// </summary>
-		/// <param name="op"></param>
-		public Packet(int op, int length)
-		{
-			_buffer = new byte[DefaultSize];
-			this.Length = length;
-			this.Op = op;
-		}
-
-		/// <summary>
 		/// Throws if not enough bytes are left to read a value with the given length.
 		/// </summary>
 		/// <param name="needed"></param>
@@ -327,6 +316,17 @@ namespace Melia.Shared.Network
 			this.Length += sizeof(int);
 		}
 
+		/// <summary>
+		/// Writes uint to buffer.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutUInt(uint val)
+			=> this.PutInt((int)val);
+
+		/// <summary>
+		/// Writes long to buffer.
+		/// </summary>
+		/// <param name="val"></param>
 		public void PutLong(long val)
 		{
 			this.EnsureSpace(8);
@@ -477,9 +477,13 @@ namespace Melia.Shared.Network
 			this.PutBin(arr);
 		}
 
+		/// <summary>
+		/// Writes DateTime to buffer as a long.
+		/// </summary>
+		/// <param name="val"></param>
 		public void PutDate(DateTime val)
 		{
-			PutLong(val.ToFileTime());
+			this.PutLong(val.ToFileTime());
 		}
 
 		public void Zlib(bool compress, Action<Packet> zlibPacketFunc)
