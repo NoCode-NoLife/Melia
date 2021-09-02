@@ -3,7 +3,7 @@
 //
 //      File: ZC_PLAY_SOUND
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339932
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,5 @@
 
 ServerHeaderFixed header;
 int handle;
-short s1;
-short s2;
+int soundId;
 byte b1;

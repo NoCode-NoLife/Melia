@@ -24,7 +24,7 @@ typedef struct
     short s2;
     int64 l2;
     //int64 worldId;
-    int i4;
+    int i4; // 50 on Magic Missiles
     //int i5;
     short defaultHitDelay;
     byte b11;
@@ -44,8 +44,10 @@ typedef struct
         float f1;
     } else {
         short s7;
-        byte b2;
-        float f1;
+        if (s7 > 0) {
+            int i1;
+            byte b1;
+        }
     }
 } Attack <optimize=false>;
 

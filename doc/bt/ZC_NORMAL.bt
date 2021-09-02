@@ -207,6 +207,15 @@ switch (type)
             int i1;
         }
         break;
+
+    case 0xE0:
+        int i1;
+        int i2;
+        int i3;
+        float f1;
+        lpString str1;
+        int64 l1;
+        break;
         
     // ?
     case 0xE5:

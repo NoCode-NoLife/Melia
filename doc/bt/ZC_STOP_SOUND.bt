@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START.bt
+//      File: ZC_STOP_SOUND.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
 //   Purpose: 
@@ -13,10 +13,6 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
-int skillId;
-float f1;
-byte bin[18];
-short s1;
-short s2;
-short s3;
+ServerHeaderFixed header;
+int i1; // Handle
+int i2; // Sound Id?

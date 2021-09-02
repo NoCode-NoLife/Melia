@@ -35,9 +35,10 @@ typedef struct
     int i6;
     short s4;
     short s5;
-    //short s6;
-    //byte b2;
-    //short s7;
+    if (s5 > 0) {
+        byte b2;
+        float f1;
+    }
 } Attack <optimize=false>;
 
 int skillId;

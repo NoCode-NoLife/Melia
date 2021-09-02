@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START.bt
+//      File: CZ_SELECT_GROUND_POS_END.bt
 //   Authors: Salman T. Khan
-//   Version: i339415
+//   Version: i3394322
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,9 +14,3 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-int skillId;
-float f1;
-byte bin[18];
-short s1;
-short s2;
-short s3;
