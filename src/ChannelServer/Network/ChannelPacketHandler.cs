@@ -647,8 +647,18 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			// Nothing to do if the item doesn't have a script.
+			if (!item.Data.HasScript)
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item without script.", conn.Account.Name);
+				return;
+			}
+
+			var script = item.Data.Script;
+
 			// TODO: Implement use of item.
 
+			Log.Debug("CZ_ITEM_USE: Script: '{0}(\"{1}\", {2}, {3})'", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
 			character.ServerMessage("Items can't be used yet.");
 		}
 
