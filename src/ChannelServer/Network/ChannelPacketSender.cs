@@ -1449,6 +1449,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 			packet.PutInt(attacker.Handle);
+
 			packet.PutByte(1); // Count?
 			packet.PutShort(26057);
 			packet.PutShort(5236);
@@ -1456,7 +1457,30 @@ namespace Melia.Channel.Network
 			packet.PutInt(damage);
 			packet.PutInt(target.Hp);
 			packet.PutInt(2);
-			packet.PutBinFromHex("00 00 01 E3 A0 D0 03 00 00 A0 60 FC 4A 01 00 00 64 00 02 01 00 00 01 5C 00 00 00 00 00 00 00 03 00 00 00 60");
+			packet.PutShort(0);
+
+			// Really a bunch of shorts?
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(3);
+			packet.PutShort(1);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(306);
+			packet.PutShort(0);
+			packet.PutShort(99);
+			packet.PutShort(258);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+
+			packet.PutShort(0);
+			packet.PutInt(0);
+			packet.PutShort(1);
+			packet.PutByte(3);
+			packet.PutFloat(-1000);
 
 			target.Map.Broadcast(packet);
 		}
