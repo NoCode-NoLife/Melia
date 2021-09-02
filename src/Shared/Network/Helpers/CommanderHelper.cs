@@ -47,7 +47,7 @@ namespace Melia.Shared.Network.Helpers
 		Position Position { get; }
 		int Exp { get; }
 		int MaxExp { get; }
-		int TotalExp { get; }
+		long TotalExp { get; }
 		long Id { get; }
 		int Hp { get; }
 		int MaxHp { get; }

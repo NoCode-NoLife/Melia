@@ -317,6 +317,13 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Writes uint to buffer.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutUInt(uint val)
+			=> this.PutInt((int)val);
+
+		/// <summary>
 		/// Writes long to buffer.
 		/// </summary>
 		/// <param name="val"></param>

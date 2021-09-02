@@ -1639,7 +1639,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt(character.MaxExp);
 			packet.PutInt(0);
-			packet.PutInt(character.TotalExp);
+			packet.PutUInt((uint)Math2.Clamp(0, uint.MaxValue, character.TotalExp));
 			packet.PutInt(0);
 
 			character.Connection.Send(packet);

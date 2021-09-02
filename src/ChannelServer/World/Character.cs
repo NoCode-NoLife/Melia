@@ -313,7 +313,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Total number of accumulated experience points.
 		/// </summary>
-		public int TotalExp { get; set; }
+		public long TotalExp { get; set; }
 
 		/// <summary>
 		/// Hp multiplicator from the basic job.
