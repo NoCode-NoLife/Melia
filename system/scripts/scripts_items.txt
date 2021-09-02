@@ -4,10 +4,6 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-global/const.lua
-global/dialog.lua
+items/buffs.lua
 
-include "scripts_custom.txt"
-include "scripts_items.txt"
-include "scripts_npcs.txt"
-include "scripts_warps.txt"
+include "/user/scripts/scripts_items.txt"
