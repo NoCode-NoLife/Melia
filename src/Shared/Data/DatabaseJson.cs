@@ -106,6 +106,17 @@ namespace Melia.Shared.Data
 			return this.Entries.TryGetValue(key, out info);
 		}
 
+		public TInfo Find(Func<TInfo, bool> predicate)
+		{
+			return this.Entries.Values.FirstOrDefault(predicate);
+		}
+
+		public bool TryFind(Func<TInfo, bool> predicate, out TInfo result)
+		{
+			result = this.Entries.Values.FirstOrDefault(predicate);
+			return result != null;
+		}
+
 		public bool Exists(TIndex key)
 		{
 			return this.Entries.ContainsKey(key);

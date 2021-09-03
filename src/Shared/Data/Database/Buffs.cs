@@ -28,18 +28,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class BuffDb : DatabaseJsonIndexed<int, BuffData>
 	{
-		public BuffData Find(string name)
-		{
-			name = name.ToLower();
-			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
-		}
-
-		public List<BuffData> FindAll(string name)
-		{
-			name = name.ToLower();
-			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
-		}
-
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("buffId", "className", "name", "level", "duration", "buffExpUp");
