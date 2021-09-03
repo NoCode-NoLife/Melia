@@ -147,6 +147,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Achievements) != 0)
+				{
+					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
