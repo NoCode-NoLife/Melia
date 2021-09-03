@@ -10,25 +10,18 @@
 [
 // Warrior
 //---------------------------------------------------------------------------
-{ category: "Warrior", jobId: 1001, abilityId: 10000, className: "SwapWeapon", maxLevel: 1, price: 100, time: 1, unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 2)' },
-{ category: "Warrior", jobId: 1001, abilityId: 10012, className: "Cloth", maxLevel: 50, priceTime: 'ABIL_MASTERY_PRICE', unlock: '' },
-{ category: "Warrior", jobId: 1001, abilityId: 10013, className: "Leather", maxLevel: 50, priceTime: 'ABIL_MASTERY_PRICE', unlock: '' },
-{ category: "Warrior", jobId: 1001, abilityId: 10014, className: "Iron", maxLevel: 50, priceTime: 'ABIL_MASTERY_PRICE', unlock: '' },
-{ category: "Warrior", jobId: 1001, abilityId: 10023, className: "AddBuffCount", maxLevel: 1, priceTime: 'ABIL_ADDBUFFCOUNT_PRICE', unlock: 'UNLOCK_ABIL_RANK("", 5)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101001, className: "Swordman1", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 1)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101002, className: "Swordman16", maxLevel: 3, priceTime: 'ABIL_3RANK_MASTER_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101004, className: "Swordman2", maxLevel: 100, priceTime: 'ABIL_1RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 1)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101007, className: "Swordman13", maxLevel: 50, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_GungHo", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101008, className: "Swordman14", maxLevel: 50, priceTime: 'ABIL_1RANK_BUFF_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Concentrate", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101010, className: "Swordman25", maxLevel: 100, priceTime: 'ABIL_2RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 2)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101012, className: "Swordman27", maxLevel: 100, priceTime: 'ABIL_3RANK_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101013, className: "Penetration", maxLevel: 3, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 2)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101014, className: "Repeat", maxLevel: 5, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 1)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101015, className: "Blow", maxLevel: 1, priceTime: 'ABIL_1RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Bash", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101016, className: "Swordman10", maxLevel: 5, priceTime: 'ABIL_3RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 3)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101017, className: "Swordman3", maxLevel: 1, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 2)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101018, className: "Swordman4", maxLevel: 4, priceTime: 'ABIL_2RANK_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 2)' },
-{ category: "Warrior", jobId: 1001, abilityId: 101020, className: "Swordman28", maxLevel: 10, priceTime: 'ABIL_PROVOKE_PRICE', unlock: 'UNLOCK_ABIL_CIRCLE("Char1_1", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 10028, className: "SwordMastery_DEForATK", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101001, className: "Swordman1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Bash", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101004, className: "Swordman2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Thrust", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101007, className: "Swordman13", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_GungHo", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101015, className: "Blow", maxLevel: 1, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Bash", 3)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101020, className: "Swordman28", maxLevel: 10, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: '' },
+{ category: "Warrior", jobId: 1001, abilityId: 101022, className: "Swordman30", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Swordman_Bear", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101023, className: "Swordman31", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101024, className: "Swordman32", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101025, className: "Swordman33", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_1", 15)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101026, className: "Swordman34", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Swordman2", 65)' },
+{ category: "Warrior", jobId: 1001, abilityId: 101027, className: "Swordman35", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Swordman1", 65)' },
 
 // Highlander
 //---------------------------------------------------------------------------
