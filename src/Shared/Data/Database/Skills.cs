@@ -101,10 +101,6 @@ namespace Melia.Shared.Data.Database
 
 			var info = new SkillData();
 
-			//{ skillId: 20007, className: "Wizard_MagicMissile", name: "Magic Missile", maxLevel: 5, element: 6, basicSp: 100, angle: 90, maxRange: 140, waveLength: 35, splashRange: 12,
-			// splashAngle: 30, splashRate: -99.0, skillFactor: 115.0, skillFactorPerLevel: 115.300003, coolDown: 25000, coolDownGroup: "MagicMissile", hitDelay: 350, overHeat: 5,
-			// overHeatDelay: 30000, overHeatGroup: "MagicMissile_OH", shootTime: 600, hitTime: [ 0 ], holdTime: [ 400 ], useType: "MELEE_GROUND" },
-
 			info.Id = entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
