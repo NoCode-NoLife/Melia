@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_REQ_FIELD_BOSS_EXIST.bt
+//      File: ZC_GROUND_EFFECT.bt
 //   Authors: Salman T. Khan
 //   Version: i339932
-//   Purpose: When world map is opened
+//   Purpose: Effect for the ground?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,4 +13,15 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
+ServerHeaderFixed header;
+
+int handle;
+int i1;
+position pos;
+float f1; // duration?
+int64 l1;
+int i2;
+short s1;
+short s2;
+int i3;
+byte b1;

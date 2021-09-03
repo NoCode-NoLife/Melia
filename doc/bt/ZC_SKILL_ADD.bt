@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-//#define PROPERTY_NAMES
+#define PROPERTY_NAMES
 
 #include "common.bt"
 
@@ -29,4 +29,4 @@ int i2;
 int i3;
 
 if (propertiesSize > 0)
-    getProperties(propertiesSize);
+    getPrintableProperties(propertiesSize);

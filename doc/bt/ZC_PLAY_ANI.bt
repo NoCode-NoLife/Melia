@@ -15,7 +15,9 @@
 ServerHeaderFixed header;
 
 int handle;
-short s1;
-int i1;
-int i2;
-float f1;
+short s1; // 6181
+short s2; // 39
+byte b1; // 1
+byte b2; // 1
+int i2; // 0
+float f1; // 1

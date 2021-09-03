@@ -29,7 +29,7 @@ typedef struct
     short defaultHitDelay;
     byte b11;
     byte b12;
-    byte b1;
+    byte b13;
     byte attackIndex; //?
     short s3;
     int attackId; //?

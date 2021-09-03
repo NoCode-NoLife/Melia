@@ -3,8 +3,8 @@
 //
 //      File: CZ_STOP_TIMEACTION
 //   Authors: Salman T. Khan
-//   Version: i174236
-//   Purpose: 
+//   Version: i339932
+//   Purpose: Sent when warp function is used with world map open
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,4 +14,3 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-ushort s1;

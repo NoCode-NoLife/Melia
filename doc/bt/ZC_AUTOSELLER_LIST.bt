@@ -15,15 +15,15 @@
 
 ServerHeaderDynamic header;
 byte type;
-int64 l1;
-int64 l2;
-int i1;
-char seller_store_name[64];
+int64 characterId;
+int i10;
+int handle;
+int i1; // Seller Type?
+char storeName[64];
 int i2;
 int64 l3;
 int i3;
 int i4;
-string str1;
 int i4;
 byte b1;
 int i5;

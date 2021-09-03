@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_REQ_FIELD_BOSS_EXIST.bt
+//      File: ZC_STOP_MUSICQUEUE.bt
 //   Authors: Salman T. Khan
 //   Version: i339932
-//   Purpose: When world map is opened
+//   Purpose: Sent after defeating a boss to stop music in a queue?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,4 +13,8 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
+ServerHeaderFixed header;
+int handle;
+//int i1; // 340014
+short s1; // 12334
+short s2; // 5

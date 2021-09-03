@@ -45,6 +45,21 @@ ServerHeaderDynamic header;
 int type;
 switch (type)
 {
+    case 0x06:
+        int handle;
+        int i2;
+        float f1;
+        int i3;
+        float f2;
+        position pos;
+        float f3;
+        float f4;
+        float f5;
+        float f7;
+        float f8;
+        int64 l1;
+        lpString str1;
+        break;
     // Lv up effect
     case 0x12:
         int handle;
@@ -151,6 +166,13 @@ switch (type)
         int handle; // 506310
         int i1; // 0
         break;
+
+    case 0x4E:
+        int handle;
+        int skillId;
+        float f1; // 1
+        byte b1; // 0
+        break;
         
     // NPC chat bubble
     case 0x51:
@@ -161,6 +183,22 @@ switch (type)
         //short s1;
         //short s2;
         float i4; // heartbeat timer?
+        break;
+
+    case 0x57:
+        int casterId;
+        int targetId;
+        int skillId;
+        int i1;
+        position pos;
+        direction dir;
+        float f1;
+        float f2;
+        int i2;
+        byte b1;
+        byte bin1[16];
+        float f3;
+        byte bin2[16];
         break;
         
     // Set skill speed
@@ -211,7 +249,8 @@ switch (type)
     case 0xE0:
         int i1;
         int i2;
-        int i3;
+        short s1;
+        short s2;
         float f1;
         lpString str1;
         int64 l1;
@@ -272,21 +311,9 @@ switch (type)
         break;
 
     // ?
-    case 0xED:
-        typedef struct
-        {
-            int i1; // rank?
-            short jobId;
-            short circle; // ?
-            int i2;
-            int level;
-            byte bin1[8];
-        }
-        JobED <optimize=false>;
-        
-        int64 characterId <format=hex>;
-        int count;
-        JobED jobs[count];
+    case 0xED:        
+        lpString npcDialog;
+        float duration; // Duration?
         break;
 
     // Some kind of job data
@@ -427,6 +454,13 @@ switch (type)
     case 0x139:
         float f1;
         byte bin1[16]; // no idea what this could be
+        break;
+
+
+    // Might be related to respawning after death
+    case 0x13B:
+        int handle;
+        byte b1;
         break;
 
     case 0x13C:

@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_REQ_FIELD_BOSS_EXIST.bt
+//      File: ZC_RESURRECT_DIALOG.bt
 //   Authors: Salman T. Khan
 //   Version: i339932
-//   Purpose: When world map is opened
+//   Purpose: Sent on character death for respawn
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,4 +13,6 @@
 
 #include "common.bt"
 
-ClientHeaderFixed header;
+ServerHeaderFixed header;
+int i1;
+byte bin[512];

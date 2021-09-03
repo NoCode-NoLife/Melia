@@ -22,22 +22,38 @@ typedef struct
     int targetHandle;
     int damage;
     int hpLeft;
-    int i1;
     int i2;
+    int i3;
     short s1;
     short s2;
-    int64 l2;
-    int64 worldId;
-    byte b1;
-    byte attackIndex; //?
     short s3;
+    short s4;
+    //int64 worldId;
+    int i4; // 50 on Magic Missiles
+    //int i5;
+    short defaultHitDelay;
+    byte b11;
+    byte b12;
+    byte b13;
+    byte attackIndex; //?
+    short s5;
     int attackId; //?
     int i6;
-    short s4;
-    short s5;
-    if (s5 > 0) {
+    short s4; // Properties Count
+    if (s4 > 0) {
+        short s6;
+        int64 l3;
+        short s7;
+        int i7;
         byte b2;
         float f1;
+    } else {
+        short s7;
+        if (s7 > 0) {
+            short s8;
+            byte b3;
+            ushort s9;
+        }
     }
 } Attack <optimize=false>;
 
