@@ -40,6 +40,7 @@ namespace Melia.Shared.Data.Database
 		public bool EnableCastMove { get; set; }
 		public int HitDelay { get; set; }
 		public SkillUseType UseType { get; set; }
+		public SkillAttribute Attribute { get; set; }
 	}
 
 	public enum SplashType
@@ -61,29 +62,24 @@ namespace Melia.Shared.Data.Database
 		TARGET_GROUND,
 	}
 
+	public enum SkillAttribute
+	{
+		Melee,
+		Lightning,
+		Holy,
+		Poison,
+		Dark,
+		Fire,
+		Ice,
+		Earth,
+		Soul,
+	}
+
 	/// <summary>
 	/// Skill database, indexed by skill id.
 	/// </summary>
 	public class SkillDb : DatabaseJsonIndexed<int, SkillData>
 	{
-		/// <summary>
-		/// Helper Function for Item Group as String to ItemGroup
-		/// </summary>
-		/// <param name="group"></param>
-		/// <returns></returns>
-		public SkillUseType GetSkillUseType(string useType)
-		{
-			switch (useType)
-			{
-				case "MELEE_GROUND": return SkillUseType.MELEE_GROUND;
-				case "FORCE": return SkillUseType.FORCE;
-				case "FORCE_GROUND": return SkillUseType.FORCE_GROUND;
-				case "SELF": return SkillUseType.SELF;
-				case "SCRIPT": return SkillUseType.SCRIPT;
-				case "TARGET_GROUND": return SkillUseType.TARGET_GROUND;
-				default: return SkillUseType.UNKNOWN;
-			}
-		}
 		/// <summary>
 		/// Returns first skill data entry with given class name, or null
 		/// if it wasn't found.
@@ -91,13 +87,11 @@ namespace Melia.Shared.Data.Database
 		/// <param name="className"></param>
 		/// <returns></returns>
 		public SkillData Find(string className)
-		{
-			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
-		}
+			=> this.Find(a => a.ClassName == className);
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "coolDown", "coolDownGroup", "hitDelay", "shootTime", "hitTime", "holdTime", "useType");
+			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "coolDown", "coolDownGroup", "hitDelay", "shootTime", "hitTime", "holdTime", "useType", "attribute");
 
 			var info = new SkillData();
 
@@ -127,7 +121,8 @@ namespace Melia.Shared.Data.Database
 			info.HoldTime = entry.ReadList<int>("holdTime");
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
 			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
-			info.UseType = this.GetSkillUseType(entry.ReadString("useType"));
+			info.UseType = entry.ReadEnum<SkillUseType>("useType");
+			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 
 			info.OverHeat = entry.ReadInt("overheat", 0);
 			info.OverHeatDelay = entry.ReadInt("overheatDelay", 0);
