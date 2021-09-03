@@ -252,8 +252,9 @@ namespace Melia.Shared
 		Help = 0x400,
 		CustomCommands = 0x800,
 		ChatMacros = 0x1000,
-		Buffs = 0x1200,
-		SessionObjects = 0x1400,
+		Buffs = 0x2000,
+		SessionObjects = 0x4000,
+		Achievements = 0x8000,
 
 		All = 0x7FFFFFFF,
 	}
