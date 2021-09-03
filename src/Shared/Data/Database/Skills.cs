@@ -97,7 +97,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name");
+			entry.AssertNotMissing("skillId", "className", "name", "maxLevel, angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "coolDown", "coolDownGroup", "hitDelay", "shootTime", "hitTime", "holdTime", "useType");
 
 			var info = new SkillData();
 
@@ -133,12 +133,9 @@ namespace Melia.Shared.Data.Database
 			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
 			info.UseType = this.GetSkillUseType(entry.ReadString("useType"));
 
-			if (entry.ContainsKey("overheat"))
-			{
-				info.OverHeat = entry.ReadInt("overheat");
-				info.OverHeatDelay = entry.ReadInt("overHeatDelay");
-				info.OverHeatGroup = entry.ReadString("overHeatGroup");
-			}
+			info.OverHeat = entry.ReadInt("overheat", 0);
+			info.OverHeatDelay = entry.ReadInt("overheatDelay", 0);
+			info.OverHeatGroup = entry.ReadString("overheatGroup", null);
 
 			this.Entries[info.Id] = info;
 		}
