@@ -2805,13 +2805,15 @@ namespace Melia.Channel.World
 			if (skill == null)
 			{
 				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
-				Send.ZC_SKILL_CAST_CANCEL(this, null);
+				//Send.ZC_SKILL_CAST_CANCEL(this, null);
 				//Log.Debug(packet.ToString());
 			}
 			else
 			{
-				Send.ZC_OVERHEAT_CHANGED(this, skill);
-				Send.ZC_COOLDOWN_CHANGED(this, skill);
+				if (skill.Data.OverHeat != 0)
+					Send.ZC_OVERHEAT_CHANGED(this, skill);
+				if (skill.Data.CoolDown != 0)
+					Send.ZC_COOLDOWN_CHANGED(this, skill);
 				Send.ZC_SKILL_FORCE_TARGET(this, null, skill, 0);
 			}
 		}
@@ -2981,6 +2983,14 @@ namespace Melia.Channel.World
 
 			foreach (var property in pcEtcProps.GetAll())
 				this.Properties.Add(property);
+		}
+
+		public void Death()
+		{
+			Hp = 0;
+			Send.ZC_ADD_HP(this, Hp, true, MaxHp, 1);
+			Send.ZC_DEAD(this);
+			Send.ZC_RESURRECT_DIALOG(this.Connection);
 		}
 	}
 }

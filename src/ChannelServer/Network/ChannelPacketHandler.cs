@@ -9,6 +9,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 
 namespace Melia.Channel.Network
 {
@@ -685,6 +686,7 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
+			conn.SelectedCharacter.Death();
 			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
 		}
 
@@ -1201,6 +1203,7 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill != null)
 			{
+				var position = new Position(x2, y2, z2);
 				character.Map.GetMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
 				// Broadcast action to all?
 				Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
@@ -2009,11 +2012,83 @@ namespace Melia.Channel.Network
 			character.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given); // Fixed Cost
 
 			if (warehouseCommandType == 0)
-			// Try to remove item
-			if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
-				Log.Warning("CZ_WAREHOUSE_CMD: Failed to store an item from user '{0}' .", conn.Account.Name);
-			// ToDo move to storage?
+			{
+				// Try to remove item
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
+					Log.Warning("CZ_WAREHOUSE_CMD: Failed to store an item from user '{0}' .", conn.Account.Name);
+				// ToDo move to storage?
 
+			}
+		}
+
+		/// <summary>
+		/// When resurrect is selected from the dialog
+		/// </summary>
+		/// <remarks>
+		/// Currently broken because visually character stays on in dead stance
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESURRECT)]
+		public void CZ_RESURRECT(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var command = packet.GetByte();
+
+			// ZC_SET_POS
+			// ZC_RESET_VIEW
+			// ZC_ENTER_PC
+			// ZC_ADD_HP
+			// ZC_UPDATE_SP
+			// ZC_RESURRECT_SAVE_POINT_ACK
+			var character = conn.SelectedCharacter;
+			if (command == 1)
+			{
+				character.Hp = character.MaxHp / 2;
+				Send.ZC_RESET_VIEW(conn);
+				Send.ZC_SET_POS(character);
+				Send.ZC_ENTER_PC(conn, character);
+				Send.ZC_NORMAL_Revive(character);
+				Send.ZC_ADD_HP(character, character.MaxHp / 2, false, character.MaxHp/2, 93);
+				Send.ZC_UPDATE_SP(character);
+				Send.ZC_RESURRECT_SAVE_POINT_ACK(character);
+
+			}
+		}
+
+		/// <summary>
+		/// When warping from warp function
+		/// </summary>
+		/// <remarks>
+		/// Currently broken because visually character stays on in dead stance
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.ZC_CLIENT_DIRECT)]
+		public void ZC_CLIENT_DIRECT(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var command = packet.GetByte();
+
+			// ZC_SET_POS
+			// ZC_RESET_VIEW
+			// ZC_ENTER_PC
+			// ZC_ADD_HP
+			// ZC_UPDATE_SP
+			// ZC_RESURRECT_SAVE_POINT_ACK
+			var character = conn.SelectedCharacter;
+			if (command == 1)
+			{
+				character.Hp = character.MaxHp / 2;
+				Send.ZC_RESET_VIEW(conn);
+				Send.ZC_SET_POS(character);
+				Send.ZC_ENTER_PC(conn, character);
+				Send.ZC_NORMAL_Revive(character);
+				Send.ZC_ADD_HP(character, character.MaxHp / 2, false, character.MaxHp / 2, 93);
+				Send.ZC_UPDATE_SP(character);
+				Send.ZC_RESURRECT_SAVE_POINT_ACK(character);
+
+			}
 		}
 
 

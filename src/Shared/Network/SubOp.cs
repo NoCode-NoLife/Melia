@@ -43,7 +43,9 @@ namespace Melia.Shared.Network
 			public const int HatVisibleState = 0x181;
 
 			//
+			public const int Unknown_06 = 0x06;
 			public const int AttackCancel = 0x41;
+			public const int Skill_4E = 0x4E;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknown_DA = 0xDA;
@@ -53,6 +55,7 @@ namespace Melia.Shared.Network
 			public const int Unknown_A1 = 0xA1;
 			public const int Unknown_Map_12A = 0x12A;
 			public const int SetGreetingMessage = 0x135;
+			public const int Revive = 0x13B;
 			public const int UpdateSkillUI = 0x186;
 			public const int AdventureBook = 0x194;
 			public const int Unknown_19B = 0x19B;

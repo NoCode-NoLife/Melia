@@ -173,12 +173,24 @@ namespace Melia.Channel.World
 			}
 			else
 			{
+				switch (skill.Data.SplashType)
+				{
+					case SplashType.Circle:
+						Send.ZC_SKILL_RANGE_CIRCLE(from, this, skill, this.Position);
+						break;
+				}
 				switch (skill.Data.UseType)
 				{
 					case SkillUseType.FORCE:
 						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
 						break;
 					case SkillUseType.MELEE_GROUND:
+						Send.ZC_SYNC_START(from, 1234, 1);
+						Send.ZC_SYNC_END(from, 1234, -0.2f);
+						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(from, 1234, 550);
+						Send.ZC_NORMAL_Skill_4E(from, skill.Id, 1);
+						Send.ZC_NORMAL_Skill(from, skill, this.Position, from.Direction, true);
+						Send.ZC_NORMAL_Unknown_06(from, this.Position);
 						Send.ZC_SKILL_MELEE_GROUND(from, skill, this.Position.X, this.Position.Y, this.Position.Z, this, damage);
 						break;
 				}
