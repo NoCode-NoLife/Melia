@@ -14,7 +14,7 @@
 
 ServerHeaderFixed header;
 int64 characterId;
-int i1; // 1551 or 2255
+int i1;
 int i2; // 0?
 int i3;
 int i4; // 6000 or 25000

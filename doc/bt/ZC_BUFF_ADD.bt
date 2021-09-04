@@ -17,7 +17,7 @@ ServerHeaderDynamic header;
 
 int handle;
 int i1;
-int i2; // Buff Id?
+int buffId; // Buff Id?
 int i3;
 int i4;
 int i5;

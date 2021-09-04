@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_GROUND_EFFECT.bt
+//      File: CZ_PERSONAL_HOUSING_REQUEST_LEAVE.bt
 //   Authors: Salman T. Khan
-//   Version: i339932
-//   Purpose: Effect for the ground?
+//   Version: i339415
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,15 +13,4 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
-
-int handle;
-int i1;
-position pos;
-float f1; // duration?
-int64 l1;
-int i2;
-short s1;
-int i3;
-short s2;
-byte b1;
+ClientHeaderFixed header;

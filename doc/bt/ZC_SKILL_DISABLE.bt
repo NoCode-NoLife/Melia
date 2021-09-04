@@ -14,8 +14,6 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int i1; //?
-short s1;
+int handle; //?
 byte b1;
-ubyte b2;
-byte b3;
+uint i1;

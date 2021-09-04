@@ -36,8 +36,8 @@ typedef struct
     short s5;
     int attackId; //?
     int i6;
-    short s4; // Properties Count
-    if (s4 > 0) {
+    short s6; // Properties Count
+    if (s6 > 0) {
         short s6;
         int64 l3;
         short s7;
@@ -54,9 +54,8 @@ typedef struct
     }
 } Attack <optimize=false>;
 
-ServerHeaderFixed header;
+ServerHeaderDynamic header;
 
-short size;
 int attackerHandle;
 
 byte count;

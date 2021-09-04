@@ -15,4 +15,4 @@
 
 ServerHeaderFixed header;
 int handle;
-char animationName[64];
+char animationName[64]; // std (stand?)
