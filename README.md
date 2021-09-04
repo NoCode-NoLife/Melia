@@ -43,14 +43,32 @@ The features that are currently working are the following:
 
 Requirements
 ------------------------------
-To *run* Melia, you need
-* .NET 4.5 (Mono 4 or above)
-* MySQL 5 compatible database
 
-To *compile* Melia, you need
-* C# 7 compiler, such as:
-  * [Visual Studio](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) (2017 or later)
-  * [Monodevelop](http://monodevelop.com/) (With Mono version 5 or greater)
+### Running on Linux/macOS
+
+- [Mono 5](https://www.mono-project.com/download/stable/)
+- [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html)
+
+### Running on Windows
+
+- [.NET 4.6.2 Runtime](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-offline-installer)
+- [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html)
+
+### Building on Linux
+
+- [Mono 5](https://www.mono-project.com/download/stable/)
+- [Mono Develop](https://www.monodevelop.com/download/)
+
+### Building on macOS
+
+- [Mono 5](https://www.mono-project.com/download/stable/)
+- [Mono Develop](https://www.monodevelop.com/download/) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/)
+
+
+### Building on Windows
+
+- [.NET 4.6.2 SDK](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-developer-pack-offline-installer)
+- [Visual Studio](https://visualstudio.microsoft.com/downloads/) (Visual Studio 2017 or later) (Community Edition is free)
 
 Installation
 ------------------------------
