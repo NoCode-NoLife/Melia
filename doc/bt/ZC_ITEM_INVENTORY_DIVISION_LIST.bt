@@ -3,7 +3,7 @@
 //
 //      File: ZC_ITEM_INVENTORY_DIVISION_LIST.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i339429
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -26,14 +26,16 @@ typedef struct
     int i1;
     //short s1;
     //short index;
-    int category;// <format=hex>;
-    if (propertiesSize > 0) {
+    int category; // <format=hex>;
+
+    if (propertiesSize > 0)
         getProperties(propertiesSize);
-        if (worldId > 0) {
-            short s1;
-            int64 worldId2;
-            short s2;
-        }
+
+    if (worldId > 0)
+    {
+        short s1;
+        int64 worldId2;
+        short s2;
     }
 }
 Item2 <optimize=false,read=Item2Read>;

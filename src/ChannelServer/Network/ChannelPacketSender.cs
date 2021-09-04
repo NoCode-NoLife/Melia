@@ -672,45 +672,32 @@ namespace Melia.Channel.Network
 			packet.PutInt(items.Count);
 			packet.PutByte(1);
 			packet.PutByte(1);
-			if (items.Count != 0)
-			{
-				packet.Zlib(true, zpacket =>
-				{
-					foreach (var item in items)
-					{
-						var properties = item.Value.Properties.GetAll();
-						var propertiesSize = 8;
 
-						zpacket.PutInt(item.Value.Id);
-						zpacket.PutInt(propertiesSize);
-						if (item.Value.Id != 900011)
-							zpacket.PutLong(item.Value.ObjectId);
-						else
-							zpacket.PutLong(0);
-						zpacket.PutInt(item.Value.Amount);
-						zpacket.PutInt(item.Value.Price);
-						zpacket.PutInt(1);
-						zpacket.PutInt(item.Key);
-						//zpacket.AddProperties(properties);
-						zpacket.PutBinFromHex("621C000000000000");
-						if (propertiesSize > 0)
-						{
-							if (item.Value.Id != 900011 && item.Value.ObjectId > 0)
-							{
-								zpacket.PutShort(0);
-								zpacket.PutLong(item.Value.ObjectId);
-								zpacket.PutShort(0);
-							}
-						}
-					}
-				});
-			}
-			else
+			packet.Zlib(true, zpacket =>
 			{
-				// TODO: We shouldn't need an if/else, this is presumably
-				//   just a compressed, empty byte array.
-				packet.PutBinFromHex("8DFA020000000300");
-			}
+				foreach (var item in items)
+				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(propertiesSize);
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(0);
+					zpacket.PutInt(item.Key);
+					zpacket.AddProperties(properties);
+
+					if (item.Value.ObjectId != 0)
+					{
+						zpacket.PutShort(0);
+						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutShort(0);
+					}
+				}
+			});
 
 			character.Connection.Send(packet);
 		}
