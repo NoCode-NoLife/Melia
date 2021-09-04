@@ -152,6 +152,11 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.CoolDowns) != 0)
+				{
+					this.LoadDb(this.Data.CoolDownDb, "db/cooldowns.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -260,6 +265,7 @@ namespace Melia.Shared
 		Buffs = 0x2000,
 		SessionObjects = 0x4000,
 		Achievements = 0x8000,
+		CoolDowns = 0x10000,
 
 		All = 0x7FFFFFFF,
 	}
