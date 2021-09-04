@@ -44,15 +44,24 @@ The features that are currently working are the following:
 Requirements
 ------------------------------
 
+### General Pre-requisites
+
+- InnoDB compatible Server such as
+  - [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html) or [MariaDB 10](https://mariadb.org/download/)
+- Sufficient Hardware resources for the Emulator.
+  - Recommended: 1GB
+  - Minimum: 256MB
+- Sufficient Storage for the Database.
+  - Recommended: 4GB
+  - Minimum: 100MB
+
 ### Running on Linux/macOS
 
 - [Mono 5](https://www.mono-project.com/download/stable/)
-- [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html)
 
 ### Running on Windows
 
 - [.NET 4.6.2 Runtime](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-offline-installer)
-- [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html)
 
 ### Building on Linux
 
