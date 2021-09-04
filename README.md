@@ -62,7 +62,7 @@ Requirements
 ### Building on macOS
 
 - [Mono 5](https://www.mono-project.com/download/stable/)
-- [Mono Develop](https://www.monodevelop.com/download/) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/)
+- [Mono Develop](https://www.monodevelop.com/download/)
 
 
 ### Building on Windows
