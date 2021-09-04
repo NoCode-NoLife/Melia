@@ -3,7 +3,7 @@
 //
 //      File: ZC_ITEM_EQUIP_LIST.bt
 //   Authors: exec
-//   Version: i337645
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,8 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#define PROPERTY_NAMES
-
+//#define PROPERTY_NAMES
 #include "common.bt"
 
 ServerHeaderDynamic header;
@@ -25,8 +24,11 @@ typedef struct
     int slot;
     int i1;
     short s1;
-    if (propertiesSize > 0) {
+    if (propertiesSize > 0)
         getProperties(propertiesSize);
+    
+    if (worldId != 0)
+    {
         short s2;
         int64 worldId2;
         short s3;
@@ -37,7 +39,7 @@ EquipItem2 <read=readEquipItem2, optimize=false>;
 string readEquipItem2(EquipItem2 &v)
 {
     local string result;
-    SPrintf(result, "%d", v.itemId);
+    SPrintf(result, "id: %d, propertySize: %d", v.itemId, v.propertiesSize);
     return result;
 }
 

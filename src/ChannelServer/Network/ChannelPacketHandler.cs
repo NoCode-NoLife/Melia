@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Melia.Channel.Scripting;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -647,9 +648,30 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			// TODO: Implement use of item.
+			// Nothing to do if the item doesn't have a script.
+			if (!item.Data.HasScript)
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item without script.", conn.Account.Name);
+				return;
+			}
 
-			character.ServerMessage("Items can't be used yet.");
+			// Try to execute script
+			var script = item.Data.Script;
+			var result = ChannelServer.Instance.ScriptManager.Call(conn, script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+
+			if (result.Type == ScriptCallResultType.NotFound)
+			{
+				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+				character.ServerMessage("This item hasn't been implemented yet.");
+			}
+			else if (result.Type == ScriptCallResultType.Error)
+			{
+				Log.Debug("CZ_ITEM_USE: An error occurred. {0}", result.ErrorMessage);
+				character.ServerMessage("An error occurred.");
+			}
+
+			// Success
+			// TODO: Consume items
 		}
 
 		/// <summary>
@@ -686,7 +708,7 @@ namespace Melia.Channel.Network
 			conn.ScriptState.CurrentNpc = monster;
 
 			Send.ZC_SHARED_MSG(conn, 108);
-			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
+			ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
 		}
 
 		/// <summary>
@@ -708,7 +730,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn, option);
+			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, option);
 		}
 
 		/// <summary>
@@ -736,7 +758,7 @@ namespace Melia.Channel.Network
 			// escape is pressed, to cancel the dialog.
 			if (type == 1)
 			{
-				ChannelServer.Instance.ScriptManager.Resume(conn);
+				ChannelServer.Instance.ScriptManager.ResumeDialog(conn);
 			}
 			else
 			{
@@ -763,7 +785,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn, input);
+			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, input);
 		}
 
 		/// <summary>

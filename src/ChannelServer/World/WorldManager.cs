@@ -148,13 +148,25 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns map by name, or null if it doesn't exist.
 		/// </summary>
-		/// <param name="mapName"></param>
-		public Map GetMap(string mapName)
+		/// <param name="mapClassName"></param>
+		public Map GetMap(string mapClassName)
 		{
 			Map result;
 			lock (_mapsLock)
-				_mapsName.TryGetValue(mapName, out result);
+				_mapsName.TryGetValue(mapClassName, out result);
 			return result;
+		}
+
+		/// <summary>
+		/// Returns map by name via out, returns false if the map doesn't
+		/// exist.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <param name="map"></param>
+		public bool TryGetMap(string mapClassName, out Map map)
+		{
+			map = this.GetMap(mapClassName);
+			return map != null;
 		}
 
 		/// <summary>

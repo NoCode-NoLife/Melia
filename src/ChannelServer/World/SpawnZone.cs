@@ -1,143 +1,161 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public struct SpawnData
+	public class SpawnData
 	{
-		public string SpawnName { get; set; }
-		public string MapName { get; set; }
-		public string MonsterName { get; set; }
-		public int Count { get; set; }
-		public int CountVariation { get; set; }
-		public bool IsFixedLocation { get; set; }
-		public Position Position { get; set; }
-		public Direction Direction { get; set; }
-		public int RespawnTime { get; set; }
-		public int XMin { get; set; }
-		public int XMax { get; set; }
-		public int ZMin { get; set; }
-		public int ZMax { get; set; }
-	}
-
-	public class SpawnZone
-	{
+		private readonly MonsterData _monsterData;
 		private readonly Map _map;
-		private readonly Dictionary<int, Monster> _spawnEntities = new Dictionary<int, Monster>();
-		private int _calculatedTotalEntities;
-		private int _countEntities;
-		private int _countDeaths;
-		private bool _isInitialized;
-		private bool _respawnEnabled;
-		private readonly Random _rnd = RandomProvider.Get();
+		private int _spawnCount;
+		private readonly int _totalAmount;
+		private readonly Random _rnd;
+		private readonly float _minX;
+		private readonly float _maxX;
+		private readonly float _minZ;
+		private readonly float _maxZ;
 
-		public int Id { get; set; }
-		public SpawnData Data { get; set; }
-		public MonsterData MonsterData { get; set; }
+		public string MonsterClassName { get; }
+		public int Amount { get; }
+		public TimeSpan RespawnDelay { get; }
+		public string MapClassName { get; }
+		public Position[] Area { get; }
 
-		public SpawnZone(SpawnData spawnData)
+		public SpawnData(string monsterClassName, int amount, TimeSpan respawnDelay, string mapClassName, Position[] area)
 		{
-			this.Data = spawnData;
-			this.MonsterData = ChannelServer.Instance.Data.MonsterDb.Find(this.Data.MonsterName);
+			if (!ChannelServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _monsterData))
+				throw new ArgumentException($"No monster data found for '{monsterClassName}'.");
 
-			if (this.MonsterData == null)
-			{
-				Log.Error("Error initializing Spawn Zone {1} {2}. Monster not found. {0}", this.Data.MonsterName, this.Id, this.Data.SpawnName);
-				return;
-			}
+			if (!ChannelServer.Instance.World.TryGetMap(mapClassName, out _map))
+				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
-			_map = ChannelServer.Instance.World.GetMap(this.Data.MapName);
-			if (_map == null)
-			{
-				Log.Error("Error initializing Spawn Zone {1} {2}. Map not found. {0}", this.Data.MapName, this.Id, this.Data.SpawnName);
-				return;
-			}
+			if (area.Length == 0)
+				throw new ArgumentException("Area can't be empty.");
 
-			//Log.Debug("map {0}", _map.Name);
+			this.MonsterClassName = monsterClassName;
+			this.Amount = amount;
+			this.RespawnDelay = respawnDelay;
+			this.MapClassName = mapClassName;
+			this.Area = area;
+
+			_rnd = new Random(RandomProvider.Get().Next());
+			_totalAmount = this.Amount;
+			_minX = this.Area.Min(a => a.X);
+			_maxX = this.Area.Max(a => a.X);
+			_minZ = this.Area.Min(a => a.Z);
+			_maxZ = this.Area.Max(a => a.Z);
 		}
 
-		public void StartRespawn()
+		public void InitialSpawn()
 		{
-			if (!_isInitialized)
-			{
-				Log.Warning("Spawn {0} {1} can't start respawn because its not initialized.", this.Id, this.Data.SpawnName);
-				return;
-			}
-
-			_respawnEnabled = true;
+			while (_spawnCount < _totalAmount)
+				this.Spawn();
 		}
 
-		public void StopRespawn()
+		public Monster Spawn()
 		{
-			_respawnEnabled = false;
-		}
-
-		public void Init()
-		{
-			if (_map == null || this.MonsterData == null)
-				return;
-
-			// Calculate count of spawn entities
-			_calculatedTotalEntities = this.Data.Count + _rnd.Next(this.Data.CountVariation);
-			_countEntities = 0;
-
-			_isInitialized = true;
-			_respawnEnabled = true;
-
-			for (var i = 0; i < _calculatedTotalEntities; i++)
-				this.DoSpawn();
-		}
-
-		public void DoSpawn(object obj = null)
-		{
-			if (!_isInitialized && !_respawnEnabled)
-				return;
-
-			var monster = new Monster(this.MonsterData.Id, Shared.Const.NpcType.Monster);
-			monster = this.InitializeMonster(monster);
-
-			lock (_spawnEntities)
-			{
-				_spawnEntities.Add(monster.Handle, monster);
-				_countEntities = _spawnEntities.Count;
-			}
-
-			_map.AddMonster(monster);
-		}
-
-		public Monster InitializeMonster(Monster monster)
-		{
-			if (monster == null)
-				return null;
-
-			monster.Position = new Position(this.Data.Position.X, this.Data.Position.Y, this.Data.Position.Z);
+			var monster = new Monster(_monsterData.Id, NpcType.Monster);
+			monster.Position = this.GetRandomPosition();
 			monster.Died += this.OnMonsterDied;
 
 			//monster.AI = new AIMonster(monster);
 			//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
 
+			_map.AddMonster(monster);
+
+			_spawnCount = Interlocked.Increment(ref _spawnCount);
+
 			return monster;
 		}
 
-		private void OnMonsterDied(object sender, EntityEventArgs entity)
+		private void OnMonsterDied(object sender, EntityEventArgs e)
 		{
-			lock (_spawnEntities)
+			_spawnCount = Interlocked.Decrement(ref _spawnCount);
+		
+			if (_spawnCount < _totalAmount)
+				Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Spawn());
+		}
+
+		public Position GetRandomPosition()
+		{
+			var _points = this.Area;
+			var rnd = _rnd;
+
+			// Single position
+			if (_points.Length == 1)
+				return _points[0];
+
+			// Line
+			if (_points.Length == 2)
 			{
-				_spawnEntities.Remove(entity.Handle);
-				_countEntities = _spawnEntities.Count;
+				var d = rnd.NextDouble();
+
+				var x = _points[0].X + (_points[1].X - _points[0].X) * d;
+				var y = _points[0].Y + (_points[1].Y - _points[0].Y) * d;
+				var z = _points[0].Z + (_points[1].Z - _points[0].Z) * d;
+
+				return new Position((float)x, (float)y, (float)z);
 			}
 
-			_countDeaths++;
+			// Polygon
+			var result = Position.Zero;
+			var found = false;
 
-			if (this.Data.RespawnTime > 0 && _countEntities < _calculatedTotalEntities)
+			// Find a random position inside the polygon, but don't try
+			// forever.
+			for (var i = 0; i < 10; ++i)
 			{
-				//Log.Debug("Respawning scheduled in time {0}", this.Data.RespawnTime * 1000);
-				Task.Delay(this.Data.RespawnTime * 1000).ContinueWith(this.DoSpawn);
+				var rndX = (float)(_minX + rnd.NextDouble() * (_maxX - _minX));
+				var rndZ = (float)(_minZ + rnd.NextDouble() * (_maxZ - _minZ));
+
+				// We will need a way to find the highest position at a
+				// given location. Just use one of the Y coordinates for
+				// now. Monsters can appear below the floor if Y is lower
+				// than the ground. If it's above the ground, they will
+				// plop down when they appear.
+				var y = this.Area[0].Y;
+
+				if (IsPointInside(this.Area, result = new Position(rndX, y, rndZ)))
+				{
+					found = true;
+					break;
+				}
 			}
+
+			// If not point was found, use a random edge point.
+			if (!found)
+				result = this.Area[_rnd.Next(this.Area.Length)];
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns true if the given point is within the area in 2D.
+		/// </summary>
+		/// <param name="area"></param>
+		/// <param name="x"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
+		private static bool IsPointInside(Position[] area, Position point)
+		{
+			var result = false;
+			var x = point.X;
+			var z = point.Z;
+
+			for (int i = 0, j = area.Length - 1; i < area.Length; j = i++)
+			{
+				if (((area[i].Z > z) != (area[j].Z > z)) && (x < (area[j].X - area[i].X) * (z - area[i].Z) / (area[j].Z - area[i].Z) + area[i].X))
+					result = !result;
+			}
+
+			return result;
 		}
 	}
-}
+	}

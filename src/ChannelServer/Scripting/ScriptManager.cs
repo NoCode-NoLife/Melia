@@ -16,6 +16,25 @@ using MySql.Data.MySqlClient;
 
 namespace Melia.Channel.Scripting
 {
+	public enum ScriptCallResultType
+	{
+		Success,
+		Error,
+		NotFound,
+	}
+
+	public struct ScriptCallResult
+	{
+		public readonly ScriptCallResultType Type;
+		public readonly string ErrorMessage;
+
+		public ScriptCallResult(ScriptCallResultType type, string error = null)
+		{
+			this.Type = type;
+			this.ErrorMessage = error;
+		}
+	}
+
 	public class ScriptManager
 	{
 		private const string SystemRoot = "system/scripts/";
@@ -106,6 +125,7 @@ namespace Melia.Channel.Scripting
 			Register(sqlquery);
 			Register(sqlescape);
 			Register(addonmsg);
+			Register(servermsg);
 
 			// Dialog
 			Register(msg);
@@ -397,14 +417,14 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Calls function with connection's script state.
+		/// Calls dialog function with connection's script state.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="functionName"></param>
-		public void Call(ChannelConnection conn, string functionName)
+		public void CallDialog(ChannelConnection conn, string functionName)
 		{
 			if (conn.ScriptState.LuaThread != null)
-				Log.Warning("ScriptManager.Call: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
+				Log.Warning("ScriptManager.CallDialog: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
 
 			// Get function name, use oneliner for localized, single-line
 			// dialogues.
@@ -420,7 +440,7 @@ namespace Melia.Channel.Scripting
 			Melua.lua_getglobal(NL, functionName);
 			if (Melua.lua_isnil(NL, -1))
 			{
-				Log.Error("ScriptManager.Call: Function '{0}' not found.", functionName);
+				Log.Error("ScriptManager.CallDialog: Function '{0}' not found.", functionName);
 				return;
 			}
 
@@ -430,7 +450,7 @@ namespace Melia.Channel.Scripting
 			// Log error if result is not success or yield
 			if (result != 0 && result != Melua.LUA_YIELD)
 			{
-				Log.Error("ScriptManager.Call: Error while executing '{0}' for user '{1}'.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
+				Log.Error("ScriptManager.CallDialog: Error while executing '{0}' for user '{1}'.\n{2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
 				result = 0; // Set to 0 to close dialog on error
 			}
 
@@ -444,11 +464,11 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Resumes script after yielding.
+		/// Resumes dialog script after yielding.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="argument"></param>
-		public void Resume(ChannelConnection conn, params object[] arguments)
+		public void ResumeDialog(ChannelConnection conn, params object[] arguments)
 		{
 			if (conn.ScriptState.LuaThread == null)
 			{
@@ -458,30 +478,14 @@ namespace Melia.Channel.Scripting
 			}
 
 			var NL = conn.ScriptState.LuaThread.L;
-			var argc = (arguments != null ? arguments.Length : 0);
+			var argc = arguments?.Length ?? 0;
 
 			// Reset current shop in case we came from one.
 			conn.ScriptState.CurrentShop = null;
 
 			if (argc != 0)
 			{
-				foreach (var arg in arguments)
-				{
-					switch (arg)
-					{
-						case byte v: Melua.lua_pushinteger(NL, v); break;
-						case short v: Melua.lua_pushinteger(NL, v); break;
-						case int v: Melua.lua_pushinteger(NL, v); break;
-						case string v: Melua.lua_pushstring(NL, v); break;
-
-						default:
-						{
-							Log.Warning("ScriptManager.Resume: Invalid argument type '{0}'.", arg.GetType().Name);
-							Melua.lua_pushinteger(NL, 0);
-							break;
-						}
-					}
-				}
+				PushArguments(NL, arguments);
 
 				// If arguments were passed, we can assume we're coming from
 				// a selection handler, which's windows don't disappear when
@@ -510,6 +514,85 @@ namespace Melia.Channel.Scripting
 					Send.ZC_DIALOG_CLOSE(conn);
 
 				conn.ScriptState.Reset();
+			}
+		}
+
+		/// <summary>
+		/// Calls function with connection's script state.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="functionName"></param>
+		/// <param name="arguments"></param>
+		public ScriptCallResult Call(ChannelConnection conn, string functionName, params object[] arguments)
+		{
+			if (conn.ScriptState.LuaThread != null)
+				Log.Warning("ScriptManager.Call: A previous thread wasn't closed for user '{0}'.", conn.Account.Name);
+
+			// Prepare thread
+			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
+
+			var NL = conn.ScriptState.LuaThread.L;
+			var top = Melua.lua_gettop(GL);
+
+			// Get function
+			Melua.lua_getglobal(NL, functionName);
+			if (Melua.lua_isnil(NL, -1))
+			{
+				conn.ScriptState.Reset();
+				return new ScriptCallResult(ScriptCallResultType.NotFound);
+			}
+
+			// Push all arguments
+			var argc = arguments?.Length ?? 0;
+			if (argc != 0)
+				PushArguments(NL, arguments);
+
+			// Execute the function with the arguments
+			var funcResult = Melua.lua_resume(NL, argc);
+
+			// If result is not a success or yield, an error occurred.
+			if (funcResult != 0 && funcResult != Melua.LUA_YIELD)
+			{
+				conn.ScriptState.Reset();
+
+				var errorMessage = string.Format("Error while executing '{0}' for user '{1}': {2}", functionName, conn.Account.Name, Melua.lua_tostring(NL, -1));
+				return new ScriptCallResult(ScriptCallResultType.Error, errorMessage);
+			}
+
+			// We currently don't expect functions called this way to yield
+			if (funcResult == Melua.LUA_YIELD)
+				Log.Warning("ScriptManager.Call: Script function '{0}' yielded for user '{1}', a behavior that's currently not handled.", functionName, conn.Account.Name);
+
+			conn.ScriptState.Reset();
+			return new ScriptCallResult(ScriptCallResultType.Success);
+		}
+
+		/// <summary>
+		/// Pushes the arguments onto the Lua stack.
+		/// </summary>
+		/// <param name="NL"></param>
+		/// <param name="args"></param>
+		private static void PushArguments(IntPtr NL, params object[] args)
+		{
+			foreach (var arg in args)
+			{
+				switch (arg)
+				{
+					case byte v: Melua.lua_pushinteger(NL, v); break;
+					case bool v: Melua.lua_pushboolean(NL, v); break;
+					case short v: Melua.lua_pushinteger(NL, v); break;
+					case int v: Melua.lua_pushinteger(NL, v); break;
+					case float v: Melua.lua_pushnumber(NL, v); break;
+					case double v: Melua.lua_pushnumber(NL, v); break;
+					case string v: Melua.lua_pushstring(NL, v); break;
+
+					default:
+					{
+						Log.Warning("ScriptManager.PushArguments: Invalid argument type '{0}', pushing 'int 0' instead.", arg.GetType().Name);
+						Melua.lua_pushinteger(NL, 0);
+						break;
+					}
+				}
 			}
 		}
 
@@ -709,35 +792,80 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addspawn(IntPtr L)
 		{
-			var spawnData = new SpawnData();
+			//addspawn("Onion", 10, "f_siauliai_west", { x = -600, y = 260, z = -1000, width = 30, height = 30 })
 
-			spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
-			spawnData.MapName = Melua.luaL_checkstring(L, 2);
-			spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
-			spawnData.XMin = Melua.luaL_checkinteger(L, 4);
-			spawnData.XMax = Melua.luaL_checkinteger(L, 5);
-			spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
-			spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
-			spawnData.Count = Melua.luaL_checkinteger(L, 8);
-			spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
-			spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
+			var monsterClassName = Melua.luaL_checkstring(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 2);
+			var respawnDelayMs = Melua.luaL_checkinteger(L, 3);
+			var mapClassName = Melua.luaL_checkstring(L, 4);
 
-			spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
-			var x = (float)Melua.luaL_checknumber(L, 12);
-			var y = (float)Melua.luaL_checknumber(L, 13);
-			var z = (float)Melua.luaL_checknumber(L, 14);
-			spawnData.Position = new Position(x, y, z);
+			Melua.luaL_checktype(L, 5, Melua.LUA_TTABLE);
 
-			var direction = Melua.luaL_checkinteger(L, 15);
-			spawnData.Direction = new Direction(direction);
+			Melua.lua_getfield(L, 5, "x");
+			var x = (float)Melua.luaL_checknumber(L, -1);
 
-			var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
-			if (map == null)
-				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
+			Melua.lua_getfield(L, 5, "y");
+			var y = (float)Melua.luaL_checknumber(L, -1);
 
-			map.AddSpawnZone(spawnData);
+			Melua.lua_getfield(L, 5, "z");
+			var z = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_getfield(L, 5, "width");
+			var width = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_getfield(L, 5, "height");
+			var height = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_settop(L, 0);
+
+			if (!ChannelServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _))
+				return Melua.melua_error(L, "addspawn: Monster '{0}'  not found.", monsterClassName);
+
+			if (!ChannelServer.Instance.World.TryGetMap(mapClassName, out var map))
+				return Melua.melua_error(L, "addspawn: Map '{0}' for '{1}' spawn not found.", mapClassName, monsterClassName);
+
+			var area = new Position[]
+			{
+				new Position(x - width / 2, y, z - height / 2),
+				new Position(x + width / 2, y, z - height / 2),
+				new Position(x + width / 2, y, z + height / 2),
+				new Position(x - width / 2, y, z + height / 2),
+			};
+
+			var spawner = new SpawnData(monsterClassName, amount, TimeSpan.FromMilliseconds(respawnDelayMs), mapClassName, area);
+			map.AddSpawnZone(spawner);
 
 			return 0;
+
+			//var spawnData = new SpawnData();
+
+			//spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
+			//spawnData.MapName = Melua.luaL_checkstring(L, 2);
+			//spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
+			//spawnData.XMin = Melua.luaL_checkinteger(L, 4);
+			//spawnData.XMax = Melua.luaL_checkinteger(L, 5);
+			//spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
+			//spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
+			//spawnData.Count = Melua.luaL_checkinteger(L, 8);
+			//spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
+			//spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
+
+			//spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
+			//var x = (float)Melua.luaL_checknumber(L, 12);
+			//var y = (float)Melua.luaL_checknumber(L, 13);
+			//var z = (float)Melua.luaL_checknumber(L, 14);
+			//spawnData.Position = new Position(x, y, z);
+
+			//var direction = Melua.luaL_checkinteger(L, 15);
+			//spawnData.Direction = new Direction(direction);
+
+			//var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
+			//if (map == null)
+			//	return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
+
+			//map.AddSpawnZone(spawnData);
+
+			//return 0;
 		}
 
 		/// <summary>
@@ -1917,6 +2045,28 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_ADDON_MSG(character, msg, param);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Sends a server message to the client, displayed in the chat log.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string Message to send to client
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int servermsg(IntPtr L)
+		{
+			var msg = Melua.luaL_checkstring(L, 1);
+			Melua.lua_pop(L, 1);
+
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			character.ServerMessage(msg);
 
 			return 0;
 		}

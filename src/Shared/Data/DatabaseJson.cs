@@ -101,6 +101,22 @@ namespace Melia.Shared.Data
 			return this.Entries.GetValueOrDefault(key);
 		}
 
+		public bool TryFind(TIndex key, out TInfo info)
+		{
+			return this.Entries.TryGetValue(key, out info);
+		}
+
+		public TInfo Find(Func<TInfo, bool> predicate)
+		{
+			return this.Entries.Values.FirstOrDefault(predicate);
+		}
+
+		public bool TryFind(Func<TInfo, bool> predicate, out TInfo result)
+		{
+			result = this.Entries.Values.FirstOrDefault(predicate);
+			return result != null;
+		}
+
 		public bool Exists(TIndex key)
 		{
 			return this.Entries.ContainsKey(key);
@@ -132,6 +148,8 @@ namespace Melia.Shared.Data
 		internal static ushort ReadUShort(this JObject obj, string key, ushort def = 0) { return (ushort)(obj[key] ?? def); }
 		internal static int ReadInt(this JObject obj, string key, int def = 0) { return (int)(obj[key] ?? def); }
 		internal static uint ReadUInt(this JObject obj, string key, uint def = 0) { return (uint)(obj[key] ?? def); }
+		internal static long ReadLong(this JObject obj, string key, long def = 0) { return (long)(obj[key] ?? def); }
+		internal static ulong ReadULong(this JObject obj, string key, ulong def = 0) { return (ulong)(obj[key] ?? def); }
 		internal static float ReadFloat(this JObject obj, string key, float def = 0) { return (float)(obj[key] ?? def); }
 		internal static double ReadDouble(this JObject obj, string key, double def = 0) { return (double)(obj[key] ?? def); }
 		internal static string ReadString(this JObject obj, string key, string def = "") { return (string)(obj[key] ?? def); }
@@ -174,6 +192,31 @@ namespace Melia.Shared.Data
 			return obj[key].Select(a => a.ToObject<TValue>()).ToList();
 		}
 
+		/// <summary>
+		/// Reads the field's value as a string and attempts to convert
+		/// it to the enum. Returns the default if the key didn't exist.
+		/// </summary>
+		/// <typeparam name="TEnum"></typeparam>
+		/// <param name="obj"></param>
+		/// <param name="key"></param>
+		/// <param name="def"></param>
+		/// <returns></returns>
+		internal static TEnum ReadEnum<TEnum>(this JObject obj, string key, TEnum def = default(TEnum))
+		{
+			if (!obj.ContainsKey(key))
+				return def;
+
+			var str = obj.ReadString(key);
+
+			return (TEnum)Enum.Parse(typeof(TEnum), str);
+		}
+
+		/// <summary>
+		/// Returns true if the object contains any of the given keys.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="keys"></param>
+		/// <returns></returns>
 		internal static bool ContainsAnyKeys(this JObject obj, params string[] keys)
 		{
 			if (keys.Length == 1)

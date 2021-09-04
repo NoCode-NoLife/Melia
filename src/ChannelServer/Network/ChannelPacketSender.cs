@@ -733,30 +733,21 @@ namespace Melia.Channel.Network
 				var properties = equipItem.Value.Properties.GetAll();
 				var propertiesSize = equipItem.Value.Properties.Size;
 
-				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
+				packet.PutInt(equipItem.Value.Id);
+				packet.PutShort(propertiesSize);
+				packet.PutEmptyBin(2);
+				packet.PutLong(equipItem.Value.ObjectId);
+				packet.PutByte((byte)equipItem.Key);
+				packet.PutEmptyBin(3);
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.AddProperties(properties);
+
+				if (equipItem.Value.ObjectId != 0)
 				{
-					packet.PutInt(equipItem.Value.Id);
-					packet.PutInt(0);
-					packet.PutLong(0);
-					packet.PutInt((int)equipItem.Key);
-					packet.PutInt(0);
 					packet.PutShort(0);
-				}
-				else
-				{
-					packet.PutInt(equipItem.Value.Id);
-					packet.PutInt(propertiesSize);
 					packet.PutLong(equipItem.Value.ObjectId);
-					packet.PutInt((int)equipItem.Key);
-					packet.PutInt(0);
 					packet.PutShort(0);
-					packet.AddProperties(properties);
-					if (propertiesSize > 0)
-					{
-						packet.PutShort(0);
-						packet.PutLong(equipItem.Value.ObjectId);
-						packet.PutShort(0);
-					}
 				}
 			}
 
@@ -875,7 +866,7 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
-			packet.PutShort(1); // type? 0 = also show in red letters on the screen
+			packet.PutByte(1); // type? 0 = also show in red letters on the screen
 			packet.PutLong(0); // added i219527
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
@@ -1458,6 +1449,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 			packet.PutInt(attacker.Handle);
+
 			packet.PutByte(1); // Count?
 			packet.PutShort(26057);
 			packet.PutShort(5236);
@@ -1465,7 +1457,30 @@ namespace Melia.Channel.Network
 			packet.PutInt(damage);
 			packet.PutInt(target.Hp);
 			packet.PutInt(2);
-			packet.PutBinFromHex("00 00 01 E3 A0 D0 03 00 00 A0 60 FC 4A 01 00 00 64 00 02 01 00 00 01 5C 00 00 00 00 00 00 00 03 00 00 00 60");
+			packet.PutShort(0);
+
+			// Really a bunch of shorts?
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(3);
+			packet.PutShort(1);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(306);
+			packet.PutShort(0);
+			packet.PutShort(99);
+			packet.PutShort(258);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+			packet.PutShort(0);
+
+			packet.PutShort(0);
+			packet.PutInt(0);
+			packet.PutShort(1);
+			packet.PutByte(3);
+			packet.PutFloat(-1000);
 
 			target.Map.Broadcast(packet);
 		}
@@ -1639,7 +1654,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt(character.MaxExp);
 			packet.PutInt(0);
-			packet.PutInt(character.TotalExp);
+			packet.PutUInt((uint)Math2.Clamp(0, uint.MaxValue, character.TotalExp));
 			packet.PutInt(0);
 
 			character.Connection.Send(packet);

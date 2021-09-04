@@ -35,7 +35,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Collection of Spawn Zones
 		/// </summary>
-		private readonly List<SpawnZone> _spawns = new List<SpawnZone>();
+		private readonly List<SpawnData> _spawns = new List<SpawnData>();
 
 		/// <summary>
 		/// Map name.
@@ -148,18 +148,14 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Adds spawn data to map.
 		/// </summary>
-		/// <param name="SpawnData"></param>
+		/// <param name="spawnData"></param>
 		public void AddSpawnZone(SpawnData spawnData)
 		{
-			var spawnZone = new SpawnZone(spawnData);
-
 			lock (_spawns)
 			{
-				spawnZone.Id = _spawns.Count;
-				_spawns.Add(spawnZone);
+				_spawns.Add(spawnData);
+				spawnData.InitialSpawn();
 			}
-
-			spawnZone.Init();
 		}
 
 		/// <summary>
@@ -278,7 +274,7 @@ namespace Melia.Channel.World
 		{
 			var toRemove = new List<Monster>();
 			lock (_monsters)
-				toRemove.AddRange(_monsters.Values.Where(a => a.NpcType == NpcType.NPC));
+				toRemove.AddRange(_monsters.Values);
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
