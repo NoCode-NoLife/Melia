@@ -1,7 +1,7 @@
 // Melia
 // Database file
 // 
-// Values: buffId, className, name, level, duration, buffExpUp, removable, removeOnDeath, removeBySkill, updateProperties
+// Values: id, className, name, level, duration, buffExpUp, removable, removeOnDeath, removeBySkill, updateProperties
 //---------------------------------------------------------------------------
 
 [

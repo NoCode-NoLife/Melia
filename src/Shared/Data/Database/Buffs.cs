@@ -13,8 +13,8 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public int Level { get; set; }
-		public float Duration { get; set; }
-		public float BuffUpExp { get; set; }
+		public int Duration { get; set; }
+		public int BuffUpExp { get; set; }
 		public bool Removable { get; set; }
 		public bool RemoveOnDeath { get; set; }
 		public bool RemoveBySkill { get; set; }
