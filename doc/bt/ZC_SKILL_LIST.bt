@@ -24,7 +24,11 @@ byte b1;
 
 if (!checkCompression()) {
     Skill skills[skillCount];
-    getProperties(16);
+    //getProperties(16);
+    float f1;
+    int i1;
+    float f3;
+    int i2;
     short s1;
     byte b2;
 }

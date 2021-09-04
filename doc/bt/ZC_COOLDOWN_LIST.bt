@@ -2,9 +2,9 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_COOLDOWN_LIST.bt
-//   Authors: 
-//   Version: 
-//   Purpose: 
+//   Authors: Salman T. Khan
+//   Version: i339932
+//   Purpose: Sent for skills previously on cooldown when game state was saved aka LogOut
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -12,6 +12,14 @@
 //------------------------------------------------
 #include "common.bt"
 
+typedef struct
+{
+    int id;
+    int value;
+    int i1;
+} CoolDown <optimize=false>;
+
 ServerHeaderDynamic header;
-int64 l1;
-int i1;
+int64 characterId;
+int count;
+CoolDown cooldowns[count];

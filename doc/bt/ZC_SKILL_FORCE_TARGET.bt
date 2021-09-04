@@ -59,8 +59,7 @@ typedef struct
 
 int skillId;
 int characterHandle;
-float f1;
-float f2;
+direction dir;
 int i4;
 float f3;
 float f4;

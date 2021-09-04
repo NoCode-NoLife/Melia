@@ -91,19 +91,21 @@ switch (type)
 
     // ?
     case 0x16:
-        int handle;
-        int handle1;
-        int handle2;
-        int handle;
-        ushort s1;
-        short s2;
-        float f2;
-        float f3;
-        float f4;
+        int targetHandle;
+        int characterHandle; // ?
+        int attackerHandle;
         int i1;
-        byte b2;
-        float effectSize;
-        byte bin[8];
+        int i2;
+        float f1;
+        int i3;
+        int i4;
+        float f2;
+        int i5;
+        int i6;
+        float f3;
+        byte bin[16];
+        position pos;
+        int i7;
         break;
 
     // Cast Buff?
@@ -254,8 +256,8 @@ switch (type)
         break;
 
     case 0xE0:
-        int i1;
-        int i2;
+        int attackerHandle; // Attacker Handle
+        int characterHandle; // Character Handle
         short s1;
         short s2;
         float f1;
