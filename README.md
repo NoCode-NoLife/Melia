@@ -48,10 +48,10 @@ Requirements
 
 - InnoDB compatible Server such as
   - [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html) or [MariaDB 10](https://mariadb.org/download/)
-- Sufficient Hardware resources for the Emulator.
+- Sufficient hardware resources for the emulator.
   - Recommended: 1GB
   - Minimum: 256MB
-- Sufficient Storage for the Database.
+- Sufficient storage for the database.
   - Recommended: 4GB
   - Minimum: 100MB
 
@@ -63,21 +63,15 @@ Requirements
 
 - [.NET 4.6.2 Runtime](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-offline-installer)
 
-### Building on Linux
+### Building on Linux/macOS
 
 - [Mono 5](https://www.mono-project.com/download/stable/)
 - [Mono Develop](https://www.monodevelop.com/download/)
-
-### Building on macOS
-
-- [Mono 5](https://www.mono-project.com/download/stable/)
-- [Mono Develop](https://www.monodevelop.com/download/)
-
 
 ### Building on Windows
 
 - [.NET 4.6.2 SDK](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-developer-pack-offline-installer)
-- [Visual Studio](https://visualstudio.microsoft.com/downloads/) (Visual Studio 2017 or later) (Community Edition is free)
+- [Visual Studio](https://visualstudio.microsoft.com/downloads/) (2017 or later) (Community Edition is free)
 
 Installation
 ------------------------------
