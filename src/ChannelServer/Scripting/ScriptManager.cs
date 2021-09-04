@@ -792,35 +792,80 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addspawn(IntPtr L)
 		{
-			var spawnData = new SpawnData();
+			//addspawn("Onion", 10, "f_siauliai_west", { x = -600, y = 260, z = -1000, width = 30, height = 30 })
 
-			spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
-			spawnData.MapName = Melua.luaL_checkstring(L, 2);
-			spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
-			spawnData.XMin = Melua.luaL_checkinteger(L, 4);
-			spawnData.XMax = Melua.luaL_checkinteger(L, 5);
-			spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
-			spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
-			spawnData.Count = Melua.luaL_checkinteger(L, 8);
-			spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
-			spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
+			var monsterClassName = Melua.luaL_checkstring(L, 1);
+			var amount = Melua.luaL_checkinteger(L, 2);
+			var respawnDelayMs = Melua.luaL_checkinteger(L, 3);
+			var mapClassName = Melua.luaL_checkstring(L, 4);
 
-			spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
-			var x = (float)Melua.luaL_checknumber(L, 12);
-			var y = (float)Melua.luaL_checknumber(L, 13);
-			var z = (float)Melua.luaL_checknumber(L, 14);
-			spawnData.Position = new Position(x, y, z);
+			Melua.luaL_checktype(L, 5, Melua.LUA_TTABLE);
 
-			var direction = Melua.luaL_checkinteger(L, 15);
-			spawnData.Direction = new Direction(direction);
+			Melua.lua_getfield(L, 5, "x");
+			var x = (float)Melua.luaL_checknumber(L, -1);
 
-			var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
-			if (map == null)
-				return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
+			Melua.lua_getfield(L, 5, "y");
+			var y = (float)Melua.luaL_checknumber(L, -1);
 
-			map.AddSpawnZone(spawnData);
+			Melua.lua_getfield(L, 5, "z");
+			var z = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_getfield(L, 5, "width");
+			var width = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_getfield(L, 5, "height");
+			var height = (float)Melua.luaL_checknumber(L, -1);
+
+			Melua.lua_settop(L, 0);
+
+			if (!ChannelServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _))
+				return Melua.melua_error(L, "addspawn: Monster '{0}'  not found.", monsterClassName);
+
+			if (!ChannelServer.Instance.World.TryGetMap(mapClassName, out var map))
+				return Melua.melua_error(L, "addspawn: Map '{0}' for '{1}' spawn not found.", mapClassName, monsterClassName);
+
+			var area = new Position[]
+			{
+				new Position(x - width / 2, y, z - height / 2),
+				new Position(x + width / 2, y, z - height / 2),
+				new Position(x + width / 2, y, z + height / 2),
+				new Position(x - width / 2, y, z + height / 2),
+			};
+
+			var spawner = new SpawnData(monsterClassName, amount, TimeSpan.FromMilliseconds(respawnDelayMs), mapClassName, area);
+			map.AddSpawnZone(spawner);
 
 			return 0;
+
+			//var spawnData = new SpawnData();
+
+			//spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
+			//spawnData.MapName = Melua.luaL_checkstring(L, 2);
+			//spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
+			//spawnData.XMin = Melua.luaL_checkinteger(L, 4);
+			//spawnData.XMax = Melua.luaL_checkinteger(L, 5);
+			//spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
+			//spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
+			//spawnData.Count = Melua.luaL_checkinteger(L, 8);
+			//spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
+			//spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
+
+			//spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
+			//var x = (float)Melua.luaL_checknumber(L, 12);
+			//var y = (float)Melua.luaL_checknumber(L, 13);
+			//var z = (float)Melua.luaL_checknumber(L, 14);
+			//spawnData.Position = new Position(x, y, z);
+
+			//var direction = Melua.luaL_checkinteger(L, 15);
+			//spawnData.Direction = new Direction(direction);
+
+			//var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
+			//if (map == null)
+			//	return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
+
+			//map.AddSpawnZone(spawnData);
+
+			//return 0;
 		}
 
 		/// <summary>
