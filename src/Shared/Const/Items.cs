@@ -335,9 +335,7 @@ namespace Melia.Shared.Const
 	public enum InventoryType : byte
 	{
 		Inventory = 0,
-		PersonalWarehouse = 1,
-		AccountWarehouse = 6,
-		Equipped = 127,
+		Warehouse = 1,
 	}
 
 	public enum InventoryAddType : byte

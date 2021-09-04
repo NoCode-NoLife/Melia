@@ -22,13 +22,21 @@ namespace Melia.Shared.Data.Database
 		public int MaxStack { get; set; }
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
-
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
 		public int MinLevel { get; set; }
-		public string Script { get; set; }
+		public ItemScriptData Script { get; set; }
 
-		public bool HasScript => !string.IsNullOrWhiteSpace(this.Script);
+		public bool HasScript => this.Script != null;
+	}
+
+	[Serializable]
+	public class ItemScriptData
+	{
+		public string Function { get; set; }
+		public string StrArg { get; set; }
+		public float NumArg1 { get; set; }
+		public float NumArg2 { get; set; }
 	}
 
 	/// <summary>
@@ -72,8 +80,23 @@ namespace Melia.Shared.Data.Database
 			info.SellPrice = entry.ReadInt("sellPrice", 0);
 			info.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
 			info.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
-
 			info.MinLevel = entry.ReadInt("minLevel", 1);
+
+			if (entry.ContainsKey("script"))
+			{
+				var scriptEntry = (JObject)entry["script"];
+
+				scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
+
+				var scriptData = new ItemScriptData();
+
+				scriptData.Function = scriptEntry.ReadString("function");
+				scriptData.StrArg = scriptEntry.ReadString("strArg");
+				scriptData.NumArg1 = scriptEntry.ReadFloat("numArg1");
+				scriptData.NumArg2 = scriptEntry.ReadFloat("numArg2");
+
+				info.Script = scriptData;
+			}
 
 			this.Entries[info.Id] = info;
 		}

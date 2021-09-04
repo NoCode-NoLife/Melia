@@ -1,4 +1,4 @@
-namespace Melia.Shared.Const
+﻿namespace Melia.Shared.Const
 {
 	public enum Size
 	{

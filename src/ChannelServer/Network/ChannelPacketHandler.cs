@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Melia.Channel.Scripting;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -648,9 +649,30 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			// TODO: Implement use of item.
+			// Nothing to do if the item doesn't have a script.
+			if (!item.Data.HasScript)
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item without script.", conn.Account.Name);
+				return;
+			}
 
-			character.ServerMessage("Items can't be used yet.");
+			// Try to execute script
+			var script = item.Data.Script;
+			var result = ChannelServer.Instance.ScriptManager.Call(conn, script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+
+			if (result.Type == ScriptCallResultType.NotFound)
+			{
+				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+				character.ServerMessage("This item hasn't been implemented yet.");
+			}
+			else if (result.Type == ScriptCallResultType.Error)
+			{
+				Log.Debug("CZ_ITEM_USE: An error occurred. {0}", result.ErrorMessage);
+				character.ServerMessage("An error occurred.");
+			}
+
+			// Success
+			// TODO: Consume items
 		}
 
 		/// <summary>
@@ -686,8 +708,7 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
-			conn.SelectedCharacter.Death();
-			ChannelServer.Instance.ScriptManager.Call(conn, monster.DialogName);
+			ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
 		}
 
 		/// <summary>
@@ -709,7 +730,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn, option);
+			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, option);
 		}
 
 		/// <summary>
@@ -737,7 +758,7 @@ namespace Melia.Channel.Network
 			// escape is pressed, to cancel the dialog.
 			if (type == 1)
 			{
-				ChannelServer.Instance.ScriptManager.Resume(conn);
+				ChannelServer.Instance.ScriptManager.ResumeDialog(conn);
 			}
 			else
 			{
@@ -764,7 +785,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.Resume(conn, input);
+			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, input);
 		}
 
 		/// <summary>
@@ -925,9 +946,7 @@ namespace Melia.Channel.Network
 			var damage = character.GetRandomPAtk();
 
 			if (target.TakeDamage(damage, character, skill))
-			{
 				Send.ZC_SKILL_CAST_CANCEL(character, target);
-			}
 
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
@@ -1203,10 +1222,9 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill != null)
 			{
-				var position = new Position(x2, y2, z2);
-				character.Map.GetMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
-				// Broadcast action to all?
 				Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
+				character.Map.GetAttackableMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
+				// Broadcast action to all?
 			}
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
@@ -2059,9 +2077,6 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// When warping from warp function
 		/// </summary>
-		/// <remarks>
-		/// Currently broken because visually character stays on in dead stance
-		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.ZC_CLIENT_DIRECT)]
@@ -2091,6 +2106,31 @@ namespace Melia.Channel.Network
 			}
 		}
 
+		/// <summary>
+		/// When visiting a player house
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_HOUSING_REQUEST_POST_HOUSE_WARP)]
+		public void CZ_HOUSING_REQUEST_POST_HOUSE_WARP(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var accountId = packet.GetLong(); // characterId?
+
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_PC_PROP_UPDATE(character, PropertyId.PCEtc.PersonalHousingPrevZonePos_x, 1);
+			Send.ZC_PC_PROP_UPDATE(character, PropertyId.PCEtc.PersonalHousingPrevZonePos_y, 1);
+			Send.ZC_PC_PROP_UPDATE(character, PropertyId.PCEtc.PersonalHousingPrevZonePos_z, 1);
+			Send.ZC_SAVE_INFO(conn);
+			// Warp to personal house
+			character.Warp(7000, 200, 2200, 1000);
+
+			Send.ZC_CUSTOM_WHEEL_ZOOM(character, 1, 120f, 400f, 50f);
+			Send.ZC_SET_LAYER(character, 66);
+			Send.ZC_ADDON_MSG(character, AddonMessage.SET_PERSONAL_HOUSE_NAME, character.TeamName);
+			Send.ZC_ADDON_MSG(character, AddonMessage.ENTER_PERSONAL_HOUSE, "NO");
+		}
 
 	}
 

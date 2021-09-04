@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Melia.Channel.Network.Helpers;
 using Melia.Channel.World;
 using Melia.Shared.Const;
@@ -177,6 +178,16 @@ namespace Melia.Channel.Network
 			packet.AddMonster(monster);
 
 			monster.Map.Broadcast(packet);
+		}
+
+		public static void ZC_SKILL_DELAY(Character character)
+		{
+			var packet = new Packet(Op.ZC_SKILL_DISABLE);
+			packet.PutInt(character.Handle);
+			packet.PutByte(0);
+			packet.PutInt(1482022400);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -393,10 +404,10 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(1551);
+			packet.PutInt(2256);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(skill.Data.OverHeatDelay + 10000);
+			packet.PutInt(skill.Data.OverHeatDelay);
 			packet.PutByte(0);
 			packet.PutByte(0xFF);
 			packet.PutByte(0xFF);
@@ -416,7 +427,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(1071); // Hotkey Id?
+			packet.PutInt(1146); // Hotkey Id?
 			packet.PutInt(skill.Data.CoolDown); // Cooldown value
 			packet.PutInt(skill.Data.CoolDown); // Cooldown value
 			packet.PutByte(0);
@@ -1446,18 +1457,36 @@ namespace Melia.Channel.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, int damage)
+		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, Skill skill, int damage)
 		{
+			var validHit = (target != null && damage > 0);
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 			packet.PutInt(attacker.Handle);
-			packet.PutByte(1); // Count?
-			packet.PutShort(26057);
-			packet.PutShort(5236);
-			packet.PutInt(target.Handle);
-			packet.PutInt(damage);
-			packet.PutInt(target.Hp);
-			packet.PutInt(2);
-			packet.PutBinFromHex("00 00 01 E3 A0 D0 03 00 00 A0 60 FC 4A 01 00 00 64 00 02 01 00 00 01 5C 00 00 00 00 00 00 00 03 00 00 00 60");
+			packet.PutByte(validHit);
+			if (validHit)
+			{
+				packet.PutBinFromHex("00 09 00 00");
+				packet.PutInt(target.Handle);
+				packet.PutInt(damage);
+				packet.PutInt(target.Hp);
+				packet.PutInt(3); //attackCount?
+				packet.PutInt(1);
+				packet.PutShort(0);
+				packet.PutShort(3);
+				packet.PutInt(1);
+				packet.PutInt(0);
+				packet.PutInt(306);
+				packet.PutShort(0x63);
+				packet.PutByte(3);
+				packet.PutByte(1);
+				packet.PutInt(0);
+				packet.PutInt(attacker.Handle); // Attacker Handle?
+				packet.PutInt(0);
+				packet.PutShort(0);
+				packet.PutShort(1);
+				packet.PutByte(3);
+				packet.PutFloat(-1845);
+			}
 
 			target.Map.Broadcast(packet);
 		}
@@ -1780,10 +1809,10 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="property"></param>
 		/// <param name="value"></param>
-		public static void ZC_PC_PROP_UPDATE(Character character, short property, byte value)
+		public static void ZC_PC_PROP_UPDATE(Character character, int property, byte value)
 		{
 			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
-			packet.PutShort(property);
+			packet.PutInt(property);
 			packet.PutByte(value); // ?
 
 			character.Connection.Send(packet);
@@ -2519,7 +2548,7 @@ namespace Melia.Channel.Network
 			if (character.MapId == 1021)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(SubOp.Zone.Unknown_Map_12A);
+				packet.PutInt(SubOp.Zone.MapChannelData);
 				packet.Zlib(true, zpacket =>
 				{
 					zpacket.PutShort(character.MapId);
@@ -3676,9 +3705,22 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, float f1)
 		{
-			var packet = new Packet(Op.ZC_SYNC_END);
+			var packet = new Packet(Op.ZC_SYNC_EXEC_BY_SKILL_TIME);
+			packet.PutInt(character.Handle);
 			packet.PutInt(skillActorId);
 			packet.PutFloat(f1);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unknown Purpose
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SYNC_EXEC(Character character, int skillActorId)
+		{
+			var packet = new Packet(Op.ZC_SYNC_EXEC);
+			packet.PutInt(skillActorId);
 
 			character.Connection.Send(packet);
 		}
@@ -3925,6 +3967,56 @@ namespace Melia.Channel.Network
 			packet.PutByte(0);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Set scrolling limits on zoom from mouse wheel
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		/// <param name="xLimit"></param>
+		/// <param name="yLimit"></param>
+		/// <param name="zLimit"></param>
+		public static void ZC_CUSTOM_WHEEL_ZOOM(Character character, byte type, float xLimit, float yLimit, float zLimit)
+		{
+			var packet = new Packet(Op.ZC_CUSTOM_WHEEL_ZOOM);
+			packet.PutByte(type);
+			packet.PutFloat(xLimit);
+			packet.PutFloat(yLimit);
+			packet.PutFloat(zLimit);
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_SET_LAYER(Character character, int layer)
+		{
+			var packet = new Packet(Op.ZC_CUSTOM_WHEEL_ZOOM);
+			packet.PutInt(layer);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Used to pair character to chair?
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="animationName"></param>
+		/// <param name="parameter1"></param>
+		/// <param name="parameter2"></param>
+		public static void ZC_PLAY_PAIR_ANIMATION(Character character, string animationName, string parameter1 = "None", string parameter2 = "None")
+		{
+			var packet = new Packet(Op.ZC_PLAY_PAIR_ANIMATION);
+			packet.PutInt(character.Handle);
+			packet.PutEmptyBin(64);
+			packet.PutString(animationName, 128); //BARRACK_SIT
+			packet.PutString(parameter1, 64); // None
+			packet.PutString(parameter2, 64); // None
+			packet.PutInt(0);
+			packet.PutShort(1);
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet);
 		}
 
 

@@ -53,7 +53,7 @@ namespace Melia.Shared.Network
 			public const int Unknown_E4 = 0xE4;
 			public const int Unknown_EF = 0xEF;
 			public const int Unknown_A1 = 0xA1;
-			public const int Unknown_Map_12A = 0x12A;
+			public const int MapChannelData = 0x12A;
 			public const int SetGreetingMessage = 0x135;
 			public const int Revive = 0x13B;
 			public const int UpdateSkillUI = 0x186;

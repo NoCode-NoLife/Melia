@@ -95,14 +95,18 @@ namespace Melia.Shared.Const
 		public const string SET_COIN_GET_GAUGE = "SET_COIN_GET_GAUGE";
 
 		/// <summary>
-		/// Opens the TP shop UI
+		/// Opens the TP shop UI Help
 		/// </summary>
 		public const string TP_SHOP_UI_OPEN = "TP_SHOP_UI_OPEN";
 
 		/// <summary>
-		/// Opens the beauty shop UI
+		/// Sets the personal house name
 		/// </summary>
-		public const string BEAUTYSHOP_UI_OPEN = "BEAUTYSHOP_UI_OPEN"; // Parameter: HAIR
+		public const string SET_PERSONAL_HOUSE_NAME = "SET_PERSONAL_HOUSE_NAME";
+		/// <summary>
+		/// Enter personal house
+		/// </summary>
+		public const string ENTER_PERSONAL_HOUSE = "ENTER_PERSONAL_HOUSE";
 	}
 
 	public static class SystemMessage

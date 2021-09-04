@@ -194,7 +194,7 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public List<Monster> GetMonstersInRange(float x, float y, float z, int range)
+		public List<Monster> GetAttackableMonstersInRange(float x, float y, float z, int range)
 		{
 			var position = new Position(x, y, z);
 

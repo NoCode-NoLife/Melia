@@ -761,6 +761,10 @@ namespace Melia.Channel.World
 		public DummyEquipItem(EquipSlot slot)
 			: base(Items.DefaultItems[(int)slot], 1)
 		{
+			// Officials set the object id of dummy items to 0, though
+			// whether this is actually necessary is currently unknown.
+			// This does affect packet structures however.
+			this.ObjectId = 0;
 		}
 	}
 }

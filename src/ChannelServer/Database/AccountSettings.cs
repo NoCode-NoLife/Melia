@@ -13,7 +13,7 @@ namespace Melia.Channel.Database
 	/// </summary>
 	public class AccountSettings
 	{
-		private Dictionary<Option, int> _options;
+		private readonly Dictionary<Option, int> _options;
 
 		/// <summary>
 		/// Creates new account settings.

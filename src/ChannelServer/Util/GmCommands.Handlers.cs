@@ -31,6 +31,8 @@ namespace Melia.Channel.Util
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
 			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
 			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
+			//Add("retquest", "<quest id>", this.HandleReturnToQuestGiver);
+			//Add("intewarp", "<warp id> 0", this.HandleWarp);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
