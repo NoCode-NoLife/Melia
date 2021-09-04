@@ -832,40 +832,10 @@ namespace Melia.Channel.Scripting
 				new Position(x - width / 2, y, z + height / 2),
 			};
 
-			var spawner = new SpawnData(monsterClassName, amount, TimeSpan.FromMilliseconds(respawnDelayMs), mapClassName, area);
-			map.AddSpawnZone(spawner);
+			var spawner = new MonsterSpawner(monsterClassName, amount, TimeSpan.FromMilliseconds(respawnDelayMs), mapClassName, area);
+			map.AddSpawner(spawner);
 
 			return 0;
-
-			//var spawnData = new SpawnData();
-
-			//spawnData.SpawnName = Melua.luaL_checkstring(L, 1);
-			//spawnData.MapName = Melua.luaL_checkstring(L, 2);
-			//spawnData.MonsterName = Melua.luaL_checkstring(L, 3);
-			//spawnData.XMin = Melua.luaL_checkinteger(L, 4);
-			//spawnData.XMax = Melua.luaL_checkinteger(L, 5);
-			//spawnData.ZMin = Melua.luaL_checkinteger(L, 6);
-			//spawnData.ZMax = Melua.luaL_checkinteger(L, 7);
-			//spawnData.Count = Melua.luaL_checkinteger(L, 8);
-			//spawnData.CountVariation = Melua.luaL_checkinteger(L, 9);
-			//spawnData.RespawnTime = Melua.luaL_checkinteger(L, 10);
-
-			//spawnData.IsFixedLocation = Melua.luaL_checkinteger(L, 11) > 0;
-			//var x = (float)Melua.luaL_checknumber(L, 12);
-			//var y = (float)Melua.luaL_checknumber(L, 13);
-			//var z = (float)Melua.luaL_checknumber(L, 14);
-			//spawnData.Position = new Position(x, y, z);
-
-			//var direction = Melua.luaL_checkinteger(L, 15);
-			//spawnData.Direction = new Direction(direction);
-
-			//var map = ChannelServer.Instance.World.GetMap(spawnData.MapName);
-			//if (map == null)
-			//	return Melua.melua_error(L, "AddSpawn: {1} Map '{0}' not found.", spawnData.MapName, spawnData.SpawnName);
-
-			//map.AddSpawnZone(spawnData);
-
-			//return 0;
 		}
 
 		/// <summary>

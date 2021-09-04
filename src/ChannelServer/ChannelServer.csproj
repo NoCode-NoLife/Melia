@@ -91,7 +91,7 @@
     <Compile Include="World\Jobs.cs" />
     <Compile Include="World\SessionObjects.cs" />
     <Compile Include="World\Skill.cs" />
-    <Compile Include="World\SpawnZone.cs" />
+    <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
