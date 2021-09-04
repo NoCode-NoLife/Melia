@@ -28,24 +28,8 @@ namespace Melia.Channel.Network.Helpers
 				packet.PutShort(16832);
 			}
 
-			// MONSTER
-			{
-				packet.PutInt(monster.Id);
-				packet.PutInt(0); // 600?
-				packet.PutInt(monster.MaxHp);
+			packet.AddMonsterBase(monster);
 
-				// [i11025 (2016-02-26)] Removed?
-				{
-					//packet.PutShort(0); // MaxShield?
-					//packet.PutEmptyBin(2);
-				}
-
-				packet.PutInt(monster.Level);
-				packet.PutFloat(monster.SDR);
-				packet.PutByte(0);
-				packet.PutEmptyBin(3);
-			}
-			packet.PutInt(0); // GenType
 			packet.PutInt(5); // Name Size?
 
 			//packet.PutShort(0); // parameters size
@@ -72,6 +56,25 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutLpString(""); // str3
 
 			packet.PutEmptyBin(0); // parameters
+		}
+
+		public static void AddMonsterBase(this Packet packet, Monster monster)
+		{
+			packet.PutInt(monster.Id);
+			packet.PutInt(0); // 600?
+			packet.PutInt(monster.MaxHp);
+
+			// [i11025 (2016-02-26)] Removed?
+			{
+				//packet.PutShort(0); // MaxShield?
+				//packet.PutEmptyBin(2);
+			}
+
+			packet.PutInt(monster.Level);
+			packet.PutFloat(monster.SDR);
+			packet.PutByte(0);
+			packet.PutEmptyBin(3);
+			packet.PutInt(0); // GenType
 		}
 	}
 }
