@@ -44,6 +44,7 @@ namespace Melia.Shared.Network
 
 			//
 			public const int Unknown_06 = 0x06;
+			public const int Skill_16 = 0x16;
 			public const int AttackCancel = 0x41;
 			public const int Skill_4E = 0x4E;
 			public const int SetSkillSpeed = 0x77;

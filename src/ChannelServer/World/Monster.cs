@@ -160,55 +160,21 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
+		/// <param name="type"></param>
 		/// <returns>If damage is fatal</returns>
-		public bool TakeDamage(int damage, Character from, Skill skill = null)
+		public bool TakeDamage(int damage, Character from, int type)
 		{
 			this.Hp -= damage;
-
-			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
-			// use SKILL, and this doesn't create a double hit effect like
-			// the other.
-			if (skill == null)
-			{
-				Send.ZC_SKILL_HIT_INFO(from, this, null, damage);
-			}
-			else
-			{
-				switch (skill.Data.SplashType)
-				{
-					case SplashType.Circle:
-						Send.ZC_SKILL_RANGE_CIRCLE(from, this, skill, this.Position);
-						break;
-				}
-				switch (skill.Data.UseType)
-				{
-					case SkillUseType.FORCE:
-						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
-						break;
-					case SkillUseType.MELEE_GROUND:
-						if (skill.Data.OverHeat != 0)
-							Send.ZC_OVERHEAT_CHANGED(from, skill);
-						if (skill.Data.CoolDown != 0)
-							Send.ZC_COOLDOWN_CHANGED(from, skill);
-						Send.ZC_SKILL_READY(from, skill, from.Position, this.Position);
-						Send.ZC_NORMAL_Skill_4E(from, skill.Id, 1);
-						Send.ZC_NORMAL_Skill(from, skill, this.Position, from.Direction, true);
-						Send.ZC_NORMAL_Unknown_06(from, this.Position);
-						Send.ZC_SYNC_START(from, 1234, 1);
-						Send.ZC_SYNC_END(from, 1234, 0);
-						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(from, 1234, skill.Data.HitDelay);
-						Send.ZC_SKILL_MELEE_GROUND(from, skill, this.Position.X, this.Position.Y, this.Position.Z, this, damage);
-						for (var i = 1; i < 10; i++)
-						{
-							Send.ZC_SYNC_START(from, 1234, 1);
-							Send.ZC_SYNC_END(from, 1234, 0);
-							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(from, 1234, skill.Data.HitDelay);
-						}
-						Send.ZC_SYNC_EXEC(from, 1234);
-						// Skill Cast Duration? Cancel's Visible Animation Otherwise you stay in casting animation
-						Send.ZC_SKILL_DELAY(from);
-						break;
-				}
+			// To Do switch to Enum for Visible Damage Packet?
+			switch (type) {
+				case 0:
+					break;
+				case 1:
+					Send.ZC_HIT_INFO(from, this, damage);
+					break;
+				default:
+					Send.ZC_SKILL_HIT_INFO(from, this, damage);
+					break;
 			}
 
 			if (this.Hp == 0)
@@ -266,6 +232,11 @@ namespace Melia.Channel.World
 			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
+		}
+
+		public override string ToString()
+		{
+			return this.Name + ": " + this.Handle.ToString() + ", " + "Type: " + this.NpcType;
 		}
 	}
 }

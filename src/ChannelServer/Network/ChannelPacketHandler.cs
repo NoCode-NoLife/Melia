@@ -897,7 +897,7 @@ namespace Melia.Channel.Network
 						}
 
 						var damage = character.GetRandomPAtk();
-						target.TakeDamage(damage, character);
+						target.TakeDamage(damage, character, 1);
 					}
 				}
 			}
@@ -919,35 +919,12 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Check skill
-			var skill = character.Skills.Get(skillId);
-			if (skill == null)
+			if (character.CanCast(skillId))
 			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
-				return;
+				var skill = character.Skills.Get(skillId);
+				var target = character.Map.GetMonster(targetHandle);
+				new TargetedSkillHandler().Handle(skill, character, target);
 			}
-
-			// Check target
-			var target = character.Map.GetMonster(targetHandle);
-			if (target == null || target.NpcType != NpcType.Monster)
-			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
-				return;
-			}
-
-			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			//Send.ZC_SKILL_READY(character, skillId);
-			if (skill.Data.OverHeat != 0)
-				Send.ZC_OVERHEAT_CHANGED(character, skill);
-			Send.ZC_PC_ATKSTATE(character, true);
-			Send.ZC_SKILL_READY(character, skill, character.Position, Shared.World.Position.Zero);
-			if (skill.Data.BasicSp != 0)
-				Send.ZC_UPDATE_SP(character, character.Sp - (int)(skill.Data.BasicSp + skill.Data.LvUpSpendSp));
-			var damage = character.GetRandomPAtk();
-
-			if (target.TakeDamage(damage, character, skill))
-				Send.ZC_SKILL_CAST_CANCEL(character, target);
-
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
 
@@ -968,7 +945,13 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.CastSkill(skillId, dx, dy);
+			if (character.CanCast(skillId))
+			{
+				var skill = character.Skills.Get(skillId);
+				new TargetedSkillHandler().Handle(skill, character, null);
+			}
+			
+			//character.CastSkill(skillId);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
 
@@ -1220,10 +1203,12 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 			var skill = character.Skills.Get(skillId);
-			if (skill != null)
+			if (character.CanCast(skillId))
 			{
-				Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
-				character.Map.GetAttackableMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
+				new GroundSkillHandler().Handle(skill, character, new Position(x2, y2, z2));
+				//Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
+
+				//character.Map.GetAttackableMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
 				// Broadcast action to all?
 			}
 

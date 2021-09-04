@@ -126,7 +126,7 @@ namespace Melia.Shared.Data.Database
 
 			info.OverHeat = entry.ReadInt("overheat", 0);
 			info.OverHeatDelay = entry.ReadInt("overheatDelay", 0);
-			info.OverHeatGroup = entry.ReadString("overheatGroup", null);
+			info.OverHeatGroup = entry.ReadString("overheatGroup");
 
 			this.Entries[info.Id] = info;
 		}
