@@ -2,8 +2,6 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -30,16 +28,16 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("buffId", "className", "name", "level", "duration", "buffExpUp");
+			entry.AssertNotMissing("id", "className", "name", "level", "duration", "buffExpUp", "removable", "removeOnDeath", "removeBySkill", "updateProperties");
 
 			var info = new BuffData();
 
-			info.Id = entry.ReadInt("buffId");
+			info.Id = entry.ReadInt("id");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
 			info.Level = entry.ReadInt("level");
-			info.Duration = entry.ReadFloat("duration");
-			info.BuffUpExp = entry.ReadFloat("buffExpUp");
+			info.Duration = entry.ReadInt("duration");
+			info.BuffUpExp = entry.ReadInt("buffExpUp");
 			info.Removable = entry.ReadBool("removable");
 			info.RemoveOnDeath = entry.ReadBool("removeOnDeath");
 			info.RemoveBySkill = entry.ReadBool("removeBySkill");
