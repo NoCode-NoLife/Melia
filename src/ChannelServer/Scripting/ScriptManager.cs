@@ -27,10 +27,10 @@ namespace Melia.Channel.Scripting
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 		private static readonly Regex VarNameCheck = new Regex(@"^[a-z][a-z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-		private IntPtr GL;
-		private object _glSyncLock = new object();
+		private IntPtr _gL;
+		private readonly object _glSyncLock = new object();
 
-		private Dictionary<IntPtr, ScriptState> _states;
+		private readonly Dictionary<IntPtr, ScriptState> _states = new Dictionary<IntPtr, ScriptState>();
 
 		private Timer _globalVarSaver;
 		private DateTime _lastVarChange;
@@ -48,17 +48,7 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Global scripting variables.
 		/// </summary>
-		public Variables Variables { get; protected set; }
-
-		/// <summary>
-		/// Creates new script manager.
-		/// </summary>
-		public ScriptManager()
-		{
-			_states = new Dictionary<IntPtr, ScriptState>();
-
-			this.Variables = new Variables();
-		}
+		public Variables Variables { get; protected set; } = new Variables();
 
 		/// <summary>
 		/// Initializes scripting environment.
@@ -74,9 +64,9 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		private void InitializeLua()
 		{
-			GL = Melua.luaL_newstate();
+			_gL = Melua.luaL_newstate();
 
-			Melua.melua_openlib(GL, new[]
+			Melua.melua_openlib(_gL, new[]
 			{
 				new Melua.LuaLib("", Melua.meluaopen_basesafe),
 				new Melua.LuaLib("table", Melua.luaopen_table),
@@ -84,7 +74,7 @@ namespace Melia.Channel.Scripting
 				new Melua.LuaLib("math", Melua.luaopen_math),
 			});
 
-			Melua.lua_atpanic(GL, Melua.CreateFunctionReference(GL, this.OnPanic));
+			Melua.lua_atpanic(_gL, Melua.CreateFunctionReference(_gL, this.OnPanic));
 
 			this.RegisterFunctions();
 		}
@@ -124,8 +114,8 @@ namespace Melia.Channel.Scripting
 		/// <param name="function"></param>
 		private void Register(Melua.LuaNativeFunction function)
 		{
-			var func = Melua.CreateFunctionReference(GL, function);
-			Melua.lua_register(GL, function.Method.Name, func);
+			var func = Melua.CreateFunctionReference(_gL, function);
+			Melua.lua_register(_gL, function.Method.Name, func);
 		}
 
 		/// <summary>
@@ -227,17 +217,17 @@ namespace Melia.Channel.Scripting
 			}
 
 			// Load file
-			var result = Melua.luaL_loadfile(GL, filePath);
+			var result = Melua.luaL_loadfile(_gL, filePath);
 			if (result != 0)
 			{
-				Log.Error("ScriptManager.LoadFile: Failed to compile '{0}' (Error code: {1}).\n{2}", filePath, result, Melua.lua_tostring(GL, -1));
+				Log.Error("ScriptManager.LoadFile: Failed to compile '{0}' (Error code: {1}).\n{2}", filePath, result, Melua.lua_tostring(_gL, -1));
 				return false;
 			}
 
 			// Execute it
-			if (Melua.lua_pcall(GL, 0, 0, 0) != 0)
+			if (Melua.lua_pcall(_gL, 0, 0, 0) != 0)
 			{
-				Log.Error("ScriptManager.LoadFile: Failed to load '{0}'.\n{1}", filePath, Melua.lua_tostring(GL, -1));
+				Log.Error("ScriptManager.LoadFile: Failed to load '{0}'.\n{1}", filePath, Melua.lua_tostring(_gL, -1));
 				return false;
 			}
 
@@ -260,8 +250,8 @@ namespace Melia.Channel.Scripting
 			lock (_glSyncLock)
 			{
 				// Create new thread and save index, so it can be removed later.
-				NL = Melua.lua_newthread(GL);
-				index = Melua.lua_gettop(GL);
+				NL = Melua.lua_newthread(_gL);
+				index = Melua.lua_gettop(_gL);
 			}
 
 			lock (_states)
@@ -284,7 +274,7 @@ namespace Melia.Channel.Scripting
 			{
 				// Remove thread from stack and update all stack indexes,
 				// as the removal will shift all following elements.
-				Melua.lua_remove(GL, thread.StackIndex);
+				Melua.lua_remove(_gL, thread.StackIndex);
 
 				lock (_states)
 				{
@@ -361,7 +351,7 @@ namespace Melia.Channel.Scripting
 			// Prepare thread
 			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
 			var NL = conn.ScriptState.LuaThread.L;
-			var top = Melua.lua_gettop(GL);
+			var top = Melua.lua_gettop(_gL);
 
 			// Get function
 			Melua.lua_getglobal(NL, functionName);
@@ -459,7 +449,7 @@ namespace Melia.Channel.Scripting
 			conn.ScriptState.LuaThread = this.GetNewThread(conn.ScriptState);
 
 			var NL = conn.ScriptState.LuaThread.L;
-			var top = Melua.lua_gettop(GL);
+			var top = Melua.lua_gettop(_gL);
 
 			// Get function
 			Melua.lua_getglobal(NL, functionName);
