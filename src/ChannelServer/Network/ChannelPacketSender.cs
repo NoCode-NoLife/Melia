@@ -1293,9 +1293,19 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(0); // handle?
 			packet.PutByte((byte)arguments.Length);
-			packet.PutByte(1); // [i171032] ?
-			packet.PutByte(1); // [i337645] ?
+
+			// If both bytes are 0, the message before the selection is
+			// displayed as expected. First the message, then the options
+			// pop up. If only the first byte is 1, the options and the
+			// message both immediately appear together, and if only the
+			// second byte is set, only the NPC portrait appears. If both
+			// are 1, only the options appear, without message.
+			// This might be useful for selection boxes without dialog.
+			packet.PutByte(0); // [i171032] ?
+			packet.PutByte(0); // [i337645] ?
+
 			packet.PutShort(0); // [i337645] ?
+
 			foreach (var arg in arguments)
 				packet.PutLpString(arg);
 
