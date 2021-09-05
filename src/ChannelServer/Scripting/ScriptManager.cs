@@ -26,6 +26,7 @@ namespace Melia.Channel.Scripting
 
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 		private static readonly Regex VarNameCheck = new Regex(@"^[a-z][a-z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		private IntPtr _gL;
 		private readonly object _glSyncLock = new object();
@@ -574,7 +575,20 @@ namespace Melia.Channel.Scripting
 			// Prepend NPC name if no seperator is present, otherwise no name
 			// will be displayed.
 			if (!msg.Contains(NpcNameSeperator) && !msg.Contains(NpcDialogTextSeperator) && conn.ScriptState.CurrentNpc != null)
-				msg = conn.ScriptState.CurrentNpc.Name + NpcNameSeperator + msg;
+			{
+				// Since NPCs often times use a two line name, with a
+				// tag and their actual name, we need to remove excess
+				// whitespaces and line breaks from it, so it displays
+				// properly, in one line, during the dialog.
+				// Could possibly be done once on creation.
+				var dialogDisplayName = conn.ScriptState.CurrentNpc.Name;
+				dialogDisplayName = dialogDisplayName.Replace("{nl}", "");
+				dialogDisplayName = dialogDisplayName.Replace("[", "");
+				dialogDisplayName = dialogDisplayName.Replace("]", "");
+				dialogDisplayName = ReplaceWhitespace.Replace(dialogDisplayName, " ");
+
+				msg = dialogDisplayName + NpcNameSeperator + msg;
+			}
 		}
 
 		/// <summary>
