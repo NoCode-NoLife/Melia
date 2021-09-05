@@ -5,7 +5,7 @@ using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using MeluaLib;
+using static MeluaLib.Melua;
 using MySql.Data.MySqlClient;
 
 namespace Melia.Channel.Scripting
@@ -78,8 +78,8 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int logdebug(IntPtr L)
 		{
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var msg = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			Log.Debug(msg);
 
@@ -117,20 +117,20 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addnpc(IntPtr L)
 		{
-			var monsterId = Melua.luaL_checkinteger(L, 1);
-			var name = Melua.luaL_checkstring(L, 2);
-			var mapName = Melua.luaL_checkstring(L, 3);
-			var x = (float)Melua.luaL_checknumber(L, 4);
-			var y = (float)Melua.luaL_checknumber(L, 5);
-			var z = (float)Melua.luaL_checknumber(L, 6);
-			var direction = Melua.luaL_checkinteger(L, 7);
-			var dialog = Melua.luaL_checkstring(L, 8);
+			var monsterId = luaL_checkinteger(L, 1);
+			var name = luaL_checkstring(L, 2);
+			var mapName = luaL_checkstring(L, 3);
+			var x = (float)luaL_checknumber(L, 4);
+			var y = (float)luaL_checknumber(L, 5);
+			var z = (float)luaL_checknumber(L, 6);
+			var direction = luaL_checkinteger(L, 7);
+			var dialog = luaL_checkstring(L, 8);
 
-			Melua.lua_pop(L, 8);
+			lua_pop(L, 8);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
-				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
+				return melua_error(L, "Map '{0}' not found.", mapName);
 
 			// Wrap name in localization code if applicable
 			if (this.IsLocalizationKey(name))
@@ -177,35 +177,35 @@ namespace Melia.Channel.Scripting
 		{
 			//addspawn("Onion", 10, "f_siauliai_west", { x = -600, y = 260, z = -1000, width = 30, height = 30 })
 
-			var monsterClassName = Melua.luaL_checkstring(L, 1);
-			var amount = Melua.luaL_checkinteger(L, 2);
-			var respawnDelayMs = Melua.luaL_checkinteger(L, 3);
-			var mapClassName = Melua.luaL_checkstring(L, 4);
+			var monsterClassName = luaL_checkstring(L, 1);
+			var amount = luaL_checkinteger(L, 2);
+			var respawnDelayMs = luaL_checkinteger(L, 3);
+			var mapClassName = luaL_checkstring(L, 4);
 
-			Melua.luaL_checktype(L, 5, Melua.LUA_TTABLE);
+			luaL_checktype(L, 5, LUA_TTABLE);
 
-			Melua.lua_getfield(L, 5, "x");
-			var x = (float)Melua.luaL_checknumber(L, -1);
+			lua_getfield(L, 5, "x");
+			var x = (float)luaL_checknumber(L, -1);
 
-			Melua.lua_getfield(L, 5, "y");
-			var y = (float)Melua.luaL_checknumber(L, -1);
+			lua_getfield(L, 5, "y");
+			var y = (float)luaL_checknumber(L, -1);
 
-			Melua.lua_getfield(L, 5, "z");
-			var z = (float)Melua.luaL_checknumber(L, -1);
+			lua_getfield(L, 5, "z");
+			var z = (float)luaL_checknumber(L, -1);
 
-			Melua.lua_getfield(L, 5, "width");
-			var width = (float)Melua.luaL_checknumber(L, -1);
+			lua_getfield(L, 5, "width");
+			var width = (float)luaL_checknumber(L, -1);
 
-			Melua.lua_getfield(L, 5, "height");
-			var height = (float)Melua.luaL_checknumber(L, -1);
+			lua_getfield(L, 5, "height");
+			var height = (float)luaL_checknumber(L, -1);
 
-			Melua.lua_settop(L, 0);
+			lua_settop(L, 0);
 
 			if (!ChannelServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _))
-				return Melua.melua_error(L, "addspawn: Monster '{0}'  not found.", monsterClassName);
+				return melua_error(L, "addspawn: Monster '{0}'  not found.", monsterClassName);
 
 			if (!ChannelServer.Instance.World.TryGetMap(mapClassName, out var map))
-				return Melua.melua_error(L, "addspawn: Map '{0}' for '{1}' spawn not found.", mapClassName, monsterClassName);
+				return melua_error(L, "addspawn: Map '{0}' for '{1}' spawn not found.", mapClassName, monsterClassName);
 
 			var area = new Position[]
 			{
@@ -247,33 +247,33 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addwarp(IntPtr L)
 		{
-			var warpName = Melua.luaL_checkstring(L, 1);
-			var direction = Melua.luaL_checknumber(L, 2);
-			var fromMapName = Melua.luaL_checkstring(L, 3);
-			var fromX = (float)Melua.luaL_checknumber(L, 4);
-			var fromY = (float)Melua.luaL_checknumber(L, 5);
-			var fromZ = (float)Melua.luaL_checknumber(L, 6);
-			var toMapName = Melua.luaL_checkstring(L, 7);
-			var toX = (float)Melua.luaL_checknumber(L, 8);
-			var toY = (float)Melua.luaL_checknumber(L, 9);
-			var toZ = (float)Melua.luaL_checknumber(L, 10);
+			var warpName = luaL_checkstring(L, 1);
+			var direction = luaL_checknumber(L, 2);
+			var fromMapName = luaL_checkstring(L, 3);
+			var fromX = (float)luaL_checknumber(L, 4);
+			var fromY = (float)luaL_checknumber(L, 5);
+			var fromZ = (float)luaL_checknumber(L, 6);
+			var toMapName = luaL_checkstring(L, 7);
+			var toX = (float)luaL_checknumber(L, 8);
+			var toY = (float)luaL_checknumber(L, 9);
+			var toZ = (float)luaL_checknumber(L, 10);
 
-			Melua.lua_pop(L, 10);
+			lua_pop(L, 10);
 
 			// Check "from" map data
 			var fromMapData = ChannelServer.Instance.Data.MapDb.Find(fromMapName);
 			if (fromMapData == null)
-				return Melua.melua_error(L, "Map '{0}' not found in data.", fromMapName);
+				return melua_error(L, "Map '{0}' not found in data.", fromMapName);
 
 			// Check map in world
 			var map = ChannelServer.Instance.World.GetMap(fromMapData.Id);
 			if (map == null)
-				return Melua.melua_error(L, "Map '{0}' not found in world.", fromMapName);
+				return melua_error(L, "Map '{0}' not found in world.", fromMapName);
 
 			// Check "to" map data
 			var toMapData = ChannelServer.Instance.Data.MapDb.Find(toMapName);
 			if (toMapData == null)
-				return Melua.melua_error(L, "Map '{0}' not found in data.", toMapName);
+				return melua_error(L, "Map '{0}' not found in data.", toMapName);
 
 			// It would be pointless to check the "to map in world" here,
 			// since the target map could easily be on an entirely different
@@ -314,15 +314,15 @@ namespace Melia.Channel.Scripting
 		{
 			var conn = this.GetConnectionFromState(L);
 
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var msg = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_OK(conn, msg);
 
-			return Melua.lua_yield(L, 0);
+			return lua_yield(L, 0);
 		}
 
 		/// <summary>
@@ -345,11 +345,11 @@ namespace Melia.Channel.Scripting
 		private int select(IntPtr L)
 		{
 			// Check arguments and return 0 on error
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 			if (argc == 0)
 			{
 				Log.Warning("select: No arguments.");
-				Melua.lua_pushinteger(L, 0);
+				lua_pushinteger(L, 0);
 				return 1;
 			}
 
@@ -360,7 +360,7 @@ namespace Melia.Channel.Scripting
 			var args = new string[argc];
 			for (var i = 1; i <= argc; ++i)
 			{
-				var arg = Melua.luaL_checkstring(L, i);
+				var arg = luaL_checkstring(L, i);
 				this.HandleCustomCode(conn, ref arg);
 				args[i - 1] = arg;
 			}
@@ -368,13 +368,13 @@ namespace Melia.Channel.Scripting
 			if (argc > 12)
 				Log.Warning("ScriptManager.select: {0} options given, but the client only displays 11.", argc - 1);
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			this.AttachNpcName(conn, ref args[0]);
 
 			Send.ZC_DIALOG_SELECT(conn, args);
 
-			return Melua.lua_yield(L, 1);
+			return lua_yield(L, 1);
 		}
 
 		/// <summary>
@@ -394,26 +394,26 @@ namespace Melia.Channel.Scripting
 		private int input(IntPtr L)
 		{
 			// Check arguments and return empty string on error
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 			if (argc == 0)
 			{
 				Log.Warning("input: No arguments.");
-				Melua.lua_pushstring(L, "");
+				lua_pushstring(L, "");
 				return 1;
 			}
 
 			var conn = this.GetConnectionFromState(L);
 
 			// Get message
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var msg = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_STRINGINPUT(conn, msg);
 
-			return Melua.lua_yield(L, 1);
+			return lua_yield(L, 1);
 		}
 
 		/// <summary>
@@ -438,11 +438,11 @@ namespace Melia.Channel.Scripting
 		private int numinput(IntPtr L)
 		{
 			// Check arguments and return 0 on error
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 			if (argc == 0)
 			{
 				Log.Warning("numinput: No arguments.");
-				Melua.lua_pushinteger(L, 0);
+				lua_pushinteger(L, 0);
 				return 1;
 			}
 
@@ -451,21 +451,21 @@ namespace Melia.Channel.Scripting
 			int min = 0, max = 255;
 
 			// Get arguments
-			var msg = Melua.luaL_checkstring(L, 1);
+			var msg = luaL_checkstring(L, 1);
 			if (argc >= 3)
 			{
-				min = Melua.luaL_checkinteger(L, 2);
-				max = Melua.luaL_checkinteger(L, 3);
+				min = luaL_checkinteger(L, 2);
+				max = luaL_checkinteger(L, 3);
 			}
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
 
 			Send.ZC_DIALOG_NUMBERRANGE(conn, msg, min, max);
 
-			return Melua.lua_yield(L, 1);
+			return lua_yield(L, 1);
 		}
 
 		/// <summary>
@@ -528,103 +528,103 @@ namespace Melia.Channel.Scripting
 
 			// Character data
 			// --------------------------------------------------------------
-			Melua.lua_newtable(L);
+			lua_newtable(L);
 
-			Melua.lua_pushstring(L, "name");
-			Melua.lua_pushstring(L, character.Name);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "name");
+			lua_pushstring(L, character.Name);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "teamname");
-			Melua.lua_pushstring(L, character.TeamName);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "teamname");
+			lua_pushstring(L, character.TeamName);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "gender");
-			Melua.lua_pushinteger(L, (int)character.Gender);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "gender");
+			lua_pushinteger(L, (int)character.Gender);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "level");
-			Melua.lua_pushinteger(L, character.Level);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "level");
+			lua_pushinteger(L, character.Level);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "classlevel");
-			Melua.lua_pushinteger(L, character.ClassLevel);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "classlevel");
+			lua_pushinteger(L, character.ClassLevel);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "hp");
-			Melua.lua_pushinteger(L, character.Hp);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "hp");
+			lua_pushinteger(L, character.Hp);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "maxhp");
-			Melua.lua_pushinteger(L, character.MaxHp);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "maxhp");
+			lua_pushinteger(L, character.MaxHp);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "sp");
-			Melua.lua_pushinteger(L, character.Sp);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "sp");
+			lua_pushinteger(L, character.Sp);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "maxsp");
-			Melua.lua_pushinteger(L, character.MaxSp);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "maxsp");
+			lua_pushinteger(L, character.MaxSp);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "stamina");
-			Melua.lua_pushinteger(L, character.Stamina);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "stamina");
+			lua_pushinteger(L, character.Stamina);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "maxstamina");
-			Melua.lua_pushinteger(L, character.MaxStamina);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "maxstamina");
+			lua_pushinteger(L, character.MaxStamina);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "hair");
-			Melua.lua_pushinteger(L, character.Hair);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "hair");
+			lua_pushinteger(L, character.Hair);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "job");
-			Melua.lua_pushinteger(L, (int)character.JobId);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "job");
+			lua_pushinteger(L, (int)character.JobId);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "jobclass");
-			Melua.lua_pushinteger(L, (int)character.JobClass);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "jobclass");
+			lua_pushinteger(L, (int)character.JobClass);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "rank");
-			Melua.lua_pushinteger(L, (int)character.Jobs.GetCurrentRank());
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "rank");
+			lua_pushinteger(L, (int)character.Jobs.GetCurrentRank());
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "jobs");
-			Melua.lua_newtable(L);
+			lua_pushstring(L, "jobs");
+			lua_newtable(L);
 			foreach (var job in character.Jobs.GetList())
 			{
-				Melua.lua_pushinteger(L, (int)job.Id);
-				Melua.lua_newtable(L);
+				lua_pushinteger(L, (int)job.Id);
+				lua_newtable(L);
 				{
-					Melua.lua_pushstring(L, "circle");
-					Melua.lua_pushinteger(L, (int)job.Circle);
-					Melua.lua_settable(L, -3);
+					lua_pushstring(L, "circle");
+					lua_pushinteger(L, (int)job.Circle);
+					lua_settable(L, -3);
 
-					Melua.lua_pushstring(L, "skillpoints");
-					Melua.lua_pushinteger(L, job.SkillPoints);
-					Melua.lua_settable(L, -3);
+					lua_pushstring(L, "skillpoints");
+					lua_pushinteger(L, job.SkillPoints);
+					lua_settable(L, -3);
 				}
-				Melua.lua_settable(L, -3);
+				lua_settable(L, -3);
 			}
-			Melua.lua_settable(L, -3);
+			lua_settable(L, -3);
 
 			// Account data
 			// --------------------------------------------------------------
-			Melua.lua_newtable(L);
+			lua_newtable(L);
 
-			Melua.lua_pushstring(L, "name");
-			Melua.lua_pushstring(L, conn.Account.Name);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "name");
+			lua_pushstring(L, conn.Account.Name);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "auth");
-			Melua.lua_pushinteger(L, conn.Account.Authority);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "auth");
+			lua_pushinteger(L, conn.Account.Authority);
+			lua_settable(L, -3);
 
 			// Put account table into character table
-			Melua.lua_pushstring(L, "account");
-			Melua.lua_insert(L, -2);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "account");
+			lua_insert(L, -2);
+			lua_settable(L, -3);
 
 			return 1;
 		}
@@ -646,15 +646,15 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.ScriptState.CurrentNpc;
 
-			Melua.lua_newtable(L);
+			lua_newtable(L);
 
-			Melua.lua_pushstring(L, "name");
-			Melua.lua_pushstring(L, character.Name);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "name");
+			lua_pushstring(L, character.Name);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "dialogName");
-			Melua.lua_pushstring(L, character.DialogName);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "dialogName");
+			lua_pushstring(L, character.DialogName);
+			lua_settable(L, -3);
 
 			return 1;
 		}
@@ -684,51 +684,51 @@ namespace Melia.Channel.Scripting
 		{
 			var now = DateTime.Now;
 
-			Melua.lua_newtable(L);
+			lua_newtable(L);
 
-			Melua.lua_pushstring(L, "year");
-			Melua.lua_pushinteger(L, now.Year);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "year");
+			lua_pushinteger(L, now.Year);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "month");
-			Melua.lua_pushinteger(L, now.Month);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "month");
+			lua_pushinteger(L, now.Month);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "day");
-			Melua.lua_pushinteger(L, now.Day);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "day");
+			lua_pushinteger(L, now.Day);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "weekday");
-			Melua.lua_pushinteger(L, (int)now.DayOfWeek);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "weekday");
+			lua_pushinteger(L, (int)now.DayOfWeek);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "yearday");
-			Melua.lua_pushinteger(L, now.DayOfYear);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "yearday");
+			lua_pushinteger(L, now.DayOfYear);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "hour");
-			Melua.lua_pushinteger(L, now.Hour);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "hour");
+			lua_pushinteger(L, now.Hour);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "min");
-			Melua.lua_pushinteger(L, now.Minute);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "min");
+			lua_pushinteger(L, now.Minute);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "sec");
-			Melua.lua_pushinteger(L, now.Second);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "sec");
+			lua_pushinteger(L, now.Second);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "msec");
-			Melua.lua_pushinteger(L, now.Millisecond);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "msec");
+			lua_pushinteger(L, now.Millisecond);
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "isdst");
-			Melua.lua_pushboolean(L, now.IsDaylightSavingTime());
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "isdst");
+			lua_pushboolean(L, now.IsDaylightSavingTime());
+			lua_settable(L, -3);
 
-			Melua.lua_pushstring(L, "unixts");
-			Melua.lua_pushinteger(L, (int)(now.ToUniversalTime().Subtract(UnixEpoch)).TotalSeconds);
-			Melua.lua_settable(L, -3);
+			lua_pushstring(L, "unixts");
+			lua_pushinteger(L, (int)(now.ToUniversalTime().Subtract(UnixEpoch)).TotalSeconds);
+			lua_settable(L, -3);
 
 			return 1;
 		}
@@ -749,12 +749,12 @@ namespace Melia.Channel.Scripting
 		{
 			var conn = this.GetConnectionFromState(L);
 
-			var mapName = Melua.luaL_checkstring(L, 1);
-			var x = (float)Melua.luaL_checknumber(L, 2);
-			var y = (float)Melua.luaL_checknumber(L, 3);
-			var z = (float)Melua.luaL_checknumber(L, 4);
+			var mapName = luaL_checkstring(L, 1);
+			var x = (float)luaL_checknumber(L, 2);
+			var y = (float)luaL_checknumber(L, 3);
+			var z = (float)luaL_checknumber(L, 4);
 
-			Melua.lua_pop(L, 4);
+			lua_pop(L, 4);
 
 			try
 			{
@@ -762,8 +762,8 @@ namespace Melia.Channel.Scripting
 			}
 			catch (ArgumentException ex)
 			{
-				Melua.lua_pushstring(L, ex.Message);
-				Melua.lua_error(L);
+				lua_pushstring(L, ex.Message);
+				lua_error(L);
 			}
 
 			return 0;
@@ -824,9 +824,9 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var hairId = Melua.luaL_checkinteger(L, 1);
+			var hairId = luaL_checkinteger(L, 1);
 
-			Melua.lua_pop(L, 1);
+			lua_pop(L, 1);
 
 			character.Hair = (byte)hairId;
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
@@ -849,17 +849,17 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int spawn(IntPtr L)
 		{
-			var monsterId = Melua.luaL_checkinteger(L, 1);
-			var mapName = Melua.luaL_checkstring(L, 2);
-			var x = (float)Melua.luaL_checknumber(L, 3);
-			var y = (float)Melua.luaL_checknumber(L, 4);
-			var z = (float)Melua.luaL_checknumber(L, 5);
+			var monsterId = luaL_checkinteger(L, 1);
+			var mapName = luaL_checkstring(L, 2);
+			var x = (float)luaL_checknumber(L, 3);
+			var y = (float)luaL_checknumber(L, 4);
+			var z = (float)luaL_checknumber(L, 5);
 
-			Melua.lua_pop(L, 5);
+			lua_pop(L, 5);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
-				return Melua.melua_error(L, "Map '{0}' not found.", mapName);
+				return melua_error(L, "Map '{0}' not found.", mapName);
 
 			var monster = new Monster(monsterId, NpcType.Monster);
 			monster.Position = new Position(x, y, z);
@@ -883,19 +883,19 @@ namespace Melia.Channel.Scripting
 		{
 			var conn = this.GetConnectionFromState(L);
 
-			var shopName = Melua.luaL_checkstring(L, 1);
+			var shopName = luaL_checkstring(L, 1);
 			if (shopName.Length > 32)
 				shopName = shopName.Substring(0, 32);
 
-			Melua.lua_pop(L, 1);
+			lua_pop(L, 1);
 
 			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
-				return Melua.melua_error(L, "Shop '{0}' not found.", shopName);
+				return melua_error(L, "Shop '{0}' not found.", shopName);
 
 			conn.ScriptState.CurrentShop = shopName;
 			Send.ZC_DIALOG_TRADE(conn, shopName);
 
-			return Melua.lua_yield(L, 0);
+			return lua_yield(L, 0);
 		}
 
 		/// Returns true if character has items with the given id.
@@ -914,11 +914,11 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = Melua.luaL_checkinteger(L, 1);
-			Melua.lua_pop(L, 1);
+			var itemId = luaL_checkinteger(L, 1);
+			lua_pop(L, 1);
 
 			var result = character.Inventory.HasItem(itemId);
-			Melua.lua_pushboolean(L, result);
+			lua_pushboolean(L, result);
 
 			return 1;
 		}
@@ -940,11 +940,11 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = Melua.luaL_checkinteger(L, 1);
-			Melua.lua_pop(L, 1);
+			var itemId = luaL_checkinteger(L, 1);
+			lua_pop(L, 1);
 
 			var result = character.Inventory.CountItem(itemId);
-			Melua.lua_pushinteger(L, result);
+			lua_pushinteger(L, result);
 
 			return 1;
 		}
@@ -964,13 +964,13 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = Melua.luaL_checkinteger(L, 1);
-			var amount = Melua.luaL_checkinteger(L, 2);
-			Melua.lua_pop(L, 2);
+			var itemId = luaL_checkinteger(L, 1);
+			var amount = luaL_checkinteger(L, 2);
+			lua_pop(L, 2);
 
 			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
 			if (itemData == null)
-				return Melua.melua_error(L, "Unknown item id.");
+				return melua_error(L, "Unknown item id.");
 
 			try
 			{
@@ -979,7 +979,7 @@ namespace Melia.Channel.Scripting
 			catch (Exception ex)
 			{
 				Log.Exception(ex);
-				return Melua.melua_error(L, "Failed to add item to inventory.");
+				return melua_error(L, "Failed to add item to inventory.");
 			}
 
 			return 0;
@@ -1004,18 +1004,18 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = Melua.luaL_checkinteger(L, 1);
-			var amount = Melua.luaL_checkinteger(L, 2);
-			Melua.lua_pop(L, 2);
+			var itemId = luaL_checkinteger(L, 1);
+			var amount = luaL_checkinteger(L, 2);
+			lua_pop(L, 2);
 
 			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
 			if (itemData == null)
-				return Melua.melua_error(L, "Unknown item id.");
+				return melua_error(L, "Unknown item id.");
 
 			amount = Math.Max(0, amount);
 
 			var removed = character.Inventory.Remove(itemId, amount, InventoryItemRemoveMsg.Given);
-			Melua.lua_pushinteger(L, removed);
+			lua_pushinteger(L, removed);
 
 			return 1;
 		}
@@ -1034,10 +1034,10 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var amount = Melua.luaL_checkinteger(L, 1);
+			var amount = luaL_checkinteger(L, 1);
 
 			if (amount < 0)
-				return Melua.melua_error(L, "Amount must be greater than 0.");
+				return melua_error(L, "Amount must be greater than 0.");
 
 			character.LevelUp(amount);
 
@@ -1078,23 +1078,23 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			// Get parameters
-			var argc = Melua.lua_gettop(L);
-			var name = Melua.luaL_checkstring(L, 1).Trim();
+			var argc = lua_gettop(L);
+			var name = luaL_checkstring(L, 1).Trim();
 
 			object value = null;
 			if (argc == 2)
 			{
-				if (Melua.lua_isnumber(L, 2))
-					value = Melua.lua_tonumber(L, 2);
-				else if (Melua.lua_isstring(L, 2))
-					value = Melua.lua_tostring(L, 2);
-				else if (Melua.lua_isboolean(L, 2))
-					value = Melua.lua_toboolean(L, 2);
+				if (lua_isnumber(L, 2))
+					value = lua_tonumber(L, 2);
+				else if (lua_isstring(L, 2))
+					value = lua_tostring(L, 2);
+				else if (lua_isboolean(L, 2))
+					value = lua_toboolean(L, 2);
 				else
-					return Melua.melua_error(L, "Unsupported variable type.");
+					return melua_error(L, "Unsupported variable type.");
 			}
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			// Get variable manager and trim name
 			VariableManager vars;
@@ -1127,7 +1127,7 @@ namespace Melia.Channel.Scripting
 			// Check name syntax, if we want to add more prefixes later on,
 			// we can't have special characters in names.
 			if (!VarNameCheck.IsMatch(name))
-				return Melua.melua_error(L, "Invalid variable name.");
+				return melua_error(L, "Invalid variable name.");
 
 			// Update or get value
 			if (value == null)
@@ -1138,15 +1138,15 @@ namespace Melia.Channel.Scripting
 			// Push return value
 			switch (value)
 			{
-				case null: Melua.lua_pushnil(L); break;
-				case string v: Melua.lua_pushstring(L, v); ; break;
-				case double v: Melua.lua_pushnumber(L, v); ; break;
-				case float v: Melua.lua_pushnumber(L, v); ; break;
-				case int v: Melua.lua_pushinteger(L, v); ; break;
-				case bool v: Melua.lua_pushboolean(L, v); ; break;
+				case null: lua_pushnil(L); break;
+				case string v: lua_pushstring(L, v); ; break;
+				case double v: lua_pushnumber(L, v); ; break;
+				case float v: lua_pushnumber(L, v); ; break;
+				case int v: lua_pushinteger(L, v); ; break;
+				case bool v: lua_pushboolean(L, v); ; break;
 
 				default:
-					return Melua.melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
+					return melua_error(L, "Unsupported variable type '{0}'.", value.GetType().Name);
 			}
 
 			return 1;
@@ -1168,21 +1168,21 @@ namespace Melia.Channel.Scripting
 		private int isjob(IntPtr L)
 		{
 			// Get parameters
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 
-			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+			var jobId = (JobId)luaL_checkint(L, 1);
 			var circle = Circle.First;
 
 			if (argc > 1)
-				circle = (Circle)Melua.luaL_checkint(L, 2);
+				circle = (Circle)luaL_checkint(L, 2);
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			// Return
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			Melua.lua_pushboolean(L, character.Jobs.Has(jobId, circle));
+			lua_pushboolean(L, character.Jobs.Has(jobId, circle));
 
 			return 1;
 		}
@@ -1202,17 +1202,17 @@ namespace Melia.Channel.Scripting
 		private int isjobclass(IntPtr L)
 		{
 			// Get parameters
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 
-			var jobClass = (JobClass)Melua.luaL_checkint(L, 1);
+			var jobClass = (JobClass)luaL_checkint(L, 1);
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			// Return
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			Melua.lua_pushboolean(L, character.JobClass == jobClass);
+			lua_pushboolean(L, character.JobClass == jobClass);
 
 			return 1;
 		}
@@ -1230,15 +1230,15 @@ namespace Melia.Channel.Scripting
 		private int addjob(IntPtr L)
 		{
 			// Get parameters
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 
-			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+			var jobId = (JobId)luaL_checkint(L, 1);
 			var circle = Circle.First;
 
 			if (argc > 1)
-				circle = (Circle)Melua.luaL_checkint(L, 2);
+				circle = (Circle)luaL_checkint(L, 2);
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			// Add job
 			var conn = this.GetConnectionFromState(L);
@@ -1262,11 +1262,11 @@ namespace Melia.Channel.Scripting
 		private int removejob(IntPtr L)
 		{
 			// Get parameters
-			var argc = Melua.lua_gettop(L);
+			var argc = lua_gettop(L);
 
-			var jobId = (JobId)Melua.luaL_checkint(L, 1);
+			var jobId = (JobId)luaL_checkint(L, 1);
 
-			Melua.lua_pop(L, argc);
+			lua_pop(L, argc);
 
 			// Remove job
 			var conn = this.GetConnectionFromState(L);
@@ -1302,8 +1302,8 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int sqlquery(IntPtr L)
 		{
-			var sqlQuery = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var sqlQuery = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			List<Dictionary<string, object>> result;
 			int affectedRows;
@@ -1315,43 +1315,43 @@ namespace Melia.Channel.Scripting
 			}
 			catch (Exception ex)
 			{
-				return Melua.melua_error(L, "Failed to execute SQL query: {0}", ex.Message);
+				return melua_error(L, "Failed to execute SQL query: {0}", ex.Message);
 			}
 
-			Melua.lua_newtable(L);
+			lua_newtable(L);
 
 			var key = 1;
 			foreach (var row in result)
 			{
 				// Prepare table for new row's values
-				Melua.lua_pushinteger(L, key++);
-				Melua.lua_newtable(L);
+				lua_pushinteger(L, key++);
+				lua_newtable(L);
 
 				foreach (var field in row)
 				{
 					// Push key and value to row's table
-					Melua.lua_pushstring(L, field.Key);
+					lua_pushstring(L, field.Key);
 					switch (field.Value)
 					{
-						case sbyte value: Melua.lua_pushinteger(L, value); break;
-						case byte value: Melua.lua_pushinteger(L, value); break;
-						case short value: Melua.lua_pushinteger(L, value); break;
-						case ushort value: Melua.lua_pushinteger(L, value); break;
-						case int value: Melua.lua_pushinteger(L, value); break;
-						case uint value: Melua.lua_pushinteger(L, (int)value); break;
-						case float value: Melua.lua_pushnumber(L, value); break;
-						case double value: Melua.lua_pushnumber(L, value); break;
-						default: Melua.lua_pushstring(L, field.Value.ToString()); break;
+						case sbyte value: lua_pushinteger(L, value); break;
+						case byte value: lua_pushinteger(L, value); break;
+						case short value: lua_pushinteger(L, value); break;
+						case ushort value: lua_pushinteger(L, value); break;
+						case int value: lua_pushinteger(L, value); break;
+						case uint value: lua_pushinteger(L, (int)value); break;
+						case float value: lua_pushnumber(L, value); break;
+						case double value: lua_pushnumber(L, value); break;
+						default: lua_pushstring(L, field.Value.ToString()); break;
 					}
-					Melua.lua_settable(L, -3);
+					lua_settable(L, -3);
 				}
 
 				// Push row table to result table
-				Melua.lua_settable(L, -3);
+				lua_settable(L, -3);
 			}
 
-			Melua.lua_pushinteger(L, affectedRows);
-			Melua.lua_pushstring(L, lastInsertId.ToString());
+			lua_pushinteger(L, affectedRows);
+			lua_pushstring(L, lastInsertId.ToString());
 
 			return 3;
 		}
@@ -1370,11 +1370,11 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int sqlescape(IntPtr L)
 		{
-			var str = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var str = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			var result = MySqlHelper.EscapeString(str);
-			Melua.melua_pushstring(L, result);
+			melua_pushstring(L, result);
 
 			return 1;
 		}
@@ -1390,9 +1390,9 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int addonmsg(IntPtr L)
 		{
-			var msg = Melua.luaL_checkstring(L, 1);
-			var param = Melua.luaL_checkstring(L, 2);
-			Melua.lua_pop(L, 2);
+			var msg = luaL_checkstring(L, 1);
+			var param = luaL_checkstring(L, 2);
+			lua_pop(L, 2);
 
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
@@ -1413,8 +1413,8 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int servermsg(IntPtr L)
 		{
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
+			var msg = luaL_checkstring(L, 1);
+			lua_pop(L, 1);
 
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
