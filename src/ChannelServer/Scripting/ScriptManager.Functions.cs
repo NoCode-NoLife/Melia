@@ -110,8 +110,8 @@ namespace Melia.Channel.Scripting
 		/// - number x
 		/// - number y
 		/// - number z
-		/// - int    direction
-		/// - string dialogFunctionName
+		/// - int direction
+		/// - string|function dialogFunction
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
@@ -124,7 +124,22 @@ namespace Melia.Channel.Scripting
 			var y = (float)luaL_checknumber(L, 5);
 			var z = (float)luaL_checknumber(L, 6);
 			var direction = luaL_checkinteger(L, 7);
-			var dialog = luaL_checkstring(L, 8);
+
+			// If the last argument is a function, the dialog function
+			// for the NPC was passed to addnpc directly. In  that case,
+			// we're going to create a global field with a new name and
+			// assign the function to it, so we can then later call it
+			// by that name.
+			string dialog;
+			if (lua_isfunction(L, 8))
+			{
+				dialog = this.GenerateDialogFunctionName();
+				lua_setglobal(L, dialog);
+			}
+			else
+			{
+				dialog = luaL_checkstring(L, 8);
+			}
 
 			lua_settop(L, 0);
 

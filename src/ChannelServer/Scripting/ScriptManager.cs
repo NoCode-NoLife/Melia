@@ -35,6 +35,8 @@ namespace Melia.Channel.Scripting
 		private Timer _globalVarSaver;
 		private DateTime _lastVarChange;
 
+		private int _anonymousDialogCount;
+
 		/// <summary>
 		/// Amount of scripts currently loaded.
 		/// </summary>
@@ -597,9 +599,15 @@ namespace Melia.Channel.Scripting
 			}
 		}
 
-		//-----------------------------------------------------------------//
-		// SCRIPT FUNCTIONS												   //
-		//-----------------------------------------------------------------//
-
+		/// <summary>
+		/// Returns a name for an anonymous dialog function. Every name is
+		/// given out only once.
+		/// </summary>
+		/// <returns></returns>
+		private string GenerateDialogFunctionName()
+		{
+			var count = Interlocked.Increment(ref _anonymousDialogCount);
+			return "_anonymousDialogFunction" + count;
+		}
 	}
 }
