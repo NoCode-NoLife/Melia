@@ -148,35 +148,32 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
-		/// Adds monster spawning to world.
+		/// Adds monster spawner to a map.
 		/// </summary>
 		/// <remarks>
-		/// The parameters `minX`, `maxX`, `minZ`, `maxZ` represent a rectangle in which the monster will spawned if location isn't fixed via `isFixedLocation`
-		/// The parameter `direction` is an angle, with 0 being down/south.
-		/// Example:
-		/// - 0   South
-		/// - 90  Right
-		/// - -90 Left
-		/// 
 		/// Parameters:
-		/// - string spawnName
-		/// - string mapName
-		/// - string monsterName
-		/// - number minX
-		/// - number maxX
-		/// - number minZ
-		/// - number maxZ
-		/// - number x
-		/// - number y
-		/// - number z
-		/// - number direction
+		/// - string  monsterClassName
+		/// - number  amount
+		/// - number  respawnDelayMs
+		/// - string  mapClassName
+		/// - table   area
+		/// {
+		///     x  X-coordinate of the spawn area's center
+		///     y  Y-coordinate of the spawn area's center
+		///     z  Z-coordinate of the spawn area's center
+		///     width  Width of the spawn area
+		///     height  Height of the spawn area
+		/// }
+		/// 
+		/// Example:
+		/// -- Spawns 5 Kepas on the starter map, in a 100x100 area around
+		/// -- [-605/260/-1155]. Respawns dead Kepas after 5000 milliseconds.
+		/// addspawn("Onion", 5, 5000, "f_siauliai_west", { x = -605, y = 260, z = -1155, width = 100, height = 100 })
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		private int addspawn(IntPtr L)
 		{
-			//addspawn("Onion", 10, "f_siauliai_west", { x = -600, y = 260, z = -1000, width = 30, height = 30 })
-
 			var monsterClassName = luaL_checkstring(L, 1);
 			var amount = luaL_checkinteger(L, 2);
 			var respawnDelayMs = luaL_checkinteger(L, 3);
