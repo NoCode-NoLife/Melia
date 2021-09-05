@@ -79,7 +79,7 @@ namespace Melia.Channel.Scripting
 		private int logdebug(IntPtr L)
 		{
 			var msg = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			Log.Debug(msg);
 
@@ -126,7 +126,7 @@ namespace Melia.Channel.Scripting
 			var direction = luaL_checkinteger(L, 7);
 			var dialog = luaL_checkstring(L, 8);
 
-			lua_pop(L, 8);
+			lua_settop(L, 0);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
@@ -258,7 +258,7 @@ namespace Melia.Channel.Scripting
 			var toY = (float)luaL_checknumber(L, 9);
 			var toZ = (float)luaL_checknumber(L, 10);
 
-			lua_pop(L, 10);
+			lua_settop(L, 0);
 
 			// Check "from" map data
 			var fromMapData = ChannelServer.Instance.Data.MapDb.Find(fromMapName);
@@ -315,7 +315,7 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 
 			var msg = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
@@ -368,7 +368,7 @@ namespace Melia.Channel.Scripting
 			if (argc > 12)
 				Log.Warning("ScriptManager.select: {0} options given, but the client only displays 11.", argc - 1);
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			this.AttachNpcName(conn, ref args[0]);
 
@@ -406,7 +406,7 @@ namespace Melia.Channel.Scripting
 
 			// Get message
 			var msg = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
@@ -458,7 +458,7 @@ namespace Melia.Channel.Scripting
 				max = luaL_checkinteger(L, 3);
 			}
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			this.HandleCustomCode(conn, ref msg);
 			this.AttachNpcName(conn, ref msg);
@@ -754,7 +754,7 @@ namespace Melia.Channel.Scripting
 			var y = (float)luaL_checknumber(L, 3);
 			var z = (float)luaL_checknumber(L, 4);
 
-			lua_pop(L, 4);
+			lua_settop(L, 0);
 
 			try
 			{
@@ -826,7 +826,7 @@ namespace Melia.Channel.Scripting
 
 			var hairId = luaL_checkinteger(L, 1);
 
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			character.Hair = (byte)hairId;
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
@@ -855,7 +855,7 @@ namespace Melia.Channel.Scripting
 			var y = (float)luaL_checknumber(L, 4);
 			var z = (float)luaL_checknumber(L, 5);
 
-			lua_pop(L, 5);
+			lua_settop(L, 0);
 
 			var map = ChannelServer.Instance.World.GetMap(mapName);
 			if (map == null)
@@ -887,7 +887,7 @@ namespace Melia.Channel.Scripting
 			if (shopName.Length > 32)
 				shopName = shopName.Substring(0, 32);
 
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
 				return melua_error(L, "Shop '{0}' not found.", shopName);
@@ -915,7 +915,7 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			var itemId = luaL_checkinteger(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			var result = character.Inventory.HasItem(itemId);
 			lua_pushboolean(L, result);
@@ -941,7 +941,7 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			var itemId = luaL_checkinteger(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			var result = character.Inventory.CountItem(itemId);
 			lua_pushinteger(L, result);
@@ -966,7 +966,7 @@ namespace Melia.Channel.Scripting
 
 			var itemId = luaL_checkinteger(L, 1);
 			var amount = luaL_checkinteger(L, 2);
-			lua_pop(L, 2);
+			lua_settop(L, 0);
 
 			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
 			if (itemData == null)
@@ -1006,7 +1006,7 @@ namespace Melia.Channel.Scripting
 
 			var itemId = luaL_checkinteger(L, 1);
 			var amount = luaL_checkinteger(L, 2);
-			lua_pop(L, 2);
+			lua_settop(L, 0);
 
 			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
 			if (itemData == null)
@@ -1094,7 +1094,7 @@ namespace Melia.Channel.Scripting
 					return melua_error(L, "Unsupported variable type.");
 			}
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			// Get variable manager and trim name
 			VariableManager vars;
@@ -1176,7 +1176,7 @@ namespace Melia.Channel.Scripting
 			if (argc > 1)
 				circle = (Circle)luaL_checkint(L, 2);
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			// Return
 			var conn = this.GetConnectionFromState(L);
@@ -1201,12 +1201,9 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int isjobclass(IntPtr L)
 		{
-			// Get parameters
-			var argc = lua_gettop(L);
-
 			var jobClass = (JobClass)luaL_checkint(L, 1);
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			// Return
 			var conn = this.GetConnectionFromState(L);
@@ -1238,7 +1235,7 @@ namespace Melia.Channel.Scripting
 			if (argc > 1)
 				circle = (Circle)luaL_checkint(L, 2);
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			// Add job
 			var conn = this.GetConnectionFromState(L);
@@ -1261,12 +1258,9 @@ namespace Melia.Channel.Scripting
 		/// <returns></returns>
 		private int removejob(IntPtr L)
 		{
-			// Get parameters
-			var argc = lua_gettop(L);
-
 			var jobId = (JobId)luaL_checkint(L, 1);
 
-			lua_pop(L, argc);
+			lua_settop(L, 0);
 
 			// Remove job
 			var conn = this.GetConnectionFromState(L);
@@ -1303,7 +1297,7 @@ namespace Melia.Channel.Scripting
 		private int sqlquery(IntPtr L)
 		{
 			var sqlQuery = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			List<Dictionary<string, object>> result;
 			int affectedRows;
@@ -1371,7 +1365,7 @@ namespace Melia.Channel.Scripting
 		private int sqlescape(IntPtr L)
 		{
 			var str = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			var result = MySqlHelper.EscapeString(str);
 			melua_pushstring(L, result);
@@ -1392,7 +1386,7 @@ namespace Melia.Channel.Scripting
 		{
 			var msg = luaL_checkstring(L, 1);
 			var param = luaL_checkstring(L, 2);
-			lua_pop(L, 2);
+			lua_settop(L, 0);
 
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
@@ -1414,7 +1408,7 @@ namespace Melia.Channel.Scripting
 		private int servermsg(IntPtr L)
 		{
 			var msg = luaL_checkstring(L, 1);
-			lua_pop(L, 1);
+			lua_settop(L, 0);
 
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
