@@ -512,6 +512,9 @@ string propertyRead(property &p)
 int getPropertyType(int id)
 {
     switch(id) {
+        case 3:
+        case 4:
+        case 5:
         case 41:
         case 1328:
         case 1967:

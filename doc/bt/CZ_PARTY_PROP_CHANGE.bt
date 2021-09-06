@@ -14,5 +14,6 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-byte b1;
-getProperties(17*8);
+short s1;
+short s[20];
+//getProperties(count*8);

@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_FLY_OPTION.bt
+//      File: ZC_PARTY_OUT.bt
 //   Authors: Salman T. Khan
-//   Version: i339415
-//   Purpose: Related to Fly?
+//   Version: i339932
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,8 +14,7 @@
 #include "common.bt"
 
 ServerHeaderFixed header;
-int handle;
-byte b1; // 1
-byte b2; // 0
-byte b3; // 1
-byte b4; // 1
+byte b1;
+int64 partyId; // ?
+int64 characterId;
+byte b2;

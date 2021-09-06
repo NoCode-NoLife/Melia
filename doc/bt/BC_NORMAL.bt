@@ -41,7 +41,7 @@ typedef struct
     int64 characterId;
     short s2;
     if (s2 > 0) {
-        BARRACK_CHARACTER_PROPERTY characterProperties[s2];
+        msgParameter characterProperties[s2];
     }
 }
 BARRACK_PC <read=readBARRACK_PC>;
@@ -205,7 +205,7 @@ switch(type)
         {
             int64 characterId;
             char characterName[64];
-            char bin[24];
+            int i[6];
         }
         CharacterInfo <optimize=false>;
         int64 accountId;

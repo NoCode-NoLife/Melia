@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_PARTY_LIST.bt
+//      File: ZC_PARTY_ENTER.bt
 //   Authors: Salman T. Khan
 //   Version: i339932
 //   Purpose: 
@@ -30,8 +30,8 @@ typedef struct
     short s3;
     int64 l2;
     int i1;
-    int i2;
-    int i3;
+    int mapId;
+    int handle;
     char teamName1[64];
     char characterName[64];
     short s4;
@@ -49,9 +49,7 @@ typedef struct
     byte b4;
     int jobId3;
     byte bin1[12];
-    int partyIndex;
-    position pos;
-    //ushort i[6];
+    short s[8];
     int sp;
     int hp;
     int maxSp;
@@ -62,9 +60,7 @@ typedef struct
 } PartyMember <optimize=false>;
 
 ServerHeaderDynamic header;
-int64 l1;
 byte b1;
 int64 partyId;
-byte count;
 
-PartyMember party[count];
+PartyMember party;

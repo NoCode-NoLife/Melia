@@ -8,14 +8,11 @@
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: i336041 - Extra 10 bytes and a short before message
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderDynamic header;
-byte extra[10];
-short s1;
 string message;
 byte b1;
 int i1;

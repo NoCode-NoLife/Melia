@@ -51,4 +51,12 @@ type = 17
 message = GUILD_EVENT_RECRUITING_ADD
 params = 76561198260836873
 i1? = 0
+
+/** 19 Packet Example
+type = 19
+accountId = 76561199199698202
+handle = 7681? guild id?
+b1 =  0
+prop id = 88008
+message = !@#$GUILD_SYSTEM_MSG3$*$SELF$*$Grissli$*$PC$*$_Grissli#@!
 **/

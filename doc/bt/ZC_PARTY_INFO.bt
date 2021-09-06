@@ -18,20 +18,26 @@ ServerHeaderDynamic header;
 short partyType; // 0: normal, 1: guild
 
 // PARTY_INFO
-int64 characterId;
+FILETIME time;
 int64 partyId;
 lpString partyName;
 int64 partyLeaderId;
-lpString leaderName;
+lpString leaderTeamName;
 int i1;
-short propertiesSize;
-byte b1;
+int i2;
+short s1;
+short s2;
 int i3;
-int64 l1;
-int i4;
-int64 l2;
-byte bin[20008];
-short s[20];
+if (i3 > 0) {
+    getProperties(propertiesSize);
+} 
+if (i1 > 0) {
+    int64 l1;
+    int i4;
+    int64 l2;
+    byte bin[20008];
+    short s[20];
+}
 //short propertiesSize;
 //if (propertiesSize > 0)
     //getProperties(propertiesSize);
