@@ -19,6 +19,11 @@ namespace Melia.Channel.World
 		void Handle(Skill skill, Character caster, Position position);
 	}
 
+	interface ITargetGroundSkillHandler
+	{
+		void Handle(Skill skill, Character caster, Position position, List<IEntity> targets);
+	}
+
 	class TargetedSkillHandler : ITargetedSkillHandler
 	{
 		public void Handle(Skill skill, Character caster, IEntity target)
@@ -44,6 +49,30 @@ namespace Melia.Channel.World
 		}
 	}
 
+	class TargetedGroundSkillHandler : ITargetGroundSkillHandler
+	{
+		public void Handle(Skill skill, Character caster, Position position, List<IEntity> targets)
+		{
+			if (skill.Data.OverHeat != 0)
+				skill.OverHeatCount++;
+			Send.ZC_OVERHEAT_CHANGED(caster, skill);
+			if (skill.Data.OverHeat == 0 || skill.Data.OverHeat == skill.OverHeatCount)
+			{
+				Send.ZC_COOLDOWN_CHANGED(caster, skill);
+				skill.OverHeatCount = 0;
+			}
+			var damage = caster.GetRandomPAtk() + 100;
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, null, 0);
+			foreach (var target in targets)
+			{
+				//Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position.X, target.Position.Y, target.Position.Z, null, 0);
+				var monster = (Monster)target;
+				if (monster.TakeDamage(damage, caster, 2))
+					Send.ZC_SKILL_CAST_CANCEL(caster, target);
+			}
+		}
+	}
+
 	class GroundSkillHandler : IGroundSkillHandler
 	{
 		public void Handle(Skill skill, Character caster, Position position)
@@ -57,7 +86,7 @@ namespace Melia.Channel.World
 				skill.OverHeatCount = 0;
 			}
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, position);
-			switch(skill.Id)
+			switch (skill.Id)
 			{
 				case 20007:
 					caster.Map.GetVisibleMonsters(caster);
@@ -89,25 +118,24 @@ namespace Melia.Channel.World
 					Send.ZC_SKILL_DELAY(caster);
 					break;
 				default:
-					Send.ZC_SYNC_START(caster, 1234, 1);
-					Send.ZC_SYNC_END(caster, 1234, 0);
+					//Send.ZC_SYNC_START(caster, 1234, 1);
+					//Send.ZC_SYNC_END(caster, 1234, 0);
 					//Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, null, 0);
 
 					targets = caster.Map.GetAttackableMonstersInRange(position.X, position.Y, position.Z, (int)skill.Data.SplashRange).ToList<IEntity>();
 					damage = caster.GetRandomPAtk() + 100;
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, targets, damage);
 					foreach (var target in targets)
 					{
 						//Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position.X, target.Position.Y, target.Position.Z, null, 0);
 						var monster = (Monster)target;
-						if (monster.TakeDamage(damage, caster, 2))
+						if (monster.TakeDamage(damage, caster, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
 			}
 		}
 	}
-
 
 	interface ISkillHandler
 	{

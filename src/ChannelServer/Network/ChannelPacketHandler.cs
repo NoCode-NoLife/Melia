@@ -863,22 +863,17 @@ namespace Melia.Channel.Network
 			var skill = character.Skills.Get(skillId);
 			if (skill != null)
 			{
-				// Should check state of the character
-				Send.ZC_OVERHEAT_CHANGED(character, skill);
-				Send.ZC_PC_ATKSTATE(character, true);
-
 				if (handleCount == 0)
 				{
 					switch (skill.Data.UseType)
 					{
 						case SkillUseType.MELEE_GROUND:
-							Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
+							new GroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ));
 							break;
 
 						case SkillUseType.FORCE:
-							Send.ZC_SKILL_FORCE_TARGET(character, null, skill, 0);
+							new TargetedSkillHandler().Handle(skill, character, null);
 							break;
-
 						default:
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
 							break;
@@ -886,6 +881,7 @@ namespace Melia.Channel.Network
 				}
 				else
 				{
+					var targets = new List<IEntity>();
 					foreach (var handle in handles)
 					{
 						// Get target
@@ -895,9 +891,16 @@ namespace Melia.Channel.Network
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 							continue;
 						}
-
-						var damage = character.GetRandomPAtk();
-						target.TakeDamage(damage, character, 1);
+						targets.Add(target);
+					}
+					switch (skill.Data.UseType)
+					{
+						case SkillUseType.MELEE_GROUND:
+							new TargetedGroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ), targets);
+							break;
+						default:
+							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+							break;
 					}
 				}
 			}
@@ -2111,12 +2114,56 @@ namespace Melia.Channel.Network
 			// Warp to personal house
 			character.Warp(7000, 200, 2200, 1000);
 
+			// This sent after ZC_CONNECT to new map
 			Send.ZC_CUSTOM_WHEEL_ZOOM(character, 1, 120f, 400f, 50f);
 			Send.ZC_SET_LAYER(character, 66);
 			Send.ZC_ADDON_MSG(character, AddonMessage.SET_PERSONAL_HOUSE_NAME, character.TeamName);
 			Send.ZC_ADDON_MSG(character, AddonMessage.ENTER_PERSONAL_HOUSE, "NO");
 		}
 
+		/// <summary>
+		/// Accepting a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_ACCEPT)]
+		public void CZ_PARTY_INVITE_ACCEPT(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+
+			var partyMember = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
+			if (partyMember != null)
+			{
+				if (partyMember.Party == null)
+					partyMember.Party = new Party(partyMember);
+				partyMember.Party.AddMember(character);
+			}
+		}
+
+		/// <summary>
+		/// Rejecting a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_CANCEL)]
+		public void CZ_PARTY_INVITE_CANCEL(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var partyInviter = ChannelServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (partyInviter != null)
+			{
+				Send.ZC_ADDON_MSG(partyInviter, AddonMessage.PARTY_INVITE_CANCEL, character.TeamName);
+			}
+		}
 	}
 
 	public enum TxType : short

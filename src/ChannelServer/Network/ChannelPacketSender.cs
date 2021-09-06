@@ -3964,6 +3964,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates monster appearance on clients in range of the monster.
+		/// </summary>
+		/// <param name="monster"></param>
+		public static void ZC_UPDATED_MONSTERAPPEARANCE(Monster monster)
+		{
+			// 5 strings, 5 short length prefixes, 5 null terminators
+			// There must be a better way to get the length. Also,
+			// we aren't doing this in AddMonster... does the client
+			// even use it?
+			var namesLength = 5 * sizeof(short) + 5;
+			namesLength += monster.Name.Length;
+			//namesLength += monster.UniqueName.Length;
+			namesLength += monster.DialogName.Length;
+			namesLength += monster.WarpName.Length;
+			//namesLength += monster.Str3Name.Length;
+
+			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
+			packet.PutInt(monster.Handle);
+			packet.AddMonsterBase(monster);
+
+			packet.PutInt(namesLength);
+			packet.PutLpString(monster.Name);
+			packet.PutLpString(""); // uniqueName
+			packet.PutLpString(monster.DialogName);
+			packet.PutLpString(monster.WarpName);
+			packet.PutLpString(""); // str3
+
+			monster.Map.Broadcast(packet, monster);
+		}
+
+		/// <summary>
 		/// Sends ZC_UI_OPEN to character
 		/// </summary>
 		/// <param name="conn"></param>
@@ -4067,34 +4098,56 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
-		/// Updates monster appearance on clients in range of the monster.
+		/// <summary>
+		/// Party Info usually sent when party is created
 		/// </summary>
-		/// <param name="monster"></param>
-		public static void ZC_UPDATED_MONSTERAPPEARANCE(Monster monster)
+		/// <param name="character"></param>
+		public static void ZC_PARTY_INFO(Character character, Party party)
 		{
-			// 5 strings, 5 short length prefixes, 5 null terminators
-			// There must be a better way to get the length. Also,
-			// we aren't doing this in AddMonster... does the client
-			// even use it?
-			var namesLength = 5 * sizeof(short) + 5;
-			namesLength += monster.Name.Length;
-			//namesLength += monster.UniqueName.Length;
-			namesLength += monster.DialogName.Length;
-			namesLength += monster.WarpName.Length;
-			//namesLength += monster.Str3Name.Length;
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+			packet.PutShort(0);
+			packet.PutDate(party.DateCreated);
+			packet.PutLpString(party.Name);
+			packet.PutLong(party.Owner.AccountId);
+			packet.PutLpString(party.Owner.TeamName);
+			packet.PutInt(0);
+			packet.PutInt(1);
+			packet.PutShort(1);
+			packet.PutShort(256);
+			packet.PutInt(0);
 
-			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
-			packet.PutInt(monster.Handle);
-			packet.AddMonsterBase(monster);
+			character.Connection.Send(packet);
+		}
 
-			packet.PutInt(namesLength);
-			packet.PutLpString(monster.Name);
-			packet.PutLpString(""); // uniqueName
-			packet.PutLpString(monster.DialogName);
-			packet.PutLpString(monster.WarpName);
-			packet.PutLpString(""); // str3
+		public static void ZC_PARTY_LIST(Character character, Party party)
+		{
+			var packet = new Packet(Op.ZC_PARTY_LIST);
 
-			monster.Map.Broadcast(packet, monster);
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_NORMAL_PartyInvite(Character character, Character sender)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.PartyInvite);
+			packet.PutByte(0);
+			packet.PutLong(sender.AccountId);
+			packet.PutLpString(sender.TeamName);
+
+			character.Connection.Send(packet);
+		}
+
+		public static void ZC_NORMAL_ShowParty(Character character)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.ShowParty);
+			packet.PutInt(character.Handle);
+			packet.PutByte(1);
+			packet.PutLpString(character.Party.Name);
+			packet.PutByte(0);
+			packet.PutLpString("Guild"); // Guild Name
+
+			character.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

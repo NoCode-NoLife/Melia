@@ -125,7 +125,7 @@ namespace Melia.Shared.Data.Database
 			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 
 			info.OverHeat = entry.ReadInt("overheat");
-			info.OverHeatDelay = entry.ReadInt("overheatDelay";
+			info.OverHeatDelay = entry.ReadInt("overheatDelay");
 			info.OverHeatGroup = entry.ReadString("overheatGroup");
 
 			this.Entries[info.Id] = info;

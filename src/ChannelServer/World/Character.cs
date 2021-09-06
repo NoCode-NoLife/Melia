@@ -2233,6 +2233,8 @@ namespace Melia.Channel.World
 			}
 		}
 
+		public Party Party { get; set; }
+
 		/// <summary>
 		/// Creates new character.
 		/// </summary>

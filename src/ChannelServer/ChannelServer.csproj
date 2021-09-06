@@ -84,6 +84,7 @@
     <Compile Include="World\Inventory.cs" />
     <Compile Include="World\Item.cs" />
     <Compile Include="World\Job.cs" />
+    <Compile Include="World\Party.cs" />
     <Compile Include="World\SkillHandler.cs" />
     <Compile Include="World\Skills.cs" />
     <Compile Include="World\Map.cs" />

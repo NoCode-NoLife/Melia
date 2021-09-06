@@ -33,6 +33,10 @@ namespace Melia.Channel.Util
 			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
 			//Add("retquest", "<quest id>", this.HandleReturnToQuestGiver);
 			//Add("intewarp", "<warp id> 0", this.HandleWarp);
+			Add("partyMake", "<partyName>", this.HandlePartyMake);
+			Add("partyDirectInvite", "<team name>", this.HandlePartyInvite);
+			Add("partyban", "0 <team name>", this.HandlePartyBan);
+
 
 			// Normal
 			Add("where", "", this.HandleWhere);
@@ -1002,6 +1006,117 @@ namespace Melia.Channel.Util
 			sender.ModifyAbilityPoints(-price);
 			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
 			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_LEARN_ABILITY, abilityTreeData.Category);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to invite to a party
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyMake(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 1)
+			{
+				Log.Debug("HandlePartyMake: No team name given by user '{0}'.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length != 2)
+			{
+				Log.Debug("HandlePartyMake: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				return CommandResult.Okay;
+			}
+
+			// To Do - Handle Party Name Check
+			//ChannelServer.Instance.World.GetParty() ?
+			var party = new Party(sender);
+			sender.Party = party;
+			// If check passes
+			Send.ZC_PARTY_INFO(sender, party);
+			Send.ZC_PARTY_LIST(sender, party);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.PARTY_JOIN, "None");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to invite a character to a party
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyInvite(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 0)
+			{
+				Log.Debug("HandlePartyInvite: No team name given by user '{0}'.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length != 2)
+			{
+				Log.Debug("HandlePartyInvite: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				return CommandResult.Okay;
+			}
+
+			// To Do - Handle Party Name Check
+			//ChannelServer.Instance.World.GetParty() ?
+			var character = ChannelServer.Instance.World.GetCharacterByTeamName(args[1]);
+			if (character != null)
+				Send.ZC_NORMAL_PartyInvite(character, sender);
+			// If check passes
+			//Send.ZC_PARTY_INFO(sender, party);
+			//Send.ZC_PARTY_LIST(sender, party);
+			//Send.ZC_ADDON_MSG(sender, AddonMessage.PARTY_JOIN, "None");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to expel a member from a party
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyBan(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 0)
+			{
+				Log.Debug("HandlePartyInvite: No team name given by user '{0}'.", conn.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Length != 3)
+			{
+				Log.Debug("HandlePartyInvite: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				return CommandResult.Okay;
+			}
+
+			ChannelServer.Instance.World.GetCharacterByTeamName(args[2]);
 
 			return CommandResult.Okay;
 		}

@@ -623,27 +623,5 @@ namespace Melia.Channel.Scripting
 			var count = Interlocked.Increment(ref _anonymousDialogCount);
 			return "_anonymousDialogFunction" + count;
 		}
-
-		/// <summary>
-		/// Sends a server message to the client, displayed in the chat log.
-		/// </summary>
-		/// <remarks>
-		/// Parameters:
-		/// - string Message to send to client
-		/// </remarks>
-		/// <param name="L"></param>
-		/// <returns></returns>
-		private int servermsg(IntPtr L)
-		{
-			var msg = Melua.luaL_checkstring(L, 1);
-			Melua.lua_pop(L, 1);
-
-			var conn = this.GetConnectionFromState(L);
-			var character = conn.SelectedCharacter;
-
-			character.ServerMessage(msg);
-
-			return 0;
-		}
 	}
 }

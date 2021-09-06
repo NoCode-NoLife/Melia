@@ -107,6 +107,15 @@ namespace Melia.Shared.Const
 		/// Enter personal house
 		/// </summary>
 		public const string ENTER_PERSONAL_HOUSE = "ENTER_PERSONAL_HOUSE";
+
+		/// <summary>
+		/// Party Join
+		/// </summary>
+		public const string PARTY_JOIN = "PARTY_JOIN";
+		/// <summary>
+		/// Party Invite Rejected
+		/// </summary>
+		public const string PARTY_INVITE_CANCEL = "PARTY_INVITE_CANCEL";
 	}
 
 	public static class SystemMessage

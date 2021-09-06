@@ -25,6 +25,7 @@ namespace Melia.Channel.World
 		// confirm that it's unnecessary.
 		private long _sessionObjectIds = 0x0000E1A900000000;
 		private long _skillObjectIds = 0x000054B600000000;
+		private long _partyObjectIds = 0x000015A0100000000;
 
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
@@ -107,6 +108,15 @@ namespace Melia.Channel.World
 		public long CreateSkillObjectId()
 		{
 			return Interlocked.Increment(ref _skillObjectIds);
+		}
+
+		/// <summary>
+		/// Returns a new object id that can be used for a party object.
+		/// </summary>
+		/// <returns></returns>
+		public long CreatePartyObjectId()
+		{
+			return Interlocked.Increment(ref _partyObjectIds);
 		}
 
 		/// <summary>

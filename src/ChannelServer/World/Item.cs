@@ -87,9 +87,6 @@ namespace Melia.Channel.World
 
 			this.ObjectId = Interlocked.Increment(ref _worldId);
 			this.Amount = amount;
-
-			//foreach (var property in this.Data.Properties)
-			//	this.Properties.Add(new FloatProperty(property.Key, (float)property.Value));
 		}
 
 		/// <summary>

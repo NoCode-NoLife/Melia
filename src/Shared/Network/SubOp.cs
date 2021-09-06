@@ -49,13 +49,15 @@ namespace Melia.Shared.Network
 			public const int Skill_4E = 0x4E;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
+			public const int Unknown_A1 = 0xA1;
 			public const int Unknown_DA = 0xDA;
 			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;
 			public const int Unknown_EF = 0xEF;
-			public const int Unknown_A1 = 0xA1;
+			public const int PartyInvite = 0xF5;
 			public const int MapChannelData = 0x12A;
 			public const int SetGreetingMessage = 0x135;
+			public const int ShowParty = 0x139;
 			public const int Revive = 0x13B;
 			public const int UpdateSkillUI = 0x186;
 			public const int AdventureBook = 0x194;
