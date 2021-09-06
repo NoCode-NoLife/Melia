@@ -56,6 +56,11 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Over Heat Counter
+		/// </summary>
+		public int OverHeatCount { get; set; }
+
+		/// <summary>
 		/// The skill's data from the skill database.
 		/// </summary>
 		/// <remarks>
@@ -68,6 +73,8 @@ namespace Melia.Channel.World
 		/// usage.
 		/// </remarks>
 		public SkillData Data { get; }
+		public CoolDownData CoolDownData { get; }
+		public CoolDownData OverHeatData { get; }
 
 		/// <summary>
 		/// Creates a new instance.
@@ -80,7 +87,10 @@ namespace Melia.Channel.World
 			this.Character = character;
 			this.Id = skillId;
 			this.Level = level;
+			this.OverHeatCount = 0; // So they don't reuse this value just cooldown value?
 			this.Data = ChannelServer.Instance.Data.SkillDb.Find(skillId) ?? throw new ArgumentException($"Unknown skill '{skillId}'.");
+			this.CoolDownData = ChannelServer.Instance.Data.CoolDownDb.Find(this.Data.CoolDownGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' cooldown group '{this.Data.CoolDownGroup}'.");
+			this.OverHeatData = ChannelServer.Instance.Data.CoolDownDb.Find(this.Data.OverHeatGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' overheat group '{this.Data.OverHeatGroup}'.");
 
 			// I don't know what exactly LevelByDB's purpose is, but if
 			// it's not sent, skills can be leveled past their max level.

@@ -10,6 +10,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 
 namespace Melia.Channel.Network
 {
@@ -872,11 +873,11 @@ namespace Melia.Channel.Network
 					switch (skill.Data.UseType)
 					{
 						case SkillUseType.MELEE_GROUND:
-							Send.ZC_SKILL_MELEE_GROUND(character, skill, targetX, targetY, targetZ, null, 0);
+							new GroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ));
 							break;
 
 						case SkillUseType.FORCE:
-							Send.ZC_SKILL_FORCE_TARGET(character, null, skill, 0);
+							new TargetedSkillHandler().Handle(skill, character, null);
 							break;
 
 						default:
@@ -886,6 +887,7 @@ namespace Melia.Channel.Network
 				}
 				else
 				{
+					var targets = new List<IEntity>();
 					foreach (var handle in handles)
 					{
 						// Get target
@@ -895,9 +897,16 @@ namespace Melia.Channel.Network
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 							continue;
 						}
-
-						var damage = character.GetRandomPAtk();
-						target.TakeDamage(damage, character);
+						targets.Add(target);
+					}
+					switch (skill.Data.UseType)
+					{
+						case SkillUseType.MELEE_GROUND:
+							new TargetedGroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ), targets);
+							break;
+						default:
+							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+							break;
 					}
 				}
 			}
@@ -919,28 +928,12 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Check skill
-			var skill = character.Skills.Get(skillId);
-			if (skill == null)
+			if (character.CanCast(skillId))
 			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use skill '{1}', which the character doesn't have.", conn.Account.Name, skillId);
-				return;
+				var skill = character.Skills.Get(skillId);
+				var target = character.Map.GetMonster(targetHandle);
+				new TargetedSkillHandler().Handle(skill, character, target);
 			}
-
-			// Check target
-			var target = character.Map.GetMonster(targetHandle);
-			if (target == null || target.NpcType != NpcType.Monster)
-			{
-				Log.Warning("CZ_SKILL_TARGET: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, targetHandle);
-				return;
-			}
-
-			Send.ZC_COOLDOWN_CHANGED(character, skill);
-			//Send.ZC_SKILL_READY(character, skillId);
-
-			var damage = character.GetRandomPAtk();
-			target.TakeDamage(damage, character, skill);
-
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
 
@@ -961,8 +954,95 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.CastSkill(skillId, dx, dy);
+			if (character.CanCast(skillId))
+			{
+				var skill = character.Skills.Get(skillId);
+				new TargetedSkillHandler().Handle(skill, character, null);
+			}
+			
+			//character.CastSkill(skillId);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+		}
+
+		/// <summary>
+		/// Sent when character starts casting a hold to cast skill
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
+		public void CZ_DYNAMIC_CASTING_START(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var skillId = packet.GetInt();
+			var f1 = packet.GetFloat();
+
+			var character = conn.SelectedCharacter;
+
+			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+		}
+
+		/// <summary>
+		/// Sent when character casting ends after holding to cast skill
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
+		public void CZ_DYNAMIC_CASTING_END(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var skillId = packet.GetInt();
+			var f1 = packet.GetFloat(); // Max Cast Hold Time?
+
+			var character = conn.SelectedCharacter;
+		}
+
+		/// <summary>
+		/// Sent when character is using the ground position selection tool starts
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SELECT_GROUND_POS_START)]
+		public void CZ_SELECT_GROUND_POS_START(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+
+			var character = conn.SelectedCharacter;
+
+			// To Do keep track of state?
+		}
+
+		/// <summary>
+		/// Sent when character is using the ground position selection tool ends
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SELECT_GROUND_POS_END)]
+		public void CZ_SELECT_GROUND_POS_END(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+
+			var character = conn.SelectedCharacter;
+
+			// To Do keep track of state?
+		}
+
+		/// <summary>
+		/// Sent when character is using the ground position selection tool ends
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]
+		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var skillId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			// To Do keep track of state?
 		}
 
 		/// <summary>
@@ -1132,9 +1212,13 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 			var skill = character.Skills.Get(skillId);
-			if (skill != null)
+			if (character.CanCast(skillId))
 			{
-				character.CastSkill(skill.Id, cos, sin);
+				new GroundSkillHandler().Handle(skill, character, new Position(x2, y2, z2));
+				//Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
+
+				//character.Map.GetAttackableMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
+				// Broadcast action to all?
 			}
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.

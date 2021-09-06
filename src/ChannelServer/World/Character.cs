@@ -2798,22 +2798,39 @@ namespace Melia.Channel.World
 			}
 		}
 
-		public void CastSkill(int skillId, float dx, float dy)
+		/// <summary>
+		/// Checks if a player can cast a skill
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <returns>If skill is castable it returns true</returns>
+		public bool CanCast(int skillId)
 		{
 			// Check skill
 			var skill = this.Skills.Get(skillId);
-			if (skill == null)
+			return CanCast(skill);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private bool CanCast(Skill skill)
+		{
+			if (skill != null)
 			{
-				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
-				Send.ZC_SKILL_CAST_CANCEL(this);
-				//Log.Debug(packet.ToString());
+				// To Do move pre-cast logic into Character.CanCast?
+				if (skill.Data.BasicSp != 0)
+				{
+					var requiredSp = (int)skill.Data.BasicSp + (skill.Data.LvUpSpendSp * skill.Level - 1);
+					if (this.Sp < requiredSp)
+						return false;
+					this.Sp -= (int)skill.Data.BasicSp;
+					Send.ZC_UPDATE_SP(this);
+				}
+				return true;
 			}
-			else
-			{
-				Send.ZC_OVERHEAT_CHANGED(this, skill);
-				Send.ZC_COOLDOWN_CHANGED(this, skill);
-				Send.ZC_SKILL_FORCE_TARGET(this, null, skill, 0);
-			}
+			return false;
 		}
 
 		/// <summary>
