@@ -33,9 +33,9 @@ namespace Melia.Channel.World
 		private readonly Dictionary<int, Monster> _monsters = new Dictionary<int, Monster>();
 
 		/// <summary>
-		/// Collection of Spawn Zones
+		/// Collection of monster spawners.
 		/// </summary>
-		private readonly List<SpawnZone> _spawns = new List<SpawnZone>();
+		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
 
 		/// <summary>
 		/// Map name.
@@ -146,20 +146,25 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Adds spawn data to map.
+		/// Adds the spawner to the map.
 		/// </summary>
-		/// <param name="SpawnData"></param>
-		public void AddSpawnZone(SpawnData spawnData)
+		/// <param name="spawner"></param>
+		public void AddSpawner(MonsterSpawner spawner)
 		{
-			var spawnZone = new SpawnZone(spawnData);
-
-			lock (_spawns)
+			lock (_spawners)
 			{
-				spawnZone.Id = _spawns.Count;
-				_spawns.Add(spawnZone);
+				_spawners.Add(spawner);
+				spawner.InitialSpawn();
 			}
+		}
 
-			spawnZone.Init();
+		/// <summary>
+		/// Removes all spawners from the map.
+		/// </summary>
+		public void RemoveSpawners()
+		{
+			lock (_spawners)
+				_spawners.Clear();
 		}
 
 		/// <summary>
@@ -275,16 +280,18 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Removes all scripted entities, like NPCs.
+		/// Removes all scripted entities, like NPCs, monsters, and warps.
 		/// </summary>
 		public void RemoveScriptedEntities()
 		{
 			var toRemove = new List<Monster>();
 			lock (_monsters)
-				toRemove.AddRange(_monsters.Values.Where(a => a.NpcType == NpcType.NPC));
+				toRemove.AddRange(_monsters.Values);
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
+
+			this.RemoveSpawners();
 		}
 
 		/// <summary>

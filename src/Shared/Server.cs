@@ -148,6 +148,16 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt", reload);
 				}
+
+				if ((toLoad & DataToLoad.Achievements) != 0)
+				{
+					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
+				}
+
+				if ((toLoad & DataToLoad.CoolDowns) != 0)
+				{
+					this.LoadDb(this.Data.CoolDownDb, "db/cooldowns.txt", reload);
+				}
 			}
 			catch (DatabaseErrorException ex)
 			{
@@ -253,8 +263,10 @@ namespace Melia.Shared
 		Help = 0x400,
 		CustomCommands = 0x800,
 		ChatMacros = 0x1000,
-		Buffs = 0x1200,
-		SessionObjects = 0x1400,
+		Buffs = 0x2000,
+		SessionObjects = 0x4000,
+		Achievements = 0x8000,
+		CoolDowns = 0x10000,
 
 		All = 0x7FFFFFFF,
 	}

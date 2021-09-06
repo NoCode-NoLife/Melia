@@ -16,8 +16,7 @@ namespace Melia.Login.Util.Configuration
 		/// <summary>
 		/// Initilizes default confs.
 		/// </summary>
-		public LoginConf()
-			: base()
+		public LoginConf() : base()
 		{
 			this.Login = new LoginConfFile();
 		}

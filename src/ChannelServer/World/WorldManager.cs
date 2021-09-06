@@ -26,9 +26,9 @@ namespace Melia.Channel.World
 		private long _sessionObjectIds = 0x0000E1A900000000;
 		private long _skillObjectIds = 0x000054B600000000;
 
-		private Dictionary<int, Map> _mapsId;
-		private Dictionary<string, Map> _mapsName;
-		private object _mapsLock = new object();
+		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
+		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
+		private readonly object _mapsLock = new object();
 
 		private Timer _heartbeatTimer;
 
@@ -36,15 +36,6 @@ namespace Melia.Channel.World
 		/// Returns the amount of maps in the world.
 		/// </summary>
 		public int Count { get { lock (_mapsLock) return _mapsId.Count; } }
-
-		/// <summary>
-		/// Creates new world manager.
-		/// </summary>
-		public WorldManager()
-		{
-			_mapsId = new Dictionary<int, Map>();
-			_mapsName = new Dictionary<string, Map>();
-		}
 
 		/// <summary>
 		/// Initializes heartbeat timer.
@@ -148,13 +139,25 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns map by name, or null if it doesn't exist.
 		/// </summary>
-		/// <param name="mapName"></param>
-		public Map GetMap(string mapName)
+		/// <param name="mapClassName"></param>
+		public Map GetMap(string mapClassName)
 		{
 			Map result;
 			lock (_mapsLock)
-				_mapsName.TryGetValue(mapName, out result);
+				_mapsName.TryGetValue(mapClassName, out result);
 			return result;
+		}
+
+		/// <summary>
+		/// Returns map by name via out, returns false if the map doesn't
+		/// exist.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <param name="map"></param>
+		public bool TryGetMap(string mapClassName, out Map map)
+		{
+			map = this.GetMap(mapClassName);
+			return map != null;
 		}
 
 		/// <summary>

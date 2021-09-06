@@ -684,45 +684,32 @@ namespace Melia.Channel.Network
 			packet.PutInt(items.Count);
 			packet.PutByte(1);
 			packet.PutByte(1);
-			if (items.Count != 0)
-			{
-				packet.Zlib(true, zpacket =>
-				{
-					foreach (var item in items)
-					{
-						var properties = item.Value.Properties.GetAll();
-						var propertiesSize = 8;
 
-						zpacket.PutInt(item.Value.Id);
-						zpacket.PutInt(propertiesSize);
-						if (item.Value.Id != 900011)
-							zpacket.PutLong(item.Value.ObjectId);
-						else
-							zpacket.PutLong(0);
-						zpacket.PutInt(item.Value.Amount);
-						zpacket.PutInt(item.Value.Price);
-						zpacket.PutInt(1);
-						zpacket.PutInt(item.Key);
-						//zpacket.AddProperties(properties);
-						zpacket.PutBinFromHex("621C000000000000");
-						if (propertiesSize > 0)
-						{
-							if (item.Value.Id != 900011 && item.Value.ObjectId > 0)
-							{
-								zpacket.PutShort(0);
-								zpacket.PutLong(item.Value.ObjectId);
-								zpacket.PutShort(0);
-							}
-						}
-					}
-				});
-			}
-			else
+			packet.Zlib(true, zpacket =>
 			{
-				// TODO: We shouldn't need an if/else, this is presumably
-				//   just a compressed, empty byte array.
-				packet.PutBinFromHex("8DFA020000000300");
-			}
+				foreach (var item in items)
+				{
+					var properties = item.Value.Properties.GetAll();
+					var propertiesSize = item.Value.Properties.Size;
+
+					zpacket.PutInt(item.Value.Id);
+					zpacket.PutShort(propertiesSize);
+					zpacket.PutEmptyBin(2);
+					zpacket.PutLong(item.Value.ObjectId);
+					zpacket.PutInt(item.Value.Amount);
+					zpacket.PutInt(item.Value.Price);
+					zpacket.PutInt(0);
+					zpacket.PutInt(item.Key);
+					zpacket.AddProperties(properties);
+
+					if (item.Value.ObjectId != 0)
+					{
+						zpacket.PutShort(0);
+						zpacket.PutLong(item.Value.ObjectId);
+						zpacket.PutShort(0);
+					}
+				}
+			});
 
 			character.Connection.Send(packet);
 		}
@@ -1318,9 +1305,19 @@ namespace Melia.Channel.Network
 
 			packet.PutInt(0); // handle?
 			packet.PutByte((byte)arguments.Length);
-			packet.PutByte(1); // [i171032] ?
-			packet.PutByte(1); // [i337645] ?
+
+			// If both bytes are 0, the message before the selection is
+			// displayed as expected. First the message, then the options
+			// pop up. If only the first byte is 1, the options and the
+			// message both immediately appear together, and if only the
+			// second byte is set, only the NPC portrait appears. If both
+			// are 1, only the options appear, without message.
+			// This might be useful for selection boxes without dialog.
+			packet.PutByte(0); // [i171032] ?
+			packet.PutByte(0); // [i337645] ?
+
 			packet.PutShort(0); // [i337645] ?
+
 			foreach (var arg in arguments)
 				packet.PutLpString(arg);
 
@@ -4070,6 +4067,35 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// Updates monster appearance on clients in range of the monster.
+		/// </summary>
+		/// <param name="monster"></param>
+		public static void ZC_UPDATED_MONSTERAPPEARANCE(Monster monster)
+		{
+			// 5 strings, 5 short length prefixes, 5 null terminators
+			// There must be a better way to get the length. Also,
+			// we aren't doing this in AddMonster... does the client
+			// even use it?
+			var namesLength = 5 * sizeof(short) + 5;
+			namesLength += monster.Name.Length;
+			//namesLength += monster.UniqueName.Length;
+			namesLength += monster.DialogName.Length;
+			namesLength += monster.WarpName.Length;
+			//namesLength += monster.Str3Name.Length;
+
+			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
+			packet.PutInt(monster.Handle);
+			packet.AddMonsterBase(monster);
+
+			packet.PutInt(namesLength);
+			packet.PutLpString(monster.Name);
+			packet.PutLpString(""); // uniqueName
+			packet.PutLpString(monster.DialogName);
+			packet.PutLpString(monster.WarpName);
+			packet.PutLpString(""); // str3
+
+			monster.Map.Broadcast(packet, monster);
+		}
 
 		public static void DUMMY(ChannelConnection conn)
 		{

@@ -9,5 +9,6 @@ global/dialog.lua
 
 include "scripts_custom.txt"
 include "scripts_items.txt"
+include "scripts_mobs.txt"
 include "scripts_npcs.txt"
 include "scripts_warps.txt"

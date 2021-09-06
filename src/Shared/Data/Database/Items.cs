@@ -170,12 +170,19 @@ namespace Melia.Shared.Data.Database
 			if (data.Type == ItemType.Recipe)
 				return InventoryCategory.Recipe;
 
+			if (data.Group == ItemGroup.Material)
+				return InventoryCategory.Misc_Etc;
+
 			// Use Non for unused, so items like money get hidden.
 			if (data.Group == ItemGroup.Unused)
 				return InventoryCategory.None;
 
 			// Return unused by default, which is labeled as "N/A".
-			return InventoryCategory.Unused;
+			//return InventoryCategory.Unused;
+
+			// Actually, for unknown reasons not all items appear when put
+			// into Unused. Let's use a random category for now.
+			return InventoryCategory.Misc_Usual;
 		}
 	}
 }
