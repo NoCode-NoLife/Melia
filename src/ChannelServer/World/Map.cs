@@ -194,18 +194,16 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns only monsters in a certain range
 		/// </summary>
-		/// <param name="handle"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="range"></param>
 		/// <returns></returns>
-		//public List<Monster> GetMonstersInRange(float x, float y, float z, int range)
-		//{
-		//	var position = new Position(x, y, z);
-
-		//	List<Monster> result;
-		//	lock (_monsters)
-		//		result = _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster).ToList();
-
-		//	return result;
-		//}
+		public IEnumerable<Monster> GetAttackableMonstersInRange(Position position, int range)
+		{
+			lock (_monsters)
+				return _monsters.Values.Where(a => a.Position.InRange2D(position, range));
+		}
 
 		/// <summary>
 		/// Returns only monsters by handle, or null if it doesn't exist.

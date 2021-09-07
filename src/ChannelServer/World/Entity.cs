@@ -14,6 +14,31 @@ namespace Melia.Channel.World
 		Position Position { get; }
 	}
 
+	public interface IAttackableEntity : IEntity
+	{
+		/// <summary>
+		/// Makes monster take damage and kills it if the HP reach 0.
+		/// </summary>
+		/// <param name="damage"></param>
+		/// <param name="from"></param>
+		/// <param name="type"></param>
+		/// <returns>If damage is fatal returns true</returns>
+		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0);
+	}
+
+	/// <summary>
+	/// Damage Visibility
+	/// Invisible: Sends no damage packet
+	/// Hit: Sends ZC_HIT_INFO
+	/// Skill: Sends ZC_SKILL_HIT_INFO
+	/// </summary>
+	public enum DamageVisibilityModifier
+	{
+		Invisible,
+		Hit,
+		Skill,
+	}
+
 	public interface IEntityEvent
 	{
 		/// <summary>

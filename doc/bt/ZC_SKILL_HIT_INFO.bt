@@ -13,35 +13,9 @@
 
 #include "common.bt"
 
-typedef struct
-{
-    int i1;
-    int targetHandle;
-    int damage;
-    int hp;
-    int i3;
-    short s3;
-    short s[15];
-    short s4;
-    int i4;
-    short s5;
-    byte b2;
-    float f1; // -223 -981
+ServerHeaderDynamic header;
 
-    // ?
-    if(i4 != 0)
-        byte bin2[60];
-
-    // ?
-    if(s4 != 0)
-        byte bin3[s4];
-}
-hit;
-
-ServerHeaderFixed header;
-
-short size;
 int attackerHandle;
 
 byte count;
-hit hits[count] <optimize=false>;
+Attack hits[count] <optimize=false>;

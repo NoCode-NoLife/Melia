@@ -29,10 +29,10 @@ namespace Melia.Shared.Data.Database
 		public float SplashRate { get; set; }
 		public float SkillFactor { get; set; }
 		public int CoolDown { get; set; }
-		public string CoolDownGroup { get; set; }
-		public int OverHeat { get; set; }
+		public string CooldownGroup { get; set; }
+		public int Overheat { get; set; }
 		public int OverHeatDelay { get; set; }
-		public string OverHeatGroup { get; set; }
+		public string OverheatGroup { get; set; }
 		public int ShootTime { get; set; }
 		public List<int> HitTime { get; set; }
 		public List<int> HoldTime { get; set; }
@@ -113,7 +113,7 @@ namespace Melia.Shared.Data.Database
 			info.SplashRate = entry.ReadFloat("splashRate");
 
 			info.CoolDown = entry.ReadInt("coolDown");
-			info.CoolDownGroup = entry.ReadString("coolDownGroup");
+			info.CooldownGroup = entry.ReadString("coolDownGroup");
 
 			info.ShootTime = entry.ReadInt("shootTime");
 			info.HitDelay = entry.ReadInt("hitDelay");
@@ -124,9 +124,9 @@ namespace Melia.Shared.Data.Database
 			info.UseType = entry.ReadEnum<SkillUseType>("useType");
 			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 
-			info.OverHeat = entry.ReadInt("overheat", 0);
-			info.OverHeatDelay = entry.ReadInt("overheatDelay", 0);
-			info.OverHeatGroup = entry.ReadString("overheatGroup", null);
+			info.Overheat = entry.ReadInt("overheat");
+			info.OverHeatDelay = entry.ReadInt("overheatDelay");
+			info.OverheatGroup = entry.ReadString("overheatGroup");
 
 			this.Entries[info.Id] = info;
 		}

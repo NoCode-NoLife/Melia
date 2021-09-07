@@ -79,7 +79,7 @@ typedef struct
     if(length > 0)
         char text[length];
 }
-lpString <read=lpStringRead>;
+lpString <read=lpStringRead, optimize=false>;
 
 string lpStringRead(lpString &v)
 {
@@ -95,7 +95,7 @@ typedef struct
     lpString key;
     lpString value;
 }
-msgParameter <read=msgParameterRead>;
+msgParameter <read=msgParameterRead, optimize=false>;
 
 string msgParameterRead(msgParameter &v)
 {
@@ -622,3 +622,44 @@ string readSessionObject(SessionObject &v)
     SPrintf(result, "%LXh : %d", v.objectId, v.sessionId);
     return result;
 }
+
+typedef struct
+{
+    int i1;
+    int targetHandle;
+    int damage;
+    int hpLeft;
+    int i2;
+    int i3;
+    short s1;
+    short s2;
+    short s3;
+    short s4;
+    //int64 worldId;
+    int i4; // 50 on Magic Missiles
+    //int i5;
+    short defaultHitDelay;
+    byte b11;
+    byte b12;
+    byte b13;
+    byte attackIndex; //?
+    short s5;
+    int attackId; //?
+    int i6;
+    short s6; 
+    if (s6 > 0) {
+        short s6;
+        int64 l3;
+        short s7;
+        int i7;
+        byte b2;
+        float f1;
+    } else {
+        short s7;
+        if (s7 > 0) {
+            short s8;
+            byte b3;
+            ushort s9;
+        }
+    }
+} Attack <optimize=false>;

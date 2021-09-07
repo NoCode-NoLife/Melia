@@ -53,6 +53,10 @@ namespace Melia.Channel
 		/// Connection acceptor and manager.
 		/// </summary>
 		public ConnectionManager<ChannelConnection> ConnectionManager { get; private set; }
+		/// <summary>
+		/// Skill handlers manager ?
+		/// </summary>
+		public SkillHandlers SkillHandlers { get; private set; }
 
 		/// <summary>
 		/// Creates new channel server.
@@ -61,6 +65,7 @@ namespace Melia.Channel
 		{
 			this.World = new WorldManager();
 			this.ScriptManager = new ScriptManager();
+			this.SkillHandlers = new SkillHandlers();
 		}
 
 		/// <summary>

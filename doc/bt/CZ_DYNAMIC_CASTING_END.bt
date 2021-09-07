@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_DYNAMIC_CASTING_START.bt
+//      File: CZ_DYNAMIC_CASTING_END.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
 //   Purpose: 
@@ -16,7 +16,6 @@
 ClientHeaderFixed header;
 int skillId;
 float f1;
-byte bin[18];
+int i1;
 short s1;
 short s2;
-short s3;

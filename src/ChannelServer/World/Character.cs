@@ -2704,6 +2704,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Modifies character's SP by the given amount and updates the
+		/// client with ZC_UPDATE_SP.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void ModifySp(int amount)
+		{
+			this.Sp += amount;
+			Send.ZC_UPDATE_SP(this, this.Sp);
+		}
+
+		/// <summary>
 		/// Modifies the character's ability points by the given amount
 		/// and updates the respective property on the client.
 		/// </summary>
@@ -2805,24 +2816,6 @@ namespace Melia.Channel.World
 				// Save lists for next run
 				_visibleMonsters = currentlyVisibleMonsters;
 				_visibleCharacters = currentlyVisibleCharacters;
-			}
-		}
-
-		public void CastSkill(int skillId, float dx, float dy)
-		{
-			// Check skill
-			var skill = this.Skills.Get(skillId);
-			if (skill == null)
-			{
-				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
-				Send.ZC_SKILL_CAST_CANCEL(this);
-				//Log.Debug(packet.ToString());
-			}
-			else
-			{
-				Send.ZC_OVERHEAT_CHANGED(this, skill);
-				Send.ZC_COOLDOWN_CHANGED(this, skill);
-				Send.ZC_SKILL_FORCE_TARGET(this, null, skill, 0);
 			}
 		}
 
