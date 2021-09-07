@@ -1895,10 +1895,4 @@ namespace Melia.Channel.Network
 			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
 	}
-
-	public enum TxType : short
-	{
-		Stats = 1,
-		Skills = 2,
-	}
 }
