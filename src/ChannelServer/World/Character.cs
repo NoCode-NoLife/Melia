@@ -2694,6 +2694,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Modifies character's SP by the given amount and updates the
+		/// client with ZC_UPDATE_SP.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void ModifySp(int amount)
+		{
+			this.Sp += amount;
+			Send.ZC_UPDATE_SP(this, this.Sp);
+		}
+
+		/// <summary>
 		/// Modifies the character's ability points by the given amount
 		/// and updates the respective property on the client.
 		/// </summary>
@@ -2796,41 +2807,6 @@ namespace Melia.Channel.World
 				_visibleMonsters = currentlyVisibleMonsters;
 				_visibleCharacters = currentlyVisibleCharacters;
 			}
-		}
-
-		/// <summary>
-		/// Checks if a player can cast a skill
-		/// </summary>
-		/// <param name="skillId"></param>
-		/// <returns>If skill is castable it returns true</returns>
-		public bool CanCast(int skillId)
-		{
-			// Check skill
-			var skill = this.Skills.Get(skillId);
-			return CanCast(skill);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <returns></returns>
-		private bool CanCast(Skill skill)
-		{
-			if (skill != null)
-			{
-				// To Do move pre-cast logic into Character.CanCast?
-				if (skill.Data.BasicSp != 0)
-				{
-					var requiredSp = (int)skill.Data.BasicSp + (skill.Data.LvUpSpendSp * skill.Level - 1);
-					if (this.Sp < requiredSp)
-						return false;
-					this.Sp -= (int)skill.Data.BasicSp;
-					Send.ZC_UPDATE_SP(this);
-				}
-				return true;
-			}
-			return false;
 		}
 
 		/// <summary>

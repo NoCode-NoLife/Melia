@@ -11,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity, IEntityEvent
+	public class Monster : IEntity, IAttackableEntity, IEntityEvent
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -161,18 +161,21 @@ namespace Melia.Channel.World
 		/// <param name="from"></param>
 		/// <param name="type"></param>
 		/// <returns>If damage is fatal returns true</returns>
-		public bool TakeDamage(int damage, Character from, int type)
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex = 0)
 		{
+			if (this.Hp == 0) return false;
 			this.Hp -= damage;
-			// To Do switch to Enum for Visible Damage Packet?
 			switch (type) {
-				case 0:
+				case DamageVisibilityModifier.Invisible:
 					break;
-				case 1:
-					Send.ZC_HIT_INFO(from, this, damage);
+				case DamageVisibilityModifier.Hit:
+					Send.ZC_HIT_INFO(from, this, damage, attackIndex);
+					break;
+				case DamageVisibilityModifier.Skill:
+					Send.ZC_SKILL_HIT_INFO(from, this, damage);
 					break;
 				default:
-					Send.ZC_SKILL_HIT_INFO(from, this, damage);
+					Log.Warning("Monster.TakeDamage: Unknown damage visibility modifier '{0}' used.", type);
 					break;
 			}
 

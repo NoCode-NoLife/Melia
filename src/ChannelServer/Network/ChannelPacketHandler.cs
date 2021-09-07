@@ -862,6 +862,9 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 			var skill = character.Skills.Get(skillId);
+			var castPosition = new Position(attackerX, attackerY, attackerZ);
+			var targetPosition = new Position(targetX, targetY, targetZ);
+
 			if (skill != null)
 			{
 				// Should check state of the character
@@ -873,11 +876,11 @@ namespace Melia.Channel.Network
 					switch (skill.Data.UseType)
 					{
 						case SkillUseType.MELEE_GROUND:
-							new GroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ));
+							ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
 							break;
 
 						case SkillUseType.FORCE:
-							new TargetedSkillHandler().Handle(skill, character, null);
+							ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
 							break;
 
 						default:
@@ -887,7 +890,7 @@ namespace Melia.Channel.Network
 				}
 				else
 				{
-					var targets = new List<IEntity>();
+					var targets = new List<IAttackableEntity>();
 					foreach (var handle in handles)
 					{
 						// Get target
@@ -902,7 +905,7 @@ namespace Melia.Channel.Network
 					switch (skill.Data.UseType)
 					{
 						case SkillUseType.MELEE_GROUND:
-							new TargetedGroundSkillHandler().Handle(skill, character, new Position(targetX, targetY, targetZ), targets);
+							ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
 							break;
 						default:
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
@@ -927,12 +930,12 @@ namespace Melia.Channel.Network
 			var targetHandle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
+			var skill = character.Skills.Get(skillId);
 
-			if (character.CanCast(skillId))
+			if (skill != null)
 			{
-				var skill = character.Skills.Get(skillId);
 				var target = character.Map.GetMonster(targetHandle);
-				new TargetedSkillHandler().Handle(skill, character, target);
+				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
 			}
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
@@ -953,11 +956,11 @@ namespace Melia.Channel.Network
 			var dy = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
+			var skill = character.Skills.Get(skillId);
 
-			if (character.CanCast(skillId))
+			if (skill != null)
 			{
-				var skill = character.Skills.Get(skillId);
-				new TargetedSkillHandler().Handle(skill, character, null);
+				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
 			}
 			
 			//character.CastSkill(skillId);
@@ -1212,13 +1215,11 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 			var skill = character.Skills.Get(skillId);
-			if (character.CanCast(skillId))
+			if (skill != null)
 			{
-				new GroundSkillHandler().Handle(skill, character, new Position(x2, y2, z2));
-				//Send.ZC_SKILL_MELEE_GROUND(character, skill, x2, y2, z2, null, 0);
-
-				//character.Map.GetAttackableMonstersInRange(x2, y2, z2, (int)skill.Data.MaxRange).ForEach(monster => monster.TakeDamage(character.GetRandomPAtk() + 100, character, skill));
-				// Broadcast action to all?
+				var castPosition = new Position(x1, y1, z1);
+				var targetPosition = new Position(x2, y2, z2);
+				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
 			}
 
 			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.

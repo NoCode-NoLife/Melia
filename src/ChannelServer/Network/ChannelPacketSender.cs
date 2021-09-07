@@ -275,7 +275,7 @@ namespace Melia.Channel.Network
 		public static void ZC_SKILL_CAST_CANCEL(Character character, IEntity target)
 		{
 			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
-			packet.PutInt(target?.Handle ?? character.Handle);
+			packet.PutInt(target.Handle);
 
 			character.Connection.Send(packet);
 		}
@@ -344,7 +344,7 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, float targetX, float targetY, float targetZ, List<IEntity> targets = null, int damage = 0)
+		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, float targetX, float targetY, float targetZ, IEnumerable<IEntity> targets = null, int damage = 0)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt(skill.Id);
@@ -357,15 +357,15 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
 			packet.PutFloat(1.083666f);
-			if (targets != null && targets.Count == 1)
-				packet.PutInt(targets[0].Handle); // Target Handle
+			if (targets != null && targets.Count() == 1)
+				packet.PutInt(targets.First().Handle);
 			else
-				packet.PutInt(0); // Target Handle
+				packet.PutInt(0);
 			packet.PutFloat(targetX);
 			packet.PutFloat(targetY);
 			packet.PutFloat(targetZ);
-			packet.PutShort(targets?.Count ?? 0);
-			if (targets?.Count > 0)
+			packet.PutShort(targets?.Count() ?? 0);
+			if (targets?.Count() > 0)
 				foreach (var target in targets)
 				{
 					if (target != null && damage > 0)
@@ -403,8 +403,8 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(skill.OverHeatData.Id);
-			packet.PutInt(skill.OverHeatCount * skill.Data.OverHeatDelay); // Increasing OverHeatValue
+			packet.PutInt(skill.OverheatData.Id);
+			packet.PutInt(skill.OverheatCounter * skill.Data.OverHeatDelay); // Increasing OverHeatValue
 			packet.PutInt(0);
 			packet.PutInt(skill.Data.OverHeatDelay);
 			packet.PutByte(0);
@@ -426,7 +426,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(skill.CoolDownData.Id);
+			packet.PutInt(skill.CooldownData.Id);
 			packet.PutInt(skill.Data.CoolDown); // Cooldown value
 			packet.PutInt(skill.Data.CoolDown); // Cooldown value
 			packet.PutByte(0);
@@ -1432,7 +1432,7 @@ namespace Melia.Channel.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage)
+		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage, int attackIndex = 0)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 			packet.PutInt(target.Handle);
@@ -1440,8 +1440,21 @@ namespace Melia.Channel.Network
 			packet.PutInt(100);
 			packet.PutInt(damage);
 			packet.PutInt(target.Hp);
-			packet.PutInt(2);
-			packet.PutBinFromHex("01 00 00 60 06 68 03 00 18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+			packet.PutInt(attackIndex);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutByte(104);
+			packet.PutShort(3);
+			packet.PutByte(1);
+			packet.PutByte(64);
+			packet.PutLong(1);
+			packet.PutLong(0);
+			packet.PutByte(0);
+			packet.PutFloat(0);
+			packet.PutLong(0);
+			packet.PutLong(1);
+			packet.PutByte(0);
+
 
 			target.Map.Broadcast(packet);
 		}
@@ -3986,6 +3999,15 @@ namespace Melia.Channel.Network
 			packet.PutLpString(""); // str3
 
 			monster.Map.Broadcast(packet, monster);
+		}
+
+		/// <summary>
+		/// Add a buff to the character
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="buff"></param>
+		public static void ZC_BUFF_ADD(Character character, Buff buff)
+		{ 
 		}
 
 		public static void DUMMY(ChannelConnection conn)

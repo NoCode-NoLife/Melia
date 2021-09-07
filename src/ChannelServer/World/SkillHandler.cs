@@ -5,129 +5,182 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Channel.Network;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	interface ITargetedSkillHandler
+	/// <summary>
+	/// Targeted skill handler interface when the client provides a target
+	/// </summary>
+	public interface ITargetedSkillHandler
 	{
-		void Handle(Skill skill, Character caster, IEntity target);
+		void Handle(Skill skill, Character caster, IAttackableEntity target);
 	}
 
-	interface IGroundSkillHandler
+	/// <summary>
+	/// Ground skill handler when the client provides target cast 
+	/// location, it be the same cast position as when a buff is casted
+	/// like heal or double attack
+	/// </summary>
+	public interface IGroundSkillHandler
 	{
-		void Handle(Skill skill, Character caster, Position position);
+		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition);
 	}
 
-	interface ITargetGroundSkillHandler
+	/// <summary>
+	/// Targeted ground skill handler when the client provides targets
+	/// </summary>
+	public interface ITargetGroundSkillHandler
 	{
-		void Handle(Skill skill, Character caster, Position position, List<IEntity> targets);
+		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets);
 	}
 
-	class TargetedSkillHandler : ITargetedSkillHandler
+	/// <summary>
+	/// Targeted skill handler implmentation when the client provides a target
+	/// </summary>
+	public class TargetedSkillHandler : ITargetedSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, IEntity target)
+		public void Handle(Skill skill, Character caster, IAttackableEntity target)
 		{
-			if (skill.Data.OverHeat != 0)
-				skill.OverHeatCount++;
+			if (skill.CanOverheat)
+				skill.OverheatCounter++;
 			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-			if (skill.Data.OverHeat == 0 || skill.Data.OverHeat == skill.OverHeatCount)
+			if (!skill.CanOverheat || skill.IsOverheated)
 			{
 				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverHeatCount = 0;
+				skill.OverheatCounter = 0;
 			}
 
 			var damage = caster.GetRandomPAtk() + 100;
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
-			// Unsafe cast for now we're only dealing with monsters
 			if (target != null)
 			{
-				var monster = (Monster)target;
-				if (monster.TakeDamage(damage, caster, 0))
+				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}
 	}
 
-	class TargetedGroundSkillHandler : ITargetGroundSkillHandler
+	/// <summary>
+	/// Targeted ground skill implementation when the client provides targets
+	/// </summary>
+	public class TargetedGroundSkillHandler : ITargetGroundSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, Position position, List<IEntity> targets)
+		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets)
 		{
-			if (skill.Data.OverHeat != 0)
-				skill.OverHeatCount++;
+			if (skill.Data.Overheat != 0)
+				skill.OverheatCounter++;
 			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-			if (skill.Data.OverHeat == 0 || skill.Data.OverHeat == skill.OverHeatCount)
+			if (!skill.CanOverheat || skill.IsOverheated)
 			{
 				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverHeatCount = 0;
+				skill.ResetOverheat();
 			}
 			var damage = caster.GetRandomPAtk() + 100;
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, null, 0);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, null, 0);
 			foreach (var target in targets)
 			{
-				//Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position.X, target.Position.Y, target.Position.Z, null, 0);
 				var monster = (Monster)target;
-				if (monster.TakeDamage(damage, caster, 2))
+				if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Skill))
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}
 	}
 
-	class GroundSkillHandler : IGroundSkillHandler
+	/// <summary>
+	/// Generic Buff Skill Handler
+	/// </summary>
+	public class BuffSkillHandler : IGroundSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, Position position)
+		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
 		{
-			if (skill.Data.OverHeat != 0)
-				skill.OverHeatCount++;
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-			if (skill.Data.OverHeat == 0 || skill.Data.OverHeat == skill.OverHeatCount)
+			if (!skill.CanOverheat || skill.IsOverheated)
 			{
 				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverHeatCount = 0;
+				skill.OverheatCounter = 0;
 			}
-			Send.ZC_SKILL_READY(caster, skill, caster.Position, position);
+		}
+	}
+
+	/// <summary>
+	/// Generic Ground Skill Handler
+	/// </summary>
+	public class GroundSkillHandler : IGroundSkillHandler
+	{
+		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
+		{
+			var castedRange = castPosition.Get3DDistance(targetPosition);
+			if (castedRange > skill.Data.MaxRange)
+			{
+				Log.Warning("Player {0} casted skill with id {1} farther than max range, casted range: {2} > max range: {3}.", caster.Name, skill.Id, castedRange, skill.Data.MaxRange);
+				return;
+			}
+			// Enabled for testing max range calculations
+			else
+				Log.Info("Player {0} casted skill with id {1} within max range, casted range: {2} > max range: {3}.", caster.Name, skill.Id, castedRange, skill.Data.MaxRange);
+			if (skill.CanOverheat)
+				skill.OverheatCounter++; // Replace with IncreaseOverheat, it's more verbose?
+			Send.ZC_OVERHEAT_CHANGED(caster, skill);
+			if (!skill.CanOverheat || skill.IsOverheated)
+			{
+				Send.ZC_COOLDOWN_CHANGED(caster, skill);
+				skill.ResetOverheat();
+			}
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
 			switch (skill.Id)
 			{
 				case 20007:
-					caster.Map.GetVisibleMonsters(caster);
-					var targets = caster.Map.GetAttackableMonstersInRange(position.X, position.Y, position.Z, (int)skill.Data.MaxRange).ToList<IEntity>();
+					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk() + 100;
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, targets, damage);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, targets, damage);
 					foreach (var target in targets)
 					{
 						Send.ZC_NORMAL_SkillParticleEffect(caster, 1234);
 						Send.ZC_SYNC_START(caster, 1234, 1);
-						Send.ZC_NORMAL_Skill_16(caster, target, position);
+						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
 						Send.ZC_SYNC_END(caster, 1234, 0);
-						//Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position.X, target.Position.Y, target.Position.Z, null, 0);
 						var monster = (Monster)target;
 						if (monster.TakeDamage(damage, caster, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
 				case 30001:
+					targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
+					damage = caster.GetRandomPAtk();
 					Send.ZC_NORMAL_Skill_4E(caster, skill.Id, 1);
-					Send.ZC_NORMAL_Skill(caster, skill, position, caster.Direction, true);
-					Send.ZC_NORMAL_Unknown_06(caster, position);
+					Send.ZC_NORMAL_Skill(caster, skill, targetPosition, caster.Direction, true);
+					Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
 					Send.ZC_SYNC_START(caster, 1234, 1);
 					Send.ZC_SYNC_END(caster, 1234, 0);
 					Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, null, 0);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, null, 0);
 					Send.ZC_SYNC_EXEC(caster, 1234);
-					// Skill Cast Duration? Cancel's Visible Animation Otherwise you stay in casting animation
+					for (var i = 0; i < 10; i++)
+					{
+						Task.Delay(skill.Data.HitDelay).ContinueWith(_ =>
+						{
+							Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
+							Send.ZC_SYNC_START(caster, 1234, 1);
+							Send.ZC_SYNC_END(caster, 1234, -0.2f);
+							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
+							Send.ZC_SYNC_EXEC(caster, 1234);
+							foreach (var target in targets)
+							{
+								var monster = (Monster)target;
+								if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Hit, i+1))
+									Send.ZC_SKILL_CAST_CANCEL(caster, target);
+							}
+						});
+					}
 					Send.ZC_SKILL_DISABLE(caster);
 					break;
 				default:
-					//Send.ZC_SYNC_START(caster, 1234, 1);
-					//Send.ZC_SYNC_END(caster, 1234, 0);
-					//Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-
-					targets = caster.Map.GetAttackableMonstersInRange(position.X, position.Y, position.Z, (int)skill.Data.MaxRange).ToList<IEntity>();
+					targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
 					damage = caster.GetRandomPAtk() + 100;
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, position.X, position.Y, position.Z, targets, damage);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, targets, damage);
 					foreach (var target in targets)
 					{
-						//Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position.X, target.Position.Y, target.Position.Z, null, 0);
 						var monster = (Monster)target;
 						if (monster.TakeDamage(damage, caster, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
@@ -135,10 +188,5 @@ namespace Melia.Channel.World
 					break;
 			}
 		}
-	}
-
-	interface ISkillHandler
-	{
-		void Handle(Skill skill, Character caster, IEntity target = null, int damage = 0);
 	}
 }
