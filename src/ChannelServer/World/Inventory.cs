@@ -668,7 +668,13 @@ namespace Melia.Channel.World
 			// Sending ZC_ITEM_INVENTORY_INDEX_LIST stopped working at some
 			// point after the iCBT2, officials send a full list now.
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character);
-			Send.ZC_ITEM_INVENTORY_LIST(_character);
+
+			// Sending ZC_ITEM_INVENTORY_LIST stopped working at some point.
+			// Third time's the charm, I bet ZC_ITEM_INVENTORY_DIVISION_LIST
+			// is way better than the previous options!
+			//Send.ZC_ITEM_INVENTORY_LIST(_character);
+
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 		}
 
 		/// <summary>
