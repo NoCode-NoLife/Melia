@@ -10,31 +10,31 @@ using Melia.Shared.Util;
 
 namespace Melia.Channel.World
 {
+	/// <summary>
+	/// Represents a character's inventory.
+	/// </summary>
 	public class Inventory
 	{
-		private Character _character;
+		private readonly Character _character;
 
-		private object _syncLock = new object();
-		private Dictionary<InventoryCategory, List<Item>> _items;
-		private Dictionary<long, Item> _itemsWorldIndex;
-		private Dictionary<EquipSlot, Item> _equip;
+		private readonly object _syncLock = new object();
+
+		private Dictionary<InventoryCategory, List<Item>> _items = new Dictionary<InventoryCategory, List<Item>>();
+		private readonly Dictionary<long, Item> _itemsWorldIndex = new Dictionary<long, Item>();
+		private readonly Dictionary<EquipSlot, Item> _equip = new Dictionary<EquipSlot, Item>(Items.EquipSlotCount);
 
 		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
 		public Inventory(Character character)
 		{
-			_items = new Dictionary<InventoryCategory, List<Item>>();
+			_character = character;
+
 			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
 				_items.Add(category, new List<Item>());
 
-			_equip = new Dictionary<EquipSlot, Item>(Items.EquipSlotCount);
 			for (EquipSlot slot = 0; slot < (EquipSlot)Items.EquipSlotCount; ++slot)
 				_equip.Add(slot, new DummyEquipItem(slot));
-
-			_itemsWorldIndex = new Dictionary<long, Item>();
-
-			_character = character;
 		}
 
 		/// <summary>
@@ -60,29 +60,12 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns a dictionary with all items, Key being their index.
+		/// Returns a dictionary with all items, Key being their inventory
+		/// index.
 		/// </summary>
 		/// <returns></returns>
 		public IDictionary<int, Item> GetItems()
-		{
-			var result = new Dictionary<int, Item>();
-
-			lock (_syncLock)
-			{
-				foreach (var category in _items)
-				{
-					for (var i = 0; i < category.Value.Count; ++i)
-					{
-						var index = category.Value[i].GetInventoryIndex(i);
-						var item = category.Value[i];
-
-						result.Add(index, item);
-					}
-				}
-			}
-
-			return result;
-		}
+			=> this.GetItems(null);
 
 		/// <summary>
 		/// Returns a dictionary with all items that match the predicate,
@@ -102,7 +85,7 @@ namespace Melia.Channel.World
 						var index = category.Value[i].GetInventoryIndex(i);
 						var item = category.Value[i];
 
-						if (predicate(item))
+						if (predicate == null || predicate(item))
 							result.Add(index, item);
 					}
 				}
@@ -112,7 +95,8 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns a dictionary with all indices, Key being the item's index.
+		/// Returns a dictionary with all items' inventory indices and
+		/// object ids.
 		/// </summary>
 		/// <returns></returns>
 		public IDictionary<int, long> GetIndices()
@@ -137,8 +121,8 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns a dictionary with all indices for inventory category,
-		/// Key being the item's index.
+		/// Returns a dictionary with the inventory indices and object
+		/// ids of all items in the given category.
 		/// </summary>
 		/// <returns></returns>
 		public IDictionary<int, long> GetIndices(InventoryCategory category)
@@ -203,31 +187,36 @@ namespace Melia.Channel.World
 			return item;
 		}
 
+		// I don't remember what this method was used for, but it
+		// wouldn't work anymore, since inventory categories have
+		// gotte more complicated. I'm going to disable it for
+		// now.
+
 		/// <summary>
-		/// Returns item by index, or null if it doesn't exist.
+		/// Returns item by inventory index, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="worldId"></param>
 		/// <returns></returns>
-		public Item GetItemByIndex(int index)
-		{
-			if (index < 5001 || index > 1750000)
-				throw new ArgumentOutOfRangeException("index");
+		//public Item GetItemByIndex(int index)
+		//{
+		//	if (index < 5001 || index > 1750000)
+		//		throw new ArgumentOutOfRangeException("index");
 
-			var category = (InventoryCategory)(index / 5000);
-			var subIndex = index - (int)category * 5000 - 1;
+		//	var category = (InventoryCategory)(index / 5000);
+		//	var subIndex = index - (int)category * 5000 - 1;
 
-			Item item;
-			lock (_syncLock)
-			{
-				var list = _items[category];
-				if (list.Count < subIndex)
-					return null;
+		//	Item item;
+		//	lock (_syncLock)
+		//	{
+		//		var list = _items[category];
+		//		if (list.Count < subIndex)
+		//			return null;
 
-				item = list[subIndex];
-			}
+		//		item = list[subIndex];
+		//	}
 
-			return item;
-		}
+		//	return item;
+		//}
 
 		/// <summary>
 		/// Returns item in given equip slot, or null if there is none.
@@ -514,7 +503,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Reduces amount of item with the given id. Item is removed
+		/// Reduces item's amount by the given value. Item is removed
 		/// if amount becomes 0.
 		/// </summary>
 		/// <param name="slot"></param>
@@ -543,6 +532,7 @@ namespace Melia.Channel.World
 			return InventoryResult.Success;
 		}
 
+		/// <summary>
 		/// Removes items with given id from inventory.
 		/// </summary>
 		/// <param name="itemId">Id of the item to remove.</param>
@@ -579,10 +569,7 @@ namespace Melia.Channel.World
 					}
 				}
 
-				if (item.Id != 900011 && item.Id != 900012)
-					Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
-				else
-					Send.ZC_ITEM_REMOVE(_character, 0, reduce, msg, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
 				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			}
 
@@ -635,6 +622,9 @@ namespace Melia.Channel.World
 			lock (_syncLock)
 			{
 				var items = new Dictionary<InventoryCategory, List<Item>>();
+
+				// Go through the categories one by one and sort them by
+				// the given order.
 
 				foreach (var category in _items.Keys)
 				{
