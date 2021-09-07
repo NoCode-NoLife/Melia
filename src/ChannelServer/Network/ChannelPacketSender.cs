@@ -4006,9 +4006,9 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="buff"></param>
-		public static void ZC_BUFF_ADD(Character character, Buff buff)
-		{ 
-		}
+		//public static void ZC_BUFF_ADD(Character character, Buff buff)
+		//{ 
+		//}
 
 		public static void DUMMY(ChannelConnection conn)
 		{
