@@ -173,15 +173,20 @@ namespace Melia.Channel.World
 				return true;
 
 			this.Hp -= damage;
-			switch (type) {
+
+			switch (type)
+			{
 				case DamageVisibilityModifier.Invisible:
 					break;
+
 				case DamageVisibilityModifier.Hit:
 					Send.ZC_HIT_INFO(from, this, damage, attackIndex);
 					break;
+
 				case DamageVisibilityModifier.Skill:
 					Send.ZC_SKILL_HIT_INFO(from, this, damage);
 					break;
+
 				default:
 					Log.Warning("Monster.TakeDamage: Unknown damage visibility modifier '{0}' used.", type);
 					break;
@@ -193,6 +198,7 @@ namespace Melia.Channel.World
 				this.Kill(from);
 				return true;
 			}
+
 			return false;
 		}
 

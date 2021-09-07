@@ -346,7 +346,10 @@ namespace Melia.Channel.Network
 		/// <param name="skillId"></param>
 		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<IEntity> targets = null, int damage = 0)
 		{
+			var targetCount = targets?.Count() ?? 0;
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
+
 			packet.PutInt(skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
@@ -357,15 +360,19 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
 			packet.PutFloat(1.083666f);
-			if (targets != null && targets.Count() == 1)
+
+			if (targets != null && targetCount == 1)
 				packet.PutInt(targets.First().Handle);
 			else
 				packet.PutInt(0);
+
 			packet.PutFloat(targetPosition.X);
 			packet.PutFloat(targetPosition.Y);
 			packet.PutFloat(targetPosition.Z);
-			packet.PutShort(targets?.Count() ?? 0);
-			if (targets?.Count() > 0)
+			packet.PutShort(targetCount);
+
+			if (targetCount > 0)
+			{
 				foreach (var target in targets)
 				{
 					if (target != null && damage > 0)
@@ -389,6 +396,7 @@ namespace Melia.Channel.Network
 						packet.PutShort(1);
 					}
 				}
+			}
 
 			character.Map.Broadcast(packet);
 		}

@@ -900,13 +900,16 @@ namespace Melia.Channel.Network
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 							continue;
 						}
+
 						targets.Add(target);
 					}
+
 					switch (skill.Data.UseType)
 					{
 						case SkillUseType.MELEE_GROUND:
 							ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
 							break;
+
 						default:
 							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
 							break;
@@ -937,6 +940,7 @@ namespace Melia.Channel.Network
 				var target = character.Map.GetMonster(targetHandle);
 				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
 			}
+
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
 		}
 
@@ -962,7 +966,7 @@ namespace Melia.Channel.Network
 			{
 				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
 			}
-			
+
 			//character.CastSkill(skillId);
 			//character.ServerMessage("Skill attacks haven't been implemented yet.");
 		}
@@ -1011,7 +1015,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// To Do keep track of state?
+			// TODO: keep track of state?
 		}
 
 		/// <summary>
@@ -1026,7 +1030,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// To Do keep track of state?
+			// TODO: keep track of state?
 		}
 
 		/// <summary>
@@ -1045,7 +1049,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			// To Do keep track of state?
+			// TODO: keep track of state?
 		}
 
 		/// <summary>
@@ -1222,7 +1226,8 @@ namespace Melia.Channel.Network
 				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
 			}
 
-			// The following code was (currently commented out) is what has been observed from GROUND SKILL packet responses.
+			// The following code is what has been observed from GROUND SKILL
+			// packet responses.
 
 			/*
 			var packetPosition1 = new Position(x1, y1, z1);

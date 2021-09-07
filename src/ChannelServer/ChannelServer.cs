@@ -42,31 +42,22 @@ namespace Melia.Channel
 		/// <summary>
 		/// The world~
 		/// </summary>
-		public WorldManager World { get; private set; }
+		public WorldManager World { get; } = new WorldManager();
 
 		/// <summary>
 		/// Channel's script manager.
 		/// </summary>
-		public ScriptManager ScriptManager { get; private set; }
+		public ScriptManager ScriptManager { get; } = new ScriptManager();
 
 		/// <summary>
 		/// Connection acceptor and manager.
 		/// </summary>
 		public ConnectionManager<ChannelConnection> ConnectionManager { get; private set; }
-		/// <summary>
-		/// Skill handlers manager ?
-		/// </summary>
-		public SkillHandlers SkillHandlers { get; private set; }
 
 		/// <summary>
-		/// Creates new channel server.
+		/// Skill handler manager.
 		/// </summary>
-		private ChannelServer()
-		{
-			this.World = new WorldManager();
-			this.ScriptManager = new ScriptManager();
-			this.SkillHandlers = new SkillHandlers();
-		}
+		public SkillHandlers SkillHandlers { get; } = new SkillHandlers();
 
 		/// <summary>
 		/// Starts the server.

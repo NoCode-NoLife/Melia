@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Melia.Channel.World
+﻿namespace Melia.Channel.World
 {
+	/// <summary>
+	/// Skill handler collection.
+	/// </summary>
 	public class SkillHandlers
 	{
-		public TargetedSkillHandler TargetedSkillHandler { get; set; }
-		public GroundSkillHandler GroundSkillHandler { get; set; }
-		public TargetedGroundSkillHandler TargetedGroundSkillHandler { get; set; }
+		/// <summary>
+		/// Returns the default targeted skill handler.
+		/// </summary>
+		public TargetedSkillHandler TargetedSkillHandler { get; } = new TargetedSkillHandler();
 
-		public SkillHandlers()
-		{
-			this.TargetedSkillHandler = new TargetedSkillHandler();
-			this.GroundSkillHandler = new GroundSkillHandler();
-			this.TargetedGroundSkillHandler = new TargetedGroundSkillHandler();
-		}
+		/// <summary>
+		/// Returns the default grounded skill handler.
+		/// </summary>
+		public GroundSkillHandler GroundSkillHandler { get; } = new GroundSkillHandler();
+
+		/// <summary>
+		/// Returns the default targeted grounded skill handler.
+		/// </summary>
+		public TargetedGroundSkillHandler TargetedGroundSkillHandler { get; } = new TargetedGroundSkillHandler();
 	}
 }
