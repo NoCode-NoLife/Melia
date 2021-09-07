@@ -3,20 +3,18 @@
 //
 //      File: CZ_SORT_INV.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i10622: order was added
-//   - i336041: Extra 12 bytes before data added
 //------------------------------------------------
 
 #include "common.bt"
 
 ClientHeaderFixed header;
 
-byte extra[12];
 byte b1;
 byte order;
