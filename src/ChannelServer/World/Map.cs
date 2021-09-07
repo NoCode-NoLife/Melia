@@ -192,17 +192,15 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns only monsters in a certain range
+		/// Returns attackable monsters in the given range around position.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
+		/// <param name="position"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
 		public IEnumerable<Monster> GetAttackableMonstersInRange(Position position, int range)
 		{
 			lock (_monsters)
-				return _monsters.Values.Where(a => a.Position.InRange2D(position, range));
+				return _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster);
 		}
 
 		/// <summary>
