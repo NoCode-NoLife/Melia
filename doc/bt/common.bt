@@ -646,7 +646,6 @@ typedef struct
     short s5;
     int attackId; //?
     int i6;
-    short s6; // Properties Count
     short s6; 
     if (s6 > 0) {
         short s6;
