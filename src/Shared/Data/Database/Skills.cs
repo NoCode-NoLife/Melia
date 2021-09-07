@@ -28,7 +28,7 @@ namespace Melia.Shared.Data.Database
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
 		public float SkillFactor { get; set; }
-		public int CoolDown { get; set; }
+		public int Cooldown { get; set; }
 		public string CooldownGroup { get; set; }
 		public int Overheat { get; set; }
 		public int OverHeatDelay { get; set; }
@@ -91,7 +91,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "coolDown", "coolDownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");
+			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");
 
 			var info = new SkillData();
 
@@ -112,8 +112,8 @@ namespace Melia.Shared.Data.Database
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
 
-			info.CoolDown = entry.ReadInt("coolDown");
-			info.CooldownGroup = entry.ReadString("coolDownGroup");
+			info.Cooldown = entry.ReadInt("cooldown");
+			info.CooldownGroup = entry.ReadString("cooldownGroup");
 
 			info.ShootTime = entry.ReadInt("shootTime");
 			info.HitDelay = entry.ReadInt("hitDelay");

@@ -62,7 +62,7 @@ namespace Melia.Channel.World
 		public int OverheatCounter { get; set; }
 
 		/// <summary>
-		/// The skill's data from the skill database.
+		/// Returns reference to the skill's data from the file database.
 		/// </summary>
 		/// <remarks>
 		/// Potentially temporary. It would be better to have everything
@@ -76,33 +76,26 @@ namespace Melia.Channel.World
 		public SkillData Data { get; }
 
 		/// <summary>
-		/// The skill's cooldown data from the cooldown database.
+		/// Returns reference to the skill's cooldow ndata from the file
+		/// database.
 		/// </summary>
-		public CoolDownData CooldownData { get; }
+		public CooldownData CooldownData { get; }
 
 		/// <summary>
-		/// The skill's overheat data from the cooldown database.
+		/// Returns reference to the skill's overheat data from the file
+		/// database.
 		/// </summary>
-		public CoolDownData OverheatData { get; }
+		public CooldownData OverheatData { get; }
 
 		/// <summary>
-		/// Can this skill over heat?
+		/// Returns whether this skill can overheat.
 		/// </summary>
 		public bool CanOverheat => this.Data.Overheat > 0;
 
 		/// <summary>
-		/// Check if skill has overheated.
+		/// Returns whether the skill is currently overheated.
 		/// </summary>
 		public bool IsOverheated => this.CanOverheat && this.Data.Overheat == this.OverheatCounter;
-
-		/// <summary>
-		/// Reset overheat counter to 0.
-		/// </summary>
-		public void ResetOverheat()
-		{
-			this.OverheatCounter = 0;
-		}
-
 
 		/// <summary>
 		/// Creates a new instance.
@@ -116,8 +109,8 @@ namespace Melia.Channel.World
 			this.Id = skillId;
 			this.Level = level;
 			this.Data = ChannelServer.Instance.Data.SkillDb.Find(skillId) ?? throw new ArgumentException($"Unknown skill '{skillId}'.");
-			this.CooldownData = ChannelServer.Instance.Data.CoolDownDb.Find(this.Data.CooldownGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' cooldown group '{this.Data.CooldownGroup}'.");
-			this.OverheatData = ChannelServer.Instance.Data.CoolDownDb.Find(this.Data.OverheatGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' overheat group '{this.Data.OverheatGroup}'.");
+			this.CooldownData = ChannelServer.Instance.Data.CooldownDb.Find(this.Data.CooldownGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' cooldown group '{this.Data.CooldownGroup}'.");
+			this.OverheatData = ChannelServer.Instance.Data.CooldownDb.Find(this.Data.OverheatGroup) ?? throw new ArgumentException($"Unknown skill '{skillId}' overheat group '{this.Data.OverheatGroup}'.");
 
 			// I don't know what exactly LevelByDB's purpose is, but if
 			// it's not sent, skills can be leveled past their max level.
@@ -138,7 +131,7 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.SplashRate));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.MaxR, () => this.Data.MaxRange));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CoolDown, () => this.Data.CoolDown));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CoolDown, () => this.Data.Cooldown));
 			//this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendItemCount, () => 1f));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillFactor, () => this.Data.SkillFactor));
@@ -161,6 +154,14 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio, () => 0f)); // Needs to be calculated if used, uses lua script
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio2, () => 0f)); // Needs to be calculated if used, uses lua script
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio3, () => 0f)); // Needs to be calculated if used, uses lua script
+		}
+
+		/// <summary>
+		/// Resets skill's overheat counter.
+		/// </summary>
+		public void ResetOverheat()
+		{
+			this.OverheatCounter = 0;
 		}
 	}
 }

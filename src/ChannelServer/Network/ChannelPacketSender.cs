@@ -435,8 +435,8 @@ namespace Melia.Channel.Network
 
 			packet.PutLong(character.Id);
 			packet.PutInt(skill.CooldownData.Id);
-			packet.PutInt(skill.Data.CoolDown); // Cooldown value
-			packet.PutInt(skill.Data.CoolDown); // Cooldown value
+			packet.PutInt(skill.Data.Cooldown);
+			packet.PutInt(skill.Data.Cooldown);
 			packet.PutByte(0);
 
 			character.Connection.Send(packet);

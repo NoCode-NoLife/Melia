@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
-	public class CoolDownData
+	public class CooldownData
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
@@ -16,7 +16,7 @@ namespace Melia.Shared.Data.Database
 		public int OverheatResetTime { get; set; }
 	}
 
-	public class CoolDownDb : DatabaseJsonIndexed<int, CoolDownData>
+	public class CooldownDb : DatabaseJsonIndexed<int, CooldownData>
 	{
 		/// <summary>
 		/// Returns data for the first ability with the given class name,
@@ -24,7 +24,7 @@ namespace Melia.Shared.Data.Database
 		/// </summary>
 		/// <param name="className"></param>
 		/// <returns></returns>
-		public CoolDownData Find(string className)
+		public CooldownData Find(string className)
 		{
 			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 		}
@@ -33,7 +33,7 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "className", "isOverheat", "overheatResetTime");
 
-			var info = new CoolDownData();
+			var info = new CooldownData();
 
 			info.Id = entry.ReadInt("id");
 			info.ClassName = entry.ReadString("className");
