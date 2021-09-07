@@ -2311,8 +2311,18 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => this.StatByLevel));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
+			// When they removed manual stat allocation, they disabled the
+			// code that added StatByLevel and StatByBonus together, that
+			// would return the full stat point amount. Now, StatByLevel
+			// is basically useless. Since we aren't auto-statting yet,
+			// and we probably want an option to use either anyway, we're
+			// going to combine both in StatByBonus and set StatByLevel to
+			// 0. This way we're able to use our StatByLevel points and
+			// manage the points in separate properties on the server,
+			// while the client simply displays the full amount.
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => 0));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByLevel + this.StatByBonus));
+
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
 
