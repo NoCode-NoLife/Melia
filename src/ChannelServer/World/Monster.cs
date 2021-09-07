@@ -170,8 +170,8 @@ namespace Melia.Channel.World
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
-				return;
-        
+				return true;
+
 			this.Hp -= damage;
 			switch (type) {
 				case DamageVisibilityModifier.Invisible:
@@ -189,7 +189,7 @@ namespace Melia.Channel.World
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
-            {
+			{
 				this.Kill(from);
 				return true;
 			}
