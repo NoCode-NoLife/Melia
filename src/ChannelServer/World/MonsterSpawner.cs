@@ -114,6 +114,15 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Spawns a monster if the current amount is lower than the total.
+		/// </summary>
+		private void Respawn()
+		{
+			if (_spawnCount < _totalAmount)
+				this.Spawn();
+		}
+
+		/// <summary>
 		/// Called when a monster spawned by this spawner died.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -121,9 +130,7 @@ namespace Melia.Channel.World
 		private void OnMonsterDied(object sender, EntityEventArgs e)
 		{
 			_spawnCount = Interlocked.Decrement(ref _spawnCount);
-
-			if (_spawnCount < _totalAmount)
-				Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Spawn());
+			Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Respawn());
 		}
 
 		/// <summary>
