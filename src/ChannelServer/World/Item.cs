@@ -10,6 +10,10 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
 {
+	/// <summary>
+	/// An item, that might be lying around in the world or is owned by
+	/// some entity.
+	/// </summary>
 	public class Item : IPropertyObject
 	{
 		private static long _worldId = 0x0050000000000000;
@@ -17,12 +21,12 @@ namespace Melia.Channel.World
 		private int _amount;
 
 		/// <summary>
-		/// Returns the item's id.
+		/// Returns the item's class id.
 		/// </summary>
 		public int Id { get; private set; }
 
 		/// <summary>
-		/// Data from data files.
+		/// Returns a reference to the item's data from the item data file.
 		/// </summary>
 		public ItemData Data { get; private set; }
 
@@ -41,22 +45,23 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns true if item's MaxStack is higher than 1.
+		/// Returns true if item's MaxStack is higher than 1, indicating
+		/// that it can contain more than one item of its type.
 		/// </summary>
-		public bool IsStackable { get { return this.Data.MaxStack > 1; } }
+		public bool IsStackable => this.Data.MaxStack > 1;
 
 		/// <summary>
-		/// Item's unique object id.
+		/// Gets or sets item's globally unique object id.
 		/// </summary>
 		public long ObjectId { get; set; }
 
 		/// <summary>
-		/// Item's price.
+		/// Returns item's buy price.
 		/// </summary>
 		public int Price { get; private set; }
 
 		/// <summary>
-		/// Specifies whether the item is locked.
+		/// Gets or sets whether the item is locked.
 		/// </summary>
 		/// <remarks>
 		/// XXX: Should this be saved? If so, we have to figure out where
@@ -65,7 +70,7 @@ namespace Melia.Channel.World
 		public bool IsLocked { get; set; }
 
 		/// <summary>
-		/// Item's properties.
+		/// Returns the item's property collection.
 		/// </summary>
 		public Properties Properties { get; } = new Properties();
 

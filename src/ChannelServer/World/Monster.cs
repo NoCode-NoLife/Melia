@@ -122,6 +122,11 @@ namespace Melia.Channel.World
 		public MonsterData Data { get; private set; }
 
 		/// <summary>
+		/// Returns whether the monster is dead.
+		/// </summary>
+		public bool IsDead => this.Hp == 0;
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
@@ -163,7 +168,10 @@ namespace Melia.Channel.World
 		/// <returns>If damage is fatal returns true</returns>
 		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex = 0)
 		{
-			if (this.Hp == 0) return false;
+			// Don't hit an already dead monster
+			if (this.IsDead)
+				return;
+        
 			this.Hp -= damage;
 			switch (type) {
 				case DamageVisibilityModifier.Invisible:
@@ -179,6 +187,7 @@ namespace Melia.Channel.World
 					break;
 			}
 
+			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
             {
 				this.Kill(from);
@@ -193,6 +202,8 @@ namespace Melia.Channel.World
 		/// <param name="killer"></param>
 		public void Kill(Character killer)
 		{
+			this.Hp = 0;
+
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
 
@@ -225,12 +236,12 @@ namespace Melia.Channel.World
 					if (dropItemData.MinAmount > 1)
 						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
 
-					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
 					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
 				}
 			}
 
-			killer.GiveExp(exp, classExp, this);
+			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);

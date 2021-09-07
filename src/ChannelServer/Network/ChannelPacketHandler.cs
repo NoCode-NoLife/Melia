@@ -1561,44 +1561,61 @@ namespace Melia.Channel.Network
 		public void CZ_CUSTOM_COMMAND(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			var command = packet.GetInt();
+			var commandId = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
 			var i1 = packet.GetInt();
 
-			switch (command)
+			// The command id references an entry in the custom command db,
+			// which we can use to get the class name of the command, giving
+			// us more information about what it does. The data also comes
+			// with script function names, though it will be easier to
+			// handle these here for now.
+
+			if (!ChannelServer.Instance.Data.CustomCommandDb.TryFind(commandId, out var commandData))
 			{
-				case 0x0C:
-				{
-					// Disable "You can buy items" tooltip, sent after
-					// opening a shop.
-					if (classId == 5 && cmdArg == 1)
-					{
-						// The property is on the session object "Jansori".
-						var jansori = conn.SelectedCharacter.SessionObjects.Get(SessionObjectId.Jansori);
-						jansori.Properties.Set(PropertyId.SessionObject.Shop_Able_Clicked, 1);
-						Send.ZC_OBJECT_PROPERTY(conn, jansori, PropertyId.SessionObject.Shop_Able_Clicked);
-						break;
-					}
-					goto default;
-				}
-				// Hat visbility toggle
-				case 0x28:
+				Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' sent an unknown command id ({1}).", conn.Account.Name, commandId);
+				return;
+			}
+
+			switch (commandData.Name)
+			{
+				case "HAT_VISIBLE_STATE":
 				{
 					// classId = 0~2 (hats 1~3)
 					goto default;
 				}
-				case 0x71:
-				{
-					Send.ZC_CUSTOM_COMMANDER_INFO(conn);
-					break;
-				}
+
 				default:
 				{
-					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}' (classId: {1}, cmdArg: {2}, i1: {3}).", command, classId, cmdArg, i1);
-					Log.Debug(packet.ToString());
+					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}', {1}({2}, {3}, {4}).", commandData.Name, commandData.Script, classId, cmdArg, i1);
 					break;
 				}
+
+				// At some point, this was the command "JANSORI_COUNT",
+				// but it doesn't seem to exist anymore.
+				//case 0x0C:
+				//{
+				//	// Disable "You can buy items" tooltip, sent after
+				//	// opening a shop.
+				//	if (classId == 5 && cmdArg == 1)
+				//	{
+				//		// The property is on the session object "Jansori".
+				//		var jansori = conn.SelectedCharacter.SessionObjects.Get(SessionObjectId.Jansori);
+				//		jansori.Properties.Set(PropertyId.SessionObject.Shop_Able_Clicked, 1);
+				//		Send.ZC_OBJECT_PROPERTY(conn, jansori, PropertyId.SessionObject.Shop_Able_Clicked);
+				//		break;
+				//	}
+				//	goto default;
+				//}
+
+				// I don't know why we were ever referencing 0x71, because
+				// there never was a command with that id.
+				//case 0x71:
+				//{
+				//	Send.ZC_CUSTOM_COMMANDER_INFO(conn);
+				//	break;
+				//}
 			}
 		}
 
@@ -1962,11 +1979,5 @@ namespace Melia.Channel.Network
 
 			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
-	}
-
-	public enum TxType : short
-	{
-		Stats = 1,
-		Skills = 2,
 	}
 }

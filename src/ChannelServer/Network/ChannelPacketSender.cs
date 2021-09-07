@@ -670,8 +670,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_ITEM_INVENTORY_DIVISION_LIST to character, containing a list of
-		/// all items in their inventory.
+		/// Sends ZC_ITEM_INVENTORY_DIVISION_LIST to character, containing
+		/// a list of all items in their inventory.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_ITEM_INVENTORY_DIVISION_LIST(Character character)
