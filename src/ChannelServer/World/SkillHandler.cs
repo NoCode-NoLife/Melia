@@ -43,6 +43,8 @@ namespace Melia.Channel.World
 	{
 		public void Handle(Skill skill, Character caster, IAttackableEntity target)
 		{
+			if (skill.SpendSp > 0)
+				caster.ModifySp(-skill.SpendSp);
 			if (skill.CanOverheat)
 				skill.OverheatCounter++;
 			Send.ZC_OVERHEAT_CHANGED(caster, skill);
@@ -69,6 +71,8 @@ namespace Melia.Channel.World
 	{
 		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets)
 		{
+			if (skill.SpendSp > 0)
+				caster.ModifySp(-skill.SpendSp);
 			if (skill.Data.Overheat != 0)
 				skill.OverheatCounter++;
 			Send.ZC_OVERHEAT_CHANGED(caster, skill);
@@ -78,7 +82,7 @@ namespace Melia.Channel.World
 				skill.ResetOverheat();
 			}
 			var damage = caster.GetRandomPAtk() + 100;
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, null, 0);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
 			foreach (var target in targets)
 			{
 				var monster = (Monster)target;
@@ -95,6 +99,8 @@ namespace Melia.Channel.World
 	{
 		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
 		{
+			if (skill.SpendSp > 0)
+				caster.ModifySp(-skill.SpendSp);
 			if (!skill.CanOverheat || skill.IsOverheated)
 			{
 				Send.ZC_COOLDOWN_CHANGED(caster, skill);
@@ -116,9 +122,8 @@ namespace Melia.Channel.World
 				Log.Warning("Player {0} casted skill with id {1} farther than max range, casted range: {2} > max range: {3}.", caster.Name, skill.Id, castedRange, skill.Data.MaxRange);
 				return;
 			}
-			// Enabled for testing max range calculations
-			else
-				Log.Info("Player {0} casted skill with id {1} within max range, casted range: {2} > max range: {3}.", caster.Name, skill.Id, castedRange, skill.Data.MaxRange);
+			if (skill.SpendSp > 0)
+				caster.ModifySp(-skill.SpendSp);
 			if (skill.CanOverheat)
 				skill.OverheatCounter++; // Replace with IncreaseOverheat, it's more verbose?
 			Send.ZC_OVERHEAT_CHANGED(caster, skill);
@@ -131,9 +136,9 @@ namespace Melia.Channel.World
 			switch (skill.Id)
 			{
 				case 20007:
-					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
+					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk() + 100;
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, targets, damage);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
 					foreach (var target in targets)
 					{
 						Send.ZC_NORMAL_SkillParticleEffect(caster, 1234);
@@ -146,7 +151,7 @@ namespace Melia.Channel.World
 					}
 					break;
 				case 30001:
-					targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
+					targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
 					damage = caster.GetRandomPAtk();
 					Send.ZC_NORMAL_Skill_4E(caster, skill.Id, 1);
 					Send.ZC_NORMAL_Skill(caster, skill, targetPosition, caster.Direction, true);
@@ -154,7 +159,7 @@ namespace Melia.Channel.World
 					Send.ZC_SYNC_START(caster, 1234, 1);
 					Send.ZC_SYNC_END(caster, 1234, 0);
 					Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, null, 0);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
 					Send.ZC_SYNC_EXEC(caster, 1234);
 					for (var i = 0; i < 10; i++)
 					{
@@ -162,7 +167,7 @@ namespace Melia.Channel.World
 						{
 							Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
 							Send.ZC_SYNC_START(caster, 1234, 1);
-							Send.ZC_SYNC_END(caster, 1234, -0.2f);
+							Send.ZC_SYNC_END(caster, 1234, 0);
 							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
 							Send.ZC_SYNC_EXEC(caster, 1234);
 							foreach (var target in targets)
@@ -176,9 +181,9 @@ namespace Melia.Channel.World
 					Send.ZC_SKILL_DISABLE(caster);
 					break;
 				default:
-					targets = caster.Map.GetAttackableMonstersInRange(targetPosition.X, targetPosition.Y, targetPosition.Z, (int)skill.Data.SplashRange);
+					targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
 					damage = caster.GetRandomPAtk() + 100;
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition.X, targetPosition.Y, targetPosition.Z, targets, damage);
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
 					foreach (var target in targets)
 					{
 						var monster = (Monster)target;

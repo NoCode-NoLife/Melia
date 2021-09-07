@@ -199,15 +199,10 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public IEnumerable<Monster> GetAttackableMonstersInRange(float x, float y, float z, int range)
+		public IEnumerable<Monster> GetAttackableMonstersInRange(Position position, int range)
 		{
-			var position = new Position(x, y, z);
-
-			IEnumerable<Monster> result;
 			lock (_monsters)
-				result = _monsters.Values.Where(a => a.Position.InRange2D(position, range));
-
-			return result;
+				return _monsters.Values.Where(a => a.Position.InRange2D(position, range));
 		}
 
 		/// <summary>

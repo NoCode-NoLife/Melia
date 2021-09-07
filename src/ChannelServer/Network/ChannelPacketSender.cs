@@ -344,7 +344,7 @@ namespace Melia.Channel.Network
 		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, float targetX, float targetY, float targetZ, IEnumerable<IEntity> targets = null, int damage = 0)
+		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<IEntity> targets = null, int damage = 0)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt(skill.Id);
@@ -361,9 +361,9 @@ namespace Melia.Channel.Network
 				packet.PutInt(targets.First().Handle);
 			else
 				packet.PutInt(0);
-			packet.PutFloat(targetX);
-			packet.PutFloat(targetY);
-			packet.PutFloat(targetZ);
+			packet.PutFloat(targetPosition.X);
+			packet.PutFloat(targetPosition.Y);
+			packet.PutFloat(targetPosition.Z);
 			packet.PutShort(targets?.Count() ?? 0);
 			if (targets?.Count() > 0)
 				foreach (var target in targets)
