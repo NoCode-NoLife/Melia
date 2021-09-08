@@ -895,7 +895,7 @@ namespace Melia.Channel.Network
 			}
 			else
 			{
-				var targets = new List<IAttackableEntity>();
+				var targets = new List<ICombatEntity>();
 				foreach (var handle in handles)
 				{
 					// Get target

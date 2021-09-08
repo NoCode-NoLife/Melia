@@ -36,10 +36,11 @@ namespace Melia.Channel.World
 	/// <summary>
 	/// Describes an entity that can actively participate in combat.
 	/// </summary>
-	public interface IAttackableEntity : IEntity
+	public interface ICombatEntity : IEntity
 	{
 		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
+		/// Returns whether the entity is dead.
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>

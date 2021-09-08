@@ -2,7 +2,6 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Shared.Const;
@@ -12,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity, IAttackableEntity, IEntityEvent
+	public class Monster : ICombatEntity, IEntityEvent
 	{
 		/// <summary>
 		/// Index in world collection?

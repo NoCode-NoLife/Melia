@@ -11,7 +11,7 @@ namespace Melia.Channel.Skills.General
 	/// </summary>
 	public class TargetedGroundSkillHandler : ITargetGroundSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets)
+		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets)
 		{
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);

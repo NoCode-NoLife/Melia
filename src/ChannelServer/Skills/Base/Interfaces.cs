@@ -9,7 +9,7 @@ namespace Melia.Channel.Skills.Base
 	/// </summary>
 	public interface ITargetedSkillHandler
 	{
-		void Handle(Skill skill, Character caster, IAttackableEntity target);
+		void Handle(Skill skill, Character caster, ICombatEntity target);
 	}
 
 	/// <summary>
@@ -27,6 +27,6 @@ namespace Melia.Channel.Skills.Base
 	/// </summary>
 	public interface ITargetGroundSkillHandler
 	{
-		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets);
+		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets);
 	}
 }

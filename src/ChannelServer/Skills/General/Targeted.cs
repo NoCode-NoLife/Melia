@@ -9,7 +9,7 @@ namespace Melia.Channel.Skills.General
 	/// </summary>
 	public class TargetedSkillHandler : ITargetedSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, IAttackableEntity target)
+		public void Handle(Skill skill, Character caster, ICombatEntity target)
 		{
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
