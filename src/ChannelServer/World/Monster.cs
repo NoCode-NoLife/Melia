@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Melia.Channel.Network;
+using Melia.Channel.Skills;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;

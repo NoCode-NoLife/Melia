@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using Melia.Channel.Skills;
 using Melia.Shared.World;
 
 namespace Melia.Channel.World
@@ -45,27 +46,6 @@ namespace Melia.Channel.World
 		/// <param name="type"></param>
 		/// <returns>If damage is fatal returns true</returns>
 		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0);
-	}
-
-	/// <summary>
-	/// Defines how to broadcast an entity taking damage.
-	/// </summary>
-	public enum DamageVisibilityModifier
-	{
-		/// <summary>
-		/// Sends no damage information to clients.
-		/// </summary>
-		Invisible,
-
-		/// <summary>
-		/// Sends ZC_HIT_INFO to broadcast damage.
-		/// </summary>
-		Hit,
-
-		/// <summary>
-		/// Sends ZC_SKILL_HIT_INFO to broadcast damage.
-		/// </summary>
-		Skill,
 	}
 
 	public interface IEntityEvent

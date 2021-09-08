@@ -55,8 +55,8 @@ namespace Melia.Channel.Skills.General
 						Send.ZC_SYNC_START(caster, 1234, 1);
 						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
 						Send.ZC_SYNC_END(caster, 1234, 0);
-						var monster = (Monster)target;
-						if (monster.TakeDamage(damage, caster, 0))
+
+						if (target.TakeDamage(damage, caster, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
@@ -85,10 +85,10 @@ namespace Melia.Channel.Skills.General
 							Send.ZC_SYNC_END(caster, 1234, 0);
 							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
 							Send.ZC_SYNC_EXEC(caster, 1234);
+
 							foreach (var target in targets)
 							{
-								var monster = (Monster)target;
-								if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Hit, i + 1))
+								if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Hit, i + 1))
 									Send.ZC_SKILL_CAST_CANCEL(caster, target);
 							}
 						});
@@ -107,8 +107,7 @@ namespace Melia.Channel.Skills.General
 
 					foreach (var target in targets)
 					{
-						var monster = (Monster)target;
-						if (monster.TakeDamage(damage, caster, 0))
+						if (target.TakeDamage(damage, caster, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
