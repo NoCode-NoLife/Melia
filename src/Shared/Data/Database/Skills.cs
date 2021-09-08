@@ -28,11 +28,11 @@ namespace Melia.Shared.Data.Database
 		public float SplashAngle { get; set; }
 		public float SplashRate { get; set; }
 		public float SkillFactor { get; set; }
-		public int CoolDown { get; set; }
-		public string CoolDownGroup { get; set; }
-		public int OverHeat { get; set; }
+		public int Cooldown { get; set; }
+		public string CooldownGroup { get; set; }
+		public int Overheat { get; set; }
 		public int OverHeatDelay { get; set; }
-		public string OverHeatGroup { get; set; }
+		public string OverheatGroup { get; set; }
 		public int ShootTime { get; set; }
 		public List<int> HitTime { get; set; }
 		public List<int> HoldTime { get; set; }
@@ -91,7 +91,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "coolDown", "coolDownGroup", "hitDelay", "shootTime", "hitTime", "holdTime", "useType", "attribute");
+			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");
 
 			var info = new SkillData();
 
@@ -112,21 +112,21 @@ namespace Melia.Shared.Data.Database
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
 
-			info.CoolDown = entry.ReadInt("coolDown");
-			info.CoolDownGroup = entry.ReadString("coolDownGroup");
+			info.Cooldown = entry.ReadInt("cooldown");
+			info.CooldownGroup = entry.ReadString("cooldownGroup");
 
 			info.ShootTime = entry.ReadInt("shootTime");
 			info.HitDelay = entry.ReadInt("hitDelay");
 			info.HitTime = entry.ReadList<int>("hitTime");
 			info.HoldTime = entry.ReadList<int>("holdTime");
 			info.DeadHitTime = entry.ReadInt("deadHitDelay");
-			info.EnableCastMove = entry.ReadBool("enableCastMove", false);
+			info.EnableCastMove = entry.ReadBool("enableCastMove");
 			info.UseType = entry.ReadEnum<SkillUseType>("useType");
 			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 
-			info.OverHeat = entry.ReadInt("overheat", 0);
-			info.OverHeatDelay = entry.ReadInt("overheatDelay", 0);
-			info.OverHeatGroup = entry.ReadString("overheatGroup", null);
+			info.Overheat = entry.ReadInt("overheat");
+			info.OverHeatDelay = entry.ReadInt("overheatDelay");
+			info.OverheatGroup = entry.ReadString("overheatGroup");
 
 			this.Entries[info.Id] = info;
 		}

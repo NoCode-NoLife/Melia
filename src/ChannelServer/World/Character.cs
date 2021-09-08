@@ -2311,8 +2311,18 @@ namespace Melia.Channel.World
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => this.StatByLevel));
-			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByBonus));
+			// When they removed manual stat allocation, they disabled the
+			// code that added StatByLevel and StatByBonus together, that
+			// would return the full stat point amount. Now, StatByLevel
+			// is basically useless. Since we aren't auto-statting yet,
+			// and we probably want an option to use either anyway, we're
+			// going to combine both in StatByBonus and set StatByLevel to
+			// 0. This way we're able to use our StatByLevel points and
+			// manage the points in separate properties on the server,
+			// while the client simply displays the full amount.
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => 0));
+			this.Properties.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByLevel + this.StatByBonus));
+
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
 			this.Properties.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
 
@@ -2694,6 +2704,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Modifies character's SP by the given amount and updates the
+		/// client with ZC_UPDATE_SP.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void ModifySp(int amount)
+		{
+			this.Sp += amount;
+			Send.ZC_UPDATE_SP(this, this.Sp);
+		}
+
+		/// <summary>
 		/// Modifies the character's ability points by the given amount
 		/// and updates the respective property on the client.
 		/// </summary>
@@ -2795,24 +2816,6 @@ namespace Melia.Channel.World
 				// Save lists for next run
 				_visibleMonsters = currentlyVisibleMonsters;
 				_visibleCharacters = currentlyVisibleCharacters;
-			}
-		}
-
-		public void CastSkill(int skillId, float dx, float dy)
-		{
-			// Check skill
-			var skill = this.Skills.Get(skillId);
-			if (skill == null)
-			{
-				//Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use skill '{1}', which the character doesn't have.", this.Connection.Account.Name, skillId);
-				Send.ZC_SKILL_CAST_CANCEL(this);
-				//Log.Debug(packet.ToString());
-			}
-			else
-			{
-				Send.ZC_OVERHEAT_CHANGED(this, skill);
-				Send.ZC_COOLDOWN_CHANGED(this, skill);
-				Send.ZC_SKILL_FORCE_TARGET(this, null, skill, 0);
 			}
 		}
 

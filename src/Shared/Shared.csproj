@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Melia.Shared</RootNamespace>
     <AssemblyName>Shared</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -65,9 +65,10 @@
     <Compile Include="Const\RaceType.cs" />
     <Compile Include="Const\SessionObjects.cs" />
     <Compile Include="Const\Size.cs" />
+    <Compile Include="Const\TxType.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />
-    <Compile Include="Data\Database\CoolDowns.cs" />
+    <Compile Include="Data\Database\Cooldowns.cs" />
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />

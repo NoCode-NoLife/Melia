@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,10 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class SpawnData
+	/// <summary>
+	/// Spawns and respawns monsters.
+	/// </summary>
+	public class MonsterSpawner
 	{
 		private readonly MonsterData _monsterData;
 		private readonly Map _map;
@@ -22,13 +24,42 @@ namespace Melia.Channel.World
 		private readonly float _minZ;
 		private readonly float _maxZ;
 
+		/// <summary>
+		/// Returns the class name of the monster that is to be spawned.
+		/// </summary>
 		public string MonsterClassName { get; }
+
+		/// <summary>
+		/// Returns the amount of monsters to spawn and keep around.
+		/// </summary>
 		public int Amount { get; }
+
+		/// <summary>
+		/// Returns the delay until a monster is spawned again after
+		/// it died.
+		/// </summary>
 		public TimeSpan RespawnDelay { get; }
+
+		/// <summary>
+		/// Returns the class name of the map the monsters are to be
+		/// spawned on
+		/// </summary>
 		public string MapClassName { get; }
+
+		/// <summary>
+		/// Returns the polygonal area that monsters are spawned in.
+		/// </summary>
 		public Position[] Area { get; }
 
-		public SpawnData(string monsterClassName, int amount, TimeSpan respawnDelay, string mapClassName, Position[] area)
+		/// <summary>
+		/// Creates a new spawner.
+		/// </summary>
+		/// <param name="monsterClassName">Class name of the monster to spawn.</param>
+		/// <param name="amount">Amount of monsters to spawn and keep around.</param>
+		/// <param name="respawnDelay">Delay until a monster is spawned again.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters on.</param>
+		/// <param name="area">Points that make up the spawn area.</param>
+		public MonsterSpawner(string monsterClassName, int amount, TimeSpan respawnDelay, string mapClassName, Position[] area)
 		{
 			if (!ChannelServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassName}'.");
@@ -53,12 +84,19 @@ namespace Melia.Channel.World
 			_maxZ = this.Area.Max(a => a.Z);
 		}
 
+		/// <summary>
+		/// Spawns monsters until the total amount is reached.
+		/// </summary>
 		public void InitialSpawn()
 		{
 			while (_spawnCount < _totalAmount)
 				this.Spawn();
 		}
 
+		/// <summary>
+		/// Spawns a monster.
+		/// </summary>
+		/// <returns></returns>
 		public Monster Spawn()
 		{
 			var monster = new Monster(_monsterData.Id, NpcType.Monster);
@@ -75,15 +113,31 @@ namespace Melia.Channel.World
 			return monster;
 		}
 
+		/// <summary>
+		/// Spawns a monster if the current amount is lower than the total.
+		/// </summary>
+		private void Respawn()
+		{
+			if (_spawnCount < _totalAmount)
+				this.Spawn();
+		}
+
+		/// <summary>
+		/// Called when a monster spawned by this spawner died.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnMonsterDied(object sender, EntityEventArgs e)
 		{
 			_spawnCount = Interlocked.Decrement(ref _spawnCount);
-		
-			if (_spawnCount < _totalAmount)
-				Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Spawn());
+			Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Respawn());
 		}
 
-		public Position GetRandomPosition()
+		/// <summary>
+		/// Returns a random position inside the spawn area.
+		/// </summary>
+		/// <returns></returns>
+		private Position GetRandomPosition()
 		{
 			var _points = this.Area;
 			var rnd = _rnd;
@@ -158,4 +212,4 @@ namespace Melia.Channel.World
 			return result;
 		}
 	}
-	}
+}

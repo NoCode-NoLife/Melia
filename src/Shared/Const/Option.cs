@@ -156,5 +156,9 @@ namespace Melia.Shared.Const
 		InvOption_Card_Goddess = 156,
 		ShowTutorialnote = 157,
 		IsEnableSummonAlpha = 161,
+		EnableAutoCasting = 162,
+		PopupPickItem = 163,
+		PickItemMessage = 164,
+		RelicAutoCharge = 165,
 	}
 }

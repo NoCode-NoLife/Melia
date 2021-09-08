@@ -105,6 +105,17 @@ formatting settings that match the coding conventions as much as possible.
 * Locals should be used in favor of globals whenever possible.
 * A space should be used after a comment. For example, `-- comment`.
 
+## Binary Templates
+* Should use tabs for indention.
+* Use PascalCase for structs and enums.
+* Use camelCase for variables, fields, and functions.
+* Optionally, UPPER_SNAKE_CASE may be used where appropriate, for the names
+  of official structs, such as `APPEARANCE_PC`.
+* A space should be used after a comment. For example, `// comment`.
+* Every binary template should ideally document the version of the game
+  it was created for and the changes that happened over time, in the
+  Version and History sections of the header respectively.
+
 Branching Strategy
 -----------------------------------------------------------------------------
 

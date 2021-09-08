@@ -16,34 +16,9 @@
 
 ServerHeaderDynamic header;
 
-typedef struct
-{
-    int i1;
-    int targetHandle;
-    int damage;
-    int hpLeft;
-    int i1;
-    int i2;
-    short s1;
-    short s2;
-    int64 l2;
-    int64 worldId;
-    byte b1;
-    byte attackIndex; //?
-    short s3;
-    int attackId; //?
-    int i6;
-    short s4;
-    short s5;
-    //short s6;
-    //byte b2;
-    //short s7;
-} Attack <optimize=false>;
-
 int skillId;
 int characterHandle;
-float f1;
-float f2;
+direction dir;
 int i4;
 float f3;
 float f4;

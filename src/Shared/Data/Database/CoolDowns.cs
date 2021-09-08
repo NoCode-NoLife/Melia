@@ -2,12 +2,13 @@
 // For more information, see license file in the main folder
 
 using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
-	public class CoolDownData
+	public class CooldownData
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
@@ -15,13 +16,24 @@ namespace Melia.Shared.Data.Database
 		public int OverheatResetTime { get; set; }
 	}
 
-	public class CoolDownDb : DatabaseJsonIndexed<int, CoolDownData>
+	public class CooldownDb : DatabaseJsonIndexed<int, CooldownData>
 	{
+		/// <summary>
+		/// Returns data for the first ability with the given class name,
+		/// or null if none were found.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <returns></returns>
+		public CooldownData Find(string className)
+		{
+			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
+		}
+
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "className", "isOverheat", "overheatResetTime");
 
-			var info = new CoolDownData();
+			var info = new CooldownData();
 
 			info.Id = entry.ReadInt("id");
 			info.ClassName = entry.ReadString("className");

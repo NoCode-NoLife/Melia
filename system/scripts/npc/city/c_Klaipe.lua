@@ -1,9 +1,8 @@
 --- [Item Merchant] Mirina ---
-addnpc(20115, "ETC_20150717_013603", "c_Klaipe", 511, -1, -349, 45, "npc_itemmerchantmirina")
-function npc_itemmerchantmirina()
-	msg("Emilia_Select_1")
+addnpc(20115, "[Item Merchant]{nl}    Mirina", "c_Klaipe", 511, -1, -349, 45, function()
+	msg("May I help you?{nl}Fortunately, we have some potions left in stock.")
 	openshop("Klapeda_Misc")
-end
+end)
  
 --- [Equipment Merchant] Dunkel ---
 addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, "npc_equipmentmerchantdunkel")
@@ -23,7 +22,7 @@ function npc_accessorymerchantronesa()
 	msg("Alfonso_Select_1")
 	openshop("Klapeda_Accessory")
 end
- 
+
 --- Indifferent Widow ---
 function npc_indifferentwidow()
 	if select("TUTO_GIRL_basic_02", "!@#$TUTO_GIRL_select01#@!", "!@#$Auto_JongLyo#@!") ~= 1 then

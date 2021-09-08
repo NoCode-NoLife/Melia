@@ -11,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity, IEntityEvent
+	public class Monster : IEntity, IAttackableEntity, IEntityEvent
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -122,6 +122,11 @@ namespace Melia.Channel.World
 		public MonsterData Data { get; private set; }
 
 		/// <summary>
+		/// Returns whether the monster is dead.
+		/// </summary>
+		public bool IsDead => this.Hp == 0;
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
@@ -159,32 +164,42 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		public void TakeDamage(int damage, Character from, Skill skill = null)
+		/// <param name="type"></param>
+		/// <returns>If damage is fatal returns true</returns>
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex = 0)
 		{
+			// Don't hit an already dead monster
+			if (this.IsDead)
+				return true;
+
 			this.Hp -= damage;
 
-			// In earlier clients ZC_HIT_INFO was used, newer ones seem to
-			// use SKILL, and this doesn't create a double hit effect like
-			// the other.
-			if (skill == null)
+			switch (type)
 			{
-				Send.ZC_SKILL_HIT_INFO(from, this, damage);
-			}
-			else
-			{
-				switch (skill.Data.UseType)
-				{
-					case SkillUseType.FORCE:
-						Send.ZC_SKILL_FORCE_TARGET(from, this, skill, damage);
-						break;
-					case SkillUseType.MELEE_GROUND:
-						Send.ZC_SKILL_MELEE_GROUND(from, skill, this.Position.X, this.Position.Y, this.Position.Z, this, damage);
-						break;
-				}
+				case DamageVisibilityModifier.Invisible:
+					break;
+
+				case DamageVisibilityModifier.Hit:
+					Send.ZC_HIT_INFO(from, this, damage, attackIndex);
+					break;
+
+				case DamageVisibilityModifier.Skill:
+					Send.ZC_SKILL_HIT_INFO(from, this, damage);
+					break;
+
+				default:
+					Log.Warning("Monster.TakeDamage: Unknown damage visibility modifier '{0}' used.", type);
+					break;
 			}
 
+			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
+			{
 				this.Kill(from);
+				return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -193,6 +208,8 @@ namespace Melia.Channel.World
 		/// <param name="killer"></param>
 		public void Kill(Character killer)
 		{
+			this.Hp = 0;
+
 			var expRate = ChannelServer.Instance.Conf.World.ExpRate / 100;
 			var classExpRate = ChannelServer.Instance.Conf.World.ClassExpRate / 100;
 
@@ -225,12 +242,12 @@ namespace Melia.Channel.World
 					if (dropItemData.MinAmount > 1)
 						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
 
-					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
 					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
 				}
 			}
 
-			killer.GiveExp(exp, classExp, this);
+			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
