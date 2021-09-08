@@ -173,7 +173,7 @@ namespace Melia.Channel.Database
 					{
 						while (reader.Read())
 						{
-							var skillId = reader.GetInt32("id");
+							var skillId = (SkillId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
 							var skill = new Skill(character, skillId, level);

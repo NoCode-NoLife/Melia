@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Channel.Network;
+using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
@@ -151,7 +152,7 @@ namespace Melia.Channel.World
 
 			switch (skill.Id)
 			{
-				case 20007:
+				case SkillId.Wizard_MagicMissile:
 				{
 					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk() + 100;
@@ -171,7 +172,7 @@ namespace Melia.Channel.World
 					break;
 				}
 
-				case 30001:
+				case SkillId.Archer_Multishot:
 				{
 					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk();

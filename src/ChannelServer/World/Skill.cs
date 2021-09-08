@@ -36,7 +36,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns the skill's id.
 		/// </summary>
-		public int Id { get; }
+		public SkillId Id { get; }
 
 		/// <summary>
 		/// Gets or sets skill's level.
@@ -103,7 +103,7 @@ namespace Melia.Channel.World
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="level"></param>
-		public Skill(Character character, int skillId, int level)
+		public Skill(Character character, SkillId skillId, int level)
 		{
 			this.Character = character;
 			this.Id = skillId;

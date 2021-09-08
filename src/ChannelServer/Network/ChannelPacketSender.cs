@@ -291,7 +291,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -350,7 +350,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -1655,11 +1655,11 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="value"></param>
-		public static void ZC_NORMAL_Skill_4E(Character character, int skillId, float value)
+		public static void ZC_NORMAL_Skill_4E(Character character, SkillId skillId, float value)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Skill_4E);
-			packet.PutInt(skillId);
+			packet.PutInt((int)skillId);
 			packet.PutFloat(value);
 			packet.PutByte(0);
 
@@ -2148,7 +2148,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_READY);
 			packet.PutInt(character.Handle);
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(character.Handle);
@@ -2226,7 +2226,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
 			packet.PutInt(0);
-			packet.PutInt(skill.Id); // SkillId
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(skill.Level); // Skill Level ?
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);

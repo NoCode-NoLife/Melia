@@ -65,6 +65,7 @@
     <Compile Include="Const\RaceType.cs" />
     <Compile Include="Const\SessionObjects.cs" />
     <Compile Include="Const\Size.cs" />
+    <Compile Include="Const\SkillId.cs" />
     <Compile Include="Const\TxType.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />

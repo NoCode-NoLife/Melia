@@ -14,7 +14,7 @@ namespace Melia.Channel.World
 	/// </summary>
 	public class Skills
 	{
-		private Dictionary<int, Skill> _skills = new Dictionary<int, Skill>();
+		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 
 		/// <summary>
 		/// The owner of this object.
@@ -63,7 +63,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public bool RemoveSilent(int skillId)
+		public bool RemoveSilent(SkillId skillId)
 		{
 			lock (_skills)
 				return _skills.Remove(skillId);
@@ -75,7 +75,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public bool Remove(int skillId)
+		public bool Remove(SkillId skillId)
 		{
 			if (!this.RemoveSilent(skillId))
 				return false;
@@ -91,7 +91,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public Skill Get(int skillId)
+		public Skill Get(SkillId skillId)
 		{
 			lock (_skills)
 			{
@@ -127,7 +127,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public bool Has(int skillId)
+		public bool Has(SkillId skillId)
 		{
 			lock (_skills)
 				return _skills.ContainsKey(skillId);
@@ -139,7 +139,7 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public int GetLevel(int skillId)
+		public int GetLevel(SkillId skillId)
 		{
 			var skill = this.Get(skillId);
 			if (skill == null)
@@ -155,7 +155,7 @@ namespace Melia.Channel.World
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public int GetMaxLevel(int skillId)
+		public int GetMaxLevel(SkillId skillId)
 		{
 			// I don't like this, but I don't have a better idea for
 			// handling it right now. A skill's max level could technically

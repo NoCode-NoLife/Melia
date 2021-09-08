@@ -20,7 +20,7 @@ namespace Melia.Channel.Network.Helpers
 			var propertiesSize = skill.Properties.Size;
 
 			packet.PutLong(skill.ObjectId);
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutShort(propertiesSize);
 			packet.PutEmptyBin(2); // alignment
 			packet.PutInt(0);

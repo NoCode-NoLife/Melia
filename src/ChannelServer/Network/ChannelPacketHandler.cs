@@ -847,7 +847,7 @@ namespace Melia.Channel.Network
 			var targetZ = packet.GetFloat();
 			var targetDx = packet.GetFloat();
 			var targetDy = packet.GetFloat();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var bin1 = packet.GetBin(5); // 01 00 00 00 00 00 00 00 00
 			var f1 = packet.GetFloat();
 
@@ -929,7 +929,7 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
@@ -955,7 +955,7 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var dx = packet.GetFloat();
 			var dy = packet.GetFloat();
 
@@ -1203,7 +1203,7 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var unk1 = packet.GetByte();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
 			var x1 = packet.GetFloat();
 			var y1 = packet.GetFloat();
