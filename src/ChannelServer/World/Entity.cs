@@ -47,6 +47,13 @@ namespace Melia.Channel.World
 		/// <param name="type"></param>
 		/// <returns>If damage is fatal returns true</returns>
 		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0);
+
+		/// <summary>
+		/// Returns true if this entity can attack the given one.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		bool CanAttack(ICombatEntity entity);
 	}
 
 	public interface IEntityEvent

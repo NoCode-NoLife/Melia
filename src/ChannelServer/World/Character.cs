@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
+using Melia.Channel.Skills;
 using Melia.Shared.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
@@ -13,7 +14,7 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
 {
-	public class Character : IEntity, ICommander, IPropertyObject
+	public class Character : ICombatEntity, ICommander, IPropertyObject
 	{
 		private bool _warping;
 
@@ -2984,6 +2985,32 @@ namespace Melia.Channel.World
 
 			foreach (var property in pcEtcProps.GetAll())
 				this.Properties.Add(property);
+		}
+
+		/// <summary>
+		/// Makes character take damage and kills them if their HP reached 0.
+		/// Returns true if the character is dead.
+		/// </summary>
+		/// <param name="damage"></param>
+		/// <param name="from"></param>
+		/// <param name="damageVisibility"></param>
+		/// <param name="attackIndex"></param>
+		/// <returns></returns>
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Returns true if the character can attack the entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanAttack(ICombatEntity entity)
+		{
+			// For now, let's specify that characters can attack actual
+			// monsters.
+			return (entity is Monster monster && monster.NpcType == NpcType.Monster);
 		}
 	}
 }

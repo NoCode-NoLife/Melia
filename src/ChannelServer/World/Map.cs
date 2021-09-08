@@ -197,10 +197,23 @@ namespace Melia.Channel.World
 		/// <param name="position"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public IEnumerable<Monster> GetAttackableMonstersInRange(Position position, int range)
+		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, int range)
 		{
+			var result = new List<ICombatEntity>();
+
 			lock (_monsters)
-				return _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster);
+			{
+				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, range) && attacker.CanAttack(a));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, range) && attacker.CanAttack(a));
+				result.AddRange(entities);
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -264,7 +277,6 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns all monsters on this map.
 		/// </summary>
-		/// <param name="handle"></param>
 		/// <returns></returns>
 		public Monster[] GetMonsters()
 		{

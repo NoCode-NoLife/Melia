@@ -44,7 +44,7 @@ namespace Melia.Channel.Skills.General
 			{
 				case SkillId.Wizard_MagicMissile:
 				{
-					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
+					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk() + 100;
 
 					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
@@ -64,7 +64,7 @@ namespace Melia.Channel.Skills.General
 
 				case SkillId.Archer_Multishot:
 				{
-					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
+					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk();
 
 					Send.ZC_NORMAL_Skill_4E(caster, skill.Id, 1);
@@ -100,7 +100,7 @@ namespace Melia.Channel.Skills.General
 
 				default:
 				{
-					var targets = caster.Map.GetAttackableMonstersInRange(targetPosition, (int)skill.Data.SplashRange);
+					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk() + 100;
 
 					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);

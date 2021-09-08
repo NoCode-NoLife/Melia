@@ -161,6 +161,7 @@ namespace Melia.Channel.World
 
 		/// <summary>
 		/// Makes monster take damage and kills it if the HP reach 0.
+		/// Returns true if the monster is dead.
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
@@ -251,6 +252,17 @@ namespace Melia.Channel.World
 			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Returns true if the monster can attack the entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanAttack(ICombatEntity entity)
+		{
+			// For now, let's specify that monsters can attack characters.
+			return (entity is Character);
 		}
 	}
 }
