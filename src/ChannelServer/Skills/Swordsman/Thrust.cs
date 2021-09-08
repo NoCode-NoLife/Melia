@@ -63,11 +63,11 @@ namespace Melia.Channel.Skills.Swordsman
 			var targets = caster.Map.GetAttackableEntitiesInRectangle(caster, castPosition, targetPosition, radius);
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, damage);
 
 			foreach (var target in targets)
 			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
+				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}
