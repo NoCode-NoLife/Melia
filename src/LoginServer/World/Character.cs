@@ -51,7 +51,7 @@ namespace Melia.Login.World
 		/// <summary>
 		/// Character's hair style.
 		/// </summary>
-		public byte Hair { get; set; }
+		public int Hair { get; set; }
 
 		/// <summary>
 		/// Equipped items.

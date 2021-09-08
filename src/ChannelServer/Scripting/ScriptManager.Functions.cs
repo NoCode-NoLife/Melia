@@ -840,7 +840,7 @@ namespace Melia.Channel.Scripting
 
 			lua_settop(L, 0);
 
-			character.Hair = (byte)hairId;
+			character.Hair = hairId;
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 
 			return 0;

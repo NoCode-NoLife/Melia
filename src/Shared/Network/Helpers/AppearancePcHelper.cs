@@ -81,7 +81,7 @@ namespace Melia.Shared.Network.Helpers
 		JobId JobId { get; }
 		Gender Gender { get; }
 		int Level { get; }
-		byte Hair { get; }
+		int Hair { get; }
 		HatVisibleStates VisibleHats { get; }
 
 		int[] GetEquipIds();
