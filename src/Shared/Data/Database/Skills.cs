@@ -112,6 +112,7 @@ namespace Melia.Shared.Data.Database
 			info.SplashHeight = entry.ReadFloat("splashHeight");
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
+			info.SkillFactor = entry.ReadFloat("skillFactor");
 
 			info.Cooldown = entry.ReadInt("cooldown");
 			info.CooldownGroup = entry.ReadString("cooldownGroup");
