@@ -2,11 +2,12 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.Skills
 {
 	public class Skill : IPropertyObject
 	{

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Channel.Network.Helpers;
+using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;

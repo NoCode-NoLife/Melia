@@ -1,123 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Melia.Channel.Network;
+using Melia.Channel.Skills.Base;
+using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.Skills.General
 {
-	/// <summary>
-	/// Targeted skill handler interface when the client provides a target
-	/// </summary>
-	public interface ITargetedSkillHandler
-	{
-		void Handle(Skill skill, Character caster, IAttackableEntity target);
-	}
-
-	/// <summary>
-	/// Ground skill handler when the client provides target cast 
-	/// location, it be the same cast position as when a buff is casted
-	/// like heal or double attack
-	/// </summary>
-	public interface IGroundSkillHandler
-	{
-		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition);
-	}
-
-	/// <summary>
-	/// Targeted ground skill handler when the client provides targets
-	/// </summary>
-	public interface ITargetGroundSkillHandler
-	{
-		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets);
-	}
-
-	/// <summary>
-	/// Targeted skill handler implmentation when the client provides a target
-	/// </summary>
-	public class TargetedSkillHandler : ITargetedSkillHandler
-	{
-		public void Handle(Skill skill, Character caster, IAttackableEntity target)
-		{
-			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
-
-			if (skill.CanOverheat)
-				skill.OverheatCounter++;
-
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverheatCounter = 0;
-			}
-
-			var damage = caster.GetRandomPAtk() + 100;
-
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
-
-			if (target != null)
-			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
-					Send.ZC_SKILL_CAST_CANCEL(caster, target);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Targeted ground skill implementation when the client provides targets
-	/// </summary>
-	public class TargetedGroundSkillHandler : ITargetGroundSkillHandler
-	{
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<IAttackableEntity> targets)
-		{
-			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
-
-			if (skill.Data.Overheat != 0)
-				skill.OverheatCounter++;
-
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.ResetOverheat();
-			}
-
-			var damage = caster.GetRandomPAtk() + 100;
-
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
-
-			foreach (var target in targets)
-			{
-				var monster = (Monster)target;
-				if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Skill))
-					Send.ZC_SKILL_CAST_CANCEL(caster, target);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Generic Buff Skill Handler
-	/// </summary>
-	public class BuffSkillHandler : IGroundSkillHandler
-	{
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
-		{
-			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
-
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverheatCounter = 0;
-			}
-		}
-	}
-
 	/// <summary>
 	/// Generic Ground Skill Handler
 	/// </summary>

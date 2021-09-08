@@ -1,4 +1,6 @@
-﻿namespace Melia.Channel.World
+﻿using Melia.Channel.Skills.General;
+
+namespace Melia.Channel.Skills
 {
 	/// <summary>
 	/// Skill handler collection.

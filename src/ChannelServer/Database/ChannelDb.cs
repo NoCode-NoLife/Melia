@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Melia.Channel.Scripting;
+using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
