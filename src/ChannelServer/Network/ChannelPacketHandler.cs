@@ -898,9 +898,8 @@ namespace Melia.Channel.Network
 				var targets = new List<ICombatEntity>();
 				foreach (var handle in handles)
 				{
-					// Get target
-					var target = character.Map.GetMonster(handle);
-					if (target == null || target.NpcType != NpcType.Monster)
+					var target = character.Map.GetCombatEntity(handle);
+					if (target == null || !character.CanAttack(target))
 					{
 						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
 						continue;
@@ -948,8 +947,8 @@ namespace Melia.Channel.Network
 			//   to use this handler without target? We should document
 			//   such things.
 
-			var target = character.Map.GetMonster(targetHandle);
-			//if (!character.Map.TryGetMonster(targetHandle, out var target))
+			var target = character.Map.GetCombatEntity(targetHandle);
+			//if (!character.Map.TryGetCombatEntity(targetHandle, out var target))
 			//{
 			//	Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill on a non-existing target.", conn.Account.Name);
 			//	return;

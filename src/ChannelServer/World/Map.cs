@@ -217,7 +217,7 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns only monsters by handle, or null if it doesn't exist.
+		/// Returns monster by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
@@ -231,7 +231,8 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns only monsters by handle, or null if it doesn't exist.
+		/// Returns monster by handle via out. Returns false if the
+		/// monster wasn't found.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
@@ -239,6 +240,41 @@ namespace Melia.Channel.World
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
+		/// Returns combat entity by handle, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public ICombatEntity GetCombatEntity(int handle)
+		{
+			lock (_monsters)
+			{
+				if (_monsters.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			lock (_characters)
+			{
+				if (_characters.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Returns combat entity by handle via out. Returns false if the
+		/// handle wasn't found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool TryGetCombatEntity(int handle, out ICombatEntity entity)
+		{
+			entity = this.GetCombatEntity(handle);
+			return entity != null;
 		}
 
 		/// <summary>
