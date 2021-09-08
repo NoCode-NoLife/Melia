@@ -158,6 +158,14 @@ namespace Melia.Channel.Skills
 		}
 
 		/// <summary>
+		/// Increases skill's overheat counter by 1.
+		/// </summary>
+		public void IncreaseOverheat()
+		{
+			this.OverheatCounter++;
+		}
+
+		/// <summary>
 		/// Resets skill's overheat counter.
 		/// </summary>
 		public void ResetOverheat()

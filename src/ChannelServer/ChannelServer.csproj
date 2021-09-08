@@ -79,6 +79,7 @@
     <Compile Include="Skills\General\Targeted.cs" />
     <Compile Include="Skills\General\TargetedGround.cs" />
     <Compile Include="Skills\SkillHandlerAttribute.cs" />
+    <Compile Include="Skills\Swordsman\Thrust.cs" />
     <Compile Include="Util\GmCommands.Handlers.cs" />
     <Compile Include="Util\AbilityPriceTime.cs" />
     <Compile Include="Util\AbilityUnlock.cs" />
