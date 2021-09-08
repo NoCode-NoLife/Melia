@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System;
 using System.Text;
 using System.Security.Cryptography;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Login.Network
 {
@@ -240,14 +241,10 @@ namespace Melia.Login.Network
 			var name = packet.GetString(65);
 			var job = (JobId)packet.GetShort();
 			var gender = (Gender)packet.GetByte();
-			var bx = packet.GetFloat();
-			var by = packet.GetFloat();
-			var bz = packet.GetFloat();
+			var barrackPos = packet.GetPosition();
+			var lodge = packet.GetInt();
 			var hair = packet.GetByte();
-			var b1 = packet.GetByte();
-			var b2 = packet.GetByte();
-			var b3 = packet.GetByte();
-			//FF CD 0C B4 7C 31 7E 93
+			var bin1 = packet.GetBin(12);
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
@@ -291,7 +288,7 @@ namespace Melia.Login.Network
 			var startLocation = LoginServer.Instance.Conf.Login.StartLocation;
 			character.MapId = startLocation.MapId;
 			character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
-			character.BarrackPosition = new Position(bx, by, bz);
+			character.BarrackPosition = barrackPos;
 
 			// XXX: Maybe we could get rid of this and the (sub-)stats in
 			//   Character by passing the jobData to the database, for it
