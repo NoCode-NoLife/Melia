@@ -3,14 +3,12 @@
 //
 //      File: CZ_ROTATE.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i336041: extra 12 bytes before actual packet seems to be the change for 
-//              all client side packets, maybe to prevent older versions from working
 //------------------------------------------------
 
 #include "common.bt"
@@ -20,4 +18,3 @@ ClientHeaderFixed header;
 int i1;
 float d1;
 float d2;
-ushort s1;
