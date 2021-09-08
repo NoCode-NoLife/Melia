@@ -610,6 +610,7 @@ namespace Melia.Channel.Network
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
+			var i1 = packet.GetInt();
 			var direction = packet.GetDirection();
 
 			conn.SelectedCharacter.Rotate(direction);
