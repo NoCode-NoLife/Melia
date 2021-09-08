@@ -218,6 +218,17 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns only monsters by handle, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(int handle, out Monster monster)
+		{
+			lock (_monsters)
+				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
 		/// Returns all characters on this map.
 		/// </summary>
 		/// <param name="handle"></param>

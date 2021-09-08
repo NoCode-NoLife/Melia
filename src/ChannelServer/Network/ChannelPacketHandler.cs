@@ -862,59 +862,62 @@ namespace Melia.Channel.Network
 			}
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
 			var castPosition = new Position(attackerX, attackerY, attackerZ);
 			var targetPosition = new Position(targetX, targetY, targetZ);
 
-			if (skill != null)
+			// Should check state of the character
+			Send.ZC_OVERHEAT_CHANGED(character, skill);
+			Send.ZC_PC_ATKSTATE(character, true);
+
+			if (handleCount == 0)
 			{
-				// Should check state of the character
-				Send.ZC_OVERHEAT_CHANGED(character, skill);
-				Send.ZC_PC_ATKSTATE(character, true);
-
-				if (handleCount == 0)
+				switch (skill.Data.UseType)
 				{
-					switch (skill.Data.UseType)
-					{
-						case SkillUseType.MELEE_GROUND:
-							ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
-							break;
+					case SkillUseType.MELEE_GROUND:
+						ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
+						break;
 
-						case SkillUseType.FORCE:
-							ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
-							break;
+					case SkillUseType.FORCE:
+						ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
+						break;
 
-						default:
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
-							break;
-					}
+					default:
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+						break;
 				}
-				else
+			}
+			else
+			{
+				var targets = new List<IAttackableEntity>();
+				foreach (var handle in handles)
 				{
-					var targets = new List<IAttackableEntity>();
-					foreach (var handle in handles)
+					// Get target
+					var target = character.Map.GetMonster(handle);
+					if (target == null || target.NpcType != NpcType.Monster)
 					{
-						// Get target
-						var target = character.Map.GetMonster(handle);
-						if (target == null || target.NpcType != NpcType.Monster)
-						{
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
-							continue;
-						}
-
-						targets.Add(target);
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
+						continue;
 					}
 
-					switch (skill.Data.UseType)
-					{
-						case SkillUseType.MELEE_GROUND:
-							ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
-							break;
+					targets.Add(target);
+				}
 
-						default:
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
-							break;
-					}
+				switch (skill.Data.UseType)
+				{
+					case SkillUseType.MELEE_GROUND:
+						ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
+						break;
+
+					default:
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+						break;
 				}
 			}
 		}
@@ -934,15 +937,25 @@ namespace Melia.Channel.Network
 			var targetHandle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
 
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				var target = character.Map.GetMonster(targetHandle);
-				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
 			}
 
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
+			// TODO: Should the target be checked properly? Is it possible
+			//   to use this handler without target? We should document
+			//   such things.
+
+			var target = character.Map.GetMonster(targetHandle);
+			//if (!character.Map.TryGetMonster(targetHandle, out var target))
+			//{
+			//	Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill on a non-existing target.", conn.Account.Name);
+			//	return;
+			//}
+
+			ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
 		}
 
 		/// <summary>
@@ -961,15 +974,14 @@ namespace Melia.Channel.Network
 			var dy = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
 
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
+				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
 			}
 
-			//character.CastSkill(skillId);
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
 		}
 
 		/// <summary>
@@ -998,14 +1010,16 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			var skill = character.Skills.Get(skillId);
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				var castPosition = new Position(x1, y1, z1);
-				var targetPosition = new Position(x2, y2, z2);
-
-				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
 			}
+
+			var castPosition = new Position(x1, y1, z1);
+			var targetPosition = new Position(x2, y2, z2);
+
+			ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
 
 			// The following code is what has been observed from GROUND SKILL
 			// packet responses.

@@ -29,11 +29,11 @@ namespace Melia.Channel.Skills.General
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
 
-			if (target != null)
-			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
-					Send.ZC_SKILL_CAST_CANCEL(caster, target);
-			}
+			if (target == null)
+				return;
+
+			if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
+				Send.ZC_SKILL_CAST_CANCEL(caster, target);
 		}
 	}
 }

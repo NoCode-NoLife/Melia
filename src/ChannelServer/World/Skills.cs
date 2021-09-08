@@ -102,6 +102,19 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns skill with given id via out, returns false if the
+		/// skill wasn't found.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public bool TryGet(SkillId skillId, out Skill skill)
+		{
+			skill = this.Get(skillId);
+			return skill != null;
+		}
+
+		/// <summary>
 		/// Returns skill with given class name, or null if it didn't
 		/// exist.
 		/// </summary>
