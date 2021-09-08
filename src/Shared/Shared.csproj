@@ -100,6 +100,7 @@
     <Compile Include="Network\Helpers\AccountHelper.cs" />
     <Compile Include="Network\Helpers\AppearancePcHelper.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />
+    <Compile Include="Network\Helpers\Position.cs" />
     <Compile Include="Network\Helpers\PropertyHelper.cs" />
     <Compile Include="Network\SubOp.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />

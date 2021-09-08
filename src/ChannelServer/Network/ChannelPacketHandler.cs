@@ -10,6 +10,7 @@ using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
@@ -840,14 +841,9 @@ namespace Melia.Channel.Network
 			var size = packet.GetShort();
 			var i1 = packet.GetInt();
 			var handleCount = packet.GetInt();
-			var attackerX = packet.GetFloat();
-			var attackerY = packet.GetFloat();
-			var attackerZ = packet.GetFloat();
-			var targetX = packet.GetFloat();
-			var targetY = packet.GetFloat();
-			var targetZ = packet.GetFloat();
-			var targetDx = packet.GetFloat();
-			var targetDy = packet.GetFloat();
+			var castPosition = packet.GetPosition();
+			var targetPosition = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var skillId = (SkillId)packet.GetInt();
 			var bin1 = packet.GetBin(5); // 01 00 00 00 00 00 00 00 00
 			var f1 = packet.GetFloat();
@@ -868,9 +864,6 @@ namespace Melia.Channel.Network
 				Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
-
-			var castPosition = new Position(attackerX, attackerY, attackerZ);
-			var targetPosition = new Position(targetX, targetY, targetZ);
 
 			// Should check state of the character
 			Send.ZC_OVERHEAT_CHANGED(character, skill);
@@ -969,8 +962,7 @@ namespace Melia.Channel.Network
 			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
 			var skillId = (SkillId)packet.GetInt();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var direction = packet.GetDirection();
 
 			var character = conn.SelectedCharacter;
 
@@ -995,14 +987,9 @@ namespace Melia.Channel.Network
 			var unk1 = packet.GetByte();
 			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
-			var x1 = packet.GetFloat();
-			var y1 = packet.GetFloat();
-			var z1 = packet.GetFloat();
-			var x2 = packet.GetFloat();
-			var y2 = packet.GetFloat();
-			var z2 = packet.GetFloat();
-			var cos = packet.GetFloat();
-			var sin = packet.GetFloat();
+			var castPosition = packet.GetPosition();
+			var targetPosition = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var handle = packet.GetInt(); // This seems to be "target actorId"
 			var unk6 = packet.GetByte();
 			var unk7 = packet.GetByte();
@@ -1014,9 +1001,6 @@ namespace Melia.Channel.Network
 				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
-
-			var castPosition = new Position(x1, y1, z1);
-			var targetPosition = new Position(x2, y2, z2);
 
 			ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
 
