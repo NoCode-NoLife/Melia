@@ -56,7 +56,7 @@ namespace Melia.Channel.Skills.General
 						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
 						Send.ZC_SYNC_END(caster, 1234, 0);
 
-						if (target.TakeDamage(damage, caster, 0))
+						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
@@ -107,7 +107,7 @@ namespace Melia.Channel.Skills.General
 
 					foreach (var target in targets)
 					{
-						if (target.TakeDamage(damage, caster, 0))
+						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;

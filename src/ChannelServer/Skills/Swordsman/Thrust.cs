@@ -67,7 +67,7 @@ namespace Melia.Channel.Skills.Swordsman
 
 			foreach (var target in targets)
 			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
+				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}

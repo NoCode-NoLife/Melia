@@ -32,7 +32,7 @@ namespace Melia.Channel.Skills.General
 			if (target == null)
 				return;
 
-			if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible))
+			if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
 				Send.ZC_SKILL_CAST_CANCEL(caster, target);
 		}
 	}

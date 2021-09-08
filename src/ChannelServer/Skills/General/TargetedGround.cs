@@ -34,7 +34,7 @@ namespace Melia.Channel.Skills.General
 			foreach (var target in targets)
 			{
 				var monster = (Monster)target;
-				if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Skill))
+				if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}

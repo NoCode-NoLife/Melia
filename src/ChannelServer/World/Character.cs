@@ -3016,7 +3016,7 @@ namespace Melia.Channel.World
 		/// <param name="damageVisibility"></param>
 		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0)
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex)
 		{
 			throw new NotImplementedException();
 		}

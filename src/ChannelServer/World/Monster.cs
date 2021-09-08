@@ -169,8 +169,9 @@ namespace Melia.Channel.World
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
 		/// <param name="type"></param>
-		/// <returns>If damage is fatal returns true</returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex = 0)
+		/// <param name="attackIndex"></param>
+		/// <returns></returns>
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
