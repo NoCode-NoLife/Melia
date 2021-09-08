@@ -50,8 +50,8 @@ typedef struct
     short op;
     int sequence;
     int checksum;
-    short size;
     byte bin[12];
+    short size;
 }
 ClientHeaderDynamic <optimize=false>;
 
