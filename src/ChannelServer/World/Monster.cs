@@ -11,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : ICombatEntity, IEntityEvent
+	public class Monster : ICombatEntity
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -57,7 +57,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns true if WarpName is not empty.
 		/// </summary>
-		public bool IsWarp { get { return !string.IsNullOrWhiteSpace(this.WarpName); } }
+		public bool IsWarp => !string.IsNullOrWhiteSpace(this.WarpName);
 
 		/// <summary>
 		/// Location to warp to.
@@ -109,7 +109,10 @@ namespace Melia.Channel.World
 		}
 		private int _defense;
 
-		public event EventHandler<EntityEventArgs> Died;
+		/// <summary>
+		/// Raised when the monster died.
+		/// </summary>
+		public event Action<Monster, ICombatEntity> Died;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -249,7 +252,7 @@ namespace Melia.Channel.World
 			}
 
 			killer?.GiveExp(exp, classExp, this);
-			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
+			this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
 		}

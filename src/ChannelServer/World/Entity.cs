@@ -55,22 +55,4 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		bool CanAttack(ICombatEntity entity);
 	}
-
-	public interface IEntityEvent
-	{
-		/// <summary>
-		/// Event thrown on death
-		/// </summary>
-		event EventHandler<EntityEventArgs> Died;
-	}
-
-	public class EntityEventArgs : EventArgs
-	{
-		public int Handle { get; set; }
-
-		public EntityEventArgs(int handle)
-		{
-			this.Handle = handle;
-		}
-	}
 }
