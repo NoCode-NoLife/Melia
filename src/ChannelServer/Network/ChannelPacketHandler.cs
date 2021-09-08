@@ -881,16 +881,22 @@ namespace Melia.Channel.Network
 				switch (skill.Data.UseType)
 				{
 					case SkillUseType.MELEE_GROUND:
-						ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
+					{
+						var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+						handler.Handle(skill, character, castPosition, targetPosition);
 						break;
-
+					}
 					case SkillUseType.FORCE:
-						ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
+					{
+						var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+						handler.Handle(skill, character, null);
 						break;
-
+					}
 					default:
+					{
 						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
 						break;
+					}
 				}
 			}
 			else
@@ -911,7 +917,8 @@ namespace Melia.Channel.Network
 				switch (skill.Data.UseType)
 				{
 					case SkillUseType.MELEE_GROUND:
-						ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
+						var handler = ChannelServer.Instance.SkillHandlers.GetTargetedGround(skill.Id);
+						handler.Handle(skill, character, castPosition, targetPosition, targets);
 						break;
 
 					default:
@@ -954,7 +961,8 @@ namespace Melia.Channel.Network
 			//	return;
 			//}
 
-			ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
+			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+			handler.Handle(skill, character, target);
 		}
 
 		/// <summary>
@@ -979,7 +987,8 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
+			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+			handler.Handle(skill, character, null);
 		}
 
 		/// <summary>
@@ -1009,7 +1018,8 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
+			var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+			handler.Handle(skill, character, castPosition, targetPosition);
 
 			// The following code is what has been observed from GROUND SKILL
 			// packet responses.
