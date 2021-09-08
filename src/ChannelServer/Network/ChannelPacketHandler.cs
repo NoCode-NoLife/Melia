@@ -973,6 +973,76 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// This packet is used to cast skills in the ground.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_GROUND)]
+		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var unk1 = packet.GetByte();
+			var skillId = (SkillId)packet.GetInt();
+			var targetHandle = packet.GetInt();
+			var x1 = packet.GetFloat();
+			var y1 = packet.GetFloat();
+			var z1 = packet.GetFloat();
+			var x2 = packet.GetFloat();
+			var y2 = packet.GetFloat();
+			var z2 = packet.GetFloat();
+			var cos = packet.GetFloat();
+			var sin = packet.GetFloat();
+			var handle = packet.GetInt(); // This seems to be "target actorId"
+			var unk6 = packet.GetByte();
+			var unk7 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			var skill = character.Skills.Get(skillId);
+			if (skill != null)
+			{
+				var castPosition = new Position(x1, y1, z1);
+				var targetPosition = new Position(x2, y2, z2);
+
+				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
+			}
+
+			// The following code is what has been observed from GROUND SKILL
+			// packet responses.
+
+			/*
+			var packetPosition1 = new Position(x1, y1, z1);
+			var packetPosition2 = new Position(x2, y2, z2);
+			var skillPosition = new Position(x1, y1, z1 - 20);
+			var packetDirection = new Direction(cos, sin);
+
+			var skillDirection = new Direction(0.707f, 0.707f);
+
+			// Player in Attack state (if not already)
+			Send.ZC_PC_ATKSTATE(character, true);
+
+			// Update caster's SP 
+			short consumedSp = 10;
+			Send.ZC_UPDATE_SP(character, consumedSp);
+
+			// Skill is ready to be casted ?
+			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
+
+			// Create skill in client
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
+
+			// Unkown Normal
+			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
+
+			// Set range of effect
+			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
+
+			// Broadcast action to all?
+			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
+			*/
+		}
+
+		/// <summary>
 		/// Sent when character starts casting a hold to cast skill
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1192,74 +1262,6 @@ namespace Melia.Channel.Network
 			{
 				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: txType {0} not handled.", txType);
 			}
-		}
-
-		/// <summary>
-		/// This packet is used to cast skills in the ground
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_SKILL_GROUND)]
-		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
-		{
-			var extra = packet.GetBin(12);
-			var unk1 = packet.GetByte();
-			var skillId = (SkillId)packet.GetInt();
-			var targetHandle = packet.GetInt();
-			var x1 = packet.GetFloat();
-			var y1 = packet.GetFloat();
-			var z1 = packet.GetFloat();
-			var x2 = packet.GetFloat();
-			var y2 = packet.GetFloat();
-			var z2 = packet.GetFloat();
-			var cos = packet.GetFloat();
-			var sin = packet.GetFloat();
-			var handle = packet.GetInt(); // This seems to be "target actorId"
-			var unk6 = packet.GetByte();
-			var unk7 = packet.GetByte();
-
-			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
-			if (skill != null)
-			{
-				var castPosition = new Position(x1, y1, z1);
-				var targetPosition = new Position(x2, y2, z2);
-				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
-			}
-
-			// The following code is what has been observed from GROUND SKILL
-			// packet responses.
-
-			/*
-			var packetPosition1 = new Position(x1, y1, z1);
-			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(x1, y1, z1 - 20);
-			var packetDirection = new Direction(cos, sin);
-
-			var skillDirection = new Direction(0.707f, 0.707f);
-
-			// Player in Attack state (if not already)
-			Send.ZC_PC_ATKSTATE(character, true);
-
-			// Update caster's SP 
-			short consumedSp = 10;
-			Send.ZC_UPDATE_SP(character, consumedSp);
-
-			// Skill is ready to be casted ?
-			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
-
-			// Create skill in client
-			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
-
-			// Unkown Normal
-			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
-
-			// Set range of effect
-			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
-
-			// Broadcast action to all?
-			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
-			*/
 		}
 
 		/// <summary>
