@@ -268,6 +268,25 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads a binary value from packet, decompresses it, and returns it.
+		/// </summary>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public byte[] GetCompressedBin(int length)
+		{
+			var buffer = this.GetBin(length);
+
+			using (var msIn = new MemoryStream(buffer))
+			using (var msOut = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+					ds.CopyTo(msOut);
+
+				return msOut.ToArray();
+			}
+		}
+
+		/// <summary>
 		/// Writes byte to buffer.
 		/// </summary>
 		/// <param name="val"></param>
@@ -486,6 +505,34 @@ namespace Melia.Shared.Network
 			this.PutLong(val.ToFileTime());
 		}
 
+		/// <summary>
+		/// Compresses value and write it to packet, prefixed with its
+		/// length as an int.
+		/// </summary>
+		/// <param name="value">Byte array to put into packet.</param>
+		/// <param name="length">Number of bytes to use from the array.</param>
+		public void PutCompressedBin(byte[] value, int length)
+		{
+			using (var ms = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+					ds.Write(value, 0, length);
+
+				var compressed = ms.ToArray();
+
+				this.PutInt(compressed.Length);
+				this.PutBin(compressed);
+			}
+		}
+
+		/// <summary>
+		/// Provides a packet to write values to with a callback function,
+		/// which is afterwards (optionally) compressed and written
+		/// to this packet as a binary value, prefixed with a length
+		/// and a header.
+		/// </summary>
+		/// <param name="compress"></param>
+		/// <param name="zlibPacketFunc"></param>
 		public void Zlib(bool compress, Action<Packet> zlibPacketFunc)
 		{
 			// If uncompressed, empty zlib header, followed by the raw data.
@@ -505,17 +552,8 @@ namespace Melia.Shared.Network
 				var buffer = zlibPacket._buffer;
 				var len = zlibPacket.Length;
 
-				using (var ms = new MemoryStream())
-				{
-					using (var ds = new DeflateStream(ms, CompressionMode.Compress))
-						ds.Write(buffer, 0, len);
-
-					var compressedVal = ms.ToArray();
-
-					this.PutShort(0xFA8D); // zlib header
-					this.PutInt(compressedVal.Length);
-					this.PutBin(compressedVal);
-				}
+				this.PutShort(0xFA8D); // zlib header
+				this.PutCompressedBin(buffer, len);
 			}
 		}
 

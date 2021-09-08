@@ -12,7 +12,6 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
-using Melia.Shared.World;
 
 namespace Melia.Channel.Network
 {
@@ -130,7 +129,7 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
-			Send.ZC_QUICK_SLOT_LIST(conn);
+			Send.ZC_QUICK_SLOT_LIST(character);
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
@@ -255,7 +254,6 @@ namespace Melia.Channel.Network
 			var unkFloat = packet.GetFloat(); // timestamp?
 			var bin = packet.GetBin(13);
 			var unkByte2 = packet.GetByte();
-
 
 			var character = conn.SelectedCharacter;
 
@@ -551,7 +549,29 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_QUICKSLOT_LIST)]
 		public void CZ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
-			// packed?
+			var extra = packet.GetBin(12);
+			var packetSize = packet.GetShort();
+			var compressedSize = packet.GetInt();
+			var buffer = packet.GetCompressedBin(compressedSize);
+
+			// The buffer is always 705 bytes long and seems to contain
+			// 54 entries of the following format:
+			// 
+			//  byte b1;
+			//  byte type;
+			//  int id;
+			//  byte bin1[7];
+			// 
+			// That leaves 3 bytes of unknown value at the end of the buffer.
+			// We could parse this and do something with the hotkeys...
+			// or we could just throw them into the database for now.
+			// Though we presumably need them, to modify them from the
+			// server.
+
+			var character = conn.SelectedCharacter;
+
+			var serialized = Convert.ToBase64String(buffer);
+			character.Variables.Perm["_QuickSlotList"] = serialized;
 		}
 
 		/// <summary>
@@ -1840,7 +1860,9 @@ namespace Melia.Channel.Network
 		public void CZ_REQ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			Send.ZC_QUICK_SLOT_LIST(conn);
+
+			var character = conn.SelectedCharacter;
+			Send.ZC_QUICK_SLOT_LIST(character);
 		}
 
 		/// <summary>

@@ -204,21 +204,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_QUICK_SLOT_LIST to connection, containing the
-		/// list of hotkeys?
+		/// Sends the player's saved hotkeys to the client.
 		/// </summary>
-		/// <param name="conn"></param>
-		public static void ZC_QUICK_SLOT_LIST(ChannelConnection conn)
+		/// <param name="character"></param>
+		public static void ZC_QUICK_SLOT_LIST(Character character)
 		{
+			// If no hotkeys were saved yet, we don't need to send anything.
+			var serialized = character.Variables.Perm.Get<string>("_QuickSlotList", null);
+			if (string.IsNullOrWhiteSpace(serialized))
+				return;
+
+			var bin = Convert.FromBase64String(serialized);
+
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
+			packet.PutCompressedBin(bin, bin.Length);
 
-			packet.PutInt(48);
-			//packet.PutLong(conn.Account.Id);
-			//packet.PutShort(0);
-			packet.PutBinFromHex("63 60 52 F7 63 60 D0 33 62 60 38 13 C1 C8 30 20 80 39 FA 08 27 C3 77 43 88 0B 98 E3 80 9C 1F 30 4E 22 90 F3 13 C6 91 79 CD C9 F0 0B C6 79 2A C6 C5 F0 1B CA 19 10 57 8F 5A 4A DB 10 60 44 36 9E 09 99 C3 8C CC 61 00 00");
-			//...
-
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
