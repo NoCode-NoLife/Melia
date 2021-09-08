@@ -250,11 +250,8 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var unkByte1 = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkFloat = packet.GetFloat(); // timestamp?
 			var bin = packet.GetBin(13);
 			var unkByte2 = packet.GetByte();
@@ -262,7 +259,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.Jump(x, y, z, dx, dy, unkFloat, unkByte2);
+			character.Jump(position, direction, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -275,11 +272,8 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte(); // 0
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkBin = packet.GetBin(6);
 			var unkFloat = packet.GetFloat(); // timestamp?
 
@@ -287,7 +281,7 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			character.Move(x, y, z, dx, dy, unkFloat);
+			character.Move(position, direction, unkFloat);
 		}
 
 		/// <summary>
@@ -300,18 +294,15 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkFloat = packet.GetFloat(); // timestamp?
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
 
-			character.StopMove(x, y, z, dx, dy);
+			character.StopMove(position, direction);
 
 			// In the packets I don't see any indication for a client-side trigger,
 			// so I guess the server has to check for warps and initiate it all
@@ -378,13 +369,11 @@ namespace Melia.Channel.Network
 		{
 			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.SetPosition(x, y, z);
+			conn.SelectedCharacter.SetPosition(position);
 
 			// Is there a broadcast for this?
 		}
@@ -601,10 +590,9 @@ namespace Melia.Channel.Network
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			var d1 = packet.GetFloat();
-			var d2 = packet.GetFloat();
+			var direction = packet.GetDirection();
 
-			conn.SelectedCharacter.Rotate(d1, d2);
+			conn.SelectedCharacter.Rotate(direction);
 		}
 
 		/// <summary>
@@ -616,10 +604,9 @@ namespace Melia.Channel.Network
 		public void CZ_HEAD_ROTATE(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			var d1 = packet.GetFloat();
-			var d2 = packet.GetFloat();
+			var direction = packet.GetDirection();
 
-			conn.SelectedCharacter.RotateHead(d1, d2);
+			conn.SelectedCharacter.RotateHead(direction);
 		}
 
 		/// <summary>
@@ -1110,9 +1097,7 @@ namespace Melia.Channel.Network
 		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
 		{
 			var extra = packet.GetBin(12);
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 			var skillId = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
@@ -1707,9 +1692,7 @@ namespace Melia.Channel.Network
 		public void CZ_SYNC_POS(ChannelConnection conn, Packet packet)
 		{
 			var handle = packet.GetInt();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 
 			// Sanity checks...
 			// Sync position for the character with the handle? ...

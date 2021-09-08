@@ -18,8 +18,8 @@ namespace Melia.Channel.World
 	{
 		private bool _warping;
 
-		private object _lookAroundLock = new object();
-		private object _hpLock = new object();
+		private readonly object _lookAroundLock = new object();
+		private readonly object _hpLock = new object();
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
@@ -2477,18 +2477,32 @@ namespace Melia.Channel.World
 		/// <param name="y"></param>
 		/// <param name="z"></param>
 		public void SetPosition(float x, float y, float z)
+			=> this.SetPosition(new Position(x, y, z));
+
+		/// <summary>
+		/// Sets character's position.
+		/// </summary>
+		/// <param name="pos"></param>
+		public void SetPosition(Position pos)
 		{
-			this.Position = new Position(x, y, z);
+			this.Position = pos;
 		}
 
 		/// <summary>
 		/// Sets character's direction.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
+		/// <param name="cos"></param>
+		/// <param name="sin"></param>
 		public void SetDirection(float cos, float sin)
+			=> this.SetDirection(new Direction(cos, sin));
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="dir"></param>
+		public void SetDirection(Direction dir)
 		{
-			this.Direction = new Direction(cos, sin);
+			this.Direction = dir;
 		}
 
 		/// <summary>
@@ -2497,8 +2511,15 @@ namespace Melia.Channel.World
 		/// <param name="cos"></param>
 		/// <param name="sin"></param>
 		public void SetHeadDirection(float cos, float sin)
+			=> this.SetHeadDirection(new Direction(cos, sin));
+
+		/// <summary>
+		/// Sets character's direction.
+		/// </summary>
+		/// <param name="dir"></param>
+		public void SetHeadDirection(Direction dir)
 		{
-			this.HeadDirection = new Direction(cos, sin);
+			this.HeadDirection = dir;
 		}
 
 		/// <summary>
@@ -2509,13 +2530,13 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-		public void Jump(float x, float y, float z, float dx, float dy, float unkFloat, byte unkByte)
+		public void Jump(Position pos, Direction dir, float unkFloat, byte unkByte)
 		{
-			this.SetPosition(x, y, z);
-			this.SetDirection(dx, dy);
+			this.SetPosition(pos);
+			this.SetDirection(dir);
 			this.IsMoving = true;
 
-			Send.ZC_JUMP(this, x, y, z, dx, dy, unkFloat, unkByte);
+			Send.ZC_JUMP(this, pos, dir, unkFloat, unkByte);
 		}
 
 		/// <summary>
@@ -2526,13 +2547,13 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-		public void Move(float x, float y, float z, float dx, float dy, float unkFloat)
+		public void Move(Position pos, Direction dir, float unkFloat)
 		{
-			this.SetPosition(x, y, z);
-			this.SetDirection(dx, dy);
+			this.SetPosition(pos);
+			this.SetDirection(dir);
 			this.IsMoving = true;
 
-			Send.ZC_MOVE_DIR(this, x, y, z, dx, dy, unkFloat);
+			Send.ZC_MOVE_DIR(this, pos, dir, unkFloat);
 		}
 
 		/// <summary>
@@ -2543,15 +2564,15 @@ namespace Melia.Channel.World
 		/// <param name="z"></param>
 		/// <param name="dx"></param>
 		/// <param name="dy"></param>
-		public void StopMove(float x, float y, float z, float dx, float dy)
+		public void StopMove(Position pos, Direction dir)
 		{
-			this.SetPosition(x, y, z);
-			this.SetDirection(dx, dy);
+			this.SetPosition(pos);
+			this.SetDirection(dir);
 			this.IsMoving = false;
 
 			// Sending ZC_MOVE_STOP works as well, but it doesn't have
 			// a direction, so the character stops and looks north
-			// on other's screens.
+			// on others' screens.
 			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
 		}
 
@@ -2852,12 +2873,11 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Sets direction and updates clients.
 		/// </summary>
-		/// <param name="d1"></param>
-		/// <param name="d2"></param>
-		public void Rotate(float d1, float d2)
+		/// <param name="dir"></param>
+		public void Rotate(Direction dir)
 		{
-			if (this.Direction.Cos != d1 || this.Direction.Sin != d2)
-				this.SetDirection(d1, d2);
+			if (this.Direction != dir)
+				this.SetDirection(dir);
 
 			Send.ZC_ROTATE(this);
 		}
@@ -2867,10 +2887,10 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="d1"></param>
 		/// <param name="d2"></param>
-		public void RotateHead(float d1, float d2)
+		public void RotateHead(Direction dir)
 		{
-			if (this.HeadDirection.Cos != d1 || this.HeadDirection.Sin != d2)
-				this.SetHeadDirection(d1, d2);
+			if (this.HeadDirection != dir)
+				this.SetHeadDirection(dir);
 
 			Send.ZC_HEAD_ROTATE(this);
 		}

@@ -891,7 +891,11 @@ namespace Melia.Channel.Network
 		/// Broadcasts ZC_JUMP in range of character, making them jump.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_JUMP(Character character, float x, float y, float z, float dx, float dy, float unkFloat, byte unkByte)
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
+		/// <param name="unkByte"></param>
+		public static void ZC_JUMP(Character character, Position pos, Direction dir, float unkFloat, byte unkByte)
 		{
 			var packet = new Packet(Op.ZC_JUMP);
 
@@ -899,11 +903,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.GetJumpStrength());
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(0);  // 1 or 0
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
-			packet.PutFloat(dx);
-			packet.PutFloat(dy);
+			packet.PutPosition(pos);
+			packet.PutDirection(dir);
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(13);
 			packet.PutLong(unkByte);
@@ -2050,22 +2051,16 @@ namespace Melia.Channel.Network
 		/// characters about the movement.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+		public static void ZC_MOVE_DIR(Character character, Position pos, Direction dir, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
-			packet.PutFloat(dx);
-			packet.PutFloat(dy);
+			packet.PutPosition(pos);
+			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(unkFloat);
@@ -2082,17 +2077,13 @@ namespace Melia.Channel.Network
 		/// characters about the movement stop.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
+		/// <param name="pos"></param>
+		public static void ZC_MOVE_STOP(Character character, Position pos)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
+			packet.PutPosition(pos);
 			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
@@ -2103,20 +2094,16 @@ namespace Melia.Channel.Network
 		/// characters about the movement stop.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void ZC_PC_MOVE_STOP(Character character, Position position, Direction direction)
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		public static void ZC_PC_MOVE_STOP(Character character, Position pos, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(position.X);
-			packet.PutFloat(position.Y);
-			packet.PutFloat(position.Z);
+			packet.PutPosition(pos);
 			packet.PutByte(1);
-			packet.PutFloat(direction.Cos);
-			packet.PutFloat(direction.Sin);
+			packet.PutDirection(dir);
 			packet.PutFloat(228787.3f); // ?
 			packet.PutEmptyBin(24);
 
