@@ -109,7 +109,7 @@ namespace Melia.Channel.Database
 					character.TeamName = reader.GetStringSafe("teamName");
 					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
-					character.Hair = reader.GetByte("hair");
+					character.Hair = reader.GetInt32("hair");
 					character.Level = reader.GetInt32("level");
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt32("exp");

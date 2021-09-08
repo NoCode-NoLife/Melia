@@ -621,10 +621,9 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 			}
 
-			if (args[1].StartsWith("klaip"))
-				target.Warp("c_Klaipe", -75, 148, -24);
-			else if (args[1].StartsWith("ors"))
-				target.Warp("c_orsha", 271, 176, 292);
+			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", -75, 148, -24);
+			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", 271, 176, 292);
+			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", -628, 260, -1025);
 			else
 			{
 				sender.ServerMessage("Unknown destination.");

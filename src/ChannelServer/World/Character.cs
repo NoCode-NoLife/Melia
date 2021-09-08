@@ -97,7 +97,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Character's hair style.
 		/// </summary>
-		public byte Hair { get; set; }
+		public int Hair { get; set; }
 
 		/// <summary>
 		/// Returns stance, based on job and other factors.
