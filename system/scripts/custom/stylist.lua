@@ -54,13 +54,21 @@ function npc_stylist()
 			end
 			direction = 2
 		elseif selection == "j" then
-			local jumpStyle = numinput("Which style would you like to see?", 1, 700)
-			local hairtype = gethairtype(pc.gender, jumpStyle)
+			local jumpStyleStr = input("Which style would you like to see?")
+			
+			local jumpStyle = hairtype.index
+			local hairtype = nil
+			
+			local match = jumpStyleStr:match("^[0-9]+$")
+			if match ~= nil then
+				jumpStyle = tonumber(jumpStyleStr)
+				hairtype = gethairtype(pc.gender, jumpStyle)
+			end
 			
 			if hairtype == nil then
 				msg("Sorry, I don't know that style.")
 			else
-				style = jumpStyle
+				style = hairtype.index
 			end
 		else
 			msg("Yes, this style does suit you well. Please come back any time.")
