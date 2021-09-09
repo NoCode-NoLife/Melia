@@ -26,7 +26,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CONNECT)]
 		public void CZ_CONNECT(ChannelConnection conn, Packet packet)
 		{
-			var bin1 = packet.GetBin(1036);
+			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
 
 			// When using passprt login, this is the account id as string,
@@ -39,7 +39,7 @@ namespace Melia.Channel.Network
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
 			var bin2 = packet.GetBin(12);
-			var bin3 = packet.GetBin(8);
+			var bin3 = packet.GetBin(10);
 
 			// TODO: Check session key or something.
 
@@ -92,7 +92,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_GAME_READY)]
 		public void CZ_GAME_READY(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var guildId = packet.GetShort();
 			var character = conn.SelectedCharacter;
 
@@ -145,7 +144,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_ZONE_OK)]
 		public void CZ_MOVE_ZONE_OK(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var character = conn.SelectedCharacter;
 
 			character.FinalizeWarp();
@@ -159,7 +157,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CAMPINFO)]
 		public void CZ_CAMPINFO(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var accountId = packet.GetLong();
 
 			//Send.ZC_CAMPINFO(conn);
@@ -176,7 +173,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHAT)]
 		public void CZ_CHAT(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var len = packet.GetShort(); // length of payload, without garbage
 			var msg = packet.GetString();
 
@@ -198,7 +194,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHAT_LOG)]
 		public void CZ_CHAT_LOG(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var len = packet.GetShort();
 			var msg = packet.GetString();
 
@@ -213,7 +208,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_BARRACK)]
 		public void CZ_MOVE_BARRACK(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 
 			Log.Info("User '{0}' is leaving for character selection.", conn.Account.Name);
@@ -230,7 +224,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_LOGOUT)]
 		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
@@ -247,7 +240,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_JUMP)]
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte1 = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -272,7 +264,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte(); // 0
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -297,7 +288,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVE_STOP)]
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -347,7 +337,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ON_AIR)]
 		public void CZ_ON_AIR(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			// TODO: Sanity checks.
 
 			conn.SelectedCharacter.IsGrounded = false;
@@ -361,7 +350,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ON_GROUND)]
 		public void CZ_ON_GROUND(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			// TODO: Sanity checks.
 
 			conn.SelectedCharacter.IsGrounded = true;
@@ -375,7 +363,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MOVEMENT_INFO)]
 		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkByte = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -396,7 +383,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REST_SIT)]
 		public void CZ_REST_SIT(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var character = conn.SelectedCharacter;
 
 			character.IsSitting = !character.IsSitting;
@@ -412,7 +398,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_EQUIP)]
 		public void CZ_ITEM_EQUIP(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var worldId = packet.GetLong();
 			var slot = (EquipSlot)packet.GetByte();
 
@@ -433,7 +418,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_UNEQUIP)]
 		public void CZ_ITEM_UNEQUIP(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var slot = (EquipSlot)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
@@ -453,7 +437,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_DELETE)]
 		public void CZ_ITEM_DELETE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var worldId = packet.GetLong();
 			var amount = packet.GetInt();
 
@@ -485,7 +468,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHAT_MACRO)]
 		public void CZ_CHAT_MACRO(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var index = packet.GetInt();
 			var message = packet.GetString(128);
 			var pose = packet.GetInt();
@@ -514,7 +496,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SWAP_ETC_INV_CHANGE_INDEX)]
 		public void CZ_SWAP_ETC_INV_CHANGE_INDEX(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var invType = (InventoryType)packet.GetByte();
 			var worldId1 = packet.GetLong();
 			var index1 = packet.GetInt();
@@ -572,7 +553,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_POSE)]
 		public void CZ_POSE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var pose = packet.GetInt();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -599,7 +579,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var d1 = packet.GetFloat();
 			var d2 = packet.GetFloat();
 
@@ -614,7 +593,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_HEAD_ROTATE)]
 		public void CZ_HEAD_ROTATE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var d1 = packet.GetFloat();
 			var d2 = packet.GetFloat();
 
@@ -629,7 +607,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_USE)]
 		public void CZ_ITEM_USE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var worldId = packet.GetLong();
 			var handle = packet.GetInt();
 
@@ -684,7 +661,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CLICK_TRIGGER)]
 		public void CZ_CLICK_TRIGGER(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var handle = packet.GetInt();
 			var unkByte = packet.GetByte();
 
@@ -722,7 +698,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_SELECT)]
 		public void CZ_DIALOG_SELECT(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var option = packet.GetByte();
 
 			// Check state
@@ -743,7 +718,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var type = packet.GetInt();
 
 			// Check state
@@ -777,7 +751,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DIALOG_STRINGINPUT)]
 		public void CZ_DIALOG_STRINGINPUT(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var input = packet.GetString(128);
 
 			// Check state
@@ -798,7 +771,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var option = (Option)packet.GetInt();
 			var value = packet.GetInt();
 
@@ -824,7 +796,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REVEAL_NPC_STATE)]
 		public void CZ_REVEAL_NPC_STATE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkInt = packet.GetInt();
 		}
 
@@ -836,7 +807,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CLIENT_HIT_LIST)]
 		public void CZ_CLIENT_HIT_LIST(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var size = packet.GetShort();
 			var i1 = packet.GetInt();
 			var handleCount = packet.GetInt();
@@ -928,7 +898,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TARGET)]
 		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
 			var skillId = packet.GetInt();
 			var targetHandle = packet.GetInt();
@@ -954,7 +923,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TARGET_ANI)]
 		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var b1 = packet.GetByte();
 			var skillId = packet.GetInt();
 			var dx = packet.GetFloat();
@@ -980,7 +948,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
 		public void CZ_DYNAMIC_CASTING_START(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var skillId = packet.GetInt();
 			var f1 = packet.GetFloat();
 
@@ -997,7 +964,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
 		public void CZ_DYNAMIC_CASTING_END(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var skillId = packet.GetInt();
 			var f1 = packet.GetFloat(); // Max Cast Hold Time?
 
@@ -1012,8 +978,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SELECT_GROUND_POS_START)]
 		public void CZ_SELECT_GROUND_POS_START(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
-
 			var character = conn.SelectedCharacter;
 
 			// TODO: keep track of state?
@@ -1027,8 +991,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SELECT_GROUND_POS_END)]
 		public void CZ_SELECT_GROUND_POS_END(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
-
 			var character = conn.SelectedCharacter;
 
 			// TODO: keep track of state?
@@ -1042,7 +1004,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]
 		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
@@ -1061,7 +1022,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
 		public void CZ_REQ_NORMAL_TX_NUMARG(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var size = packet.GetShort();
 			var txType = (TxType)packet.GetShort();
 			var count = packet.GetInt();
@@ -1202,7 +1162,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_GROUND)]
 		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unk1 = packet.GetByte();
 			var skillId = packet.GetInt();
 			var targetHandle = packet.GetInt();
@@ -1270,7 +1229,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_BUY)]
 		public void CZ_ITEM_BUY(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var purchases = new Dictionary<int, int>();
 
 			var size = packet.GetShort();
@@ -1372,7 +1330,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ITEM_SELL)]
 		public void CZ_ITEM_SELL(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var itemsToSell = new Dictionary<long, int>();
 
 			var size = packet.GetShort();
@@ -1456,7 +1413,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_RUN_GAMEEXIT_TIMER)]
 		public void CZ_RUN_GAMEEXIT_TIMER(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var destination = packet.GetString();
 
 			switch (destination)
@@ -1488,7 +1444,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_MAP_REVEAL_INFO)]
 		public void CZ_MAP_REVEAL_INFO(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var mapId = packet.GetInt();
 			var visible = packet.GetBin(128);
 
@@ -1566,7 +1521,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CUSTOM_COMMAND)]
 		public void CZ_CUSTOM_COMMAND(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var commandId = packet.GetInt();
 			var classId = packet.GetInt();
 			var cmdArg = packet.GetInt();
@@ -1773,7 +1727,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
 		public void CZ_REQUEST_GUILD_INDEX(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var l1 = packet.GetLong();
 			var guildId = (ushort)packet.GetShort();
 
@@ -1792,7 +1745,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DISCONNECT_REASON_FOR_LOG)]
 		public void CZ_DISCONNECT_REASON_FOR_LOG(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var size = packet.GetShort();
 			var valueCount = packet.GetInt();
 			var i2 = packet.GetInt();
@@ -1827,7 +1779,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DASHRUN)]
 		public void CZ_DASHRUN(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unk1 = packet.GetShort();
 
 			var character = conn.SelectedCharacter;
@@ -1857,7 +1808,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_QUICKSLOT_LIST)]
 		public void CZ_REQ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			Send.ZC_QUICK_SLOT_LIST(conn);
 		}
 
@@ -1917,8 +1867,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_FIELD_BOSS_EXIST)]
 		public void CZ_REQ_FIELD_BOSS_EXIST(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
-
 			Send.ZC_RESPONSE_FIELD_BOSS_EXIST(conn);
 		}
 
@@ -1930,7 +1878,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_PC_COMMENT_CHANGE)]
 		public void CZ_PC_COMMENT_CHANGE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var type = packet.GetInt(); // 0?
 			var message = packet.GetLpString();
 
@@ -1951,7 +1898,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
 		public void CZ_REQ_LEARN_ABILITY(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var type = packet.GetString(32);
 		}
 
@@ -1963,15 +1909,17 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQUEST_DRAW_TOSHERO_EMBLEM)]
 		public void CZ_REQUEST_DRAW_TOSHERO_EMBLEM(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
-
 			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_PROPERTY_COMPARE)]
 		public void CZ_PROPERTY_COMPARE(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var handle = packet.GetInt();
 			var b1 = packet.GetByte();
 			var b2 = packet.GetByte();

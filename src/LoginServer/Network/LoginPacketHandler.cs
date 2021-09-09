@@ -28,7 +28,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var accountName = packet.GetString(33);
 			var bin1 = packet.GetBin(23);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
@@ -130,7 +129,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var accountId = packet.GetLong();
 			var unk_bin_2 = packet.GetBin(12);
 			var unk_byte_1 = packet.GetByte();
@@ -148,7 +146,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_BARRACKNAME_CHANGE)]
 		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var name = packet.GetString(10);
 			var l1 = packet.GetLong();
 			var checkName = packet.GetString(10);
@@ -189,7 +186,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_BARRACKNAME_CHECK)]
 		public void CB_BARRACKNAME_CHECK(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var serverId = packet.GetShort();
 			var name = packet.GetString(16);
 			var l1 = packet.GetLong();
@@ -235,7 +231,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
 		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var charPosition = packet.GetByte();
 			var name = packet.GetString(65);
 			var job = (JobId)packet.GetShort();
@@ -339,7 +334,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
 		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var id = packet.GetLong();
 
 			// Get character
@@ -371,7 +365,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_COMMANDER_MOVE)]
 		public void CB_COMMANDER_MOVE(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var index = packet.GetByte();
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
@@ -405,7 +398,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var channel = packet.GetShort();
 			var index = packet.GetByte();
 
@@ -438,7 +430,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_BUY_THEMA)]
 		public void CB_BUY_THEMA(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unkInt = packet.GetInt();
 			var newMapId = packet.GetInt();
 			var oldMapId = packet.GetInt();
@@ -470,7 +461,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var checksum = packet.GetString(64);
 
 			if (!LoginServer.Instance.Conf.Login.VerifyIpf)
@@ -518,7 +508,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
 		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var layer = packet.GetInt();
 
 			// Only these three layers are valid currently.
@@ -544,7 +533,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_PET_PC)]
 		public void CB_PET_PC(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
 		}
@@ -557,7 +545,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_PET_COMMAND)]
 		public void CB_PET_COMMAND(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
 			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
@@ -571,7 +558,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_REQ_CHANGE_POSTBOX_STATE)]
 		public void CB_REQ_CHANGE_POSTBOX_STATE(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
 			var state = (PostBoxMessageState)packet.GetByte();
@@ -587,7 +573,6 @@ namespace Melia.Login.Network
 		/// <param name="packet"></param>
 		public void CB_REQ_POSTBOX_PAGE(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var count = packet.GetInt();
 
 			// TODO: Implement postbox message paging.
@@ -611,29 +596,37 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_SELECTED_LANGUAGE)]
 		public void CB_SELECTED_LANGUAGE(LoginConnection conn, Packet packet)
 		{
-			var int_1 = packet.GetInt();
-			var int_2 = packet.GetInt();
-			var int_3 = packet.GetInt();
-			var short_1 = packet.GetShort();
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_OS_INFO)]
 		public void CB_OS_INFO(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_VISIT)]
 		public void CB_VISIT(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			///3800090000000D09000000000000000000000000000000000FA473400100000030B066BC00000000D34788400100000030B066BC0000000030B066BC0000000000000000000000008952884001000000FEFFFFFFFFFF0100
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_CHANGE_BARRACK_TARGET_LAYER)]
 		public void CB_CHANGE_BARRACK_TARGET_LAYER(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var characterId = packet.GetLong();
 			var targetLayer = packet.GetInt();
 
@@ -664,7 +657,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_CHECK_MARKET_REGISTERED)]
 		public void CB_CHECK_MARKET_REGISTERED(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var characterId = packet.GetLong();
 
 			var character = conn.Account.GetCharacterById(characterId);
@@ -684,7 +676,6 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
 		public void CZ_REQUEST_GUILD_INDEX(LoginConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var guildId = packet.GetLong(); // ?
 		}
 	}

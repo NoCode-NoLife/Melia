@@ -42,6 +42,11 @@ namespace Melia.Shared.Network
 			this.Op = this.GetShort();
 			var index = this.GetInt();
 			var checksum = this.GetInt();
+
+			// [i339427]
+			// Unknown values that appeared in the header of
+			// all client packets at some point.
+			var extra = this.GetBin(12);
 		}
 
 		/// <summary>

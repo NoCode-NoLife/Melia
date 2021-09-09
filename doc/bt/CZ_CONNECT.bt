@@ -3,7 +3,7 @@
 //
 //      File: CZ_CONNECT.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -18,7 +18,7 @@
 
 ClientHeaderFixed header;
 
-byte bin1[1036];
+byte bin1[1024];
 char sessionKey[64];
 char accountName[56];
 char mac[48];
@@ -26,4 +26,5 @@ int64 characterId;
 int64 l1; // same object id (?) that appears in BC_LOGINOK
 int64 accountId;
 int64 characterId2;
-byte bin3[12];
+byte bin2[12];
+byte bin3[10];
