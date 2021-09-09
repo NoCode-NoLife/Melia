@@ -176,9 +176,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHAT)]
 		public void CZ_CHAT(ChannelConnection conn, Packet packet)
 		{
-			var len = packet.GetShort(); // length of dynamic packet without length from header
-			var extra = packet.GetBin(10);
-			var unknown = packet.GetShort();
+			var extra = packet.GetBin(12);
+			var len = packet.GetShort(); // length of payload, without garbage
 			var msg = packet.GetString();
 
 			var character = conn.SelectedCharacter;
@@ -199,9 +198,11 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_CHAT_LOG)]
 		public void CZ_CHAT_LOG(ChannelConnection conn, Packet packet)
 		{
+			var extra = packet.GetBin(12);
 			var len = packet.GetShort();
-			var extra = packet.GetBin(10);
 			var msg = packet.GetString();
+
+			// ...
 		}
 
 		/// <summary>
