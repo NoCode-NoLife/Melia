@@ -130,10 +130,12 @@ namespace Melia.Login.Network
 		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
 		{
 			var accountId = packet.GetLong();
-			var unk_bin_2 = packet.GetBin(12);
-			var unk_byte_1 = packet.GetByte();
-			var unk_byte_2 = packet.GetByte();
-			var unk_int_1 = packet.GetInt();
+			var index = packet.GetByte();
+			var x = packet.GetFloat();
+			var y = packet.GetFloat();
+			var z = packet.GetFloat();
+			var dx = packet.GetFloat();
+			var dy = packet.GetFloat();
 
 			//Send.BC_NORMAL_SetBarrack(conn);
 		}

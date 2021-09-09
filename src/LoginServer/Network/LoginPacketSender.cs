@@ -442,6 +442,7 @@ namespace Melia.Login.Network
 		{
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.SetBarrackCharacter);
+
 			packet.PutLong(conn.Account.Id);
 			packet.PutLong(conn.Account.Id);
 			packet.AddBarrackPc(character);
