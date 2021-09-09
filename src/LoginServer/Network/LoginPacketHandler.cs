@@ -593,9 +593,15 @@ namespace Melia.Login.Network
 			// its files, what could go wrong.
 		}
 
+		/// <summary>
+		/// Sent upon login, to inform the server about the selected language.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_SELECTED_LANGUAGE)]
 		public void CB_SELECTED_LANGUAGE(LoginConnection conn, Packet packet)
 		{
+			var language = packet.GetShort();
 		}
 
 		/// <summary>

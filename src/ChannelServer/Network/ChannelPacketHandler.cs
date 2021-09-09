@@ -1933,5 +1933,19 @@ namespace Melia.Channel.Network
 
 			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
+
+		/// <summary>
+		/// Sent when selecting a new language.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SELECTED_LANGUAGE)]
+		public void CZ_SELECTED_LANGUAGE(ChannelConnection conn, Packet packet)
+		{
+			var language = packet.GetShort();
+
+			// 0 = English, 1 = German, 2 = Portugese,
+			// 4 = Indonesian, 5 = Russian, 6 = Thai
+		}
 	}
 }
