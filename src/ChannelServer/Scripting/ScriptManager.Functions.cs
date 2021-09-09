@@ -500,6 +500,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Result:
+		/// table
 		/// {
 		///     string  name,         -- Character's name
 		///     string  teamname,     -- Character's team name
@@ -538,105 +539,50 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
+			melua_createtable(L);
+
 			// Character data
 			// --------------------------------------------------------------
-			lua_newtable(L);
 
-			lua_pushstring(L, "name");
-			lua_pushstring(L, character.Name);
-			lua_settable(L, -3);
+			melua_createfield(L, "name", character.Name);
+			melua_createfield(L, "teamname", character.TeamName);
+			melua_createfield(L, "gender", (int)character.Gender);
+			melua_createfield(L, "level", character.Level);
+			melua_createfield(L, "classlevel", character.ClassLevel);
+			melua_createfield(L, "hp", character.Hp);
+			melua_createfield(L, "maxhp", character.MaxHp);
+			melua_createfield(L, "sp", character.Sp);
+			melua_createfield(L, "maxsp", character.MaxSp);
+			melua_createfield(L, "stamina", character.Stamina);
+			melua_createfield(L, "maxstamina", character.MaxStamina);
+			melua_createfield(L, "hair", character.Hair);
+			melua_createfield(L, "job", (int)character.JobId);
+			melua_createfield(L, "jobclass", (int)character.JobClass);
+			melua_createfield(L, "rank", character.Jobs.GetCurrentRank());
 
-			lua_pushstring(L, "teamname");
-			lua_pushstring(L, character.TeamName);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "gender");
-			lua_pushinteger(L, (int)character.Gender);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "level");
-			lua_pushinteger(L, character.Level);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "classlevel");
-			lua_pushinteger(L, character.ClassLevel);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "hp");
-			lua_pushinteger(L, character.Hp);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "maxhp");
-			lua_pushinteger(L, character.MaxHp);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "sp");
-			lua_pushinteger(L, character.Sp);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "maxsp");
-			lua_pushinteger(L, character.MaxSp);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "stamina");
-			lua_pushinteger(L, character.Stamina);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "maxstamina");
-			lua_pushinteger(L, character.MaxStamina);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "hair");
-			lua_pushinteger(L, character.Hair);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "job");
-			lua_pushinteger(L, (int)character.JobId);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "jobclass");
-			lua_pushinteger(L, (int)character.JobClass);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "rank");
-			lua_pushinteger(L, (int)character.Jobs.GetCurrentRank());
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "jobs");
-			lua_newtable(L);
-			foreach (var job in character.Jobs.GetList())
+			melua_startsubtable(L, "jobs");
 			{
-				lua_pushinteger(L, (int)job.Id);
-				lua_newtable(L);
+				foreach (var job in character.Jobs.GetList())
 				{
-					lua_pushstring(L, "circle");
-					lua_pushinteger(L, (int)job.Circle);
-					lua_settable(L, -3);
-
-					lua_pushstring(L, "skillpoints");
-					lua_pushinteger(L, job.SkillPoints);
-					lua_settable(L, -3);
+					melua_startsubtable(L, (int)job.Id);
+					{
+						melua_createfield(L, "circle", (int)job.Circle);
+						melua_createfield(L, "skillpoints", job.SkillPoints);
+					}
+					melua_endsubtable(L);
 				}
-				lua_settable(L, -3);
 			}
-			lua_settable(L, -3);
+			melua_endsubtable(L);
 
 			// Account data
 			// --------------------------------------------------------------
-			lua_newtable(L);
 
-			lua_pushstring(L, "name");
-			lua_pushstring(L, conn.Account.Name);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "auth");
-			lua_pushinteger(L, conn.Account.Authority);
-			lua_settable(L, -3);
-
-			// Put account table into character table
-			lua_pushstring(L, "account");
-			lua_insert(L, -2);
-			lua_settable(L, -3);
+			melua_startsubtable(L, "account");
+			{
+				melua_createfield(L, "name", conn.Account.Name);
+				melua_createfield(L, "auth", conn.Account.Authority);
+			}
+			melua_endsubtable(L);
 
 			return 1;
 		}
@@ -646,6 +592,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Result:
+		/// table
 		/// {
 		///		string name,        -- NPCs name
 		///		string dialogName,  -- Name of NPCs main dialog function
@@ -658,15 +605,9 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.ScriptState.CurrentNpc;
 
-			lua_newtable(L);
-
-			lua_pushstring(L, "name");
-			lua_pushstring(L, character.Name);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "dialogName");
-			lua_pushstring(L, character.DialogName);
-			lua_settable(L, -3);
+			melua_createtable(L);
+			melua_createfield(L, "name", character.Name);
+			melua_createfield(L, "dialogName", character.DialogName);
 
 			return 1;
 		}
@@ -676,6 +617,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Result:
+		/// table
 		/// {
 		///		integer year,     -- Current year
 		///		integer month,    -- Current month
@@ -696,51 +638,18 @@ namespace Melia.Channel.Scripting
 		{
 			var now = DateTime.Now;
 
-			lua_newtable(L);
-
-			lua_pushstring(L, "year");
-			lua_pushinteger(L, now.Year);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "month");
-			lua_pushinteger(L, now.Month);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "day");
-			lua_pushinteger(L, now.Day);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "weekday");
-			lua_pushinteger(L, (int)now.DayOfWeek);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "yearday");
-			lua_pushinteger(L, now.DayOfYear);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "hour");
-			lua_pushinteger(L, now.Hour);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "min");
-			lua_pushinteger(L, now.Minute);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "sec");
-			lua_pushinteger(L, now.Second);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "msec");
-			lua_pushinteger(L, now.Millisecond);
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "isdst");
-			lua_pushboolean(L, now.IsDaylightSavingTime());
-			lua_settable(L, -3);
-
-			lua_pushstring(L, "unixts");
-			lua_pushinteger(L, (int)(now.ToUniversalTime().Subtract(UnixEpoch)).TotalSeconds);
-			lua_settable(L, -3);
+			melua_createtable(L);
+			melua_createfield(L, "year", now.Year);
+			melua_createfield(L, "month", now.Month);
+			melua_createfield(L, "day", now.Day);
+			melua_createfield(L, "weekday", (int)now.DayOfWeek);
+			melua_createfield(L, "yearday", now.DayOfYear);
+			melua_createfield(L, "hour", now.Hour);
+			melua_createfield(L, "min", now.Minute);
+			melua_createfield(L, "sec", now.Second);
+			melua_createfield(L, "msec", now.Millisecond);
+			melua_createfield(L, "isdst", now.IsDaylightSavingTime());
+			melua_createfield(L, "unixts", (int)(now.ToUniversalTime().Subtract(UnixEpoch)).TotalSeconds);
 
 			return 1;
 		}
