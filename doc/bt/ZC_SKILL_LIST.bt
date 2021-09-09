@@ -12,8 +12,7 @@
 //   - i184075: b1 was added
 //------------------------------------------------
 
-#define PROPERTY_NAMES
-
+//#define PROPERTY_NAMES
 #include "common.bt"
 
 ServerHeaderDynamic header;

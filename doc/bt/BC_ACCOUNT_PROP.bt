@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#define PROPERTY_NAMES
+//#define PROPERTY_NAMES
 #include "common.bt"
 
 ServerHeaderDynamic header;

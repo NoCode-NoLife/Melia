@@ -17,7 +17,7 @@
 //   - i336041: ???
 //------------------------------------------------
 
-#define PROPERTY_NAMES
+//#define PROPERTY_NAMES
 #include "common.bt"
 
 typedef struct
