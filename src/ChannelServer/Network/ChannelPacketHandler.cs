@@ -951,13 +951,23 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
+			// The packet is sent after the attack animation of the default
+			// magic attack when there's no target. In this case skillId is
+			// 0. It's currently unknown what exactly is supposed to happen
+			// in that case, but we probably don't want to execute the skill
+			// handler.
+			if (skillId == 0)
+			{
+				return;
+			}
+
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
-			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skillId);
 			handler.Handle(skill, character, null);
 		}
 
