@@ -230,13 +230,13 @@ namespace Melia.Channel.World
 			var rectPoints = GetRectangle(attackerPos, targetPos, rectWidth);
 
 			// Debugging
-			foreach (var point in rectPoints)
-			{
-				var monster = new Monster(10005, NpcType.Friendly);
-				monster.Position = new Position(point.X, attackerPos.Y, point.Z);
-				monster.DisappearTime = DateTime.Now.AddSeconds(5);
-				attacker.Map.AddMonster(monster);
-			}
+			//foreach (var point in rectPoints)
+			//{
+			//	var monster = new Monster(10005, NpcType.Friendly);
+			//	monster.Position = new Position(point.X, attackerPos.Y, point.Z);
+			//	monster.DisappearTime = DateTime.Now.AddSeconds(5);
+			//	attacker.Map.AddMonster(monster);
+			//}
 
 			lock (_monsters)
 			{
