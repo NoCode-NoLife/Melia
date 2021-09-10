@@ -1,6 +1,6 @@
 ﻿using Melia.Channel.Database;
 using Melia.Channel.Scripting;
-using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 using Melia.Shared.Network;
 
 namespace Melia.Channel.Network

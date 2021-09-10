@@ -1,6 +1,7 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 using Melia.Shared.World;
 
 namespace Melia.Channel.Skills.General

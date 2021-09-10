@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
+using Melia.Channel.Skills;
 using Melia.Shared.Const;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// A character's abilities.
 	/// </summary>
 	public class Abilities
 	{
-		private Dictionary<int, Ability> _abilities = new Dictionary<int, Ability>();
+		private readonly Dictionary<int, Ability> _abilities = new Dictionary<int, Ability>();
 
 		/// <summary>
 		/// Returns amount of abilities.

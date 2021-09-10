@@ -6,7 +6,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities
 {
 	public class Monster : ICombatEntity
 	{

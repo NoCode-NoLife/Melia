@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Channel.World.Entities;
 
 namespace Melia.Channel.World
 {

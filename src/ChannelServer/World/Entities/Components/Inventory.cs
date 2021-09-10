@@ -5,7 +5,7 @@ using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Represents a character's inventory.

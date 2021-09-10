@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 

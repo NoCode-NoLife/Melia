@@ -5,6 +5,8 @@ using System.Linq;
 using Melia.Channel.Scripting;
 using Melia.Channel.Skills;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Util;

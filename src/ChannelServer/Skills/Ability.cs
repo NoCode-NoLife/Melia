@@ -1,6 +1,7 @@
-﻿using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Channel.World;
+using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.Skills
 {
 	/// <summary>
 	/// A character's ability.

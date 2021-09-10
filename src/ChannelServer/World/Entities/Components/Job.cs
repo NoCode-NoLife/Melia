@@ -4,7 +4,7 @@ using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Represents one of a character's jobs.

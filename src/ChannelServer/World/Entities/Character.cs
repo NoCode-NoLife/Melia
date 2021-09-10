@@ -3,13 +3,14 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
 using Melia.Channel.Skills;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities
 {
 	public class Character : ICombatEntity, ICommander, IPropertyObject
 	{
@@ -607,7 +608,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Character's skills.
 		/// </summary>
-		public Skills Skills { get; }
+		public CharacterSkills Skills { get; }
 
 		/// <summary>
 		/// Character's abilities.
@@ -2240,7 +2241,7 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 			this.Inventory = new Inventory(this);
 			this.Jobs = new Jobs(this);
-			this.Skills = new Skills(this);
+			this.Skills = new CharacterSkills(this);
 			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
 			this.Speed = 30;

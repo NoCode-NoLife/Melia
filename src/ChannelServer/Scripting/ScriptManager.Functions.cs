@@ -7,6 +7,8 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using static MeluaLib.Melua;
 using MySql.Data.MySqlClient;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 
 namespace Melia.Channel.Scripting
 {

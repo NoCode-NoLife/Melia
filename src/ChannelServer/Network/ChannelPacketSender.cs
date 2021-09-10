@@ -5,6 +5,8 @@ using System.Net;
 using Melia.Channel.Network.Helpers;
 using Melia.Channel.Skills;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;

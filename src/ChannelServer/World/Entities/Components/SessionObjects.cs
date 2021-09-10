@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Session object collection.

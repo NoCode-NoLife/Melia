@@ -1,5 +1,5 @@
 ﻿using Melia.Channel.Network;
-using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 
 namespace Melia.Channel.Scripting
 {

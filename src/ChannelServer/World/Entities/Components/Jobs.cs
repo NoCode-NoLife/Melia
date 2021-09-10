@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Job collection.
@@ -14,7 +14,7 @@ namespace Melia.Channel.World
 	{
 		private static readonly Regex JobClassName = new Regex(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
 
-		private Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
+		private readonly Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
 
 		/// <summary>
 		/// The owner of this object.

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Melia.Channel.Scripting;
 using Melia.Channel.Skills;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;

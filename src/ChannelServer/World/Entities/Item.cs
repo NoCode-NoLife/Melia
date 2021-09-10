@@ -5,7 +5,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities
 {
 	/// <summary>
 	/// An item, that might be lying around in the world or is owned by

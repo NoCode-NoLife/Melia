@@ -5,12 +5,12 @@ using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Shared.Const;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class Skills
+	public class CharacterSkills
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 
@@ -23,7 +23,7 @@ namespace Melia.Channel.World
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="character"></param>
-		public Skills(Character character)
+		public CharacterSkills(Character character)
 		{
 			this.Character = character ?? throw new ArgumentNullException(nameof(character));
 		}

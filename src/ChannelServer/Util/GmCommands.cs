@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Melia.Channel.Network;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.World;

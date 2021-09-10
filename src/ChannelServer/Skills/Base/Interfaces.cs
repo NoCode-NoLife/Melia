@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
 using Melia.Shared.World;
 
 namespace Melia.Channel.Skills.Base

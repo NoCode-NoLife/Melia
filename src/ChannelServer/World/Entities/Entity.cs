@@ -1,7 +1,7 @@
 ﻿using Melia.Channel.Skills;
 using Melia.Shared.World;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.World.Entities
 {
 	/// <summary>
 	/// Describes a living entity that can exist on a map.
