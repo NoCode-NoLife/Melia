@@ -15,5 +15,6 @@
 
 ClientHeaderFixed header;
 
+int i1;
 float d1;
 float d2;

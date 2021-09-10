@@ -531,7 +531,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_QUICKSLOT_LIST)]
 		public void CZ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var packetSize = packet.GetShort();
 			var compressedSize = packet.GetInt();
 			var buffer = packet.GetCompressedBin(compressedSize);
@@ -590,7 +589,9 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
+			var i1 = packet.GetInt();
 			var direction = packet.GetDirection();
+
 			conn.SelectedCharacter.Rotate(direction);
 		}
 
@@ -602,7 +603,9 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_HEAD_ROTATE)]
 		public void CZ_HEAD_ROTATE(ChannelConnection conn, Packet packet)
 		{
+			var i1 = packet.GetInt();
 			var direction = packet.GetDirection();
+
 			conn.SelectedCharacter.RotateHead(direction);
 		}
 
@@ -966,7 +969,6 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_GROUND)]
 		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
 		{
-			var extra = packet.GetBin(12);
 			var unk1 = packet.GetByte();
 			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
