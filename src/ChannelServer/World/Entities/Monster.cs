@@ -127,6 +127,15 @@ namespace Melia.Channel.World.Entities
 		public bool IsDead => this.Hp == 0;
 
 		/// <summary>
+		/// Gets or sets whether the monster appears from inside the ground.
+		/// </summary>
+		/// <remarks>
+		/// If this property is true, the monster will dig itself out of the
+		/// ground when it appears. 
+		/// </remarks>
+		public bool FromGround { get; set; }
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)

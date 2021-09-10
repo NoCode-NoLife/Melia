@@ -175,6 +175,15 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
+
+			// Update visibily after adding the monster, so it gets sent
+			// to the clients right away, and then disable FromGround,
+			// which is supposed to only be true once, when the monster
+			// appears for the first time. This way, all players around
+			// the monster get the animation at the time of spawning,
+			// and afterwards they just appear.
+			this.UpdateVisibility();
+			monster.FromGround = false;
 		}
 
 		/// <summary>
