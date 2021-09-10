@@ -33,9 +33,7 @@ namespace Melia.Channel.Scripting
 
 		private readonly Dictionary<IntPtr, ScriptState> _states = new Dictionary<IntPtr, ScriptState>();
 
-		private Timer _globalVarSaver;
 		private DateTime _lastVarChange;
-
 		private int _anonymousDialogCount;
 
 		/// <summary>
@@ -87,9 +85,9 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		private void InitializeVariables()
 		{
-			// TODO: Replace timer with time event.
 			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
-			_globalVarSaver = new Timer(this.SaveGlobalVars, null, VariableSaveInterval, VariableSaveInterval);
+
+			ChannelServer.Instance.World.Heartbeat.FiveMinutesTick += this.SaveGlobalVars;
 			_lastVarChange = DateTime.Now;
 		}
 
@@ -594,8 +592,8 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Saves global variables to database.
 		/// </summary>
-		/// <param name="state"></param>
-		private void SaveGlobalVars(object state)
+		/// <param name="now"></param>
+		private void SaveGlobalVars(DateTime now)
 		{
 			if (this.Variables.Perm.LastChange <= _lastVarChange)
 				return;
