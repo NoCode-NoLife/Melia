@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see licence.txt in the main folder
-
-using System;
+﻿using System;
 using System.Text;
 using Melia.Shared.Const;
 using Melia.Shared.Network;

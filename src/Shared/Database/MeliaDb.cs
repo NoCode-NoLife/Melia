@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using System;
+﻿using System;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
 using MySql.Data.MySqlClient;
@@ -32,7 +29,7 @@ namespace Melia.Shared.Database
 		protected MySqlConnection GetConnection()
 		{
 			if (_connectionString == null)
-				throw new Exception("AuraDb has not been initialized.");
+				throw new Exception("MeliaDb has not been initialized.");
 
 			var result = new MySqlConnection(_connectionString);
 			result.Open();

@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -72,7 +69,7 @@ namespace Melia.Shared.Database
 	/// </remarks>
 	/// <example>
 	/// <code>
-	/// using (var conn = AuraDb.Instance.Connection)
+	/// using (var conn = db.Instance.Connection)
 	/// using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
 	/// {
 	/// 	cmd.AddParameter("@accountId", account.Id);

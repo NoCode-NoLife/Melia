@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using Melia.Login.Util.Configuration.Files;
+﻿using Melia.Login.Util.Configuration.Files;
 using Melia.Shared.Util.Configuration;
 
 namespace Melia.Login.Util.Configuration

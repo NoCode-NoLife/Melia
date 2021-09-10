@@ -1,8 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see licence.txt in the main folder
-
-using Melia.Shared.Const;
-using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World
 {

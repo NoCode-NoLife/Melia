@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-namespace Melia.Shared.Const
+﻿namespace Melia.Shared.Const
 {
 	// TODO: config.ies has all values, incl. defaults. Make a db as well?
 	public enum Option

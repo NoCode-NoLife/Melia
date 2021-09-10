@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using Melia.Shared.World;
+﻿using Melia.Shared.World;
 
 namespace Melia.Shared.Network.Helpers
 {

@@ -1,11 +1,7 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Scripting;
 using Melia.Channel.World;
-using Melia.Shared.Util;
 using Melia.Shared.Network.Helpers;
 
 namespace Melia.Channel.Database

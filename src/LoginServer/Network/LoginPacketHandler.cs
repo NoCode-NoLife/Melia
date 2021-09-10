@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using System.Linq;
+﻿using System.Linq;
 using Melia.Login.Database;
 using Melia.Login.World;
 using Melia.Shared.Const;

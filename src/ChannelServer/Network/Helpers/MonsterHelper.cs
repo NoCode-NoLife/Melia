@@ -1,7 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see license file in the main folder
-
-using Melia.Channel.World;
+﻿using Melia.Channel.World;
 using Melia.Shared.Network;
 
 namespace Melia.Channel.Network.Helpers
