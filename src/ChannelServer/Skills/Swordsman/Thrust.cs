@@ -40,19 +40,7 @@ namespace Melia.Channel.Skills.Swordsman
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
 
-			if (skill.CanOverheat)
-				skill.IncreaseOverheat();
-
-			// TODO: Move update to IncreaseOverheat?
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-
-			// TODO: Is this packet necessary even if the skill can't
-			//   overheat?
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.ResetOverheat();
-			}
+			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
 

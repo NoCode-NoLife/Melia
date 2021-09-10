@@ -14,16 +14,7 @@ namespace Melia.Channel.Skills.General
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
 
-			if (skill.CanOverheat)
-				skill.OverheatCounter++;
-
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.OverheatCounter = 0;
-			}
+			skill.IncreaseOverheat();
 
 			var damage = caster.GetRandomPAtk() + 100;
 

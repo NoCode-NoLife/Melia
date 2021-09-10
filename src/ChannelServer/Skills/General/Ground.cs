@@ -27,16 +27,7 @@ namespace Melia.Channel.Skills.General
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
 
-			if (skill.CanOverheat)
-				skill.OverheatCounter++; // Replace with IncreaseOverheat, it's more verbose?
-
-			Send.ZC_OVERHEAT_CHANGED(caster, skill);
-
-			if (!skill.CanOverheat || skill.IsOverheated)
-			{
-				Send.ZC_COOLDOWN_CHANGED(caster, skill);
-				skill.ResetOverheat();
-			}
+			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
 

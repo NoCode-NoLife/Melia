@@ -2,6 +2,7 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -57,10 +58,10 @@ namespace Melia.Channel.Skills
 		}
 
 		/// <summary>
-		/// Keeping track of Overheat state, if OverheatCounter reaches
-		/// Data.Overheat, then we've overheated.
+		/// Returns the skill's overheat count. If this value reaches the
+		/// skill's maximum overheat, the skill goes on a cooldown.
 		/// </summary>
-		public int OverheatCounter { get; set; }
+		public int OverheatCounter { get; private set; }
 
 		/// <summary>
 		/// Returns reference to the skill's data from the file database.
@@ -96,7 +97,7 @@ namespace Melia.Channel.Skills
 		/// <summary>
 		/// Returns whether the skill is currently overheated.
 		/// </summary>
-		public bool IsOverheated => this.CanOverheat && this.Data.Overheat == this.OverheatCounter;
+		public bool IsOverheated => this.CanOverheat && this.OverheatCounter >= this.Data.Overheat;
 
 		/// <summary>
 		/// Creates a new instance.
@@ -158,19 +159,25 @@ namespace Melia.Channel.Skills
 		}
 
 		/// <summary>
-		/// Increases skill's overheat counter by 1.
+		/// Increases skill's overheat counter by 1 if the skill can
+		/// overheat and updates the client.
 		/// </summary>
 		public void IncreaseOverheat()
 		{
-			this.OverheatCounter++;
-		}
+			if (this.CanOverheat)
+				this.OverheatCounter++;
 
-		/// <summary>
-		/// Resets skill's overheat counter.
-		/// </summary>
-		public void ResetOverheat()
-		{
-			this.OverheatCounter = 0;
+			// TODO: Are these packets necessary even if the skill
+			//   can't overheat?
+
+			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
+
+			// TODO: Apply overheat cooldown
+			if (this.IsOverheated)
+			{
+				Send.ZC_COOLDOWN_CHANGED(this.Character, this);
+				this.OverheatCounter = 0;
+			}
 		}
 	}
 }
