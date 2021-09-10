@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_HEARTBEAT.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i339427
 //   Purpose: 
 //  Category: 
@@ -14,4 +14,4 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-ubyte bin[10];
+float secondsSinceStart;

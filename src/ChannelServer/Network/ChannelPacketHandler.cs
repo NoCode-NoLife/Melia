@@ -1786,13 +1786,14 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sent during loading screen.
+		/// Sent regularly from the client (every 10 seconds).
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_HEARTBEAT)]
 		public void CZ_HEARTBEAT(ChannelConnection conn, Packet packet)
 		{
+			var secondsSinceStart = packet.GetFloat();
 		}
 
 		/// <summary>
