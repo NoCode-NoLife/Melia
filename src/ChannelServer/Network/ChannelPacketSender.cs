@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Channel.Network.Helpers;
+using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
@@ -203,21 +204,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_QUICK_SLOT_LIST to connection, containing the
-		/// list of hotkeys?
+		/// Sends the player's saved hotkeys to the client.
 		/// </summary>
-		/// <param name="conn"></param>
-		public static void ZC_QUICK_SLOT_LIST(ChannelConnection conn)
+		/// <param name="character"></param>
+		public static void ZC_QUICK_SLOT_LIST(Character character)
 		{
+			// If no hotkeys were saved yet, we don't need to send anything.
+			var serialized = character.Variables.Perm.Get<string>("_QuickSlotList", null);
+			if (string.IsNullOrWhiteSpace(serialized))
+				return;
+
+			var bin = Convert.FromBase64String(serialized);
+
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
+			packet.PutCompressedBin(bin, bin.Length);
 
-			packet.PutInt(48);
-			//packet.PutLong(conn.Account.Id);
-			//packet.PutShort(0);
-			packet.PutBinFromHex("63 60 52 F7 63 60 D0 33 62 60 38 13 C1 C8 30 20 80 39 FA 08 27 C3 77 43 88 0B 98 E3 80 9C 1F 30 4E 22 90 F3 13 C6 91 79 CD C9 F0 0B C6 79 2A C6 C5 F0 1B CA 19 10 57 8F 5A 4A DB 10 60 44 36 9E 09 99 C3 8C CC 61 00 00");
-			//...
-
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -291,7 +293,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -350,7 +352,7 @@ namespace Melia.Channel.Network
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
@@ -890,7 +892,11 @@ namespace Melia.Channel.Network
 		/// Broadcasts ZC_JUMP in range of character, making them jump.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_JUMP(Character character, float x, float y, float z, float dx, float dy, float unkFloat, byte unkByte)
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
+		/// <param name="unkByte"></param>
+		public static void ZC_JUMP(Character character, Position pos, Direction dir, float unkFloat, byte unkByte)
 		{
 			var packet = new Packet(Op.ZC_JUMP);
 
@@ -898,11 +904,8 @@ namespace Melia.Channel.Network
 			packet.PutFloat(character.GetJumpStrength());
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(0);  // 1 or 0
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
-			packet.PutFloat(dx);
-			packet.PutFloat(dy);
+			packet.PutPosition(pos);
+			packet.PutDirection(dir);
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(13);
 			packet.PutLong(unkByte);
@@ -1655,11 +1658,11 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="value"></param>
-		public static void ZC_NORMAL_Skill_4E(Character character, int skillId, float value)
+		public static void ZC_NORMAL_Skill_4E(Character character, SkillId skillId, float value)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Skill_4E);
-			packet.PutInt(skillId);
+			packet.PutInt((int)skillId);
 			packet.PutFloat(value);
 			packet.PutByte(0);
 
@@ -2049,22 +2052,16 @@ namespace Melia.Channel.Network
 		/// characters about the movement.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, float x, float y, float z, float dx, float dy, float unkFloat)
+		public static void ZC_MOVE_DIR(Character character, Position pos, Direction dir, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
-			packet.PutFloat(dx);
-			packet.PutFloat(dy);
+			packet.PutPosition(pos);
+			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
 			packet.PutFloat(character.GetSpeed());
 			packet.PutFloat(unkFloat);
@@ -2081,17 +2078,13 @@ namespace Melia.Channel.Network
 		/// characters about the movement stop.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void ZC_MOVE_STOP(Character character, float x, float y, float z)
+		/// <param name="pos"></param>
+		public static void ZC_MOVE_STOP(Character character, Position pos)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(x);
-			packet.PutFloat(y);
-			packet.PutFloat(z);
+			packet.PutPosition(pos);
 			packet.PutByte(0);
 
 			character.Map.Broadcast(packet, character);
@@ -2102,20 +2095,16 @@ namespace Melia.Channel.Network
 		/// characters about the movement stop.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void ZC_PC_MOVE_STOP(Character character, Position position, Direction direction)
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		public static void ZC_PC_MOVE_STOP(Character character, Position pos, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(position.X);
-			packet.PutFloat(position.Y);
-			packet.PutFloat(position.Z);
+			packet.PutPosition(pos);
 			packet.PutByte(1);
-			packet.PutFloat(direction.Cos);
-			packet.PutFloat(direction.Sin);
+			packet.PutDirection(dir);
 			packet.PutFloat(228787.3f); // ?
 			packet.PutEmptyBin(24);
 
@@ -2148,7 +2137,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_READY);
 			packet.PutInt(character.Handle);
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(character.Handle);
@@ -2226,7 +2215,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(character.Handle);
 			//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
 			packet.PutInt(0);
-			packet.PutInt(skill.Id); // SkillId
+			packet.PutInt((int)skill.Id);
 			packet.PutInt(skill.Level); // Skill Level ?
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);

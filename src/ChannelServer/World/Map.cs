@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Melia.Shared.Const;
 using Melia.Shared.Network;
@@ -192,19 +193,115 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns attackable monsters in the given range around position.
+		/// Returns attackable monsters in the given radius around position.
 		/// </summary>
 		/// <param name="position"></param>
-		/// <param name="range"></param>
+		/// <param name="radius"></param>
 		/// <returns></returns>
-		public IEnumerable<Monster> GetAttackableMonstersInRange(Position position, int range)
+		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, int radius)
 		{
+			var result = new List<ICombatEntity>();
+
 			lock (_monsters)
-				return _monsters.Values.Where(a => a.Position.InRange2D(position, range) && a.NpcType == NpcType.Monster);
+			{
+				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
+				result.AddRange(entities);
+			}
+
+			return result;
 		}
 
 		/// <summary>
-		/// Returns only monsters by handle, or null if it doesn't exist.
+		/// Returns attackable monsters in the given radius around position.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetAttackableEntitiesInRectangle(ICombatEntity attacker, Position attackerPos, Position targetPos, int rectWidth)
+		{
+			var result = new List<ICombatEntity>();
+
+			var rectPoints = GetRectangle(attackerPos, targetPos, rectWidth);
+
+			// Debugging
+			foreach (var point in rectPoints)
+			{
+				var monster = new Monster(10005, NpcType.Friendly);
+				monster.Position = new Position(point.X, attackerPos.Y, point.Z);
+				monster.DisappearTime = DateTime.Now.AddSeconds(5);
+				attacker.Map.AddMonster(monster);
+			}
+
+			lock (_monsters)
+			{
+				var entities = _monsters.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
+				result.AddRange(entities);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns edge points of a rectangle, spanning from start to end,
+		/// with the given width.
+		/// </summary>
+		/// <param name="startPos"></param>
+		/// <param name="endPos"></param>
+		/// <param name="rectWidth"></param>
+		/// <returns></returns>
+		private static Position[] GetRectangle(Position startPos, Position endPos, int rectWidth)
+		{
+			var result = new Position[4];
+
+			var length = startPos.Get2DDistance(endPos);
+			var halfWidth = rectWidth / 2;
+			var dir = startPos.GetDirection(endPos);
+
+			var x1 = startPos.X - halfWidth;
+			var x2 = startPos.X + halfWidth;
+			var z1 = startPos.Z;
+			var z2 = (float)(startPos.Z + length);
+
+			result[0] = RotatePoint(new Position(x1, 0, z1), startPos, dir);
+			result[1] = RotatePoint(new Position(x2, 0, z1), startPos, dir);
+			result[2] = RotatePoint(new Position(x2, 0, z2), startPos, dir);
+			result[3] = RotatePoint(new Position(x1, 0, z2), startPos, dir);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Rotates point around pivot.
+		/// </summary>
+		/// <param name="point">Point to rotate.</param>
+		/// <param name="pivot">Center of the rotation.</param>
+		/// <param name="dir">Direction to rotate the point to.</param>
+		/// <returns></returns>
+		private static Position RotatePoint(Position point, Position pivot, Direction dir)
+		{
+			var cos = dir.Cos;
+			var sin = dir.Sin;
+
+			var x = (int)(cos * (point.X - pivot.X) - sin * (point.Z - pivot.Z) + pivot.X);
+			var z = (int)(sin * (point.X - pivot.X) + cos * (point.Z - pivot.Z) + pivot.Z);
+
+			return new Position(x, point.Y, z);
+		}
+
+		/// <summary>
+		/// Returns monster by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
@@ -215,6 +312,53 @@ namespace Melia.Channel.World
 				_monsters.TryGetValue(handle, out result);
 
 			return result;
+		}
+
+		/// <summary>
+		/// Returns monster by handle via out. Returns false if the
+		/// monster wasn't found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(int handle, out Monster monster)
+		{
+			lock (_monsters)
+				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
+		/// Returns combat entity by handle, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public ICombatEntity GetCombatEntity(int handle)
+		{
+			lock (_monsters)
+			{
+				if (_monsters.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			lock (_characters)
+			{
+				if (_characters.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Returns combat entity by handle via out. Returns false if the
+		/// handle wasn't found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool TryGetCombatEntity(int handle, out ICombatEntity entity)
+		{
+			entity = this.GetCombatEntity(handle);
+			return entity != null;
 		}
 
 		/// <summary>
@@ -253,7 +397,6 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns all monsters on this map.
 		/// </summary>
-		/// <param name="handle"></param>
 		/// <returns></returns>
 		public Monster[] GetMonsters()
 		{

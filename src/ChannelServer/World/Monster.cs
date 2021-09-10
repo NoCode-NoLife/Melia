@@ -2,8 +2,8 @@
 // For more information, see license file in the main folder
 
 using System;
-using System.Collections.Generic;
 using Melia.Channel.Network;
+using Melia.Channel.Skills;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
@@ -11,7 +11,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Monster : IEntity, IAttackableEntity, IEntityEvent
+	public class Monster : ICombatEntity
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -57,7 +57,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns true if WarpName is not empty.
 		/// </summary>
-		public bool IsWarp { get { return !string.IsNullOrWhiteSpace(this.WarpName); } }
+		public bool IsWarp => !string.IsNullOrWhiteSpace(this.WarpName);
 
 		/// <summary>
 		/// Location to warp to.
@@ -109,7 +109,10 @@ namespace Melia.Channel.World
 		}
 		private int _defense;
 
-		public event EventHandler<EntityEventArgs> Died;
+		/// <summary>
+		/// Raised when the monster died.
+		/// </summary>
+		public event Action<Monster, ICombatEntity> Died;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -161,12 +164,14 @@ namespace Melia.Channel.World
 
 		/// <summary>
 		/// Makes monster take damage and kills it if the HP reach 0.
+		/// Returns true if the monster is dead.
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
 		/// <param name="type"></param>
-		/// <returns>If damage is fatal returns true</returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex = 0)
+		/// <param name="attackIndex"></param>
+		/// <returns></returns>
+		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
@@ -248,9 +253,20 @@ namespace Melia.Channel.World
 			}
 
 			killer?.GiveExp(exp, classExp, this);
-			this.Died?.Invoke(this, new EntityEventArgs(this.Handle));
+			this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Returns true if the monster can attack the entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanAttack(ICombatEntity entity)
+		{
+			// For now, let's specify that monsters can attack characters.
+			return (entity is Character);
 		}
 	}
 }

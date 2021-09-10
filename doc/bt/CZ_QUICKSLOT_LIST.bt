@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_QUICKSLOT_LIST
+//      File: CZ_QUICKSLOT_LIST.bt
 //   Authors: exec
-//   Version: i171960
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,5 +16,37 @@
 ClientHeaderDynamic header;
 
 int compressedSize;
-byte compressedData[compressedSize];
+byte data[compressedSize];
 
+/*
+enum<byte> QuickSlotType
+{
+    QST_Skill = 2,
+    QST_Item = 3,
+};
+
+typedef struct
+{
+    byte b1;
+    QuickSlotType type;
+    int id;
+    byte bin1[7];
+}
+QuickSlotEntry <read=readQuickSlotEntry>;
+
+string readQuickSlotEntry(QuickSlotEntry& val)
+{
+    local string result;
+
+    switch(val.type)
+    {
+        case QST_Skill: SPrintf(result, "Skill: %d", val.id); break;
+        case QST_Item: SPrintf(result, "Item: %d", val.id); break;
+        default: SPrintf(result, "Unknown: %d", val.id); break;
+    }
+
+    return result;
+}
+
+QuickSlotEntry entries[54];
+*/

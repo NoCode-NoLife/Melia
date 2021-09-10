@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Channel.Scripting;
+using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
-using Melia.Shared.World;
 
 namespace Melia.Channel.Network
 {
@@ -127,7 +128,7 @@ namespace Melia.Channel.Network
 			Send.ZC_NORMAL_Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
-			Send.ZC_QUICK_SLOT_LIST(conn);
+			Send.ZC_QUICK_SLOT_LIST(character);
 			Send.ZC_NORMAL_Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
@@ -241,19 +242,15 @@ namespace Melia.Channel.Network
 		public void CZ_JUMP(ChannelConnection conn, Packet packet)
 		{
 			var unkByte1 = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkFloat = packet.GetFloat(); // timestamp?
 			var bin = packet.GetBin(13);
 			var unkByte2 = packet.GetByte();
 
-
 			var character = conn.SelectedCharacter;
 
-			character.Jump(x, y, z, dx, dy, unkFloat, unkByte2);
+			character.Jump(position, direction, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -265,11 +262,8 @@ namespace Melia.Channel.Network
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte(); // 0
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkBin = packet.GetBin(6);
 			var unkFloat = packet.GetFloat(); // timestamp?
 
@@ -277,7 +271,7 @@ namespace Melia.Channel.Network
 
 			// TODO: Sanity checks.
 
-			character.Move(x, y, z, dx, dy, unkFloat);
+			character.Move(position, direction, unkFloat);
 		}
 
 		/// <summary>
@@ -289,18 +283,15 @@ namespace Melia.Channel.Network
 		public void CZ_MOVE_STOP(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
 			var unkFloat = packet.GetFloat(); // timestamp?
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
 
-			character.StopMove(x, y, z, dx, dy);
+			character.StopMove(position, direction);
 
 			// In the packets I don't see any indication for a client-side trigger,
 			// so I guess the server has to check for warps and initiate it all
@@ -364,13 +355,11 @@ namespace Melia.Channel.Network
 		public void CZ_MOVEMENT_INFO(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.SetPosition(x, y, z);
+			conn.SelectedCharacter.SetPosition(position);
 
 			// Is there a broadcast for this?
 		}
@@ -542,7 +531,29 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_QUICKSLOT_LIST)]
 		public void CZ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
-			// packed?
+			var extra = packet.GetBin(12);
+			var packetSize = packet.GetShort();
+			var compressedSize = packet.GetInt();
+			var buffer = packet.GetCompressedBin(compressedSize);
+
+			// The buffer is always 705 bytes long and seems to contain
+			// 54 entries of the following format:
+			// 
+			//  byte b1;
+			//  byte type;
+			//  int id;
+			//  byte bin1[7];
+			// 
+			// That leaves 3 bytes of unknown value at the end of the buffer.
+			// We could parse this and do something with the hotkeys...
+			// or we could just throw them into the database for now.
+			// Though we presumably need them, to modify them from the
+			// server.
+
+			var character = conn.SelectedCharacter;
+
+			var serialized = Convert.ToBase64String(buffer);
+			character.Variables.Perm["_QuickSlotList"] = serialized;
 		}
 
 		/// <summary>
@@ -579,10 +590,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_ROTATE)]
 		public void CZ_ROTATE(ChannelConnection conn, Packet packet)
 		{
-			var d1 = packet.GetFloat();
-			var d2 = packet.GetFloat();
-
-			conn.SelectedCharacter.Rotate(d1, d2);
+			var direction = packet.GetDirection();
+			conn.SelectedCharacter.Rotate(direction);
 		}
 
 		/// <summary>
@@ -593,10 +602,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_HEAD_ROTATE)]
 		public void CZ_HEAD_ROTATE(ChannelConnection conn, Packet packet)
 		{
-			var d1 = packet.GetFloat();
-			var d2 = packet.GetFloat();
-
-			conn.SelectedCharacter.RotateHead(d1, d2);
+			var direction = packet.GetDirection();
+			conn.SelectedCharacter.RotateHead(direction);
 		}
 
 		/// <summary>
@@ -810,15 +817,10 @@ namespace Melia.Channel.Network
 			var size = packet.GetShort();
 			var i1 = packet.GetInt();
 			var handleCount = packet.GetInt();
-			var attackerX = packet.GetFloat();
-			var attackerY = packet.GetFloat();
-			var attackerZ = packet.GetFloat();
-			var targetX = packet.GetFloat();
-			var targetY = packet.GetFloat();
-			var targetZ = packet.GetFloat();
-			var targetDx = packet.GetFloat();
-			var targetDy = packet.GetFloat();
-			var skillId = packet.GetInt();
+			var castPosition = packet.GetPosition();
+			var targetPosition = packet.GetPosition();
+			var direction = packet.GetDirection();
+			var skillId = (SkillId)packet.GetInt();
 			var bin1 = packet.GetBin(5); // 01 00 00 00 00 00 00 00 00
 			var f1 = packet.GetFloat();
 
@@ -832,59 +834,65 @@ namespace Melia.Channel.Network
 			}
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
-			var castPosition = new Position(attackerX, attackerY, attackerZ);
-			var targetPosition = new Position(targetX, targetY, targetZ);
 
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				// Should check state of the character
-				Send.ZC_OVERHEAT_CHANGED(character, skill);
-				Send.ZC_PC_ATKSTATE(character, true);
+				Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
 
-				if (handleCount == 0)
+			// Should check state of the character
+			Send.ZC_OVERHEAT_CHANGED(character, skill);
+			Send.ZC_PC_ATKSTATE(character, true);
+
+			if (handleCount == 0)
+			{
+				switch (skill.Data.UseType)
 				{
-					switch (skill.Data.UseType)
+					case SkillUseType.MELEE_GROUND:
 					{
-						case SkillUseType.MELEE_GROUND:
-							ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
-							break;
-
-						case SkillUseType.FORCE:
-							ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
-							break;
-
-						default:
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
-							break;
+						var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+						handler.Handle(skill, character, castPosition, targetPosition);
+						break;
+					}
+					case SkillUseType.FORCE:
+					{
+						var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+						handler.Handle(skill, character, null);
+						break;
+					}
+					default:
+					{
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+						break;
 					}
 				}
-				else
+			}
+			else
+			{
+				var targets = new List<ICombatEntity>();
+				foreach (var handle in handles)
 				{
-					var targets = new List<IAttackableEntity>();
-					foreach (var handle in handles)
+					var target = character.Map.GetCombatEntity(handle);
+					if (target == null || !character.CanAttack(target))
 					{
-						// Get target
-						var target = character.Map.GetMonster(handle);
-						if (target == null || target.NpcType != NpcType.Monster)
-						{
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
-							continue;
-						}
-
-						targets.Add(target);
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
+						continue;
 					}
 
-					switch (skill.Data.UseType)
-					{
-						case SkillUseType.MELEE_GROUND:
-							ChannelServer.Instance.SkillHandlers.TargetedGroundSkillHandler.Handle(skill, character, castPosition, targetPosition, targets);
-							break;
+					targets.Add(target);
+				}
 
-						default:
-							Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
-							break;
-					}
+				switch (skill.Data.UseType)
+				{
+					case SkillUseType.MELEE_GROUND:
+						var handler = ChannelServer.Instance.SkillHandlers.GetTargetedGround(skill.Id);
+						handler.Handle(skill, character, castPosition, targetPosition, targets);
+						break;
+
+					default:
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+						break;
 				}
 			}
 		}
@@ -899,19 +907,30 @@ namespace Melia.Channel.Network
 		public void CZ_SKILL_TARGET(ChannelConnection conn, Packet packet)
 		{
 			var b1 = packet.GetByte();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
 
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				var target = character.Map.GetMonster(targetHandle);
-				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, target);
+				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
 			}
 
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");z
+			// TODO: Should the target be checked properly? Is it possible
+			//   to use this handler without target? We should document
+			//   such things.
+
+			var target = character.Map.GetCombatEntity(targetHandle);
+			//if (!character.Map.TryGetCombatEntity(targetHandle, out var target))
+			//{
+			//	Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill on a non-existing target.", conn.Account.Name);
+			//	return;
+			//}
+
+			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+			handler.Handle(skill, character, target);
 		}
 
 		/// <summary>
@@ -924,20 +943,84 @@ namespace Melia.Channel.Network
 		public void CZ_SKILL_TARGET_ANI(ChannelConnection conn, Packet packet)
 		{
 			var b1 = packet.GetByte();
-			var skillId = packet.GetInt();
-			var dx = packet.GetFloat();
-			var dy = packet.GetFloat();
+			var skillId = (SkillId)packet.GetInt();
+			var direction = packet.GetDirection();
 
 			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
 
-			if (skill != null)
+			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				ChannelServer.Instance.SkillHandlers.TargetedSkillHandler.Handle(skill, character, null);
+				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
 			}
 
-			//character.CastSkill(skillId);
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+			handler.Handle(skill, character, null);
+		}
+
+		/// <summary>
+		/// This packet is used to cast skills in the ground.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_GROUND)]
+		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
+		{
+			var extra = packet.GetBin(12);
+			var unk1 = packet.GetByte();
+			var skillId = (SkillId)packet.GetInt();
+			var targetHandle = packet.GetInt();
+			var castPosition = packet.GetPosition();
+			var targetPosition = packet.GetPosition();
+			var direction = packet.GetDirection();
+			var handle = packet.GetInt(); // This seems to be "target actorId"
+			var unk6 = packet.GetByte();
+			var unk7 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+			handler.Handle(skill, character, castPosition, targetPosition);
+
+			// The following code is what has been observed from GROUND SKILL
+			// packet responses.
+
+			/*
+			var packetPosition1 = new Position(x1, y1, z1);
+			var packetPosition2 = new Position(x2, y2, z2);
+			var skillPosition = new Position(x1, y1, z1 - 20);
+			var packetDirection = new Direction(cos, sin);
+
+			var skillDirection = new Direction(0.707f, 0.707f);
+
+			// Player in Attack state (if not already)
+			Send.ZC_PC_ATKSTATE(character, true);
+
+			// Update caster's SP 
+			short consumedSp = 10;
+			Send.ZC_UPDATE_SP(character, consumedSp);
+
+			// Skill is ready to be casted ?
+			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
+
+			// Create skill in client
+			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
+
+			// Unkown Normal
+			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
+
+			// Set range of effect
+			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
+
+			// Broadcast action to all?
+			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
+			*/
 		}
 
 		/// <summary>
@@ -1004,9 +1087,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]
 		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
 		{
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 			var skillId = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
@@ -1152,73 +1233,6 @@ namespace Melia.Channel.Network
 			{
 				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: txType {0} not handled.", txType);
 			}
-		}
-
-		/// <summary>
-		/// This packet is used to cast skills in the ground
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_SKILL_GROUND)]
-		public void CZ_SKILL_GROUND(ChannelConnection conn, Packet packet)
-		{
-			var unk1 = packet.GetByte();
-			var skillId = packet.GetInt();
-			var targetHandle = packet.GetInt();
-			var x1 = packet.GetFloat();
-			var y1 = packet.GetFloat();
-			var z1 = packet.GetFloat();
-			var x2 = packet.GetFloat();
-			var y2 = packet.GetFloat();
-			var z2 = packet.GetFloat();
-			var cos = packet.GetFloat();
-			var sin = packet.GetFloat();
-			var handle = packet.GetInt(); // This seems to be "target actorId"
-			var unk6 = packet.GetByte();
-			var unk7 = packet.GetByte();
-
-			var character = conn.SelectedCharacter;
-			var skill = character.Skills.Get(skillId);
-			if (skill != null)
-			{
-				var castPosition = new Position(x1, y1, z1);
-				var targetPosition = new Position(x2, y2, z2);
-				ChannelServer.Instance.SkillHandlers.GroundSkillHandler.Handle(skill, character, castPosition, targetPosition);
-			}
-
-			// The following code is what has been observed from GROUND SKILL
-			// packet responses.
-
-			/*
-			var packetPosition1 = new Position(x1, y1, z1);
-			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(x1, y1, z1 - 20);
-			var packetDirection = new Direction(cos, sin);
-
-			var skillDirection = new Direction(0.707f, 0.707f);
-
-			// Player in Attack state (if not already)
-			Send.ZC_PC_ATKSTATE(character, true);
-
-			// Update caster's SP 
-			short consumedSp = 10;
-			Send.ZC_UPDATE_SP(character, consumedSp);
-
-			// Skill is ready to be casted ?
-			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
-
-			// Create skill in client
-			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
-
-			// Unkown Normal
-			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
-
-			// Set range of effect
-			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
-
-			// Broadcast action to all?
-			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
-			*/
 		}
 
 		/// <summary>
@@ -1662,9 +1676,7 @@ namespace Melia.Channel.Network
 		public void CZ_SYNC_POS(ChannelConnection conn, Packet packet)
 		{
 			var handle = packet.GetInt();
-			var x = packet.GetFloat();
-			var y = packet.GetFloat();
-			var z = packet.GetFloat();
+			var position = packet.GetPosition();
 
 			// Sanity checks...
 			// Sync position for the character with the handle? ...
@@ -1808,7 +1820,8 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_REQ_QUICKSLOT_LIST)]
 		public void CZ_REQ_QUICKSLOT_LIST(ChannelConnection conn, Packet packet)
 		{
-			Send.ZC_QUICK_SLOT_LIST(conn);
+			var character = conn.SelectedCharacter;
+			Send.ZC_QUICK_SLOT_LIST(character);
 		}
 
 		/// <summary>

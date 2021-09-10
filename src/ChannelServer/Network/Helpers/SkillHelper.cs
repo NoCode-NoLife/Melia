@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see license file in the main folder
 
-using Melia.Channel.World;
+using Melia.Channel.Skills;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 
@@ -20,7 +20,7 @@ namespace Melia.Channel.Network.Helpers
 			var propertiesSize = skill.Properties.Size;
 
 			packet.PutLong(skill.ObjectId);
-			packet.PutInt(skill.Id);
+			packet.PutInt((int)skill.Id);
 			packet.PutShort(propertiesSize);
 			packet.PutEmptyBin(2); // alignment
 			packet.PutInt(0);

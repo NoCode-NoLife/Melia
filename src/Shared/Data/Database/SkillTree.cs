@@ -12,7 +12,7 @@ namespace Melia.Shared.Data.Database
 	public class SkillTreeData
 	{
 		public JobId JobId { get; set; }
-		public int SkillId { get; set; }
+		public SkillId SkillId { get; set; }
 		public int UnlockLevel { get; set; }
 		public int MaxLevel { get; set; }
 	}
@@ -40,7 +40,7 @@ namespace Melia.Shared.Data.Database
 			var data = new SkillTreeData();
 
 			data.JobId = (JobId)entry.ReadInt("jobId");
-			data.SkillId = entry.ReadInt("skillId");
+			data.SkillId = (SkillId)entry.ReadInt("skillId");
 			data.UnlockLevel = entry.ReadInt("unlockLevel");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 

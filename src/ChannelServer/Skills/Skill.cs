@@ -2,11 +2,13 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using Melia.Channel.Network;
+using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Channel.World
+namespace Melia.Channel.Skills
 {
 	public class Skill : IPropertyObject
 	{
@@ -36,7 +38,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns the skill's id.
 		/// </summary>
-		public int Id { get; }
+		public SkillId Id { get; }
 
 		/// <summary>
 		/// Gets or sets skill's level.
@@ -56,10 +58,10 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Keeping track of Overheat state, if OverheatCounter reaches
-		/// Data.Overheat, then we've overheated.
+		/// Returns the skill's overheat count. If this value reaches the
+		/// skill's maximum overheat, the skill goes on a cooldown.
 		/// </summary>
-		public int OverheatCounter { get; set; }
+		public int OverheatCounter { get; private set; }
 
 		/// <summary>
 		/// Returns reference to the skill's data from the file database.
@@ -95,7 +97,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Returns whether the skill is currently overheated.
 		/// </summary>
-		public bool IsOverheated => this.CanOverheat && this.Data.Overheat == this.OverheatCounter;
+		public bool IsOverheated => this.CanOverheat && this.OverheatCounter >= this.Data.Overheat;
 
 		/// <summary>
 		/// Creates a new instance.
@@ -103,7 +105,7 @@ namespace Melia.Channel.World
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="level"></param>
-		public Skill(Character character, int skillId, int level)
+		public Skill(Character character, SkillId skillId, int level)
 		{
 			this.Character = character;
 			this.Id = skillId;
@@ -157,11 +159,25 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Resets skill's overheat counter.
+		/// Increases skill's overheat counter by 1 if the skill can
+		/// overheat and updates the client.
 		/// </summary>
-		public void ResetOverheat()
+		public void IncreaseOverheat()
 		{
-			this.OverheatCounter = 0;
+			if (this.CanOverheat)
+				this.OverheatCounter++;
+
+			// TODO: Are these packets necessary even if the skill
+			//   can't overheat?
+
+			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
+
+			// TODO: Apply overheat cooldown
+			if (this.IsOverheated)
+			{
+				Send.ZC_COOLDOWN_CHANGED(this.Character, this);
+				this.OverheatCounter = 0;
+			}
 		}
 	}
 }

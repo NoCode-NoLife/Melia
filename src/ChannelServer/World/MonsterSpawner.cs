@@ -125,9 +125,9 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Called when a monster spawned by this spawner died.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void OnMonsterDied(object sender, EntityEventArgs e)
+		/// <param name="monster"></param>
+		/// <param name="killer"></param>
+		private void OnMonsterDied(Monster monster, ICombatEntity killer)
 		{
 			_spawnCount = Interlocked.Decrement(ref _spawnCount);
 			Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Respawn());

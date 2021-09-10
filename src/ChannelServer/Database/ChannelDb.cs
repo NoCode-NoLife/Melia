@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Melia.Channel.Scripting;
+using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
@@ -173,7 +174,7 @@ namespace Melia.Channel.Database
 					{
 						while (reader.Read())
 						{
-							var skillId = reader.GetInt32("id");
+							var skillId = (SkillId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
 							var skill = new Skill(character, skillId, level);

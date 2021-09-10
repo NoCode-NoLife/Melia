@@ -3,7 +3,7 @@
 //
 //      File: CB_COMMANDER_CREATE.bt
 //   Authors: exec, celophi
-//   Version: i225009
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -17,7 +17,7 @@
 #include "common.bt"
 
 ClientHeaderFixed header;
-char extra[12];
+
 byte index;
 char name[65];
 short job;
@@ -25,5 +25,5 @@ byte gender;
 position pos;
 //int startingCity; // i11025 (2016-02-26)
 uint lodge;
-ushort hair;
-ubyte bin[11];
+ubyte hair;
+ubyte bin[12];

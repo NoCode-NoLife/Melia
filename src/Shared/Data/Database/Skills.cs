@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -11,7 +12,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class SkillData
 	{
-		public int Id { get; set; }
+		public SkillId Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public int Element { get; set; }
@@ -78,7 +79,7 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Skill database, indexed by skill id.
 	/// </summary>
-	public class SkillDb : DatabaseJsonIndexed<int, SkillData>
+	public class SkillDb : DatabaseJsonIndexed<SkillId, SkillData>
 	{
 		/// <summary>
 		/// Returns first skill data entry with given class name, or null
@@ -95,7 +96,7 @@ namespace Melia.Shared.Data.Database
 
 			var info = new SkillData();
 
-			info.Id = entry.ReadInt("skillId");
+			info.Id = (SkillId)entry.ReadInt("skillId");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
 			info.Element = entry.ReadInt("element");
@@ -111,6 +112,7 @@ namespace Melia.Shared.Data.Database
 			info.SplashHeight = entry.ReadFloat("splashHeight");
 			info.SplashAngle = entry.ReadFloat("splashAngle");
 			info.SplashRate = entry.ReadFloat("splashRate");
+			info.SkillFactor = entry.ReadFloat("skillFactor");
 
 			info.Cooldown = entry.ReadInt("cooldown");
 			info.CooldownGroup = entry.ReadString("cooldownGroup");

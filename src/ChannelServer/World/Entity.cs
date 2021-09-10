@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System;
+using Melia.Channel.Skills;
 using Melia.Shared.World;
 
 namespace Melia.Channel.World
@@ -35,54 +36,23 @@ namespace Melia.Channel.World
 	/// <summary>
 	/// Describes an entity that can actively participate in combat.
 	/// </summary>
-	public interface IAttackableEntity : IEntity
+	public interface ICombatEntity : IEntity
 	{
 		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
+		/// Returns whether the entity is dead.
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
 		/// <param name="type"></param>
 		/// <returns>If damage is fatal returns true</returns>
-		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex = 0);
-	}
-
-	/// <summary>
-	/// Defines how to broadcast an entity taking damage.
-	/// </summary>
-	public enum DamageVisibilityModifier
-	{
-		/// <summary>
-		/// Sends no damage information to clients.
-		/// </summary>
-		Invisible,
+		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex);
 
 		/// <summary>
-		/// Sends ZC_HIT_INFO to broadcast damage.
+		/// Returns true if this entity can attack the given one.
 		/// </summary>
-		Hit,
-
-		/// <summary>
-		/// Sends ZC_SKILL_HIT_INFO to broadcast damage.
-		/// </summary>
-		Skill,
-	}
-
-	public interface IEntityEvent
-	{
-		/// <summary>
-		/// Event thrown on death
-		/// </summary>
-		event EventHandler<EntityEventArgs> Died;
-	}
-
-	public class EntityEventArgs : EventArgs
-	{
-		public int Handle { get; set; }
-
-		public EntityEventArgs(int handle)
-		{
-			this.Handle = handle;
-		}
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		bool CanAttack(ICombatEntity entity);
 	}
 }
