@@ -10,9 +10,6 @@ namespace Melia.Channel.World
 {
 	public class WorldManager
 	{
-		public const int HeartbeatTime = 500;
-		public const int Second = 1000, Minute = Second * 60, Hour = Minute * 60;
-
 		private int _handles = 0;
 
 		// These are object id range starting points. The skill objects I
@@ -30,50 +27,16 @@ namespace Melia.Channel.World
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
 		private readonly object _mapsLock = new object();
 
-		private Timer _heartbeatTimer;
-
 		/// <summary>
 		/// Returns the amount of maps in the world.
 		/// </summary>
 		public int Count { get { lock (_mapsLock) return _mapsId.Count; } }
 
 		/// <summary>
-		/// Initializes heartbeat timer.
+		/// Returns the world's heartbeat, a manager for regularly
+		/// occurring events.
 		/// </summary>
-		private void SetUpHeartbeat()
-		{
-			var now = DateTime.Now;
-
-			// Start timer on the next HeartbeatTime
-			// (eg on the next full 500 ms) and run it regularly afterwards.
-			_heartbeatTimer = new Timer(this.Heartbeat, null, HeartbeatTime - (now.Ticks / 10000 % HeartbeatTime), HeartbeatTime);
-		}
-
-		/// <summary>
-		/// Handles regularly occuring events and raises time events.
-		/// </summary>
-		/// <remarks>
-		/// On the first call all time events are raised,
-		/// because lastHeartbeat is 0, and the events depend on the time
-		/// since the last heartbeat. This also ensures that they aren't
-		/// called multiple times.
-		/// </remarks>
-		private void Heartbeat(object _)
-		{
-			this.UpdateEntities();
-		}
-
-		/// <summary>
-		/// Updates all entities on all maps.
-		/// </summary>
-		private void UpdateEntities()
-		{
-			lock (_mapsLock)
-			{
-				foreach (var map in _mapsId.Values)
-					map.UpdateEntities();
-			}
-		}
+		public Heartbeat Heartbeat { get; } = new Heartbeat();
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -119,9 +82,11 @@ namespace Melia.Channel.World
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
 				_mapsName.Add(map.Name, map);
+
+				this.Heartbeat.Add(map);
 			}
 
-			this.SetUpHeartbeat();
+			this.Heartbeat.Start();
 		}
 
 		/// <summary>

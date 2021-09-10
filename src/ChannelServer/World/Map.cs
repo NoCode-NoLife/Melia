@@ -12,7 +12,7 @@ using Melia.Shared.World;
 
 namespace Melia.Channel.World
 {
-	public class Map
+	public class Map : IUpdateable
 	{
 		/// <summary>
 		/// Range a character can see.
@@ -63,9 +63,10 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Updates all entities, e.g. removes dead monsters.
+		/// Called regularly to update the map and its entities.
 		/// </summary>
-		public void UpdateEntities()
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
