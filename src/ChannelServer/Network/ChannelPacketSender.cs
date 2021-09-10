@@ -4001,10 +4001,92 @@ namespace Melia.Channel.Network
 		/// Add a buff to the character
 		/// </summary>
 		/// <param name="character"></param>
+		/// <summary>
+		/// Display a buff on client UI
+		/// </summary>
+		/// <param name="entity"></param>
 		/// <param name="buff"></param>
-		//public static void ZC_BUFF_ADD(Character character, Buff buff)
-		//{ 
-		//}
+		public static void ZC_BUFF_ADD(IEntity entity, Buff buff)
+		{
+			var packet = new Packet(Op.ZC_BUFF_ADD);
+			packet.AddBuff(entity, buff);
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Update a buff after a buff has been added
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buff"></param>
+		public static void ZC_BUFF_UPDATE(IEntity entity, Buff buff)
+		{
+			Log.Debug("Buff Update: {0} which expires at {1}.", buff.Id, buff.RemovalTime);
+			var packet = new Packet(Op.ZC_BUFF_UPDATE);
+			packet.AddBuff(entity, buff);
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Remove buff from client UI
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buff"></param>
+		public static void ZC_BUFF_REMOVE(IEntity entity, Buff buff)
+		{
+			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			packet.PutInt(entity.Handle);
+			packet.PutInt((int)buff.Id);
+			packet.PutByte(0);
+			packet.PutInt(buff.Handle);
+			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Buff list, sent when a entity spawns?
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void ZC_BUFF_LIST(IEntity entity)
+		{
+			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Clear buff buff handle association? Sent on entity death and removal
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void ZC_BUFF_CLEAR(IEntity entity)
+		{
+			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(1);
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Remove buff from client UI
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="buff"></param>
+		public static void ZC_BUFF_UPDATE_TIME(IEntity entity, Buff buff)
+		{
+			var packet = new Packet(Op.ZC_BUFF_UPDATE_TIME);
+			packet.PutLong(0);
+			packet.PutInt(0);
+			packet.PutInt(entity.Handle);
+			packet.PutInt((int)buff.Id);
+			packet.PutInt(0); // Increasing Value?
+
+			entity.Map.Broadcast(packet);
+		}
 
 		public static void DUMMY(ChannelConnection conn)
 		{

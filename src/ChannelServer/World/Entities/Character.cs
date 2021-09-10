@@ -616,6 +616,11 @@ namespace Melia.Channel.World.Entities
 		public Abilities Abilities { get; }
 
 		/// <summary>
+		/// Character's buffs.
+		/// </summary>
+		public Buffs Buffs { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -2244,6 +2249,7 @@ namespace Melia.Channel.World.Entities
 			this.Skills = new CharacterSkills(this);
 			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
+			this.Buffs = new Buffs(this);
 			this.Speed = 30;
 			this.CastingSpeed = 100;
 

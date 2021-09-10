@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\BuffId.cs" />
     <Compile Include="Const\Character.cs" />
     <Compile Include="Const\Gender.cs" />
     <Compile Include="Const\Items.cs" />

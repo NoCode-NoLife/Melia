@@ -90,8 +90,12 @@ namespace Melia.Channel.World
 		{
 			lock (_characters)
 			{
+				// TODO move buff update from here to somewhere else?
 				foreach (var character in _characters.Values)
+				{
 					character.LookAround();
+					character.Buffs.UpdateBuffs();
+				}
 			}
 		}
 

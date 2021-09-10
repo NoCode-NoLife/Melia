@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
 
 namespace Melia.Shared.Data.Database
@@ -6,7 +7,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class BuffData
 	{
-		public int Id { get; set; }
+		public BuffId Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public int Level { get; set; }
@@ -21,7 +22,7 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Buff database, indexed by buff id.
 	/// </summary>
-	public class BuffDb : DatabaseJsonIndexed<int, BuffData>
+	public class BuffDb : DatabaseJsonIndexed<BuffId, BuffData>
 	{
 		protected override void ReadEntry(JObject entry)
 		{
@@ -29,7 +30,7 @@ namespace Melia.Shared.Data.Database
 
 			var info = new BuffData();
 
-			info.Id = entry.ReadInt("id");
+			info.Id = (BuffId)entry.ReadInt("id");
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
 			info.Level = entry.ReadInt("level");

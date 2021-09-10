@@ -62,6 +62,7 @@
     <Compile Include="Network\ChannelConnection.cs" />
     <Compile Include="Network\ChannelPacketHandler.cs" />
     <Compile Include="Network\ChannelPacketSender.cs" />
+    <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
     <Compile Include="Program.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Scripting\ScriptState.cs" />
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Skills\Base\Interfaces.cs" />
+    <Compile Include="Skills\Cleric\Heal.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\General\Buff.cs" />
     <Compile Include="Skills\General\Ground.cs" />
@@ -88,6 +90,8 @@
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
+    <Compile Include="World\Entities\Components\Buff.cs" />
+    <Compile Include="World\Entities\Components\Buffs.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Entities\Components\Inventory.cs" />
