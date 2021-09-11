@@ -66,7 +66,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Monster's position.
@@ -81,7 +81,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
-		public int SDR { get; set; }
+		public int SDR { get; set; } = 1;
 
 		/// <summary>
 		/// Health points.
@@ -91,12 +91,12 @@ namespace Melia.Channel.World.Entities
 			get { return _hp; }
 			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
-		private int _hp;
+		private int _hp = 100;
 
 		/// <summary>
 		/// Maximum health points.
 		/// </summary>
-		public int MaxHp { get; private set; }
+		public int MaxHp { get; private set; } = 100;
 
 		/// <summary>
 		/// Physical defense.
@@ -116,7 +116,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
-		public DateTime DisappearTime { get; set; }
+		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
 
 		/// <summary>
 		/// Data entry for this monster.
@@ -156,10 +156,6 @@ namespace Melia.Channel.World.Entities
 
 			this.Id = id;
 			this.NpcType = type;
-			this.Level = 1;
-			this.SDR = 1;
-			this.Hp = this.MaxHp = 100;
-			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
 		}

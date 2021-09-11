@@ -220,22 +220,22 @@ namespace Melia.Channel.World.Entities
 		/// At release: Base 5000, plus 5 for each Str/Con.
 		/// Now: Base 8000 plus bonuses?
 		/// </remarks>
-		public int MaxWeight { get { return (8000); } }
+		public int MaxWeight => 8000;
 
 		/// <summary>
 		/// Returns ratio between NowWeight and MaxWeight.
 		/// </summary>
-		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
+		public float WeightRatio => (100f / this.MaxWeight * this.NowWeight);
 
 		/// <summary>
 		/// Character's current speed.
 		/// </summary>
-		public float Speed { get; set; }
+		public float Speed { get; set; } = 30;
 
 		/// <summary>
 		/// Character's current casting speed.
 		/// </summary>
-		public float CastingSpeed { get; set; }
+		public float CastingSpeed { get; set; } = 100;
 
 		/// <summary>
 		/// Holds the order of successive changes in character HP.
@@ -254,7 +254,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Character's scripting variables.
 		/// </summary>
-		public Variables Variables { get; private set; }
+		public Variables Variables { get; private set; } = new Variables();
 
 		/// <summary>
 		/// Specifies which hats are visible on the character.
@@ -262,12 +262,12 @@ namespace Melia.Channel.World.Entities
 		/// <remarks>
 		/// TODO: Handle toggling and save/load with character.
 		/// </remarks>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+		public HatVisibleStates VisibleHats => HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3;
 
 		/// <summary>
 		/// Character's level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Character's class level.
@@ -2242,11 +2242,7 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public Character()
 		{
-			this.Level = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
-			this.Variables = new Variables();
-			this.Speed = 30;
-			this.CastingSpeed = 100;
 
 			this.Components.Add(this.Inventory = new Inventory(this));
 			this.Components.Add(this.Jobs = new Jobs(this));
