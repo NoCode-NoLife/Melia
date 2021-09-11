@@ -1,14 +1,16 @@
 ﻿using System;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
-	public class Monster : ICombatEntity
+	public class Monster : ICombatEntity, IUpdateable
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -134,6 +136,16 @@ namespace Melia.Channel.World.Entities
 		/// ground when it appears. 
 		/// </remarks>
 		public bool FromGround { get; set; }
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
+		/// Returns the monster's component collection.
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
 
 		/// <summary>
 		/// Creates new NPC.
@@ -273,6 +285,15 @@ namespace Melia.Channel.World.Entities
 		{
 			// For now, let's specify that monsters can attack characters.
 			return (entity is Character);
+		}
+
+		/// <summary>
+		/// Updates monster and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
 		}
 	}
 }

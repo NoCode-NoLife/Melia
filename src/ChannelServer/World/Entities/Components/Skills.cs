@@ -10,7 +10,7 @@ namespace Melia.Channel.World.Entities.Components
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class CharacterSkills
+	public class CharacterSkills : IComponent
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 

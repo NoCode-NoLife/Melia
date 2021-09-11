@@ -10,7 +10,7 @@ namespace Melia.Channel.World.Entities.Components
 	/// <summary>
 	/// Represents a character's inventory.
 	/// </summary>
-	public class Inventory
+	public class Inventory : IComponent
 	{
 		private readonly Character _character;
 

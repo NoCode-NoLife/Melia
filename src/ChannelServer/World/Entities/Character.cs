@@ -12,7 +12,7 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
-	public class Character : ICombatEntity, ICommander, IPropertyObject
+	public class Character : ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 
@@ -150,7 +150,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// The character's inventory.
 		/// </summary>
-		public Inventory Inventory { get; protected set; }
+		public Inventory Inventory { get; }
 
 		/// <summary>
 		/// Returns combined weight of all items the character is currently carrying.
@@ -599,6 +599,11 @@ namespace Melia.Channel.World.Entities
 		/// Gets character's agility (DEX).
 		/// </summary>
 		public int Dex { get { return this.DexByJob + this.DexInvested + this.DexBonus; } }
+
+		/// <summary>
+		/// Returns the character's component collection.
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
 
 		/// <summary>
 		/// Character's session objects.
@@ -2239,13 +2244,14 @@ namespace Melia.Channel.World.Entities
 		{
 			this.Level = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
-			this.Inventory = new Inventory(this);
-			this.Jobs = new Jobs(this);
-			this.Skills = new CharacterSkills(this);
-			this.Abilities = new Abilities(this);
 			this.Variables = new Variables();
 			this.Speed = 30;
 			this.CastingSpeed = 100;
+
+			this.Components.Add(this.Inventory = new Inventory(this));
+			this.Components.Add(this.Jobs = new Jobs(this));
+			this.Components.Add(this.Skills = new CharacterSkills(this));
+			this.Components.Add(this.Abilities = new Abilities(this));
 
 			this.AddSessionObjects();
 			this.AddReferenceProperties();
@@ -2430,6 +2436,15 @@ namespace Melia.Channel.World.Entities
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Const, () => 1.909859f));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CAST, () => 1f));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Sta_Jump, () => 1000f));
+		}
+
+		/// <summary>
+		/// Updates character and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
 		}
 
 		/// <summary>

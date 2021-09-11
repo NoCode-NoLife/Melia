@@ -1,5 +1,7 @@
 ﻿using Melia.Channel.Skills;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
@@ -27,6 +29,16 @@ namespace Melia.Channel.World.Entities
 		/// Returns the entity's position on its current map.
 		/// </summary>
 		Position Position { get; }
+
+		/// <summary>
+		/// Returns the entity's property collection.
+		/// </summary>
+		Properties Properties { get; }
+
+		/// <summary>
+		/// Returns the entity's component collection.
+		/// </summary>
+		ComponentCollection Components { get; }
 	}
 
 	/// <summary>
