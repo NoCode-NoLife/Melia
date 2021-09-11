@@ -21,15 +21,15 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// The owner of this object.
 		/// </summary>
-		public Character Character { get; }
+		public IEntity Owner { get; }
 
 		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
-		/// <param name="character"></param>
-		public Buffs(Character character)
+		/// <param name="entity"></param>
+		public Buffs(IEntity entity)
 		{
-			this.Character = character ?? throw new ArgumentNullException(nameof(character));
+			this.Owner = entity;
 		}
 
 		/// <summary>
@@ -55,12 +55,15 @@ namespace Melia.Channel.World
 		/// <param name="buff"></param>
 		public void Add(Buff buff)
 		{
-			var buffExists = _buffs.ContainsKey(buff.Id);
-			this.AddSilent(buff);
-			if (buffExists)
-				Send.ZC_BUFF_UPDATE(this.Character, buff);
-			else
-				Send.ZC_BUFF_ADD(this.Character, buff);
+			var buffExists = this.Has(buff.Id);
+			lock (_buffs)
+			{
+				this.AddSilent(buff);
+				if (buffExists)
+					Send.ZC_BUFF_UPDATE(this.Owner, buff);
+				else
+					Send.ZC_BUFF_ADD(this.Owner, buff);
+			}
 		}
 
 		/// <summary>
@@ -83,35 +86,31 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool Remove(BuffId buffId)
 		{
-
-			lock (_buffs) {
-				var buff = _buffs[buffId];
-				if (_buffs.Remove(buffId))
-					// Update client...
-					Send.ZC_BUFF_REMOVE(this.Character, buff);
+			var buff = this.Get(buffId);
+			if (buff != null)
+			{
+				this.Remove(buff);
 			}
-
-			return true;
+			return false;
 		}
 
 		/// <summary>
-		/// Removes buff with given id, returns false if it
-		/// didn't exist. Updates the client on success.
+		/// Removes buff, returns false if it didn't exist. 
+		/// Updates the client on success.
 		/// </summary>
 		/// <param name="buff"></param>
 		/// <returns></returns>
 		public bool Remove(Buff buff)
 		{
-			Log.Debug("Removing buff {0} which expired at {1}.", buff.Data.ClassName, buff.RemovalTime);
 			lock (_buffs)
 			{
-				if (!_buffs.Remove(buff.Id))
-					return false;
-				// Update client...
-				Send.ZC_BUFF_REMOVE(this.Character, buff);
+				if (_buffs.Remove(buff.Id))
+				{
+					Send.ZC_BUFF_REMOVE(this.Owner, buff);
+					return true;
+				}
 			}
-
-			return true;
+			return false;
 		}
 
 		/// <summary>
@@ -121,27 +120,30 @@ namespace Melia.Channel.World
 		/// <param name="buffId"></param>
 		public void AddOrUpdate(BuffId buffId)
 		{
-			if (!_buffs.ContainsKey(buffId)) {
-				var buff = new Buff(this.Character, buffId);
-				Add(buff);
-			} else
+			if (!this.Has(buffId))
 			{
-				Update(buffId);
+				var buff = new Buff(this.Owner, buffId);
+				Add(buff);
 			}
+			else
+				Update(buffId);
 		}
 
 		/// <summary>
-		/// 
+		/// Update a buff if it exists using the buff id.
 		/// </summary>
 		/// <param name="buffId"></param>
 		public void Update(BuffId buffId)
 		{
-			lock (_buffs)
+			var buff = this.Get(buffId);
+			if (buff != null)
 			{
-				var buff = _buffs[buffId];
-				buff.IncreaseOverbuff();
-				buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Data.Duration);
-				Send.ZC_BUFF_UPDATE(this.Character, buff);
+				lock (_buffs)
+				{
+					buff.IncreaseOverbuff();
+					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Data.Duration);
+					Send.ZC_BUFF_UPDATE(this.Owner, buff);
+				}
 			}
 		}
 
@@ -204,21 +206,6 @@ namespace Melia.Channel.World
 		{
 			lock (_buffs)
 				return _buffs.ContainsKey(buffId);
-		}
-
-		/// <summary>
-		/// Returns current level of given buff, returns 0 if buff
-		/// doesn't exist.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <returns></returns>
-		public int GetLevel(BuffId buffId)
-		{
-			var buff = this.Get(buffId);
-			if (buff == null)
-				return 0;
-
-			return buff.Data.Level;
 		}
 
 		/// <summary>

@@ -8,10 +8,10 @@ using Melia.Shared.World;
 namespace Melia.Channel.Skills.Cleric
 {
 	/// <summary>
-	/// Handler for the Archer skill Multishot.
+	/// Handler for the Cleric skill Heal.
 	/// </summary>
 	[SkillHandler(SkillId.Cleric_Heal)]
-	class Heal : IGroundSkillHandler
+	public class Heal : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -30,7 +30,7 @@ namespace Melia.Channel.Skills.Cleric
 			var castRange = castPosition.Get3DDistance(targetPosition);
 			if (castRange > skill.Data.MaxRange)
 			{
-				Log.Warning("Thrust: Player {0} cast skill farther than max range ({1} > {2}).", caster.Name, castRange, skill.Data.MaxRange);
+				Log.Warning("Heal: Player {0} cast skill farther than max range ({1} > {2}).", caster.Name, castRange, skill.Data.MaxRange);
 				return;
 			}
 
@@ -40,15 +40,10 @@ namespace Melia.Channel.Skills.Cleric
 			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
-
-			// The hitbox seems pretty small, there's presumably more going
-			// into this. Double the splash range for the width for now.
-			var radius = (int)skill.Data.SplashRange * 2;
-
-			var targets = caster.Map.GetAttackableEntitiesInRectangle(caster, castPosition, targetPosition, radius);
 			var healAmount = (int)(caster.GetRandomMagicAmplification() * skill.Data.SkillFactor / 100f);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
+			// Heal uses ZC_HEAL_INFO instead of ZC_ADD_HP
 			caster.ModifyHp(healAmount);
 			caster.Buffs.AddOrUpdate(BuffId.Heal_Overload_Buff);
 		}

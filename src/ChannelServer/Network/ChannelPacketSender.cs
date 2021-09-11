@@ -3998,10 +3998,6 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Add a buff to the character
-		/// </summary>
-		/// <param name="character"></param>
-		/// <summary>
 		/// Display a buff on client UI
 		/// </summary>
 		/// <param name="entity"></param>
@@ -4021,7 +4017,6 @@ namespace Melia.Channel.Network
 		/// <param name="buff"></param>
 		public static void ZC_BUFF_UPDATE(IEntity entity, Buff buff)
 		{
-			Log.Debug("Buff Update: {0} which expires at {1}.", buff.Id, buff.RemovalTime);
 			var packet = new Packet(Op.ZC_BUFF_UPDATE);
 			packet.AddBuff(entity, buff);
 
