@@ -56,14 +56,11 @@ namespace Melia.Channel.World
 		public void Add(Buff buff)
 		{
 			var buffExists = this.Has(buff.Id);
-			lock (_buffs)
-			{
-				this.AddSilent(buff);
-				if (buffExists)
-					Send.ZC_BUFF_UPDATE(this.Owner, buff);
-				else
-					Send.ZC_BUFF_ADD(this.Owner, buff);
-			}
+			this.AddSilent(buff);
+			if (buffExists)
+				Send.ZC_BUFF_UPDATE(this.Owner, buff);
+			else
+				Send.ZC_BUFF_ADD(this.Owner, buff);
 		}
 
 		/// <summary>
@@ -123,10 +120,10 @@ namespace Melia.Channel.World
 			if (!this.Has(buffId))
 			{
 				var buff = new Buff(this.Owner, buffId);
-				Add(buff);
+				this.Add(buff);
 			}
 			else
-				Update(buffId);
+				this.Update(buffId);
 		}
 
 		/// <summary>
@@ -142,8 +139,8 @@ namespace Melia.Channel.World
 				{
 					buff.IncreaseOverbuff();
 					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Data.Duration);
-					Send.ZC_BUFF_UPDATE(this.Owner, buff);
 				}
+				Send.ZC_BUFF_UPDATE(this.Owner, buff);
 			}
 		}
 
