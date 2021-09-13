@@ -680,5 +680,34 @@ namespace Melia.Login.Network
 		{
 			var guildId = packet.GetLong(); // ?
 		}
+
+		/// <summary>
+		/// Request to swap the slots of two characters. Sent when clicking
+		/// the button to change a character's position in the barracks.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_CHARACTER_SWAP_SLOT)]
+		public void CB_CHARACTER_SWAP_SLOT(LoginConnection conn, Packet packet)
+		{
+			var characterId1 = packet.GetLong();
+			var characterId2 = packet.GetLong();
+
+			var character1 = conn.Account.GetCharacterById(characterId1);
+			var character2 = conn.Account.GetCharacterById(characterId2);
+
+			if (character1 == null || character2 == null)
+			{
+				Send.BC_CHARACTER_SLOT_SWAP_FAIL(conn);
+				return;
+			}
+
+			var tmpIndex = character1.Index;
+			character1.Index = character2.Index;
+			character2.Index = tmpIndex;
+
+			Send.BC_CHARACTER_SLOT_SWAP_SUCCESS(conn);
+			Send.BC_COMMANDER_LIST(conn);
+		}
 	}
 }

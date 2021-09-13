@@ -783,5 +783,25 @@ namespace Melia.Login.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends positive response to slot swap request.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_CHARACTER_SLOT_SWAP_SUCCESS(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_CHARACTER_SLOT_SWAP_SUCCESS);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends negative response to slot swap request.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_CHARACTER_SLOT_SWAP_FAIL(LoginConnection conn)
+		{
+			var packet = new Packet(Op.BC_CHARACTER_SLOT_SWAP_FAIL);
+			conn.Send(packet);
+		}
 	}
 }
