@@ -237,13 +237,13 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 			{
-				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(position, radius));
+				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(position));
 				result.AddRange(entities);
 			}
 
 			lock (_characters)
 			{
-				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(position, radius));
+				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(position));
 				result.AddRange(entities);
 			}
 
@@ -264,13 +264,13 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 			{
-				var entities = _monsters.Values.Where(a => attacker.Handle != a.Handle && entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(entity.Position, radius));
+				var entities = _monsters.Values.Where(a => entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(entity.Position));
 				result.AddRange(entities);
 			}
 
 			lock (_characters)
 			{
-				var entities = _characters.Values.Where(a => attacker.Handle != a.Handle && entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(entity.Position, radius));
+				var entities = _characters.Values.Where(a => entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(entity.Position));
 				result.AddRange(entities);
 			}
 
@@ -292,14 +292,14 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 			{
-				result = _monsters.Values.Where(a => attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius)).FirstOrDefault();
+				result = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(position)).FirstOrDefault();
 				if (result != null)
 					return result;
 			}
 
 			lock (_characters)
 			{
-				result = _characters.Values.Where(a => attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius)).FirstOrDefault();
+				result = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.Get2DDistance(position)).FirstOrDefault();
 			}
 
 			return result;

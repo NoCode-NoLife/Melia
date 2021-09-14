@@ -44,31 +44,38 @@ namespace Melia.Channel.Skills.Wizard
 			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
-			// Find targets sorted by distance within spell range
-			var targets = caster.Map.GetAttackableEntitiesInRangeSortedByDistance(caster, targetPosition, skill.Data.MaxRange);
+			// Find nearest target in skill's max range
+			var nearestTarget = caster.Map.GetNearestAttackableEntity(caster, targetPosition, skill.Data.MaxRange);
 			// Do damage calculation if targets exist
-			if (targets != null && targets.Count > 0)
+			if (nearestTarget != null)
 			{
+				var targets = caster.Map.GetAttackableEntitiesInRangeAroundEntity(caster, nearestTarget, skill.Data.MaxRange);
+				Log.Debug("Distance between player and first monster {0}", caster.Position.Get2DDistance(nearestTarget.Position));
 				var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
 				var skillHandle = ChannelServer.Instance.World.CreateHandle();
-				for (var i = 0; i < targets.Count - 1; i++)
+				for (var i = -1; i < targets.Count - 1; i++)
 				{
 					Send.ZC_SYNC_START(caster, skillHandle, 1);
-					Send.ZC_NORMAL_SkillEffectSplash(caster, targets[i], targets[i + 1]);
+					if (i == -1)
+						Send.ZC_NORMAL_SkillEffectSplash(caster, nearestTarget, targets[i + 1]);
+					else
+					{
+						Send.ZC_NORMAL_SkillEffectSplash(caster, targets[i], targets[i + 1]);
+						Log.Debug("Distance between player and monster {0}: {1}", i, caster.Position.Get2DDistance(targets[i].Position));
+					}
 					Send.ZC_SYNC_END(caster, skillHandle, 0);
-				}
+			}
 
-				Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets[0], 1, damage);
-				targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0);
+				Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, nearestTarget, 1, damage);
+				nearestTarget.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0);
 				//targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 1);
 				//targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 2);
 
 				foreach (var target in targets)
 				{
-					if (target != targets[0])
-						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
-							Send.ZC_SKILL_CAST_CANCEL(caster, target);
+					if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
+						Send.ZC_SKILL_CAST_CANCEL(caster, target);
 				}
 			}
 			else
