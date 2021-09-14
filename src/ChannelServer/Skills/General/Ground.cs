@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
-using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
@@ -24,7 +23,6 @@ namespace Melia.Channel.Skills.General
 			}
 
 			// TODO: Cancel if not enough SP?
-
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
 
@@ -34,26 +32,6 @@ namespace Melia.Channel.Skills.General
 
 			switch (skill.Id)
 			{
-				case SkillId.Wizard_MagicMissile:
-				{
-					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk() + 100;
-
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
-
-					foreach (var target in targets)
-					{
-						Send.ZC_NORMAL_SkillParticleEffect(caster, 1234);
-						Send.ZC_SYNC_START(caster, 1234, 1);
-						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
-						Send.ZC_SYNC_END(caster, 1234, 0);
-
-						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
-							Send.ZC_SKILL_CAST_CANCEL(caster, target);
-					}
-					break;
-				}
-
 				case SkillId.Archer_Multishot:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);

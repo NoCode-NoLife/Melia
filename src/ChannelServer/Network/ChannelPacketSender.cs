@@ -1606,19 +1606,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Adjusts the skill speed for a skill.
+		/// Skill effect splashing from one target to another
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="value"></param>
-		public static void ZC_NORMAL_Skill_16(Character character, IEntity target, Position position)
+		public static void ZC_NORMAL_SkillEffectSplash(Character character, IEntity target1, IEntity target2)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Skill_16);
-			packet.PutInt(target.Handle);
+			packet.PutInt(SubOp.Zone.SkillEffectSplash);
+			packet.PutInt(236353);
 			packet.PutInt(character.Handle);
-			packet.PutInt(character.Handle);
-			packet.PutInt(target.Handle);
+			packet.PutInt(target1.Handle);
+			packet.PutInt(target2.Handle);
 			packet.PutInt(2220111);
 			packet.PutFloat(1);
 			packet.PutInt(2561933);
@@ -2261,18 +2261,18 @@ namespace Melia.Channel.Network
 		/// <param name="handle"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Unkown_1c(Character character, int handle, Position position, Direction direction)
+		public static void ZC_NORMAL_Skill_1D(Character character, IEntity target)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Unkown_1D);
+			packet.PutInt(SubOp.Zone.Unknown_1D);
 			packet.PutInt(character.Handle);
-			packet.PutBinFromHex("00 D9 DB 30 09"); // This is not a fixed value, check more packets
-			packet.PutInt(handle); // Target ActorId (seems to be)
-			packet.PutFloat(position.X);
-			packet.PutFloat(position.Y);
-			packet.PutFloat(position.Z);
-			packet.PutFloat(direction.Cos);
-			packet.PutFloat(direction.Sin);
+			packet.PutInt(0);
+			packet.PutShort(38848);
+			packet.PutShort(7349);
+			//packet.PutBinFromHex("D9 DB 30 09"); // This is not a fixed value, check more packets
+			packet.PutInt(target.Handle);
+			packet.PutPosition(target.Position);
+			packet.PutDirection(target.Direction);
 			packet.PutFloat(0);
 			packet.PutFloat(0);
 			packet.PutFloat(0);
@@ -3548,7 +3548,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Not too sure what this does, maybe for store purchases?
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="conn"></param>
 		public static void ZC_SET_WEBSERVICE_URL(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
@@ -3565,7 +3565,7 @@ namespace Melia.Channel.Network
 		public static void ZC_RESPONSE_FIELD_BOSS_EXIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_FIELD_BOSS_EXIST);
-			packet.PutInt(1); // 0 usually
+			packet.PutInt(0); // 0 usually
 
 			conn.Send(packet);
 		}

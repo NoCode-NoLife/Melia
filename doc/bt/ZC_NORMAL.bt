@@ -86,11 +86,11 @@ switch (type)
         break;
 
     case 0x1D:
-        int handle1;
-        byte bin1[4];
-        short s1;
-        short s2;
-        int handle2;
+        int characterHandle;
+        int i0;
+        ushort s0;
+        ushort s1;
+        int targetHandle;
         position pos;
         direction dir;
         float f1;

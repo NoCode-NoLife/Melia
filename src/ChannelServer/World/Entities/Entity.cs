@@ -27,6 +27,11 @@ namespace Melia.Channel.World.Entities
 		/// Returns the entity's position on its current map.
 		/// </summary>
 		Position Position { get; }
+
+		/// <summary>
+		/// Returns the entity's direction on its current map.
+		/// </summary>
+		Direction Direction { get; }
 	}
 
 	/// <summary>

@@ -661,5 +661,11 @@ typedef struct
             byte b3;
             ushort s9;
         }
+        short s8;
+        short s9;
+        if (s9 > 0) {
+            ubyte b3;
+            float f1;
+        }
     }
 } Attack <optimize=false>;
