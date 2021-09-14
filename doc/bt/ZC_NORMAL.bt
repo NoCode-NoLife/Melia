@@ -3,7 +3,7 @@
 //
 //      File: ZC_NORMAL.bt
 //   Authors: exec, celophi, Salman T. Khan
-//   Version: i336041
+//   Version: i340313
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,7 @@
 //   - i195396: Skill UI update changed from 0x189 to 0x188
 //   - i336041: Added 0xA1, 0x194, 0x186, 0x135
 //   - i339415: 
+//   - i340313: Updated 0x1D, Added 0x57
 //------------------------------------------------
 
 #include "common.bt"
@@ -74,15 +75,19 @@ switch (type)
         int handle1;
         int handle2;
         int handle;
-        ushort s1;
-        short s2;
+        int i0; //2220111
+        float f1; // 1
+        int i1;
+        int i2;
         float f2;
+        int i1;
+        int i2;
+        float effectSize;
+        byte bin[16];
         float f3;
         float f4;
-        int i1;
-        byte b2;
-        float effectSize;
-        byte bin[8];
+        float f5;
+        float f6;
         break;
 
     case 0x1D:
@@ -91,11 +96,9 @@ switch (type)
         ushort s0;
         ushort s1;
         int targetHandle;
-        position pos;
-        direction dir;
-        float f1;
-        float f2;
-        float f3;
+        position castPosition;
+        direction targetDirection;
+        position targetPosition;
         break;
         
     case 0x2D:
@@ -153,6 +156,24 @@ switch (type)
         //short s1;
         //short s2;
         float i4; // heartbeat timer?
+        break;
+
+    // Skill related? Seen when casting Lethargy
+    case 0x57:
+        int handle;
+        int i0; // 570003
+        int skillId; // 20002
+        int i1; // count?
+        position targetPosition;
+        direction targetDirection;
+        int i2;
+        float f1; // duration?
+        int i3;
+        int i4;
+        byte bin1[15];
+        byte b1;
+        byte b2;
+        byte bin2[16];
         break;
         
     // Set skill speed

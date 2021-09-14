@@ -204,7 +204,7 @@ namespace Melia.Channel.World
 		/// <param name="position"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, int radius)
+		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, float radius)
 		{
 			var result = new List<ICombatEntity>();
 
@@ -220,6 +220,112 @@ namespace Melia.Channel.World
 				result.AddRange(entities);
 			}
 
+			return result;
+		}
+
+		/// <summary>
+		/// Returns attackable monsters sorted by their distance in the given 
+		/// radius around position.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetAttackableEntitiesInRangeSortedByDistance(Character attacker, Position position, float radius)
+		{
+			var result = new List<ICombatEntity>();
+
+			lock (_monsters)
+			{
+				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(position, radius));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(position, radius));
+				result.AddRange(entities);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns attackable monsters sorted by their distance in the given 
+		/// radius around position.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetAttackableEntitiesInRangeAroundEntity(Character attacker, IEntity entity, float radius)
+		{
+			var result = new List<ICombatEntity>();
+
+			lock (_monsters)
+			{
+				var entities = _monsters.Values.Where(a => attacker.Handle != a.Handle && entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(entity.Position, radius));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => attacker.Handle != a.Handle && entity.Handle != a.Handle && a.Position.InRange2D(entity.Position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2D(entity.Position, radius));
+				result.AddRange(entities);
+			}
+
+			return result;
+		}
+
+
+		/// <summary>
+		/// Returns attackable monsters sorted by their distance in the given 
+		/// radius around position.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public ICombatEntity GetNearestAttackableEntity(Character attacker, Position position, float radius)
+		{
+			ICombatEntity result;
+
+			lock (_monsters)
+			{
+				result = _monsters.Values.Where(a => attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius)).FirstOrDefault();
+				if (result != null)
+					return result;
+			}
+
+			lock (_characters)
+			{
+				result = _characters.Values.Where(a => attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius)).FirstOrDefault();
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns nearest attackable entity in the given radius around position.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetAttackableEntitiesInRangeSortedByDistance(ICombatEntity attacker, Position position, float radius)
+		{
+			var result = new List<ICombatEntity>();
+
+			lock (_monsters)
+			{
+				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius));
+				result.AddRange(entities);
+			}
+
+			lock (_characters)
+			{
+				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a)).OrderBy(a => a.Position.InRange2DDebug(position, radius));
+				result.AddRange(entities);
+			}
 			return result;
 		}
 

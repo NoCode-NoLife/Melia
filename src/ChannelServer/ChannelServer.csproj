@@ -72,14 +72,21 @@
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptState.cs" />
     <Compile Include="Scripting\Variables.cs" />
+    <Compile Include="Skills\Archer\Multishot.cs" />
     <Compile Include="Skills\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\General\Buff.cs" />
     <Compile Include="Skills\General\Ground.cs" />
+    <Compile Include="Skills\General\SelfSkillHandler.cs" />
     <Compile Include="Skills\General\Targeted.cs" />
     <Compile Include="Skills\General\TargetedGround.cs" />
     <Compile Include="Skills\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\Swordsman\Thrust.cs" />
+    <Compile Include="Skills\Wizard\EarthQuake.cs" />
+    <Compile Include="Skills\Wizard\EnergyBolt.cs" />
+    <Compile Include="Skills\Wizard\Lethargy.cs" />
+    <Compile Include="Skills\Wizard\MagicMissile.cs" />
+    <Compile Include="Skills\Wizard\ReflectShield.cs" />
     <Compile Include="Util\GmCommands.Handlers.cs" />
     <Compile Include="Util\AbilityPriceTime.cs" />
     <Compile Include="Util\AbilityUnlock.cs" />
@@ -127,10 +134,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Skills\Archer\" />
     <Folder Include="Skills\Cleric\" />
     <Folder Include="Skills\Scout\" />
-    <Folder Include="Skills\Wizard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

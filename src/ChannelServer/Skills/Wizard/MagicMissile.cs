@@ -34,28 +34,46 @@ namespace Melia.Channel.Skills.Wizard
 				return;
 			}
 
-			// TODO: Cancel if not enough SP?
-
 			if (skill.SpendSp > 0)
+			{
+				if (caster.Sp >= skill.SpendSp)
+					return;
 				caster.ModifySp(-skill.SpendSp);
+			}
 
 			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
-
-			// The hitbox seems pretty small, there's presumably more going
-			// into this. Double the splash range for the width for now.
-			var radius = (int)skill.Data.SplashRange * 2;
-
-			var targets = caster.Map.GetAttackableEntitiesInRectangle(caster, castPosition, targetPosition, radius);
-			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
-
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, damage);
-
-			foreach (var target in targets)
+			// Find targets sorted by distance within spell range
+			var targets = caster.Map.GetAttackableEntitiesInRangeSortedByDistance(caster, targetPosition, skill.Data.MaxRange);
+			// Do damage calculation if targets exist
+			if (targets != null && targets.Count > 0)
 			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
-					Send.ZC_SKILL_CAST_CANCEL(caster, target);
+				var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
+
+				var skillHandle = ChannelServer.Instance.World.CreateHandle();
+				for (var i = 0; i < targets.Count - 1; i++)
+				{
+					Send.ZC_SYNC_START(caster, skillHandle, 1);
+					Send.ZC_NORMAL_SkillEffectSplash(caster, targets[i], targets[i + 1]);
+					Send.ZC_SYNC_END(caster, skillHandle, 0);
+				}
+
+				Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets[0], 1, damage);
+				targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0);
+				//targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 1);
+				//targets[0].TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 2);
+
+				foreach (var target in targets)
+				{
+					if (target != targets[0])
+						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
+							Send.ZC_SKILL_CAST_CANCEL(caster, target);
+				}
+			}
+			else
+			{
+				Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
 			}
 		}
 	}

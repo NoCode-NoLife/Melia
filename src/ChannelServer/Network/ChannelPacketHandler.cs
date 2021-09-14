@@ -1041,7 +1041,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
 		public void CZ_DYNAMIC_CASTING_START(ChannelConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var f1 = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
@@ -1057,7 +1057,7 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
 		public void CZ_DYNAMIC_CASTING_END(ChannelConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 			var f1 = packet.GetFloat(); // Max Cast Hold Time?
 
 			var character = conn.SelectedCharacter;
@@ -1098,11 +1098,38 @@ namespace Melia.Channel.Network
 		public void CZ_SKILL_TOOL_GROUND_POS(ChannelConnection conn, Packet packet)
 		{
 			var position = packet.GetPosition();
-			var skillId = packet.GetInt();
+			var skillId = (SkillId)packet.GetInt();
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: keep track of state?
+		}
+
+		/// <summary>
+		/// Self casted skill
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_SELF)]
+		public void CZ_SKILL_SELF(ChannelConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var skillId = (SkillId)packet.GetInt();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection(); ;
+			var b2 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_SKILL_SELF: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// TODO: keep track of state?
+			var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+			handler.Handle(skill, character, position, direction);
 		}
 
 		/// <summary>

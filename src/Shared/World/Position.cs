@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
+using Melia.Shared.Util;
 
 namespace Melia.Shared.World
 {
@@ -75,9 +76,22 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange2D(Position otherPos, int range)
+		public bool InRange2D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
+		}
+
+		/// <summary>
+		/// Returns true if other position is within given range in 2D space.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public bool InRange2DDebug(Position otherPos, float range)
+		{
+			var distance = Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2);
+			var distanceRange = Math.Pow(range, 2);
+			Log.Debug("Distance: {0} Distance Range: {1}", distance, distanceRange);
+			return (distance <= distanceRange);
 		}
 
 		/// <summary>
@@ -85,7 +99,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange3D(Position otherPos, int range)
+		public bool InRange3D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
