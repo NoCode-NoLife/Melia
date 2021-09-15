@@ -154,7 +154,20 @@ namespace Melia.Channel.Scripting
 
 			// Wrap name in localization code if applicable
 			if (this.IsLocalizationKey(name))
+			{
 				name = this.WrapLocalizationKey(name);
+			}
+			// Insert line breaks in tagged NPC names that don't have one
+			else if (name.StartsWith("["))
+			{
+				var index = name.LastIndexOf("] ");
+				if (index != -1)
+				{
+					// Remove space and insert new line instead.
+					name = name.Remove(index + 1, 1);
+					name = name.Insert(index + 1, "{nl}");
+				}
+			}
 
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;

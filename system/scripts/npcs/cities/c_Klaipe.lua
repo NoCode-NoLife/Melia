@@ -1,5 +1,5 @@
 --- [Item Merchant] Mirina
-addnpc(20115, "[Item Merchant]{nl}    Mirina", "c_Klaipe", 511, -1, -349, 45, function()
+addnpc(20115, "[Item Merchant] Mirina", "c_Klaipe", 511, -1, -349, 45, function()
 
 	msg("May I help you?{nl}Fortunately, we have some potions left in stock.")
 	openshop("Klapeda_Misc")
@@ -7,7 +7,7 @@ addnpc(20115, "[Item Merchant]{nl}    Mirina", "c_Klaipe", 511, -1, -349, 45, fu
 end)
  
 --- [Equipment Merchant] Dunkel
-addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, function()
+addnpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -1, -475, 45, function()
 	
 	local selection,i = nselect("KLAPEDA_Akalabeth_basic28", "weapon:ETC_20150317_004443", "armor:ETC_20150317_004444", "!@#$Auto_JongLyo#@!")
 
@@ -20,7 +20,7 @@ addnpc(20111, "ETC_20150317_009196", "c_Klaipe", 394, -1, -475, 45, function()
 end)
  
 --- [Accessory Merchant] Ronesa
-addnpc(20104, "ETC_20150317_009197", "c_Klaipe", 269, -1, -611, 45, function()
+addnpc(20104, "[Accessory Merchant] Ronesa", "c_Klaipe", 269, -1, -611, 45, function()
 
 	msg("Alfonso_Select_1")
 	openshop("Klapeda_Accessory")
@@ -29,7 +29,7 @@ end)
 
 --- Klaipeda Girl
 --- Uses one of two random dialogues.
-addnpc(20164, "QUEST_20150317_000127", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, function()
+addnpc(20164, "Klaipeda Girl", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, function()
 
 	if math.random(2) == 1 then
 		msg("KLAFEDA_NPC_05_basic01")
@@ -41,7 +41,7 @@ end)
 
 --- Worried Wife
 --- Tells stories about the various goddesses.
-addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, function()
+addnpc(20147, "Worried Wife", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, function()
 
 	if select("KLAPEDA_NPC_04_basic01", "!@#$Auto_KLAPEDA_NPC_04_S1#@!", "!@#$Auto_SinKyeongSseuJi_anNeunDa#@!") ~= 1 then
 		return
@@ -77,7 +77,7 @@ end)
 
 --- [Swordsman Master] Rashua
 --- Swordsman ability trainer
-addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -92, 241, 784, 270, function()
+addnpc(20023, "[Swordsman Master] Rashua", "c_Klaipe", -92, 241, 784, 270, function()
 
 	msg("MASTER_SWORDMAN_basic2")
 	close()
