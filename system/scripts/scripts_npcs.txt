@@ -11,4 +11,8 @@ npcs/one_liner.lua
 //---------------------------------------------------------------------------
 npcs/cities/c_Klaipe.lua
 
+// Fields
+//---------------------------------------------------------------------------
+npcs/fields/f_siauliai_west.lua
+
 include "/user/scripts/scripts_npcs.txt"

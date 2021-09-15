@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Melia.Channel.Network;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using static MeluaLib.Melua;
 using MySql.Data.MySqlClient;
-using Melia.Channel.World.Entities;
-using Melia.Channel.World.Entities.Components;
+using static MeluaLib.Melua;
 
 namespace Melia.Channel.Scripting
 {
@@ -65,6 +67,7 @@ namespace Melia.Channel.Scripting
 			Register(changehair);
 			Register(spawn);
 			Register(levelup);
+			Register(openchest);
 		}
 
 #pragma warning restore IDE0009 // No "this" necessary
@@ -894,7 +897,7 @@ namespace Melia.Channel.Scripting
 				var className = luaL_checkstring(L, 1);
 
 				var itemData = ChannelServer.Instance.Data.ItemDb.FindByClass(className);
-			if (itemData == null)
+				if (itemData == null)
 					return melua_error(L, "Unknown item '{0}'.", className);
 
 				itemId = itemData.Id;
@@ -1352,6 +1355,36 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			character.ServerMessage(msg);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Opens the chest the player triggered.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int openchest(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+			var npc = conn.ScriptState.CurrentNpc;
+
+			// Play animations for character to kick open the chest
+			Send.ZC_PLAY_ANI(character, AnimationId.Kick);
+			Send.ZC_PLAY_ANI(npc, AnimationId.ChestOpening, true);
+
+			// Wait a second, so the animations can play
+			Thread.Sleep(1000);
+
+			// Make chest disappear
+			Send.ZC_NORMAL_FadeOut(npc, TimeSpan.FromSeconds(4));
+			npc.SetState(MonsterState.Invisible);
+
+			// Make chest reappear after a certain amount of time
+			// TODO: Add timer component, to set up and associate timers
+			//   and intervals with entities.
+			Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(MonsterState.Normal));
 
 			return 0;
 		}
