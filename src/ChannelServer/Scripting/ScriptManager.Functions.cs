@@ -878,7 +878,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - int itemId
+		/// - int itemId | string className
 		/// - int amount
 		/// </remarks>
 		/// <param name="L"></param>
@@ -888,13 +888,27 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = luaL_checkinteger(L, 1);
+			int itemId;
+			if (lua_type(L, 1) == LUA_TSTRING)
+			{
+				var className = luaL_checkstring(L, 1);
+
+				var itemData = ChannelServer.Instance.Data.ItemDb.FindByClass(className);
+			if (itemData == null)
+					return melua_error(L, "Unknown item '{0}'.", className);
+
+				itemId = itemData.Id;
+			}
+			else
+			{
+				itemId = luaL_checkinteger(L, 1);
+
+				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+					return melua_error(L, "Unknown item id '{0}'.", itemId);
+			}
+
 			var amount = luaL_checkinteger(L, 2);
 			lua_settop(L, 0);
-
-			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
-			if (itemData == null)
-				return melua_error(L, "Unknown item id.");
 
 			try
 			{
