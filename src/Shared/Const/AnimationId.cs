@@ -17,6 +17,6 @@
 		/// <summary>
 		/// Chest opens its lid.
 		/// </summary>
-		public const int ChestOpening = 2562_118;
+		public const int ChestOpening = 256_2118;
 	}
 }
