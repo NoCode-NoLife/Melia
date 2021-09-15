@@ -3425,6 +3425,20 @@ namespace Melia.Channel.Network
 		/// Plays animation on entity.
 		/// </summary>
 		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationName">Name of the animation to play (uses animation id database to retrieve the id).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, string animationName, bool stopOnLastFrame = false)
+		{
+			if (!ChannelServer.Instance.Data.AnimationIdDb.TryFind(animationName, out var animationIdData))
+				throw new ArgumentException($"Unknown animation '{animationName}'.");
+
+			ZC_PLAY_ANI(entity, animationIdData.Id, stopOnLastFrame);
+		}
+
+		/// <summary>
+		/// Plays animation on entity.
+		/// </summary>
+		/// <param name="entity">Entity to animate.</param>
 		/// <param name="animationId">Id of the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IEntity entity, int animationId, bool stopOnLastFrame = false)

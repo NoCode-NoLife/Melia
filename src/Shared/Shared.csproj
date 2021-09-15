@@ -76,6 +76,7 @@
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\AnimationIds.cs" />
     <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
