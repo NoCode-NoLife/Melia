@@ -4100,9 +4100,17 @@ namespace Melia.Channel.Network
 			monster.Map.Broadcast(packet, monster);
 		}
 
+		/// <summary>
+		/// When a character enter's a hook
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="hookId"></param>
 		public static void ZC_ENTER_HOOK(Character character, int hookId)
 		{
-			var packet = new Packet(ZC_ENTER_HOOK);
+			var packet = new Packet(Op.ZC_ENTER_HOOK);
+			packet.PutInt(hookId);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
