@@ -4,11 +4,11 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-npc/dummy_npc.lua
-npc/one_liner.lua
+npcs/dummy_npc.lua
+npcs/one_liner.lua
 
 // Cities
 //---------------------------------------------------------------------------
-npc/city/c_fedimian.lua
+npcs/cities/c_fedimian.lua
 
 include "/user/scripts/scripts_npcs.txt"
