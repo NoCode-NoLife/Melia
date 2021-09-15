@@ -81,7 +81,9 @@
     <Compile Include="Skills\General\Targeted.cs" />
     <Compile Include="Skills\General\TargetedGround.cs" />
     <Compile Include="Skills\SkillHandlerAttribute.cs" />
+    <Compile Include="Skills\Swordsman\Bash.cs" />
     <Compile Include="Skills\Swordsman\Thrust.cs" />
+    <Compile Include="Skills\Wizard\Teleportation.cs" />
     <Compile Include="Skills\Wizard\EarthQuake.cs" />
     <Compile Include="Skills\Wizard\EnergyBolt.cs" />
     <Compile Include="Skills\Wizard\Lethargy.cs" />

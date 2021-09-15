@@ -93,8 +93,6 @@ switch (type)
     case 0x1D:
         int characterHandle;
         int i0;
-        ushort s0;
-        ushort s1;
         int targetHandle;
         position castPosition;
         direction targetDirection;
@@ -576,6 +574,12 @@ switch (type)
     case 0x19E:
         int i1;
         int i2;
+        break;
+
+    // Related to teleport skill?
+    case 0x1A3:
+        int handle;
+        byte b1; // 1
         break;
 
     // ?

@@ -393,7 +393,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(targetPosition.Y);
 			packet.PutFloat(targetPosition.Z);
 			packet.PutShort(hitCount);
-			for(var hit = 0; hit < hitCount; hit++)
+			for (var hit = 0; hit < hitCount; hit++)
 			{
 				if (target != null && damage > 0)
 				{
@@ -2347,7 +2347,7 @@ namespace Melia.Channel.Network
 		/// <param name="handle"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Skill_1D(Character character, IEntity target)
+		public static void ZC_NORMAL_Skill_1D(Character character, IEntity target = null)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Unknown_1D);
@@ -2356,12 +2356,33 @@ namespace Melia.Channel.Network
 			packet.PutShort(38848);
 			packet.PutShort(7349);
 			//packet.PutBinFromHex("D9 DB 30 09"); // This is not a fixed value, check more packets
-			packet.PutInt(target.Handle);
-			packet.PutPosition(target.Position);
-			packet.PutDirection(target.Direction);
-			packet.PutFloat(0);
-			packet.PutFloat(0);
-			packet.PutFloat(0);
+			packet.PutInt(target?.Handle ?? 0);
+			packet.PutPosition(character.Position);
+			packet.PutDirection(character.Direction);
+			packet.PutPosition(target?.Position ?? Position.Zero);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="handle"></param>
+		/// <param name="position"></param>
+		/// <param name="direction"></param>
+		public static void ZC_NORMAL_Skill_1D(Character character, short s1, short s2, IEntity target = null)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Unknown_1D);
+			packet.PutInt(character.Handle);
+			packet.PutInt(0);
+			packet.PutShort(s1); // These values aren't fixed
+			packet.PutShort(s2); // These values aren't fixed
+			packet.PutInt(target?.Handle ?? 0);
+			packet.PutPosition(character.Position);
+			packet.PutDirection(character.Direction);
+			packet.PutPosition(target?.Position ?? Position.Zero);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -4077,6 +4098,11 @@ namespace Melia.Channel.Network
 			packet.PutLpString(""); // str3
 
 			monster.Map.Broadcast(packet, monster);
+		}
+
+		public static void ZC_ENTER_HOOK(Character character, int hookId)
+		{
+			var packet = new Packet(ZC_ENTER_HOOK);
 		}
 
 		/// <summary>

@@ -26,7 +26,7 @@ namespace Melia.Channel.Skills.General
 			skill.IncreaseOverheat();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
-			Send.ZC_NORMAL_Skill_1D(caster, caster);
+			Send.ZC_NORMAL_Skill_1D(caster);
 
 			var skillHandle = ChannelServer.Instance.World.CreateHandle();
 			Send.ZC_SYNC_START(caster, skillHandle, 1);
