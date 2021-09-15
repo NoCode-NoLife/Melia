@@ -605,11 +605,12 @@ namespace Melia.Channel.Scripting
 		private int getnpc(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
-			var character = conn.ScriptState.CurrentNpc;
+			var npc = conn.ScriptState.CurrentNpc;
 
 			melua_createtable(L);
-			melua_createfield(L, "name", character.Name);
-			melua_createfield(L, "dialogName", character.DialogName);
+			melua_createfield(L, "name", npc.Name);
+			melua_createfield(L, "dialogName", npc.DialogName);
+			melua_createfield(L, "state", (int)npc.State);
 
 			return 1;
 		}

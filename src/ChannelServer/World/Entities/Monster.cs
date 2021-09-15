@@ -139,6 +139,11 @@ namespace Melia.Channel.World.Entities
 		public bool FromGround { get; set; }
 
 		/// <summary>
+		/// Gets or sets the monster's state.
+		/// </summary>
+		public MonsterState State { get; set; }
+
+		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
 		public Properties Properties { get; } = new Properties();
@@ -291,6 +296,17 @@ namespace Melia.Channel.World.Entities
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
+		}
+
+		/// <summary>
+		/// Changes the monster's state and updates the clients in range
+		/// of the monster.
+		/// </summary>
+		/// <param name="state"></param>
+		public void SetState(MonsterState state)
+		{
+			this.State = state;
+			Send.ZC_SET_NPC_STATE(this);
 		}
 	}
 }

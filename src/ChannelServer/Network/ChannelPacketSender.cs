@@ -545,6 +545,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates an NPC's state on all clients in range of it.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SET_NPC_STATE(Monster npc)
+		{
+			var packet = new Packet(Op.ZC_SET_NPC_STATE);
+
+			packet.PutInt(npc.Map.Id);
+			packet.PutInt(npc.GenType);
+			packet.PutShort((short)npc.State);
+			packet.PutEmptyBin(2);
+
+			npc.Map.Broadcast(packet, npc, false);
+		}
+
+		/// <summary>
 		/// Sends ZC_COOLDOWN_LIST to character, containing list of all
 		/// cooldowns?
 		/// </summary>

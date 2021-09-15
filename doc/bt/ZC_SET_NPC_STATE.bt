@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_SET_NPC_STATE.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//   Authors: Salman T. Khan, exec
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,7 +14,8 @@
 #include "common.bt" 
 
 ServerHeaderFixed header;
+
 int mapId;
-int npcId;
+int genType;
 short state;
 short s1;
