@@ -1,14 +1,17 @@
 ﻿using System;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
-	public class Monster : ICombatEntity
+	public class Monster : ICombatEntity, IUpdateable
 	{
 		/// <summary>
 		/// Index in world collection?
@@ -64,7 +67,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Monster's position.
@@ -79,7 +82,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
-		public int SDR { get; set; }
+		public int SDR { get; set; } = 1;
 
 		/// <summary>
 		/// Health points.
@@ -89,12 +92,12 @@ namespace Melia.Channel.World.Entities
 			get { return _hp; }
 			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
-		private int _hp;
+		private int _hp = 100;
 
 		/// <summary>
 		/// Maximum health points.
 		/// </summary>
-		public int MaxHp { get; private set; }
+		public int MaxHp { get; private set; } = 100;
 
 		/// <summary>
 		/// Physical defense.
@@ -114,7 +117,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
-		public DateTime DisappearTime { get; set; }
+		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
 
 		/// <summary>
 		/// Data entry for this monster.
@@ -136,6 +139,16 @@ namespace Melia.Channel.World.Entities
 		public bool FromGround { get; set; }
 
 		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
+		/// Returns the monster's component collection.
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
@@ -144,10 +157,6 @@ namespace Melia.Channel.World.Entities
 
 			this.Id = id;
 			this.NpcType = type;
-			this.Level = 1;
-			this.SDR = 1;
-			this.Hp = this.MaxHp = 100;
-			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
 		}
@@ -273,6 +282,15 @@ namespace Melia.Channel.World.Entities
 		{
 			// For now, let's specify that monsters can attack characters.
 			return (entity is Character);
+		}
+
+		/// <summary>
+		/// Updates monster and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
 		}
 	}
 }

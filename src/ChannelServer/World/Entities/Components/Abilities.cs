@@ -3,13 +3,14 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// A character's abilities.
 	/// </summary>
-	public class Abilities
+	public class Abilities : IComponent
 	{
 		private readonly Dictionary<int, Ability> _abilities = new Dictionary<int, Ability>();
 
