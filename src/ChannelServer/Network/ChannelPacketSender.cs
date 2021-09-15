@@ -2366,6 +2366,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Makes monster fade out over the given amount of time.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_FadeOut(Monster monster, TimeSpan duration)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.FadeOut);
+
+			packet.PutInt(monster.Map.Id);
+			packet.PutInt(monster.GenType);
+			packet.PutFloat((float)duration.TotalSeconds);
+
+			monster.Map.Broadcast(packet, monster, false);
+		}
+
+		/// <summary>
 		/// Unknown purpose yet.
 		/// </summary>
 		/// <param name="character"></param>
@@ -3390,20 +3406,23 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PLAY_ANI to character, Play Animation?
+		/// Plays animation on entity.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_PLAY_ANI(Character character, int animationId)
+		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationId">Id of the animation to play.</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, int animationId, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(character.Handle);
-			packet.PutShort(animationId);
-			packet.PutInt(39);
-			packet.PutInt(0);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(animationId);
+			packet.PutByte(stopOnLastFrame);
+			packet.PutByte(0);
+			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
