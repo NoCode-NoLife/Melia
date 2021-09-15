@@ -9,6 +9,6 @@ npcs/one_liner.lua
 
 // Cities
 //---------------------------------------------------------------------------
-npcs/cities/c_fedimian.lua
+npcs/cities/c_Klaipe.lua
 
 include "/user/scripts/scripts_npcs.txt"

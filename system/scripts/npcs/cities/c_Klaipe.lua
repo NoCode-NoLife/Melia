@@ -73,7 +73,7 @@ addnpc(20147, "QUEST_20150317_000382", "c_Klaipe", -107.036, -1.3438, -749.1073,
 		end
 	end
 	
-end
+end)
 
 --- [Swordsman Master] Rashua
 --- Swordsman ability trainer
@@ -83,4 +83,4 @@ addnpc(20023, "ETC_20150317_009204", "c_Klaipe", -92, 241, 784, 270, function()
 	close()
 	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
 	
-end
+end)
