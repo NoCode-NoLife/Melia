@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
@@ -13,6 +14,8 @@ namespace Melia.Channel.World.Entities
 {
 	public class Monster : ICombatEntity, IUpdateable
 	{
+		private static int GenTypes = 1_000_000;
+
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
@@ -28,6 +31,16 @@ namespace Melia.Channel.World.Entities
 		/// Monster ID in database.
 		/// </summary>
 		public int Id { get; set; }
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <remarks>
+		/// Used by the anchors in the client files, with multiple anchors
+		/// being able to use the same "gen type". This is also used to
+		/// identify NPCs however, like in ZC_SET_NPC_STATE.
+		/// </remarks>
+		public int GenType { get; set; }
 
 		/// <summary>
 		/// What kind of NPC the monster is.
@@ -159,6 +172,12 @@ namespace Melia.Channel.World.Entities
 		public Monster(int id, NpcType type)
 		{
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
+
+			// The client files set the gen type manually, but that seems
+			// bothersome. For now, we'll generate them automatically and
+			// see for what purpose we would need them to be the same for
+			// multiple monsters.
+			this.GenType = Interlocked.Increment(ref GenTypes);
 
 			this.Id = id;
 			this.NpcType = type;
