@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Melia.Channel.World.Entities.Components
+namespace Melia.Shared.EntityComponents
 {
 	/// <summary>
 	/// A collection of components for an entity.
@@ -11,10 +11,10 @@ namespace Melia.Channel.World.Entities.Components
 	/// one component per type. For example, only one inventory, one
 	/// skill collection, etc.
 	/// </remarks>
-	public class ComponentCollection : IUpdateable
+	public class ComponentCollection
 	{
 		private readonly Dictionary<Type, IComponent> _components = new Dictionary<Type, IComponent>();
-		private readonly HashSet<IUpdateable> _updateables = new HashSet<IUpdateable>();
+		private readonly HashSet<IUpdatableComponent> _updateables = new HashSet<IUpdatableComponent>();
 		private readonly object _syncLock = new object();
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace Melia.Channel.World.Entities.Components
 			{
 				_components[type] = component;
 
-				if (component is IUpdateable updatableComponent)
+				if (component is IUpdatableComponent updatableComponent)
 					_updateables.Add(updatableComponent);
 			}
 		}
@@ -45,7 +45,7 @@ namespace Melia.Channel.World.Entities.Components
 			{
 				_components.Remove(type);
 
-				if (component is IUpdateable updatableComponent)
+				if (component is IUpdatableComponent updatableComponent)
 					_updateables.Remove(updatableComponent);
 			}
 		}
@@ -76,7 +76,7 @@ namespace Melia.Channel.World.Entities.Components
 		/// <typeparam name="TComponent"></typeparam>
 		/// <param name="component"></param>
 		/// <returns></returns>
-		public bool Get<TComponent>(out TComponent component)
+		public bool TryGet<TComponent>(out TComponent component)
 		{
 			component = this.Get<TComponent>();
 			return component != null;

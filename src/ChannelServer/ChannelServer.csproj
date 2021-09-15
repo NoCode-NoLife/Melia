@@ -88,8 +88,6 @@
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
-    <Compile Include="World\Entities\Components\Component.cs" />
-    <Compile Include="World\Entities\Components\ComponentCollection.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Entities\Components\Inventory.cs" />

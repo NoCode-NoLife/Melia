@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 

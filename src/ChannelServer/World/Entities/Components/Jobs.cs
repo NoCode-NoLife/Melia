@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World.Entities.Components
 {
