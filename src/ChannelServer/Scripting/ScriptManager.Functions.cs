@@ -1384,8 +1384,8 @@ namespace Melia.Channel.Scripting
 			var npc = conn.ScriptState.CurrentNpc;
 
 			// Play animations for character to kick open the chest
-			Send.ZC_PLAY_ANI(character, AnimationId.Kick);
-			Send.ZC_PLAY_ANI(npc, AnimationId.ChestOpening, true);
+			Send.ZC_PLAY_ANI(character, AnimationName.KickBox);
+			Send.ZC_PLAY_ANI(npc, AnimationName.Opened, true);
 
 			// Wait a second, so the animations can play
 			Thread.Sleep(1000);

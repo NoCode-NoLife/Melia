@@ -1,22 +1,18 @@
 ﻿namespace Melia.Shared.Const
 {
 	/// <summary>
-	/// Ids for playable animations.
+	/// Names of animations, used for lookup in the animation id db.
 	/// </summary>
-	public static class AnimationId
+	public static class AnimationName
 	{
-		// Uses xml/packeteffect.xml for the ids, which we'll probably want
-		// to database-ify, because that file works like an enum, that could
-		// change at any time >_>
-
 		/// <summary>
-		/// Player kicks something. Used for opening chests.
+		/// Player kicks something on the floor. Used for opening chests.
 		/// </summary>
-		public const int Kick = 256_2117;
+		public const string KickBox = "KICKBOX";
 
 		/// <summary>
 		/// Chest opens its lid.
 		/// </summary>
-		public const int ChestOpening = 256_2118;
+		public const string Opened = "OPENED";
 	}
 }
