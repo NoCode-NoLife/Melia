@@ -5,6 +5,7 @@ using Melia.Channel.Scripting;
 using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
@@ -12,7 +13,7 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
-	public class Character : ICombatEntity, ICommander, IPropertyObject
+	public class Character : ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 
@@ -150,7 +151,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// The character's inventory.
 		/// </summary>
-		public Inventory Inventory { get; protected set; }
+		public Inventory Inventory { get; }
 
 		/// <summary>
 		/// Returns combined weight of all items the character is currently carrying.
@@ -220,22 +221,22 @@ namespace Melia.Channel.World.Entities
 		/// At release: Base 5000, plus 5 for each Str/Con.
 		/// Now: Base 8000 plus bonuses?
 		/// </remarks>
-		public int MaxWeight { get { return (8000); } }
+		public int MaxWeight => 8000;
 
 		/// <summary>
 		/// Returns ratio between NowWeight and MaxWeight.
 		/// </summary>
-		public float WeightRatio { get { return 100f / this.MaxWeight * this.NowWeight; } }
+		public float WeightRatio => (100f / this.MaxWeight * this.NowWeight);
 
 		/// <summary>
 		/// Character's current speed.
 		/// </summary>
-		public float Speed { get; set; }
+		public float Speed { get; set; } = 30;
 
 		/// <summary>
 		/// Character's current casting speed.
 		/// </summary>
-		public float CastingSpeed { get; set; }
+		public float CastingSpeed { get; set; } = 100;
 
 		/// <summary>
 		/// Holds the order of successive changes in character HP.
@@ -254,7 +255,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Character's scripting variables.
 		/// </summary>
-		public Variables Variables { get; private set; }
+		public Variables Variables { get; private set; } = new Variables();
 
 		/// <summary>
 		/// Specifies which hats are visible on the character.
@@ -262,12 +263,12 @@ namespace Melia.Channel.World.Entities
 		/// <remarks>
 		/// TODO: Handle toggling and save/load with character.
 		/// </remarks>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+		public HatVisibleStates VisibleHats => HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3;
 
 		/// <summary>
 		/// Character's level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Character's class level.
@@ -599,6 +600,11 @@ namespace Melia.Channel.World.Entities
 		/// Gets character's agility (DEX).
 		/// </summary>
 		public int Dex { get { return this.DexByJob + this.DexInvested + this.DexBonus; } }
+
+		/// <summary>
+		/// Returns the character's component collection.
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
 
 		/// <summary>
 		/// Character's session objects.
@@ -2242,16 +2248,12 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public Character()
 		{
-			this.Level = 1;
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
-			this.Inventory = new Inventory(this);
-			this.Jobs = new Jobs(this);
-			this.Skills = new CharacterSkills(this);
-			this.Abilities = new Abilities(this);
-			this.Variables = new Variables();
-			this.Buffs = new Buffs(this);
-			this.Speed = 30;
-			this.CastingSpeed = 100;
+
+			this.Components.Add(this.Inventory = new Inventory(this));
+			this.Components.Add(this.Jobs = new Jobs(this));
+			this.Components.Add(this.Skills = new CharacterSkills(this));
+			this.Components.Add(this.Abilities = new Abilities(this));
 
 			this.AddSessionObjects();
 			this.AddReferenceProperties();
@@ -2436,6 +2438,15 @@ namespace Melia.Channel.World.Entities
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Const, () => 1.909859f));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.CAST, () => 1f));
 			this.Properties.Add(new RefFloatProperty(PropertyId.PC.Sta_Jump, () => 1000f));
+		}
+
+		/// <summary>
+		/// Updates character and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
 		}
 
 		/// <summary>

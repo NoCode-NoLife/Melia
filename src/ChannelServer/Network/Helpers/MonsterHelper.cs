@@ -14,7 +14,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutFloat(monster.Direction.Cos);
 			packet.PutFloat(monster.Direction.Sin);
 			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
-			packet.PutByte(0); // bool ?
+			packet.PutByte(monster.FromGround);
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
 			packet.PutShort(0);

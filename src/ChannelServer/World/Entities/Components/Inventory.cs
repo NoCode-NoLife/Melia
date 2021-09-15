@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 
 namespace Melia.Channel.World.Entities.Components
@@ -10,7 +11,7 @@ namespace Melia.Channel.World.Entities.Components
 	/// <summary>
 	/// Represents a character's inventory.
 	/// </summary>
-	public class Inventory
+	public class Inventory : IComponent
 	{
 		private readonly Character _character;
 

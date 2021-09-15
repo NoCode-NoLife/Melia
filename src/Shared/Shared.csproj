@@ -56,6 +56,7 @@
     <Compile Include="Const\BuffId.cs" />
     <Compile Include="Const\Character.cs" />
     <Compile Include="Const\Gender.cs" />
+    <Compile Include="Const\HealType.cs" />
     <Compile Include="Const\Items.cs" />
     <Compile Include="Const\Job.cs" />
     <Compile Include="Const\Message.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Data\Database\Items.cs" />
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
+    <Compile Include="EntityComponents\Component.cs" />
+    <Compile Include="EntityComponents\ComponentCollection.cs" />
     <Compile Include="Network\Helpers\AccountHelper.cs" />
     <Compile Include="Network\Helpers\AppearancePcHelper.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />

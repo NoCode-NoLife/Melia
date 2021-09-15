@@ -232,6 +232,7 @@ namespace Melia.Login.Database
 				cmd.Set("by", character.BarrackPosition.Y);
 				cmd.Set("bz", character.BarrackPosition.Z);
 				cmd.Set("barrackLayer", character.BarrackLayer);
+				cmd.Set("slot", character.Index);
 
 				cmd.Execute();
 			}
@@ -248,7 +249,7 @@ namespace Melia.Login.Database
 
 			using (var conn = this.GetConnection())
 			{
-				using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId", conn))
+				using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId ORDER BY `slot`", conn))
 				{
 					mc.Parameters.AddWithValue("@accountId", accountId);
 
@@ -265,6 +266,7 @@ namespace Melia.Login.Database
 							character.Hair = reader.GetInt32("hair");
 							character.Level = reader.GetInt32("level");
 							character.MapId = reader.GetInt32("zone");
+							character.Index = (byte)reader.GetInt32("slot");
 							character.BarrackLayer = reader.GetInt32("barrackLayer");
 
 							var bx = reader.GetFloat("bx");

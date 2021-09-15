@@ -1,8 +1,8 @@
 //------------------------------------------------
-//--- 010 Editor v11.0.1 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_HEAL_INFO.bt
-//   Authors: Salman T. Khan, exec
+//      File: CB_CHARACTER_SWAP_SLOT.bt
+//   Authors: exec
 //   Version: i339427
 //   Purpose: 
 //  Category: 
@@ -13,12 +13,7 @@
 
 #include "common.bt"
 
-ServerHeaderFixed header;
+ClientHeaderFixed header;
 
-int handle;
-int amount;
-int max;
-int i1;
-int i2;
-int type; // 0 = hp, 1 = sp
-int i3;
+int64 characterId1;
+int64 characterId2;

@@ -102,6 +102,7 @@ namespace Melia.Channel.World
 		{
 			var monster = new Monster(_monsterData.Id, NpcType.Monster);
 			monster.Position = this.GetRandomPosition();
+			monster.FromGround = true;
 			monster.Died += this.OnMonsterDied;
 
 			//monster.AI = new AIMonster(monster);
@@ -131,7 +132,15 @@ namespace Melia.Channel.World
 		private void OnMonsterDied(Monster monster, ICombatEntity killer)
 		{
 			_spawnCount = Interlocked.Decrement(ref _spawnCount);
-			Task.Delay(this.RespawnDelay).ContinueWith(_ => this.Respawn());
+
+			// Use the spawner's respawn delay as the base, but add
+			// a few random milliseconds on top, to make it appear
+			// more dynamic.
+			var delay = this.RespawnDelay;
+			if (delay > TimeSpan.Zero)
+				delay = delay.Add(TimeSpan.FromMilliseconds(_rnd.Next(250, 2000)));
+
+			Task.Delay(delay).ContinueWith(_ => this.Respawn());
 		}
 
 		/// <summary>

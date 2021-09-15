@@ -66,6 +66,32 @@ namespace Melia.Channel.World
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
+			this.UpdateEntities(elapsed);
+		}
+
+		/// <summary>
+		/// Updates the map's entites.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateEntities(TimeSpan elapsed)
+		{
+			// Should performance of iterating over all entities on
+			// all maps ever become a problem, we could multi-thread
+			// the entity updates.
+			// If locked access to the collections ever becomes a
+			// bottle-neck, switch to ReaderWriterLockSlim.
+
+			lock (_monsters)
+			{
+				foreach (var entity in _monsters.Values)
+					entity.Update(elapsed);
+			}
+
+			lock (_characters)
+			{
+				foreach (var entity in _characters.Values)
+					entity.Update(elapsed);
+			}
 		}
 
 		/// <summary>
@@ -179,6 +205,15 @@ namespace Melia.Channel.World
 
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
+
+			// Update visibily after adding the monster, so it gets sent
+			// to the clients right away, and then disable FromGround,
+			// which is supposed to only be true once, when the monster
+			// appears for the first time. This way, all players around
+			// the monster get the animation at the time of spawning,
+			// and afterwards they just appear.
+			this.UpdateVisibility();
+			monster.FromGround = false;
 		}
 
 		/// <summary>
