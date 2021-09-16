@@ -4,8 +4,6 @@
 -- Allows players to change their hair style and color.
 -----------------------------------------------------------------------------
 
-addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "npc_stylist")
-
 local getoptions
 local gethairtype
 local getnextstyle
@@ -14,7 +12,8 @@ local findstyle
 local getnextcolor
 local getprevcolor
 
-function npc_stylist()
+addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, function()
+
 	local pc = getpc()
 	local style = pc.hair
 	
@@ -75,7 +74,8 @@ function npc_stylist()
 			return
 		end
 	end
-end
+
+end)
 
 local hairdata = {}
 
