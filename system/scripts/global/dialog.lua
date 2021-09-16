@@ -32,8 +32,8 @@ function nselect(msg, ...)
 			n = n + 1
 		else
 			-- Get sub strings if there was a colon
-			key = string.sub(arg, 1, index - 1)
-			val = string.sub(arg, index + 1)
+			key = string.sub(arg, index + 1)
+			val = string.sub(arg, 1, index - 1)
 		end
 
 		-- Save key and val for later

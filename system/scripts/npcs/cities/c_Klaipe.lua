@@ -10,8 +10,8 @@ end)
 addnpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -1, -475, 45, function()
 	
 	local selection = nselect("A lot of people seem to be coming thanks to Sir Uska's recruitment notice.{nl}Take a look around at your own pace without feeling anxious.",
-		"weapon:Weapons",
-		"armor:Armor",
+		"Weapons:weapon",
+		"Armor:armor",
 		"Cancel"
 	)
 
@@ -49,18 +49,18 @@ addnpc(20147, "Worried Wife", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, fun
 
 	local selection = nselect("As you may already know, our kingdom has five major goddesses and other goddesses who{nl}assist them. But nobody knows where all of them are now.",
 		"Regarding the five goddesses",
-		"leave:Leave"
+		"Leave:leave"
 	)
 	
 	while selection ~= "leave" do
 		-- Select goddess
 		selection = nselect("As you may know, the five goddesses are Laima, Zemyna, Vakarine, Gabija and Ausrine.",
-			"ausrine:About Goddess Ausrine",
-			"laima:About Goddess Laima",
-			"gabija:About Goddess Gabija",
-			"zemyna:About Goddess Zemyna",
-			"vakarine:About Goddess Vakarine",
-			"leave:Leave "
+			"About Goddess Ausrine:ausrine",
+			"About Goddess Laima:laima",
+			"About Goddess Gabija:gabija",
+			"About Goddess Zemyna:zemyna",
+			"About Goddess Vakarine:vakarine",
+			"Leave:leave"
 		)
 
 		-- Info about selected goddess
