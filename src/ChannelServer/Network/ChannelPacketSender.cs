@@ -1043,24 +1043,30 @@ namespace Melia.Channel.Network
 		/// <param name="addType">The way the add is displayed?</param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
+			var properties = item.Properties.GetAll();
+			var propertiesSize = item.Properties.Size;
+
 			var packet = new Packet(Op.ZC_ITEM_ADD);
+
 			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(0);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
-			packet.PutShort(8); // Size of the object at the end
+			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0f); // Notification delay
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutInt(7266); // Prop 1
-			packet.PutFloat(0); // Prop 1 value
-			packet.PutShort(0);
-			packet.PutLong(item.ObjectId);
-			packet.PutShort(0);
-			//packet.PutEmptyBin(0); // properties
+			packet.AddProperties(properties);
+
+			if (item.ObjectId != 0)
+			{
+				packet.PutShort(0);
+				packet.PutLong(item.ObjectId);
+				packet.PutShort(0);
+			}
 
 			character.Connection.Send(packet);
 		}
