@@ -431,8 +431,16 @@ namespace Melia.Channel.World.Entities.Components
 			// Update client
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
-			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
+
+			// Hot-fix for a weird behavior, where, when swapping equip,
+			// sometimes the swapped items would suddenly appear as if
+			// they were the same, one equipped, and one unequipped.
+			// Updating the inventory solves this, though the issue probably
+			// lies in the order we send the packets in or something. More
+			// research necessary.
+			if (collision)
+				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 
 			return InventoryResult.Success;
 		}
