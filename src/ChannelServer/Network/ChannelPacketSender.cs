@@ -1043,8 +1043,15 @@ namespace Melia.Channel.Network
 		/// <param name="addType">The way the add is displayed?</param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
+			// For some reason this packet requires properties on the item,
+			// otherwise the client crashes. Let's catch this here for the
+			// moment, as it seems to be an issue exclusive to this packet,
+			// and maybe we'll figure out why exactly it happens.
 			var properties = item.Properties.GetAll();
-			var propertiesSize = item.Properties.Size;
+			if (properties.Length == 0)
+				properties = new[] { new FloatProperty(PropertyId.Item.CoolDown, 0) };
+
+			var propertiesSize = properties.Sum(a => a.Size);
 
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
