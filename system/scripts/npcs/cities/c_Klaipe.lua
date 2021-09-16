@@ -84,7 +84,9 @@ end)
 addnpc(20023, "[Swordsman Master] Rashua", "c_Klaipe", -92, 241, 784, 270, function()
 
 	msg("The capital may already be in ruins, but I will protect Klaipeda.")
-	close()
-	addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
+	
+	-- Ability shops aren't a thing anymore.
+	-- close()
+	-- addonmsg("ABILSHOP_OPEN", "Ability_Warrior")
 	
 end)
