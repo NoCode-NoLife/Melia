@@ -75,7 +75,12 @@ namespace Melia.Shared.Network
 		private void EnsureSpace(int needed)
 		{
 			if (_ptr + needed > this.Length)
-				Array.Resize(ref _buffer, _buffer.Length + DefaultSize);
+			{
+				// Add DefaultSize as many times as necessary to get past
+				// the necessary amount.
+				var add =( 1 + (needed / DefaultSize)) * DefaultSize;
+				Array.Resize(ref _buffer, _buffer.Length + add);
+			}
 		}
 
 		/// <summary>
