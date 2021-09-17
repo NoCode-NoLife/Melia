@@ -1,0 +1,39 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_REGISTER_AUTOSELLER.bt
+//   Authors: exec
+//   Version: i339427
+//   Purpose: Request to open an auto seller shop.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+typedef struct
+{
+    int classId;
+    int amount;
+    int price;
+    byte unk1[264];
+}
+AutoSellerItem <optimize=false, read=readAutoSellerItem>;
+
+string readAutoSellerItem(AutoSellerItem& v)
+{
+    string result;
+    SPrintf(result, "%d, %d for %d each", v.classId, v.amount, v.price);
+    return result;
+}
+
+ClientHeaderDynamic header;
+
+char shopName[64];
+int count;
+int group; // see packeteffects.xml, PersonalShop = 270065
+int i1;
+
+AutoSellerItem items[count];
