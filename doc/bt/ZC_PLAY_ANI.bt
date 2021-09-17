@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_PLAY_ANI.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//   Authors: Salman T. Khan, exec
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,7 +15,8 @@
 ServerHeaderFixed header;
 
 int handle;
-short s1;
-int i1;
-int i2;
+int animationId;
+byte b1;
+byte b2;
+float i2;
 float f1;

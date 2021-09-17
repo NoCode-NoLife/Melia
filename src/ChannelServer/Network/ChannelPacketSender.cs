@@ -545,6 +545,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates an NPC's state on all clients in range of it.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SET_NPC_STATE(Monster npc)
+		{
+			var packet = new Packet(Op.ZC_SET_NPC_STATE);
+
+			packet.PutInt(npc.Map.Id);
+			packet.PutInt(npc.GenType);
+			packet.PutShort((short)npc.State);
+			packet.PutEmptyBin(2);
+
+			npc.Map.Broadcast(packet, npc, false);
+		}
+
+		/// <summary>
 		/// Sends ZC_COOLDOWN_LIST to character, containing list of all
 		/// cooldowns?
 		/// </summary>
@@ -1027,24 +1043,37 @@ namespace Melia.Channel.Network
 		/// <param name="addType">The way the add is displayed?</param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
+			// For some reason this packet requires properties on the item,
+			// otherwise the client crashes. Let's catch this here for the
+			// moment, as it seems to be an issue exclusive to this packet,
+			// and maybe we'll figure out why exactly it happens.
+			var properties = item.Properties.GetAll();
+			if (properties.Length == 0)
+				properties = new[] { new FloatProperty(PropertyId.Item.CoolDown, 0) };
+
+			var propertiesSize = properties.Sum(a => a.Size);
+
 			var packet = new Packet(Op.ZC_ITEM_ADD);
+
 			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(0);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
-			packet.PutShort(8); // Size of the object at the end
+			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0f); // Notification delay
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutInt(7266); // Prop 1
-			packet.PutFloat(0); // Prop 1 value
-			packet.PutShort(0);
-			packet.PutLong(item.ObjectId);
-			packet.PutShort(0);
-			//packet.PutEmptyBin(0); // properties
+			packet.AddProperties(properties);
+
+			if (item.ObjectId != 0)
+			{
+				packet.PutShort(0);
+				packet.PutLong(item.ObjectId);
+				packet.PutShort(0);
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -2366,6 +2395,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Makes monster fade out over the given amount of time.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_FadeOut(Monster monster, TimeSpan duration)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.FadeOut);
+
+			packet.PutInt(monster.Map.Id);
+			packet.PutInt(monster.GenType);
+			packet.PutFloat((float)duration.TotalSeconds);
+
+			monster.Map.Broadcast(packet, monster, false);
+		}
+
+		/// <summary>
 		/// Unknown purpose yet.
 		/// </summary>
 		/// <param name="character"></param>
@@ -3390,20 +3435,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PLAY_ANI to character, Play Animation?
+		/// Plays animation on entity.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_PLAY_ANI(Character character, int animationId)
+		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationName">Name of the animation to play (uses animation id database to retrieve the id).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, string animationName, bool stopOnLastFrame = false)
+		{
+			if (!ChannelServer.Instance.Data.AnimationIdDb.TryFind(animationName, out var animationIdData))
+				throw new ArgumentException($"Unknown animation '{animationName}'.");
+
+			ZC_PLAY_ANI(entity, animationIdData.Id, stopOnLastFrame);
+		}
+
+		/// <summary>
+		/// Plays animation on entity.
+		/// </summary>
+		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationId">Id of the animation to play.</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, int animationId, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(character.Handle);
-			packet.PutShort(animationId);
-			packet.PutInt(39);
-			packet.PutInt(0);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(animationId);
+			packet.PutByte(stopOnLastFrame);
+			packet.PutByte(0);
+			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

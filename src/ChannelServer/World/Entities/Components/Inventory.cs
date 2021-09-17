@@ -431,8 +431,16 @@ namespace Melia.Channel.World.Entities.Components
 			// Update client
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
 			Send.ZC_ITEM_EQUIP_LIST(_character);
-			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
+
+			// Hot-fix for a weird behavior, where, when swapping equip,
+			// sometimes the swapped items would suddenly appear as if
+			// they were the same, one equipped, and one unequipped.
+			// Updating the inventory solves this, though the issue probably
+			// lies in the order we send the packets in or something. More
+			// research necessary.
+			if (collision)
+				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 
 			return InventoryResult.Success;
 		}
@@ -489,13 +497,13 @@ namespace Melia.Channel.World.Entities.Components
 				_itemsWorldIndex.Remove(item.ObjectId);
 			}
 
-			var msgParameters = new[] { new MsgParameter("ITEM", "@dicID_^*$ITEM_20150317_002105$*^"), new MsgParameter("COUNT", item.Amount.ToString()) };
-			Send.ZC_SYSTEM_MSG(_character, 2225, msgParameters);
+			// TODO: Add localizable strings or dictionary keys to item data,
+			//   so that we can send those for the system message.
+			Send.ZC_SYSTEM_MSG(_character, 2225, new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount.ToString()));
 
 			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
-			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
-			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.MSPD);
+			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight, PropertyId.PC.MSPD);
 
 			return InventoryResult.Success;
 		}

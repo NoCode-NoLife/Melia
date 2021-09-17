@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\AnimationId.cs" />
     <Compile Include="Const\Character.cs" />
     <Compile Include="Const\Gender.cs" />
     <Compile Include="Const\HealType.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Const\Job.cs" />
     <Compile Include="Const\Message.cs" />
     <Compile Include="Const\Misc.cs" />
+    <Compile Include="Const\MonsterState.cs" />
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\Properties.cs" />
     <Compile Include="Const\Option.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\AnimationIds.cs" />
     <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />

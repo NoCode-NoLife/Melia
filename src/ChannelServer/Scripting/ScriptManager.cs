@@ -577,7 +577,7 @@ namespace Melia.Channel.Scripting
 				// properly, in one line, during the dialog.
 				// Could possibly be done once on creation.
 				var dialogDisplayName = conn.ScriptState.CurrentNpc.Name;
-				dialogDisplayName = dialogDisplayName.Replace("{nl}", "");
+				dialogDisplayName = dialogDisplayName.Replace("{nl}", " ");
 				dialogDisplayName = dialogDisplayName.Replace("[", "");
 				dialogDisplayName = dialogDisplayName.Replace("]", "");
 				dialogDisplayName = ReplaceWhitespace.Replace(dialogDisplayName, " ");

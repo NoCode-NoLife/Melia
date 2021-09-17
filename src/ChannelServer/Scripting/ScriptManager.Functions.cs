@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Melia.Channel.Network;
 using Melia.Channel.World;
+using Melia.Channel.World.Entities;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using static MeluaLib.Melua;
 using MySql.Data.MySqlClient;
-using Melia.Channel.World.Entities;
-using Melia.Channel.World.Entities.Components;
+using static MeluaLib.Melua;
 
 namespace Melia.Channel.Scripting
 {
@@ -65,6 +67,7 @@ namespace Melia.Channel.Scripting
 			Register(changehair);
 			Register(spawn);
 			Register(levelup);
+			Register(openchest);
 		}
 
 #pragma warning restore IDE0009 // No "this" necessary
@@ -151,7 +154,20 @@ namespace Melia.Channel.Scripting
 
 			// Wrap name in localization code if applicable
 			if (this.IsLocalizationKey(name))
+			{
 				name = this.WrapLocalizationKey(name);
+			}
+			// Insert line breaks in tagged NPC names that don't have one
+			else if (name.StartsWith("["))
+			{
+				var index = name.LastIndexOf("] ");
+				if (index != -1)
+				{
+					// Remove space and insert new line instead.
+					name = name.Remove(index + 1, 1);
+					name = name.Insert(index + 1, "{nl}");
+				}
+			}
 
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
@@ -605,11 +621,12 @@ namespace Melia.Channel.Scripting
 		private int getnpc(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
-			var character = conn.ScriptState.CurrentNpc;
+			var npc = conn.ScriptState.CurrentNpc;
 
 			melua_createtable(L);
-			melua_createfield(L, "name", character.Name);
-			melua_createfield(L, "dialogName", character.DialogName);
+			melua_createfield(L, "name", npc.Name);
+			melua_createfield(L, "dialogName", npc.DialogName);
+			melua_createfield(L, "state", (int)npc.State);
 
 			return 1;
 		}
@@ -722,12 +739,13 @@ namespace Melia.Channel.Scripting
 			character.DexByJob = 1;
 
 			Send.ZC_OBJECT_PROPERTY(character,
-					PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
-					PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
-					PropertyId.PC.DEX, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB, PropertyId.PC.UsedStat, PropertyId.PC.MINPATK,
-					PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK, PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB,
-					PropertyId.PC.CRTATK, PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.BLK, PropertyId.PC.RHP,
-					PropertyId.PC.RSP, PropertyId.PC.MHP, PropertyId.PC.MSP
+				PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
+				PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
+				PropertyId.PC.DEX, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB,
+				PropertyId.PC.UsedStat, PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus,
+				PropertyId.PC.MINPATK, PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK, PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB,
+				PropertyId.PC.CRTATK, PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.BLK, PropertyId.PC.RHP,
+				PropertyId.PC.RSP, PropertyId.PC.MHP, PropertyId.PC.MSP
 			);
 
 			return 0;
@@ -877,7 +895,7 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - int itemId
+		/// - int itemId | string className
 		/// - int amount
 		/// </remarks>
 		/// <param name="L"></param>
@@ -887,13 +905,27 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			var itemId = luaL_checkinteger(L, 1);
+			int itemId;
+			if (lua_type(L, 1) == LUA_TSTRING)
+			{
+				var className = luaL_checkstring(L, 1);
+
+				var itemData = ChannelServer.Instance.Data.ItemDb.FindByClass(className);
+				if (itemData == null)
+					return melua_error(L, "Unknown item '{0}'.", className);
+
+				itemId = itemData.Id;
+			}
+			else
+			{
+				itemId = luaL_checkinteger(L, 1);
+
+				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+					return melua_error(L, "Unknown item id '{0}'.", itemId);
+			}
+
 			var amount = luaL_checkinteger(L, 2);
 			lua_settop(L, 0);
-
-			var itemData = ChannelServer.Instance.Data.ItemDb.Find(itemId);
-			if (itemData == null)
-				return melua_error(L, "Unknown item id.");
 
 			try
 			{
@@ -1337,6 +1369,36 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			character.ServerMessage(msg);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Opens the chest the player triggered.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int openchest(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+			var npc = conn.ScriptState.CurrentNpc;
+
+			// Play animations for character to kick open the chest
+			Send.ZC_PLAY_ANI(character, AnimationName.KickBox);
+			Send.ZC_PLAY_ANI(npc, AnimationName.Opened, true);
+
+			// Wait a second, so the animations can play
+			Thread.Sleep(1000);
+
+			// Make chest disappear
+			Send.ZC_NORMAL_FadeOut(npc, TimeSpan.FromSeconds(4));
+			npc.SetState(MonsterState.Invisible);
+
+			// Make chest reappear after a certain amount of time
+			// TODO: Add timer component, to set up and associate timers
+			//   and intervals with entities.
+			Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(MonsterState.Normal));
 
 			return 0;
 		}

@@ -694,7 +694,11 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
-			Send.ZC_SHARED_MSG(conn, 108);
+			// I don't know what this does, or why this was put here,
+			// but it makes the client lag for a second before starting
+			// the dialog.
+			//Send.ZC_SHARED_MSG(conn, 108);
+
 			ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
 		}
 
