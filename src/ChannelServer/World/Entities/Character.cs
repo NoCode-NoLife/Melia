@@ -2942,6 +2942,22 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Sends server message to character.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void MsgBox(string format, params object[] args)
+		{
+			if (args.Length > 0)
+				format = string.Format(format, args);
+
+			if (format.IndexOf("'") != -1)
+				format = format.Replace("'", "\\'");
+
+			Send.ZC_EXEC_CLIENT_SCP(this.Connection, "ui.MsgBox('" + format + "')");
+		}
+
+		/// <summary>
 		/// Adds amount to character's stat points and updates the client.
 		/// </summary>
 		/// <param name="modifier"></param>
