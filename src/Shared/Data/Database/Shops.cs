@@ -47,10 +47,15 @@ namespace Melia.Shared.Data.Database
 			data.ShopName = entry.ReadString("shopName");
 			data.PriceMultiplier = entry.ReadFloat("priceMultiplier");
 
-			if (!this.Entries.ContainsKey(data.ShopName))
-				this.Entries[data.ShopName] = new ShopData();
+			if (!this.Entries.TryGetValue(data.ShopName, out var shopData))
+			{
+				shopData = new ShopData();
+				shopData.Name = data.ShopName;
 
-			this.Entries[data.ShopName].Products[data.Id] = data;
+				this.Entries[data.ShopName] = shopData;
+			}
+
+			shopData.Products[data.Id] = data;
 		}
 	}
 }
