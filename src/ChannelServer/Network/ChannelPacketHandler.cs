@@ -1978,5 +1978,30 @@ namespace Melia.Channel.Network
 			// 0 = English, 1 = German, 2 = Portugese,
 			// 4 = Indonesian, 5 = Russian, 6 = Thai
 		}
+
+		/// <summary>
+		/// Request to create an auto seller shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REGISTER_AUTOSELLER)]
+		public void CZ_REGISTER_AUTOSELLER(ChannelConnection conn, Packet packet)
+		{
+			var shopName = packet.GetString(64);
+			var itemCount = packet.GetInt();
+			var group = packet.GetInt();
+			var i1 = packet.GetInt();
+
+			// for itemCount
+			//   int itemId
+			//   int amount
+			//   int price
+			//   byte unk1[264]
+
+			var character = conn.SelectedCharacter;
+			character.MsgBox("This feature has not been implemented yet.");
+
+			Log.Debug("CZ_REGISTER_AUTOSELLER: {0}, {1} item(s)", shopName, itemCount);
+		}
 	}
 }
