@@ -66,6 +66,7 @@ namespace Melia.Channel.Util
 			Add("test", "", this.HandleTest);
 			Add("reloadscripts", "", this.HandleReloadScripts);
 			Add("reloadconf", "", this.HandleReloadConf);
+			Add("reloaddata", "", this.HandleReloadData);
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
@@ -465,6 +466,26 @@ namespace Melia.Channel.Util
 			character.ServerMessage("Reloading configuration...");
 
 			ChannelServer.Instance.Conf.LoadAll();
+
+			character.ServerMessage("Done.");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Reloads all data files.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReloadData(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		{
+			character.ServerMessage("Reloading data...");
+
+			ChannelServer.Instance.LoadData(Shared.DataToLoad.All, true);
 
 			character.ServerMessage("Done.");
 

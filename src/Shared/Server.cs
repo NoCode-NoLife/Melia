@@ -59,7 +59,7 @@ namespace Melia.Shared
 		/// <summary>
 		/// Loads data from files.
 		/// </summary>
-		protected void LoadData(DataToLoad toLoad, bool reload)
+		public void LoadData(DataToLoad toLoad, bool reload)
 		{
 			Log.Info("Loading data...");
 
