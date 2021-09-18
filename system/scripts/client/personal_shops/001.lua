@@ -43,7 +43,7 @@ BUFFSELLER_REG_EXEC = function(frame)
 	-- Execute a command instead of the register request that wouldn"t get
 	-- us anywhere, because the client doesn"t handle PersonalShop anymore.
 	-- The server will then set up the shop.
-	local msg = "/buyshop ""..title.."""
+	local msg = '/buyshop "'..title..'"'
 
 	local groupCount = session.autoSeller.GetCount(groupName)
 	for i = 0, groupCount - 1 do
