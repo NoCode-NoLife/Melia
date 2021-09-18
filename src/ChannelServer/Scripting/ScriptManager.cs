@@ -19,7 +19,8 @@ namespace Melia.Channel.Scripting
 		private const string NpcDialogTextSeperator = "\\";
 
 		private const string GlobalVariableOwner = "global";
-		private const int VariableSaveInterval = 5 * 60 * 1000; // 5 min
+
+		private const int ClientScriptMaxSize = 2048;
 
 		private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 		private static readonly Regex VarNameCheck = new Regex(@"^[a-z][a-z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -29,6 +30,7 @@ namespace Melia.Channel.Scripting
 		private readonly object _glSyncLock = new object();
 
 		private readonly Dictionary<IntPtr, ScriptState> _states = new Dictionary<IntPtr, ScriptState>();
+		private readonly List<string> _clientScripts = new List<string>();
 
 		private DateTime _lastVarChange;
 		private int _anonymousDialogCount;
@@ -121,6 +123,94 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Load()
 		{
+			this.LoadServerScripts();
+			this.LoadClientScripts();
+		}
+
+		/// <summary>
+		/// Loads scripts that are sent to the client.
+		/// </summary>
+		private void LoadClientScripts()
+		{
+			Log.Info("Loading client scripts...");
+
+			_clientScripts.Clear();
+
+			var countTotal = 0;
+			var countLoaded = 0;
+
+			foreach (var scriptFolderPath in new[] { SystemRoot, UserRoot })
+			{
+				var folderPath = scriptFolderPath + "client/";
+				if (!Directory.Exists(folderPath))
+					continue;
+
+				foreach (var filePath in Directory.EnumerateFiles(folderPath, "*.lua", SearchOption.AllDirectories))
+				{
+					// Apparently the search pattern *.lua also gives us .lua_,
+					// which one might want to use to disable scripts.
+					if (Path.GetExtension(filePath) != ".lua")
+						continue;
+
+					countTotal++;
+
+					var script = File.ReadAllText(filePath);
+
+					// TODO: Minify scripts to some degree? Though that
+					//   won't help much with the size limitation, because
+					//   you wouldn't know the exact (minified) size until
+					//   you test it.
+
+					if (script.Length > ClientScriptMaxSize)
+					{
+						Log.Error("  length of '{0}' exceeds 2048 characters {1}.", filePath);
+						continue;
+					}
+
+					lock (_clientScripts)
+						_clientScripts.Add(script);
+
+					countLoaded++;
+				}
+			}
+
+			Log.Info("  done loading {0} client scripts (of {1}).", countLoaded, countTotal);
+		}
+
+		/// <summary>
+		/// Sends all client scripts to the given connection.
+		/// </summary>
+		public void SendClientScripts(ChannelConnection conn)
+		{
+			lock (_clientScripts)
+			{
+				foreach (var script in _clientScripts)
+					Send.ZC_EXEC_CLIENT_SCP(conn, script);
+			}
+		}
+
+		/// <summary>
+		/// Sends all client scripts all currently logged in players.
+		/// </summary>
+		private void BroadcastClientScripts()
+		{
+			var characters = ChannelServer.Instance.World.GetCharacters();
+
+			lock (_clientScripts)
+			{
+				foreach (var character in characters)
+				{
+					foreach (var script in _clientScripts)
+						Send.ZC_EXEC_CLIENT_SCP(character.Connection, script);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads all scripts used by the server.
+		/// </summary>
+		private void LoadServerScripts()
+		{
 			// We could use Lua's require system to load everything,
 			// but relative paths don't work with that. Additionally,
 			// we'd have to clear the require cache on reload,
@@ -198,7 +288,9 @@ namespace Melia.Channel.Scripting
 		public void Reload()
 		{
 			ChannelServer.Instance.World.RemoveScriptedEntities();
+
 			this.Load();
+			this.BroadcastClientScripts();
 		}
 
 		/// <summary>

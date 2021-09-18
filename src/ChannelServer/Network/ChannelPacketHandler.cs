@@ -134,6 +134,8 @@ namespace Melia.Channel.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
+
+			ChannelServer.Instance.ScriptManager.SendClientScripts(conn);
 		}
 
 		/// <summary>
