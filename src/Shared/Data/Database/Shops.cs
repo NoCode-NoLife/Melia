@@ -8,6 +8,7 @@ namespace Melia.Shared.Data.Database
 	public class ShopData
 	{
 		public string Name { get; set; }
+		public bool IsCustom { get; set; }
 		public Dictionary<int, ProductData> Products { get; set; }
 
 		public ShopData()

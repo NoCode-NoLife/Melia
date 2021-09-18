@@ -1320,9 +1320,16 @@ namespace Melia.Channel.Network
 					return;
 				}
 
-				var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+				if (!shopData.IsCustom)
+				{
+					var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+					totalCost += singlePrice * amount;
+				}
+				else
+				{
+					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+				}
 
-				totalCost += singlePrice * amount;
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
 			}
 
