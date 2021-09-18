@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Channel.Network;
@@ -7,6 +8,7 @@ using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
@@ -830,11 +832,11 @@ namespace Melia.Channel.Scripting
 
 			lua_settop(L, 0);
 
-			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
+			if (!ChannelServer.Instance.Data.ShopDb.TryFind(shopName, out var shopData))
 				return melua_error(L, "Shop '{0}' not found.", shopName);
 
-			conn.ScriptState.CurrentShop = shopName;
-			Send.ZC_DIALOG_TRADE(conn, shopName);
+			conn.ScriptState.CurrentShop = shopData;
+			Send.ZC_DIALOG_TRADE(conn, shopData.Name);
 
 			return lua_yield(L, 0);
 		}

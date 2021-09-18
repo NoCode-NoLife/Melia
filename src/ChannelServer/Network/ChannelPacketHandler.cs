@@ -1289,7 +1289,7 @@ namespace Melia.Channel.Network
 			}
 
 			// Get shop
-			var shopData = ChannelServer.Instance.Data.ShopDb.Find(conn.ScriptState.CurrentShop);
+			var shopData = conn.ScriptState.CurrentShop;
 			if (shopData == null)
 			{
 				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
