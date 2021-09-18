@@ -163,7 +163,7 @@ namespace Melia.Channel.Scripting
 
 					if (script.Length > ClientScriptMaxSize)
 					{
-						Log.Error("  length of '{0}' exceeds 2048 characters {1}.", filePath);
+						Log.Error("  length of '{0}' exceeds {1} characters.", filePath, ClientScriptMaxSize);
 						continue;
 					}
 
