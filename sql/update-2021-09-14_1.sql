@@ -1,1 +1,1 @@
-ALTER TABLE `characters` ADD `slot` INT NOT NULL AFTER `level`;
+ALTER TABLE `characters` ADD `slot` INT NOT NULL AFTER `level` DEFAULT '1';
