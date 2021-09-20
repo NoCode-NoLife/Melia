@@ -37,3 +37,10 @@ When the reloadscripts command is executed, the scripts are reloaded and
 then sent to all clients again, which the scripts should account for.
 For example, if you created new controls, these should be removed before
 adding them, so that they only exist once after a reload.
+
+If you overwrite functions, general purpose ones in particular, make sure
+to not break their original behavior. For example, if you overwrite the
+function `GetClassByType`, which is used all over, always save a reference
+to the original function and use it, only modifying as much as absolutely
+necessary about the return value. This ensures that the function still
+works as intended, and that repeated overwrites also keep working.
