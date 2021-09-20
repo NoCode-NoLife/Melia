@@ -17,7 +17,7 @@ PS_SET_ITEM_TO_SLOT = function(parent, ctrl)
 end
 
 -- The original function makes assumptions about the things in the shop
--- and doesn"t work with normal items anymore. We"ll catch PersonalShop
+-- and doesn't work with normal items anymore. We'll catch PersonalShop
 -- requests and handle them ourselves, while calling the original function
 -- for all other requests.
 BUFFSELLER_REG_EXEC = function(frame)
@@ -40,8 +40,8 @@ BUFFSELLER_REG_EXEC = function(frame)
 
 	--session.autoSeller.RequestRegister(groupName, serverGroupName, title, nil);
 
-	-- Execute a command instead of the register request that wouldn"t get
-	-- us anywhere, because the client doesn"t handle PersonalShop anymore.
+	-- Execute a command instead of the register request that wouldn't get
+	-- us anywhere, because the client doesn't handle PersonalShop anymore.
 	-- The server will then set up the shop.
 	local msg = '/buyshop "'..title..'"'
 

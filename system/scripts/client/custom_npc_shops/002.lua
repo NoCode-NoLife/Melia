@@ -2,7 +2,7 @@ if not session_GetShopItemList_Original then
 	session_GetShopItemList_Original = session.GetShopItemList
 end
 
--- Reroute the request to the shop item list for the current shop, so we
+-- Reroute the request for the shop item list of the current shop, so we
 -- can return our custom shop list instead.
 function session.GetShopItemList()
 
