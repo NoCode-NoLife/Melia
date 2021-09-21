@@ -506,6 +506,9 @@ string propertyRead(property &p)
 int getPropertyType(int id)
 {
     switch(id) {
+        case 3:
+        case 4:
+        case 5:
         case 41:
         case 1328:
         case 1967:
@@ -514,22 +517,119 @@ int getPropertyType(int id)
         case 6303:
         case 7118:
         case 7122:
+        case 7276:
         case 7314:
+        case 7428:
+        case 7473:
+        case 7488:
+        case 7491:
+        case 7494:
+        case 8993:
         case 10022:
         case 10100:
         case 10618: // coordinates? (-1246/-648)
         case 10620:
+        case 10988:
+        case 10990:
+        case 10992:
         case 31587:
+        case 31625:
+        case 32315:
+        case 32316:
         case 32575:
+        case 32593:
+        case 32594:
+        case 33612: // YES
+        case 100896:
         case 101000:
+        case 101242:
+        case 101243:
+        case 101244:
+        case 101245:
+        case 101246:
+        case 101247:
+        case 101248:
+        case 101250:
+        case 101252:
+        case 101253:
+        case 101254:
+        case 101255:
+        case 101256:
+        case 101257:
+        case 101691:
+        case 101692:
         case 101822:
+        case 101859:
+        case 102050:
+        case 102231:
+        case 102232:
+        case 102315:
+        case 102969:
         case 103075:
         case 103180:
+        case 103216:
+        case 103224:
+        case 103245:
+        case 103382:
+        case 103387:
+        case 103948:
         case 104261:
+        case 104283:
+        case 104310:
+        case 104363:
+        case 104407:
+        case 104411:
+        case 104471:
         case 104893:
         case 104895:
         case 104897:
+        case 105083:
+        case 105178:
+        case 105365:
+        case 105651:
+        case 105652:
         case 107234:
+        case 107259:
+        case 108117:
+        case 108399:
+        case 108496:
+        case 108749:
+        case 109090:
+        case 109150:
+        case 109163:
+        case 109195:
+        case 109215:
+        case 109227:
+        case 109238:
+        case 109271:
+        case 109276:
+        case 109242:
+        case 109249:
+        case 109266:
+        case 109288:
+        case 109314:
+        case 109324:
+        case 109354:
+        case 109364:
+        case 109375:
+        case 109377:
+        case 109553:
+        case 109554:
+        case 109555:
+        case 109556:
+        case 109557:
+        case 109558:
+        case 109559:
+        case 109560:
+        case 109561:
+        case 109562:
+        case 109563:
+        case 109564:
+        case 109565:
+        case 109566:
+        case 109567:
+        case 109568:
+        case 109569:
             return OBJP_STRING;
             break;
         case 107249:
