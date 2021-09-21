@@ -663,18 +663,34 @@ namespace Melia.Channel.Scripting
 			// will be displayed.
 			if (!msg.Contains(NpcNameSeperator) && !msg.Contains(NpcDialogTextSeperator) && conn.ScriptState.CurrentNpc != null)
 			{
-				// Since NPCs often times use a two line name, with a
-				// tag and their actual name, we need to remove excess
-				// whitespaces and line breaks from it, so it displays
-				// properly, in one line, during the dialog.
-				// Could possibly be done once on creation.
-				var dialogDisplayName = conn.ScriptState.CurrentNpc.Name;
-				dialogDisplayName = dialogDisplayName.Replace("{nl}", " ");
-				dialogDisplayName = dialogDisplayName.Replace("[", "");
-				dialogDisplayName = dialogDisplayName.Replace("]", "");
-				dialogDisplayName = ReplaceWhitespace.Replace(dialogDisplayName, " ");
+				string dialogDisplayName;
+
+				if (conn.ScriptState.DialogTitle != null)
+				{
+					dialogDisplayName = conn.ScriptState.DialogTitle;
+				}
+				else
+				{
+					// Since NPCs often times use a two line name, with a
+					// tag and their actual name, we need to remove excess
+					// whitespaces and line breaks from it, so it displays
+					// properly, in one line, during the dialog.
+					// Could possibly be done once on creation.
+					dialogDisplayName = conn.ScriptState.CurrentNpc.Name;
+					dialogDisplayName = dialogDisplayName.Replace("{nl}", " ");
+					dialogDisplayName = dialogDisplayName.Replace("[", "");
+					dialogDisplayName = dialogDisplayName.Replace("]", "");
+					dialogDisplayName = ReplaceWhitespace.Replace(dialogDisplayName, " ");
+				}
 
 				msg = dialogDisplayName + NpcNameSeperator + msg;
+			}
+
+			// Prepend dialog class name if one was set. This controls the
+			// portrait, and also the title if no custom title was set.
+			if (!msg.Contains(NpcDialogTextSeperator) && conn.ScriptState.DialogClassName != null)
+			{
+				msg = conn.ScriptState.DialogClassName + NpcDialogTextSeperator + msg;
 			}
 		}
 
