@@ -90,7 +90,7 @@ namespace Melia.Channel.World.Entities.Components
 		{
 			get
 			{
-				// If the current rank 1 is, we're still on the base job
+				// If the current rank is 1, we're still on the base job
 				// and this will return 15. If the rank is above 1, it will
 				// return 45, which is the max level for all other ranks.
 				// Maybe it would make more sense to determine the job's

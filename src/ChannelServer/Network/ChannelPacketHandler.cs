@@ -1188,7 +1188,11 @@ namespace Melia.Channel.Network
 				}
 
 				// Check skill data
-				var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, character.ClassLevel);
+				// The clients sends the number of points to add to every
+				// skill, incl. the skills the player shouldn't be able to
+				// put points into yet, so we need to use the job's MaxLevel
+				// for getting all available skills.
+				var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.MaxLevel);
 				if (count - 1 != skillTreeData.Length)
 				{
 					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of skill level changes ({1}).", conn.Account.Name, count);
@@ -1222,7 +1226,10 @@ namespace Melia.Channel.Network
 
 					if (newLevel > maxLevel)
 					{
-						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
+						// Don't warn about this, since the client doesn't
+						// check the max level for skill's with unlock levels.
+						// The player can try, but nothing should happen.
+						//Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
 						continue;
 					}
 
