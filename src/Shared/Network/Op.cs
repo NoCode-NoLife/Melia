@@ -1104,7 +1104,6 @@ namespace Melia.Shared.Network
 		public const int CS_INVITE_GROUPCHAT_ACCEPT = 0x3E3A; // Size: 135
 		public const int SC_LOGIN_OK = 0x3E3B; // Size: 10
 
-
 		private static readonly Dictionary<int, int> _sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> _names = new Dictionary<int, string>();
 
@@ -2205,8 +2204,6 @@ namespace Melia.Shared.Network
 			_sizes[CS_REQ_MEMBER_LOGOUT_TIME] = 10;
 			_sizes[CS_INVITE_GROUPCHAT_ACCEPT] = 135;
 			_sizes[SC_LOGIN_OK] = 10;
-
-
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				_names[(int)field.GetValue(null)] = field.Name;
