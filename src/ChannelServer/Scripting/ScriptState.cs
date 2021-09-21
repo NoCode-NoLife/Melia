@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.World.Entities;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Channel.Scripting
 {
@@ -11,9 +12,10 @@ namespace Melia.Channel.Scripting
 		public Monster CurrentNpc { get; set; }
 
 		/// <summary>
-		/// Name of the shop currently open, null if there is no shop.
+		/// Gets or sets the reference to the currently open shop's
+		/// data. Null if no shop is open.
 		/// </summary>
-		public string CurrentShop { get; set; }
+		public ShopData CurrentShop { get; set; }
 
 		public ScriptState(ChannelConnection conn)
 		{

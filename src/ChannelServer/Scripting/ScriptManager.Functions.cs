@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Channel.Network;
@@ -7,6 +8,7 @@ using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
@@ -816,25 +818,117 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		/// <remarks>
 		/// Parameters:
-		/// - string shopName
+		/// - string shopName | table items
+		///   {
+		///	      { itemId, amount, price }+
+		///   }
 		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		private int openshop(IntPtr L)
 		{
 			var conn = this.GetConnectionFromState(L);
+			ShopData shopData;
 
-			var shopName = luaL_checkstring(L, 1);
-			if (shopName.Length > 32)
-				shopName = shopName.Substring(0, 32);
+			switch (lua_type(L, 1))
+			{
+				case LUA_TSTRING:
+				{
+					var shopName = luaL_checkstring(L, 1);
+					if (shopName.Length > 32)
+						shopName = shopName.Substring(0, 32);
+
+					if (!ChannelServer.Instance.Data.ShopDb.TryFind(shopName, out shopData))
+						return melua_error(L, "Shop '{0}' not found.", shopName);
+
+					break;
+				}
+
+				case LUA_TTABLE:
+				{
+					var classid = 100_001;
+
+					shopData = new ShopData();
+					shopData.Name = "MeliaCustomShop";
+					shopData.IsCustom = true;
+
+					// Build the script to update the item list on the
+					// client as we go.
+					var sb = new StringBuilder();
+					sb.Append("M_SET_CUSTOM_SHOP({");
+
+					// Parse item table
+					var itemCount = lua_objlen(L, -1);
+					for (var i = 1; i <= itemCount; ++i)
+					{
+						// Get the sub-table at i
+						lua_pushinteger(L, i);
+						lua_gettable(L, 1);
+
+						// Read id and pop it afterwards
+						lua_getfield(L, -1, "id");
+						var itemId = luaL_checkinteger(L, -1);
+						lua_pop(L, 1);
+
+						var amount = 1;
+						var price = 1;
+
+						// Read amount and pop it afterwards
+						lua_getfield(L, -1, "amount");
+						if (!lua_isnil(L, -1))
+							amount = luaL_checkinteger(L, -1);
+						lua_pop(L, 1);
+
+						// Read price and pop it afterwards
+						lua_getfield(L, -1, "price");
+						if (!lua_isnil(L, -1))
+							price = luaL_checkinteger(L, -1);
+						lua_pop(L, 1);
+
+						// Pop the sub-table
+						lua_pop(L, 1);
+
+						amount = Math.Max(1, amount);
+						price = Math.Max(1, price);
+
+						// Add the item to the shop
+						var productData = new ProductData()
+						{
+							ShopName = shopData.Name,
+							Id = classid++,
+							ItemId = itemId,
+							Amount = amount,
+							PriceMultiplier = price,
+						};
+
+						shopData.Products.Add(productData.Id, productData);
+
+						sb.AppendFormat("{{{0},{1},{2},{3}}},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
+
+						// One script call can only hold so many items,
+						// but we could split it up into multiple calls
+						// if necessary.
+						if (sb.Length > ClientScriptMaxSize)
+							return melua_error(L, "Too many items.");
+					}
+
+					sb.Append("})");
+
+					// Send the item list to the client, so we get to see
+					// our custom shop once it opens.
+					Send.ZC_EXEC_CLIENT_SCP(conn, sb.ToString());
+
+					break;
+				}
+
+				default:
+					return melua_error(L, "Invalid argument, expected shop name or item table.");
+			}
 
 			lua_settop(L, 0);
 
-			if (!ChannelServer.Instance.Data.ShopDb.Exists(shopName))
-				return melua_error(L, "Shop '{0}' not found.", shopName);
-
-			conn.ScriptState.CurrentShop = shopName;
-			Send.ZC_DIALOG_TRADE(conn, shopName);
+			conn.ScriptState.CurrentShop = shopData;
+			Send.ZC_DIALOG_TRADE(conn, shopData.Name);
 
 			return lua_yield(L, 0);
 		}

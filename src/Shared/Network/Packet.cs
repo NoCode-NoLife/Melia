@@ -14,6 +14,7 @@ namespace Melia.Shared.Network
 
 		private byte[] _buffer;
 		private int _ptr;
+		private int _bodyStart;
 		//private Packet _zlibPacket;
 		//private ZlibMode _zlibMode;
 
@@ -44,6 +45,8 @@ namespace Melia.Shared.Network
 			// Unknown values that appeared in the header of
 			// all client packets at some point.
 			var extra = this.GetBin(12);
+
+			_bodyStart = _ptr;
 		}
 
 		/// <summary>
@@ -52,8 +55,10 @@ namespace Melia.Shared.Network
 		/// <param name="op"></param>
 		public Packet(int op)
 		{
-			_buffer = new byte[DefaultSize];
 			this.Op = op;
+
+			_buffer = new byte[DefaultSize];
+			_bodyStart = 0;
 		}
 
 		/// <summary>
@@ -78,9 +83,18 @@ namespace Melia.Shared.Network
 			{
 				// Add DefaultSize as many times as necessary to get past
 				// the necessary amount.
-				var add =( 1 + (needed / DefaultSize)) * DefaultSize;
+				var add = (1 + (needed / DefaultSize)) * DefaultSize;
 				Array.Resize(ref _buffer, _buffer.Length + add);
 			}
+		}
+
+		/// <summary>
+		/// Sets the reading and writing pointer back to the start of
+		/// the packet.
+		/// </summary>
+		public void Rewind()
+		{
+			_ptr = _bodyStart;
 		}
 
 		/// <summary>

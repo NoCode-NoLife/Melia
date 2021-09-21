@@ -134,6 +134,8 @@ namespace Melia.Channel.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
+
+			ChannelServer.Instance.ScriptManager.SendClientScripts(conn);
 		}
 
 		/// <summary>
@@ -1287,7 +1289,7 @@ namespace Melia.Channel.Network
 			}
 
 			// Get shop
-			var shopData = ChannelServer.Instance.Data.ShopDb.Find(conn.ScriptState.CurrentShop);
+			var shopData = conn.ScriptState.CurrentShop;
 			if (shopData == null)
 			{
 				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
@@ -1318,9 +1320,16 @@ namespace Melia.Channel.Network
 					return;
 				}
 
-				var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+				if (!shopData.IsCustom)
+				{
+					var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+					totalCost += singlePrice * amount;
+				}
+				else
+				{
+					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+				}
 
-				totalCost += singlePrice * amount;
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
 			}
 
@@ -1975,6 +1984,31 @@ namespace Melia.Channel.Network
 
 			// 0 = English, 1 = German, 2 = Portugese,
 			// 4 = Indonesian, 5 = Russian, 6 = Thai
+		}
+
+		/// <summary>
+		/// Request to create an auto seller shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REGISTER_AUTOSELLER)]
+		public void CZ_REGISTER_AUTOSELLER(ChannelConnection conn, Packet packet)
+		{
+			var shopName = packet.GetString(64);
+			var itemCount = packet.GetInt();
+			var group = packet.GetInt();
+			var i1 = packet.GetInt();
+
+			// for itemCount
+			//   int itemId
+			//   int amount
+			//   int price
+			//   byte unk1[264]
+
+			var character = conn.SelectedCharacter;
+			character.MsgBox("This feature has not been implemented yet.");
+
+			Log.Debug("CZ_REGISTER_AUTOSELLER: {0}, {1} item(s)", shopName, itemCount);
 		}
 	}
 }
