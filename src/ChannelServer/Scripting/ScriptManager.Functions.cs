@@ -45,6 +45,8 @@ namespace Melia.Channel.Scripting
 			Register(input);
 			Register(numinput);
 			Register(openshop);
+			Register(title);
+			Register(portrait);
 
 			// Information
 			Register(getpc);
@@ -511,6 +513,53 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 
 			Send.ZC_DIALOG_CLOSE(conn);
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Sets the title for all following dialogues, replacing the
+		/// name of the NPC. Use nil to reset the title.
+		/// </summary>
+		/// <remarks>
+		/// Parameters:
+		/// - string newTitle
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int title(IntPtr L)
+		{
+			var title = lua_isnil(L, 1) ? null : luaL_checkstring(L, 1);
+			lua_settop(L, 0);
+
+			var conn = this.GetConnectionFromState(L);
+			conn.ScriptState.DialogTitle = title;
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Sets the portrait and title for all following dialogues.
+		/// Use nil to reset the portrait. The title set with the
+		/// title function takes precedence over the portrait title,
+		/// but the portrait will always be displayed if set.
+		/// </summary>
+		/// <remarks>
+		/// This function expects a className from
+		/// "ies_client.ipf\dialogtext.ies".
+		/// 
+		/// Parameters:
+		/// - string className
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int portrait(IntPtr L)
+		{
+			var className = lua_isnil(L, 1) ? null : luaL_checkstring(L, 1);
+			lua_settop(L, 0);
+
+			var conn = this.GetConnectionFromState(L);
+			conn.ScriptState.DialogClassName = className;
 
 			return 0;
 		}

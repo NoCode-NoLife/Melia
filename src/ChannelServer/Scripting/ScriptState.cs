@@ -4,12 +4,13 @@ using Melia.Shared.Data.Database;
 
 namespace Melia.Channel.Scripting
 {
-
 	public class ScriptState
 	{
 		public ChannelConnection Connection { get; private set; }
 		public LuaThread LuaThread { get; set; }
 		public Monster CurrentNpc { get; set; }
+		public string DialogTitle { get; set; }
+		public string DialogClassName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the reference to the currently open shop's
@@ -28,6 +29,8 @@ namespace Melia.Channel.Scripting
 
 			this.CurrentShop = null;
 			this.CurrentNpc = null;
+			this.DialogTitle = null;
+			this.DialogClassName = null;
 			this.LuaThread = null;
 		}
 	}
