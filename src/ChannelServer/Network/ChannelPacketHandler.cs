@@ -2017,5 +2017,38 @@ namespace Melia.Channel.Network
 
 			Log.Debug("CZ_REGISTER_AUTOSELLER: {0}, {1} item(s)", shopName, itemCount);
 		}
+
+		/// <summary>
+		/// Request to pick up an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_GET)]
+		public void CZ_REQ_ITEM_GET(ChannelConnection conn, Packet packet)
+		{
+			var handle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var monster = character.Map.GetMonster(handle);
+
+			// Check for monster validity
+			if (monster == null)
+			{
+				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
+				return;
+			}
+
+			if (!monster.IsItem)
+			{
+				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
+				return;
+			}
+
+			// Accept pick ups only once the character is close enough.
+			if (!monster.Position.InRange2D(character.Position, 50))
+				return;
+
+			character.PickUp(monster);
+		}
 	}
 }

@@ -1443,10 +1443,14 @@ namespace Melia.Channel.Network
 		/// <param name="entity"></param>
 		public static void ZC_LEAVE(ChannelConnection conn, IEntity entity)
 		{
+			var s1 = 1;
+			if ((entity as Monster)?.IsItem ?? false)
+				s1 = 2;
+
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(entity.Handle);
-			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
+			packet.PutShort(s1); // 0 shows a blue effect when the entity disappears
 
 			conn.Send(packet);
 		}
@@ -4069,6 +4073,22 @@ namespace Melia.Channel.Network
 		//public static void ZC_BUFF_ADD(Character character, Buff buff)
 		//{ 
 		//}
+
+		/// <summary>
+		/// Plays item pick up animation for the character and item monster.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="buff"></param>
+		public static void ZC_ITEM_GET(IEntity character, IEntity itemMonster)
+		{
+			var packet = new Packet(Op.ZC_ITEM_GET);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(itemMonster.Handle);
+			packet.PutInt(1);
+
+			character.Map.Broadcast(packet);
+		}
 
 		public static void DUMMY(ChannelConnection conn)
 		{

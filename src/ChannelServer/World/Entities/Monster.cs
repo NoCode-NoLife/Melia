@@ -157,6 +157,21 @@ namespace Melia.Channel.World.Entities
 		public MonsterState State { get; set; }
 
 		/// <summary>
+		/// Returns true if this monster is a dropped item.
+		/// </summary>
+		public bool IsItem => (this.ItemId != -1);
+
+		/// <summary>
+		/// Returns the id of the item this monster represents.
+		/// </summary>
+		public int ItemId { get; private set; } = -1;
+
+		/// <summary>
+		/// Returns the amount of items this monster is converted to.
+		/// </summary>
+		public int ItemAmount { get; private set; } = 0;
+
+		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
 		public Properties Properties { get; } = new Properties();
@@ -169,7 +184,14 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
-		public Monster(int id, NpcType type)
+		public Monster(int id, NpcType type) : this(id, type, true)
+		{
+		}
+
+		/// <summary>
+		/// Creates new NPC.
+		/// </summary>
+		private Monster(int id, NpcType type, bool loadData)
 		{
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 
@@ -182,7 +204,8 @@ namespace Melia.Channel.World.Entities
 			this.Id = id;
 			this.NpcType = type;
 
-			this.LoadData();
+			if (loadData)
+				this.LoadData();
 		}
 
 		/// <summary>
@@ -199,6 +222,23 @@ namespace Melia.Channel.World.Entities
 
 			this.Hp = this.MaxHp = this.Data.Hp;
 			this.Defense = this.Data.PhysicalDefense;
+		}
+
+		/// <summary>
+		/// Creates an item monster for the given item id.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public static Monster FromItem(int itemId, int amount)
+		{
+			if (!ChannelServer.Instance.Data.ItemMonsterDb.TryFind(itemId, out var data))
+				throw new ArgumentException($"No monster id found for item '{itemId}'.");
+
+			var monster = new Monster(data.MonsterId, NpcType.NPC, false);
+			monster.ItemId = itemId;
+			monster.ItemAmount = Math.Max(1, amount);
+
+			return monster;
 		}
 
 		/// <summary>

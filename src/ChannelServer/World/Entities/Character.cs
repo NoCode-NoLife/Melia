@@ -3045,5 +3045,27 @@ namespace Melia.Channel.World.Entities
 			// monsters.
 			return (entity is Monster monster && monster.NpcType == NpcType.Monster);
 		}
+
+		/// <summary>
+		/// Turns item monster into an item and adds it to the character's
+		/// inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		public void PickUp(Monster itemMonster)
+		{
+			if (!itemMonster.IsItem)
+				throw new InvalidOperationException("The monster is not an item.");
+
+			// Play pickup animation. This is what actually makes the item
+			// disappear, the client doesn't seem to react to ZC_LEAVE in
+			// the case of items.
+			Send.ZC_ITEM_GET(this, itemMonster);
+
+			// Add the item to the inventory
+			this.Inventory.Add(itemMonster.ItemId, itemMonster.ItemAmount, InventoryAddType.PickUp);
+
+			// Remove it from the map, so it can't be picked up again.
+			this.Map.RemoveMonster(itemMonster);
+		}
 	}
 }

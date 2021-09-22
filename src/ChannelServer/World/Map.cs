@@ -223,6 +223,7 @@ namespace Melia.Channel.World
 				_monsters.Remove(monster.Handle);
 
 			monster.Map = null;
+			this.UpdateVisibility();
 		}
 
 		/// <summary>
