@@ -20,6 +20,7 @@ namespace Melia.Shared.Data
 		public ExpDb ExpDb = new ExpDb();
 		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
 		public ItemDb ItemDb = new ItemDb();
+		public ItemMonsterDb ItemMonsterDb = new ItemMonsterDb();
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();

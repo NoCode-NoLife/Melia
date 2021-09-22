@@ -85,6 +85,7 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Monsters) != 0)
 				{
 					this.LoadDb(this.Data.MonsterDb, "db/monsters.txt", reload);
+					this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt", reload);
 				}
 
 				if ((toLoad & DataToLoad.Servers) != 0)
