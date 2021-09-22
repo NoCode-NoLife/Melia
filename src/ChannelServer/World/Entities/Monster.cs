@@ -98,7 +98,7 @@ namespace Melia.Channel.World.Entities
 		public int SDR { get; set; } = 1;
 
 		/// <summary>
-		/// Health points.
+		/// Gets or sets the monster's HP, capped to 0~MaxHp.
 		/// </summary>
 		public int Hp
 		{

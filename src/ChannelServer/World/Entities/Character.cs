@@ -341,6 +341,11 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Returns true if the character has run out of HP and died.
+		/// </summary>
+		public bool IsDead => this.Hp == 0;
+
+		/// <summary>
 		/// Sp multiplicator from the basic job.
 		/// </summary>
 		public float SpRateByJob { get; set; }

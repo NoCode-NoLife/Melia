@@ -22,6 +22,11 @@ namespace Melia.Channel.World.Entities
 		int Hp { get; }
 
 		/// <summary>
+		/// Returns true if the entity is dead.
+		/// </summary>
+		bool IsDead { get; }
+
+		/// <summary>
 		/// Returns the map the entity is currently on.
 		/// </summary>
 		Map Map { get; }
