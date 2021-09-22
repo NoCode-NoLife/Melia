@@ -15,7 +15,7 @@
 //   - i233292: lodge and slot added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

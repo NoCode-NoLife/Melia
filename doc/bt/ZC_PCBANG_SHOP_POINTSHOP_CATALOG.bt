@@ -11,7 +11,7 @@
 //   History: Logic isn't correct yet
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 typedef struct
 {

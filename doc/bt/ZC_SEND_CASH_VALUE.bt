@@ -11,7 +11,7 @@
 //   History: i336041 - Added additional 4 bytes (int,float) between key and value.
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 typedef struct
 {

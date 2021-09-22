@@ -17,7 +17,7 @@
 //   - i197611: b3 was removed
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

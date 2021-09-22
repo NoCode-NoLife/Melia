@@ -13,7 +13,7 @@
 //   - i184075: i1~3 were added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

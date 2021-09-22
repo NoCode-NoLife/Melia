@@ -12,7 +12,7 @@
 //   - i336041: PropertySize shifted and i1;
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

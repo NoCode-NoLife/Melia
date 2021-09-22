@@ -12,7 +12,7 @@
 //   - i336041: Added short maxPlayers to ZoneTrafficServer struct
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 typedef struct
 {

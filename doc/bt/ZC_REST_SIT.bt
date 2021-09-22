@@ -12,7 +12,7 @@
 //   - i11257: isSitting was added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

@@ -12,7 +12,7 @@
 //   - i184075: s1 was added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 typedef struct 
 {

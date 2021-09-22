@@ -10,7 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

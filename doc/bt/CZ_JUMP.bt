@@ -12,7 +12,7 @@
 //   - i336041: Added extra 12 bytes before actual packet
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 byte extra[12];
