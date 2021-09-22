@@ -1,6 +1,5 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
-using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 
 namespace Melia.Channel.Skills.General
@@ -17,14 +16,18 @@ namespace Melia.Channel.Skills.General
 
 			skill.IncreaseOverheat();
 
-			var damage = caster.GetRandomPAtk() + 100;
-
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
-
 			if (target == null)
+			{
+				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, 0);
 				return;
+			}
 
-			if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
+			var damage = caster.GetRandomPAtk() + 100;
+			var killed = target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0);
+			
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
+				
+			if(killed)
 				Send.ZC_SKILL_CAST_CANCEL(caster, target);
 		}
 	}
