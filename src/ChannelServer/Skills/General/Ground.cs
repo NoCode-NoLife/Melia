@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
-using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
@@ -22,8 +21,6 @@ namespace Melia.Channel.Skills.General
 				Log.Warning("GroundSkillHandler: Player {0} cast skill with id {1} farther than max range ({2} > {3}).", caster.Name, skill.Id, castedRange, skill.Data.MaxRange);
 				return;
 			}
-
-			// TODO: Cancel if not enough SP?
 
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
@@ -48,7 +45,7 @@ namespace Melia.Channel.Skills.General
 						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
 						Send.ZC_SYNC_END(caster, 1234, 0);
 
-						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
+						if (target.TakeDamage(damage, caster))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;
@@ -80,7 +77,10 @@ namespace Melia.Channel.Skills.General
 
 							foreach (var target in targets)
 							{
-								if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Hit, i + 1))
+								target.TakeDamage(damage, caster);
+								Send.ZC_HIT_INFO(caster, target, damage, i + 1);
+
+								if (target.IsDead)
 									Send.ZC_SKILL_CAST_CANCEL(caster, target);
 							}
 						});
@@ -99,7 +99,7 @@ namespace Melia.Channel.Skills.General
 
 					foreach (var target in targets)
 					{
-						if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0))
+						if (target.TakeDamage(damage, caster))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
 					}
 					break;

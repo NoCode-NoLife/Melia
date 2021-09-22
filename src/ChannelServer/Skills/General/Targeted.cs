@@ -23,11 +23,11 @@ namespace Melia.Channel.Skills.General
 			}
 
 			var damage = caster.GetRandomPAtk() + 100;
-			var killed = target.TakeDamage(damage, caster, DamageVisibilityModifier.Invisible, 0);
-			
+			target.TakeDamage(damage, caster);
+
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
-				
-			if(killed)
+
+			if (target.IsDead)
 				Send.ZC_SKILL_CAST_CANCEL(caster, target);
 		}
 	}

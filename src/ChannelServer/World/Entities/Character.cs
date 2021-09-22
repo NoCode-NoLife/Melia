@@ -3029,7 +3029,7 @@ namespace Melia.Channel.World.Entities
 		/// <param name="damageVisibility"></param>
 		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex)
+		public bool TakeDamage(int damage, Character from/*, DamageVisibilityModifier damageVisibility, int attackIndex*/)
 		{
 			throw new NotImplementedException();
 		}

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
-using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Shared.World;
 
@@ -25,8 +24,10 @@ namespace Melia.Channel.Skills.General
 
 			foreach (var target in targets)
 			{
-				var monster = (Monster)target;
-				if (monster.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
+				target.TakeDamage(damage, caster);
+				Send.ZC_SKILL_HIT_INFO(caster, target, damage);
+
+				if (target.IsDead)
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}

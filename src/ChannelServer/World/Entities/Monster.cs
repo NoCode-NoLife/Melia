@@ -210,31 +210,13 @@ namespace Melia.Channel.World.Entities
 		/// <param name="type"></param>
 		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex)
+		public bool TakeDamage(int damage, Character from /*, DamageVisibilityModifier type, int attackIndex*/)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
 
 			this.Hp -= damage;
-
-			switch (type)
-			{
-				case DamageVisibilityModifier.Invisible:
-					break;
-
-				case DamageVisibilityModifier.Hit:
-					Send.ZC_HIT_INFO(from, this, damage, attackIndex);
-					break;
-
-				case DamageVisibilityModifier.Skill:
-					Send.ZC_SKILL_HIT_INFO(from, this, damage);
-					break;
-
-				default:
-					Log.Warning("Monster.TakeDamage: Unknown damage visibility modifier '{0}' used.", type);
-					break;
-			}
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
