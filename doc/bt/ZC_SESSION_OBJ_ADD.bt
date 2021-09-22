@@ -12,7 +12,7 @@
 //      i337645: Moved i1 into the SessionObject
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

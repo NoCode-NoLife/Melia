@@ -14,7 +14,7 @@
 //   - i225009: added lodge number the created character belongs to.
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

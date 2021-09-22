@@ -1,0 +1,43 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: common.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#ifdef PROPERTY_NAMES
+#include "inc/ObjectPropertyNames.bt"
+#endif
+
+#include "inc/headers.bt"
+#include "inc/equipSlots.bt"
+
+#include "inc/LpString.bt"
+#include "inc/MsgParameter.bt"
+#include "inc/Position.bt"
+#include "inc/Direction.bt"
+#include "inc/MapRevealData.bt"
+#include "inc/ItemProperties.bt"
+#include "inc/AppearancePc.bt"
+#include "inc/Commander.bt"
+#include "inc/Monster.bt"
+#include "inc/AppearanceBarrackPc.bt"
+#include "inc/IesManagerEditInfo.bt"
+#include "inc/IP.bt"
+#include "inc/Item.bt"
+#include "inc/EquipItem.bt"
+#include "inc/ChatMacroInfo.bt"
+#include "inc/CompressedData.bt"
+#include "inc/Skill.bt"
+#include "inc/Ability.bt"
+#include "inc/Message.bt"
+#include "inc/Property.bt"
+#include "inc/PostBoxState.bt"
+#include "inc/SessionProperties.bt"
+#include "inc/Attack.bt"

@@ -54,6 +54,54 @@ namespace Melia.Channel.World.Entities.Components
 		public int TotalExp { get; set; }
 
 		/// <summary>
+		/// Returns the class level reached on this job.
+		/// </summary>
+		public int Level
+		{
+			get
+			{
+				// TODO: This should be improved, but I'll be lazy
+				//   for the moment, in case all this doesn't work out the
+				//   way I expect it to.
+
+				var jobId = this.Id;
+				var rank = this.Character.Jobs.GetCurrentRank();
+				var totalExp = this.TotalExp;
+				var max = this.MaxLevel;
+
+				// Search for the first level which's requirement we can't
+				// fulfill, as that will be the level we're on.
+				for (var i = 1; i < max; ++i)
+				{
+					var needed = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
+					if (totalExp < needed)
+						return i;
+				}
+
+				// Found none? It's the max then.
+				return max;
+			}
+		}
+
+		/// <summary>
+		/// Returns the max class level for this job.
+		/// </summary>
+		public int MaxLevel
+		{
+			get
+			{
+				// If the current rank is 1, we're still on the base job
+				// and this will return 15. If the rank is above 1, it will
+				// return 45, which is the max level for all other ranks.
+				// Maybe it would make more sense to determine the job's
+				// max level based on the rank it was added on.
+
+				var rank = this.Character.Jobs.GetCurrentRank();
+				return ChannelServer.Instance.Data.ExpDb.GetMaxClassLevel(rank);
+			}
+		}
+
+		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="character"></param>

@@ -12,7 +12,7 @@
 //      - i339415: teamName is no longer 64 char, but just a null terminated string
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

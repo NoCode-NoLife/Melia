@@ -1,0 +1,20 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ChatMacroInfo.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int index;
+    char msg[128];  // This may also be a class ID of an emoji.
+    int pose;
+}
+CHAT_MACRO_INFO;

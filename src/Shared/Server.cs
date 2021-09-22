@@ -59,7 +59,7 @@ namespace Melia.Shared
 		/// <summary>
 		/// Loads data from files.
 		/// </summary>
-		protected void LoadData(DataToLoad toLoad, bool reload)
+		public void LoadData(DataToLoad toLoad, bool reload)
 		{
 			Log.Info("Loading data...");
 
@@ -153,6 +153,11 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Cooldowns) != 0)
 				{
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt", reload);
+				}
+
+				if ((toLoad & DataToLoad.AnimationIds) != 0)
+				{
+					this.LoadDb(this.Data.AnimationIdDb, "db/animationids.txt", reload);
 				}
 			}
 			catch (DatabaseErrorException ex)
@@ -263,6 +268,7 @@ namespace Melia.Shared
 		SessionObjects = 0x4000,
 		Achievements = 0x8000,
 		Cooldowns = 0x10000,
+		AnimationIds = 0x20000,
 
 		All = 0x7FFFFFFF,
 	}

@@ -11,7 +11,7 @@
 //   History: i336041 - Added b1
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

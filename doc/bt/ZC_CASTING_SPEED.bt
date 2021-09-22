@@ -12,7 +12,7 @@
 //   - i336041: sp and maxSp is an int
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

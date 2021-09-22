@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Threading;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
+using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
-	public class Monster : ICombatEntity
+	public class Monster : ICombatEntity, IUpdateable
 	{
+		private static int GenTypes = 1_000_000;
+
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
@@ -25,6 +31,16 @@ namespace Melia.Channel.World.Entities
 		/// Monster ID in database.
 		/// </summary>
 		public int Id { get; set; }
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <remarks>
+		/// Used by the anchors in the client files, with multiple anchors
+		/// being able to use the same "gen type". This is also used to
+		/// identify NPCs however, like in ZC_SET_NPC_STATE.
+		/// </remarks>
+		public int GenType { get; set; }
 
 		/// <summary>
 		/// What kind of NPC the monster is.
@@ -64,7 +80,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Monster's position.
@@ -79,7 +95,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
-		public int SDR { get; set; }
+		public int SDR { get; set; } = 1;
 
 		/// <summary>
 		/// Health points.
@@ -89,12 +105,12 @@ namespace Melia.Channel.World.Entities
 			get { return _hp; }
 			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
 		}
-		private int _hp;
+		private int _hp = 100;
 
 		/// <summary>
 		/// Maximum health points.
 		/// </summary>
-		public int MaxHp { get; private set; }
+		public int MaxHp { get; private set; } = 100;
 
 		/// <summary>
 		/// Physical defense.
@@ -114,7 +130,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
-		public DateTime DisappearTime { get; set; }
+		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
 
 		/// <summary>
 		/// Data entry for this monster.
@@ -136,18 +152,35 @@ namespace Melia.Channel.World.Entities
 		public bool FromGround { get; set; }
 
 		/// <summary>
+		/// Gets or sets the monster's state.
+		/// </summary>
+		public MonsterState State { get; set; }
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		public Properties Properties { get; } = new Properties();
+
+		/// <summary>
+		/// Returns the monster's component collection.
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
 		{
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 
+			// The client files set the gen type manually, but that seems
+			// bothersome. For now, we'll generate them automatically and
+			// see for what purpose we would need them to be the same for
+			// multiple monsters.
+			this.GenType = Interlocked.Increment(ref GenTypes);
+
 			this.Id = id;
 			this.NpcType = type;
-			this.Level = 1;
-			this.SDR = 1;
-			this.Hp = this.MaxHp = 100;
-			this.DisappearTime = DateTime.MaxValue;
 
 			this.LoadData();
 		}
@@ -273,6 +306,26 @@ namespace Melia.Channel.World.Entities
 		{
 			// For now, let's specify that monsters can attack characters.
 			return (entity is Character);
+		}
+
+		/// <summary>
+		/// Updates monster and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
+		}
+
+		/// <summary>
+		/// Changes the monster's state and updates the clients in range
+		/// of the monster.
+		/// </summary>
+		/// <param name="state"></param>
+		public void SetState(MonsterState state)
+		{
+			this.State = state;
+			Send.ZC_SET_NPC_STATE(this);
 		}
 	}
 }

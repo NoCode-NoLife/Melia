@@ -324,7 +324,7 @@ namespace Melia.Shared.Const
 		Given = 0, // 0,6,10
 		Sold = 1,
 		PaidWith = 2,
-		Destroyed = 3,
+		Destroyed = 4,
 		Equipped = 5,
 		Used = 7, // 7,8
 	}

@@ -23,21 +23,22 @@
             public const int CharacterInfo = 0x1C;
         }
 
-        /// <summary>
-        /// Sub opcodes to be used with the ZC_NORMAL packet.
-        /// </summary>
-        public static class Zone
-        {
-            public const int LevelUp = 0x12;
-            public const int ClassLevelUp = 0x15;
-            public const int Unknown_1D = 0x1D;
-            public const int BarrackSlotCount = 0x3C;
-            public const int AccountUpdate = 0x4C;
-            public const int Skill = 0x57;
-            public const int ParticleEffect = 0x61;
-            public const int SetSessionKey = 0x14E;
-            public const int NGSCallback = 0x16D;
-            public const int HatVisibleState = 0x181;
+		/// <summary>
+		/// Sub opcodes to be used with the ZC_NORMAL packet.
+		/// </summary>
+		public static class Zone
+		{
+			public const int LevelUp = 0x12;
+			public const int ClassLevelUp = 0x15;
+			public const int Unknown_1D = 0x1D;
+			public const int FadeOut = 0x38;
+			public const int BarrackSlotCount = 0x3C;
+			public const int AccountUpdate = 0x4C;
+			public const int Skill = 0x57;
+			public const int ParticleEffect = 0x61;
+			public const int SetSessionKey = 0x14E;
+			public const int NGSCallback = 0x16D;
+			public const int HatVisibleState = 0x181;
 
             //
             public const int Unknown_06 = 0x06;

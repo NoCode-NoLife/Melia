@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.World.Entities;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
@@ -66,6 +67,32 @@ namespace Melia.Channel.World
 		{
 			this.Disappearances();
 			this.UpdateVisibility();
+			this.UpdateEntities(elapsed);
+		}
+
+		/// <summary>
+		/// Updates the map's entites.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateEntities(TimeSpan elapsed)
+		{
+			// Should performance of iterating over all entities on
+			// all maps ever become a problem, we could multi-thread
+			// the entity updates.
+			// If locked access to the collections ever becomes a
+			// bottle-neck, switch to ReaderWriterLockSlim.
+
+			lock (_monsters)
+			{
+				foreach (var entity in _monsters.Values)
+					entity.Update(elapsed);
+			}
+
+			lock (_characters)
+			{
+				foreach (var entity in _characters.Values)
+					entity.Update(elapsed);
+			}
 		}
 
 		/// <summary>
@@ -524,7 +551,7 @@ namespace Melia.Channel.World
 		public Monster[] GetVisibleMonsters(Character character)
 		{
 			lock (_monsters)
-				return _monsters.Values.Where(a => character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+				return _monsters.Values.Where(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
 		}
 
 		/// <summary>

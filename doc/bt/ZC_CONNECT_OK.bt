@@ -17,7 +17,7 @@
 //   - i339415: Commander Struct updated, additional 2 equip ids
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

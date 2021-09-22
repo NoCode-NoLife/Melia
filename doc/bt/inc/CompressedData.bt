@@ -1,0 +1,42 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CompressedData.bt
+//   Authors: exec
+//   Version: i174236
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i174236: compressedData.size changed from short to int
+//------------------------------------------------
+
+typedef struct
+{
+    ushort header;
+    int size;
+    byte data[size];
+}
+compressedData <read=compressedDataRead>;
+
+string compressedDataRead(compressedData &v)
+{
+    local string result;
+    SPrintf(result, "Compressed data (%d)", v.size);
+    return result;
+}
+
+byte checkCompression()
+{
+    if (ReadUShort() == 0xFA8D)
+    {
+        compressedData data;
+        return 1;
+    }
+    else
+    {
+        short noCompression;
+        return false;
+    }
+}

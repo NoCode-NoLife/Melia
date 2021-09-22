@@ -4,13 +4,14 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class CharacterSkills
+	public class CharacterSkills : IComponent
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 
@@ -178,7 +179,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			foreach (var job in this.Character.Jobs.GetList())
 			{
-				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.TotalExp).Where(a => a.SkillId == skillId);
+				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Level).Where(a => a.SkillId == skillId);
 				foreach (var data in skillTreeDataList)
 				{
 					var jobsMaxLevel = data.MaxLevel;

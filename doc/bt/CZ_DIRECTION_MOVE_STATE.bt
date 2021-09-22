@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 short s1; // Same as Packet Size? 280

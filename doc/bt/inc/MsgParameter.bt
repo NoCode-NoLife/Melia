@@ -1,0 +1,24 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: MsgParameter.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: Key:Value type with two length-prefixed strings
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    lpString key;
+    lpString value;
+}
+msgParameter <read=msgParameterRead, optimize=false>;
+
+string msgParameterRead(msgParameter &v)
+{
+    return v.key.text + " : " + v.value.text;
+}

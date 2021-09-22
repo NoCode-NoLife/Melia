@@ -1,0 +1,28 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: LpString.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: Length-prefixed string.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    short length;
+    if(length > 0)
+        char text[length];
+}
+lpString <read=lpStringRead, optimize=false>;
+
+string lpStringRead(lpString &v)
+{
+    if(v.length > 0)
+        return v.text;
+    else
+        return "";
+}

@@ -14,7 +14,7 @@
 //   - i339415: b2 was added.
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

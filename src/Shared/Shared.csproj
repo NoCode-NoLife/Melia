@@ -53,12 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\AnimationId.cs" />
     <Compile Include="Const\Character.cs" />
     <Compile Include="Const\Gender.cs" />
+    <Compile Include="Const\HealType.cs" />
     <Compile Include="Const\Items.cs" />
     <Compile Include="Const\Job.cs" />
     <Compile Include="Const\Message.cs" />
     <Compile Include="Const\Misc.cs" />
+    <Compile Include="Const\MonsterState.cs" />
     <Compile Include="Const\NPC.cs" />
     <Compile Include="Const\Properties.cs" />
     <Compile Include="Const\Option.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
+    <Compile Include="Data\Database\AnimationIds.cs" />
     <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
@@ -97,6 +101,8 @@
     <Compile Include="Data\Database\Items.cs" />
     <Compile Include="Data\Exceptions.cs" />
     <Compile Include="Data\Extensions.cs" />
+    <Compile Include="EntityComponents\Component.cs" />
+    <Compile Include="EntityComponents\ComponentCollection.cs" />
     <Compile Include="Network\Helpers\AccountHelper.cs" />
     <Compile Include="Network\Helpers\AppearancePcHelper.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />

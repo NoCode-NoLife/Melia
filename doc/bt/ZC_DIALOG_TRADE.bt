@@ -3,7 +3,7 @@
 //
 //      File: ZC_DIALOG_TRADE.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,14 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 
-string name;
-int i1;
-ushort s1;
-ushort s2;
-int i2;
-short s3;
-byte b1;
+char name[33];

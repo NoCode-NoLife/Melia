@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Channel.Network;
 using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
 	/// Job collection.
 	/// </summary>
-	public class Jobs
+	public class Jobs : IComponent
 	{
 		private static readonly Regex JobClassName = new Regex(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
 

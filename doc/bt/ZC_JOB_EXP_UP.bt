@@ -13,7 +13,7 @@
 //   - i336041: changed jobExp to int64 removed i1
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

@@ -14,7 +14,7 @@
 //   - i336041: i4,i5,i6 and b2 added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

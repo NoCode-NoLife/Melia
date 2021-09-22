@@ -12,7 +12,7 @@
 //      - i339415: b1 added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 int handle; // 1868 

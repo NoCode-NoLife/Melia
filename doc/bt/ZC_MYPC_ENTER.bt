@@ -14,7 +14,7 @@
 //   - i336041: i1 was added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

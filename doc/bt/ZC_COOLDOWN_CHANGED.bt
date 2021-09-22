@@ -12,7 +12,7 @@
 //   - i336041: b1 added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 
