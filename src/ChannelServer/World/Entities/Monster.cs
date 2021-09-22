@@ -249,34 +249,43 @@ namespace Melia.Channel.World.Entities
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			if (this.Data.Drops != null)
-			{
-				var rnd = RandomProvider.Get();
-
-				foreach (var dropItemData in this.Data.Drops)
-				{
-					if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
-						continue;
-
-					if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
-					{
-						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
-						continue;
-					}
-
-					var dropItem = new Item(itemData.Id);
-					if (dropItemData.MinAmount > 1)
-						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
-
-					killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
-					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
-				}
-			}
+			this.DropItems(killer);
 
 			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Drops random items from the monster's drop table.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropItems(Character killer)
+		{
+			if (this.Data.Drops == null)
+				return;
+
+			var rnd = RandomProvider.Get();
+
+			foreach (var dropItemData in this.Data.Drops)
+			{
+				if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
+					continue;
+
+				if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
+				{
+					Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+					continue;
+				}
+
+				var dropItem = new Item(itemData.Id);
+
+				if (dropItemData.MinAmount > 1)
+					dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+
+				killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
+			}
 		}
 
 		/// <summary>
