@@ -1,0 +1,33 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: EquipItem.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int slot;
+    int i1;
+    short propertiesSize;
+    int id;
+    int64 worldId;
+    int i2;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+EquipItem <optimize=false,read=EquipItemRead>;
+
+string EquipItemRead(EquipItem &v)
+{
+    local string result;
+    local string slotName = GetEquipSlotName(v.slot);
+    SPrintf(result, "%s : %d", slotName, v.id);
+    return result;
+}

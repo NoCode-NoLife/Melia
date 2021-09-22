@@ -1,0 +1,28 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: IP.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    ubyte b1;
+    ubyte b2;
+    ubyte b3;
+    ubyte b4;
+}
+IP <read=IPRead>;
+
+string IPRead(IP &v)
+{
+    local string result;
+    SPrintf(result, "%d.%d.%d.%d", v.b1, v.b2, v.b3, v.b4);
+    return result;
+}

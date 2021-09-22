@@ -1,0 +1,31 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Ability.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int64 objectId;
+    int id;
+    short propertiesSize;
+    short s1;
+    int i1;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+Ability <read=readAbility, optimize=false>;
+
+string readAbility(Ability &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}

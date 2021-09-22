@@ -1,0 +1,29 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Monster.bt
+//   Authors: exec
+//   Version: i11025
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i11025: MONSTER.s1~s2 were removed
+//------------------------------------------------
+
+typedef struct
+{
+    int monsterId;
+    int i1;
+    int maxHp;
+
+    //short s1;
+    //short s2;
+
+    int level;
+    float sdr;
+    byte b1;
+    byte bin2[3];
+}
+MONSTER;
