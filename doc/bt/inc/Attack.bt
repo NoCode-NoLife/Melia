@@ -82,7 +82,8 @@ typedef struct
     //    }
     //}
 
-    int i9;
+    short s11;
+    short s12;
 
     // This looks like a list with variable
     // information to me, though we need more
@@ -90,6 +91,11 @@ typedef struct
     // attacks, energy bolts, Earthquake, and
     // several other "normal" skills.
     short s10;
+    
+    // Seen with Magic Missile
+    if (s12 > 0)
+        byte bin_s12[s12];
+
     if (s10 > 0)
         AttackItem1 items1[s10];
 }
