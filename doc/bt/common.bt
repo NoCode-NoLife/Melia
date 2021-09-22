@@ -726,19 +726,45 @@ string readSessionObject(SessionObject &v)
 
 typedef struct
 {
+    byte type;
+    switch(type)
+    {
+        // Seen with hitting two targets with
+        // one energy bolt.
+        case 0:
+            int i1;
+            byte b1;
+            int i2;
+            break;
+
+        case 3:
+            float val; 
+            break;
+    
+        default:
+            int val;
+            break;
+    }
+}
+AttackItem1 <optimize=false>;
+
+typedef struct
+{
     int i1;
     int targetHandle;
+
     int damage;
     int hpLeft;
     int i2;
-    int i3;
+    short s7;
+    short s8;
+
     short s1;
     short s2;
     short s3;
     short s4;
-    //int64 worldId;
+
     int i4; // 50 on Magic Missiles
-    //int i5;
     short defaultHitDelay;
     byte b11;
     byte b12;
@@ -747,20 +773,44 @@ typedef struct
     short s5;
     int attackId; //?
     int i6;
-    short s6; 
-    if (s6 > 0) {
-        short s6;
-        int64 l3;
-        short s7;
-        int i7;
-        byte b2;
-        float f1;
-    } else {
-        short s7;
-        if (s7 > 0) {
-            short s8;
-            byte b3;
-            ushort s9;
-        }
-    }
-} Attack <optimize=false>;
+    short s6;
+
+    // This wasn't really working for me, back
+    // to the drawing board. When guessing data,
+    // we should make notes.
+
+    //if (s6 > 0) {
+    //    short s6;
+    //    int64 l3;
+    //    short s7;
+    //    int i7;
+    //    byte b2;
+    //    float f1;
+    //} else {
+    //    short s7;
+    //    if (s7 > 0) {
+    //        short s8;
+    //        byte b3;
+    //        ushort s9;
+    //    }
+    //}
+
+    int i9;
+
+    // This looks like a list with variable
+    // information to me, though we need more
+    // data to confirm this. Works for normal
+    // attacks, energy bolts, Earthquake, and
+    // several other "normal" skills.
+    short s10;
+    if (s10 > 0)
+        AttackItem1 items1[s10];
+}
+Attack <optimize=false, read=readAttack>;
+
+string readAttack(Attack& val)
+{
+    string result;
+    SPrintf(result, "Target: %d, Damage: %d", val.targetHandle, val.damage);
+    return result;
+}
