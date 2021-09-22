@@ -428,6 +428,12 @@ switch (type)
         lpString sessionKey;
         break;
 
+    case 0x14F:
+        int i1;
+        int i2;
+        float f1;
+        break;
+
     // Nexon Game Security Callback
     case 0x16D:
         break;
