@@ -11,14 +11,54 @@ namespace Melia.Shared.World
 		public readonly float Sin;
 
 		/// <summary>
-		/// Returns the direction as an angle in degree.
+		/// Returns the direction as an angle in degree, where 0° is south.
 		/// </summary>
-		public float DegreeAngle => (float)(this.RadianAngle * (180.0 / Math.PI));
+		public float DegreeAngle
+		{
+			get
+			{
+				var result = this.RadianAngle * (180.0 / Math.PI) + 90;
+
+				// Normalize
+				result %= 360.0;
+				result = (result > 0 ? result : result + 360);
+
+				if (Math.Abs(result - 360) < 0.00001)
+					result = 0;
+
+				return (float)result;
+			}
+		}
+
+		/// <summary>
+		/// Returns the direction as an angle in degree, where 0° is east.
+		/// </summary>
+		public float NormalDegreeAngle
+		{
+			get
+			{
+				var result = this.RadianAngle * (180.0 / Math.PI);
+
+				// Normalize
+				result %= 360.0;
+				result = (result > 0 ? result : result + 360);
+
+				if (Math.Abs(result - 360) < 0.00001)
+					result = 0;
+
+				return (float)result;
+			}
+		}
 
 		/// <summary>
 		/// Returns the direction as an angle in radians.
 		/// </summary>
 		public float RadianAngle => (float)Math.Atan2(this.Sin, this.Cos);
+
+		/// <summary>
+		/// Returns a new direction with zero values.
+		/// </summary>
+		public static Direction Zero => new Direction(0, 0);
 
 		/// <summary>
 		/// Creates new direction from values.
@@ -48,12 +88,34 @@ namespace Melia.Shared.World
 		/// <param name="degree"></param>
 		public Direction(double degree)
 		{
-			degree -= 45;
-			degree *= Math.PI / 180.0;
+			// 0° means south in ToS, so we need to offset the degree by -90.
+			degree -= 90;
 
-			this.Cos = (float)Math.Cos(degree);
-			this.Sin = (float)Math.Sin(degree);
+			var radian = degree * (Math.PI / 180.0);
+
+			this.Cos = (float)Math.Cos(radian);
+			this.Sin = (float)Math.Sin(radian);
 		}
+
+		/// <summary>
+		/// Returns a new direction, with the given angle added to it.
+		/// </summary>
+		/// <param name="degreeAngle"></param>
+		/// <returns></returns>
+		public Direction AddDegreeAngle(float degreeAngle)
+		{
+			var degree = this.DegreeAngle;
+			degree += degreeAngle;
+
+			return new Direction(degree);
+		}
+
+		/// <summary>
+		/// Returns a new direction, with an adjusted angle, where 0° is east.
+		/// </summary>
+		/// <returns></returns>
+		public Direction GetNormal()
+			=> new Direction(this.NormalDegreeAngle);
 
 		/// <summary>
 		/// Returns true if the directions have the same cos and sin
