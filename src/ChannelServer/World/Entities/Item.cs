@@ -69,6 +69,18 @@ namespace Melia.Channel.World.Entities
 		public bool IsLocked { get; set; }
 
 		/// <summary>
+		/// Gets or sets the owner of the item, who is the only one able
+		/// to pick it up while the loot protection is active.
+		/// </summary>
+		public int OwnerHandle { get; private set; } = -1;
+
+		/// <summary>
+		/// Returns the time at which the item is free to be picked up
+		/// by anyone.
+		/// </summary>
+		public DateTime LootProtectionEnd { get; private set; } = DateTime.MinValue;
+
+		/// <summary>
 		/// Returns the item's property collection.
 		/// </summary>
 		public Properties Properties { get; } = new Properties();
@@ -191,6 +203,26 @@ namespace Melia.Channel.World.Entities
 			var distance = (float)fromPosition.Get2DDistance(toPosition);
 
 			return this.Drop(map, fromPosition, direction, distance);
+		}
+
+		/// <summary>
+		/// Activates the loot protection for the item if entity is set.
+		/// Deactivates it if entity is null.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="protectionTime"></param>
+		public void SetLootProtection(IEntity entity, TimeSpan protectionTime)
+		{
+			if (entity == null)
+			{
+				this.OwnerHandle = -1;
+				this.LootProtectionEnd = DateTime.MinValue;
+			}
+			else
+			{
+				this.OwnerHandle = entity.Handle;
+				this.LootProtectionEnd = DateTime.Now.Add(protectionTime);
+			}
 		}
 	}
 }

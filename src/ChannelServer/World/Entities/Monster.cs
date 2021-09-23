@@ -291,6 +291,7 @@ namespace Melia.Channel.World.Entities
 				var dropRadius = ChannelServer.Instance.Conf.World.DropRadius;
 				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
 
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ChannelServer.Instance.Conf.World.LootPrectionSeconds));
 				dropItem.Drop(this.Map, this.Position, direction, distance);
 
 				// else?

@@ -42,5 +42,18 @@ namespace Melia.Channel.World.Entities
 			var monster = new ItemMonster(item, data.MonsterId);
 			return monster;
 		}
+
+		/// <summary>
+		/// Returns true if the entity is allowed to pick up the item.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanBePickedUpBy(IEntity entity)
+		{
+			if (DateTime.Now < this.Item.LootProtectionEnd)
+				return this.Item.OwnerHandle == entity.Handle;
+
+			return true;
+		}
 	}
 }

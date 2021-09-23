@@ -2049,6 +2049,10 @@ namespace Melia.Channel.Network
 			if (!monster.Position.InRange2D(character.Position, pickUpRadius))
 				return;
 
+			// Check if character is allowed to pick up the item.
+			if (!itemMonster.CanBePickedUpBy(character))
+				return;
+
 			character.PickUp(itemMonster);
 		}
 	}
