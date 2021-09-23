@@ -69,6 +69,11 @@ namespace Melia.Channel.World.Entities
 		public bool IsLocked { get; set; }
 
 		/// <summary>
+		/// Returns the handle of the entity who originally dropped the item.
+		/// </summary>
+		public int OriginalOwnerHandle { get; private set; } = -1;
+
+		/// <summary>
 		/// Gets or sets the owner of the item, who is the only one able
 		/// to pick it up while the loot protection is active.
 		/// </summary>
@@ -224,6 +229,16 @@ namespace Melia.Channel.World.Entities
 				this.OwnerHandle = entity.Handle;
 				this.LootProtectionEnd = DateTime.Now.Add(protectionTime);
 			}
+		}
+
+		/// <summary>
+		/// Sets up a protection, so that the entity won't pick the item
+		/// right back up.
+		/// </summary>
+		/// <param name="entity"></param>
+		public void SetRePickUpProtection(IEntity entity)
+		{
+			this.OriginalOwnerHandle = entity.Handle;
 		}
 	}
 }

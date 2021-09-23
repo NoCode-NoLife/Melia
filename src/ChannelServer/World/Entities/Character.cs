@@ -3063,6 +3063,13 @@ namespace Melia.Channel.World.Entities
 
 			// Remove it from the map, so it can't be picked up again.
 			this.Map.RemoveMonster(itemMonster);
+
+			// TODO: I'm sure something is wrong with the inventory,
+			//   because when messing around with items, I somtimes
+			//   get weird behavior, where items suddenly look like
+			//   a different item in my inventory. Might be an index
+			//   or handle issue. But a full update fixes it, so...
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this);
 		}
 	}
 }

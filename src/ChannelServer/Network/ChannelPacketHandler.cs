@@ -445,9 +445,27 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var result = character.Inventory.Remove(worldId, amount);
+			var fullStack = (amount >= item.Amount);
+
+			var result = character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Destroyed);
 			if (result != InventoryResult.Success)
+			{
 				Log.Warning("CZ_ITEM_DELETE: Removing an item for '{0}' failed despite checks.", conn.Account.Name);
+				return;
+			}
+
+			// Drop item
+			if (ChannelServer.Instance.Conf.World.Littering)
+			{
+				// If the entire stack was discarded, we can simply drop
+				// the item. If only a part of the stack was discarded,
+				// we need to create a new stack, with the selected amount.
+				// TODO: We might need to copy values and properties from
+				//   the original stack to the new stack.
+				var dropItem = (fullStack ? item : new Item(item.Id, amount));
+				dropItem.SetRePickUpProtection(character);
+				dropItem.Drop(character.Map, character.Position, character.Direction, 30);
+			}
 		}
 
 		/// <summary>
