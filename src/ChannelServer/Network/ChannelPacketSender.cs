@@ -1444,7 +1444,7 @@ namespace Melia.Channel.Network
 		public static void ZC_LEAVE(ChannelConnection conn, IEntity entity)
 		{
 			var s1 = 1;
-			if ((entity as Monster)?.IsItem ?? false)
+			if (entity is ItemMonster)
 				s1 = 2;
 
 			var packet = new Packet(Op.ZC_LEAVE);
@@ -2413,19 +2413,30 @@ namespace Melia.Channel.Network
 
 			monster.Map.Broadcast(packet, monster, false);
 		}
-		
+
 		/// <summary>
 		/// Makes item monster appear to drop, by "throwing" it a certain
 		/// distance from its current position.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_NORMAL_ItemDrop(Monster monster, float distance)
+		/// <param name="monster"></param>
+		/// <param name="degreeAngle"></param>
+		/// <param name="distance"></param>
+		public static void ZC_NORMAL_ItemDrop(Monster monster, Direction direction, float distance)
 		{
-			var packet = new Shared.Network.Packet(Shared.Network.Op.ZC_NORMAL);
-			packet.PutInt(Shared.Network.SubOp.Zone.ItemDrop);
+			// The distance might be more like a force, since items fly
+			// farther than they should with high distances. Whether this
+			// is a problem, depends on the used distance and the pick up
+			// range. With a very small pick up range, like 10, and a high
+			// distance, like 110, there will be a slight desync, and you
+			// might not get the item, even if you're right on top of it.
+			// But since we won't usually use such small and high values,
+			// it will probably be fine.
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.ItemDrop);
 
 			packet.PutInt(monster.Handle);
-			packet.PutInt(235);
+			packet.PutInt((int)direction.NormalDegreeAngle);
 			packet.PutFloat(distance);
 
 			monster.Map.Broadcast(packet, monster, false);

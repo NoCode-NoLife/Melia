@@ -3051,18 +3051,15 @@ namespace Melia.Channel.World.Entities
 		/// inventory.
 		/// </summary>
 		/// <param name="character"></param>
-		public void PickUp(Monster itemMonster)
+		public void PickUp(ItemMonster itemMonster)
 		{
-			if (!itemMonster.IsItem)
-				throw new InvalidOperationException("The monster is not an item.");
-
 			// Play pickup animation. This is what actually makes the item
 			// disappear, the client doesn't seem to react to ZC_LEAVE in
-			// the case of items.
+			// the case of items. Or at least not reliably? It's weird.
 			Send.ZC_ITEM_GET(this, itemMonster);
 
 			// Add the item to the inventory
-			this.Inventory.Add(itemMonster.ItemId, itemMonster.ItemAmount, InventoryAddType.PickUp);
+			this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
 
 			// Remove it from the map, so it can't be picked up again.
 			this.Map.RemoveMonster(itemMonster);

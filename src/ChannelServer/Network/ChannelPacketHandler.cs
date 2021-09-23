@@ -2038,7 +2038,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			if (!monster.IsItem)
+			if (!(monster is ItemMonster itemMonster))
 			{
 				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
 				return;
@@ -2049,7 +2049,7 @@ namespace Melia.Channel.Network
 			if (!monster.Position.InRange2D(character.Position, pickUpRadius))
 				return;
 
-			character.PickUp(monster);
+			character.PickUp(itemMonster);
 		}
 	}
 }
