@@ -2413,6 +2413,23 @@ namespace Melia.Channel.Network
 
 			monster.Map.Broadcast(packet, monster, false);
 		}
+		
+		/// <summary>
+		/// Makes item monster appear to drop, by "throwing" it a certain
+		/// distance from its current position.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_ItemDrop(Monster monster, float distance)
+		{
+			var packet = new Shared.Network.Packet(Shared.Network.Op.ZC_NORMAL);
+			packet.PutInt(Shared.Network.SubOp.Zone.ItemDrop);
+
+			packet.PutInt(monster.Handle);
+			packet.PutInt(235);
+			packet.PutFloat(distance);
+
+			monster.Map.Broadcast(packet, monster, false);
+		}
 
 		/// <summary>
 		/// Unknown purpose yet.

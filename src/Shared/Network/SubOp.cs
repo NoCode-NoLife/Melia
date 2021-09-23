@@ -37,6 +37,7 @@
 			public const int Skill = 0x57;
 			public const int ParticleEffect = 0x61;
 			public const int SetSessionKey = 0x14E;
+			public const int ItemDrop = 0x14F;
 			public const int NGSCallback = 0x16D;
 			public const int HatVisibleState = 0x181;
 

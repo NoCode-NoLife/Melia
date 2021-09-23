@@ -11,6 +11,16 @@ namespace Melia.Shared.World
 		public readonly float Sin;
 
 		/// <summary>
+		/// Returns the direction as an angle in degree.
+		/// </summary>
+		public float DegreeAngle => (float)(this.RadianAngle * (180.0 / Math.PI));
+
+		/// <summary>
+		/// Returns the direction as an angle in radians.
+		/// </summary>
+		public float RadianAngle => (float)Math.Atan2(this.Sin, this.Cos);
+
+		/// <summary>
 		/// Creates new direction from values.
 		/// </summary>
 		/// <param name="cos"></param>

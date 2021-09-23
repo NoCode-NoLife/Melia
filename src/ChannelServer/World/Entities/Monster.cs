@@ -322,12 +322,45 @@ namespace Melia.Channel.World.Entities
 					continue;
 				}
 
-				var dropItem = new Item(itemData.Id);
+				var itemId = itemData.Id;
+				var amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+				var dropRadius = ChannelServer.Instance.Conf.World.DropRadius;
 
-				if (dropItemData.MinAmount > 1)
-					dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+				// if !autoloot (?)
 
-				killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+				var direction = new Direction(rnd.Next(0, 360));
+
+				// ZC_NORMAL_ItemDrop animates the item flying from its
+				// initial drop position to its final position. To keep
+				// everything in sync, we use the monster's position as
+				// the drop position, then add the item to the map,
+				// and then make it fly and set the final position.
+				// the direction of the item becomes the direction
+				// it flies in.
+				// FromGround is necessary for the client to attempt to
+				// pick up the item. Might act as "IsYourDrop" for items.
+
+				var dropPos = this.Position;
+				var flyDropPos = dropPos.GetRelative(direction.RadianAngle, distance);
+
+				var itemMonster = Monster.FromItem(itemId, amount);
+				itemMonster.Position = dropPos;
+				itemMonster.Direction = direction;
+				itemMonster.FromGround = true;
+
+				this.Map.AddMonster(itemMonster);
+
+				itemMonster.Position = flyDropPos;
+				Send.ZC_NORMAL_ItemDrop(itemMonster, distance);
+
+				// else?
+
+				//var dropItem = new Item(itemData.Id);
+				//if (dropItemData.MinAmount > 1)
+				//	dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+
+				//killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
 			}
 		}
 

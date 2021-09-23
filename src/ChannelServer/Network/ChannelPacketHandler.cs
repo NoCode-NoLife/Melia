@@ -2045,7 +2045,8 @@ namespace Melia.Channel.Network
 			}
 
 			// Accept pick ups only once the character is close enough.
-			if (!monster.Position.InRange2D(character.Position, 50))
+			var pickUpRadius = ChannelServer.Instance.Conf.World.PickUpRadius;
+			if (!monster.Position.InRange2D(character.Position, pickUpRadius))
 				return;
 
 			character.PickUp(monster);
