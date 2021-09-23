@@ -103,9 +103,9 @@ namespace Melia.Channel.Util
 		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position, target.TeamName);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
 
 			return CommandResult.Okay;
 		}
