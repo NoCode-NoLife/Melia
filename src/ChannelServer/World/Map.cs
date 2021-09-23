@@ -325,6 +325,8 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		private static Position RotatePoint(Position point, Position pivot, Direction dir)
 		{
+			dir = dir.GetNormal();
+
 			var cos = dir.Cos;
 			var sin = dir.Sin;
 
