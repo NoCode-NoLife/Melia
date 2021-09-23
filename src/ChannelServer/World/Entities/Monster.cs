@@ -310,7 +310,10 @@ namespace Melia.Channel.World.Entities
 
 			foreach (var dropItemData in this.Data.Drops)
 			{
-				if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
+				var dropChance = dropItemData.DropChance / 100f;
+				dropChance *= ChannelServer.Instance.Conf.World.DropRate / 100f;
+
+				if (rnd.NextDouble() > dropChance)
 					continue;
 
 				if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
