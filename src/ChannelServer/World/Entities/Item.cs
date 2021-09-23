@@ -182,6 +182,7 @@ namespace Melia.Channel.World.Entities
 			itemMonster.Position = position;
 			itemMonster.Direction = direction;
 			itemMonster.FromGround = true;
+			itemMonster.DisappearTime = DateTime.Now.AddSeconds(ChannelServer.Instance.Conf.World.DropDisappearSeconds);
 
 			map.AddMonster(itemMonster);
 
