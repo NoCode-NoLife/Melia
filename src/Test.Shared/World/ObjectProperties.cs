@@ -113,8 +113,8 @@ namespace Test.Shared.World
 			}
 
 			// Convert packet to buffer and read it back
-			var buffer = new byte[10 + packet.Length];
-			packet.Build(ref buffer, 10);
+			var buffer = new byte[22 + packet.Length];
+			packet.Build(ref buffer, 22);
 
 			var propertiesSize = sizeof(int) * 2 + sizeof(float) * 2 + (sizeof(int) + sizeof(short) + Encoding.UTF8.GetByteCount("Char1_1") + sizeof(byte));
 
