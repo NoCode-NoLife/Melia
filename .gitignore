@@ -28,6 +28,7 @@
 # Mono user-preferences file
 *.userprefs
 .vs/
+packages/
 
 # Build results
 
