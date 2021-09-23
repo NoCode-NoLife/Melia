@@ -1,5 +1,5 @@
 --- [Item Merchant] Mirina
-addnpc(20115, "[Item Merchant] Mirina", "c_Klaipe", 511, -1, -349, 45, function()
+addnpc(20115, "[Item Merchant] Mirina", "c_Klaipe", 511, -1, -349, 90, function()
 
 	msg("May I help you?{nl}Fortunately, we have some potions left in stock.")
 	openshop("Klapeda_Misc")
@@ -7,7 +7,7 @@ addnpc(20115, "[Item Merchant] Mirina", "c_Klaipe", 511, -1, -349, 45, function(
 end)
 
 --- [Equipment Merchant] Dunkel
-addnpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -1, -475, 45, function()
+addnpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -1, -475, 90, function()
 	
 	local selection = nselect("A lot of people seem to be coming thanks to Sir Uska's recruitment notice.{nl}Take a look around at your own pace without feeling anxious.",
 		"Weapons:weapon",
@@ -24,7 +24,7 @@ addnpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -1, -475, 45, func
 end)
 
 --- [Accessory Merchant] Ronesa
-addnpc(20104, "[Accessory Merchant] Ronesa", "c_Klaipe", 269, -1, -611, 45, function()
+addnpc(20104, "[Accessory Merchant] Ronesa", "c_Klaipe", 269, -1, -611, 90, function()
 
 	msg("Welcome.{nl}Only hard-to-find stuff here.")
 	openshop("Klapeda_Accessory")
@@ -33,7 +33,7 @@ end)
 
 --- Klaipeda Girl
 --- Uses one of two random dialogues.
-addnpc(20164, "Klaipeda Girl", "c_Klaipe", -225.8313, -1.3338, -848.0712, 45, function()
+addnpc(20164, "Klaipeda Girl", "c_Klaipe", -225.8313, -1.3338, -848.0712, 90, function()
 
 	if math.random(2) == 1 then
 		msg("I heard the town men can't make their way back because of the monsters.{nl}We have food but it will run out soon...")
@@ -45,7 +45,7 @@ end)
 
 --- Worried Wife
 --- Tells stories about the various goddesses.
-addnpc(20147, "Worried Wife", "c_Klaipe", -107.036, -1.3438, -749.1073, 135, function()
+addnpc(20147, "Worried Wife", "c_Klaipe", -107.036, -1.3438, -749.1073, 180, function()
 
 	local selection = nselect("As you may already know, our kingdom has five major goddesses and other goddesses who{nl}assist them. But nobody knows where all of them are now.",
 		"Regarding the five goddesses",
@@ -81,7 +81,7 @@ end)
 
 --- [Swordsman Master] Rashua
 --- Swordsman ability trainer
-addnpc(20023, "[Swordsman Master] Rashua", "c_Klaipe", -92, 241, 784, 270, function()
+addnpc(20023, "[Swordsman Master] Rashua", "c_Klaipe", -92, 241, 784, -45, function()
 
 	msg("The capital may already be in ruins, but I will protect Klaipeda.")
 	

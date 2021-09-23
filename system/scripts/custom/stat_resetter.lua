@@ -4,7 +4,7 @@
 -- Resets player's stat points.
 -----------------------------------------------------------------------------
 
-addnpc(57223, "Stat Resetter", "c_Klaipe", 40, 79, -367, -45, "npc_statresetter")
+addnpc(57223, "Stat Resetter", "c_Klaipe", 40, 79, -367, 0, "npc_statresetter")
 
 function npc_statresetter()
 	if select("Oh my, your stats are a mess... If you want to fix that, I can reset them for you.", "Yes, please.", "No, thanks.") == 1 then

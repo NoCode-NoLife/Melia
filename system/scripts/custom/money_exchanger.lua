@@ -4,7 +4,7 @@
 -- Trades silver for paper currency items and vice versa.
 -----------------------------------------------------------------------------
 
-addnpc(57223, "[Money Exchanger] Max", "c_Klaipe", 312, -1, -830, -45, function()
+addnpc(57223, "[Money Exchanger] Max", "c_Klaipe", 312, -1, -830, 0, function()
 
 	local selection = nselect("Hi, what can I do for you?",
 		"Exchange Silver:silver",

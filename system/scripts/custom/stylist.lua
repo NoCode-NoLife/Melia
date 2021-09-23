@@ -12,7 +12,7 @@ local findstyle
 local getnextcolor
 local getprevcolor
 
-addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, function()
+addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 180, function()
 
 	local pc = getpc()
 	local style = pc.hair

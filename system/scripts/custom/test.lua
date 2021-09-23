@@ -1,4 +1,4 @@
-addnpc(57223, "Some Npc", "f_siauliai_west", -867, 322, 151, 135, "npc_test")
+addnpc(57223, "Some Npc", "f_siauliai_west", -867, 322, 151, 180, "npc_test")
 
 function npc_test()
 
