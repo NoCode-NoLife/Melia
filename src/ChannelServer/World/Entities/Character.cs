@@ -3053,6 +3053,8 @@ namespace Melia.Channel.World.Entities
 		/// <param name="character"></param>
 		public void PickUp(ItemMonster itemMonster)
 		{
+			itemMonster.PickedUp = true;
+
 			// Play pickup animation. This is what actually makes the item
 			// disappear, the client doesn't seem to react to ZC_LEAVE in
 			// the case of items. Or at least not reliably? It's weird.

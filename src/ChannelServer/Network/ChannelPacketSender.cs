@@ -1444,8 +1444,15 @@ namespace Melia.Channel.Network
 		public static void ZC_LEAVE(ChannelConnection conn, IEntity entity)
 		{
 			var s1 = 1;
-			if (entity is ItemMonster)
-				s1 = 2;
+
+			// Items don't seem to disappear with our default, 1, nor with
+			// 2, which is used on officials. 4 does get rid of the items
+			// though. However, if you use 4, the pick up animation doesn't
+			// play. I'm guessing the item can't be removed if it's supposed
+			// to get picked up for this very reason, so we'll check whether
+			// it was picked up or not.
+			if (entity is ItemMonster itemMonster)
+				s1 = itemMonster.PickedUp ? 2 : 4;
 
 			var packet = new Packet(Op.ZC_LEAVE);
 

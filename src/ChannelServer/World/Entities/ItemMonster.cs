@@ -14,6 +14,11 @@ namespace Melia.Channel.World.Entities
 		public Item Item { get; private set; }
 
 		/// <summary>
+		/// Gets or sets whether the item was picked up.
+		/// </summary>
+		public bool PickedUp { get; set; }
+
+		/// <summary>
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="monsterId"></param>
