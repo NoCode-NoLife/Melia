@@ -1,4 +1,4 @@
------ 'Baron Allerno ' to 'Gytis Settlement Area' ------
+----- 'Gytis Settlement Area' to 'Baron Allerno' ------
 addwarp("SIAUL50_1_TO_FARM_47_4", 112, "f_siauliai_50_1", -794.7111, -43.9683, 1714.197, "f_siauliai_47_4", 2449, 210, -1222)
 ----- 'Gytis Settlement Area' to 'Klaipeda' ------
 addwarp("SIAUL50_1_TO_KLAPEDA", 74, "f_siauliai_50_1", 1638.162, 0.2093, -1425.22, "c_Klaipe", 181, 148, 816)

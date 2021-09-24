@@ -1,4 +1,4 @@
------ 'King's Plateau' to 'Zachariel Crossroads' ------
+----- 'Zachariel Crossroads' to 'King's Plateau' ------
 addwarp("ROKAS31_ROKAS30", 94, "f_rokas_31", 940, 107, -998, "f_rokas_30", -1669, 215, -134)
 ----- 'Zachariel Crossroads' to 'Royal Mausoleum 1F' ------
 addwarp("ROKAS31_ZACHARIEL32", 180, "f_rokas_31", -1271, 274, 715, "d_zachariel_32", 32, 261, -2294)

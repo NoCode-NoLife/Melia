@@ -1,4 +1,4 @@
------ 'Akmens Ridge' to 'Tiltas Valley' ------
+----- 'Tiltas Valley' to 'Akmens Ridge' ------
 addwarp("ROKAS28_ROKAS27", -130, "f_rokas_28", -717, 1121, -1692, "f_rokas_27", -126, 1295, -1263)
 ----- 'Tiltas Valley' to 'Rukas Plateau' ------
 addwarp("ROKAS28_ROKAS29", 214, "f_rokas_28", -1892, 1298, -545, "f_rokas_29", 2503, 469, 762)

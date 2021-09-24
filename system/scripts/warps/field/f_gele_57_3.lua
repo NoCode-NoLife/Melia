@@ -1,4 +1,4 @@
------ 'Gele Plateau' to 'Nefritas Cliff' ------
+----- 'Nefritas Cliff' to 'Gele Plateau' ------
 addwarp("GELE573_TO_GELE572", -40, "f_gele_57_3", -509.8248, -107.0824, -1593.792, "f_gele_57_2", 72, 375, 1456)
 ----- 'Nefritas Cliff' to 'Tenet Garden' ------
 addwarp("GELE573_TO_GELE574", 135, "f_gele_57_3", 199.4143, 284.1678, 1157.455, "f_gele_57_4", -833, -79, -48)

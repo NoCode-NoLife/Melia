@@ -1,4 +1,4 @@
------ 'Gate Route' to 'Sirdgela Forest' ------
+----- 'Sirdgela Forest' to 'Gate Route' ------
 addwarp("THORN20_THORN19", 215, "d_thorn_20", -1549, 602, -1884, "d_thorn_19", 2038, 623, -948)
 ----- 'Sirdgela Forest' to 'Kvailas Forest' ------
 addwarp("THORN20_THORN21", 122, "d_thorn_20", 2575, 489, 1060, "d_thorn_21", -286, 221, -60)

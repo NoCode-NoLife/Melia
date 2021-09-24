@@ -1,4 +1,4 @@
------ 'Nefritas Cliff' to 'Tenet Garden' ------
+----- 'Tenet Garden' to 'Nefritas Cliff' ------
 addwarp("GELE574_TO_GELE573", -39, "f_gele_57_4", -841, -80, -155, "f_gele_57_3", 199, 283, 1086)
 ----- 'Tenet Garden' to 'Tenet Church 1F' ------
 addwarp("GELE574_TO_CHAPEL576", 138, "f_gele_57_4", 1296.24, -79.46, 2145.48, "d_chapel_57_6", -1638, 1, 448)

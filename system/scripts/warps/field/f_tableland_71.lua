@@ -1,4 +1,4 @@
------ 'Ibre Plateau' to 'Grand Yard Mesa' ------
+----- 'Grand Yard Mesa' to 'Ibre Plateau' ------
 addwarp("TABLELAND71_TABLELAND70", -12, "f_tableland_71", 1939.665, 759.1964, 302.0853, "f_tableland_70", 895, 560, -2999)
 ----- 'Grand Yard Mesa' to 'Sventimas Exile' ------
 addwarp("TABLELAND71_TABLELAND72", 175, "f_tableland_71", -867.9552, 402.7149, 1306.76, "f_tableland_72", 892, 508, -1355)

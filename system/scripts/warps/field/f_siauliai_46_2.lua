@@ -1,4 +1,4 @@
------ 'Spring Light Woods' to 'Uskis Arable Land' ------
+----- 'Uskis Arable Land' to 'Spring Light Woods' ------
 addwarp("SIAULIAI46_2_SIAULIAI46_1", 45, "f_siauliai_46_2", 1378, 0, 4293, "f_siauliai_46_1", -1804, 262, -412)
 ----- 'Uskis Arable Land' to 'Vilna Forest' ------
 addwarp("SIAULIAI46_2_SIAULIAI46_3", -125, "f_siauliai_46_2", -2410.364, 165.5682, 3233.48, "f_siauliai_46_3", 2238, 134, 1470)

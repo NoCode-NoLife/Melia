@@ -1,5 +1,5 @@
------ 'Downtown' to 'Inner Enceinte District' ------
-addwarp("FLASH64_FLASH63", -54.46, "f_flash_64", 12, 825, -2596, "f_flash_63", -224, 244, 1342)
+----- 'Inner Enceinte District' to 'Downtown' ------
+addwarp("FLASH64_FLASH63", -54, "f_flash_64", 12, 825, -2596, "f_flash_63", -224, 244, 1342)
 ----- 'Inner Enceinte District' to 'Sentry Bailey' ------
 addwarp("FLASH64_UNDERFORTRESS65", 101, "f_flash_64", -2.366955, 843.062, 2338.651, "d_underfortress_65", 611, 602, -2229)
 ----- 'Inner Enceinte District' to 'Ibre Plateau' ------

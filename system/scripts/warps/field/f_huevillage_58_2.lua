@@ -1,4 +1,4 @@
------ 'Veja Ravine' to 'Vieta Gorge' ------
+----- 'Vieta Gorge' to 'Veja Ravine' ------
 addwarp("HUEVILLAGE58_2_TO_HUEVILLAGE58_1", 50, "f_huevillage_58_2", 439.58, 274.21, -1641.15, "f_huevillage_58_1", -658, 231, -346)
 ----- 'Vieta Gorge' to 'Cobalt Forest' ------
 addwarp("HUEVILLAGE58_2_TO_HUEVILLAGE58_3", 128, "f_huevillage_58_2", 1461.54, -10.36, 1157.1, "f_huevillage_58_3", 415, -73, -1786)

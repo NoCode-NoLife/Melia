@@ -1,5 +1,5 @@
------ 'Dvasia Peak' to 'Sunset Flag Forest' ------
-addwarp("THORN23_THORN22", 207.9, "d_thorn_23", -2159, 1137, -2969, "d_thorn_22", 952, 289, 1015)
+----- 'Sunset Flag Forest' to 'Dvasia Peak' ------
+addwarp("THORN23_THORN22", 207, "d_thorn_23", -2159, 1137, -2969, "d_thorn_22", 952, 289, 1015)
 ----- 'Sunset Flag Forest' to 'Gateway of the Great King' ------
 addwarp("THORN23_ROKAS24", 118, "d_thorn_23", 2420, 289, 2163, "f_rokas_24", 886, 123, -2885)
 ----- 'Sunset Flag Forest' to 'Sunset Flag Forest' ------

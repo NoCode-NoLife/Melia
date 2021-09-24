@@ -1,4 +1,4 @@
------ 'Roxona Market' to 'Ruklys Street' ------
+----- 'Ruklys Street' to 'Roxona Market' ------
 addwarp("FLASH61_FLASH60", 135, "f_flash_61", -100, 435, 1555, "f_flash_60", 924, 200, 1567)
 ----- 'Ruklys Street' to 'Verkti Square' ------
 addwarp("FLASH61_FLASH59", 315, "f_flash_61", -875, 510, -378, "f_flash_59", 1371, 133, 1003)

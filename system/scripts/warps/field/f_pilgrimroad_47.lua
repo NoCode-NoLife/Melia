@@ -1,4 +1,4 @@
------ 'Starving Demon's Way' to 'Pilgrim Path' ------
+----- 'Pilgrim Path' to 'Starving Demon's Way' ------
 addwarp("PILGRIM47_PILGRIM46", -98, "f_pilgrimroad_47", -2462, 44, -2202, "f_pilgrimroad_46", 611, 121, 1571)
 ----- 'Pilgrim Path' to 'Altar Way' ------
 addwarp("PILGRIM47_PILGRIM50", 70, "f_pilgrimroad_47", 2037, 246, 2357, "f_pilgrimroad_50", -1743, 507, -1170)

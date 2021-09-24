@@ -1,4 +1,4 @@
------ 'Cobalt Forest' to 'Septyni Glen' ------
+----- 'Septyni Glen' to 'Cobalt Forest' ------
 addwarp("HUEVILLAGE58_4_TO_HUEVILLAGE58_3", -52, "f_huevillage_58_4", 1292.37, -22.47, -1060.92, "f_huevillage_58_3", -1080, 29, -97)
 ----- 'Septyni Glen' to 'Gate Route' ------
 addwarp("HUEVILLAGE58_4_TO_THORN19", 130, "f_huevillage_58_4", 993.48, -22.47, 1273.34, "d_thorn_19", -200, 622, -3914)
