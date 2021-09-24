@@ -3,8 +3,8 @@
 //
 //      File: ZC_MOVE_PATH.bt
 //   Authors: exec
-//   Version: i11XXX
-//   Purpose: 
+//   Version: i341560
+//   Purpose: Movement to a specific position.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,15 +13,26 @@
 
 #include "inc/common.bt"
 
+typedef struct
+{
+    int x;
+    int z;
+    int i1;
+}
+PositionUnk <read=readPositionUnk>;
+
+string readPositionUnk(PositionUnk &v)
+{
+    local string result;
+    SPrintf(result, "X: %d, Z: %d, Unk: %d", v.x, v.z, v.i1);
+    return result;
+}
+
 ServerHeaderFixed header;
 
 int handle;
 
-int i1;
-int i2;
-int i3;
-int i4;
-int i5;
-int i6;
-float f1;
+PositionUnk pos1;
+PositionUnk pos2;
+float speed;
 float f2;
