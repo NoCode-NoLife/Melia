@@ -22,6 +22,7 @@ namespace Melia.Channel.Skills.General
 				return;
 			}
 
+			// TODO: Cancel if not enough SP?
 			if (skill.SpendSp > 0)
 				caster.ModifySp(-skill.SpendSp);
 
@@ -31,65 +32,6 @@ namespace Melia.Channel.Skills.General
 
 			switch (skill.Id)
 			{
-				case SkillId.Wizard_MagicMissile:
-				{
-					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk() + 100;
-
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
-
-					foreach (var target in targets)
-					{
-						Send.ZC_NORMAL_SkillParticleEffect(caster, 1234);
-						Send.ZC_SYNC_START(caster, 1234, 1);
-						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
-						Send.ZC_SYNC_END(caster, 1234, 0);
-
-						if (target.TakeDamage(damage, caster))
-							Send.ZC_SKILL_CAST_CANCEL(caster, target);
-					}
-					break;
-				}
-
-				case SkillId.Archer_Multishot:
-				{
-					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk();
-
-					Send.ZC_NORMAL_Skill_4E(caster, skill.Id, 1);
-					Send.ZC_NORMAL_Skill(caster, skill, targetPosition, caster.Direction, true);
-					Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
-					Send.ZC_SYNC_START(caster, 1234, 1);
-					Send.ZC_SYNC_END(caster, 1234, 0);
-					Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
-					Send.ZC_SYNC_EXEC(caster, 1234);
-
-					for (var i = 0; i < 10; i++)
-					{
-						Task.Delay(skill.Data.HitDelay).ContinueWith(_ =>
-						{
-							Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
-							Send.ZC_SYNC_START(caster, 1234, 1);
-							Send.ZC_SYNC_END(caster, 1234, 0);
-							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-							Send.ZC_SYNC_EXEC(caster, 1234);
-
-							foreach (var target in targets)
-							{
-								target.TakeDamage(damage, caster);
-								Send.ZC_HIT_INFO(caster, target, damage, i + 1);
-
-								if (target.IsDead)
-									Send.ZC_SKILL_CAST_CANCEL(caster, target);
-							}
-						});
-					}
-
-					Send.ZC_SKILL_DISABLE(caster);
-					break;
-				}
-
 				default:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);

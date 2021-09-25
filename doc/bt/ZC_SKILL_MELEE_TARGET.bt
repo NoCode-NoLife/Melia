@@ -1,0 +1,30 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SKILL_MELEE_TARGET.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: Skill related sent in response to CZ_SKILL_SELF
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ServerHeaderDynamic header;
+
+int skillId;
+int casterHandle;
+float f0; // Could be direction?
+int i0;
+int i1;
+float f1;
+float f2;
+int i2;
+int i3;
+float f3;
+int i4;
+int targetHandle;
+byte b1;

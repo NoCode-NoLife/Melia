@@ -171,7 +171,7 @@ namespace Melia.Channel.Skills
 			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
 
 			// TODO: Apply overheat cooldown
-			if (this.IsOverheated)
+			if (this.IsOverheated || !this.CanOverheat)
 			{
 				Send.ZC_COOLDOWN_CHANGED(this.Character, this);
 				this.OverheatCounter = 0;

@@ -1,0 +1,671 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: common.bt
+//   Authors: exec, celophi, Salman T. Khan
+//   Version: i336041
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i10671:  APPEARANCE_PC.i6~i7 were added
+//   - i11025:  APPEARANCE_PC.teamId was added
+//   - i11025:  MONSTER.s1~s2 were removed
+//   - i11025:  EquipSlotCount increased to 21
+//   - i170175: EquipSlotCount increased to 22 (lens)
+//   - i170175: APPEARANCE_PC.i9 was added
+//   - i171032: APPEARANCE_PC.i9 was removed
+//   - i171032: EquipSlotCount increased to 23 (wings)
+//   - i174236: compressedData.size changed from short to int
+//   - i174236: ServerHeaderFixed. and ServerHeaderDynamic.checksum was added
+//   - i184075: APPEARANCE_PC.bin2 was added
+//   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
+//   - i184075: EquipSlotCount increased to 24 (special costume)
+//   - i184075: COMMANDER.i2~5 were added
+//   - i186893: EquipSlotCount increased to 25 (effect costume)
+//   - i186893: APPEARANCE_PC.bin2 was removed
+//   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
+//   - i336041: EquipSlotCount increased to 30, Updated lpString cases
+//   - i339415: EquipSlotCount increased to 32
+//------------------------------------------------
+
+#ifdef PROPERTY_NAMES
+#include "inc/ObjectPropertyNames.bt"
+#endif
+
+const int EquipSlotCount = 32;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    byte bin[12];
+}
+ClientHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    byte bin[12];
+    short size;
+}
+ClientHeaderDynamic <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ServerHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+    short size;
+}
+ServerHeaderDynamic <optimize=false>;
+
+// Length-prefixed string
+typedef struct
+{
+    short length;
+    if(length > 0)
+        char text[length];
+}
+lpString <read=lpStringRead, optimize=false>;
+
+string lpStringRead(lpString &v)
+{
+    if(v.length > 0)
+        return v.text;
+    else
+        return "";
+}
+
+// Key:Value type with two length-prefixed strings
+typedef struct
+{
+    lpString key;
+    lpString value;
+}
+msgParameter <read=msgParameterRead, optimize=false>;
+
+string msgParameterRead(msgParameter &v)
+{
+    return v.key.text + " : " + v.value.text;
+}
+
+// Position in 3D space
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+}
+position <read=positionRead>;
+
+string positionRead(position &v)
+{
+    local string result;
+    SPrintf(result, "X: %f, Y: %f, Z: %f", v.x, v.y, v.z);
+    return result;
+}
+
+// 2D direction
+typedef struct
+{
+    float x;
+    float y;
+}
+direction <read=directionRead>;
+
+string directionRead(direction &v)
+{
+    local string result;
+    SPrintf(result, "X: %f, Y: %f", v.x, v.y);
+    return result;
+}
+
+// Map data used in revealing
+typedef struct
+{
+    int mapId;
+    byte data[128];
+}
+mapRevealData <read=mapRevealDataRead>;
+
+string mapRevealDataRead(mapRevealData &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.mapId);
+    return result;
+}
+
+typedef struct
+{
+    short prop_id;
+    if(prop_id > 0)
+        getSimpleProperties(prop_id);
+}
+ItemProperties;
+
+typedef struct
+{
+    char name[65];
+    char team[65];
+    byte bin[6];
+    int64 accountId;
+    short stance;   
+    short s1;
+    short job; //D1 07
+    short gender; //01
+    int level;
+    int i1;
+    ubyte bin2[4];
+    int i2;
+    int equipIds[EquipSlotCount];
+    int ibin1[3];
+    int equipIds2[EquipSlotCount];
+    int ibin2[3];
+    short hair;
+
+    // Up until i171032 we had these as "pose" and "team id",
+    // but they actually contain the visible hats, so we either
+    // had them wrong, or they changed. This was first noticed in
+    // i170175.
+    //short pose;
+    //int teamId;
+    byte b2;
+    byte hat1Visible;
+    byte hat2Visible;
+    byte hat3Visible;
+    short s2;
+}
+APPEARANCE_PC;
+
+typedef struct {
+    int handle;
+    int i1;
+    APPEARANCE_PC appearancePc;
+    position pos;
+    int i2;
+    int currentExp;
+    int i3;
+    int maxExp;
+    int i4;
+    int totalExp;
+    int i5;
+    int64 characterId;
+    int64 socialInfoId;
+    int hp;
+    int maxHp;
+    int sp;
+    int maxSP;
+    int stamina;
+    int maxStamina;
+    int shield;
+    int maxShield;
+}
+COMMANDER;
+
+typedef struct
+{
+    int monsterId;
+    int i1;
+    int maxHp;
+
+    //short s1;
+    //short s2;
+
+    int level;
+    float sdr;
+    byte b1;
+    byte bin2[3];
+}
+MONSTER;
+
+typedef struct
+{
+    APPEARANCE_PC appearancePc;
+    int64 characterId;
+    byte index;
+    ubyte b1;
+
+    short s1;
+    short mapId;
+    short channel;
+    int64 currentExp;
+    int64 maxExp;   // max xp?
+    int i1;
+    short s2;
+    short s3;
+    int64 l1;
+
+    position pos1;
+    direction dir1;
+
+    position pos2;
+    direction dir2;
+    
+} APPEARANCE_BARRACK_PC;
+
+typedef struct
+{
+    int revision;
+    lpString oldValue;
+    lpString newValue;
+    lpString author;
+    lpString editDate;
+    lpString editLog;
+} IES_MANAGER_EDIT_INFO;
+
+typedef struct
+{
+    ubyte b1;
+    ubyte b2;
+    ubyte b3;
+    ubyte b4;
+}
+IP <read=IPRead>;
+
+string IPRead(IP &v)
+{
+    local string result;
+    SPrintf(result, "%d.%d.%d.%d", v.b1, v.b2, v.b3, v.b4);
+    return result;
+}
+
+typedef struct
+{
+    int id;
+    short propertiesSize;
+    short b1;
+    int64 worldId;
+    int amount;
+    int price;
+    int index;
+    int i1;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+Item;
+
+string ItemRead(Item &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}
+
+typedef struct
+{
+    int slot;
+    int i1;
+    short propertiesSize;
+    int id;
+    int64 worldId;
+    int i2;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+EquipItem <optimize=false,read=EquipItemRead>;
+
+string EquipItemRead(EquipItem &v)
+{
+    local string result;
+    local string slotName = GetEquipSlotName(v.slot);
+    SPrintf(result, "%s : %d", slotName, v.id);
+    return result;
+}
+
+string GetEquipSlotName(int slotId)
+{
+    switch(slotId)
+    {
+        case 0: return "HairAccessory";
+        case 1: return "SubsidiaryAccessory";
+        case 2: return "Hair";
+        case 3: return "Top";
+        case 4: return "Gloves";
+        case 5: return "Shoes";
+        case 6: return "Helmet";
+        case 7: return "Armband";
+        case 8: return "RightHand";
+        case 9: return "LeftHand";
+        case 10: return "Outer1";
+        case 11: return "Ring1";
+        case 12: return "Ring2";
+        case 13: return "Outer2";
+        case 14: return "Pants";
+        case 15: return "Ring3";
+        case 16: return "Ring4";
+        case 17: return "Bracelet1";
+        case 18: return "Bracelet2";
+        case 19: return "Necklace";
+        case 20: return "Hat";
+        case 21: return "Lens";
+        case 22: return "Wing";
+        default: return "Unknown";
+    }
+}
+
+typedef struct
+{
+    int index;
+    char msg[128];  // This may also be a class ID of an emoji.
+    int pose;
+} CHAT_MACRO_INFO;
+
+typedef struct
+{
+    ushort header;
+    int size;
+    byte data[size];
+}
+compressedData <read=compressedDataRead>;
+
+string compressedDataRead(compressedData &v)
+{
+    local string result;
+    SPrintf(result, "Compressed data (%d)", v.size);
+    return result;
+}
+
+byte checkCompression()
+{
+    if (ReadUShort() == 0xFA8D)
+    {
+        compressedData data;
+        return 1;
+    }
+    else
+    {
+        short noCompression;
+        return false;
+    }
+}
+
+typedef struct
+{
+    int64 skillObjectId;
+    int id;
+    short propertiesSize;
+    byte bin1[2];
+    int i1;
+    short s1;
+    byte bin2[2];
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+Skill <read=readSkill, optimize=false>;
+
+string readSkill(Skill &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}
+
+typedef struct
+{
+    int64 objectId;
+    int id;
+    short propertiesSize;
+    short s1;
+    int i1;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+Ability <read=readAbility, optimize=false>;
+
+string readAbility(Ability &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}
+
+typedef struct
+{
+    int i1;
+    int itemId;
+    int amount;
+    int received; // bool?
+}
+MessageItem;
+
+typedef struct
+{
+    lpString sender;
+    lpString title;
+    lpString text;
+    FILETIME date1;
+    FILETIME expiration;
+    FILETIME date2;
+    int64 id;
+    byte b1;
+    short s1;
+    short read; // ?
+    short s3;
+    byte b2;
+    int itemCount;
+    if (itemCount != 0)
+        MessageItem items[itemCount] <optimize=false>;
+}
+Message;
+
+
+enum OBJP_TYPES { OBJP_FLOAT, OBJP_STRING, OBJP_FILETIME };
+
+typedef struct 
+{
+    int id;
+    switch(getPropertyType(id)) {
+        case OBJP_STRING:
+            lpString val;
+            break;
+        case OBJP_FLOAT:
+            float val;
+            break;
+        case OBJP_FILETIME:
+            FILETIME val;
+            break;
+    }
+}
+property <read=propertyRead, optimize=false>;
+
+string propertyRead(property &p)
+{
+    local char ret[];
+    local char val_type[];
+    
+#ifdef OPN
+    switch(getPropertyType(p.id)) {
+        case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
+        case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
+        case OBJP_FILETIME:  SPrintf(ret, "%s : %s", getPropertyName(p.id), FileTimeToString(p.val)); break;
+    }
+#else
+    switch(getPropertyType(p.id)) {
+        case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
+        case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
+        case OBJP_FILETIME:  SPrintf(ret, "%d : %s", p.id, FileTimeToString(p.val)); break;
+    }
+#endif
+
+    return ret;
+}
+
+int getPropertyType(int id)
+{
+    switch(id) {
+        case 41:
+        case 1328:
+        case 1967:
+        case 3927:
+        case 4591:
+        case 6303:
+        case 7118:
+        case 7122:
+        case 10022:
+        case 10100:
+        case 10618: // coordinates? (-1246/-648)
+        case 10620:
+        case 31587:
+        case 32575:
+        case 101000:
+        case 101822:
+        case 103075:
+        case 103180:
+        case 104261:
+        case 104893:
+        case 104895:
+        case 104897:
+        case 107234:
+            return OBJP_STRING;
+            break;
+        case 107249:
+            //return OBJP_FILETIME;
+        default:
+            return OBJP_FLOAT;
+            break;
+    }
+}
+
+void getProperties(int size)
+{
+    local int i;
+    for (i = 0; i < size; i = i)
+    {
+        property prop;
+        i += sizeof(prop);
+    }
+}
+
+void getPrintableProperties(int size)
+{
+    local int newFile = FileNew();
+    local int i;
+    for (i = 0; i < size; i = i)
+    {
+        property prop;
+        i += sizeof(prop);
+#ifdef OPN
+        switch(getPropertyType(prop.id)) {
+            case OBJP_STRING: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,\"%s\");\n", prop.id, getPropertyName(prop.id), prop.val.text ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "%d,Properties.Set(PropertyId.PC.%s,%lff);\n", prop.id, getPropertyName(prop.id), prop.val ); break;
+        }
+#else
+        switch(getPropertyType(prop.id)) {
+            case OBJP_STRING: FPrintf( newFile, "Properties.Set(%d,\"%s\");\n", prop.id, prop.val.text ); break;
+            case OBJP_FLOAT: FPrintf( newFile, "Properties.Set(%d,%lf);\n", prop.id, prop.val ); break;
+        }
+#endif
+    }
+}
+
+void getSimpleProperties(int id)
+{
+    local int i;
+    property prop;
+    i += sizeof(prop);
+}
+
+enum <int> PostBoxState 
+{
+    POST_BOX_STATE_NONE = 0,
+    POST_BOX_STATE_READ = 1,
+    POST_BOX_STATE_STORE = 2,
+    POST_BOX_STATE_DELETE = 3,
+    POST_BOX_STATE_REQ_LOAD = 4,
+    POST_BOX_STATE_COUNT = 5,
+};
+
+typedef struct
+{
+    short size;
+    short s1;
+    if(size > 0)
+        getProperties(size-2);
+}
+SessionProperties <read=readSessionProperties, optimize=false>;
+
+string readSessionProperties(SessionProperties &v)
+{
+    string result;
+    SPrintf(result, "size: %d", v.size);
+    return result;
+}
+
+typedef struct
+{
+    int sessionId;
+    int i2;
+    //int64 objectId <format=hex>;
+    int64 objectId;
+    int i3;
+    SessionProperties properties;
+    //int sessionId;
+}
+SessionObject <read=readSessionObject, optimize=false>;
+
+string readSessionObject(SessionObject &v)
+{
+    string result;
+    SPrintf(result, "%LXh : %d", v.objectId, v.sessionId);
+    return result;
+}
+
+typedef struct
+{
+    int i1;
+    int targetHandle;
+    int damage;
+    int hpLeft;
+    int i2;
+    int i3;
+    short s1;
+    short s2;
+    short s3;
+    short s4;
+    //int64 worldId;
+    int i4; // 50 on Magic Missiles
+    //int i5;
+    short defaultHitDelay;
+    byte b11;
+    byte b12;
+    byte b13;
+    byte attackIndex; //?
+    short s5;
+    int attackId; //?
+    int i6;
+    short s6; 
+    if (s6 > 0) {
+        short s6;
+        int64 l3;
+        short s7;
+        int i7;
+        byte b2;
+        float f1;
+    } else {
+        short s7;
+        if (s7 > 0) {
+            short s8;
+            byte b3;
+            ushort s9;
+        }
+        short s8;
+        short s9;
+        if (s9 > 0) {
+            ubyte b3;
+            float f1;
+        }
+    }
+} Attack <optimize=false>;

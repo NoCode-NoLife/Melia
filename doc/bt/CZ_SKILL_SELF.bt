@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_SKILL_SELF.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "common.bt"
+
+ClientHeaderFixed header;
+byte b1;
+int skillId;
+position pos;
+direction dir;
+byte b2;
