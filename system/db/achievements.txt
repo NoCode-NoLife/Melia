@@ -157,6 +157,7 @@
 { id: 2161, className: "EVENT_2106_Title_2", category: "Event", name: "{img Collar_Silver_Watermelon 24 24} Silver Watermelon", useDaily: false, useWeekly: false },
 { id: 2162, className: "EVENT_2106_Title_3", category: "Event", name: "{img Collar_Bronze_Watermelon 24 24} Bronze Watermelon", useDaily: false, useWeekly: false },
 { id: 2163, className: "EVENT_Best_Painter_3rd", category: "Event", name: "3rd Best Painter", useDaily: false, useWeekly: false },
+{ id: 2168, className: "EVENT_Prank_Title", category: "Event", name: "Apolonija's Prank", useDaily: false, useWeekly: false },
 { id: 3001, className: "Pardoner10", category: "Skills", name: "Philanthropist", useDaily: false, useWeekly: false },
 { id: 3002, className: "Pardoner50", category: "Skills", name: "Regular Pardoner", useDaily: false, useWeekly: false },
 { id: 3003, className: "Pardoner100", category: "Skills", name: "Senior Pardoner", useDaily: false, useWeekly: false },

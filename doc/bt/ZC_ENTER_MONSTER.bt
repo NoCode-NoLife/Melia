@@ -18,7 +18,7 @@
 //   - i175477: i1 was added (at this point they can only be trolling)
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

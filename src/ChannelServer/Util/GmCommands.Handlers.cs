@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
-using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
 using Melia.Shared.World;
@@ -31,6 +32,9 @@ namespace Melia.Channel.Util
 			Add("requpdateequip", "", this.HandleReqUpdateEquip);
 			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
 			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
+
+			// Custom
+			Add("buyshop", "", this.HandleBuyShop);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
@@ -62,6 +66,7 @@ namespace Melia.Channel.Util
 			Add("test", "", this.HandleTest);
 			Add("reloadscripts", "", this.HandleReloadScripts);
 			Add("reloadconf", "", this.HandleReloadConf);
+			Add("reloaddata", "", this.HandleReloadData);
 
 			// Aliases
 			AddAlias("iteminfo", "ii");
@@ -98,9 +103,9 @@ namespace Melia.Channel.Util
 		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2}", target.Map.Name, target.Map.Id, target.Position, target.TeamName);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
 
 			return CommandResult.Okay;
 		}
@@ -461,6 +466,26 @@ namespace Melia.Channel.Util
 			character.ServerMessage("Reloading configuration...");
 
 			ChannelServer.Instance.Conf.LoadAll();
+
+			character.ServerMessage("Done.");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Reloads all data files.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReloadData(ChannelConnection conn, Character character, Character target, string command, string[] args)
+		{
+			character.ServerMessage("Reloading data...");
+
+			ChannelServer.Instance.LoadData(Shared.DataToLoad.All, true);
 
 			character.ServerMessage("Done.");
 
@@ -1157,6 +1182,68 @@ namespace Melia.Channel.Util
 			sender.ServerMessage("Added {0} stat points.", amount);
 			if (sender != target)
 				sender.ServerMessage("{1} added {0} stat points to your character.", amount, sender.TeamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Opens buy-in shop creation window or creates shop based on
+		/// arguments.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleBuyShop(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (args.Length < 2)
+			{
+				Send.ZC_EXEC_CLIENT_SCP(conn, "OPEN_PERSONAL_SHOP_REGISTER()");
+				return CommandResult.Okay;
+			}
+
+			if (args.Length < 3)
+			{
+				Log.Debug("HandleBuyShop: Not enough arguments.");
+				return CommandResult.Okay;
+			}
+
+			// Read arguments
+			var title = args[1];
+			var items = new List<Tuple<int, int, int>>();
+
+			for (var i = 2; i < args.Length; ++i)
+			{
+				var split = args[i].Split(',');
+
+				if (split.Length != 3 || !int.TryParse(split[0], out var id) || !int.TryParse(split[1], out var amount) || !int.TryParse(split[2], out var price))
+				{
+					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args[i]);
+					return CommandResult.Okay;
+				}
+
+				items.Add(new Tuple<int, int, int>(id, amount, price));
+			}
+
+			// Create auto seller packet from arguments and have the
+			// channel handle it as if the client had sent it.
+			var packet = new Packet(Op.CZ_REGISTER_AUTOSELLER);
+			packet.PutString(title, 64);
+			packet.PutInt(items.Count);
+			packet.PutInt(270065); // PersonalShop
+			packet.PutInt(0);
+
+			foreach (var item in items)
+			{
+				packet.PutInt(item.Item1);
+				packet.PutInt(item.Item2);
+				packet.PutInt(item.Item3);
+				packet.PutEmptyBin(264);
+			}
+
+			ChannelPacketHandler.Instance.Handle(conn, packet);
 
 			return CommandResult.Okay;
 		}

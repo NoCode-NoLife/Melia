@@ -15,7 +15,7 @@
 
 //#define PROPERTY_NAMES
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 //int64 objectId <format=hex>;

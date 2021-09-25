@@ -13,7 +13,7 @@
 //   - i336041: characterId was added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

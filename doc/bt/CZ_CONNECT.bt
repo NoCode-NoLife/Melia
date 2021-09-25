@@ -14,7 +14,7 @@
 //   - i336041: characterId duplicates?
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

@@ -71,7 +71,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutFloat(monster.SDR);
 			packet.PutByte(0);
 			packet.PutEmptyBin(3);
-			packet.PutInt(0); // GenType
+			packet.PutInt(monster.GenType);
 		}
 	}
 }

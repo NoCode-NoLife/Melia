@@ -69,8 +69,10 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public long GetNextTotalClassExp(int rank, int level)
 		{
-			if (level < 1 || level > 15)
-				throw new ArgumentException("Invalid level (expected: 1~15).");
+			var maxLevel = this.GetMaxClassLevel(rank);
+
+			if (level < 1 || level > maxLevel)
+				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}).");
 
 			var data = _classExp.Where(a => a.Rank == rank);
 			if (!data.Any())
@@ -79,6 +81,17 @@ namespace Melia.Shared.Data.Database
 			var result = data.Where(a => a.Level <= level).Sum(a => a.Exp);
 
 			return result;
+		}
+
+		/// <summary>
+		/// Returns the max class level for the given rank.
+		/// </summary>
+		/// <param name="rank"></param>
+		/// <returns></returns>
+		public int GetMaxClassLevel(int rank)
+		{
+			var data = _classExp.Where(a => a.Rank == rank);
+			return data.Max(a => a.Level);
 		}
 
 		protected override void ReadEntry(JObject entry)

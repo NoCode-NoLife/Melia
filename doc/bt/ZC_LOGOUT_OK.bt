@@ -11,6 +11,6 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;

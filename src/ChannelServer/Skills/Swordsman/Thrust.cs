@@ -47,7 +47,7 @@ namespace Melia.Channel.Skills.Swordsman
 
 			// The hitbox seems pretty small, there's presumably more going
 			// into this. Double the splash range for the width for now.
-			var radius = (int)skill.Data.SplashRange * 2;
+			var radius = (int)skill.Data.SplashRange * 3;
 
 			var targets = caster.Map.GetAttackableEntitiesInRectangle(caster, castPosition, targetPosition, radius);
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
@@ -56,7 +56,10 @@ namespace Melia.Channel.Skills.Swordsman
 
 			foreach (var target in targets)
 			{
-				if (target.TakeDamage(damage, caster, DamageVisibilityModifier.Skill, 0))
+				target.TakeDamage(damage, caster);
+				Send.ZC_SKILL_HIT_INFO(caster, target, damage);
+
+				if (target.IsDead)
 					Send.ZC_SKILL_CAST_CANCEL(caster, target);
 			}
 		}

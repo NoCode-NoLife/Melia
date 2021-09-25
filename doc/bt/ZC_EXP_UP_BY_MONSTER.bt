@@ -13,7 +13,7 @@
 //   - i336041: exp2 was added (treating the exp1,jobExp,exp2 as int64 rather than ints)
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderFixed header;
 

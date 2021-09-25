@@ -12,7 +12,7 @@
 //   - i337645
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 

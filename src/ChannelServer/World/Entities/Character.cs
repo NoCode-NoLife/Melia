@@ -277,26 +277,8 @@ namespace Melia.Channel.World.Entities
 		{
 			get
 			{
-				// TODO: This should be improved, but I'll be lazy
-				//   for the moment, in case all this doesn't work out the
-				//   way I expect it to.
-
-				var jobId = this.JobId;
-				var rank = this.Jobs.GetCurrentRank();
-				var totalExp = this.Jobs.Get(jobId).TotalExp;
-				var max = 15; // TODO: Const? Conf? Determine based on exp db?
-
-				// Search for the first level which's requirement we can't
-				// fulfill, as that will be the level we're on.
-				for (var i = 1; i < max; ++i)
-				{
-					var needed = ChannelServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
-					if (totalExp < needed)
-						return i;
-				}
-
-				// Found none? It's the max then.
-				return max;
+				var job = this.Jobs.Get(this.JobId);
+				return job.Level;
 			}
 		}
 
@@ -357,6 +339,11 @@ namespace Melia.Channel.World.Entities
 				return (int)value;
 			}
 		}
+
+		/// <summary>
+		/// Returns true if the character has run out of HP and died.
+		/// </summary>
+		public bool IsDead => this.Hp == 0;
 
 		/// <summary>
 		/// Sp multiplicator from the basic job.
@@ -2947,6 +2934,22 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Sends server message to character.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void MsgBox(string format, params object[] args)
+		{
+			if (args.Length > 0)
+				format = string.Format(format, args);
+
+			if (format.IndexOf("'") != -1)
+				format = format.Replace("'", "\\'");
+
+			Send.ZC_EXEC_CLIENT_SCP(this.Connection, "ui.MsgBox('" + format + "')");
+		}
+
+		/// <summary>
 		/// Adds amount to character's stat points and updates the client.
 		/// </summary>
 		/// <param name="modifier"></param>
@@ -3031,7 +3034,7 @@ namespace Melia.Channel.World.Entities
 		/// <param name="damageVisibility"></param>
 		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex)
+		public bool TakeDamage(int damage, Character from/*, DamageVisibilityModifier damageVisibility, int attackIndex*/)
 		{
 			throw new NotImplementedException();
 		}
@@ -3046,6 +3049,27 @@ namespace Melia.Channel.World.Entities
 			// For now, let's specify that characters can attack actual
 			// monsters.
 			return (entity is Monster monster && monster.NpcType == NpcType.Monster);
+		}
+
+		/// <summary>
+		/// Turns item monster into an item and adds it to the character's
+		/// inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		public void PickUp(ItemMonster itemMonster)
+		{
+			itemMonster.PickedUp = true;
+
+			// Play pickup animation. This is what actually makes the item
+			// disappear, the client doesn't seem to react to ZC_LEAVE in
+			// the case of items. Or at least not reliably? It's weird.
+			Send.ZC_ITEM_GET(this, itemMonster);
+
+			// Add the item to the inventory
+			this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
+
+			// Remove it from the map, so it can't be picked up again.
+			this.Map.RemoveMonster(itemMonster);
 		}
 	}
 }

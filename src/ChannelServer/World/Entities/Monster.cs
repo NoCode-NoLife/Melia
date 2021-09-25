@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
@@ -13,6 +14,8 @@ namespace Melia.Channel.World.Entities
 {
 	public class Monster : ICombatEntity, IUpdateable
 	{
+		private static int GenTypes = 1_000_000;
+
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
@@ -28,6 +31,16 @@ namespace Melia.Channel.World.Entities
 		/// Monster ID in database.
 		/// </summary>
 		public int Id { get; set; }
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <remarks>
+		/// Used by the anchors in the client files, with multiple anchors
+		/// being able to use the same "gen type". This is also used to
+		/// identify NPCs however, like in ZC_SET_NPC_STATE.
+		/// </remarks>
+		public int GenType { get; set; }
 
 		/// <summary>
 		/// What kind of NPC the monster is.
@@ -85,7 +98,7 @@ namespace Melia.Channel.World.Entities
 		public int SDR { get; set; } = 1;
 
 		/// <summary>
-		/// Health points.
+		/// Gets or sets the monster's HP, capped to 0~MaxHp.
 		/// </summary>
 		public int Hp
 		{
@@ -139,6 +152,11 @@ namespace Melia.Channel.World.Entities
 		public bool FromGround { get; set; }
 
 		/// <summary>
+		/// Gets or sets the monster's state.
+		/// </summary>
+		public MonsterState State { get; set; }
+
+		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
 		public Properties Properties { get; } = new Properties();
@@ -155,6 +173,12 @@ namespace Melia.Channel.World.Entities
 		{
 			this.Handle = ChannelServer.Instance.World.CreateHandle();
 
+			// The client files set the gen type manually, but that seems
+			// bothersome. For now, we'll generate them automatically and
+			// see for what purpose we would need them to be the same for
+			// multiple monsters.
+			this.GenType = Interlocked.Increment(ref GenTypes);
+
 			this.Id = id;
 			this.NpcType = type;
 
@@ -164,7 +188,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Loads data from data files.
 		/// </summary>
-		private void LoadData()
+		protected virtual void LoadData()
 		{
 			if (this.Id == 0)
 				throw new InvalidOperationException("Id wasn't set before calling LoadData.");
@@ -186,31 +210,13 @@ namespace Melia.Channel.World.Entities
 		/// <param name="type"></param>
 		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from, DamageVisibilityModifier type, int attackIndex)
+		public bool TakeDamage(int damage, Character from /*, DamageVisibilityModifier type, int attackIndex*/)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
 
 			this.Hp -= damage;
-
-			switch (type)
-			{
-				case DamageVisibilityModifier.Invisible:
-					break;
-
-				case DamageVisibilityModifier.Hit:
-					Send.ZC_HIT_INFO(from, this, damage, attackIndex);
-					break;
-
-				case DamageVisibilityModifier.Skill:
-					Send.ZC_SKILL_HIT_INFO(from, this, damage);
-					break;
-
-				default:
-					Log.Warning("Monster.TakeDamage: Unknown damage visibility modifier '{0}' used.", type);
-					break;
-			}
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
@@ -243,34 +249,55 @@ namespace Melia.Channel.World.Entities
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			if (this.Data.Drops != null)
-			{
-				var rnd = RandomProvider.Get();
-
-				foreach (var dropItemData in this.Data.Drops)
-				{
-					if (rnd.NextDouble() > (dropItemData.DropChance / 100f))
-						continue;
-
-					if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
-					{
-						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
-						continue;
-					}
-
-					var dropItem = new Item(itemData.Id);
-					if (dropItemData.MinAmount > 1)
-						dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
-
-					killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
-					//Send.ZC_ITEM_ADD(killer, new Item(drops.ItemId), 0, 1, InventoryAddType.PickUp);
-				}
-			}
+			this.DropItems(killer);
 
 			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Drops random items from the monster's drop table.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropItems(Character killer)
+		{
+			if (this.Data.Drops == null)
+				return;
+
+			var rnd = RandomProvider.Get();
+
+			foreach (var dropItemData in this.Data.Drops)
+			{
+				var dropChance = dropItemData.DropChance / 100f;
+				dropChance *= ChannelServer.Instance.Conf.World.DropRate / 100f;
+
+				if (rnd.NextDouble() > dropChance)
+					continue;
+
+				if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
+				{
+					Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+					continue;
+				}
+
+				var dropItem = new Item(itemData.Id);
+				dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+
+				// if !autoloot (?)
+
+				var direction = new Direction(rnd.Next(0, 360));
+				var dropRadius = ChannelServer.Instance.Conf.World.DropRadius;
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ChannelServer.Instance.Conf.World.LootPrectionSeconds));
+				dropItem.Drop(this.Map, this.Position, direction, distance);
+
+				// else?
+
+				//killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
+			}
 		}
 
 		/// <summary>
@@ -291,6 +318,17 @@ namespace Melia.Channel.World.Entities
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
+		}
+
+		/// <summary>
+		/// Changes the monster's state and updates the clients in range
+		/// of the monster.
+		/// </summary>
+		/// <param name="state"></param>
+		public void SetState(MonsterState state)
+		{
+			this.State = state;
+			Send.ZC_SET_NPC_STATE(this);
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace Melia.Shared.Data.Database
 	public class ShopData
 	{
 		public string Name { get; set; }
+		public bool IsCustom { get; set; }
 		public Dictionary<int, ProductData> Products { get; set; }
 
 		public ShopData()
@@ -25,9 +26,10 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class ProductData
 	{
+		public string ShopName { get; set; }
 		public int Id { get; set; }
 		public int ItemId { get; set; }
-		public string ShopName { get; set; }
+		public int Amount { get; set; }
 		public float PriceMultiplier { get; set; }
 	}
 
@@ -38,19 +40,25 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("shopName", "productId", "itemId", "priceMultiplier");
+			entry.AssertNotMissing("shopName", "productId", "itemId", "amount", "priceMultiplier");
 
 			var data = new ProductData();
 
+			data.ShopName = entry.ReadString("shopName");
 			data.Id = entry.ReadInt("productId");
 			data.ItemId = entry.ReadInt("itemId");
-			data.ShopName = entry.ReadString("shopName");
+			data.Amount = entry.ReadInt("amount");
 			data.PriceMultiplier = entry.ReadFloat("priceMultiplier");
 
-			if (!this.Entries.ContainsKey(data.ShopName))
-				this.Entries[data.ShopName] = new ShopData();
+			if (!this.Entries.TryGetValue(data.ShopName, out var shopData))
+			{
+				shopData = new ShopData();
+				shopData.Name = data.ShopName;
 
-			this.Entries[data.ShopName].Products[data.Id] = data;
+				this.Entries[data.ShopName] = shopData;
+			}
+
+			shopData.Products[data.Id] = data;
 		}
 	}
 }

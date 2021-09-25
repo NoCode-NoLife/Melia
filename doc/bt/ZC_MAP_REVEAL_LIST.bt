@@ -12,7 +12,7 @@
 //   - i174236: l1+f1 were added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

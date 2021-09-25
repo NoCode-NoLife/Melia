@@ -12,7 +12,7 @@
 //   - i336041: i11 added, secondary part of the packet is damage data
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

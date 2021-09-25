@@ -10,7 +10,7 @@
 //  ID Bytes: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderDynamic header;
 

@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
 byte bin[12];

@@ -545,6 +545,22 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Updates an NPC's state on all clients in range of it.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SET_NPC_STATE(Monster npc)
+		{
+			var packet = new Packet(Op.ZC_SET_NPC_STATE);
+
+			packet.PutInt(npc.Map.Id);
+			packet.PutInt(npc.GenType);
+			packet.PutShort((short)npc.State);
+			packet.PutEmptyBin(2);
+
+			npc.Map.Broadcast(packet, npc, false);
+		}
+
+		/// <summary>
 		/// Sends ZC_COOLDOWN_LIST to character, containing list of all
 		/// cooldowns?
 		/// </summary>
@@ -1027,24 +1043,37 @@ namespace Melia.Channel.Network
 		/// <param name="addType">The way the add is displayed?</param>
 		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
 		{
+			// For some reason this packet requires properties on the item,
+			// otherwise the client crashes. Let's catch this here for the
+			// moment, as it seems to be an issue exclusive to this packet,
+			// and maybe we'll figure out why exactly it happens.
+			var properties = item.Properties.GetAll();
+			if (properties.Length == 0)
+				properties = new[] { new FloatProperty(PropertyId.Item.CoolDown, 0) };
+
+			var propertiesSize = properties.Sum(a => a.Size);
+
 			var packet = new Packet(Op.ZC_ITEM_ADD);
+
 			packet.PutLong(item.ObjectId);
 			packet.PutInt(amount);
 			packet.PutInt(0);
 			packet.PutInt(index);
 			packet.PutInt(item.Id);
-			packet.PutShort(8); // Size of the object at the end
+			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0f); // Notification delay
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutInt(7266); // Prop 1
-			packet.PutFloat(0); // Prop 1 value
-			packet.PutShort(0);
-			packet.PutLong(item.ObjectId);
-			packet.PutShort(0);
-			//packet.PutEmptyBin(0); // properties
+			packet.AddProperties(properties);
+
+			if (item.ObjectId != 0)
+			{
+				packet.PutShort(0);
+				packet.PutLong(item.ObjectId);
+				packet.PutShort(0);
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -1414,10 +1443,21 @@ namespace Melia.Channel.Network
 		/// <param name="entity"></param>
 		public static void ZC_LEAVE(ChannelConnection conn, IEntity entity)
 		{
+			var s1 = 1;
+
+			// Items don't seem to disappear with our default, 1, nor with
+			// 2, which is used on officials. 4 does get rid of the items
+			// though. However, if you use 4, the pick up animation doesn't
+			// play. I'm guessing the item can't be removed if it's supposed
+			// to get picked up for this very reason, so we'll check whether
+			// it was picked up or not.
+			if (entity is ItemMonster itemMonster)
+				s1 = itemMonster.PickedUp ? 2 : 4;
+
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(entity.Handle);
-			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
+			packet.PutShort(s1); // 0 shows a blue effect when the entity disappears
 
 			conn.Send(packet);
 		}
@@ -2363,6 +2403,50 @@ namespace Melia.Channel.Network
 			packet.AddAccountProperties(character.Connection.Account);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Makes monster fade out over the given amount of time.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NORMAL_FadeOut(Monster monster, TimeSpan duration)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.FadeOut);
+
+			packet.PutInt(monster.Map.Id);
+			packet.PutInt(monster.GenType);
+			packet.PutFloat((float)duration.TotalSeconds);
+
+			monster.Map.Broadcast(packet, monster, false);
+		}
+
+		/// <summary>
+		/// Makes item monster appear to drop, by "throwing" it a certain
+		/// distance from its current position.
+		/// </summary>
+		/// <param name="monster"></param>
+		/// <param name="degreeAngle"></param>
+		/// <param name="distance"></param>
+		public static void ZC_NORMAL_ItemDrop(Monster monster, Direction direction, float distance)
+		{
+			// The distance might be more like a force, since items fly
+			// farther than they should with high distances. Whether this
+			// is a problem, depends on the used distance and the pick up
+			// range. With a very small pick up range, like 10, and a high
+			// distance, like 110, there will be a slight desync, and you
+			// might not get the item, even if you're right on top of it.
+			// But since we won't usually use such small and high values,
+			// it will probably be fine.
+
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.ItemDrop);
+
+			packet.PutInt(monster.Handle);
+			packet.PutInt((int)direction.NormalDegreeAngle);
+			packet.PutFloat(distance);
+
+			monster.Map.Broadcast(packet, monster, false);
 		}
 
 		/// <summary>
@@ -3390,20 +3474,37 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PLAY_ANI to character, Play Animation?
+		/// Plays animation on entity.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_PLAY_ANI(Character character, int animationId)
+		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationName">Name of the animation to play (uses animation id database to retrieve the id).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, string animationName, bool stopOnLastFrame = false)
+		{
+			if (!ChannelServer.Instance.Data.AnimationIdDb.TryFind(animationName, out var animationIdData))
+				throw new ArgumentException($"Unknown animation '{animationName}'.");
+
+			ZC_PLAY_ANI(entity, animationIdData.Id, stopOnLastFrame);
+		}
+
+		/// <summary>
+		/// Plays animation on entity.
+		/// </summary>
+		/// <param name="entity">Entity to animate.</param>
+		/// <param name="animationId">Id of the animation to play.</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IEntity entity, int animationId, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(character.Handle);
-			packet.PutShort(animationId);
-			packet.PutInt(39);
-			packet.PutInt(0);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(animationId);
+			packet.PutByte(stopOnLastFrame);
+			packet.PutByte(0);
+			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -4083,6 +4184,22 @@ namespace Melia.Channel.Network
 			packet.PutInt(0); // Increasing Value?
 
 			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays item pick up animation for the character and item monster.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="buff"></param>
+		public static void ZC_ITEM_GET(IEntity character, IEntity itemMonster)
+		{
+			var packet = new Packet(Op.ZC_ITEM_GET);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(itemMonster.Handle);
+			packet.PutInt(1);
+
+			character.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(ChannelConnection conn)

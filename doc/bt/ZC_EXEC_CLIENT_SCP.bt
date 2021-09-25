@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 string script; // SQIORE_REPAIR_CENCEL(), WEAPONSWAP_UI_UPDATE()

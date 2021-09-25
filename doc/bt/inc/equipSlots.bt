@@ -1,0 +1,52 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: equipSlots.bt
+//   Authors: exec, Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//   - i11025:  EquipSlotCount increased to 21
+//   - i170175: EquipSlotCount increased to 22 (lens)
+//   - i171032: EquipSlotCount increased to 23 (wings)
+//   - i184075: EquipSlotCount increased to 24 (special costume)
+//   - i186893: EquipSlotCount increased to 25 (effect costume)
+//   - i336041: EquipSlotCount increased to 30, Updated lpString cases
+//   - i339415: EquipSlotCount increased to 32
+//------------------------------------------------
+
+const int EquipSlotCount = 32;
+
+string GetEquipSlotName(int slotId)
+{
+    switch(slotId)
+    {
+        case 0: return "HairAccessory";
+        case 1: return "SubsidiaryAccessory";
+        case 2: return "Hair";
+        case 3: return "Top";
+        case 4: return "Gloves";
+        case 5: return "Shoes";
+        case 6: return "Helmet";
+        case 7: return "Armband";
+        case 8: return "RightHand";
+        case 9: return "LeftHand";
+        case 10: return "Outer1";
+        case 11: return "Ring1";
+        case 12: return "Ring2";
+        case 13: return "Outer2";
+        case 14: return "Pants";
+        case 15: return "Ring3";
+        case 16: return "Ring4";
+        case 17: return "Bracelet1";
+        case 18: return "Bracelet2";
+        case 19: return "Necklace";
+        case 20: return "Hat";
+        case 21: return "Lens";
+        case 22: return "Wing";
+        default: return "Unknown";
+    }
+}

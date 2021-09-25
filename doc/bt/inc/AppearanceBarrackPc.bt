@@ -1,0 +1,38 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: AppearanceBarrackPc.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    APPEARANCE_PC appearancePc;
+    int64 characterId;
+    byte index;
+    ubyte b1;
+
+    short s1;
+    short mapId;
+    short channel;
+    int64 currentExp;
+    int64 maxExp;   // max xp?
+    int i1;
+    short s2;
+    short s3;
+    int64 l1;
+
+    position pos1;
+    direction dir1;
+
+    position pos2;
+    direction dir2;
+    
+}
+APPEARANCE_BARRACK_PC;

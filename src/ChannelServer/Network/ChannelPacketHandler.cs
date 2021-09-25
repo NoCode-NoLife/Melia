@@ -134,6 +134,8 @@ namespace Melia.Channel.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
+
+			ChannelServer.Instance.ScriptManager.SendClientScripts(conn);
 		}
 
 		/// <summary>
@@ -443,9 +445,27 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var result = character.Inventory.Remove(worldId, amount);
+			var fullStack = (amount >= item.Amount);
+
+			var result = character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Destroyed);
 			if (result != InventoryResult.Success)
+			{
 				Log.Warning("CZ_ITEM_DELETE: Removing an item for '{0}' failed despite checks.", conn.Account.Name);
+				return;
+			}
+
+			// Drop item
+			if (ChannelServer.Instance.Conf.World.Littering)
+			{
+				// If the entire stack was discarded, we can simply drop
+				// the item. If only a part of the stack was discarded,
+				// we need to create a new stack, with the selected amount.
+				// TODO: We might need to copy values and properties from
+				//   the original stack to the new stack.
+				var dropItem = (fullStack ? item : new Item(item.Id, amount));
+				dropItem.SetRePickUpProtection(character);
+				dropItem.Drop(character.Map, character.Position, character.Direction, 30);
+			}
 		}
 
 		/// <summary>
@@ -694,7 +714,11 @@ namespace Melia.Channel.Network
 
 			conn.ScriptState.CurrentNpc = monster;
 
-			Send.ZC_SHARED_MSG(conn, 108);
+			// I don't know what this does, or why this was put here,
+			// but it makes the client lag for a second before starting
+			// the dialog.
+			//Send.ZC_SHARED_MSG(conn, 108);
+
 			ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
 		}
 
@@ -1182,7 +1206,11 @@ namespace Melia.Channel.Network
 				}
 
 				// Check skill data
-				var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, character.ClassLevel);
+				// The clients sends the number of points to add to every
+				// skill, incl. the skills the player shouldn't be able to
+				// put points into yet, so we need to use the job's MaxLevel
+				// for getting all available skills.
+				var skillTreeData = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.MaxLevel);
 				if (count - 1 != skillTreeData.Length)
 				{
 					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of skill level changes ({1}).", conn.Account.Name, count);
@@ -1216,7 +1244,10 @@ namespace Melia.Channel.Network
 
 					if (newLevel > maxLevel)
 					{
-						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
+						// Don't warn about this, since the client doesn't
+						// check the max level for skill's with unlock levels.
+						// The player can try, but nothing should happen.
+						//Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
 						continue;
 					}
 
@@ -1283,7 +1314,7 @@ namespace Melia.Channel.Network
 			}
 
 			// Get shop
-			var shopData = ChannelServer.Instance.Data.ShopDb.Find(conn.ScriptState.CurrentShop);
+			var shopData = conn.ScriptState.CurrentShop;
 			if (shopData == null)
 			{
 				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
@@ -1314,9 +1345,16 @@ namespace Melia.Channel.Network
 					return;
 				}
 
-				var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+				if (!shopData.IsCustom)
+				{
+					var singlePrice = (int)(itemData.Price * productData.PriceMultiplier);
+					totalCost += singlePrice * amount;
+				}
+				else
+				{
+					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+				}
 
-				totalCost += singlePrice * amount;
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
 			}
 
@@ -1971,6 +2009,69 @@ namespace Melia.Channel.Network
 
 			// 0 = English, 1 = German, 2 = Portugese,
 			// 4 = Indonesian, 5 = Russian, 6 = Thai
+		}
+
+		/// <summary>
+		/// Request to create an auto seller shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REGISTER_AUTOSELLER)]
+		public void CZ_REGISTER_AUTOSELLER(ChannelConnection conn, Packet packet)
+		{
+			var shopName = packet.GetString(64);
+			var itemCount = packet.GetInt();
+			var group = packet.GetInt();
+			var i1 = packet.GetInt();
+
+			// for itemCount
+			//   int itemId
+			//   int amount
+			//   int price
+			//   byte unk1[264]
+
+			var character = conn.SelectedCharacter;
+			character.MsgBox("This feature has not been implemented yet.");
+
+			Log.Debug("CZ_REGISTER_AUTOSELLER: {0}, {1} item(s)", shopName, itemCount);
+		}
+
+		/// <summary>
+		/// Request to pick up an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_GET)]
+		public void CZ_REQ_ITEM_GET(ChannelConnection conn, Packet packet)
+		{
+			var handle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var monster = character.Map.GetMonster(handle);
+
+			// Check for monster validity
+			if (monster == null)
+			{
+				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
+				return;
+			}
+
+			if (!(monster is ItemMonster itemMonster))
+			{
+				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
+				return;
+			}
+
+			// Accept pick ups only once the character is close enough.
+			var pickUpRadius = ChannelServer.Instance.Conf.World.PickUpRadius;
+			if (!monster.Position.InRange2D(character.Position, pickUpRadius))
+				return;
+
+			// Check if character is allowed to pick up the item.
+			if (!itemMonster.CanBePickedUpBy(character))
+				return;
+
+			character.PickUp(itemMonster);
 		}
 	}
 }

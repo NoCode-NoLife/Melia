@@ -3,7 +3,7 @@
 //
 //      File: ZC_ITEM_ADD.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i339427
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,7 +12,7 @@
 //   - i336041: PropertySize shifted and i1;
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 
@@ -35,11 +35,13 @@ InventoryAddType addType;
 float notificationDelay;
 byte invType;
 byte bin1[2];
-if(propertiesSize > 0) {
+
+if(propertiesSize > 0)
     getProperties(propertiesSize);
-    if (worldId > 0) {
-        short s1;
-        int64 l1;
-        short i2;
-    }
+
+if (worldId > 0)
+{
+    short s1;
+    int64 l1;
+    short i2;
 }

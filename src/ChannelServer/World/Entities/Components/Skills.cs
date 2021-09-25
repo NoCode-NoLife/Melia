@@ -179,7 +179,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			foreach (var job in this.Character.Jobs.GetList())
 			{
-				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.TotalExp).Where(a => a.SkillId == skillId);
+				var skillTreeDataList = ChannelServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Level).Where(a => a.SkillId == skillId);
 				foreach (var data in skillTreeDataList)
 				{
 					var jobsMaxLevel = data.MaxLevel;

@@ -1,0 +1,27 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Position.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: Position in 3D space.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+}
+position <read=positionRead>;
+
+string positionRead(position &v)
+{
+    local string result;
+    SPrintf(result, "X: %f, Y: %f, Z: %f", v.x, v.y, v.z);
+    return result;
+}

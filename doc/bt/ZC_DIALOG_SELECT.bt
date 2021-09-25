@@ -13,7 +13,7 @@
 //   - i171032: b2 and s1 was added
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

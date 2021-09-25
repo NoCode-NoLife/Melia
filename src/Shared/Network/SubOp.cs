@@ -31,11 +31,13 @@
 			public const int LevelUp = 0x12;
 			public const int ClassLevelUp = 0x15;
 			public const int Unkown_1D = 0x1D;
+			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AccountUpdate = 0x4C;
 			public const int Skill = 0x57;
 			public const int ParticleEffect = 0x61;
 			public const int SetSessionKey = 0x14E;
+			public const int ItemDrop = 0x14F;
 			public const int NGSCallback = 0x16D;
 			public const int HatVisibleState = 0x181;
 

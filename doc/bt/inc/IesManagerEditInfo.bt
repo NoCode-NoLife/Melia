@@ -1,0 +1,23 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: IesManagerEditInfo.bt
+//   Authors: Tachiorz
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int revision;
+    lpString oldValue;
+    lpString newValue;
+    lpString author;
+    lpString editDate;
+    lpString editLog;
+}
+IES_MANAGER_EDIT_INFO;

@@ -22,6 +22,11 @@ namespace Melia.Channel.World.Entities
 		int Hp { get; }
 
 		/// <summary>
+		/// Returns true if the entity is dead.
+		/// </summary>
+		bool IsDead { get; }
+
+		/// <summary>
 		/// Returns the map the entity is currently on.
 		/// </summary>
 		Map Map { get; }
@@ -55,7 +60,7 @@ namespace Melia.Channel.World.Entities
 		/// <param name="from"></param>
 		/// <param name="type"></param>
 		/// <returns>If damage is fatal returns true</returns>
-		bool TakeDamage(int damage, Character from, DamageVisibilityModifier damageVisibility, int attackIndex);
+		bool TakeDamage(int damage, Character from/*, DamageVisibilityModifier damageVisibility, int attackIndex*/);
 
 		/// <summary>
 		/// Returns true if this entity can attack the given one.

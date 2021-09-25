@@ -12,7 +12,7 @@
 //   - i175075: f2 was added
 //------------------------------------------------
 
-#include "common.bt";
+#include "inc/common.bt";
 
 ClientHeaderDynamic header;
 

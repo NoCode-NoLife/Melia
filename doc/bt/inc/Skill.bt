@@ -1,0 +1,33 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Skill.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int64 skillObjectId;
+    int id;
+    short propertiesSize;
+    byte bin1[2];
+    int i1;
+    short s1;
+    byte bin2[2];
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+}
+Skill <read=readSkill, optimize=false>;
+
+string readSkill(Skill &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.id);
+    return result;
+}

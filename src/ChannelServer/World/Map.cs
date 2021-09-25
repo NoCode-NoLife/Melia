@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.World.Entities;
+using Melia.Shared.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
@@ -226,6 +227,7 @@ namespace Melia.Channel.World
 				_monsters.Remove(monster.Handle);
 
 			monster.Map = null;
+			this.UpdateVisibility();
 		}
 
 		/// <summary>
@@ -327,6 +329,8 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		private static Position RotatePoint(Position point, Position pivot, Direction dir)
 		{
+			dir = dir.GetNormal();
+
 			var cos = dir.Cos;
 			var sin = dir.Sin;
 
@@ -448,7 +452,7 @@ namespace Melia.Channel.World
 		public Monster[] GetVisibleMonsters(Character character)
 		{
 			lock (_monsters)
-				return _monsters.Values.Where(a => character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
+				return _monsters.Values.Where(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
 		}
 
 		/// <summary>

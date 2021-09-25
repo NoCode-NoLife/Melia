@@ -165,6 +165,7 @@ namespace Melia.Login.Database
 					cmd.Set("maxExp", LoginServer.Instance.Data.ExpDb.GetNextExp(1));
 
 					cmd.Set("barrackLayer", character.BarrackLayer);
+					cmd.Set("slot", character.Index);
 
 					cmd.Execute();
 					character.Id = cmd.LastId;

@@ -1,2 +1,4 @@
------ 'Kule Peak' to 'Lemprasa Pond' ------
-addwarp("WS_KATYN18_TO_SIAUL16", 45, "f_katyn_18", 3248, 375, -1961, "f_siauliai_16", -2583, 115, -1663)
+----- 'Kule Peak' to 'Svalphinghas Forest' ------
+addwarp("WS_KATYN18_TO_MAPLE25_2", 90, "f_katyn_18", 3248, 375, -1961, "f_maple_25_2", -706, -77, -881)
+----- 'Kule Peak' to 'Emmet Forest' ------
+addwarp("WS_KATYN18_TO_WHITETREES23_1", -72, "f_katyn_18", -1322.259, 574.0358, -2179.218, "f_whitetrees_23_1", 1601, 12, 1313)

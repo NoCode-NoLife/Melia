@@ -160,7 +160,7 @@ namespace Melia.Shared.World
 		/// the amount how far to push them away. A negative distance will
 		/// return a position between you two.
 		/// </remarks>
-		public Position GetRelative(Position other, int distance)
+		public Position GetRelative(Position other, float distance)
 		{
 			if (this == other)
 				return this;
@@ -184,17 +184,17 @@ namespace Melia.Shared.World
 		/// <param name="radian"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public Position GetRelative(double radian, int distance)
+		public Position GetRelative(Direction direction, float distance)
 		{
-			var deltaX = Math.Cos(radian);
-			var deltaZ = Math.Sin(radian);
+			var deltaX = direction.Cos;
+			var deltaZ = direction.Sin;
 
 			var deltaXZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaZ, 2));
 
 			var newX = this.X + (distance / deltaXZ) * (deltaX);
 			var newZ = this.Z + (distance / deltaXZ) * (deltaZ);
 
-			return new Position((int)Math.Round(newX), this.Y, (int)Math.Round(newZ));
+			return new Position((float)newX, this.Y, (float)newZ);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace Melia.Shared.World
 		public Direction GetDirection(Position otherPos)
 		{
 			var radianAngle = Math.Atan2(otherPos.Z - Z, otherPos.X - X);
-			radianAngle -= Math.PI / 2; // -45° offset
+			//radianAngle -= Math.PI / 2; // -45° offset
 
 			var cos = Math.Cos(radianAngle);
 			var sin = Math.Sin(radianAngle);

@@ -17,7 +17,7 @@
 //   - i339415: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 typedef struct
 {
@@ -100,6 +100,13 @@ switch (type)
         
     case 0x2D:
         int i1;
+        break;
+
+    // Fades out monster
+    case 0x38:
+        int mapId;
+        int genType;
+        float seconds;
         break;
 
     // Update the number of purchased character slots in the barrack.
@@ -419,6 +426,12 @@ switch (type)
     // Sets the session key.
     case 0x148:
         lpString sessionKey;
+        break;
+
+    case 0x14F:
+        int i1;
+        int i2;
+        float f1;
         break;
 
     // Nexon Game Security Callback

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
@@ -65,6 +67,23 @@ namespace Melia.Channel.World.Entities
 		///   that goes in the item data.
 		/// </remarks>
 		public bool IsLocked { get; set; }
+
+		/// <summary>
+		/// Returns the handle of the entity who originally dropped the item.
+		/// </summary>
+		public int OriginalOwnerHandle { get; private set; } = -1;
+
+		/// <summary>
+		/// Gets or sets the owner of the item, who is the only one able
+		/// to pick it up while the loot protection is active.
+		/// </summary>
+		public int OwnerHandle { get; private set; } = -1;
+
+		/// <summary>
+		/// Returns the time at which the item is free to be picked up
+		/// by anyone.
+		/// </summary>
+		public DateTime LootProtectionEnd { get; private set; } = DateTime.MinValue;
 
 		/// <summary>
 		/// Returns the item's property collection.
@@ -135,6 +154,91 @@ namespace Melia.Channel.World.Entities
 				throw new MissingFieldException($"Category '{this.Data.Category}' on item '{this.Id}' not found in base id database.");
 
 			return invBaseData.BaseId + index;
+		}
+
+		/// <summary>
+		/// Drops item to the map as an ItemMonster.
+		/// </summary>
+		/// <remarks>
+		/// Items are typically dropped by "tossing" them from the source,
+		/// such as a killed monster. The given position is the initial
+		/// position, and the item is then tossed in the given direction,
+		/// by the distance.
+		/// </remarks>
+		/// <param name="map">Map to drop to the item on.</param>
+		/// <param name="position">Initial position of the drop item.</param>
+		/// <param name="direction">Direction to toss the item in.</param>
+		/// <param name="distance">Distance to toss the item.</param>
+		public ItemMonster Drop(Map map, Position position, Direction direction, float distance)
+		{
+			// ZC_NORMAL_ItemDrop animates the item flying from its
+			// initial drop position to its final position. To keep
+			// everything in sync, we use the monster's position as
+			// the drop position, then add the item to the map,
+			// and then make it fly and set the final position.
+			// the direction of the item becomes the direction
+			// it flies in.
+			// FromGround is necessary for the client to attempt to
+			// pick up the item. Might act as "IsYourDrop" for items.
+
+			var itemMonster = ItemMonster.Create(this);
+			var flyDropPos = position.GetRelative(direction, distance);
+
+			itemMonster.Position = position;
+			itemMonster.Direction = direction;
+			itemMonster.FromGround = true;
+			itemMonster.DisappearTime = DateTime.Now.AddSeconds(ChannelServer.Instance.Conf.World.DropDisappearSeconds);
+
+			map.AddMonster(itemMonster);
+
+			itemMonster.Position = flyDropPos;
+			Send.ZC_NORMAL_ItemDrop(itemMonster, direction, distance);
+
+			return itemMonster;
+		}
+
+		/// <summary>
+		/// Drops item to the map as an ItemMonster.
+		/// </summary>
+		/// <param name="map">Map to drop to the item on.</param>
+		/// <param name="fromPosition">Initial position of the drop item.</param>
+		/// <param name="toPosition">Position the item gets tossed to.</param>
+		public ItemMonster Drop(Map map, Position fromPosition, Position toPosition)
+		{
+			var direction = fromPosition.GetDirection(toPosition);
+			var distance = (float)fromPosition.Get2DDistance(toPosition);
+
+			return this.Drop(map, fromPosition, direction, distance);
+		}
+
+		/// <summary>
+		/// Activates the loot protection for the item if entity is set.
+		/// Deactivates it if entity is null.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="protectionTime"></param>
+		public void SetLootProtection(IEntity entity, TimeSpan protectionTime)
+		{
+			if (entity == null)
+			{
+				this.OwnerHandle = -1;
+				this.LootProtectionEnd = DateTime.MinValue;
+			}
+			else
+			{
+				this.OwnerHandle = entity.Handle;
+				this.LootProtectionEnd = DateTime.Now.Add(protectionTime);
+			}
+		}
+
+		/// <summary>
+		/// Sets up a protection, so that the entity won't pick the item
+		/// right back up.
+		/// </summary>
+		/// <param name="entity"></param>
+		public void SetRePickUpProtection(IEntity entity)
+		{
+			this.OriginalOwnerHandle = entity.Handle;
 		}
 	}
 }

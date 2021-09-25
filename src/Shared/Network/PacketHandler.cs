@@ -49,8 +49,13 @@ namespace Melia.Shared.Network
 		/// <param name="packet"></param>
 		public void Handle(TConnection conn, Packet packet)
 		{
-			PacketHandlerFunc handler;
+			// Rewind packet, so it can be read from the start. This is
+			// necessary for packets that were created on the server,
+			// because their internal pointer points at the end of the
+			// packet after it was created.
+			packet.Rewind();
 
+			PacketHandlerFunc handler;
 			lock (_handlers)
 				_handlers.TryGetValue(packet.Op, out handler);
 

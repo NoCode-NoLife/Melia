@@ -4,8 +4,6 @@
 -- Allows players to change their hair style and color.
 -----------------------------------------------------------------------------
 
-addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 135, "npc_stylist")
-
 local getoptions
 local gethairtype
 local getnextstyle
@@ -14,11 +12,12 @@ local findstyle
 local getnextcolor
 local getprevcolor
 
-function npc_stylist()
+addnpc(57223, "Stylist", "c_Klaipe", -66, 79, -547, 180, function()
+
 	local pc = getpc()
 	local style = pc.hair
 	
-	local selection = nselect("What can I do for you today?", "hair:Change Hair Style", "color:Change Hair Color", "end:Nothing")
+	local selection = nselect("What can I do for you today?", "Change Hair Style:hair", "Change Hair Color:color", "Nothing:end")
 	if selection == "end" then
 		msg("Please come back any time.")
 		return
@@ -75,7 +74,8 @@ function npc_stylist()
 			return
 		end
 	end
-end
+
+end)
 
 local hairdata = {}
 
@@ -1503,13 +1503,13 @@ function getoptions(direction)
 
 	for i=1,2 do
 		if direction == i then
-			table.insert(options, "n:Next")
+			table.insert(options, "Next:n")
 		else
-			table.insert(options, "p:Prev")
+			table.insert(options, "Prev:p")
 		end
 	end
 	
-	table.insert(options, "j:Jump")
+	table.insert(options, "Jump:j")
 	table.insert(options, "I like it")
 
 	return options

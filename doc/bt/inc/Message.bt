@@ -1,0 +1,41 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Message.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int i1;
+    int itemId;
+    int amount;
+    int received; // bool?
+}
+MessageItem;
+
+typedef struct
+{
+    lpString sender;
+    lpString title;
+    lpString text;
+    FILETIME date1;
+    FILETIME expiration;
+    FILETIME date2;
+    int64 id;
+    byte b1;
+    short s1;
+    short read; // ?
+    short s3;
+    byte b2;
+    int itemCount;
+    if (itemCount != 0)
+        MessageItem items[itemCount] <optimize=false>;
+}
+Message;
