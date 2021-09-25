@@ -55,6 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\Base\IBuffHandler.cs" />
+    <Compile Include="Buffs\BuffHandlerAttribute.cs" />
+    <Compile Include="Buffs\BuffHandlers.cs" />
+    <Compile Include="Buffs\Generic\BuffHandler.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\ChannelDb.cs" />
