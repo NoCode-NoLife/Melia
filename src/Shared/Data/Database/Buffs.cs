@@ -11,6 +11,7 @@ namespace Melia.Shared.Data.Database
 		public string Name { get; set; }
 		public int Level { get; set; }
 		public int Duration { get; set; }
+		public int UpdateTime { get; set; }
 		public int BuffUpExp { get; set; }
 		public bool Removable { get; set; }
 		public bool RemoveOnDeath { get; set; }
@@ -25,7 +26,7 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "className", "name", "level", "duration", "buffExpUp", "removable", "removeOnDeath", "removeBySkill", "updateProperties");
+			entry.AssertNotMissing("id", "className", "name", "level", "duration", "updateTime", "buffExpUp", "removable", "removeOnDeath", "removeBySkill", "updateProperties");
 
 			var info = new BuffData();
 
@@ -34,6 +35,7 @@ namespace Melia.Shared.Data.Database
 			info.Name = entry.ReadString("name");
 			info.Level = entry.ReadInt("level");
 			info.Duration = entry.ReadInt("duration");
+			info.UpdateTime = entry.ReadInt("updateTime");
 			info.BuffUpExp = entry.ReadInt("buffExpUp");
 			info.Removable = entry.ReadBool("removable");
 			info.RemoveOnDeath = entry.ReadBool("removeOnDeath");
