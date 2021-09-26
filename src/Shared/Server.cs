@@ -80,6 +80,7 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Maps) != 0)
 				{
 					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
+					this.LoadDb(this.Data.GroundDb, "db/ground.dat", reload);
 				}
 
 				if ((toLoad & DataToLoad.Monsters) != 0)
