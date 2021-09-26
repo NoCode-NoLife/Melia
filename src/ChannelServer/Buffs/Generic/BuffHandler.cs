@@ -1,6 +1,4 @@
-﻿using System;
-using Melia.Channel.Buffs.Base;
-using Melia.Channel.World.Entities;
+﻿using Melia.Channel.Buffs.Base;
 using Melia.Shared.Const;
 
 namespace Melia.Channel.Buffs.Generic
@@ -10,19 +8,18 @@ namespace Melia.Channel.Buffs.Generic
 	/// </summary>
 	public class BuffHandler : IBuffHandler
 	{
-		public void OnStart(BuffId buffId, ICombatEntity target)
+		public void OnStart(World.Buff buff)
 		{
-			target.Components.Get<World.Buffs>().AddOrUpdate(buffId);
+			// Behavior on buff start, one time buff
+		}
+		public void WhileActive(World.Buff buff)
+		{
+			// Behavior on buff update time
 		}
 
-		public void WhileActive(BuffId buffId, ICombatEntity target)
+		public void OnEnd(World.Buff buff)
 		{
-			var buff = target.Components.Get<World.Buffs>().Get(buffId);
-		}
-
-		public void OnEnd(BuffId buffId, ICombatEntity target)
-		{
-			//target.Components.Get<World.Buffs>().Remove(buffId);
+			// Behavior on buff removal
 		}
 	}
 
@@ -32,20 +29,40 @@ namespace Melia.Channel.Buffs.Generic
 	[BuffHandler(BuffId.Heal_Buff)]
 	public class HealBuffHandler : IBuffHandler
 	{
-		public void OnStart(BuffId buffId, ICombatEntity target)
+		public void OnStart(World.Buff buff)
 		{
-			target.Components.Get<World.Buffs>().AddOrUpdate(buffId);
+			var target = buff.Target;
+			//target.Heal(HealType.Hp, (target.MaxHp * 10) / 100);
 		}
 
-		public void WhileActive(BuffId buffId, ICombatEntity target)
+		public void WhileActive(World.Buff buff)
 		{
-			var buff = target.Components.Get<World.Buffs>().Get(buffId);
-			target.Heal(HealType.Hp, (target.MaxHp * 10) / 100);
 		}
 
-		public void OnEnd(BuffId buffId, ICombatEntity target)
+		public void OnEnd(World.Buff buff)
 		{
+		}
+	}
 
+	/// <summary>
+	/// A common slow buff handler implmentation
+	/// </summary>
+	[BuffHandler(BuffId.Common_Slow)]
+	public class CommonSlowHandler : IBuffHandler
+	{
+		public void OnStart(World.Buff buff)
+		{
+			var target = buff.Target;
+			// TODO Something with Move Speed
+		}
+
+		public void WhileActive(World.Buff buff)
+		{
+		}
+
+		public void OnEnd(World.Buff buff)
+		{
+			// Reset move speed
 		}
 	}
 }

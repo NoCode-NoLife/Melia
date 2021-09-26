@@ -167,6 +167,11 @@ namespace Melia.Channel.World.Entities
 		public ComponentCollection Components { get; } = new ComponentCollection();
 
 		/// <summary>
+		/// Monster's buffs.
+		/// </summary>
+		public Buffs Buffs { get; }
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Monster(int id, NpcType type)
@@ -181,6 +186,7 @@ namespace Melia.Channel.World.Entities
 
 			this.Id = id;
 			this.NpcType = type;
+			this.Components.Add(this.Buffs = new Buffs(this));
 
 			this.LoadData();
 		}

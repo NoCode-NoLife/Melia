@@ -8,7 +8,9 @@ namespace Melia.Channel.World
 {
 	public class WorldManager
 	{
+		// Unique handles for entities
 		private int _handles = 0;
+		// Unique handles for buffs
 		private int _buffhandles = 0;
 		// Unique handles for skills
 		private int _skillHandles = 0;
@@ -52,10 +54,11 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Returns a new handle to be used for a casted buff.
+		/// Returns a new handle to be used for a casted Buff.
 		/// </summary>
 		/// <returns></returns>
-		public int CreateBuffHandle() {
+		public int CreateBuffHandle()
+		{
 			return Interlocked.Increment(ref _buffhandles);
 		}
 

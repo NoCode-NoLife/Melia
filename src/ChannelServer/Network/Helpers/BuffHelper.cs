@@ -16,19 +16,23 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(entity.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt((int)buff.Id);
-			packet.PutInt(1);
+			packet.PutInt(buff.SkillId);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(buff.OverbuffCounter);
-			packet.PutInt(buff.Data.Duration);
+			packet.PutInt(buff.Duration);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			if (entity is Character)
-				packet.PutLpString(((Character)entity).Name);
+			if (entity is Character character)
+			{
+				packet.PutShort(character.Name.Length + 1 + 4);
+				packet.PutString(character.Name);
+			}
 			else
 				packet.PutLpString("");
+			packet.PutInt(entity.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt(0);
 			packet.PutInt(0);

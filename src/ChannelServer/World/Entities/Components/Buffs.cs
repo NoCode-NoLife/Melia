@@ -7,27 +7,27 @@ using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.World.Entities;
 using Melia.Shared.Const;
-using Melia.Shared.Util;
+using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World
 {
 	/// <summary>
 	/// Character buffs.
 	/// </summary>
-	public class Buffs
+	public class Buffs : IUpdatableComponent
 	{
 		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
 
 		/// <summary>
 		/// The owner of this object.
 		/// </summary>
-		public IEntity Owner { get; }
+		public ICombatEntity Owner { get; }
 
 		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Buffs(IEntity entity)
+		public Buffs(ICombatEntity entity)
 		{
 			this.Owner = entity;
 		}
@@ -49,18 +49,16 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Adds given buff and updates the client. Replaces existing
-		/// buffs.
+		/// Adds given buff and updates the client.
 		/// </summary>
 		/// <param name="buff"></param>
 		public void Add(Buff buff)
 		{
-			var buffExists = this.Has(buff.Id);
+			buff.IncreaseOverbuff();
 			this.AddSilent(buff);
-			if (buffExists)
-				Send.ZC_BUFF_UPDATE(this.Owner, buff);
-			else
-				Send.ZC_BUFF_ADD(this.Owner, buff);
+			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+			handler.OnStart(buff);
+			Send.ZC_BUFF_ADD(this.Owner, buff);
 		}
 
 		/// <summary>
@@ -99,31 +97,34 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool Remove(Buff buff)
 		{
+			var isRemoved = false;
 			lock (_buffs)
 			{
-				if (_buffs.Remove(buff.Id))
-				{
-					Send.ZC_BUFF_REMOVE(this.Owner, buff);
-					return true;
-				}
+				isRemoved = _buffs.Remove(buff.Id);
 			}
-			return false;
+			if (isRemoved)
+			{
+				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+				handler.OnEnd(buff);
+				Send.ZC_BUFF_REMOVE(this.Owner, buff);
+			}
+			return isRemoved;
 		}
 
 		/// <summary>
-		/// Add a Buff or Update a Buff if it exists
+		/// Add Buff(s) or Update Buff(s) if it exists
 		/// with a given id.
 		/// </summary>
-		/// <param name="buffId"></param>
-		public void AddOrUpdate(BuffId buffId)
+		/// <param name="buffs"></param>
+		public void AddOrUpdate(params Buff[] buffs)
 		{
-			if (!this.Has(buffId))
+			foreach (var buff in buffs)
 			{
-				var buff = new Buff(this.Owner, buffId);
-				this.Add(buff);
+				if (!this.Has(buff.Id))
+					this.Add(buff);
+				else
+					this.Update(buff.Id);
 			}
-			else
-				this.Update(buffId);
 		}
 
 		/// <summary>
@@ -138,8 +139,10 @@ namespace Melia.Channel.World
 				lock (_buffs)
 				{
 					buff.IncreaseOverbuff();
-					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Data.Duration);
+					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Duration);
 				}
+				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+				handler.OnStart(buff);
 				Send.ZC_BUFF_UPDATE(this.Owner, buff);
 			}
 		}
@@ -188,10 +191,10 @@ namespace Melia.Channel.World
 		/// Returns a list with all buffs.
 		/// </summary>
 		/// <returns></returns>
-		public Buff[] GetList()
+		public List<Buff> GetList()
 		{
 			lock (_buffs)
-				return _buffs.Values.ToArray();
+				return _buffs.Values.ToList();
 		}
 
 		/// <summary>
@@ -210,14 +213,35 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void UpdateBuffs()
 		{
-			var now = DateTime.Now;
-
 			List<Buff> buffsToRemove;
+			List<Buff> buffsToUpdate;
 			lock (_buffs)
-				buffsToRemove = _buffs.Values.Where(a => a.RemovalTime < now).ToList();
+			{
+				var now = DateTime.Now;
+				buffsToRemove = _buffs.Values.Where(a => now >= a.RemovalTime).ToList();
+				buffsToUpdate = _buffs.Values.Where(a => now <= a.RemovalTime).ToList();
+			}
+
+			foreach (var buff in buffsToUpdate)
+			{
+				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+				if (buff.HasUpdateTime())
+				{
+					if (DateTime.Now > buff.NextUpdateTime)
+					{
+						handler.WhileActive(buff);
+						buff.Update();
+					}
+				}
+			}
 
 			foreach (var buff in buffsToRemove)
 				this.Remove(buff);
+		}
+
+		public void Update(TimeSpan elapsed)
+		{
+			this.UpdateBuffs();
 		}
 	}
 }

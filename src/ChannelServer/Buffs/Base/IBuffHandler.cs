@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Channel.World.Entities;
-using Melia.Shared.Const;
+﻿using Melia.Channel.World;
 
 namespace Melia.Channel.Buffs.Base
 {
+	/// <summary>
+	/// Buff Handler Interface
+	/// </summary>
 	public interface IBuffHandler
 	{
-		void OnStart(BuffId buffId, ICombatEntity target);
-		void WhileActive(BuffId buffId, ICombatEntity target);
-		void OnEnd(BuffId buffId, ICombatEntity target);
+		void OnStart(Buff buff);
+		void WhileActive(Buff buff);
+		void OnEnd(Buff buff);
 	}
 }

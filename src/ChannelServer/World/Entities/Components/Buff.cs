@@ -13,7 +13,12 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// The buff's owner.
 		/// </summary>
-		public IEntity Owner { get; }
+		public ICombatEntity Caster { get; }
+
+		/// <summary>
+		/// The buff's target.
+		/// </summary>
+		public ICombatEntity Target { get; }
 
 		/// <summary>
 		/// Returns the buff's id.
@@ -21,9 +26,21 @@ namespace Melia.Channel.World
 		public BuffId Id { get; }
 
 		/// <summary>
+		/// Returns the buff's associated skill id.
+		/// Default value is 1.
+		/// </summary>
+		public int SkillId { get; }
+
+		/// <summary>
 		/// The buff's data from the buff database.
 		/// </summary>
 		public BuffData Data { get; }
+		
+		/// <summary>
+		/// The buff's duration, separate from database duration
+		/// because database duration is inaccurate.
+		/// </summary>
+		public int Duration { get; }
 
 		/// <summary>
 		/// Index in world collection?
@@ -43,19 +60,56 @@ namespace Melia.Channel.World
 		public DateTime RemovalTime { get; set; }
 
 		/// <summary>
+		/// If the buff has an update time
+		/// </summary>
+		/// <returns></returns>
+		public bool HasUpdateTime() => this.Data.UpdateTime != 0;
+
+		/// <summary>
+		/// The buff's removal time
+		/// </summary>
+		public DateTime NextUpdateTime { get; set; }
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
 		/// <param name="buffId"></param>
-		/// <param name="level"></param>
-		public Buff(IEntity entity, BuffId buffId)
+		/// <param name="duration"></param>
+		/// <param name="skillId"></param>
+		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int duration = 0, int skillId = 1)
 		{
-			this.Owner = entity;
+			this.Caster = caster;
+			this.Target = target;
 			this.Id = buffId;
+			this.SkillId = skillId;
 			this.Handle = ChannelServer.Instance.World.CreateBuffHandle();
 			this.Data = ChannelServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
-			if (this.Data.Duration != 0)
-				this.RemovalTime = DateTime.Now.AddMilliseconds(Math.Max(0, this.Data.Duration));
+			if (duration == 0)
+			{
+				if (this.Data.Duration != 0)
+				{
+					this.Duration = this.Data.Duration;
+					this.RemovalTime = DateTime.Now.AddMilliseconds(this.Data.Duration);
+				}
+			}
+			else
+			{
+				this.Duration = duration;
+				this.RemovalTime = DateTime.Now.AddMilliseconds(duration);
+			}
+			if (this.HasUpdateTime())
+				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
+		}
+
+		/// <summary>
+		/// Get Next Update Time
+		/// </summary>
+		public void Update()
+		{
+			if (this.HasUpdateTime())
+				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
 		}
 
 		/// <summary>

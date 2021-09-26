@@ -57,6 +57,11 @@ namespace Melia.Channel.World.Entities
 	public interface ICombatEntity : IEntity
 	{
 		/// <summary>
+		/// Buffs of a Combat Entity
+		/// </summary>
+		Buffs Buffs { get; }
+		
+		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
 		/// Returns whether the entity is dead.
 		/// </summary>

@@ -1,5 +1,6 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
+using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
@@ -43,9 +44,10 @@ namespace Melia.Channel.Skills.Cleric
 			var healAmount = (int)(caster.GetRandomMagicAmplification() * skill.Data.SkillFactor / 100f);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
-			// Heal uses ZC_HEAL_INFO instead of ZC_ADD_HP
-			caster.ModifyHp(healAmount);
-			caster.Buffs.AddOrUpdate(BuffId.Heal_Overload_Buff);
+
+			var healOverloadBuff = new Buff(caster, caster, BuffId.Heal_Overload_Buff, 3500);
+			var healBuff = new Buff(caster, caster, BuffId.Heal_Buff, 1000);
+			caster.Buffs.AddOrUpdate(healOverloadBuff, healBuff);
 		}
 	}
 }

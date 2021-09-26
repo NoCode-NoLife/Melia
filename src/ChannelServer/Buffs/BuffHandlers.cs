@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Melia.Channel.Buffs.Base;
 using Melia.Channel.Buffs.Generic;
-using Melia.Channel.World.Entities;
+using Melia.Channel.World;
 using Melia.Shared.Const;
 
 namespace Melia.Channel.Buffs
@@ -65,17 +65,6 @@ namespace Melia.Channel.Buffs
 				return handler;
 
 			return _defaultBuffHandler;
-		}
-
-		public void Handle(ICombatEntity target, params BuffId[] buffIds)
-		{
-			foreach (var buffId in buffIds)
-			{
-				var handler = GetBuff(buffId);
-				handler.OnStart(buffId, target);
-				handler.WhileActive(buffId, target);
-				handler.OnEnd(buffId, target);
-			}
 		}
 	}
 }
