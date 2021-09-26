@@ -12,23 +12,6 @@
 //------------------------------------------------
 #include "inc/common.bt"
 
-typedef struct
-{
-    int buffId; // Buff Id?
-    int64 l1;
-    int64 l2;
-    int i2;
-    int i3;
-    int i4;
-    int64 l3;
-    lpString characterName;
-    int i5; // Buff World Id?
-    int i6;
-    int i7;
-    byte b1;
-    byte b2;
-} BuffData <optimize=false>;
-
 ServerHeaderDynamic header;
 
 int handle;

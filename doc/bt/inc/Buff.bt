@@ -1,0 +1,56 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: Buff.bt
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int targetHandle;
+    int buffHandle;
+    int buffId; // 7013,7014,110001
+    int skillId; // 30009, otherwise 1
+    int i1; // 10000 on Buff Id: 110001
+    int i2; // 1
+    int i3; // 0
+    int i4; // 2
+    int buffCounter; // 1
+    int buffLength; // 14400000, 1000
+    int i5;
+    int i7; // 8, 0
+    short s1; // 9, 11
+    string casterName; // Real
+    int casterHandle;
+    int buffHandle;
+    int64 l1;
+    byte b1; // 1
+    byte b2; // 1
+} Buff <optimize=false>;
+
+typedef struct
+{
+    int targetHandle;
+    int buffHandle;
+    int buffId; // ? 7013/7014
+    int i1; // 1
+    int i2; // 0
+    int i3; // 2
+    int i4; // 1
+    int buffLength; // Time? 14400000
+    int i5;
+    int i6; // 8
+    short s2; // 9
+    string casterName; // Real
+    int casterHandle;
+    int buffHandle;
+    int64 l1;
+    byte b1;
+    byte b2;
+} BuffData <optimize=false>;
