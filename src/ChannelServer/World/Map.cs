@@ -46,6 +46,11 @@ namespace Melia.Channel.World
 		public int Id { get; protected set; }
 
 		/// <summary>
+		/// Returns the map's ground.
+		/// </summary>
+		public Ground Ground { get; } = new Ground();
+
+		/// <summary>
 		/// Default dummy region.
 		/// </summary>
 		public static Map Limbo { get; } = new Limbo();
@@ -57,6 +62,18 @@ namespace Melia.Channel.World
 		{
 			this.Id = id;
 			this.Name = name;
+
+			this.Load();
+		}
+
+		/// <summary>
+		/// Loads the map's data.
+		/// </summary>
+		private void Load()
+		{
+			// A few maps don't seem to have any ground data.
+			if (ChannelServer.Instance.Data.GroundDb.TryFind(this.Name, out var groundData))
+				this.Ground.Load(groundData);
 		}
 
 		/// <summary>

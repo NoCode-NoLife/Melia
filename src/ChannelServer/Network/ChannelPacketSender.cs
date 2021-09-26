@@ -4125,6 +4125,34 @@ namespace Melia.Channel.Network
 			character.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Makes entity move between the given positions.
+		/// </summary>
+		/// <remarks>
+		/// The positions must use the cell for Y, instead of the height,
+		/// otherwise the client is not able to handle the packet.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="fromCellPos"></param>
+		/// <param name="toCellPos"></param>
+		/// <param name="speed"></param>
+		public static void ZC_MOVE_PATH(IEntity entity, Position fromCellPos, Position toCellPos, float speed)
+		{
+			var packet = new Packet(Op.ZC_MOVE_PATH);
+
+			packet.PutInt(entity.Handle);
+			packet.PutInt((int)fromCellPos.X);
+			packet.PutInt((int)fromCellPos.Z);
+			packet.PutInt((int)fromCellPos.Y);
+			packet.PutInt((int)toCellPos.X);
+			packet.PutInt((int)toCellPos.Z);
+			packet.PutInt((int)toCellPos.Y);
+			packet.PutFloat(speed);
+			packet.PutFloat(0);
+
+			entity.Map.Broadcast(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
