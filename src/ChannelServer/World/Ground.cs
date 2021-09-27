@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
@@ -75,7 +74,7 @@ namespace Melia.Channel.World
 
 		/// <summary>
 		/// Returns the height of the ground at the given 2D position.
-		/// If there's not ground at the position, NaN is returned.
+		/// If there's no ground at the position, NaN is returned.
 		/// </summary>
 		/// <remarks>
 		/// Only X and Z are used by this function.
@@ -84,17 +83,38 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public float GetHeightAt(Position pos)
 		{
+			if (this.TryGetHeightAt(pos, out var height))
+				return height;
+
+			return float.NaN;
+		}
+
+		/// <summary>
+		/// Returns the height of the ground at the given 2D position via
+		/// out. Returns false if there is no ground at the position.
+		/// </summary>
+		/// <remarks>
+		/// Only X and Z are used by this function.
+		/// </remarks>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public bool TryGetHeightAt(Position pos, out float height)
+		{
 			var origin = new Vector3f(pos.X, 1000, pos.Z);
 			var ray = new Ray3f(origin, new Vector3f(0, -1, 0));
 
 			var hitId = _spatial.FindNearestHitTriangle(ray);
 			if (hitId == DMesh3.InvalidID)
-				return float.NaN;
+			{
+				height = float.NaN;
+				return false;
+			}
 
 			var intersection = MeshQueries.TriangleIntersection(_mesh, hitId, ray);
 			var hitDistance = origin.Distance(ray.PointAt((float)intersection.RayParameter));
 
-			return (1000 - hitDistance);
+			height = (1000 - hitDistance);
+			return true;
 		}
 
 		/// <summary>
@@ -137,6 +157,53 @@ namespace Melia.Channel.World
 
 			cellIndex = -1;
 			return true;
+		}
+
+		/// <summary>
+		/// Returns a random position on the walkable ground via out.
+		/// Returns false if no valid position could be found in a
+		/// reasonable amount of time, indicating that the terrain
+		/// is too complex.
+		/// </summary>
+		/// <returns></returns>
+		public bool TryGetRandomPosition(out Position pos)
+		{
+			if (_cells == null || _cells.Length == 0)
+			{
+				pos = Position.Zero;
+				return false;
+			}
+
+			// We choose a random cell to find a valid position on and
+			// then simply try a few positions until we got one. This
+			// is better than just trying random positions, but we could
+			// still fail to find one. This is unlikely to ever be a big
+			// problem, but we could optimize this to get a random triangle
+			// to find a position on.
+
+			var rnd = RandomProvider.Get();
+			var rndCell = _cells[rnd.Next(_cells.Length)];
+
+			var left = rndCell.Bounds.Min.x;
+			var right = rndCell.Bounds.Max.x;
+			var bottom = rndCell.Bounds.Min.y;
+			var top = rndCell.Bounds.Max.y;
+
+			for (var i = 0; i < 50; ++i)
+			{
+				var x = rnd.Next((int)left + 1, (int)right);
+				var z = rnd.Next((int)bottom + 1, (int)top);
+
+				pos = new Position(x, 0, z);
+				if (!this.TryGetHeightAt(pos, out var height))
+					continue;
+
+				pos.Y = height;
+				return true;
+			}
+
+			pos = Position.Zero;
+			return false;
 		}
 	}
 }

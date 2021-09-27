@@ -121,13 +121,31 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleJump(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			if (args.Length < 4)
-				return CommandResult.InvalidArgument;
+			Position newPos;
 
-			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
-				return CommandResult.InvalidArgument;
+			if (args.Length < 2)
+			{
+				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
+				{
+					sender.ServerMessage("Jump to random position failed.");
+					return CommandResult.Fail;
+				}
 
-			target.Position = new Position(x, y, z);
+				newPos = rndPos;
+			}
+			else if (args.Length < 4)
+			{
+				return CommandResult.InvalidArgument;
+			}
+			else
+			{
+				if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				newPos = new Position(x, y, z);
+			}
+
+			target.Position = newPos;
 			Send.ZC_SET_POS(target);
 
 			if (sender == target)
