@@ -3054,6 +3054,7 @@ namespace Melia.Channel.World.Entities
 		public void PickUp(ItemMonster itemMonster)
 		{
 			itemMonster.PickedUp = true;
+			itemMonster.Item.ClearProtections();
 
 			// Play pickup animation. This is what actually makes the item
 			// disappear, the client doesn't seem to react to ZC_LEAVE in
