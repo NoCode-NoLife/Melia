@@ -19,6 +19,7 @@ namespace Melia.Shared.Data.Database
 
 	public class VertexListData
 	{
+		public int[] Indices { get; set; }
 		public VertexData[] Vertices { get; set; }
 	}
 
@@ -53,10 +54,15 @@ namespace Melia.Shared.Data.Database
 				for (var j = 0; j < tCount; ++j)
 				{
 					data.Triangles[j] = new VertexListData();
+					data.Triangles[j].Indices = new int[3];
 					data.Triangles[j].Vertices = new VertexData[3];
 
 					for (var k = 0; k < 3; ++k)
-						data.Triangles[j].Vertices[k] = data.Vertices[br.ReadInt32()];
+					{
+						var index = br.ReadInt32();
+						data.Triangles[j].Indices[k] = index;
+						data.Triangles[j].Vertices[k] = data.Vertices[index];
+					}
 				}
 
 				var cCount = br.ReadInt32();
@@ -67,10 +73,15 @@ namespace Melia.Shared.Data.Database
 					var count = br.ReadInt32();
 
 					data.Cells[j] = new VertexListData();
+					data.Cells[j].Indices = new int[count];
 					data.Cells[j].Vertices = new VertexData[count];
 
 					for (var k = 0; k < count; ++k)
-						data.Cells[j].Vertices[k] = data.Vertices[br.ReadInt32()];
+					{
+						var index = br.ReadInt32();
+						data.Cells[j].Indices[k] = index;
+						data.Cells[j].Vertices[k] = data.Vertices[index];
+					}
 				}
 
 				Entries[data.MapName] = data;
