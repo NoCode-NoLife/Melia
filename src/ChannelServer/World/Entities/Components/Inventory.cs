@@ -259,6 +259,11 @@ namespace Melia.Channel.World.Entities.Components
 			}
 
 			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+
+			// Temp fix. The amounts on item stacks that items were added
+			// to are sometimes wrong, a full updates fixes that. Maybe
+			// ZC_ITEM_ADD needs an update.
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 		}
 
 		/// <summary>
