@@ -35,6 +35,7 @@ namespace Melia.Channel.Util
 
 			// Custom
 			Add("buyshop", "", this.HandleBuyShop);
+			Add("updatemouse", "", this.HandleUpdateMouse);
 
 			// Normal
 			Add("where", "", this.HandleWhere);
@@ -1244,6 +1245,25 @@ namespace Melia.Channel.Util
 			}
 
 			ChannelPacketHandler.Instance.Handle(conn, packet);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Updates the character's mouse position variables.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleUpdateMouse(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			sender.Variables.Temp["MouseX"] = float.Parse(args[1], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["MouseY"] = float.Parse(args[2], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["ScreenWidth"] = float.Parse(args[3], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["ScreenHeight"] = float.Parse(args[4], CultureInfo.InvariantCulture);
 
 			return CommandResult.Okay;
 		}

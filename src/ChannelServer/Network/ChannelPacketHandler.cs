@@ -11,6 +11,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
+using Melia.Shared.World;
 
 namespace Melia.Channel.Network
 {
@@ -457,6 +458,18 @@ namespace Melia.Channel.Network
 			// Drop item
 			if (ChannelServer.Instance.Conf.World.Littering)
 			{
+				var dropDir = character.Direction;
+
+				if (ChannelServer.Instance.Conf.World.TargetedLittering && character.Variables.Temp.Defined("MouseX"))
+				{
+					var mouseX = character.Variables.Temp.Get("MouseX", 0f);
+					var mouseY = character.Variables.Temp.Get("MouseY", 0f);
+					var centerX = character.Variables.Temp.Get("ScreenWidth", 0f) / 2;
+					var centerY = character.Variables.Temp.Get("ScreenHeight", 0f) / 2;
+
+					dropDir = new Direction(mouseY - centerY, mouseX - centerX).AddDegreeAngle(-45);
+				}
+
 				// If the entire stack was discarded, we can simply drop
 				// the item. If only a part of the stack was discarded,
 				// we need to create a new stack, with the selected amount.
@@ -464,7 +477,7 @@ namespace Melia.Channel.Network
 				//   the original stack to the new stack.
 				var dropItem = (fullStack ? item : new Item(item.Id, amount));
 				dropItem.SetRePickUpProtection(character);
-				dropItem.Drop(character.Map, character.Position, character.Direction, 30);
+				dropItem.Drop(character.Map, character.Position, dropDir, 30);
 			}
 		}
 
