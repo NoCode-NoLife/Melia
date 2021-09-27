@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 
 namespace Melia.Channel.World
@@ -13,6 +15,7 @@ namespace Melia.Channel.World
 		private GroundData _data;
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
+		private Polygon2d[] _cells;
 
 		/// <summary>
 		/// Loads the ground data.
@@ -23,6 +26,7 @@ namespace Melia.Channel.World
 			_data = data;
 
 			this.LoadGroundMesh();
+			this.LoadCells();
 		}
 
 		/// <summary>
@@ -40,6 +44,22 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Generates cells from ground data.
+		/// </summary>
+		private void LoadCells()
+		{
+			_cells = new Polygon2d[_data.Cells.Length];
+
+			for (var i = 0; i < _data.Cells.Length; ++i)
+			{
+				var vertices = _data.Cells[i].Vertices.Select(a => new Vector2d(a.X, a.Y)).ToArray();
+				var polygon = new Polygon2d(vertices);
+
+				_cells[i] = polygon;
+			}
+		}
+
+		/// <summary>
 		/// Returns whether the given 2D position is a valid position for
 		/// an entity to stand on.
 		/// </summary>
@@ -50,8 +70,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool IsValidPosition(Position pos)
 		{
-			var cPos = this.GetCellPosition(pos);
-			return (cPos.Y != -1);
+			return this.TryGetCellIndex(pos, out _);
 		}
 
 		/// <summary>
@@ -86,21 +105,38 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public Position GetCellPosition(Position pos)
 		{
+			this.TryGetCellIndex(pos, out var cellIndex);
+
+			pos.Y = cellIndex;
+			return pos;
+		}
+
+		/// <summary>
+		/// Returns the cell index for the given position via out. Returns
+		/// false if no cell exists at the position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="cellIndex"></param>
+		/// <returns></returns>
+		public bool TryGetCellIndex(Position pos, out int cellIndex)
+		{
+			var vecPos = new Vector2d(pos.X, pos.Z);
+
+			// TODO: Quadtree?
+
 			for (var i = 0; i < _data.Cells.Length; ++i)
 			{
-				var cell = _data.Cells[i];
+				var cell = _cells[i];
 
-				// TODO: Quadtree for better performance.
-
-				if (pos.InPolygon2D(cell.Vertices.Select(a => new Position(a.X, a.Z, a.Y)).ToArray()))
+				if (cell.Contains(vecPos))
 				{
-					pos.Y = i;
-					return pos;
+					cellIndex = i;
+					return true;
 				}
 			}
 
-			pos.Y = -1;
-			return pos;
+			cellIndex = -1;
+			return true;
 		}
 	}
 }
