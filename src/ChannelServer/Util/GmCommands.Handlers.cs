@@ -29,50 +29,50 @@ namespace Melia.Channel.Util
 			// in the configuration file "system/conf/commands.conf".
 
 			// Official
-			Add("requpdateequip", "", this.HandleReqUpdateEquip);
-			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
-			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
+			this.Add("requpdateequip", "", this.HandleReqUpdateEquip);
+			this.Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
+			this.Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
 
 			// Custom
-			Add("buyshop", "", this.HandleBuyShop);
-			Add("updatemouse", "", this.HandleUpdateMouse);
+			this.Add("buyshop", "", this.HandleBuyShop);
+			this.Add("updatemouse", "", this.HandleUpdateMouse);
 
 			// Normal
-			Add("where", "", this.HandleWhere);
-			Add("name", "<new name>", this.HandleName);
+			this.Add("where", "", this.HandleWhere);
+			this.Add("name", "<new name>", this.HandleName);
 
 			// GMs
-			Add("jump", "<x> <y> <z>", this.HandleJump);
-			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
-			Add("item", "<item id> [amount]", this.HandleItem);
-			Add("silver", "<modifier>", this.HandleSilver);
-			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
-			Add("madhatter", "", this.HandleGetAllHats);
-			Add("levelup", "<levels>", this.HandleLevelUp);
-			Add("speed", "<speed>", this.HandleSpeed);
-			Add("iteminfo", "<name>", this.HandleItemInfo);
-			Add("monsterinfo", "<name>", this.HandleMonsterInfo);
-			Add("go", "<destination>", this.HandleGo);
-			Add("goto", "<team name>", this.HandleGoTo);
-			Add("recall", "<team name>", this.HandleRecall);
-			Add("recallmap", "[map id/name]", this.HandleRecallMap);
-			Add("recallall", "", this.HandleRecallAll);
-			Add("clearinv", "", this.HandleClearInventory);
-			Add("addjob", "<job id> [circle]", this.HandleAddJob);
-			Add("removejob", "<job id>", this.HandleRemoveJob);
-			Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
-			Add("statpoints", "<amount>", this.HandleStatPoints);
+			this.Add("jump", "<x> <y> <z>", this.HandleJump);
+			this.Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
+			this.Add("item", "<item id> [amount]", this.HandleItem);
+			this.Add("silver", "<modifier>", this.HandleSilver);
+			this.Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
+			this.Add("madhatter", "", this.HandleGetAllHats);
+			this.Add("levelup", "<levels>", this.HandleLevelUp);
+			this.Add("speed", "<speed>", this.HandleSpeed);
+			this.Add("iteminfo", "<name>", this.HandleItemInfo);
+			this.Add("monsterinfo", "<name>", this.HandleMonsterInfo);
+			this.Add("go", "<destination>", this.HandleGo);
+			this.Add("goto", "<team name>", this.HandleGoTo);
+			this.Add("recall", "<team name>", this.HandleRecall);
+			this.Add("recallmap", "[map id/name]", this.HandleRecallMap);
+			this.Add("recallall", "", this.HandleRecallAll);
+			this.Add("clearinv", "", this.HandleClearInventory);
+			this.Add("addjob", "<job id> [circle]", this.HandleAddJob);
+			this.Add("removejob", "<job id>", this.HandleRemoveJob);
+			this.Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
+			this.Add("statpoints", "<amount>", this.HandleStatPoints);
 
 			// Dev
-			Add("test", "", this.HandleTest);
-			Add("reloadscripts", "", this.HandleReloadScripts);
-			Add("reloadconf", "", this.HandleReloadConf);
-			Add("reloaddata", "", this.HandleReloadData);
+			this.Add("test", "", this.HandleTest);
+			this.Add("reloadscripts", "", this.HandleReloadScripts);
+			this.Add("reloadconf", "", this.HandleReloadConf);
+			this.Add("reloaddata", "", this.HandleReloadData);
 
 			// Aliases
-			AddAlias("iteminfo", "ii");
-			AddAlias("monsterinfo", "mi");
-			AddAlias("reloadscripts", "rs");
+			this.AddAlias("iteminfo", "ii");
+			this.AddAlias("monsterinfo", "mi");
+			this.AddAlias("reloadscripts", "rs");
 		}
 
 		/// <summary>
