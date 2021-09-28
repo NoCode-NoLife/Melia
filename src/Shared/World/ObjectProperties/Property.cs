@@ -1,4 +1,6 @@
-﻿namespace Melia.Shared.World.ObjectProperties
+﻿using System;
+
+namespace Melia.Shared.World.ObjectProperties
 {
 	/// <summary>
 	/// Describes a property of an object.
@@ -20,6 +22,11 @@
 		/// Returns the property's type.
 		/// </summary>
 		PropertyType Type { get; }
+
+		/// <summary>
+		/// Raised when the value of the property changed.
+		/// </summary>
+		event Action<IProperty> ValueChanged;
 
 		/// <summary>
 		/// Returns a string representation of the property's value.

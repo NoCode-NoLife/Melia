@@ -8,6 +8,8 @@ namespace Melia.Shared.World.ObjectProperties
 	/// </summary>
 	public class FloatProperty : IProperty
 	{
+		private float _value;
+
 		/// <summary>
 		/// Returns this property's id.
 		/// </summary>
@@ -26,7 +28,23 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Gets or sets this property's value.
 		/// </summary>
-		public virtual float Value { get; set; }
+		public virtual float Value
+		{
+			get => _value;
+			set
+			{
+				var valueBefore = _value;
+				_value = value;
+
+				if (_value != valueBefore)
+					this.ValueChanged?.Invoke(this);
+			}
+		}
+
+		/// <summary>
+		/// Raised when the property's value changed.
+		/// </summary>
+		public event Action<IProperty> ValueChanged;
 
 		/// <summary>
 		/// Creates new instance.
@@ -36,7 +54,7 @@ namespace Melia.Shared.World.ObjectProperties
 		public FloatProperty(int propertyId, float value)
 		{
 			this.Id = propertyId;
-			this.Value = value;
+			_value = value;
 		}
 
 		/// <summary>
@@ -45,7 +63,7 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <returns></returns>
 		public string GetString()
 		{
-			return this.Value.ToString("g", CultureInfo.InvariantCulture);
+			return _value.ToString("g", CultureInfo.InvariantCulture);
 		}
 	}
 

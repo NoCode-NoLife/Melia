@@ -8,6 +8,8 @@ namespace Melia.Shared.World.ObjectProperties
 	/// </summary>
 	public class StringProperty : IProperty
 	{
+		private string _value;
+
 		/// <summary>
 		/// Returns this property's id.
 		/// </summary>
@@ -27,7 +29,23 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Gets or sets this property's value.
 		/// </summary>
-		public virtual string Value { get; set; }
+		public virtual string Value
+		{
+			get => _value;
+			set
+			{
+				var valueBefore = _value;
+				_value = value;
+
+				if (_value != valueBefore)
+					this.ValueChanged?.Invoke(this);
+			}
+		}
+
+		/// <summary>
+		/// Raised when the property's value changed.
+		/// </summary>
+		public event Action<IProperty> ValueChanged;
 
 		/// <summary>
 		/// Creates new instance.
