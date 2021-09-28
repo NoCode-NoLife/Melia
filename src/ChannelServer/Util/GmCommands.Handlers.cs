@@ -216,7 +216,7 @@ namespace Melia.Channel.Util
 			// Warp
 			try
 			{
-				target.Warp(mapId, targetPos.X, targetPos.Y, targetPos.Z);
+				target.Warp(mapId, targetPos);
 
 				if (sender == target)
 				{
@@ -679,13 +679,13 @@ namespace Melia.Channel.Util
 		{
 			if (args.Length < 2)
 			{
-				sender.ServerMessage("Destinations: klaipeda, orsha");
+				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
 			}
 
-			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", -75, 148, -24);
-			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", 271, 176, 292);
-			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", -628, 260, -1025);
+			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
+			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
 				sender.ServerMessage("Unknown destination.");
