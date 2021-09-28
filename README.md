@@ -1,5 +1,5 @@
 Melia
-==============================
+=============================================================================
 
 Melia is an open-source MMORPG server software for the international client
 of Tree of Savior. It's solely being developed for educational purposes,
@@ -13,13 +13,12 @@ As such, every user is free to use Melia and choose how to use it,
 in the context of its license.
 
 Compatibility
-------------------------------
-Melia is only compatible to the latest iTOS client,
-compatibility to any other clients or versions is
-not guaranteed, and in fact unlikely.
+-----------------------------------------------------------------------------
+Melia is only compatible to the latest iTOS client, compatibility to any
+other clients or versions is not guaranteed, and in fact unlikely.
 
 State of Development
-------------------------------
+-----------------------------------------------------------------------------
 Unfortunately, Melia hasn't been in active development for years, though
 there's been some recent activity again. At the current time, Melia is
 mostly compatible to the latest version of iToS again, you're very welcome
@@ -42,7 +41,7 @@ The features that are currently working are the following:
   - [x] Monster spawning via script
 
 Requirements
-------------------------------
+-----------------------------------------------------------------------------
 
 ### General Pre-requisites
 
@@ -74,7 +73,7 @@ Requirements
 - [Visual Studio](https://visualstudio.microsoft.com/downloads/) (2017 or later) (Community Edition is free)
 
 Installation
-------------------------------
+-----------------------------------------------------------------------------
 * Compile Melia
 * Run `sql/main.sql` to setup the database
 * Copy `system/conf/database.conf` to `user/conf/`,
@@ -85,17 +84,16 @@ directly from the bin directories. If not, or if you need a more detailed guide,
 head over to our forum, the chat, or the wiki.
 
 Contribution
-------------------------------
+-----------------------------------------------------------------------------
 Check the file CONTRIBUTING.md for instructions on how you may contribute.
 
 Links
-------------------------------
+-----------------------------------------------------------------------------
 * GitHub: https://github.com/NoCode-NoLife/melia
-* Backlog: [https://github.com/NoCode-NoLife/melia/issues](https://github.com/NoCode-NoLife/melia/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abacklog)
 * Wiki: https://github.com/NoCode-NoLife/melia/wiki
 * Forum: https://nocodenolife.org/forum/65-melia/
 * Chat: https://discord.gg/5sszEgw
 
 Build Status
-------------------------------
+-----------------------------------------------------------------------------
 [![Build Status](https://travis-ci.org/NoCode-NoLife/melia.png?branch=master)](https://travis-ci.org/aura-project/melia)
