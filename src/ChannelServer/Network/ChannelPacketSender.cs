@@ -457,16 +457,21 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_OPTION_LIST to connection, containing the saved
+		/// Sends ZC_OPTION_LIST to client, containing the saved
 		/// account options, like "Show Exp Aquired".
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_OPTION_LIST(ChannelConnection conn)
 		{
-			var packet = new Packet(Op.ZC_OPTION_LIST);
+			// Officials don't always send all options, but only the ones
+			// that were changed from their default values, resulting in
+			// an empty string in this packet if no options were changed
+			// yet. We could technically do that as well, but we'd need
+			// an options db, for the defaults. And it's one packet with
+			// 500 bytes, that's sent once on login. Who cares?
 
-			packet.PutByte(0);
-			//packet.PutString(conn.Account.Settings.ToString());
+			var packet = new Packet(Op.ZC_OPTION_LIST);
+			packet.PutString(conn.Account.Settings.ToString());
 
 			conn.Send(packet);
 		}
