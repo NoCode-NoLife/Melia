@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace Melia.Shared.World.ObjectProperties
@@ -20,6 +21,12 @@ namespace Melia.Shared.World.ObjectProperties
 		/// Returns the property's type.
 		/// </summary>
 		PropertyType Type { get; }
+
+		/// <summary>
+		/// Returns a string representation of the property's value.
+		/// </summary>
+		/// <returns></returns>
+		string GetString();
 	}
 
 	/// <summary>
@@ -56,6 +63,15 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			this.Id = propertyId;
 			this.Value = value;
+		}
+
+		/// <summary>
+		/// Returns the property's value as a string.
+		/// </summary>
+		/// <returns></returns>
+		public string GetString()
+		{
+			return this.Value.ToString("g", CultureInfo.InvariantCulture);
 		}
 	}
 
@@ -118,6 +134,15 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			this.Id = propertyId;
 			this.Value = value ?? throw new ArgumentNullException(nameof(value));
+		}
+
+		/// <summary>
+		/// Returns the property's value.
+		/// </summary>
+		/// <returns></returns>
+		public string GetString()
+		{
+			return this.Value;
 		}
 	}
 

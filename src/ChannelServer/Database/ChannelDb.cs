@@ -146,6 +146,7 @@ namespace Melia.Channel.Database
 			this.LoadCharacterItems(character);
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
 			this.LoadSessionObjects(character);
+			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
@@ -430,6 +431,7 @@ namespace Melia.Channel.Database
 			this.SaveCharacterItems(character);
 			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
 			this.SaveSessionObjects(character);
+			this.SaveProperties("character_properties", "characterId", character.Id, character.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
