@@ -44,8 +44,13 @@ namespace Melia.Channel.World
 		/// <param name="buff"></param>
 		public void AddSilent(Buff buff)
 		{
+			buff.IncreaseOverbuff();
+
 			lock (_buffs)
 				_buffs[buff.Id] = buff;
+
+			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+			handler?.OnStart(buff);
 		}
 
 		/// <summary>
@@ -54,10 +59,7 @@ namespace Melia.Channel.World
 		/// <param name="buff"></param>
 		public void Add(Buff buff)
 		{
-			buff.IncreaseOverbuff();
 			this.AddSilent(buff);
-			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-			handler?.OnStart(buff);
 			Send.ZC_BUFF_ADD(this.Owner, buff);
 		}
 
@@ -67,10 +69,13 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="buffId"></param>
 		/// <returns></returns>
-		public bool RemoveSilent(BuffId buffId)
+		public bool RemoveSilent(Buff buff)
 		{
+			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+			handler?.OnEnd(buff);
+
 			lock (_buffs)
-				return _buffs.Remove(buffId);
+				return _buffs.Remove(buff.Id);
 		}
 
 		/// <summary>
@@ -83,9 +88,7 @@ namespace Melia.Channel.World
 		{
 			var buff = this.Get(buffId);
 			if (buff != null)
-			{
-				this.Remove(buff);
-			}
+				return this.Remove(buff);
 			return false;
 		}
 
@@ -97,15 +100,9 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool Remove(Buff buff)
 		{
-			var isRemoved = false;
-			lock (_buffs)
-			{
-				isRemoved = _buffs.Remove(buff.Id);
-			}
+			var isRemoved = this.RemoveSilent(buff);
 			if (isRemoved)
 			{
-				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-				handler?.OnEnd(buff);
 				Send.ZC_BUFF_REMOVE(this.Owner, buff);
 			}
 			return isRemoved;
