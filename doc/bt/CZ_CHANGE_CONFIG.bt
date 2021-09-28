@@ -15,6 +15,5 @@
 
 ClientHeaderFixed header;
 
-byte bin[12];
 int option;
 int value;
