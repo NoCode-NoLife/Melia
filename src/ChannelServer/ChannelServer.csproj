@@ -39,6 +39,9 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="geometry3">
+      <HintPath>..\..\lib\geometry3.dll</HintPath>
+    </Reference>
     <Reference Include="Melua, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Melua.dll</HintPath>
@@ -90,6 +93,7 @@
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />
+    <Compile Include="World\Ground.cs" />
     <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Entities\Components\Inventory.cs" />
     <Compile Include="World\Entities\Item.cs" />

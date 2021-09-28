@@ -104,9 +104,9 @@ namespace Melia.Channel.Util
 		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
 
 			return CommandResult.Okay;
 		}
@@ -122,13 +122,31 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleJump(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			if (args.Length < 4)
-				return CommandResult.InvalidArgument;
+			Position newPos;
 
-			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
-				return CommandResult.InvalidArgument;
+			if (args.Length < 2)
+			{
+				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
+				{
+					sender.ServerMessage("Jump to random position failed.");
+					return CommandResult.Fail;
+				}
 
-			target.Position = new Position(x, y, z);
+				newPos = rndPos;
+			}
+			else if (args.Length < 4)
+			{
+				return CommandResult.InvalidArgument;
+			}
+			else
+			{
+				if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				newPos = new Position(x, y, z);
+			}
+
+			target.Position = newPos;
 			Send.ZC_SET_POS(target);
 
 			if (sender == target)
@@ -158,8 +176,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			float x = 0, y = 0, z = 0;
-
+			// Get map id
 			if (!int.TryParse(args[1], out var mapId))
 			{
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
@@ -172,15 +189,35 @@ namespace Melia.Channel.Util
 				mapId = data.Id;
 			}
 
-			if (args.Length >= 5)
+			// Get map
+			if (!ChannelServer.Instance.World.TryGetMap(mapId, out var map))
 			{
-				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
-					return CommandResult.InvalidArgument;
+				sender.ServerMessage("Map not found.");
+				return CommandResult.Okay;
 			}
 
+			// Get target position
+			Position targetPos;
+			if (args.Length < 5)
+			{
+				if (!map.Ground.TryGetRandomPosition(out targetPos))
+				{
+					sender.ServerMessage("Random position warp failed.");
+					return CommandResult.Okay;
+				}
+			}
+			else
+			{
+				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				targetPos = new Position(x, y, z);
+			}
+
+			// Warp
 			try
 			{
-				target.Warp(mapId, x, y, z);
+				target.Warp(mapId, targetPos);
 
 				if (sender == target)
 				{
@@ -643,13 +680,13 @@ namespace Melia.Channel.Util
 		{
 			if (args.Length < 2)
 			{
-				sender.ServerMessage("Destinations: klaipeda, orsha");
+				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
 			}
 
-			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", -75, 148, -24);
-			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", 271, 176, 292);
-			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", -628, 260, -1025);
+			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
+			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
 				sender.ServerMessage("Unknown destination.");
