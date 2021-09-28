@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using Melia.Shared.Util;
 
@@ -10,22 +9,22 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// X coordinate (left/right).
 		/// </summary>
-		public readonly float X;
+		public float X;
 
 		/// <summary>
 		/// Y coordinate (up/down).
 		/// </summary>
-		public readonly float Y;
+		public float Y;
 
 		/// <summary>
 		/// Z coordinate (depth).
 		/// </summary>
-		public readonly float Z;
+		public float Z;
 
 		/// <summary>
 		/// Returns new position with X, Y, and Z being 0.
 		/// </summary>
-		public static Position Zero { get { return new Position(0, 0, 0); } }
+		public static Position Zero => new Position(0, 0, 0);
 
 		/// <summary>
 		/// Creates new position from coordinates.
@@ -219,7 +218,6 @@ namespace Melia.Shared.World
 		public Direction GetDirection(Position otherPos)
 		{
 			var radianAngle = Math.Atan2(otherPos.Z - Z, otherPos.X - X);
-			//radianAngle -= Math.PI / 2; // -45° offset
 
 			var cos = Math.Cos(radianAngle);
 			var sin = Math.Sin(radianAngle);
@@ -265,7 +263,7 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			return obj is Position && this == (Position)obj;
+			return obj is Position position && this == position;
 		}
 
 		/// <summary>

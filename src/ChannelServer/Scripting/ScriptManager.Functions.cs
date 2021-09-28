@@ -749,7 +749,7 @@ namespace Melia.Channel.Scripting
 
 			try
 			{
-				conn.SelectedCharacter.Warp(mapName, x, y, z);
+				conn.SelectedCharacter.Warp(mapName, new Position(x, y, z));
 			}
 			catch (ArgumentException ex)
 			{

@@ -2582,44 +2582,38 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
+		/// <param name="loc"></param>
+		public void Warp(Location loc)
+			=> this.Warp(loc.MapId, loc.Position);
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
 		/// <param name="mapId"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
+		/// <param name="pos"></param>
 		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
-		public void Warp(string mapName, float x, float y, float z)
+		public void Warp(string mapName, Position pos)
 		{
 			var map = ChannelServer.Instance.Data.MapDb.Find(mapName);
 			if (map == null)
 				throw new ArgumentException("Map '" + mapName + "' not found in data.");
 
-			this.Warp(map.Id, x, y, z);
-		}
-
-		/// <summary>
-		/// Warps character to given location.
-		/// </summary>
-		/// <param name="loc"></param>
-		public void Warp(Location loc)
-		{
-			this.Warp(loc.MapId, loc.X, loc.Y, loc.Z);
+			this.Warp(map.Id, pos);
 		}
 
 		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
 		/// <param name="mapId"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
+		/// <param name="pos"></param>
 		/// <exception cref="ArgumentException">Thrown if map doesn't exist in world.</exception>
-		public void Warp(int mapId, float x, float y, float z)
+		public void Warp(int mapId, Position pos)
 		{
 			var map = ChannelServer.Instance.World.GetMap(mapId);
 			if (map == null)
 				throw new ArgumentException("Map with id '" + mapId + "' doesn't exist in world.");
 
-			this.Position = new Position(x, y, z);
+			this.Position = pos;
 
 			if (this.MapId == mapId)
 			{
@@ -3060,6 +3054,7 @@ namespace Melia.Channel.World.Entities
 		public void PickUp(ItemMonster itemMonster)
 		{
 			itemMonster.PickedUp = true;
+			itemMonster.Item.ClearProtections();
 
 			// Play pickup animation. This is what actually makes the item
 			// disappear, the client doesn't seem to react to ZC_LEAVE in
