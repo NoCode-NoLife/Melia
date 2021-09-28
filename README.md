@@ -19,26 +19,27 @@ other clients or versions is not guaranteed, and in fact unlikely.
 
 State of Development
 -----------------------------------------------------------------------------
-Unfortunately, Melia hasn't been in active development for years, though
-there's been some recent activity again. At the current time, Melia is
-mostly compatible to the latest version of iToS again, you're very welcome
-to work on Melia, make pull requests, and ask questions on the chat at any
-time. However, don't expect much outside of some base features yet.
+After years of inactivity, Melia is currently in semi-active development
+again. The server is functional and it's compatible with the latest
+iToS client, but the server can't be called "playable" yet, as many
+features and especially the content are still missing.
 
-The features that are currently working are the following:
-- Login Server
-  - [x] Character management
-- Channel Server
-  - [x] Getting in-game
-  - [x] Chat
-  - [x] Inventory management
-  - [x] Equipment
-  - [ ] Stats
-  - [x] Skill list
-  - [x] Very basic test melee combat
-  - [x] NPC dialog
-  - [ ] NPC shops
-  - [x] Monster spawning via script
+The major features that are currently working are as follows.
+
+**Login Server**
+- Character management (creation, deletion, etc.)
+
+**Channel Server**
+- Chat
+- Inventory management (managing items, equipping, etc.)
+- Stats
+- Skills
+  - Distrbution of skill points
+  - Basic and experimental combat
+  - Basic and experimental support for selected skills
+- NPC dialogues
+- NPC shops
+- Monster spawns
 
 Requirements
 -----------------------------------------------------------------------------
@@ -46,7 +47,8 @@ Requirements
 ### General Pre-requisites
 
 - InnoDB compatible Server such as
-  - [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html) or [MariaDB 10](https://mariadb.org/download/)
+  - [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html) or
+    [MariaDB 10](https://mariadb.org/download/)
 - Sufficient hardware resources for the emulator.
   - Recommended: 1GB
   - Minimum: 256MB
@@ -80,8 +82,8 @@ Installation
   adjust the necessary values and remove the rest.
 
 Afterwards, you should be able to start Melia via the provided scripts or
-directly from the bin directories. If not, or if you need a more detailed guide,
-head over to our forum, the chat, or the wiki.
+directly from the bin directories. If not, or if you need a more detailed
+guide, head over to our forum, the chat, or the wiki.
 
 Contribution
 -----------------------------------------------------------------------------
