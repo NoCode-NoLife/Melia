@@ -35,7 +35,7 @@ namespace Melia.Channel.World
 		/// The buff's data from the buff database.
 		/// </summary>
 		public BuffData Data { get; }
-		
+
 		/// <summary>
 		/// The buff's duration, separate from database duration
 		/// because database duration is inaccurate.
@@ -117,7 +117,8 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void IncreaseOverbuff()
 		{
-			this.OverbuffCounter++;
+			if (this.OverbuffCounter < this.Data.OverBuff)
+				this.OverbuffCounter++;
 		}
 	}
 }
