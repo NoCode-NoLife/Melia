@@ -42,12 +42,12 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Returns the property's type.
 		/// </summary>
-		public PropertyType Type { get { return PropertyType.Float; } }
+		public PropertyType Type => PropertyType.Float;
 
 		/// <summary>
 		/// Returns byte size of float.
 		/// </summary>
-		public int Size { get { return sizeof(int) + sizeof(float); } }
+		public int Size => sizeof(int) + sizeof(float);
 
 		/// <summary>
 		/// Gets or sets this property's value.
@@ -112,13 +112,13 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Returns the property's type.
 		/// </summary>
-		public PropertyType Type { get { return PropertyType.String; } }
+		public PropertyType Type => PropertyType.String;
 
 		/// <summary>
 		/// Returns byte size of the string, plus 2 bytes for length and 1
 		/// byte for the null terminator.
 		/// </summary>
-		public int Size { get { return sizeof(int) + sizeof(short) + Encoding.UTF8.GetByteCount(this.Value) + sizeof(byte); } }
+		public int Size => sizeof(int) + sizeof(short) + Encoding.UTF8.GetByteCount(this.Value) + sizeof(byte);
 
 		/// <summary>
 		/// Gets or sets this property's value.
@@ -141,9 +141,7 @@ namespace Melia.Shared.World.ObjectProperties
 		/// </summary>
 		/// <returns></returns>
 		public string GetString()
-		{
-			return this.Value;
-		}
+			=> this.Value;
 	}
 
 	/// <summary>
