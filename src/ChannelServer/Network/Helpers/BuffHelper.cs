@@ -11,9 +11,9 @@ namespace Melia.Channel.Network.Helpers
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="buff"></param>
-		public static void AddBuff(this Packet packet, IEntity entity, Buff buff)
+		public static void AddBuff(this Packet packet, Buff buff)
 		{
-			packet.PutInt(entity.Handle);
+			packet.PutInt(buff.Target.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt((int)buff.Id);
 			packet.PutInt(buff.SkillId);
@@ -25,14 +25,9 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(buff.Duration);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			if (entity is Character character)
-			{
-				packet.PutShort(character.Name.Length + 1 + 4);
-				packet.PutString(character.Name);
-			}
-			else
-				packet.PutLpString("");
-			packet.PutInt(entity.Handle);
+			packet.PutShort((buff.Caster as Character)?.Name.Length + 5 ?? 5);
+			packet.PutString((buff.Caster as Character)?.Name ?? "");
+			packet.PutInt(buff.Caster.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt(0);
 			packet.PutInt(0);
