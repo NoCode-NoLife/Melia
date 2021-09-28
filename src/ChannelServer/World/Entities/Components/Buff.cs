@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Channel.Buffs.Base;
 using Melia.Channel.World.Entities;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
@@ -6,9 +7,9 @@ using Melia.Shared.Data.Database;
 namespace Melia.Channel.World
 {
 	/// <summary>
-	/// Modeled after Skill class
+	/// Buff
 	/// </summary>
-	public class Buff
+	public class Buff : IUpdateable
 	{
 		/// <summary>
 		/// The buff's owner.
@@ -29,7 +30,7 @@ namespace Melia.Channel.World
 		/// Returns the buff's associated skill id.
 		/// Default value is 1.
 		/// </summary>
-		public int SkillId { get; }
+		public SkillId SkillId { get; } = SkillId.Normal_Attack;
 
 		/// <summary>
 		/// The buff's data from the buff database.
@@ -63,12 +64,17 @@ namespace Melia.Channel.World
 		/// If the buff has an update time
 		/// </summary>
 		/// <returns></returns>
-		public bool HasUpdateTime() => this.Data.UpdateTime != 0;
+		public bool HasUpdateTime => this.Data.UpdateTime != 0;
 
 		/// <summary>
-		/// The buff's removal time
+		/// The buff's next update time
 		/// </summary>
 		public DateTime NextUpdateTime { get; set; }
+
+		/// <summary>
+		/// The buff's behavior handler
+		/// </summary>
+		public IBuffHandler Handler { get; private set; }
 
 		/// <summary>
 		/// Creates a new instance.
@@ -78,7 +84,7 @@ namespace Melia.Channel.World
 		/// <param name="buffId"></param>
 		/// <param name="duration"></param>
 		/// <param name="skillId"></param>
-		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int duration = 0, int skillId = 1)
+		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int duration = 0, SkillId skillId = SkillId.Normal_Attack)
 		{
 			this.Caster = caster;
 			this.Target = target;
@@ -86,6 +92,7 @@ namespace Melia.Channel.World
 			this.SkillId = skillId;
 			this.Handle = ChannelServer.Instance.World.CreateBuffHandle();
 			this.Data = ChannelServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
+			this.Handler = ChannelServer.Instance.BuffHandlers.GetBuff(buffId);
 			if (duration == 0)
 			{
 				if (this.Data.Duration != 0)
@@ -99,16 +106,7 @@ namespace Melia.Channel.World
 				this.Duration = duration;
 				this.RemovalTime = DateTime.Now.AddMilliseconds(duration);
 			}
-			if (this.HasUpdateTime())
-				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
-		}
-
-		/// <summary>
-		/// Get Next Update Time
-		/// </summary>
-		public void Update()
-		{
-			if (this.HasUpdateTime())
+			if (this.HasUpdateTime)
 				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
 		}
 
@@ -119,6 +117,26 @@ namespace Melia.Channel.World
 		{
 			if (this.OverbuffCounter < this.Data.OverBuff)
 				this.OverbuffCounter++;
+		}
+
+		public void Update(TimeSpan elapsed)
+		{
+			if (DateTime.Now >= this.NextUpdateTime)
+			{
+				this.Handler?.WhileActive(this);
+				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
+			}
+		}
+
+		public void Start()
+		{
+			this.RemovalTime = DateTime.Now.AddMilliseconds(this.Duration);
+			this.Handler?.OnStart(this);
+		}
+
+		public void End()
+		{
+			this.Handler?.OnEnd(this);
 		}
 	}
 }

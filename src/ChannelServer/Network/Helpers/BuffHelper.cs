@@ -16,7 +16,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(buff.Target.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt((int)buff.Id);
-			packet.PutInt(buff.SkillId);
+			packet.PutInt((int)buff.SkillId);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(0);

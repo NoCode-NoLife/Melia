@@ -611,7 +611,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Character's buffs.
 		/// </summary>
-		public Buffs Buffs { get; }
+		public BuffCollection Buffs { get; }
 
 		/// <summary>
 		/// Character's properties.
@@ -2241,7 +2241,7 @@ namespace Melia.Channel.World.Entities
 			this.Components.Add(this.Jobs = new Jobs(this));
 			this.Components.Add(this.Skills = new CharacterSkills(this));
 			this.Components.Add(this.Abilities = new Abilities(this));
-			this.Components.Add(this.Buffs = new Buffs(this));
+			this.Components.Add(this.Buffs = new BuffCollection(this));
 
 			this.AddSessionObjects();
 			this.AddReferenceProperties();

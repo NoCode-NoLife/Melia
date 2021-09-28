@@ -12,9 +12,9 @@ using Melia.Shared.EntityComponents;
 namespace Melia.Channel.World
 {
 	/// <summary>
-	/// Character buffs.
+	/// Buff collection
 	/// </summary>
-	public class Buffs : IUpdatableComponent
+	public class BuffCollection : IUpdatableComponent
 	{
 		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
 
@@ -27,7 +27,7 @@ namespace Melia.Channel.World
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Buffs(ICombatEntity entity)
+		public BuffCollection(ICombatEntity entity)
 		{
 			this.Owner = entity;
 		}
@@ -44,20 +44,18 @@ namespace Melia.Channel.World
 		/// <param name="buff"></param>
 		public void AddSilent(Buff buff)
 		{
-			buff.IncreaseOverbuff();
-
 			lock (_buffs)
 				_buffs[buff.Id] = buff;
 
-			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-			handler?.OnStart(buff);
+			buff.IncreaseOverbuff();
+			buff.Start();
 		}
 
 		/// <summary>
 		/// Adds given buff and updates the client.
 		/// </summary>
 		/// <param name="buff"></param>
-		public void Add(Buff buff)
+		private void Add(Buff buff)
 		{
 			this.AddSilent(buff);
 			Send.ZC_BUFF_ADD(this.Owner, buff);
@@ -71,8 +69,7 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool RemoveSilent(Buff buff)
 		{
-			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-			handler?.OnEnd(buff);
+			buff.End();
 
 			lock (_buffs)
 				return _buffs.Remove(buff.Id);
@@ -102,9 +99,7 @@ namespace Melia.Channel.World
 		{
 			var isRemoved = this.RemoveSilent(buff);
 			if (isRemoved)
-			{
 				Send.ZC_BUFF_REMOVE(this.Owner, buff);
-			}
 			return isRemoved;
 		}
 
@@ -128,16 +123,13 @@ namespace Melia.Channel.World
 		/// Update a buff if it exists using the buff id.
 		/// </summary>
 		/// <param name="buffId"></param>
-		public void Update(BuffId buffId)
+		private void Update(BuffId buffId)
 		{
 			var buff = this.Get(buffId);
 			if (buff != null)
 			{
-				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-
 				buff.IncreaseOverbuff();
-				buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Duration);
-				handler?.OnStart(buff);
+				buff.Start();
 
 				Send.ZC_BUFF_UPDATE(this.Owner, buff);
 			}
@@ -207,7 +199,7 @@ namespace Melia.Channel.World
 		/// <summary>
 		/// Check buffs and remove expired buffs
 		/// </summary>
-		public void UpdateBuffs()
+		public void Update(TimeSpan elapsed)
 		{
 			List<Buff> buffsToRemove;
 			List<Buff> buffsToUpdate;
@@ -219,25 +211,10 @@ namespace Melia.Channel.World
 			}
 
 			foreach (var buff in buffsToUpdate)
-			{
-				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-				if (buff.HasUpdateTime())
-				{
-					if (DateTime.Now > buff.NextUpdateTime)
-					{
-						handler?.WhileActive(buff);
-						buff.Update();
-					}
-				}
-			}
+				buff.Update(elapsed);
 
 			foreach (var buff in buffsToRemove)
 				this.Remove(buff);
-		}
-
-		public void Update(TimeSpan elapsed)
-		{
-			this.UpdateBuffs();
 		}
 	}
 }
