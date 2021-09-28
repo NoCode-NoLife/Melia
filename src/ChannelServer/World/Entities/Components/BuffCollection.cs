@@ -201,20 +201,42 @@ namespace Melia.Channel.World
 		/// </summary>
 		public void Update(TimeSpan elapsed)
 		{
-			List<Buff> buffsToRemove;
-			List<Buff> buffsToUpdate;
+			List<Buff> toUpdate = null;
+			List<Buff> toRemove = null;
+			var now = DateTime.Now;
+
 			lock (_buffs)
 			{
-				var now = DateTime.Now;
-				buffsToRemove = _buffs.Values.Where(a => now >= a.RemovalTime).ToList();
-				buffsToUpdate = _buffs.Values.Where(a => now <= a.RemovalTime).ToList();
+				foreach (var buff in _buffs.Values)
+				{
+					if (buff.HasUpdateTime)
+					{
+						if (toUpdate == null)
+							toUpdate = new List<Buff>();
+
+						toUpdate.Add(buff);
+					}
+					if (now >= buff.RemovalTime)
+					{
+						if (toRemove == null)
+							toRemove = new List<Buff>();
+
+						toRemove.Add(buff);
+					}
+				}
 			}
 
-			foreach (var buff in buffsToUpdate)
-				buff.Update(elapsed);
+			if (toUpdate != null)
+			{
+				foreach (var buff in toUpdate)
+					buff.Update(elapsed);
+			}
 
-			foreach (var buff in buffsToRemove)
-				this.Remove(buff);
+			if (toRemove != null)
+			{
+				foreach (var buff in toRemove)
+					this.Remove(buff);
+			}
 		}
 	}
 }
