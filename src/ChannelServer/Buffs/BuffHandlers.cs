@@ -38,18 +38,11 @@ namespace Melia.Channel.Buffs
 				if (attributes == null || attributes.Length == 0)
 					continue;
 
-				var handler = Activator.CreateInstance(type);
+				var handler = Activator.CreateInstance(type) as IBuffHandler;
 				var buffIds = (attributes.First() as BuffHandlerAttribute).BuffIds;
 
-				switch (handler)
-				{
-					case IBuffHandler h:
-					{
-						foreach (var buffId in buffIds)
-							_buffHandlers[buffId] = h;
-						break;
-					}
-				}
+				foreach (var buffId in buffIds)
+					_buffHandlers[buffId] = handler;
 			}
 		}
 
@@ -64,7 +57,7 @@ namespace Melia.Channel.Buffs
 			if (_buffHandlers.TryGetValue(buffId, out var handler))
 				return handler;
 
-			return _defaultBuffHandler;
+			return null;
 		}
 	}
 }
