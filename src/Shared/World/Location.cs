@@ -25,6 +25,11 @@ namespace Melia.Shared.World
 		public readonly float Z;
 
 		/// <summary>
+		/// Returns this location's position.
+		/// </summary>
+		public Position Position => new Position(this.X, this.Y, this.Z);
+
+		/// <summary>
 		/// Creates new location from given data.
 		/// </summary>
 		/// <param name="mapId"></param>
@@ -102,7 +107,7 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			return obj is Location && this == (Location)obj;
+			return obj is Location location && this == location;
 		}
 
 		/// <summary>

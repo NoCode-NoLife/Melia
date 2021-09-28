@@ -55,11 +55,6 @@ namespace Melia.Channel.World.Entities
 		/// <returns></returns>
 		public bool CanBePickedUpBy(IEntity entity)
 		{
-			// If the loot protection is active, only the owner can pick
-			// up the item.
-			if (DateTime.Now < this.Item.LootProtectionEnd)
-				return this.Item.OwnerHandle == entity.Handle;
-
 			// If the entity is the original owner, we want them to have
 			// to make more of an effort to get the item, otherwise it
 			// would be easy to accidentally pick it right back up.
@@ -73,9 +68,17 @@ namespace Melia.Channel.World.Entities
 			//   up for whatever reason, a delay would be annoying.
 			if (this.Item.OriginalOwnerHandle == entity.Handle)
 			{
+				if (DateTime.Now < this.Item.RePickUpTime)
+					return false;
+
 				if (!this.Position.InRange2D(entity.Position, 20))
 					return false;
 			}
+
+			// If the loot protection is active, only the owner can pick
+			// up the item.
+			if (DateTime.Now < this.Item.LootProtectionEnd)
+				return this.Item.OwnerHandle == entity.Handle;
 
 			return true;
 		}

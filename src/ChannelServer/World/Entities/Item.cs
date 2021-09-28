@@ -74,6 +74,11 @@ namespace Melia.Channel.World.Entities
 		public int OriginalOwnerHandle { get; private set; } = -1;
 
 		/// <summary>
+		/// Returns the time at which the owner can pick the item back up.
+		/// </summary>
+		public DateTime RePickUpTime { get; private set; }
+
+		/// <summary>
 		/// Gets or sets the owner of the item, who is the only one able
 		/// to pick it up while the loot protection is active.
 		/// </summary>
@@ -238,7 +243,26 @@ namespace Melia.Channel.World.Entities
 		/// <param name="entity"></param>
 		public void SetRePickUpProtection(IEntity entity)
 		{
-			this.OriginalOwnerHandle = entity.Handle;
+			if (entity == null)
+			{
+				this.OriginalOwnerHandle = -1;
+				this.RePickUpTime = DateTime.MinValue;
+			}
+			else
+			{
+				this.OriginalOwnerHandle = entity.Handle;
+				this.RePickUpTime = DateTime.Now.AddSeconds(2);
+			}
+		}
+
+		/// <summary>
+		/// Clears protections, so the item can be picked up by anyone.
+		/// </summary>
+		/// <param name="entity"></param>
+		public void ClearProtections()
+		{
+			this.SetLootProtection(null, TimeSpan.Zero);
+			this.SetRePickUpProtection(null);
 		}
 	}
 }

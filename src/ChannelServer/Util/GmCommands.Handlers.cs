@@ -29,49 +29,50 @@ namespace Melia.Channel.Util
 			// in the configuration file "system/conf/commands.conf".
 
 			// Official
-			Add("requpdateequip", "", this.HandleReqUpdateEquip);
-			Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
-			Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
+			this.Add("requpdateequip", "", this.HandleReqUpdateEquip);
+			this.Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
+			this.Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
 
 			// Custom
-			Add("buyshop", "", this.HandleBuyShop);
+			this.Add("buyshop", "", this.HandleBuyShop);
+			this.Add("updatemouse", "", this.HandleUpdateMouse);
 
 			// Normal
-			Add("where", "", this.HandleWhere);
-			Add("name", "<new name>", this.HandleName);
+			this.Add("where", "", this.HandleWhere);
+			this.Add("name", "<new name>", this.HandleName);
 
 			// GMs
-			Add("jump", "<x> <y> <z>", this.HandleJump);
-			Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
-			Add("item", "<item id> [amount]", this.HandleItem);
-			Add("silver", "<modifier>", this.HandleSilver);
-			Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
-			Add("madhatter", "", this.HandleGetAllHats);
-			Add("levelup", "<levels>", this.HandleLevelUp);
-			Add("speed", "<speed>", this.HandleSpeed);
-			Add("iteminfo", "<name>", this.HandleItemInfo);
-			Add("monsterinfo", "<name>", this.HandleMonsterInfo);
-			Add("go", "<destination>", this.HandleGo);
-			Add("goto", "<team name>", this.HandleGoTo);
-			Add("recall", "<team name>", this.HandleRecall);
-			Add("recallmap", "[map id/name]", this.HandleRecallMap);
-			Add("recallall", "", this.HandleRecallAll);
-			Add("clearinv", "", this.HandleClearInventory);
-			Add("addjob", "<job id> [circle]", this.HandleAddJob);
-			Add("removejob", "<job id>", this.HandleRemoveJob);
-			Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
-			Add("statpoints", "<amount>", this.HandleStatPoints);
+			this.Add("jump", "<x> <y> <z>", this.HandleJump);
+			this.Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
+			this.Add("item", "<item id> [amount]", this.HandleItem);
+			this.Add("silver", "<modifier>", this.HandleSilver);
+			this.Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
+			this.Add("madhatter", "", this.HandleGetAllHats);
+			this.Add("levelup", "<levels>", this.HandleLevelUp);
+			this.Add("speed", "<speed>", this.HandleSpeed);
+			this.Add("iteminfo", "<name>", this.HandleItemInfo);
+			this.Add("monsterinfo", "<name>", this.HandleMonsterInfo);
+			this.Add("go", "<destination>", this.HandleGo);
+			this.Add("goto", "<team name>", this.HandleGoTo);
+			this.Add("recall", "<team name>", this.HandleRecall);
+			this.Add("recallmap", "[map id/name]", this.HandleRecallMap);
+			this.Add("recallall", "", this.HandleRecallAll);
+			this.Add("clearinv", "", this.HandleClearInventory);
+			this.Add("addjob", "<job id> [circle]", this.HandleAddJob);
+			this.Add("removejob", "<job id>", this.HandleRemoveJob);
+			this.Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
+			this.Add("statpoints", "<amount>", this.HandleStatPoints);
 
 			// Dev
-			Add("test", "", this.HandleTest);
-			Add("reloadscripts", "", this.HandleReloadScripts);
-			Add("reloadconf", "", this.HandleReloadConf);
-			Add("reloaddata", "", this.HandleReloadData);
+			this.Add("test", "", this.HandleTest);
+			this.Add("reloadscripts", "", this.HandleReloadScripts);
+			this.Add("reloadconf", "", this.HandleReloadConf);
+			this.Add("reloaddata", "", this.HandleReloadData);
 
 			// Aliases
-			AddAlias("iteminfo", "ii");
-			AddAlias("monsterinfo", "mi");
-			AddAlias("reloadscripts", "rs");
+			this.AddAlias("iteminfo", "ii");
+			this.AddAlias("monsterinfo", "mi");
+			this.AddAlias("reloadscripts", "rs");
 		}
 
 		/// <summary>
@@ -103,9 +104,9 @@ namespace Melia.Channel.Util
 		private CommandResult HandleWhere(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
 
 			return CommandResult.Okay;
 		}
@@ -121,13 +122,31 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleJump(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			if (args.Length < 4)
-				return CommandResult.InvalidArgument;
+			Position newPos;
 
-			if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
-				return CommandResult.InvalidArgument;
+			if (args.Length < 2)
+			{
+				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
+				{
+					sender.ServerMessage("Jump to random position failed.");
+					return CommandResult.Fail;
+				}
 
-			target.Position = new Position(x, y, z);
+				newPos = rndPos;
+			}
+			else if (args.Length < 4)
+			{
+				return CommandResult.InvalidArgument;
+			}
+			else
+			{
+				if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				newPos = new Position(x, y, z);
+			}
+
+			target.Position = newPos;
 			Send.ZC_SET_POS(target);
 
 			if (sender == target)
@@ -157,8 +176,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			float x = 0, y = 0, z = 0;
-
+			// Get map id
 			if (!int.TryParse(args[1], out var mapId))
 			{
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
@@ -171,15 +189,35 @@ namespace Melia.Channel.Util
 				mapId = data.Id;
 			}
 
-			if (args.Length >= 5)
+			// Get map
+			if (!ChannelServer.Instance.World.TryGetMap(mapId, out var map))
 			{
-				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
-					return CommandResult.InvalidArgument;
+				sender.ServerMessage("Map not found.");
+				return CommandResult.Okay;
 			}
 
+			// Get target position
+			Position targetPos;
+			if (args.Length < 5)
+			{
+				if (!map.Ground.TryGetRandomPosition(out targetPos))
+				{
+					sender.ServerMessage("Random position warp failed.");
+					return CommandResult.Okay;
+				}
+			}
+			else
+			{
+				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				targetPos = new Position(x, y, z);
+			}
+
+			// Warp
 			try
 			{
-				target.Warp(mapId, x, y, z);
+				target.Warp(mapId, targetPos);
 
 				if (sender == target)
 				{
@@ -642,13 +680,13 @@ namespace Melia.Channel.Util
 		{
 			if (args.Length < 2)
 			{
-				sender.ServerMessage("Destinations: klaipeda, orsha");
+				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
 			}
 
-			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", -75, 148, -24);
-			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", 271, 176, 292);
-			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", -628, 260, -1025);
+			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
+			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
 				sender.ServerMessage("Unknown destination.");
@@ -1244,6 +1282,25 @@ namespace Melia.Channel.Util
 			}
 
 			ChannelPacketHandler.Instance.Handle(conn, packet);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Updates the character's mouse position variables.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleUpdateMouse(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			sender.Variables.Temp["MouseX"] = float.Parse(args[1], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["MouseY"] = float.Parse(args[2], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["ScreenWidth"] = float.Parse(args[3], CultureInfo.InvariantCulture);
+			sender.Variables.Temp["ScreenHeight"] = float.Parse(args[4], CultureInfo.InvariantCulture);
 
 			return CommandResult.Okay;
 		}

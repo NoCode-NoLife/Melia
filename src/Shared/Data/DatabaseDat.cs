@@ -16,6 +16,12 @@ namespace Melia.Shared.Data
 			return this.Entries.GetValueOrDefault(key);
 		}
 
+		public bool TryFind(TIndex key, out TInfo result)
+		{
+			result = this.Entries.GetValueOrDefault(key);
+			return result != null;
+		}
+
 		public override void Clear()
 		{
 			this.Entries.Clear();

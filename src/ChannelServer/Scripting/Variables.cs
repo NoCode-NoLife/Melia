@@ -109,5 +109,16 @@ namespace Melia.Channel.Scripting
 			}
 			return (T)result;
 		}
+
+		/// <summary>
+		/// Returns true if a variable with the given name was defined.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool Defined(string key)
+		{
+			lock (_variables)
+				return _variables.ContainsKey(key);
+		}
 	}
 }
