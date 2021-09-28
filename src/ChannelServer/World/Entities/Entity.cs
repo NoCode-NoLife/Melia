@@ -17,6 +17,11 @@ namespace Melia.Channel.World.Entities
 		int Handle { get; }
 
 		/// <summary>
+		/// Returns the entity's name.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
 		/// Returns the entity's current HP.
 		/// </summary>
 		int Hp { get; }

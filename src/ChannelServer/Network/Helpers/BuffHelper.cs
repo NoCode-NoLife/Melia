@@ -25,8 +25,8 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(buff.Duration);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutShort((buff.Caster as Character)?.Name.Length + 5 ?? 5);
-			packet.PutString((buff.Caster as Character)?.Name ?? "");
+			packet.PutShort(buff.Caster.Name.Length + 5);
+			packet.PutString(buff.Caster.Name);
 			packet.PutInt(buff.Caster.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt(0);
