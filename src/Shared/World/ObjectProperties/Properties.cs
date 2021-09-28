@@ -92,6 +92,69 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Modifies the property with the given id and returns the new
+		/// value. If the property doesn't exist yet, it's created with
+		/// the modifier as the initial value.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="modifier"></param>
+		/// <returns></returns>
+		public float Modify(int propertyId, float modifier)
+		{
+			var property = this.Get(propertyId);
+			if (property == null)
+			{
+				this.Set(propertyId, modifier);
+				return modifier;
+			}
+
+			if (!(property is FloatProperty floatProperty))
+				throw new ArgumentException($"The property is not a float.");
+
+			floatProperty.Value += modifier;
+
+			return floatProperty.Value;
+		}
+
+		/// <summary>
+		/// Returns the value of the given property, or the default value
+		/// if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public float GetFloat(int propertyId, float defaultValue = 0)
+		{
+			var property = this.Get(propertyId);
+			if (property == null)
+				return defaultValue;
+
+			if (!(property is FloatProperty floatProperty))
+				throw new ArgumentException($"The property is not a float.");
+
+			return floatProperty.Value;
+		}
+
+		/// <summary>
+		/// Returns the value of the given property, or the default value
+		/// if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public string GetString(int propertyId, string defaultValue = null)
+		{
+			var property = this.Get(propertyId);
+			if (property == null)
+				return defaultValue;
+
+			if (!(property is StringProperty stringProperty))
+				throw new ArgumentException($"The property is not a string.");
+
+			return stringProperty.Value;
+		}
+
+		/// <summary>
 		/// Adds the given property
 		/// </summary>
 		/// <param name="propertyId"></param>
