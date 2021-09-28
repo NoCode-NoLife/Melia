@@ -175,8 +175,7 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			float x = 0, y = 0, z = 0;
-
+			// Get map id
 			if (!int.TryParse(args[1], out var mapId))
 			{
 				var data = ChannelServer.Instance.Data.MapDb.Find(args[1]);
@@ -189,15 +188,35 @@ namespace Melia.Channel.Util
 				mapId = data.Id;
 			}
 
-			if (args.Length >= 5)
+			// Get map
+			if (!ChannelServer.Instance.World.TryGetMap(mapId, out var map))
 			{
-				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out z))
-					return CommandResult.InvalidArgument;
+				sender.ServerMessage("Map not found.");
+				return CommandResult.Okay;
 			}
 
+			// Get target position
+			Position targetPos;
+			if (args.Length < 5)
+			{
+				if (!map.Ground.TryGetRandomPosition(out targetPos))
+				{
+					sender.ServerMessage("Random position warp failed.");
+					return CommandResult.Okay;
+				}
+			}
+			else
+			{
+				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				targetPos = new Position(x, y, z);
+			}
+
+			// Warp
 			try
 			{
-				target.Warp(mapId, x, y, z);
+				target.Warp(mapId, targetPos.X, targetPos.Y, targetPos.Z);
 
 				if (sender == target)
 				{
