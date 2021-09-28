@@ -136,13 +136,12 @@ namespace Melia.Channel.World
 			var buff = this.Get(buffId);
 			if (buff != null)
 			{
-				lock (_buffs)
-				{
-					buff.IncreaseOverbuff();
-					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Duration);
-				}
 				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
+
+				buff.IncreaseOverbuff();
+				buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Duration);
 				handler?.OnStart(buff);
+
 				Send.ZC_BUFF_UPDATE(this.Owner, buff);
 			}
 		}
