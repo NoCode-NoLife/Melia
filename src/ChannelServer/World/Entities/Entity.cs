@@ -40,7 +40,7 @@ namespace Melia.Channel.World.Entities
 		/// Returns the entity's direction on its current map.
 		/// </summary>
 		Direction Direction { get; }
-		
+
 		/// Returns the entity's property collection.
 		/// </summary>
 		Properties Properties { get; }
@@ -56,11 +56,6 @@ namespace Melia.Channel.World.Entities
 	/// </summary>
 	public interface ICombatEntity : IEntity
 	{
-		/// <summary>
-		/// Buffs of a Combat Entity
-		/// </summary>
-		Buffs Buffs { get; }
-		
 		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
 		/// Returns whether the entity is dead.
