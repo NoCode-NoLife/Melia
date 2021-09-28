@@ -57,7 +57,7 @@ namespace Melia.Channel.World
 			buff.IncreaseOverbuff();
 			this.AddSilent(buff);
 			var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-			handler.OnStart(buff);
+			handler?.OnStart(buff);
 			Send.ZC_BUFF_ADD(this.Owner, buff);
 		}
 
@@ -105,7 +105,7 @@ namespace Melia.Channel.World
 			if (isRemoved)
 			{
 				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-				handler.OnEnd(buff);
+				handler?.OnEnd(buff);
 				Send.ZC_BUFF_REMOVE(this.Owner, buff);
 			}
 			return isRemoved;
@@ -142,7 +142,7 @@ namespace Melia.Channel.World
 					buff.RemovalTime = DateTime.Now.AddMilliseconds(buff.Duration);
 				}
 				var handler = ChannelServer.Instance.BuffHandlers.GetBuff(buff.Id);
-				handler.OnStart(buff);
+				handler?.OnStart(buff);
 				Send.ZC_BUFF_UPDATE(this.Owner, buff);
 			}
 		}
@@ -229,7 +229,7 @@ namespace Melia.Channel.World
 				{
 					if (DateTime.Now > buff.NextUpdateTime)
 					{
-						handler.WhileActive(buff);
+						handler?.WhileActive(buff);
 						buff.Update();
 					}
 				}

@@ -30,13 +30,4 @@ namespace Melia.Channel.Skills.Base
 	{
 		void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets);
 	}
-
-	/// <summary>
-	/// Self skill handler when the client provides a cast position and 
-	/// direction
-	/// </summary>
-	public interface ISelfSkillHandler
-	{
-		void Handle(Skill skill, Character caster, Position targetPosition, Direction direction);
-	}
 }

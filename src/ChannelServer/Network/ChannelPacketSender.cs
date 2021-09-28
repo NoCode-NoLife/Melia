@@ -307,8 +307,7 @@ namespace Melia.Channel.Network
 			packet.PutInt(0);
 			packet.PutFloat(512f);
 			packet.PutInt(0);
-			// TODO fix packet structure for multiple hits, currently we're
-			// handling the 1 hit case
+
 			packet.PutByte(validHit);
 			if (validHit)
 			{
@@ -339,98 +338,13 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Shows skill use for character, by sending ZC_SKILL_MELEE_TARGET to its connection.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="skill"></param>
-		/// <param name="target"></param>
-		public static void ZC_SKILL_MELEE_TARGET(Character character, Skill skill, IEntity target)
-		{
-			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
-			packet.PutInt((int)skill.Id);
-			packet.PutInt(character.Handle);
-			packet.PutDirection(character.Direction);
-			packet.PutInt(1);
-			packet.PutFloat(500);
-			packet.PutFloat(1);
-			packet.PutInt(1);
-			packet.PutInt(0);
-			packet.PutFloat(1);
-			packet.PutInt(0);
-			packet.PutInt(target.Handle);
-			packet.PutByte(0);
-
-			character.Map.Broadcast(packet);
-		}
-
-		/// <summary>
 		/// Shows skill use for character, by sending ZC_SKILL_MELEE_GROUND to its connection.
 		/// </summary>
 		/// <remarks>
 		/// i339415, looks hit info is being used instead of this for showing damage on a target
 		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skill"></param>
-		/// <param name="targetPosition"></param>
-		/// <param name="targets"></param>
-		/// <param name="damage"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEntity target, int hitCount, int damage = 0)
-		{
-			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
-
-			packet.PutInt((int)skill.Id);
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
-			packet.PutInt(1);
-			packet.PutFloat(skill.Data.ShootTime);
-			packet.PutFloat(1);
-			packet.PutInt(0);
-			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
-			packet.PutFloat(1.083666f);
-			packet.PutInt(target?.Handle ?? 0);
-			packet.PutFloat(targetPosition.X);
-			packet.PutFloat(targetPosition.Y);
-			packet.PutFloat(targetPosition.Z);
-			packet.PutShort(hitCount);
-			for (var hit = 0; hit < hitCount; hit++)
-			{
-				if (target != null && damage > 0)
-				{
-					packet.PutInt(0x900);
-					packet.PutInt(target.Handle);
-					packet.PutInt(damage);
-					packet.PutInt(target.Hp);
-					packet.PutLong(2);
-					packet.PutShort(0);
-					packet.PutShort(3);
-					packet.PutLong(1);
-					packet.PutInt(50);
-					packet.PutShort(skill.Data.HitDelay);
-					packet.PutByte(0);
-					packet.PutByte((byte)hit); // Attack Index
-					packet.PutShort(0);
-					packet.PutInt((int)skill.ObjectId); // Skill Handle
-					packet.PutInt(0);
-					packet.PutShort(0);
-					packet.PutShort(1);
-				}
-			}
-
-			character.Map.Broadcast(packet);
-		}
-
-		/// <summary>
-		/// Shows skill use for character, by sending ZC_SKILL_MELEE_GROUND to its connection.
-		/// </summary>
-		/// <remarks>
-		/// i339415, looks hit info is being used instead of this for showing damage on a target
-		/// </remarks>
-		/// <param name="character"></param>
-		/// <param name="skill"></param>
-		/// <param name="targetPosition"></param>
-		/// <param name="targets"></param>
-		/// <param name="damage"></param>
+		/// <param name="skillId"></param>
 		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<IEntity> targets = null, int damage = 0)
 		{
 			var targetCount = targets?.Count() ?? 0;
@@ -1732,19 +1646,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Skill effect splashing from one target to another
+		/// Adjusts the skill speed for a skill.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skillId"></param>
 		/// <param name="value"></param>
-		public static void ZC_NORMAL_SkillEffectSplash(Character character, IEntity target1, IEntity target2)
+		public static void ZC_NORMAL_Skill_16(Character character, IEntity target, Position position)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.SkillEffectSplash);
-			packet.PutInt(236353); // Increase Value on Each Call
+			packet.PutInt(SubOp.Zone.Skill_16);
+			packet.PutInt(target.Handle);
 			packet.PutInt(character.Handle);
-			packet.PutInt(target1.Handle);
-			packet.PutInt(target2.Handle);
+			packet.PutInt(character.Handle);
+			packet.PutInt(target.Handle);
 			packet.PutInt(2220111);
 			packet.PutFloat(1);
 			packet.PutInt(2561933);
@@ -2387,42 +2301,21 @@ namespace Melia.Channel.Network
 		/// <param name="handle"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Skill_1D(Character character, IEntity target = null)
+		public static void ZC_NORMAL_Unkown_1c(Character character, int handle, Position position, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Unknown_1D);
+			packet.PutInt(SubOp.Zone.Unkown_1D);
 			packet.PutInt(character.Handle);
-			packet.PutInt(0);
-			packet.PutShort(38848);
-			packet.PutShort(7349);
-			//packet.PutBinFromHex("D9 DB 30 09"); // This is not a fixed value, check more packets
-			packet.PutInt(target?.Handle ?? 0);
-			packet.PutPosition(character.Position);
-			packet.PutDirection(character.Direction);
-			packet.PutPosition(target?.Position ?? Position.Zero);
-
-			character.Map.Broadcast(packet, character);
-		}
-
-		/// <summary>
-		/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="handle"></param>
-		/// <param name="position"></param>
-		/// <param name="direction"></param>
-		public static void ZC_NORMAL_Skill_1D(Character character, short s1, short s2, IEntity target = null)
-		{
-			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Unknown_1D);
-			packet.PutInt(character.Handle);
-			packet.PutInt(0);
-			packet.PutShort(s1); // These values aren't fixed
-			packet.PutShort(s2); // These values aren't fixed
-			packet.PutInt(target?.Handle ?? 0);
-			packet.PutPosition(character.Position);
-			packet.PutDirection(character.Direction);
-			packet.PutPosition(target?.Position ?? Position.Zero);
+			packet.PutBinFromHex("00 D9 DB 30 09"); // This is not a fixed value, check more packets
+			packet.PutInt(handle); // Target ActorId (seems to be)
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(direction.Cos);
+			packet.PutFloat(direction.Sin);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -2847,17 +2740,21 @@ namespace Melia.Channel.Network
 		/// <param name="id"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_SKILL_RANGE_CIRCLE(Character character, IEntity entity, Skill skill)
+		public static void ZC_SKILL_RANGE_CIRCLE(Character character, IEntity entity, Skill skill, Position position)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_CIRCLE);
 
-			packet.PutInt(entity.Handle);
+			//packet.PutInt(character.Handle);
+			packet.PutInt(entity?.Handle ?? 0);
+			//packet.PutShort(skill.Id);
 			packet.PutShort(0);
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
-			packet.PutFloat(skill.Data.SplashRange);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(70f);
 			packet.PutLong(0);
+			//packet.PutFloat(direction.Cos);
+			//packet.PutFloat(direction.Sin);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -3754,7 +3651,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Not too sure what this does, maybe for store purchases?
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="entity"></param>
 		public static void ZC_SET_WEBSERVICE_URL(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
@@ -3771,7 +3668,7 @@ namespace Melia.Channel.Network
 		public static void ZC_RESPONSE_FIELD_BOSS_EXIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_FIELD_BOSS_EXIST);
-			packet.PutInt(0); // 0 usually
+			packet.PutInt(1); // 0 usually
 
 			conn.Send(packet);
 		}
