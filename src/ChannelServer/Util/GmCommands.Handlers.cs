@@ -1035,7 +1035,7 @@ namespace Melia.Channel.Util
 				}
 			}
 
-			var points = sender.AbilityPoints;
+			var points = sender.Properties.GetFloat(PropertyId.PC.AbilityPoint);
 			if (points < price)
 			{
 				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", conn.Account.Name);

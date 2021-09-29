@@ -1171,21 +1171,22 @@ namespace Melia.Channel.Network
 					if (stat <= 0)
 						continue;
 
-					if (character.StatPoints < stat)
+					var characterProperties = (CharacterProperties)character.Properties;
+					if (characterProperties.StatPoints < stat)
 					{
 						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
 						break;
 					}
 
-					character.UsedStat += stat;
+					characterProperties.UsedStat += stat;
 
 					switch (i)
 					{
-						case 0: character.StrInvested += stat; break;
-						case 1: character.ConInvested += stat; break;
-						case 2: character.IntInvested += stat; break;
-						case 3: character.SprInvested += stat; break;
-						case 4: character.DexInvested += stat; break;
+						case 0: characterProperties.StrInvested += stat; break;
+						case 1: characterProperties.ConInvested += stat; break;
+						case 2: characterProperties.IntInvested += stat; break;
+						case 3: characterProperties.SprInvested += stat; break;
+						case 4: characterProperties.DexInvested += stat; break;
 					}
 				}
 

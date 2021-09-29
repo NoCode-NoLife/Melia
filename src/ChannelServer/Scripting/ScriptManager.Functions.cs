@@ -770,25 +770,27 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			character.StatByLevel += character.StrByJob - 1;
-			character.StatByLevel += character.ConByJob - 1;
-			character.StatByLevel += character.IntByJob - 1;
-			character.StatByLevel += character.SprByJob - 1;
-			character.StatByLevel += character.DexByJob - 1;
-			character.UsedStat = 0;
+			// Add used stat points to available ones and then reset all
+			// stat properties.
+			var usedStatPoints = character.Properties.GetFloat(PropertyId.PC.UsedStat);
+			character.Properties.Modify(PropertyId.PC.StatByBonus, usedStatPoints);
 
-			character.StrInvested = 0;
-			character.ConInvested = 0;
-			character.IntInvested = 0;
-			character.SprInvested = 0;
-			character.DexInvested = 0;
+			character.Properties.Set(PropertyId.PC.UsedStat, 0);
 
-			character.StrByJob = 1;
-			character.ConByJob = 1;
-			character.IntByJob = 1;
-			character.SprByJob = 1;
-			character.DexByJob = 1;
+			character.Properties.Set(PropertyId.PC.STR_STAT, 0);
+			character.Properties.Set(PropertyId.PC.CON_STAT, 0);
+			character.Properties.Set(PropertyId.PC.INT_STAT, 0);
+			character.Properties.Set(PropertyId.PC.MNA_STAT, 0);
+			character.Properties.Set(PropertyId.PC.DEX_STAT, 0);
 
+			character.Properties.Set(PropertyId.PC.STR_JOB, 1);
+			character.Properties.Set(PropertyId.PC.CON_JOB, 1);
+			character.Properties.Set(PropertyId.PC.INT_JOB, 1);
+			character.Properties.Set(PropertyId.PC.MNA_JOB, 1);
+			character.Properties.Set(PropertyId.PC.DEX_JOB, 1);
+
+			// TODO: Add semi-automatic updating of all properties that
+			//   changed.
 			Send.ZC_OBJECT_PROPERTY(character,
 				PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
 				PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
