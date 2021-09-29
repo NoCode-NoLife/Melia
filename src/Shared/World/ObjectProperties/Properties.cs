@@ -34,6 +34,19 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Returns the property with the given property id via out.
+		/// Returns null if it doesn't exist.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		public bool TryGet(int propertyId, out IProperty property)
+		{
+			property = this.Get(propertyId);
+			return (property != null);
+		}
+
+		/// <summary>
 		/// Returns list of all set properties.
 		/// </summary>
 		/// <returns></returns>
@@ -178,6 +191,45 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			lock (_properties)
 				return _properties.Remove(propertyId);
+		}
+
+		/// <summary>
+		/// Sets up automatic update for a property when any of its "sub-
+		/// properties" change.
+		/// </summary>
+		/// <remarks>
+		/// Use for calculated properties, whichs' values depend on other
+		/// properties. For example, STR should be calculated based on
+		/// other properties and factors and should be updated automatically
+		/// if any property it depends on changes, like STR_Bonus.
+		/// </remarks>
+		/// <param name="propertyId"></param>
+		/// <param name="subPropertyIds"></param>
+		public void AutoUpdate(int propertyId, int[] subPropertyIds)
+		{
+			if (subPropertyIds == null || subPropertyIds.Length == 0)
+				throw new ArgumentException($"No sub-property ids defined.");
+
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not found.");
+
+			if (!(property is CalculatedFloatProperty floatProperty))
+				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
+
+			foreach (var subPropertyId in subPropertyIds)
+			{
+				if (!this.TryGet(subPropertyId, out var subProperty))
+					throw new ArgumentException($"Sub-property '{subPropertyId}' not found.");
+
+				// Subscribe to sub-property's ValueChanged event, so we
+				// automatically trigger a recalculation of the "parent"
+				// property. For Example, STR might be updated automatically
+				// when STR_Bonus changes.
+				// Before subscribing, unsubscribe, just in case, so we
+				// don't get duplicate subscriptions.
+				subProperty.ValueChanged -= floatProperty.TriggerCalculation;
+				subProperty.ValueChanged += floatProperty.TriggerCalculation;
+			}
 		}
 
 		/// <summary>

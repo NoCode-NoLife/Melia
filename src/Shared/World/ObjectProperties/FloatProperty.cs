@@ -8,7 +8,7 @@ namespace Melia.Shared.World.ObjectProperties
 	/// </summary>
 	public class FloatProperty : IProperty
 	{
-		private float _value;
+		protected float _value;
 
 		/// <summary>
 		/// Returns this property's id.
@@ -51,7 +51,7 @@ namespace Melia.Shared.World.ObjectProperties
 		/// </summary>
 		/// <param name="propertyId"></param>
 		/// <param name="value"></param>
-		public FloatProperty(int propertyId, float value)
+		public FloatProperty(int propertyId, float value = 0)
 		{
 			this.Id = propertyId;
 			_value = value;
@@ -65,6 +65,12 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			return _value.ToString("g", CultureInfo.InvariantCulture);
 		}
+
+		/// <summary>
+		/// Raises the ValueChanged event.
+		/// </summary>
+		protected void OnValueChanged()
+			=> this.ValueChanged?.Invoke(this);
 	}
 
 	/// <summary>
@@ -88,6 +94,49 @@ namespace Melia.Shared.World.ObjectProperties
 		public RefFloatProperty(int propertyId, Func<float> func) : base(propertyId, func())
 		{
 			_func = func;
+		}
+	}
+
+	/// <summary>
+	/// A property that gets its value from a getter function and is able
+	/// to be updated automatically when other properties change.
+	/// </summary>
+	public class CalculatedFloatProperty : FloatProperty
+	{
+		private readonly Func<float> _getter;
+
+		/// <summary>
+		/// Returns the property's last calculated value. Setting does
+		/// nothing.
+		/// </summary>
+		public override float Value
+		{
+			get => _value;
+			set { }
+		}
+
+		/// <summary>
+		/// Creates a new property.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="getter"></param>
+		public CalculatedFloatProperty(int propertyId, Func<float> getter) : base(propertyId, getter())
+		{
+			_getter = getter;
+		}
+
+		/// <summary>
+		/// Triggers a recalculation of the property's value and updates
+		/// it. ValueChanged will be raised if the value did change.
+		/// </summary>
+		/// <param name="property"></param>
+		public void TriggerCalculation(IProperty property)
+		{
+			var valueBefore = _value;
+			_value = _getter();
+
+			if (_value != valueBefore)
+				this.OnValueChanged();
 		}
 	}
 }
