@@ -106,77 +106,77 @@ namespace Melia.Channel.World.Entities
 
 			this.Add(new RefFloatProperty(PropertyId.PC.MHR, () => this.MagicAmplification));
 
-			// Element Property Attack
-			this.Add(new RefFloatProperty(PropertyId.PC.Fire_Atk, () => this.FireAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Ice_Atk, () => this.IceAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Lightning_Atk, () => this.LightningAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Soul_Atk, () => this.SoulAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Earth_Atk, () => this.EarthAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Poison_Atk, () => this.PoisonAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Holy_Atk, () => this.HolyAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Dark_Atk, () => this.DarkAtk));
+			//// Element Property Attack
+			//this.Add(new RefFloatProperty(PropertyId.PC.Fire_Atk, () => this.FireAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Ice_Atk, () => this.IceAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Lightning_Atk, () => this.LightningAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Soul_Atk, () => this.SoulAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Earth_Atk, () => this.EarthAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Poison_Atk, () => this.PoisonAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Holy_Atk, () => this.HolyAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Dark_Atk, () => this.DarkAtk));
 
-			// Size type Attack
-			this.Add(new RefFloatProperty(PropertyId.PC.SmallSize_Atk, () => this.SmallSizeAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.MiddleSize_Atk, () => this.MediumSizeAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.LargeSize_Atk, () => this.LargeSizeAtk));
+			//// Size type Attack
+			//this.Add(new RefFloatProperty(PropertyId.PC.SmallSize_Atk, () => this.SmallSizeAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.MiddleSize_Atk, () => this.MediumSizeAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.LargeSize_Atk, () => this.LargeSizeAtk));
 
-			// Armor type attack
-			this.Add(new RefFloatProperty(PropertyId.PC.Cloth_Atk, () => this.ClothAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Leather_Atk, () => this.LeatherAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Iron_Atk, () => this.IronAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Ghost_Atk, () => this.GhostAtk));
-			//this.Add(new RefFloatProperty(PropertyId.PC.Chain_Atk, () => 5));	// Not implemented?
+			//// Armor type attack
+			//this.Add(new RefFloatProperty(PropertyId.PC.Cloth_Atk, () => this.ClothAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Leather_Atk, () => this.LeatherAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Iron_Atk, () => this.IronAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Ghost_Atk, () => this.GhostAtk));
+			////this.Add(new RefFloatProperty(PropertyId.PC.Chain_Atk, () => 5));	// Not implemented?
 
-			// Race type Attack
-			this.Add(new RefFloatProperty(PropertyId.PC.Forester_Atk, () => this.PlantAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Widling_Atk, () => this.BeastAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Klaida_Atk, () => this.InsectAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Paramune_Atk, () => this.MutantAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.Velnias_Atk, () => this.DevilAtk));
+			//// Race type Attack
+			//this.Add(new RefFloatProperty(PropertyId.PC.Forester_Atk, () => this.PlantAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Widling_Atk, () => this.BeastAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Klaida_Atk, () => this.InsectAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Paramune_Atk, () => this.MutantAtk));
+			//this.Add(new RefFloatProperty(PropertyId.PC.Velnias_Atk, () => this.DevilAtk));
 
-			// Armor typ Defense
-			this.Add(new RefFloatProperty(PropertyId.PC.DefAries, () => this.PierceDefense));
-			this.Add(new RefFloatProperty(PropertyId.PC.DefSlash, () => this.SlashDefense));
-			this.Add(new RefFloatProperty(PropertyId.PC.DefStrike, () => this.StrikeDefense));
+			//// Armor typ Defense
+			//this.Add(new RefFloatProperty(PropertyId.PC.DefAries, () => this.PierceDefense));
+			//this.Add(new RefFloatProperty(PropertyId.PC.DefSlash, () => this.SlashDefense));
+			//this.Add(new RefFloatProperty(PropertyId.PC.DefStrike, () => this.StrikeDefense));
 
-			// Element Resistance
-			this.Add(new RefFloatProperty(PropertyId.PC.ResFire, () => this.FireResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResIce, () => this.IceResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResLightning, () => this.LightningResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResEarth, () => this.EarthResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResSoul, () => this.SoulResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResPoison, () => this.PoisonResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResHoly, () => this.HolyResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.ResDark, () => this.DarkResistance));
+			//// Element Resistance
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResFire, () => this.FireResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResIce, () => this.IceResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResLightning, () => this.LightningResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResEarth, () => this.EarthResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResSoul, () => this.SoulResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResPoison, () => this.PoisonResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResHoly, () => this.HolyResistance));
+			//this.Add(new RefFloatProperty(PropertyId.PC.ResDark, () => this.DarkResistance));
 
-			// Attack Factor
-			this.Add(new RefFloatProperty(PropertyId.PC.AriesAtkFactor_PC, () => this.PierceAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.SlashAtkFactor_PC, () => this.SlashAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.StrikeAtkFactor_PC, () => this.StrikeAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.MissileAtkFactor_PC, () => this.MissileAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.FireAtkFactor_PC, () => this.FireAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.IceAtkFactor_PC, () => this.IceAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.LightningAtkFactor_PC, () => this.LightningAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.EarthAtkFactor_PC, () => this.EarthAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.SoulAtkFactor_PC, () => this.SoulAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
+			//// Attack Factor
+			//this.Add(new RefFloatProperty(PropertyId.PC.AriesAtkFactor_PC, () => this.PierceAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.SlashAtkFactor_PC, () => this.SlashAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.StrikeAtkFactor_PC, () => this.StrikeAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.MissileAtkFactor_PC, () => this.MissileAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.FireAtkFactor_PC, () => this.FireAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.IceAtkFactor_PC, () => this.IceAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.LightningAtkFactor_PC, () => this.LightningAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.EarthAtkFactor_PC, () => this.EarthAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.SoulAtkFactor_PC, () => this.SoulAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
 
-			// Defense Factor
-			this.Add(new RefFloatProperty(PropertyId.PC.AriesAtkFactor_PC, () => this.PierceAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.SlashAtkFactor_PC, () => this.SlashAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.StrikeAtkFactor_PC, () => this.StrikeAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.MissileAtkFactor_PC, () => this.MissileAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.FireAtkFactor_PC, () => this.FireAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.IceAtkFactor_PC, () => this.IceAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.LightningAtkFactor_PC, () => this.LightningAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.EarthAtkFactor_PC, () => this.EarthAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.SoulAtkFactor_PC, () => this.SoulAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
-			this.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
+			//// Defense Factor
+			//this.Add(new RefFloatProperty(PropertyId.PC.AriesAtkFactor_PC, () => this.PierceAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.SlashAtkFactor_PC, () => this.SlashAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.StrikeAtkFactor_PC, () => this.StrikeAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.MissileAtkFactor_PC, () => this.MissileAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.FireAtkFactor_PC, () => this.FireAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.IceAtkFactor_PC, () => this.IceAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.LightningAtkFactor_PC, () => this.LightningAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.EarthAtkFactor_PC, () => this.EarthAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.SoulAtkFactor_PC, () => this.SoulAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
+			//this.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
 
 			this.Add(new RefFloatProperty(PropertyId.PC.MovingShotable, () => 0f));
 			this.Add(new RefFloatProperty(PropertyId.PC.CastingSpeed, () => 100f));
@@ -1274,929 +1274,929 @@ namespace Melia.Channel.World.Entities
 			}
 		}
 
-		/// <summary>
-		/// Returns Fire Property Attack.
-		/// </summary>
-		public int FireAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_FIRE"
-				var value = byItem;
-
-				// Buffs: "Fire_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Ice Property Attack.
-		/// </summary>
-		public int IceAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_ICE"
-				var value = byItem;
-
-				// Buffs: "Ice_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Lightning Property Attack.
-		/// </summary>
-		public int LightningAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_LIGHTNING"
-				var value = byItem;
-
-				// Buffs: "Lightning_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Psychokinesis Property Attack.
-		/// </summary>
-		public int SoulAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_SOUL"
-				var value = byItem;
-
-				// Buffs: "Soul_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Earth Property Attack.
-		/// </summary>
-		public int EarthAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "Earth_Atk"
-				var value = byItem;
-
-				// Buffs: "Earth_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Poison Property Attack.
-		/// </summary>
-		public int PoisonAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_POISON"
-				var value = byItem;
-
-				// Buffs: "Poison_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Holy Property Attack.
-		/// </summary>
-		public int HolyAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_HOLY"
-				var value = byItem;
-
-				// Buffs: "Holy_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Dark Property Attack.
-		/// </summary>
-		public int DarkAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_DARK"
-				var value = byItem;
-
-				// Buffs: "Dark_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Small size Attack.
-		/// </summary>
-		public int SmallSizeAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_SMALLSIZE"
-				var value = byItem;
-
-				// Buffs: "SmallSize_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Medium size Attack.
-		/// </summary>
-		public int MediumSizeAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_MIDDLESIZE"
-				var value = byItem;
-
-				// Buffs: "MiddleSize_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Large size Attack.
-		/// </summary>
-		public int LargeSizeAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_LARGESIZE"
-				var value = byItem;
-
-				// Buffs: "LargeSize_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Cloth type Attack.
-		/// </summary>
-		public int ClothAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_CLOTH"
-				var value = byItem;
-
-				// Buffs: "Cloth_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Leather type Attack.
-		/// </summary>
-		public int LeatherAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_LEATHER"
-				var value = byItem;
-
-				// Buffs: "Leather_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Plate type Attack.
-		/// </summary>
-		public int IronAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_IRON"
-				var value = byItem;
-
-				// Buffs: "Iron_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Ghost type Attack.
-		/// </summary>
-		public int GhostAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_GHOST"
-				var value = byItem;
-
-				// Buffs: "Ghost_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Plant type Attack.
-		/// </summary>
-		public int PlantAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_FORESTER"
-				var value = byItem;
-
-				// Buffs: "Forester_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Beast type Attack.
-		/// </summary>
-		public int BeastAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_WIDLING"
-				var value = byItem;
-
-				// Buffs: "Widling_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Insect type Attack.
-		/// </summary>
-		public int InsectAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_KLAIDA"
-				var value = byItem;
-
-				// Buffs: "Klaida_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Mutant type Attack.
-		/// </summary>
-		public int MutantAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_PARAMUNE"
-				var value = byItem;
-
-				// Buffs: "Paramune_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Devil type Attack.
-		/// </summary>
-		public int DevilAtk
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "ADD_VELIAS"
-				var value = byItem;
-
-				// Buffs: "Velnias_Atk_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Pierce type Defense.
-		/// </summary>
-		public int PierceDefense
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "AriesDEF"
-				var value = byItem;
-
-				// Buffs: "DefAries_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Slash type Defense.
-		/// </summary>
-		public int SlashDefense
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "SlashDEF"
-				var value = byItem;
-
-				// Buffs: "DefSlash_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Strike type Defense.
-		/// </summary>
-		public int StrikeDefense
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "StrikeDEF"
-				var value = byItem;
-
-				// Buffs: "DefStrike_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Fire Resistance.
-		/// </summary>
-		public int FireResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_FIRE"
-				var value = byItem;
-
-				// Buffs: "ResFire_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Ice Resistance.
-		/// </summary>
-		public int IceResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_ICE"
-				var value = byItem;
-
-				// Buffs: "ResIce_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Lightning Resistance.
-		/// </summary>
-		public int LightningResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_LIGHTNING"
-				var value = byItem;
-
-				// Buffs: "ResLightning_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Psychokinesis Resistance.
-		/// </summary>
-		public int SoulResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_SOUL"
-				var value = byItem;
-
-				// Buffs: "ResSoul_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Earth Resistance.
-		/// </summary>
-		public int EarthResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_EARTH"
-				var value = byItem;
-
-				// Buffs: "ResEarth_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Poison Resistance.
-		/// </summary>
-		public int PoisonResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_POISON"
-				var value = byItem;
-
-				// Buffs: "ResPoison_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Holy Resistance.
-		/// </summary>
-		public int HolyResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_HOLY"
-				var value = byItem;
-
-				// Buffs: "ResHoly_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Dark Resistance.
-		/// </summary>
-		public int DarkResistance
-		{
-			get
-			{
-				var byItem = 0f; // TODO: "RES_DARK"
-				var value = byItem;
-
-				// Buffs: "ResDark_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns Pierce Attack Factor.
-		/// </summary>
-		public int PierceAtkFactor
-		{
-			get
-			{
-				// Buffs: "AriesAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Slash Attack Factor.
-		/// </summary>
-		public int SlashAtkFactor
-		{
-			get
-			{
-				// Buffs: "SlashAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Strike Attack Factor.
-		/// </summary>
-		public int StrikeAtkFactor
-		{
-			get
-			{
-				// Buffs: "StrikeAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Missile Attack Factor.
-		/// </summary>
-		public int MissileAtkFactor
-		{
-			get
-			{
-				// Buffs: "MissileAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Fire Property Attack Factor.
-		/// </summary>
-		public int FireAtkFactor
-		{
-			get
-			{
-				// Buffs: "FireAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Ice Property Attack Factor.
-		/// </summary>
-		public int IceAtkFactor
-		{
-			get
-			{
-				// Buffs: "IceAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Lightning Property Attack Factor.
-		/// </summary>
-		public int LightningAtkFactor
-		{
-			get
-			{
-				// Buffs: "LightningAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Psychokinesis Property Attack Factor.
-		/// </summary>
-		public int SoulAtkFactor
-		{
-			get
-			{
-				// Buffs: "SoulAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Poison Property Attack Factor.
-		/// </summary>
-		public int PoisonAtkFactor
-		{
-			get
-			{
-				// Buffs: "PoisonAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Earth Property Attack Factor.
-		/// </summary>
-		public int EarthAtkFactor
-		{
-			get
-			{
-				// Buffs: "EarthAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Holy Property Attack Factor.
-		/// </summary>
-		public int HolyAtkFactor
-		{
-			get
-			{
-				// Buffs: "HolyAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Dark Property Attack Factor.
-		/// </summary>
-		public int DarkAtkFactor
-		{
-			get
-			{
-				// Buffs: "DarkAtkFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Pierce Property Defense Factor.
-		/// </summary>
-		public int PierceDefenseFactor
-		{
-			get
-			{
-				// Buffs: "AriesDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Slash Property Defense Factor.
-		/// </summary>
-		public int SlashDefenseFactor
-		{
-			get
-			{
-				// Buffs: "SlashDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Strike Property Defense Factor.
-		/// </summary>
-		public int StrikeDefenseFactor
-		{
-			get
-			{
-				// Buffs: "StrikeDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Missile Property Defense Factor.
-		/// </summary>
-		public int MissileDefenseFactor
-		{
-			get
-			{
-				// Buffs: "MissileDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Fire Property Defense Factor.
-		/// </summary>
-		public int FireDefenseFactor
-		{
-			get
-			{
-				// Buffs: "FireDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Ice Property Defense Factor.
-		/// </summary>
-		public int IceDefenseFactor
-		{
-			get
-			{
-				// Buffs: "IceDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Lightning Property Defense Factor.
-		/// </summary>
-		public int LightningDefenseFactor
-		{
-			get
-			{
-				// Buffs: "LightningDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Psychokinesis Property Defense Factor.
-		/// </summary>
-		public int SoulDefenseFactor
-		{
-			get
-			{
-				// Buffs: "SoulDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Poison Property Defense Factor.
-		/// </summary>
-		public int PoisonDefenseFactor
-		{
-			get
-			{
-				// Buffs: "PoisonDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Earth Property Defense Factor.
-		/// </summary>
-		public int EarthDefenseFactor
-		{
-			get
-			{
-				// Buffs: "EarthDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Holy Property Defense Factor.
-		/// </summary>
-		public int HolyDefenseFactor
-		{
-			get
-			{
-				// Buffs: "HolyDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
-
-		/// <summary>
-		/// Returns Dark Property Defense Factor.
-		/// </summary>
-		public int DarkDefenseFactor
-		{
-			get
-			{
-				// Buffs: "DarkDefFactor_PC_BM"
-				var byBuffs = 0;
-
-				return (int)byBuffs;
-			}
-		}
+		///// <summary>
+		///// Returns Fire Property Attack.
+		///// </summary>
+		//public int FireAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_FIRE"
+		//		var value = byItem;
+
+		//		// Buffs: "Fire_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Ice Property Attack.
+		///// </summary>
+		//public int IceAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_ICE"
+		//		var value = byItem;
+
+		//		// Buffs: "Ice_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Lightning Property Attack.
+		///// </summary>
+		//public int LightningAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_LIGHTNING"
+		//		var value = byItem;
+
+		//		// Buffs: "Lightning_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Psychokinesis Property Attack.
+		///// </summary>
+		//public int SoulAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_SOUL"
+		//		var value = byItem;
+
+		//		// Buffs: "Soul_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Earth Property Attack.
+		///// </summary>
+		//public int EarthAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "Earth_Atk"
+		//		var value = byItem;
+
+		//		// Buffs: "Earth_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Poison Property Attack.
+		///// </summary>
+		//public int PoisonAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_POISON"
+		//		var value = byItem;
+
+		//		// Buffs: "Poison_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Holy Property Attack.
+		///// </summary>
+		//public int HolyAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_HOLY"
+		//		var value = byItem;
+
+		//		// Buffs: "Holy_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Dark Property Attack.
+		///// </summary>
+		//public int DarkAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_DARK"
+		//		var value = byItem;
+
+		//		// Buffs: "Dark_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Small size Attack.
+		///// </summary>
+		//public int SmallSizeAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_SMALLSIZE"
+		//		var value = byItem;
+
+		//		// Buffs: "SmallSize_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Medium size Attack.
+		///// </summary>
+		//public int MediumSizeAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_MIDDLESIZE"
+		//		var value = byItem;
+
+		//		// Buffs: "MiddleSize_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Large size Attack.
+		///// </summary>
+		//public int LargeSizeAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_LARGESIZE"
+		//		var value = byItem;
+
+		//		// Buffs: "LargeSize_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Cloth type Attack.
+		///// </summary>
+		//public int ClothAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_CLOTH"
+		//		var value = byItem;
+
+		//		// Buffs: "Cloth_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Leather type Attack.
+		///// </summary>
+		//public int LeatherAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_LEATHER"
+		//		var value = byItem;
+
+		//		// Buffs: "Leather_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Plate type Attack.
+		///// </summary>
+		//public int IronAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_IRON"
+		//		var value = byItem;
+
+		//		// Buffs: "Iron_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Ghost type Attack.
+		///// </summary>
+		//public int GhostAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_GHOST"
+		//		var value = byItem;
+
+		//		// Buffs: "Ghost_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Plant type Attack.
+		///// </summary>
+		//public int PlantAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_FORESTER"
+		//		var value = byItem;
+
+		//		// Buffs: "Forester_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Beast type Attack.
+		///// </summary>
+		//public int BeastAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_WIDLING"
+		//		var value = byItem;
+
+		//		// Buffs: "Widling_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Insect type Attack.
+		///// </summary>
+		//public int InsectAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_KLAIDA"
+		//		var value = byItem;
+
+		//		// Buffs: "Klaida_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Mutant type Attack.
+		///// </summary>
+		//public int MutantAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_PARAMUNE"
+		//		var value = byItem;
+
+		//		// Buffs: "Paramune_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Devil type Attack.
+		///// </summary>
+		//public int DevilAtk
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "ADD_VELIAS"
+		//		var value = byItem;
+
+		//		// Buffs: "Velnias_Atk_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Pierce type Defense.
+		///// </summary>
+		//public int PierceDefense
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "AriesDEF"
+		//		var value = byItem;
+
+		//		// Buffs: "DefAries_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Slash type Defense.
+		///// </summary>
+		//public int SlashDefense
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "SlashDEF"
+		//		var value = byItem;
+
+		//		// Buffs: "DefSlash_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Strike type Defense.
+		///// </summary>
+		//public int StrikeDefense
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "StrikeDEF"
+		//		var value = byItem;
+
+		//		// Buffs: "DefStrike_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Fire Resistance.
+		///// </summary>
+		//public int FireResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_FIRE"
+		//		var value = byItem;
+
+		//		// Buffs: "ResFire_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Ice Resistance.
+		///// </summary>
+		//public int IceResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_ICE"
+		//		var value = byItem;
+
+		//		// Buffs: "ResIce_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Lightning Resistance.
+		///// </summary>
+		//public int LightningResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_LIGHTNING"
+		//		var value = byItem;
+
+		//		// Buffs: "ResLightning_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Psychokinesis Resistance.
+		///// </summary>
+		//public int SoulResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_SOUL"
+		//		var value = byItem;
+
+		//		// Buffs: "ResSoul_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Earth Resistance.
+		///// </summary>
+		//public int EarthResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_EARTH"
+		//		var value = byItem;
+
+		//		// Buffs: "ResEarth_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Poison Resistance.
+		///// </summary>
+		//public int PoisonResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_POISON"
+		//		var value = byItem;
+
+		//		// Buffs: "ResPoison_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Holy Resistance.
+		///// </summary>
+		//public int HolyResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_HOLY"
+		//		var value = byItem;
+
+		//		// Buffs: "ResHoly_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Dark Resistance.
+		///// </summary>
+		//public int DarkResistance
+		//{
+		//	get
+		//	{
+		//		var byItem = 0f; // TODO: "RES_DARK"
+		//		var value = byItem;
+
+		//		// Buffs: "ResDark_BM"
+		//		var byBuffs = 0;
+
+		//		value += byBuffs;
+
+		//		return (int)value;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Pierce Attack Factor.
+		///// </summary>
+		//public int PierceAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "AriesAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Slash Attack Factor.
+		///// </summary>
+		//public int SlashAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "SlashAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Strike Attack Factor.
+		///// </summary>
+		//public int StrikeAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "StrikeAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Missile Attack Factor.
+		///// </summary>
+		//public int MissileAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "MissileAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Fire Property Attack Factor.
+		///// </summary>
+		//public int FireAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "FireAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Ice Property Attack Factor.
+		///// </summary>
+		//public int IceAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "IceAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Lightning Property Attack Factor.
+		///// </summary>
+		//public int LightningAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "LightningAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Psychokinesis Property Attack Factor.
+		///// </summary>
+		//public int SoulAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "SoulAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Poison Property Attack Factor.
+		///// </summary>
+		//public int PoisonAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "PoisonAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Earth Property Attack Factor.
+		///// </summary>
+		//public int EarthAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "EarthAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Holy Property Attack Factor.
+		///// </summary>
+		//public int HolyAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "HolyAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Dark Property Attack Factor.
+		///// </summary>
+		//public int DarkAtkFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "DarkAtkFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Pierce Property Defense Factor.
+		///// </summary>
+		//public int PierceDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "AriesDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Slash Property Defense Factor.
+		///// </summary>
+		//public int SlashDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "SlashDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Strike Property Defense Factor.
+		///// </summary>
+		//public int StrikeDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "StrikeDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Missile Property Defense Factor.
+		///// </summary>
+		//public int MissileDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "MissileDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Fire Property Defense Factor.
+		///// </summary>
+		//public int FireDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "FireDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Ice Property Defense Factor.
+		///// </summary>
+		//public int IceDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "IceDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Lightning Property Defense Factor.
+		///// </summary>
+		//public int LightningDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "LightningDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Psychokinesis Property Defense Factor.
+		///// </summary>
+		//public int SoulDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "SoulDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Poison Property Defense Factor.
+		///// </summary>
+		//public int PoisonDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "PoisonDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Earth Property Defense Factor.
+		///// </summary>
+		//public int EarthDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "EarthDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Holy Property Defense Factor.
+		///// </summary>
+		//public int HolyDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "HolyDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
+
+		///// <summary>
+		///// Returns Dark Property Defense Factor.
+		///// </summary>
+		//public int DarkDefenseFactor
+		//{
+		//	get
+		//	{
+		//		// Buffs: "DarkDefFactor_PC_BM"
+		//		var byBuffs = 0;
+
+		//		return (int)byBuffs;
+		//	}
+		//}
 	}
 }
