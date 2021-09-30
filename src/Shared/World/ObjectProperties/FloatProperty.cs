@@ -34,7 +34,13 @@ namespace Melia.Shared.World.ObjectProperties
 			set
 			{
 				var valueBefore = _value;
-				_value = value;
+
+				if (value < this.MinValue)
+					_value = this.MinValue;
+				else if (value > this.MaxValue)
+					_value = this.MaxValue;
+				else
+					_value = value;
 
 				if (_value != valueBefore)
 					this.ValueChanged?.Invoke(this);
@@ -42,8 +48,22 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Gets or sets the minimum value this property can have.
+		/// </summary>
+		public float MinValue { get; set; }
+
+		/// <summary>
+		/// Gets or sets the maximum value this property can have.
+		/// </summary>
+		public float MaxValue { get; set; }
+
+		/// <summary>
 		/// Raised when the property's value changed.
 		/// </summary>
+		/// <remarks>
+		/// The event is only raised if the value actually changed, not if
+		/// the value is set, but it ends up being the same as before.
+		/// </remarks>
 		public event Action<IProperty> ValueChanged;
 
 		/// <summary>
@@ -51,10 +71,14 @@ namespace Melia.Shared.World.ObjectProperties
 		/// </summary>
 		/// <param name="propertyId"></param>
 		/// <param name="value"></param>
-		public FloatProperty(int propertyId, float value = 0)
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		public FloatProperty(int propertyId, float value = 0, float min = float.MinValue, float max = float.MaxValue)
 		{
 			this.Id = propertyId;
-			_value = value;
+			this.MinValue = min;
+			this.MaxValue = max;
+			this.Value = value;
 		}
 
 		/// <summary>
