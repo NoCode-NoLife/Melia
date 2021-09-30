@@ -17,6 +17,18 @@ namespace Melia.Shared.World.ObjectProperties
 		public int Size { get { lock (_properties) return _properties.Values.Sum(a => a.Size); } }
 
 		/// <summary>
+		/// Returns true if a property with the given id was defined
+		/// already.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <returns></returns>
+		public bool Has(int propertyId)
+		{
+			lock (_properties)
+				return _properties.ContainsKey(propertyId);
+		}
+
+		/// <summary>
 		/// Returns the property with the given property id,
 		/// or null if it doesn't exist.
 		/// </summary>
@@ -31,6 +43,17 @@ namespace Melia.Shared.World.ObjectProperties
 
 				return property;
 			}
+		}
+
+		/// <summary>
+		/// Returns the property with the given property id,
+		/// or null if it doesn't exist.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <returns></returns>
+		public TProperty Get<TProperty>(int propertyId)
+		{
+			return (TProperty)this.Get(propertyId);
 		}
 
 		/// <summary>
@@ -146,6 +169,25 @@ namespace Melia.Shared.World.ObjectProperties
 				throw new ArgumentException($"The property is not a float.");
 
 			return floatProperty.Value;
+		}
+
+		/// <summary>
+		/// Returns the value of the given property casted to an integer,
+		/// or the default value if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public int GetInt(int propertyId, int defaultValue = 0)
+		{
+			var property = this.Get(propertyId);
+			if (property == null)
+				return defaultValue;
+
+			if (!(property is FloatProperty floatProperty))
+				throw new ArgumentException($"The property is not a float.");
+
+			return (int)floatProperty.Value;
 		}
 
 		/// <summary>

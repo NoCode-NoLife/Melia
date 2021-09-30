@@ -140,7 +140,8 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
-		/// Creates a new property.
+		/// Creates a new property. The getter is used to set the initial
+		/// value.
 		/// </summary>
 		/// <param name="propertyId"></param>
 		/// <param name="getter"></param>
