@@ -16,95 +16,92 @@ namespace Melia.Channel.World.Entities
 		public CharacterProperties(Character character)
 		{
 			this.Character = character;
-			this.AddReferenceProperties();
+			this.AddDefaultProperties();
+			this.AddAutoUpdates();
 		}
 
 		/// <summary>
 		/// Adds default reference properties.
 		/// </summary>
-		public void AddReferenceProperties()
+		public void AddDefaultProperties()
 		{
-			// Beautiful. No duplication of any data, and we can use our
-			// normal C# properties. XXX: We could technically use reflection
-			// to add these automatically.
+			this.Add(new FloatProperty(PropertyId.PC.Lv, 1, min: 1));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.Lv, () => this.Level));
-			this.Add(new RefFloatProperty(PropertyId.PC.BeforeLv, () => this.Level));
+			this.Add(new FloatProperty(PropertyId.PC.STR_JOB));
+			this.Add(new FloatProperty(PropertyId.PC.STR_STAT));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR_ADD, this.GetSTR_ADD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR, this.GetSTR));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.HP, () => this.Hp));
-			this.Add(new RefFloatProperty(PropertyId.PC.MHP, () => this.MaxHp));
-			this.Add(new RefFloatProperty(PropertyId.PC.SP, () => this.Sp));
-			this.Add(new RefFloatProperty(PropertyId.PC.MSP, () => this.MaxSp));
-			this.Add(new RefFloatProperty(PropertyId.PC.RHP, () => this.HPRecovery));
-			this.Add(new RefFloatProperty(PropertyId.PC.RSP, () => this.SPRecovery));
-			this.Add(new RefFloatProperty(PropertyId.PC.RHPTIME, () => this.HPRecoveryTime));
-			this.Add(new RefFloatProperty(PropertyId.PC.RSPTIME, () => this.SPRecoveryTime));
-			this.Add(new RefFloatProperty(PropertyId.PC.MaxSta, () => this.MaxStamina));
+			this.Add(new FloatProperty(PropertyId.PC.CON_JOB));
+			this.Add(new FloatProperty(PropertyId.PC.CON_STAT));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON_ADD, this.GetCON_ADD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON, this.GetCON));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.STR, () => this.Str));
-			this.Add(new RefFloatProperty(PropertyId.PC.STR_JOB, () => this.StrByJob));
-			this.Add(new RefFloatProperty(PropertyId.PC.STR_STAT, () => this.StrInvested));
-			this.Add(new RefFloatProperty(PropertyId.PC.STR_ADD, () => this.StrBonus));
-			this.Add(new RefFloatProperty(PropertyId.PC.CON, () => this.Con));
-			this.Add(new RefFloatProperty(PropertyId.PC.CON_JOB, () => this.ConByJob));
-			this.Add(new RefFloatProperty(PropertyId.PC.CON_STAT, () => this.ConInvested));
-			this.Add(new RefFloatProperty(PropertyId.PC.CON_ADD, () => this.ConBonus));
-			this.Add(new RefFloatProperty(PropertyId.PC.INT, () => this.Int));
-			this.Add(new RefFloatProperty(PropertyId.PC.INT_JOB, () => this.IntByJob));
-			this.Add(new RefFloatProperty(PropertyId.PC.INT_STAT, () => this.IntInvested));
-			this.Add(new RefFloatProperty(PropertyId.PC.INT_ADD, () => this.IntBonus));
-			this.Add(new RefFloatProperty(PropertyId.PC.MNA, () => this.Spr));
-			this.Add(new RefFloatProperty(PropertyId.PC.MNA_JOB, () => this.SprByJob));
-			this.Add(new RefFloatProperty(PropertyId.PC.MNA_STAT, () => this.SprInvested));
-			this.Add(new RefFloatProperty(PropertyId.PC.MNA_ADD, () => this.SprBonus));
-			this.Add(new RefFloatProperty(PropertyId.PC.DEX, () => this.Dex));
-			this.Add(new RefFloatProperty(PropertyId.PC.DEX_JOB, () => this.DexByJob));
-			this.Add(new RefFloatProperty(PropertyId.PC.DEX_STAT, () => this.DexInvested));
-			this.Add(new RefFloatProperty(PropertyId.PC.DEX_ADD, () => this.DexBonus));
+			this.Add(new FloatProperty(PropertyId.PC.INT_JOB));
+			this.Add(new FloatProperty(PropertyId.PC.INT_STAT));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT_ADD, this.GetINT_ADD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT, this.GetINT));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.NowWeight, () => this.NowWeight));
-			this.Add(new RefFloatProperty(PropertyId.PC.MaxWeight, () => this.MaxWeight));
+			this.Add(new FloatProperty(PropertyId.PC.MNA_JOB));
+			this.Add(new FloatProperty(PropertyId.PC.MNA_STAT));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA_ADD, this.GetMNA_ADD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA, this.GetMNA));
 
-			// When they removed manual stat allocation, they disabled the
-			// code that added StatByLevel and StatByBonus together, that
-			// would return the full stat point amount. Now, StatByLevel
-			// is basically useless. Since we aren't auto-statting yet,
-			// and we probably want an option to use either anyway, we're
-			// going to combine both in StatByBonus and set StatByLevel to
-			// 0. This way we're able to use our StatByLevel points and
-			// manage the points in separate properties on the server,
-			// while the client simply displays the full amount.
-			this.Add(new RefFloatProperty(PropertyId.PC.StatByLevel, () => 0));
-			this.Add(new RefFloatProperty(PropertyId.PC.StatByBonus, () => this.StatByLevel + this.StatByBonus));
+			this.Add(new FloatProperty(PropertyId.PC.DEX_JOB));
+			this.Add(new FloatProperty(PropertyId.PC.DEX_STAT));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX_ADD, this.GetDEX_ADD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX, this.GetDEX));
 
-			//this.Add(new RefFloatProperty(PropertyId.PC.StatPoint, () => this.StatPoints));
-			this.Add(new RefFloatProperty(PropertyId.PC.UsedStat, () => this.UsedStat));
-			this.Add(new RefStringProperty(PropertyId.PC.AbilityPoint, () => this.AbilityPoints.ToString()));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MHP, this.GetMHP));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MSP, this.GetMSP));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MaxSta, this.GetMaxSta));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.SR, () => this.SplashRate));
+			this.Add(new FloatProperty(PropertyId.PC.HP, this.GetMHP(), min: 0, max: this.GetMHP()));
+			this.Add(new FloatProperty(PropertyId.PC.SP, this.GetMSP(), min: 0, max: this.GetMSP()));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.MINPATK, () => this.MinPAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.MAXPATK, () => this.MaxPAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.MINMATK, () => this.MinMAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.MAXMATK, () => this.MaxMAtk));
-			this.Add(new RefFloatProperty(PropertyId.PC.MINPATK_SUB, () => this.MinPAtk_Sub));
-			this.Add(new RefFloatProperty(PropertyId.PC.MAXPATK_SUB, () => this.MaxPAtk_Sub));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.RHP, this.GetRHP));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.RSP, this.GetRSP));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.RHPTIME, this.GetRHPTIME));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.RSPTIME, this.GetRSPTIME));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.CRTATK, () => this.CritATK));
-			this.Add(new RefFloatProperty(PropertyId.PC.CRTHR, () => this.CritRate));
-			this.Add(new RefFloatProperty(PropertyId.PC.HR, () => this.Accuracy));
-			this.Add(new RefFloatProperty(PropertyId.PC.DR, () => this.Evasion));
-			this.Add(new RefFloatProperty(PropertyId.PC.BLK, () => this.Block));
-			this.Add(new RefFloatProperty(PropertyId.PC.BLK_BREAK, () => this.BlockPenetration));
+			this.Add(new FloatProperty(PropertyId.PC.StatByLevel, min: 0));
+			this.Add(new FloatProperty(PropertyId.PC.StatByBonus, min: 0));
+			this.Add(new FloatProperty(PropertyId.PC.UsedStat, min: 0));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.StatPoint, this.GetStatPoint));
+			this.Add(new StringProperty(PropertyId.PC.AbilityPoint, "0")); // Why oh why did they make this a string >_>
 
-			this.Add(new RefFloatProperty(PropertyId.PC.DEF, () => this.Defense));
-			this.Add(new RefFloatProperty(PropertyId.PC.MDEF, () => this.MagicDefense));
-			this.Add(new RefFloatProperty(PropertyId.PC.CRTDR, () => this.CritResistance));
-			this.Add(new RefFloatProperty(PropertyId.PC.SDR, () => this.AoeRatioDefense));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK, this.GetMINPATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK, this.GetMAXPATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINMATK, this.GetMINMATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXMATK, this.GetMAXMATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK_SUB, this.GetMINPATK_SUB));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK_SUB, this.GetMAXPATK_SUB));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.MSPD, () => this.Character.GetSpeed()));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEF, this.GetDEF));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MDEF, this.GetMDEF));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTATK, this.GetCRTATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTHR, this.GetCRTHR));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTDR, this.GetCRTDR));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.HR, this.GetHR));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.DR, this.GetDR));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.BLK, this.GetBLK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.BLK_BREAK, this.GetBLK_BREAK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.SR, this.GetSR));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.SDR, this.GetSDR));
 
-			this.Add(new RefFloatProperty(PropertyId.PC.MHR, () => this.MagicAmplification));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MaxWeight, this.GetMaxWeight));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.NowWeight, this.GetNowWeight));
+
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MSPD, this.GetMSPD));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.JumpPower, this.GetJumpPower));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.CastingSpeed, this.GetCastingSpeed));
+
+			this.Add(new FloatProperty(PropertyId.PC.MovingShotable, 0));
+			this.Add(new FloatProperty(PropertyId.PC.HPDrain, 2));
+			this.Add(new FloatProperty(PropertyId.PC.BOOST, 1));
+			this.Add(new FloatProperty(PropertyId.PC.Const, 1.909859f));
+			this.Add(new FloatProperty(PropertyId.PC.CAST, 1));
+			this.Add(new FloatProperty(PropertyId.PC.Sta_Jump, 1000));
 
 			//// Element Property Attack
 			//this.Add(new RefFloatProperty(PropertyId.PC.Fire_Atk, () => this.FireAtk));
@@ -177,174 +174,234 @@ namespace Melia.Channel.World.Entities
 			//this.Add(new RefFloatProperty(PropertyId.PC.PoisonAtkFactor_PC, () => this.PoisonAtkFactor));
 			//this.Add(new RefFloatProperty(PropertyId.PC.HolyAtkFactor_PC, () => this.HolyAtkFactor));
 			//this.Add(new RefFloatProperty(PropertyId.PC.DarkAtkFactor_PC, () => this.DarkAtkFactor));
-
-			this.Add(new RefFloatProperty(PropertyId.PC.MovingShotable, () => 0f));
-			this.Add(new RefFloatProperty(PropertyId.PC.CastingSpeed, () => 100f));
-			this.Add(new RefFloatProperty(PropertyId.PC.HPDrain, () => 2f));
-			this.Add(new RefFloatProperty(PropertyId.PC.JumpPower, () => this.Character.GetJumpStrength()));
-			this.Add(new RefFloatProperty(PropertyId.PC.BOOST, () => 1f));
-			this.Add(new RefFloatProperty(PropertyId.PC.Const, () => 1.909859f));
-			this.Add(new RefFloatProperty(PropertyId.PC.CAST, () => 1f));
-			this.Add(new RefFloatProperty(PropertyId.PC.Sta_Jump, () => 1000f));
-
-			//this.Add(new CalculatedFloatProperty(PropertyId.PC.STR, this.GetSTR));
-			//this.Add(new FloatProperty(PropertyId.PC.STR_JOB));
-			//this.Add(new FloatProperty(PropertyId.PC.STR_STAT));
-			//this.Add(new FloatProperty(PropertyId.PC.STR_Bonus));
-			//this.Add(new FloatProperty(PropertyId.PC.STR_ADD));
-
-			//this.AutoUpdate(
-			//	PropertyId.PC.STR, new[]
-			//	{
-			//		PropertyId.PC.STR_JOB,
-			//		PropertyId.PC.STR_STAT,
-			//		PropertyId.PC.STR_Bonus,
-			//		PropertyId.PC.STR_ADD,
-			//		//PropertyId.PC.ALLSTAT_STAT,
-			//		//PropertyId.PC.ALLSTAT_ADD,
-			//		//PropertyId.PC.ALLSTAT_BM,
-			//		//PropertyId.PC.ALLSTAT_ITEM_BM,
-			//	}
-			//);
 		}
 
-		//public float GetSTR()
+		/// <summary>
+		/// Sets up auto updates for the default properties.
+		/// </summary>
+		private void AddAutoUpdates()
+		{
+			this.AutoUpdate(PropertyId.PC.MHP, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.MHP_BM, PropertyId.PC.MHP_Bonus });
+			this.AutoUpdate(PropertyId.PC.MSP, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA, PropertyId.PC.MSP_BM, PropertyId.PC.MSP_Bonus });
+			this.AutoUpdate(PropertyId.PC.STR, new[] { PropertyId.PC.STR_ADD, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB });
+			this.AutoUpdate(PropertyId.PC.CON, new[] { PropertyId.PC.CON_ADD, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB });
+			this.AutoUpdate(PropertyId.PC.INT, new[] { PropertyId.PC.INT_ADD, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB });
+			this.AutoUpdate(PropertyId.PC.MNA, new[] { PropertyId.PC.MNA_ADD, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB });
+			this.AutoUpdate(PropertyId.PC.DEX, new[] { PropertyId.PC.DEX_ADD, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB });
+			this.AutoUpdate(PropertyId.PC.StatPoint, new[] { PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat });
+			this.AutoUpdate(PropertyId.PC.MSPD, new[] { PropertyId.PC.MSPD_BM, PropertyId.PC.MSPD_Bonus });
+			this.AutoUpdate(PropertyId.PC.CastingSpeed, new[] { PropertyId.PC.CastingSpeed_BM });
+			this.AutoUpdate(PropertyId.PC.DEF, new[] { PropertyId.PC.Lv, PropertyId.PC.DEF_BM, PropertyId.PC.DEF_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.MDEF, new[] { PropertyId.PC.Lv, PropertyId.PC.MDEF_BM, PropertyId.PC.MDEF_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.CRTATK, new[] { PropertyId.PC.CRTATK_BM });
+			this.AutoUpdate(PropertyId.PC.CRTHR, new[] { PropertyId.PC.Lv, PropertyId.PC.CRTHR_BM });
+			this.AutoUpdate(PropertyId.PC.CRTDR, new[] { PropertyId.PC.Lv, PropertyId.PC.CRTDR_BM });
+			this.AutoUpdate(PropertyId.PC.HR, new[] { PropertyId.PC.Lv, PropertyId.PC.STR, PropertyId.PC.HR_BM, PropertyId.PC.HR_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.DR, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX, PropertyId.PC.DR_BM, PropertyId.PC.DR_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.BLK, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.BLK_BM, PropertyId.PC.BLK_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.BLK_BREAK, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX, PropertyId.PC.BLK_BREAK_BM, PropertyId.PC.BLK_BREAK_RATE_BM });
+			this.AutoUpdate(PropertyId.PC.SR, new[] { PropertyId.PC.SR_BM });
+			this.AutoUpdate(PropertyId.PC.SDR, new[] { PropertyId.PC.SDR_BM });
+
+			this.AutoUpdateMax(PropertyId.PC.HP, PropertyId.PC.MHP);
+			this.AutoUpdateMax(PropertyId.PC.SP, PropertyId.PC.MSP);
+		}
+
+		///// <summary>
+		///// Gets or sets the character's Lv property.
+		///// </summary>
+		//public int Level
 		//{
-		//	var defaultStat = 0;
-		//	//var defaultStat = SCR_GET_JOB_DEFAULT_STAT(self, statString);
+		//	get => (int)this.GetFloat(PropertyId.PC.Lv);
+		//	//set => this.Set(PropertyId.PC.Lv, value);
+		//}
 
-		//	//var byJob = SCR_GET_JOB_STR(self);
-		//	//if byJob == nil then
-		//	//	byJob = 0;
-		//	//end
-
-		//	var byJob = this.GetFloat(PropertyId.PC.STR_JOB);
-		//	var byStat = this.GetFloat(PropertyId.PC.STR_STAT);
-		//	var byBonus = this.GetFloat(PropertyId.PC.STR_Bonus);
-		//	var byAdd = this.GetFloat(PropertyId.PC.STR_ADD);
-		//	var byTemp = 0; // this.GetFloat(PropertyId.PC.STR_TEMP);
-
-		//	var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-		//	var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-		//	return (float)Math.Floor(Math.Max(1, result));
+		///// <summary>
+		///// Gets or set HP, clamped between 0 and MaxHp.
+		///// </summary>
+		//public int Hp
+		//{
+		//	get => (int)this.GetFloat(PropertyId.PC.HP);
+		//	//set => this.Set(PropertyId.PC.HP, value);
 		//}
 
 		/// <summary>
-		/// Character's level.
+		/// Returns the character's maximum HP.
 		/// </summary>
-		public int Level { get; set; } = 1;
-
-		/// <summary>
-		/// Hp multiplicator from the basic job.
-		/// </summary>
-		public float HpRateByJob { get; set; }
-
-		/// <summary>
-		/// Gets or set HP, clamped between 0 and MaxHp.
-		/// </summary>
-		public int Hp
+		public float GetMHP()
 		{
-			get { return _hp; }
-			set { _hp = Math2.Clamp(0, this.MaxHp, value); }
-		}
-		private int _hp;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.CON);
+			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
 
-		/// <summary>
-		/// Maximum HP.
-		/// </summary>
-		public int MaxHp
-		{
-			get
-			{
-				var level = this.Level;
-				var rateByJob = this.HpRateByJob;
-				var stat = this.Con;
+			var byJob = Math.Floor(400 * rateByJob);
+			var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
+			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
+			var byItem = 0; // TODO: "MHP"
 
-				var byJob = Math.Floor(400 * rateByJob);
-				var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
-				var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-				var byItem = 0; // TODO: "MHP"
+			// Buffs: "MHP_BM"
+			var byBuffs = 0;
 
-				// Buffs: "MHP_BM"
-				var byBuffs = 0;
+			// "MHP_Bonus"
+			var byBonus = 0;
 
-				// "MHP_Bonus"
-				var byBonus = 0;
+			var value = byLevel + byStat + byItem + byBuffs + byBonus;
 
-				var value = byLevel + byStat + byItem + byBuffs + byBonus;
-
-				return (int)value;
-			}
+			return (int)value;
 		}
 
-		/// <summary>
-		/// Returns true if the character has run out of HP and died.
-		/// </summary>
-		public bool IsDead => this.Hp == 0;
+		///// <summary>
+		///// Gets or sets SP, clamped between 0 and MSP.
+		///// </summary>
+		//public int Sp
+		//{
+		//	get => (int)this.GetFloat(PropertyId.PC.SP);
+		//	//set => this.Set(PropertyId.PC.SP, value);
+		//}
 
 		/// <summary>
-		/// Sp multiplicator from the basic job.
+		/// Returns the character's maximum SP.
 		/// </summary>
-		public float SpRateByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets SP, clamped between 0 and MaxSp.
-		/// </summary>
-		public int Sp
+		public float GetMSP()
 		{
-			get { return _sp; }
-			set { _sp = Math2.Clamp(0, this.MaxSp, value); }
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.MNA);
+			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
+
+			var byJob = Math.Floor(200 * rateByJob);
+			var byLevel = Math.Floor(byJob + ((level - 1) * 12 * rateByJob));
+			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
+			var byItem = 0; // TODO: "MSP"
+
+			// "MSP_Bonus"
+			var byBonus = 0;
+
+			// Buffs: "MSP_BM"
+			var byBuffs = 0;
+
+			var value = byLevel + byStat + byItem + byBuffs + byBonus;
+
+			return (int)value;
 		}
-		private int _sp;
-
-		/// <summary>
-		/// Maximum SP.
-		/// </summary>
-		public int MaxSp
-		{
-			get
-			{
-				var level = this.Level;
-				var rateByJob = this.SpRateByJob;
-				var stat = this.Spr;
-
-				var byJob = Math.Floor(200 * rateByJob);
-				var byLevel = Math.Floor(byJob + ((level - 1) * 12 * rateByJob));
-				var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-				var byItem = 0; // TODO: "MSP"
-
-				// "MSP_Bonus"
-				var byBonus = 0;
-
-				// Buffs: "MSP_BM"
-				var byBuffs = 0;
-
-				var value = byLevel + byStat + byItem + byBuffs + byBonus;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Default value from the basic Job.
-		/// </summary>
-		public int StaminaByJob { get; set; }
 
 		/// <summary>
 		/// Gets or set Stamina, clamped between 0 and MaxStamina.
 		/// </summary>
 		public int Stamina
 		{
-			get { return _stamina; }
-			set { _stamina = Math2.Clamp(0, this.MaxStamina, value); }
+			get => _stamina;
+			set => _stamina = (int)Math2.Clamp(0, this.GetMaxSta(), value);
 		}
 		private int _stamina;
 
 		/// <summary>
-		/// Maximum stamina. TODO: Item and buff bonus.
+		/// Returns the character's maximum stamina.
 		/// </summary>
-		public int MaxStamina => this.StaminaByJob;
+		public float GetMaxSta()
+		{
+			// TODO: Item and buff bonus.
+			return this.Character.Job?.Data.Stamina ?? 1;
+		}
+
+		/// <summary>
+		/// Returns HP recovery.
+		/// </summary>
+		public float GetRHP()
+		{
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.CON);
+			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
+
+			var byLevel = level * rateByJob;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
+			var byItem = 0f; // TODO
+
+			var value = byLevel + byStat + byItem;
+
+			// Buffs: "RHP_BM"
+			var byBuffs = 0;
+
+			// Rate buffs: 
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
+
+			value += byBuffs;
+
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns HP recovery time.
+		/// </summary>
+		public float GetRHPTIME()
+		{
+			var baseValue = 20000;
+
+			var byItem = 0f; // TODO
+
+			// Buffs: "RHPTIME_BM"
+			var byBuffs = 0;
+
+			var value = baseValue - byItem - byBuffs;
+
+			if (this.Character.IsSitting)
+				value *= 0.5f;
+
+			if (value < 1000)
+				value = 1000;
+
+			return (float)Math.Floor(value);
+		}
+
+		/// <summary>
+		/// Returns SP recovery.
+		/// </summary>
+		public float GetRSP()
+		{
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.MNA);
+			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
+
+			var byLevel = level * rateByJob;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
+			var byItem = 0f; // TODO
+
+			var value = byLevel + byStat + byItem;
+
+			// Buffs: "RSP_BM"
+			var byBuffs = 0;
+
+			// Rate buffs: 
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
+
+			value += byBuffs;
+
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns SP recovery time.
+		/// </summary>
+		public float GetRSPTIME()
+		{
+			var baseValue = 20000;
+
+			var byItem = 0f; // TODO
+
+			// Buffs: "RSPTIME_BM"
+			var byBuffs = 0;
+
+			var value = baseValue - byItem - byBuffs;
+
+			if (this.Character.IsSitting)
+				value *= 0.5f;
+
+			if (value < 1000)
+				value = 1000;
+
+			return (float)Math.Floor(value);
+		}
 
 		/// <summary>
 		/// Returns maximum weight the character can carry.
@@ -353,55 +410,59 @@ namespace Melia.Channel.World.Entities
 		/// At release: Base 5000, plus 5 for each Str/Con.
 		/// Now: Base 8000 plus bonuses?
 		/// </remarks>
-		public int MaxWeight => 8000;
+		public float GetMaxWeight()
+			=> 8000;
 
 		/// <summary>
 		/// Returns combined weight of all items the character is currently carrying.
 		/// </summary>
-		public float NowWeight => this.Character.Inventory.GetNowWeight();
-
-		/// <summary>
-		/// Returns ratio between NowWeight and MaxWeight.
-		/// </summary>
-		public float WeightRatio => (100f / this.MaxWeight * this.NowWeight);
+		public float GetNowWeight()
+			=> this.Character.Inventory.GetNowWeight();
 
 		/// <summary>
 		/// Stat points.
 		/// </summary>
-		public int StatPoints { get { return (this.StatByLevel + this.StatByBonus - this.UsedStat); } }
-
-		/// <summary>
-		/// Stat points acquired by leveling.
-		/// </summary>
-		public int StatByLevel
+		public float GetStatPoint()
 		{
-			get { return _statByLevel; }
-			set { _statByLevel = Math2.Clamp(0, short.MaxValue, value); }
-		}
-		private int _statByLevel;
+			var byLevel = (int)this.GetFloat(PropertyId.PC.StatByLevel);
+			var byBonus = (int)this.GetFloat(PropertyId.PC.StatByBonus);
+			var usedStat = (int)this.GetFloat(PropertyId.PC.UsedStat);
 
-		/// <summary>
-		/// Stat points acquired by other means than leveling.
-		/// </summary>
-		public int StatByBonus
-		{
-			get { return _statByBonus; }
-			set { _statByBonus = Math2.Clamp(0, short.MaxValue, value); }
+			return (byLevel + byBonus - usedStat);
 		}
-		private int _statByBonus;
 
-		/// <summary>
-		/// Amount of stat points spent.
-		/// </summary>
-		/// <remarks>
-		/// Clamped between 0 and total amount of character's stat points.
-		/// </remarks>
-		public int UsedStat
-		{
-			get { return _usedStat; }
-			set { _usedStat = Math2.Clamp(0, this.StatByLevel + this.StatByBonus, value); }
-		}
-		private int _usedStat;
+		///// <summary>
+		///// Stat points acquired by leveling.
+		///// </summary>
+		//public int StatByLevel
+		//{
+		//	get { return _statByLevel; }
+		//	//set { _statByLevel = Math2.Clamp(0, short.MaxValue, value); }
+		//}
+		//private int _statByLevel;
+
+		///// <summary>
+		///// Stat points acquired by other means than leveling.
+		///// </summary>
+		//public int StatByBonus
+		//{
+		//	get { return _statByBonus; }
+		//	//set { _statByBonus = Math2.Clamp(0, short.MaxValue, value); }
+		//}
+		//private int _statByBonus;
+
+		///// <summary>
+		///// Amount of stat points spent.
+		///// </summary>
+		///// <remarks>
+		///// Clamped between 0 and total amount of character's stat points.
+		///// </remarks>
+		//public int UsedStat
+		//{
+		//	get { return _usedStat; }
+		//	//set { _usedStat = Math2.Clamp(0, this.StatByLevel + this.StatByBonus, value); }
+		//}
+		//private int _usedStat;
 
 		/// <summary>
 		/// Gets or set the character's ability points.
@@ -409,869 +470,714 @@ namespace Melia.Channel.World.Entities
 		/// <remarks>
 		/// Clamped between 0 and short.Max.
 		/// </remarks>
-		public int AbilityPoints
+		//public int AbilityPoints
+		//{
+		//	get { return _abilityPoints; }
+		//	set { _abilityPoints = Math2.Clamp(0, short.MaxValue, value); }
+		//}
+		//private int _abilityPoints;
+
+		/// <summary>
+		/// Returns character's STR bonus from items and buffs.
+		/// </summary>
+		public float GetSTR_ADD()
 		{
-			get { return _abilityPoints; }
-			set { _abilityPoints = Math2.Clamp(0, short.MaxValue, value); }
-		}
-		private int _abilityPoints;
+			var byItem = 0; // TODO
 
-		/// <summary>
-		/// Gets or sets character's Job strength (STR).
-		/// </summary>
-		public int StrByJob { get; set; }
+			// Buffs: "STR_BM"
+			var byBuffs = 0;
 
-		/// <summary>
-		/// Gets or sets character's Invested strength (STR).
-		/// </summary>
-		public int StrInvested { get; set; }
+			// "STR_ITEM_BM" Item Awakening/Enchantment ?
+			var byItemBuff = 0;
 
-		/// <summary>
-		/// Gets or sets character's Item and Buff Bonus strength (STR).
-		/// </summary>
-		public int StrBonus
-		{
-			get
-			{
-				var byItem = 0; // TODO: "STR"
+			var value = byItem + byBuffs + byItemBuff;
 
-				// Buffs: "STR_BM"
-				var byBuffs = 0;
-
-				// "STR_ITEM_BM" Item Awakening/Enchantment ?
-				var byItemBuff = 0;
-
-				var value = byItem + byBuffs + byItemBuff;
-
-				return (int)value;
-			}
+			return value;
 		}
 
 		/// <summary>
-		/// Gets character's strength (STR).
+		/// Returns character's total strength.
 		/// </summary>
-		public int Str { get { return this.StrByJob + this.StrInvested + this.StrBonus; } }
-
-		/// <summary>
-		/// Gets or sets character's Job vitality (CON).
-		/// </summary>
-		public int ConByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Invested vitality (CON).
-		/// </summary>
-		public int ConInvested { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Item and Buff Bonus vitality (CON).
-		/// </summary>
-		public int ConBonus
+		/// <returns></returns>
+		public float GetSTR()
 		{
-			get
-			{
-				var byItem = 0; // TODO: "CON"
+			var defaultStat = 0;
 
-				// Buffs: "CON_BM"
-				var byBuffs = 0;
+			var byJob = this.GetFloat(PropertyId.PC.STR_JOB);
+			var byStat = this.GetFloat(PropertyId.PC.STR_STAT);
+			var byBonus = this.GetFloat(PropertyId.PC.STR_Bonus);
+			var byAdd = this.GetFloat(PropertyId.PC.STR_ADD);
+			var byTemp = 0; // this.GetFloat(PropertyId.PC.STR_TEMP);
 
-				// "CON_ITEM_BM" Item Awakening/Enchantment ?
-				var byItemBuff = 0;
+			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-				var value = byItem + byBuffs + byItemBuff;
-
-				return (int)value;
-			}
+			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+			return (float)Math.Floor(Math.Max(1, result));
 		}
 
 		/// <summary>
-		/// Gets character's vitality (CON).
+		/// Returns character's CON bonus from items and buffs.
 		/// </summary>
-		public int Con { get { return this.ConByJob + this.ConInvested + this.ConBonus; } }
-
-		/// <summary>
-		/// Gets or sets character's Job intelligence (INT).
-		/// </summary>
-		public int IntByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Invested intelligence (INT).
-		/// </summary>
-		public int IntInvested { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Item and Buff Bonus intelligence (INT).
-		/// </summary>
-		public int IntBonus
+		public float GetCON_ADD()
 		{
-			get
-			{
-				var byItem = 0; // TODO: "INT"
+			var byItem = 0; // TODO
 
-				// Buffs: "INT_BM"
-				var byBuffs = 0;
+			// Buffs: "CON_BM"
+			var byBuffs = 0;
 
-				// "INT_ITEM_BM" Item Awakening/Enchantment ?
-				var byItemBuff = 0;
+			// "CON_ITEM_BM" Item Awakening/Enchantment ?
+			var byItemBuff = 0;
 
-				var value = byItem + byBuffs + byItemBuff;
+			var value = byItem + byBuffs + byItemBuff;
 
-				return (int)value;
-			}
+			return value;
 		}
 
 		/// <summary>
-		/// Gets character's intelligence (INT).
+		/// Returns character's total constitution.
 		/// </summary>
-		public int Int { get { return this.IntByJob + this.IntInvested + this.IntBonus; } }
-
-		/// <summary>
-		/// Gets or sets character's Job spirit (SPR/MNA).
-		/// </summary>
-		public int SprByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Invested spirit (SPR/MNA).
-		/// </summary>
-		public int SprInvested { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Item and Buff Bonus spirit (SPR/MNA).
-		/// </summary>
-		public int SprBonus
+		public float GetCON()
 		{
-			get
-			{
-				var byItem = 0; // TODO: "SPR"
+			var defaultStat = 0;
 
-				// Buffs: "SPR_BM"
-				var byBuffs = 0;
+			var byJob = this.GetFloat(PropertyId.PC.CON_JOB);
+			var byStat = this.GetFloat(PropertyId.PC.CON_STAT);
+			var byBonus = this.GetFloat(PropertyId.PC.CON_Bonus);
+			var byAdd = this.GetFloat(PropertyId.PC.CON_ADD);
+			var byTemp = 0; // this.GetFloat(PropertyId.PC.CON_TEMP);
 
-				// "SPR_ITEM_BM" Item Awakening/Enchantment ?
-				var byItemBuff = 0;
+			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-				var value = byItem + byBuffs + byItemBuff;
-
-				return (int)value;
-			}
+			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+			return (float)Math.Floor(Math.Max(1, result));
 		}
 
 		/// <summary>
-		/// Gets character's spirit (SPR/MNA).
+		/// Returns character's INT bonus from items and buffs.
 		/// </summary>
-		public int Spr { get { return this.SprByJob + this.SprInvested + this.SprBonus; } }
-
-		/// <summary>
-		/// Gets or sets character's Job agility (DEX).
-		/// </summary>
-		public int DexByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Invested agility (DEX).
-		/// </summary>
-		public int DexInvested { get; set; }
-
-		/// <summary>
-		/// Gets or sets character's Item and Buff Bonus agility (DEX).
-		/// </summary>
-		public int DexBonus
+		public float GetINT_ADD()
 		{
-			get
-			{
-				var byItem = 0; // TODO: "DEX"
+			var byItem = 0; // TODO
 
-				// Buffs: "DEX_BM"
-				var byBuffs = 0;
+			// Buffs: "INT_BM"
+			var byBuffs = 0;
 
-				// "DEX_ITEM_BM" Item Awakening/Enchantment ?
-				var byItemBuff = 0;
+			// "INT_ITEM_BM" Item Awakening/Enchantment ?
+			var byItemBuff = 0;
 
-				var value = byItem + byBuffs + byItemBuff;
+			var value = byItem + byBuffs + byItemBuff;
 
-				return (int)value;
-			}
+			return value;
 		}
 
 		/// <summary>
-		/// Gets character's agility (DEX).
+		/// Returns character's total intelligence.
 		/// </summary>
-		public int Dex { get { return this.DexByJob + this.DexInvested + this.DexBonus; } }
-
-		/// <summary>
-		/// Returns minimum physical ATK.
-		/// </summary>
-		public int MinPAtk
+		public float GetINT()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Str;
+			var defaultStat = 0;
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MINATK", "PATK", "ADD_MINATK")
+			var byJob = this.GetFloat(PropertyId.PC.INT_JOB);
+			var byStat = this.GetFloat(PropertyId.PC.INT_STAT);
+			var byBonus = this.GetFloat(PropertyId.PC.INT_Bonus);
+			var byAdd = this.GetFloat(PropertyId.PC.INT_ADD);
+			var byTemp = 0; // this.GetFloat(PropertyId.PC.INT_TEMP);
 
-				var value = baseValue + byLevel + byStat + byItem;
+			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-				// Reducation for shields and stuff?
-				//value -= leftHand.MinAtk;
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//    value -= rightHand.MinAtk
-
-				// Buffs: "PATK_BM", "MINPATK_BM"
-				var byBuffs = 0;
-
-				// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
-				//if(hasBuff("Guardian"))
-				//	rate -= SkillLevel
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
-
-				value += byBuffs + byRateBuffs;
-
-				var maxPatk = this.MaxPAtk;
-				if (value > maxPatk)
-					return maxPatk;
-
-				return (int)value;
-			}
+			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+			return (float)Math.Floor(Math.Max(1, result));
 		}
 
 		/// <summary>
-		/// Returns maximum physical ATK.
+		/// Returns character's MNA (SPR) bonus from items and buffs.
 		/// </summary>
-		public int MaxPAtk
+		public float GetMNA_ADD()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Str;
+			var byItem = 0; // TODO
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MAXATK", "PATK", "ADD_MAXATK")
+			// Buffs: "SPR_BM"
+			var byBuffs = 0;
 
-				var value = baseValue + byLevel + byStat + byItem;
+			// "SPR_ITEM_BM" Item Awakening/Enchantment ?
+			var byItemBuff = 0;
 
-				// Reducation for shields and stuff?
-				//value -= leftHand.MaxAtk;
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//    value -= rightHand.MaxAtk;
+			var value = byItem + byBuffs + byItemBuff;
 
-				// Buffs: "PATK_BM", "MAXPATK_BM"
-				var byBuffs = 0;
+			return value;
+		}
 
-				// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
-				//if(hasBuff("Guardian"))
-				//	rate -= SkillLevel
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+		/// <summary>
+		/// Returns character's total spirit.
+		/// </summary>
+		public float GetMNA()
+		{
+			var defaultStat = 0;
 
-				value += byBuffs + byRateBuffs;
+			var byJob = this.GetFloat(PropertyId.PC.MNA);
+			var byStat = this.GetFloat(PropertyId.PC.MNA_STAT);
+			var byBonus = this.GetFloat(PropertyId.PC.MNA_Bonus);
+			var byAdd = this.GetFloat(PropertyId.PC.MNA_ADD);
+			var byTemp = 0; // this.GetFloat(PropertyId.PC.MNA_TEMP);
 
-				return (int)value;
-			}
+			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
+
+			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+			return (float)Math.Floor(Math.Max(1, result));
+		}
+
+		/// <summary>
+		/// Returns character's DEX bonus from items and buffs.
+		/// </summary>
+		public float GetDEX_ADD()
+		{
+			var byItem = 0; // TODO
+
+			// Buffs: "DEX_BM"
+			var byBuffs = 0;
+
+			// "DEX_ITEM_BM" Item Awakening/Enchantment ?
+			var byItemBuff = 0;
+
+			var value = byItem + byBuffs + byItemBuff;
+
+			return value;
+		}
+
+		/// <summary>
+		/// Returns character's total dexterity.
+		/// </summary>
+		public float GetDEX()
+		{
+			var defaultStat = 0;
+
+			var byJob = this.GetFloat(PropertyId.PC.DEX);
+			var byStat = this.GetFloat(PropertyId.PC.DEX_STAT);
+			var byBonus = this.GetFloat(PropertyId.PC.DEX_Bonus);
+			var byAdd = this.GetFloat(PropertyId.PC.DEX_ADD);
+			var byTemp = 0; // this.GetFloat(PropertyId.PC.DEX_TEMP);
+
+			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
+
+			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+			return (float)Math.Floor(Math.Max(1, result));
 		}
 
 		/// <summary>
 		/// Returns minimum physical ATK.
 		/// </summary>
-		public int MinPAtk_Sub
+		public float GetMINPATK()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Str;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.STR);
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: "MINATK" "PATK" "ADD_MINATK"
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MINATK", "PATK", "ADD_MINATK")
 
-				var value = baseValue + byLevel + byStat + byItem;
+			var value = baseValue + byLevel + byStat + byItem;
 
-				// Reducation for shields and stuff?
-				//value -= leftHand.MinAtk;
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//	value -= rightHand.MinAtk
+			// Reducation for shields and stuff?
+			//value -= leftHand.MinAtk;
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//    value -= rightHand.MinAtk
 
-				// Buffs: "PATK_BM", "MINPATK_SUB_BM"
-				var byBuffs = 0;
+			// Buffs: "PATK_BM", "MINPATK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "PATK_RATE_BM", "MINPATK_SUB_RATE_BM"
-				//if(hasBuff("Guardian"))
-				//	rate -= SkillLevel
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
+			//if(hasBuff("Guardian"))
+			//	rate -= SkillLevel
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				var maxPatk_sub = this.MaxPAtk_Sub;
-				if (value > maxPatk_sub)
-					return maxPatk_sub;
+			var maxPatk = this.GetMAXPATK();
+			if (value > maxPatk)
+				return maxPatk;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
 		/// Returns maximum physical ATK.
 		/// </summary>
-		public int MaxPAtk_Sub
+		public float GetMAXPATK()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Str;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.STR);
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: "MAXATK" "PATK" "ADD_MAXATK"
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MAXATK", "PATK", "ADD_MAXATK")
 
-				var value = baseValue + byLevel + byStat + byItem;
+			var value = baseValue + byLevel + byStat + byItem;
 
-				// Reducation for shields and stuff?
-				//value -= leftHand.MaxAtk;
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//	value -= rightHand.MaxAtk;
+			// Reducation for shields and stuff?
+			//value -= leftHand.MaxAtk;
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//    value -= rightHand.MaxAtk;
 
-				// Buffs: "PATK_BM", "MAXPATK_SUB_BM"
-				var byBuffs = 0;
+			// Buffs: "PATK_BM", "MAXPATK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "PATK_RATE_BM", "MAXPATK_SUB_RATE_BM"
-				//if(hasBuff("Guardian"))
-				//	rate -= SkillLevel
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
+			//if(hasBuff("Guardian"))
+			//	rate -= SkillLevel
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns minimum physical ATK (for sub-weapon?).
+		/// </summary>
+		public float GetMINPATK_SUB()
+		{
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.STR);
+
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: "MINATK" "PATK" "ADD_MINATK"
+
+			var value = baseValue + byLevel + byStat + byItem;
+
+			// Reducation for shields and stuff?
+			//value -= leftHand.MinAtk;
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//	value -= rightHand.MinAtk
+
+			// Buffs: "PATK_BM", "MINPATK_SUB_BM"
+			var byBuffs = 0;
+
+			// Rate buffs: "PATK_RATE_BM", "MINPATK_SUB_RATE_BM"
+			//if(hasBuff("Guardian"))
+			//	rate -= SkillLevel
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
+
+			value += byBuffs + byRateBuffs;
+
+			var maxPatk_sub = this.GetMAXPATK_SUB();
+			if (value > maxPatk_sub)
+				return maxPatk_sub;
+
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns maximum physical ATK (for sub-weapon?).
+		/// </summary>
+		public float GetMAXPATK_SUB()
+		{
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.STR);
+
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: "MAXATK" "PATK" "ADD_MAXATK"
+
+			var value = baseValue + byLevel + byStat + byItem;
+
+			// Reducation for shields and stuff?
+			//value -= leftHand.MaxAtk;
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//	value -= rightHand.MaxAtk;
+
+			// Buffs: "PATK_BM", "MAXPATK_SUB_BM"
+			var byBuffs = 0;
+
+			// Rate buffs: "PATK_RATE_BM", "MAXPATK_SUB_RATE_BM"
+			//if(hasBuff("Guardian"))
+			//	rate -= SkillLevel
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
+
+			value += byBuffs + byRateBuffs;
+
+			return (int)value;
 		}
 
 		/// <summary>
 		/// Returns minimum magic ATK.
 		/// </summary>
-		public int MinMAtk
+		public float GetMINMATK()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Int;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.INT);
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MINATK")
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MINATK")
 
-				var value = baseValue + byLevel + byStat + byItem;
+			var value = baseValue + byLevel + byStat + byItem;
 
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//    value -= rightHand.MAtk
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//    value -= rightHand.MAtk
 
-				// Buffs: "MATK_BM", "MINMATK_BM"
-				var byBuffs = 0;
+			// Buffs: "MATK_BM", "MINMATK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "MATK_RATE_BM", "MINMATK_RATE_BM"
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "MATK_RATE_BM", "MINMATK_RATE_BM"
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				var max = this.MaxMAtk;
-				if (value > max)
-					return max;
+			var max = this.GetMAXMATK();
+			if (value > max)
+				return max;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
 		/// Returns maximum magic ATK.
 		/// </summary>
-		public int MaxMAtk
+		public float GetMAXMATK()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
-				var stat = this.Int;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.INT);
 
-				var byLevel = level / 2f;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-				var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MAXATK")
+			var byLevel = level / 2f;
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
+			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MAXATK")
 
-				var value = baseValue + byLevel + byStat + byItem;
+			var value = baseValue + byLevel + byStat + byItem;
 
-				//if(hasBuff("Warrior_RH_VisibleObject"))
-				//    value -= rightHand.MAtk
+			//if(hasBuff("Warrior_RH_VisibleObject"))
+			//    value -= rightHand.MAtk
 
-				// Buffs: "MATK_BM", "MAXMATK_BM"
-				var byBuffs = 0;
+			// Buffs: "MATK_BM", "MAXMATK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "MATK_RATE_BM", "MAXMATK_RATE_BM"
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "MATK_RATE_BM", "MAXMATK_RATE_BM"
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
 		/// Returns Physical Defense.
 		/// </summary>
-		public int Defense
+		public float GetDEF()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
 
-				var byLevel = level;
-				var byItem = 0f; // TODO: "DEF" "DEF_Rate"
+			var byLevel = level;
+			var byItem = 0f; // TODO: "DEF" "DEF_Rate"
 
-				var value = baseValue + byLevel + byItem;
+			var value = baseValue + byLevel + byItem;
 
-				// Buffs: "DEF_BM"
-				var byBuffs = 0;
+			// Buffs: "DEF_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "DEF_RATE_BM"
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "DEF_RATE_BM"
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
 		/// Returns Magic Defense.
 		/// </summary>
-		public int MagicDefense
+		public float GetMDEF()
 		{
-			get
-			{
-				var baseValue = 20;
-				var level = this.Level;
+			var baseValue = 20;
+			var level = this.GetFloat(PropertyId.PC.Lv);
 
-				var byLevel = level;
-				var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
+			var byLevel = level;
+			var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
 
-				var value = baseValue + byLevel + byItem;
+			var value = baseValue + byLevel + byItem;
 
-				// Buffs: "MDEF_BM"
-				var byBuffs = 0;
+			// Buffs: "MDEF_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "MDEF_RATE_BM"
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "MDEF_RATE_BM"
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Critical Attack.
+		/// Returns critical attack.
 		/// </summary>
-		public int CritATK
+		public float GetCRTATK()
 		{
-			get
-			{
-				var stat = this.Dex;
+			var stat = this.GetFloat(PropertyId.PC.DEX);
 
-				var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
-				var byItem = 0; // TODO: Cached Crit ATK for inventory/equip
+			var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
+			var byItem = 0; // TODO
 
-				var value = byStat + byItem;
+			var value = byStat + byItem;
 
-				// Buffs: "CRTATK_BM"
-				var byBuffs = 0;
+			// Buffs: "CRTATK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: Does Tos have something like CritATK +x%?
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: Does Tos have something like CritATK +x%?
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Critical Rate.
+		/// Returns critical hit rate (crit chance).
 		/// </summary>
-		public int CritRate
+		public float GetCRTHR()
 		{
-			get
-			{
-				var Level = this.Level;
+			var level = this.GetFloat(PropertyId.PC.Lv);
 
-				var byLevel = Level / 2f;
-				var byItem = 0; // TODO: CRTHR
+			var byLevel = level / 2f;
+			var byItem = 0; // TODO
 
-				var value = byLevel + byItem;
+			var value = byLevel + byItem;
 
-				// Buffs: "CRTHR_BM"
-				var byBuffs = 0;
+			// Buffs: "CRTHR_BM"
+			var byBuffs = 0;
 
-				// Rate buffs:
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs:
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Critical Resistance.
+		/// Returns critical dodge rate.
 		/// </summary>
-		public int CritResistance
+		public float GetCRTDR()
 		{
-			get
-			{
-				var Level = this.Level;
+			var level = this.GetFloat(PropertyId.PC.Lv);
 
-				var byLevel = Level / 2f;
-				var byItem = 0; // TODO: CRTDR
+			var byLevel = level / 2f;
+			var byItem = 0; // TODO
 
-				var value = byLevel + byItem;
+			var value = byLevel + byItem;
 
-				// Buffs: "CRTDR_BM"
-				var byBuffs = 0;
+			// Buffs: "CRTDR_BM"
+			var byBuffs = 0;
 
-				// Rate buffs:
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs:
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Accuracy.
+		/// Returns hit rate.
 		/// </summary>
-		public int Accuracy
+		public float GetHR()
 		{
-			get
-			{
-				var Level = this.Level;
-				var stat = this.Str;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.STR);
 
-				var byLevel = Level / 4f;
-				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: "HR" "ADD_HR"
+			var byLevel = level / 4f;
+			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+			var byItem = 0; // HR, ADD_HR
 
-				var value = byLevel + byStat + byItem;
+			var value = byLevel + byStat + byItem;
 
-				// Buffs: "HR_BM"
-				var byBuffs = 0;
+			// Buffs: "HR_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: ADD_HR
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: HR_RATE_BM
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Evasion.
+		/// Returns dodge rate.
 		/// </summary>
-		public int Evasion
+		public float GetDR()
 		{
-			get
-			{
-				var Level = this.Level;
-				var stat = this.Dex;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.DEX);
 
-				var byLevel = Level / 4f;
-				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: "DR" "ADD_DR"
+			var byLevel = level / 4f;
+			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+			var byItem = 0; // TODO
 
-				var value = byLevel + byStat + byItem;
+			var value = byLevel + byStat + byItem;
 
-				// Buffs: "DR_BM"
-				var byBuffs = 0;
+			// Buffs: "DR_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: "ADD_DR"
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: "ADD_DR"
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Block.
+		/// Returns block.
 		/// </summary>
-		public int Block
+		public float GetBLK()
 		{
-			get
-			{
-				// TODO: Update it after equipment change.
-				// Shield/Dagger = Right hand.
-				if (this.Character.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 != EquipType.Shield)
-					return 0;
+			// TODO: Update it after equipment change.
+			// Shield/Dagger = Right hand.
+			if (this.Character.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 != EquipType.Shield)
+				return 0;
 
-				var Level = this.Level;
-				var stat = this.Con;
+			var Level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.CON);
 
-				var byLevel = Level / 4f;
-				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0f; // TODO: "BLK" "BlockRate"
+			var byLevel = Level / 4f;
+			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+			var byItem = 0f; // TODO
 
-				var value = byLevel + byStat + byItem;
+			var value = byLevel + byStat + byItem;
 
-				// Buffs: "BLK_BM"
-				var byBuffs = 0;
+			// Buffs: "BLK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: BlockRate
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: BlockRate
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Block Penetration.
+		/// Returns block break (penetration).
 		/// </summary>
-		public int BlockPenetration
+		public float GetBLK_BREAK()
 		{
-			get
-			{
-				var Level = this.Level;
-				var stat = this.Dex;
+			var level = this.GetFloat(PropertyId.PC.Lv);
+			var stat = this.GetFloat(PropertyId.PC.DEX);
 
-				var byLevel = Level / 4f;
-				var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-				var byItem = 0; // TODO: "BLK_BREAK"
+			var byLevel = level / 4f;
+			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
+			var byItem = 0; // TODO
 
-				var value = byLevel + byStat + byItem;
+			var value = byLevel + byStat + byItem;
 
-				// Buffs: "BLK_BREAK_BM"
-				var byBuffs = 0;
+			// Buffs: "BLK_BREAK_BM"
+			var byBuffs = 0;
 
-				// Rate buffs: 
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
+			// Rate buffs: 
+			var rate = 0;
+			var byRateBuffs = (float)Math.Floor(value * rate);
 
-				value += byBuffs + byRateBuffs;
+			value += byBuffs + byRateBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// The character's splash rate?
+		/// Returns the character's splash rate?
 		/// </summary>
-		/// <remarks>
-		/// Used together with skill's splash rates.
-		/// TODO: Figure out where it comes from (official name: SR).
-		/// TODO: Check if it changes with jobs, items, stances, etc.
-		/// </remarks>
-		public float SplashRate { get; } = 4;
-
-		/// <summary>
-		/// Returns Aoe Attack Ratio.
-		/// </summary>
-		public int AoeRatio
+		public float GetSR()
 		{
-			get
-			{
-				var baseValue = 3;
-				if (this.Character.Jobs.Has(JobId.Swordsman, Circle.First))
-				{
-					baseValue = 4;
-				}
-				if (this.Character.Jobs.Has(JobId.Archer, Circle.First))
-				{
-					baseValue = 0;
-				}
-				var byItem = 0f; // TODO: "SR"
+			var baseValue = 3;
 
-				var value = baseValue + byItem;
+			if (this.Character.Jobs.Has(JobId.Swordsman, Circle.First))
+				baseValue = 4;
+			else if (this.Character.Jobs.Has(JobId.Archer, Circle.First))
+				baseValue = 0;
 
-				// Buffs: "SR_BM"
-				var byBuffs = 0;
+			var byItem = 0f; // TODO
 
-				value += byBuffs;
+			var value = baseValue + byItem;
 
-				return (int)value;
-			}
+			// Buffs: "SR_BM"
+			var byBuffs = 0;
+
+			value += byBuffs;
+
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns Aoe Defence Ratio.
+		/// Returns splash dodge rate.
 		/// </summary>
-		public int AoeRatioDefense
+		public float GetSDR()
 		{
-			get
-			{
-				var baseValue = 1;
-				var byItem = 0f; // TODO: "SDR"
+			var baseValue = 1;
+			var byItem = 0f; // TODO
 
-				var value = baseValue + byItem;
+			var value = baseValue + byItem;
 
-				// Buffs: "SDR_BM"
-				var byBuffs = 0;
+			// Buffs: "SDR_BM"
+			var byBuffs = 0;
 
-				value += byBuffs;
+			value += byBuffs;
 
-				return (int)value;
-			}
+			return (int)value;
 		}
 
 		/// <summary>
-		/// Returns HP Recovery amount.
+		/// Returns character's movement speed.
 		/// </summary>
-		public int HPRecovery
+		/// <returns></returns>
+		private float GetMSPD()
 		{
-			get
-			{
-				var level = this.Level;
-				var stat = this.Con;
-				var rateByJob = this.HpRateByJob;
+			var byDefault = 30;
+			var byBuff = this.GetFloat(PropertyId.PC.MSPD_BM);
+			var byBonus = this.GetFloat(PropertyId.PC.MSPD_Bonus);
 
-				var byLevel = level * rateByJob;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-				var byItem = 0f; // TODO: "RHP"
-
-				var value = byLevel + byStat + byItem;
-
-				// Buffs: "RHP_BM"
-				var byBuffs = 0;
-
-				// Rate buffs: 
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
-
-				value += byBuffs;
-
-				return (int)value;
-			}
+			return (byDefault + byBuff + byBonus);
 		}
 
 		/// <summary>
-		/// Returns HP Recovery time.
+		/// Returns character's current jump power, which dictates how
+		/// high they can jump.
 		/// </summary>
-		public float HPRecoveryTime
+		/// <returns></returns>
+		public float GetJumpPower()
 		{
-			get
-			{
-				var baseValue = 20000;
-
-				var byItem = 0f; // TODO: "RHPTIME"
-
-				// Buffs: "RHPTIME_BM"
-				var byBuffs = 0;
-
-				var value = baseValue - byItem - byBuffs;
-
-				if (this.Character.IsSitting)
-					value *= 0.5f;
-
-				if (value < 1000)
-					value = 1000;
-
-				return (float)Math.Floor(value);
-			}
+			return 350;
 		}
 
 		/// <summary>
-		/// Returns SP Recovery amount.
+		/// Returns character's current casting speed.
 		/// </summary>
-		public int SPRecovery
+		/// <returns></returns>
+		public float GetCastingSpeed()
 		{
-			get
-			{
-				var level = this.Level;
-				var stat = this.Spr;
-				var rateByJob = this.SpRateByJob;
+			var byDefault = 100;
+			var byBuff = this.GetFloat(PropertyId.PC.CastingSpeed_BM);
 
-				var byLevel = level * rateByJob;
-				var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-				var byItem = 0f; // TODO: "RSP"
-
-				var value = byLevel + byStat + byItem;
-
-				// Buffs: "RSP_BM"
-				var byBuffs = 0;
-
-				// Rate buffs: 
-				var rate = 0;
-				var byRateBuffs = (float)Math.Floor(value * rate);
-
-				value += byBuffs;
-
-				return (int)value;
-			}
-		}
-
-		/// <summary>
-		/// Returns SP Recovery time.
-		/// </summary>
-		public float SPRecoveryTime
-		{
-			get
-			{
-				var baseValue = 20000;
-
-				var byItem = 0f; // TODO: "RSPTIME"
-
-				// Buffs: "RSPTIME_BM"
-				var byBuffs = 0;
-
-				var value = baseValue - byItem - byBuffs;
-
-				if (this.Character.IsSitting)
-					value *= 0.5f;
-
-				if (value < 1000)
-					value = 1000;
-
-				return (float)Math.Floor(value);
-			}
-		}
-
-		/// <summary>
-		/// Returns Magic Amplification.
-		/// </summary>
-		public int MagicAmplification
-		{
-			get
-			{
-				// TODO: Add this to MATK
-				var byItem = 0; // TODO: "MHR" "ADD_MHR"
-
-				var value = byItem;
-
-				// Buffs: "MHR_BM"
-				var byBuffs = 0;
-
-				value += byBuffs;
-
-				return (int)value;
-			}
+			var result = byDefault + byBuff;
+			return (float)Math.Floor(Math2.Clamp(10, 200, result));
 		}
 
 		///// <summary>

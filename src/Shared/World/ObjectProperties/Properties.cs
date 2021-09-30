@@ -8,6 +8,7 @@ namespace Melia.Shared.World.ObjectProperties
 	public class Properties
 	{
 		private readonly Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
+		private readonly Dictionary<int, List<int>> _maxPropertyIds = new Dictionary<int, List<int>>();
 
 		/// <summary>
 		/// Returns the byte size of all properties, as they would take
@@ -236,14 +237,14 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
-		/// Sets up automatic update for a property when any of its "sub-
-		/// properties" change.
+		/// Sets up automatic update for a property when any of its
+		/// "sub-properties" change.
 		/// </summary>
 		/// <remarks>
 		/// Use for calculated properties, whichs' values depend on other
 		/// properties. For example, STR should be calculated based on
 		/// other properties and factors and should be updated automatically
-		/// if any property it depends on changes, like STR_Bonus.
+		/// if any property it depends on changes, like STR_ADD.
 		/// </remarks>
 		/// <param name="propertyId"></param>
 		/// <param name="subPropertyIds"></param>
@@ -256,12 +257,16 @@ namespace Melia.Shared.World.ObjectProperties
 				throw new ArgumentException($"Property '{propertyId}' not found.");
 
 			if (!(property is CalculatedFloatProperty floatProperty))
-				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
+				throw new ArgumentException($"Property '{propertyId}' is not a calculated float property.");
 
 			foreach (var subPropertyId in subPropertyIds)
 			{
+				// Add sub-property if it doesn't exist yet? There are quite
+				// a few buff and bonus properties, and this way we don't
+				// need to explicitly define all of them.
 				if (!this.TryGet(subPropertyId, out var subProperty))
-					throw new ArgumentException($"Sub-property '{subPropertyId}' not found.");
+					//throw new ArgumentException($"Sub-property '{subPropertyId}' not found.");
+					this.Add(subProperty = new FloatProperty(subPropertyId));
 
 				// Subscribe to sub-property's ValueChanged event, so we
 				// automatically trigger a recalculation of the "parent"
@@ -271,6 +276,97 @@ namespace Melia.Shared.World.ObjectProperties
 				// don't get duplicate subscriptions.
 				subProperty.ValueChanged -= floatProperty.TriggerCalculation;
 				subProperty.ValueChanged += floatProperty.TriggerCalculation;
+			}
+		}
+
+		/// <summary>
+		/// Sets up automatic updates of max values on float properties.
+		/// For example, HP's max should be increased when MHP changes.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="maxPropertyId"></param>
+		public void AutoUpdateMax(int propertyId, int maxPropertyId)
+		{
+			// Check if both properties exist and have the right type
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not found.");
+
+			if (!this.TryGet(maxPropertyId, out var maxProperty))
+				throw new ArgumentException($"Max property '{maxPropertyId}' not found.");
+
+			if (!(property is FloatProperty))
+				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
+
+			if (!(maxProperty is FloatProperty))
+				throw new ArgumentException($"Max property '{propertyId}' is not a float property.");
+
+			// Update the list of properties to update when the max property
+			// changes
+			if (!_maxPropertyIds.TryGetValue(maxPropertyId, out var propertyIds))
+				_maxPropertyIds[maxPropertyId] = propertyIds = new List<int>();
+
+			if (propertyIds.Contains(propertyId))
+				return;
+
+			propertyIds.Add(propertyId);
+
+			// Subscribe to the max changed event, which updates the
+			// "child" properties
+			maxProperty.ValueChanged -= this.OnMaxValueChanged;
+			maxProperty.ValueChanged += this.OnMaxValueChanged;
+		}
+
+		/// <summary>
+		/// Called when a property's designated max property changed.
+		/// </summary>
+		/// <param name="maxProperty"></param>
+		private void OnMaxValueChanged(IProperty maxProperty)
+		{
+			if (!_maxPropertyIds.TryGetValue(maxProperty.Id, out var propertyIds))
+				return;
+
+			if (!(maxProperty is FloatProperty maxFloatProperty))
+				return;
+
+			foreach (var propertyId in propertyIds)
+			{
+				if (!this.TryGet(propertyId, out var property) || !(property is FloatProperty floatProperty))
+					continue;
+
+				floatProperty.MaxValue = maxFloatProperty.Value;
+
+				if (floatProperty.Value > maxFloatProperty.Value)
+					floatProperty.Value = maxFloatProperty.Value;
+			}
+		}
+
+		/// <summary>
+		/// Triggers recalculation of property and returns its value.
+		/// </summary>
+		public float Calculate(int propertyId)
+		{
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not defined yet.");
+
+			if (!(property is CalculatedFloatProperty cfp))
+				throw new ArgumentException($"Property '{propertyId}' is not a calculated property.");
+
+			cfp.TriggerCalculation(null);
+			return cfp.Value;
+		}
+
+		/// <summary>
+		/// Triggers recalculation of all calculated properties.
+		/// </summary>
+		public void UpdateCalculated()
+		{
+			lock (_properties)
+			{
+				foreach (var property in _properties.Values)
+				{
+					if (property is CalculatedFloatProperty cfp)
+						cfp.TriggerCalculation(null);
+				}
 			}
 		}
 

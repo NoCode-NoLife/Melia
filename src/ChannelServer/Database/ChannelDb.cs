@@ -114,28 +114,28 @@ namespace Melia.Channel.Database
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.TotalExp = reader.GetInt32("totalExp");
 
-					var characterProperties = (CharacterProperties)character.Properties;
-					characterProperties.Level = reader.GetInt32("level");
-					characterProperties.StaminaByJob = reader.GetInt32("staminaByJob");
-					characterProperties.Stamina = reader.GetInt32("stamina");
-					characterProperties.StrInvested = reader.GetInt32("str");
-					characterProperties.StrByJob = reader.GetInt32("strByJob");
-					characterProperties.ConInvested = reader.GetInt32("con");
-					characterProperties.ConByJob = reader.GetInt32("conByJob");
-					characterProperties.IntInvested = reader.GetInt32("int");
-					characterProperties.IntByJob = reader.GetInt32("intByJob");
-					characterProperties.SprInvested = reader.GetInt32("spr");
-					characterProperties.SprByJob = reader.GetInt32("sprByJob");
-					characterProperties.DexInvested = reader.GetInt32("dex");
-					characterProperties.DexByJob = reader.GetInt32("dexByJob");
-					characterProperties.HpRateByJob = reader.GetFloat("hpRate");
-					characterProperties.SpRateByJob = reader.GetFloat("spRate");
-					characterProperties.Hp = reader.GetInt32("hp");
-					characterProperties.Sp = reader.GetInt32("sp");
-					characterProperties.StatByLevel = reader.GetInt32("statByLevel");
-					characterProperties.StatByBonus = reader.GetInt32("statByBonus");
-					characterProperties.UsedStat = reader.GetInt32("usedStat");
-					characterProperties.AbilityPoints = reader.GetInt32("abilityPoints");
+					//var characterProperties = (CharacterProperties)character.Properties;
+					//characterProperties.Level = reader.GetInt32("level");
+					//characterProperties.StaminaByJob = reader.GetInt32("staminaByJob");
+					//characterProperties.Stamina = reader.GetInt32("stamina");
+					//characterProperties.StrInvested = reader.GetInt32("str");
+					//characterProperties.StrByJob = reader.GetInt32("strByJob");
+					//characterProperties.ConInvested = reader.GetInt32("con");
+					//characterProperties.ConByJob = reader.GetInt32("conByJob");
+					//characterProperties.IntInvested = reader.GetInt32("int");
+					//characterProperties.IntByJob = reader.GetInt32("intByJob");
+					//characterProperties.SprInvested = reader.GetInt32("spr");
+					//characterProperties.SprByJob = reader.GetInt32("sprByJob");
+					//characterProperties.DexInvested = reader.GetInt32("dex");
+					//characterProperties.DexByJob = reader.GetInt32("dexByJob");
+					//characterProperties.HpRateByJob = reader.GetFloat("hpRate");
+					//characterProperties.SpRateByJob = reader.GetFloat("spRate");
+					//characterProperties.Hp = reader.GetInt32("hp");
+					//characterProperties.Sp = reader.GetInt32("sp");
+					//characterProperties.StatByLevel = reader.GetInt32("statByLevel");
+					//characterProperties.StatByBonus = reader.GetInt32("statByBonus");
+					//characterProperties.UsedStat = reader.GetInt32("usedStat");
+					//characterProperties.AbilityPoints = reader.GetInt32("abilityPoints");
 
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
@@ -148,10 +148,16 @@ namespace Melia.Channel.Database
 			this.LoadCharacterItems(character);
 			this.LoadVars("character:" + character.Id, character.Variables.Perm);
 			this.LoadSessionObjects(character);
-			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
+			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
+
+			// Initialize the properties to trigger calculated properties
+			// and to set some properties in case the character is new and
+			// hasn't received its initial properties based on their job's
+			// data yet.
+			character.InitProperties();
 
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.
@@ -400,7 +406,7 @@ namespace Melia.Channel.Database
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
-				cmd.Set("level", character.Level);
+				//cmd.Set("level", character.Level);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
 				cmd.Set("y", character.Position.Y);
@@ -408,26 +414,26 @@ namespace Melia.Channel.Database
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("totalExp", character.TotalExp);
-				cmd.Set("hp", characterProperties.Hp);
-				cmd.Set("hpRate", characterProperties.HpRateByJob);
-				cmd.Set("sp", characterProperties.Sp);
-				cmd.Set("spRate", characterProperties.SpRateByJob);
-				cmd.Set("stamina", characterProperties.Stamina);
-				cmd.Set("staminaByJob", characterProperties.StaminaByJob);
-				cmd.Set("str", characterProperties.StrInvested);
-				cmd.Set("strByJob", characterProperties.StrByJob);
-				cmd.Set("con", characterProperties.ConInvested);
-				cmd.Set("conByJob", characterProperties.ConByJob);
-				cmd.Set("int", characterProperties.IntInvested);
-				cmd.Set("intByJob", characterProperties.IntByJob);
-				cmd.Set("spr", characterProperties.SprInvested);
-				cmd.Set("sprByJob", characterProperties.SprByJob);
-				cmd.Set("dex", characterProperties.DexInvested);
-				cmd.Set("dexByJob", characterProperties.DexByJob);
-				cmd.Set("statByLevel", characterProperties.StatByLevel);
-				cmd.Set("statByBonus", characterProperties.StatByBonus);
-				cmd.Set("usedStat", characterProperties.UsedStat);
-				cmd.Set("abilityPoints", characterProperties.AbilityPoints);
+				//cmd.Set("hp", characterProperties.Hp);
+				//cmd.Set("hpRate", characterProperties.HpRateByJob);
+				//cmd.Set("sp", characterProperties.Sp);
+				//cmd.Set("spRate", characterProperties.SpRateByJob);
+				//cmd.Set("stamina", characterProperties.Stamina);
+				//cmd.Set("staminaByJob", characterProperties.StaminaByJob);
+				//cmd.Set("str", characterProperties.GetSTR_STAT);
+				//cmd.Set("strByJob", characterProperties.GetSTR_JOB);
+				//cmd.Set("con", characterProperties.ConInvested);
+				//cmd.Set("conByJob", characterProperties.ConByJob);
+				//cmd.Set("int", characterProperties.IntInvested);
+				//cmd.Set("intByJob", characterProperties.IntByJob);
+				//cmd.Set("spr", characterProperties.SprInvested);
+				//cmd.Set("sprByJob", characterProperties.SprByJob);
+				//cmd.Set("dex", characterProperties.DexInvested);
+				//cmd.Set("dexByJob", characterProperties.DexByJob);
+				//cmd.Set("statByLevel", characterProperties.StatByLevel);
+				//cmd.Set("statByBonus", characterProperties.StatByBonus);
+				//cmd.Set("usedStat", characterProperties.UsedStat);
+				//cmd.Set("abilityPoints", characterProperties.AbilityPoints);
 
 				cmd.Execute();
 			}

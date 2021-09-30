@@ -2,7 +2,6 @@
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
-using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
 using Melia.Shared.EntityComponents;
@@ -16,7 +15,6 @@ namespace Melia.Channel.World.Entities
 	public class Character : ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
-		private readonly CharacterProperties _properties;
 
 		private readonly object _lookAroundLock = new object();
 		private readonly object _hpLock = new object();
@@ -160,16 +158,6 @@ namespace Melia.Channel.World.Entities
 		public string GreetingMessage { get; set; }
 
 		/// <summary>
-		/// Character's current speed.
-		/// </summary>
-		public float Speed { get; set; } = 30;
-
-		/// <summary>
-		/// Character's current casting speed.
-		/// </summary>
-		public float CastingSpeed { get; set; } = 100;
-
-		/// <summary>
 		/// Holds the order of successive changes in character HP.
 		/// A higher value indicates the latest damage taken.
 		/// </summary>
@@ -261,7 +249,12 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Returns true if the character has run out of HP and died.
 		/// </summary>
-		public bool IsDead => this.Hp == 0;
+		public bool IsDead => (this.Hp == 0);
+
+		/// <summary>
+		/// Returns the character's move speed via its MSPD property.
+		/// </summary>
+		public float MoveSpeed => this.Properties.GetFloat(PropertyId.PC.MSPD);
 
 		/// <summary>
 		/// Returns the character's component collection.
@@ -305,7 +298,7 @@ namespace Melia.Channel.World.Entities
 			this.Components.Add(this.Skills = new CharacterSkills(this));
 			this.Components.Add(this.Abilities = new Abilities(this));
 
-			this.Properties = _properties = new CharacterProperties(this);
+			this.Properties = new CharacterProperties(this);
 
 			this.AddSessionObjects();
 		}
@@ -324,39 +317,44 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Gives character its initial properties if they're missing,
+		/// such as on a newly created character.
+		/// </summary>
+		public void InitProperties()
+		{
+			if (this.Job == null)
+				throw new InvalidOperationException("Character's jobs need to be loaded before initializing the properties.");
+
+			// We need something to check whether the properties were
+			// already initialized. Let's just use a variable for that.
+			if (!this.Variables.Perm.Defined("PropertiesInitialized"))
+			{
+				this.Properties.Set(PropertyId.PC.Lv, 1);
+				this.Exp = 0;
+				this.TotalExp = 0;
+				this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp(1);
+
+				this.Properties.Set(PropertyId.PC.STR_JOB, this.Job.Data.Str);
+				this.Properties.Set(PropertyId.PC.CON_JOB, this.Job.Data.Con);
+				this.Properties.Set(PropertyId.PC.INT_JOB, this.Job.Data.Int);
+				this.Properties.Set(PropertyId.PC.MNA_JOB, this.Job.Data.Spr);
+				this.Properties.Set(PropertyId.PC.DEX_JOB, this.Job.Data.Dex);
+				this.Properties.Set(PropertyId.PC.HP, this.Properties.Calculate(PropertyId.PC.MHP));
+				this.Properties.Set(PropertyId.PC.SP, this.Properties.Calculate(PropertyId.PC.MSP));
+
+				this.Variables.Perm["PropertiesInitialized"] = true;
+			}
+
+			this.Properties.UpdateCalculated();
+		}
+
+		/// <summary>
 		/// Updates character and its components.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
-		}
-
-		/// <summary>
-		/// Returns character's current speed.
-		/// </summary>
-		/// <returns></returns>
-		public float GetSpeed()
-		{
-			return this.Speed;
-		}
-
-		/// <summary>
-		/// Returns character's current speed.
-		/// </summary>
-		/// <returns></returns>
-		public float GetCastingSpeed()
-		{
-			return this.CastingSpeed;
-		}
-
-		/// <summary>
-		/// Returns character's current jump strength.
-		/// </summary>
-		/// <returns></returns>
-		public float GetJumpStrength()
-		{
-			return 350;
 		}
 
 		/// <summary>
@@ -560,16 +558,15 @@ namespace Melia.Channel.World.Entities
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			_properties.Level += amount;
-			_properties.StatByLevel += amount;
-			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp(_properties.Level);
-			_properties.Hp = _properties.MaxHp;
-			_properties.Sp = _properties.MaxSp;
-			_properties.Stamina = _properties.MaxStamina;
+			var newLevel = this.Properties.Modify(PropertyId.PC.Lv, amount);
+			this.Properties.Modify(PropertyId.PC.StatByLevel, amount);
+
+			this.MaxExp = ChannelServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
+			this.Heal();
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
-			Send.ZC_UPDATE_ALL_STATUS(this, _properties.Hp, _properties.MaxHp, _properties.Sp, _properties.MaxSp);
+			Send.ZC_UPDATE_ALL_STATUS(this);
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_LevelUp(this);
@@ -585,14 +582,22 @@ namespace Melia.Channel.World.Entities
 				throw new ArgumentException("Amount can't be lower than 1.");
 
 			this.Jobs.ModifySkillPoints(this.JobId, amount);
-			_properties.Hp = _properties.MaxHp;
-			_properties.Sp = _properties.MaxSp;
-			_properties.Stamina = _properties.MaxStamina;
+			this.Heal();
 
-			Send.ZC_UPDATE_ALL_STATUS(this, _properties.Hp, _properties.MaxHp, _properties.Sp, _properties.MaxSp);
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL_ClassLevelUp(this);
+		}
+
+		/// <summary>
+		/// Heals character's HP, SP, and Stamina.
+		/// </summary>
+		public void Heal()
+		{
+			this.Properties.Set(PropertyId.PC.HP, this.Properties.GetFloat(PropertyId.PC.MHP));
+			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
+
+			Send.ZC_UPDATE_ALL_STATUS(this);
 		}
 
 		/// <summary>
@@ -610,7 +615,7 @@ namespace Melia.Channel.World.Entities
 			// the client, with the correct priority.
 			lock (_hpLock)
 			{
-				hp = (_properties.Hp += amount);
+				hp = (int)this.Properties.Modify(PropertyId.PC.HP, amount);
 				priority = (this.HpChangeCounter += 1);
 			}
 
@@ -624,8 +629,8 @@ namespace Melia.Channel.World.Entities
 		/// <param name="amount"></param>
 		public void ModifySp(int amount)
 		{
-			_properties.Sp += amount;
-			Send.ZC_UPDATE_SP(this, _properties.Sp);
+			var sp = (int)this.Properties.Modify(PropertyId.PC.SP, amount);
+			Send.ZC_UPDATE_SP(this, sp);
 		}
 
 		/// <summary>
@@ -635,7 +640,10 @@ namespace Melia.Channel.World.Entities
 		/// <param name="amount"></param>
 		public void ModifyAbilityPoints(int amount)
 		{
-			_properties.AbilityPoints += amount;
+			var abilityPoints = int.Parse(this.Properties.GetString(PropertyId.PC.AbilityPoint));
+			abilityPoints += amount;
+			this.Properties.Set(PropertyId.PC.AbilityPoint, abilityPoints.ToString());
+
 			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.AbilityPoint);
 		}
 
@@ -848,8 +856,7 @@ namespace Melia.Channel.World.Entities
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be negative.");
 
-			_properties.StatByBonus += amount;
-
+			this.Properties.Modify(PropertyId.PC.StatByBonus, amount);
 			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByBonus);
 		}
 
@@ -876,21 +883,9 @@ namespace Melia.Channel.World.Entities
 		public int GetRandomPAtk()
 		{
 			var rnd = RandomProvider.Get();
-			var min = _properties.MinPAtk;
-			var max = _properties.MaxPAtk;
 
-			return rnd.Next(min, max + 1);
-		}
-
-		/// <summary>
-		/// Returns a random Magic Amplification value between 0 and 'MagicAmplification'.
-		/// </summary>
-		/// <returns></returns>
-		public int GetRandomMagicAmplification()
-		{
-			var rnd = RandomProvider.Get();
-			var min = 0;
-			var max = _properties.MagicAmplification;
+			var min = this.Properties.GetInt(PropertyId.PC.MINPATK);
+			var max = this.Properties.GetInt(PropertyId.PC.MAXPATK);
 
 			return rnd.Next(min, max + 1);
 		}

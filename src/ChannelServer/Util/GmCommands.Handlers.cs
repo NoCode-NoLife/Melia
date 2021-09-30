@@ -581,7 +581,10 @@ namespace Melia.Channel.Util
 			if (!float.TryParse(args[1], out var speed))
 				return CommandResult.InvalidArgument;
 
-			target.Speed = speed;
+			var currentSpeed = target.Properties.GetFloat(PropertyId.PC.MSPD);
+			var bonusSpeed = speed - currentSpeed;
+
+			target.Properties.Modify(PropertyId.PC.MSPD_Bonus, bonusSpeed);
 			Send.ZC_MOVE_SPEED(target);
 
 			if (sender == target)
