@@ -21,6 +21,18 @@ namespace Melia.Shared.Data.Database
 		public float HpRate { get; set; }
 		public float SpRate { get; set; }
 		public int Stamina { get; set; }
+		public float DefRate { get; set; }
+		public float MDefRate { get; set; }
+		public float HrRate { get; set; }
+		public float DrRate { get; set; }
+		public float BlkRate { get; set; }
+		public float BlkBreakRate { get; set; }
+		public float CrtHrRate { get; set; }
+		public float CrtDrRate { get; set; }
+		public float RHpRate { get; set; }
+		public float RSpRate { get; set; }
+		public float AtkSpeedRate { get; set; }
+		public float MoveSpeedRate { get; set; }
 		public int BarrackStance { get; set; }
 
 		public ISet<string> DefaultSkills { get; set; }
@@ -83,6 +95,18 @@ namespace Melia.Shared.Data.Database
 			info.HpRate = entry.ReadFloat("hpRate", 1);
 			info.SpRate = entry.ReadFloat("spRate", 1);
 			info.Stamina = entry.ReadInt("stamina", 25000);
+			info.DefRate = entry.ReadFloat("defRate", 1);
+			info.MDefRate = entry.ReadFloat("mdefRate", 1);
+			info.HrRate = entry.ReadFloat("hrRate", 1);
+			info.DrRate = entry.ReadFloat("drRate", 1);
+			info.BlkRate = entry.ReadFloat("blkRate", 1);
+			info.BlkBreakRate = entry.ReadFloat("blkBreakRate", 1);
+			info.CrtHrRate = entry.ReadFloat("crthrRate", 1);
+			info.CrtDrRate = entry.ReadFloat("crtdrRate", 1);
+			info.RHpRate = entry.ReadFloat("rhpRate", 1);
+			info.RSpRate = entry.ReadFloat("rspRate", 1);
+			info.AtkSpeedRate = entry.ReadFloat("atkSpeedRate", 1);
+			info.MoveSpeedRate = entry.ReadFloat("moveSpeedRate", 1);
 			info.BarrackStance = entry.ReadInt("barrackStance");
 
 			// TODO: It would be good if we could check right here whether
