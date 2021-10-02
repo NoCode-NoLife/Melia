@@ -341,8 +341,13 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
-		/// Triggers recalculation of property and returns its value.
+		/// Triggers recalculation of the property, updating its value,
+		/// and returning the new one.
 		/// </summary>
+		/// <remarks>
+		/// An explicit recalculation shouldn't usually be necessary,
+		/// and using GetFloat will be more efficient.
+		/// </remarks>
 		public float Calculate(int propertyId)
 		{
 			if (!this.TryGet(propertyId, out var property))
@@ -358,6 +363,10 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Triggers recalculation of all calculated properties.
 		/// </summary>
+		/// <remarks>
+		/// Recalculations should generally happen automatically and
+		/// should only be done manually if necessary.
+		/// </remarks>
 		public void UpdateCalculated()
 		{
 			lock (_properties)
