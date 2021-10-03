@@ -39,5 +39,6 @@
 #include "inc/Message.bt"
 #include "inc/Property.bt"
 #include "inc/PostBoxState.bt"
+#include "inc/SessionObject.bt"
 #include "inc/SessionProperties.bt"
 #include "inc/Attack.bt"
