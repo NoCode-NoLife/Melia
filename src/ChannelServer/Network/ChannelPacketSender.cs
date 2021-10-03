@@ -4160,8 +4160,10 @@ namespace Melia.Channel.Network
 			packet.PutInt(entity.Handle);
 			packet.PutByte((byte)buffCount);
 			if (buffCount > 0)
+			{
 				foreach (var buff in buffs.GetList())
 					packet.AddBuffData(buff);
+			}
 
 			entity.Map.Broadcast(packet);
 		}
@@ -4172,7 +4174,7 @@ namespace Melia.Channel.Network
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_CLEAR(IEntity entity)
 		{
-			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			var packet = new Packet(Op.ZC_BUFF_CLEAR);
 			packet.PutInt(entity.Handle);
 			packet.PutByte(1);
 
