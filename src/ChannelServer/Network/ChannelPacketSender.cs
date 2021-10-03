@@ -4154,9 +4154,14 @@ namespace Melia.Channel.Network
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_LIST(IEntity entity)
 		{
-			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+			var buffs = entity.Components.Get<BuffCollection>();
+			var buffCount = buffs?.Count ?? 0;
+			var packet = new Packet(Op.ZC_BUFF_LIST);
 			packet.PutInt(entity.Handle);
-			packet.PutByte(0);
+			packet.PutByte((byte)buffCount);
+			if (buffCount > 0)
+				foreach (var buff in buffs.GetList())
+					packet.AddBuffData(buff);
 
 			entity.Map.Broadcast(packet);
 		}
@@ -4189,8 +4194,12 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Add a buff to the character
+		/// Update buff time
 		/// </summary>
+		/// <remarks>
+		/// Used in long duration buffs that might require
+		/// a resync with the server?
+		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="buff"></param>
 		public static void ZC_BUFF_UPDATE_TIME(IEntity entity, Buff buff)
