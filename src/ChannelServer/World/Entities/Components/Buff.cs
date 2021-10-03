@@ -41,7 +41,7 @@ namespace Melia.Channel.World
 		/// The buff's duration, separate from database duration
 		/// because database duration is inaccurate.
 		/// </summary>
-		public int Duration { get; }
+		public TimeSpan Duration { get; } = TimeSpan.Zero;
 
 		/// <summary>
 		/// Index in world collection?
@@ -64,10 +64,10 @@ namespace Melia.Channel.World
 		/// If the buff has a duration
 		/// </summary>
 		/// <returns></returns>
-		public bool HasDuration => this.Data.Duration != 0;
+		public bool HasDuration => this.Duration != TimeSpan.Zero;
 
 		/// <summary>
-		/// If the buff has an update time
+		/// If the buff has an update time in the database
 		/// </summary>
 		/// <returns></returns>
 		public bool HasUpdateTime => this.Data.UpdateTime != 0;
@@ -88,9 +88,9 @@ namespace Melia.Channel.World
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="buffId"></param>
-		/// <param name="duration"></param>
+		/// <param name="durationInMilliseconds">-1: use database default, 0: infinite, otherwise fixed duration</param>
 		/// <param name="skillId"></param>
-		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int duration = 0, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int durationInMilliseconds = -1, SkillId skillId = SkillId.Normal_Attack)
 		{
 			this.Caster = caster;
 			this.Target = target;
@@ -99,25 +99,19 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateBuffHandle();
 			this.Data = ChannelServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
 			this.Handler = ChannelServer.Instance.BuffHandlers.GetBuff(buffId);
-			if (duration == 0)
-			{
-				if (this.Data.Duration != 0)
-				{
-					this.Duration = this.Data.Duration;
-					this.RemovalTime = DateTime.Now.AddMilliseconds(this.Data.Duration);
-				}
-			}
+			if (durationInMilliseconds == -1)
+				this.Duration = TimeSpan.FromMilliseconds(this.Data.Duration);
 			else
-			{
-				this.Duration = duration;
-				this.RemovalTime = DateTime.Now.AddMilliseconds(duration);
-			}
+				this.Duration = TimeSpan.FromMilliseconds(durationInMilliseconds);
+			if (this.HasDuration)
+				this.RemovalTime = DateTime.Now.Add(this.Duration);
 			if (this.HasUpdateTime)
 				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
 		}
 
 		/// <summary>
-		/// Increase overbuff counter
+		/// Increase overbuff counter until the over buff limit
+		/// from database
 		/// </summary>
 		public void IncreaseOverbuff()
 		{
@@ -125,6 +119,10 @@ namespace Melia.Channel.World
 				this.OverbuffCounter++;
 		}
 
+		/// <summary>
+		/// Buff Update
+		/// </summary>
+		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
 			if (DateTime.Now >= this.NextUpdateTime)
@@ -134,13 +132,19 @@ namespace Melia.Channel.World
 			}
 		}
 
+		/// <summary>
+		/// Start buff behavior
+		/// </summary>
 		public void Start()
 		{
-			if (HasDuration)
-				this.RemovalTime = DateTime.Now.AddMilliseconds(this.Duration);
+			if (this.HasDuration)
+				this.RemovalTime = DateTime.Now.Add(this.Duration);
 			this.Handler?.OnStart(this);
 		}
 
+		/// <summary>
+		/// End buff behavior
+		/// </summary>
 		public void End()
 		{
 			this.Handler?.OnEnd(this);

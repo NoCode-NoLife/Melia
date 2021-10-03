@@ -22,7 +22,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutInt(buff.OverbuffCounter);
-			packet.PutInt(buff.Duration);
+			packet.PutInt((int)buff.Duration.TotalMilliseconds);
 			packet.PutInt(0);
 			packet.PutInt(0);
 			// Instead of just the length of the string + null terminator byte (LpString),
@@ -54,11 +54,11 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(0); // i4
 			packet.PutInt(0); // i5
 			packet.PutInt(buff.OverbuffCounter);
-			packet.PutInt(buff.Duration);
+			packet.PutInt((int)buff.Duration.TotalMilliseconds);
 			packet.PutInt(0); // i6
 			packet.PutInt(0); // i7
-			// Instead of just the length of the string + null terminator byte (LpString),
-			// there are 4 extra bytes in this short for a total of 5 bytes.
+							  // Instead of just the length of the string + null terminator byte (LpString),
+							  // there are 4 extra bytes in this short for a total of 5 bytes.
 			packet.PutShort(buff.Caster.Name.Length + 5);
 			packet.PutString(buff.Caster.Name);
 			packet.PutInt(buff.Caster.Handle);
