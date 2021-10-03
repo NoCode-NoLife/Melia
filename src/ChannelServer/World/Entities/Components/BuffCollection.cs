@@ -216,7 +216,7 @@ namespace Melia.Channel.World
 
 						toUpdate.Add(buff);
 					}
-					if (now >= buff.RemovalTime)
+					if (buff.HasDuration && now >= buff.RemovalTime)
 					{
 						if (toRemove == null)
 							toRemove = new List<Buff>();

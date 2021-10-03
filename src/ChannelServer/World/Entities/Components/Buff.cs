@@ -61,6 +61,12 @@ namespace Melia.Channel.World
 		public DateTime RemovalTime { get; set; }
 
 		/// <summary>
+		/// If the buff has a duration
+		/// </summary>
+		/// <returns></returns>
+		public bool HasDuration => this.Data.Duration != 0;
+
+		/// <summary>
 		/// If the buff has an update time
 		/// </summary>
 		/// <returns></returns>
@@ -130,7 +136,8 @@ namespace Melia.Channel.World
 
 		public void Start()
 		{
-			this.RemovalTime = DateTime.Now.AddMilliseconds(this.Duration);
+			if (HasDuration)
+				this.RemovalTime = DateTime.Now.AddMilliseconds(this.Duration);
 			this.Handler?.OnStart(this);
 		}
 

@@ -14,8 +14,6 @@ namespace Melia.Channel.Buffs
 	/// </summary>
 	public class BuffHandlers
 	{
-		private IBuffHandler _defaultBuffHandler = new BuffHandler();
-
 		private readonly Dictionary<BuffId, IBuffHandler> _buffHandlers = new Dictionary<BuffId, IBuffHandler>();
 
 		/// <summary>
