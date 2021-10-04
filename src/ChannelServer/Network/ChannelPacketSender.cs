@@ -4113,7 +4113,7 @@ namespace Melia.Channel.Network
 		public static void ZC_BUFF_ADD(IEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_ADD);
-			packet.AddBuff(buff);
+			packet.AddTargetedBuff(buff);
 
 			entity.Map.Broadcast(packet);
 		}
@@ -4126,7 +4126,7 @@ namespace Melia.Channel.Network
 		public static void ZC_BUFF_UPDATE(IEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_UPDATE);
-			packet.AddBuff(buff);
+			packet.AddTargetedBuff(buff);
 
 			entity.Map.Broadcast(packet);
 		}
@@ -4162,7 +4162,7 @@ namespace Melia.Channel.Network
 			if (buffCount > 0)
 			{
 				foreach (var buff in buffs.GetList())
-					packet.AddBuffData(buff);
+					packet.AddBuff(buff);
 			}
 
 			entity.Map.Broadcast(packet);
