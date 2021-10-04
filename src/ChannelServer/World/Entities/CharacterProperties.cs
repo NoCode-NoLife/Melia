@@ -614,7 +614,7 @@ namespace Melia.Channel.World.Entities
 		{
 			var defaultStat = 0;
 
-			var byJob = this.GetFloat(PropertyId.PC.MNA);
+			var byJob = this.GetFloat(PropertyId.PC.MNA_JOB);
 			var byStat = this.GetFloat(PropertyId.PC.MNA_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.MNA_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.MNA_ADD);
@@ -651,7 +651,7 @@ namespace Melia.Channel.World.Entities
 		{
 			var defaultStat = 0;
 
-			var byJob = this.GetFloat(PropertyId.PC.DEX);
+			var byJob = this.GetFloat(PropertyId.PC.DEX_JOB);
 			var byStat = this.GetFloat(PropertyId.PC.DEX_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.DEX_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.DEX_ADD);
