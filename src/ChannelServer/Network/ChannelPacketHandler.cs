@@ -1861,7 +1861,7 @@ namespace Melia.Channel.Network
 
 			if (character != null)
 			{
-				character.Properties.Modify(PropertyId.PC.MSPD_BM, 10);
+				//character.Properties.Modify(PropertyId.PC.MSPD_BM, 10);
 				Send.ZC_MOVE_SPEED(character);
 			}
 		}
