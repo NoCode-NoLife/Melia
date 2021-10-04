@@ -88,9 +88,9 @@ namespace Melia.Channel.World
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="buffId"></param>
-		/// <param name="durationInMilliseconds">-1: use database default, 0: infinite, otherwise fixed duration</param>
+		/// <param name="duration">0: infinite, otherwise fixed duration</param>
 		/// <param name="skillId"></param>
-		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, int durationInMilliseconds = -1, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, TimeSpan duration, SkillId skillId = SkillId.Normal_Attack)
 		{
 			this.Caster = caster;
 			this.Target = target;
@@ -99,10 +99,7 @@ namespace Melia.Channel.World
 			this.Handle = ChannelServer.Instance.World.CreateBuffHandle();
 			this.Data = ChannelServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
 			this.Handler = ChannelServer.Instance.BuffHandlers.GetBuff(buffId);
-			if (durationInMilliseconds == -1)
-				this.Duration = TimeSpan.FromMilliseconds(this.Data.Duration);
-			else
-				this.Duration = TimeSpan.FromMilliseconds(durationInMilliseconds);
+			this.Duration = duration;
 			if (this.HasDuration)
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
 			if (this.HasUpdateTime)
