@@ -12,6 +12,9 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
+	/// <summary>
+	/// Represents a player character.
+	/// </summary>
 	public class Character : ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;

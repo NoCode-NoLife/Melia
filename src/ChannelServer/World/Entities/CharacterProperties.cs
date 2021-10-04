@@ -5,10 +5,20 @@ using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities
 {
+	/// <summary>
+	/// A player character's properties.
+	/// </summary>
 	public class CharacterProperties : Properties
 	{
+		/// <summary>
+		/// Returns the owner of the properties.
+		/// </summary>
 		public Character Character { get; }
 
+		/// <summary>
+		/// Creates new instance for the character.
+		/// </summary>
+		/// <param name="character"></param>
 		public CharacterProperties(Character character)
 		{
 			this.Character = character;
@@ -17,7 +27,7 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
-		/// Adds default reference properties.
+		/// Sets up properties that every character has by default.
 		/// </summary>
 		public void AddDefaultProperties()
 		{
