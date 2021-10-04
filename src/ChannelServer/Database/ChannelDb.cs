@@ -383,7 +383,7 @@ namespace Melia.Channel.Database
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
-				//cmd.Set("level", character.Level);
+				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
 				cmd.Set("y", character.Position.Y);
