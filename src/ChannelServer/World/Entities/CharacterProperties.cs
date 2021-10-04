@@ -31,30 +31,24 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public void AddDefaultProperties()
 		{
+			// We only need to set up properties that are calculated or
+			// have min/max or non-default values. All others will be
+			// created with default values as needed on demand.
+
 			this.Add(new FloatProperty(PropertyId.PC.Lv, 1, min: 1));
 
-			this.Add(new FloatProperty(PropertyId.PC.STR_JOB));
-			this.Add(new FloatProperty(PropertyId.PC.STR_STAT));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR_ADD, this.GetSTR_ADD));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR, this.GetSTR));
 
-			this.Add(new FloatProperty(PropertyId.PC.CON_JOB));
-			this.Add(new FloatProperty(PropertyId.PC.CON_STAT));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON_ADD, this.GetCON_ADD));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON, this.GetCON));
 
-			this.Add(new FloatProperty(PropertyId.PC.INT_JOB));
-			this.Add(new FloatProperty(PropertyId.PC.INT_STAT));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT_ADD, this.GetINT_ADD));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT, this.GetINT));
 
-			this.Add(new FloatProperty(PropertyId.PC.MNA_JOB));
-			this.Add(new FloatProperty(PropertyId.PC.MNA_STAT));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA_ADD, this.GetMNA_ADD));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA, this.GetMNA));
 
-			this.Add(new FloatProperty(PropertyId.PC.DEX_JOB));
-			this.Add(new FloatProperty(PropertyId.PC.DEX_STAT));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX_ADD, this.GetDEX_ADD));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX, this.GetDEX));
 
