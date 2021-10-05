@@ -22,6 +22,17 @@ namespace Melia.Shared.Data.Database
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
 		public int MinLevel { get; set; }
+		public float MinAtk { get; set; }
+		public float MaxAtk { get; set; }
+		public float PAtk { get; set; }
+		public float MAtk { get; set; }
+		public float AddMinAtk { get; set; }
+		public float AddMaxAtk { get; set; }
+		public float AddMAtk { get; set; }
+		public float Def { get; set; }
+		public float MDef { get; set; }
+		public float AddDef { get; set; }
+		public float AddMDef { get; set; }
 		public ItemScriptData Script { get; set; }
 
 		public bool HasScript => this.Script != null;
@@ -71,13 +82,24 @@ namespace Melia.Shared.Data.Database
 			info.Type = entry.ReadEnum<ItemType>("type");
 			info.Group = entry.ReadEnum<ItemGroup>("group");
 			info.Category = GetCategory(info);
-			info.Weight = entry.ReadFloat("weight", 0f);
+			info.Weight = entry.ReadFloat("weight", 0);
 			info.MaxStack = entry.ReadInt("maxStack", 1);
 			info.Price = entry.ReadInt("price", 0);
 			info.SellPrice = entry.ReadInt("sellPrice", 0);
 			info.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
 			info.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
 			info.MinLevel = entry.ReadInt("minLevel", 1);
+			info.MinAtk = entry.ReadFloat("minAtk", 0);
+			info.MaxAtk = entry.ReadFloat("maxAtk", 0);
+			info.PAtk = entry.ReadFloat("pAtk", 0);
+			info.MAtk = entry.ReadFloat("mAtk", 0);
+			info.AddMinAtk = entry.ReadFloat("addMinAtk", 0);
+			info.AddMaxAtk = entry.ReadFloat("addMaxAtk", 0);
+			info.AddMAtk = entry.ReadFloat("addMAtk", 0);
+			info.Def = entry.ReadFloat("def", 0);
+			info.MDef = entry.ReadFloat("mDef", 0);
+			info.AddDef = entry.ReadFloat("addDef", 0);
+			info.AddMDef = entry.ReadFloat("addMDef", 0);
 
 			if (entry.ContainsKey("script"))
 			{
