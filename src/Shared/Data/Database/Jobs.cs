@@ -18,6 +18,11 @@ namespace Melia.Shared.Data.Database
 		public int Int { get; set; }
 		public int Spr { get; set; }
 		public int Dex { get; set; }
+		public int StrRatio { get; set; }
+		public int ConRatio { get; set; }
+		public int IntRatio { get; set; }
+		public int SprRatio { get; set; }
+		public int DexRatio { get; set; }
 		public float HpRate { get; set; }
 		public float SpRate { get; set; }
 		public int Stamina { get; set; }
@@ -78,7 +83,7 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "stamina", "barrackStance");
+			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");
 
 			var info = new JobData();
 
@@ -87,14 +92,19 @@ namespace Melia.Shared.Data.Database
 			info.Initial = entry.ReadString("initial");
 			info.Name = entry.ReadString("name");
 			info.Rank = entry.ReadInt("rank");
-			info.Str = entry.ReadInt("str", 0);
-			info.Con = entry.ReadInt("con", 0);
-			info.Int = entry.ReadInt("int", 0);
-			info.Spr = entry.ReadInt("spr", 0);
-			info.Dex = entry.ReadInt("dex", 0);
-			info.HpRate = entry.ReadFloat("hpRate", 1);
-			info.SpRate = entry.ReadFloat("spRate", 1);
-			info.Stamina = entry.ReadInt("stamina", 25000);
+			info.Str = entry.ReadInt("str");
+			info.Con = entry.ReadInt("con");
+			info.Int = entry.ReadInt("int");
+			info.Spr = entry.ReadInt("spr");
+			info.Dex = entry.ReadInt("dex");
+			info.StrRatio = entry.ReadInt("strRatio");
+			info.ConRatio = entry.ReadInt("conRatio");
+			info.IntRatio = entry.ReadInt("intRatio");
+			info.SprRatio = entry.ReadInt("sprRatio");
+			info.DexRatio = entry.ReadInt("dexRatio");
+			info.HpRate = entry.ReadFloat("hpRate");
+			info.SpRate = entry.ReadFloat("spRate");
+			info.Stamina = entry.ReadInt("stamina");
 			info.DefRate = entry.ReadFloat("defRate", 1);
 			info.MDefRate = entry.ReadFloat("mdefRate", 1);
 			info.HrRate = entry.ReadFloat("hrRate", 1);
