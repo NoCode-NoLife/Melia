@@ -50,11 +50,43 @@ namespace Melia.Channel.World.Entities.Components
 		/// <summary>
 		/// Returns dictionary of equipped items.
 		/// </summary>
+		/// <remarks>
+		/// If no actual item is equipped in a slot, it will be filled with
+		/// a dummy item, which this method returns as well.
+		/// </remarks>
 		/// <returns></returns>
 		public Dictionary<EquipSlot, Item> GetEquip()
 		{
 			lock (_syncLock)
 				return _equip.ToDictionary(a => a.Key, a => a.Value);
+		}
+
+		/// <summary>
+		/// Returns item equipped in the given slot.
+		/// </summary>
+		/// <remarks>
+		/// If no actual item is equipped in a slot, it will be filled with
+		/// a dummy item, which this method returns as well.
+		/// </remarks>
+		/// <param name="slot"></param>
+		/// <returns></returns>
+		public Item GetEquip(EquipSlot slot)
+		{
+			lock (_syncLock)
+			{
+				_equip.TryGetValue(slot, out var item);
+				return item;
+			}
+		}
+
+		/// <summary>
+		/// Returns the sum of the property on all equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public float GetEquipProperties(int propertyId)
+		{
+			lock (_syncLock)
+				return _equip.Values.Sum(a => a.Properties.GetFloat(propertyId, 0));
 		}
 
 		/// <summary>

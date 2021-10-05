@@ -523,37 +523,38 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMINPATK()
 		{
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.STR, 1);
+
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.STR);
+			var byLevel = level;
 
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MINATK", "PATK", "ADD_MINATK")
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
-			var value = baseValue + byLevel + byStat + byItem;
+			var byItem = 0f;
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MINATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.PATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MINATK);
 
-			// Reducation for shields and stuff?
-			//value -= leftHand.MinAtk;
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//    value -= rightHand.MinAtk
+			var value = (baseValue + byLevel + byStat + byItem);
 
-			// Buffs: "PATK_BM", "MINPATK_BM"
-			var byBuffs = 0;
+			var byBuffs = 0f;
+			byBuffs += this.GetFloat(PropertyId.PC.PATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MINPATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MINPATK_MAIN_BM);
 
-			// Rate buffs: "PATK_RATE_BM", "MINPATK_RATE_BM"
-			//if(hasBuff("Guardian"))
-			//	rate -= SkillLevel
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
+			var byRateBuffs = 0f;
+			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MINPATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MINPATK_MAIN_RATE_BM);
+			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
 
-			var maxPatk = this.GetMAXPATK();
-			if (value > maxPatk)
-				return maxPatk;
-
-			return (int)value;
+			var max = this.GetFloat(PropertyId.PC.MAXPATK);
+			return (float)Math2.Clamp(1, max, value);
 		}
 
 		/// <summary>
@@ -561,33 +562,37 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMAXPATK()
 		{
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.STR, 1);
+
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.STR);
+			var byLevel = level;
 
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MAXATK", "PATK", "ADD_MAXATK")
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
-			var value = baseValue + byLevel + byStat + byItem;
+			var byItem = 0f;
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MAXATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.PATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MAXATK);
 
-			// Reducation for shields and stuff?
-			//value -= leftHand.MaxAtk;
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//    value -= rightHand.MaxAtk;
+			var value = (baseValue + byLevel + byStat + byItem);
 
-			// Buffs: "PATK_BM", "MAXPATK_BM"
-			var byBuffs = 0;
+			var byBuffs = 0f;
+			byBuffs += this.GetFloat(PropertyId.PC.PATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MAXPATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MAXPATK_MAIN_BM);
 
-			// Rate buffs: "PATK_RATE_BM", "MAXPATK_RATE_BM"
-			//if(hasBuff("Guardian"))
-			//	rate -= SkillLevel
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
+			var byRateBuffs = 0f;
+			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MAXPATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MAXPATK_MAIN_RATE_BM);
+			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
 
-			return (int)value;
+			return (float)Math.Max(1, value);
 		}
 
 		/// <summary>
@@ -667,33 +672,34 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMINMATK()
 		{
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.INT, 1);
+
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.INT);
+			var byLevel = level;
 
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MINATK")
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
-			var value = baseValue + byLevel + byStat + byItem;
+			var byItem = 0f;
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MINATK);
 
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//    value -= rightHand.MAtk
+			var value = (baseValue + byLevel + byStat + byItem);
 
-			// Buffs: "MATK_BM", "MINMATK_BM"
-			var byBuffs = 0;
+			var byBuffs = 0f;
+			byBuffs += this.GetFloat(PropertyId.PC.MATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MINMATK_BM);
 
-			// Rate buffs: "MATK_RATE_BM", "MINMATK_RATE_BM"
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
+			var byRateBuffs = 0f;
+			byRateBuffs += this.GetFloat(PropertyId.PC.MATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MINMATK_RATE_BM);
+			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
 
-			var max = this.GetMAXMATK();
-			if (value > max)
-				return max;
-
-			return (int)value;
+			var max = this.GetFloat(PropertyId.PC.MAXMATK);
+			return (float)Math2.Clamp(1, max, value);
 		}
 
 		/// <summary>
@@ -701,29 +707,33 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMAXMATK()
 		{
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.INT, 1);
+
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.INT);
+			var byLevel = level;
 
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: Cached MinPAtk for inventory/equip ("MATK", "ADD_MATK", "ADD_MAXATK")
+			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
-			var value = baseValue + byLevel + byStat + byItem;
+			var byItem = 0f;
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MATK);
+			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MAXATK);
 
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//    value -= rightHand.MAtk
+			var value = (baseValue + byLevel + byStat + byItem);
 
-			// Buffs: "MATK_BM", "MAXMATK_BM"
-			var byBuffs = 0;
+			var byBuffs = 0f;
+			byBuffs += this.GetFloat(PropertyId.PC.MATK_BM);
+			byBuffs += this.GetFloat(PropertyId.PC.MINMATK_BM);
 
-			// Rate buffs: "MATK_RATE_BM", "MAXMATK_RATE_BM"
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
+			var byRateBuffs = 0f;
+			byRateBuffs += this.GetFloat(PropertyId.PC.MATK_RATE_BM);
+			byRateBuffs += this.GetFloat(PropertyId.PC.MINMATK_RATE_BM);
+			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
 
-			return (int)value;
+			return (float)Math.Max(1, value);
 		}
 
 		/// <summary>
