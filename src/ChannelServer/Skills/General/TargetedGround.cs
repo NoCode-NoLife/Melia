@@ -18,7 +18,7 @@ namespace Melia.Channel.Skills.General
 
 			skill.IncreaseOverheat();
 
-			var damage = caster.GetRandomPAtk() + 100;
+			var damage = caster.GetRandomPAtk();
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
 

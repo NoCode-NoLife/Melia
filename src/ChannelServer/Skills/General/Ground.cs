@@ -34,7 +34,7 @@ namespace Melia.Channel.Skills.General
 				case SkillId.Wizard_MagicMissile:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk() + 100;
+					var damage = caster.GetRandomPAtk();
 
 					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
 
@@ -93,7 +93,7 @@ namespace Melia.Channel.Skills.General
 				default:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk() + 100;
+					var damage = caster.GetRandomPAtk();
 
 					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
 

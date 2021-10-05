@@ -22,7 +22,7 @@ namespace Melia.Channel.Skills.General
 				return;
 			}
 
-			var damage = caster.GetRandomPAtk() + 100;
+			var damage = caster.GetRandomPAtk();
 			target.TakeDamage(damage, caster);
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
