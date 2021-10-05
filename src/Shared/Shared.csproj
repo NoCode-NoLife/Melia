@@ -71,6 +71,7 @@
     <Compile Include="Const\Size.cs" />
     <Compile Include="Const\SkillId.cs" />
     <Compile Include="Const\TxType.cs" />
+    <Compile Include="Data\Database\AchievementPoints.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />
     <Compile Include="Data\Database\Cooldowns.cs" />
