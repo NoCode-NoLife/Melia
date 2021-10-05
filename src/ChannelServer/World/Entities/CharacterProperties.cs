@@ -356,9 +356,14 @@ namespace Melia.Channel.World.Entities
 		/// <returns></returns>
 		public float GetSTR()
 		{
-			var defaultStat = 0;
+			var defaultStat = this.GetFloat(PropertyId.PC.STR_JOB);
 
-			var byJob = this.GetFloat(PropertyId.PC.STR_JOB);
+			var byJob = 0f;
+			var jobs = this.Character.Jobs.GetList();
+			foreach (var job in jobs)
+				byJob += job.Data.StrRatio;
+			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+
 			var byStat = this.GetFloat(PropertyId.PC.STR_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.STR_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.STR_ADD);
@@ -393,9 +398,14 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetCON()
 		{
-			var defaultStat = 0;
+			var defaultStat = this.GetFloat(PropertyId.PC.CON_JOB);
 
-			var byJob = this.GetFloat(PropertyId.PC.CON_JOB);
+			var byJob = 0f;
+			var jobs = this.Character.Jobs.GetList();
+			foreach (var job in jobs)
+				byJob += job.Data.ConRatio;
+			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+
 			var byStat = this.GetFloat(PropertyId.PC.CON_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.CON_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.CON_ADD);
@@ -430,9 +440,14 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetINT()
 		{
-			var defaultStat = 0;
+			var defaultStat = this.GetFloat(PropertyId.PC.INT_JOB);
 
-			var byJob = this.GetFloat(PropertyId.PC.INT_JOB);
+			var byJob = 0f;
+			var jobs = this.Character.Jobs.GetList();
+			foreach (var job in jobs)
+				byJob += job.Data.IntRatio;
+			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+
 			var byStat = this.GetFloat(PropertyId.PC.INT_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.INT_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.INT_ADD);
@@ -467,9 +482,14 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMNA()
 		{
-			var defaultStat = 0;
+			var defaultStat = this.GetFloat(PropertyId.PC.MNA_JOB);
 
-			var byJob = this.GetFloat(PropertyId.PC.MNA_JOB);
+			var byJob = 0f;
+			var jobs = this.Character.Jobs.GetList();
+			foreach (var job in jobs)
+				byJob += job.Data.SprRatio;
+			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+
 			var byStat = this.GetFloat(PropertyId.PC.MNA_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.MNA_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.MNA_ADD);
@@ -504,9 +524,14 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetDEX()
 		{
-			var defaultStat = 0;
+			var defaultStat = this.GetFloat(PropertyId.PC.DEX_JOB);
 
-			var byJob = this.GetFloat(PropertyId.PC.DEX_JOB);
+			var byJob = 0f;
+			var jobs = this.Character.Jobs.GetList();
+			foreach (var job in jobs)
+				byJob += job.Data.DexRatio;
+			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+
 			var byStat = this.GetFloat(PropertyId.PC.DEX_STAT);
 			var byBonus = this.GetFloat(PropertyId.PC.DEX_Bonus);
 			var byAdd = this.GetFloat(PropertyId.PC.DEX_ADD);
