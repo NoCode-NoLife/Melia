@@ -2,8 +2,10 @@
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
+using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.EntityComponents;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
@@ -880,7 +882,7 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
-		/// Returns a random physical ATK value between MinPAtk and MaxPAtk.
+		/// Returns a random physical attack damage value.
 		/// </summary>
 		/// <returns></returns>
 		public int GetRandomPAtk()
@@ -891,6 +893,33 @@ namespace Melia.Channel.World.Entities
 			var max = this.Properties.GetInt(PropertyId.PC.MAXPATK);
 
 			return rnd.Next(min, max + 1);
+		}
+
+		/// <summary>
+		/// Returns a random magic attack damage value.
+		/// </summary>
+		/// <returns></returns>
+		public int GetRandomMAtk()
+		{
+			var rnd = RandomProvider.Get();
+
+			var min = this.Properties.GetInt(PropertyId.PC.MINMATK);
+			var max = this.Properties.GetInt(PropertyId.PC.MAXMATK);
+
+			return rnd.Next(min, max + 1);
+		}
+
+		/// <summary>
+		/// Returns a random physical or magic attack damage value,
+		/// for usage with the given skill.
+		/// </summary>
+		/// <returns></returns>
+		public int GetRandomAtk(Skill skill)
+		{
+			if (skill.Data.ClassType <= SkillClassType.Missile)
+				return this.GetRandomPAtk();
+			else
+				return this.GetRandomMAtk();
 		}
 
 		/// <summary>

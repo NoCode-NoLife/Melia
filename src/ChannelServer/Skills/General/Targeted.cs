@@ -1,6 +1,7 @@
 ﻿using Melia.Channel.Network;
 using Melia.Channel.Skills.Base;
 using Melia.Channel.World.Entities;
+using Melia.Shared.Const;
 
 namespace Melia.Channel.Skills.General
 {
@@ -22,7 +23,7 @@ namespace Melia.Channel.Skills.General
 				return;
 			}
 
-			var damage = caster.GetRandomPAtk();
+			var damage = caster.GetRandomAtk(skill);
 			target.TakeDamage(damage, caster);
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
