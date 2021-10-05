@@ -8,8 +8,6 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public bool UseDaily { get; set; }
-		public bool UseWeekly { get; set; }
 	}
 
 	/// <summary>
@@ -19,14 +17,12 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "className", "useDaily", "useWeekly");
+			entry.AssertNotMissing("id", "className");
 
 			var data = new AchievementData();
 
 			data.Id = entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
-			data.UseDaily = entry.ReadBool("useDaily");
-			data.UseWeekly = entry.ReadBool("useWeekly");
 
 			this.Entries[data.Id] = data;
 		}
