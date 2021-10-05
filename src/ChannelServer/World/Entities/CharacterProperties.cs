@@ -70,12 +70,12 @@ namespace Melia.Channel.World.Entities
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.StatPoint, this.GetStatPoint));
 			this.Add(new StringProperty(PropertyId.PC.AbilityPoint, "0")); // Why oh why did they make this a string >_>
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK, this.GetMINPATK));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK, this.GetMAXPATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINMATK, this.GetMINMATK));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK, this.GetMINPATK));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXMATK, this.GetMAXMATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK_SUB, this.GetMINPATK_SUB));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINMATK, this.GetMINMATK));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK_SUB, this.GetMAXPATK_SUB));
+			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK_SUB, this.GetMINPATK_SUB));
 
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEF, this.GetDEF));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MDEF, this.GetMDEF));
@@ -553,7 +553,7 @@ namespace Melia.Channel.World.Entities
 
 			value += byBuffs + byRateBuffs;
 
-			var max = this.GetFloat(PropertyId.PC.MAXPATK);
+			var max = this.GetMAXPATK();
 			return (float)Math2.Clamp(1, max, value);
 		}
 
@@ -698,7 +698,7 @@ namespace Melia.Channel.World.Entities
 
 			value += byBuffs + byRateBuffs;
 
-			var max = this.GetFloat(PropertyId.PC.MAXMATK);
+			var max = this.GetMAXMATK();
 			return (float)Math2.Clamp(1, max, value);
 		}
 
