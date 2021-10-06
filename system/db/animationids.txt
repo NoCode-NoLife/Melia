@@ -3243,6 +3243,7 @@
 { name: "I_complete_kruvina_dead", id: 450163 },
 { name: "I_hit003_red", id: 450164 },
 { name: "I_buff_002_red1", id: 450165 },
+{ name: "skl_eff_jukebox_loop", id: 450166 },
 { name: "LEFTTURN", id: 470001 },
 { name: "RIGHTTURN", id: 470002 },
 { name: "RootCrystal", id: 470003 },
