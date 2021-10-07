@@ -80,7 +80,8 @@ if (disableAdditionalCharacterSlots == 0) {
         short characterCount2;
 } else {
     int mapId;
-    int i2;
-    int teamExp; // ?
-    short characterCount2;
+    short layerCharacterCount;
+    short additionalSlotCount;
+    int teamExp;
+    short totalCharacterCount;
 }
