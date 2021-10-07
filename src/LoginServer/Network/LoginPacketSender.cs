@@ -84,28 +84,31 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		public static void BC_COMMANDER_LIST(LoginConnection conn)
 		{
-			var characters = conn.Account.GetCharacters();
-			var barrackCharacters = characters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
+			var allCharacters = conn.Account.GetCharacters();
+			var layerCharacters = allCharacters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
+
+			var totalCharacterCount = allCharacters.Length;
+			var layerCharacterCount = layerCharacters.Count();
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(0); // 1 = 5/4 slots?
 			packet.PutString(conn.Account.TeamName, 64);
-			//packet.AddFullAccountProperties(conn.Account);
 			packet.AddAccountProperties(conn.Account);
 
-			packet.PutShort(1); // Additional Characters
-			packet.PutInt(0x0B); // MapID
-			packet.PutInt(barrackCharacters.Count());
-			packet.PutInt(100); // Team Exp
-			packet.PutShort(characters.Length);
+			packet.PutShort(1); // 0 = 15 slots, 1 = 4, 2 = 8, 3+ = 4, only 1 shows correct max values?
+			packet.PutInt(11);
+			packet.PutShort(layerCharacterCount);
+			packet.PutShort(conn.Account.AdditionalSlotCount);
+			packet.PutInt(conn.Account.TeamExp);
+			packet.PutShort(totalCharacterCount);
 
 			conn.Send(packet);
 
-			if (characters.Length > 0)
-				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn, barrackCharacters);
+			if (allCharacters.Length > 0)
+				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn, layerCharacters);
 		}
 
 		/// <summary>
