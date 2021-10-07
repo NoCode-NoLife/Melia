@@ -497,25 +497,9 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.TeamUI);
 			packet.PutLong(conn.Account.Id);
-			packet.PutShort(0); // Number of additional character slots
-			packet.PutInt(0); // Team experience. Displayed under "Team Info"
-			packet.PutShort(0); // Sum of characters and pets.
-
-			conn.Send(packet);
-		}
-
-		/// <summary>
-		/// Sends unknown packet in the barrack.
-		/// </summary>
-		/// <param name="conn"></param>
-		public static void BC_NORMAL_UpdateTeamUI(LoginConnection conn)
-		{
-			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(SubOp.Barrack.Unknown_0C);
-			packet.PutLong(conn.Account.Id);
-			packet.PutShort(0); // Number of additional character slots
-			packet.PutInt(0); // Team experience. Displayed under "Team Info"
-			packet.PutShort(conn.Account.CharacterCount); // Sum of characters and pets.
+			packet.PutShort(conn.Account.AdditionalSlotCount); 
+			packet.PutInt(conn.Account.TeamExp); 
+			packet.PutShort(conn.Account.CharacterCount); 
 
 			conn.Send(packet);
 		}
