@@ -497,9 +497,9 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.TeamUI);
 			packet.PutLong(conn.Account.Id);
-			packet.PutShort(conn.Account.AdditionalSlotCount); 
-			packet.PutInt(conn.Account.TeamExp); 
-			packet.PutShort(conn.Account.CharacterCount); 
+			packet.PutShort(conn.Account.AdditionalSlotCount);
+			packet.PutInt(conn.Account.TeamExp);
+			packet.PutShort(conn.Account.CharacterCount);
 
 			conn.Send(packet);
 		}
