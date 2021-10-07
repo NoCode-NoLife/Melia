@@ -423,6 +423,7 @@ namespace Melia.Channel.Database
 				cmd.Set("statByBonus", character.StatByBonus);
 				cmd.Set("usedStat", character.UsedStat);
 				cmd.Set("abilityPoints", character.AbilityPoints);
+				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
 
 				cmd.Execute();
 			}

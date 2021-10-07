@@ -273,6 +273,7 @@ namespace Melia.Login.Database
 							character.MapId = reader.GetInt32("zone");
 							character.Index = (byte)reader.GetInt32("slot");
 							character.BarrackLayer = reader.GetInt32("barrackLayer");
+							character.Silver = reader.GetInt32("silver");
 
 							var bx = reader.GetFloat("bx");
 							var by = reader.GetFloat("by");

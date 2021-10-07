@@ -29,7 +29,7 @@ namespace Melia.Login.Network.Helpers
 			packet.PutInt(0);
 			packet.PutShort(0);
 			packet.PutShort(0);
-			packet.PutLong(0);
+			packet.PutLong(pc.Silver);
 
 			// Position?
 			packet.PutFloat(pc.BarrackPosition.X);
@@ -54,5 +54,6 @@ namespace Melia.Login.Network.Helpers
 		int Channel { get; }
 		Position BarrackPosition { get; }
 		Direction BarrackDirection { get; }
+		long Silver { get; }
 	}
 }
