@@ -595,12 +595,30 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
-		/// Heals character's HP, SP, and Stamina.
+		/// Heals character's HP, SP, and Stamina fully and updates
+		/// the client.
 		/// </summary>
 		public void Heal()
 		{
 			this.Properties.Set(PropertyId.PC.HP, this.Properties.GetFloat(PropertyId.PC.MHP));
 			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
+
+			Send.ZC_UPDATE_ALL_STATUS(this);
+		}
+
+		/// <summary>
+		/// Heals character's HP and SP by the given amounts and updates
+		/// the client.
+		/// </summary>
+		/// <param name="hpAmount"></param>
+		/// <param name="spAmount"></param>
+		public void Heal(float hpAmount, float spAmount)
+		{
+			if (hpAmount == 0 && spAmount == 0)
+				return;
+
+			this.Properties.Modify(PropertyId.PC.HP, hpAmount);
+			this.Properties.Modify(PropertyId.PC.SP, spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
 		}
