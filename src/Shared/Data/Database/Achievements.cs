@@ -8,8 +8,12 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public bool UseDaily { get; set; }
-		public bool UseWeekly { get; set; }
+		public string Category { get; set; }
+		public string Name { get; set; }
+		public string PointName { get; set; }
+		public int PointCount { get; set; }
+		public bool IsRepeatable { get; set; }
+		public bool IsAccountReward { get; set; }
 	}
 
 	/// <summary>
@@ -19,14 +23,18 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "className", "useDaily", "useWeekly");
+			entry.AssertNotMissing("id", "className", "category", "name", "point", "count", "repeatable", "account");
 
 			var data = new AchievementData();
 
 			data.Id = entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
-			data.UseDaily = entry.ReadBool("useDaily");
-			data.UseWeekly = entry.ReadBool("useWeekly");
+			data.Category = entry.ReadString("category");
+			data.Name = entry.ReadString("name");
+			data.PointName = entry.ReadString("point");
+			data.PointCount = entry.ReadInt("count");
+			data.IsRepeatable = entry.ReadBool("repeatable");
+			data.IsAccountReward = entry.ReadBool("account");
 
 			this.Entries[data.Id] = data;
 		}

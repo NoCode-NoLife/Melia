@@ -391,6 +391,7 @@ namespace Melia.Channel.Database
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("totalExp", character.TotalExp);
+				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
 
 				cmd.Execute();
 			}

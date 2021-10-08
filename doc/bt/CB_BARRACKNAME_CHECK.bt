@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CB_BARRACKNAME_CHECK.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i337645
 //   Purpose: 
 //  Category: 
@@ -10,16 +10,11 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
 
 short serverId;
-char name[16];
-int64 i[6];
-char message[128];
-byte bin2[24];
-int64 unk[9];
-char name2[16];
-int64 l1;
-int64 l2;
+char name[64];
+char message[256];

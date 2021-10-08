@@ -71,6 +71,15 @@ namespace Melia.Login.World
 		public int Level { get; set; }
 
 		/// <summary>
+		/// Gets or sets the amount of silver the character owns.
+		/// </summary>
+		/// <remarks>
+		/// This is just for information's sake and modifying this property
+		/// won't actually change the amount of silver a character owns.
+		/// </remarks>
+		public long Silver { get; set; }
+
+		/// <summary>
 		/// Layer in the barrack that the character should appear in.
 		/// </summary>
 		public int BarrackLayer { get; set; }
