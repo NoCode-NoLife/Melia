@@ -23,7 +23,6 @@ namespace Melia.Channel.World.Entities
 		{
 			this.Character = character;
 			this.AddDefaultProperties();
-			this.AddAutoUpdates();
 		}
 
 		/// <summary>
@@ -56,8 +55,10 @@ namespace Melia.Channel.World.Entities
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MSP, this.GetMSP));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.MaxSta, this.GetMaxSta));
 
-			this.Add(new FloatProperty(PropertyId.PC.HP, this.GetMHP(), min: 0, max: this.GetMHP()));
-			this.Add(new FloatProperty(PropertyId.PC.SP, this.GetMSP(), min: 0, max: this.GetMSP()));
+			// Don't set a max value initially, as that could cap the HP
+			// during loading.
+			this.Add(new FloatProperty(PropertyId.PC.HP, this.GetMHP(), min: 0));
+			this.Add(new FloatProperty(PropertyId.PC.SP, this.GetMSP(), min: 0));
 
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.RHP, this.GetRHP));
 			this.Add(new CalculatedFloatProperty(PropertyId.PC.RSP, this.GetRSP));
@@ -107,15 +108,19 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Sets up auto updates for the default properties.
 		/// </summary>
-		private void AddAutoUpdates()
+		/// <remarks>
+		/// Call after all properties were loaded, as to not trigger
+		/// auto-updates before all properties are in place.
+		/// </remarks>
+		public void InitAutoUpdates()
 		{
-			this.AutoUpdate(PropertyId.PC.MHP, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.MHP_BM, PropertyId.PC.MHP_Bonus });
-			this.AutoUpdate(PropertyId.PC.MSP, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA, PropertyId.PC.MSP_BM, PropertyId.PC.MSP_Bonus });
 			this.AutoUpdate(PropertyId.PC.STR, new[] { PropertyId.PC.STR_ADD, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB });
 			this.AutoUpdate(PropertyId.PC.CON, new[] { PropertyId.PC.CON_ADD, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB });
 			this.AutoUpdate(PropertyId.PC.INT, new[] { PropertyId.PC.INT_ADD, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB });
 			this.AutoUpdate(PropertyId.PC.MNA, new[] { PropertyId.PC.MNA_ADD, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB });
 			this.AutoUpdate(PropertyId.PC.DEX, new[] { PropertyId.PC.DEX_ADD, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB });
+			this.AutoUpdate(PropertyId.PC.MHP, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.MHP_BM, PropertyId.PC.MHP_Bonus });
+			this.AutoUpdate(PropertyId.PC.MSP, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA, PropertyId.PC.MSP_BM, PropertyId.PC.MSP_Bonus });
 			this.AutoUpdate(PropertyId.PC.StatPoint, new[] { PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat });
 			this.AutoUpdate(PropertyId.PC.MSPD, new[] { PropertyId.PC.MSPD_BM, PropertyId.PC.MSPD_Bonus });
 			this.AutoUpdate(PropertyId.PC.CastingSpeed, new[] { PropertyId.PC.CastingSpeed_BM });

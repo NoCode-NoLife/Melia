@@ -350,7 +350,10 @@ namespace Melia.Channel.World.Entities
 				this.Variables.Perm["PropertiesInitialized"] = true;
 			}
 
-			this.Properties.UpdateCalculated();
+			var properties = (this.Properties as CharacterProperties);
+
+			properties.UpdateCalculated();
+			properties.InitAutoUpdates();
 		}
 
 		/// <summary>
