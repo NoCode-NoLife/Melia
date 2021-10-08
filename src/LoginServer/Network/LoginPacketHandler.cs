@@ -148,6 +148,18 @@ namespace Melia.Login.Network
 		{
 			var name = packet.GetString(64);
 
+			// Don't do anything if nothing's changed
+			if (name == conn.Account.TeamName)
+				return;
+
+			// Check validity
+			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => char.IsWhiteSpace(a)));
+			if (!valid)
+			{
+				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamChangeFailed, name);
+				return;
+			}
+
 			// Check availability
 			var exists = LoginServer.Instance.Database.TeamNameExists(name);
 			if (exists)
@@ -173,13 +185,18 @@ namespace Melia.Login.Network
 		[PacketHandler(Op.CB_BARRACKNAME_CHECK)]
 		public void CB_BARRACKNAME_CHECK(LoginConnection conn, Packet packet)
 		{
+			// The "message" contains a client-function to call after the
+			// response, which affects how the name can be changed from
+			// the client. For example, when changing the name from the
+			// barracks, the function used is different from the one in
+			// the initial setting, and displays a dialog for the TP the
+			// change is gong to cost. Just passing the message back to
+			// the client shouldn't cause any issues, but we could sanity
+			// chech them.
+
 			var serverId = packet.GetShort();
 			var name = packet.GetString(64);
 			var message = packet.GetString(256);
-
-			// Don't do anything if nothing's changed
-			if (name == conn.Account.TeamName)
-				return;
 
 			// Check validity
 			var valid = (name.Length >= 2 && name.Length <= 16 && !name.Any(a => char.IsWhiteSpace(a)));
