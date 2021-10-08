@@ -114,11 +114,11 @@ namespace Melia.Channel.World.Entities
 		/// </remarks>
 		public void InitAutoUpdates()
 		{
-			this.AutoUpdate(PropertyId.PC.STR, new[] { PropertyId.PC.STR_ADD, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB });
-			this.AutoUpdate(PropertyId.PC.CON, new[] { PropertyId.PC.CON_ADD, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB });
-			this.AutoUpdate(PropertyId.PC.INT, new[] { PropertyId.PC.INT_ADD, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB });
-			this.AutoUpdate(PropertyId.PC.MNA, new[] { PropertyId.PC.MNA_ADD, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB });
-			this.AutoUpdate(PropertyId.PC.DEX, new[] { PropertyId.PC.DEX_ADD, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB });
+			this.AutoUpdate(PropertyId.PC.STR, new[] { PropertyId.PC.Lv, PropertyId.PC.STR_ADD, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB });
+			this.AutoUpdate(PropertyId.PC.CON, new[] { PropertyId.PC.Lv, PropertyId.PC.CON_ADD, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB });
+			this.AutoUpdate(PropertyId.PC.INT, new[] { PropertyId.PC.Lv, PropertyId.PC.INT_ADD, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB });
+			this.AutoUpdate(PropertyId.PC.MNA, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA_ADD, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB });
+			this.AutoUpdate(PropertyId.PC.DEX, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX_ADD, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB });
 			this.AutoUpdate(PropertyId.PC.MHP, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.MHP_BM, PropertyId.PC.MHP_Bonus });
 			this.AutoUpdate(PropertyId.PC.MSP, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA, PropertyId.PC.MSP_BM, PropertyId.PC.MSP_Bonus });
 			this.AutoUpdate(PropertyId.PC.StatPoint, new[] { PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat });
