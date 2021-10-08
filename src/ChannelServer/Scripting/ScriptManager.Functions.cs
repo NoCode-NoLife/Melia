@@ -770,10 +770,19 @@ namespace Melia.Channel.Scripting
 			var conn = this.GetConnectionFromState(L);
 			var character = conn.SelectedCharacter;
 
-			// Add used stat points to available ones and then reset all
-			// stat properties.
-			var usedStatPoints = character.Properties.GetFloat(PropertyId.PC.UsedStat);
-			character.Properties.Modify(PropertyId.PC.StatByBonus, usedStatPoints);
+			// The three properties that control the stat points are
+			// StatByLevel, StatByBonus, and UsedStat. The first two
+			// get added together and UsedStat is subtracted to arrive
+			// at the number of available stat points. To reset the
+			// stat points that were used, all we have to do is reset
+			// UsedStat and the *_STAT properties. For a full reset,
+			// however, that allows for distributing the initial stats
+			// from the chosen job, we need to give the player the points
+			// that went into the *_JOB properties, which we'll just add
+			// to StatByBonus.
+
+			var jobStatPoints = character.Properties.Sum(PropertyId.PC.STR_JOB, PropertyId.PC.CON_JOB, PropertyId.PC.INT_JOB, PropertyId.PC.MNA_JOB, PropertyId.PC.DEX_JOB) - 5;
+			character.Properties.Modify(PropertyId.PC.StatByBonus, jobStatPoints);
 
 			character.Properties.Set(PropertyId.PC.UsedStat, 0);
 

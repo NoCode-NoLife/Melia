@@ -62,7 +62,7 @@ namespace Melia.Shared.World.ObjectProperties
 
 		/// <summary>
 		/// Returns the property with the given property id via out.
-		/// Returns null if it doesn't exist.
+		/// Returns false if it doesn't exist.
 		/// </summary>
 		/// <param name="propertyId"></param>
 		/// <param name="property"></param>
@@ -71,6 +71,26 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			property = this.Get(propertyId);
 			return (property != null);
+		}
+
+		/// <summary>
+		/// Returns the property with the given property id via out.
+		/// Returns null if it doesn't exist or the type doesn't match.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		public bool TryGet<TProperty>(int propertyId, out TProperty property)
+		{
+			var prop = this.Get(propertyId);
+			if (prop == null || !(prop is TProperty tprop))
+			{
+				property = default;
+				return false;
+			}
+
+			property = tprop;
+			return true;
 		}
 
 		/// <summary>
@@ -86,6 +106,7 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Returns list of all set properties.
 		/// </summary>
+		/// <param name="propertyIds"></param>
 		/// <returns></returns>
 		public IProperty[] GetAll(params int[] propertyIds)
 		{
@@ -211,6 +232,26 @@ namespace Melia.Shared.World.ObjectProperties
 				throw new ArgumentException($"The property is not a string.");
 
 			return stringProperty.Value;
+		}
+
+		/// <summary>
+		/// Gets the values of the given properties and returns their sum.
+		/// </summary>
+		/// <param name="propertyIds"></param>
+		/// <returns></returns>
+		public float Sum(params int[] propertyIds)
+		{
+			var result = 0f;
+
+			foreach (var propertyId in propertyIds)
+			{
+				if (!this.TryGet<FloatProperty>(propertyId, out var property))
+					continue;
+
+				result += property.Value;
+			}
+
+			return result;
 		}
 
 		/// <summary>
