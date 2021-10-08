@@ -9,6 +9,8 @@ namespace Melia.Shared.World.ObjectProperties
 	public class FloatProperty : IProperty
 	{
 		protected float _value;
+		protected float _minValue;
+		protected float _maxValue;
 
 		/// <summary>
 		/// Returns this property's id.
@@ -50,12 +52,32 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Gets or sets the minimum value this property can have.
 		/// </summary>
-		public float MinValue { get; set; }
+		public float MinValue
+		{
+			get => _minValue;
+			set
+			{
+				_minValue = value;
+
+				if (value < _minValue)
+					this.Value = _minValue;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the maximum value this property can have.
 		/// </summary>
-		public float MaxValue { get; set; }
+		public float MaxValue
+		{
+			get => _maxValue;
+			set
+			{
+				_maxValue = value;
+
+				if (value > _maxValue)
+					this.Value = _maxValue;
+			}
+		}
 
 		/// <summary>
 		/// Raised when the property's value changed.

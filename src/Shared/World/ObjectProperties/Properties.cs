@@ -5,6 +5,9 @@ using Melia.Shared.Const;
 
 namespace Melia.Shared.World.ObjectProperties
 {
+	/// <summary>
+	/// Represents a collection of properties.
+	/// </summary>
 	public class Properties
 	{
 		private readonly Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
@@ -294,10 +297,10 @@ namespace Melia.Shared.World.ObjectProperties
 			if (!this.TryGet(maxPropertyId, out var maxProperty))
 				throw new ArgumentException($"Max property '{maxPropertyId}' not found.");
 
-			if (!(property is FloatProperty))
+			if (!(property is FloatProperty floatProperty))
 				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
 
-			if (!(maxProperty is FloatProperty))
+			if (!(maxProperty is FloatProperty floatMaxProperty))
 				throw new ArgumentException($"Max property '{propertyId}' is not a float property.");
 
 			// Update the list of properties to update when the max property
@@ -314,6 +317,9 @@ namespace Melia.Shared.World.ObjectProperties
 			// "child" properties
 			maxProperty.ValueChanged -= this.OnMaxValueChanged;
 			maxProperty.ValueChanged += this.OnMaxValueChanged;
+
+			// Set the initial max value
+			floatProperty.MaxValue = floatMaxProperty.Value;
 		}
 
 		/// <summary>
