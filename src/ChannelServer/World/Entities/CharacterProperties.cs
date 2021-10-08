@@ -214,26 +214,15 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetRHP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.CON);
-			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
+			var mhp = this.GetFloat(PropertyId.PC.MHP, 1);
+			var jobHpRate = this.Character.Job?.Data.RHpRate ?? 1;
 
-			var byLevel = level * rateByJob;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-			var byItem = 0f; // TODO
+			var byDefault = Math.Floor(mhp / 100f * jobHpRate);
+			var byItems = this.Character.Inventory.GetEquipProperties(PropertyId.Item.RHP);
+			var byBuffs = this.GetFloat(PropertyId.PC.RHP_BM);
 
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "RHP_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: 
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs;
-
-			return (int)value;
+			var value = (byDefault + byItems + byBuffs);
+			return (float)Math.Max(0, value);
 		}
 
 		/// <summary>
@@ -241,22 +230,22 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetRHPTIME()
 		{
-			var baseValue = 20000;
+			// The recovery time is presumably the number of milliseconds
+			// between regen ticks, with the default being 20 seconds,
+			// which is reduced by items, buffs, sitting, etc.
 
-			var byItem = 0f; // TODO
+			var defaultTime = 20000;
 
-			// Buffs: "RHPTIME_BM"
-			var byBuffs = 0;
+			// Item.RHPTIME doesn't exist?
+			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties(PropertyId.Item.RHPTIME));
+			var byBuffs = this.GetFloat(PropertyId.PC.RHPTIME_BM);
 
-			var value = baseValue - byItem - byBuffs;
+			var value = defaultTime - byItems - byBuffs;
 
 			if (this.Character.IsSitting)
-				value *= 0.5f;
+				value /= 2;
 
-			if (value < 1000)
-				value = 1000;
-
-			return (float)Math.Floor(value);
+			return (int)Math.Max(1000, value);
 		}
 
 		/// <summary>
@@ -264,26 +253,15 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetRSP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.MNA);
-			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
+			var mhp = this.GetFloat(PropertyId.PC.MSP, 1);
+			var jobSpRate = this.Character.Job?.Data.RSpRate ?? 1;
 
-			var byLevel = level * rateByJob;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 5f) * 3f);
-			var byItem = 0f; // TODO
+			var byDefault = Math.Floor(mhp * 0.03f * jobSpRate);
+			var byItems = this.Character.Inventory.GetEquipProperties(PropertyId.Item.RSP);
+			var byBuffs = this.GetFloat(PropertyId.PC.RSP_BM);
 
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "RSP_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: 
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs;
-
-			return (int)value;
+			var value = (byDefault + byItems + byBuffs);
+			return (float)Math.Max(0, value);
 		}
 
 		/// <summary>
@@ -291,22 +269,17 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetRSPTIME()
 		{
-			var baseValue = 20000;
+			var defaultTime = 20000;
 
-			var byItem = 0f; // TODO
+			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties(PropertyId.Item.RSPTIME));
+			var byBuffs = this.GetFloat(PropertyId.PC.RSPTIME_BM);
 
-			// Buffs: "RSPTIME_BM"
-			var byBuffs = 0;
-
-			var value = baseValue - byItem - byBuffs;
+			var value = defaultTime - byItems - byBuffs;
 
 			if (this.Character.IsSitting)
-				value *= 0.5f;
+				value /= 2;
 
-			if (value < 1000)
-				value = 1000;
-
-			return (float)Math.Floor(value);
+			return (int)Math.Max(1000, value);
 		}
 
 		/// <summary>
