@@ -2409,7 +2409,7 @@ namespace Melia.Channel.Network
 
 			character.Connection.Send(packet);
 		}
-
+		
 		/// <summary>
 		/// Makes monster fade out over the given amount of time.
 		/// </summary>
@@ -2843,23 +2843,23 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Updates creature's HP and SP stats.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_UPDATE_ALL_STATUS(Character character)
+		/// <param name="entity"></param>
+		public static void ZC_UPDATE_ALL_STATUS(IEntity entity)
 		{
-			var hp = character.Properties.GetInt(PropertyId.PC.HP);
-			var maxHp = character.Properties.GetInt(PropertyId.PC.MHP);
-			var sp = character.Properties.GetInt(PropertyId.PC.SP);
-			var maxSp = character.Properties.GetInt(PropertyId.PC.MSP);
+			var hp = entity.Properties.GetInt(PropertyId.PC.HP);
+			var maxHp = entity.Properties.GetInt(PropertyId.PC.MHP);
+			var sp = entity.Properties.GetInt(PropertyId.PC.SP);
+			var maxSp = entity.Properties.GetInt(PropertyId.PC.MSP);
 
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutInt(hp);
 			packet.PutInt(maxHp);
 			packet.PutInt(sp);
 			packet.PutInt(maxSp);
 			packet.PutInt(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
