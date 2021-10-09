@@ -80,6 +80,10 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Maps) != 0)
 				{
 					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
+				}
+
+				if ((toLoad & DataToLoad.Ground) != 0)
+				{
 					this.LoadDb(this.Data.GroundDb, "db/ground.dat", reload);
 				}
 
@@ -272,6 +276,7 @@ namespace Melia.Shared
 		Achievements = 0x8000,
 		Cooldowns = 0x10000,
 		AnimationIds = 0x20000,
+		Ground = 0x40000,
 
 		All = 0x7FFFFFFF,
 	}
