@@ -170,24 +170,26 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMHP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.CON);
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.CON, 1);
+
 			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
-
 			var byJob = Math.Floor(400 * rateByJob);
+
 			var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
-			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-			var byItem = 0; // TODO: "MHP"
+			var byStat = Math.Floor(((stat * 0.003f) + (Math.Floor(stat / 10.0f) * 0.01f)) * byLevel);
+			var byItem = this.Character.Inventory.GetEquipProperties(PropertyId.Item.MHP);
+			var byItemRatio = (byLevel + byStat) * (this.Character.Inventory.GetEquipProperties(PropertyId.Item.MHPRatio) / 100f);
+			var byBonus = this.GetFloat(PropertyId.PC.MHP_Bonus);
 
-			// Buffs: "MHP_BM"
-			var byBuffs = 0;
+			var value = byLevel + byStat + byItem + byItemRatio + byBonus;
 
-			// "MHP_Bonus"
-			var byBonus = 0;
+			var byBuffs = this.GetFloat(PropertyId.PC.MHP_BM);
+			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyId.PC.MHP_RATE_BM));
 
-			var value = byLevel + byStat + byItem + byBuffs + byBonus;
+			value += byBuffs + byBuffRate;
 
-			return (int)value;
+			return (int)Math.Max(1, value);
 		}
 
 		/// <summary>
@@ -195,24 +197,25 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public float GetMSP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.MNA);
+			var level = this.GetFloat(PropertyId.PC.Lv, 1);
+			var stat = this.GetFloat(PropertyId.PC.MNA, 1);
+
 			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
-
 			var byJob = Math.Floor(200 * rateByJob);
-			var byLevel = Math.Floor(byJob + ((level - 1) * 12 * rateByJob));
+
+			var byLevel = Math.Floor(byJob + ((level - 1) * 18 * rateByJob));
 			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-			var byItem = 0; // TODO: "MSP"
+			var byItem = this.Character.Inventory.GetEquipProperties(PropertyId.Item.MSP);
+			var byBonus = this.GetFloat(PropertyId.PC.MSP_Bonus);
 
-			// "MSP_Bonus"
-			var byBonus = 0;
+			var value = byLevel + byStat + byItem + byBonus;
 
-			// Buffs: "MSP_BM"
-			var byBuffs = 0;
+			var byBuffs = this.GetFloat(PropertyId.PC.MSP_BM);
+			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyId.PC.MSP_RATE_BM));
 
-			var value = byLevel + byStat + byItem + byBuffs + byBonus;
+			value += byBuffs + byBuffRate;
 
-			return (int)value;
+			return (int)Math.Max(0, value);
 		}
 
 		/// <summary>
