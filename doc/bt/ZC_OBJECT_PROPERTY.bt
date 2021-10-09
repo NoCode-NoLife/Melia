@@ -18,8 +18,8 @@
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
-//int64 objectId <format=hex>;
-int64 characterId;
+
+int64 objectId;
 int isTrickPacket;
 
 if (isTrickPacket == 0)
