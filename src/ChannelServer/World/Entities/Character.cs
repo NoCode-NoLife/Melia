@@ -292,6 +292,11 @@ namespace Melia.Channel.World.Entities
 		public Properties Properties { get; }
 
 		/// <summary>
+		/// Raised when the characters sits down or stands up.
+		/// </summary>
+		public event Action<Character> SitStatusChanged;
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character()
@@ -1010,6 +1015,17 @@ namespace Melia.Channel.World.Entities
 
 			// Remove it from the map, so it can't be picked up again.
 			this.Map.RemoveMonster(itemMonster);
+		}
+
+		/// <summary>
+		/// Toggles whether the character is sitting or not.
+		/// </summary>
+		public void ToggleSitting()
+		{
+			this.IsSitting = !this.IsSitting;
+			this.SitStatusChanged?.Invoke(this);
+
+			Send.ZC_REST_SIT(this);
 		}
 	}
 }

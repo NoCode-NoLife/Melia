@@ -936,7 +936,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_REST_SIT in range of character, making them sit down.
+		/// Update's the character's sitting status, either making them
+		/// sit down or stand up.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_REST_SIT(Character character)
@@ -2409,7 +2410,7 @@ namespace Melia.Channel.Network
 
 			character.Connection.Send(packet);
 		}
-		
+
 		/// <summary>
 		/// Makes monster fade out over the given amount of time.
 		/// </summary>

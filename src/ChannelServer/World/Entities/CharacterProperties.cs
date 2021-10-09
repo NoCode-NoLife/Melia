@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Channel.Network;
 using Melia.Shared.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World.ObjectProperties;
@@ -23,6 +24,7 @@ namespace Melia.Channel.World.Entities
 		{
 			this.Character = character;
 			this.AddDefaultProperties();
+			this.InitEvents();
 		}
 
 		/// <summary>
@@ -138,6 +140,29 @@ namespace Melia.Channel.World.Entities
 
 			this.AutoUpdateMax(PropertyId.PC.HP, PropertyId.PC.MHP);
 			this.AutoUpdateMax(PropertyId.PC.SP, PropertyId.PC.MSP);
+		}
+
+		/// <summary>
+		/// Sets up event subscriptions, to react to actions of the
+		/// character with property updates.
+		/// </summary>
+		private void InitEvents()
+		{
+			// Update recovery times when the character sits down,
+			// as those properties are affected by the sitting status.
+			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+		}
+
+		/// <summary>
+		/// Recalculates and updates HP and SP recovery time properties.
+		/// </summary>
+		/// <param name="character"></param>
+		private void UpdateRecoveryTimes(Character character)
+		{
+			this.Calculate(PropertyId.PC.RHPTIME);
+			this.Calculate(PropertyId.PC.RSPTIME);
+
+			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyId.PC.RHPTIME, PropertyId.PC.RSPTIME);
 		}
 
 		/// <summary>

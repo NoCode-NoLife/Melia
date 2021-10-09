@@ -375,10 +375,7 @@ namespace Melia.Channel.Network
 		public void CZ_REST_SIT(ChannelConnection conn, Packet packet)
 		{
 			var character = conn.SelectedCharacter;
-
-			character.IsSitting = !character.IsSitting;
-
-			Send.ZC_REST_SIT(character);
+			character.ToggleSitting();
 		}
 
 		/// <summary>
