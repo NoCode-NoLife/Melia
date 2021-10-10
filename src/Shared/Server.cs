@@ -150,6 +150,7 @@ namespace Melia.Shared
 				if ((toLoad & DataToLoad.Achievements) != 0)
 				{
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
+					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt", reload);
 				}
 
 				if ((toLoad & DataToLoad.Cooldowns) != 0)

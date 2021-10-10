@@ -4851,6 +4851,117 @@
 			public const int LobbyChannel = 109581;
 			public const int LobbyServerID = 109582;
 			public const int EVENT_2107_HOTWEEK_COUNT = 109583;
+			public const int HadVisited_20011 = 109592;
+			public const int CharacterChangeMaxSlotCount = 109593;
+			public const int TeamBattleCoin = 109594;
+			public const int TeamBattleLeagueShop_1 = 109595;
+			public const int ADDITIONAL_ENGRAVE_SLOT_TEAMBATTLE = 109596;
+			public const int TeamBattleLeagueShop_2 = 109597;
+			public const int CONTENTS_TOTAL_SHOP_POSE_16 = 109600;
+			public const int InDunCountType_1000 = 109604;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_9 = 109605;
+			public const int EVENT_EVENT_2109_MOON_RABBIT_PLAY_TIME = 109606;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_4 = 109607;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_19 = 109608;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_15 = 109609;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_29 = 109610;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_5 = 109611;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_11 = 109612;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_7 = 109613;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_20 = 109614;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_13 = 109615;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_25 = 109616;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_16 = 109617;
+			public const int EVENT_2109_GOLD_COIN_COUNT = 109618;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_10 = 109619;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_18 = 109620;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_22 = 109621;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_21 = 109622;
+			public const int EVENT_2109_MOON_RABBIT_GIVE_BOX = 109623;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_27 = 109624;
+			public const int EVENT_2109_GOLD_COIN_TOTAL = 109625;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_8 = 109626;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_28 = 109627;
+			public const int EVENT_2109_COIN_COUNT = 109628;
+			public const int EVENT_2109_MOON_RABBIT_WISH_COUNT = 109629;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_1 = 109630;
+			public const int EVENT_2109_MOON_RABBIT_COIN_GIVE = 109631;
+			public const int EVENT_2109_MOON_RABBIT_BUFF_COUNT = 109632;
+			public const int EVENT_2109_GOILD_COIN_COUNT = 109633;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_26 = 109634;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_3 = 109635;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_23 = 109636;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_24 = 109637;
+			public const int GuildMaster_Colony_Zone_Clear_DateTime = 109638;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_2 = 109639;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_6 = 109640;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_12 = 109641;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_14 = 109642;
+			public const int EVENT_2109_MOON_RABBIT_SHOP_17 = 109643;
+			public const int HaveEmoticon_5020 = 109649;
+			public const int ContentsTotalShop_2109_4 = 109650;
+			public const int CONTENTS_TOTAL_SHOP_POSE_17 = 109651;
+			public const int ContentsTotalShop_2109_1 = 109652;
+			public const int ContentsTotalShop_2109_3 = 109653;
+			public const int Episode_13_1_Clear = 109654;
+			public const int EVENT_210930_UESR_CHECK = 109655;
+			public const int ContentsTotalShop_2109_5 = 109656;
+			public const int ContentsTotalShop_2109_2 = 109657;
+			public const int HaveEmoticon_5019 = 109658;
+			public const int HaveEmoticon_5018 = 109659;
+			public const int ContentsTotalShop_2109_6 = 109660;
+			public const int UQ_Char1_23_PRE2 = 109661;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume = 109662;
+			public const int UnlockQuest_Char1_23 = 109663;
+			public const int AccountLimitWeeklyCountProperty_8 = 109664;
+			public const int SWD04_126_6_cabinet_upgrade = 109665;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job_1 = 109666;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job_2 = 109667;
+			public const int AccountLimitWeeklyCountProperty_5 = 109668;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume_3 = 109669;
+			public const int AchieveUnlockQuest_UQ_Char1_23_AllClear = 109670;
+			public const int AccountLimitWeeklyCountProperty_2 = 109671;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume_4 = 109672;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job = 109673;
+			public const int AccountLimitWeeklyCountProperty_9 = 109674;
+			public const int SWD04_126_6_cabinet = 109675;
+			public const int AccountLimitWeeklyCountProperty_4 = 109676;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume_5 = 109677;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume_3 = 109678;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job_5 = 109679;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job_3 = 109680;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume_2 = 109681;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume = 109682;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume_2 = 109683;
+			public const int AccountLimitWeeklyCountProperty_6 = 109684;
+			public const int AccountLimitWeeklyCountProperty_10 = 109685;
+			public const int AccountLimitWeeklyCountProperty_1 = 109686;
+			public const int AccountLimitWeeklyCountProperty_7 = 109687;
+			public const int UQ_Char1_23_PRE1 = 109688;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job_4 = 109689;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume_4 = 109690;
+			public const int AccountLimitWeeklyCountProperty_3 = 109691;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume_5 = 109692;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job_2 = 109693;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job_5 = 109694;
+			public const int SWD04_126_7_cabinet_upgrade = 109695;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job_1 = 109696;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job = 109697;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Job_3 = 109698;
+			public const int SWD04_126_7_cabinet = 109699;
+			public const int AchieveUnlockQuest_UQ_Char1_23_Unlock_Costume_1 = 109700;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Job_4 = 109701;
+			public const int AchieveReward_UQ_Char1_23_Unlock_Costume_1 = 109702;
+			public const int ContentsAlert1 = 109706;
+			public const int ContentsAlert2 = 109707;
+			public const int ContentsAlert3 = 109708;
+			public const int ContentsAlert4 = 109709;
+			public const int ContentsAlert5 = 109710;
+			public const int ContentsAlert6 = 109711;
+			public const int ContentsAlert7 = 109712;
+			public const int ContentsAlert8 = 109713;
+			public const int ContentsAlert9 = 109714;
+			public const int CONTENTS_ALERT_RECEIVE = 109715;
 		}
 
 		public static class Monster
@@ -15166,6 +15277,24 @@
 			public const int PrevEquipItem_SHIRT = 109568;
 			public const int PrevEquipItem_ARK = 109569;
 			public const int RidePetCompanion = 109575;
+			public const int CharacterChangeSlot_5 = 109584;
+			public const int Kill_weekly_boss_Asiomage = 109585;
+			public const int CharacterChangeSlot_2 = 109586;
+			public const int CharacterChangeSlot_1 = 109587;
+			public const int CharacterChangeSlot_3 = 109588;
+			public const int Kill_weekly_boss_Quipmage = 109589;
+			public const int HadVisited_20011 = 109590;
+			public const int CharacterChangeSlot_4 = 109591;
+			public const int Hide_3273 = 109598;
+			public const int Pose_RUSTLEDANCE = 109599;
+			public const int SixGoddesEquip = 109601;
+			public const int LastGearScore = 109602;
+			public const int LastAbililityPoint = 109603;
+			public const int HaveEmoticon_5020 = 109645;
+			public const int Pose_CLOCKWORKDANCE = 109646;
+			public const int HaveEmoticon_5019 = 109647;
+			public const int HaveEmoticon_5018 = 109648;
+			public const int HiddenJob_Char1_23 = 109703;
 		}
 
 		public static class Guild
@@ -15961,6 +16090,7 @@
 			public const int EquipActionType = 109140;
 			public const int EvolvedItemLv = 109141;
 			public const int Fail_Goddess_Reinforce_Revision = 109424;
+			public const int ReinforceRevision = 109644;
 		}
 
 		public static class Party
@@ -23683,6 +23813,8 @@
 			public const int MG_Last_Goddess_Raid_Vasilissa_Solo = 109482;
 			public const int EVENT_2108_ARCHEOLOGY_BON_COUNT = 109550;
 			public const int MG_Last_battlefield5vs5 = 109576;
+			public const int UQ_Char1_23_PRE2 = 109704;
+			public const int UQ_Char1_23_PRE1 = 109705;
 		}
 
 		public static class ZoneObject

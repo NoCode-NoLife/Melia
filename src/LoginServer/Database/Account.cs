@@ -74,6 +74,18 @@ namespace Melia.Login.Database
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
 
 		/// <summary>
+		/// Gets or sets the number of additional character slots the account
+		/// can use, on top of the default amount defined in the barrack data.
+		/// </summary>
+		public int AdditionalSlotCount { get; set; }
+
+		/// <summary>
+		/// Gets or sets the accounts team EXP, which can be collected
+		/// across all characters.
+		/// </summary>
+		public int TeamExp { get; set; }
+
+		/// <summary>
 		/// Returns list of all characters on account.
 		/// </summary>
 		/// <returns></returns>

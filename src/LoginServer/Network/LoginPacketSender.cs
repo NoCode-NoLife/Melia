@@ -84,28 +84,31 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		public static void BC_COMMANDER_LIST(LoginConnection conn)
 		{
-			var characters = conn.Account.GetCharacters();
-			var barrackCharacters = characters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
+			var allCharacters = conn.Account.GetCharacters();
+			var layerCharacters = allCharacters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
+
+			var totalCharacterCount = allCharacters.Length;
+			var layerCharacterCount = layerCharacters.Count();
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(0); // 1 = 5/4 slots?
 			packet.PutString(conn.Account.TeamName, 64);
-			//packet.AddFullAccountProperties(conn.Account);
 			packet.AddAccountProperties(conn.Account);
 
-			packet.PutShort(1); // Additional Characters
-			packet.PutInt(0x0B); // MapID
-			packet.PutInt(barrackCharacters.Count());
-			packet.PutInt(100); // Team Exp
-			packet.PutShort(characters.Length);
+			packet.PutShort(1); // 0 = 15 slots, 1 = 4, 2 = 8, 3+ = 4, only 1 shows correct max values?
+			packet.PutInt(11);
+			packet.PutShort(layerCharacterCount);
+			packet.PutShort(conn.Account.AdditionalSlotCount);
+			packet.PutInt(conn.Account.TeamExp);
+			packet.PutShort(totalCharacterCount);
 
 			conn.Send(packet);
 
-			if (characters.Length > 0)
-				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn, barrackCharacters);
+			if (allCharacters.Length > 0)
+				Send.BC_SPLIT_COMMANDER_INFO_LIST(conn, layerCharacters);
 		}
 
 		/// <summary>
@@ -141,223 +144,15 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="result"></param>
-		public static void BC_BARRACKNAME_CHECK_RESULT(LoginConnection conn, TeamNameChangeResult result, string teamName)
+		/// <param name="teamName"></param>
+		/// <param name="message"></param>
+		public static void BC_BARRACKNAME_CHECK_RESULT(LoginConnection conn, TeamNameChangeResult result, string teamName, string message)
 		{
 			var response = new Packet(Op.BC_BARRACKNAME_CHECK_RESULT);
 
 			response.PutInt((int)result);
-			response.PutString("INPUT_TEAMNAME_EXEC_RESULT");
-			//EC -> 9B 7/21
-			//13 -> 09 7/21
-			//10 00 00 00 -> 0D 00 00 00
-			//00 00
-			response.PutByte(0x9B);
-			response.PutByte(0x13);
-			response.PutInt(0x0D);
-			response.PutShort(0x00);
-			//98 C9 43 00 00 00 00
-			//09 A3 40 00 00 00 00
-			response.PutByte(0x09); //Was 98
-			response.PutByte(0xA3); //Was C9
-			response.PutInt(0x40); //Was 43
-			response.PutByte(0);
-			//30 16 E1 3C 00 00 00 00
-			//00 00 00 00 00 00 00 00 
-			//F0 2E A6 52
-			//00 00 00 00
-			//00 00 00 00
-			//00 00 00 00
-			response.PutByte(0x30);
-			response.PutByte(0x16);
-			response.PutByte(0xE1);
-			response.PutByte(0x3C);
-			response.PutEmptyBin(12);
-			//30 16 E1 3C 00 00 00 00
-			//0F 00 00 00 00 00 00 00
-			//F0 2E A6 52 00 00 00 00
-			response.PutLong(0x0F);
-			response.PutByte(0xF0);
-			response.PutByte(0x2E);
-			response.PutByte(0xA6);
-			response.PutByte(0x52);
-			response.PutInt(0);
-			//CB 42 EA 48 FF 7F 00 00 00 00 00 00 00 00 00 00
-			//CB 42 82 D3 FF 7F 00 00 00 00 00 00 00 00 00 00
-			response.PutByte(0xCB);
-			response.PutByte(0x42);
-			response.PutByte(0x82);
-			response.PutByte(0xD3);
-			response.PutByte(0xFF);
-			response.PutByte(0x7F);
-			response.PutEmptyBin(10);
-			//20 88 D3 1D 00 00 00 00
-			response.PutByte(0x20);
-			response.PutByte(0x88);
-			response.PutByte(0xD3);
-			response.PutByte(0x1D);
-			response.PutInt(0);
-			//F0 2E A6 52
-			//00 00 00 00
-			//01 00 00 00 00 00 00 00
-			response.PutByte(0xF0);
-			response.PutByte(0x2E);
-			response.PutByte(0xA6);
-			response.PutByte(0x52);
-			response.PutInt(0);
-			response.PutLong(0);
-			//D8 B9 F0 FF 00 00 00 00
-			response.PutByte(0xD8);
-			response.PutByte(0xB9);
-			response.PutByte(0xF0);
-			response.PutByte(0xFF);
-			response.PutInt(0);
-			//2F 32 43 D2
-			//FF 7F 00 00
-			response.PutByte(0x2F);
-			response.PutByte(0x32);
-			response.PutByte(0x43);
-			response.PutByte(0xD2);
-			response.PutByte(0xFF);
-			response.PutByte(0x7F);
-			response.PutShort(0);
-			//C8 9E 73 10
-			//00 00 00 00
-			//00 00 00 00
-			//00 00 00 00
-			response.PutByte(0xC8);
-			response.PutByte(0x9E);
-			response.PutByte(0x73);
-			response.PutByte(0x10);
-			response.PutEmptyBin(12);
-			//FE FF FF FF FF FF FF FF
-			response.PutByte(0xFE);
-			response.PutByte(0xFF);
-			response.PutInt(-1);
-			response.PutShort(-1);
-			//80 EB B7 40
-			//01 00 00 00
-			response.PutByte(0x80);
-			response.PutByte(0xEB);
-			response.PutByte(0xB7);
-			response.PutByte(0x40);
-			response.PutInt(1);
-			//C8 9E 73 10
-			//00 00 00 00
-			response.PutByte(0xC8);
-			response.PutByte(0x9E);
-			response.PutByte(0x73);
-			response.PutByte(0x10);
-			response.PutInt(0);
-			//C0 9E 73 10
-			//00 00 00 00
-			response.PutByte(0xC0);
-			response.PutByte(0x9E);
-			response.PutByte(0x73);
-			response.PutByte(0x10);
-			response.PutInt(0);
-			//78 FA 13 00
-			//00 00 00 00
-			response.PutByte(0x78);
-			response.PutByte(0xFA);
-			response.PutByte(0x13);
-			response.PutByte(0x00);
-			response.PutInt(0);
-			//DF 20 F8 DA
-			//FF 7F 00 00
-			response.PutByte(0xDF);
-			response.PutByte(0x20);
-			response.PutByte(0xF8);
-			response.PutByte(0xDA);
-			response.PutInt(0x7FFF);
-			//C0 63 B7 40
-			//01 00 00 00
-			//C0 63 B7 40
-			//01 00 00 00
-			for (var i = 0; i < 2; i++)
-			{
-				response.PutByte(0xC0);
-				response.PutByte(0x63);
-				response.PutByte(0xB7);
-				response.PutByte(0x40);
-				response.PutInt(1);
-			}
-			//00 00 00 00 00 00 00 00
-			response.PutLong(0);
-			//D0 FB 13 00
-			//00 00 00 00
-			//01 00 00 00 00 00 00 00
-			response.PutByte(0xD0);
-			response.PutByte(0xFB);
-			response.PutByte(0x13);
-			response.PutByte(0x00);
-			response.PutInt(0);
-			response.PutLong(1);
-			//A6 2D 18 40
-			//01 00 00 00
-			response.PutByte(0xA6);
-			response.PutByte(0x2D);
-			response.PutByte(0x18);
-			response.PutByte(0x40);
-			response.PutInt(1);
-			//90 0F 2F 11
-			//00 00 00 00
-			response.PutByte(0x90);
-			response.PutByte(0x0F);
-			response.PutByte(0x2F);
-			response.PutByte(0x11);
-			response.PutInt(0);
-			//30 34 AF 08 00 00
-			response.PutByte(0x30);
-			response.PutByte(0x34);
-			response.PutByte(0xAF);
-			response.PutByte(0x08);
-			response.PutShort(0);
-			//4D 65 6C 69 61 00 00 00 00 00
-			response.PutString(teamName, 10);
-			//A3 D0 42 40
-			//01 00 00 00 00 00 00 00
-			//01 00 00 00
-			response.PutByte(0xA3);
-			response.PutByte(0xD0);
-			response.PutByte(0x42);
-			response.PutByte(0x40);
-			response.PutLong(1);
-			response.PutInt(1);
-			//30 34 AF 08 00 00 00 00
-			response.PutByte(0x30);
-			response.PutByte(0x34);
-			response.PutByte(0xAF);
-			response.PutByte(0x08);
-			response.PutInt(0);
-			//B8 11 2F 11
-			//00 00 00 00
-			response.PutByte(0xB8);
-			response.PutByte(0x11);
-			response.PutByte(0x2F);
-			response.PutByte(0x11);
-			response.PutInt(0);
-			//9B BD 45 D2
-			//FF 7F 00 00
-			response.PutByte(0x9B);
-			response.PutByte(0xBD);
-			response.PutByte(0x45);
-			response.PutByte(0xD2);
-			response.PutInt(0x7FFF);
-			//FE FF
-			//FF FF FF FF
-			//FF FF
-			response.PutByte(0xFE);
-			response.PutByte(0xFF);
-			response.PutInt(-1);
-			response.PutShort(-1);
-			//72 EF 0E 40
-			//01 00
-			response.PutByte(0x72);
-			response.PutByte(0xEF);
-			response.PutByte(0x0E);
-			response.PutByte(0x40);
-			response.PutShort(1);
-			//response.PutString(conn.Account.TeamName, 64);
+			response.PutString(message, 256);
+			response.PutString(teamName, 64);
 
 			conn.Send(response);
 		}
@@ -367,16 +162,13 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="result"></param>
+		/// <param name="teamName"></param>
 		public static void BC_BARRACKNAME_CHANGE(LoginConnection conn, TeamNameChangeResult result, string teamName)
 		{
 			var packet = new Packet(Op.BC_BARRACKNAME_CHANGE);
 			packet.PutInt(1);
 			packet.PutByte((byte)result);
-			packet.PutString(teamName);
-
-			// Filler bytes, official packet sends something here,
-			// that I have no clue what it does, but this works
-			packet.PutEmptyBin(79 - (16 + teamName.Length));
+			packet.PutString(teamName, 64);
 
 			conn.Send(packet);
 		}
@@ -494,25 +286,9 @@ namespace Melia.Login.Network
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.TeamUI);
 			packet.PutLong(conn.Account.Id);
-			packet.PutShort(0); // Number of additional character slots
-			packet.PutInt(0); // Team experience. Displayed under "Team Info"
-			packet.PutShort(0); // Sum of characters and pets.
-
-			conn.Send(packet);
-		}
-
-		/// <summary>
-		/// Sends unknown packet in the barrack.
-		/// </summary>
-		/// <param name="conn"></param>
-		public static void BC_NORMAL_UpdateTeamUI(LoginConnection conn)
-		{
-			var packet = new Packet(Op.BC_NORMAL);
-			packet.PutInt(SubOp.Barrack.Unknown_0C);
-			packet.PutLong(conn.Account.Id);
-			packet.PutShort(0); // Number of additional character slots
-			packet.PutInt(0); // Team experience. Displayed under "Team Info"
-			packet.PutShort(conn.Account.CharacterCount); // Sum of characters and pets.
+			packet.PutShort(conn.Account.AdditionalSlotCount);
+			packet.PutInt(conn.Account.TeamExp);
+			packet.PutShort(conn.Account.CharacterCount);
 
 			conn.Send(packet);
 		}
