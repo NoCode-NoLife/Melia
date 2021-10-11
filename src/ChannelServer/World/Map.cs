@@ -51,6 +51,17 @@ namespace Melia.Channel.World
 		public Ground Ground { get; } = new Ground();
 
 		/// <summary>
+		/// Returns the number of characters on the map.
+		/// </summary>
+		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
+
+		/// <summary>
+		/// Returns the number of monsters on the map. This includes props
+		/// and item drops.
+		/// </summary>
+		public int MonsterCount { get { lock (_monsters) return _monsters.Count; } }
+
+		/// <summary>
 		/// Default dummy region.
 		/// </summary>
 		public static Map Limbo { get; } = new Limbo();
