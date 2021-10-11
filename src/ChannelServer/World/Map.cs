@@ -17,6 +17,14 @@ namespace Melia.Channel.World
 		public const int VisibleRange = 500;
 
 		/// <summary>
+		/// Collection of combat entities, which can be both characters
+		/// and monsters.
+		/// <para>Key: <see cref="ICombatEntity.Handle"/></para>
+		/// <para>Value: <see cref="ICombatEntity"/></para>
+		/// </summary>
+		private readonly Dictionary<int, ICombatEntity> _combatEntities = new Dictionary<int, ICombatEntity>();
+
+		/// <summary>
 		/// Collection of characters.
 		/// <para>Key: <see cref="Character.Handle"/></para>
 		/// <para>Value: <see cref="Character"/></para>
@@ -160,6 +168,12 @@ namespace Melia.Channel.World
 
 			lock (_characters)
 				_characters[character.Handle] = character;
+
+			if (character is ICombatEntity)
+			{
+				lock (_combatEntities)
+					_combatEntities[character.Handle] = character;
+			}
 		}
 
 		/// <summary>
@@ -170,6 +184,9 @@ namespace Melia.Channel.World
 		{
 			lock (_characters)
 				_characters.Remove(character.Handle);
+
+			lock (_combatEntities)
+				_combatEntities.Remove(character.Handle);
 
 			character.Map = null;
 		}
@@ -261,6 +278,12 @@ namespace Melia.Channel.World
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
 
+			if (monster is ICombatEntity)
+			{
+				lock (_combatEntities)
+					_combatEntities[monster.Handle] = monster;
+			}
+
 			// Update visibily after adding the monster, so it gets sent
 			// to the clients right away, and then disable FromGround,
 			// which is supposed to only be true once, when the monster
@@ -280,6 +303,9 @@ namespace Melia.Channel.World
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
 
+			lock (_combatEntities)
+				_combatEntities.Remove(monster.Handle);
+
 			monster.Map = null;
 			this.UpdateVisibility();
 		}
@@ -294,15 +320,9 @@ namespace Melia.Channel.World
 		{
 			var result = new List<ICombatEntity>();
 
-			lock (_monsters)
+			lock (_combatEntities)
 			{
-				var entities = _monsters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
-				result.AddRange(entities);
-			}
-
-			lock (_characters)
-			{
-				var entities = _characters.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
+				var entities = _combatEntities.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
 				result.AddRange(entities);
 			}
 
@@ -330,15 +350,9 @@ namespace Melia.Channel.World
 			//	attacker.Map.AddMonster(monster);
 			//}
 
-			lock (_monsters)
+			lock (_combatEntities)
 			{
-				var entities = _monsters.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
-				result.AddRange(entities);
-			}
-
-			lock (_characters)
-			{
-				var entities = _characters.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
+				var entities = _combatEntities.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
 				result.AddRange(entities);
 			}
 
@@ -466,15 +480,23 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all monsters on this map that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Monster[] GetMonsters(Func<Monster, bool> predicate)
+		{
+			lock (_monsters)
+				return _monsters.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Returns all monsters in visible range of character.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <returns></returns>
 		public Monster[] GetVisibleMonsters(Character character)
-		{
-			lock (_monsters)
-				return _monsters.Values.Where(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
-		}
+			=> this.GetMonsters(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
 		/// Removes all scripted entities, like NPCs, monsters, and warps.
