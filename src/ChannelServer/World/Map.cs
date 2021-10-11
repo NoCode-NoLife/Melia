@@ -199,6 +199,36 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all characters on this map.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Character[] GetCharacters()
+		{
+			lock (_characters)
+				return _characters.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Returns all characters on this map that match the given predicate.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Character[] GetCharacters(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
+		/// Returns all characters in visible range of character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public Character[] GetVisibleCharacters(Character character)
+			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
+
+		/// <summary>
 		/// Adds the spawner to the map.
 		/// </summary>
 		/// <param name="spawner"></param>
@@ -423,39 +453,6 @@ namespace Melia.Channel.World
 		{
 			entity = this.GetCombatEntity(handle);
 			return entity != null;
-		}
-
-		/// <summary>
-		/// Returns all characters on this map.
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <returns></returns>
-		public Character[] GetCharacters()
-		{
-			lock (_characters)
-				return _characters.Values.ToArray();
-		}
-
-		/// <summary>
-		/// Returns all characters on this map that match the given predicate.
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <returns></returns>
-		public Character[] GetCharacters(Func<Character, bool> predicate)
-		{
-			lock (_characters)
-				return _characters.Values.Where(predicate).ToArray();
-		}
-
-		/// <summary>
-		/// Returns all characters in visible range of character.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <returns></returns>
-		public Character[] GetVisibleCharacters(Character character)
-		{
-			lock (_characters)
-				return _characters.Values.Where(a => a != character && character.Position.InRange2D(a.Position, VisibleRange)).ToArray();
 		}
 
 		/// <summary>
