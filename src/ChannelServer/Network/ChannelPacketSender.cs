@@ -2789,6 +2789,33 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Draws square area on ground at position for characters in range
+		/// of the source entity.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="position"></param>
+		/// <param name="targetPosition"></param>
+		/// <param name="width"></param>
+		public static void ZC_SKILL_RANGE_SQUARE(IEntity caster, Position position, Position targetPosition, float width)
+		{
+			var packet = new Packet(Op.ZC_SKILL_RANGE_SQUARE);
+
+			packet.PutInt(caster.Handle);
+			packet.PutEmptyBin(2);
+			packet.PutFloat(position.X);
+			packet.PutFloat(position.Y);
+			packet.PutFloat(position.Z);
+			packet.PutFloat(targetPosition.X);
+			packet.PutFloat(targetPosition.Y);
+			packet.PutFloat(targetPosition.Z);
+			packet.PutFloat(width);
+			packet.PutInt(1); // 0 = not drawn
+			packet.PutInt(0);
+
+			caster.Map.Broadcast(packet, caster);
+		}
+
+		/// <summary>
 		/// Enables/disables creature attack state
 		/// </summary>
 		/// <param name="character"></param>
