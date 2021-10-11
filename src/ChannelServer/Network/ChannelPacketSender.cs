@@ -2739,48 +2739,42 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Set a Range type "CIRCLE" shape in a given position
+		/// Draws circle area on ground at position for characters in range
+		/// of the source entity.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="id"></param>
+		/// <param name="caster"></param>
 		/// <param name="position"></param>
-		/// <param name="direction"></param>
-		public static void ZC_SKILL_RANGE_CIRCLE(Character character, IEntity entity, Skill skill, Position position)
+		/// <param name="radius"></param>
+		public static void ZC_SKILL_RANGE_CIRCLE(IEntity caster, Position position, float radius)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_CIRCLE);
 
-			//packet.PutInt(character.Handle);
-			packet.PutInt(entity?.Handle ?? 0);
-			//packet.PutShort(skill.Id);
-			packet.PutShort(0);
+			packet.PutInt(caster.Handle);
+			packet.PutEmptyBin(2);
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
-			packet.PutFloat(70f);
-			packet.PutLong(0);
-			//packet.PutFloat(direction.Cos);
-			//packet.PutFloat(direction.Sin);
+			packet.PutFloat(radius);
+			packet.PutInt(1); // 0 = not drawn
+			packet.PutInt(0); // 1 = drawn weaker?
 
-			character.Map.Broadcast(packet, character);
+			caster.Map.Broadcast(packet, caster);
 		}
 
 		/// <summary>
-		/// Draws fan area on ground at position for character.
+		/// Draws fan area on ground at position for characters in range
+		/// of the source entity.
 		/// </summary>
-		/// <remarks>
-		/// 
-		/// </remarks>
-		/// <param name="character"></param>
-		/// <param name="casterHandle"></param>
+		/// <param name="caster"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="radius"></param>
 		/// <param name="radianHalfAngle"></param>
-		public static void ZC_SKILL_RANGE_FAN(Character character, int casterHandle, Position position, Direction direction, float radius, float radianHalfAngle)
+		public static void ZC_SKILL_RANGE_FAN(IEntity caster, Position position, Direction direction, float radius, float radianHalfAngle)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_FAN);
 
-			packet.PutInt(casterHandle);
+			packet.PutInt(caster.Handle);
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
@@ -2789,9 +2783,9 @@ namespace Melia.Channel.Network
 			packet.PutFloat(radius);
 			packet.PutFloat(radianHalfAngle);
 			packet.PutInt(1); // 0 = not drawn
-			packet.PutInt(1);
+			packet.PutInt(0);
 
-			character.Map.Broadcast(packet, character);
+			caster.Map.Broadcast(packet, caster);
 		}
 
 		/// <summary>
