@@ -61,6 +61,26 @@ namespace Melia.Shared.World
 		public static Direction Zero => new Direction(0, 0);
 
 		/// <summary>
+		/// Returns a direction that points north.
+		/// </summary>
+		public static Direction North => new Direction(0, 1);
+
+		/// <summary>
+		/// Returns a direction that points south.
+		/// </summary>
+		public static Direction South => new Direction(0, -1);
+
+		/// <summary>
+		/// Returns a direction that points east.
+		/// </summary>
+		public static Direction East => new Direction(1, 0);
+
+		/// <summary>
+		/// Returns a direction that points west.
+		/// </summary>
+		public static Direction West => new Direction(-1, 0);
+
+		/// <summary>
 		/// Creates new direction from values.
 		/// </summary>
 		/// <param name="cos"></param>
