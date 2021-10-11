@@ -2765,26 +2765,31 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Set a Range type "FAN" shape in a given position
+		/// Draws fan area on ground at position for character.
 		/// </summary>
+		/// <remarks>
+		/// 
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="id"></param>
+		/// <param name="casterHandle"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
-		public static void ZC_SKILL_RANGE_FAN(Character character, int id, Position position, Direction direction)
+		/// <param name="radius"></param>
+		/// <param name="radianHalfAngle"></param>
+		public static void ZC_SKILL_RANGE_FAN(Character character, int casterHandle, Position position, Direction direction, float radius, float radianHalfAngle)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_FAN);
 
-			packet.PutInt(character.Handle);
-			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutInt(casterHandle);
 			packet.PutFloat(position.X);
 			packet.PutFloat(position.Y);
 			packet.PutFloat(position.Z);
 			packet.PutFloat(direction.Cos);
 			packet.PutFloat(direction.Sin);
-			packet.PutFloat(0); // Height min ?
-			packet.PutFloat(0.174533f); // Height max ?
+			packet.PutFloat(radius);
+			packet.PutFloat(radianHalfAngle);
+			packet.PutInt(1); // 0 = not drawn
+			packet.PutInt(1);
 
 			character.Map.Broadcast(packet, character);
 		}
