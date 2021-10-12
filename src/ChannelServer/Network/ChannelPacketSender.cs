@@ -141,6 +141,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Adds a session object and its properties.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sessionObject"></param>
 		public static void ZC_SESSION_OBJ_ADD(ChannelConnection conn, SessionObject sessionObject)
 		{
 			var properties = sessionObject.Properties.GetAll();
@@ -157,7 +162,11 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
-		internal static void ZC_ANCIENT_CARD_RESET(ChannelConnection conn)
+		/// <summary>
+		/// Resets ancient card?
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_ANCIENT_CARD_RESET(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_ANCIENT_CARD_RESET);
 			packet.PutInt(0);
@@ -179,6 +188,10 @@ namespace Melia.Channel.Network
 			monster.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Disables a skill?
+		/// </summary>
+		/// <param name="character"></param>
 		public static void ZC_SKILL_DISABLE(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_DISABLE);
@@ -273,6 +286,7 @@ namespace Melia.Channel.Network
 		/// Cancel a skill cast, usually when a monster has died.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="target"></param>
 		public static void ZC_SKILL_CAST_CANCEL(Character character, IEntity target)
 		{
 			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
@@ -285,7 +299,9 @@ namespace Melia.Channel.Network
 		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="damage"></param>
 		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target, Skill skill, int damage)
 		{
 			var validHit = (target != null && damage > 0);
@@ -344,7 +360,10 @@ namespace Melia.Channel.Network
 		/// i339415, looks hit info is being used instead of this for showing damage on a target
 		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPosition"></param>
+		/// <param name="targets"></param>
+		/// <param name="damage"></param>
 		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<IEntity> targets = null, int damage = 0)
 		{
 			var targetCount = targets?.Count() ?? 0;
@@ -406,7 +425,7 @@ namespace Melia.Channel.Network
 		/// Sends overheat data for a character, by sending ZC_OVERHEAT_CHANGED.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
 		public static void ZC_OVERHEAT_CHANGED(Character character, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
@@ -429,7 +448,7 @@ namespace Melia.Channel.Network
 		/// Sends skill to cooldown for a character, by sending ZC_COOLDOWN_CHANGED.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
 		public static void ZC_COOLDOWN_CHANGED(Character character, Skill skill)
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
@@ -552,7 +571,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Updates an NPC's state on all clients in range of it.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="npc"></param>
 		public static void ZC_SET_NPC_STATE(Monster npc)
 		{
 			var packet = new Packet(Op.ZC_SET_NPC_STATE);
@@ -804,7 +823,6 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="item"></param>
-		/// <param name="message"></param>
 		public static void ZC_EQUIP_GEM_INFO(Character character, Item item)
 		{
 			var packet = new Packet(Op.ZC_EQUIP_GEM_INFO);
@@ -1272,7 +1290,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_ROTATE in range of character.
+		/// Updates character's rotation for characters in range of it.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_ROTATE(Character character)
@@ -1290,7 +1308,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_HEAD_ROTATE in range of character.
+		/// Updates character's head rotation for characters in range of it.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_HEAD_ROTATE(Character character)
@@ -1491,6 +1509,7 @@ namespace Melia.Channel.Network
 		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage, int attackIndex = 0)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
+
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
 			packet.PutInt(100);
@@ -1511,7 +1530,6 @@ namespace Melia.Channel.Network
 			packet.PutLong(1);
 			packet.PutByte(0);
 
-
 			target.Map.Broadcast(packet);
 		}
 
@@ -1525,9 +1543,12 @@ namespace Melia.Channel.Network
 		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, int damage)
 		{
 			var validHit = (target != null && damage > 0);
+
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
+
 			packet.PutInt(attacker.Handle);
 			packet.PutByte(validHit);
+
 			if (validHit)
 			{
 				packet.PutBinFromHex("00 09 00 00");
@@ -1559,7 +1580,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Updates character's level.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		public static void ZC_PC_LEVELUP(Character character)
 		{
 			var packet = new Packet(Op.ZC_PC_LEVELUP);
@@ -1612,6 +1633,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.ClassLevelUp);
+
 			packet.PutInt(character.Handle);
 			packet.PutByte(1);
 			packet.PutInt(2);
@@ -1626,12 +1648,12 @@ namespace Melia.Channel.Network
 		/// Skill Related ZC_Normal Packet
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
-		/// <param name="value"></param>
+		/// <param name="position"></param>
 		public static void ZC_NORMAL_Unknown_06(Character character, Position position)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Unknown_06);
+
 			packet.PutInt(character.Handle);
 			packet.PutInt(280015);
 			packet.PutFloat(0.6f);
@@ -1655,12 +1677,13 @@ namespace Melia.Channel.Network
 		/// Adjusts the skill speed for a skill.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
-		/// <param name="value"></param>
+		/// <param name="target"></param>
+		/// <param name="position"></param>
 		public static void ZC_NORMAL_Skill_16(Character character, IEntity target, Position position)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Skill_16);
+
 			packet.PutInt(target.Handle);
 			packet.PutInt(character.Handle);
 			packet.PutInt(character.Handle);
@@ -1686,8 +1709,6 @@ namespace Melia.Channel.Network
 		/// Attack broadcast?
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skillId"></param>
-		/// <param name="value"></param>
 		public static void ZC_NORMAL_AttackCancel(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -1707,6 +1728,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Skill_4E);
+
 			packet.PutInt((int)skillId);
 			packet.PutFloat(value);
 			packet.PutByte(0);
@@ -1722,6 +1744,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.SkillParticleEffect);
+
 			packet.PutInt(character.Handle);
 			packet.PutInt(skillActorId);
 			packet.PutInt(character.Hp);
@@ -1744,6 +1767,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.SetSkillSpeed);
+
 			packet.PutInt(skillId);
 			packet.PutFloat(value);
 
@@ -1759,6 +1783,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.SetHitDelay);
+
 			packet.PutInt(skillId);
 			packet.PutFloat(value);
 
@@ -1773,6 +1798,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.AdventureBook);
+
 			packet.PutLpString("AdventureBook");
 			packet.PutLpString("Initialization_point");
 
@@ -1817,6 +1843,7 @@ namespace Melia.Channel.Network
 		public static void ZC_MAX_EXP_CHANGED(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
+
 			packet.PutInt(exp);
 			packet.PutInt(character.Exp);
 			packet.PutInt(0);
@@ -1838,6 +1865,7 @@ namespace Melia.Channel.Network
 		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, Monster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
+
 			packet.PutLong(exp);
 			packet.PutLong(classExp);
 			packet.PutLong(exp);
@@ -1855,6 +1883,7 @@ namespace Melia.Channel.Network
 		public static void ZC_EXP_UP(Character character, int exp, int classExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
+
 			packet.PutLong(exp);
 			packet.PutLong(classExp);
 			packet.PutLong(exp);
@@ -1870,6 +1899,7 @@ namespace Melia.Channel.Network
 		public static void ZC_JOB_EXP_UP(Character character, int exp)
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
+
 			packet.PutLong(character.Id);
 			packet.PutInt(exp);
 			packet.PutInt(0);
@@ -1894,12 +1924,13 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <remarks>Strings are placed without terminating bytes.</remarks>
 		/// <param name="character"></param>
-		/// <param name="duration">Duration in seconds messages are displayed?</param>
+		/// <param name="duration">Duration that messages are displayed in seconds?</param>
 		/// <param name="msg"></param>
 		/// <param name="parameter"></param>
 		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
+
 			packet.PutByte((byte)(msg.Length));
 			packet.PutInt(duration);
 			packet.PutByte(0);
@@ -1920,6 +1951,7 @@ namespace Melia.Channel.Network
 		public static void ZC_PC_PROP_UPDATE(Character character, short property, byte value)
 		{
 			var packet = new Packet(Op.ZC_PC_PROP_UPDATE);
+
 			packet.PutShort(property);
 			packet.PutByte(value); // ?
 
@@ -1936,13 +1968,14 @@ namespace Melia.Channel.Network
 		/// - 60009: Hearts
 		/// </remarks>
 		/// <param name="entity"></param>
-		/// <param name="emoticons"></param>
+		/// <param name="emoticon"></param>
 		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IEntity entity, int emoticons, int duration)
+		public static void ZC_SHOW_EMOTICON(IEntity entity, int emoticon, int duration)
 		{
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
+
 			packet.PutInt(entity.Handle);
-			packet.PutInt(emoticons);
+			packet.PutInt(emoticon);
 			packet.PutInt(duration);
 
 			entity.Map.Broadcast(packet, entity);
@@ -2081,15 +2114,15 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Sends an updated value for the shield to an entity.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="shield"></param>
-		public static void ZC_UPDATE_SHIELD(Character character, IEntity entity, int shield)
+		public static void ZC_UPDATE_SHIELD(IEntity entity, int shield)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_SHIELD);
 			packet.PutInt(entity.Handle);
 			packet.PutInt(shield);
 
-			character.Map.Broadcast(packet, entity);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2150,7 +2183,7 @@ namespace Melia.Channel.Network
 			packet.PutPosition(pos);
 			packet.PutByte(1);
 			packet.PutDirection(dir);
-			packet.PutFloat(228787.3f); // ?
+			packet.PutFloat(228787.3f); // timestamp
 			packet.PutEmptyBin(24);
 
 			character.Map.Broadcast(packet, character);
@@ -2165,7 +2198,6 @@ namespace Melia.Channel.Network
 		public static void ZC_DIALOG_TRADE(ChannelConnection conn, string shopName)
 		{
 			var packet = new Packet(Op.ZC_DIALOG_TRADE);
-
 			packet.PutString(shopName, 33);
 
 			conn.Send(packet);
@@ -2181,6 +2213,7 @@ namespace Melia.Channel.Network
 		public static void ZC_SKILL_READY(Character character, Skill skill, Position position1, Position position2)
 		{
 			var packet = new Packet(Op.ZC_SKILL_READY);
+
 			packet.PutInt(character.Handle);
 			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
@@ -2228,7 +2261,7 @@ namespace Melia.Channel.Network
 		/// Sets the entity's owner to the specified character handle.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="monster"></param>
+		/// <param name="entity"></param>
 		public static void ZC_OWNER(Character character, IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
@@ -2242,7 +2275,7 @@ namespace Melia.Channel.Network
 		/// Creates a skill in client
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="id"></param>
+		/// <param name="skill"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="create"></param>
@@ -2414,7 +2447,8 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Makes monster fade out over the given amount of time.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="monster"></param>
+		/// <param name="duration"></param>
 		public static void ZC_NORMAL_FadeOut(Monster monster, TimeSpan duration)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
@@ -2432,7 +2466,7 @@ namespace Melia.Channel.Network
 		/// distance from its current position.
 		/// </summary>
 		/// <param name="monster"></param>
-		/// <param name="degreeAngle"></param>
+		/// <param name="direction"></param>
 		/// <param name="distance"></param>
 		public static void ZC_NORMAL_ItemDrop(Monster monster, Direction direction, float distance)
 		{
@@ -2463,6 +2497,7 @@ namespace Melia.Channel.Network
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(SubOp.Zone.Unknown_EF);
+
 			packet.PutLong(character.Id);
 			packet.PutInt(98); // count
 			packet.PutLpString("Char3_4");
@@ -2851,7 +2886,7 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		/// <param name="amount"></param>
 		/// <param name="isDamage"></param>
-		/// <param name="currentHp"></param>
+		/// <param name="maxHp"></param>
 		/// <param name="priority"></param>
 		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int maxHp, int priority)
 		{
@@ -2879,6 +2914,7 @@ namespace Melia.Channel.Network
 			var maxSp = entity.Properties.GetInt(PropertyId.PC.MSP);
 
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
+
 			packet.PutInt(entity.Handle);
 			packet.PutInt(hp);
 			packet.PutInt(maxHp);
@@ -2890,32 +2926,17 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Increases player experience by killing monsters
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="experience"></param>
-		/// <param name="jobExperience"></param>
-		/// <param name="monsterActorId"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, int experience, int jobExperience, int monsterActorId)
-		{
-			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
-			packet.PutInt(experience);
-			packet.PutInt(jobExperience);
-			packet.PutInt(monsterActorId);
-
-			character.Map.Broadcast(packet, character);
-		}
-
-		/// <summary>
 		/// Updates character's HP or SP and displays a floating text
 		/// with the modifier, notifying the player of the change.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="amount"></param>
 		/// <param name="max"></param>
+		/// <param name="type"></param>
 		public static void ZC_HEAL_INFO(Character character, int amount, int max, HealType type)
 		{
 			var packet = new Packet(Op.ZC_HEAL_INFO);
+
 			packet.PutInt(character.Handle);
 			packet.PutInt(amount);
 			packet.PutInt(max);
@@ -2941,39 +2962,16 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Reply packet when skill melee ground is placed
-		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, int id, Position position, Direction direction)
-		{
-			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
-			packet.PutInt(id);
-			packet.PutInt(character.Handle);
-			packet.PutFloat(direction.Cos);
-			packet.PutFloat(direction.Sin);
-			packet.PutInt(1);
-			packet.PutFloat(600);
-			packet.PutFloat(1);
-			packet.PutFloat(-1);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutFloat(position.X);
-			packet.PutFloat(position.Y);
-			packet.PutFloat(position.Z);
-			packet.PutShort(0); // Some sort of Size for something else. Since this is a "variable size" packet.
-
-			character.Map.Broadcast(packet, character);
-		}
-
-		/// <summary>
-		/// Sends the faction for the handle.
+		/// Sets the faction of the entity.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="monster"></param>
-		public static void ZC_FACTION(ChannelConnection conn, Monster monster, FactionType faction)
+		/// <param name="entity"></param>
+		/// <param name="faction"></param>
+		public static void ZC_FACTION(ChannelConnection conn, IEntity entity, FactionType faction)
 		{
 			var packet = new Packet(Op.ZC_FACTION);
-			packet.PutInt(monster.Handle);
+
+			packet.PutInt(entity.Handle);
 			packet.PutInt((int)faction);
 
 			conn.Send(packet);
@@ -2993,6 +2991,7 @@ namespace Melia.Channel.Network
 			var defaultList = ChannelServer.Instance.Data.HelpDb.Entries.Values.Where(a => a.BasicHelp);
 
 			var packet = new Packet(Op.ZC_HELP_LIST);
+
 			packet.PutInt(defaultList.Count());
 			foreach (var data in defaultList)
 			{
@@ -3003,7 +3002,9 @@ namespace Melia.Channel.Network
 			character.Connection.Send(packet);
 		}
 
-		/// Request the client to send information that needs to be saved before exiting?
+		/// <summary>
+		/// Requests the client to send information that needs to be saved
+		/// before exiting?
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_SAVE_INFO(ChannelConnection conn)
@@ -3146,10 +3147,12 @@ namespace Melia.Channel.Network
 		public static void ZC_SEND_PREMIUM_STATE(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SEND_PREMIUM_STATE);
+
 			packet.PutShort(2); // Count?
 			packet.PutShort(0x4E6C);
 			packet.PutShort(0xE8EF);
 			packet.PutInt(0);
+
 			conn.Send(packet);
 		}
 
@@ -3160,6 +3163,7 @@ namespace Melia.Channel.Network
 		public static void ZC_RESPONSE_GUILD_INDEX(Character character)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_GUILD_INDEX);
+
 			packet.PutInt(character.Handle);
 			packet.PutLong(character.Id);
 			packet.PutShort(1003);
@@ -3186,6 +3190,7 @@ namespace Melia.Channel.Network
 		public static void ZC_MYPAGE_MAP(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_MYPAGE_MAP);
+
 			packet.PutInt(1);
 			packet.PutByte(0);
 
@@ -3199,12 +3204,17 @@ namespace Melia.Channel.Network
 		public static void ZC_GUESTPAGE_MAP(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_GUESTPAGE_MAP);
+
 			packet.PutInt(1);
 			packet.PutByte(0);
 
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends PC Bang rental item list to client (dummy)..
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_PCBANG_SHOP_RENTAL(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_PCBANG_SHOP_RENTAL);
@@ -3386,6 +3396,10 @@ namespace Melia.Channel.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Sends ZC_ATTENDANCE_REWARD_CHECK_UI_ON to client (dummy).
+		/// </summary>
+		/// <param name="conn"></param>
 		public static void ZC_ATTENDANCE_REWARD_CHECK_UI_ON(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_ATTENDANCE_REWARD_CHECK_UI_ON);
@@ -3395,7 +3409,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_ADDITIONAL_SKILL_POINT to character, something about additional skill points?
+		/// Sends ZC_ADDITIONAL_SKILL_POINT to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_ADDITIONAL_SKILL_POINT(Character character)
@@ -3407,7 +3421,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_SET_DAYLIGHT_INFO to character, something about daylight info?
+		/// Sends ZC_SET_DAYLIGHT_INFO to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_SET_DAYLIGHT_INFO(Character character)
@@ -3420,7 +3434,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_SET_DAYLIGHT_INFO to character, something about daylight info?
+		/// Sends ZC_SET_DAYLIGHT_INFO to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_DAYLIGHT_FIXED(Character character)
@@ -3436,9 +3450,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_STAMINA to character, something about daylight info?
+		/// Updates character's stamina.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="stamina"></param>
 		public static void ZC_STAMINA(Character character, int stamina)
 		{
 			var packet = new Packet(Op.ZC_STAMINA);
@@ -3448,7 +3463,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE to character, seems to increase each time it's sent
+		/// Sends ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_WEEKLY_BOSS_ACCUMULATED_DAMAGE(Character character)
@@ -3461,7 +3476,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PCBANG_SHOP_COMMON to character, something related to PCBANG_SHOP?
+		/// Sends ZC_PCBANG_SHOP_COMMON to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_PCBANG_SHOP_COMMON(Connection conn)
@@ -3490,7 +3505,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_TRUST_INFO to character, something related to Trust Info?
+		/// Sends ZC_TRUST_INFO to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_TRUST_INFO(ChannelConnection conn)
@@ -3541,9 +3556,9 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_COMMON_SKILL_LIST to character, Send Common Skill List
+		/// Sends ZC_COMMON_SKILL_LIST to character (dummy).
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_COMMON_SKILL_LIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
@@ -3558,12 +3573,13 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PCBANG_POINT to character
+		/// Sends ZC_PCBANG_POINT to character (dummy).
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_PCBANG_POINT(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+
 			packet.PutInt(-1);
 			packet.PutInt(980); //Increasing Value each time this packet is sent
 			packet.PutInt(1620); //Max?
@@ -3572,12 +3588,13 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_MSPD to character.
+		/// Updates character's movement speed.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_MSPD(Character character)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
+
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.MoveSpeed);
 			packet.PutLong(0);
@@ -3586,12 +3603,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_CUSTOM_COMMANDER_INFO to character
+		/// Sends ZC_CUSTOM_COMMANDER_INFO to character (dummy).
 		/// </summary>
 		/// <param name="conn"></param>
+		/// <param name="type"></param>
+		/// <param name="amount"></param>
 		public static void ZC_CUSTOM_COMMANDER_INFO(ChannelConnection conn, int type = 3, int amount = 0)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
+
 			packet.PutLong(0);
 			packet.PutInt(0);
 			packet.PutShort(type); // Attribute Points = 3
@@ -3602,9 +3622,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_EXEC_CLIENT_SCP to character
+		/// Sends Lua script to client for execution.
 		/// </summary>
 		/// <param name="conn"></param>
+		/// <param name="script"></param>
 		public static void ZC_EXEC_CLIENT_SCP(ChannelConnection conn, string script)
 		{
 			var packet = new Packet(Op.ZC_EXEC_CLIENT_SCP);
@@ -3614,30 +3635,19 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_UPDATE_SP to character, regarding SP updates visually?
-		/// </summary>
-		/// <param name="conn"></param>
-		public static void ZC_UPDATE_SP(Character character)
-		{
-			var packet = new Packet(Op.ZC_UPDATE_SP);
-			packet.PutInt(character.Handle);
-			packet.PutInt(character.Sp);
-			packet.PutByte(0);
-
-			character.Map.Broadcast(packet);
-		}
-
-		/// <summary>
-		/// Sends ZC_SOLO_DUNGEON_RANKING to character
+		/// Sends ZC_SOLO_DUNGEON_RANKING to character (dummy).
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_SOLO_DUNGEON_RANKING(ChannelConnection conn, List<Character> characters)
 		{
 			var packet = new Packet(Op.ZC_SOLO_DUNGEON_RANKING);
+
 			packet.PutLong(1);
 			packet.PutInt(characters.Count); // Ranker Count
 			foreach (var character in characters)
 			{
+				var jobs = character.Jobs.GetList().ToList();
+
 				packet.PutLong(character.AccountId);
 				packet.PutLpString(character.Name);
 				packet.PutInt(character.Level);
@@ -3646,21 +3656,17 @@ namespace Melia.Channel.Network
 				packet.PutLong(character.Id);
 				packet.PutInt(character.Level);
 				packet.PutInt(17);
-				var jobs = character.Jobs.GetList().ToList();
+
 				packet.PutInt(jobs.Count);
 				foreach (var job in jobs)
-				{
 					packet.PutInt((int)job.Id);
-				}
-
-				// TODO: Is this actually supposed to be sent from inside
-				//   the loop?
-				conn.Send(packet);
 			}
+
+			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends ZC_RESET_VIEW to connection
+		/// Sends ZC_RESET_VIEW to connection (dummy).
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_RESET_VIEW(ChannelConnection conn)
@@ -3684,10 +3690,11 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Not too sure what this does, maybe for store purchases?
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="conn"></param>
 		public static void ZC_SET_WEBSERVICE_URL(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
+
 			packet.PutString("https://52.58.92.141:9004", 128);
 			packet.PutString("https://52.29.227.229:9005", 128);
 
@@ -3695,9 +3702,9 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_RESPONSE_FIELD_BOSS_EXIST to character, something related to Map
+		/// Sends ZC_RESPONSE_FIELD_BOSS_EXIST to character (dummy).
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_RESPONSE_FIELD_BOSS_EXIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_FIELD_BOSS_EXIST);
@@ -3707,9 +3714,9 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_WEEKLY_BOSS_NOW_WEEK_NUM to character, something related to Weekly Boss (F10)
+		/// Sends ZC_WEEKLY_BOSS_NOW_WEEK_NUM to character (dummy).
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_WEEKLY_BOSS_NOW_WEEK_NUM(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_WEEKLY_BOSS_NOW_WEEK_NUM);
@@ -3719,9 +3726,9 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_RESPONSE_BORUTA_NOW_WEEK_NUM to character, something related to Weekly Boss (F10)
+		/// Sends ZC_RESPONSE_BORUTA_NOW_WEEK_NUM to character (dummy).
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_RESPONSE_BORUTA_NOW_WEEK_NUM(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_BORUTA_NOW_WEEK_NUM);
@@ -3733,7 +3740,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Unknown purpose, sent when changing map and tutorial related?
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		/// <param name="enabled"></param>
 		public static void ZC_ENABLE_CONTROL(ChannelConnection conn, bool enabled)
 		{
@@ -3778,7 +3785,7 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Unknown purpose, sent when changing map and tutorial related?
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="conn"></param>
 		public static void ZC_LOCK_KEY(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_LOCK_KEY);
@@ -3803,7 +3810,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Shifts in-game camera to create cinematic effect, isn't removed automatically
+		/// Shifts in-game camera to create cinematic effect, isn't removed
+		/// automatically.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_CREATE_SCROLLLOCKBOX(Character character)
@@ -3823,7 +3831,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Remove scroll lock box
+		/// Remove scroll lock box.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_REMOVE_SCROLLLOCKBOX(Character character)
@@ -3835,9 +3843,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="conn"></param>
+		/// <param name="messageId"></param>
 		public static void ZC_SHARED_MSG(ChannelConnection conn, int messageId)
 		{
 			var packet = new Packet(Op.ZC_SHARED_MSG);
@@ -3847,12 +3856,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Reset Overheat
+		/// Resets overheat?
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="i1"></param>
+		/// <param name="overheat"></param>
 		public static void ZC_OVERHEAT_RESET_TIME(Character character, int i1, int overheat)
 		{
 			var packet = new Packet(Op.ZC_OVERHEAT_RESET_TIME);
+
 			packet.PutLong(character.Id);
 			packet.PutInt(i1); // 1551 or 2255
 			packet.PutInt(overheat);
@@ -3861,12 +3873,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="skillActorId"></param>
+		/// <param name="f1"></param>
 		public static void ZC_SYNC_START(Character character, int skillActorId, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_START);
+
 			packet.PutInt(skillActorId);
 			packet.PutFloat(f1);
 
@@ -3874,12 +3889,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="skillActorId"></param>
+		/// <param name="f1"></param>
 		public static void ZC_SYNC_END(Character character, int skillActorId, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_END);
+
 			packet.PutInt(skillActorId);
 			packet.PutFloat(f1);
 
@@ -3887,12 +3905,15 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="skillActorId"></param>
+		/// <param name="f1"></param>
 		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC_BY_SKILL_TIME);
+
 			packet.PutInt(character.Handle);
 			packet.PutInt(skillActorId);
 			packet.PutFloat(f1);
@@ -3901,9 +3922,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="skillActorId"></param>
 		public static void ZC_SYNC_EXEC(Character character, int skillActorId)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC);
@@ -3913,7 +3935,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose
+		/// Unknown Purpose.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_EQUIP_CARD_INFO(Character character)
@@ -3925,7 +3947,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// When an item is sold
+		/// Updates the list of sold items in an NPC shop.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="type"></param>
@@ -3979,7 +4001,6 @@ namespace Melia.Channel.Network
 
 			character.Connection.Send(packet);
 		}
-
 
 		/// <summary>
 		/// When view another player's character view the submenu
@@ -4134,19 +4155,10 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Add a buff to the character
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="buff"></param>
-		//public static void ZC_BUFF_ADD(Character character, Buff buff)
-		//{ 
-		//}
-
-		/// <summary>
 		/// Plays item pick up animation for the character and item monster.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="buff"></param>
+		/// <param name="itemMonster"></param>
 		public static void ZC_ITEM_GET(IEntity character, IEntity itemMonster)
 		{
 			var packet = new Packet(Op.ZC_ITEM_GET);
@@ -4203,25 +4215,5 @@ namespace Melia.Channel.Network
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
-	}
-
-	public class MsgParameter
-	{
-		public string Key { get; protected set; }
-		public string Value { get; protected set; }
-
-		public MsgParameter(string key, string value)
-		{
-			this.Key = key;
-			this.Value = value;
-		}
-	}
-
-	public enum FactionType : int
-	{
-		Player = 1,
-		Monster = 2,
-		Npc = 3,
-		Ally = 4,
 	}
 }

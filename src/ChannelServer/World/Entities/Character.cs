@@ -435,11 +435,10 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Starts movement.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
+		/// <param name="unkByte"></param>
 		public void Jump(Position pos, Direction dir, float unkFloat, byte unkByte)
 		{
 			this.SetPosition(pos);
@@ -452,11 +451,9 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Starts movement.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
 		public void Move(Position pos, Direction dir, float unkFloat)
 		{
 			this.SetPosition(pos);
@@ -469,11 +466,8 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Stops movement.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="dx"></param>
-		/// <param name="dy"></param>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
 		public void StopMove(Position pos, Direction dir)
 		{
 			this.SetPosition(pos);
@@ -489,14 +483,14 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
-		/// <param name="loc"></param>
-		public void Warp(Location loc)
-			=> this.Warp(loc.MapId, loc.Position);
+		/// <param name="location"></param>
+		public void Warp(Location location)
+			=> this.Warp(location.MapId, location.Position);
 
 		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
-		/// <param name="mapId"></param>
+		/// <param name="mapName"></param>
 		/// <param name="pos"></param>
 		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
 		public void Warp(string mapName, Position pos)
@@ -847,20 +841,16 @@ namespace Melia.Channel.World.Entities
 		/// improvement over using ZC_CHAT.
 		/// </remarks>
 		/// <param name="format"></param>
-		/// <param name="args"></param>
-		public void ServerMessage(string format)
-		{
-			Send.ZC_SYSTEM_MSG(this, 21254, new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
-		}
-
-		/// <summary>
-		/// Sends server message to character.
-		/// </summary>
-		/// <param name="format"></param>
-		/// <param name="args"></param>
 		public void ServerMessage(string format, params object[] args)
 		{
-			this.ServerMessage(string.Format(format, args));
+			if (args.Length > 0)
+				format = string.Format(format, args);
+
+			// Since there doesn't seem to be a way to send custom system
+			// messages, we're abusing clientmessage 21254, which has the
+			// format "X:Y", where we replace X and Y with a prefix and
+			// our custom message.
+			Send.ZC_SYSTEM_MSG(this, 21254, new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
 		}
 
 		/// <summary>
@@ -882,7 +872,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Adds amount to character's stat points and updates the client.
 		/// </summary>
-		/// <param name="modifier"></param>
+		/// <param name="amount"></param>
 		public void AddStatPoints(int amount)
 		{
 			if (amount < 1)
@@ -1013,6 +1003,7 @@ namespace Melia.Channel.World.Entities
 		/// Returns a random physical or magic attack damage value,
 		/// for usage with the given skill.
 		/// </summary>
+		/// <param name="skill"></param>
 		/// <returns></returns>
 		public int GetRandomAtk(Skill skill)
 		{
@@ -1048,10 +1039,8 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		/// <param name="damage"></param>
 		/// <param name="from"></param>
-		/// <param name="damageVisibility"></param>
-		/// <param name="attackIndex"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from/*, DamageVisibilityModifier damageVisibility, int attackIndex*/)
+		public bool TakeDamage(int damage, Character from)
 		{
 			throw new NotImplementedException();
 		}
@@ -1072,7 +1061,7 @@ namespace Melia.Channel.World.Entities
 		/// Turns item monster into an item and adds it to the character's
 		/// inventory.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="itemMonster"></param>
 		public void PickUp(ItemMonster itemMonster)
 		{
 			itemMonster.PickedUp = true;

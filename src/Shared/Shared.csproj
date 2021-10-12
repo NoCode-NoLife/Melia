@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Const\AnimationId.cs" />
     <Compile Include="Const\Character.cs" />
+    <Compile Include="Const\FactionType.cs" />
     <Compile Include="Const\Gender.cs" />
     <Compile Include="Const\HealType.cs" />
     <Compile Include="Const\Items.cs" />

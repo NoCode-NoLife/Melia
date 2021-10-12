@@ -67,6 +67,7 @@
     <Compile Include="Network\ChannelPacketSender.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
+    <Compile Include="Network\MsgParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\LuaThread.cs" />
