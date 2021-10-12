@@ -14,7 +14,7 @@
 typedef struct
 {
     int targetHandle;
-    int buffHandle;
+    int buffHandle1;
     int buffId; // 7013,7014,110001
     int skillId; // 30009, otherwise 1
     int i1; // 10000 on Buff Id: 110001
@@ -28,11 +28,12 @@ typedef struct
     short s1; // 9, 11
     string casterName; // Real
     int casterHandle;
-    int buffHandle;
+    int buffHandle2;
     int64 l1;
     byte b1; // 1
     byte b2; // 1
-} Buff <optimize=false>;
+}
+Buff <optimize=false>;
 
 typedef struct
 {
@@ -53,4 +54,5 @@ typedef struct
     int64 l1;
     byte b1;
     byte b2;
-} BuffData <optimize=false>;
+}
+BuffData <optimize=false>;

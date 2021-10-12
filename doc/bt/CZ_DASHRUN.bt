@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_DASHRUN.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i337645
 //   Purpose: 
 //  Category: 
@@ -14,4 +14,6 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-short s1;
+
+byte b1;
+byte b2;
