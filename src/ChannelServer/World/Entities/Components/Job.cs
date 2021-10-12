@@ -137,8 +137,16 @@ namespace Melia.Channel.World.Entities.Components
 		/// <param name="modifier"></param>
 		/// <returns></returns>
 		public void ModifySkillPoints(int modifier)
+			=> this.SetSkillPoints(this.SkillPoints + modifier);
+
+		/// <summary>
+		/// Sets job's skill points updates the client.
+		/// </summary>
+		/// <param name="skillPoints"></param>
+		/// <returns></returns>
+		public void SetSkillPoints(int skillPoints)
 		{
-			this.SkillPoints += modifier;
+			this.SkillPoints = skillPoints;
 			Send.ZC_JOB_PTS(this.Character, this);
 		}
 	}

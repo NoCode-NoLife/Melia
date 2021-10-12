@@ -68,6 +68,7 @@ namespace Melia.Channel.Scripting
 			// Action
 			Register(warp);
 			Register(resetstats);
+			Register(resetskills);
 			Register(changehair);
 			Register(spawn);
 			Register(levelup);
@@ -771,6 +772,21 @@ namespace Melia.Channel.Scripting
 			var character = conn.SelectedCharacter;
 
 			character.ResetStats();
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Resets the player's skills.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		private int resetskills(IntPtr L)
+		{
+			var conn = this.GetConnectionFromState(L);
+			var character = conn.SelectedCharacter;
+
+			character.ResetSkills();
 
 			return 0;
 		}

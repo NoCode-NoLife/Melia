@@ -828,6 +828,25 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Resets the character's skills.
+		/// </summary>
+		/// <remarks>
+		/// Resets the levels of all skills the character has and returns
+		/// the points that were put into them to the jobs.
+		/// </remarks>
+		public void ResetSkills()
+		{
+			// Remove all skills
+			foreach (var skill in this.Skills.GetList())
+				this.Skills.Remove(skill.Id);
+
+			// Reset jobs' skill points, so they're equal to their level,
+			// minus 1, because 1 is the default level.
+			foreach (var job in this.Jobs.GetList())
+				job.SetSkillPoints(job.Level - 1);
+		}
+
+		/// <summary>
 		/// Starts auto-updates of visible entities.
 		/// </summary>
 		public void OpenEyes()
