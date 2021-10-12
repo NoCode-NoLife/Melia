@@ -175,7 +175,7 @@ namespace Melia.Channel.World.Entities
 		/// entities around the character.
 		/// </summary>
 		public bool EyesOpen { get; private set; }
-    
+
 		/// <summary>
 		/// Character's scripting variables.
 		/// </summary>
@@ -280,6 +280,11 @@ namespace Melia.Channel.World.Entities
 		/// Character's abilities.
 		/// </summary>
 		public Abilities Abilities { get; }
+
+		/// <summary>
+		/// Character's buffs.
+		/// </summary>
+		public BuffCollection Buffs { get; }
 
 		/// <summary>
 		/// Character's properties.
