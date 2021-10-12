@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\Base\IBuffHandler.cs" />
+    <Compile Include="Buffs\BuffHandlerAttribute.cs" />
+    <Compile Include="Buffs\BuffHandlers.cs" />
+    <Compile Include="Buffs\Generic\BuffHandler.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\ChannelDb.cs" />
@@ -65,6 +69,7 @@
     <Compile Include="Network\ChannelConnection.cs" />
     <Compile Include="Network\ChannelPacketHandler.cs" />
     <Compile Include="Network\ChannelPacketSender.cs" />
+    <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
     <Compile Include="Network\MsgParameter.cs" />
@@ -93,6 +98,8 @@
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
+    <Compile Include="World\Entities\Components\Buff.cs" />
+    <Compile Include="World\Entities\Components\BuffCollection.cs" />
     <Compile Include="World\Entities\Components\Recovery.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />

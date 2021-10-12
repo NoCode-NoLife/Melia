@@ -175,7 +175,7 @@ namespace Melia.Channel.World.Entities
 		/// entities around the character.
 		/// </summary>
 		public bool EyesOpen { get; private set; }
-
+    
 		/// <summary>
 		/// Character's scripting variables.
 		/// </summary>
@@ -307,6 +307,7 @@ namespace Melia.Channel.World.Entities
 			this.Components.Add(this.Jobs = new Jobs(this));
 			this.Components.Add(this.Skills = new CharacterSkills(this));
 			this.Components.Add(this.Abilities = new Abilities(this));
+			this.Components.Add(this.Buffs = new BuffCollection(this));
 			this.Components.Add(new Recovery(this));
 
 			this.Properties = new CharacterProperties(this);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Channel.Buffs;
 using Melia.Channel.Database;
 using Melia.Channel.Network;
 using Melia.Channel.Scripting;
@@ -56,6 +57,11 @@ namespace Melia.Channel
 		/// Skill handler manager.
 		/// </summary>
 		public SkillHandlers SkillHandlers { get; } = new SkillHandlers();
+
+		/// <summary>
+		/// Buff handler manager.
+		/// </summary>
+		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
 
 		/// <summary>
 		/// Starts the server.

@@ -8,7 +8,10 @@ namespace Melia.Channel.World
 {
 	public class WorldManager
 	{
+		// Unique handles for entities
 		private int _handles = 0;
+		// Unique handles for buffs
+		private int _buffhandles = 0;
 
 		// These are object id range starting points. The skill objects I
 		// saw in-game so far were above 0x54B600000000 for example,
@@ -46,6 +49,15 @@ namespace Melia.Channel.World
 			//   need a fallback, or a way to release handles of logged out
 			//   characters or killed monsters.
 			return Interlocked.Increment(ref _handles);
+		}
+
+		/// <summary>
+		/// Returns a new handle to be used for a casted Buff.
+		/// </summary>
+		/// <returns></returns>
+		public int CreateBuffHandle()
+		{
+			return Interlocked.Increment(ref _buffhandles);
 		}
 
 		/// <summary>

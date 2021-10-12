@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_BUFF_UPDATE.bt
+//      File: CZ_SKILL_SELF.bt
 //   Authors: Salman T. Khan
-//   Version: i339415
+//   Version: i340313
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,8 +11,11 @@
 //   History: 
 //------------------------------------------------
 
-#include "inc/common.bt" 
+#include "common.bt"
 
-ServerHeaderDynamic header;
-
-Buff buff;
+ClientHeaderFixed header;
+byte b1;
+int skillId;
+position pos;
+direction dir;
+byte b2;

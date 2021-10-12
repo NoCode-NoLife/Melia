@@ -42,3 +42,4 @@
 #include "inc/SessionObject.bt"
 #include "inc/SessionProperties.bt"
 #include "inc/Attack.bt"
+#include "inc/Buff.bt"
