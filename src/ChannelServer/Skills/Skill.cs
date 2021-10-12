@@ -128,7 +128,7 @@ namespace Melia.Channel.Skills
 			// This property's value is the result of a Lua function,
 			// see skill.ies. Does the item's SR (SCR_Get_Skl_SR) count
 			// towards this as well?
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.SplashRate));
+			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.Properties.GetFloat(PropertyId.PC.SR)));
 
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.MaxR, () => this.Data.MaxRange));
 			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CoolDown, () => this.Data.Cooldown));

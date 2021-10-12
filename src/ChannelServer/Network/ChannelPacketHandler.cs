@@ -119,7 +119,7 @@ namespace Melia.Channel.Network
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
-			Send.ZC_UPDATE_ALL_STATUS(character, character.Hp, character.MaxHp, character.Sp, character.MaxSp);
+			Send.ZC_UPDATE_ALL_STATUS(character);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp);
@@ -375,10 +375,7 @@ namespace Melia.Channel.Network
 		public void CZ_REST_SIT(ChannelConnection conn, Packet packet)
 		{
 			var character = conn.SelectedCharacter;
-
-			character.IsSitting = !character.IsSitting;
-
-			Send.ZC_REST_SIT(character);
+			character.ToggleSitting();
 		}
 
 		/// <summary>
@@ -1171,21 +1168,22 @@ namespace Melia.Channel.Network
 					if (stat <= 0)
 						continue;
 
-					if (character.StatPoints < stat)
+					if (character.Properties.GetFloat(PropertyId.PC.StatPoint) < stat)
 					{
 						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
 						break;
 					}
 
-					character.UsedStat += stat;
+					//characterProperties.UsedStat += stat;
+					character.Properties.Modify(PropertyId.PC.UsedStat, stat);
 
 					switch (i)
 					{
-						case 0: character.StrInvested += stat; break;
-						case 1: character.ConInvested += stat; break;
-						case 2: character.IntInvested += stat; break;
-						case 3: character.SprInvested += stat; break;
-						case 4: character.DexInvested += stat; break;
+						case 0: character.Properties.Modify(PropertyId.PC.STR_STAT, stat); break;
+						case 1: character.Properties.Modify(PropertyId.PC.CON_STAT, stat); break;
+						case 2: character.Properties.Modify(PropertyId.PC.INT_STAT, stat); break;
+						case 3: character.Properties.Modify(PropertyId.PC.MNA_STAT, stat); break;
+						case 4: character.Properties.Modify(PropertyId.PC.DEX_STAT, stat); break;
 					}
 				}
 
@@ -1860,7 +1858,7 @@ namespace Melia.Channel.Network
 
 			if (character != null)
 			{
-				character.Speed = 40f;
+				//character.Properties.Modify(PropertyId.PC.MSPD_BM, 10);
 				Send.ZC_MOVE_SPEED(character);
 			}
 		}

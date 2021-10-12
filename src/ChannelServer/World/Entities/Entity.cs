@@ -68,5 +68,12 @@ namespace Melia.Channel.World.Entities
 		/// <param name="entity"></param>
 		/// <returns></returns>
 		bool CanAttack(ICombatEntity entity);
+
+		/// <summary>
+		/// Heals the entity's HP and SP by the given amounts.
+		/// </summary>
+		/// <param name="hpAmount"></param>
+		/// <param name="spAmount"></param>
+		void Heal(float hpAmount, float spAmount);
 	}
 }

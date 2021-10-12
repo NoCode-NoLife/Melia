@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Security;
+using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
 
 namespace Melia.Shared.Database
@@ -158,6 +160,83 @@ namespace Melia.Shared.Database
 				cmd.Set("teamName", teamName);
 
 				return cmd.Execute() > 0;
+			}
+		}
+
+		/// <summary>
+		/// Loads properties from database and adds them to the given
+		/// properties collection.
+		/// </summary>
+		/// <param name="databaseName"></param>
+		/// <param name="idName"></param>
+		/// <param name="id"></param>
+		/// <param name="properties"></param>
+		protected void LoadProperties(string databaseName, string idName, long id, Properties properties)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand($"SELECT * FROM `{databaseName}` WHERE `{idName}` = @id", conn))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var propertyId = reader.GetInt32("id");
+						var typeStr = reader.GetString("type");
+						var valueStr = reader.GetString("value");
+
+						if (typeStr == "f")
+						{
+							if (!float.TryParse(valueStr, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+							{
+								Log.Warning("MeliaDb.LoadProperties: Invalid float value '{0}' on '{1}/{2}/{3}/{4}'.", valueStr, databaseName, idName, id, propertyId);
+								continue;
+							}
+
+							properties.Set(propertyId, value);
+						}
+						else
+						{
+							properties.Set(propertyId, valueStr);
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves properties to the given database, with the id.
+		/// </summary>
+		/// <param name="databaseName"></param>
+		/// <param name="idName"></param>
+		/// <param name="id"></param>
+		/// <param name="properties"></param>
+		protected void SaveProperties(string databaseName, string idName, long id, Properties properties)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn))
+				{
+					cmd.Parameters.AddWithValue("@id", id);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var property in properties.GetAll())
+				{
+					var typeStr = property.Type == PropertyType.Float ? "f" : "s";
+					var valueStr = property.GetString();
+
+					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn))
+					{
+						cmd.Set(idName, id);
+						cmd.Set("id", property.Id);
+						cmd.Set("type", typeStr);
+						cmd.Set("value", valueStr);
+
+						cmd.Execute();
+					}
+				}
 			}
 		}
 	}

@@ -119,7 +119,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(0);
 			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
 			packet.PutByte(0); // Pose
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(character.MoveSpeed);
 			packet.PutInt(0);
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
@@ -638,7 +638,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(character.MoveSpeed);
 			packet.PutFloat(0);
 
 			// [i11257 (2016-03-25)]
@@ -659,7 +659,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_CASTING_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.GetCastingSpeed());
+			packet.PutFloat(character.Properties.GetFloat(PropertyId.PC.CastingSpeed));
 			packet.PutLong(character.Id);
 
 			character.Map.Broadcast(packet, character);
@@ -921,7 +921,7 @@ namespace Melia.Channel.Network
 			var packet = new Packet(Op.ZC_JUMP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.GetJumpStrength());
+			packet.PutFloat(character.Properties.GetFloat(PropertyId.PC.JumpPower));
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(0);  // 1 or 0
 			packet.PutPosition(pos);
@@ -936,7 +936,8 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_REST_SIT in range of character, making them sit down.
+		/// Update's the character's sitting status, either making them
+		/// sit down or stand up.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_REST_SIT(Character character)
@@ -2107,7 +2108,7 @@ namespace Melia.Channel.Network
 			packet.PutPosition(pos);
 			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.GetSpeed());
+			packet.PutFloat(character.MoveSpeed);
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(24);
 			packet.PutInt(6);
@@ -2867,24 +2868,25 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Update creature basic stats (hp, mp)
+		/// Updates creature's HP and SP stats.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="currentHP"></param>
-		/// <param name="maxHP"></param>
-		/// <param name="currentSP"></param>
-		/// <param name="maxSP"></param>
-		public static void ZC_UPDATE_ALL_STATUS(Character character, int currentHP = -1, int maxHP = -1, int currentSP = -1, int maxSP = -1)
+		/// <param name="entity"></param>
+		public static void ZC_UPDATE_ALL_STATUS(IEntity entity)
 		{
+			var hp = entity.Properties.GetInt(PropertyId.PC.HP);
+			var maxHp = entity.Properties.GetInt(PropertyId.PC.MHP);
+			var sp = entity.Properties.GetInt(PropertyId.PC.SP);
+			var maxSp = entity.Properties.GetInt(PropertyId.PC.MSP);
+
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
-			packet.PutInt(character.Handle);
-			packet.PutInt(currentHP == -1 ? character.Hp : currentHP);
-			packet.PutInt(maxHP == -1 ? character.MaxHp : maxHP);
-			packet.PutInt(currentSP == -1 ? character.Sp : currentSP);
-			packet.PutInt(maxSP == -1 ? character.MaxSp : maxSP);
+			packet.PutInt(entity.Handle);
+			packet.PutInt(hp);
+			packet.PutInt(maxHp);
+			packet.PutInt(sp);
+			packet.PutInt(maxSp);
 			packet.PutInt(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3570,14 +3572,14 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_MSPD to character
+		/// Sends ZC_MSPD to character.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_MSPD(Character character)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 			packet.PutInt(character.Handle);
-			packet.PutFloat(32f);
+			packet.PutFloat(character.MoveSpeed);
 			packet.PutLong(0);
 
 			character.Connection.Send(packet);
