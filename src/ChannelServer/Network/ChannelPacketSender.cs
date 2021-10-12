@@ -1962,20 +1962,36 @@ namespace Melia.Channel.Network
 		/// Shows emoticon for entity.
 		/// </summary>
 		/// <remarks>
-		/// Couldn't find a list in the client data yet.
-		/// Known emoticons:
-		/// - 60008: Explamation mark bubble
-		/// - 60009: Hearts
+		/// For available emoticons, search the packet string data for
+		/// entries with "_emo_" in the name.
 		/// </remarks>
 		/// <param name="entity"></param>
-		/// <param name="emoticon"></param>
+		/// <param name="emoticonName">Name of the emoticon, uses packet string data to look up the id of the string.</param>
 		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IEntity entity, int emoticon, int duration)
+		public static void ZC_SHOW_EMOTICON(IEntity entity, string emoticonName, int duration)
+		{
+			if (!ChannelServer.Instance.Data.PacketStringDb.TryFind(emoticonName, out var packetStringData))
+				throw new ArgumentException($"Unknown packet string '{emoticonName}'.");
+
+			ZC_SHOW_EMOTICON(entity, packetStringData.Id, duration);
+		}
+
+		/// <summary>
+		/// Shows emoticon for entity.
+		/// </summary>
+		/// <remarks>
+		/// For available emoticons, search the packet string data for
+		/// entries with "_emo_" in the name.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="packetStringId">Id of the string for the emoticon from the packet string data.</param>
+		/// <param name="duration"></param>
+		public static void ZC_SHOW_EMOTICON(IEntity entity, int packetStringId, int duration)
 		{
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(entity.Handle);
-			packet.PutInt(emoticon);
+			packet.PutInt(packetStringId);
 			packet.PutInt(duration);
 
 			entity.Map.Broadcast(packet, entity);
@@ -3525,28 +3541,28 @@ namespace Melia.Channel.Network
 		/// Plays animation on entity.
 		/// </summary>
 		/// <param name="entity">Entity to animate.</param>
-		/// <param name="animationName">Name of the animation to play (uses animation id database to retrieve the id).</param>
+		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IEntity entity, string animationName, bool stopOnLastFrame = false)
 		{
-			if (!ChannelServer.Instance.Data.AnimationIdDb.TryFind(animationName, out var animationIdData))
-				throw new ArgumentException($"Unknown animation '{animationName}'.");
+			if (!ChannelServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+				throw new ArgumentException($"Unknown packet string '{animationName}'.");
 
-			ZC_PLAY_ANI(entity, animationIdData.Id, stopOnLastFrame);
+			ZC_PLAY_ANI(entity, packetStringData.Id, stopOnLastFrame);
 		}
 
 		/// <summary>
 		/// Plays animation on entity.
 		/// </summary>
 		/// <param name="entity">Entity to animate.</param>
-		/// <param name="animationId">Id of the animation to play.</param>
+		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IEntity entity, int animationId, bool stopOnLastFrame = false)
+		public static void ZC_PLAY_ANI(IEntity entity, int packetStringId, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
 			packet.PutInt(entity.Handle);
-			packet.PutInt(animationId);
+			packet.PutInt(packetStringId);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);
