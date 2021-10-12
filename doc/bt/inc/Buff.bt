@@ -2,7 +2,7 @@
 //--- 010 Editor v12.0 Binary Template
 //
 //      File: Buff.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: 
 //   Purpose: 
 //  Category: 
@@ -10,6 +10,13 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
+typedef struct
+{
+    int i1;
+    lpString str1;
+}
+BuffElement1 <optimize=false>;
 
 typedef struct
 {
@@ -25,11 +32,22 @@ typedef struct
     int buffLength; // 14400000, 1000
     int i5;
     int i7; // 8, 0
-    short s1; // 9, 11
-    string casterName; // Real
-    int casterHandle;
+
+    byte casterLength;
+    byte elements1Count;
+    
+    if (casterLength > 0)
+    {
+        string casterName;
+        int casterHandle;
+    }
+
     int buffHandle2;
     int64 l1;
+
+    if (elements1Count > 0)
+        BuffElement1 elements1[elements1Count];
+
     byte b1; // 1
     byte b2; // 1
 }
