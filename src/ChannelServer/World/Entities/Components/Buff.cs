@@ -59,8 +59,18 @@ namespace Melia.Channel.World
 		public int OverbuffCounter
 		{
 			get => _overbuffCounter;
-			set => _overbuffCounter = Math2.Clamp(0, this.Data.OverBuff, value);
+			set => _overbuffCounter = Math2.Clamp(0, this.MaxOverbuffCount, value);
 		}
+
+		/// <summary>
+		/// Returns the buff's maximum overbuff count.
+		/// </summary>
+		public int MaxOverbuffCount => this.Data.OverBuff;
+
+		/// <summary>
+		/// Returns true if the buff has reached its maximum overbuff count.
+		/// </summary>
+		public bool IsFullyOverbuffed => _overbuffCounter >= this.MaxOverbuffCount;
 
 		/// <summary>
 		/// Returns the time at which the buff is removed.
