@@ -56,6 +56,7 @@
     <Compile Include="Const\BuffId.cs" />
     <Compile Include="Const\AnimationId.cs" />
     <Compile Include="Const\Character.cs" />
+    <Compile Include="Const\FactionType.cs" />
     <Compile Include="Const\Gender.cs" />
     <Compile Include="Const\HealType.cs" />
     <Compile Include="Const\Items.cs" />
@@ -78,13 +79,13 @@
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
-    <Compile Include="Data\Database\AnimationIds.cs" />
     <Compile Include="Data\Database\Ground.cs" />
     <Compile Include="Data\Database\ItemMonsters.cs" />
     <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
     <Compile Include="Data\Database\Buffs.cs" />
+    <Compile Include="Data\Database\PacketStrings.cs" />
     <Compile Include="Data\Database\SessionObjects.cs" />
     <Compile Include="Data\Database\StanceConditions.cs" />
     <Compile Include="Data\Database\Shops.cs" />
@@ -143,8 +144,11 @@
     <Compile Include="Util\Log.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Location.cs" />
+    <Compile Include="World\ObjectProperties\FloatProperty.cs" />
     <Compile Include="World\ObjectProperties\Properties.cs" />
     <Compile Include="World\ObjectProperties\Property.cs" />
+    <Compile Include="World\ObjectProperties\PropertyType.cs" />
+    <Compile Include="World\ObjectProperties\StringProperty.cs" />
     <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup />

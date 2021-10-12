@@ -79,7 +79,7 @@ namespace Melia.Channel.World.Entities.Components
 			if (!this.RemoveSilent(skillId))
 				return false;
 
-			// Update client...
+			Send.ZC_SKILL_REMOVE(this.Character, skillId);
 
 			return true;
 		}

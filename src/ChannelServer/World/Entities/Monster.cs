@@ -337,5 +337,18 @@ namespace Melia.Channel.World.Entities
 			this.State = state;
 			Send.ZC_SET_NPC_STATE(this);
 		}
+
+		/// <summary>
+		/// Heals the monster's HP and SP by the given amounts.
+		/// </summary>
+		/// <param name="hpAmount"></param>
+		/// <param name="spAmount"></param>
+		public void Heal(float hpAmount, float spAmount)
+		{
+			this.Properties.Set(PropertyId.PC.HP, this.Properties.GetFloat(PropertyId.PC.MHP));
+			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
+
+			Send.ZC_UPDATE_ALL_STATUS(this);
+		}
 	}
 }

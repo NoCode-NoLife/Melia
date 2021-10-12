@@ -72,6 +72,7 @@
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
+    <Compile Include="Network\MsgParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\LuaThread.cs" />
@@ -92,12 +93,14 @@
     <Compile Include="Util\AbilityPriceTime.cs" />
     <Compile Include="Util\AbilityUnlock.cs" />
     <Compile Include="Util\GmCommands.cs" />
+    <Compile Include="World\Entities\CharacterProperties.cs" />
     <Compile Include="World\Entities\Components\Abilities.cs" />
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Entities\Components\Buff.cs" />
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
+    <Compile Include="World\Entities\Components\Recovery.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />
     <Compile Include="World\Ground.cs" />

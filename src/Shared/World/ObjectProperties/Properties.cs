@@ -5,9 +5,13 @@ using Melia.Shared.Const;
 
 namespace Melia.Shared.World.ObjectProperties
 {
+	/// <summary>
+	/// Represents a collection of properties.
+	/// </summary>
 	public class Properties
 	{
 		private readonly Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
+		private readonly Dictionary<int, List<int>> _maxPropertyIds = new Dictionary<int, List<int>>();
 
 		/// <summary>
 		/// Returns the byte size of all properties, as they would take
@@ -15,6 +19,18 @@ namespace Melia.Shared.World.ObjectProperties
 		/// </summary>
 		/// XXX: Could be cached if performance is a problem.
 		public int Size { get { lock (_properties) return _properties.Values.Sum(a => a.Size); } }
+
+		/// <summary>
+		/// Returns true if a property with the given id was defined
+		/// already.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <returns></returns>
+		public bool Has(int propertyId)
+		{
+			lock (_properties)
+				return _properties.ContainsKey(propertyId);
+		}
 
 		/// <summary>
 		/// Returns the property with the given property id,
@@ -34,6 +50,50 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Returns the property with the given property id,
+		/// or null if it doesn't exist.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <returns></returns>
+		public TProperty Get<TProperty>(int propertyId)
+		{
+			return (TProperty)this.Get(propertyId);
+		}
+
+		/// <summary>
+		/// Returns the property with the given property id via out.
+		/// Returns false if it doesn't exist.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		public bool TryGet(int propertyId, out IProperty property)
+		{
+			property = this.Get(propertyId);
+			return (property != null);
+		}
+
+		/// <summary>
+		/// Returns the property with the given property id via out.
+		/// Returns null if it doesn't exist or the type doesn't match.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		public bool TryGet<TProperty>(int propertyId, out TProperty property)
+		{
+			var prop = this.Get(propertyId);
+			if (prop == null || !(prop is TProperty tprop))
+			{
+				property = default;
+				return false;
+			}
+
+			property = tprop;
+			return true;
+		}
+
+		/// <summary>
 		/// Returns list of all set properties.
 		/// </summary>
 		/// <returns></returns>
@@ -46,6 +106,7 @@ namespace Melia.Shared.World.ObjectProperties
 		/// <summary>
 		/// Returns list of all set properties.
 		/// </summary>
+		/// <param name="propertyIds"></param>
 		/// <returns></returns>
 		public IProperty[] GetAll(params int[] propertyIds)
 		{
@@ -136,6 +197,25 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
+		/// Returns the value of the given property casted to an integer,
+		/// or the default value if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public int GetInt(int propertyId, int defaultValue = 0)
+		{
+			var property = this.Get(propertyId);
+			if (property == null)
+				return defaultValue;
+
+			if (!(property is FloatProperty floatProperty))
+				throw new ArgumentException($"The property is not a float.");
+
+			return (int)floatProperty.Value;
+		}
+
+		/// <summary>
 		/// Returns the value of the given property, or the default value
 		/// if the property wasn't defined.
 		/// </summary>
@@ -152,6 +232,26 @@ namespace Melia.Shared.World.ObjectProperties
 				throw new ArgumentException($"The property is not a string.");
 
 			return stringProperty.Value;
+		}
+
+		/// <summary>
+		/// Gets the values of the given properties and returns their sum.
+		/// </summary>
+		/// <param name="propertyIds"></param>
+		/// <returns></returns>
+		public float Sum(params int[] propertyIds)
+		{
+			var result = 0f;
+
+			foreach (var propertyId in propertyIds)
+			{
+				if (!this.TryGet<FloatProperty>(propertyId, out var property))
+					continue;
+
+				result += property.Value;
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -178,6 +278,152 @@ namespace Melia.Shared.World.ObjectProperties
 		{
 			lock (_properties)
 				return _properties.Remove(propertyId);
+		}
+
+		/// <summary>
+		/// Sets up automatic update for a property when any of its
+		/// "sub-properties" change.
+		/// </summary>
+		/// <remarks>
+		/// Use for calculated properties, whichs' values depend on other
+		/// properties. For example, STR should be calculated based on
+		/// other properties and factors and should be updated automatically
+		/// if any property it depends on changes, like STR_ADD.
+		/// </remarks>
+		/// <param name="propertyId"></param>
+		/// <param name="subPropertyIds"></param>
+		public void AutoUpdate(int propertyId, int[] subPropertyIds)
+		{
+			if (subPropertyIds == null || subPropertyIds.Length == 0)
+				throw new ArgumentException($"No sub-property ids defined.");
+
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not found.");
+
+			if (!(property is CalculatedFloatProperty floatProperty))
+				throw new ArgumentException($"Property '{propertyId}' is not a calculated float property.");
+
+			foreach (var subPropertyId in subPropertyIds)
+			{
+				// Add sub-property if it doesn't exist yet? There are quite
+				// a few buff and bonus properties, and this way we don't
+				// need to explicitly define all of them.
+				if (!this.TryGet(subPropertyId, out var subProperty))
+					//throw new ArgumentException($"Sub-property '{subPropertyId}' not found.");
+					this.Add(subProperty = new FloatProperty(subPropertyId));
+
+				// Subscribe to sub-property's ValueChanged event, so we
+				// automatically trigger a recalculation of the "parent"
+				// property. For Example, STR might be updated automatically
+				// when STR_Bonus changes.
+				// Before subscribing, unsubscribe, just in case, so we
+				// don't get duplicate subscriptions.
+				subProperty.ValueChanged -= floatProperty.TriggerCalculation;
+				subProperty.ValueChanged += floatProperty.TriggerCalculation;
+			}
+		}
+
+		/// <summary>
+		/// Sets up automatic updates of max values on float properties.
+		/// For example, HP's max should be increased when MHP changes.
+		/// </summary>
+		/// <param name="propertyId"></param>
+		/// <param name="maxPropertyId"></param>
+		public void AutoUpdateMax(int propertyId, int maxPropertyId)
+		{
+			// Check if both properties exist and have the right type
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not found.");
+
+			if (!this.TryGet(maxPropertyId, out var maxProperty))
+				throw new ArgumentException($"Max property '{maxPropertyId}' not found.");
+
+			if (!(property is FloatProperty floatProperty))
+				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
+
+			if (!(maxProperty is FloatProperty floatMaxProperty))
+				throw new ArgumentException($"Max property '{propertyId}' is not a float property.");
+
+			// Update the list of properties to update when the max property
+			// changes
+			if (!_maxPropertyIds.TryGetValue(maxPropertyId, out var propertyIds))
+				_maxPropertyIds[maxPropertyId] = propertyIds = new List<int>();
+
+			if (propertyIds.Contains(propertyId))
+				return;
+
+			propertyIds.Add(propertyId);
+
+			// Subscribe to the max changed event, which updates the
+			// "child" properties
+			maxProperty.ValueChanged -= this.OnMaxValueChanged;
+			maxProperty.ValueChanged += this.OnMaxValueChanged;
+
+			// Set the initial max value
+			floatProperty.MaxValue = floatMaxProperty.Value;
+		}
+
+		/// <summary>
+		/// Called when a property's designated max property changed.
+		/// </summary>
+		/// <param name="maxProperty"></param>
+		private void OnMaxValueChanged(IProperty maxProperty)
+		{
+			if (!_maxPropertyIds.TryGetValue(maxProperty.Id, out var propertyIds))
+				return;
+
+			if (!(maxProperty is FloatProperty maxFloatProperty))
+				return;
+
+			foreach (var propertyId in propertyIds)
+			{
+				if (!this.TryGet(propertyId, out var property) || !(property is FloatProperty floatProperty))
+					continue;
+
+				floatProperty.MaxValue = maxFloatProperty.Value;
+
+				if (floatProperty.Value > maxFloatProperty.Value)
+					floatProperty.Value = maxFloatProperty.Value;
+			}
+		}
+
+		/// <summary>
+		/// Triggers recalculation of the property, updating its value,
+		/// and returning the new one.
+		/// </summary>
+		/// <remarks>
+		/// An explicit recalculation shouldn't usually be necessary,
+		/// and using GetFloat will be more efficient.
+		/// </remarks>
+		public float Calculate(int propertyId)
+		{
+			if (!this.TryGet(propertyId, out var property))
+				throw new ArgumentException($"Property '{propertyId}' not defined yet.");
+
+			if (!(property is CalculatedFloatProperty cfp))
+				throw new ArgumentException($"Property '{propertyId}' is not a calculated property.");
+
+			cfp.TriggerCalculation(null);
+			return cfp.Value;
+		}
+
+		/// <summary>
+		/// Triggers recalculation of all calculated properties.
+		/// </summary>
+		/// <remarks>
+		/// Recalculations should generally happen automatically and
+		/// should only be done manually if necessary.
+		/// </remarks>
+		public void UpdateCalculated()
+		{
+			lock (_properties)
+			{
+				foreach (var property in _properties.Values)
+				{
+					if (property is CalculatedFloatProperty cfp)
+						cfp.TriggerCalculation(null);
+				}
+			}
 		}
 
 		/// <summary>

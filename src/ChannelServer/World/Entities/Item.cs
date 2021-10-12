@@ -108,9 +108,6 @@ namespace Melia.Channel.World.Entities
 
 			this.ObjectId = Interlocked.Increment(ref _worldId);
 			this.Amount = amount;
-
-			//foreach (var property in this.Data.Properties)
-			//	this.Properties.Add(new FloatProperty(property.Key, (float)property.Value));
 		}
 
 		/// <summary>
@@ -124,6 +121,18 @@ namespace Melia.Channel.World.Entities
 			this.Data = ChannelServer.Instance.Data.ItemDb.Find(this.Id);
 			if (this.Data == null)
 				throw new NullReferenceException("No item data found for '" + this.Id + "'.");
+
+			if (this.Data.MinAtk != 0) this.Properties.Set(PropertyId.Item.MINATK, this.Data.MinAtk);
+			if (this.Data.MaxAtk != 0) this.Properties.Set(PropertyId.Item.MAXATK, this.Data.MaxAtk);
+			if (this.Data.MAtk != 0) this.Properties.Set(PropertyId.Item.MATK, this.Data.MAtk);
+			if (this.Data.PAtk != 0) this.Properties.Set(PropertyId.Item.PATK, this.Data.PAtk);
+			if (this.Data.AddMinAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MINATK, this.Data.AddMinAtk);
+			if (this.Data.AddMaxAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MAXATK, this.Data.AddMaxAtk);
+			if (this.Data.AddMAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MATK, this.Data.AddMAtk);
+			if (this.Data.Def != 0) this.Properties.Set(PropertyId.Item.DEF, this.Data.Def);
+			if (this.Data.MDef != 0) this.Properties.Set(PropertyId.Item.MDEF, this.Data.MDef);
+			if (this.Data.AddDef != 0) this.Properties.Set(PropertyId.Item.ADD_DEF, this.Data.AddDef);
+			if (this.Data.AddMDef != 0) this.Properties.Set(PropertyId.Item.ADD_MDEF, this.Data.AddMDef);
 		}
 
 		/// <summary>

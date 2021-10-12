@@ -110,6 +110,13 @@ switch (type)
         float seconds;
         break;
 
+    // Used while recovering HP?
+    case 0x3B:
+        int handle;
+        lpString str1; // I_SYS_heal2
+        lpString str2;
+        break;
+
     // Update the number of purchased character slots in the barrack.
     case 0x3C:
         int count;

@@ -18,9 +18,26 @@ namespace Melia.Shared.Data.Database
 		public int Int { get; set; }
 		public int Spr { get; set; }
 		public int Dex { get; set; }
+		public int StrRatio { get; set; }
+		public int ConRatio { get; set; }
+		public int IntRatio { get; set; }
+		public int SprRatio { get; set; }
+		public int DexRatio { get; set; }
 		public float HpRate { get; set; }
 		public float SpRate { get; set; }
 		public int Stamina { get; set; }
+		public float DefRate { get; set; }
+		public float MDefRate { get; set; }
+		public float HrRate { get; set; }
+		public float DrRate { get; set; }
+		public float BlkRate { get; set; }
+		public float BlkBreakRate { get; set; }
+		public float CrtHrRate { get; set; }
+		public float CrtDrRate { get; set; }
+		public float RHpRate { get; set; }
+		public float RSpRate { get; set; }
+		public float AtkSpeedRate { get; set; }
+		public float MoveSpeedRate { get; set; }
 		public int BarrackStance { get; set; }
 
 		public ISet<string> DefaultSkills { get; set; }
@@ -66,7 +83,7 @@ namespace Melia.Shared.Data.Database
 	{
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "hpRate", "spRate", "stamina", "barrackStance");
+			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");
 
 			var info = new JobData();
 
@@ -75,14 +92,31 @@ namespace Melia.Shared.Data.Database
 			info.Initial = entry.ReadString("initial");
 			info.Name = entry.ReadString("name");
 			info.Rank = entry.ReadInt("rank");
-			info.Str = entry.ReadInt("str", 0);
-			info.Con = entry.ReadInt("con", 0);
-			info.Int = entry.ReadInt("int", 0);
-			info.Spr = entry.ReadInt("spr", 0);
-			info.Dex = entry.ReadInt("dex", 0);
-			info.HpRate = entry.ReadFloat("hpRate", 1);
-			info.SpRate = entry.ReadFloat("spRate", 1);
-			info.Stamina = entry.ReadInt("stamina", 25000);
+			info.Str = entry.ReadInt("str");
+			info.Con = entry.ReadInt("con");
+			info.Int = entry.ReadInt("int");
+			info.Spr = entry.ReadInt("spr");
+			info.Dex = entry.ReadInt("dex");
+			info.StrRatio = entry.ReadInt("strRatio");
+			info.ConRatio = entry.ReadInt("conRatio");
+			info.IntRatio = entry.ReadInt("intRatio");
+			info.SprRatio = entry.ReadInt("sprRatio");
+			info.DexRatio = entry.ReadInt("dexRatio");
+			info.HpRate = entry.ReadFloat("hpRate");
+			info.SpRate = entry.ReadFloat("spRate");
+			info.Stamina = entry.ReadInt("stamina");
+			info.DefRate = entry.ReadFloat("defRate", 1);
+			info.MDefRate = entry.ReadFloat("mdefRate", 1);
+			info.HrRate = entry.ReadFloat("hrRate", 1);
+			info.DrRate = entry.ReadFloat("drRate", 1);
+			info.BlkRate = entry.ReadFloat("blkRate", 1);
+			info.BlkBreakRate = entry.ReadFloat("blkBreakRate", 1);
+			info.CrtHrRate = entry.ReadFloat("crthrRate", 1);
+			info.CrtDrRate = entry.ReadFloat("crtdrRate", 1);
+			info.RHpRate = entry.ReadFloat("rhpRate", 1);
+			info.RSpRate = entry.ReadFloat("rspRate", 1);
+			info.AtkSpeedRate = entry.ReadFloat("atkSpeedRate", 1);
+			info.MoveSpeedRate = entry.ReadFloat("moveSpeedRate", 1);
 			info.BarrackStance = entry.ReadInt("barrackStance");
 
 			// TODO: It would be good if we could check right here whether

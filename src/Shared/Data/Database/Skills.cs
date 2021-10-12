@@ -39,6 +39,7 @@ namespace Melia.Shared.Data.Database
 		public int HitDelay { get; set; }
 		public SkillUseType UseType { get; set; }
 		public SkillAttribute Attribute { get; set; }
+		public SkillClassType ClassType { get; set; }
 	}
 
 	public enum SplashType
@@ -71,6 +72,14 @@ namespace Melia.Shared.Data.Database
 		Ice,
 		Earth,
 		Soul,
+	}
+
+	public enum SkillClassType
+	{
+		Melee,
+		Missile,
+		Magic,
+		Responsive,
 	}
 
 	/// <summary>
@@ -122,6 +131,7 @@ namespace Melia.Shared.Data.Database
 			info.EnableCastMove = entry.ReadBool("enableCastMove");
 			info.UseType = entry.ReadEnum<SkillUseType>("useType");
 			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
+			info.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
 			info.Overheat = entry.ReadInt("overheat");
 			info.OverHeatDelay = entry.ReadInt("overheatDelay");
