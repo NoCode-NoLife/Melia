@@ -68,8 +68,15 @@ namespace Melia.Channel.World
 		/// <param name="buff"></param>
 		private void Overbuff(Buff buff)
 		{
+			var overbuff = buff.OverbuffCounter;
 			buff.IncreaseOverbuff();
-			buff.Start();
+
+			// Start again if the overbuff counter changed. Buffs that
+			// don't overbuff, such as DashRun, must not get started
+			// again, because their effects would get applied over
+			// and over.
+			if (overbuff != buff.OverbuffCounter)
+				buff.Start();
 
 			Send.ZC_BUFF_UPDATE(this.Entity, buff);
 		}
