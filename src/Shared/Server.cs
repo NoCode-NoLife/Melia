@@ -162,9 +162,9 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt", reload);
 				}
 
-				if ((toLoad & DataToLoad.AnimationIds) != 0)
+				if ((toLoad & DataToLoad.PacketStrings) != 0)
 				{
-					this.LoadDb(this.Data.AnimationIdDb, "db/animationids.txt", reload);
+					this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt", reload);
 				}
 			}
 			catch (DatabaseErrorException ex)
@@ -275,7 +275,7 @@ namespace Melia.Shared
 		SessionObjects = 0x4000,
 		Achievements = 0x8000,
 		Cooldowns = 0x10000,
-		AnimationIds = 0x20000,
+		PacketStrings = 0x20000,
 		Ground = 0x40000,
 
 		All = 0x7FFFFFFF,
