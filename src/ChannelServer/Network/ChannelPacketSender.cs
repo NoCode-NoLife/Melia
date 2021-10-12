@@ -4186,6 +4186,20 @@ namespace Melia.Channel.Network
 			entity.Map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Removes the skill for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		public static void ZC_SKILL_REMOVE(Character character, SkillId skillId)
+		{
+			var packet = new Packet(Op.ZC_SKILL_REMOVE);
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)skillId);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(ChannelConnection conn)
 		{
 		}
