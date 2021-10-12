@@ -774,6 +774,60 @@ namespace Melia.Channel.World.Entities
 		}
 
 		/// <summary>
+		/// Resets the character's stats.
+		/// </summary>
+		/// <remarks>
+		/// Sets all stats to 1 (some level bonuses might still apply,
+		/// raising the default value above 1) and gives back the points
+		/// that were put into the stats. Also resets the points the
+		/// character got from its job on creation.
+		/// </remarks>
+		public void ResetStats()
+		{
+			var character = this;
+
+			// The three properties that control the stat points are
+			// StatByLevel, StatByBonus, and UsedStat. The first two
+			// get added together and UsedStat is subtracted to arrive
+			// at the number of available stat points. To reset the
+			// stat points that were used, all we have to do is reset
+			// UsedStat and the *_STAT properties. For a full reset,
+			// however, that allows for distributing the initial stats
+			// from the chosen job, we need to give the player the points
+			// that went into the *_JOB properties, which we'll just add
+			// to StatByBonus.
+
+			var jobStatPoints = character.Properties.Sum(PropertyId.PC.STR_JOB, PropertyId.PC.CON_JOB, PropertyId.PC.INT_JOB, PropertyId.PC.MNA_JOB, PropertyId.PC.DEX_JOB) - 5;
+			character.Properties.Modify(PropertyId.PC.StatByBonus, jobStatPoints);
+
+			character.Properties.Set(PropertyId.PC.UsedStat, 0);
+
+			character.Properties.Set(PropertyId.PC.STR_STAT, 0);
+			character.Properties.Set(PropertyId.PC.CON_STAT, 0);
+			character.Properties.Set(PropertyId.PC.INT_STAT, 0);
+			character.Properties.Set(PropertyId.PC.MNA_STAT, 0);
+			character.Properties.Set(PropertyId.PC.DEX_STAT, 0);
+
+			character.Properties.Set(PropertyId.PC.STR_JOB, 1);
+			character.Properties.Set(PropertyId.PC.CON_JOB, 1);
+			character.Properties.Set(PropertyId.PC.INT_JOB, 1);
+			character.Properties.Set(PropertyId.PC.MNA_JOB, 1);
+			character.Properties.Set(PropertyId.PC.DEX_JOB, 1);
+
+			// TODO: Add semi-automatic updating of all properties that
+			//   changed.
+			Send.ZC_OBJECT_PROPERTY(character,
+				PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
+				PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
+				PropertyId.PC.DEX, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB,
+				PropertyId.PC.UsedStat, PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus,
+				PropertyId.PC.MINPATK, PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK, PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB,
+				PropertyId.PC.CRTATK, PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.BLK, PropertyId.PC.RHP,
+				PropertyId.PC.RSP, PropertyId.PC.MHP, PropertyId.PC.MSP
+			);
+		}
+
+		/// <summary>
 		/// Starts auto-updates of visible entities.
 		/// </summary>
 		public void OpenEyes()
