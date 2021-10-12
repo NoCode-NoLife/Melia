@@ -127,7 +127,9 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool Remove(BuffId buffId)
 		{
-			var buff = this.Get(buffId);
+			if (!this.TryGet(buffId, out var buff))
+				return false;
+
 			return this.Remove(buff);
 		}
 
