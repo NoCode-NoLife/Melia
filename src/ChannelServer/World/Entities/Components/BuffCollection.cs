@@ -141,6 +141,16 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Stops and removes all active buffs.
+		/// </summary>
+		public void RemoveAll()
+		{
+			var buffs = this.GetList();
+			foreach (var buff in buffs)
+				this.Remove(buff);
+		}
+
+		/// <summary>
 		/// Returns buff with given id, or null if it didn't
 		/// exist.
 		/// </summary>

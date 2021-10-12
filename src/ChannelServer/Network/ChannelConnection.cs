@@ -49,10 +49,17 @@ namespace Melia.Channel.Network
 			{
 				this.Account.Save();
 
-				if (this.SelectedCharacter != null)
+				var character = this.SelectedCharacter;
+				if (character != null)
 				{
-					this.SelectedCharacter.Map.RemoveCharacter(this.SelectedCharacter);
-					ChannelServer.Instance.Database.SaveCharacter(this.SelectedCharacter);
+					character.Map.RemoveCharacter(character);
+
+					// Remove all buffs on logout for now, until we have
+					// buff saving. Otherwise, we would save and then
+					// stack buff effects, such as from DashRun.
+					character.Buffs.RemoveAll();
+
+					ChannelServer.Instance.Database.SaveCharacter(character);
 				}
 			}
 

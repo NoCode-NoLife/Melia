@@ -568,7 +568,7 @@ namespace Melia.Channel.World
 
 		public override void Broadcast(Packet packet)
 		{
-			Log.Warning("Broadcast in Limbo.");
+			//Log.Warning("Broadcast in Limbo.");
 		}
 	}
 }
