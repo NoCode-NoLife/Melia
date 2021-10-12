@@ -38,11 +38,11 @@ namespace Melia.Channel.World
 		public int Count { get { lock (_buffs) return _buffs.Count; } }
 
 		/// <summary>
-		/// Adds given without updating the client. Replaces existing
-		/// buffs.
+		/// Adds given buff without updating the client, replaces the
+		/// buff if it was already active.
 		/// </summary>
 		/// <param name="buff"></param>
-		public void AddSilent(Buff buff)
+		private void AddSilent(Buff buff)
 		{
 			lock (_buffs)
 				_buffs[buff.Id] = buff;
@@ -52,44 +52,41 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
-		/// Adds given buff and updates the client.
+		/// Adds given buff and updates the client, replaces the
+		/// buff if it was already active.
 		/// </summary>
 		/// <param name="buff"></param>
-		public void Add(Buff buff)
+		private void Add(Buff buff)
 		{
 			this.AddSilent(buff);
 			Send.ZC_BUFF_ADD(this.Entity, buff);
 		}
 
 		/// <summary>
-		/// Adds and activates given buffs. If the buffs already exist,
-		/// they get overbuffed.
+		/// Increases the buff's overbuff and updates the client.
+		/// </summary>
+		/// <param name="buff"></param>
+		private void Overbuff(Buff buff)
+		{
+			buff.IncreaseOverbuff();
+			buff.Start();
+
+			Send.ZC_BUFF_UPDATE(this.Entity, buff);
+		}
+
+		/// <summary>
+		/// Adds and activates given buffs. If a buff already exists,
+		/// it gets overbuffed.
 		/// </summary>
 		/// <param name="buffs"></param>
 		public void AddOrUpdate(params Buff[] buffs)
 		{
-			foreach (var buff in buffs)
+			foreach (var addBuff in buffs)
 			{
-				if (!this.Has(buff.Id))
-					this.Add(buff);
+				if (!this.TryGet(addBuff.Id, out var buff))
+					this.Add(addBuff);
 				else
-					this.Update(buff.Id);
-			}
-		}
-
-		/// <summary>
-		/// Update a buff if it exists using the buff id.
-		/// </summary>
-		/// <param name="buffId"></param>
-		private void Update(BuffId buffId)
-		{
-			var buff = this.Get(buffId);
-			if (buff != null)
-			{
-				buff.IncreaseOverbuff();
-				buff.Start();
-
-				Send.ZC_BUFF_UPDATE(this.Entity, buff);
+					this.Overbuff(buff);
 			}
 		}
 
@@ -99,12 +96,27 @@ namespace Melia.Channel.World
 		/// </summary>
 		/// <param name="buffId"></param>
 		/// <returns></returns>
-		public bool RemoveSilent(Buff buff)
+		private bool RemoveSilent(Buff buff)
 		{
 			buff.End();
 
 			lock (_buffs)
 				return _buffs.Remove(buff.Id);
+		}
+
+		/// <summary>
+		/// Removes buff, returns false if it didn't exist. 
+		/// Updates the client on success.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		private bool Remove(Buff buff)
+		{
+			var removed = this.RemoveSilent(buff);
+			if (removed)
+				Send.ZC_BUFF_REMOVE(this.Entity, buff);
+
+			return removed;
 		}
 
 		/// <summary>
@@ -117,21 +129,6 @@ namespace Melia.Channel.World
 		{
 			var buff = this.Get(buffId);
 			return this.Remove(buff);
-		}
-
-		/// <summary>
-		/// Removes buff, returns false if it didn't exist. 
-		/// Updates the client on success.
-		/// </summary>
-		/// <param name="buff"></param>
-		/// <returns></returns>
-		public bool Remove(Buff buff)
-		{
-			var removed = this.RemoveSilent(buff);
-			if (removed)
-				Send.ZC_BUFF_REMOVE(this.Entity, buff);
-
-			return removed;
 		}
 
 		/// <summary>
@@ -193,6 +190,51 @@ namespace Melia.Channel.World
 		{
 			lock (_buffs)
 				return _buffs.ContainsKey(buffId);
+		}
+
+		/// <summary>
+		/// Starts the buff with the given id, returns the created buff.
+		/// If the buff was already active, it gets overbuffed.
+		/// </summary>
+		/// <remarks>
+		/// Uses the duration from the buff's data by default.
+		/// </remarks>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public Buff Start(BuffId buffId)
+			=> this.Start(buffId, TimeSpan.MinValue);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="duration">Custom duration of the buff.</param>
+		/// <returns></returns>
+		public Buff Start(BuffId buffId, TimeSpan duration)
+			=> this.Start(buffId, this.Entity, duration);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="caster">The entity that casted the buff.</param>
+		/// <param name="duration">Custom duration of the buff.</param>
+		/// <returns></returns>
+		public Buff Start(BuffId buffId, ICombatEntity caster, TimeSpan duration)
+		{
+			if (!this.TryGet(buffId, out var buff))
+			{
+				buff = new Buff(caster, this.Entity, buffId, duration);
+				this.Add(buff);
+			}
+			else
+			{
+				this.Overbuff(buff);
+			}
+
+			return buff;
 		}
 
 		/// <summary>
