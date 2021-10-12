@@ -78,13 +78,13 @@
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />
-    <Compile Include="Data\Database\AnimationIds.cs" />
     <Compile Include="Data\Database\Ground.cs" />
     <Compile Include="Data\Database\ItemMonsters.cs" />
     <Compile Include="Data\Database\InvBaseIds.cs" />
     <Compile Include="Data\Database\Help.cs" />
     <Compile Include="Data\Database\CustomCommands.cs" />
     <Compile Include="Data\Database\Buffs.cs" />
+    <Compile Include="Data\Database\PacketStrings.cs" />
     <Compile Include="Data\Database\SessionObjects.cs" />
     <Compile Include="Data\Database\StanceConditions.cs" />
     <Compile Include="Data\Database\Shops.cs" />
