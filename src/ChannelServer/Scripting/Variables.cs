@@ -120,5 +120,16 @@ namespace Melia.Channel.Scripting
 			lock (_variables)
 				return _variables.ContainsKey(key);
 		}
+
+		/// <summary>
+		/// Removes the variable with the given name. Returns false if it
+		/// didn't exist.
+		/// </summary>
+		/// <param name="key"></param>
+		public bool Remove(string key)
+		{
+			lock (_variables)
+				return _variables.Remove(key);
+		}
 	}
 }
