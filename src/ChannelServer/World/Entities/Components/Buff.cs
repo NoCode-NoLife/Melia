@@ -87,7 +87,7 @@ namespace Melia.Channel.World
 		/// Returns true if the the buff's data defines an update time.
 		/// </summary>
 		/// <returns></returns>
-		public bool HasUpdateTime => this.Data.UpdateTime != 0;
+		public bool HasUpdateTime => this.Data.UpdateTime != TimeSpan.Zero;
 
 		/// <summary>
 		/// Gets or sets the next time the buff is updated.
@@ -105,8 +105,8 @@ namespace Melia.Channel.World
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="buffId"></param>
-		/// <param name="duration">0: infinite, otherwise fixed duration</param>
-		/// <param name="skillId"></param>
+		/// <param name="duration">Use MinValue to use the buff's default duration.</param>
+		/// <param name="skillId">Id of the skill associated with this buff.</param>
 		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, TimeSpan duration, SkillId skillId = SkillId.Normal_Attack)
 		{
 			this.Caster = caster;
@@ -119,11 +119,17 @@ namespace Melia.Channel.World
 			this.Data = ChannelServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
 			this.Handler = ChannelServer.Instance.BuffHandlers.GetHandler(buffId);
 
+			if (this.Handler == null)
+				Log.Warning("Buff: No handler found for '{0}'.", buffId);
+
+			if (this.Duration == TimeSpan.MinValue)
+				this.Duration = this.Data.Duration;
+
 			if (this.HasDuration)
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
 
 			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
+				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 		}
 
 		/// <summary>
@@ -164,7 +170,7 @@ namespace Melia.Channel.World
 			if (DateTime.Now >= this.NextUpdateTime)
 			{
 				this.Handler?.WhileActive(this);
-				this.NextUpdateTime = DateTime.Now.AddMilliseconds(this.Data.UpdateTime);
+				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 			}
 		}
 	}

@@ -11,8 +11,8 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public int Level { get; set; }
-		public int Duration { get; set; }
-		public int UpdateTime { get; set; }
+		public TimeSpan Duration { get; set; }
+		public TimeSpan UpdateTime { get; set; }
 		public int OverBuff { get; set; }
 		public int BuffUpExp { get; set; }
 		public bool Removable { get; set; }
@@ -36,8 +36,8 @@ namespace Melia.Shared.Data.Database
 			info.ClassName = entry.ReadString("className");
 			info.Name = entry.ReadString("name");
 			info.Level = entry.ReadInt("level");
-			info.Duration = entry.ReadInt("duration");
-			info.UpdateTime = entry.ReadInt("updateTime");
+			info.Duration = TimeSpan.FromMilliseconds(entry.ReadInt("duration"));
+			info.UpdateTime = TimeSpan.FromMilliseconds(entry.ReadInt("updateTime"));
 			info.OverBuff = entry.ReadInt("overBuff");
 			info.BuffUpExp = entry.ReadInt("buffExpUp");
 			info.Removable = entry.ReadBool("removable");
