@@ -484,6 +484,8 @@ namespace Melia.Channel.World.Entities
 			// a direction, so the character stops and looks north
 			// on others' screens.
 			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
+
+			this.Buffs.Remove(BuffId.DashRun);
 		}
 
 		/// <summary>

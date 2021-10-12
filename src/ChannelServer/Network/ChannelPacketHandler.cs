@@ -1852,15 +1852,20 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_DASHRUN)]
 		public void CZ_DASHRUN(ChannelConnection conn, Packet packet)
 		{
-			var unk1 = packet.GetShort();
+			var b1 = packet.GetByte();
+			var b2 = packet.GetByte(); // 1 = run, 0 = ?
 
 			var character = conn.SelectedCharacter;
+			if (character == null)
+				return;
 
-			if (character != null)
-			{
-				//character.Properties.Modify(PropertyId.PC.MSPD_BM, 10);
-				Send.ZC_MOVE_SPEED(character);
-			}
+			// For some reason this packet is sent multiple times while
+			// the character is dashing, which is a potential problem if
+			// DashRun gets stacked and started again, but the buff manager
+			// should handle it. Alternatively, we could also add a check
+			// here, to see if DashRun is already active. What's better
+			// is TBD.
+			character.Buffs.Start(BuffId.DashRun);
 		}
 
 		/// <summary>

@@ -54,7 +54,7 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(0);
 			packet.PutInt(0);
 			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutByte(0); // if 1, DashRun is sent again while running, which seems wrong
 		}
 	}
 }
