@@ -4204,6 +4204,7 @@ namespace Melia.Channel.Network
 		public static void ZC_BUFF_REMOVE(IEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_REMOVE);
+
 			packet.PutInt(entity.Handle);
 			packet.PutInt((int)buff.Id);
 			packet.PutByte(0);
@@ -4221,7 +4222,9 @@ namespace Melia.Channel.Network
 		{
 			var buffs = entity.Components.Get<BuffCollection>();
 			var buffCount = buffs?.Count ?? 0;
+
 			var packet = new Packet(Op.ZC_BUFF_LIST);
+
 			packet.PutInt(entity.Handle);
 			packet.PutByte((byte)buffCount);
 			if (buffCount > 0)
@@ -4234,12 +4237,14 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Clear buff buff handle association? Sent on entity death and removal
+		/// Clear buff buff handle association? Sent on entity death and
+		/// removal.
 		/// </summary>
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_CLEAR(IEntity entity)
 		{
 			var packet = new Packet(Op.ZC_BUFF_CLEAR);
+
 			packet.PutInt(entity.Handle);
 			packet.PutByte(1);
 
@@ -4247,8 +4252,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Remove buff from client UI
-		/// When a character enter's a hook
+		/// ?
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="hookId"></param>
@@ -4261,7 +4265,7 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
-		/// Update buff time
+		/// Updates buff's time?
 		/// </summary>
 		/// <remarks>
 		/// Used in long duration buffs that might require
@@ -4272,6 +4276,7 @@ namespace Melia.Channel.Network
 		public static void ZC_BUFF_UPDATE_TIME(IEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_UPDATE_TIME);
+
 			packet.PutLong(0);
 			packet.PutInt(0);
 			packet.PutInt(entity.Handle);

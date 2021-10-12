@@ -61,7 +61,10 @@
     <Compile Include="Buffs\Base\IBuffHandler.cs" />
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
-    <Compile Include="Buffs\Generic\BuffHandler.cs" />
+    <Compile Include="Buffs\Base\BuffHandler.cs" />
+    <Compile Include="Buffs\Handlers\Common_Slow.cs" />
+    <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
+    <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
     <Compile Include="ChannelServer.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\ChannelDb.cs" />
@@ -83,7 +86,6 @@
     <Compile Include="Scripting\Variables.cs" />
     <Compile Include="Skills\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
-    <Compile Include="Skills\General\Buff.cs" />
     <Compile Include="Skills\General\Ground.cs" />
     <Compile Include="Skills\General\Targeted.cs" />
     <Compile Include="Skills\General\TargetedGround.cs" />
@@ -141,6 +143,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

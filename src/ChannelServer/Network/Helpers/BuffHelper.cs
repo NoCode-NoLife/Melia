@@ -1,5 +1,5 @@
-﻿using Melia.Channel.World;
-using Melia.Channel.World.Entities;
+﻿using System.Text;
+using Melia.Channel.World;
 using Melia.Shared.Network;
 
 namespace Melia.Channel.Network.Helpers
@@ -10,7 +10,7 @@ namespace Melia.Channel.Network.Helpers
 		/// Adds buff data to packet.
 		/// </summary>
 		/// <remarks>
-		/// This helper is used in ZC_BUFF_ADD and ZC_BUFF_UPDATE
+		/// This helper is used in ZC_BUFF_ADD and ZC_BUFF_UPDATE.
 		/// </remarks>
 		/// <param name="packet"></param>
 		/// <param name="buff"></param>
@@ -18,14 +18,14 @@ namespace Melia.Channel.Network.Helpers
 		{
 			packet.PutInt(buff.Target.Handle);
 			packet.PutInt(buff.Handle);
-			AddBuff(packet, buff);
+			packet.AddBuff(buff);
 		}
 
 		/// <summary>
 		/// Adds buff data to packet.
 		/// </summary>
 		/// <remark>
-		/// This helper is used in ZC_BUFF_LIST
+		/// This helper is used in ZC_BUFF_LIST.
 		/// </remarks>
 		/// <param name="packet"></param>
 		/// <param name="buff"></param>
@@ -41,10 +41,14 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt((int)buff.Duration.TotalMilliseconds);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			// Instead of just the length of the string + null terminator byte (LpString),
-			// there are 4 extra bytes in this short for a total of 5 bytes.
-			packet.PutShort(buff.Caster.Name.Length + 5);
-			packet.PutString(buff.Caster.Name);
+
+			// Instead of just the length of the string + null terminator
+			// byte (LpString), the short integer in this packet is always
+			// 4 higher for unknown reasons.
+			var bytes = Encoding.UTF8.GetBytes(buff.Caster.Name + '\0');
+			packet.PutShort(bytes.Length + 4);
+			packet.PutBin(bytes);
+
 			packet.PutInt(buff.Caster.Handle);
 			packet.PutInt(buff.Handle);
 			packet.PutInt(0);

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Melia.Channel.Buffs.Base;
-using Melia.Channel.Buffs.Generic;
-using Melia.Channel.World;
 using Melia.Shared.Const;
 
 namespace Melia.Channel.Buffs
@@ -45,12 +43,12 @@ namespace Melia.Channel.Buffs
 		}
 
 		/// <summary>
-		/// Returns the buff handler for the given buff. If no specific
-		/// handler was found, the default handler is returned.
+		/// Returns the buff handler for the given buff. Returns null if
+		/// no handler was found.
 		/// </summary>
 		/// <param name="buffId"></param>
 		/// <returns></returns>
-		public IBuffHandler GetBuff(BuffId buffId)
+		public IBuffHandler GetHandler(BuffId buffId)
 		{
 			if (_buffHandlers.TryGetValue(buffId, out var handler))
 				return handler;

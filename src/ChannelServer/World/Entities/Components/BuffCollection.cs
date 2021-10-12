@@ -12,16 +12,16 @@ using Melia.Shared.EntityComponents;
 namespace Melia.Channel.World
 {
 	/// <summary>
-	/// Buff collection
+	/// Buff collection and manager for an entity.
 	/// </summary>
 	public class BuffCollection : IUpdatableComponent
 	{
 		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
 
 		/// <summary>
-		/// The owner of this object.
+		/// The owner of the collection.
 		/// </summary>
-		public ICombatEntity Owner { get; }
+		public ICombatEntity Entity { get; }
 
 		/// <summary>
 		/// Creates new instance for character.
@@ -29,7 +29,7 @@ namespace Melia.Channel.World
 		/// <param name="entity"></param>
 		public BuffCollection(ICombatEntity entity)
 		{
-			this.Owner = entity;
+			this.Entity = entity;
 		}
 
 		/// <summary>
@@ -55,57 +55,15 @@ namespace Melia.Channel.World
 		/// Adds given buff and updates the client.
 		/// </summary>
 		/// <param name="buff"></param>
-		private void Add(Buff buff)
+		public void Add(Buff buff)
 		{
 			this.AddSilent(buff);
-			Send.ZC_BUFF_ADD(this.Owner, buff);
+			Send.ZC_BUFF_ADD(this.Entity, buff);
 		}
 
 		/// <summary>
-		/// Removes buff with given id, returns false if it
-		/// didn't exist. Doesn't update the client.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <returns></returns>
-		public bool RemoveSilent(Buff buff)
-		{
-			buff.End();
-
-			lock (_buffs)
-				return _buffs.Remove(buff.Id);
-		}
-
-		/// <summary>
-		/// Removes buff with given id, returns false if it
-		/// didn't exist. Updates the client on success.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <returns></returns>
-		public bool Remove(BuffId buffId)
-		{
-			var buff = this.Get(buffId);
-			if (buff != null)
-				return this.Remove(buff);
-			return false;
-		}
-
-		/// <summary>
-		/// Removes buff, returns false if it didn't exist. 
-		/// Updates the client on success.
-		/// </summary>
-		/// <param name="buff"></param>
-		/// <returns></returns>
-		public bool Remove(Buff buff)
-		{
-			var isRemoved = this.RemoveSilent(buff);
-			if (isRemoved)
-				Send.ZC_BUFF_REMOVE(this.Owner, buff);
-			return isRemoved;
-		}
-
-		/// <summary>
-		/// Add Buff(s) or Update Buff(s) if it exists
-		/// with a given id.
+		/// Adds and activates given buffs. If the buffs already exist,
+		/// they get overbuffed.
 		/// </summary>
 		/// <param name="buffs"></param>
 		public void AddOrUpdate(params Buff[] buffs)
@@ -131,8 +89,49 @@ namespace Melia.Channel.World
 				buff.IncreaseOverbuff();
 				buff.Start();
 
-				Send.ZC_BUFF_UPDATE(this.Owner, buff);
+				Send.ZC_BUFF_UPDATE(this.Entity, buff);
 			}
+		}
+
+		/// <summary>
+		/// Removes buff with given id, returns false if it
+		/// didn't exist. Doesn't update the client.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public bool RemoveSilent(Buff buff)
+		{
+			buff.End();
+
+			lock (_buffs)
+				return _buffs.Remove(buff.Id);
+		}
+
+		/// <summary>
+		/// Removes buff with given id, returns false if it
+		/// didn't exist. Updates the client on success.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public bool Remove(BuffId buffId)
+		{
+			var buff = this.Get(buffId);
+			return this.Remove(buff);
+		}
+
+		/// <summary>
+		/// Removes buff, returns false if it didn't exist. 
+		/// Updates the client on success.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		public bool Remove(Buff buff)
+		{
+			var removed = this.RemoveSilent(buff);
+			if (removed)
+				Send.ZC_BUFF_REMOVE(this.Entity, buff);
+
+			return removed;
 		}
 
 		/// <summary>
