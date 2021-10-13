@@ -101,8 +101,15 @@
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\ChatMacro.cs" />
+    <Compile Include="World\Entities\Components\AI\Routine.cs" />
+    <Compile Include="World\Entities\Components\AI\ScriptFunctionAttribute.cs" />
+    <Compile Include="World\Entities\Components\AI\RoutineResult.cs" />
+    <Compile Include="World\Entities\Components\AI\Routines\Wander.cs" />
+    <Compile Include="World\Entities\Components\AI\Routines\Wait.cs" />
     <Compile Include="World\Entities\Components\Buff.cs" />
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
+    <Compile Include="World\Entities\Components\MonsterAi.cs" />
+    <Compile Include="World\Entities\Components\MonsterProperties.cs" />
     <Compile Include="World\Entities\Components\Recovery.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />

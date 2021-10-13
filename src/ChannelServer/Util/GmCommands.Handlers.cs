@@ -385,6 +385,7 @@ namespace Melia.Channel.Util
 
 				monster.Position = pos;
 				monster.Direction = dir;
+				monster.Components.Add(new MonsterAi(monster, "test"));
 
 				target.Map.AddMonster(monster);
 			}
