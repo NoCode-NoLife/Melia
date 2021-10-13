@@ -274,13 +274,14 @@ namespace Melia.Channel.World.Entities
 				return;
 
 			var rnd = RandomProvider.Get();
+			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 
 			foreach (var dropItemData in this.Data.Drops)
 			{
-				var dropChance = dropItemData.DropChance / 100f;
+				var dropChance = dropItemData.DropChance;
 				dropChance *= ChannelServer.Instance.Conf.World.DropRate / 100f;
 
-				if (rnd.NextDouble() > dropChance)
+				if (rnd.NextDouble() > dropChance / 100f)
 					continue;
 
 				if (!ChannelServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
@@ -292,18 +293,19 @@ namespace Melia.Channel.World.Entities
 				var dropItem = new Item(itemData.Id);
 				dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
 
-				// if !autoloot (?)
+				if (killer == null || dropChance > autoloot)
+				{
+					var direction = new Direction(rnd.Next(0, 360));
+					var dropRadius = ChannelServer.Instance.Conf.World.DropRadius;
+					var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
 
-				var direction = new Direction(rnd.Next(0, 360));
-				var dropRadius = ChannelServer.Instance.Conf.World.DropRadius;
-				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
-
-				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ChannelServer.Instance.Conf.World.LootPrectionSeconds));
-				dropItem.Drop(this.Map, this.Position, direction, distance);
-
-				// else?
-
-				//killer?.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ChannelServer.Instance.Conf.World.LootPrectionSeconds));
+					dropItem.Drop(this.Map, this.Position, direction, distance);
+				}
+				else
+				{
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+				}
 			}
 		}
 
