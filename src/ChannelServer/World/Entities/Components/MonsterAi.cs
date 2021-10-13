@@ -19,7 +19,7 @@ namespace Melia.Channel.World.Entities.Components
 		private IRoutine _currentRoutine;
 		private IntPtr L;
 
-		private Random _rnd;
+		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Returns the monster this AI belongs to.
@@ -41,8 +41,6 @@ namespace Melia.Channel.World.Entities.Components
 		{
 			this.Monster = monster;
 			this.InitialPosition = monster.Position;
-
-			_rnd = new Random(RandomProvider.GetSeed());
 
 			this.SetUpScript(aiName);
 		}
@@ -249,19 +247,23 @@ namespace Melia.Channel.World.Entities.Components
 
 			lua_settop(L, 0);
 
-			var distance = _rnd.Next(minDistance, maxDistance + 1);
-
 			// Try to find a valid random destination. If we can't find
 			// one in a reasonable amount of time, just let the AI wait
 			// for a moment.
 			var destination = Position.Zero;
 			var validDest = false;
+			var pos = this.Monster.Position;
 
 			for (var i = 0; i < 50; ++i)
 			{
-				destination = this.InitialPosition.GetRandomInRange2D(distance, _rnd);
+				destination = this.InitialPosition.GetRandomInRange2D(minDistance, maxDistance, _rnd);
 
-				if (this.Monster.Map.Ground.IsValidPosition(destination))
+				// Skip destination if it's too close the current position
+				if (pos.InRange2D(destination, minDistance))
+					continue;
+
+				// Use the destination if it's valid
+				if (!this.Monster.Map.Ground.IsValidPosition(destination))
 				{
 					validDest = true;
 					break;
