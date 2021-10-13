@@ -866,20 +866,34 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_CHAT in range of character.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="message"></param>
-		public static void ZC_CHAT(Character character, string message)
+		public static void ZC_CHAT(IEntity entity, string message)
 		{
+			var teamName = "";
+			var name = entity.Name;
+			var jobId = JobId.Swordsman;
+			var gender = Gender.Male;
+			var hair = 0;
+
+			if (entity is Character character)
+			{
+				teamName = character.TeamName;
+				jobId = character.JobId;
+				gender = character.Gender;
+				hair = character.Hair;
+			}
+
 			var packet = new Packet(Op.ZC_CHAT);
 
-			packet.PutInt(character.Handle);
-			packet.PutString(character.TeamName, 64);
-			packet.PutString(character.Name, 65);
+			packet.PutInt(entity.Handle);
+			packet.PutString(teamName, 64);
+			packet.PutString(entity.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
-			packet.PutShort((short)character.JobId);
-			packet.PutInt((int)character.JobId); // 1, 10, 11
-			packet.PutByte((byte)character.Gender);
-			packet.PutByte((byte)character.Hair);
+			packet.PutShort((short)jobId);
+			packet.PutInt((int)jobId); // 1, 10, 11
+			packet.PutByte((byte)gender);
+			packet.PutByte((byte)hair);
 			packet.PutEmptyBin(2);
 			packet.PutInt(0); // 628051
 
@@ -897,7 +911,7 @@ namespace Melia.Channel.Network
 			packet.PutByte(1);
 			packet.PutString(message);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

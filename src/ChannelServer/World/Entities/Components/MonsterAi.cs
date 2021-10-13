@@ -294,7 +294,24 @@ namespace Melia.Channel.World.Entities.Components
 
 			Send.ZC_SHOW_EMOTICON(this.Monster, emoticonName, 2000);
 
-			return lua_yield(L, 0);
+			return 0;
+		}
+
+		/// <summary>
+		/// Makes monster say something.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("say")]
+		protected int Say(IntPtr L)
+		{
+			var msg = lua_tostring(L, 1);
+
+			lua_settop(L, 0);
+
+			Send.ZC_CHAT(this.Monster, msg);
+
+			return 0;
 		}
 
 		/// <summary>
@@ -305,7 +322,7 @@ namespace Melia.Channel.World.Entities.Components
 		[ScriptFunction("logdebug")]
 		protected int LogDebug(IntPtr L)
 		{
-			var msg = luaL_checkstring(L, 1);
+			var msg = lua_tostring(L, 1);
 			lua_settop(L, 0);
 
 			Log.Debug(msg);
