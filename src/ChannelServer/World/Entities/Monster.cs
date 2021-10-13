@@ -16,6 +16,10 @@ namespace Melia.Channel.World.Entities
 	{
 		private static int GenTypes = 1_000_000;
 
+		private readonly object _positionSyncLock = new object();
+		private double _moveX, _moveZ;
+		private TimeSpan _moveTime;
+
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
@@ -93,6 +97,16 @@ namespace Melia.Channel.World.Entities
 		public Direction Direction { get; set; }
 
 		/// <summary>
+		/// Returns the monster's destination while it's moving.
+		/// </summary>
+		public Position Destination { get; private set; }
+
+		/// <summary>
+		/// Returns whether the monster is currently moving.
+		/// </summary>
+		public bool IsMoving { get; private set; }
+
+		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
 		public int SDR { get; set; } = 1;
@@ -159,7 +173,7 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
-		public Properties Properties { get; } = new Properties();
+		public Properties Properties { get; private set; }
 
 		/// <summary>
 		/// Returns the monster's component collection.
@@ -206,6 +220,8 @@ namespace Melia.Channel.World.Entities
 
 			this.Hp = this.MaxHp = this.Data.Hp;
 			this.Defense = this.Data.PhysicalDefense;
+
+			this.Properties = new MonsterProperties(this);
 		}
 
 		/// <summary>
@@ -325,6 +341,7 @@ namespace Melia.Channel.World.Entities
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
+			this.UpdatePosition(elapsed);
 		}
 
 		/// <summary>
@@ -349,6 +366,121 @@ namespace Melia.Channel.World.Entities
 			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
+		}
+
+		/// <summary>
+		/// Makes monster move to the given destination in a straight
+		/// line. Returns the amount of the time the move will take.
+		/// </summary>
+		/// <remarks>
+		/// The position doesn't need to a correct Y coordinate, as the
+		/// method sets it as needed.
+		/// </remarks>
+		/// <param name="destination"></param>
+		/// <returns></returns>
+		public TimeSpan MoveTo(Position destination)
+		{
+			return this.MoveToConditional(destination, true);
+		}
+
+		/// <summary>
+		/// Calculates and returns the time it would take the monster
+		/// to walk to the destination from its current position.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="walk"></param>
+		/// <returns></returns>
+		public TimeSpan CalcMoveToTime(Position destination)
+		{
+			return this.MoveToConditional(destination, false);
+		}
+
+		/// <summary>
+		/// Starts movement to destination if execution is requested,
+		/// returns the amount of time it will/would take the monster
+		/// to get there.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="executeMove"></param>
+		private TimeSpan MoveToConditional(Position destination, bool executeMove)
+		{
+			lock (_positionSyncLock)
+			{
+				// Don't move if the monster is already at the destination
+				if (destination == this.Position)
+					return TimeSpan.Zero;
+
+				// Get distance to destination
+				var position = this.Position;
+				var diffX = destination.X - position.X;
+				var diffZ = destination.Z - position.Z;
+				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
+
+				// Get speeed
+				var speed = this.Properties.GetFloat(PropertyId.Monster.MSPD);
+
+				// Don't move if too close to destination
+				if (distance <= speed / 2f)
+					return TimeSpan.Zero;
+
+				// Calculate movement and move time
+				_moveTime = TimeSpan.FromSeconds(distance / speed);
+				_moveX = (diffX / _moveTime.TotalSeconds);
+				_moveZ = (diffZ / _moveTime.TotalSeconds);
+
+				if (executeMove)
+				{
+					this.Destination = destination;
+					this.IsMoving = true;
+
+					// Set direction relative to current position
+					this.Direction = position.GetDirection(destination);
+
+					var fromCellPos = this.Map.Ground.GetCellPosition(this.Position);
+					var toCellPos = this.Map.Ground.GetCellPosition(this.Destination);
+
+					// Update clients
+					Send.ZC_MOVE_PATH(this, fromCellPos, toCellPos, speed);
+				}
+
+				return _moveTime;
+			}
+		}
+
+		/// <summary>
+		/// Updates the monster's position while it's moving.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdatePosition(TimeSpan elapsed)
+		{
+			lock (_positionSyncLock)
+			{
+				// No need to update the position if the character isn't moving.
+				if (!this.IsMoving)
+					return;
+
+				// If the move time reached 0, set position to destination
+				// and stop moving.
+				if ((_moveTime -= elapsed) <= TimeSpan.Zero)
+				{
+					this.Position = this.Destination;
+
+					this.IsMoving = false;
+					_moveTime = TimeSpan.Zero;
+				}
+				// If there's still move time left, update the current position.
+				else
+				{
+					var position = this.Position;
+					position.X += (float)(_moveX * elapsed.TotalSeconds);
+					position.Z += (float)(_moveZ * elapsed.TotalSeconds);
+
+					this.Map.Ground.TryGetHeightAt(position, out var height);
+					position.Y = height;
+
+					this.Position = position;
+				}
+			}
 		}
 	}
 }
