@@ -516,7 +516,7 @@ namespace Melia.Channel.Database
 		private void LoadCharacterItems(Character character)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
+			using (var mc = new MySqlCommand("SELECT `i`.*, `inv`.`sort`, `inv`.`equipSlot` FROM `inventory` AS `inv` INNER JOIN `items` AS `i` ON `inv`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
 			{
 				mc.Parameters.AddWithValue("@characterId", character.Id);
 
@@ -556,7 +556,7 @@ namespace Melia.Channel.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `items` WHERE `characterId` = @characterId", conn, trans))
+				using (var mc = new MySqlCommand("DELETE FROM `inventory` WHERE `characterId` = @characterId", conn, trans))
 				{
 					mc.Parameters.AddWithValue("@characterId", character.Id);
 					mc.ExecuteNonQuery();
@@ -565,11 +565,28 @@ namespace Melia.Channel.Database
 				var i = 0;
 				foreach (var item in character.Inventory.GetItems().OrderBy(a => a.Key))
 				{
+					var newId = 0L;
+
+					// Save the actual items into the items table and the
+					// inventory-exclusive values into the inventory table,
+					// while linking to the items.
+					// TODO: Add generic item load and save methods, for
+					//   other item collections to use, such as warehouse.
+
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{
-						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
+
+						cmd.Execute();
+
+						newId = cmd.LastId;
+					}
+
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", newId);
 						cmd.Set("sort", i++);
 						cmd.Set("equipSlot", 0x7F);
 
@@ -582,11 +599,22 @@ namespace Melia.Channel.Database
 				// normal item wrongfully isn't saved again.
 				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !Items.DefaultItems.Contains(a.Value.Id)))
 				{
+					var newId = 0L;
+
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{
-						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
+
+						cmd.Execute();
+
+						newId = cmd.LastId;
+					}
+
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", newId);
 						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", (byte)item.Key);
 

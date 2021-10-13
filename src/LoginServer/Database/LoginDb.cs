@@ -179,13 +179,24 @@ namespace Melia.Login.Database
 				// Only save items that aren't default equipment
 				foreach (var item in character.Equipment.Where(a => !Items.DefaultItems.Contains(a.Id)))
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					var newId = 0L;
+
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
 					{
-						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", item.Id);
 						cmd.Set("amount", 1);
+
+						cmd.Execute();
+
+						newId = cmd.LastId;
+					}
+
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("itemId", newId);
 						cmd.Set("sort", 0);
-						cmd.Set("equipSlot", item.Slot);
+						cmd.Set("equipSlot", (byte)item.Slot);
 
 						cmd.Execute();
 					}
@@ -288,7 +299,7 @@ namespace Melia.Login.Database
 				foreach (var character in result)
 				{
 					// Items
-					using (var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId AND `equipSlot` != 127", conn))
+					using (var mc = new MySqlCommand("SELECT `i`.*, `inv`.`sort`, `inv`.`equipSlot` FROM `inventory` AS `inv` INNER JOIN `items` AS `i` ON `inv`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId AND `equipSlot` != 127", conn))
 					{
 						mc.Parameters.AddWithValue("@characterId", character.Id);
 
