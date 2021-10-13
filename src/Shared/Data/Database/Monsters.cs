@@ -16,6 +16,9 @@ namespace Melia.Shared.Data.Database
 		public RaceType Race { get; set; }
 		public Size Size { get; set; }
 
+		public int WalkSpeed { get; set; }
+		public int RunSpeed { get; set; }
+
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int ClassExp { get; set; }
@@ -67,7 +70,7 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "race", "size", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
+			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "race", "size", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
 
 			var info = new MonsterData();
 
@@ -77,6 +80,9 @@ namespace Melia.Shared.Data.Database
 			info.LocalKey = entry.ReadString("localKey");
 			info.Race = entry.ReadEnum<RaceType>("race");
 			info.Size = entry.ReadEnum<Size>("size");
+
+			info.WalkSpeed = entry.ReadInt("walkSpeed");
+			info.RunSpeed = entry.ReadInt("runSpeed");
 
 			info.Level = entry.ReadInt("level");
 			info.Exp = entry.ReadInt("exp");
