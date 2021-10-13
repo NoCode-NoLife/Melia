@@ -119,6 +119,8 @@ namespace Melia.Channel.World.Entities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			// If no routine is active, start the current state function,
+			// which should create routines.
 			if (_currentRoutine == null)
 			{
 				lua_getglobal(L, "idle");
@@ -138,9 +140,12 @@ namespace Melia.Channel.World.Entities.Components
 				}
 			}
 
+			// If we don't have a routine even after calling the state
+			// function, don't do anything.
 			if (_currentRoutine == null)
 				return;
 
+			// Execute the current routine
 			var routineResult = _currentRoutine.Execute(elapsed);
 			switch (routineResult)
 			{
@@ -148,8 +153,7 @@ namespace Melia.Channel.World.Entities.Components
 				case RoutineResult.Running:
 					return;
 
-				// Clear routine and advance state to get the next
-				// routine
+				// Clear routine and continue, to resume the script
 				case RoutineResult.Success:
 				{
 					this.ResetRoutine();
@@ -164,12 +168,16 @@ namespace Melia.Channel.World.Entities.Components
 				}
 			}
 
+			// If the current routine was completed, resume the script,
+			// so we can get the next routine. We might not have a new
+			// routine after this call if the state function ended,
+			// but the next tick will take care of that and restart
+			// the state.
 			var result = lua_resume(L, 0);
 			if (result != 0 && result != LUA_YIELD)
 			{
 				Log.Error("MonsterAi: Error while advancing state: {0}", lua_tostring(L, -1));
 				lua_settop(L, 0);
-				return;
 			}
 		}
 
