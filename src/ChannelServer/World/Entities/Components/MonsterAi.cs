@@ -19,6 +19,8 @@ namespace Melia.Channel.World.Entities.Components
 		private IRoutine _currentRoutine;
 		private IntPtr L;
 
+		private Random _rnd;
+
 		/// <summary>
 		/// Returns the monster this AI belongs to.
 		/// </summary>
@@ -39,6 +41,8 @@ namespace Melia.Channel.World.Entities.Components
 		{
 			this.Monster = monster;
 			this.InitialPosition = monster.Position;
+
+			_rnd = new Random(RandomProvider.GetSeed());
 
 			this.SetUpScript(aiName);
 		}
@@ -214,8 +218,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			lua_settop(L, 0);
 
-			var rnd = RandomProvider.Get();
-			var waitTimeMs = rnd.Next(min, max + 1);
+			var waitTimeMs = _rnd.Next(min, max + 1);
 
 			var routine = new WaitRoutine(TimeSpan.FromMilliseconds(waitTimeMs));
 			this.StartRoutine(routine);
@@ -239,8 +242,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			lua_settop(L, 0);
 
-			var rnd = RandomProvider.Get();
-			var distance = rnd.Next(minDistance, maxDistance + 1);
+			var distance = _rnd.Next(minDistance, maxDistance + 1);
 
 			// Try to find a valid random destination. If we can't find
 			// one in a reasonable amount of time, just let the AI wait
@@ -250,7 +252,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			for (var i = 0; i < 50; ++i)
 			{
-				destination = this.InitialPosition.GetRandomInRange2D(distance, rnd);
+				destination = this.InitialPosition.GetRandomInRange2D(distance, _rnd);
 
 				if (this.Monster.Map.Ground.IsValidPosition(destination))
 				{
@@ -302,6 +304,82 @@ namespace Melia.Channel.World.Entities.Components
 			Log.Debug(msg);
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Returns a random number.
+		/// </summary>
+		/// <remarks>
+		/// Result:
+		/// - No arguments: 0 ~ 100
+		/// - 1 Argument:   0 ~ argument1
+		/// - 2 Arguments:  argument1 ~ argument2 - 1
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("random")]
+		protected int Random(IntPtr L)
+		{
+			int min = 0, max = 100 + 1;
+
+			var argc = lua_gettop(L);
+
+			if (argc > 0)
+				max = luaL_checkinteger(L, 1);
+
+			if (argc > 1)
+			{
+				min = max;
+				max = luaL_checkinteger(L, 2);
+			}
+
+			lua_settop(L, 0);
+
+			if (max < min)
+				max = min;
+
+			var result = _rnd.Next(min, max);
+			lua_pushinteger(L, result);
+
+			return 1;
+		}
+
+		/// <summary>
+		/// Returns a random float number.
+		/// </summary>
+		/// <remarks>
+		/// Result:
+		/// - No arguments: 0.0 ~ 1.0
+		/// - 1 Argument:   0.0 ~ argument1
+		/// - 2 Arguments:  argument1 ~ argument2
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("randomf")]
+		protected int RandomFloat(IntPtr L)
+		{
+			double min = 0, max = 1;
+
+			var argc = lua_gettop(L);
+
+			if (argc > 0)
+				max = luaL_checknumber(L, 1);
+
+			if (argc > 1)
+			{
+				min = max;
+				max = luaL_checknumber(L, 2);
+			}
+
+			lua_settop(L, 0);
+
+			if (max < min)
+				max = min;
+
+			var result = min + _rnd.NextDouble() * (max - min);
+			lua_pushnumber(L, result);
+
+			return 1;
 		}
 	}
 }

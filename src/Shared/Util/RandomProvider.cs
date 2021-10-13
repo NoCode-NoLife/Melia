@@ -13,8 +13,7 @@ namespace Melia.Shared.Util
 
 		private static ThreadLocal<Random> RandomWrapper = new ThreadLocal<Random>(() =>
 		{
-			lock (_seed)
-				return new Random(_seed.Next());
+			return new Random(GetSeed());
 		});
 
 		/// <summary>
@@ -24,6 +23,16 @@ namespace Melia.Shared.Util
 		public static Random Get()
 		{
 			return RandomWrapper.Value;
+		}
+
+		/// <summary>
+		/// Returns a random seed.
+		/// </summary>
+		/// <returns></returns>
+		public static int GetSeed()
+		{
+			lock (_seed)
+				return _seed.Next();
 		}
 	}
 
