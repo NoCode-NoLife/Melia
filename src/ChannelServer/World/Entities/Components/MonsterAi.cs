@@ -66,7 +66,14 @@ namespace Melia.Channel.World.Entities.Components
 			}
 
 			L = luaL_newstate();
-			melua_opensafelibs(L);
+
+			melua_openlib(L, new[]
+			{
+				new LuaLib("", meluaopen_basesafe),
+				new LuaLib("table", luaopen_table),
+				new LuaLib("string", luaopen_string),
+				new LuaLib("math", luaopen_math),
+			});
 
 			lua_atpanic(L, CreateFunctionReference(L, this.OnPanic));
 
