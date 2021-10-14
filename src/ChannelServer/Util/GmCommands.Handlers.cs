@@ -49,7 +49,7 @@ namespace Melia.Channel.Util
 			this.Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", this.HandleItem);
 			this.Add("silver", "<modifier>", this.HandleSilver);
-			this.Add("spawn", "<monster id> [amount=1]", this.HandleSpawn);
+			this.Add("spawn", "<monster id|class name> [amount=1]", this.HandleSpawn);
 			this.Add("madhatter", "", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", this.HandleLevelUp);
 			this.Add("speed", "<speed>", this.HandleSpeed);
@@ -352,8 +352,32 @@ namespace Melia.Channel.Util
 			if (args.Length < 2)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var id))
-				return CommandResult.InvalidArgument;
+			MonsterData monsterData;
+			if (int.TryParse(args[1], out var id))
+			{
+				monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
+				if (monsterData == null)
+				{
+					sender.ServerMessage("Monster not found by id.");
+					return CommandResult.Okay;
+				}
+			}
+			else
+			{
+				var searchName = args[1].ToLower();
+
+				var monstersData = ChannelServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
+				if (monstersData.Count == 0)
+				{
+					sender.ServerMessage("Monster not found by name.");
+					return CommandResult.Okay;
+				}
+
+				// Sort candidates by how close their name is to the search
+				// name, to find the one that's closest to it.
+				var sorted = monstersData.OrderBy(a => a.ClassName.ToLower().LevenshteinDistance(searchName));
+				monsterData = sorted.First();
+			}
 
 			var amount = 1;
 			if (args.Length > 2 && !int.TryParse(args[2], out amount))
@@ -361,17 +385,10 @@ namespace Melia.Channel.Util
 
 			amount = Math2.Clamp(1, 100, amount);
 
-			var monsterData = ChannelServer.Instance.Data.MonsterDb.Find(id);
-			if (monsterData == null)
-			{
-				sender.ServerMessage("Monster not found.");
-				return CommandResult.Okay;
-			}
-
 			var rnd = new Random(Environment.TickCount);
 			for (var i = 0; i < amount; ++i)
 			{
-				var monster = new Monster(id, NpcType.Monster);
+				var monster = new Monster(monsterData.Id, NpcType.Monster);
 
 				Position pos;
 				Direction dir;
