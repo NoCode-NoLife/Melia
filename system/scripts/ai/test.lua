@@ -1,5 +1,5 @@
 function idle()
-	wait(5000)
+	wait(7000)
 	
 	if random(100) < 25 then
 		for i=1,3 do
@@ -10,5 +10,5 @@ function idle()
 		say("Here we go!")
 	end
 	
-	wander(50, 100)
+	wander(20, 80)
 end
