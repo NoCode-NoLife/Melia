@@ -77,21 +77,37 @@ namespace Melia.Channel.World.Entities.Components
 
 			this.RegisterScriptFunctions();
 
+			if (!this.LoadScript(filePath))
+			{
+				L = IntPtr.Zero;
+				return;
+			}
+		}
+
+		/// <summary>
+		/// Loads the script at the given path, returns false if loading
+		/// failed.
+		/// </summary>
+		/// <param name="filePath"></param>
+		/// <returns></returns>
+		private bool LoadScript(string filePath)
+		{
 			var loadResult = luaL_loadfile(L, filePath);
 			if (loadResult != 0)
 			{
-				Log.Error("MonsterAi: Failed to load AI script. Error: {0}", lua_tostring(L, -1));
+				Log.Error("MonsterAi: Failed to read script. Error: {0}", lua_tostring(L, -1));
 				L = IntPtr.Zero;
-				return;
+				return false;
 			}
 
 			var callResult = lua_pcall(L, 0, 0, 0);
 			if (callResult != 0)
 			{
-				Log.Error("MonsterAi: Failed to load AI script. Error: {0}", lua_tostring(L, -1));
-				L = IntPtr.Zero;
-				return;
+				Log.Error("MonsterAi: Failed to load script. Error: {0}", lua_tostring(L, -1));
+				return false;
 			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -128,6 +144,10 @@ namespace Melia.Channel.World.Entities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			// Don't do anything if the scripts weren't loaded successfully.
+			if (L == IntPtr.Zero)
+				return;
+
 			// If no routine is active, start the current state function,
 			// which should create routines.
 			if (_currentRoutine == null)
