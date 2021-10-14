@@ -418,8 +418,12 @@ namespace Melia.Channel.World.Entities
 				var diffZ = destination.Z - position.Z;
 				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
 
-				// Get speeed
+				// Get speed
 				var speed = this.Properties.GetFloat(PropertyId.Monster.MSPD);
+
+				// With 0 speed, we can't move anywhere
+				if (speed == 0)
+					return TimeSpan.Zero;
 
 				// Don't move if too close to destination
 				if (distance <= 10)
