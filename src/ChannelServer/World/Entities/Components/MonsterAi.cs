@@ -256,14 +256,14 @@ namespace Melia.Channel.World.Entities.Components
 
 			for (var i = 0; i < 50; ++i)
 			{
-				destination = this.InitialPosition.GetRandomInRange2D(minDistance, maxDistance, _rnd);
+				destination = this.InitialPosition.GetRandomInRange2D(maxDistance, _rnd);
 
 				// Skip destination if it's too close the current position
-				if (pos.InRange2D(destination, minDistance))
+				if (pos.InRange2D(destination, minDistance) || !pos.InRange2D(destination, maxDistance))
 					continue;
 
 				// Use the destination if it's valid
-				if (!this.Monster.Map.Ground.IsValidPosition(destination))
+				if (this.Monster.Map.Ground.IsValidPosition(destination))
 				{
 					validDest = true;
 					break;
