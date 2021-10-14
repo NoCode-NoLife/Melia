@@ -100,6 +100,12 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool TryGetHeightAt(Position pos, out float height)
 		{
+			if (_spatial == null)
+			{
+				height = -1;
+				return false;
+			}
+
 			var origin = new Vector3f(pos.X, 1000, pos.Z);
 			var ray = new Ray3f(origin, new Vector3f(0, -1, 0));
 
@@ -140,6 +146,12 @@ namespace Melia.Channel.World
 		/// <returns></returns>
 		public bool TryGetCellIndex(Position pos, out int cellIndex)
 		{
+			if (_data == null)
+			{
+				cellIndex = -1;
+				return false;
+			}
+
 			var vecPos = new Vector2d(pos.X, pos.Z);
 
 			// TODO: Quadtree?
