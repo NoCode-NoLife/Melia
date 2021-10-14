@@ -48,6 +48,7 @@ namespace Melia.Shared.Data.Database
 		Circle,
 		Fan,
 		Area,
+		Wall,
 	}
 
 	public enum SkillUseType
@@ -59,11 +60,14 @@ namespace Melia.Shared.Data.Database
 		SELF,
 		SCRIPT,
 		TARGET_GROUND,
+		MELEE,
 	}
 
 	public enum SkillAttribute
 	{
+		None,
 		Melee,
+		Magic,
 		Lightning,
 		Holy,
 		Poison,
@@ -76,6 +80,7 @@ namespace Melia.Shared.Data.Database
 
 	public enum SkillClassType
 	{
+		None,
 		Melee,
 		Missile,
 		Magic,

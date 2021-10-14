@@ -855,21 +855,14 @@ namespace Melia.Channel.Network
 		/// <summary>
 		/// Broadcasts ZC_CHAT in range of character.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void ZC_CHAT(Character character, string format, params object[] args)
+		public static void ZC_CHAT(IEntity entity, string format, params object[] args)
 		{
-			ZC_CHAT(character, string.Format(format, args));
-		}
+			if (args.Length > 0)
+				format = string.Format(format, args);
 
-		/// <summary>
-		/// Broadcasts ZC_CHAT in range of character.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="message"></param>
-		public static void ZC_CHAT(IEntity entity, string message)
-		{
 			var teamName = "";
 			var name = entity.Name;
 			var jobId = JobId.Swordsman;
@@ -909,7 +902,7 @@ namespace Melia.Channel.Network
 			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutEmptyBin(16); // [i339415] ?
 			packet.PutByte(1);
-			packet.PutString(message);
+			packet.PutString(format);
 
 			entity.Map.Broadcast(packet, entity);
 		}
