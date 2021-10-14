@@ -422,7 +422,7 @@ namespace Melia.Channel.World.Entities
 				var speed = this.Properties.GetFloat(PropertyId.Monster.MSPD);
 
 				// Don't move if too close to destination
-				if (distance <= speed / 2f)
+				if (distance <= 10)
 					return TimeSpan.Zero;
 
 				// Calculate movement and move time
