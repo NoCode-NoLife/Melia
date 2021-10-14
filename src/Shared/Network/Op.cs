@@ -243,7 +243,7 @@ namespace Melia.Shared.Network
 		public const int ZC_DIALOG_STRINGINPUT = 0xCA8; // Size: 0
 		public const int ZC_ADDON_MSG = 0xCA9; // Size: 0
 		public const int CZ_UI_EVENT = 0xCAA; // Size: 0
-		public const int ZC_PLAY_SOUND = 0xCAB; // Size: 19
+		public const int ZC_PLAY_SOUND = 0xCAB; // Size: 24
 		public const int ZC_STOP_SOUND = 0xCAC; // Size: 18
 		public const int ZC_PLAY_MUSICQUEUE = 0xCAD; // Size: 20
 		public const int ZC_STOP_MUSICQUEUE = 0xCAE; // Size: 18
@@ -1344,7 +1344,7 @@ namespace Melia.Shared.Network
 			_sizes[ZC_DIALOG_STRINGINPUT] = 0;
 			_sizes[ZC_ADDON_MSG] = 0;
 			_sizes[CZ_UI_EVENT] = 0;
-			_sizes[ZC_PLAY_SOUND] = 19;
+			_sizes[ZC_PLAY_SOUND] = 24;
 			_sizes[ZC_STOP_SOUND] = 18;
 			_sizes[ZC_PLAY_MUSICQUEUE] = 20;
 			_sizes[ZC_STOP_MUSICQUEUE] = 18;
