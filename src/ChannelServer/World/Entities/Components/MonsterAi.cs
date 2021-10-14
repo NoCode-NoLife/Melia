@@ -77,6 +77,12 @@ namespace Melia.Channel.World.Entities.Components
 
 			this.RegisterScriptFunctions();
 
+			if (!this.LoadScript("system/scripts/ai/shared.lua"))
+			{
+				L = IntPtr.Zero;
+				return;
+			}
+
 			if (!this.LoadScript(filePath))
 			{
 				L = IntPtr.Zero;
