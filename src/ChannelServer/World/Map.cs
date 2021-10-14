@@ -49,6 +49,11 @@ namespace Melia.Channel.World
 		private readonly Queue<Monster> _addMonsters = new Queue<Monster>();
 
 		/// <summary>
+		/// List for entities during entity update.
+		/// </summary>
+		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
+
+		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -129,16 +134,24 @@ namespace Melia.Channel.World
 					this.AddMonster(_addMonsters.Dequeue());
 			}
 
-			lock (_monsters)
+			// Create a list of updatables instead of locking and then
+			// updating monsters and characters separately, so that
+			// actions taken by components that get updated don't
+			// affect Map. For example, adding and removing monsters
+			// would modify the collections, and broadcasts could
+			// cause deadlocks under certain circumstances.
+			lock (_updateEntities)
 			{
-				foreach (var entity in _monsters.Values)
-					entity.Update(elapsed);
-			}
+				lock (_monsters)
+					_updateEntities.AddRange(_monsters.Values);
 
-			lock (_characters)
-			{
-				foreach (var entity in _characters.Values)
+				lock (_characters)
+					_updateEntities.AddRange(_characters.Values);
+
+				foreach (var entity in _updateEntities)
 					entity.Update(elapsed);
+
+				_updateEntities.Clear();
 			}
 		}
 
@@ -303,16 +316,6 @@ namespace Melia.Channel.World
 			// and afterwards they just appear.
 			this.UpdateVisibility();
 			monster.FromGround = false;
-		}
-
-		/// <summary>
-		/// Adds monster to map on next update.
-		/// </summary>
-		/// <param name="monster"></param>
-		public void AddMonsterDeferred(Monster monster)
-		{
-			lock (_addMonsters)
-				_addMonsters.Enqueue(monster);
 		}
 
 		/// <summary>
