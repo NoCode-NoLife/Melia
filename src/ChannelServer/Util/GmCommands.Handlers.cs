@@ -41,6 +41,9 @@ namespace Melia.Channel.Util
 			this.Add("where", "", this.HandleWhere);
 			this.Add("name", "<new name>", this.HandleName);
 
+			// VIP
+			this.Add("autoloot", "", this.HandleAutoloot);
+
 			// GMs
 			this.Add("jump", "<x> <y> <z>", this.HandleJump);
 			this.Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
@@ -1305,6 +1308,50 @@ namespace Melia.Channel.Util
 			sender.Variables.Temp["MouseY"] = float.Parse(args[2], CultureInfo.InvariantCulture);
 			sender.Variables.Temp["ScreenWidth"] = float.Parse(args[3], CultureInfo.InvariantCulture);
 			sender.Variables.Temp["ScreenHeight"] = float.Parse(args[4], CultureInfo.InvariantCulture);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Toggles autoloot.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleAutoloot(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			var autoloot = sender.Variables.Temp.Get("Autoloot", 0);
+
+			// If we got an argument, use it as the max drop chance of
+			// items that are to be autolooted. Without an argument,
+			// toggle autolooting completely on or off.
+			if (args.Length > 1)
+			{
+				if (!int.TryParse(args[1], out autoloot))
+					return CommandResult.InvalidArgument;
+
+				autoloot = Math2.Clamp(0, 100, autoloot);
+			}
+			else if (autoloot == 0)
+			{
+				autoloot = 100;
+			}
+			else
+			{
+				autoloot = 0;
+			}
+
+			sender.Variables.Temp.Set("Autoloot", autoloot);
+
+			if (autoloot == 100)
+				target.ServerMessage("Autoloot is now active.");
+			else if (autoloot == 0)
+				target.ServerMessage("Autoloot is now inactive.");
+			else
+				target.ServerMessage("Autoloot is now active for items up to a drop chance of {0}%.", autoloot);
 
 			return CommandResult.Okay;
 		}

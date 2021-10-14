@@ -111,6 +111,18 @@ namespace Melia.Channel.Scripting
 		}
 
 		/// <summary>
+		/// Sets the value for the given key.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public TValue Set<TValue>(string key, TValue value)
+		{
+			this[key] = value;
+			return value;
+		}
+
+		/// <summary>
 		/// Returns true if a variable with the given name was defined.
 		/// </summary>
 		/// <param name="key"></param>
