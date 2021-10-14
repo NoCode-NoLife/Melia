@@ -860,16 +860,9 @@ namespace Melia.Channel.Network
 		/// <param name="args"></param>
 		public static void ZC_CHAT(Character character, string format, params object[] args)
 		{
-			ZC_CHAT(character, string.Format(format, args));
-		}
+			if (args.Length > 0)
+				format = string.Format(format, args);
 
-		/// <summary>
-		/// Broadcasts ZC_CHAT in range of character.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="message"></param>
-		public static void ZC_CHAT(Character character, string message)
-		{
 			var packet = new Packet(Op.ZC_CHAT);
 
 			packet.PutInt(character.Handle);
@@ -895,7 +888,7 @@ namespace Melia.Channel.Network
 			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutEmptyBin(16); // [i339415] ?
 			packet.PutByte(1);
-			packet.PutString(message);
+			packet.PutString(format);
 
 			character.Map.Broadcast(packet, character);
 		}
