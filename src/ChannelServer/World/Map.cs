@@ -44,6 +44,11 @@ namespace Melia.Channel.World
 		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
 
 		/// <summary>
+		/// Monsters to add to the map on the next update.
+		/// </summary>
+		private readonly Queue<Monster> _addMonsters = new Queue<Monster>();
+
+		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -117,6 +122,12 @@ namespace Melia.Channel.World
 			// the entity updates.
 			// If locked access to the collections ever becomes a
 			// bottle-neck, switch to ReaderWriterLockSlim.
+
+			lock (_addMonsters)
+			{
+				while (_addMonsters.Count > 0)
+					this.AddMonster(_addMonsters.Dequeue());
+			}
 
 			lock (_monsters)
 			{
@@ -292,6 +303,16 @@ namespace Melia.Channel.World
 			// and afterwards they just appear.
 			this.UpdateVisibility();
 			monster.FromGround = false;
+		}
+
+		/// <summary>
+		/// Adds monster to map on next update.
+		/// </summary>
+		/// <param name="monster"></param>
+		public void AddMonsterDeferred(Monster monster)
+		{
+			lock (_addMonsters)
+				_addMonsters.Enqueue(monster);
 		}
 
 		/// <summary>
