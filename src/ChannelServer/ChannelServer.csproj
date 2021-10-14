@@ -104,7 +104,7 @@
     <Compile Include="World\Entities\Components\AI\Routine.cs" />
     <Compile Include="World\Entities\Components\AI\ScriptFunctionAttribute.cs" />
     <Compile Include="World\Entities\Components\AI\RoutineResult.cs" />
-    <Compile Include="World\Entities\Components\AI\Routines\Wander.cs" />
+    <Compile Include="World\Entities\Components\AI\Routines\MoveTo.cs" />
     <Compile Include="World\Entities\Components\AI\Routines\Wait.cs" />
     <Compile Include="World\Entities\Components\Buff.cs" />
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
