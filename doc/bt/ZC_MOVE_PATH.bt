@@ -19,20 +19,19 @@ typedef struct
     int z;
     int i1;
 }
-PositionUnk <read=readPositionUnk>;
+CellPosition <read=readCellPosition>;
 
-string readPositionUnk(PositionUnk &v)
+string readCellPosition(CellPosition &v)
 {
     local string result;
-    SPrintf(result, "X: %d, Z: %d, Unk: %d", v.x, v.z, v.i1);
+    SPrintf(result, "X: %d, Z: %d, Cell: %d", v.x, v.z, v.i1);
     return result;
 }
 
 ServerHeaderFixed header;
 
 int handle;
-
-PositionUnk pos1;
-PositionUnk pos2;
+CellPosition cellPos1;
+CellPosition cellPos2;
 float speed;
 float f2;
