@@ -17,7 +17,7 @@ namespace Melia.Channel.World.Entities.Components
 	public class EntityAi : IUpdatableComponent
 	{
 		private IRoutine _currentRoutine;
-		private IntPtr L;
+		private IntPtr GL, NL;
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
@@ -63,9 +63,9 @@ namespace Melia.Channel.World.Entities.Components
 				return;
 			}
 
-			L = luaL_newstate();
+			GL = luaL_newstate();
 
-			melua_openlib(L, new[]
+			melua_openlib(GL, new[]
 			{
 				new LuaLib("", meluaopen_basesafe),
 				new LuaLib("table", luaopen_table),
@@ -73,19 +73,19 @@ namespace Melia.Channel.World.Entities.Components
 				new LuaLib("math", luaopen_math),
 			});
 
-			lua_atpanic(L, CreateFunctionReference(L, this.OnPanic));
+			lua_atpanic(GL, CreateFunctionReference(GL, this.OnPanic));
 
 			this.RegisterScriptFunctions();
 
 			if (!this.LoadScript("system/scripts/ai/shared.lua"))
 			{
-				L = IntPtr.Zero;
+				GL = IntPtr.Zero;
 				return;
 			}
 
 			if (!this.LoadScript(filePath))
 			{
-				L = IntPtr.Zero;
+				GL = IntPtr.Zero;
 				return;
 			}
 		}
@@ -98,18 +98,18 @@ namespace Melia.Channel.World.Entities.Components
 		/// <returns></returns>
 		private bool LoadScript(string filePath)
 		{
-			var loadResult = luaL_loadfile(L, filePath);
+			var loadResult = luaL_loadfile(GL, filePath);
 			if (loadResult != 0)
 			{
-				Log.Error("EntityAi: Failed to read script. Error: {0}", lua_tostring(L, -1));
-				L = IntPtr.Zero;
+				Log.Error("EntityAi: Failed to read script. Error: {0}", lua_tostring(GL, -1));
+				GL = IntPtr.Zero;
 				return false;
 			}
 
-			var callResult = lua_pcall(L, 0, 0, 0);
+			var callResult = lua_pcall(GL, 0, 0, 0);
 			if (callResult != 0)
 			{
-				Log.Error("EntityAi: Failed to load script. Error: {0}", lua_tostring(L, -1));
+				Log.Error("EntityAi: Failed to load script. Error: {0}", lua_tostring(GL, -1));
 				return false;
 			}
 
@@ -126,7 +126,7 @@ namespace Melia.Channel.World.Entities.Components
 				foreach (ScriptFunctionAttribute attr in method.GetCustomAttributes(typeof(ScriptFunctionAttribute), false))
 				{
 					var func = (LuaNativeFunction)Delegate.CreateDelegate(typeof(LuaNativeFunction), this, method);
-					melua_register(L, attr.Name, CreateFunctionReference(L, func));
+					melua_register(GL, attr.Name, CreateFunctionReference(GL, func));
 				}
 			}
 		}
@@ -151,26 +151,36 @@ namespace Melia.Channel.World.Entities.Components
 		public void Update(TimeSpan elapsed)
 		{
 			// Don't do anything if the scripts weren't loaded successfully.
-			if (L == IntPtr.Zero)
+			if (GL == IntPtr.Zero)
 				return;
+
+			// Get a thread to run the states on if we don't have one.
+			// If there aren't any on the stack, create one.
+			if (NL == IntPtr.Zero)
+			{
+				if (lua_gettop(GL) == 0)
+					NL = lua_newthread(GL);
+				else
+					NL = lua_tothread(GL, -1);
+			}
 
 			// If no routine is active, start the current state function,
 			// which should create routines.
 			if (_currentRoutine == null)
 			{
-				lua_getglobal(L, "idle");
-				if (!lua_isfunction(L, -1))
+				lua_getglobal(NL, "idle");
+				if (!lua_isfunction(NL, -1))
 				{
 					Log.Error("EntityAi: Idle function not defined.");
-					lua_settop(L, 0);
+					lua_settop(NL, 0);
 					return;
 				}
 
-				var stateResult = lua_resume(L, 0);
+				var stateResult = lua_resume(NL, 0);
 				if (stateResult != 0 && stateResult != LUA_YIELD)
 				{
-					Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(L, -1));
-					lua_settop(L, 0);
+					Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(NL, -1));
+					lua_settop(NL, 0);
 					return;
 				}
 			}
@@ -208,11 +218,18 @@ namespace Melia.Channel.World.Entities.Components
 			// routine after this call if the state function ended,
 			// but the next tick will take care of that and restart
 			// the state.
-			var result = lua_resume(L, 0);
+			var result = lua_resume(NL, 0);
 			if (result != 0 && result != LUA_YIELD)
 			{
-				Log.Error("EntityAi: Error while advancing state: {0}", lua_tostring(L, -1));
-				lua_settop(L, 0);
+				Log.Error("EntityAi: Error while advancing state: {0}", lua_tostring(NL, -1));
+				lua_settop(NL, 0);
+			}
+
+			// If the state reached its end and there's more than one thread
+			// on the stack, pop one, so we get back to the previous state.
+			if (result == 0 && lua_gettop(GL) > 1)
+			{
+				lua_pop(GL, 1);
 			}
 		}
 
