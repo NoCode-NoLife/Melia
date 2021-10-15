@@ -2802,7 +2802,7 @@ namespace Melia.Channel.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="active">Whether the cutscene is active.</param>
-		/// <param name="movable">Whether the server can move the character.</param>
+		/// <param name="movable">Whether the client can still move the character. If not, the server can control it.</param>
 		/// <param name="hideUi">Whether to hide the UI while active.</param>
 		public static void ZC_NORMAL_Cutscene(Character character, bool active, bool movable, bool hideUi)
 		{
