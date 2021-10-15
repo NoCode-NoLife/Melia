@@ -2798,6 +2798,25 @@ namespace Melia.Channel.Network
 		}
 
 		/// <summary>
+		/// Changes character behavior for a curscene.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="active">Whether the cutscene is active.</param>
+		/// <param name="movable">Whether the server can move the character.</param>
+		/// <param name="hideUi">Whether to hide the UI while active.</param>
+		public static void ZC_NORMAL_Cutscene(Character character, bool active, bool movable, bool hideUi)
+		{
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(SubOp.Zone.Cutscene);
+
+			packet.PutByte(active);
+			packet.PutByte(movable);
+			packet.PutByte(hideUi);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Draws circle area on ground at position for characters in range
 		/// of the source entity.
 		/// </summary>

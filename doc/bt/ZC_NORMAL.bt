@@ -187,7 +187,14 @@ switch (type)
         byte b2;
         byte bin2[16];
         break;
-        
+
+    // Cutscene?
+    case 0x6B:
+        byte active;
+        byte characterMoveable;
+        byte hideUi;
+        break;
+    
     // Set skill speed
     case 0x77: // Maybe 0x78 is now 0x77?
     case 0x78:
