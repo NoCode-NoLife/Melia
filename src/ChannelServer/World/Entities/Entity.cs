@@ -1,6 +1,4 @@
-﻿using Melia.Channel.Skills;
-using Melia.Channel.World.Entities.Components;
-using Melia.Shared.EntityComponents;
+﻿using Melia.Shared.EntityComponents;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 
@@ -39,12 +37,12 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Returns the entity's position on its current map.
 		/// </summary>
-		Position Position { get; }
+		Position Position { get; set; }
 
 		/// <summary>
 		/// Returns the entity's direction on its current map.
 		/// </summary>
-		Direction Direction { get; }
+		Direction Direction { get; set; }
 
 		/// Returns the entity's property collection.
 		/// </summary>

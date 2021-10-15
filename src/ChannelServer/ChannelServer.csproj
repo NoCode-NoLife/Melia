@@ -110,6 +110,7 @@
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
     <Compile Include="World\Entities\Components\MonsterAi.cs" />
     <Compile Include="World\Entities\Components\MonsterProperties.cs" />
+    <Compile Include="World\Entities\Components\Movement.cs" />
     <Compile Include="World\Entities\Components\Recovery.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />

@@ -53,10 +53,15 @@ namespace Melia.Channel.World.Entities.Components.AI.Routines
 				return RoutineResult.Success;
 			}
 
-			_moveTime = _ai.Monster.MoveTo(_destination);
-			_started = true;
+			if (_ai.Monster.Components.TryGet<Movement>(out var movement))
+			{
+				_moveTime = movement.MoveTo(_destination);
+				_started = true;
 
-			return RoutineResult.Running;
+				return RoutineResult.Running;
+			}
+
+			return RoutineResult.Fail;
 		}
 	}
 }
