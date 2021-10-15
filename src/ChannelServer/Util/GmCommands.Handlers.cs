@@ -71,6 +71,7 @@ namespace Melia.Channel.Util
 			this.Add("reloadscripts", "", this.HandleReloadScripts);
 			this.Add("reloadconf", "", this.HandleReloadConf);
 			this.Add("reloaddata", "", this.HandleReloadData);
+			this.Add("ai", "[ai name]", this.HandleAi);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -1369,6 +1370,54 @@ namespace Melia.Channel.Util
 				target.ServerMessage("Autoloot is now inactive.");
 			else
 				target.ServerMessage("Autoloot is now active for items up to a drop chance of {0}%.", autoloot);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Toggles AI for target.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleAi(ChannelConnection conn, Character sender, Character target, string command, string[] args)
+		{
+			if (target.Components.TryGet<EntityAi>(out var aiComponent))
+			{
+				Send.ZC_NORMAL_Cutscene(target, false, false, false);
+
+				target.Components.Remove(aiComponent);
+				target.Components.Remove(target.Components.Get<Movement>());
+
+				if (args.Length < 2)
+				{
+					sender.ServerMessage("Disabled AI.");
+					return CommandResult.Okay;
+				}
+			}
+			else if (args.Length < 2)
+			{
+				sender.ServerMessage("No AI active.");
+				return CommandResult.Okay;
+			}
+
+			if (args.Length > 1)
+			{
+				var aiName = args[1];
+
+				// Characters need to be in "cutscene mode" for the server
+				// to move them, otherwise they'll just ignore the move
+				// packets.
+				Send.ZC_NORMAL_Cutscene(target, true, false, false);
+
+				target.Components.Add(new Movement(target));
+				target.Components.Add(new EntityAi(target, aiName));
+
+				sender.ServerMessage("Enabled '{0}' AI.", aiName);
+			}
 
 			return CommandResult.Okay;
 		}
