@@ -3,6 +3,7 @@ using System.Threading;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
+using Melia.Channel.World.Entities.Components.AI.Events;
 using Melia.Shared.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.EntityComponents;
@@ -215,11 +216,9 @@ namespace Melia.Channel.World.Entities
 		/// Returns true if the monster is dead.
 		/// </summary>
 		/// <param name="damage"></param>
-		/// <param name="from"></param>
-		/// <param name="type"></param>
-		/// <param name="attackIndex"></param>
+		/// <param name="attacker"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from /*, DamageVisibilityModifier type, int attackIndex*/)
+		public bool TakeDamage(int damage, Character attacker)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
@@ -230,9 +229,12 @@ namespace Melia.Channel.World.Entities
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
 			{
-				this.Kill(from);
+				this.Kill(attacker);
 				return true;
 			}
+
+			if (this.Components.TryGet<EntityAi>(out var ai))
+				ai.QueueEvent(new HitEvent(attacker?.Handle ?? 0));
 
 			return false;
 		}

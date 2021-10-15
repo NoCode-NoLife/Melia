@@ -1,21 +1,29 @@
+function init()
+	on("idle", "hit", "on_hit")
+end
+
 function idle()
-	wait(5000, 10000)
+	for i=1,5 do
+		wait(1000)
+		counting = true
+		say(i)
+	end
+	counting = false
 	
-	if random(100) < 25 then
-		for i=1,3 do
-			say(tostring(i) .. "...")
-			wait(1000)
-		end
-	
-		switchrandom()
-		if case(50) then -- 50% chance
-			say("Here we go!")
-		elseif case(15) then -- 15% chance
-			say("On the road, on the road~")
-		else -- 35% chance
-			say("Foobar!")
-		end
+	wander(20, 40)
+	wait(5000)
+end
+
+function on_hit(attacker)
+	if not counting then
+		return
 	end
 	
-	wander(20, 80)
+	say("(Attacked by "..attacker..")")
+	wait(1000)
+	
+	say("Ouchie!")
+	wait(1000)
+	say("... now I lost count qq")
+	wait(3000)
 end

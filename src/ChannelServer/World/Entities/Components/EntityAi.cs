@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Melia.Channel.Network;
 using Melia.Channel.World.Entities.Components.AI;
+using Melia.Channel.World.Entities.Components.AI.Events;
 using Melia.Channel.World.Entities.Components.AI.Routines;
 using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
@@ -20,6 +23,8 @@ namespace Melia.Channel.World.Entities.Components
 		private IntPtr GL, NL;
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly List<AiEventCallback> _eventCallbacks = new List<AiEventCallback>();
+		private readonly Queue<IAiEvent> _events = new Queue<IAiEvent>();
 
 		/// <summary>
 		/// Returns the entity this AI belongs to.
@@ -31,6 +36,11 @@ namespace Melia.Channel.World.Entities.Components
 		/// created.
 		/// </summary>
 		public Position InitialPosition { get; private set; }
+
+		/// <summary>
+		/// Returns the name of the current state.
+		/// </summary>
+		public string CurrentStateName { get; private set; } = "idle";
 
 		/// <summary>
 		/// Creates AI for entity.
@@ -88,6 +98,16 @@ namespace Melia.Channel.World.Entities.Components
 				GL = IntPtr.Zero;
 				return;
 			}
+
+			lua_getglobal(GL, "init");
+			if (lua_isfunction(GL, -1))
+			{
+				var result = lua_resume(GL, 0);
+				if (result != 0 && result != LUA_YIELD)
+					Log.Error("EntityAi: Error while exuting init function: {0}", lua_tostring(GL, -1));
+			}
+
+			lua_settop(GL, 0);
 		}
 
 		/// <summary>
@@ -145,6 +165,16 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
+		/// Queues up event for the AI to react to on the next tick.
+		/// </summary>
+		/// <param name="aiEvent"></param>
+		public void QueueEvent(IAiEvent aiEvent)
+		{
+			lock (_events)
+				_events.Enqueue(aiEvent);
+		}
+
+		/// <summary>
 		/// Updates the AI, executing one tick.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -153,6 +183,12 @@ namespace Melia.Channel.World.Entities.Components
 			// Don't do anything if the scripts weren't loaded successfully.
 			if (GL == IntPtr.Zero)
 				return;
+
+			// Don't do anything if the entity is dead
+			if (this.Entity.IsDead)
+				return;
+
+			this.HandleEvents();
 
 			// Get a thread to run the states on if we don't have one.
 			// If there aren't any on the stack, create one.
@@ -168,10 +204,10 @@ namespace Melia.Channel.World.Entities.Components
 			// which should create routines.
 			if (_currentRoutine == null)
 			{
-				lua_getglobal(NL, "idle");
+				lua_getglobal(NL, this.CurrentStateName);
 				if (!lua_isfunction(NL, -1))
 				{
-					Log.Error("EntityAi: Idle function not defined.");
+					Log.Error("EntityAi: Function '{0}' not defined.", this.CurrentStateName);
 					lua_settop(NL, 0);
 					return;
 				}
@@ -234,6 +270,96 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
+		/// Handles all queued up events.
+		/// </summary>
+		private void HandleEvents()
+		{
+			lock (_events)
+			{
+				while (_events.Count > 0)
+					this.HandleEvent(_events.Dequeue());
+			}
+		}
+
+		/// <summary>
+		/// Handles the given event.
+		/// </summary>
+		/// <param name="aiEvent"></param>
+		private void HandleEvent(IAiEvent aiEvent)
+		{
+			if (aiEvent is HitEvent hitEvent)
+			{
+				// Handle aggroing...
+
+				var attacker = this.Entity.Map.GetCharacter(hitEvent.AttackerHandle);
+				if (attacker != null)
+				{
+					this.Entity.Direction = this.Entity.Position.GetDirection(attacker.Position);
+					Send.ZC_ROTATE(this.Entity);
+				}
+
+				var callback = _eventCallbacks.FirstOrDefault(a => a.StateName == this.CurrentStateName && a.EventName == aiEvent.EventName);
+				if (callback != null && this.ExecuteEvent(callback.CallbackName, aiEvent) != LuaFuncResult.Yielded)
+				{
+					lua_settop(GL, 0);
+					return;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Executes the function with the given name and returns whether
+		/// it yielded.
+		/// </summary>
+		/// <param name="callbackName"></param>
+		/// <param name="aiEvent"></param>
+		/// <returns></returns>
+		private LuaFuncResult ExecuteEvent(string callbackName, IAiEvent aiEvent)
+		{
+			// Clear stack and any states that were potentially running.
+			_currentRoutine = null;
+			lua_settop(GL, 0);
+
+			NL = lua_newthread(GL);
+
+			lua_getglobal(NL, callbackName);
+			if (!lua_isfunction(NL, -1))
+			{
+				Log.Error("EntityAi: Function '{0}' not defined.", callbackName);
+				lua_settop(NL, 0);
+				return LuaFuncResult.Fail;
+			}
+
+			var argc = aiEvent.PushArguments(NL);
+
+			var stateResult = lua_resume(NL, argc);
+			if (stateResult != 0 && stateResult != LUA_YIELD)
+			{
+				Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(NL, -1));
+				lua_settop(NL, 0);
+				return LuaFuncResult.Fail;
+			}
+
+			// If the function completed, nothing yielded, so pop
+			// the newly created thread and let the AI get back to
+			// its current state on the next tick.
+			if (stateResult == 0)
+			{
+				lua_settop(GL, 0);
+				return LuaFuncResult.Success;
+			}
+
+			return LuaFuncResult.Yielded;
+		}
+
+		public enum LuaFuncResult
+		{
+			Success,
+			Fail,
+			Yielded,
+		}
+
+		/// <summary>
 		/// Starts the routine.
 		/// </summary>
 		/// <param name="routine"></param>
@@ -248,6 +374,31 @@ namespace Melia.Channel.World.Entities.Components
 		private void ResetRoutine()
 		{
 			_currentRoutine = null;
+		}
+
+		/// <summary>
+		/// Sets up a callback for an event.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - string  stateName  Name of the state during which to reach to the event.
+		/// - string  eventName  Name of the event.
+		/// - string  callbackName  Name of the function to call to handle the event.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("on")]
+		protected int OnEvent(IntPtr L)
+		{
+			var stateName = luaL_checkstring(L, 1);
+			var eventName = luaL_checkstring(L, 2);
+			var callbackName = luaL_checkstring(L, 3);
+
+			lua_settop(L, 0);
+
+			_eventCallbacks.Add(new AiEventCallback(stateName, eventName, callbackName));
+
+			return 0;
 		}
 
 		/// <summary>
