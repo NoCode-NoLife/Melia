@@ -51,6 +51,30 @@ namespace Melia.Shared.EntityComponents
 		}
 
 		/// <summary>
+		/// Removes all components of the given type, returns false if the
+		/// component didn't exist.
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public bool Remove<TComponent>()
+		{
+			lock (_syncLock)
+			{
+				var type = typeof(TComponent);
+
+				if (!_components.TryGetValue(typeof(TComponent), out var component))
+					return false;
+
+				_components.Remove(type);
+
+				if (component is IUpdatableComponent updatableComponent)
+					_updateables.Remove(updatableComponent);
+
+				return true;
+			}
+		}
+
+		/// <summary>
 		/// Returns the component of the given type, or the type's default
 		/// value if the component wasn't found.
 		/// </summary>
@@ -80,6 +104,17 @@ namespace Melia.Shared.EntityComponents
 		{
 			component = this.Get<TComponent>();
 			return component != null;
+		}
+
+		/// <summary>
+		/// Returns true if the a component with the given type exists.
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public bool Has<TComponent>()
+		{
+			lock (_syncLock)
+				return _components.ContainsKey(typeof(TComponent));
 		}
 
 		/// <summary>

@@ -1385,12 +1385,12 @@ namespace Melia.Channel.Util
 		/// <returns></returns>
 		private CommandResult HandleAi(ChannelConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			if (target.Components.TryGet<EntityAi>(out var aiComponent))
+			if (target.Components.Has<EntityAi>())
 			{
 				Send.ZC_NORMAL_Cutscene(target, false, false, false);
 
-				target.Components.Remove(aiComponent);
-				target.Components.Remove(target.Components.Get<Movement>());
+				target.Components.Remove<Movement>();
+				target.Components.Remove<EntityAi>();
 
 				if (args.Length < 2)
 				{
