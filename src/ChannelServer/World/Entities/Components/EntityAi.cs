@@ -12,9 +12,9 @@ using static MeluaLib.Melua;
 namespace Melia.Channel.World.Entities.Components
 {
 	/// <summary>
-	/// An AI component, that controls a monster.
+	/// An AI component, that controls an entity.
 	/// </summary>
-	public class MonsterAi : IUpdatableComponent
+	public class EntityAi : IUpdatableComponent
 	{
 		private IRoutine _currentRoutine;
 		private IntPtr L;
@@ -22,25 +22,25 @@ namespace Melia.Channel.World.Entities.Components
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
-		/// Returns the monster this AI belongs to.
+		/// Returns the entity this AI belongs to.
 		/// </summary>
-		public Monster Monster { get; }
+		public IEntity Entity { get; }
 
 		/// <summary>
-		/// Returns the position of the monster when the AI was
+		/// Returns the position of the entity when the AI was
 		/// created.
 		/// </summary>
 		public Position InitialPosition { get; private set; }
 
 		/// <summary>
-		/// Creates AI for monster.
+		/// Creates AI for entity.
 		/// </summary>
-		/// <param name="monster"></param>
+		/// <param name="entity"></param>
 		/// <param name="aiName"></param>
-		public MonsterAi(Monster monster, string aiName)
+		public EntityAi(IEntity entity, string aiName)
 		{
-			this.Monster = monster;
-			this.InitialPosition = monster.Position;
+			this.Entity = entity;
+			this.InitialPosition = entity.Position;
 
 			this.SetUpScript(aiName);
 		}
@@ -59,7 +59,7 @@ namespace Melia.Channel.World.Entities.Components
 			var filePath = "system/scripts/ai/" + aiName + ".lua";
 			if (!File.Exists(filePath))
 			{
-				Log.Error("MonsterAi: AI script '{0}' not found.", aiName);
+				Log.Error("EntityAi: AI script '{0}' not found.", aiName);
 				return;
 			}
 
@@ -101,7 +101,7 @@ namespace Melia.Channel.World.Entities.Components
 			var loadResult = luaL_loadfile(L, filePath);
 			if (loadResult != 0)
 			{
-				Log.Error("MonsterAi: Failed to read script. Error: {0}", lua_tostring(L, -1));
+				Log.Error("EntityAi: Failed to read script. Error: {0}", lua_tostring(L, -1));
 				L = IntPtr.Zero;
 				return false;
 			}
@@ -109,7 +109,7 @@ namespace Melia.Channel.World.Entities.Components
 			var callResult = lua_pcall(L, 0, 0, 0);
 			if (callResult != 0)
 			{
-				Log.Error("MonsterAi: Failed to load script. Error: {0}", lua_tostring(L, -1));
+				Log.Error("EntityAi: Failed to load script. Error: {0}", lua_tostring(L, -1));
 				return false;
 			}
 
@@ -161,7 +161,7 @@ namespace Melia.Channel.World.Entities.Components
 				lua_getglobal(L, "idle");
 				if (!lua_isfunction(L, -1))
 				{
-					Log.Error("MonsterAi: Idle function not defined.");
+					Log.Error("EntityAi: Idle function not defined.");
 					lua_settop(L, 0);
 					return;
 				}
@@ -169,7 +169,7 @@ namespace Melia.Channel.World.Entities.Components
 				var stateResult = lua_resume(L, 0);
 				if (stateResult != 0 && stateResult != LUA_YIELD)
 				{
-					Log.Error("MonsterAi: Error while exuting state function: {0}", lua_tostring(L, -1));
+					Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(L, -1));
 					lua_settop(L, 0);
 					return;
 				}
@@ -211,7 +211,7 @@ namespace Melia.Channel.World.Entities.Components
 			var result = lua_resume(L, 0);
 			if (result != 0 && result != LUA_YIELD)
 			{
-				Log.Error("MonsterAi: Error while advancing state: {0}", lua_tostring(L, -1));
+				Log.Error("EntityAi: Error while advancing state: {0}", lua_tostring(L, -1));
 				lua_settop(L, 0);
 			}
 		}
@@ -234,8 +234,13 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
-		/// Start Wait routine.
+		/// Makes AI wait for a certain amount of time.
 		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - int  min  Minimum wait time in milliseconds.
+		/// - int  max  Maximum wait time in milliseconds. (optional)
+		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("wait")]
@@ -258,8 +263,13 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
-		/// Starts Wander routine.
+		/// Makes entity walk to a random position nearby.
 		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - int  minDistance  Minimum distance to walk.
+		/// - int  maxDistance  Maximum distance to walk. (optional)
+		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("wander")]
@@ -278,7 +288,7 @@ namespace Melia.Channel.World.Entities.Components
 			// for a moment.
 			var destination = Position.Zero;
 			var validDest = false;
-			var pos = this.Monster.Position;
+			var pos = this.Entity.Position;
 
 			for (var i = 0; i < 50; ++i)
 			{
@@ -289,7 +299,7 @@ namespace Melia.Channel.World.Entities.Components
 					continue;
 
 				// Use the destination if it's valid
-				if (this.Monster.Map.Ground.IsValidPosition(destination))
+				if (this.Entity.Map.Ground.IsValidPosition(destination))
 				{
 					validDest = true;
 					break;
@@ -310,8 +320,12 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
-		/// Shows emoticon for monster.
+		/// Shows emoticon for entity.
 		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - string  emoticonName
+		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("emoticon")]
@@ -320,14 +334,18 @@ namespace Melia.Channel.World.Entities.Components
 			var emoticonName = luaL_checkstring(L, 1);
 			lua_settop(L, 0);
 
-			Send.ZC_SHOW_EMOTICON(this.Monster, emoticonName, 2000);
+			Send.ZC_SHOW_EMOTICON(this.Entity, emoticonName, 2000);
 
 			return 0;
 		}
 
 		/// <summary>
-		/// Makes monster say something.
+		/// Makes entity say something.
 		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - string  message
+		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("say")]
@@ -337,7 +355,7 @@ namespace Melia.Channel.World.Entities.Components
 
 			lua_settop(L, 0);
 
-			Send.ZC_CHAT(this.Monster, msg);
+			Send.ZC_CHAT(this.Entity, msg);
 
 			return 0;
 		}
@@ -345,6 +363,10 @@ namespace Melia.Channel.World.Entities.Components
 		/// <summary>
 		/// Prints debug message.
 		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - string  message
+		/// </remarks>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("logdebug")]
@@ -362,6 +384,10 @@ namespace Melia.Channel.World.Entities.Components
 		/// Returns a random number.
 		/// </summary>
 		/// <remarks>
+		/// Arguments:
+		/// - int  min  Minimum value. (optional)
+		/// - int  max  Maximum value - 1. (optional)
+		/// 
 		/// Result:
 		/// - No arguments: 0 ~ 100
 		/// - 1 Argument:   0 ~ argument1
@@ -400,6 +426,10 @@ namespace Melia.Channel.World.Entities.Components
 		/// Returns a random float number.
 		/// </summary>
 		/// <remarks>
+		/// Arguments:
+		/// - float  min  Minimum value. (optional)
+		/// - float  max  Maximum value - 1. (optional)
+		/// 
 		/// Result:
 		/// - No arguments: 0.0 ~ 1.0
 		/// - 1 Argument:   0.0 ~ argument1

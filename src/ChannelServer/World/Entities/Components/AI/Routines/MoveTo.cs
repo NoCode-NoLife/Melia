@@ -8,7 +8,7 @@ namespace Melia.Channel.World.Entities.Components.AI.Routines
 	/// </summary>
 	public class MoveToRoutine : IRoutine
 	{
-		private MonsterAi _ai;
+		private EntityAi _ai;
 		private Position _destination;
 		private bool _started;
 		private TimeSpan _moveTime;
@@ -18,7 +18,7 @@ namespace Melia.Channel.World.Entities.Components.AI.Routines
 		/// </summary>
 		/// <param name="ai"></param>
 		/// <param name="distance"></param>
-		public MoveToRoutine(MonsterAi ai, Position destination)
+		public MoveToRoutine(EntityAi ai, Position destination)
 		{
 			this.Init(ai, destination);
 		}
@@ -28,7 +28,7 @@ namespace Melia.Channel.World.Entities.Components.AI.Routines
 		/// </summary>
 		/// <param name="ai"></param>
 		/// <param name="distance"></param>
-		public void Init(MonsterAi ai, Position destination)
+		public void Init(EntityAi ai, Position destination)
 		{
 			_ai = ai;
 			_destination = destination;
@@ -53,7 +53,7 @@ namespace Melia.Channel.World.Entities.Components.AI.Routines
 				return RoutineResult.Success;
 			}
 
-			if (_ai.Monster.Components.TryGet<Movement>(out var movement))
+			if (_ai.Entity.Components.TryGet<Movement>(out var movement))
 			{
 				_moveTime = movement.MoveTo(_destination);
 				_started = true;
