@@ -20,6 +20,20 @@ namespace Melia.Channel.Network
 		public static readonly ChannelPacketHandler Instance = new ChannelPacketHandler();
 
 		/// <summary>
+		/// Sent wrongfully if a channel wasn't available and the client
+		/// tries to log in again afterwards.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_LOGIN)]
+		public void CB_LOGIN(ChannelConnection conn, Packet packet)
+		{
+			// Close connection, which should then make the client try to
+			// connect to login instead.
+			conn.Close();
+		}
+
+		/// <summary>
 		/// Sent after connecting to channel.
 		/// </summary>
 		/// <param name="conn"></param>
