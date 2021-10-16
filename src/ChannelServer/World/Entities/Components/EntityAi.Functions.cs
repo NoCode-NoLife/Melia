@@ -369,5 +369,106 @@ namespace Melia.Channel.World.Entities.Components
 
 			return 1;
 		}
+
+		/// <summary>
+		/// Makes entity turn in a random direction.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("turnrnd")]
+		protected int TurnRandom(IntPtr L)
+		{
+			// Official monsters seem to only randomly turn in the 4 major
+			// directions.
+			var angle = _rnd.Next(0, 4) * 90;
+			var dir = new Direction(angle);
+
+			// Should Entity really have Rotate? We might want a new
+			// interface for "creatures", entities that walk around,
+			// and are different from, say item monsters.
+			//this.Entity.Rotate(dir); 
+
+			this.Entity.Direction = dir;
+			Send.ZC_ROTATE(this.Entity);
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity turn in a specific direction.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - number  direction  Direction to turn to, between 0 and 7.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("turndir")]
+		protected int TurnDirection(IntPtr L)
+		{
+			var dirIndex = luaL_checknumber(L, 1) % 8;
+			lua_settop(L, 0);
+
+			var dir = new Direction(dirIndex * 45);
+
+			this.Entity.Direction = dir;
+			Send.ZC_ROTATE(this.Entity);
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity turn to the given entity.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - int  handle  Handle of the entity to turn to.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("turnto")]
+		protected int TurnTo(IntPtr L)
+		{
+			var handle = luaL_checkinteger(L, 1);
+			lua_settop(L, 0);
+
+			var otherEntity = this.Entity.Map.GetCombatEntity(handle);
+			if (otherEntity != null)
+			{
+				var dir = this.Entity.Position.GetDirection(otherEntity.Position);
+
+				this.Entity.Direction = dir;
+				Send.ZC_ROTATE(this.Entity);
+			}
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity turn away from the given entity.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - int  handle  Handle of the entity to turn away from.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("turnaway")]
+		protected int TurnAway(IntPtr L)
+		{
+			var handle = luaL_checkinteger(L, 1);
+			lua_settop(L, 0);
+
+			var otherEntity = this.Entity.Map.GetCombatEntity(handle);
+			if (otherEntity != null)
+			{
+				var dir = otherEntity.Position.GetDirection(this.Entity.Position);
+
+				this.Entity.Direction = dir;
+				Send.ZC_ROTATE(this.Entity);
+			}
+
+			return lua_yield(L, 0);
+		}
 	}
 }
