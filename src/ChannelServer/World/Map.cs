@@ -54,6 +54,11 @@ namespace Melia.Channel.World
 		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
 
 		/// <summary>
+		/// List for characters during visibility update.
+		/// </summary>
+		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
+
+		/// <summary>
 		/// Map name.
 		/// </summary>
 		public string Name { get; protected set; }
@@ -175,10 +180,21 @@ namespace Melia.Channel.World
 		/// </summary>
 		private void UpdateVisibility()
 		{
-			lock (_characters)
+			// Same challenge as in UpdateEntities, LookAround queries
+			// the visible characters while locking them to iterate
+			// them, which can cause a deadlock if another thread
+			// tries something similar. Wouldn't be an issue with
+			// ReaderWriterLockSlim, but I'm curious about just
+			// using lock.
+			lock (_updateVisibleCharacters)
 			{
-				foreach (var character in _characters.Values)
+				lock (_characters)
+					_updateVisibleCharacters.AddRange(_characters.Values);
+
+				foreach (var character in _updateVisibleCharacters)
 					character.LookAround();
+
+				_updateVisibleCharacters.Clear();
 			}
 		}
 
