@@ -69,11 +69,11 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
-		/// Makes entity walk to a random position nearby.
+		/// Makes entity walk to a random position in its spawn area.
 		/// </summary>
 		/// <remarks>
 		/// Arguments:
-		/// - int  minDistance  Minimum distance to walk.
+		/// - int  minDistance  Minimum distance to walk. (optional)
 		/// - int  maxDistance  Maximum distance to walk. (optional)
 		/// </remarks>
 		/// <param name="L"></param>
@@ -81,8 +81,11 @@ namespace Melia.Channel.World.Entities.Components
 		[ScriptFunction("wander")]
 		protected int Wander(IntPtr L)
 		{
-			var minDistance = luaL_checkinteger(L, 1);
-			var maxDistance = minDistance;
+			var minDistance = 30;
+			var maxDistance = 50;
+
+			if (lua_gettop(L) > 0)
+				minDistance = luaL_checkinteger(L, 1);
 
 			if (lua_gettop(L) > 1)
 				maxDistance = luaL_checkinteger(L, 2);
@@ -113,6 +116,103 @@ namespace Melia.Channel.World.Entities.Components
 			}
 
 			if (validDest)
+			{
+				var routine = new MoveToRoutine(this, destination);
+				this.StartRoutine(routine);
+			}
+			else
+			{
+				this.StartRoutine(new WaitRoutine(TimeSpan.FromSeconds(2)));
+			}
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity move to a specific position.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - number  x  Position to move to on the X axis.
+		/// - number  z  Position to move to on the Z axis.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("moveto")]
+		protected int MoveTo(IntPtr L)
+		{
+			var x = (float)luaL_checknumber(L, 1);
+			var z = (float)luaL_checknumber(L, 2);
+			lua_settop(L, 0);
+
+			var destination = new Position(x, 0, z);
+
+			if (this.Entity.Map.Ground.IsValidPosition(destination))
+			{
+				var routine = new MoveToRoutine(this, destination);
+				this.StartRoutine(routine);
+			}
+			else
+			{
+				this.StartRoutine(new WaitRoutine(TimeSpan.FromSeconds(2)));
+			}
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity move a certain distance, relative to its current
+		/// position.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - number  x  Distance to move on the X axis.
+		/// - number  z  Distance to move on the Z axis.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("moverel")]
+		protected int MoveRelative(IntPtr L)
+		{
+			var addX = (float)luaL_checknumber(L, 1);
+			var addZ = (float)luaL_checknumber(L, 2);
+			lua_settop(L, 0);
+
+			var destination = this.Entity.Position;
+			destination.X += addX;
+			destination.Z += addZ;
+
+			if (this.Entity.Map.Ground.IsValidPosition(destination))
+			{
+				var routine = new MoveToRoutine(this, destination);
+				this.StartRoutine(routine);
+			}
+			else
+			{
+				this.StartRoutine(new WaitRoutine(TimeSpan.FromSeconds(2)));
+			}
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity move a certain distance in a random direction.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - number  radius  Distance to move.
+		/// </remarks>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("movernd")]
+		protected int MoveRandom(IntPtr L)
+		{
+			var radius = (float)luaL_checknumber(L, 1);
+			lua_settop(L, 0);
+
+			var destination = this.Entity.Position.GetRandomInRange2D((int)radius, _rnd);
+
+			if (this.Entity.Map.Ground.IsValidPosition(destination))
 			{
 				var routine = new MoveToRoutine(this, destination);
 				this.StartRoutine(routine);
@@ -233,8 +333,8 @@ namespace Melia.Channel.World.Entities.Components
 		/// </summary>
 		/// <remarks>
 		/// Arguments:
-		/// - float  min  Minimum value. (optional)
-		/// - float  max  Maximum value - 1. (optional)
+		/// - number  min  Minimum value. (optional)
+		/// - number  max  Maximum value - 1. (optional)
 		/// 
 		/// Result:
 		/// - No arguments: 0.0 ~ 1.0
