@@ -215,7 +215,9 @@ namespace Melia.Channel.World.Entities.Components
 				if (stateResult != 0 && stateResult != LUA_YIELD)
 				{
 					Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(NL, -1));
-					lua_settop(NL, 0);
+
+					// Don't continue if an error occurred.
+					GL = IntPtr.Zero;
 					return;
 				}
 			}
@@ -257,7 +259,9 @@ namespace Melia.Channel.World.Entities.Components
 			if (result != 0 && result != LUA_YIELD)
 			{
 				Log.Error("EntityAi: Error while advancing state: {0}", lua_tostring(NL, -1));
-				lua_settop(NL, 0);
+
+				GL = IntPtr.Zero;
+				return;
 			}
 
 			// If the state reached its end and there's more than one thread
