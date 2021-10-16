@@ -111,6 +111,7 @@
     <Compile Include="World\Entities\Components\AI\Routines\Wait.cs" />
     <Compile Include="World\Entities\Components\Buff.cs" />
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
+    <Compile Include="World\Entities\Components\EntityAi.Functions.cs" />
     <Compile Include="World\Entities\Components\EntityAi.cs" />
     <Compile Include="World\Entities\Components\MonsterProperties.cs" />
     <Compile Include="World\Entities\Components\Movement.cs" />
