@@ -14,6 +14,11 @@ function idle()
 	wait(5000)
 end
 
+function aggro()
+	say("I hate you!")
+	wait(3000)
+end
+
 function on_hit(attacker)
 	if not counting then
 		return

@@ -18,12 +18,25 @@ namespace Melia.Channel.World.Entities.Components
 	/// </summary>
 	public partial class EntityAi : IUpdatableComponent
 	{
+		private const int HateThreshold = 100;
+
 		private IRoutine _currentRoutine;
 		private IntPtr GL, NL;
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 		private readonly List<AiEventCallback> _eventCallbacks = new List<AiEventCallback>();
 		private readonly Queue<IAiEvent> _events = new Queue<IAiEvent>();
+
+		private int _maxTargetDistance = 200;
+		private int _aggroRange = 100;
+
+		// The AI keeps track of how much it hates another entity by way
+		// of "hate levels", which increase by different amounts depending
+		// on the other entities' actions, such as standing close by or
+		// attacking the AI's entity.
+		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
+		private float _hateNearby = 20; // per second
+		private float _hateGetHit = 100;
 
 		/// <summary>
 		/// Returns the entity this AI belongs to.
@@ -40,6 +53,11 @@ namespace Melia.Channel.World.Entities.Components
 		/// Returns the name of the current state.
 		/// </summary>
 		public string CurrentStateName { get; private set; } = "idle";
+
+		/// <summary>
+		/// Returns the AI's current target.
+		/// </summary>
+		public int TargetHandle { get; private set; }
 
 		/// <summary>
 		/// Creates AI for entity.
@@ -174,6 +192,18 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
+		/// Resets AI, clearing its targets and going back to its idle state.
+		/// </summary>
+		private void Reset()
+		{
+			this.CurrentStateName = "idle";
+			this.TargetHandle = 0;
+			_hateLevels.Clear();
+
+			lua_settop(GL, 0);
+		}
+
+		/// <summary>
 		/// Updates the AI, executing one tick.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -188,7 +218,17 @@ namespace Melia.Channel.World.Entities.Components
 				return;
 
 			this.HandleEvents();
+			this.UpdateHate(elapsed);
+			this.UpdateTarget();
+			this.UpdateState();
+			this.Tick(elapsed);
+		}
 
+		/// <summary>
+		/// Executes one tick of the AI.
+		/// </summary>
+		private void Tick(TimeSpan elapsed)
+		{
 			// Get a thread to run the states on if we don't have one.
 			// If there aren't any on the stack, create one.
 			if (NL == IntPtr.Zero)
@@ -206,7 +246,7 @@ namespace Melia.Channel.World.Entities.Components
 				lua_getglobal(NL, this.CurrentStateName);
 				if (!lua_isfunction(NL, -1))
 				{
-					Log.Error("EntityAi: Function '{0}' not defined.", this.CurrentStateName);
+					Log.Warning("EntityAi: Function '{0}' not defined.", this.CurrentStateName);
 					lua_settop(NL, 0);
 					return;
 				}
@@ -214,7 +254,7 @@ namespace Melia.Channel.World.Entities.Components
 				var stateResult = lua_resume(NL, 0);
 				if (stateResult != 0 && stateResult != LUA_YIELD)
 				{
-					Log.Error("EntityAi: Error while exuting state function: {0}", lua_tostring(NL, -1));
+					Log.Error("EntityAi: Error while executing '{0}': {1}", this.CurrentStateName, lua_tostring(NL, -1));
 
 					// Don't continue if an error occurred.
 					GL = IntPtr.Zero;
@@ -273,6 +313,136 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
+		/// Updates which state is currently being used, based on the
+		/// AI's target.
+		/// </summary>
+		private void UpdateState()
+		{
+			if (this.TargetHandle == 0)
+				this.CurrentStateName = "idle";
+			else
+				this.CurrentStateName = "aggro";
+		}
+
+		/// <summary>
+		/// Updates the AI's target, checking the current or searching
+		/// for a new one.
+		/// </summary>
+		private void UpdateTarget()
+		{
+			var targetHandle = this.TargetHandle;
+
+			if (targetHandle == 0)
+			{
+				this.FindTarget();
+				return;
+			}
+
+			// Reset if target became unavailable
+			if (!this.TryGetTarget(out var target))
+			{
+				this.Reset();
+				return;
+			}
+
+			// Reset if the target died or got out of range
+			if (target.IsDead || !target.Position.InRange2D(this.Entity.Position, _maxTargetDistance))
+			{
+				this.Reset();
+				return;
+			}
+		}
+
+		/// <summary>
+		/// Updates the AI's hate, increasing it for nearby enemies and
+		/// resetting it for ones that disappeared.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateHate(TimeSpan elapsed)
+		{
+			// Focus on hating the current target
+			if (this.TargetHandle != 0)
+				return;
+
+			// Get potential nearby targets
+			var potentialTargets = this.Entity.Map.GetEntities(a => a != this.Entity && a.Position.InRange2D(this.Entity.Position, _aggroRange));
+
+			// Reset hate for targets that are not potential targets anymore
+			if (_hateLevels.Count != 0)
+			{
+				var hateHandles = _hateLevels.Keys.ToArray();
+				foreach (var handle in hateHandles)
+				{
+					var target = potentialTargets.FirstOrDefault(a => a.Handle == handle);
+					if (target == null)
+						_hateLevels.Remove(handle);
+				}
+			}
+
+			// Increase hate for all potential targets
+			foreach (var target in potentialTargets)
+			{
+				if (!_hateLevels.TryGetValue(target.Handle, out var hate))
+					hate = 0;
+
+				// Raise hate, up to the threshold where the AI starts
+				// targetting enemies. This way we get to the point of
+				// aggro, but don't keep increasing the hate afterwards.
+				if (hate < HateThreshold)
+					_hateLevels[target.Handle] = hate + _hateNearby * (float)elapsed.TotalSeconds;
+			}
+		}
+
+		/// <summary>
+		/// Searches for a new target for the AI.
+		/// </summary>
+		private void FindTarget()
+		{
+			if (_hateLevels.Count == 0)
+				return;
+
+			var handle = -1;
+			var highest = -1f;
+
+			foreach (var kv in _hateLevels)
+			{
+				handle = kv.Key;
+				var hate = kv.Value;
+
+				if (hate > highest)
+					highest = hate;
+			}
+
+			if (highest != -1 && highest > HateThreshold)
+			{
+				this.TargetHandle = handle;
+				this.ResetRoutine();
+
+				NL = IntPtr.Zero;
+				lua_settop(GL, 0);
+			}
+		}
+
+		/// <summary>
+		/// Returns the AI's current target if it's still on the same map.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		private bool TryGetTarget(out ICombatEntity target)
+		{
+			var targetHandle = this.TargetHandle;
+			target = null;
+
+			if (targetHandle == 0)
+				return false;
+
+			if (!this.Entity.Map.TryGetCombatEntity(targetHandle, out target))
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Handles all queued up events.
 		/// </summary>
 		private void HandleEvents()
@@ -292,9 +462,14 @@ namespace Melia.Channel.World.Entities.Components
 		{
 			if (aiEvent is HitEvent hitEvent)
 			{
-				// Handle aggroing...
+				var handle = hitEvent.AttackerHandle;
 
-				var attacker = this.Entity.Map.GetCharacter(hitEvent.AttackerHandle);
+				if (!_hateLevels.TryGetValue(handle, out var hate))
+					hate = 0;
+
+				_hateLevels[handle] = hate + _hateGetHit;
+
+				var attacker = this.Entity.Map.GetCharacter(handle);
 				if (attacker != null)
 				{
 					this.Entity.Direction = this.Entity.Position.GetDirection(attacker.Position);

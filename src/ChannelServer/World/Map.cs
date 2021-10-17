@@ -351,6 +351,25 @@ namespace Melia.Channel.World
 		}
 
 		/// <summary>
+		/// Returns all entities that match the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public IEntity[] GetEntities(Func<IEntity, bool> predicate)
+		{
+			lock (_combatEntities)
+				return _combatEntities.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
+		/// Returns all entities in visible range of entity.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public IEntity[] GetVisibleEntities(IEntity entity)
+			=> this.GetEntities(a => a != entity && entity.Position.InRange2D(a.Position, VisibleRange));
+
+		/// <summary>
 		/// Returns attackable monsters in the given radius around position.
 		/// </summary>
 		/// <param name="position"></param>
