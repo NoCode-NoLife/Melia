@@ -69,7 +69,7 @@ namespace Melia.Channel.World.Entities.Components
 		}
 
 		/// <summary>
-		/// Makes entity walk to a random position in its spawn area.
+		/// Makes entity walk to a random position nearby.
 		/// </summary>
 		/// <remarks>
 		/// Arguments:
@@ -85,29 +85,28 @@ namespace Melia.Channel.World.Entities.Components
 			var maxDistance = 50;
 
 			if (lua_gettop(L) > 0)
-				minDistance = luaL_checkinteger(L, 1);
+				minDistance = maxDistance = luaL_checkinteger(L, 1);
 
 			if (lua_gettop(L) > 1)
 				maxDistance = luaL_checkinteger(L, 2);
 
 			lua_settop(L, 0);
 
-			// Try to find a valid random destination. If we can't find
-			// one in a reasonable amount of time, just let the AI wait
-			// for a moment.
+			// Try to find a valid random destination. Official AIs
+			// seem to only wander in one of the 4 major directions,
+			// so if we check all 4 and don't find a valid destination,
+			// we can't move. Just wait for a moment in that case.
 			var destination = Position.Zero;
+			var distance = _rnd.Next(minDistance, maxDistance + 1);
 			var validDest = false;
 			var pos = this.Entity.Position;
 
-			for (var i = 0; i < 50; ++i)
+			var firstDir = _rnd.Next(4);
+			for(var i = 0; i < 4; ++i)
 			{
-				destination = this.InitialPosition.GetRandomInRange2D(maxDistance, _rnd);
+				var angle = ((firstDir + i) % 4) * 90;
+				destination = pos.GetRelative(new Direction(angle), distance);
 
-				// Skip destination if it's too close the current position
-				if (pos.InRange2D(destination, minDistance) || !pos.InRange2D(destination, maxDistance))
-					continue;
-
-				// Use the destination if it's valid
 				if (this.Entity.Map.Ground.IsValidPosition(destination))
 				{
 					validDest = true;
