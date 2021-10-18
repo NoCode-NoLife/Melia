@@ -4,10 +4,15 @@ using Melia.Shared.Const;
 namespace Melia.Channel.World.Entities
 {
 	/// <summary>
-	/// A representation of an item on the map.
+	/// A representation of an item on a map.
 	/// </summary>
 	public class ItemMonster : Monster
 	{
+		/// <summary>
+		/// Returns the item's entity type.
+		/// </summary>
+		public override EntityType Type => EntityType.Item;
+
 		/// <summary>
 		/// Returns the item this monster represents.
 		/// </summary>

@@ -22,6 +22,11 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public int Handle { get; private set; }
 
+		/// <summary>
+		/// Returns the monster's entity type.
+		/// </summary>
+		public virtual EntityType Type => EntityType.Mob;
+
 		private Map _map = Map.Limbo;
 		/// <summary>
 		/// The map the monster is currently on.

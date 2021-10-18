@@ -58,6 +58,11 @@ namespace Melia.Channel.World.Entities
 		public int Handle { get; private set; }
 
 		/// <summary>
+		/// Returns the character's entity type.
+		/// </summary>
+		public EntityType Type => EntityType.Character;
+
+		/// <summary>
 		/// Character's name.
 		/// </summary>
 		public string Name { get; set; }
