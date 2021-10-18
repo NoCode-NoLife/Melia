@@ -151,7 +151,9 @@ namespace Melia.Channel.World.Entities.Components
 					position.X += (float)(_moveX * elapsed.TotalSeconds);
 					position.Z += (float)(_moveZ * elapsed.TotalSeconds);
 
-					this.Entity.Map.Ground.TryGetHeightAt(position, out var height);
+					if (!this.Entity.Map.Ground.TryGetHeightAt(position, out var height))
+						height = 0;
+
 					position.Y = height;
 
 					this.Entity.Position = position;
