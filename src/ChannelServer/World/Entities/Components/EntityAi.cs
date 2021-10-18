@@ -387,7 +387,7 @@ namespace Melia.Channel.World.Entities.Components
 			// Increase hate for all potential targets
 			foreach (var target in potentialTargets)
 			{
-				if (target.Handle == this.MasterHandle)
+				if (!this.DoesHate(target))
 					continue;
 
 				if (!_hateLevels.TryGetValue(target.Handle, out var hate))
@@ -399,6 +399,31 @@ namespace Melia.Channel.World.Entities.Components
 				if (hate < HateThreshold)
 					_hateLevels[target.Handle] = hate + _hateNearby * (float)elapsed.TotalSeconds;
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the AI's entity hates the given entity.
+		/// </summary>
+		/// <param name="otherEntity"></param>
+		/// <returns></returns>
+		private bool DoesHate(IEntity otherEntity)
+		{
+			// I want us to be able to script what kinds of entities
+			// the AI can hate, but for now, AIs hate everything that
+			// is different than them.
+
+			// Can't hate items
+			if (otherEntity.Type == EntityType.Item)
+				return false;
+
+			// Don't hate while having a master for now. I assume the
+			// behavior of pets is controllable? (Assuming that they
+			// do combat at all.)
+			if (this.MasterHandle != 0)
+				return false;
+
+			// Hate everything that has a different type
+			return (this.Entity.Type != otherEntity.Type);
 		}
 
 		/// <summary>
