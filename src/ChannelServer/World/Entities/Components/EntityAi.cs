@@ -55,6 +55,11 @@ namespace Melia.Channel.World.Entities.Components
 		public string CurrentStateName { get; private set; } = "idle";
 
 		/// <summary>
+		/// Returns the AI's current master.
+		/// </summary>
+		public int MasterHandle { get; private set; }
+
+		/// <summary>
 		/// Returns the AI's current target.
 		/// </summary>
 		public int TargetHandle { get; private set; }
@@ -382,6 +387,9 @@ namespace Melia.Channel.World.Entities.Components
 			// Increase hate for all potential targets
 			foreach (var target in potentialTargets)
 			{
+				if (target.Handle == this.MasterHandle)
+					continue;
+
 				if (!_hateLevels.TryGetValue(target.Handle, out var hate))
 					hate = 0;
 
@@ -528,6 +536,67 @@ namespace Melia.Channel.World.Entities.Components
 			}
 
 			return LuaFuncResult.Yielded;
+		}
+
+		/// <summary>
+		/// Returns the handle that the given integer references.
+		/// </summary>
+		/// <remarks>
+		/// The AI scripts may pass special ids to specify what entity
+		/// they want to use a routine with, such as their master or
+		/// their current target. This method returns the respective
+		/// handle for the requested id, or falls back to simply
+		/// returning the given handle.
+		/// </remarks>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		private int ResolveHandle(int handle)
+		{
+			switch (handle)
+			{
+				case HandleId.Me: return this.Entity.Handle;
+				case HandleId.Master: return this.MasterHandle;
+				case HandleId.Target: return this.TargetHandle;
+
+				default: return handle;
+			}
+		}
+
+		/// <summary>
+		/// Returns the default handle for the "other entity" for the
+		/// current state. Returns 0 if no fitting handle could be
+		/// found.
+		/// </summary>
+		/// <remarks>
+		/// The returned handle is the one you're most likely to want
+		/// for the current state. For example, during aggro, the "other
+		/// entity" is most likely the current aggro target, while during
+		/// idle, the other entity is most likely the entity's master.
+		/// This method is intended for use with script functions that
+		/// have optional handle arguments.
+		/// </remarks>
+		/// <returns></returns>
+		private int GetOtherEntityHandle()
+		{
+			switch (this.CurrentStateName)
+			{
+				case "idle": return this.MasterHandle;
+				case "aggro": return this.TargetHandle;
+
+				default: return 0;
+			}
+		}
+
+		/// <summary>
+		/// Sets this AI's master.
+		/// </summary>
+		/// <param name="entity"></param>
+		public void SetMaster(IEntity entity)
+		{
+			this.MasterHandle = entity.Handle;
+
+			lua_pushboolean(GL, true);
+			lua_setglobal(GL, "HAS_MASTER");
 		}
 
 		public enum LuaFuncResult

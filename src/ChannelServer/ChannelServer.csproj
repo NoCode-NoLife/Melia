@@ -104,6 +104,7 @@
     <Compile Include="World\Entities\Components\AI\Events\AiEvent.cs" />
     <Compile Include="World\Entities\Components\AI\Events\AiEventCallback.cs" />
     <Compile Include="World\Entities\Components\AI\Events\HitEvent.cs" />
+    <Compile Include="World\Entities\Components\AI\HandleId.cs" />
     <Compile Include="World\Entities\Components\AI\Routine.cs" />
     <Compile Include="World\Entities\Components\AI\ScriptFunctionAttribute.cs" />
     <Compile Include="World\Entities\Components\AI\RoutineResult.cs" />

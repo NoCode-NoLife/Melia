@@ -1,3 +1,8 @@
+-- Constants
+ME = -1
+MASTER = -2
+TARGET = -3
+
 --- Simulates a switch-case that operates on chances.
 -- @example
 -- switchrandom()
@@ -20,3 +25,4 @@ function case(chance)
 	switchRandomM = switchRandomM + chance
 	return switchRandomN < switchRandomM and true or false
 end
+

@@ -422,18 +422,23 @@ namespace Melia.Channel.World.Entities.Components
 		/// </summary>
 		/// <remarks>
 		/// Arguments:
-		/// - int  handle  Handle of the entity to turn to.
+		/// - int  handle  Handle of the entity to turn to. (optional)
 		/// </remarks>
+		/// <example>
+		/// turnaway()
+		/// turnaway(TARGET)
+		/// </example>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("turnto")]
 		protected int TurnTo(IntPtr L)
 		{
-			var handle = luaL_checkinteger(L, 1);
+			var handle = lua_gettop(L) >= 1 ? luaL_checkinteger(L, 1) : this.GetOtherEntityHandle();
 			lua_settop(L, 0);
 
-			var otherEntity = this.Entity.Map.GetCombatEntity(handle);
-			if (otherEntity != null)
+			handle = this.ResolveHandle(handle);
+
+			if (handle != 0 && this.Entity.Map.TryGetCombatEntity(handle, out var otherEntity))
 			{
 				var dir = this.Entity.Position.GetDirection(otherEntity.Position);
 
@@ -449,23 +454,76 @@ namespace Melia.Channel.World.Entities.Components
 		/// </summary>
 		/// <remarks>
 		/// Arguments:
-		/// - int  handle  Handle of the entity to turn away from.
+		/// - int  handle  Handle of the entity to turn away from. (optional)
 		/// </remarks>
+		/// <example>
+		/// turnaway()
+		/// turnaway(TARGET)
+		/// </example>
 		/// <param name="L"></param>
 		/// <returns></returns>
 		[ScriptFunction("turnaway")]
 		protected int TurnAway(IntPtr L)
 		{
-			var handle = luaL_checkinteger(L, 1);
+			var handle = lua_gettop(L) >= 1 ? luaL_checkinteger(L, 1) : this.GetOtherEntityHandle();
 			lua_settop(L, 0);
 
-			var otherEntity = this.Entity.Map.GetCombatEntity(handle);
-			if (otherEntity != null)
+			handle = this.ResolveHandle(handle);
+
+			if (handle != 0 && this.Entity.Map.TryGetCombatEntity(handle, out var otherEntity))
 			{
 				var dir = otherEntity.Position.GetDirection(this.Entity.Position);
 
 				this.Entity.Direction = dir;
 				Send.ZC_ROTATE(this.Entity);
+			}
+
+			return lua_yield(L, 0);
+		}
+
+		/// <summary>
+		/// Makes entity turn away from the given entity.
+		/// </summary>
+		/// <remarks>
+		/// Arguments:
+		/// - int  handle  Handle of the entity to follow. (optional)
+		/// - int  maxDistance  Maximum distance the target entity may be away.
+		/// </remarks>
+		/// <example>
+		/// follow(50)
+		/// follow(TARGET, 50)
+		/// </example>
+		/// <param name="L"></param>
+		/// <returns></returns>
+		[ScriptFunction("follow")]
+		protected int Follow(IntPtr L)
+		{
+			var argc = lua_gettop(L);
+
+			int handle, maxDistance;
+			if (argc >= 2)
+			{
+				handle = luaL_checkinteger(L, 1);
+				maxDistance = luaL_checkinteger(L, 2);
+			}
+			else
+			{
+				handle = this.GetOtherEntityHandle();
+				maxDistance = luaL_checkinteger(L, 1);
+			}
+
+			lua_settop(L, 0);
+
+			handle = this.ResolveHandle(handle);
+
+			if (handle != 0 && this.Entity.Map.TryGetCombatEntity(handle, out var otherEntity))
+			{
+				if (!this.Entity.Position.InRange2D(otherEntity.Position, maxDistance))
+				{
+					var dest = this.Entity.Position.GetRelative(otherEntity.Position, -maxDistance + 10);
+					if (this.Entity.Components.TryGet<Movement>(out var component))
+						component.MoveTo(dest);
+				}
 			}
 
 			return lua_yield(L, 0);

@@ -3,20 +3,33 @@ function init()
 end
 
 function idle()
-	for i=1,5 do
-		wait(1000)
-		counting = true
-		say(i)
+	if not HAS_MASTER then
+		for i=1,5 do
+			wait(1000)
+			counting = true
+			say(i)
+		end
+		counting = false
+		
+		wander(20, 40)
+		wait(5000)
+	else
+		follow(50)
+		
+		if random(100) < 5 then
+			say("Hm~hmhm~hm~")
+		end
 	end
-	counting = false
-	
-	wander(20, 40)
-	wait(5000)
 end
 
 function aggro()
-	say("I hate you!")
-	wait(3000)
+	turnto()
+	follow(50)
+	
+	if random(100) < 10 then
+		say("I hate you!")
+		--wait(3000)
+	end
 end
 
 function on_hit(attacker)
