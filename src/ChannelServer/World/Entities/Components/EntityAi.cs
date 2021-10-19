@@ -370,7 +370,7 @@ namespace Melia.Channel.World.Entities.Components
 				return;
 
 			// Get potential nearby targets
-			var potentialTargets = this.Entity.Map.GetEntities(a => a != this.Entity && a.Position.InRange2D(this.Entity.Position, _aggroRange));
+			var potentialTargets = this.Entity.Map.GetEntities(a => a != this.Entity && this.DoesHate(a) && a.Position.InRange2D(this.Entity.Position, _aggroRange));
 
 			// Reset hate for targets that are not potential targets anymore
 			if (_hateLevels.Count != 0)
@@ -387,9 +387,6 @@ namespace Melia.Channel.World.Entities.Components
 			// Increase hate for all potential targets
 			foreach (var target in potentialTargets)
 			{
-				if (!this.DoesHate(target))
-					continue;
-
 				if (!_hateLevels.TryGetValue(target.Handle, out var hate))
 					hate = 0;
 
