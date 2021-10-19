@@ -434,21 +434,24 @@ namespace Melia.Channel.World.Entities.Components
 			if (_hateLevels.Count == 0)
 				return;
 
-			var handle = -1;
+			var targetHandle = -1;
 			var highest = -1f;
 
 			foreach (var kv in _hateLevels)
 			{
-				handle = kv.Key;
+				var handle = kv.Key;
 				var hate = kv.Value;
 
 				if (hate > highest)
+				{
 					highest = hate;
+					targetHandle = handle;
+				}
 			}
 
 			if (highest != -1 && highest > HateThreshold)
 			{
-				this.TargetHandle = handle;
+				this.TargetHandle = targetHandle;
 				this.ResetRoutine();
 
 				NL = IntPtr.Zero;
