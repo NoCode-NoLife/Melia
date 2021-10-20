@@ -87,6 +87,7 @@
     <Compile Include="Data\Database\Buffs.cs" />
     <Compile Include="Data\Database\PacketStrings.cs" />
     <Compile Include="Data\Database\SessionObjects.cs" />
+    <Compile Include="Data\Database\Factions.cs" />
     <Compile Include="Data\Database\StanceConditions.cs" />
     <Compile Include="Data\Database\Shops.cs" />
     <Compile Include="Data\Database\Dialogues.cs" />

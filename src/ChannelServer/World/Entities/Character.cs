@@ -63,6 +63,11 @@ namespace Melia.Channel.World.Entities
 		public EntityType Type => EntityType.Character;
 
 		/// <summary>
+		/// Returns the character's faction.
+		/// </summary>
+		public FactionType Faction => FactionType.Law;
+
+		/// <summary>
 		/// Character's name.
 		/// </summary>
 		public string Name { get; set; }
@@ -761,7 +766,7 @@ namespace Melia.Channel.World.Entities
 				foreach (var monster in appearMonsters)
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
-					Send.ZC_FACTION(this.Connection, monster, FactionType.Npc);
+					Send.ZC_FACTION(this.Connection, monster, monster.Faction);
 				}
 
 				foreach (var monster in disappearMonsters)

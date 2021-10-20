@@ -18,6 +18,7 @@ namespace Melia.Shared.Data
 		public CooldownDb CooldownDb = new CooldownDb();
 		public DialogDb DialogDb = new DialogDb();
 		public ExpDb ExpDb = new ExpDb();
+		public FactionDb FactionDb = new FactionDb();
 		public GroundDb GroundDb = new GroundDb();
 		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
 		public ItemDb ItemDb = new ItemDb();

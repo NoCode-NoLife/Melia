@@ -179,6 +179,7 @@ namespace Melia.Channel.Scripting
 			monster.DialogName = dialog;
 			monster.Position = new Position(x, y, z);
 			monster.Direction = new Direction(direction);
+			monster.Faction = FactionType.Neutral;
 
 			map.AddMonster(monster);
 

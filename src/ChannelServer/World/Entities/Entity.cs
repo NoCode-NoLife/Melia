@@ -1,4 +1,5 @@
-﻿using Melia.Shared.EntityComponents;
+﻿using Melia.Shared.Const;
+using Melia.Shared.EntityComponents;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 
@@ -18,6 +19,11 @@ namespace Melia.Channel.World.Entities
 		/// Returns the entity's type.
 		/// </summary>
 		EntityType Type { get; }
+
+		/// <summary>
+		/// Returns the entity's faction.
+		/// </summary>
+		FactionType Faction { get; }
 
 		/// <summary>
 		/// Returns the entity's name.

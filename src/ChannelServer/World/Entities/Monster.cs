@@ -27,6 +27,11 @@ namespace Melia.Channel.World.Entities
 		/// </summary>
 		public virtual EntityType Type => EntityType.Mob;
 
+		/// <summary>
+		/// Gets or sets the monster's faction.
+		/// </summary>
+		public virtual FactionType Faction { get; set; } = FactionType.Peaceful;
+
 		private Map _map = Map.Limbo;
 		/// <summary>
 		/// The map the monster is currently on.
@@ -212,6 +217,7 @@ namespace Melia.Channel.World.Entities
 
 			this.Hp = this.MaxHp = this.Data.Hp;
 			this.Defense = this.Data.PhysicalDefense;
+			this.Faction = this.Data.Faction;
 
 			this.Properties = new MonsterProperties(this);
 		}
