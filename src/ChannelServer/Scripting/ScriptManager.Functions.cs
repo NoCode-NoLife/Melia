@@ -179,7 +179,7 @@ namespace Melia.Channel.Scripting
 			monster.DialogName = dialog;
 			monster.Position = new Position(x, y, z);
 			monster.Direction = new Direction(direction);
-			monster.Faction = FactionType.Neutral;
+			monster.Faction = FactionType.Peaceful;
 
 			map.AddMonster(monster);
 
@@ -327,6 +327,7 @@ namespace Melia.Channel.Scripting
 			monster.Position = new Position(fromX, fromY, fromZ);
 			monster.Direction = new Direction(direction);
 			monster.WarpLocation = new Location(toMapData.Id, toX, toY, toZ);
+			monster.Faction = FactionType.Peaceful;
 
 			map.AddMonster(monster);
 
