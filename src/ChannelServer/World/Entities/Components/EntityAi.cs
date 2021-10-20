@@ -6,6 +6,7 @@ using System.Reflection;
 using Melia.Channel.Network;
 using Melia.Channel.World.Entities.Components.AI;
 using Melia.Channel.World.Entities.Components.AI.Events;
+using Melia.Shared.Const;
 using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 using Melia.Shared.World;
@@ -58,6 +59,11 @@ namespace Melia.Channel.World.Entities.Components
 		/// Returns the AI's current master.
 		/// </summary>
 		public int MasterHandle { get; private set; }
+
+		/// <summary>
+		/// Returns the AI's current master's faction.
+		/// </summary>
+		public FactionType MasterFaction { get; private set; }
 
 		/// <summary>
 		/// Returns the AI's current target.
@@ -370,7 +376,7 @@ namespace Melia.Channel.World.Entities.Components
 				return;
 
 			// Get potential nearby targets
-			var potentialTargets = this.Entity.Map.GetEntities(a => a != this.Entity && this.DoesHate(a) && a.Position.InRange2D(this.Entity.Position, _aggroRange));
+			var potentialTargets = this.Entity.Map.GetEntities(a => a != this.Entity && this.IsHolstileTowards(a) && a.Position.InRange2D(this.Entity.Position, _aggroRange));
 
 			// Reset hate for targets that are not potential targets anymore
 			if (_hateLevels.Count != 0)
@@ -403,24 +409,26 @@ namespace Melia.Channel.World.Entities.Components
 		/// </summary>
 		/// <param name="otherEntity"></param>
 		/// <returns></returns>
-		private bool DoesHate(IEntity otherEntity)
+		private bool IsHolstileTowards(IEntity otherEntity)
 		{
 			// I want us to be able to script what kinds of entities
-			// the AI can hate, but for now, AIs hate everything that
-			// is different than them.
+			// the AI can hate, but for now, we use only the faction
+			// data.
 
-			// Can't hate items
-			if (otherEntity.Type == EntityType.Item)
-				return false;
+			var faction = this.Entity.Faction;
 
-			// Don't hate while having a master for now. I assume the
-			// behavior of pets is controllable? (Assuming that they
-			// do combat at all.)
+			// Use master's faction if entity has a master, so pets and
+			// summons automatically target the same things its master
+			// does. There is a Summon faction, but that seems like it's
+			// for player summons, as it targets monsters.
+			// TODO: What about summons targetting summons though...
+			//   the summon should probably be assigned the master's
+			//   faction on summoning.
 			if (this.MasterHandle != 0)
-				return false;
+				faction = this.MasterFaction;
 
-			// Hate everything that has a different type
-			return (this.Entity.Type != otherEntity.Type);
+			var isHostile = ChannelServer.Instance.Data.FactionDb.CheckHostility(faction, otherEntity.Faction);
+			return isHostile;
 		}
 
 		/// <summary>
@@ -619,6 +627,7 @@ namespace Melia.Channel.World.Entities.Components
 		public void SetMaster(IEntity entity)
 		{
 			this.MasterHandle = entity.Handle;
+			this.MasterFaction = entity.Faction;
 
 			lua_pushboolean(GL, true);
 			lua_setglobal(GL, "HAS_MASTER");
