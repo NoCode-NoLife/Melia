@@ -1,5 +1,6 @@
 function init()
 	on("idle", "hit", "on_hit")
+	on("aggro", "hit", "on_hit_atk")
 end
 
 function idle()
@@ -44,4 +45,8 @@ function on_hit(attacker)
 	wait(1000)
 	say("... now I lost count qq")
 	wait(3000)
+end
+
+function on_hit_atk(attacker)
+	say("You'll get that back!")
 end
