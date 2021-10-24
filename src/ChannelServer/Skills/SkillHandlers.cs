@@ -16,10 +16,12 @@ namespace Melia.Channel.Skills
 		private ITargetedSkillHandler _defaultTargetedHandler = new TargetedSkillHandler();
 		private IGroundSkillHandler _defaultGroundHandler = new GroundSkillHandler();
 		private ITargetGroundSkillHandler _defaultTargetedGroundHandler = new TargetedGroundSkillHandler();
+		private ISelfSkillHandler _defaultSelfSkillHandler = new SelfSkillHanler();
 
 		private readonly Dictionary<SkillId, ITargetedSkillHandler> _targetedHandlers = new Dictionary<SkillId, ITargetedSkillHandler>();
 		private readonly Dictionary<SkillId, IGroundSkillHandler> _groundHandlers = new Dictionary<SkillId, IGroundSkillHandler>();
 		private readonly Dictionary<SkillId, ITargetGroundSkillHandler> _targetedGroundHandlers = new Dictionary<SkillId, ITargetGroundSkillHandler>();
+		private readonly Dictionary<SkillId, ISelfSkillHandler> _selfHandlers = new Dictionary<SkillId, ISelfSkillHandler>();
 
 		/// <summary>
 		/// Creates a new skill handler manager.
@@ -68,6 +70,12 @@ namespace Melia.Channel.Skills
 							_targetedGroundHandlers[skillId] = h;
 						break;
 					}
+					case ISelfSkillHandler h:
+					{
+						foreach (var skillId in skillIds)
+							_selfHandlers[skillId] = h;
+						break;
+					}
 				}
 			}
 		}
@@ -112,6 +120,15 @@ namespace Melia.Channel.Skills
 				return handler;
 
 			return _defaultTargetedGroundHandler;
+		}
+		
+		//TODO::
+		public ISelfSkillHandler GetSelf(SkillId skillId)
+		{
+			if (this._selfHandlers.TryGetValue(skillId, out var handler))
+				return handler;
+
+			return _defaultSelfSkillHandler;
 		}
 	}
 }

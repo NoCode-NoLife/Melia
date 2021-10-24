@@ -897,6 +897,13 @@ namespace Melia.Channel.Network
 						handler.Handle(skill, character, null);
 						break;
 					}
+					//TODO :: This Want to add ?
+					case SkillUseType.SELF:
+					{
+						var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+						handler.Handle(skill, character, character.Position);
+						break;
+					}
 					default:
 					{
 						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
@@ -1030,8 +1037,55 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
-			handler.Handle(skill, character, castPosition, targetPosition);
+			switch (skill.Data.UseType)
+			{
+				case SkillUseType.MELEE_GROUND:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+					handler.Handle(skill, character, castPosition, targetPosition);
+					break;
+				}
+				case SkillUseType.FORCE_GROUND:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+					handler.Handle(skill, character, castPosition, targetPosition);
+					break;
+				}
+				case SkillUseType.TARGET_GROUND:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+					handler.Handle(skill, character, castPosition, targetPosition);
+					break;
+				}
+				case SkillUseType.FORCE:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+					handler.Handle(skill, character, null);
+					break;
+				}
+				case SkillUseType.MELEE:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetTargeted(skill.Id);
+					handler.Handle(skill, character, null);
+					break;
+				}
+				//TODO :: This Want to add ?
+				case SkillUseType.SELF:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+					handler.Handle(skill, character, character.Position);
+					break;
+				}
+				default:
+				{
+					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+					break;
+				}
+			}
+
+			//TODO :: Disable
+			//var handler = ChannelServer.Instance.SkillHandlers.GetGround(skill.Id);
+			//handler.Handle(skill, character, castPosition, targetPosition);
 
 			// The following code is what has been observed from GROUND SKILL
 			// packet responses.
@@ -2088,6 +2142,24 @@ namespace Melia.Channel.Network
 				return;
 
 			character.PickUp(itemMonster);
+		}
+		
+		//TODO:: Self Skill
+		[PacketHandler(Op.CZ_SKILL_SELF)]
+		public void CZ_SKILL_SELF(ChannelConnection conn, Packet packet)
+		{
+			var unk1 = packet.GetByte();
+			var skillId = (SkillId)packet.GetInt();
+			var character = conn.SelectedCharacter;
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_SKILL_SELF: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+			handler.Handle(skill, character,character.Position);
 		}
 	}
 }

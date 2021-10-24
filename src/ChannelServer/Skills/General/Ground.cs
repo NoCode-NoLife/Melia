@@ -88,6 +88,25 @@ namespace Melia.Channel.Skills.General
 
 					Send.ZC_SKILL_DISABLE(caster);
 					break;
+					
+				}
+				case SkillId.Archer_SwiftStep:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+					handler.Handle(skill, caster, caster.Position);
+					break;
+				}
+				case SkillId.Cleric_Fade:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+					handler.Handle(skill, caster, caster.Position);
+					break;
+				}
+				case SkillId.Cleric_PatronSaint:
+				{
+					var handler = ChannelServer.Instance.SkillHandlers.GetSelf(skill.Id);
+					handler.Handle(skill, caster, caster.Position);
+					break;
 				}
 
 				default:
