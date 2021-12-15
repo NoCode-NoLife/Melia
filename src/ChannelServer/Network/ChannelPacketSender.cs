@@ -37,8 +37,13 @@ namespace Melia.Channel.Network
 			packet.PutInt(40588976); // 44266500
 			packet.PutEmptyBin(10);
 
-			// These bytes set the integrated and integrated dungeon server settings.
+			// These bytes set the integrated and integrated dungeon server
+			// settings.
 			packet.PutByte(0);
+			packet.PutByte(0);
+
+			// [i348202, 2021-12-15]
+			// Where exactly this bytes goes is currently unknown
 			packet.PutByte(0);
 
 			packet.PutLpString(conn.SessionKey);
@@ -60,6 +65,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(1); // serverAppTimeOffset
 			packet.PutFloat(1); // globalAppTimeOffset
 			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
+			packet.PutByte(0); // [i344887, 2021-11-09]
 
 			conn.Send(packet);
 		}
