@@ -965,6 +965,9 @@
 { shopName: "Personal_Housing", productId: 20230, itemId: 1210228, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20231, itemId: 1210229, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20232, itemId: 1210230, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20233, itemId: 1248054, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20234, itemId: 1248055, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20235, itemId: 1248056, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Event2002_Fish_Shop", productId: 21001, itemId: 10000002, amount: 1, priceMultiplier: 1 },
 
@@ -1232,4 +1235,11 @@
 { shopName: "Test_Kupole_MasterCard", productId: 23333, itemId: 644533, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_MasterCard", productId: 23334, itemId: 644534, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_MasterCard", productId: 23335, itemId: 644535, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "TeamBattleLeagueShop", productId: 23401, itemId: 11030210, amount: 1, priceMultiplier: 1 },
+{ shopName: "TeamBattleLeagueShop", productId: 23402, itemId: 11030211, amount: 1, priceMultiplier: 1 },
+{ shopName: "TeamBattleLeagueShop", productId: 23403, itemId: 11030212, amount: 1, priceMultiplier: 1 },
+{ shopName: "TeamBattleLeagueShop", productId: 23404, itemId: 11030213, amount: 1, priceMultiplier: 1 },
+{ shopName: "TeamBattleLeagueShop", productId: 23405, itemId: 11030214, amount: 1, priceMultiplier: 1 },
+{ shopName: "TeamBattleLeagueShop", productId: 23406, itemId: 11030215, amount: 1, priceMultiplier: 1 },
 ]

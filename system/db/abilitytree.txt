@@ -66,6 +66,7 @@
 { category: "Peltasta", jobId: 1003, abilityId: 102039, className: "Peltasta43", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102040, className: "Peltasta44", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_3", 45)' },
 { category: "Peltasta", jobId: 1003, abilityId: 102041, className: "Peltasta45", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Peltasta27", 65)' },
+{ category: "Peltasta", jobId: 1003, abilityId: 102042, className: "ShieldStrike", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 
 // Hoplite
 //---------------------------------------------------------------------------
@@ -158,12 +159,12 @@
 // Rodelero
 //---------------------------------------------------------------------------
 { category: "Rodelero", jobId: 1010, abilityId: 102014, className: "Peltasta5", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Rodelero", jobId: 1010, abilityId: 102042, className: "ShieldStrike", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106004, className: "Rodelero14", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_Montano", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106007, className: "Rodelero17", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_TargeSmash", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106010, className: "Rodelero20", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_ShieldPush", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106016, className: "Rodelero23", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_ShootingStar", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106017, className: "Rodelero24", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_Slithering", 1)' },
-{ category: "Rodelero", jobId: 1010, abilityId: 106019, className: "Rodelero26", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_ShieldShoving", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106020, className: "Rodelero27", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Rodelero_ShieldBash", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106024, className: "Rodelero31", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106025, className: "Rodelero32", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_10", 45)' },
@@ -172,13 +173,13 @@
 { category: "Rodelero", jobId: 1010, abilityId: 106029, className: "Rodelero36", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rodelero20", 65)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106030, className: "Rodelero37", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rodelero24", 65)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106031, className: "Rodelero38", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rodelero23", 65)' },
-{ category: "Rodelero", jobId: 1010, abilityId: 106032, className: "Rodelero39", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rodelero26", 65)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106033, className: "Rodelero40", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Rodelero27", 65)' },
 { category: "Rodelero", jobId: 1010, abilityId: 106034, className: "Rodelero41", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_10", 45)' },
 
 // Murmillo
 //---------------------------------------------------------------------------
 { category: "Murmillo", jobId: 1012, abilityId: 102014, className: "Peltasta5", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
+{ category: "Murmillo", jobId: 1012, abilityId: 102042, className: "ShieldStrike", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Murmillo", jobId: 1012, abilityId: 115002, className: "Murmillo2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Murmillo_FrenziedBurst", 1)' },
 { category: "Murmillo", jobId: 1012, abilityId: 115005, className: "Murmillo5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Murmillo_Headbutt", 1)' },
 { category: "Murmillo", jobId: 1012, abilityId: 115009, className: "Murmillo9", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Murmillo_ScutumHit", 1)' },
@@ -223,7 +224,6 @@
 { category: "Dragoon", jobId: 1015, abilityId: 114014, className: "Dragoon14", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114015, className: "Dragoon15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Dragoon_DragonFall", 1)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114016, className: "Dragoon16", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
-{ category: "Dragoon", jobId: 1015, abilityId: 114020, className: "Dragoon20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114021, className: "Dragoon21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_15", 45)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114022, className: "Dragoon22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dragoon1", 65)' },
 { category: "Dragoon", jobId: 1015, abilityId: 114023, className: "Dragoon23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dragoon3", 65)' },
@@ -306,6 +306,7 @@
 { category: "NakMuay", jobId: 1019, abilityId: 119011, className: "NakMuay11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("NakMuay4", 65)' },
 { category: "NakMuay", jobId: 1019, abilityId: 119012, className: "NakMuay12", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_20", 45)' },
 { category: "NakMuay", jobId: 1019, abilityId: 119013, className: "NakMuay13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_20", 45)' },
+{ category: "NakMuay", jobId: 1019, abilityId: 119014, className: "NakMuay14", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 
 // Retiarii
 //---------------------------------------------------------------------------
@@ -364,6 +365,27 @@
 { category: "BlossomBlader", jobId: 1022, abilityId: 121018, className: "Blossomblader18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_22", 45)' },
 { category: "BlossomBlader", jobId: 1022, abilityId: 121020, className: "Blossomblader20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 { category: "BlossomBlader", jobId: 1022, abilityId: 121021, className: "Blossomblader21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_22", 45)' },
+
+// Luchador
+//---------------------------------------------------------------------------
+{ category: "Luchador", jobId: 1023, abilityId: 122001, className: "Luchador1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_Enmascarado", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122002, className: "Luchador2", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("Luchador_Chocar", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122003, className: "Luchador3", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("Luchador_LuchaDeSilla", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122004, className: "Luchador4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_Chop", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122005, className: "Luchador5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_Golpear", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122006, className: "Luchador6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_LuchaDeSilla", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122007, className: "Luchador7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_Chocar", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122008, className: "Luchador8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Luchador_Martinete", 1)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122009, className: "Luchador9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122010, className: "Luchador10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122011, className: "Luchador11", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_23", 45)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122012, className: "Luchador12", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_23", 45)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122013, className: "Luchador13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador4", 65)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122014, className: "Luchador14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador5", 65)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122015, className: "Luchador15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador6", 65)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122016, className: "Luchador16", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador7", 65)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122017, className: "Luchador17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador8", 65)' },
+{ category: "Luchador", jobId: 1023, abilityId: 122018, className: "Luchador18", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -1648,6 +1670,7 @@
 { category: "Sheriff", jobId: 5014, abilityId: 505013, className: "Sheriff13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Sheriff4", 65)' },
 { category: "Sheriff", jobId: 5014, abilityId: 505014, className: "Sheriff14", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Sheriff", jobId: 5014, abilityId: 505015, className: "Sheriff15", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char5_14", 45)' },
+{ category: "Sheriff", jobId: 5014, abilityId: 505016, className: "Sheriff16", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 
 // Rangda
 //---------------------------------------------------------------------------

@@ -68,8 +68,7 @@
 { jobId: 1009, skillId: 11005, skillName: "Cyclone", unlockLevel: 31, maxLevel: 5 },
 { jobId: 1010, skillId: 10502, skillName: "Montano", unlockLevel: 1, maxLevel: 15 },
 { jobId: 1010, skillId: 10503, skillName: "Targe Smash", unlockLevel: 1, maxLevel: 15 },
-{ jobId: 1010, skillId: 10504, skillName: "Shield Push", unlockLevel: 1, maxLevel: 15 },
-{ jobId: 1010, skillId: 10507, skillName: "Shield Shoving", unlockLevel: 16, maxLevel: 1 },
+{ jobId: 1010, skillId: 10504, skillName: "Shield Push", unlockLevel: 1, maxLevel: 5 },
 { jobId: 1010, skillId: 10505, skillName: "Slithering", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1010, skillId: 10508, skillName: "Shield Bash", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1010, skillId: 10506, skillName: "Shooting Star", unlockLevel: 31, maxLevel: 5 },
@@ -92,7 +91,7 @@
 { jobId: 1015, skillId: 11403, skillName: "Gae Bulg", unlockLevel: 1, maxLevel: 15 },
 { jobId: 1015, skillId: 11404, skillName: "Dragon Soar", unlockLevel: 1, maxLevel: 15 },
 { jobId: 1015, skillId: 11405, skillName: "Dethrone", unlockLevel: 16, maxLevel: 10 },
-{ jobId: 1015, skillId: 11408, skillName: "Dragoon Helmet", unlockLevel: 16, maxLevel: 1 },
+{ jobId: 1015, skillId: 11408, skillName: "Dragonoid", unlockLevel: 16, maxLevel: 1 },
 { jobId: 1015, skillId: 11409, skillName: "Dragon Fear", unlockLevel: 16, maxLevel: 1 },
 { jobId: 1015, skillId: 11407, skillName: "Dragon Fall", unlockLevel: 31, maxLevel: 5 },
 { jobId: 1016, skillId: 11506, skillName: "Mortal Slash", unlockLevel: 1, maxLevel: 15 },
@@ -144,6 +143,13 @@
 { jobId: 1022, skillId: 12103, skillName: "Control Blade", unlockLevel: 1, maxLevel: 15 },
 { jobId: 1022, skillId: 12104, skillName: "Flash", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1022, skillId: 12105, skillName: "Blossom Slash", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 1023, skillId: 12201, skillName: "Enmascarado", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 1023, skillId: 12202, skillName: "Chop", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1023, skillId: 12204, skillName: "Lucha De Silla", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1023, skillId: 12203, skillName: "Golpear", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1023, skillId: 12205, skillName: "Chocar", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1023, skillId: 12206, skillName: "Ceremonia", unlockLevel: 16, maxLevel: 1 },
+{ jobId: 1023, skillId: 12207, skillName: "Martinete", unlockLevel: 31, maxLevel: 5 },
 
 // Wizard
 //---------------------------------------------------------------------------

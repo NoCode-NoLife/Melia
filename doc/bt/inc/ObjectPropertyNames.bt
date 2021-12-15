@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i342425
+//   Version: i348202
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -23892,6 +23892,64 @@ string getPropertyName(int id)
         case 109713: return "ContentsAlert8";
         case 109714: return "ContentsAlert9";
         case 109715: return "CONTENTS_ALERT_RECEIVE";
+        case 109716: return "EVENT_2110_KLAPEDA_GHOST_SHOP_24";
+        case 109717: return "EVENT_2110_KLAPEDA_GHOST_SHOP_19";
+        case 109718: return "EVENT_2111_POT_SEL_1";
+        case 109719: return "EVENT_2110_KLAPEDA_GHOST_SHOP_20";
+        case 109720: return "EVENT_2110_KLAPEDA_GHOST_SHOP_26";
+        case 109721: return "EVENT_2110_KLAPEDA_GHOST_SHOP_13";
+        case 109722: return "EVENT_2110_KLAPEDA_GHOST_SHOP_27";
+        case 109723: return "EVENT_2110_KLAPEDA_GHOST_SHOP_15";
+        case 109724: return "EVENT_2111_POT_TRADECOUNT";
+        case 109725: return "EVENT_2110_KLAPEDA_GHOST_SHOP_7";
+        case 109726: return "EVENT_2110_KLAPEDA_GHOST_COIN_COUNT";
+        case 109727: return "EVENT_2110_KLAPEDA_GHOST_SHOP_4";
+        case 109728: return "EVENT_2110_KLAPEDA_GHOST_SHOP_12";
+        case 109729: return "EVENT_2110_KLAPEDA_GHOST_SHOP_23";
+        case 109730: return "EVENT_2110_KLAPEDA_GHOST_SHOP_10";
+        case 109731: return "EVENT_2110_KLAPEDA_GHOST_SHOP_16";
+        case 109732: return "EVENT_2110_KLAPEDA_GHOST_PLAY_TIME";
+        case 109733: return "EVENT_2111_POT_POINT";
+        case 109734: return "EVENT_2110_KLAPEDA_GHOST_SHOP_28";
+        case 109735: return "EVENT_2110_KLAPEDA_GHOST_SHOP_8";
+        case 109736: return "EVENT_2110_KLAPEDA_GHOST_SHOP_25";
+        case 109737: return "EVENT_2110_KLAPEDA_GHOST_SHOP_22";
+        case 109738: return "EVENT_2110_KLAPEDA_GHOST_SHOP_18";
+        case 109739: return "EVENT_2111_POT_SEL_3";
+        case 109740: return "EVENT_2110_KLAPEDA_GHOST_SHOP_3";
+        case 109741: return "EVENT_2110_KLAPEDA_GHOST_SHOP_14";
+        case 109742: return "EVENT_2110_KLAPEDA_GHOST_SHOP_1";
+        case 109743: return "EVENT_2110_KLAPEDA_GHOST_SHOP_17";
+        case 109744: return "EVENT_2110_KLAPEDA_GHOST_SHOP_6";
+        case 109745: return "EVENT_2110_KLAPEDA_GHOST_SHOP_5";
+        case 109746: return "EVENT_2110_KLAPEDA_GHOST_COIN_GIVE";
+        case 109747: return "EVENT_2111_POT_DATA";
+        case 109748: return "EVENT_2110_KLAPEDA_GHOST_SHOP_11";
+        case 109749: return "EVENT_2110_KLAPEDA_GHOST_SHOP_9";
+        case 109750: return "EVENT_2110_KLAPEDA_GHOST_SHOP_21";
+        case 109751: return "EVENT_2110_KLAPEDA_GHOST_SHOP_2";
+        case 109752: return "EVENT_2110_KLAPEDA_GHOST_TOTAL_COIN";
+        case 109753: return "RidePet_8";
+        case 109754: return "MG_Last_MYTHIC_FIRETOWER_MINI_AUTO_SOLO";
+        case 109755: return "MG_Last_MYTHIC_STARTOWER_MINI_AUTO_SOLO";
+        case 109756: return "MG_Last_MYTHIC_CASTLE_MINI_AUTO_SOLO";
+        case 109757: return "TeamBattleLeagueShop_3";
+        case 109758: return "EVENT_2110_KLAPEDA_GHOST_SHOP_29";
+        case 109759: return "EVENT_2110_KLAPEDA_GHOST_SHOP_30";
+        case 109760: return "AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_5";
+        case 109761: return "AchieveReward_UQ_Char4_6_Unlock_Costume";
+        case 109762: return "AchieveReward_UQ_Char4_6_Unlock_Costume_4";
+        case 109763: return "AchieveReward_UQ_Char4_6_Unlock_Costume_2";
+        case 109764: return "AchieveReward_UQ_Char4_6_Unlock_Costume_1";
+        case 109765: return "EVENT_2110_KLAPEDA_GHOST_SHOP_32";
+        case 109766: return "AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_3";
+        case 109767: return "TMAC04_118_8_cabinet_upgrade";
+        case 109768: return "AchieveReward_UQ_Char4_6_Unlock_Costume_3";
+        case 109769: return "TMAC04_118_8_cabinet";
+        case 109770: return "AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume";
+        case 109771: return "AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_4";
+        case 109772: return "AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_2";
+        case 109773: return "EVENT_2110_KLAPEDA_GHOST_SHOP_31";
         default: return "Unknown";
     }
 }

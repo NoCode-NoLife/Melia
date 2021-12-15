@@ -79,4 +79,6 @@
 { id: 80, name: "REQ_GET_HOUSINGCRAFT_GOODS", script: "SCR_HOUSING_CRAFT_GET_REWARD", useTx: true },
 { id: 81, name: "REQ_CALC_HOUSINGCRAFT_GOODS", script: "SCR_HOUSING_CRAFT_CALC_GOODS", useTx: true },
 { id: 82, name: "REQ_SEASON_COIN_SHOP_OPEN", script: "SCR_SEASON_COIN_SHOP_OPEN", useTx: true },
+{ id: 83, name: "GUILD_EVENT_MOVE_MAP", script: "SCR_GUILD_EVENT_MOVE_MAP", useTx: false },
+{ id: 84, name: "REQ_EXIST_GUILD_EVENT_CHECK", script: "SCR_EXIST_GUILD_EVENT_CHECK", useTx: false },
 ]

@@ -4962,6 +4962,61 @@
 			public const int ContentsAlert8 = 109713;
 			public const int ContentsAlert9 = 109714;
 			public const int CONTENTS_ALERT_RECEIVE = 109715;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_24 = 109716;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_19 = 109717;
+			public const int EVENT_2111_POT_SEL_1 = 109718;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_20 = 109719;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_26 = 109720;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_13 = 109721;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_27 = 109722;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_15 = 109723;
+			public const int EVENT_2111_POT_TRADECOUNT = 109724;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_7 = 109725;
+			public const int EVENT_2110_KLAPEDA_GHOST_COIN_COUNT = 109726;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_4 = 109727;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_12 = 109728;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_23 = 109729;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_10 = 109730;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_16 = 109731;
+			public const int EVENT_2110_KLAPEDA_GHOST_PLAY_TIME = 109732;
+			public const int EVENT_2111_POT_POINT = 109733;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_28 = 109734;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_8 = 109735;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_25 = 109736;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_22 = 109737;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_18 = 109738;
+			public const int EVENT_2111_POT_SEL_3 = 109739;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_3 = 109740;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_14 = 109741;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_1 = 109742;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_17 = 109743;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_6 = 109744;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_5 = 109745;
+			public const int EVENT_2110_KLAPEDA_GHOST_COIN_GIVE = 109746;
+			public const int EVENT_2111_POT_DATA = 109747;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_11 = 109748;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_9 = 109749;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_21 = 109750;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_2 = 109751;
+			public const int EVENT_2110_KLAPEDA_GHOST_TOTAL_COIN = 109752;
+			public const int RidePet_8 = 109753;
+			public const int TeamBattleLeagueShop_3 = 109757;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_29 = 109758;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_30 = 109759;
+			public const int AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_5 = 109760;
+			public const int AchieveReward_UQ_Char4_6_Unlock_Costume = 109761;
+			public const int AchieveReward_UQ_Char4_6_Unlock_Costume_4 = 109762;
+			public const int AchieveReward_UQ_Char4_6_Unlock_Costume_2 = 109763;
+			public const int AchieveReward_UQ_Char4_6_Unlock_Costume_1 = 109764;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_32 = 109765;
+			public const int AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_3 = 109766;
+			public const int TMAC04_118_8_cabinet_upgrade = 109767;
+			public const int AchieveReward_UQ_Char4_6_Unlock_Costume_3 = 109768;
+			public const int TMAC04_118_8_cabinet = 109769;
+			public const int AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume = 109770;
+			public const int AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_4 = 109771;
+			public const int AchieveUnlockQuest_UQ_Char4_6_Unlock_Costume_2 = 109772;
+			public const int EVENT_2110_KLAPEDA_GHOST_SHOP_31 = 109773;
 		}
 
 		public static class Monster
@@ -23815,6 +23870,9 @@
 			public const int MG_Last_battlefield5vs5 = 109576;
 			public const int UQ_Char1_23_PRE2 = 109704;
 			public const int UQ_Char1_23_PRE1 = 109705;
+			public const int MG_Last_MYTHIC_FIRETOWER_MINI_AUTO_SOLO = 109754;
+			public const int MG_Last_MYTHIC_STARTOWER_MINI_AUTO_SOLO = 109755;
+			public const int MG_Last_MYTHIC_CASTLE_MINI_AUTO_SOLO = 109756;
 		}
 
 		public static class ZoneObject
