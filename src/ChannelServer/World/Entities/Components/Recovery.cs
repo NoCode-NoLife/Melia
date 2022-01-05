@@ -46,7 +46,7 @@ namespace Melia.Channel.World.Entities.Components
 			if (_shpTime <= TimeSpan.Zero)
 			{
 				this.RecoverSp();
-				_shpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RHPTIME));
+				_shpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RSPTIME));
 			}
 		}
 
