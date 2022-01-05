@@ -66,7 +66,7 @@ namespace Melia.Shared.EntityComponents
 					return (TComponent)component;
 			}
 
-			return default;
+			return default(TComponent);
 		}
 
 		/// <summary>
