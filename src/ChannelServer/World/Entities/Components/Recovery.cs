@@ -12,7 +12,7 @@ namespace Melia.Channel.World.Entities.Components
 	public class Recovery : IUpdatableComponent
 	{
 		private TimeSpan _rhpTime;
-		private TimeSpan _shpTime;
+		private TimeSpan _rspTime;
 
 		/// <summary>
 		/// Returns the owner of this component.
@@ -35,7 +35,7 @@ namespace Melia.Channel.World.Entities.Components
 		public void Update(TimeSpan elapsed)
 		{
 			_rhpTime -= elapsed;
-			_shpTime -= elapsed;
+			_rspTime -= elapsed;
 
 			if (_rhpTime <= TimeSpan.Zero)
 			{
@@ -43,10 +43,10 @@ namespace Melia.Channel.World.Entities.Components
 				_rhpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RHPTIME));
 			}
 
-			if (_shpTime <= TimeSpan.Zero)
+			if (_rspTime <= TimeSpan.Zero)
 			{
 				this.RecoverSp();
-				_shpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RSPTIME));
+				_rspTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RSPTIME));
 			}
 		}
 
