@@ -90,6 +90,7 @@ namespace Melia.Channel.Database
 		public Character GetCharacter(long accountId, long characterId)
 		{
 			var character = new Character();
+			var stamina = 25000;
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
@@ -114,6 +115,12 @@ namespace Melia.Channel.Database
 					character.MaxExp = reader.GetInt32("maxExp");
 					character.TotalExp = reader.GetInt32("totalExp");
 
+					// We get the character's stamina from its data here
+					// because this is not a PC property. Actually setting
+					// it has to wait until we loaded the properties, however,
+					// to get the accurate MaxStamina.
+					stamina = reader.GetInt32("stamina");
+
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
 					var z = reader.GetFloat("z");
@@ -129,6 +136,8 @@ namespace Melia.Channel.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
+
+			(character.Properties as CharacterProperties).Stamina = stamina;
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -391,6 +400,7 @@ namespace Melia.Channel.Database
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("totalExp", character.TotalExp);
+				cmd.Set("stamina", (character.Properties as CharacterProperties).Stamina);
 				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
 
 				cmd.Execute();
