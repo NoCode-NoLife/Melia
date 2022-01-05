@@ -85,7 +85,7 @@ namespace Melia.Shared.World.ObjectProperties
 			var prop = this.Get(propertyId);
 			if (prop == null || !(prop is TProperty tprop))
 			{
-				property = default;
+				property = default(TProperty);
 				return false;
 			}
 
