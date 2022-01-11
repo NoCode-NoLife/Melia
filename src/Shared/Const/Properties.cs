@@ -5264,7 +5264,7 @@
 			public const int AchieveReward_Achieve_Event_Steam_One_of_A_Kind = 110026;
 			public const int AchieveReward_LV400_MISSION_ACHIEVE01 = 110027;
 			public const int AchieveReward_LV400_MISSION_ACHIEVE02 = 110028;
-			public const int AchieveReward_Weekly boss raid_Event_01 = 110029;
+			public const int AchieveReward_Weekly_boss_raid_Event_01 = 110029;
 			public const int AchieveReward_EVENT_2003_GUILD_01 = 110030;
 			public const int AchieveReward_EVENT_2003_Arbor_Day = 110031;
 			public const int AchieveReward_EVENT_2004_Stamp = 110032;
