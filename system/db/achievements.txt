@@ -485,7 +485,7 @@
 { id: 150024, className: "UQ_Char3_22_Unlock_Job_4", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Job_4", count: 200, repeatable: false, account: false },
 { id: 150025, className: "UQ_Char3_22_Unlock_Job_5", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Job_5", count: 10000, repeatable: false, account: false },
 { id: 150026, className: "UQ_Char3_22_Unlock_Costume", category: "Master's Request", name: "[Hwarang] Appreciator of Arts", point: "UQ_Char3_22_Unlock_Costume", count: 1, repeatable: false, account: false },
-{ id: 150027, className: "UQ_Char3_22_Unlock_Costume_1", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Costume_1", count: 30000000, repeatable: false, account: false },
+{ id: 150027, className: "UQ_Char3_22_Unlock_Costume_1", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Costume_1", count: 3000000, repeatable: false, account: false },
 { id: 150028, className: "UQ_Char3_22_Unlock_Costume_2", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Costume_2", count: 500, repeatable: false, account: false },
 { id: 150029, className: "UQ_Char3_22_Unlock_Costume_3", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Costume_3", count: 1, repeatable: false, account: false },
 { id: 150030, className: "UQ_Char3_22_Unlock_Costume_4", category: "Master's Request", name: "", point: "UQ_Char3_22_Unlock_Costume_4", count: 10000, repeatable: false, account: false },
@@ -580,6 +580,7 @@
 { id: 160087, className: "WEEKLY_BOSS_RANK_CLASS_87", category: "Ranking", name: "Cleric", point: "WeeklyRankClass_87", count: 1, repeatable: false, account: false },
 { id: 160088, className: "WEEKLY_BOSS_RANK_CLASS_88", category: "Ranking", name: "Wizard", point: "WeeklyRankClass_88", count: 1, repeatable: false, account: false },
 { id: 160089, className: "WEEKLY_BOSS_RANK_CLASS_89", category: "Ranking", name: "Luchador", point: "WeeklyRankClass_89", count: 1, repeatable: false, account: false },
+{ id: 160090, className: "WEEKLY_BOSS_RANK_CLASS_90", category: "Ranking", name: "Hwarang", point: "WeeklyRankClass_90", count: 1, repeatable: false, account: false },
 { id: 170001, className: "Relic_First", category: "Holy Relic", name: "The Ruler of Relic", point: "Relic_First", count: 1, repeatable: false, account: false },
 { id: 170002, className: "Relic_Lv10", category: "Holy Relic", name: "Relic Trailblazer", point: "Relic_Lv10", count: 1, repeatable: false, account: false },
 ]
