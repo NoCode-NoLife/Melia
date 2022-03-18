@@ -3,12 +3,13 @@
 //
 //      File: ZC_MOVE_PATH.bt
 //   Authors: exec
-//   Version: i341560
+//   Version: i354444
 //   Purpose: Movement to a specific position.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i354444: f2 was removed
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -35,4 +36,3 @@ int handle;
 PositionUnk pos1;
 PositionUnk pos2;
 float speed;
-float f2;

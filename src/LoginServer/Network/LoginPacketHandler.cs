@@ -232,7 +232,7 @@ namespace Melia.Login.Network
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
 			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(12);
+			var bin1 = packet.GetBin(9); // [i354444] 12 -> 9
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)

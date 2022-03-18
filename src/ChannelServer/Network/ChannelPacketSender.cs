@@ -4324,7 +4324,9 @@ namespace Melia.Channel.Network
 			packet.PutInt((int)toCellPos.Z);
 			packet.PutInt((int)toCellPos.Y);
 			packet.PutFloat(speed);
-			packet.PutFloat(0);
+
+			// [i354444] Removed
+			//packet.PutFloat(0);
 
 			entity.Map.Broadcast(packet);
 		}

@@ -12,6 +12,7 @@
 //   - i170175: startingCity was removed
 //   - i170175: b1 was added?
 //   - i225009: added lodge number the created character belongs to.
+//   - i354444: Reduced bin1 from 12 to 9
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -26,4 +27,4 @@ position pos;
 //int startingCity; // i11025 (2016-02-26)
 uint lodge;
 ubyte hair;
-ubyte bin[12];
+ubyte bin1[9]; // int, byte, int (color)?
