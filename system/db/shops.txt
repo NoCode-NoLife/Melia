@@ -132,6 +132,7 @@
 { shopName: "Klapeda_Misc", productId: 725, itemId: 919038, amount: 1, priceMultiplier: 1 },
 { shopName: "Klapeda_Misc", productId: 726, itemId: 960194, amount: 1, priceMultiplier: 1 },
 { shopName: "Klapeda_Misc", productId: 727, itemId: 960195, amount: 1, priceMultiplier: 1 },
+{ shopName: "Klapeda_Misc", productId: 728, itemId: 630055, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Klapeda_Accessory", productId: 801, itemId: 601111, amount: 1, priceMultiplier: 1 },
 { shopName: "Klapeda_Accessory", productId: 802, itemId: 601112, amount: 1, priceMultiplier: 1 },
@@ -230,6 +231,7 @@
 { shopName: "Fedimian_Misc", productId: 2023, itemId: 919038, amount: 1, priceMultiplier: 1 },
 { shopName: "Fedimian_Misc", productId: 2024, itemId: 960194, amount: 1, priceMultiplier: 1 },
 { shopName: "Fedimian_Misc", productId: 2025, itemId: 960195, amount: 1, priceMultiplier: 1 },
+{ shopName: "Fedimian_Misc", productId: 2026, itemId: 630055, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Fedimian_Weapon", productId: 2101, itemId: 101137, amount: 1, priceMultiplier: 2.5 },
 { shopName: "Fedimian_Weapon", productId: 2102, itemId: 121129, amount: 1, priceMultiplier: 2.5 },
@@ -304,6 +306,7 @@
 { shopName: "Orsha_Misc", productId: 3225, itemId: 919038, amount: 1, priceMultiplier: 1 },
 { shopName: "Orsha_Misc", productId: 3226, itemId: 960194, amount: 1, priceMultiplier: 1 },
 { shopName: "Orsha_Misc", productId: 3227, itemId: 960195, amount: 1, priceMultiplier: 1 },
+{ shopName: "Orsha_Misc", productId: 3228, itemId: 630055, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Master_Chaplain", productId: 3301, itemId: 640068, amount: 1, priceMultiplier: 1 },
 { shopName: "Master_Chaplain", productId: 3302, itemId: 640031, amount: 1, priceMultiplier: 1 },
@@ -989,6 +992,9 @@
 { shopName: "Test_Kupole_Equip", productId: 22106, itemId: 11030166, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Equip", productId: 22107, itemId: 11030167, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Equip", productId: 22108, itemId: 11030168, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Equip", productId: 22109, itemId: 11035487, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Equip", productId: 22110, itemId: 11035491, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Equip", productId: 22111, itemId: 11035492, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Misc", productId: 22201, itemId: 699040, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Misc", productId: 22202, itemId: 649032, amount: 1, priceMultiplier: 1 },
@@ -1007,6 +1013,7 @@
 { shopName: "Test_Kupole_Misc", productId: 22215, itemId: 689001, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Misc", productId: 22216, itemId: 647038, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Misc", productId: 22217, itemId: 1000094, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Misc", productId: 22218, itemId: 11030258, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_ViboraGoddessEvill", productId: 22301, itemId: 11030186, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_ViboraGoddessEvill", productId: 22302, itemId: 11030039, amount: 1, priceMultiplier: 1 },
@@ -1153,6 +1160,9 @@
 { shopName: "Test_Kupole_BountyHunt", productId: 22901, itemId: 11030179, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_BountyHunt", productId: 22902, itemId: 11030180, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_BountyHunt", productId: 22903, itemId: 11030181, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_BountyHunt", productId: 22904, itemId: 11030247, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_BountyHunt", productId: 22905, itemId: 11030248, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_BountyHunt", productId: 22906, itemId: 11030249, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Reset", productId: 23001, itemId: 490128, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23002, itemId: 490029, amount: 1, priceMultiplier: 1 },
@@ -1162,7 +1172,6 @@
 { shopName: "Test_Kupole_Reset", productId: 23006, itemId: 490266, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23007, itemId: 11030017, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23008, itemId: 641953, amount: 1, priceMultiplier: 1 },
-{ shopName: "Test_Kupole_Reset", productId: 23009, itemId: 494233, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Etc", productId: 23101, itemId: 646068, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Etc", productId: 23102, itemId: 641982, amount: 1, priceMultiplier: 1 },
@@ -1174,6 +1183,9 @@
 { shopName: "Test_Kupole_Etc", productId: 23108, itemId: 640338, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Etc", productId: 23109, itemId: 11030203, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Etc", productId: 23110, itemId: 11030215, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Etc", productId: 23111, itemId: 11030243, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Etc", productId: 23112, itemId: 11030242, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Etc", productId: 23113, itemId: 11030245, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_LegendCard", productId: 23201, itemId: 644900, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_LegendCard", productId: 23202, itemId: 644901, amount: 1, priceMultiplier: 1 },
@@ -1202,6 +1214,7 @@
 { shopName: "Test_Kupole_LegendCard", productId: 23225, itemId: 644932, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_LegendCard", productId: 23226, itemId: 644933, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_LegendCard", productId: 23227, itemId: 646069, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_LegendCard", productId: 23228, itemId: 644934, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_MasterCard", productId: 23301, itemId: 644501, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_MasterCard", productId: 23302, itemId: 644502, amount: 1, priceMultiplier: 1 },
@@ -1245,4 +1258,19 @@
 { shopName: "TeamBattleLeagueShop", productId: 23404, itemId: 11030213, amount: 1, priceMultiplier: 1 },
 { shopName: "TeamBattleLeagueShop", productId: 23405, itemId: 11030214, amount: 1, priceMultiplier: 1 },
 { shopName: "TeamBattleLeagueShop", productId: 23406, itemId: 11030215, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "Test_Kupole_Pharmacy", productId: 23501, itemId: 10003552, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23502, itemId: 10003553, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23503, itemId: 11200015, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23504, itemId: 11200016, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23505, itemId: 11200017, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23506, itemId: 11200018, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23507, itemId: 11200019, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23508, itemId: 11200020, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23509, itemId: 11200021, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23510, itemId: 11200022, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23511, itemId: 11200006, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23512, itemId: 11200049, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23513, itemId: 11200050, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Pharmacy", productId: 23514, itemId: 11200051, amount: 1, priceMultiplier: 1 },
 ]

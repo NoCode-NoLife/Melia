@@ -154,4 +154,8 @@
 { id: 149, baseId: 745001, name: "Gem_Relic_Black", category: "Gems/Black Gem" },
 { id: 150, baseId: 750001, name: "Weapon_Arcane", category: "Equipment/Vision" },
 { id: 151, baseId: 755001, name: "Gem_High_Color", category: "Gems/Aether Gem" },
+{ id: 152, baseId: 760001, name: "Accessory_Earring", category: "Equipment/Earring" },
+{ id: 153, baseId: 765001, name: "Pharmacy_Material", category: "Arcanum Brewing/Material" },
+{ id: 154, baseId: 770001, name: "Pharmacy_Additive", category: "Arcanum Brewing/Additive" },
+{ id: 155, baseId: 775001, name: "Pharmacy_PharmacyRecipe", category: "Arcanum Brewing/Formula" },
 ]
