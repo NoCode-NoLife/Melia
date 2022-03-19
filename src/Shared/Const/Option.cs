@@ -157,5 +157,10 @@
 		PopupPickItem = 163,
 		PickItemMessage = 164,
 		RelicAutoCharge = 165,
+		InvOption_Equip_Goddess = 166,
+		InvOption_Gem_Cyan = 167,
+		InvOption_Gem_Magenta = 168,
+		InvOption_Gem_Black = 169,
+		InvOption_Gem_Aether = 170,
 	}
 }
