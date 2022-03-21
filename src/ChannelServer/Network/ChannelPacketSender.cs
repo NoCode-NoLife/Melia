@@ -915,6 +915,7 @@ namespace Melia.Channel.Network
 			packet.PutLong(0); // added i219527
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
+			packet.PutInt(0);  // added i354444
 
 			foreach (var parameter in parameters)
 			{
