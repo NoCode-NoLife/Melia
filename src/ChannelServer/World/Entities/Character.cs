@@ -361,6 +361,8 @@ namespace Melia.Channel.World.Entities
 				this.Properties.Set(PropertyId.PC.HP, this.Properties.Calculate(PropertyId.PC.MHP));
 				this.Properties.Set(PropertyId.PC.SP, this.Properties.Calculate(PropertyId.PC.MSP));
 
+				(this.Properties as CharacterProperties).Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
+
 				this.Variables.Perm["PropertiesInitialized"] = true;
 			}
 
@@ -679,7 +681,7 @@ namespace Melia.Channel.World.Entities
 			Send.ZC_STAMINA(this, _characterProperties.Stamina);
 		}
 
-				/// <summary>
+		/// <summary>
 		/// Modifies the character's ability points by the given amount
 		/// and updates the respective property on the client.
 		/// </summary>
