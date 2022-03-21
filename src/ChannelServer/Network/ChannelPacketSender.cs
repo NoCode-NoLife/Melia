@@ -1800,10 +1800,14 @@ namespace Melia.Channel.Network
 
 			packet.PutLpString("AdventureBook");
 			packet.PutLpString("Initialization_point");
-			packet.PutInt(-1);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutByte(1);
+
+			// [i354444] Added
+			{
+				packet.PutInt(-1);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutByte(1);
+			}
 
 			conn.Send(packet);
 		}
