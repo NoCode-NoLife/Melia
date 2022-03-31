@@ -3,12 +3,13 @@
 //
 //      File: ZC_START_GAME.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i348202
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i348202: Added b1.
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -19,3 +20,4 @@ float fpsModifier;
 float serverAppTimeOffset;
 float globalAppTimeOffset;
 FILETIME currentTime;
+byte b1;

@@ -14,5 +14,3 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-byte bin[12];
-ushort s1; //Guild ID?

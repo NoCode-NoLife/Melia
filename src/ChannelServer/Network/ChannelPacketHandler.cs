@@ -277,17 +277,17 @@ namespace Melia.Channel.Network
 		[PacketHandler(Op.CZ_KEYBOARD_MOVE)]
 		public void CZ_KEYBOARD_MOVE(ChannelConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte(); // 0
+			//var unkByte = packet.GetByte(); // [i354444] Removed
 			var position = packet.GetPosition();
 			var direction = packet.GetDirection();
-			var unkBin = packet.GetBin(6);
-			var unkFloat = packet.GetFloat(); // timestamp?
+			var f1 = packet.GetFloat(); // timestamp?
+			var bin1 = packet.GetBin(31);
 
 			var character = conn.SelectedCharacter;
 
 			// TODO: Sanity checks.
 
-			character.Move(position, direction, unkFloat);
+			character.Move(position, direction, f1);
 		}
 
 		/// <summary>

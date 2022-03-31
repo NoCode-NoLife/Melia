@@ -16,11 +16,11 @@ namespace Melia.Shared.Network.Helpers
 			foreach (var property in properties)
 			{
 				packet.PutInt(property.Id);
-				switch (property)
-				{
-					case FloatProperty floatProperty: packet.PutFloat(floatProperty.Value); break;
-					case StringProperty stringProperty: packet.PutLpString(stringProperty.Value); break;
-				}
+
+				if (property is FloatProperty floatProperty)
+					packet.PutFloat(floatProperty.Value);
+				else if (property is StringProperty stringProperty)
+					packet.PutLpString(stringProperty.Value);
 			}
 		}
 	}

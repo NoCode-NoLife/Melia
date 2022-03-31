@@ -23,6 +23,7 @@ namespace Melia.Shared.Const
 		Retiarius = 1020,
 		Hackapell = 1021,
 		BlossomBlader = 1022,
+		Luchador = 1023,
 
 		Wizard = 2001,
 		Pyromancer = 2002,
@@ -61,6 +62,7 @@ namespace Melia.Shared.Const
 		TigerHunter = 3102,
 		Arbalester = 3103,
 		Arquebusier = 3104,
+		Hwarang = 3105,
 
 		Cleric = 4001,
 		Priest = 4002,

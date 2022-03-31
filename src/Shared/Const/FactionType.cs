@@ -82,5 +82,6 @@ namespace Melia.Shared.Const
 		Chaos_Monster = 97,
 		OnlyHitMe = 98,
 		FromOnlyHitMe = 99,
+		BreakingWheel = 100,
 	}
 }

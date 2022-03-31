@@ -75,7 +75,7 @@
     <Compile Include="Data\Database\AchievementPoints.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />
-    <Compile Include="Data\Database\Cooldowns.cs" />
+    <Compile Include="Data\Database\CoolDowns.cs" />
     <Compile Include="Data\Database\ChatMacro.cs" />
     <Compile Include="Data\Database\Exp.cs" />
     <Compile Include="Data\Database\Barracks.cs" />

@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_SPLIT_COMMANDER_INFO_LIST.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//   Authors: Salman T. Khan, exec
+//   Version: i35444
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -21,12 +21,21 @@ typedef struct
         int64 l1;
         short s1;
     }
-} EquipProperties <optimize=false>;
+}
+EquipProperties <optimize=false>;
 
 typedef struct
 {
     EquipProperties properties[EquipSlotCount];
-} Equip <optimize=false>;
+}
+Equip <optimize=false>;
+
+typedef struct
+{
+    lpString name;
+    lpString resetTime;
+}
+ResetTimeEntry <optimize=false>;
 
 typedef struct
 {
@@ -45,13 +54,9 @@ typedef struct
     int i1;
     int i2;
     int64 characterId <format=hex>;
-    short s2;
-    if (s2 > 0) {
-        lpString lpS1;
-        lpString lpS2;
-        lpString lpS3;
-        lpString lpS4;
-    }
+    
+    short resetTimeCount;
+    ResetTimeEntry resetTimes[resetTimeCount];
 }
 BARRACK_PC <read=readBARRACK_PC>;
 

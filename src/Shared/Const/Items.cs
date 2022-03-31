@@ -163,6 +163,10 @@ namespace Melia.Shared.Const
 		Gem_Relic_Black,
 		Weapon_Arcane,
 		Gem_High_Color,
+		Accessory_Earring,
+		Pharmacy_Material,
+		Pharmacy_Additive,
+		Pharmacy_PharmacyRecipe,
 	}
 
 	/// <summary>
@@ -228,6 +232,7 @@ namespace Melia.Shared.Const
 		HiddenAbility,
 		PetWeapon,
 		PetArmor,
+		Earring,
 	}
 
 	/// <summary>
@@ -282,6 +287,7 @@ namespace Melia.Shared.Const
 		Arcane,
 		Ark,
 		Doll,
+		Earring,
 	}
 
 	/// <remarks>
@@ -356,14 +362,15 @@ namespace Melia.Shared.Const
 		/// [i186893] 24->25, effect costume
 		/// [i337645] 25->30
 		/// [i339415] 30->32
+		/// [i354444] 32->33
 		/// </remarks>
-		public const int EquipSlotCount = 32;
+		public const int EquipSlotCount = 33;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996 };
+		public static readonly int[] DefaultItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996, 4 };
 	}
 
 	public enum InventoryOrder : byte

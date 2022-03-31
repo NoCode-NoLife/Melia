@@ -229,6 +229,11 @@ namespace Melia.Channel.World.Entities
 		private int _stamina;
 
 		/// <summary>
+		/// Returns the character's maximum stamina (PC.MaxSta).
+		/// </summary>
+		public int MaxStamina => (int)this.GetFloat(PropertyId.PC.MaxSta);
+
+		/// <summary>
 		/// Returns the character's maximum stamina.
 		/// </summary>
 		public float GetMaxSta()

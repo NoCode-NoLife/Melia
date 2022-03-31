@@ -26,6 +26,8 @@ namespace Melia.Channel.World.Entities
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
+		private readonly CharacterProperties _characterProperties;
+
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
@@ -254,12 +256,12 @@ namespace Melia.Channel.World.Entities
 		/// <summary>
 		/// Returns the character's current stamina.
 		/// </summary>
-		public int Stamina => (int)this.Properties.GetFloat(PropertyId.PC.MaxSta);
+		public int Stamina => _characterProperties.Stamina;
 
 		/// <summary>
 		/// Returns the character's max stamina.
 		/// </summary>
-		public int MaxStamina => (int)this.Properties.GetFloat(PropertyId.PC.MaxSta);
+		public int MaxStamina => _characterProperties.MaxStamina;
 
 		/// <summary>
 		/// Returns true if the character has run out of HP and died.
@@ -325,7 +327,7 @@ namespace Melia.Channel.World.Entities
 			this.Components.Add(this.Buffs = new BuffCollection(this));
 			this.Components.Add(new Recovery(this));
 
-			this.Properties = new CharacterProperties(this);
+			this.Properties = _characterProperties = new CharacterProperties(this);
 
 			this.AddSessionObjects();
 		}
@@ -368,6 +370,8 @@ namespace Melia.Channel.World.Entities
 				this.Properties.Set(PropertyId.PC.DEX_JOB, this.Job.Data.Dex);
 				this.Properties.Set(PropertyId.PC.HP, this.Properties.Calculate(PropertyId.PC.MHP));
 				this.Properties.Set(PropertyId.PC.SP, this.Properties.Calculate(PropertyId.PC.MSP));
+
+				(this.Properties as CharacterProperties).Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
 
 				this.Variables.Perm["PropertiesInitialized"] = true;
 			}
@@ -675,6 +679,16 @@ namespace Melia.Channel.World.Entities
 		{
 			var sp = (int)this.Properties.Modify(PropertyId.PC.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp);
+		}
+
+		/// <summary>
+		/// Modifies character's current stamina and updates the client.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void ModifyStamina(int amount)
+		{
+			_characterProperties.Stamina += amount;
+			Send.ZC_STAMINA(this, _characterProperties.Stamina);
 		}
 
 		/// <summary>

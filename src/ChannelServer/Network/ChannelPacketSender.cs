@@ -37,8 +37,13 @@ namespace Melia.Channel.Network
 			packet.PutInt(40588976); // 44266500
 			packet.PutEmptyBin(10);
 
-			// These bytes set the integrated and integrated dungeon server settings.
+			// These bytes set the integrated and integrated dungeon server
+			// settings.
 			packet.PutByte(0);
+			packet.PutByte(0);
+
+			// [i348202, 2021-12-15]
+			// Where exactly this bytes goes is currently unknown
 			packet.PutByte(0);
 
 			packet.PutLpString(conn.SessionKey);
@@ -60,6 +65,7 @@ namespace Melia.Channel.Network
 			packet.PutFloat(1); // serverAppTimeOffset
 			packet.PutFloat(1); // globalAppTimeOffset
 			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
+			packet.PutByte(0); // [i344887, 2021-11-09]
 
 			conn.Send(packet);
 		}
@@ -923,6 +929,7 @@ namespace Melia.Channel.Network
 			packet.PutLong(0); // added i219527
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
+			packet.PutInt(0);  // added i354444
 
 			foreach (var parameter in parameters)
 			{
@@ -1808,6 +1815,14 @@ namespace Melia.Channel.Network
 
 			packet.PutLpString("AdventureBook");
 			packet.PutLpString("Initialization_point");
+
+			// [i354444] Added
+			{
+				packet.PutInt(-1);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutByte(1);
+			}
 
 			conn.Send(packet);
 		}
@@ -4351,7 +4366,9 @@ namespace Melia.Channel.Network
 			packet.PutInt((int)toCellPos.Z);
 			packet.PutInt((int)toCellPos.Y);
 			packet.PutFloat(speed);
-			packet.PutFloat(0);
+
+			// [i354444] Removed
+			//packet.PutFloat(0);
 
 			entity.Map.Broadcast(packet);
 		}

@@ -231,8 +231,9 @@ namespace Melia.Login.Network
 			var gender = (Gender)packet.GetByte();
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
+			var startMap = packet.GetInt(); // [i354444] Added. 0 = lv 440 character, 1 = lv 1 character, internally called map select
 			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(12);
+			var bin1 = packet.GetBin(5);
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
