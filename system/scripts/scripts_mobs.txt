@@ -4,6 +4,6 @@
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-mobs/field/f_siauliai_west.lua
+//mobs/field/f_siauliai_west.lua
 
 include "/user/scripts/scripts_mobs.txt"
