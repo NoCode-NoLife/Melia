@@ -39,6 +39,11 @@ namespace Melia.Channel
 		public GmCommands GmCommands { get; private set; }
 
 		/// <summary>
+		/// Returns the global events.
+		/// </summary>
+		public EventManager Events { get; } = new EventManager();
+
+		/// <summary>
 		/// The world~
 		/// </summary>
 		public WorldManager World { get; } = new WorldManager();
