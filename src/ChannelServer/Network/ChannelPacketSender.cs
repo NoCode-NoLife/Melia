@@ -4367,8 +4367,9 @@ namespace Melia.Channel.Network
 			packet.PutInt((int)toCellPos.Y);
 			packet.PutFloat(speed);
 
-			// [i354444] Removed
+			// [i354444] Float removed, byte added. Same thing?
 			//packet.PutFloat(0);
+			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet);
 		}

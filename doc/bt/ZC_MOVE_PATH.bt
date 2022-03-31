@@ -9,7 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i354444: f2 was removed
+//   - i354444: f2 was removed, b1 was added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -35,3 +35,5 @@ int handle;
 CellPosition cellPos1;
 CellPosition cellPos2;
 float speed;
+//float f2;
+byte b1;
