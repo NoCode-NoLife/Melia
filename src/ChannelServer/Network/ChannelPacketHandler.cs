@@ -462,10 +462,14 @@ namespace Melia.Channel.Network
 				return;
 			}
 
+			EventInfo eventInfo;
 			if (ChannelServer.Instance.Conf.World.Littering)
-				ChannelServer.Instance.Events.OnPlayerDroppingItem(character, item);
+				eventInfo = ChannelServer.Instance.Events.OnPlayerDroppingItem(character, item);
 			else
-				ChannelServer.Instance.Events.OnPlayerDestroyingItem(character, item);
+				eventInfo = ChannelServer.Instance.Events.OnPlayerDestroyingItem(character, item);
+
+			if (eventInfo.StopCaller)
+				return;
 
 			var fullStack = (amount >= item.Amount);
 
@@ -2112,7 +2116,9 @@ namespace Melia.Channel.Network
 			if (!itemMonster.CanBePickedUpBy(character))
 				return;
 
-			ChannelServer.Instance.Events.OnPlayerPickingUpItem(character, itemMonster);
+			var eventInfo = ChannelServer.Instance.Events.OnPlayerPickingUpItem(character, itemMonster);
+			if (eventInfo.StopCaller)
+				return;
 
 			character.PickUp(itemMonster);
 		}
