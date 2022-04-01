@@ -91,6 +91,7 @@ namespace Melia.Channel.Network
 
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
+			ChannelServer.Instance.Events.OnPlayerLoggedIn(character);
 
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
@@ -242,6 +243,10 @@ namespace Melia.Channel.Network
 		public void CZ_LOGOUT(ChannelConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
+			var character = conn.SelectedCharacter;
+
+			if (character != null)
+				ChannelServer.Instance.Events.OnPlayerLoggedOut(conn.SelectedCharacter);
 
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
@@ -456,6 +461,11 @@ namespace Melia.Channel.Network
 				Log.Warning("CZ_ITEM_DELETE: User '{0}' tried to delete locked item.", conn.Account.Name);
 				return;
 			}
+
+			if (ChannelServer.Instance.Conf.World.Littering)
+				ChannelServer.Instance.Events.OnPlayerDroppingItem(character, item);
+			else
+				ChannelServer.Instance.Events.OnPlayerDestroyingItem(character, item);
 
 			var fullStack = (amount >= item.Amount);
 
@@ -704,6 +714,7 @@ namespace Melia.Channel.Network
 
 			// Success
 			// TODO: Consume items
+			ChannelServer.Instance.Events.OnPlayerUsedItem(character, item);
 		}
 
 		/// <summary>
@@ -2100,6 +2111,8 @@ namespace Melia.Channel.Network
 			// Check if character is allowed to pick up the item.
 			if (!itemMonster.CanBePickedUpBy(character))
 				return;
+
+			ChannelServer.Instance.Events.OnPlayerPickingUpItem(character, itemMonster);
 
 			character.PickUp(itemMonster);
 		}

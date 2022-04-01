@@ -214,6 +214,8 @@ namespace Melia.Channel.World
 				lock (_combatEntities)
 					_combatEntities[character.Handle] = character;
 			}
+
+			ChannelServer.Instance.Events.OnPlayerEntersMap(character);
 		}
 
 		/// <summary>
@@ -222,6 +224,8 @@ namespace Melia.Channel.World
 		/// <param name="character"></param>
 		public void RemoveCharacter(Character character)
 		{
+			ChannelServer.Instance.Events.OnPlayerExitsMap(character);
+
 			lock (_characters)
 				_characters.Remove(character.Handle);
 

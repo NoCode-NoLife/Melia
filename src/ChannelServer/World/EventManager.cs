@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Channel.Skills;
-using Melia.Channel.Util;
 using Melia.Channel.World.Entities;
 
 namespace Melia.Channel.World
@@ -19,150 +14,214 @@ namespace Melia.Channel.World
 		//-------------------------------------------------------------------
 
 		/// <summary>
-		/// Raised every second in real time.
+		/// Raised on every heartbeat tick.
 		/// </summary>
-		public event Action<TimeSpan> SecondsTimeTick;
-		public void OnSecondsTimeTick(TimeSpan now) => SecondsTimeTick?.Invoke(now);
+		public event Action<DateTime> WorldTick;
+		public void OnWorldTick(DateTime now) => WorldTick?.Invoke(now);
 
 		/// <summary>
-		/// Raised every minute in real time.
+		/// Raised every full real-life second.
 		/// </summary>
-		public event Action<TimeSpan> MinutesTimeTick;
-		public void OnMinutesTimeTick(TimeSpan now) => MinutesTimeTick?.Invoke(now);
+		public event Action<DateTime> SecondTick;
+		public void OnSecondTick(DateTime now) => SecondTick?.Invoke(now);
 
 		/// <summary>
-		/// Raised every hour in real time.
+		/// Raised every full real-life minute.
 		/// </summary>
-		public event Action<TimeSpan> HoursTimeTick;
-		public void OnHoursTimeTick(TimeSpan now) => HoursTimeTick?.Invoke(now);
+		public event Action<DateTime> MinuteTick;
+		public void OnMinuteTick(DateTime now) => MinuteTick?.Invoke(now);
+
+		/// <summary>
+		/// Raised every full five real-life minutes.
+		/// </summary>
+		public event Action<DateTime> FiveMinutesTick;
+		public void OnFiveMinutesTick(DateTime now) => FiveMinutesTick?.Invoke(now);
+
+		/// <summary>
+		/// Raised every full fifteen real-life minutes.
+		/// </summary>
+		public event Action<DateTime> FifteenMinutesTick;
+		public void OnFifteenMinutesTick(DateTime now) => FifteenMinutesTick?.Invoke(now);
+
+		/// <summary>
+		/// Raised every full twenty real-life minutes.
+		/// </summary>
+		public event Action<DateTime> TwentyMinutesTick;
+		public void OnTwentyMinutesTick(DateTime now) => TwentyMinutesTick?.Invoke(now);
+
+		/// <summary>
+		/// Raised every full thirty real-life minutes.
+		/// </summary>
+		public event Action<DateTime> ThirtyMinutesTick;
+		public void OnThirtyMinutesTick(DateTime now) => ThirtyMinutesTick?.Invoke(now);
+
+		/// <summary>
+		/// Raised every full real-life hour.
+		/// </summary>
+		public event Action<DateTime> HourTick;
+		public void OnHourTick(DateTime now) => HourTick?.Invoke(now);
 
 		//-------------------------------------------------------------------
 		//  Player Events
 		//-------------------------------------------------------------------
 
 		/// <summary>
-		/// For sending any packets that need to be sent
-		/// to each and every character on login
+		/// Raised a few seconds after a player logged in.
 		/// </summary>
-		/// <remarks>
-		/// Examples: Enabling/disabling client features
-		/// </remarks>
-		public event Action<IEntity> EntityConnecting;
-		public void OnEntityConnecting(IEntity entity) => EntityConnecting?.Invoke(entity);
+		public event Action<Character> PlayerLoggedIn;
+		public void OnPlayerLoggedIn(Character entity) => PlayerLoggedIn?.Invoke(entity);
 
 		/// <summary>
-		/// For sending packets that need to be sent
-		/// to specific characters on login
+		/// Raised when a player logged out.
 		/// </summary>
-		/// <remarks>
-		/// Examples: Initial values for enabled features
-		/// </remarks>
-		public event Action<IEntity> EntityConnected;
-		public void OnEntityConnected(IEntity entity) => EntityConnected?.Invoke(entity);
+		public event Action<Character> PlayerLoggedOut;
+		public void OnPlayerLoggedOut(Character entity) => PlayerLoggedOut?.Invoke(entity);
 
 		/// <summary>
-		/// Raised a few seconds after player logged in.
+		/// Raised when a player enters a map.
 		/// </summary>
-		public event Action<IEntity> PlayerLoggedIn;
-		public void OnPlayerLoggedIn(IEntity entity) => PlayerLoggedIn?.Invoke(entity);
+		public event Action<Character> PlayerEntersMap;
+		public void OnPlayerEntersMap(Character entity) => PlayerEntersMap?.Invoke(entity);
 
 		/// <summary>
-		/// Raised when a player disconnects from server.
+		/// Raised when a player leaves a map.
 		/// </summary>
-		public event Action<IEntity> PlayerDisconnect;
-		public void OnPlayerDisconnect(IEntity entity) => PlayerDisconnect?.Invoke(entity);
+		public event Action<Character> PlayerExitsMap;
+		public void OnPlayerExitsMap(Character entity) => PlayerExitsMap?.Invoke(entity);
 
 		/// <summary>
-		/// Raised when player enters a region.
+		/// Raised when a player used an item.
 		/// </summary>
-		public event Action<IEntity> PlayerEntersMap;
-		public void OnPlayerEntersMap(IEntity entity) => PlayerEntersMap?.Invoke(entity);
+		public event Action<Character, Item> PlayerUsedItem;
+		public void OnPlayerUsedItem(Character character, Item item) => PlayerUsedItem?.Invoke(character, item);
 
 		/// <summary>
-		/// Raised when player leaves a region.
+		/// Raised when a player equipped an item.
 		/// </summary>
-		public event Action<IEntity> PlayerLeavesMap;
-		public void OnPlayerLeavesMap(IEntity entity) => PlayerLeavesMap?.Invoke(entity);
+		public event Action<Character, Item> PlayerEquipped;
+		public void OnPlayerEquipped(Character character, Item item) => PlayerEquipped?.Invoke(character, item);
 
 		/// <summary>
-		/// Raised when player drops, destroys, sells,
-		/// uses (decrements), etcs an item.
+		/// Raised when a player unequipped an item.
 		/// </summary>
-		public event Action<IEntity, int, int> PlayerRemovesItem;
-		public void OnPlayerRemovesItem(IEntity entity, int itemId, int amount) => PlayerRemovesItem?.Invoke(entity, itemId, amount);
-
-		/// <summary>
-		/// Raised when player receives an item in any way.
-		/// </summary>
-		public event Action<IEntity, int, int> PlayerReceivesItem;
-		public void OnPlayerReceivesItem(IEntity entity, int itemId, int amount) => PlayerReceivesItem?.Invoke(entity, itemId, amount);
-
-		/// <summary>
-		/// Raised when player uses an item.
-		/// </summary>
-		public event Action<IEntity, Item> PlayerUsesItem;
-		public void OnPlayerUsesItem(IEntity entity, Item item) => PlayerUsesItem?.Invoke(entity, item);
-
-		/// <summary>
-		/// Raised when player equips an item.
-		/// </summary>
-		public event Action<IEntity, Item> PlayerEquipsItem;
-		public void OnPlayerEquipsItem(IEntity entity, Item item) => PlayerEquipsItem?.Invoke(entity, item);
-
-		/// <summary>
-		/// Raised when player unequips an item.
-		/// </summary>
-		public event Action<IEntity, Item> PlayerUnequipsItem;
-		public void OnPlayerUnequipsItem(IEntity entity, Item item) => PlayerUnequipsItem?.Invoke(entity, item);
+		public event Action<Character, Item> PlayerUnequipped;
+		public void OnPlayerUnequipped(Character character, Item item) => PlayerUnequipped?.Invoke(character, item);
 
 		/// <summary>
 		/// Raised when player completes a quest.
 		/// </summary>
-		public event Action<IEntity, int> PlayerCompletesQuest;
-		public void OnPlayerCompletesQuest(IEntity entity, int questId) => PlayerCompletesQuest?.Invoke(entity, questId);
+		public event Action<Character, int> PlayerCompletesQuest;
+		public void OnPlayerCompletesQuest(Character character, int questId) => PlayerCompletesQuest?.Invoke(character, questId);
 
 		/// <summary>
-		/// Raised when skill rank changes.
+		/// Raised when the level of a player's skill changed.
 		/// </summary>
-		public event Action<IEntity, Skill> SkillRankChanged;
-		public void OnSkillRankChanged(IEntity entity, Skill skill) => SkillRankChanged?.Invoke(entity, skill);
+		public event Action<Character, Skill> PlayerSkillLevelChanged;
+		public void OnPlayerSkillLevelChanged(Character character, Skill skill) => PlayerSkillLevelChanged?.Invoke(character, skill);
 
 		/// <summary>
-		/// Raised when player used skill.
+		/// Raised when a player used skill.
 		/// </summary>
-		public event Action<IEntity, Skill> PlayerUsedSkill;
-		public void OnPlayerUsedSkill(IEntity entity, Skill skill) => PlayerUsedSkill?.Invoke(entity, skill);
-
-		// ------------------------------------------------------------------
+		public event Action<Character, Skill> PlayerUsedSkill;
+		public void OnPlayerUsedSkill(Character character, Skill skill) => PlayerUsedSkill?.Invoke(character, skill);
 
 		/// <summary>
-		/// Raised when an entity is killed by something, regardless of
-		/// whether it's already finished as well.
+		/// Raised when a player attempts to pick up an item.
+		/// </summary>
+		/// <remarks>
+		/// This event is raised before the item is actually picked up and
+		/// added to the inventory, even before the server checks whether
+		/// the player has enough space in their inventory.
+		/// 
+		/// One potential use case is to remove an item from its region
+		/// and add it to the player in another form, such as picking up
+		/// a Pon item and adding it to a variable instead of to the
+		/// inventory.
+		/// </remarks>
+		public event Action<Character, ItemMonster, EventInfo> PlayerPickingUpItem;
+		public EventInfo OnPlayerPickingUpItem(Character character, ItemMonster item)
+		{
+			var info = new EventInfo();
+			PlayerPickingUpItem?.Invoke(character, item, info);
+
+			return info;
+		}
+
+		/// <summary>
+		/// Raised when a player attempts to drop an item.
+		/// </summary>
+		/// <remarks>
+		/// This event is raised before the item is actually dropped and
+		/// removed from the inventory.
+		/// </remarks>
+		public event Action<Character, Item, EventInfo> PlayerDroppingItem;
+		public EventInfo OnPlayerDroppingItem(Character character, Item item)
+		{
+			var info = new EventInfo();
+			PlayerDroppingItem?.Invoke(character, item, info);
+
+			return info;
+		}
+
+		/// <summary>
+		/// Raised when a player attempts to destroy an item.
+		/// </summary>
+		/// <remarks>
+		/// This event is raised before the item is actually dropped and
+		/// removed from the inventory.
+		/// </remarks>
+		public event Action<Character, Item, EventInfo> PlayerDestroyingItem;
+		public EventInfo OnPlayerDestroyingItem(Character character, Item item)
+		{
+			var info = new EventInfo();
+			PlayerDestroyingItem?.Invoke(character, item, info);
+
+			return info;
+		}
+
+		//-------------------------------------------------------------------
+		//  Entity Events
+		//-------------------------------------------------------------------
+
+		/// <summary>
+		/// Raised when an entity is killed by something.
 		/// </summary>
 		public event Action<IEntity, IEntity> EntityKilled;
 		public void OnEntityKilled(IEntity entity, IEntity killer) => EntityKilled?.Invoke(entity, killer);
 
 		/// <summary>
-		/// Raised when an entity is killed by a player, regardless of
-		/// whether it's already finished as well.
+		/// Raised when an entity is killed by a player or player related monster (companion/summon).
 		/// </summary>
 		public event Action<IEntity, IEntity> EntityKilledByPlayer;
 		public void OnEntityKilledByPlayer(IEntity entity, IEntity killer) => EntityKilledByPlayer?.Invoke(entity, killer);
+	}
+
+	/// <summary>
+	/// Provides properties that can be used to communicate information
+	/// to event callers and subscribers.
+	/// </summary>
+	public class EventInfo
+	{
+		/// <summary>
+		/// Gets or sets whether this event was handled, meaning that
+		/// other subscribers can potentially skip the event.
+		/// </summary>
+		/// <remarks>
+		/// This is information only and subscribers are still free to
+		/// do whatever they want. Setting this to true doesn't stop
+		/// the subscriber calls.
+		/// </remarks>
+		public bool Handled { get; set; }
 
 		/// <summary>
-		/// Raised when an entity is finished by something. It's called if
-		/// no finishing happens as well, when going straight to being
-		/// completely dead.
+		/// Gets or sets whether the execution of the event caller should
+		/// be stopped after the event was raised.
 		/// </summary>
-		public event Action<IEntity, IEntity> EntityFinished;
-		public void OnEntityFinished(IEntity entity, IEntity killer) => EntityFinished?.Invoke(entity, killer);
-
-		/// <summary>
-		/// Raised when an entity is finished by a player. It's called if
-		/// no finishing happens as well, when going straight to being
-		/// completely dead.
-		/// </summary>
-		public event Action<IEntity, IEntity> EntityFinishedByPlayer;
-		public void OnEntityFinishedByPlayer(IEntity entity, IEntity killer) => EntityFinishedByPlayer?.Invoke(entity, killer);
+		/// <remarks>
+		/// The caller is free to continue execution even if this is set
+		/// to true, but all events that do use this event argument
+		/// should be taking this property into consideration.
+		/// </remarks>
+		public bool StopCaller { get; set; }
 	}
 }

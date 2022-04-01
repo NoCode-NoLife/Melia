@@ -119,6 +119,7 @@
     <Compile Include="World\Entities\Components\Recovery.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />
+    <Compile Include="World\EventManager.cs" />
     <Compile Include="World\Ground.cs" />
     <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Entities\Components\Inventory.cs" />

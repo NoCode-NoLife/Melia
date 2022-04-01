@@ -86,7 +86,7 @@ namespace Melia.Channel.Scripting
 		{
 			ChannelServer.Instance.Database.LoadVars(GlobalVariableOwner, this.Variables.Perm);
 
-			ChannelServer.Instance.World.Heartbeat.FiveMinutesTick += this.SaveGlobalVars;
+			ChannelServer.Instance.Events.FiveMinutesTick += this.SaveGlobalVars;
 			_lastVarChange = DateTime.Now;
 		}
 

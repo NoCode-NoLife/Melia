@@ -471,6 +471,8 @@ namespace Melia.Channel.World.Entities.Components
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 
+			ChannelServer.Instance.Events.OnPlayerEquipped(_character, item);
+
 			return InventoryResult.Success;
 		}
 
@@ -495,6 +497,8 @@ namespace Melia.Channel.World.Entities.Components
 			Send.ZC_UPDATED_PCAPPEARANCE(_character);
 
 			this.Add(item, InventoryAddType.NotNew);
+
+			ChannelServer.Instance.Events.OnPlayerUnequipped(_character, item);
 
 			return InventoryResult.Success;
 		}

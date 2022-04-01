@@ -37,46 +37,6 @@ namespace Melia.Channel.World
 		public TimeSpan AverageTickDuration { get; private set; }
 
 		/// <summary>
-		/// Raised every time the heartbeat executes.
-		/// </summary>
-		public event Action<DateTime> HeartbeatTick;
-
-		/// <summary>
-		/// Raised every full second.
-		/// </summary>
-		public event Action<DateTime> SecondTick;
-
-		/// <summary>
-		/// Raised every full minute.
-		/// </summary>
-		public event Action<DateTime> MinuteTick;
-
-		/// <summary>
-		/// Raised every even 5 minutes (5, 10, 15, etc.)
-		/// </summary>
-		public event Action<DateTime> FiveMinutesTick;
-
-		/// <summary>
-		/// Raised every even 15 minutes (0, 15, 30, 45)
-		/// </summary>
-		public event Action<DateTime> FifteenMinutesTick;
-
-		/// <summary>
-		/// Raised every even 20 minutes (0, 20, 40)
-		/// </summary>
-		public event Action<DateTime> TwentyMinutesTick;
-
-		/// <summary>
-		/// Raised every even 15 minutes (0, 30)
-		/// </summary>
-		public event Action<DateTime> ThirtyMinutesTick;
-
-		/// <summary>
-		/// Raised every full hour.
-		/// </summary>
-		public event Action<DateTime> HourTick;
-
-		/// <summary>
 		/// Starts server's heartbeat.
 		/// </summary>
 		public void Start()
@@ -218,7 +178,7 @@ namespace Melia.Channel.World
 			var now = DateTime.Now;
 
 			// World tick
-			this.HeartbeatTick?.Invoke(now);
+			ChannelServer.Instance.Events.OnWorldTick(now);
 
 			// Stop here if this is the first time Update was called
 			if (elapsed.TotalSeconds == 0)
@@ -227,39 +187,39 @@ namespace Melia.Channel.World
 			// Raise seconds event if the seconds have changed since
 			// the last update
 			if (_lastSecond != now.Second)
-				this.SecondTick?.Invoke(now);
+				ChannelServer.Instance.Events.OnSecondTick(now);
 
 			// Raise minutes event if the minutes have changed since
 			// the last update
 			if (_lastMinute != now.Minute)
 			{
-				this.MinuteTick?.Invoke(now);
+				ChannelServer.Instance.Events.OnMinuteTick(now);
 
 				// Raise five minutes event if the minutes have changed
 				// and it's now an even five minutes.
 				if ((now.Minute % 5) == 0)
-					this.FiveMinutesTick?.Invoke(now);
+					ChannelServer.Instance.Events.OnFiveMinutesTick(now);
 
 				// Raise fifteen minutes event if the minutes have changed
 				// and it's now an even fifteen minutes.
 				if ((now.Minute % 15) == 0)
-					this.FifteenMinutesTick?.Invoke(now);
+					ChannelServer.Instance.Events.OnFifteenMinutesTick(now);
 
 				// Raise twenty minutes event if the minutes have changed
 				// and it's now an even twenty minutes.
 				if ((now.Minute % 20) == 0)
-					this.TwentyMinutesTick?.Invoke(now);
+					ChannelServer.Instance.Events.OnTwentyMinutesTick(now);
 
 				// Raise thirty minutes event if the minutes have changed
 				// and it's now an even thirty minutes.
 				if ((now.Minute % 30) == 0)
-					this.ThirtyMinutesTick?.Invoke(now);
+					ChannelServer.Instance.Events.OnThirtyMinutesTick(now);
 			}
 
 			// Raise hours event if the hours have changed since
 			// the last update
 			if (_lastHour != now.Hour)
-				this.HourTick?.Invoke(now);
+				ChannelServer.Instance.Events.OnHourTick(now);
 
 			// Save times so we can compare them during the next update
 			_lastSecond = now.Second;
