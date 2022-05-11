@@ -508,9 +508,6 @@
 { shopName: "Shop_Colony_Sutler", productId: 7000, itemId: 651001, amount: 1, priceMultiplier: 1 },
 { shopName: "Shop_Colony_Sutler", productId: 7001, itemId: 651002, amount: 1, priceMultiplier: 1 },
 { shopName: "Shop_Colony_Sutler", productId: 7002, itemId: 651003, amount: 1, priceMultiplier: 1 },
-{ shopName: "Shop_Colony_Sutler", productId: 7003, itemId: 651004, amount: 1, priceMultiplier: 1 },
-{ shopName: "Shop_Colony_Sutler", productId: 7004, itemId: 651007, amount: 1, priceMultiplier: 1 },
-{ shopName: "Shop_Colony_Sutler", productId: 7005, itemId: 919029, amount: 1, priceMultiplier: 1 },
 { shopName: "Shop_Colony_Sutler", productId: 7006, itemId: 919030, amount: 1, priceMultiplier: 1 },
 { shopName: "Shop_Colony_Sutler", productId: 7007, itemId: 651010, amount: 1, priceMultiplier: 1 },
 { shopName: "Shop_Colony_Sutler", productId: 7008, itemId: 651011, amount: 1, priceMultiplier: 1 },
@@ -974,6 +971,9 @@
 { shopName: "Personal_Housing", productId: 20236, itemId: 1248057, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20237, itemId: 1248058, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20238, itemId: 1248059, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20239, itemId: 1248060, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20240, itemId: 1248061, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20241, itemId: 1248062, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Event2002_Fish_Shop", productId: 21001, itemId: 10000002, amount: 1, priceMultiplier: 1 },
 
@@ -1093,7 +1093,7 @@
 
 { shopName: "Test_Kupole_Boruta", productId: 22501, itemId: 11030233, amount: 1, priceMultiplier: 1 },
 
-{ shopName: "Test_Kupole_GoddessCard", productId: 22601, itemId: 11039400, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessCard", productId: 22601, itemId: 11039406, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessCard", productId: 22602, itemId: 11039401, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessCard", productId: 22603, itemId: 11039402, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessCard", productId: 22604, itemId: 11039403, amount: 1, priceMultiplier: 1 },

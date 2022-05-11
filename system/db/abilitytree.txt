@@ -594,24 +594,18 @@
 
 // Featherfoot
 //---------------------------------------------------------------------------
-{ category: "Featherfoot", jobId: 2016, abilityId: 213004, className: "Featherfoot4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_BloodSucking", 1)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213005, className: "Featherfoot5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_BonePointing", 1)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213007, className: "Featherfoot7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Ngadhundi", 1)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213014, className: "Featherfoot14", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("Featherfoot_Kurdaitcha", 300)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213016, className: "Featherfoot16", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213019, className: "Featherfoot19", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213020, className: "Featherfoot20", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Enervation", 1)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213021, className: "Featherfoot21", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_BloodCurse", 1)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213022, className: "Featherfoot22", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Kurdaitcha", 1)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213023, className: "Featherfoot23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_16", 45)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213025, className: "Featherfoot25", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot4", 65)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213026, className: "Featherfoot26", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot5", 65)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213027, className: "Featherfoot27", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot7", 65)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213028, className: "Featherfoot28", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot22", 65)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213030, className: "Featherfoot30", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot21", 65)' },
 { category: "Featherfoot", jobId: 2016, abilityId: 213031, className: "Featherfoot31", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot20", 65)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213032, className: "Featherfoot32", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("Featherfoot_Ngadhundi", 100)' },
-{ category: "Featherfoot", jobId: 2016, abilityId: 213034, className: "Featherfoot34", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_16", 45)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213035, className: "Featherfoot35", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Kundela", 1)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213036, className: "Featherfoot36", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Bloodexplosion", 1)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213037, className: "Featherfoot37", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Featherfoot_Bloodpool", 1)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213038, className: "Featherfoot38", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot35", 65)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213039, className: "Featherfoot39", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot36", 65)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213040, className: "Featherfoot40", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Featherfoot37", 65)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213041, className: "Featherfoot41", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_16", 45)' },
+{ category: "Featherfoot", jobId: 2016, abilityId: 213042, className: "Featherfoot42", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_16", 45)' },
 
 // RuneCaster
 //---------------------------------------------------------------------------
@@ -728,6 +722,22 @@
 { category: "TerraMancer", jobId: 2023, abilityId: 219017, className: "Terramancer17", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "TerraMancer", jobId: 2023, abilityId: 219018, className: "Terramancer18", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "TerraMancer", jobId: 2023, abilityId: 219019, className: "Terramancer19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_23", 45)' },
+
+// Keraunos
+//---------------------------------------------------------------------------
+{ category: "Keraunos", jobId: 2024, abilityId: 220001, className: "Keraunos1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Keraunos_OverLoad", 1)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220002, className: "Keraunos2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Keraunos_MagneticField", 1)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220003, className: "Keraunos3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Keraunos_LightningSpear", 1)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220004, className: "Keraunos4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Keraunos_ElectRode", 1)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220005, className: "Keraunos5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Keraunos_Static", 1)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220007, className: "Keraunos7", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_24", 16)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220008, className: "Keraunos8", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_24", 45)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220009, className: "Keraunos9", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char2_24", 45)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220010, className: "Keraunos10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Keraunos1", 65)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220011, className: "Keraunos11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Keraunos2", 65)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220012, className: "Keraunos12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Keraunos3", 65)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220013, className: "Keraunos13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Keraunos4", 65)' },
+{ category: "Keraunos", jobId: 2024, abilityId: 220014, className: "Keraunos14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Keraunos5", 65)' },
 
 // Archer
 //---------------------------------------------------------------------------

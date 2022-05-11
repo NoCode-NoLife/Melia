@@ -160,5 +160,7 @@
 { id: 865, name: "TUTO_GODDESSEQUIP_1", dbSave: true, basicHelp: false },
 { id: 866, name: "TUTO_UNKNOWNSANTUARY_1", dbSave: true, basicHelp: false },
 { id: 867, name: "TUTO_PHARMACY_1", dbSave: false, basicHelp: true },
+{ id: 868, name: "TUTO_PILGRIM_1", dbSave: true, basicHelp: false },
+{ id: 869, name: "TUTO_PILGRIM_2", dbSave: true, basicHelp: false },
 { id: 1553, name: "NORPAT_1", dbSave: false, basicHelp: false },
 ]

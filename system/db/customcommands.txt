@@ -82,4 +82,5 @@
 { id: 83, name: "GUILD_EVENT_MOVE_MAP", script: "SCR_GUILD_EVENT_MOVE_MAP", useTx: false },
 { id: 84, name: "REQ_EXIST_GUILD_EVENT_CHECK", script: "SCR_EXIST_GUILD_EVENT_CHECK", useTx: false },
 { id: 86, name: "LAST_INFOSET_OPEN", script: "SCR_LAST_INFOSET_OPEN", useTx: false },
+{ id: 88, name: "MARKET_UI_OPEN", script: "SCR_MARKET_UI_OPEN", useTx: true },
 ]
