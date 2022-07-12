@@ -974,6 +974,9 @@
 { shopName: "Personal_Housing", productId: 20239, itemId: 1248060, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20240, itemId: 1248061, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20241, itemId: 1248062, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20242, itemId: 1248063, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20243, itemId: 1248064, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20244, itemId: 1248065, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Event2002_Fish_Shop", productId: 21001, itemId: 10000002, amount: 1, priceMultiplier: 1 },
 
@@ -1156,6 +1159,10 @@
 { shopName: "Test_Kupole_GoddessMisc", productId: 22814, itemId: 11030207, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessMisc", productId: 22815, itemId: 11030185, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessMisc", productId: 22816, itemId: 11030231, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22817, itemId: 11200053, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22818, itemId: 645783, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22819, itemId: 11200046, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22820, itemId: 11200101, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_BountyHunt", productId: 22901, itemId: 11030179, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_BountyHunt", productId: 22902, itemId: 11030180, amount: 1, priceMultiplier: 1 },
@@ -1165,13 +1172,15 @@
 { shopName: "Test_Kupole_BountyHunt", productId: 22906, itemId: 11030249, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Reset", productId: 23001, itemId: 490128, amount: 1, priceMultiplier: 1 },
-{ shopName: "Test_Kupole_Reset", productId: 23002, itemId: 490029, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Reset", productId: 23002, itemId: 494276, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23003, itemId: 490030, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23004, itemId: 11030216, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23005, itemId: 490038, amount: 1, priceMultiplier: 1 },
-{ shopName: "Test_Kupole_Reset", productId: 23006, itemId: 490266, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Reset", productId: 23006, itemId: 494330, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23007, itemId: 11030017, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Reset", productId: 23008, itemId: 641953, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Reset", productId: 23009, itemId: 11200128, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Reset", productId: 23010, itemId: 11200125, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Etc", productId: 23101, itemId: 646068, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Etc", productId: 23102, itemId: 641982, amount: 1, priceMultiplier: 1 },
@@ -1215,6 +1224,7 @@
 { shopName: "Test_Kupole_LegendCard", productId: 23226, itemId: 644933, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_LegendCard", productId: 23227, itemId: 646069, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_LegendCard", productId: 23228, itemId: 644934, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_LegendCard", productId: 23229, itemId: 644935, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_MasterCard", productId: 23301, itemId: 644501, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_MasterCard", productId: 23302, itemId: 644502, amount: 1, priceMultiplier: 1 },

@@ -498,6 +498,7 @@
 { mapId: 11249, className: "ep14_1_f_castle_5", engName: "Delmore Garden", localKey: "ETC_20220204_065749" },
 { mapId: 11250, className: "raId_castle_ep14", engName: "Delmore Battlefield", localKey: "QUEST_LV_0500_20220204_001588" },
 { mapId: 11251, className: "Earring_d_firetower_45", engName: "Mage Tower 5F", localKey: "ETC_20150317_001216" },
+{ mapId: 11252, className: "raid_Jellyzele", engName: "ETC_20220614_068469", localKey: "ETC_20220614_068469" },
 { mapId: 20000, className: "infinite_map", engName: "Infinite Map", localKey: "ETC_20150317_001368" },
 { mapId: 20010, className: "pvp_tournament", engName: "Team Battle League Tournament", localKey: "ETC_20150729_013623" },
 { mapId: 20011, className: "pvp_tournament_5vs5", engName: "Team Battle League Tournament 5 vs 5", localKey: "ETC_20211021_063678" },

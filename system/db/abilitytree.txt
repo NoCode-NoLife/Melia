@@ -1058,16 +1058,13 @@
 { category: "Cleric", jobId: 4001, abilityId: 401031, className: "Cleric32", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 { category: "Cleric", jobId: 4001, abilityId: 401032, className: "Cleric33", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Cleric_Heal", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 401033, className: "Cleric34", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Cleric33", 65)' },
-{ category: "Cleric", jobId: 4001, abilityId: 401034, className: "Cleric35", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Cleric", jobId: 4001, abilityId: 401036, className: "Cleric37", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Cleric", jobId: 4001, abilityId: 407002, className: "Paladin14", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Cleric_Smite", 1)' },
 
 // Priest
 //---------------------------------------------------------------------------
 { category: "Priest", jobId: 4002, abilityId: 10018, className: "MaxWeightAbil", maxLevel: 10, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403001, className: "Priest11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Aspersion", 1)' },
-{ category: "Priest", jobId: 4002, abilityId: 403004, className: "Priest13", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Blessing", 1)' },
-{ category: "Priest", jobId: 4002, abilityId: 403008, className: "Priest6", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
-{ category: "Priest", jobId: 4002, abilityId: 403009, className: "Priest7", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403011, className: "Priest21", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403015, className: "Priest26", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_MassHeal", 1)' },
 { category: "Priest", jobId: 4002, abilityId: 403016, className: "Priest27", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Monstrance", 1)' },
@@ -1077,6 +1074,13 @@
 { category: "Priest", jobId: 4002, abilityId: 403020, className: "Priest31", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Priest26", 65)' },
 { category: "Priest", jobId: 4002, abilityId: 403021, className: "Priest32", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Priest28", 65)' },
 { category: "Priest", jobId: 4002, abilityId: 403022, className: "Priest33", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_2", 45)' },
+{ category: "Priest", jobId: 4002, abilityId: 403026, className: "Priest37", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Priest29", 65)' },
+{ category: "Priest", jobId: 4002, abilityId: 403027, className: "Priest38", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 403028, className: "Priest39", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 403029, className: "Priest40", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 403030, className: "Priest41", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 403031, className: "Priest42", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Priest_Resurrection", 1)' },
+{ category: "Priest", jobId: 4002, abilityId: 403032, className: "Priest43", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Priest42", 65)' },
 
 // Kriwi
 //---------------------------------------------------------------------------
@@ -1247,9 +1251,7 @@
 { category: "Kabbalist", jobId: 4015, abilityId: 413003, className: "Kabbalist3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_Nachash", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413008, className: "Kabbalist8", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_Merkabah", 1)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413011, className: "Kabbalist11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_150LV', unlock: 'UNLOCK_BASE_LEVEL("", 150)' },
-{ category: "Kabbalist", jobId: 4015, abilityId: 413014, className: "Kabbalist14", maxLevel: 3, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413018, className: "Kabbalist18", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
-{ category: "Kabbalist", jobId: 4015, abilityId: 413020, className: "Kabbalist20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413022, className: "Kabbalist22", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_300LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413023, className: "Kabbalist23", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413024, className: "Kabbalist25", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_TheTreeOfSepiroth", 1)' },
@@ -1258,6 +1260,9 @@
 { category: "Kabbalist", jobId: 4015, abilityId: 413028, className: "Kabbalist29", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Kabbalist8", 65)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413029, className: "Kabbalist30", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Kabbalist25", 65)' },
 { category: "Kabbalist", jobId: 4015, abilityId: 413031, className: "Kabbalist32", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_15", 45)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413037, className: "Kabbalist38", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413038, className: "Kabbalist39", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Kabbalist_Anagrama", 1)' },
+{ category: "Kabbalist", jobId: 4015, abilityId: 413039, className: "Kabbalist40", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Kabbalist39", 65)' },
 
 // Inquisitor
 //---------------------------------------------------------------------------
@@ -1295,6 +1300,9 @@
 { category: "Miko", jobId: 4018, abilityId: 417012, className: "Miko11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Miko1", 65)' },
 { category: "Miko", jobId: 4018, abilityId: 417013, className: "Miko12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Miko3", 65)' },
 { category: "Miko", jobId: 4018, abilityId: 417014, className: "Miko13", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_18", 45)' },
+{ category: "Miko", jobId: 4018, abilityId: 417016, className: "Miko15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Miko_KaguraDance", 1)' },
+{ category: "Miko", jobId: 4018, abilityId: 417018, className: "Miko17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Miko15", 65)' },
+{ category: "Miko", jobId: 4018, abilityId: 417019, className: "Miko18", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 
 // Zealot
 //---------------------------------------------------------------------------
@@ -1358,6 +1366,27 @@
 { category: "Crusader", jobId: 4021, abilityId: 420020, className: "Crusader20", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 1)' },
 { category: "Crusader", jobId: 4021, abilityId: 420021, className: "Crusader21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 45)' },
 { category: "Crusader", jobId: 4021, abilityId: 420022, className: "Crusader22", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_21", 45)' },
+
+// Lama
+//---------------------------------------------------------------------------
+{ category: "Lama", jobId: 4022, abilityId: 421001, className: "Lama1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_StrongfistHanginglegs", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421002, className: "Lama2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_StrongfistHanginglegs", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421003, className: "Lama3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_PointkickEarthshock", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421004, className: "Lama4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_PointkickEarthshock", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421005, className: "Lama5", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_FlyingkickSuddenkick", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421006, className: "Lama6", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_FlyingkickSuddenkick", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421007, className: "Lama7", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Lama_Endlessattacks", 1)' },
+{ category: "Lama", jobId: 4022, abilityId: 421008, className: "Lama8", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama1", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421009, className: "Lama9", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama2", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421010, className: "Lama10", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama3", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421011, className: "Lama11", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama4", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421012, className: "Lama12", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama5", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421013, className: "Lama13", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama6", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421014, className: "Lama14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Lama7", 65)' },
+{ category: "Lama", jobId: 4022, abilityId: 421015, className: "Lama15", maxLevel: 1, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Lama", jobId: 4022, abilityId: 421016, className: "Lama16", maxLevel: 1, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
+{ category: "Lama", jobId: 4022, abilityId: 421017, className: "Lama17", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_22", 45)' },
+{ category: "Lama", jobId: 4022, abilityId: 421018, className: "Lama18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_22", 45)' },
 
 // Scout
 //---------------------------------------------------------------------------

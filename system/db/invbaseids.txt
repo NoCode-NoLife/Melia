@@ -158,4 +158,5 @@
 { id: 153, baseId: 765001, name: "Pharmacy_Material", category: "Arcanum Brewing/Material" },
 { id: 154, baseId: 770001, name: "Pharmacy_Additive", category: "Arcanum Brewing/Additive" },
 { id: 155, baseId: 775001, name: "Pharmacy_PharmacyRecipe", category: "Arcanum Brewing/Formula" },
+{ id: 156, baseId: 780001, name: "Armor_Belt", category: "Equipment/Armor" },
 ]
