@@ -3770,7 +3770,7 @@ namespace Melia.Channel.Network
 		public static void ZC_RESPONSE_FIELD_BOSS_EXIST(ChannelConnection conn)
 		{
 			var packet = new Packet(Op.ZC_RESPONSE_FIELD_BOSS_EXIST);
-			packet.PutInt(1); // 0 usually
+			packet.PutInt(0); // 0 usually
 
 			conn.Send(packet);
 		}
