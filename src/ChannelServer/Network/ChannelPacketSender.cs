@@ -3503,6 +3503,11 @@ namespace Melia.Channel.Network
 			for (var i = 0; i < 5; i++)
 				packet.PutFloat(1);
 
+			// [i361296]
+			{
+				packet.PutByte(0);
+			}
+
 			character.Connection.Send(packet);
 		}
 

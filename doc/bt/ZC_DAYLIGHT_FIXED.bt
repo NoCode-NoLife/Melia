@@ -8,7 +8,8 @@
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History:
+//   - i361296:  b2 added
 //------------------------------------------------
 #include "inc/common.bt"
 
@@ -16,3 +17,4 @@ ServerHeaderFixed header;
 int i1;
 byte b1;
 float f[5]; // Light values set to 1f.
+byte b2;
