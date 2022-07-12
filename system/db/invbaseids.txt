@@ -148,7 +148,7 @@
 { id: 143, baseId: 715001, name: "Ancient_Card", category: "Assister/Card" },
 { id: 144, baseId: 720001, name: "Ancient_CardBook", category: "Assister/Card Albums" },
 { id: 145, baseId: 725001, name: "Ancient_Etc", category: "Assister/Other" },
-{ id: 146, baseId: 730001, name: "Relic", category: "Equipment/Holy Relic" },
+{ id: 146, baseId: 730001, name: "Relic", category: "Equipment/Res Sacrae" },
 { id: 147, baseId: 735001, name: "Gem_Relic_Cyan", category: "Gems/Cyan Gem" },
 { id: 148, baseId: 740001, name: "Gem_Relic_Magenta", category: "Gems/Magenta Gem" },
 { id: 149, baseId: 745001, name: "Gem_Relic_Black", category: "Gems/Black Gem" },
