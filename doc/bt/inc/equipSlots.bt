@@ -19,7 +19,7 @@
 //   - i354444: EquipSlotCount increased to 33
 //------------------------------------------------
 
-const int EquipSlotCount = 33;
+const int EquipSlotCount = 34;
 
 string GetEquipSlotName(int slotId)
 {
