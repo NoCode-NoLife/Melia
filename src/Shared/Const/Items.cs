@@ -167,6 +167,7 @@ namespace Melia.Shared.Const
 		Pharmacy_Material,
 		Pharmacy_Additive,
 		Pharmacy_PharmacyRecipe,
+		Armor_Belt,
 	}
 
 	/// <summary>
@@ -233,6 +234,7 @@ namespace Melia.Shared.Const
 		PetWeapon,
 		PetArmor,
 		Earring,
+		BELT,
 	}
 
 	/// <summary>
@@ -288,6 +290,7 @@ namespace Melia.Shared.Const
 		Ark,
 		Doll,
 		Earring,
+		BELT,
 	}
 
 	/// <remarks>
