@@ -82,7 +82,7 @@ namespace Melia.Login
 		{
 			Log.Info("Checking for updates...");
 
-			var files = Directory.GetFiles("sql");
+			var files = Directory.GetFiles("sql").OrderBy(a => a);
 			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
 				this.RunUpdate(Path.GetFileName(filePath));
 		}
