@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CB_REQ_SLOT_PRICE.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Request price for additional character slots
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

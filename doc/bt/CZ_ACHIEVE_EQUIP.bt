@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CZ_ACHIEVE_EQUIP.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Request to equip an achievement title
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int achievementId;

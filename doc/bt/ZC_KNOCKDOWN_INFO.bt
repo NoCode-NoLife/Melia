@@ -1,0 +1,30 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_KNOCKDOWN_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i355949
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle; // 196142
+position pos1; // X: -1773.621704, Y: 55.060207, Z: -154.571838
+position pos2; // X: -1703.572144, Y: 55.068844, Z: -110.800476
+int i1; // 180
+int i2; // 32
+int i3; // 60
+int i4; // 3
+int i5; // -680590194 ?
+float f2; // 1
+float f3; // 1
+int i6; // 0
+int i7; // 10739456
+byte b1; // 3

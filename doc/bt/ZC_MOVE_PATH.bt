@@ -35,5 +35,4 @@ int handle;
 CellPosition cellPos1;
 CellPosition cellPos2;
 float speed;
-//float f2;
 byte b1;

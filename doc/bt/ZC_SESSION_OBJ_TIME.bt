@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_SESSION_OBJ_TIME.bt
+//   Authors: Salman T. Khan
+//   Version: i354444
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+int sessionObjectId; // 72247
+float timeValue; // 46 = 46 Seconds, might be dependent on sessionObjectId

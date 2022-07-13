@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: InventoryType.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+enum <byte> InventoryType
+{
+    INVENTORY = 0,
+    PERSONAL_STORAGE = 1,
+    ACCOUNT_STORAGE = 6,
+};

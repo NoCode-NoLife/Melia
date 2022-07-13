@@ -1,0 +1,27 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CZ_SEND_BEAUTYSHOP_TRYITON_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Beauty Shop Try It on List
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderDynamic header;
+
+typedef struct {
+    char styleName[256];
+    char mod[256];
+    char type[256];
+    int i1;
+} BeautyStyle <optimize=false>;
+
+int count;
+BeautyStyle styles[count];
+int i1;

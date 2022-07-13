@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_MY_CHARACTER_DECK_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i344887
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int i1; // 1
+int i2; // 0 - count?
+int64 l1;

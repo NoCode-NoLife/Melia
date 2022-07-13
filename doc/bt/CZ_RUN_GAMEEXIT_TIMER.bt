@@ -16,3 +16,4 @@
 ClientHeaderFixed header;
 
 char destination[32];
+char param[32];

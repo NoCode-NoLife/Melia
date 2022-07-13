@@ -17,11 +17,11 @@ ServerHeaderDynamic header;
 
 typedef struct
 {
-    int64 l1;
-    short s1;
+    int64 itemWorldId; // 535067025737486
+    short s1; // 0
 } GEMINFO;
 
-byte b1;
-int count;
-short s1;
+byte b1; // 0
+int count; // 1
+short s1; // 0
 GEMINFO info[count];

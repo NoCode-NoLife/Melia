@@ -1,0 +1,36 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: Pet.bt
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#define PROPERTY_NAMES
+
+typedef struct
+{
+    int id;
+    int64 petId;
+    int64 ownerId;
+    int64 exp;
+    lpString petName;
+    byte b1;
+    position pos;
+    direction dir;
+    int petHandle;
+    short propertyCount;
+    if (propertyCount > 0)
+        getProperties(propertyCount);
+    short s[5];
+    short s3;
+    byte bin[3];
+    byte bin2[4];
+    int64 stamina; // Stamina?
+    
+} PetInfo <optimize=false>;

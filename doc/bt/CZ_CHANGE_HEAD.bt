@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_CHANGE_HEAD.bt
+//   Authors: Salman T. Khan
+//   Version: 351705
+//   Purpose: Change Hair Dye
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+char hairColor[64]; // default, black

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CZ_SHOP_POINT_GET.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Point shop from Uphill Defense Ranking
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+string name; // uphill_defense_shoppoint
+float f1; // 8.437744
+short s1; // 30

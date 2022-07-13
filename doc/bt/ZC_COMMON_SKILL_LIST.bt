@@ -13,8 +13,9 @@
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
-short count;
+int count;
 
 if (!checkCompression()) {
-    byte bin[18];
+    int skill[count];
+    byte b[16];
 }

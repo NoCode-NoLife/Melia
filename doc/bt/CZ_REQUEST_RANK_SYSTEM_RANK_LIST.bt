@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_REQUEST_RANK_SYSTEM_RANK_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i358882
+//   Purpose: Pilgrim Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int64 date; // 20220530
+int64 l1; // 2
+int i1; // 1001 (Map Id?)

@@ -12,12 +12,15 @@
 //   - i336041: PropertySize shifted and i1;
 //------------------------------------------------
 
+#define PROPERTY_NAMES
+
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
 
 enum <byte> InventoryAddType 
 {
+    NEW = 0,
     BUY = 1,
     SELL = 2,
     PICKUP = 3, // ?
@@ -29,11 +32,10 @@ int amount;
 int index;
 int category; // Category Index 
 int itemId;
-//int i1;
 short propertiesSize;
 InventoryAddType addType;
-float notificationDelay;
-byte invType;
+float notificationDelay; // 99999
+InventoryType invType;
 byte bin1[2];
 
 if(propertiesSize > 0)
@@ -42,6 +44,11 @@ if(propertiesSize > 0)
 if (worldId > 0)
 {
     short s1;
-    int64 l1;
-    short i2;
+    int64 worldId;
+    short s2; // Socket Count
+
+    if (s2 > 0 )
+    {
+        byte bin[s2 * 30];
+    }
 }

@@ -13,11 +13,7 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-short s1;
+
+int mapId;
+ShortDate date;
 int64 l1;
-short s3;
-ushort s4;
-int i1;
-short s5;
-short s6;
-int i2;

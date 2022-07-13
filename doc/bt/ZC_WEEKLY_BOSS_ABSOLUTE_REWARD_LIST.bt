@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_WEEKLY_BOSS_ABSOLUTE_REWARD_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    lpString itemName1;
+    int i4;
+} RewardItem <optimize=false>;
+
+int i1; // 90
+int i2; // 17
+
+int64 l1;
+int i3;
+lpString itemName;
+int i4;
+
+int64 l2;
+
+int i5;
+RewardItem items[i4];

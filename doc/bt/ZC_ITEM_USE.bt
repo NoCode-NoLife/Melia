@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_ITEM_USE.bt
-//   Authors: exec
-//   Version: i170175
+//   Authors: exec, Salman T. Khan
+//   Version: i341835
 //   Purpose: Response to item use request
 //  Category: 
 // File Mask: 
@@ -15,6 +15,5 @@
 
 ServerHeaderFixed header;
 
-//ushort s1;
-//short s2;
-int64 l1;
+int handle;
+int itemId;

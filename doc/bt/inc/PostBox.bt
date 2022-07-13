@@ -1,7 +1,7 @@
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: Message.bt
+//      File: PostBox.bt
 //   Authors: 
 //   Version: 
 //   Purpose: 
@@ -11,14 +11,24 @@
 //   History: 
 //------------------------------------------------
 
+enum <int> PostBoxState 
+{
+    POST_BOX_STATE_NONE = 0,
+    POST_BOX_STATE_READ = 1,
+    POST_BOX_STATE_STORE = 2,
+    POST_BOX_STATE_DELETE = 3,
+    POST_BOX_STATE_REQ_LOAD = 4,
+    POST_BOX_STATE_COUNT = 5,
+};
+
 typedef struct
 {
-    int i1;
+    int id;
     int itemId;
     int amount;
     int received; // bool?
 }
-MessageItem;
+PostMessageItem <optimize=false>;
 
 typedef struct
 {
@@ -30,12 +40,13 @@ typedef struct
     FILETIME date2;
     int64 id;
     byte b1;
-    short s1;
-    short read; // ?
-    short s3;
+    short itemCount1;
+    byte isRead; // ?
     byte b2;
-    int itemCount;
-    if (itemCount != 0)
-        MessageItem items[itemCount] <optimize=false>;
+    byte b3;
+    short s2;
+    int itemCount2;
+    if (itemCount2 != 0)
+        PostMessageItem items[itemCount2];
 }
-Message;
+PostMessage <optimize=false>;

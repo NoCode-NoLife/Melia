@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_COLONY_OCCUPATION_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+typedef struct
+{
+    int64 l1;
+    short s1;
+    char guildName[54];
+} ColonyOccupationInfo <optimize=false>;
+
+ServerHeaderDynamic header;
+int count;
+if (!checkCompression())
+{
+    ColonyOccupationInfo info[count];  
+}

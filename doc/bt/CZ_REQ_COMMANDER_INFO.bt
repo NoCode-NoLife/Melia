@@ -13,4 +13,11 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-byte bin[14];
+
+enum <short> CommanderInfoType
+{
+    InventoryInfo,
+    ClassResetInfo,
+};
+
+CommanderInfoType type;

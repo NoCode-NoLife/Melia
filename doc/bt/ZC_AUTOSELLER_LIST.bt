@@ -1,0 +1,45 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_AUTOSELLER_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i351705
+//   Purpose: Player Shops (Food/Buff/Warp)
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History:
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int64 characterId; //?
+byte b1; // 0
+int type; // 4 (0 = Buff Shop, 2 = Repair Shop,3 = Gem Roasting, 5 = Food Table, 9 = Portal Shop, 10 = Item Awakening)
+int i3; // 40804, 40805 (Buff Shop)
+int shopLevel; // 5
+char name[64];
+int sellerItemCount; // 0 (Count?)
+
+typedef struct
+{
+    int index;
+    int amount;
+    int cost;
+    int level; // Used with Buff Shop
+    byte bin[32]; // Portal Shop value: f_pilgrimroad_41_3#-812#62#639
+    byte b1; // 0
+    short s1; // 0
+    char str[20];
+    byte b2;
+    //lpString str;
+    byte bin2[60]; // 0s
+    float f[2];
+    int i[34];
+} SellerItem <optimize=false>;
+
+if (sellerItemCount > 0)
+{
+    SellerItem items[sellerItemCount];
+}

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_REQUEST_ACK.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Trade Request Acknowledgement
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+char characterName[65]; // Realistically rest of the data might be garbage
+byte b1;

@@ -2,13 +2,14 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_HIT_INFO.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i355949
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      - i355949: Added b6
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -34,3 +35,4 @@ byte b5;
 float f1;
 int64 l2;
 int64 l3;
+byte b6;

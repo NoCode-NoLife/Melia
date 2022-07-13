@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_REQ_ACC_WARE_VIS_LOG.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: Track who visited account warehouse?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

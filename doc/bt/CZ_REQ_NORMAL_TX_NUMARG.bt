@@ -29,4 +29,11 @@ else if (txType == 2)
     int count; // Number of ints following, incl. jobId
     int jobId;
     int skill[count-1];
+} 
+// Assister Card
+else if (txType == 28)
+{
+    int i1; // 1
+    int i2; // 1,2
+    byte b[4];
 }

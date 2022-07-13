@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_OFFER_ACK.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Item offered via trade acknowledgement
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+byte b1;
+int i1;
+int i2;
+int64 itemWorldId;
+int itemId;
+int amount;
+short props;
+getProperties(props);
+short s1;
+int64 itemWorldId;
+short s2;

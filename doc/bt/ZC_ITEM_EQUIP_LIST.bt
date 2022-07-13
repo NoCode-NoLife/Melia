@@ -18,6 +18,22 @@ ServerHeaderDynamic header;
 
 typedef struct
 {
+    int slot;
+    byte bin[22];
+    int i2;
+}
+Gem <optimize=false>;
+
+typedef struct
+{
+    int slot;
+    byte bin[22];
+    int i2; 
+}
+Socket <optimize=false>;
+
+typedef struct
+{
     int itemId;
     int propertiesSize;
     int64 worldId;
@@ -32,6 +48,16 @@ typedef struct
         short s2;
         int64 worldId2;
         short s3;
+
+        if (s3 > 0)
+        {
+            Gem gems[s3];
+        }
+
+        if (s1 > 0)
+        {
+            Socket sockets[s1];
+        }
     }
 }
 EquipItem2 <read=readEquipItem2, optimize=false>;

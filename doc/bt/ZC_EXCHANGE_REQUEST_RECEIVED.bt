@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_REQUEST_RECEIVED.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Trade Request Sent To Other Player
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+char teamName[65];

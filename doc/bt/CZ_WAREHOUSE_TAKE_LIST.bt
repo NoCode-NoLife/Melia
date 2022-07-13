@@ -1,0 +1,29 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_WAREHOUSE_TAKE_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+typedef struct
+{
+    int64 worldId;
+    int amount;
+    int i1;
+}
+WarehouseItem <optimize=false>; //Same Sell Item
+
+ClientHeaderFixed header;
+
+short s1; // 31/41 ?
+byte type; // 6
+int64 count;
+WarehouseItem items[count];

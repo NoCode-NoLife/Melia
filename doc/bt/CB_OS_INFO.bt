@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CB_OS_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i343298
+//   Purpose: Unknown Purpose
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+byte osType; // 1

@@ -49,6 +49,7 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
-    short s2;
+    byte b3;
+    byte wigVisible;
 }
 APPEARANCE_PC;

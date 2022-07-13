@@ -2,9 +2,9 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_DIALOG_TX.bt
-//   Authors: 
-//   Version: 
-//   Purpose: 
+//   Authors: Salman T. Khan
+//   Version: i350756
+//   Purpose: One usage is in Repair Shop (Multiple Items)
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,12 +13,31 @@
 
 #include "inc/common.bt"
 
+typedef struct
+{
+    int64 worldId;
+    int amount;
+    int itemId; // Item ID
+} TxItem <optimize=false>;
+
 ClientHeaderFixed header;
 short s1;
-int i1;
-int i2;
+int txType; // 4 = Repair?
+int count;
 short s2;
-int64 worldId;
-int i3;
-int i4; // Item ID
-float f1;
+switch (txType)
+{
+    case 4:
+        TxItem items[count];
+        float f1;
+        break;
+    case 40:
+        TxItem items[count];
+        break;
+    default:
+        int64 worldId;
+        int amount;
+        int itemId; // Item ID
+        float f1;
+    break;
+}

@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: ZC_ENABLE_SHOW_ITEM_GET.bt
+//   Authors: Salman T. Khan
+//   Version: i342769
+//   Purpose: Unknown purpose sent during Mysterious Slate Quest
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;

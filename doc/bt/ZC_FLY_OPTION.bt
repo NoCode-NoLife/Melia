@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_FLY_OPTION.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Flying Companions Related Packet?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+short s1; // 1
+short s2; // 1

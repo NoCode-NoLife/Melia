@@ -22,11 +22,8 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
-float dcos;
-float dsin;
+position pos;
+direction dir;
 short s1;
 int64 socialInfoId;
 byte pose; // ?

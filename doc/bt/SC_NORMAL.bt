@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: SC_NORMAL.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int type;
+switch (type)
+{
+    // Login Related?
+    case 0x00:
+    case 0x02:
+        break;
+
+    case 0x01:
+        int i1; // 3
+        break;
+
+    // ?
+    case 0x0C:
+        byte b1;
+        int i[5];
+        break;
+}

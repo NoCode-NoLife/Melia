@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_ENTER_MONSTER.bt
-//   Authors: exec
-//   Version: i171140
+//   Authors: exec, Salman T. Khan
+//   Version: i355874
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,6 +16,7 @@
 //   - i171960: i1 was added (make up your mind!!!)
 //   - i174236: i1 was removed... *sigh*
 //   - i175477: i1 was added (at this point they can only be trolling)
+//   - i355874: f1 was in the wrong place, turns out it's walkSpeed from Db
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -29,19 +30,19 @@ byte type; // 0~2,  0: friendly?, 1: monster, 2: NPC
 byte b1; // bool?
 int hp, maxHp;
 short s1;
-float f1;
 short s2;
+float walkSpeed;
 MONSTER monster;
 int i4; // npc state?
 int namesSize;
-byte b2;
+byte b2; // 2?
 byte b4;
 byte b5;
 byte b6;
-int i1;
+int i1; // 11, 15?
 short propertiesSize;
-int i3;
-int i5;
+int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
+int ownerHandle; //
 short i6;
 byte b7;
 

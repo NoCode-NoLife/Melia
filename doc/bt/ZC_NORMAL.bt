@@ -16,6 +16,9 @@
 //   - i336041: Added 0xA1, 0x194, 0x186, 0x135
 //   - i339415: 
 //   - i340313: Updated 0x1D, Added 0x57
+//   - i351705: Added 0x14, 0xA6, 0x105, 0x110
+//   - i355949: Added 0x04, 0x17B -> 0x17A, 0x32, 0x62, 0x7A
+//   - i355949: Updated 0x2D, 0x53, 0xEE
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -26,7 +29,23 @@ typedef struct
     if(size > 0)
         getProperties(size);
 }
-AccountProperties;
+AccountProperties <optimize=false>;
+
+typedef struct
+{
+    int skillId;
+    short propCount;
+    getProperties(propCount);
+} SkillProps <read=skillPropertyRead, optimize=false>;
+
+string skillPropertyRead(SkillProps &p)
+{
+    local char ret[];
+
+    SPrintf(ret, "Skill Id: %d : Property Size %d",   p.skillId, p.propCount);
+
+    return ret;
+}
 
 typedef struct
 {
@@ -38,6 +57,9 @@ typedef struct
     byte unusedSkillPoints;
     ushort circle;
     byte bin1[4];
+    byte b1;
+    FILETIME l1;
+    int64 l2;
 }
 Job;
 
@@ -46,17 +68,81 @@ ServerHeaderDynamic header;
 int type;
 switch (type)
 {
+    // NPC Time Action
+    case 0x00:
+        int handle;
+        lpString lpStr1; // !@#$Auto_KyeongBae_Jung#@!, @dicID_^*$QUEST_LV_0100_20160323_014891$*^, !@#$F_CASTLE_97_MQ_03_MSG4#@!, !@#$EP12_2_D_DCAPITAL_108_MQ05_MSG2#@!, !@#$Auto_Hwagin_Jung#@!, !@#$D_CASTLE_19_1_MQ_03_MSG2#@!
+        lpString lpStr2; // WORSHIP, TALK, #SITGROPESET, ABSORB, read
+        float duration; // 1.0 or 2.0, 1.0, 3.0
+        byte b1; // 1 (Exec suggested that this might be a bool), 1, 1
+        lpString lpStr3; // None, None, None
+        break;
+
+    case 0x01:
+        int handle;
+        byte b1; // Time Action Started/Stopped?
+        break;
+
+    // Sent After Some Monster Spawn?
+    case 0x04:
+        int handle; // 1570 (NPC Handle)
+        int genType; // 10006 (GenType?)
+        break;
+
+    case 0x06:
+        int handle;
+        int animationId1;
+        float duration1;
+        int animationId2;
+        float duration2;
+        position pos;
+        float f1;
+        float f2;
+        float f3;
+        float f4;
+        float f5;
+        int64 l1;
+        break;
+
+    // ?
+    case 0x0D:
+        int i1; // 80148
+        byte b1; // 0
+        short s1; // 1
+        short s2; // 1
+        short s3; // 0
+        int i2; // 0
+        int64 l1; // 2
+        byte b2; // 0
+        break;
+
+    case 0x0F:
+        int packetString;
+        position pos;
+        float scale;
+        int effectHandle;
+        float durationInSeconds;
+        break;
+
     // Lv up effect
     case 0x12:
         int handle;
-        short s1;
-        short s2;
+        int packetString;
         float effectSize;
         int i1;
-        byte bin1[4];
+        float f1;
         float f2;
-        byte bin2[4];
-        byte bin3[4];
+        float f3;
+        int i2;
+        break;
+
+    // ?
+    case 0x14:
+        int handle;
+        int packetString; // 1300481
+        float time; // 5
+        lpString str1; // Dummy_R_HAND
+        lpString str2; // None
         break;
 
     // Class lv up effect
@@ -66,41 +152,92 @@ switch (type)
         int i1;
         byte b2;
         float effectSize;
-        byte bin[8];
+        int packetString; // Used in Play Animation
+        float f1;
+        float f2;
         break;
 
     // ?
     case 0x16:
-        int handle;
-        int handle1;
-        int handle2;
-        int handle;
-        int i0; //2220111
-        float f1; // 1
         int i1;
-        int i2;
+        int characterHandle;
+        int target1Handle;
+        int target2Handle;
+        int animId;
         float f2;
-        int i1;
-        int i2;
-        float effectSize;
-        byte bin[16];
+        int animId;
+        int animId;
         float f3;
+        int animId;
+        int animId;
         float f4;
         float f5;
         float f6;
+        float f7;
+        float f8;
+        float f9;
+        float f10;
+        float f11;
+        float f12;
         break;
 
     case 0x1D:
         int characterHandle;
-        int i0;
+        int skillHandle;
+        ushort s1;
+        ushort s2;
         int targetHandle;
         position castPosition;
         direction targetDirection;
         position targetPosition;
         break;
+
+    // ?
+    case 0x1E:
+        int handle; // npc/monster handle?
+        byte b1; // -1
+        byte b2; // -1
+        byte b3; // -1
+        byte b4; // 0 | -1 | -106
+        byte b5; // 1
+        float f1; // 1 | 2 | 0
+        byte b6; // 1 | 1 | 0 -> 1 (Packet sent twice)
+        break;
+
+    // Skill Properties
+    case 0x29:
+        byte b1;
+        int skillId;
+        short propCount;
+        getProperties(propCount);
+        break;
+
+    // Assister Summon Skill Related?
+    case 0x2C:
+        int handle;
+        int i1; // 11217 / 989
+        float f1; // 1 / 1.5
+        float f2; // 0 / 1
+        byte b1; // 0 / 0
+        short s1; // 1 / 0
+        break;
         
+    // Play sound?
     case 0x2D:
-        int i1;
+        int handle;
+        break;
+
+    // Knockback related?
+    case 0x32:
+        position pos1;
+        position pos2;
+        direction dir;
+        float f1; // 25
+        float f2; // 0.01
+        float f3; // 1
+        float f4; // 0
+        int handle;
+        byte b1; // 0
         break;
 
     // Fades out monster
@@ -114,7 +251,7 @@ switch (type)
     case 0x3B:
         int handle;
         lpString str1; // I_SYS_heal2
-        lpString str2;
+        lpString str2; // 47
         break;
 
     // Update the number of purchased character slots in the barrack.
@@ -122,41 +259,72 @@ switch (type)
         int count;
         break;
 
+    // Skill related? Seen when casting Oblique Fire
     case 0x40:
         int handle1; // Character Handle
-        int i2;
+        int skillId;
         int handle2; // Character Handle
-        float f1;
-        int i3;
-        int i4;
-        int i5; // Could be a float
-        float f2;
-        int i6;
-        int i7;
-        int i8; // Could be a float
-        float f3;
-        int i9;
-        float i10;
-        int i11;
+        direction dir;
+        int i0; // ?, 3
+        float f1; // ?, 205.1282
+        float f2; // ?, 1
+        int i1; // ?, 1
+        int skillHandle; // 1126, [21614, 21615]
+        float f4; // 1.144914, 1.95
+        int i3; // ?, 0
+        int i4; // ?, 0 
+        float f5; // ?, 512
+        int i6; // ?, 0
         break;
    
-    // ??
+    // Skill related? Cancel Attack
     case 0x41:
         int handle;
         break;
+
+    // Skill related? Cancel Pistol Attack?
+    case 0x43:
+        int i1;
+        break;
+
+    // Skill related? Cancel Skill?
+    case 0x44:
+        int handle;
+        int skillId;
+        break;
+
+    case 0x46:
+        int i1;
+        int i2;
+        FILETIME time;
+        break;
     
     case 0x4B:
-        int64 i1; //76561199199698202
-        short s1; //8
-        ushort s2; //43944
-        int i1; //1
-        short s3; //17096
+        int64 accountId; //76561199199698202
+        short propertySize;
+        if (propertySize > 0)
+            getProperties(propertySize);
         break;
 
     // Account update
     case 0x4C:
         int64 accountId;
         AccountProperties properties;
+        break;
+
+    // Skill Id (Casting a skill?)
+    case 0x4D:
+        int handle;
+        int skillId; // 0
+        break;
+
+    // Related to skills
+    // SKL_KEY_DYNAMIC_CASTING (ToolScp)
+    case 0x4E:
+        int handle;
+        int skillId;
+        float f1;
+        byte b1;
         break;
         
     // NPC chat bubble
@@ -170,31 +338,104 @@ switch (type)
         float i4; // heartbeat timer?
         break;
 
-    // Skill related? Seen when casting Lethargy
+    // Sent during NPC dialog
+    // Update Position? Fixed Position?
+    case 0x52:
+        int handle;
+        position pos;
+        break;
+
+    // Mini game?
+    case 0x53:
+        lpString str; // F_CASTLE_99_MQ_03_MINI / CASTLE102_MQ_04_MINI
+        byte b1; // 1 / 1
+        float f1; // 312397.4 / 147751.5
+        byte bin[10]; // 0s / 0s
+        int64 l1; // 1 / 1
+        byte bin2[5]; // 0s / 0s
+        byte b12; // 1 / 1
+        short s1; // 0 / 0
+        break;
+
+    // ? Instance Dungeon or Weekly Boss Related?
+    // Script/Addon Message?
+    case 0x54:
+        lpString str; // STAGE / ALL / DefGroup
+        short s1; // 0 / 0 / 0
+        break;
+
+    // ? Instance Dungeon or Weekly Boss Related?
+    // Script/Addon Message?
+    case 0x56:
+        int i1; // 2 / ? / 0 (Parameter Count)?
+        int packetString; // 1410037 / 1300078 / 2561958 (Packet String)
+        if (i1 > 0)
+            int i3; // 1
+        break;
+
+    // Skill related? Seen when casting Lethargy or Mon_weekly_pattern_Skill_36
+    // SKL_RUN_SCRIPT or MONSKL_CRE_PAD
     case 0x57:
         int handle;
-        int i0; // 570003
-        int skillId; // 20002
-        int i1; // count?
+        int packetString; // 570003 or 390162 (Packet String)
+        int skillId; // 20002 or 163853
+        int i1; // count? 1
         position targetPosition;
         direction targetDirection;
+        float f1; // 0
+        float f2; // duration? 0
+        int skillHandle; // 109539
+        int i4; // 1
+        byte bin1[13]; // 0s
+        float f3; // 20 or 50
+        byte bin2[16]; // 0s
+        break;
+
+    case 0x5B:
+        int skillHandle; // 2698?
+        int64 l1; // 0
+        break;
+
+    // Skill related (Hwarang PyeonJeon)
+    case 0x61:
+        
+    case 0x62:
+        int i1; // 7947 (Skill Handle?)
+        position pos; // X: -1827.782349, Y: 54.911945, Z: -295.520996
+        byte b1; // 1
+        float f1; // 100
+        float f2; // 100
+        break;
+
+    case 0x64:
+        int i1;
         int i2;
-        float f1; // duration?
-        int i3;
-        int i4;
-        byte bin1[15];
-        byte b1;
-        byte b2;
-        byte bin2[16];
         break;
 
     // Cutscene?
-    case 0x6B:
+    case 0x6C:
         byte active;
         byte characterMoveable;
         byte hideUi;
         break;
-    
+
+    // ?
+    case 0x6D:
+        break;
+
+    // ? sent with 0x165
+    case 0x6E:
+        int64 l1; // 0
+        break;
+
+    // Quest/Session Object Related?
+    case 0x76:
+        int i1; // 119, 107
+        byte b1; // 1
+        //if (i1) == 107, then character name
+        lpString name; //SIAUL_WEST_MEET_TITAS, GELE574_MQ_09, 
+        break;
+        
     // Set skill speed
     case 0x77: // Maybe 0x78 is now 0x77?
     case 0x78:
@@ -207,45 +448,241 @@ switch (type)
         int skillId;
         float hitDelay;
         break;
-    
-    // ?
-    case 0xA1:
-        int64 i1;
+
+    // Set SklUseOverHeat
+    case 0x7A:
+        int skillId;
+        float skillUseOverHeat;
         break;
-        
+
+    case 0x7B:
+        int handle;
+        int skillId; // 20001 skillId?
+        break;
+
+    case 0x7F:
+        int i1;
+        int packetString;
+        float duration;
+        break;
+
+    // Sent during Enchanter's Enchant Aura
+    // SKL_TOGGLE_ON
+    case 0x86:
+        int handle;
+        int skillId;
+        break;
+
+    // Sent during Barbarian Stomping Kick
+    // SKL_COLL_TO_GROUND
+    case 0x88:
+        int handle;
+        position pos;
+        float f1; // 200
+        float f2; // 5
+        int i1; // 963
+        int i2; // 0
+        float f3; // 0.5
+        break;
+
+    case 0x8D:
+        int i1; // 2208
+        break;
+
+    // Pet related
+    case 0x8E:
+        int handle;
+        int packetStringId; // 60006
+        int i2; // 1
+        byte b1; // 0
+        break;
+
+    // Start a track (Client Side Cutscene)
+    case 0x94:
+        lpString trackName;
+        int64 l1;
+        int count;
+        int i1;
+        int handles[count];
+        break;
+
+    // NPC Related?
+    case 0x95:
+        int i1; // 7, 74, -2, 16
+        break;
+
+    // NPC Related? Summoned monster 
+    case 0x97:
+        int handle;
+        int i1; // 0
+        break;
+
+    // Unknown, sent on login?
+    case 0x99:
+        int i1; // 0, 2
+        int packetString; // 2562277 = Test
+        int64 l1; // 0
+        byte b1;
+        break;
+
+    // Item Appraised (Identified)
+    case 0x9A:
+        byte b0;
+        int npcHandle;
+        byte b2;
+        int packetString; // 2562289 = {@st43}
+        int i3; // 4122
+        short s2; // 1
+        byte b1; // 0
+        float f3; // 3 (Duration?)
+        float f4; // 0
+        lpString str; // reward_itembox
+        int i5; // amount?
+        int itemId;
+        short propertiesSize;
+        getProperties(propertiesSize);
+        break;
+
+    // Shows book on screen with text
+    case 0x9B:
+        int handle;
+        lpString book;
+        break;
+
+    // Shows a scroll?
+    case 0x9D:
+        lpString scroll; //EP14_3LINE_TUTO_MQ_13_scroll
+        break;
+
+    // Spawn Pet?
+    case 0xA2:
+        int i1;
+        int petCount;
+        PetInfo pet[petCount];
+        break;
+
+    // Pet Equip
+    case 0xA3:
+        int64 itemWorldId;
+        int64 petWorldId;
+        int64 l1;
+        byte isEquipped;
+        if (isEquipped == 0)
+        {
+            int categoryIndex;
+        }
+        break;
+    
+    case 0xA4:
+        int companionHandle;
+        int64 l1; // Associated Unique Id?
+        short s3;
+        byte b1;
+        break;
+
+    case 0xA6:
+        int handle;
+        int64 worldId; // Associated Unique Id?
+        byte b1;
+        break;
+
+    case 0xA8:
+        int64 worldId; // Associated Unique Id?
+        int64 exp;
+        break;
+
+    case 0xB2:
+        int i1;
+        int i2;
+        byte b1;
+        byte b2;
+        lpString petType;
+        break;
+
+    // Associate Pet or Companion?
+    case 0xB3:
+        int entityHandle;
+        int characterHandle;
+        byte b1; // 1
+        byte b2; // 1
+        lpString str; // RidePet_ep13raincoat_1
+        break;
+
+    // Checking if B3 is now B4?
+    case 0xB4:
+        int entityHandle;
+        int characterHandle;
+        break;
+
+    // Flying Pet Related?
+    case 0xB7:
+        int entityHandle;
+        int i2; // 0
+        break;
+
+    // Pet or Companion animation state?
+    case 0xBB:
+        int entityHandle;
+        byte b1; // 1
+        int animationId; // 2562221 - SIT
+        break;
+
+    // Skill Related?
+    case 0xBF:
+        int handle;
+        position pos;
+        float distance;
+        float f1;
+        float f2;
+        float f3;
+        float f4;
+        float f5;
+        break;
+
+    case 0xC6:
+        int handle; // 231902
+        byte b1; // 1
+        break;
+
     // ?
+    case 0xDA:
+    case 0xDB:
     case 0xD6:
         if (!checkCompression())
         {
-            int64 objectId <format=hex>;
+            int64 characterId;
             int i1;
         }
         break;
-        
+
+    // Related to NPC Reviving in a script?
+    // Followed by ZC_NORMAL 0x13C and 0x52.
+    case 0xE0:
+        int handle;
+        byte b1;
+        break;
+
+    case 0xE1:
+        int characterHandle;
+        int targetHandle;
+        int animationId; // 2562693 : SHOW_BUFF_TEXT
+        float f1; // 160008
+        short s1; // -1
+        int64 l1;
+        break;
+    
     // ?
+    case 0xE4:
     case 0xE5:
         typedef struct
         {
             lpString str;
             int val;
         }
-        entry;
+        entry <optimize=false>;
 
         int count;
         entry entries[count] <optimize=false>;
-        break;
-
-    case 0xEF:
-        int64 id;
-        int count;
-        entry entries[count] <optimize=false>;
-        //local int newFile = FileNew();
-        local int i;
-        for(i = 0; i < count; i++)
-        {
-            //FPrintf( newFile, "%s,%d\n", entries[i].str.text, entries[i].val );
-            //FPrintf( newFile, "packet.PutLpString(\"%s\");\npacket.PutInt(%d);\n", entries[i].str.text, entries[i].val );
-        }
         break;
         
     // Job ranks?
@@ -277,6 +714,7 @@ switch (type)
         break;
 
     // ?
+    /**
     case 0xED:
         typedef struct
         {
@@ -293,11 +731,39 @@ switch (type)
         int count;
         JobED jobs[count];
         break;
+    **/
+    // Shown when trying to access level 2 treasure chest, that needs a key.
+    case 0xED:
+        lpString message; // TreasureboxKeyMSG1
+        float duration; // 5
+        break;
 
-    // Some kind of job data
+    // Gold Text When Speaking to NPC or Cutscene Dialog
+    // "This person isn't interested in you"
+    case 0xEE:
+        lpString str; // EP14_3LINE_TUTO_MQ_2_DLG_RUN_EM / F_CASTLE_99_MQ_03_DLG_PRE
+        float duration; // 3 / 10
+        break;
+
+    // Looks like a count of classes?
+    // How many total characters there are of each class?
+    case 0xF0:
+        int64 id;
+        int count;
+        entry entries[count] <optimize=false>;
+        //local int newFile = FileNew();
+        local int i;
+        for(i = 0; i < count; i++)
+        {
+            //FPrintf( newFile, "%s,%d\n", entries[i].str.text, entries[i].val );
+            //FPrintf( newFile, "packet.PutLpString(\"%s\");\npacket.PutInt(%d);\n", entries[i].str.text, entries[i].val );
+        }
+        break;
+
+    // Member Data
     case 0xF1:
         byte b1;
-        byte b2;
+        byte b2; // Data Type?
         int64 characterId;
         int64 accountId;
         int64 accountId2;
@@ -314,24 +780,28 @@ switch (type)
         short s3;
         short s4;
         int i[5];
-        int i3;
-        int i4;
+        int mapId;
+        int level1;
         byte b1;
         byte b2;
         byte b3;
         byte b4;
-        int i5;
-        int ibin1[3];
-        int i6;
-        float f1;
-        float f2;
-        float f3;
-        int64 l1;
-        int64 l2;
+        short baseJob;
+        short job1;
+        short job2;
+        short job3;
+        int ibin1[2];
+        int level2;
+        position pos;
+        int sp;
+        int hp;
+        int maxSP;
+        int maxHP;
         int i7;
-        int i8;
+        int level;
         byte b5;
         break;
+
     case 0xFFFF:
         typedef struct
         {
@@ -364,18 +834,139 @@ switch (type)
         JobF2 jobs[count];
         break;
 
-    case 0xF9:
-        if (!checkCompression()) {
+    case 0xF7:
+        PartyType type;
+        int64 partyId;
+        getProperties(8);
+        break;
 
+    // Share Quest
+    case 0xF8:
+        byte b1; // Party Type
+        int64 l1; // Party Id
+        int64 accountId; // ?
+        int propertyIdPartyMember;
+        lpString str;
+        break;
+
+    // Sent after Add Session Object
+    case 0xF9:
+        int64 accountId; // account id?
+        int sessionId; // 8419
+        short s1; // 0
+        break;
+
+    case 0xFA:
+        if (!checkCompression()) {
+            int count;
+            int64 worldId;
+            int itemId;
+            int i2;
+            int i3;
+            int i4;
+        }
+        break;
+
+    // Summoner Play Animation
+    case 0x105:
+        int handle; // Handle
+        int animationId; // Animation Id?
+        float f1; // 1
+        break;
+
+    // Sent when entering Assister Dungeon (Ancient Dungeon)
+    case 0x108:
+        int handle;
+        lpString str; //Ancient_Dungeon_Buff
+        int i1; // Skill
+        byte b1; // 1
+        break;
+
+    // Sent when entering Assister Dungeon (Ancient Dungeon)
+    case 0x109:
+        int handle;
+        lpString str; //Ancient_Dungeon_Buff
+        break;
+
+    case 0x10F:
+        int handle; // target handle
+        break;
+
+    // Skill Related (Hwarang PyeonJeon)
+    case 0x110:
+        int handle;
+        break;
+
+    typedef struct
+    {
+        int i1;
+        int i2;
+        int i3;
+    } Temp_118 <optimize=false>;
+
+    // Related to TP Shop
+    case 0x118:
+        int i1;
+        int i2;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+        int i7;
+        int i8;
+        int i9;
+        break;
+
+    // Related to TP Shop
+    case 0x119:
+        int i1; // 1
+        short s1; // 1
+        byte b1; // 0
+        short s2; // 1
+        byte b2; // 0
+        break;
+
+    // ? Sent on Login
+    case 0x11A:
+        int i1; // 0
+        break;
+
+    // Sent on Pyromancer's Skill Prominence
+    case 0x124:
+        int effectHandle;
+        byte b1;
+        switch (b1)
+        {
+            case 0:
+                int handle;
+                int packetString1;
+                float f1;
+                int packetString2;
+                float f2;
+                float f3;
+                int i2;
+                float f4;
+                float f5;
+                int i3;
+                float f6;
+                float f7;
+                float f8;
+                float f9;
+                int i4;
+                break;
+            case 2:
+                position pos1;
+                position pos2;
+                break;
         }
         break;
 
     // Map Data?
-    case 0x12A:
+    case 0x12B:
         typedef struct
         {
             short id;
-            short s1;
+            short userCount;
             short maxUsers; //?
         } ChannelData;
         if (!checkCompression())
@@ -397,25 +988,36 @@ switch (type)
         }
         break;
 
-    case 0x135:
-        int64 id;
-        int i1;
-        lpString message;
+    // Show's 0/50 to 50/50 over an pot to fill
+    // Used for fillables/collectable counts
+    case 0x130:
+        int handle;
+        lpString message; // 0/50
+        break;
+
+    // Greeting Message?
+    case 0x136:
+        int64 characterId;
+        int i1; // 0
+        lpString message; // Hello!
         break;
 
     // ?
-    case 0x136:
+    case 0x134:
+    case 0x137:
         if (!checkCompression())
         {
-            int64 characterId <format=hex>;
+            int64 characterId;
             byte bin1[7]; // 1
         }
         break;
 
-    case 0x139:
-        int handle;
-        short s1; // type? 3 = Guild name?
-        lpString name;
+    // ?
+    case 0x138:
+        float f1;
+        float f2;
+        FILETIME time;
+        float f3;
         break;
 
     // outdated
@@ -429,7 +1031,22 @@ switch (type)
         byte bin1[16]; // no idea what this could be
         break;
 
+    // Party?
+    case 0x13A:
+        int handle;
+        byte type; // type? 3 = Guild name?
+        lpString partyName;
+        byte type; // type? 3 = Guild name?
+        lpString guildName;
+        break;
+
+    // ?
     case 0x13C:
+        int handle; // 127297
+        byte b1; // 1
+        break;
+
+    case 0x13D:
         int i1; // NPC Id? Handle? 3065
         lpString name; //Script? Function? Squire_Repair
         byte b1; // 0
@@ -457,40 +1074,119 @@ switch (type)
         break;
         
     // Sets the session key.
-    case 0x148:
+    // Used for Web Requests (Guild/Party Search/Market)
+    case 0x146:
         lpString sessionKey;
         break;
 
-    case 0x14F:
-        int i1;
-        int i2;
-        float f1;
+    // ?
+    case 0x14A:
+        int i1; // 1
+        int i2; // 1
+        break;
+
+    // Cryomancer's Ice Bolt "Freeze" Effect?
+    case 0x14B:
+        int handle;
+        float duration; // Duration?
+        lpString effectName;
+        lpString effectType;
+        break;
+
+    // ? (Item Drop?)
+    case 0x150:
+        int i1; // 97610 ? handle?
+        int i2; // 232
+        float f1; //1.420368
+        break;
+
+    // Request Friendly Fight
+    case 0x152:
+        int handle;
+        lpString sender;
+        break;
+    // Request Friendly Fight Accepted?
+    case 0x155:
+        int handle;
+        position pos;
+        byte state; // 0 = Neutral | 1 = Hostile
+        break;
+
+    // ? sent with 0x6D
+    case 0x165:
+        int64 l1; // 0
+        break;
+
+    case 0x168:
+        int i1; // 911
+        lpString function; // GET_GUILDTOWER_NAME
+        lpString parameter; // Guild Name (TOS_SupportGuild)
         break;
 
     // Nexon Game Security Callback
     case 0x16D:
         break;
 
-    // ?
-    case 0x177:
+    // Market Item Min/Max Prices?
+    case 0x170:
         byte b1;
-        int64 accountId; // Character Id
-        int i1; // 1001
+        int64 l1;
+        int64 minPrice;
+        int64 l3;
+        int64 maxPrice;
+        int64 totalPrice;
         break;
 
+    // ?
+    case 0x174:
+        int i1; // 0
+        break;
+
+    // Member Location? Map/Channel?
+    case 0x178:
+        byte b1; // 1
+        int64 accountId;
+        short mapId;
+        short channel; // channel? status? 0 or 1
+        //int i1; // 1001, 2231454, 66537
+        break;
+    
+    // Related to FishRubbingStatue
+    case 0x179:
+        if (!checkCompression())
+        {
+            int handle;
+            lpString str; // FishRubbingStatue
+            short s1; // 2
+            short s2; // 49
+            APPEARANCE_PC appearancePc; // Only Name/Team/Job/Gender/Hair/EquipIds(1)
+        }
+        break;
     
     // Set a hat item's visible or invisible state
-    case 0x17B:
+    case 0x17A:
         int handle;
         byte hat1Visible;
         byte hat2Visible;
         byte hat3Visible;
+        byte wigVisible;
         break;
+
+    // World Message (Guild Related?)
+    case 0x17C:
+        byte msgType; // 1
+        // !@#$NOTICE_FIELDBOSS_RANK#@!, !@#$NOTICE_FIELDBOSS_RANK{rank}{name}$*$rank$*$1$*$name$*$Otaton, Takoh2, Jetlogs, StickyWicky, Ramyeon#@!
+        // !@#$NOTICE_FIELDBOSS_RANK{rank}{name}$*$rank$*$5$*$name$*$nx666, HeroOfTheNight, kibablack#@!
+        // !@#$NOTICE_FIELDBOSS_RANK_END#@!
+        lpString message; //!@#$Guild_Colony_Occupation_WorldMessage$*$partyName$*$MaidÂ CafÃ©$*$mapName$*$@dicID_^*$ETC_20150323_009589$*^#@!
+        short s1; // 1
+        byte b1; // 0
+        break;
+
     // ?
-    case 0x17E:
+    case 0x17F:
         int i1;
-        int i2;
-        short s[64];
+        SkillProps skills[i1];
         break;
     
     // ?
@@ -504,15 +1200,22 @@ switch (type)
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
-        byte b1;
-        int64 l1;
-        int64 l2;
         break;
+
     case 0x188:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
         short sbin[16];
+        break;
+
+    // Instance Dungeon
+    case 0x18B:
+        int i1; // 644 or 646
+        int i2; // 0
+        int64 l1; // 0 or 1
+        int l2; // 1
+        byte b1; // 0
         break;
 
     typedef struct
@@ -526,14 +1229,31 @@ switch (type)
     case 0x18D:
         lpString pageName;
         lpString pagePoint;
-        int i1; // Per Page? 20
-        int i2; // Offset? Start from this index Page 10 = 180 (9*20)
-        int i1; // Count? 20
-        AdventureBookRanker1 rankers[i1];
+        int pageLimit; // Per Page? 20
+        int pageOffset; // Offset? Start from this index Page 10 = 180 (9*20)
+        int count; // Count? 20
+        AdventureBookRanker1 rankers[count];
+        break;
+
+    typedef struct
+    {
+        int64 accountId;
+        int points;
+        lpString name;
+    }
+    FishingRanker <optimize=false>;
+
+    case 0x18E:
+        lpString str1; // Fishing, AdventureBook
+        lpString str2; // FishRubbing, GoldenFish, SuccessCount, Initialization_point
+        int count; // 0, 9, 10, 20
+        int startingIndex; // 0,20,40
+        int countPerPage; // 10,20
+        FishingRanker rankers[count];
         break;
     
     // ?
-    case 0x194:
+    case 0x195:
         lpString str1; // AdventureBook
         lpString str2;
         int i1;
@@ -557,12 +1277,12 @@ switch (type)
     } AdventureBookNearestRanks <optimize=false>;
 
     // Adventure Book Main Page
-    case 0x195:
+    case 0x196:
         int currentRank; // Current Rank
         int i2;
         int currentPoints; // Current Points
         int i4;
-        AdventureBookRanker2 rankers[i4];
+        AdventureBookRanker2 topRankers[i4];
         AdventureBookNearestRanks nearestRanks[5];
         int i[2];
         int64 l1;
@@ -570,60 +1290,80 @@ switch (type)
         int i6;
         break;
     // Adventure Book Item Page
-    case 0x196:
+    case 0x197:
         int count;
         AdventureBookRanker2 rankers[count];
         int currentRank;
         break;
     
     // ?
-    case 0x197:
-    case 0x1B4:
+    case 0x198:
         int i1;
-        break;
-
-    case 0x1BB:
-        lpString script; // TOS_STEAM_ACHIEVEMENT_ADVENTURE_BOOK
         break;
 
     // ?
     case 0x19B:
-        int64 l1;
-        byte b1;
+        byte b1; // 1
+        int64 l1; // 100
+        break;
+
+    case 0x19C:
+        byte b1; // 0
+        byte b2; // 0
+        int i1; // 225
         break;
     
-    // ?
-    case 0x19C:
+    // ? Some sort of time
+    case 0x19D:
         byte b1;
+        FILETIME time;
         break;
 
     // Guild Related ?
-    case 0x19E:
+    case 0x19F:
         int i1;
         int i2;
         break;
 
+    // ? (Sent on assister dungeon)
+    // Set skill slots?
+    case 0x1A2:
+        byte b1; // 1
+        int count; // 3
+        int i[count];
+        break;
+
     // Related to teleport skill?
+    // Also sent on ? (Sent on assister dungeon)
     case 0x1A3:
         int handle;
         byte b1; // 1
         break;
 
     // ?
-    case 0x1A5:
-        short s1;
-        int i[4];
-        int64 l1;
-        int i5;
+    case 0x1A6:
+        short s1; // 1
+        int i[4]; // 50, 50, 100, 100
+        float f1; // 0.3
+        float f2; // 3
+        int i5; // 5000
+        break;
+
+    case 0x1A7:
+        int i1; // 118258
+        int i2; // 29
         break;
 
     // ?
-    case 0x1B2:
+    case 0x1B3:
         typedef struct
         {
             int64 characterId;
             char characterName[64];
-            byte bin[24];
+            //byte bin[24];
+            int64 l1; // exp?
+            int64 l2; // max exp?
+            int64 l3; // 0
         } CharacterInfo <optimize=false>;
         typedef struct
         {
@@ -641,10 +1381,33 @@ switch (type)
         int inDunCount;
         Indun indun[inDunCount];
         break;
+
+    // ? Sent on Login
+    case 0x1B4:
+        int i1;
+        FILETIME time;
+        break;
+
+    // ? Sent on Login
+    // Might be Used Medals Amount sent in response CZ_REQUEST_USED_MEDAL_TOTAL
+    case 0x1B5:
+        int i1;
+        break;
+
+    // ? Sent on Login
+    case 0x1B6:
+        int i[3]; // [0, 0, 0]
+        break;
     
+    // Collect System Info
     case 0x1BA:
         int i1;
         lpString lpstring;
         byte b1;
+        break;
+
+    // ToS Steam Achievements
+    case 0x1BC:
+        lpString script; // TOS_STEAM_ACHIEVEMENT_ADVENTURE_BOOK, TOS_STEAM_ACHIEVEMENT_CLASS_CHANGE
         break;
 }

@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_SKILL_CANCEL.bt
+//   Authors: Salman T. Khan
+//   Version: i3340313
+//   Purpose: Sent when canceling a hold to cast skill.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

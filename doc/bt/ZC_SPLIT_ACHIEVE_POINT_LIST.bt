@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_SPLIT_ACHIEVE_POINT_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: 354245
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+typedef struct
+{
+    int i1;
+    int i2;
+}
+AchievePoint <optimize=false>;
+
+ServerHeaderDynamic header;
+short count;
+byte b1;
+AchievePoint points[count];

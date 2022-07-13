@@ -3,7 +3,7 @@
 //
 //      File: ZC_SKILL_MELEE_TARGET.bt
 //   Authors: Salman T. Khan
-//   Version: i340313
+//   Version: i341835
 //   Purpose: Skill related sent in response to CZ_SKILL_SELF
 //  Category: 
 // File Mask: 
@@ -11,7 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 

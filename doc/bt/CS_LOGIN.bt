@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CS_LOGIN.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+char accountName[56];
+byte md5password[16];
+byte b1;
+byte b2;
+byte b3;
+IP ip;
