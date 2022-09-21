@@ -25,6 +25,11 @@ namespace Melia.Channel.Network.Helpers
 				packet.PutShort(16832);
 			}
 
+			// [i364857 (2022-10-22)] ?
+			{
+				packet.PutInt(0); // 0 | 1098907648
+			}
+
 			packet.AddMonsterBase(monster);
 
 			packet.PutInt(5); // Name Size?

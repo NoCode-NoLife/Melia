@@ -16,6 +16,7 @@
 //   - i171960: i1 was added (make up your mind!!!)
 //   - i174236: i1 was removed... *sigh*
 //   - i175477: i1 was added (at this point they can only be trolling)
+//   - i364857: i7 was added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -31,6 +32,7 @@ int hp, maxHp;
 short s1;
 float f1;
 short s2;
+int i7;
 MONSTER monster;
 int i4; // npc state?
 int namesSize;
