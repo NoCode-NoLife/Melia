@@ -1236,6 +1236,7 @@
 { id: 2520, className: "Luchador_AbilSkill_OH", isOverheat: true, overheatResetTime: 3000 },
 { id: 2521, className: "GroovingMuzzle_OH", isOverheat: true, overheatResetTime: 50000 },
 { id: 2522, className: "AnkleShot_OH", isOverheat: true, overheatResetTime: 15000 },
+{ id: 2523, className: "CarveLaima_OH", isOverheat: true, overheatResetTime: 25000 },
 { id: 3000, className: "Mon", isOverheat: false, overheatResetTime: 0 },
 { id: 3001, className: "Mon_1", isOverheat: false, overheatResetTime: 0 },
 { id: 3002, className: "Mon_2", isOverheat: false, overheatResetTime: 0 },

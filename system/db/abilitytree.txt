@@ -1140,25 +1140,35 @@
 { category: "Dievdirbys", jobId: 4007, abilityId: 405008, className: "Dievdirbys6", maxLevel: 2, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Dievdirbys", jobId: 4007, abilityId: 405012, className: "Dievdirbys18", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Dievdirbys", jobId: 4007, abilityId: 405013, className: "Dievdirbys19", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Dievdirbys_CarveAustrasKoks", 1)' },
-{ category: "Dievdirbys", jobId: 4007, abilityId: 405015, className: "Dievdirbys21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_7", 45)' },
 { category: "Dievdirbys", jobId: 4007, abilityId: 405016, className: "Dievdirbys22", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dievdirbys11", 65)' },
 { category: "Dievdirbys", jobId: 4007, abilityId: 405017, className: "Dievdirbys23", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dievdirbys12", 65)' },
 { category: "Dievdirbys", jobId: 4007, abilityId: 405018, className: "Dievdirbys24", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_7", 45)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405020, className: "Dievdirbys26", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Dievdirbys_CarveLaima", 1)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405022, className: "Dievdirbys28", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dievdirbys26", 65)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405023, className: "Dievdirbys29", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Dievdirbys19", 65)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405025, className: "Dievdirbys31", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405026, className: "Dievdirbys32", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Dievdirbys", jobId: 4007, abilityId: 405027, className: "Dievdirbys33", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 
 // Oracle
 //---------------------------------------------------------------------------
 { category: "Oracle", jobId: 4008, abilityId: 411007, className: "Oracle7", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_350LV', unlock: 'UNLOCK_BASE_LEVEL("", 350)' },
-{ category: "Oracle", jobId: 4008, abilityId: 411008, className: "Oracle8", maxLevel: 4, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 { category: "Oracle", jobId: 4008, abilityId: 411015, className: "Oracle15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_CounterSpell", 1)' },
 { category: "Oracle", jobId: 4008, abilityId: 411016, className: "Oracle16", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 { category: "Oracle", jobId: 4008, abilityId: 411017, className: "Oracle17", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
-{ category: "Oracle", jobId: 4008, abilityId: 411018, className: "Oracle18", maxLevel: 4, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 300)' },
-{ category: "Oracle", jobId: 4008, abilityId: 411019, className: "Oracle19", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_DeathVerdict", 1)' },
 { category: "Oracle", jobId: 4008, abilityId: 411020, className: "Oracle20", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_ABIL_SKILL("Oracle_DivineMight", 10)' },
 { category: "Oracle", jobId: 4008, abilityId: 411021, className: "Oracle21", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_TwistOfFate", 1)' },
 { category: "Oracle", jobId: 4008, abilityId: 411022, className: "Oracle22", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_Foretell", 1)' },
 { category: "Oracle", jobId: 4008, abilityId: 411023, className: "Oracle23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_8", 45)' },
 { category: "Oracle", jobId: 4008, abilityId: 411024, className: "Oracle24", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_8", 45)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411025, className: "Oracle25", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_ArcaneEnergy", 1)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411026, className: "Oracle26", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Oracle_Prophecy", 1)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411027, className: "Oracle27", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Oracle25", 65)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411028, className: "Oracle28", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Oracle26", 65)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411032, className: "Oracle32", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411033, className: "Oracle33", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411034, className: "Oracle34", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Oracle", jobId: 4008, abilityId: 411035, className: "Oracle35", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Oracle15", 65)' },
 
 // Monk
 //---------------------------------------------------------------------------
@@ -1244,6 +1254,9 @@
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412021, className: "PlagueDoctor21", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("PlagueDoctor9", 65)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412022, className: "PlagueDoctor22", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_200LV', unlock: 'UNLOCK_BASE_LEVEL("", 200)' },
 { category: "PlagueDoctor", jobId: 4014, abilityId: 412023, className: "PlagueDoctor23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char4_14", 45)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412029, className: "PlagueDoctor29", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PlagueDoctor_Fumigate", 1)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412030, className: "PlagueDoctor30", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("PlagueDoctor_Fumigate", 1)' },
+{ category: "PlagueDoctor", jobId: 4014, abilityId: 412031, className: "PlagueDoctor31", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("PlagueDoctor30", 65)' },
 
 // Kabbalist
 //---------------------------------------------------------------------------

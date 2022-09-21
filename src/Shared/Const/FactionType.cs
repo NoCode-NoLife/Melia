@@ -83,5 +83,7 @@ namespace Melia.Shared.Const
 		OnlyHitMe = 98,
 		FromOnlyHitMe = 99,
 		BreakingWheel = 100,
+		Raid_Spreader_Crystal = 101,
+		Raid_Spreader_Soldier = 102,
 	}
 }
