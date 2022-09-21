@@ -168,6 +168,8 @@ namespace Melia.Shared.Const
 		Pharmacy_Additive,
 		Pharmacy_PharmacyRecipe,
 		Armor_Belt,
+		OPTMisc_GoddessIcorWeapon,
+		OPTMisc_GoddessIcorArmor,
 	}
 
 	/// <summary>
