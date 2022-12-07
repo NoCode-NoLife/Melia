@@ -56,7 +56,8 @@ typedef struct
     int64 characterId <format=hex>;
     
     short resetTimeCount;
-    ResetTimeEntry resetTimes[resetTimeCount];
+    if (resetTimeCount > 0)
+        ResetTimeEntry resetTimes[resetTimeCount];
 }
 BARRACK_PC <read=readBARRACK_PC>;
 
