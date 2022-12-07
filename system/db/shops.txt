@@ -1169,6 +1169,10 @@
 { shopName: "Test_Kupole_GoddessMisc", productId: 22825, itemId: 645783, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessMisc", productId: 22826, itemId: 11200046, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_GoddessMisc", productId: 22827, itemId: 11200101, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22828, itemId: 11200100, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22829, itemId: 11200191, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22830, itemId: 11200194, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_GoddessMisc", productId: 22831, itemId: 11200196, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_BountyHunt", productId: 22901, itemId: 11035650, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_BountyHunt", productId: 22902, itemId: 11035651, amount: 1, priceMultiplier: 1 },
