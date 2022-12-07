@@ -482,7 +482,7 @@
 { id: 6316, className: "EVENT_2210_HALLOWEEN_06", name: "Balancing Flavors", useDaily: false, useWeekly: false },
 { id: 6317, className: "EVENT_2210_HALLOWEEN_07", name: "Happy Halloween", useDaily: false, useWeekly: false },
 { id: 6318, className: "EVENT_Belle_Of_The_Ball_Title", name: "Belle of the Ball", useDaily: false, useWeekly: false },
-{ id: 6319, className: "EVENT_2212_LAST_CHRISTMAS_01", name: "Complete all "using firecracker" achievements of [Week 1]", useDaily: false, useWeekly: false },
+{ id: 6319, className: "EVENT_2212_LAST_CHRISTMAS_01", name: "Complete all \"using firecracker\" achievements of [Week 1]", useDaily: false, useWeekly: false },
 { id: 6320, className: "EVENT_2212_LAST_CHRISTMAS_01_1", name: "[Week 1] West Siauliai Woods", useDaily: false, useWeekly: false },
 { id: 6321, className: "EVENT_2212_LAST_CHRISTMAS_01_2", name: "[Week 1] Lemprasa Pond", useDaily: false, useWeekly: false },
 { id: 6322, className: "EVENT_2212_LAST_CHRISTMAS_01_3", name: "[Week 1] Siauliai Miners' Village", useDaily: false, useWeekly: false },

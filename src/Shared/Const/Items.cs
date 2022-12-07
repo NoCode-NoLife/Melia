@@ -170,6 +170,7 @@ namespace Melia.Shared.Const
 		Armor_Belt,
 		OPTMisc_GoddessIcorWeapon,
 		OPTMisc_GoddessIcorArmor,
+		Armor_Shoulder,
 	}
 
 	/// <summary>
@@ -237,6 +238,7 @@ namespace Melia.Shared.Const
 		PetArmor,
 		Earring,
 		BELT,
+		SHOULDER,
 	}
 
 	/// <summary>
@@ -293,6 +295,7 @@ namespace Melia.Shared.Const
 		Doll,
 		Earring,
 		BELT,
+		SHOULDER,
 	}
 
 	/// <remarks>
