@@ -37,6 +37,15 @@ typedef struct
     short op;
     int sequence;
     int checksum;
+    short size;
+}
+ClientHeaderDynamicOld <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
 }
 ServerHeaderFixed <optimize=false>;
 
@@ -48,3 +57,11 @@ typedef struct
     short size;
 }
 ServerHeaderDynamic <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    short size;
+}
+ServerHeaderDynamicOld <optimize=false>;
