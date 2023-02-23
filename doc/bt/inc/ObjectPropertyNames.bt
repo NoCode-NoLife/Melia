@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i367470
+//   Version: i368907
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -27624,6 +27624,77 @@ string getPropertyName(int id)
         case 113413: return "EVENT_2212_LAST_CHRISTMAS_SHOP_10";
         case 113414: return "EVENT_2212_LAST_CHRISTMAS_SHOP_40";
         case 113415: return "EVENT_2212_LAST_CHRISTMAS_SHOP_49";
+        case 113416: return "ep14furry_thema";
+        case 113417: return "dress_ep14furry_1";
+        case 113418: return "dress_ep14furry_3";
+        case 113419: return "dress_ep14furry_4";
+        case 113420: return "ContentsTotalShop_2301_1";
+        case 113421: return "dress_ep14furry_2";
+        case 113422: return "EP14_Artefact_020_cabinet";
+        case 113423: return "EP14_Artefact_021_cabinet";
+        case 113424: return "EP14_Artefact_022_cabinet";
+        case 113425: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_26";
+        case 113426: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_34";
+        case 113427: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_40";
+        case 113428: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_48";
+        case 113429: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_16";
+        case 113430: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_11";
+        case 113431: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_13";
+        case 113432: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_15";
+        case 113433: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_31";
+        case 113434: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_37";
+        case 113435: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_47";
+        case 113436: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_01";
+        case 113437: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_45";
+        case 113438: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_7";
+        case 113439: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_11";
+        case 113440: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_22";
+        case 113441: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_23";
+        case 113442: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_43";
+        case 113443: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_35";
+        case 113444: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_25";
+        case 113445: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_08";
+        case 113446: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_19";
+        case 113447: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_18";
+        case 113448: return "EVENT_2301_HAPPY_NEW_YEAR_PLAY_TIME";
+        case 113449: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_30";
+        case 113450: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_9";
+        case 113451: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_02";
+        case 113452: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_07";
+        case 113453: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_39";
+        case 113454: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_12";
+        case 113455: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_32";
+        case 113456: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_28";
+        case 113457: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_29";
+        case 113458: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_10";
+        case 113459: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_17";
+        case 113460: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_6";
+        case 113461: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_20";
+        case 113462: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_24";
+        case 113463: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_4";
+        case 113464: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_04";
+        case 113465: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_3";
+        case 113466: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_41";
+        case 113467: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_FESTIVAL";
+        case 113468: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_2";
+        case 113469: return "EVENT_2301_HAPPY_NEW_YEAR_COIN_COUNT";
+        case 113470: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_36";
+        case 113471: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_21";
+        case 113472: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_1";
+        case 113473: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_42";
+        case 113474: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_06";
+        case 113475: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_14";
+        case 113476: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_10";
+        case 113477: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_33";
+        case 113478: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_03";
+        case 113479: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_38";
+        case 113480: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_5";
+        case 113481: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_27";
+        case 113482: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_46";
+        case 113483: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_09";
+        case 113484: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_44";
+        case 113485: return "EVENT_2301_HAPPY_NEW_YEAR_SHOP_8";
+        case 113486: return "AchieveReward_EVENT_2301_HAPPY_NEW_YEAR_05";
         default: return "Unknown";
     }
 }

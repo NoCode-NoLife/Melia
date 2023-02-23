@@ -12,6 +12,7 @@ namespace Melia.Shared.Const
 	public enum InventoryCategory
 	{
 		None,
+		Costume,
 		Premium_Consume,
 		Premium_Special,
 		Premium_Costume,
@@ -20,6 +21,8 @@ namespace Melia.Shared.Const
 		Look_Wig,
 		Premium_Helmet,
 		Look_Lens,
+		Weapon,
+		SubWeapon,
 		Weapon_Bow,
 		Weapon_Mace,
 		Weapon_Musket,
@@ -35,11 +38,13 @@ namespace Melia.Shared.Const
 		Weapon_Cannon,
 		Weapon_Dagger,
 		Weapon_Pistol,
+		Armor,
 		Armor_Boots,
 		Armor_Gloves,
 		Armor_Pants,
 		Armor_Shield,
 		Armor_Shirt,
+		Accessory,
 		Accessory_Neck,
 		Accessory_Band,
 		HairAcc_Acc1,
@@ -63,6 +68,7 @@ namespace Melia.Shared.Const
 		ChangeEquip_THSword,
 		Look_Toy,
 		OPTMisc_Jewel,
+		Consume,
 		Consume_ConsumeSp,
 		Consume_Potion,
 		Consume_Scroll,
@@ -146,6 +152,8 @@ namespace Melia.Shared.Const
 		OPTMisc_IcorArmorPants,
 		OPTMisc_IcorArmorGloves,
 		OPTMisc_IcorArmorBoots,
+		OPTMisc_GoddessIcorWeapon,
+		OPTMisc_GoddessIcorArmor,
 		Look_Skin,
 		PHousing_Furniture,
 		PHousing_Carpet,
@@ -168,9 +176,11 @@ namespace Melia.Shared.Const
 		Pharmacy_Additive,
 		Pharmacy_PharmacyRecipe,
 		Armor_Belt,
-		OPTMisc_GoddessIcorWeapon,
-		OPTMisc_GoddessIcorArmor,
 		Armor_Shoulder,
+		Collection,
+		Book,
+		Etc,
+		Premium,
 	}
 
 	/// <summary>
@@ -331,6 +341,11 @@ namespace Melia.Shared.Const
 		Wing, // WING
 		SpecialCostume, // ?
 		EffectCostume, // ?
+		Unknown, // ?
+		Doll, // DOLL
+		Earring,
+		Belt, // BELT
+		Shoulder, // SHOULDER
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -351,6 +366,7 @@ namespace Melia.Shared.Const
 
 	public enum InventoryAddType : byte
 	{
+		New = 0,
 		Buy = 1,
 		Sell = 2,
 		PickUp = 3, // ?
@@ -370,9 +386,9 @@ namespace Melia.Shared.Const
 		/// [i186893] 24->25, effect costume
 		/// [i337645] 25->30
 		/// [i339415] 30->32
-		/// [i354444] 32->33
-		/// [i361296] 33->34
-		/// [i367470] 34->35
+		/// [i354245] 32->33, earring
+		/// [i361296] 33->34, belt
+		/// [i367470] 34->35, shoulder pad
 		/// </remarks>
 		public const int EquipSlotCount = 35;
 
