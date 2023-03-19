@@ -370,6 +370,28 @@
 { category: "Luchador", jobId: 1023, abilityId: 122017, className: "Luchador17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Luchador8", 65)' },
 { category: "Luchador", jobId: 1023, abilityId: 122018, className: "Luchador18", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_100LV', unlock: 'UNLOCK_BASE_LEVEL("", 100)' },
 
+// SpearMaster
+//---------------------------------------------------------------------------
+{ category: "SpearMaster", jobId: 1024, abilityId: 123001, className: "SpearMaster1", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("SpearMaster_WildTigerSpear", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123002, className: "SpearMaster2", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("SpearMaster_RushSpear", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123003, className: "SpearMaster3", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("SpearMaster_FlyingSerpentFall", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123004, className: "SpearMaster4", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("SpearMaster_UniqueSpearDance", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123005, className: "SpearMaster5", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_WildTigerSpear", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123006, className: "SpearMaster6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_WildTigerSpear", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123008, className: "SpearMaster8", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_RushSpear", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123009, className: "SpearMaster9", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_UniqueSpearDance", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123010, className: "SpearMaster10", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_UniqueSpearDance", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123011, className: "SpearMaster11", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_SwiftMove", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123012, className: "SpearMaster12", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_SwiftMove", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123013, className: "SpearMaster13", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123014, className: "SpearMaster14", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("SpearMaster1", 65)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123015, className: "SpearMaster15", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("SpearMaster2", 65)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123016, className: "SpearMaster16", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("SpearMaster3", 65)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123017, className: "SpearMaster17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("SpearMaster4", 65)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123018, className: "SpearMaster18", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_24", 45)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123019, className: "SpearMaster19", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char1_24", 45)' },
+{ category: "SpearMaster", jobId: 1024, abilityId: 123020, className: "SpearMaster20", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_LUCHADOR_SUBSKILL_COND("SpearMaster_SwiftMove", 1)' },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", jobId: 2001, abilityId: 10033, className: "StaffMastery_Splash", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
@@ -761,19 +783,31 @@
 
 // Hunter
 //---------------------------------------------------------------------------
-{ category: "Hunter", jobId: 3002, abilityId: 10019, className: "CompMastery1", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Hunter", jobId: 3002, abilityId: 10020, className: "CompMastery2", maxLevel: 4, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305002, className: "Hunter3", maxLevel: 5, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305008, className: "Hunter9", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Coursing", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305010, className: "Hunter11", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_RushDog", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305011, className: "Hunter12", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Retrieve", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305012, className: "Hunter13", maxLevel: 30, priceTime: 'ABIL_ABOVE_NORMAL_PRICE', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 10036, className: "CompMastery3", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 10037, className: "CompMastery4", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 10038, className: "CompMastery5", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 10039, className: "CompMastery6", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 10040, className: "CompMastery7", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
 { category: "Hunter", jobId: 3002, abilityId: 305013, className: "Hunter14", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Howling", 1)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305016, className: "Hunter17", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter9", 65)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305017, className: "Hunter18", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter11", 65)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305018, className: "Hunter19", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter12", 65)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305019, className: "Hunter20", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_2", 45)' },
-{ category: "Hunter", jobId: 3002, abilityId: 305020, className: "Hunter21", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_2", 45)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305014, className: "Hunter15", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Growling", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305021, className: "Hunter22", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305022, className: "Hunter23", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_BASE_LEVEL("", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305023, className: "Hunter24", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Growling", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305024, className: "Hunter25", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_ABIL_SKILL("Hunter_BleedingPierce", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305025, className: "Hunter26", maxLevel: 1, priceTime: 'ABIL_COMMON_PRICE_1LV', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Praise", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305026, className: "Hunter27", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_PetAttack", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305027, className: "Hunter28", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Bolas", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305028, className: "Hunter29", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_BleedingPierce", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305029, className: "Hunter30", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Brawl", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305030, className: "Hunter31", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Hunter_Praise", 1)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305031, className: "Hunter32", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_2", 45)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305032, className: "Hunter33", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_2", 45)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305033, className: "Hunter34", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter27", 65)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305034, className: "Hunter35", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter15", 65)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305035, className: "Hunter36", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter28", 65)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305036, className: "Hunter37", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter29", 65)' },
+{ category: "Hunter", jobId: 3002, abilityId: 305037, className: "Hunter38", maxLevel: 30, priceTime: 'HIDDENABIL_PRICE_COND_REINFORCE', unlock: 'UNLOCK_ABIL_OTHERABILITY("Hunter30", 65)' },
 
 // QuarrelShooter
 //---------------------------------------------------------------------------
@@ -1026,6 +1060,7 @@
 { category: "Arquebusier", jobId: 3104, abilityId: 321121, className: "Arquebusier21", maxLevel: 1, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_ArquebusBarrage", 1)' },
 { category: "Arquebusier", jobId: 3104, abilityId: 321122, className: "Arquebusier22", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_21", 45)' },
 { category: "Arquebusier", jobId: 3104, abilityId: 321123, className: "Arquebusier23", maxLevel: 1, priceTime: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlock: 'UNLOCK_ABIL_JOB_LEVEL("Char3_21", 45)' },
+{ category: "Arquebusier", jobId: 3104, abilityId: 321124, className: "Arquebusier24", maxLevel: 100, priceTime: 'ABIL_REINFORCE_PRICE', unlock: 'UNLOCK_ABIL_SKILL("Arquebusier_DesperateDefense", 1)' },
 
 // Hwarang
 //---------------------------------------------------------------------------

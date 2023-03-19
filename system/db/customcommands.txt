@@ -87,4 +87,5 @@
 { id: 89, name: "RESUME_FIRSTPLAY_TUTORIAL", script: "SCR_RESUME_FIRSTPLAY_TUTORIAL", useTx: false },
 { id: 90, name: "REQ_PREV_SEASON_COIN_SHOP_OPEN", script: "SCR_PREV_SEASON_COIN_SHOP_OPEN", useTx: true },
 { id: 91, name: "MOVE_TO_ENTER_HARD", script: "SCR_MOVE_TO_ENTER_HARD", useTx: false },
+{ id: 92, name: "SUBWEAPON_VISIBLE_STATE", script: "SCR_SUBWEAPON_VISIBLE_STATE", useTx: false },
 ]
