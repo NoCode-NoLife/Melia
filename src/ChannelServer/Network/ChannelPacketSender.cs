@@ -2534,7 +2534,7 @@ namespace Melia.Channel.Network
 		public static void ZC_NORMAL_Unknown_EF(Character character)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
-			packet.PutInt(SubOp.Zone.Unknown_EF);
+			packet.PutInt(SubOp.Zone.ServerJobCount);
 
 			packet.PutLong(character.Id);
 			packet.PutInt(98); // count

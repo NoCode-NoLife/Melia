@@ -107,7 +107,7 @@ namespace Melia.Shared.Data.Database
 			{
 				var scriptEntry = (JObject)entry["script"];
 
-				scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
+				//scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
 
 				var scriptData = new ItemScriptData();
 

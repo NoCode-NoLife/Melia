@@ -128,8 +128,8 @@ namespace Melia.Channel.Network
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
-			Send.ZC_NORMAL_Unknown_DA(character);
-			Send.ZC_NORMAL_Unknown_E4(character);
+			//Send.ZC_NORMAL_Unknown_DA(character);
+			//Send.ZC_NORMAL_Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
@@ -139,7 +139,7 @@ namespace Melia.Channel.Network
 			Send.ZC_UPDATE_SP(character, character.Sp);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
-			Send.ZC_NORMAL_Unknown_1B4(character);
+			//Send.ZC_NORMAL_Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(character);

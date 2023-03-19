@@ -46,16 +46,16 @@
 			public const int Unknown_DA = 0xDA;
 			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;
-			public const int Unknown_EF = 0xF0;
+			public const int ServerJobCount = 0xF2;
 			public const int Unknown_Map_12A = 0x12B;
 			public const int SetGreetingMessage = 0x136;
-			public const int SetSessionKey = 0x14F;
-			public const int ItemDrop = 0x150;
+			public const int SetSessionKey = 0x148;
+			public const int ItemDrop = 0x152;
 			public const int NGSCallback = 0x16E;
-			public const int HatVisibleState = 0x182;
-			public const int UpdateSkillUI = 0x187;
-			public const int AdventureBook = 0x195;
-			public const int Unknown_19B = 0x19C;
+			public const int HatVisibleState = 0x184;
+			public const int UpdateSkillUI = 0x189;
+			public const int AdventureBook = 0x197;
+			public const int Unknown_19B = 0x19E;
 			public const int Unknown_1B4 = 0x1B5;
 		}
 	}

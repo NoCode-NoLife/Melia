@@ -85,6 +85,8 @@ namespace Melia.Shared.Data.Database
 		Missile,
 		Magic,
 		Responsive,
+		Aries,
+		TrueDamage,
 	}
 
 	/// <summary>

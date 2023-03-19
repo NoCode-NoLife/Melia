@@ -24,6 +24,7 @@ namespace Melia.Shared.Const
 		Hackapell = 1021,
 		BlossomBlader = 1022,
 		Luchador = 1023,
+		SpearMaster = 1024,
 
 		Wizard = 2001,
 		Pyromancer = 2002,

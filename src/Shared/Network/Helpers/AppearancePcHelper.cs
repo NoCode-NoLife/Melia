@@ -65,6 +65,11 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat3) != 0);
 				packet.PutByte(0);
 				packet.PutByte(1);
+
+				// [370844, 2023-03-14]
+				{
+					packet.PutLong(1);
+				}
 			}
 		}
 	}

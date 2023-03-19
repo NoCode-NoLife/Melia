@@ -29,11 +29,11 @@ namespace Melia.Login.Network
 			var accountName = packet.GetString(33);
 			var bin1 = packet.GetBin(23);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
+			var bin2 = packet.GetBin(23);
 			var b1 = packet.GetByte();
 			var b2 = packet.GetByte();
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var bin2 = packet.GetBin(4368);
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 			Send.BC_DISCONNECT_PACKET_LOG_COUNT(conn);
