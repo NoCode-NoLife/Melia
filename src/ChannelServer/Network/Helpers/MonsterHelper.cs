@@ -18,7 +18,6 @@ namespace Melia.Channel.Network.Helpers
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
 			packet.PutShort(0);
-			packet.PutFloat(0);
 
 			// [i11025 (2016-02-26)] ?
 			{
@@ -29,6 +28,8 @@ namespace Melia.Channel.Network.Helpers
 			{
 				packet.PutInt(0); // 0 | 1098907648
 			}
+
+			packet.PutFloat(16);
 
 			packet.AddMonsterBase(monster);
 

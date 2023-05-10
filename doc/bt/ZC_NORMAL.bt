@@ -508,6 +508,7 @@ switch (type)
         int64 l1;
         int64 l2;
         break;
+
     case 0x188:
         int64 characterId;
         int jobCount;
@@ -515,15 +516,16 @@ switch (type)
         short sbin[16];
         break;
 
-    typedef struct
-    {
-        int64 accountId;
-        int points;
-        lpString name;
-    } AdventureBookRanker1 <optimize=false>;
-
     // Adventure Book 
     case 0x18D:
+        typedef struct
+        {
+            int64 accountId;
+            int points;
+            lpString name;
+        }
+        AdventureBookRanker1 <optimize=false>;
+
         lpString pageName;
         lpString pagePoint;
         int i1; // Per Page? 20
@@ -542,22 +544,24 @@ switch (type)
         byte b1;
         break;
 
-    typedef struct
-    {
-        int64 accountId;
-        lpString name;
-        int points;
-    } AdventureBookRanker2 <optimize=false>;
-
-    typedef struct
-    {
-        int totalPoints;
-        int64 id;
-        int rank;
-    } AdventureBookNearestRanks <optimize=false>;
-
     // Adventure Book Main Page
     case 0x195:
+        typedef struct
+        {
+            int64 accountId;
+            lpString name;
+            int points;
+        }
+        AdventureBookRanker2 <optimize=false>;
+    
+        typedef struct
+        {
+            int totalPoints;
+            int64 id;
+            int rank;
+        }
+        AdventureBookNearestRanks <optimize=false>;
+
         int currentRank; // Current Rank
         int i2;
         int currentPoints; // Current Points
@@ -569,6 +573,7 @@ switch (type)
         int i5;
         int i6;
         break;
+
     // Adventure Book Item Page
     case 0x196:
         int count;

@@ -30,9 +30,9 @@ byte type; // 0~2,  0: friendly?, 1: monster, 2: NPC
 byte b1; // bool?
 int hp, maxHp;
 short s1;
-float f1;
 short s2;
 int i7;
+float f1;
 MONSTER monster;
 int i4; // npc state?
 int namesSize;
