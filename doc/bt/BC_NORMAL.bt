@@ -111,7 +111,7 @@ switch(type)
         {
             short zone;
             short playerCount;
-            short maxPlayers;
+            short maxPlayerCount;
         }
         ZoneTrafficServer <optimize=false>;
         
@@ -127,9 +127,9 @@ switch(type)
         {
             short s1;
             short s2;
-            short zoneMaxPlayerCount;
-            short mapAvailableCount;
-            ZoneTrafficMap maps [mapAvailableCount];
+            short maxPlayerCount;
+            short mapCount;
+            ZoneTrafficMap maps [mapCount];
         }
         ZoneTraffic <optimize=false>;
         

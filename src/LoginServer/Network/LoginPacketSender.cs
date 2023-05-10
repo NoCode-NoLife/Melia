@@ -300,39 +300,52 @@ namespace Melia.Login.Network
 		public static void BC_NORMAL_ZoneTraffic(LoginConnection conn)
 		{
 			var characters = conn.Account.GetCharacters();
-			var mapAvailableCount = characters.Length;
-			var zoneServerCount = 1;
-			var zoneMaxPcCount = 100;
+			var mapIds = characters.Select(a => a.MapId).Distinct();
+			var mapCount = mapIds.Count();
+			var maxPlayersPerMap = 100;
 
 			var packet = new Packet(Op.BC_NORMAL);
 			packet.PutInt(SubOp.Barrack.ZoneTraffic);
 
+			// The response is a list of maps and the zone servers they
+			// are available on, with the maps corresponding to the maps
+			// the characters are on. For example, if you have 2 characters,
+			// one on map 1021 and one on 5001, you'll get information for
+			// those two maps and all zone servers that are hosting that map.
+
 			packet.Zlib(true, zpacket =>
 			{
-				if (mapAvailableCount == 0)
+				// [i373239 (2023-05-10)] Might've been added before
+				{
+					zpacket.PutShort(0);
+					zpacket.PutShort(0);
+				}
+
+				if (mapCount == 0)
 				{
 					zpacket.PutShort(0);
 					zpacket.PutInt(100);
 				}
 				else
 				{
-					// [i373239 (2023-05-10)] Might've been added before
-					{
-						zpacket.PutShort(0);
-						zpacket.PutShort(0);
-					}
+					zpacket.PutShort(maxPlayersPerMap);
+					zpacket.PutShort(mapCount);
 
-					zpacket.PutShort(zoneMaxPcCount);
-					zpacket.PutShort(mapAvailableCount);
-					for (var i = 0; i < mapAvailableCount; ++i)
+					foreach (var mapId in mapIds)
 					{
-						zpacket.PutShort(characters[i].MapId);
-						zpacket.PutShort(zoneServerCount);
-						for (var zone = 0; zone < zoneServerCount; ++zone)
+						//var availableZoneServers = GetZoneServers(mapId);
+						var availableZoneServers = new int[] { 0 };
+
+						zpacket.PutShort(mapId);
+						zpacket.PutShort(availableZoneServers.Length);
+
+						for (var zoneIdx = 0; zoneIdx < availableZoneServers.Length; ++zoneIdx)
 						{
-							zpacket.PutShort(zone);
-							zpacket.PutShort(1); // currentPlayersCount
-							zpacket.PutShort(zoneMaxPcCount);
+							var playerCount = availableZoneServers[zoneIdx];//.PlayerCount;
+
+							zpacket.PutShort(zoneIdx);
+							zpacket.PutShort(playerCount);
+							zpacket.PutShort(maxPlayersPerMap);
 						}
 					}
 				}
