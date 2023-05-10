@@ -66,6 +66,8 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte(0);
 				packet.PutByte(1);
 			}
+
+			packet.PutEmptyBin(8); // [i373230 (2023-05-10)] Might've been added before
 		}
 	}
 

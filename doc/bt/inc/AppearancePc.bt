@@ -17,6 +17,7 @@
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
+//   - i373230: APPEARANCE_PC.unk1 was added
 //------------------------------------------------
 
 typedef struct
@@ -50,5 +51,6 @@ typedef struct
     byte hat2Visible;
     byte hat3Visible;
     short s2;
+    byte unk1[8];
 }
 APPEARANCE_PC;

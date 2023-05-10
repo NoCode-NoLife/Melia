@@ -3,12 +3,13 @@
 //
 //      File: CB_START_BARRACK.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i373230: Added str1
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -16,3 +17,4 @@
 ClientHeaderFixed header;
 
 byte b1;
+char str1[40]; // "GLOBAL", localization selection?

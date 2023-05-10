@@ -3,7 +3,7 @@
 //
 //      File: ZC_ENTER_PC.bt
 //   Authors: exec
-//   Version: i197611
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,7 @@
 //   - i11025:  partyName was removed
 //   - i174236: b3 was added
 //   - i197611: b3 was removed
+//   - i373230: i6 was added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -37,6 +38,7 @@ int maxHp;
 short sp;
 short maxSp;
 int i4;
+int i6;
 int stamina;
 int maxStamina;
 byte b1;

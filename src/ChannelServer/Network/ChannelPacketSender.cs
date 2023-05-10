@@ -132,6 +132,7 @@ namespace Melia.Channel.Network
 			packet.PutShort(character.Sp);
 			packet.PutShort(character.MaxSp);
 			packet.PutInt(0); // [i11025 (2016-02-26)]
+			packet.PutInt(0); // [i373230 (2023-05-10)]
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);

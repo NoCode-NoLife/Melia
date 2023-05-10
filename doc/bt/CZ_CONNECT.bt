@@ -3,7 +3,7 @@
 //
 //      File: CZ_CONNECT.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i339427
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,6 +12,7 @@
 //   - i170175: bin1, mac, and l1 were added
 //   - i174236: bin2+3 were added
 //   - i336041: characterId duplicates?
+//   - i373230: b1 added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -28,3 +29,4 @@ int64 accountId;
 int64 characterId2;
 byte bin2[12];
 byte bin3[10];
+byte b1;

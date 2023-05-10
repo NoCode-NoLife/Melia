@@ -55,6 +55,7 @@ namespace Melia.Channel.Network
 			var characterId = packet.GetLong();
 			var bin2 = packet.GetBin(12);
 			var bin3 = packet.GetBin(10);
+			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
 
 			// TODO: Check session key or something.
 
