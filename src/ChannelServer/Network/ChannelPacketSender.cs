@@ -248,6 +248,14 @@ namespace Melia.Channel.Network
 		/// <param name="character"></param>
 		public static void ZC_SKILL_LIST(Character character)
 		{
+			// [Note]
+			// If you ever find yourself wondering why the client isn't
+			// displaying any skills, make sure the subop for the skill
+			// UI update is correct (ZC_NORMAL_UpdateSkillUI).
+			// Without that packet, the client won't display any skills
+			// because it contains some job information that are used
+			// to determin which skills to display.
+
 			var skills = character.Skills.GetList();
 
 			var packet = new Packet(Op.ZC_SKILL_LIST);
@@ -2800,6 +2808,9 @@ namespace Melia.Channel.Network
 			// job must be sent. Other base classes or higher jobs in the
 			// same class do not work. Same thing for when the display
 			// job is a higher job.
+			// If data for the base job is sent though, other jobs will
+			// appears as well. So it seems like you can create a Wizard/
+			// Archer hybrid for example.
 
 			var jobs = character.Jobs.GetList();
 
