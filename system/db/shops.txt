@@ -1093,6 +1093,7 @@
 { shopName: "Test_Kupole_Relic", productId: 22466, itemId: 11030130, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Relic", productId: 22467, itemId: 11030036, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Relic", productId: 22468, itemId: 11030088, amount: 1, priceMultiplier: 1 },
+{ shopName: "Test_Kupole_Relic", productId: 22469, itemId: 845002, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Boruta", productId: 22501, itemId: 11030233, amount: 1, priceMultiplier: 1 },
 
