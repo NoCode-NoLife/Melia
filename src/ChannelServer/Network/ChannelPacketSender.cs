@@ -261,12 +261,20 @@ namespace Melia.Channel.Network
 					zpacket.AddSkill(skill);
 			});
 
-			packet.PutInt(PropertyId.Skill.ReadyTime);
+			// This follows at the end of the packet after the skills,
+			// but it's not clear what this is for. It honestly seems
+			// like garbage data, with left over floats and properties,
+			// but it's a bit long for that. A couple dozens updates
+			// ago there were also only two bytes before the properties,
+			// but one garbage byte at the end of the packet to pad it.
+			// We'll just mimic the official packets for now.
+			packet.PutByte(0x00);
+			packet.PutByte(0x80);
+			packet.PutByte(0x3F);
+			packet.PutShort(PropertyId.Skill.SkillFactor);
+			packet.PutFloat(1);
+			packet.PutShort(PropertyId.Skill.CaptionTime);
 			packet.PutFloat(0);
-			packet.PutInt(PropertyId.Skill.SR);
-			packet.PutFloat(0);
-			packet.PutShort(PropertyId.Skill.BackHitRange);
-			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}
