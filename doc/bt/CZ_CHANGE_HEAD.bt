@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_CHANGE_HEAD.bt
+//   Authors: exec
+//   Version: i373230
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+byte unk1[12];
+char name[64];
