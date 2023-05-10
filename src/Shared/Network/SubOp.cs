@@ -53,10 +53,10 @@
 			public const int ItemDrop = 0x150;
 			public const int NGSCallback = 0x16E;
 			public const int HatVisibleState = 0x182;
-			public const int UpdateSkillUI = 0x187;
-			public const int AdventureBook = 0x195;
-			public const int Unknown_19B = 0x19C;
-			public const int Unknown_1B4 = 0x1B5;
+			public const int UpdateSkillUI = 0x189;
+			public const int AdventureBook = 0x197;
+			public const int Unknown_19B = 0x19E;
+			public const int Unknown_1B4 = 0x1B7;
 		}
 	}
 }

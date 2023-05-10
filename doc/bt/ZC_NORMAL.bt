@@ -500,7 +500,7 @@ switch (type)
         break;
     
     // Updates the skill UI
-    case 0x186:
+    case 0x189:
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
