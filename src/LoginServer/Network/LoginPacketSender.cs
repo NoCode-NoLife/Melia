@@ -316,6 +316,12 @@ namespace Melia.Login.Network
 				}
 				else
 				{
+					// [i373239 (2023-05-10)] Might've been added before
+					{
+						zpacket.PutShort(0);
+						zpacket.PutShort(0);
+					}
+
 					zpacket.PutShort(zoneMaxPcCount);
 					zpacket.PutShort(mapAvailableCount);
 					for (var i = 0; i < mapAvailableCount; ++i)

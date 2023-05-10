@@ -3,13 +3,14 @@
 //
 //      File: BC_NORMAL.bt
 //   Authors: exec, celophi, Salman T. Khan
-//   Version: i336041
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //   - i336041: Added short maxPlayers to ZoneTrafficServer struct
+//   - i373230: ZoneTraffic.s1+2 added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -124,6 +125,8 @@ switch(type)
         
         typedef struct
         {
+            short s1;
+            short s2;
             short zoneMaxPlayerCount;
             short mapAvailableCount;
             ZoneTrafficMap maps [mapAvailableCount];
