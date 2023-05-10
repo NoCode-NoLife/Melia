@@ -1169,7 +1169,7 @@ namespace Melia.Channel.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (txType == TxType.Stats)
+			if (txType == TxType.StatUp)
 			{
 				if (count != 5)
 				{
@@ -1219,7 +1219,7 @@ namespace Melia.Channel.Network
 				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
 				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
 			}
-			else if (txType == TxType.Skills)
+			else if (txType == TxType.SkillUp)
 			{
 				var jobId = (JobId)packet.GetInt();
 
