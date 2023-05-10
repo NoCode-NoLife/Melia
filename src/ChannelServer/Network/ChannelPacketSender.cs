@@ -271,9 +271,9 @@ namespace Melia.Channel.Network
 			packet.PutByte(0x00);
 			packet.PutByte(0x80);
 			packet.PutByte(0x3F);
-			packet.PutShort(PropertyId.Skill.SkillFactor);
+			packet.PutInt(PropertyId.Skill.SkillFactor);
 			packet.PutFloat(1);
-			packet.PutShort(PropertyId.Skill.CaptionTime);
+			packet.PutInt(PropertyId.Skill.CaptionTime);
 			packet.PutFloat(0);
 
 			character.Connection.Send(packet);
