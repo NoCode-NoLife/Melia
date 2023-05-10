@@ -909,6 +909,8 @@ namespace Melia.Channel.Network
 			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutEmptyBin(16); // [i339415] ?
 			packet.PutByte(1);
+			packet.PutString("GLOBAL", 40); // [i373230]
+			packet.PutEmptyBin(24);         // [i373230]
 			packet.PutString(format);
 
 			entity.Map.Broadcast(packet, entity);
@@ -931,6 +933,8 @@ namespace Melia.Channel.Network
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
 			packet.PutInt(0);  // added i354444
+			packet.PutByte(0); // added i373230
+			packet.PutByte(1); // added i373230
 
 			foreach (var parameter in parameters)
 			{

@@ -3,7 +3,7 @@
 //
 //      File: ZC_CHAT.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,6 +12,7 @@
 //   - i11257:  i3 was added
 //   - i170175: bin2 was added
 //   - i336041: i4,i5,i6 and b2 added
+//   - i373230: str1+unk1 added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -35,4 +36,6 @@ int i6;
 float displayTime;
 byte bin2[32];
 byte b2;
+char str1[40]; // "GLOBAL"
+byte unk1[24];
 string message;

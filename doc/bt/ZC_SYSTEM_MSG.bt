@@ -3,7 +3,7 @@
 //
 //      File: ZC_SYSTEM_MSG.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i354444
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,6 +13,7 @@
 //   - i336041: b1 was added.
 //   - i339415: b2 was added.
 //   - i354444: i1 was added.
+//   - i373230: b3+4 was added.
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -26,6 +27,8 @@ int64 l1;
 byte b1;
 byte b2;
 int i1;
+byte b3;
+byte b4;
 
 if(paramCount != 0)
     msgParameter parameters[paramCount] <optimize=false>;
