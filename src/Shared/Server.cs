@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using Melia.Shared.Data;
 using Melia.Shared.Database;
+using Melia.Shared.Scripting;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Configuration;
+using Yggdrasil.Extensions;
+using Yggdrasil.Scripting;
 
 namespace Melia.Shared
 {
@@ -18,6 +23,11 @@ namespace Melia.Shared
 		/// File databases.
 		/// </summary>
 		public MeliaData Data { get; private set; }
+
+		/// <summary>
+		/// Returns a reference to the server's script loader.
+		/// </summary>
+		protected ScriptLoader ScriptLoader { get; private set; }
 
 		/// <summary>
 		/// Initializes class.
@@ -253,6 +263,131 @@ namespace Melia.Shared
 
 			Log.Error("Unable to find root directory, that contains system and user folders.");
 			CliUtil.Exit(1);
+		}
+
+		/// <summary>
+		/// Loads all scripts from given list.
+		/// </summary>
+		/// <param name="listFilePath"></param>
+		public void LoadScripts(string listFilePath)
+		{
+			if (this.ScriptLoader != null)
+			{
+				Log.Error("The script loader has been created already.");
+				return;
+			}
+
+			Log.Info("Loading scripts...");
+
+			if (!File.Exists(listFilePath))
+			{
+				Log.Error("Script list not found: " + listFilePath);
+				return;
+			}
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
+				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
+				provider.SetCompilerFullPath(Path.GetFullPath("lib/roslyn/csc.exe"));
+
+				var cachePath = (string)null;
+				//if (conf.Scripting.EnableCaching)
+				//{
+				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
+				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
+				//}
+
+				this.ScriptLoader = new ScriptLoader(provider, cachePath);
+				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
+				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+
+				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+					Log.Error(ex.ToString());
+			}
+			catch (CompilerErrorException ex)
+			{
+				this.DisplayScriptErrors(ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex.ToString());
+			}
+
+			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Reloads previously loaded scripts.
+		/// </summary>
+		public void ReloadScripts()
+		{
+			Log.Info("Reloading scripts...");
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				this.ScriptLoader.Reload();
+			}
+			catch (CompilerErrorException ex)
+			{
+				this.DisplayScriptErrors(ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex.ToString());
+			}
+
+			Log.Info("  reloaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Displays the script errors in the console.
+		/// </summary>
+		/// <param name="ex"></param>
+		private void DisplayScriptErrors(CompilerErrorException ex)
+		{
+			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			{
+				if (string.IsNullOrWhiteSpace(err.FileName))
+				{
+					Log.Error("While loading scripts: " + err.ErrorText);
+				}
+				else
+				{
+					var relativefileName = err.FileName;
+					var cwd = Directory.GetCurrentDirectory();
+					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+						relativefileName = relativefileName.Substring(cwd.Length + 1);
+
+					var lines = File.ReadAllLines(err.FileName);
+					var sb = new StringBuilder();
+
+					// Error msg
+					sb.AppendLine("In {0} on line {1}, column {2}", relativefileName, err.Line, err.Column);
+					sb.AppendLine("          {0}", err.ErrorText);
+
+					// Display lines around the error
+					var startLine = Math.Max(1, err.Line - 1);
+					var endLine = Math.Min(lines.Length, startLine + 2);
+					for (var i = startLine; i <= endLine; ++i)
+					{
+						// Make sure we don't get out of range.
+						// (ReadAllLines "trims" the input)
+						var line = (i <= lines.Length) ? lines[i - 1] : "";
+
+						sb.AppendLine("  {2} {0:0000}: {1}", i, line, (err.Line == i ? '*' : ' '));
+					}
+
+					if (err.IsWarning)
+						Log.Warning(sb.ToString());
+					else
+						Log.Error(sb.ToString());
+				}
+			}
 		}
 	}
 

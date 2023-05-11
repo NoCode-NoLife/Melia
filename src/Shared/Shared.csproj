@@ -35,6 +35,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\..\lib\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="MsgPack">
       <HintPath>..\..\lib\MsgPack.dll</HintPath>
     </Reference>
@@ -54,6 +57,12 @@
     <Reference Include="System.Xml" />
     <Reference Include="Ubiety.Dns.Core">
       <HintPath>..\..\lib\Ubiety.Dns.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil">
+      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil.Scripting">
+      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +128,7 @@
     <Compile Include="Network\Helpers\Position.cs" />
     <Compile Include="Network\Helpers\PropertyHelper.cs" />
     <Compile Include="Network\SubOp.cs" />
+    <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />
     <Compile Include="Util\Configuration\Files\World.cs" />
     <Compile Include="Util\Configuration\Files\Web.cs" />

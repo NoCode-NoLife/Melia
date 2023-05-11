@@ -1,0 +1,570 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Yggdrasil.Ai</name>
+    </assembly>
+    <members>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Composites.Conditional">
+            <summary>
+            Returns either Success or Failure, depending on the result of the
+            given function.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.Conditional.Func">
+            <summary>
+            Function to base result on.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Conditional.#ctor(System.Func{Yggrasil.Ai.BehaviorTree.State,System.Boolean})">
+            <summary>
+            Creates new instance of Conditional routine.
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Conditional.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs function once and returns status based on its result.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Composites.Selector">
+            <summary>
+            Runs through the given routines one by one until one returns Success.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.Selector._routines">
+            <summary>
+            Routines to run in sequence.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Selector.#ctor(Yggrasil.Ai.BehaviorTree.Routine[])">
+            <summary>
+            Creates new instance of Selector routine.
+            </summary>
+            <param name="routines"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Selector.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs routine once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState">
+            <summary>
+            State for Selector routine, storing which routine is currently
+            active.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState.Index">
+            <summary>
+            Routine that is currently run.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState.Succeeded">
+            <summary>
+            Set to true once a routine succeeded and the selection is over.
+            </summary>
+        </member>
+        <member name="P:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState.AreRoutineIdsSet">
+            <summary>
+            Returns true if routine ids were set.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState.SetRoutineIds(System.Collections.Generic.IEnumerable{Yggrasil.Ai.BehaviorTree.Routine})">
+            <summary>
+            Stores the sequence's routine's ids, to be able to reset them.
+            Run after creation to set up state.
+            </summary>
+            <param name="routines"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.SelectorRoutineState.Reset(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Resets sequence, starting over.
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Composites.Sequence">
+            <summary>
+            Runs through all given routines. It fails when they fail, it runs when
+            they run, and it succeeds once all routines have finished.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.Sequence._routines">
+            <summary>
+            Routines to run in sequence.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Sequence.#ctor(Yggrasil.Ai.BehaviorTree.Routine[])">
+            <summary>
+            Creates new instance of Sequence routine.
+            </summary>
+            <param name="routines"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.Sequence.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs routine once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState">
+            <summary>
+            State for Sequence routine, storing which routine is currently
+            active.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState.Index">
+            <summary>
+            Routine that is currently run.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState.Failed">
+            <summary>
+            Set to true once a routine failed and the sequence is over.
+            </summary>
+        </member>
+        <member name="P:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState.AreRoutineIdsSet">
+            <summary>
+            Returns true if routine ids were set.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState.SetRoutineIds(System.Collections.Generic.IEnumerable{Yggrasil.Ai.BehaviorTree.Routine})">
+            <summary>
+            Stores the sequence's routine's ids, to be able to reset them.
+            Run after creation to set up state.
+            </summary>
+            <param name="routines"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Composites.SequenceRoutineState.Reset(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Resets sequence, starting over.
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Decorators.Succeeder">
+            <summary>
+            Acts on given routine and never returns Failure.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Decorators.Succeeder.Routine">
+            <summary>
+            Routine to be run and inverted.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Succeeder.#ctor(Yggrasil.Ai.BehaviorTree.Routine)">
+            <summary>
+            Creates new instance of Succeeder routine.
+            </summary>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Succeeder.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs the routine once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Decorators.Inverter">
+            <summary>
+            Acts on given routine and inverts its Success|Failure result.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Decorators.Inverter.Routine">
+            <summary>
+            Routine to be run and inverted.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Inverter.#ctor(Yggrasil.Ai.BehaviorTree.Routine)">
+            <summary>
+            Creates new instance of Inverter routine.
+            </summary>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Inverter.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs the routine once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Decorators.Repeater">
+            <summary>
+            Repeats the given routine for the given amount of times or
+            indefinitely.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Decorators.Repeater.Repeats">
+            <summary>
+            Number of times the routine is repeated.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Decorators.Repeater.Routine">
+            <summary>
+            Routine to be repeated.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Repeater.#ctor(Yggrasil.Ai.BehaviorTree.Routine)">
+            <summary>
+            Creates new instance of Repeater routine that runs forever.
+            </summary>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Repeater.#ctor(System.Int32,Yggrasil.Ai.BehaviorTree.Routine)">
+            <summary>
+            Creates new instance of Repeater routine that runs the given
+            amount of times.
+            </summary>
+            <param name="repeats"></param>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.Repeater.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs routine once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Decorators.RepeaterRoutineState">
+            <summary>
+            State for Repeater routine, storing the number of times the routine
+            has been repeated.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Decorators.RepeaterRoutineState.I">
+            <summary>
+            Times the routine has been executed.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Decorators.RepeaterRoutineState.Reset(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Resets times the routine has been executed.
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Leafs.Execute">
+            <summary>
+            Executes the given action.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Leafs.Execute.Action">
+            <summary>
+            Action to execute.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Execute.#ctor(System.Action{Yggrasil.Ai.BehaviorTree.State})">
+            <summary>
+            Creates new instance of Execute routine.
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Execute.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs action once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Leafs.Print">
+            <summary>
+            Prints the given text.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Leafs.Print.Text">
+            <summary>
+            Text to output.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Print.#ctor(System.String)">
+            <summary>
+            Creates new instance of Print routine.
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Print.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Prints text and a line-break to standard output once.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Leafs.Wait">
+            <summary>
+            Returns running until the given time span is over.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Leafs.Wait.TimeSpan">
+            <summary>
+            Amount of the time the routine waits.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Wait.#ctor(System.TimeSpan)">
+            <summary>
+            Creates new instance Wait routine.
+            </summary>
+            <param name="timeSpan"></param>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.Wait.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Runs routine once, returns Running until the time span is over.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Leafs.WaitRoutineState">
+            <summary>
+            State for Wait routine, storing the time until which it should run.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Leafs.WaitRoutineState.Until">
+            <summary>
+            Time until which the routine should run.
+            </summary>
+        </member>
+        <member name="P:Yggrasil.Ai.BehaviorTree.Leafs.WaitRoutineState.IsEmpty">
+            <summary>
+            Returns true if Until hasn't been set yet.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Leafs.WaitRoutineState.Reset(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Resets routine, starting over.
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.Routine">
+            <summary>
+            Base class for routines.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.Routine.Id">
+            <summary>
+            The routine's unique id.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Routine.#ctor">
+            <summary>
+            Initializes routine.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.Routine.Act(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Called to run the method.
+            </summary>
+            <param name="state"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.RoutineStatus">
+            <summary>
+            Status of the routine after Act.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.RoutineStatus.Success">
+            <summary>
+            Routine ended successfully.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.RoutineStatus.Failure">
+            <summary>
+            Routine failed to end successfully.
+            </summary>
+        </member>
+        <member name="F:Yggrasil.Ai.BehaviorTree.RoutineStatus.Running">
+            <summary>
+            Routine is currently running.
+            </summary>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.IRoutineState">
+            <summary>
+            Interface for routine states.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.IRoutineState.Reset(Yggrasil.Ai.BehaviorTree.State)">
+            <summary>
+            Resets routine, bringing it back to its starting state.
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="T:Yggrasil.Ai.BehaviorTree.State">
+            <summary>
+            State can traverse routines.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.State.GetRoutineState``1(System.Int64)">
+            <summary>
+            Returns the routine state with the given id. If it doesn't exist
+            yet, it's created.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.State.Reset">
+            <summary>
+            Resets all routine states of this state.
+            </summary>
+        </member>
+        <member name="M:Yggrasil.Ai.BehaviorTree.State.Reset(System.Int64)">
+            <summary>
+            Resets the routine state with the given id.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="T:Yggdrasil.Ai.Enumerable.EnumerableAi">
+            <summary>
+            An IEnumerable based, state-machine/behavior-tree hybrid AI.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Heartbeat">
+            <summary>
+            Makes the AI execute once.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.StartRoutine(System.Collections.IEnumerable)">
+            <summary>
+            Starts given routine.
+            </summary>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.ClearRoutine">
+            <summary>
+            Stops the current routine and makes the AI start over.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.ExecuteOnce(System.Collections.IEnumerable)">
+            <summary>
+            Routine is created and executed once.
+            </summary>
+            <remarks>
+            This method can be used when a usually long-running routine
+            is supposed to be started, but not waited for. For example,
+            you might execute a movement routine, but not wait for the
+            character to actually arrive at the destination.
+            </remarks>
+            <param name="routine"></param>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Root">
+            <summary>
+            Called to start routines when none are active.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.SwitchRandom(System.Int32)">
+            <summary>
+            Imitates a switch-case that selects based on probability,
+            instead of static values.
+            </summary>
+            <remarks>
+            SwitchRandom generates a random number between 0 and 99,
+            which is then referenced by the Case method.
+            
+            SwitchRandom only keeps track of one random number at a time.
+            Switches can be nested, but randomly calling SwitchRandom in
+            between will give unexpected results.
+            </remarks>
+            <example>
+            SwitchRandom();
+            if (Case(60))
+            {
+            	SwitchRandom();
+            	if (Case(20))
+            	{
+            	    Do(Wander(250, 500));
+            	}
+            	else if (Case(80))
+            	{
+            	    Do(Wait(4000, 6000));
+            	}
+            }
+            else if (Case(40))
+            {
+                Do(Wander(250, 500, false));
+            }
+            </example>
+            <param name="total"></param>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Case(System.Int32)">
+            <summary>
+            Returns true if the given value matches the probability
+            generated by SwitchRandom, indicating that this case should
+            be used.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Chance(System.Single)">
+            <summary>
+            Returns true if the given percentage chance was met randomly.
+            </summary>
+            <example>
+            Chance(100); // Returns true in 100% of cases.
+            Chance(50); // Returns true in 50% of cases.
+            Chance(25); // Returns true in 25% of cases.
+            </example>
+            <param name="percent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Random(System.Int32)">
+            <summary>
+            Returns a random number between 0 and max-1.
+            </summary>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Random(System.Int32,System.Int32)">
+            <summary>
+            Returns a random number between min and max-1.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.RandomValue``1(``0[])">
+            <summary>
+            Return a random element from the given list.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Nothing">
+            <summary>
+            Does nothing, an idle action.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Wait(System.Int32,System.Int32)">
+            <summary>
+            Waits between min and max milliseconds.
+            </summary>
+            <param name="min">Minimum wait in milliseconds.</param>
+            <param name="max">Maximum wait in milliseconds.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Wait(System.TimeSpan)">
+            <summary>
+            Waits for the given amount of time.
+            </summary>
+            <param name="timeSpan">Time to wait.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Timeout(System.Int32,System.Collections.IEnumerable)">
+            <summary>
+            Executes routine until it's done or the given amount of time
+            has passed.
+            </summary>
+            <param name="timeout">Timeout in milliseconds.</param>
+            <param name="routine">Routine to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Timeout(System.TimeSpan,System.Collections.IEnumerable)">
+            <summary>
+            Executes routine until it's done or the given amount of time
+            has passed.
+            </summary>
+            <param name="timeout">Time after which the routine returns.</param>
+            <param name="routine">Routine to execute.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

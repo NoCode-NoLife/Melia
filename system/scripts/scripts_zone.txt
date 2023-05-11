@@ -1,0 +1,7 @@
+// Melia
+// Script List File
+//---------------------------------------------------------------------------
+
+custom/test.cs
+
+include "/user/scripts/scripts_zone.txt"

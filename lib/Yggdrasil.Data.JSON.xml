@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Yggdrasil.Data.JSON</name>
+    </assembly>
+    <members>
+        <member name="T:Yggdrasil.Data.MandatoryValueException">
+            <summary>
+            A minor issue where a mandatory value was missing.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Data.MandatoryValueException.Key">
+            <summary>
+            The name of the missing value.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.MandatoryValueException.#ctor(System.String,System.String,Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="path">Path to the file.</param>
+            <param name="key">Missing value's name.</param>
+            <param name="obj">Object that is missing the value.</param>
+        </member>
+        <member name="T:Yggdrasil.Data.JSON.JsonExtensions">
+            <summary>
+            Extensions for the JObject type.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadBool(Newtonsoft.Json.Linq.JObject,System.String,System.Boolean)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadByte(Newtonsoft.Json.Linq.JObject,System.String,System.Byte)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadSByte(Newtonsoft.Json.Linq.JObject,System.String,System.SByte)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadShort(Newtonsoft.Json.Linq.JObject,System.String,System.Int16)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadUShort(Newtonsoft.Json.Linq.JObject,System.String,System.UInt16)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadInt(Newtonsoft.Json.Linq.JObject,System.String,System.Int32)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadUInt(Newtonsoft.Json.Linq.JObject,System.String,System.UInt32)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadFloat(Newtonsoft.Json.Linq.JObject,System.String,System.Single)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadDouble(Newtonsoft.Json.Linq.JObject,System.String,System.Double)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadString(Newtonsoft.Json.Linq.JObject,System.String,System.String)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadEnum``1(Newtonsoft.Json.Linq.JObject,System.String,``0)">
+            <summary>
+            Reads value as string and parses it into enum type.
+            Returns the default if key wasn't found.
+            </summary>
+            <remarks>
+            Parses Flags if the values are separated by commas ","
+            or pipes "|".
+            </remarks>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadArray``1(Newtonsoft.Json.Linq.JObject,System.String,``0[])">
+            <summary>
+            Reads and returns single value array.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ContainsKeys(Newtonsoft.Json.Linq.JObject,System.String[])">
+            <summary>
+            Returns true if object contains all keys.
+            </summary>
+            <param name="obj"></param>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ContainsKey(Newtonsoft.Json.Linq.JObject,System.String)">
+            <summary>
+            Returns true if object containes key.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.AssertNotMissing(Newtonsoft.Json.Linq.JObject,System.String[])">
+            <summary>
+            Throws exception if one of the keys is missing from the object.
+            </summary>
+            <param name="obj"></param>
+            <param name="keys"></param>
+            <exception cref="T:Yggdrasil.Data.MandatoryValueException"></exception>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ForEachObject(Newtonsoft.Json.Linq.JObject,System.String)">
+            <summary>
+            Provides an iterator over all objects in the list with the given
+            name. If the property doesn't exists no elements are returned.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ForEach``1(Newtonsoft.Json.Linq.JObject,System.String)">
+            <summary>
+            Provides an iterator over all elements in the list with the
+            given name. If the property doesn't exists no elements are
+            returned.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Data.JSON.DatabaseJsonBase">
+            <summary>
+            A text-based database using JSON.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Data.JSON.DatabaseJsonBase.Warnings">
+            <summary>
+            Warnings that occurred during loading.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonBase.GetWarnings">
+            <summary>
+            Returns warnings that occured while loading data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonBase.LoadFile(System.String)">
+            <summary>
+            Loads data from given file.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonBase.ReadEntry(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Reads entry and adds information to database.
+            </summary>
+            <param name="entry"></param>
+        </member>
+        <member name="T:Yggdrasil.Data.JSON.DatabaseJson`1">
+            <summary>
+            A text-based database using JSON.
+            </summary>
+            <typeparam name="TData"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Data.JSON.DatabaseJson`1.Count">
+            <summary>
+            Returns number of entries in the database.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Data.JSON.DatabaseJson`1.Entries">
+            <summary>
+            The database's entries.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJson`1.Find(System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for first entry that matches the given predicate
+            and returns it, or null if no matches were found.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJson`1.FindAll(System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for entries that match the given predicate
+            and returns them.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJson`1.Clear">
+            <summary>
+            Removes all entries from database.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJson`1.Add(`0)">
+            <summary>
+            Adds data to database.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="T:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2">
+            <summary>
+            A text-based database using JSON.
+            </summary>
+            <typeparam name="TIndex"></typeparam>
+            <typeparam name="TData"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Count">
+            <summary>
+            Returns number of entries in the database.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Entries">
+            <summary>
+            The database's entries.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Contains(`0)">
+            <summary>
+            Returns true if the database contains an element with the
+            given index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Find(System.Func{`1,System.Boolean})">
+            <summary>
+            Searches for first entry that matches the given predicate
+            and returns it, or null if no matches were found.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Find(`0)">
+            <summary>
+            Returns the entry with the given index, or null if it
+            wasn't found.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.TryFind(`0,`1@)">
+            <summary>
+            Returns the entry with the given index via out. Returns false
+            if the index wasn't found.
+            </summary>
+            <param name="index"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.FindAll(System.Func{`1,System.Boolean})">
+            <summary>
+            Searches for entries that match the given predicate
+            and returns them.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Clear">
+            <summary>
+            Removes all entries from database.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.Add(`0,`1)">
+            <summary>
+            Adds data to database, fails and returns false if index exists
+            already.
+            </summary>
+            <param name="index"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.AddOrReplace(`0,`1)">
+            <summary>
+            Adds data to database, replacing potentially existing values.
+            Returns whether data was replaced or not.
+            </summary>
+            <param name="index"></param>
+            <param name="data"></param>
+        </member>
+    </members>
+</doc>

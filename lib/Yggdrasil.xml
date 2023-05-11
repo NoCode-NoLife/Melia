@@ -1,0 +1,4586 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Yggdrasil</name>
+    </assembly>
+    <members>
+        <member name="T:Yggdrasil.Collections.ListCollection`2">
+            <summary>
+            Thread-safe wrapper around a generic dictionary for indexed lists.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue">Type of the list.</typeparam>
+        </member>
+        <member name="F:Yggdrasil.Collections.ListCollection`2._entries">
+            <summary>
+            Wrapped entries list.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.ListCollection`2.Count">
+            <summary>
+            Returns number of lists in collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.#ctor">
+            <summary>
+            Creates new collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.CountValues(`0)">
+            <summary>
+            Returns the number of values in the list with the given key.
+            Returns 0 if list doesn't exist.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Add(`0,`1)">
+            <summary>
+            Adds value to key's list.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear">
+            <summary>
+            Clears collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear(`0)">
+            <summary>
+            Clears list in collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.ContainsKey(`0)">
+            <summary>
+            Returns true if collection contains a value for key.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Get(`0)">
+            <summary>
+            Returns copy of list for key, or an empty list if the key
+            doesn't exist.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Collections.Collection`2">
+            <summary>
+            Thread-safe wrapper around a generic dictionary.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="F:Yggdrasil.Collections.Collection`2._entries">
+            <summary>
+            List of entries.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.Collection`2.Count">
+            <summary>
+            Returns number of entries in collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Add(`0,`1)">
+            <summary>
+            Adds value to collection.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the key already exists.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.AddIfNotExists(`0,`1)">
+            <summary>
+            Adds value to collection, returns false if key existed already.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.AddOrReplace(`0,`1)">
+            <summary>
+            Adds value to collection, overrides existing keys.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Yggdrasil.Collections.Collection`2.Item(`0)">
+            <summary>
+            Adds a value to the collection or returns it. Equivalent to
+            Get and AddOrReplace.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Remove(`0)">
+            <summary>
+            Removes value with key from collection, returns true if successful.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Clear">
+            <summary>
+            Clears collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.ContainsKey(`0)">
+            <summary>
+            Returns true if collection contains a value for key.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.ContainsValue(`1)">
+            <summary>
+            Returns true if collection contains the value.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.GetValueOrDefault(`0)">
+            <summary>
+            Returns value for key, or the default value of the value type
+            if the key doesn't exist (e.g. null for string).
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Get(System.Func{System.Collections.Generic.KeyValuePair{`0,`1},System.Boolean})">
+            <summary>
+            Returns list of key-values that match the predicate.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Get(`0)">
+            <summary>
+            Returns the value with the given key.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the key wasn't found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.TryGet(`0,`1@)">
+            <summary>
+            Returns the value with the given key via out, returns false
+            if the value couldn't be found.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.GetList">
+            <summary>
+            Returns a list of all values.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.GetList(System.Func{`1,System.Boolean})">
+            <summary>
+            Returns a list of all values that match the given predicate.
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Execute(System.Action{`1})">
+            <summary>
+            Executes the given function an all entries.
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:Yggdrasil.Collections.Collection`2.Query``1(System.Func{`1,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Returns a list of results queried from all entries.
+            </summary>
+            <example>
+            var characters = world.Regions.Query(a => a.GetCharacters());
+            </example>
+            <typeparam name="TObj"></typeparam>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Collections.IOrderedDictionary`2">
+            <summary>
+            A dictionary that remembers the order that keys were first inserted.
+            If a new entry overwrites an existing entry, the original insertion
+            position is left unchanged. Deleting an entry and reinserting it
+            will move it to the end.
+            </summary>
+            <typeparam name="TKey">The type of keys</typeparam>
+            <typeparam name="TValue">The type of values</typeparam>
+        </member>
+        <member name="P:Yggdrasil.Collections.IOrderedDictionary`2.Item(System.Int32)">
+            <summary>
+            The value of the element at the given index.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.IOrderedDictionary`2.IndexOf(`0)">
+            <summary>
+            Find the position of an element by key. Returns -1 if the dictionary does not contain an element with the given key.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.IOrderedDictionary`2.Insert(System.Int32,`0,`1)">
+            <summary>
+            Insert an element at the given index.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.IOrderedDictionary`2.RemoveAt(System.Int32)">
+            <summary>
+            Remove the element at the given index.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Collections.OrderedDictionary`2">
+            <summary>
+            A dictionary that remembers the order that keys were first inserted. If a new entry overwrites an existing entry, the original insertion position is left unchanged. Deleting an entry and reinserting it will move it to the end.
+            </summary>
+            <typeparam name="TKey">The type of keys. Musn't be <see cref="T:System.Int32"/></typeparam>
+            <typeparam name="TValue">The type of values.</typeparam>
+        </member>
+        <member name="F:Yggdrasil.Collections.OrderedDictionary`2._fDictionary">
+            <summary>
+            An unordered dictionary of key pairs.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Collections.OrderedDictionary`2._fKeys">
+            <summary>
+            The keys of the dictionary in the exposed order.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.#ctor">
+            <summary>
+            A dictionary that remembers the order that keys were first inserted. If a new entry overwrites an existing entry, the original insertion position is left unchanged. Deleting an entry and reinserting it will move it to the end.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.Count">
+            <summary>
+            The number of elements in the dictionary.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.IsReadOnly">
+            <summary>
+            This dictionary is not read only.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.Keys">
+            <summary>
+            The keys of the dictionary, in order.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.Values">
+            <summary>
+            The values in the dictionary, in order.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.Item(System.Int32)">
+            <summary>
+            The value at the given index.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.OrderedDictionary`2.Item(`0)">
+            <summary>
+            The value under the given key. New entries are added at the end of the order. Updating an existing entry does not change its position.     
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.IndexOf(`0)">
+            <summary>
+             Find the position of an element by key. Returns -1 if the dictionary does not contain an element with the given key.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.RemoveAt(System.Int32)">
+            <summary>
+            Remove the element at the given index.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.ContainsKey(`0)">
+            <summary>
+            Test whether there is an element with the given key.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.TryGetValue(`0,`1@)">
+            <summary>
+            Try to get a value from the dictionary, by key. Returns false if there is no element with the given key.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Insert(System.Int32,`0,`1)">
+            <summary>
+            Insert an element at the given index.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Add(`0,`1)">
+            <summary>
+            Add an element to the dictionary.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Add an element to the dictionary.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Test whether the dictionary contains an element equal to that given.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Remove a key-value pair from the dictionary. Return true if pair was successfully removed. Otherwise, if the pair was not found, return false.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Remove(`0)">
+            <summary>
+            Remove the element with the given key key. If there is no element with the key, no exception is thrown.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.Clear">
+            <summary>
+            Delete all elements from the dictionary.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.OrderedDictionary`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+            <summary>
+            Copy the elements of the dictionary to an array, starting at at the given index.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Configuration.ConfFile">
+            <summary>
+            Configuration options manager.
+            </summary>
+            <remarks>
+            Uses <see cref="T:Yggdrasil.IO.FileReader"/> to read conf files, that are parsed in key:value pairs.
+            Separating character is a colon ':'.
+            </remarks>
+        </member>
+        <member name="F:Yggdrasil.Configuration.ConfFile._options">
+            <summary>
+            Options loaded from the conf file.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.#ctor">
+            <summary>
+            Initializes instance.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.Include(System.String)">
+            <summary>
+            Loads all options in the file and included files.
+            Does nothing if file doesn't exist.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.Require(System.String)">
+            <summary>
+            Loads all options in the file and included files.
+            Throws FileNotFoundException if file couldn't be found.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.LoadFile(System.String)">
+            <summary>
+            Loads all options in the file and included files.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetBool(System.String,System.Boolean)">
+            <summary>
+            Returns the option as bool, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetByte(System.String,System.Byte)">
+            <summary>
+            Returns the option as byte, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetShort(System.String,System.Int16)">
+            <summary>
+            Returns the option as short, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetInt(System.String,System.Int32)">
+            <summary>
+            Returns the option as int, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetLong(System.String,System.Int64)">
+            <summary>
+            Returns the option as long, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetString(System.String,System.String)">
+            <summary>
+            Returns the option as string, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetFloat(System.String,System.Single)">
+            <summary>
+            Returns the option as float, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetDateTime(System.String,System.DateTime)">
+            <summary>
+            Returns the option as a DateTime, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <remarks>
+            For acceptable value formatting, see <see href="http://msdn.microsoft.com/en-us/library/system.datetime.parse(v=vs.110).aspx">MSDN</see>.
+            </remarks>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Configuration.ConfFile.GetEnum``1(System.String,``0)">
+            <summary>
+            Returns the option as an enum, or the default value if the option
+            doesn't exist or is invalid.
+            </summary>
+            <typeparam name="T">The type of the enum</typeparam>
+            <param name="option"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.EntityComponentSystem.IComponent">
+            <summary>
+            Base interface for components.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.EntityComponentSystem.IUpdatableComponent">
+            <summary>
+            Base interface for updatable components.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.IUpdatableComponent.Update(System.TimeSpan)">
+            <summary>
+            Updates component.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="T:Yggdrasil.EntityComponentSystem.ComponentCollection">
+            <summary>
+            A collection of components for an entity.
+            </summary>
+            <remarks>
+            Components are addressed by their type, and there can only be
+            one component per type. For example, only one inventory, one
+            skill collection, etc.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Add``1(``0)">
+            <summary>
+            Adds a component.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <param name="component"></param>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Remove(Yggdrasil.EntityComponentSystem.IComponent)">
+            <summary>
+            Removes the given component, returns false if the
+            component didn't exist.
+            </summary>
+            <param name="component"></param>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Remove``1">
+            <summary>
+            Removes component of the given type, returns false if the
+            component didn't exist.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Get``1">
+            <summary>
+            Returns the component of the given type, or the type's default
+            value if the component wasn't found.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.TryGet``1(``0@)">
+            <summary>
+            Returns the component of the given type via out, returns false
+            if the component wasn't found.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <param name="component"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Has``1">
+            <summary>
+            Returns true if a component with the given type exists.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Update(System.TimeSpan)">
+            <summary>
+            Updates updatable components.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="T:Yggdrasil.Extensions.DateTimeExtensions">
+            <summary>
+            Extensions for DateTime.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.DateTimeExtensions.GetUnixTimestamp(System.DateTime)">
+            <summary>
+            Returns the UNIX timestamp for the date, with the seconds
+            passed since 1970-01-01.
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Extensions.DictionaryExtensions">
+            <summary>
+            Extensions for the generic Dictionary type.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.DictionaryExtensions.TryGetValue``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
+            <summary>
+            Returns the value for the given key, or the value's default
+            value if the key wasn't found.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <param name="dictionary"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.DictionaryExtensions.Deconstruct``2(System.Collections.Generic.KeyValuePair{``0,``1},``0@,``1@)">
+            <summary>
+            Deconstructs a KeyValuePair into a tuple.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <param name="dictonary"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Extensions.GenericListExtensions">
+            <summary>
+            Extensions for lists.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.GenericListExtensions.Random``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Returns a random item from the given list.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list">The list.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.GenericListExtensions.Random``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns a random item from the given list.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list">The list.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Extensions.QueueExtensions">
+            <summary>
+            Extensions for the Queue class.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.QueueExtensions.AddRange``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.IList{``0})">
+            <summary>
+            Adds all of the list's elements to the queue in order.
+            </summary>
+            <typeparam name="TElement"></typeparam>
+            <param name="queue"></param>
+            <param name="list"></param>
+        </member>
+        <member name="M:Yggdrasil.Extensions.QueueExtensions.AddRange``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds all of the list's elements to the queue in order.
+            </summary>
+            <typeparam name="TElement"></typeparam>
+            <param name="queue"></param>
+            <param name="list"></param>
+        </member>
+        <member name="T:Yggdrasil.Extensions.RandomExtensions">
+            <summary>
+            Extensions to Random.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.Between(System.Random,System.Single,System.Single)">
+            <summary>
+            Returns a random number between min and max (incl).
+            </summary>
+            <param name="rnd"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.Between(System.Random,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Returns a random time span between the given ones based on
+            their millisecond properties.
+            </summary>
+            <param name="rnd"></param>
+            <param name="minTimeSpan"></param>
+            <param name="maxTimeSpan"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.Rnd``1(System.Random,``0[])">
+            <summary>
+            Returns a random value from the given ones.
+            </summary>
+            <param name="rnd"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.Rnd``1(System.Random,System.Collections.Generic.IList{``0})">
+            <summary>
+            Returns a random value from the given ones.
+            </summary>
+            <param name="rnd"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.NextInt64(System.Random)">
+            <summary>
+            Returns random long.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Extensions.StringExtensions">
+            <summary>
+            Extensions for the string type.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.StringExtensions.GetLevenshteinDistance(System.String,System.String,System.Boolean)">
+            <summary>
+            Calculates differences between 2 strings.
+            </summary>
+            <remarks>
+            http://en.wikipedia.org/wiki/Levenshtein_distance
+            </remarks>
+            <example>
+            <code>
+            "test".GetLevenshteinDistance("test")       // == 0
+            "test1".GetLevenshteinDistance("test2")     // == 1
+            "test1".GetLevenshteinDistance("test1 asd") // == 4
+            </code>
+            </example>
+        </member>
+        <member name="M:Yggdrasil.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            Indicates whether a specified string is null, empty, or consists
+            only of white-space characters.
+            </summary>
+            <param name="value">The string to test.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Extensions.StringBuilderExtensions">
+            <summary>
+            Extensions for the StringBuilder type.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.StringBuilderExtensions.AppendLine(System.Text.StringBuilder,System.String,System.Object[])">
+            <summary>
+            Appends the string returned by processing a composite format
+            string and the default line terminator to this instance. Each
+            format item is replaced by the string representation of a
+            corresponding argument in a parameter array.
+            </summary>
+            <param name="sb"></param>
+            <param name="format"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Logging.Logger">
+            <summary>
+            Logging class with support for codes that are passed down to the
+            log targets.
+            </summary>
+            <remarks>
+            Codes have the format "^[a-z]+[0-9]*;", with targets getting the raw
+            message passed to the logger, incl. codes, and a clean one, without
+            them. It's up to the loggers to decide what to do with them,
+            and there's no rules as to what codes there can be, or what the
+            target will do with them.
+            
+            For example, the ConsoleTarget will recognize c[0-9]*, b[0-9]*,
+            and r, for color, background color, and resetting the colors
+            respectively.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Logging.Logger.Name">
+            <summary>
+            Name of the logger.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.#ctor(System.String)">
+            <summary>
+            Creates new logger.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.#cctor">
+            <summary>
+            Initializes logger collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Get">
+            <summary>
+            Creates new logger, named after the entry assembly.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Get(System.String)">
+            <summary>
+            Creates new named logger.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Get(System.Object)">
+            <summary>
+            Creates new named logger.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Get``1">
+            <summary>
+            Creates new named logger.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.AddTarget(Yggdrasil.Logging.LoggerTarget)">
+            <summary>
+            Adds target to this logger.
+            </summary>
+            <param name="target"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.GetTargets">
+            <summary>
+            Returns list of all targets.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Info(System.String)">
+            <summary>
+            Logs information.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Info(System.String,System.Object[])">
+            <summary>
+            Logs information.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Info(System.Object)">
+            <summary>
+            Logs information.
+            </summary>
+            <remarks>
+            Uses obj's ToString method.
+            </remarks>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Warning(System.String)">
+            <summary>
+            Logs warning.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Warning(System.String,System.Object[])">
+            <summary>
+            Logs warning.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Warning(System.Object)">
+            <summary>
+            Logs warning.
+            </summary>
+            <remarks>
+            Uses obj's ToString method.
+            </remarks>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Error(System.String)">
+            <summary>
+            Logs error.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Error(System.String,System.Object[])">
+            <summary>
+            Logs error.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Error(System.Object)">
+            <summary>
+            Logs error.
+            </summary>
+            <remarks>
+            Uses obj's ToString method.
+            </remarks>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Status(System.String)">
+            <summary>
+            Logs status message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Status(System.String,System.Object[])">
+            <summary>
+            Logs status message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Status(System.Object)">
+            <summary>
+            Logs status message.
+            </summary>
+            <remarks>
+            Uses obj's ToString method.
+            </remarks>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Debug(System.String)">
+            <summary>
+            Logs debug message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Debug(System.String,System.Object[])">
+            <summary>
+            Logs debug message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Debug(System.Object)">
+            <summary>
+            Logs debug message.
+            </summary>
+            <remarks>
+            Uses obj's ToString method.
+            </remarks>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.Write(Yggdrasil.Logging.LogLevel,System.String)">
+            <summary>
+            Writes message to log.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Logger.WriteLine(Yggdrasil.Logging.LogLevel,System.String)">
+            <summary>
+            Writes message + line break to log.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:Yggdrasil.Logging.LoggerTarget">
+            <summary>
+            A target for a Logger, that gets send all log messages passed to
+            the logger.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.LoggerTarget.Filter">
+            <summary>
+            LogLevels to hide.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.LoggerTarget.Logger">
+            <summary>
+            The logger this target belongs to, set automatically.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.LoggerTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            Called when logger has something to log.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageRaw"></param>
+            <param name="messageClean"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.LoggerTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Format for the log message.
+            </summary>
+            <example>
+            return "[{0}] - {1}";
+            
+            {0}: Log level
+            {1}: Log message
+            </example>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.LoggerTarget.Filtered(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Returns true if given level is being filtered on this target.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Logging.LogLevel">
+            <summary>
+            Specifies a log message's type.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.Info">
+            <summary>
+            Informational message.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.Warning">
+            <summary>
+            A warning that something went wrong.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.Error">
+            <summary>
+            A error message.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.Debug">
+            <summary>
+            A debug log.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.Status">
+            <summary>
+            A status information, comparable to Info.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Logging.LogLevel.None">
+            <summary>
+            No/all levels, used to filter log levels.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Logging.Targets.ConsoleTarget">
+            <summary>
+            Logger target logging to the Console standard output.
+            </summary>
+            <remarks>
+            Recognizes codes c[0-9]*, b[0-9]*, and r, for color, background
+            color, and resetting the colors respectively.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.ConsoleTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            Writes message to Console standard output.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageRaw"></param>
+            <param name="messageClean"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.ConsoleTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Returns color coded formats, based on log level.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Logging.Targets.SmtpTarget">
+            <summary>
+            Logger target that sends messages via SMTP.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.From">
+            <summary>
+            The from eMail address.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.To">
+            <summary>
+            The to eMail address.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.ReplyTo">
+            <summary>
+            The eMail address to reply to.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.Subject">
+            <summary>
+            The subject of the eMail.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.SmtpHost">
+            <summary>
+            The SMTP host to use.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.SmtpPort">
+            <summary>
+            The SMTP server's port.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.Username">
+            <summary>
+            The username to log into the SMTP server with.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.Password">
+            <summary>
+            The password to log into the SMTP server with.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.SmtpTarget.Ssl">
+            <summary>
+            Whether SSL is enabled or not.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.SmtpTarget.#ctor(System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="from">The from eMail address.</param>
+            <param name="to">The to eMail address.</param>
+            <param name="replyTo">The eMail address to reply to.</param>
+            <param name="subject">The subject of the eMail.</param>
+            <param name="smtpHost">The SMTP host to use.</param>
+            <param name="smtpPort">The SMTP server's port.</param>
+            <param name="username">The username to log into the SMTP server with.</param>
+            <param name="password">The password to log into the SMTP server with.</param>
+            <param name="ssl">Whether SSL is enabled or not.</param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.SmtpTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            Sends the clean message via SMTP, prepending it with the time
+            and day the message was sent at.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageRaw"></param>
+            <param name="messageClean"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.SmtpTarget.Send(System.String)">
+            <summary>
+            Sends message through the specified SMTP connection.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.SmtpTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Returns raw message format.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Logging.Targets.FileTarget">
+            <summary>
+            Logger target logging to a text file.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FolderPath">
+            <summary>
+            The folder the log file is in.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FilePath">
+            <summary>
+            The path to the log file.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.#ctor(System.String)">
+            <summary>
+            Creates new instance, with the file going into the given folder.
+            </summary>
+            <param name="folderPath"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            Writes clean message to the log file, prepending it with the
+            time and date the message was written at.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageRaw"></param>
+            <param name="messageClean"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Returns the format for the raw log message.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Logging.Log">
+            <summary>
+            Logs messages to command line and file.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.String)">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.Object)">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.String)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.String,System.Object[])">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.Object)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.String)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.Object)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.String)">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.Object)">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.String)">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.String,System.Object[])">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.Object)">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.SetFilter(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Sets levels that should not be logged.
+            </summary>
+            <param name="levels"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Client">
+            <summary>
+            A client to connect to communicators.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Client.Name">
+            <summary>
+            Returns the remote communicator's name.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Client.MessageReceived">
+            <summary>
+            Called when a message was received.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Client.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Client.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Called when the client received data.
+            </summary>
+            <param name="buffer"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Client.OnMessageReceived(System.Byte[])">
+            <summary>
+            Called when a full message was received.
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Client.Send(System.Byte[])">
+            <summary>
+            Sends object to the connected communicator.
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Communicator">
+            <summary>
+            A network communicator that can be used to set up easy communication
+            between servers and related applications.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Communicator.Name">
+            <summary>
+            Returns the name of the communicator, which it's
+            known under when communicating.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Communicator.LocalEndPoint">
+            <summary>
+            Returns the local end point the instance is listening on.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Communicator.MessageReceived">
+            <summary>
+            Called when the communicator receives a message.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Communicator.ClientConnected">
+            <summary>
+            Called when a client connected to this communicator.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Communicator.ClientDisconnected">
+            <summary>
+            Called when a client disconnected from this communicator.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Communicator.Disconnected">
+            <summary>
+            Called when a connection to a communicator was closed.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.#ctor(System.String)">
+            <summary>
+            Creates new instance that will listen on the given end point.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Listen(System.Int32)">
+            <summary>
+            Sets up listener on the given port.
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Listen(System.String,System.Int32)">
+            <summary>
+            Sets up listener on the given address.
+            </summary>
+            <param name="ip"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Listen(System.Net.IPEndPoint)">
+            <summary>
+            Sets up listener on the given end point.
+            </summary>
+            <param name="endPoint"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.OnConnectionAccepted(Yggdrasil.Network.Communication.Connection)">
+            <summary>
+            Caleld when a connection from a client was accepted.
+            </summary>
+            <param name="conn"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.OnConnectionClosed(Yggdrasil.Network.TCP.TcpConnection,Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when a client closes the connection.
+            </summary>
+            <param name="tcpConn"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Connect(System.String,System.String,System.Int32)">
+            <summary>
+            Connects to a communicator at the given address and saves
+            the connection under the given name.
+            </summary>
+            <param name="name"></param>
+            <param name="host"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Connect(System.String,System.Net.IPEndPoint)">
+            <summary>
+            Connects to a communicator at the given address and saves
+            the connection under the given name.
+            </summary>
+            <param name="name"></param>
+            <param name="endPoint"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.OnDisconnected(Yggdrasil.Network.TCP.TcpClient,Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when a connection from this communicator to another
+            one was closed.
+            </summary>
+            <param name="tcpClient"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.OnConnectionMessageReceived(Yggdrasil.Network.Communication.Connection,System.Byte[])">
+            <summary>
+            Called when a message is received from a connection.
+            </summary>
+            <param name="conn"></param>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.OnClientMessageReceived(Yggdrasil.Network.Communication.Client,System.Byte[])">
+            <summary>
+            Called when a message is received from a client.
+            </summary>
+            <param name="client"></param>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Sends object to the receiver.
+            </summary>
+            <param name="receiverName"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Sends message to the receiver on the given channel.
+            </summary>
+            <param name="receiverName"></param>
+            <param name="channel"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.SerializeMessage(Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Serializes message to a byte array and returns it.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.DeserializeMessage(System.Byte[])">
+            <summary>
+            Deserializes buffer to an object and returns it.
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.ICommMessage">
+            <summary>
+            A message sent via a communicator.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Connection">
+            <summary>
+            A connection from a client to a communicator.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Connection.Name">
+            <summary>
+            Gets or sets the name of the connected communicator.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Communication.Connection.MessageReceived">
+            <summary>
+            Called when a message was received.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Connection.#ctor">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Connection.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Called when the client sent data.
+            </summary>
+            <param name="buffer"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Connection.OnMessageReceived(System.Byte[])">
+            <summary>
+            Called when a full message was received.
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Connection.Send(System.Byte[])">
+            <summary>
+            Sends object to the connected communicator.
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.HelloMessage">
+            <summary>
+            First message sent and received when making a connection.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.HelloMessage.Name">
+            <summary>
+            Gets or sets the name of the communicator sending the message.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.DoubleNewLineFramer">
+            <summary>
+            Framer for text messages that end with a double-new-line (CR LF * 2).
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Framing.DoubleNewLineFramer.MaxMessageSize">
+            <summary>
+            Maximum size of messages.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Framing.DoubleNewLineFramer.MessageReceived">
+            <summary>
+            Called every time ReceiveData got a full message.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.DoubleNewLineFramer.#ctor(System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="maxMessageSize">Maximum size of messages</param>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.DoubleNewLineFramer.Frame(System.Byte[])">
+            <summary>
+            Appends terminating double-new-line to message.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.DoubleNewLineFramer.Frame(System.String)">
+            <summary>
+            Appends terminating double-new-line to message.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.DoubleNewLineFramer.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Receives data and calls MessageReceived every time a full message
+            has arrived.
+            </summary>
+            <param name="data">Buffer to read from.</param>
+            <param name="length">Length of actual information in data.</param>
+            <exception cref="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            Thrown if a message has an invalid size. Should this occur,
+            the connection should be terminated, because it's not save to
+            keep receiving anymore.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.IMessageFramer">
+            <summary>
+            Interface for network message framers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.IMessageFramer.Frame(System.Byte[])">
+            <summary>
+            Framges the given message.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.IMessageFramer.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Handles the given data.
+            </summary>
+            <param name="data"></param>
+            <param name="length"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.NullTerminationFramer">
+            <summary>
+            A framer for messages that end in a null byte.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Framing.NullTerminationFramer.MaxMessageSize">
+            <summary>
+            Maximum size of messages.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Framing.NullTerminationFramer.MessageReceived">
+            <summary>
+            Called every time ReceiveData got a full message.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.NullTerminationFramer.#ctor(System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="maxMessageSize">Maximum size of messages</param>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.NullTerminationFramer.Frame(System.Byte[])">
+            <summary>
+            Appends terminating null-byte to message.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.NullTerminationFramer.Frame(System.String)">
+            <summary>
+            Appends terminating null-char to message.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.NullTerminationFramer.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Receives data and calls MessageReceived every time a full message
+            has arrived.
+            </summary>
+            <param name="data">Buffer to read from.</param>
+            <param name="length">Length of actual information in data.</param>
+            <exception cref="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            Thrown if a message has an invalid size. Should this occur,
+            the connection should be terminated, because it's not save to
+            keep receiving anymore.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.LengthPrefixFramer">
+            <summary>
+            Handles messages prefixed with a single int that determines its
+            length, incl. the 4 byte frame.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Framing.LengthPrefixFramer.MaxMessageSize">
+            <summary>
+            Maximum size of messages.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Framing.LengthPrefixFramer.MessageReceived">
+            <summary>
+            Called every time ReceiveData got a full message.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.#ctor(System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="maxMessageSize">Maximum size of messages</param>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.Frame(System.Byte[])">
+            <summary>
+            Wraps message in length prefixed frame.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+            <example>
+            .Frame(new byte[] { 1, 2, 3, 4, 5 }); // byte[] { 9, 0, 0, 0, 1, 2, 3, 4, 5 }
+            </example>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Receives data and calls MessageReceived every time a full message
+            has arrived.
+            </summary>
+            <param name="data">Buffer to read from.</param>
+            <param name="length">Length of actual information in data.</param>
+            <exception cref="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            Thrown if a message has an invalid size. Should this occur,
+            the connection should be terminated, because it's not save to
+            keep receiving anymore.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            <summary>
+            An exception that might occur if a message has an invalid size.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.InvalidMessageSizeException.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.TcpClient">
+            <summary>
+            A TCP client used to connect to TCP servers.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpClient.Status">
+            <summary>
+            Current status of the connection.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpClient.LocalAddress">
+            <summary>
+            Address of the local end point.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpClient.RemoteAddress">
+            <summary>
+            Address of the remote end point.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpClient.ReceiveException">
+            <summary>
+            Raised when an exception occurs while receiving data.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpClient.Disconnected">
+            <summary>
+            Raised when connection was closed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpClient.LastError">
+            <summary>
+            Last error received while working asynchronously.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpClient.LastException">
+            <summary>
+            Last exception received while working asynchronously.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.Connect(System.String,System.Int32)">
+            <summary>
+            Connects to host.
+            </summary>
+            <param name="host"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.Connect(System.Net.IPEndPoint)">
+            <summary>
+            Connects to remote end point.
+            </summary>
+            <param name="remoteEndPoint"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.ConnectAsync(System.String,System.Int32)">
+            <summary>
+            Connects to host without blocking the thread.
+            </summary>
+            <param name="host"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.ConnectAsync(System.Net.IPEndPoint)">
+            <summary>
+            Connects to host without blocking the thread.
+            </summary>
+            <param name="remoteEndPoint"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.OnConnect(System.IAsyncResult)">
+            <summary>
+            Called when connection was established or failed to be.
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.Disconnect">
+            <summary>
+            Disconnects client.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.OnDisconnect(Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when the client is disconnected in some way, raises
+            Closed event.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.BeginReceive">
+            <summary>
+            Starts receiving data.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called on incoming data.
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.OnReceiveException(System.Exception)">
+            <summary>
+            Called if an exception occurs while receiving data,
+            raises ReceiveException event.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Called on incoming data.
+            </summary>
+            <param name="buffer"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.Send(System.Byte[])">
+            <summary>
+            Sends data via socket.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.ClientStatus">
+            <summary>
+            A client's connection status.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ClientStatus.NotConnected">
+            <summary>
+            Client is not connected.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ClientStatus.Connecting">
+            <summary>
+            Client is connecting asynchronously.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ClientStatus.Connected">
+            <summary>
+            Cliet is connected.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.TcpConnection">
+            <summary>
+            A connection via TCP socket.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpConnection.Status">
+            <summary>
+            Current status of the connection.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpConnection.Address">
+            <summary>
+            Remote host address.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnection.ReceiveException">
+            <summary>
+            Raised when an exception occurs while receiving data.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnection.Closed">
+            <summary>
+            Raised when connection was closed.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.Init(System.Net.Sockets.Socket)">
+            <summary>
+            Sets socket of this connection.
+            </summary>
+            <param name="socket"></param>
+            <exception cref="T:System.InvalidOperationException">
+            Throw if connection has already been initialized.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.Close">
+            <summary>
+            Closes the connection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.OnClosed(Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when the connection was closed, raises Closed event.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.BeginReceive">
+            <summary>
+            Starts receiving data.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if connection hasn't been initialized yet.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called on incoming data.
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.OnConnected">
+            <summary>
+            Called after the connection was accepted by the server
+            and it's ready to be used.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.OnReceiveException(System.Exception)">
+            <summary>
+            Called if an exception occurs while receiving data,
+            raises ReceiveException event.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Called on incoming data.
+            </summary>
+            <param name="buffer"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.Send(System.Byte[])">
+            <summary>
+            Sends data via socket.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.ConnectionStatus">
+            <summary>
+            A network connection's status.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ConnectionStatus.Closed">
+            <summary>
+            Connection is closed and no data can be sent or received.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ConnectionStatus.Open">
+            <summary>
+            Connection is open and data can be sent and received.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.ConnectionCloseType">
+            <summary>
+            The way a connection was closed.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ConnectionCloseType.Closed">
+            <summary>
+            The connection was closed by the host.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ConnectionCloseType.Disconnected">
+            <summary>
+            The connection was closed by the client.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Network.TCP.ConnectionCloseType.Lost">
+            <summary>
+            The connection was lost unexpectedly.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1">
+            <summary>
+            Listens for and accepts TCP connections.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.LocalEndPoint">
+            <summary>
+            Local end point the acceptor is listening on for new connections.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.Address">
+            <summary>
+            Returns address this acceptor is listening on.
+            </summary>
+            <example>
+            127.0.0.1:10000
+            </example>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.AcceptionException">
+            <summary>
+            Raised when an exception occures while accepting a connection.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.ConnectionAccepted">
+            <summary>
+            Raised when a connection was successfully accepted.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor(System.Net.IPEndPoint)">
+            <summary>
+            Creates new instance of TcpConnectionAcceptor, that will listen
+            on the given end point.
+            </summary>
+            <param name="localEndPoint">End point to listen on.</param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor(System.String,System.Int32)">
+            <summary>
+            Creates new instance of TcpConnectionAcceptor, that will listen
+            on the given IP and port.
+            </summary>
+            <param name="host">IP to listen on.</param>
+            <param name="port">Port to listen on.</param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor(System.Int32)">
+            <summary>
+            Creates new instance of TcpConnectionAcceptor, that will listen
+            on any IP and the given port.
+            </summary>
+            <param name="port">Port to listen on.</param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor">
+            <summary>
+            Creates new instance of TcpConnectionAcceptor, that will listen
+            on any IP and a random free port.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.Listen">
+            <summary>
+            Starts listening for new connections.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.Listen(System.Int32)">
+            <summary>
+            Starts listening for new connections.
+            </summary>
+            <param name="backlog">Maximum queue for new connections.</param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.Stop">
+            <summary>
+            Stop accepting new connections.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.ResetSocket">
+            <summary>
+            Resets socket, disconnecting everybody. Does not restart
+            listening automatically.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.BeginAccept">
+            <summary>
+            Starts accepting new connections.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.OnAccept(System.IAsyncResult)">
+            <summary>
+            Called when a client connected.
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="T:Yggdrasil.Parameters.INumericParameter">
+            <summary>
+            Describes a numeric parameter of some object or entity.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.INumericParameter.ValueDouble">
+            <summary>
+            Returns the parameter's value as a double.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Parameters.NumericParameter`1">
+            <summary>
+            Represents a parameter that's holding a numeric value.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Parameters.NumericParameter`1.ValueType">
+            <summary>
+            Returns the parameter's value's type.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Parameters.NumericParameter`1.ValueChanged">
+            <summary>
+            Raised when the value of the parameter changes.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.NumericParameter`1.Value">
+            <summary>
+            Gets or sets the parameter's value, capped at min and max value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.NumericParameter`1.MinValue">
+            <summary>
+            Gets or sets the parameters minimum value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.NumericParameter`1.MaxValue">
+            <summary>
+            Gets or sets the parameters maximum value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.NumericParameter`1.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.NumericParameter`1.#ctor(Yggdrasil.Parameters.ParameterValueType,`0,`0,`0)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="valueType"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="T:Yggdrasil.Parameters.ByteParameter">
+            <summary>
+            Represents a parameter holding a byte value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.ByteParameter.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ByteParameter.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="T:Yggdrasil.Parameters.ShortParameter">
+            <summary>
+            Represents a parameter holding a short value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.ShortParameter.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ShortParameter.#ctor(System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="T:Yggdrasil.Parameters.IntParameter">
+            <summary>
+            Represents a parameter holding an int value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.IntParameter.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.IntParameter.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Parameters.IntParameter.op_Implicit(Yggdrasil.Parameters.IntParameter)~System.Int32">
+            <summary>
+            Implicitly converts parameter by returning its value.
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Parameters.LongParameter">
+            <summary>
+            Represents a parameter holding a long value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.LongParameter.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.LongParameter.#ctor(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="T:Yggdrasil.Parameters.FloatParameter">
+            <summary>
+            Represents a parameter holding a float value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.FloatParameter.ValueDouble">
+            <summary>
+            Returns the numeric value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.FloatParameter.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Parameters.FloatParameter.op_Implicit(Yggdrasil.Parameters.FloatParameter)~System.Single">
+            <summary>
+            Implicitly converts parameter by returning its value.
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Parameters.IParameter">
+            <summary>
+            Describes a parameter of some object or entity.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.IParameter.ValueType">
+            <summary>
+            Returns the parameter's type.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Parameters.IParameter.ValueChanged">
+            <summary>
+            Raised when the value of the parameter changes.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Parameters.ParameterValueType">
+            <summary>
+            Specifies a parameter's value's type.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.Byte">
+            <summary>
+            A byte value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.Short">
+            <summary>
+            A short value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.Int">
+            <summary>
+            An int value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.Long">
+            <summary>
+            A long value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.Float">
+            <summary>
+            A float value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Parameters.ParameterValueType.String">
+            <summary>
+            A string value.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Parameters.ParameterCollection`1">
+            <summary>
+            Container for a collection of parameters.
+            </summary>
+            <typeparam name="TParameterType">
+            Key type for the parameters, which they are identified by.
+            </typeparam>
+        </member>
+        <member name="P:Yggdrasil.Parameters.ParameterCollection`1.CreateParametersOnSet">
+            <summary>
+            Gets or sets whether parameters are created when set is called
+            for them, but they don't exist yet.
+            </summary>
+            <remarks>
+            Not creating parameters on demand provides a kind of safety,
+            as you will have to create the parameters before they can
+            be used. Creating them when they're set, on the other hand,
+            allows you to address parameters without having to set them
+            up first.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Parameters.ParameterCollection`1.CreateParametersOnModify">
+            <summary>
+            Gets or sets whether parameters are created when modify is
+            called for them, but they don't exist yet.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Add(`0,Yggdrasil.Parameters.IParameter)">
+            <summary>
+            Adds parameter.
+            </summary>
+            <remarks>
+            Replaces parameter of the same type if it exists already.
+            </remarks>
+            <param name="type"></param>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Remove(`0)">
+            <summary>
+            Removes parameter.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Contains(`0)">
+            <summary>
+            Returns true if this instance contains the parameter.
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Get``1(`0)">
+            <summary>
+            Returns the parameter of the given type.
+            </summary>
+            <typeparam name="TParameter"></typeparam>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter doesn't exist.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter doesn't match the requested generic type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Get(`0)">
+            <summary>
+            Returns the parameter of the given type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter doesn't exist.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.TryGet``1(`0,``0@)">
+            <summary>
+            Returns the parameter of the given type via out, returns false
+            if the parameter was not found.
+            </summary>
+            <typeparam name="TParameter"></typeparam>
+            <param name="type"></param>
+            <param name="parameter"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter doesn't match the requested generic type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetByte(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetShort(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetInt(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetLong(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetFloat(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetString(`0)">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the parameter was not found.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetByte(`0,System.Byte)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetShort(`0,System.Int16)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetInt(`0,System.Int32)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetLong(`0,System.Int64)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetFloat(`0,System.Single)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetString(`0,System.String)">
+            <summary>
+            Returns the parameter's value. If the parameter doesn't
+            exist, the default value is returned.
+            </summary>
+            <param name="type"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.GetList">
+            <summary>
+            Returns a list of all parameters.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetByte(`0,System.Byte)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetShort(`0,System.Int16)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetInt(`0,System.Int32)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetLong(`0,System.Int64)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetFloat(`0,System.Single)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.SetString(`0,System.String)">
+            <summary>
+            Sets the parameter's value.
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.ModifyInt(`0,System.Int32)">
+            <summary>
+            Modifies the parameter's value and returns its new value.
+            </summary>
+            <param name="type"></param>
+            <param name="modifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.ModifyFloat(`0,System.Single)">
+            <summary>
+            Modifies the parameter's value and returns its new value.
+            </summary>
+            <param name="type"></param>
+            <param name="modifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Parameters.ParameterCollection`1.Sum(`0[])">
+            <summary>
+            Sums up the values of the given numeric paramters and returns
+            the result.
+            </summary>
+            <param name="types"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Parameters.StringParameter">
+            <summary>
+            Represents a parameter that contains a string.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.StringParameter.ValueType">
+            <summary>
+            Returns the parameters type (String).
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Parameters.StringParameter.ValueChanged">
+            <summary>
+            Raised when the parameter's value changed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Parameters.StringParameter.Value">
+            <summary>
+            Returns the parameter's value.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.CallbackException">
+            <summary>
+            An exception that happened while executing a scheduled callback.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.CallbackException.#ctor(System.Exception)">
+            <summary>
+            Creates new exception.
+            </summary>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.CallbackState">
+            <summary>
+            Passed to scheduled callbacks.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Scheduling.CallbackState.Elapsed">
+            <summary>
+            The time that has passed since the callback was scheduled or
+            last executed.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Scheduling.CallbackState.ExecuteCount">
+            <summary>
+            How many times the callback was executed.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Scheduling.CallbackState.Arguments">
+            <summary>
+            The arguments that were set for this callback.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.CallbackState.#ctor(System.TimeSpan,System.Int64,System.Object[])">
+            <summary>
+            Creates new result.
+            </summary>
+            <param name="elapsed"></param>
+            <param name="executeCount"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.Heartbeat">
+            <summary>
+            A world's heartbeat, running a continues loop that other
+            components can utilize.
+            </summary>
+            <remarks>
+            The Scheduler and the Heartbeat class can technically be used
+            for the same purposes, but the Scheduler is a precisely timed
+            loop that aims to execute callbacks at the exact moments they
+            were scheduled for, while the Heartbeat ticks in continues,
+            but less precise, intervals. It also being more resource
+            friendly makes it the better candidate for regularly
+            occurring events, such as raising time events.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.Heartbeat.UpdatesPerSecond">
+            <summary>
+            Returns the average number of heartbeat updates per second.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.Heartbeat.AverageUpdateTime">
+            <summary>
+            Returns the average duration of the heartbeat's tick.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Scheduling.Heartbeat.HeartbeatTick">
+            <summary>
+            Raised every time the heartbeat executes.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.#ctor">
+            <summary>
+            Creates a new Heartbeat instance with a 10 updates per second
+            target.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.#ctor(System.Int32)">
+            <summary>
+            Creates a new Heartbeat instance with the given updates per
+            second target.
+            </summary>
+            <param name="updatesPerSecondTarget"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.Start">
+            <summary>
+            Starts server's heartbeat.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.Stop">
+            <summary>
+            Stops heartbeat loop.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.Add(Yggdrasil.Scheduling.IUpdateable)">
+            <summary>
+            Adds object to automatic heartbeat update.
+            </summary>
+            <param name="updateable"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.Remove(Yggdrasil.Scheduling.IUpdateable)">
+            <summary>
+            Removes object from automatic heartbeat update.
+            </summary>
+            <param name="updateable"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.Loop">
+            <summary>
+            Endless heartbeat loop that runs updates and events.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.UpdateAverageUpdates(System.TimeSpan)">
+            <summary>
+            Updates the average time the heartbeat update took.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.UpdateAverageUpdateTime(System.TimeSpan)">
+            <summary>
+            Updates the average time the heartbeat update took.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.OnTick(System.TimeSpan)">
+            <summary>
+            Callback for heartbeat timer. Called regularly to execute
+            updates and events.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.UpdateUpdateables(System.TimeSpan)">
+            <summary>
+            Runs updates on all registered updateable objects.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Heartbeat.RaiseEvents(System.TimeSpan)">
+            <summary>
+            Raises events as necessary.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.IUpdateable">
+            <summary>
+            An object that can be updated.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.IUpdateable.Update(System.TimeSpan)">
+            <summary>
+            Updates object.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.ScheduledCallback">
+            <summary>
+            A callback that is scheduled to be executed and potentially repeated
+            after certain delays.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Id">
+            <summary>
+            Gets or sets the schedule's id.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Delay">
+            <summary>
+            Gets or sets the delay until the callback is executed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.RepeatDelay">
+            <summary>
+            Returns the delay before the callback is executed again.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Elapsed">
+            <summary>
+            Returns the time since the callback was scheduled or last
+            executed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.ExecuteCount">
+            <summary>
+            Returns how many times the callback was executed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Callback">
+            <summary>
+            Returns the callback that is executed after the delays.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Arguments">
+            <summary>
+            Returns a list of arguments that are passed to the callback
+            when it's executed. The return value may be null if no para-
+            meters were set.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.#ctor(System.Int64,System.TimeSpan,System.TimeSpan,Yggdrasil.Scheduling.ScheduledCallbackFunc,System.Object[])">
+            <summary>
+            Creates new callback.
+            </summary>
+            <param name="id"></param>
+            <param name="delay"></param>
+            <param name="repeatDelay"></param>
+            <param name="callback"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.CompareTo(Yggdrasil.Scheduling.ScheduledCallback)">
+            <summary>
+            Compares the two scheduled callbacks based on their delay.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.CompareTo(System.Object)">
+            <summary>
+            Caompares this scheduler with the given object.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.ScheduledCallbackFunc">
+            <summary>
+            A callback function for a scheduled execution.
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.Scheduler">
+            <summary>
+            High resolution scheduler. 
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.Scheduler.IsActive">
+            <summary>
+            Returns true if the scheduler is actively handling timers.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Scheduling.Scheduler.CallbackException">
+            <summary>
+            Raised when an exception occurres while a scheduled callback
+            is executed.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.#ctor">
+            <summary>
+            Creates new scheduler.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Start">
+            <summary>
+            Starts handling of timers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Pause">
+            <summary>
+            Pauses handling of timers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.TimeSpan,Yggdrasil.Scheduling.ScheduledCallbackFunc,System.Object[])">
+            <summary>
+            Schedules callback to be called after the given delay,
+            returns the callback's id.
+            </summary>
+            <param name="delay"></param>
+            <param name="callback"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.Double,Yggdrasil.Scheduling.ScheduledCallbackFunc,System.Object[])">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delayMs"></param>
+            <param name="callback"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.TimeSpan,System.TimeSpan,Yggdrasil.Scheduling.ScheduledCallbackFunc,System.Object[])">
+            <summary>
+            Schedules callback to be called after the given delay,
+            returns the callback's id.
+            </summary>
+            <param name="delay"></param>
+            <param name="repeatDelay"></param>
+            <param name="callback"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.Double,System.Int32,Yggdrasil.Scheduling.ScheduledCallbackFunc,System.Object[])">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delayMs"></param>
+            <param name="repeatDelayMs"></param>
+            <param name="callback"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Cancel(System.Int64)">
+            <summary>
+            Cancels the scheduled callback with the given id.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Loop(System.Object)">
+            <summary>
+            Constant loop that manages and executes the scheduled callbacks.
+            </summary>
+            <param name="_"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Dispose">
+            <summary>
+            Disposes the scheduler, stopping any callback handling.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.SHA1">
+            <summary>
+            Quick access to an SHA1 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.SHA256">
+            <summary>
+            Quick access to an SHA256 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.MD5">
+            <summary>
+            Quick access to an MD5 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.BCrypt">
+            <summary>BCrypt implements OpenBSD-style Blowfish password hashing
+            using the scheme described in "A Future-Adaptable Password Scheme"
+            by Niels Provos and David Mazieres.</summary>
+            <remarks>
+            <para>This password hashing system tries to thwart offline
+            password cracking using a computationally-intensive hashing
+            algorithm, based on Bruce Schneier's Blowfish cipher. The work
+            factor of the algorithm is parametized, so it can be increased as
+            computers get faster.</para>
+            <para>To hash a password for the first time, call the
+            <c>HashPassword</c> method with a random salt, like this:</para>
+            <code>
+            string hashed = BCrypt.HashPassword(plainPassword, BCrypt.GenerateSalt());
+            </code>
+            <para>To check whether a plaintext password matches one that has
+            been hashed previously, use the <c>CheckPassword</c> method:</para>
+            <code>
+            if (BCrypt.CheckPassword(candidatePassword, storedHash)) {
+                Console.WriteLine("It matches");
+            } else {
+                Console.WriteLine("It does not match");
+            }
+            </code>
+            <para>The <c>GenerateSalt</c> method takes an optional parameter
+            (logRounds) that determines the computational complexity of the
+            hashing:</para>
+            <code>
+            string strongSalt = BCrypt.GenerateSalt(10);
+            string strongerSalt = BCrypt.GenerateSalt(12);
+            </code>
+            <para>
+            The amount of work increases exponentially (2**log_rounds), so
+            each increment is twice as much work. The default log_rounds is
+            10, and the valid range is 4 to 31.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.EncodeBase64(System.Byte[],System.Int32)">
+            <summary>Encode a byte array using bcrypt's slightly-modified
+            Base64 encoding scheme. Note that this is _not_ compatible
+            with the standard MIME-Base64 encoding.</summary>
+            <param name="d">The byte array to encode</param>
+            <param name="length">The number of bytes to encode</param>
+            <returns>A Base64-encoded string</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.Char64(System.Char)">
+            <summary>Look up the 3 bits base64-encoded by the specified
+            character, range-checking against the conversion
+            table.</summary>
+            <param name="c">The Base64-encoded value</param>
+            <returns>The decoded value of <c>x</c></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.DecodeBase64(System.String,System.Int32)">
+            <summary>Decode a string encoded using BCrypt's Base64 scheme to a
+            byte array. Note that this is _not_ compatible with the standard
+            MIME-Base64 encoding.</summary>
+            <param name="s">The string to decode</param>
+            <param name="maximumLength">The maximum number of bytes to decode</param>
+            <returns>An array containing the decoded bytes</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.Encipher(System.UInt32[],System.Int32)">
+            <summary>
+            Blowfish encipher a single 64-bit block encoded as two 32-bit
+            halves.
+            </summary>
+            <param name="block">An array containing the two 32-bit half
+            blocks.</param>
+            <param name="offset">The position in the array of the
+            blocks.</param>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.StreamToWord(System.Byte[],System.Int32@)">
+            <summary>
+            Cycically extract a word of key material.
+            </summary>
+            <param name="data">The string to extract the data
+            from.</param>
+            <param name="offset">The current offset into data.</param>
+            <returns>The next work of material from data.</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.InitKey">
+            <summary>
+            Initialize the Blowfish key schedule.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.Key(System.Byte[])">
+            <summary>
+            Key the Blowfish cipher.
+            </summary>
+            <param name="key">An array containing the key.</param>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.EksKey(System.Byte[],System.Byte[])">
+            <summary>
+            Perform the "enhanced key schedule" step described by Provos
+            and Mazieres in "A Future-Adaptable Password Scheme"
+            (http://www.openbsd.org/papers/bcrypt-paper.ps).
+            </summary>
+            <param name="data">Salt information.</param>
+            <param name="key">Password information.</param>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.CryptRaw(System.Byte[],System.Byte[],System.Int32)">
+            <summary>
+            Perform the central password hashing step in the bcrypt
+            scheme.
+            </summary>
+            <param name="password">The password to hash.</param>
+            <param name="salt">The binary salt to hash with the
+            password.</param>
+            <param name="logRounds">The binary logarithm of the number of
+            rounds of hashing to apply.</param>
+            <returns>An array containing the binary hashed password.</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.HashPassword(System.String,System.String)">
+            <summary>
+            Hash a password using the OpenBSD bcrypt scheme.
+            </summary>
+            <param name="password">The password to hash.</param>
+            <param name="salt">The salt to hash with (perhaps generated
+            using <c>BCrypt.GenerateSalt</c>).</param>
+            <returns>The hashed password.</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.GenerateSalt(System.Int32)">
+            <summary>
+            Generate a salt for use with the BCrypt.HashPassword() method.
+            </summary>
+            <param name="logRounds">The log2 of the number of rounds of
+            hashing to apply. The work factor therefore increases as (2 **
+            logRounds).</param>
+            <returns>An encoded salt value.</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.GenerateSalt">
+            <summary>
+            Generate a salt for use with the <c>BCrypt.HashPassword()</c>
+            method, selecting a reasonable default for the number of hashing
+            rounds to apply.
+            </summary>
+            <returns>An encoded salt value.</returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.BCrypt.CheckPassword(System.String,System.String)">
+            <summary>
+            Check that a plaintext password matches a previously hashed
+            one.
+            </summary>
+            <param name="plaintext">The plaintext password to verify.</param>
+            <param name="hashed">The previously hashed password.</param>
+            <returns><c>true</c> if the passwords, <c>false</c>
+            otherwise.</returns>
+        </member>
+        <member name="T:Yggdrasil.Util.BufferReaderWriter">
+            <summary>
+            Reader and writer for a byte array.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.BufferReaderWriter.DefaultSize">
+            <summary>
+            Default size for a new buffer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.BufferReaderWriter.AddSize">
+            <summary>
+            Size added every time the buffer runs out of space.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.BufferReaderWriter.Index">
+            <summary>
+            Returns the buffer's current position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.BufferReaderWriter.Capacity">
+            <summary>
+            Returns the current length of the underlying array.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.BufferReaderWriter.Length">
+            <summary>
+            Returns the length of the actual data.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.BufferReaderWriter.Endianness">
+            <summary>
+            Gets or sets this instance's endianness.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.#ctor">
+            <summary>
+            Creates new buffer with default size.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.#ctor(System.Int32)">
+            <summary>
+            Creates a new buffer with the given length.
+            </summary>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.#ctor(System.Byte[])">
+            <summary>
+            Creates a new buffer from byte array.
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.#ctor(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Creates a new buffer from byte array, setting the index and
+            the target length of the buffer accordingly.
+            </summary>
+            <param name="buffer"></param>
+            <param name="index"></param>
+            <param name="length"></param>
+            <param name="fixedLength"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.EnsureSpace(System.Int32)">
+            <summary>
+            Increases the underlying array's size if necessary to add the
+            given amount of bytes from the current position.
+            </summary>
+            <param name="needed"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.AssertEnoughBytes(System.Int32)">
+            <summary>
+            Throws InvalidOperationException if there's not enough bytes
+            from the current position till the end to read the given
+            amout of bytes.
+            </summary>
+            <param name="needed"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Copy">
+            <summary>
+            Returns a copy of the buffer, limited to the actual values.
+            </summary>
+            <remarks>
+            If a buffer with a size of 100, that was not created from an
+            existing array, gets copied after one int was written to it,
+            the result will only be four byte long.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.CopyTo(System.Byte[],System.Int32)">
+            <summary>
+            Copies the buffer's data into the given array, at the offset.
+            </summary>
+            <param name="destination"></param>
+            <param name="offset"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.CopyTo(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Copies the buffer's data into the given array, at the offset.
+            </summary>
+            <param name="destination">The array to copy to.</param>
+            <param name="destinationOffset">The offset in the array copied to.</param>
+            <param name="sourceOffset">The offset from which to read in the buffer.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Seek(System.Int32,System.IO.SeekOrigin)">
+            <summary>
+            Sets current index based on the given parameters.
+            </summary>
+            <param name="index">Modifier.</param>
+            <param name="origin">Origin of the search.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.UpdatePtrLength(System.Int32)">
+            <summary>
+            Updates index and length, so it coresponds with the actual
+            length of the data, based on the current index.
+            </summary>
+            <param name="mod"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ResetLength">
+            <summary>
+            Resets the length of the underlying buffer, making the length
+            of the actual data 0.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReverseBytes(System.Byte[]@)">
+            <summary>
+            Reverses the order of the bytes.
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Peek">
+            <summary>
+            Returns the current byte without increasing the index.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.GetAt(System.Int32)">
+            <summary>
+            Returns the byte at the given position without modifying the
+            index.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadByte">
+            <summary>
+            Returns the next byte in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadSByte">
+            <summary>
+            Returns the next signed byte in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadInt16">
+            <summary>
+            Returns the next signed short in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadUInt16">
+            <summary>
+            Returns the next unsigned short in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadInt32">
+            <summary>
+            Returns the next signed int in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadUInt32">
+            <summary>
+            Returns the next unsigned int in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadInt24">
+            <summary>
+            Returns the next 3-byte integer in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadInt64">
+            <summary>
+            Returns the next signed long in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadUInt64">
+            <summary>
+            Returns the next unsigned long in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadFloat">
+            <summary>
+            Returns the next float in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadDouble">
+            <summary>
+            Returns the next double in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Read(System.Int32)">
+            <summary>
+            Returns the next x bytes in the buffer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.ReadTo(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads the specified number of bytes and writes them into
+            the buffer, at the given offset.
+            </summary>
+            <param name="buffer"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteByte(System.Byte)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteSByte(System.SByte)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteInt16(System.Int16)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteUInt16(System.UInt16)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteInt32(System.Int32)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteInt24(System.Int32)">
+            <summary>
+            Writes 3-byte integer value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteInt32(System.Int32,Yggdrasil.Util.Endianness)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+            <param name="endianness"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteUInt32(System.UInt32)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteInt64(System.Int64)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteUInt64(System.UInt64)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteFloat(System.Single)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.WriteDouble(System.Double)">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Write(System.Byte[])">
+            <summary>
+            Writes value to buffer.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes value to buffer, starting at index for the given length.
+            </summary>
+            <param name="value"></param>
+            <param name="index"></param>
+            <param name="length"></param>
+        </member>
+        <member name="T:Yggdrasil.Util.Endianness">
+            <summary>
+            Describes endianness.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Endianness.LittleEndian">
+            <summary>
+            Lower bits first, how most modern systems store data in memory.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Endianness.BigEndian">
+            <summary>
+            Higher bits first, how we commenly display hex values.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Util.ConsoleUtil">
+            <summary>
+            Console utility functions.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteHeader(System.String,System.String,System.ConsoleColor,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
+            <summary>
+            Writes logo and credits to Console.
+            </summary>
+            <param name="consoleTitlePrefix">Software name.</param>
+            <param name="consoleTitle">Name of the server.</param>
+            <param name="logoColor">Color of the logo.</param>
+            <param name="logo">ASCII logo.</param>
+            <param name="credits">Credits for header footer.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteSeperator">
+            <summary>
+            Writes seperator in form of horizontal line to Console.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLinesCentered(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Writes lines to Console, centering them as a group.
+            </summary>
+            <param name="lines"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLineCentered(System.String,System.Int32)">
+            <summary>
+            Writes line to Console, centering it either with the string's
+            length or the given length as reference.
+            </summary>
+            <param name="line"></param>
+            <param name="referenceLength">Set to greater than 0, to use it as reference length, to align a text group.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.LoadingTitle">
+            <summary>
+            Prefixes window title with an asterisk, to indicate that the
+            application is not yet ready to use.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.RunningTitle">
+            <summary>
+            Removes asterisks and spaces that were prepended to the window
+            title, to indicate that the application is fully loaded and ready
+            now.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.Exit(System.Int32,System.Boolean)">
+            <summary>
+            Closes the application with the given exit code. If wait is true,
+            and the application is running in a visible console, it waits for
+            Return to be pressed before exiting.
+            </summary>
+            <param name="exitCode"></param>
+            <param name="wait"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckAdmin">
+            <summary>
+            Returns whether the application runs with admin rights.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckMono">
+            <summary>
+            Returns whether the application is running on Mono.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.ConsoleUtil.IsUserInteractive">
+            <summary>
+            Gets a value indicating whether the current process is running
+            in user interactive mode.
+            </summary>
+            <remarks>
+            Custom property wrapping Environment.UserInteractive, with special
+            behavior for Mono, which currently doesn't support that property.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.Arguments">
+            <summary>
+            Represents arguments in a command.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Arguments.Count">
+            <summary>
+            Returns the amount of all parameters.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.#ctor">
+            <summary>
+            Creates new Arguments instance.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.#ctor(System.String)">
+            <summary>
+            Creates new Arguments instance and parses the given line.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Contains(System.Int32)">
+            <summary>
+            Returns true if an argument with the given index exists.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Contains(System.String)">
+            <summary>
+            Returns true if an argument with the given name exists.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Parse(System.String)">
+            <summary>
+            Parses given line into this Arguments instance.
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Get(System.Int32)">
+            <summary>
+            Returns the argument at the given index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if index doesn't exist.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Get(System.String,System.String)">
+            <summary>
+            Returns the argument with the given name. Returns given default
+            if parameter wasn't found.
+            </summary>
+            <param name="name"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.GetAll">
+            <summary>
+            Returns all arguments, starting with the indexed ones in order,
+            followed by the named ones, with no order guaranteed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Remove(System.Int32)">
+            <summary>
+            Removes the argument at the given index.
+            </summary>
+            <param name="index"></param>
+            <exception cref="T:System.ArgumentException">
+            Thrown if index doesn't exist.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.Remove(System.String)">
+            <summary>
+            Removes the argument with the given name.
+            </summary>
+            <param name="name"></param>
+            <exception cref="T:System.ArgumentException">
+            Thrown if argument doesn't exist.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.Command`1">
+            <summary>
+            Generalized command holder
+            </summary>
+            <typeparam name="TFunc"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Command`1.Name">
+            <summary>
+            The command's name, which is used to call it.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Command`1.Usage">
+            <summary>
+            A description of how to use the command.
+            </summary>
+            <remarks>
+            Recommended syntax:
+            - &lt;parameter&gt;      Mandatory parameter.
+            - [parameter]            Optional parameter.
+            - parameter1|parameter2  Interchangeable parameters.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Command`1.Description">
+            <summary>
+            A description of what the command does.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Command`1.Func">
+            <summary>
+            Handler for the command.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Command`1.#ctor(System.String,System.String,System.String,`0)">
+            <summary>
+            Initializes Command.
+            </summary>
+            <param name="name"></param>
+            <param name="usage"></param>
+            <param name="description"></param>
+            <param name="func"></param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if func is not a valid delegate.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.CommandManager`2">
+            <summary>
+            Generalized command manager.
+            </summary>
+            <typeparam name="TCommand"></typeparam>
+            <typeparam name="TFunc"></typeparam>
+        </member>
+        <member name="F:Yggdrasil.Util.Commands.CommandManager`2._commands">
+            <summary>
+            List of available commands.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.CommandManager`2.#ctor">
+            <summary>
+            Initializes manager.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.CommandManager`2.Add(`0)">
+            <summary>
+            Adds command to list of command handlers.
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.CommandManager`2.GetCommand(System.String)">
+            <summary>
+            Returns command or null if the command doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.ConsoleCommands">
+            <summary>
+            Console command manager.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.#ctor">
+            <summary>
+            Creates new instance of ConsoleCommands and adds the help, exit,
+            and status commands.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.Add(System.String,System.String,Yggdrasil.Util.Commands.ConsoleCommandFunc)">
+            <summary>
+            Adds new command handler.
+            </summary>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.Add(System.String,System.String,System.String,Yggdrasil.Util.Commands.ConsoleCommandFunc)">
+            <summary>
+            Adds new command handler.
+            </summary>
+            <param name="name"></param>
+            <param name="usage"></param>
+            <param name="description"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.Wait">
+            <summary>
+            Waits and parses commands till "exit" is entered.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.HandleHelp(System.String,Yggdrasil.Util.Commands.Arguments)">
+            <summary>
+            Handles help command, listing all available console commands.
+            </summary>
+            <param name="command"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.HandleStatus(System.String,Yggdrasil.Util.Commands.Arguments)">
+            <summary>
+            Handles status command, displaying information about
+            the application, like current memory usage.
+            </summary>
+            <param name="command"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommands.HandleExit(System.String,Yggdrasil.Util.Commands.Arguments)">
+            <summary>
+            Handles exist command, closing the application immediately.
+            </summary>
+            <param name="command"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.ConsoleCommand">
+            <summary>
+            Represents a command for the ConsoleCommands class.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.ConsoleCommand.#ctor(System.String,System.String,System.String,Yggdrasil.Util.Commands.ConsoleCommandFunc)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="name"></param>
+            <param name="usage"></param>
+            <param name="description"></param>
+            <param name="func"></param>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.ConsoleCommandFunc">
+            <summary>
+            Represents a command handler for the ConsoleCommands class.
+            </summary>
+            <param name="command"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.Commands.CommandResult">
+            <summary>
+            Command results for the Console Commands.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Commands.CommandResult.Okay">
+            <summary>
+            Command executed correctly.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Commands.CommandResult.Fail">
+            <summary>
+            Command failed to execute.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Commands.CommandResult.InvalidArgument">
+            <summary>
+            An invalid argument stopped the execution.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.Commands.CommandResult.Break">
+            <summary>
+            Stop command handling.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Util.Hex">
+            <summary>
+            Utility functions to work with hex strings.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Hex.ToByteArray(System.String)">
+            <summary>
+            Converts hex string to byte array, ignoring any invalid
+            characters.
+            </summary>
+            <example>
+            Hex.ToByteArray("00 01 02"); // = byte[] { 0x00, 0x01, 0x02 };
+            Hex.ToByteArray("00-01-02"); // = byte[] { 0x00, 0x01, 0x02 };
+            Hex.ToByteArray("0x00, 0x01, 0x02"); // = byte[] { 0x00, 0x01, 0x02 };
+            </example>
+            <param name="hexString"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Util.InvalidHexStringException">
+            Thrown if string does not contain a multiple of 2 valid hex
+            characters.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Util.Hex.ToString(System.Byte[],Yggdrasil.Util.HexStringOptions)">
+            <summary>
+            Converts byte array to hex string.
+            </summary>
+            <example>
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }); // = "000102"
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }, HexStringOptions.DashSeparated); // = "00-01-02"
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }, HexStringOptions.OXPrefixed | HexStringOptions.CommaSeparated | HexStringOptions.SpaceSeparated); // = "0x00, 0x01, 0x02"
+            </example>
+            <param name="byteArray"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Hex.ToString(System.Byte[],System.Int32,System.Int32,Yggdrasil.Util.HexStringOptions)">
+            <summary>
+            Converts byte array to hex string.
+            </summary>
+            <example>
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }); // = "000102"
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }, HexStringOptions.DashSeparated); // = "00-01-02"
+            Hex.ToString(new byte[] { 0x00, 0x01, 0x02 }, HexStringOptions.OXPrefixed | HexStringOptions.CommaSeparated | HexStringOptions.SpaceSeparated); // = "0x00, 0x01, 0x02"
+            </example>
+            <param name="byteArray"></param>
+            <param name="start"></param>
+            <param name="length"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.InvalidHexStringException">
+            <summary>
+            Thrown if an invalid hex string is passed to hex utility.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.InvalidHexStringException.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="T:Yggdrasil.Util.HexStringOptions">
+            <summary>
+            Styling options for hex strings created by hex utility.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.None">
+            <summary>
+            Use no special options.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.OXPrefix">
+            <summary>
+            Hex characters are prefixed with "0x".
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.SpaceSeparated">
+            <summary>
+            Hex characters are separated by spaces.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.DashSeparated">
+            <summary>
+            Hex characters are separated by dashes.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.CommaSeparated">
+            <summary>
+            Hex characters are separated by commas.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.LowerCase">
+            <summary>
+            The hex characters will use lower case.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.EightNewLine">
+            <summary>
+            Adds a new line after 8 hex characters.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.SixteenNewLine">
+            <summary>
+            Adds a new line after 16 hex characters.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.AsciiText">
+            <summary>
+            Adds ASCII representation before new lines.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.LineNumbers">
+            <summary>
+            Adds line numbers at the start of new lines.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.ColNumbers">
+            <summary>
+            Adds column numbers on the first line.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.HexEditorFull">
+            <summary>
+            A combination of options that result in a view similar to
+            that of a hex editor.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Util.HexStringOptions.HexEditor">
+            <summary>
+            A combination of options that result in a view similar to
+            that of a hex editor.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Util.Math2">
+            <summary>
+            A few commonly used math-related functions.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Min(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Return the shorter of the two time spans.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Max(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Return the longer of the two time spans.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Min(System.DateTime,System.DateTime)">
+            <summary>
+            Return the earlier of the two date times.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Max(System.DateTime,System.DateTime)">
+            <summary>
+            Return the later of the two date times.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.Double,System.Double,System.Double)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.TimeSpan,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.IsBetween(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns true if val is between min and max (incl).
+            </summary>
+            <param name="val"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.MultiplyChecked(System.Int16,System.Double)">
+            <summary>
+            Multiplies initial value with multiplier, returns either the
+            result or Min/MaxValue if the multiplication caused an overflow.
+            </summary>
+            <param name="initialValue"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.MultiplyChecked(System.Int32,System.Double)">
+            <summary>
+            Multiplies initial value with multiplier, returns either the
+            result or Min/MaxValue if the multiplication caused an overflow.
+            </summary>
+            <param name="initialValue"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.MultiplyChecked(System.Int64,System.Double)">
+            <summary>
+            Multiplies initial value with multiplier, returns either the
+            result or Min/MaxValue if the multiplication caused an overflow.
+            </summary>
+            <param name="initialValue"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.AddChecked(System.Int16,System.Int16)">
+            <summary>
+            Adds addend to value, returns either the result or Min/MaxValue
+            if the addition caused an overflow.
+            </summary>
+            <param name="value"></param>
+            <param name="addend"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.AddChecked(System.Int32,System.Int32)">
+            <summary>
+            Adds addend to value, returns either the result or Min/MaxValue
+            if the addition caused an overflow.
+            </summary>
+            <param name="value"></param>
+            <param name="addend"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.AddChecked(System.Int64,System.Int64)">
+            <summary>
+            Adds addend to value, returns either the result or Min/MaxValue
+            if the addition caused an overflow.
+            </summary>
+            <param name="value"></param>
+            <param name="addend"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.DegreeToRadian(System.Double)">
+            <summary>
+            Returns the given degree in radians.
+            </summary>
+            <param name="degree"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Math2.RadianToDegree(System.Double)">
+            <summary>
+            Returns the given radian in degree.
+            </summary>
+            <param name="radian"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.MT19937">
+            <summary>
+            Mersenne Twister Random Number Generator.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.#ctor">
+            <summary>
+            Creates new instance of generator, with the current tick count
+            as seed.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.#ctor(System.UInt32)">
+            <summary>
+            Creates new instance of generator, with the given seed.
+            </summary>
+            <param name="seed"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.Init(System.UInt32)">
+            <summary>
+            (Re-)initiates the generator with the given seed.
+            </summary>
+            <param name="seed"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.Round">
+            <summary>
+            Generates a random uint.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.NextDouble">
+            <summary>
+            Returns a random double between 0.0 and 1.0.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.Next">
+            <summary>
+            Returns a random integer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.Next(System.Int32)">
+            <summary>
+            Returns a random integer between min (inclusive) and max (exclusive).
+            </summary>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random integer between min (inclusive) and max (exclusive).
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.MT19937.NextInt64">
+            <summary>
+            Returns a random long integer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.ObjectActivatorFunc`1">
+            <summary>
+            Creates an object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.ObjectActivator">
+            <summary>
+            Generator for dedicated object activators.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ObjectActivator.GetActivator``1(System.Reflection.ConstructorInfo)">
+            <summary>
+            Creates an activator function that creates objects using the given
+            constructor.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ctor"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.RandomProvider">
+            <summary>
+            Thread-safe provider for "Random" instances.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.Get">
+            <summary>
+            Returns an instance of Random for the calling thread.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.GetSeed">
+            <summary>
+            Returns a random seed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.Next">
+            <summary>
+            Returns a random integer.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.Next(System.Int32)">
+            <summary>
+            Returns a random integer between 0 and max - 1.
+            </summary>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random integer between min and max - 1.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.RandomProvider.NextDouble">
+            <summary>
+            Returns a random double between 0.0 and 1.0.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Util.Variables">
+            <summary>
+            Wrapper around a dictionary of objects that can be read from and
+            serializes to a single string.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Variables.Cache">
+            <summary>
+            Gets or sets this instance's cached variable string.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Variables.Count">
+            <summary>
+            Returns the number of variables in this instance.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.#ctor">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Has(System.String)">
+            <summary>
+            Returns true if a variable with the given name exists.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Get``1(System.String,``0)">
+            <summary>
+            Returns the value for the variable with the given name,
+            or the default if the variable doesn't exist.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Get(System.String)">
+            <summary>
+            Returns variable with given name as object, returns null
+            if the variables doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGet``1(System.String,``0@)">
+            <summary>
+            Returns the value with the given name via out, returns false
+            if the variable wasn't found.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetByte(System.String,System.Byte)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetByte(System.String,System.Byte@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetSByte(System.String,System.SByte)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetSByte(System.String,System.SByte@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetShort(System.String,System.Int16)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetShort(System.String,System.Int16@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetUShort(System.String,System.UInt16)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetUShort(System.String,System.UInt16@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetInt(System.String,System.Int32)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetInt(System.String,System.Int32@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetUInt(System.String,System.UInt32)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetUInt(System.String,System.UInt32@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetLong(System.String,System.Int64)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetLong(System.String,System.Int64@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetULong(System.String,System.UInt64)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetULong(System.String,System.UInt64@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetFloat(System.String,System.Single)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetFloat(System.String,System.Single@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetString(System.String,System.String)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetString(System.String,System.String@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetBytes(System.String,System.Byte[])">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetBytes(System.String,System.Byte[]@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetBool(System.String,System.Boolean)">
+            <summary>
+            Returns the given variable or the default value if it doesn't
+            exist.
+            </summary>
+            <param name="name"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.TryGetBool(System.String,System.Boolean@)">
+            <summary>
+            Returns the value of the variable with the given name via out,
+            returns false if the variable doesn't exist.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Set(System.String,System.Object)">
+            <summary>
+            Sets the value for the given name. Removes variable if value
+            is null.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetByte(System.String,System.Byte)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetSByte(System.String,System.SByte)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetShort(System.String,System.Int16)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetUShort(System.String,System.UInt16)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetInt(System.String,System.Int32)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetUInt(System.String,System.UInt32)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetLong(System.String,System.Int64)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetULong(System.String,System.UInt64)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetFloat(System.String,System.Single)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetString(System.String,System.String)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetBytes(System.String,System.Byte[])">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.SetBool(System.String,System.Boolean)">
+            <summary>
+            Sets the given variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.ToggleBool(System.String)">
+            <summary>
+            Toggles boolean value on or off. If the variable wasn't set
+            yet, it becomes true.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Remove(System.String)">
+            <summary>
+            Removes the variable with the given name if it exists.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.GetList">
+            <summary>
+            Returns list of all variables.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Variables.Load(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Loads all given variables.
+            </summary>
+            <param name="variables"></param>
+        </member>
+        <member name="T:Yggdrasil.IO.FileReader">
+            <summary>
+            General use class to read files line for line.
+            </summary>
+            <remarks>
+            Ignores empty lines and lines prefixed with '!', ';', '#', '//', or '--'.
+            Supports including of files via 'include {file}' and 'require {file}'.
+            Require raises an exception if the file couldn't be found.
+            
+            Paths to included files may not be absolute. If a path starts with
+            a slash, the path is relative to the working directory.
+            This simplifies including files from other sub-folders of the
+            application.
+            </remarks>
+            <example>
+            <code>
+            using (var fr = new FileReader(filePath))
+            {
+            	foreach (string line in fr)
+            	{
+            		// Do something with line
+            	}
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReader.CurrentLine">
+            <summary>
+            Returns the line the reader is currently on.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.#ctor(System.String)">
+            <summary>
+            Creates new reader for given file.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.GetEnumerator">
+            <summary>
+            Returns enumerator for the lines in the open file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns enumerator for the lines in the open file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.Dispose">
+            <summary>
+            Closes internal stream reader.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.IO.FileReaderLine">
+            <summary>
+            Represents a line read from a file by the FileReader.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReaderLine.Value">
+            <summary>
+            Current line.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReaderLine.File">
+            <summary>
+            Full path to the file the value was read from.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReaderLine.#ctor(System.String,System.String)">
+            <summary>
+            New FileReaderLine.
+            </summary>
+            <param name="line"></param>
+            <param name="file"></param>
+        </member>
+    </members>
+</doc>

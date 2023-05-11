@@ -506,7 +506,8 @@ namespace Melia.Channel.Util
 		{
 			character.ServerMessage("Reloading scripts...");
 
-			ChannelServer.Instance.ScriptManager.Reload();
+			ChannelServer.Instance.World.RemoveScriptedEntities();
+			ChannelServer.Instance.ReloadScripts();
 
 			character.ServerMessage("Done.");
 

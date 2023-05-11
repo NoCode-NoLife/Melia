@@ -17,7 +17,7 @@ namespace Melia.Channel.Scripting
 		/// <summary>
 		/// Gets or sets pointer to the state's Lua thread.
 		/// </summary>
-		public LuaThread LuaThread { get; set; }
+		//public LuaThread LuaThread { get; set; }
 
 		/// <summary>
 		/// Gets or sets the NPC associated with this state.
@@ -55,13 +55,13 @@ namespace Melia.Channel.Scripting
 		/// </summary>
 		public void Reset()
 		{
-			ChannelServer.Instance.ScriptManager.RemoveThread(this.LuaThread);
+			//ChannelServer.Instance.ScriptManager.RemoveThread(this.LuaThread);
 
 			this.CurrentShop = null;
 			this.CurrentNpc = null;
 			this.DialogTitle = null;
 			this.DialogClassName = null;
-			this.LuaThread = null;
+			//this.LuaThread = null;
 		}
 	}
 }

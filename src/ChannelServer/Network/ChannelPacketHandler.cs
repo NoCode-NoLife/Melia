@@ -151,7 +151,7 @@ namespace Melia.Channel.Network
 			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
 
-			ChannelServer.Instance.ScriptManager.SendClientScripts(conn);
+			//ChannelServer.Instance.ScriptManager.SendClientScripts(conn);
 		}
 
 		/// <summary>
@@ -690,18 +690,20 @@ namespace Melia.Channel.Network
 
 			// Try to execute script
 			var script = item.Data.Script;
-			var result = ChannelServer.Instance.ScriptManager.Call(conn, script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+			Log.Debug("Execute: " + script.Function);
 
-			if (result.Type == ScriptCallResultType.NotFound)
-			{
-				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
-				character.ServerMessage("This item hasn't been implemented yet.");
-			}
-			else if (result.Type == ScriptCallResultType.Error)
-			{
-				Log.Debug("CZ_ITEM_USE: An error occurred. {0}", result.ErrorMessage);
-				character.ServerMessage("An error occurred.");
-			}
+			//var result = ChannelServer.Instance.ScriptManager.Call(conn, script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+
+			//if (result.Type == ScriptCallResultType.NotFound)
+			//{
+			//	Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+			//	character.ServerMessage("This item hasn't been implemented yet.");
+			//}
+			//else if (result.Type == ScriptCallResultType.Error)
+			//{
+			//	Log.Debug("CZ_ITEM_USE: An error occurred. {0}", result.ErrorMessage);
+			//	character.ServerMessage("An error occurred.");
+			//}
 
 			// Success
 			// TODO: Consume items
@@ -744,7 +746,7 @@ namespace Melia.Channel.Network
 			// the dialog.
 			//Send.ZC_SHARED_MSG(conn, 108);
 
-			ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
+			//ChannelServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
 		}
 
 		/// <summary>
@@ -765,7 +767,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, option);
+			//ChannelServer.Instance.ScriptManager.ResumeDialog(conn, option);
 		}
 
 		/// <summary>
@@ -792,7 +794,7 @@ namespace Melia.Channel.Network
 			// escape is pressed, to cancel the dialog.
 			if (type == 1)
 			{
-				ChannelServer.Instance.ScriptManager.ResumeDialog(conn);
+				//ChannelServer.Instance.ScriptManager.ResumeDialog(conn);
 			}
 			else
 			{
@@ -818,7 +820,7 @@ namespace Melia.Channel.Network
 				return;
 			}
 
-			ChannelServer.Instance.ScriptManager.ResumeDialog(conn, input);
+			//ChannelServer.Instance.ScriptManager.ResumeDialog(conn, input);
 		}
 
 		/// <summary>
