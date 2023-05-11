@@ -1,0 +1,403 @@
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using Melia.Shared.Configuration;
+using Melia.Shared.Data;
+using Melia.Shared.Database;
+using Melia.Shared.L10N;
+using Melia.Shared.Scripting;
+using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
+using Yggdrasil.Scripting;
+using Yggdrasil.Util;
+
+namespace Melia.Shared
+{
+	/// <summary>
+	/// Base class for server applications.
+	/// </summary>
+	public abstract class Server2
+	{
+		private bool _running;
+
+		/// <summary>
+		/// Returns a reference to all conf files.
+		/// </summary>
+		public ConfFiles Conf { get; } = new ConfFiles();
+
+		/// <summary>
+		/// Returns a reference to the server's loaded data.
+		/// </summary>
+		public MeliaData Data { get; } = new MeliaData();
+
+		/// <summary>
+		/// Returns a reference to the server's script loader.
+		/// </summary>
+		protected ScriptLoader ScriptLoader { get; private set; }
+
+		/// <summary>
+		/// Returns a reference to the server's string localizer manager.
+		/// </summary>
+		public MultiLocalizer MultiLocalization { get; } = new MultiLocalizer();
+
+		/// <summary>
+		/// Starts the server.
+		/// </summary>
+		/// <param name="args"></param>
+		public abstract void Run(string[] args);
+
+		/// <summary>
+		/// Starts the server.
+		/// </summary>
+		public virtual void Run()
+		{
+			if (_running)
+				throw new Exception("Server is already running.");
+			_running = true;
+
+			this.NavigateToRoot();
+		}
+
+		/// <summary>
+		/// Changes current directory to the project's root folder.
+		/// </summary>
+		protected void NavigateToRoot()
+		{
+			var folderNames = new[] { "lib", "user", "system" };
+			var tries = 3;
+
+			var cwd = Directory.GetCurrentDirectory();
+			for (var i = 0; i < tries; ++i)
+			{
+				if (folderNames.All(a => Directory.Exists(a)))
+					return;
+
+				Directory.SetCurrentDirectory("../");
+			}
+
+			throw new DirectoryNotFoundException($"Failed to navigate to root folder. (Missing: {string.Join(", ", folderNames)})");
+		}
+
+		/// <summary>
+		/// Loads all configuration files.
+		/// </summary>
+		/// <returns></returns>
+		public ConfFiles LoadConf()
+		{
+			Log.Info("Loading configuration...");
+
+			this.Conf.Load();
+
+			return this.Conf;
+		}
+
+		/// <summary>
+		/// Loads localization files and updates cultural settings.
+		/// </summary>
+		/// <returns></returns>
+		protected void LoadLocalization(ConfFiles conf)
+		{
+			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo(conf.Localization.Culture);
+			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo(conf.Localization.CultureUi);
+			Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentCulture;
+			Thread.CurrentThread.CurrentUICulture = CultureInfo.DefaultThreadCurrentUICulture;
+
+			var serverLanguage = conf.Localization.Language;
+			var relativeFolderPath = "localization";
+			var systemFolderPath = Path.Combine("system", relativeFolderPath);
+			var userFolderPath = Path.Combine("system", relativeFolderPath);
+
+			Log.Info("Loading localization...");
+
+			// Load everything from user first, then check system, without
+			// overriding the ones loaded from user
+			if (Directory.Exists(userFolderPath))
+			{
+				foreach (var filePath in Directory.EnumerateFiles(userFolderPath, "*.po", SearchOption.AllDirectories))
+				{
+					var languageName = Path.GetFileNameWithoutExtension(filePath);
+					this.MultiLocalization.Load(languageName, filePath);
+
+					Log.Info("  loaded {0}.", languageName);
+				}
+			}
+
+			if (Directory.Exists(systemFolderPath))
+			{
+				foreach (var filePath in Directory.EnumerateFiles(systemFolderPath, "*.po", SearchOption.AllDirectories))
+				{
+					var languageName = Path.GetFileNameWithoutExtension(filePath);
+					if (this.MultiLocalization.Contains(languageName))
+						continue;
+
+					this.MultiLocalization.Load(languageName, filePath);
+
+					Log.Info("  loaded {0}.", languageName);
+				}
+			}
+
+			Log.Info("  setting default language to {0}.", serverLanguage);
+
+			// Try to set the default localizer, and warn the user about
+			// missing localizers if the selected server language isn't
+			// US english.
+			if (!this.MultiLocalization.Contains(serverLanguage))
+			{
+				if (serverLanguage != "en-US")
+					Log.Warning("Localization file '{0}.po' not found.", serverLanguage);
+			}
+			else
+			{
+				this.MultiLocalization.SetDefault(serverLanguage);
+			}
+
+			Melia.Shared.L10N.Localization.SetLocalizer(this.MultiLocalization.GetDefault());
+		}
+
+		/// <summary>
+		/// Initializes database connection with data from Conf.
+		/// </summary>
+		protected void InitDatabase(MeliaDb db, ConfFiles conf)
+		{
+			try
+			{
+				Log.Info("Initializing database...");
+				db.Init(conf.Database.Host, conf.Database.User, conf.Database.Pass, conf.Database.Db);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Failed to initialize database: {0}", ex.Message);
+				ConsoleUtil.Exit(1, true);
+			}
+		}
+
+		/// <summary>
+		/// Loads data from files.
+		/// </summary>
+		public void LoadData()
+		{
+			Log.Info("Loading data...");
+
+			try
+			{
+				this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
+				this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
+				this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
+				this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
+				this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
+				this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
+				this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
+				this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
+				this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
+				this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
+				this.LoadDb(this.Data.ExpDb, "db/exp.txt");
+				this.LoadDb(this.Data.FactionDb, "db/factions.txt");
+				this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+				this.LoadDb(this.Data.HelpDb, "db/help.txt");
+				this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
+				this.LoadDb(this.Data.ItemDb, "db/items.txt");
+				this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt");
+				this.LoadDb(this.Data.JobDb, "db/jobs.txt");
+				this.LoadDb(this.Data.MapDb, "db/maps.txt");
+				this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
+				this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
+				this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+				this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
+				this.LoadDb(this.Data.ShopDb, "db/shops.txt");
+				this.LoadDb(this.Data.SkillDb, "db/skills.txt");
+				this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+				this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+			}
+			catch (DatabaseErrorException ex)
+			{
+				Log.Error(ex.ToString());
+				ConsoleUtil.Exit(1);
+			}
+			catch (FileNotFoundException ex)
+			{
+				Log.Error(ex.Message);
+				ConsoleUtil.Exit(1);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Error while loading data: " + ex);
+				ConsoleUtil.Exit(1);
+			}
+		}
+
+		/// <summary>
+		/// Loads db, first from system, then from user.
+		/// Logs problems as warnings.
+		/// </summary>
+		private void LoadDb(IDatabase db, string path)
+		{
+			var systemPath = Path.Combine("system", path).Replace('\\', '/');
+			var userPath = Path.Combine("user", path).Replace('\\', '/');
+
+			string cachePath = null;
+			//var cachePath = Path.Combine("cache", path).Replace('\\', '/');
+			//cachePath = Path.ChangeExtension(cachePath, "mpk");
+			//var cacheDir = Path.GetDirectoryName(cachePath);
+			//if (!Directory.Exists(cacheDir))
+			//	Directory.CreateDirectory(cacheDir);
+
+			if (!File.Exists(systemPath))
+				throw new FileNotFoundException("Data file '" + systemPath + "' couldn't be found.", systemPath);
+
+			db.Load(new string[] { systemPath, userPath }, cachePath, true);
+
+			foreach (var ex in db.Warnings)
+				Log.Warning("{0}", ex.ToString());
+
+			Log.Info("  done loading {0} entries from {1}", db.Count, Path.GetFileName(path));
+		}
+
+		/// <summary>
+		/// Loads given conf class and stops start up when an error
+		/// occurs.
+		/// </summary>
+		/// <param name="conf"></param>
+		protected void LoadConf(ConfFiles conf)
+		{
+			try
+			{
+				Log.Info("Loading configuration...");
+				conf.Load();
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Failed to load configuration: {0}", ex.Message);
+				ConsoleUtil.Exit(1, true);
+			}
+		}
+
+		/// <summary>
+		/// Loads all scripts from given list.
+		/// </summary>
+		/// <param name="listFilePath"></param>
+		public void LoadScripts(string listFilePath)
+		{
+			if (this.ScriptLoader != null)
+			{
+				Log.Error("The script loader has been created already.");
+				return;
+			}
+
+			Log.Info("Loading scripts...");
+
+			if (!File.Exists(listFilePath))
+			{
+				Log.Error("Script list not found: " + listFilePath);
+				return;
+			}
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
+				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
+				provider.SetCompilerFullPath(Path.GetFullPath("lib/roslyn/csc.exe"));
+
+				var cachePath = (string)null;
+				//if (conf.Scripting.EnableCaching)
+				//{
+				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
+				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
+				//}
+
+				this.ScriptLoader = new ScriptLoader(provider, cachePath);
+				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
+				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+
+				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+					Log.Error(ex.ToString());
+			}
+			catch (CompilerErrorException ex)
+			{
+				this.DisplayScriptErrors(ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex.ToString());
+			}
+
+			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Reloads previously loaded scripts.
+		/// </summary>
+		public void ReloadScripts()
+		{
+			Log.Info("Reloading scripts...");
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				this.ScriptLoader.Reload();
+			}
+			catch (CompilerErrorException ex)
+			{
+				this.DisplayScriptErrors(ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex.ToString());
+			}
+
+			Log.Info("  reloaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Displays the script errors in the console.
+		/// </summary>
+		/// <param name="ex"></param>
+		private void DisplayScriptErrors(CompilerErrorException ex)
+		{
+			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			{
+				if (string.IsNullOrWhiteSpace(err.FileName))
+				{
+					Log.Error("While loading scripts: " + err.ErrorText);
+				}
+				else
+				{
+					var relativefileName = err.FileName;
+					var cwd = Directory.GetCurrentDirectory();
+					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+						relativefileName = relativefileName.Substring(cwd.Length + 1);
+
+					var lines = File.ReadAllLines(err.FileName);
+					var sb = new StringBuilder();
+
+					// Error msg
+					sb.AppendLine("In {0} on line {1}, column {2}", relativefileName, err.Line, err.Column);
+					sb.AppendLine("          {0}", err.ErrorText);
+
+					// Display lines around the error
+					var startLine = Math.Max(1, err.Line - 1);
+					var endLine = Math.Min(lines.Length, startLine + 2);
+					for (var i = startLine; i <= endLine; ++i)
+					{
+						// Make sure we don't get out of range.
+						// (ReadAllLines "trims" the input)
+						var line = (i <= lines.Length) ? lines[i - 1] : "";
+
+						sb.AppendLine("  {2} {0:0000}: {1}", i, line, (err.Line == i ? '*' : ' '));
+					}
+
+					if (err.IsWarning)
+						Log.Warning(sb.ToString());
+					else
+						Log.Error(sb.ToString());
+				}
+			}
+		}
+	}
+}

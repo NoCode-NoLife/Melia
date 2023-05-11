@@ -40,12 +40,14 @@ namespace Melia.Shared.Data.Database
 			switch (type)
 			{
 				case "Login":
+				case "Barracks":
 					data = new ServerData();
 					this.ReadDefault(entry, data);
 
 					break;
 
 				case "Channel":
+				case "Zone":
 					entry.AssertNotMissing("maps");
 
 					var channelData = new ChannelServerData();
@@ -79,5 +81,8 @@ namespace Melia.Shared.Data.Database
 	{
 		Login,
 		Channel,
+
+		Barracks,
+		Zone,
 	}
 }

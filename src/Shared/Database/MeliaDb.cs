@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using Melia.Shared.Util;
-using Melia.Shared.Util.Security;
 using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
+using Yggdrasil.Security.Hashing;
 
 namespace Melia.Shared.Database
 {
@@ -51,8 +51,7 @@ namespace Melia.Shared.Database
 			}
 			finally
 			{
-				if (conn != null)
-					conn.Close();
+				conn?.Close();
 			}
 		}
 

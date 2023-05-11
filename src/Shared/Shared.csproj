@@ -45,6 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="nettext">
+      <HintPath>..\..\lib\nettext.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Newtonsoft.Json.dll</HintPath>
@@ -66,6 +69,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleHeader.cs" />
+    <Compile Include="Configuration\ConfFiles.cs" />
+    <Compile Include="Configuration\Files\Commands.cs" />
+    <Compile Include="Configuration\Files\Database.cs" />
+    <Compile Include="Configuration\Files\Localization.cs" />
+    <Compile Include="Configuration\Files\Login.cs" />
+    <Compile Include="Configuration\Files\Web.cs" />
+    <Compile Include="Configuration\Files\World.cs" />
     <Compile Include="Const\BuffId.cs" />
     <Compile Include="Const\AnimationId.cs" />
     <Compile Include="Const\Character.cs" />
@@ -122,6 +133,20 @@
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="EntityComponents\Component.cs" />
     <Compile Include="EntityComponents\ComponentCollection.cs" />
+    <Compile Include="L10N\Localization.cs" />
+    <Compile Include="L10N\Localizer.cs" />
+    <Compile Include="L10N\MultiLocalizer.cs" />
+    <Compile Include="Network2\Connection.cs" />
+    <Compile Include="Network2\Helpers\AccountHelper.cs" />
+    <Compile Include="Network2\Helpers\AppearancePcHelper.cs" />
+    <Compile Include="Network2\Helpers\CommanderHelper.cs" />
+    <Compile Include="Network2\Helpers\Position.cs" />
+    <Compile Include="Network2\Helpers\PropertyHelper.cs" />
+    <Compile Include="Network2\Op.cs" />
+    <Compile Include="Network2\Packet.cs" />
+    <Compile Include="Network2\PacketHandler.cs" />
+    <Compile Include="Network2\SubOp.cs" />
+    <Compile Include="Network2\TosFramer.cs" />
     <Compile Include="Network\Helpers\AccountHelper.cs" />
     <Compile Include="Network\Helpers\AppearancePcHelper.cs" />
     <Compile Include="Network\Helpers\CommanderHelper.cs" />
@@ -129,6 +154,7 @@
     <Compile Include="Network\Helpers\PropertyHelper.cs" />
     <Compile Include="Network\SubOp.cs" />
     <Compile Include="Scripting\CSharpCodeProvider.cs" />
+    <Compile Include="Server2.cs" />
     <Compile Include="Util\Configuration\Files\Commands.cs" />
     <Compile Include="Util\Configuration\Files\World.cs" />
     <Compile Include="Util\Configuration\Files\Web.cs" />

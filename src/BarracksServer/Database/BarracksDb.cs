@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Melia.Login.World;
 using Melia.Shared.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
@@ -12,9 +11,9 @@ using MySql.Data.MySqlClient;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;
 
-namespace Melia.Login.Database
+namespace Melia.Barracks.Database
 {
-	public class LoginDb : MeliaDb
+	public class BarracksDb : MeliaDb
 	{
 		/// <summary>
 		/// Checks whether the SQL update file has already been applied.
@@ -151,9 +150,9 @@ namespace Melia.Login.Database
 					cmd.Set("x", character.Position.X);
 					cmd.Set("y", character.Position.Y);
 					cmd.Set("z", character.Position.Z);
-					cmd.Set("bx", character.BarrackPosition.X);
-					cmd.Set("by", character.BarrackPosition.Y);
-					cmd.Set("bz", character.BarrackPosition.Z);
+					cmd.Set("bx", character.BarracksPosition.X);
+					cmd.Set("by", character.BarracksPosition.Y);
+					cmd.Set("bz", character.BarracksPosition.Z);
 
 					cmd.Set("hp", character.Hp);
 					cmd.Set("hpRate", character.HpRateByJob);
@@ -166,7 +165,7 @@ namespace Melia.Login.Database
 					cmd.Set("intByJob", character.IntByJob);
 					cmd.Set("sprByJob", character.SprByJob);
 					cmd.Set("dexByJob", character.DexByJob);
-					cmd.Set("maxExp", LoginServer.Instance.Data.ExpDb.GetNextExp(1));
+					cmd.Set("maxExp", character.MaxExp);
 
 					cmd.Set("barrackLayer", character.BarrackLayer);
 					cmd.Set("slot", character.Index);
@@ -244,9 +243,9 @@ namespace Melia.Login.Database
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("teamName", character.TeamName);
 				cmd.Set("zone", character.MapId);
-				cmd.Set("bx", character.BarrackPosition.X);
-				cmd.Set("by", character.BarrackPosition.Y);
-				cmd.Set("bz", character.BarrackPosition.Z);
+				cmd.Set("bx", character.BarracksPosition.X);
+				cmd.Set("by", character.BarracksPosition.Y);
+				cmd.Set("bz", character.BarracksPosition.Z);
 				cmd.Set("barrackLayer", character.BarrackLayer);
 				cmd.Set("slot", character.Index);
 
@@ -289,7 +288,7 @@ namespace Melia.Login.Database
 							var bx = reader.GetFloat("bx");
 							var by = reader.GetFloat("by");
 							var bz = reader.GetFloat("bz");
-							character.BarrackPosition = new Position(bx, by, bz);
+							character.BarracksPosition = new Position(bx, by, bz);
 
 							result.Add(character);
 						}

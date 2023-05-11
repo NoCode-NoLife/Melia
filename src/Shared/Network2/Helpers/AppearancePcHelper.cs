@@ -1,7 +1,7 @@
 ﻿using System;
 using Melia.Shared.Const;
 
-namespace Melia.Shared.Network.Helpers
+namespace Melia.Shared.Network2.Helpers
 {
 	/// <summary>
 	/// Contains extension methods to write data about a characters'

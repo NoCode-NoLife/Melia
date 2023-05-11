@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using Melia.Login.Database;
-using Melia.Login.World;
+using Melia.Barracks.Database;
 using Melia.Shared.Const;
-using Melia.Shared.Network;
-using Melia.Shared.Network.Helpers;
-using Melia.Shared.Util;
-using Melia.Shared.Util.Security;
+using Melia.Shared.Network2;
+using Melia.Shared.Network2.Helpers;
 using Melia.Shared.World;
+using Yggdrasil.Logging;
+using Yggdrasil.Security.Hashing;
 
-namespace Melia.Login.Network
+namespace Melia.Barracks.Network
 {
-	public class LoginPacketHandler : PacketHandler<LoginConnection>
+	public class PacketHandler : PacketHandler<IBarracksConnection>
 	{
-		public static readonly LoginPacketHandler Instance = new LoginPacketHandler();
-
 		/// <summary>
 		/// Sent when clicking [Enter] on login screen.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_LOGIN)]
-		public void CB_LOGIN(LoginConnection conn, Packet packet)
+		public void CB_LOGIN(IBarracksConnection conn, Packet packet)
 		{
 			var accountName = packet.GetString(33);
 			var bin1 = packet.GetBin(23);
@@ -43,12 +38,12 @@ namespace Melia.Login.Network
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
 			{
 				accountName = accountName.Substring("new__".Length);
-				if (!LoginServer.Instance.Database.AccountExists(accountName))
-					LoginServer.Instance.Database.CreateAccount(accountName, password);
+				if (!BarracksServer.Instance.Database.AccountExists(accountName))
+					BarracksServer.Instance.Database.CreateAccount(accountName, password);
 			}
 
 			// Check account
-			if (!LoginServer.Instance.Database.AccountExists(accountName))
+			if (!BarracksServer.Instance.Database.AccountExists(accountName))
 			{
 				Send.BC_MESSAGE(conn, MsgType.UsernameOrPasswordIncorrect1);
 				conn.Close(100);
@@ -80,7 +75,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_LOGIN_BY_PASSPORT)]
-		public void CB_LOGIN_BY_PASSPORT(LoginConnection conn, Packet packet)
+		public void CB_LOGIN_BY_PASSPORT(IBarracksConnection conn, Packet packet)
 		{
 			Send.BC_MESSAGE(conn, "Passport login not supported.");
 			conn.Close(100);
@@ -92,7 +87,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_LOGOUT)]
-		public void CB_LOGOUT(LoginConnection conn, Packet packet)
+		public void CB_LOGOUT(IBarracksConnection conn, Packet packet)
 		{
 			Log.Info("User '{0}' is logging out.", conn.Account.Name);
 
@@ -107,7 +102,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_START_BARRACK)]
-		public void CB_START_BARRACK(LoginConnection conn, Packet packet)
+		public void CB_START_BARRACK(IBarracksConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
 			var str1 = packet.GetString(40); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
@@ -127,7 +122,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_CURRENT_BARRACK)]
-		public void CB_CURRENT_BARRACK(LoginConnection conn, Packet packet)
+		public void CB_CURRENT_BARRACK(IBarracksConnection conn, Packet packet)
 		{
 			var accountId = packet.GetLong();
 			var index = packet.GetByte();
@@ -146,7 +141,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_BARRACKNAME_CHANGE)]
-		public void CB_BARRACKNAME_CHANGE(LoginConnection conn, Packet packet)
+		public void CB_BARRACKNAME_CHANGE(IBarracksConnection conn, Packet packet)
 		{
 			var name = packet.GetString(64);
 
@@ -163,7 +158,7 @@ namespace Melia.Login.Network
 			}
 
 			// Check availability
-			var exists = LoginServer.Instance.Database.TeamNameExists(name);
+			var exists = BarracksServer.Instance.Database.TeamNameExists(name);
 			if (exists)
 			{
 				Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.TeamNameAlreadyExist, name);
@@ -172,7 +167,7 @@ namespace Melia.Login.Network
 
 			// Set team name
 			conn.Account.TeamName = name;
-			LoginServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
+			BarracksServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay, name);
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
@@ -185,7 +180,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_BARRACKNAME_CHECK)]
-		public void CB_BARRACKNAME_CHECK(LoginConnection conn, Packet packet)
+		public void CB_BARRACKNAME_CHECK(IBarracksConnection conn, Packet packet)
 		{
 			// The "message" contains a client-function to call after the
 			// response, which affects how the name can be changed from
@@ -209,7 +204,7 @@ namespace Melia.Login.Network
 			}
 
 			// Check availability
-			var exists = LoginServer.Instance.Database.TeamNameExists(name);
+			var exists = BarracksServer.Instance.Database.TeamNameExists(name);
 			if (exists)
 			{
 				Send.BC_BARRACKNAME_CHECK_RESULT(conn, TeamNameChangeResult.TeamNameAlreadyExist, name, message);
@@ -225,7 +220,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_COMMANDER_CREATE)]
-		public void CB_COMMANDER_CREATE(LoginConnection conn, Packet packet)
+		public void CB_COMMANDER_CREATE(IBarracksConnection conn, Packet packet)
 		{
 			var charPosition = packet.GetByte();
 			var name = packet.GetString(65);
@@ -254,14 +249,14 @@ namespace Melia.Login.Network
 			}
 
 			// Check name
-			if (LoginServer.Instance.Database.CharacterExists(conn.Account.Id, name))
+			if (BarracksServer.Instance.Database.CharacterExists(conn.Account.Id, name))
 			{
 				Send.BC_MESSAGE(conn, MsgType.NameAlreadyExists);
 				return;
 			}
 
 			// Get job data
-			var jobData = LoginServer.Instance.Data.JobDb.Find(job);
+			var jobData = BarracksServer.Instance.Data.JobDb.Find(job);
 			if (jobData == null)
 			{
 				Log.Error("CB_COMMANDER_CREATE: Job '{0}' not found.", job);
@@ -277,10 +272,10 @@ namespace Melia.Login.Network
 			character.Gender = gender;
 			character.Hair = hair;
 
-			var startLocation = LoginServer.Instance.Conf.Login.StartLocation;
-			character.MapId = startLocation.MapId;
-			character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
-			character.BarrackPosition = barrackPos;
+			//var startLocation = BarracksServer.Instance.Conf.Login.StartLocation;
+			//character.MapId = startLocation.MapId;
+			//character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
+			//character.BarracksPosition = barrackPos;
 
 			// XXX: Maybe we could get rid of this and the (sub-)stats in
 			//   Character by passing the jobData to the database, for it
@@ -298,10 +293,10 @@ namespace Melia.Login.Network
 			//character.DexByJob = jobData.Dex;
 
 			// Initialize with the default equipment set.
-			var equipment = new Dictionary<EquipSlot, int>();
+			var equipList = new EquipList();
 			foreach (var equip in jobData.DefaultEquip)
 			{
-				var itemData = LoginServer.Instance.Data.ItemDb.FindByClass(equip.Value);
+				var itemData = BarracksServer.Instance.Data.ItemDb.FindByClass(equip.Value);
 				if (itemData == null)
 				{
 					Log.Error("CB_COMMANDER_CREATE : Unable to find item data with class name '{0}'.", equip.Value);
@@ -309,10 +304,10 @@ namespace Melia.Login.Network
 					return;
 				}
 
-				equipment[equip.Key] = itemData.Id;
+				equipList[equip.Key] = itemData.Id;
 			}
 
-			character.SetEquipment(equipment);
+			character.SetEquipment(equipList);
 
 			conn.Account.CreateCharacter(character);
 
@@ -326,7 +321,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_COMMANDER_DESTROY)]
-		public void CB_COMMANDER_DESTROY(LoginConnection conn, Packet packet)
+		public void CB_COMMANDER_DESTROY(IBarracksConnection conn, Packet packet)
 		{
 			var id = packet.GetLong();
 
@@ -357,7 +352,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_COMMANDER_MOVE)]
-		public void CB_COMMANDER_MOVE(LoginConnection conn, Packet packet)
+		public void CB_COMMANDER_MOVE(IBarracksConnection conn, Packet packet)
 		{
 			var index = packet.GetByte();
 			var x = packet.GetFloat();
@@ -382,15 +377,15 @@ namespace Melia.Login.Network
 			//   to an invalid position.
 
 			// Move
-			character.BarrackPosition = new Position(x, y, z);
-			Send.BC_NORMAL_SetPosition(conn, index, character.BarrackPosition);
+			character.BarracksPosition = new Position(x, y, z);
+			Send.BC_NORMAL_SetPosition(conn, index, character.BarracksPosition);
 		}
 
 		/// <summary>
 		/// Sent when clicking [Start Game], to connect to the selected channel.
 		/// </summary>
 		[PacketHandler(Op.CB_START_GAME)]
-		public void CB_START_GAME(LoginConnection conn, Packet packet)
+		public void CB_START_GAME(IBarracksConnection conn, Packet packet)
 		{
 			var channel = packet.GetShort();
 			var index = packet.GetByte();
@@ -408,7 +403,7 @@ namespace Melia.Login.Network
 			//   their statuses, etc, broadcast that list to login and the
 			//   channels, and use in places like this.
 			var channelId = 1;
-			var channelServer = LoginServer.Instance.Data.ServerDb.FindChannel(channelId);
+			var channelServer = BarracksServer.Instance.Data.ServerDb.FindChannel(channelId);
 			if (channelServer == null)
 			{
 				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", channelId);
@@ -422,14 +417,14 @@ namespace Melia.Login.Network
 		/// Sent when clicking [Purchase] on a barrack.
 		/// </summary>
 		[PacketHandler(Op.CB_BUY_THEMA)]
-		public void CB_BUY_THEMA(LoginConnection conn, Packet packet)
+		public void CB_BUY_THEMA(IBarracksConnection conn, Packet packet)
 		{
 			var unkInt = packet.GetInt();
 			var newMapId = packet.GetInt();
 			var oldMapId = packet.GetInt();
 
 			// Get barrack
-			var barrackData = LoginServer.Instance.Data.BarrackDb.Find(newMapId);
+			var barrackData = BarracksServer.Instance.Data.BarrackDb.Find(newMapId);
 			if (barrackData == null)
 				return;
 
@@ -453,18 +448,17 @@ namespace Melia.Login.Network
 		/// This must be configured in the login configuration file to be enabled.
 		/// </remarks>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
-		public void CB_CHECK_CLIENT_INTEGRITY(LoginConnection conn, Packet packet)
+		public void CB_CHECK_CLIENT_INTEGRITY(IBarracksConnection conn, Packet packet)
 		{
 			var checksum = packet.GetString(64);
 
-			if (!LoginServer.Instance.Conf.Login.VerifyIpf)
+			if (!BarracksServer.Instance.Conf.Login.VerifyIpf)
 				return;
 
-			var bytes = Encoding.UTF8.GetBytes(LoginServer.Instance.Conf.Login.IpfChecksum + conn.IntegritySeed);
-			var md5 = MD5.Create();
-			md5.TransformFinalBlock(bytes, 0, bytes.Length);
+			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Login.IpfChecksum + 0 /*conn.IntegritySeed*/);
+			var hash = MD5.Encode(bytes);
 
-			var result = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();
 
 			if (checksum.ToLower() != result)
 			{
@@ -479,7 +473,7 @@ namespace Melia.Login.Network
 				Send.BC_NORMAL_TeamUI(conn);
 
 				// Terminate any further requests from the client at this point.
-				conn.IgnorePackets = true;
+				//conn.IgnorePackets = true;
 			}
 		}
 
@@ -489,7 +483,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_REQ_CHANNEL_TRAFFIC)]
-		public void CB_REQ_CHANNEL_TRAFFIC(LoginConnection conn, Packet packet)
+		public void CB_REQ_CHANNEL_TRAFFIC(IBarracksConnection conn, Packet packet)
 		{
 			Send.BC_NORMAL_ZoneTraffic(conn);
 		}
@@ -500,7 +494,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_SELECT_BARRACK_LAYER)]
-		public void CB_SELECT_BARRACK_LAYER(LoginConnection conn, Packet packet)
+		public void CB_SELECT_BARRACK_LAYER(IBarracksConnection conn, Packet packet)
 		{
 			var layer = packet.GetInt();
 
@@ -525,7 +519,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_PET_PC)]
-		public void CB_PET_PC(LoginConnection conn, Packet packet)
+		public void CB_PET_PC(IBarracksConnection conn, Packet packet)
 		{
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
@@ -537,7 +531,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_PET_COMMAND)]
-		public void CB_PET_COMMAND(LoginConnection conn, Packet packet)
+		public void CB_PET_COMMAND(IBarracksConnection conn, Packet packet)
 		{
 			var petGuid = packet.GetLong();
 			var characterId = packet.GetLong();
@@ -550,7 +544,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_REQ_CHANGE_POSTBOX_STATE)]
-		public void CB_REQ_CHANGE_POSTBOX_STATE(LoginConnection conn, Packet packet)
+		public void CB_REQ_CHANGE_POSTBOX_STATE(IBarracksConnection conn, Packet packet)
 		{
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
@@ -565,7 +559,7 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		public void CB_REQ_POSTBOX_PAGE(LoginConnection conn, Packet packet)
+		public void CB_REQ_POSTBOX_PAGE(IBarracksConnection conn, Packet packet)
 		{
 			var count = packet.GetInt();
 
@@ -579,7 +573,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_NOT_AUTHORIZED_ADDON_LIST)]
-		public void CB_NOT_AUTHORIZED_ADDON_LIST(LoginConnection conn, Packet packet)
+		public void CB_NOT_AUTHORIZED_ADDON_LIST(IBarracksConnection conn, Packet packet)
 		{
 			// I assume it's some kind of anti-cheat? I doubt we'll care
 			// about this any time soon. Btw, if it is an anti-cheat:
@@ -593,7 +587,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_SELECTED_LANGUAGE)]
-		public void CB_SELECTED_LANGUAGE(LoginConnection conn, Packet packet)
+		public void CB_SELECTED_LANGUAGE(IBarracksConnection conn, Packet packet)
 		{
 			var language = packet.GetShort();
 		}
@@ -604,7 +598,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_OS_INFO)]
-		public void CB_OS_INFO(LoginConnection conn, Packet packet)
+		public void CB_OS_INFO(IBarracksConnection conn, Packet packet)
 		{
 		}
 
@@ -614,7 +608,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_VISIT)]
-		public void CB_VISIT(LoginConnection conn, Packet packet)
+		public void CB_VISIT(IBarracksConnection conn, Packet packet)
 		{
 			///3800090000000D09000000000000000000000000000000000FA473400100000030B066BC00000000D34788400100000030B066BC0000000030B066BC0000000000000000000000008952884001000000FEFFFFFFFFFF0100
 		}
@@ -625,7 +619,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_CHANGE_BARRACK_TARGET_LAYER)]
-		public void CB_CHANGE_BARRACK_TARGET_LAYER(LoginConnection conn, Packet packet)
+		public void CB_CHANGE_BARRACK_TARGET_LAYER(IBarracksConnection conn, Packet packet)
 		{
 			var characterId = packet.GetLong();
 			var targetLayer = packet.GetInt();
@@ -655,7 +649,7 @@ namespace Melia.Login.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		[PacketHandler(Op.CB_CHECK_MARKET_REGISTERED)]
-		public void CB_CHECK_MARKET_REGISTERED(LoginConnection conn, Packet packet)
+		public void CB_CHECK_MARKET_REGISTERED(IBarracksConnection conn, Packet packet)
 		{
 			var characterId = packet.GetLong();
 
@@ -674,7 +668,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_REQUEST_GUILD_INDEX)]
-		public void CZ_REQUEST_GUILD_INDEX(LoginConnection conn, Packet packet)
+		public void CZ_REQUEST_GUILD_INDEX(IBarracksConnection conn, Packet packet)
 		{
 			var guildId = packet.GetLong(); // ?
 		}
@@ -686,7 +680,7 @@ namespace Melia.Login.Network
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_CHARACTER_SWAP_SLOT)]
-		public void CB_CHARACTER_SWAP_SLOT(LoginConnection conn, Packet packet)
+		public void CB_CHARACTER_SWAP_SLOT(IBarracksConnection conn, Packet packet)
 		{
 			var characterId1 = packet.GetLong();
 			var characterId2 = packet.GetLong();

@@ -3155,6 +3155,36 @@
             </summary>
             <param name="bytes"></param>
         </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.IndexOf(System.Byte)">
+            <summary>
+            Searches for the given byte in the buffer, starting at the
+            current position, and returns the index of the first occurence.
+            If the byte is not found, -1 is returned.
+            </summary>
+            <example>
+            var buffer = new Buffer(Encoding.ASCII.GetBytes("foobar"));
+            buffer.Find((byte)'b'); // 3
+            </example>
+            <param name="val">Value to search for.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.BufferReaderWriter.IndexOf(System.Byte,System.Int32)">
+            <summary>
+            Searches for the given byte in the buffer, starting at the
+            given position, and returns the index of the first occurence.
+            If the byte is not found, -1 is returned.
+            </summary>
+            <example>
+            var buffer = new Buffer(Encoding.ASCII.GetBytes("foobar"), 0);
+            buffer.Find((byte)'b'); // 3
+            
+            var buffer = new Buffer(Encoding.ASCII.GetBytes("foobar"), 4);
+            buffer.Find((byte)'b'); // -1
+            </example>
+            <param name="val">Value to search for.</param>
+            <param name="startIndex">Index to start at.</param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Util.BufferReaderWriter.Peek">
             <summary>
             Returns the current byte without increasing the index.
