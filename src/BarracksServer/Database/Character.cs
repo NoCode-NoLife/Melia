@@ -71,7 +71,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Gets or sets the character's level.
 		/// </summary>
-		public int Level { get; set; }
+		public int Level { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets the amount of silver the character owns.
@@ -86,7 +86,7 @@ namespace Melia.Barracks.Database
 		/// Gets or sets the layer in the barracks that the character should
 		/// appear in.
 		/// </summary>
-		public int BarrackLayer { get; set; }
+		public int BarrackLayer { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets the character's position in the barracks.
@@ -99,12 +99,12 @@ namespace Melia.Barracks.Database
 		public Direction BarracksDirection { get; set; }
 
 		/// <summary>
-		/// Gets or sets the channel the character is currently on.
+		/// Gets or sets the channel the character connected to last.
 		/// </summary>
-		public int Channel { get; set; }
+		public int Channel { get; set; } = 0;
 
 		/// <summary>
-		/// Gets or sets the id of the map the character is currently on.
+		/// Gets or sets the id of the map the character is on.
 		/// </summary>
 		public int MapId { get; set; }
 
@@ -199,11 +199,8 @@ namespace Melia.Barracks.Database
 		/// </summary>
 		public Character()
 		{
-			this.Level = 1;
-			this.Channel = 1;
-			this.BarrackLayer = 1;
-
 			this.Equipment = new EquipItem[Items.EquipSlotCount];
+
 			for (var i = 0; i < Items.EquipSlotCount; ++i)
 			{
 				var itemId = Items.DefaultItems[i];
