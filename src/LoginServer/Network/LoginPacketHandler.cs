@@ -6,6 +6,7 @@ using System.Text;
 using Melia.Login.Database;
 using Melia.Login.World;
 using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
@@ -407,15 +408,14 @@ namespace Melia.Login.Network
 			// TODO: Create a manager server that keeps track of the channels,
 			//   their statuses, etc, broadcast that list to login and the
 			//   channels, and use in places like this.
-			var channelId = 1;
-			var channelServer = LoginServer.Instance.Data.ServerDb.FindChannel(channelId);
-			if (channelServer == null)
+			var serverId = 1;
+			if (!LoginServer.Instance.Data.ServerDb.TryFind(ServerType.Barracks, serverId, out var channelServerData))
 			{
-				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", channelId);
+				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", serverId);
 				return;
 			}
 
-			Send.BC_START_GAMEOK(conn, character, channelServer.Ip, channelServer.Port);
+			Send.BC_START_GAMEOK(conn, character, channelServerData.Ip, channelServerData.Port);
 		}
 
 		/// <summary>

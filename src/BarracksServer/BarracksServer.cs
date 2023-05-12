@@ -2,6 +2,7 @@
 using Melia.Barracks.Database;
 using Melia.Barracks.Network;
 using Melia.Shared;
+using Melia.Shared.Data.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -50,8 +51,11 @@ namespace Melia.Barracks
 
 			// Get server data
 			var serverId = 1;
-			var serverData = this.Data.ServerDb.FindLogin(serverId);
-			if (serverData == null)
+
+			if (args.Length > 0 && int.TryParse(args[0], out var id))
+				serverId = id;
+
+			if (!this.Data.ServerDb.TryFind(ServerType.Barracks, serverId, out var serverData))
 			{
 				Log.Error("No barracks data for id '{0}' found in 'db/servers.txt'.", serverId);
 				ConsoleUtil.Exit(1);

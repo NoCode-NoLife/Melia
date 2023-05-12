@@ -6,6 +6,7 @@ using Melia.Channel.Skills;
 using Melia.Channel.Util;
 using Melia.Channel.World;
 using Melia.Shared;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Commands;
@@ -92,8 +93,7 @@ namespace Melia.Channel
 
 			// Get channel data
 			var serverId = 1;
-			var serverData = this.Data.ServerDb.FindChannel(serverId);
-			if (serverData == null)
+			if (!this.Data.ServerDb.TryFind(ServerType.Zone, serverId, out var serverData))
 			{
 				Log.Error("Server data not found. ({0})", serverId);
 				CliUtil.Exit(1);

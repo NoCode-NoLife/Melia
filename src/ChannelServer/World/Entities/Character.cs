@@ -568,15 +568,14 @@ namespace Melia.Channel.World.Entities
 			ChannelServer.Instance.Database.SaveCharacter(this);
 
 			// Get channel
-			var channelId = 1;
-			var channelServer = ChannelServer.Instance.Data.ServerDb.FindChannel(channelId);
-			if (channelServer == null)
+			var serverId = 1;
+			if (!ChannelServer.Instance.Data.ServerDb.TryFind(ServerType.Zone, serverId, out var channelServerData))
 			{
-				Log.Error("Channel with id '{0}' not found.", channelId);
+				Log.Error("Channel with id '{0}' not found.", serverId);
 				return;
 			}
 
-			Send.ZC_MOVE_ZONE_OK(this, channelServer.Ip, channelServer.Port, this.MapId);
+			Send.ZC_MOVE_ZONE_OK(this, channelServerData.Ip, channelServerData.Port, this.MapId);
 		}
 
 		/// <summary>

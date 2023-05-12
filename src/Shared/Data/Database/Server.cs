@@ -13,11 +13,6 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string Ip { get; set; }
 		public int Port { get; set; }
-	}
-
-	[Serializable]
-	public class ChannelServerData : ServerData
-	{
 		public string Maps { get; set; }
 	}
 
@@ -26,14 +21,17 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ServerDb : DatabaseJson<ServerData>
 	{
-		public ServerData FindLogin(int id)
+		/// <summary>
+		/// Returns the server data for the given type and id via out.
+		/// Returns null if no matching entry was found.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public bool TryFind(ServerType type, int id, out ServerData data)
 		{
-			return this.Entries.FirstOrDefault(a => a.Type == ServerType.Login && a.Id == id);
-		}
-
-		public ChannelServerData FindChannel(int id)
-		{
-			return (ChannelServerData)this.Entries.FirstOrDefault(a => a.Type == ServerType.Channel && a.Id == id);
+			data = this.Entries.FirstOrDefault(a => a.Type == type && a.Id == id);
+			return data != null;
 		}
 
 		/// <summary>
@@ -44,60 +42,28 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("type", "id", "ip", "port");
 
-			var type = entry.ReadString("type");
+			var data = new ServerData();
 
-			ServerData data = null;
-
-			switch (type)
-			{
-				case "Login":
-				case "Barracks":
-					data = new ServerData();
-					this.ReadDefault(entry, data);
-
-					break;
-
-				case "Channel":
-				case "Zone":
-					entry.AssertNotMissing("maps");
-
-					var channelData = new ChannelServerData();
-					this.ReadDefault(entry, channelData);
-					channelData.Maps = entry.ReadString("maps");
-
-					data = channelData;
-
-					break;
-
-				default:
-					throw new DatabaseErrorException("Invalid server type '" + type + "'.");
-			}
-
-			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))
-				throw new DatabaseErrorException(string.Format("Duplicate: {0}, {1}", data.Type, data.Id));
-
-			this.Add(data);
-		}
-
-		/// <summary>
-		/// Reads the given entry's values into the data object.
-		/// </summary>
-		/// <param name="entry"></param>
-		/// <param name="data"></param>
-		private void ReadDefault(JObject entry, ServerData data)
-		{
-			data.Type = (ServerType)Enum.Parse(typeof(ServerType), entry.ReadString("type"));
+			data.Type = entry.ReadEnum<ServerType>("type");
 			data.Id = entry.ReadInt("id");
 			data.Ip = entry.ReadString("ip");
 			data.Port = entry.ReadInt("port");
+
+			if (data.Type == ServerType.Zone)
+			{
+				entry.AssertNotMissing("maps");
+				data.Maps = entry.ReadString("maps");
+			}
+
+			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))
+				throw new DatabaseErrorException($"Duplicate: {data.Type}, {data.Id}");
+
+			this.Add(data);
 		}
 	}
 
 	public enum ServerType
 	{
-		Login,
-		Channel,
-
 		Barracks,
 		Zone,
 	}
