@@ -48,22 +48,14 @@ namespace Melia.Barracks
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.LoadData();
+			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
 
 			// Get server data
-			var serverId = 1;
-
-			if (args.Length > 0 && int.TryParse(args[0], out var id))
-				serverId = id;
-
-			if (!this.Data.ServerDb.TryFind(ServerType.Barracks, serverId, out var serverData))
-			{
-				Log.Error("No barracks data for id '{0}' found in 'db/servers.txt'.", serverId);
-				ConsoleUtil.Exit(1);
-			}
+			var serverInfo = this.GetServerInfo(ServerType.Barracks, args);
 
 			// Start listener
-			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverData.Ip, serverData.Port);
+			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Ip, serverInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 

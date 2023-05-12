@@ -144,6 +144,7 @@
     <Compile Include="Network2\Op.cs" />
     <Compile Include="Network2\Packet.cs" />
     <Compile Include="Network2\PacketHandler.cs" />
+    <Compile Include="Network2\ServerList.cs" />
     <Compile Include="Network2\SubOp.cs" />
     <Compile Include="Network2\TosFramer.cs" />
     <Compile Include="Network\Helpers\AccountHelper.cs" />

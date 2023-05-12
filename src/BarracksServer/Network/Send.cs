@@ -331,19 +331,25 @@ namespace Melia.Barracks.Network
 
 					foreach (var mapId in mapIds)
 					{
-						//var availableZoneServers = GetZoneServers(mapId);
-						var availableZoneServers = new int[] { 0 };
+						var availableZoneServers = BarracksServer.Instance.ServerList.GetZoneServers(mapId);
 
 						zpacket.PutShort(mapId);
 						zpacket.PutShort(availableZoneServers.Length);
 
-						for (var zoneIdx = 0; zoneIdx < availableZoneServers.Length; ++zoneIdx)
+						for (var channelId = 0; channelId < availableZoneServers.Length; ++channelId)
 						{
-							var playerCount = availableZoneServers[zoneIdx];//.PlayerCount;
+							var zoneServerInfo = availableZoneServers[(int)channelId];
 
-							zpacket.PutShort(zoneIdx);
-							zpacket.PutShort(playerCount);
-							zpacket.PutShort(maxPlayersPerMap);
+							// The client uses the "channelId" as part of the
+							// channel name. For example, id 0 becomes "Ch 1",
+							// id 1 becomes "Ch 2", etc. Because of this we
+							// can't just send anything here, it needs to be
+							// a sequential number starting from 0 to match
+							// official behavior.
+
+							zpacket.PutShort((int)channelId);
+							zpacket.PutShort(zoneServerInfo.CurrentPlayers);
+							zpacket.PutShort(zoneServerInfo.MaxPlayers);
 						}
 					}
 				}

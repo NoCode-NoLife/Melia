@@ -27,12 +27,20 @@ namespace Melia.Shared.Data
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
 		public PacketStringDb PacketStringDb = new PacketStringDb();
-		public ServerDb ServerDb = new ServerDb();
+		public ServerDb ServerDb;
 		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
 		public StanceConditionDb StanceConditionDb = new StanceConditionDb();
 		public HelpDb HelpDb = new HelpDb();
+
+		public MeliaData()
+		{
+			// Not entirely happy with this design, but I want access to
+			// the map list from the server db to determine which maps
+			// the zone servers serve.
+			this.ServerDb = new ServerDb(this.MapDb);
+		}
 	}
 }

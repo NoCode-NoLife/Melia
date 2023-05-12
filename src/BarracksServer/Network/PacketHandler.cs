@@ -383,34 +383,33 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Sent when clicking [Start Game], to connect to the selected channel.
+		/// Sent when clicking [Start Game], to connect to the selected
+		/// channel.
 		/// </summary>
 		[PacketHandler(Op.CB_START_GAME)]
 		public void CB_START_GAME(IBarracksConnection conn, Packet packet)
 		{
-			var channel = packet.GetShort();
-			var index = packet.GetByte();
+			var channelId = packet.GetShort();
+			var characterIndex = packet.GetShort();
 
 			// Get character
-			var character = conn.Account.GetCharacterByIndex(index);
+			var character = conn.Account.GetCharacterByIndex(characterIndex);
 			if (character == null)
 			{
-				Log.Warning("CB_START_GAME: User '{0}' tried log in with an invalid character ({1}).", conn.Account.Name, index);
+				Log.Warning("CB_START_GAME: User '{0}' tried log in with an invalid character (Index: {1}).", conn.Account.Name, characterIndex);
 				return;
 			}
 
-			// Get channel
-			// TODO: Create a manager server that keeps track of the channels,
-			//   their statuses, etc, broadcast that list to login and the
-			//   channels, and use in places like this.
-			var serverId = 1;
-			if (!BarracksServer.Instance.Data.ServerDb.TryFind(ServerType.Barracks, serverId, out var channelServerData))
+			// Get zone server info
+			if (!BarracksServer.Instance.ServerList.TryGetZoneServer(character.MapId, channelId, out var zoneServerInfo))
 			{
-				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", serverId);
+				Log.Error("CB_START_GAME: Zone server serving map '{0}' with index '{1}' not found.", character.MapId, channelId);
 				return;
 			}
 
-			Send.BC_START_GAMEOK(conn, character, channelServerData.Ip, channelServerData.Port);
+			Log.Debug(zoneServerInfo.Port);
+
+			Send.BC_START_GAMEOK(conn, character, zoneServerInfo.Ip, zoneServerInfo.Port);
 		}
 
 		/// <summary>

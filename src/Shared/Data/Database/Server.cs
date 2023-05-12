@@ -13,7 +13,9 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string Ip { get; set; }
 		public int Port { get; set; }
-		public string Maps { get; set; }
+		public int[] MapIds { get; set; }
+
+		public bool ServesAllMaps => this.MapIds.Length == 1 && this.MapIds[0] == -1;
 	}
 
 	/// <summary>
@@ -21,6 +23,17 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ServerDb : DatabaseJson<ServerData>
 	{
+		private readonly MapDb _mapDb;
+
+		/// <summary>
+		/// Creates new server db.
+		/// </summary>
+		/// <param name="mapDb"></param>
+		public ServerDb(MapDb mapDb)
+		{
+			_mapDb = mapDb;
+		}
+
 		/// <summary>
 		/// Returns the server data for the given type and id via out.
 		/// Returns null if no matching entry was found.
@@ -52,7 +65,23 @@ namespace Melia.Shared.Data.Database
 			if (data.Type == ServerType.Zone)
 			{
 				entry.AssertNotMissing("maps");
-				data.Maps = entry.ReadString("maps");
+
+				if (entry["maps"].Type == JTokenType.Array)
+				{
+					data.MapIds = entry.ReadArray<int>("maps");
+				}
+				else if ((string)entry["maps"] == "all")
+				{
+					data.MapIds = _mapDb.Entries.Values.Select(a => a.Id).ToArray();
+				}
+				else
+				{
+					throw new DatabaseErrorException($"Invalid maps list found on {data.Type}:{data.Id}. Expected 'all' or an array of ids.");
+				}
+			}
+			else
+			{
+				data.MapIds = new int[0];
 			}
 
 			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))

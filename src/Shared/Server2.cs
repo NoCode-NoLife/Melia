@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading;
 using Melia.Shared.Configuration;
 using Melia.Shared.Data;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.L10N;
+using Melia.Shared.Network2;
 using Melia.Shared.Scripting;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
@@ -44,6 +46,11 @@ namespace Melia.Shared
 		/// Returns a reference to the server's string localizer manager.
 		/// </summary>
 		public MultiLocalizer MultiLocalization { get; } = new MultiLocalizer();
+
+		/// <summary>
+		/// Returns a reference to the server list.
+		/// </summary>
+		public ServerList ServerList { get; } = new ServerList();
 
 		/// <summary>
 		/// Starts the server.
@@ -406,6 +413,39 @@ namespace Melia.Shared
 						Log.Error(sb.ToString());
 				}
 			}
+		}
+
+		/// <summary>
+		/// Loads the server list from given database.
+		/// </summary>
+		/// <param name="serverDb"></param>
+		protected void LoadServerList(ServerDb serverDb)
+		{
+			Log.Info("Loading server list...");
+
+			this.ServerList.Load(serverDb);
+		}
+
+		/// <summary>
+		/// Returns the server info for given type and id.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		protected ServerInfo GetServerInfo(ServerType type, string[] args)
+		{
+			var serverId = 1;
+
+			if (args.Length > 0 && int.TryParse(args[0], out var id))
+				serverId = id;
+
+			if (!this.ServerList.TryGet(type, serverId, out var serverData))
+			{
+				Log.Error("No server data for '{0}:{1}' found in 'db/servers.txt'.", type, serverId);
+				ConsoleUtil.Exit(1);
+			}
+
+			return serverData;
 		}
 	}
 }
