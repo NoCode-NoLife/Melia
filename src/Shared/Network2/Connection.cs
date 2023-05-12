@@ -34,15 +34,15 @@ namespace Melia.Shared.Network2
 		void Close();
 
 		/// <summary>
-		/// Closes the connection after the given amount of seconds.
+		/// Closes the connection after the given amount of milliseconds.
 		/// </summary>
 		/// <remarks>
 		/// This gives the client time to, for example, display login
 		/// error messages before the connection is closed and the
 		/// messages get lost.
 		/// </remarks>
-		/// <param name="seconds"></param>
-		void Close(int seconds);
+		/// <param name="milliseconds"></param>
+		void Close(int milliseconds);
 	}
 
 	/// <summary>
@@ -165,17 +165,18 @@ namespace Melia.Shared.Network2
 		}
 
 		/// <summary>
-		/// Closes the connection after the given amount of seconds.
+		/// Closes the connection after the given amount of milliseconds.
 		/// </summary>
 		/// <remarks>
 		/// This gives the client time to, for example, display login
 		/// error messages before the connection is closed and the
 		/// messages get lost.
 		/// </remarks>
-		/// <param name="seconds"></param>
-		public void Close(int seconds)
+		/// <param name="milliseconds"></param>
+		public async void Close(int milliseconds)
 		{
-			Task.Delay(seconds * 1000).ContinueWith(_ => this.Close());
+			await Task.Delay(milliseconds);
+			this.Close();
 		}
 	}
 }
