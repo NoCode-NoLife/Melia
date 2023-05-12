@@ -96,6 +96,14 @@ namespace Melia.Shared.Data.Database
 			return data.Max(a => a.Level);
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <remarks>
+		/// Uses the JSON database to be fed its entries, but doesn't
+		/// adhere to the Entries format and uses custom lists instead.
+		/// </remarks>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			if (entry.ContainsKey("exp"))
@@ -106,6 +114,10 @@ namespace Melia.Shared.Data.Database
 				throw new DatabaseErrorException("Unknown exp type.");
 		}
 
+		/// <summary>
+		/// Reads given EXP entry.
+		/// </summary>
+		/// <param name="expEntry"></param>
 		protected void ReadExpEntry(JObject expEntry)
 		{
 			foreach (JObject entry in expEntry["exp"])
@@ -118,6 +130,10 @@ namespace Melia.Shared.Data.Database
 			}
 		}
 
+		/// <summary>
+		/// Reads given class EXP entry.
+		/// </summary>
+		/// <param name="classExpEntry"></param>
 		protected void ReadClassExpEntry(JObject classExpEntry)
 		{
 			foreach (JObject entry in classExpEntry["classExp"])
@@ -134,9 +150,12 @@ namespace Melia.Shared.Data.Database
 			}
 		}
 
+		/// <summary>
+		/// Called after loading, adds data to Entries so the servers
+		/// can show that something was loaded.
+		/// </summary>
 		protected override void AfterLoad()
 		{
-			// To display that something was loaded.
 			this.Entries.AddRange(_exp.Cast<object>());
 			this.Entries.AddRange(_classExp);
 		}

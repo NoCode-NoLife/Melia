@@ -102,6 +102,10 @@ namespace Melia.Shared.Data.Database
 		public SkillData Find(string className)
 			=> this.Find(a => a.ClassName == className);
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");

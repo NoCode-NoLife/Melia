@@ -51,6 +51,10 @@ namespace Melia.Shared.Data.Database
 			return data.StanceId;
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("jobId", "riding", "rightHand", "leftHand", "stanceId");

@@ -19,11 +19,10 @@ namespace Melia.Shared.Data.Database
 	{
 		private readonly HashSet<string> _classNames = new HashSet<string>();
 
-		public bool Exists(string className)
-		{
-			return _classNames.Contains(className);
-		}
-
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("classId", "className");

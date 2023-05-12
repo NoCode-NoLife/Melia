@@ -16,6 +16,10 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class PacketStringDb : DatabaseJsonIndexed<string, PacketStringData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("name", "id");

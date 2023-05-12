@@ -58,18 +58,34 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MonsterDb : DatabaseJsonIndexed<int, MonsterData>
 	{
+		/// <summary>
+		/// Returns the monster with the given name. Returns null if
+		/// no matching entry was found.
+		/// </summary>
+		/// <param name="name">Name of the monster (case-insensitive)</param>
+		/// <returns></returns>
 		public MonsterData Find(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
 		}
 
-		public List<MonsterData> FindAll(string name)
+		/// <summary>
+		/// Returns a list of all monsters whichs' name contains the given
+		/// string.
+		/// </summary>
+		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <returns></returns>
+		public List<MonsterData> FindAll(string searchString)
 		{
-			name = name.ToLower();
-			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(name)).Select(a => a.Value).ToList();
+			searchString = searchString.ToLower();
+			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(searchString)).Select(a => a.Value).ToList();
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "race", "size", "faction", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");

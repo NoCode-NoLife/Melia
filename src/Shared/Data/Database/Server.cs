@@ -6,6 +6,7 @@ using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {
+	[Serializable]
 	public class ServerData
 	{
 		public ServerType Type { get; set; }
@@ -14,11 +15,15 @@ namespace Melia.Shared.Data.Database
 		public int Port { get; set; }
 	}
 
+	[Serializable]
 	public class ChannelServerData : ServerData
 	{
 		public string Maps { get; set; }
 	}
 
+	/// <summary>
+	/// Server database.
+	/// </summary>
 	public class ServerDb : DatabaseJson<ServerData>
 	{
 		public ServerData FindLogin(int id)
@@ -31,6 +36,10 @@ namespace Melia.Shared.Data.Database
 			return (ChannelServerData)this.Entries.FirstOrDefault(a => a.Type == ServerType.Channel && a.Id == id);
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("type", "id", "ip", "port");
@@ -70,6 +79,11 @@ namespace Melia.Shared.Data.Database
 			this.Add(data);
 		}
 
+		/// <summary>
+		/// Reads the given entry's values into the data object.
+		/// </summary>
+		/// <param name="entry"></param>
+		/// <param name="data"></param>
 		private void ReadDefault(JObject entry, ServerData data)
 		{
 			data.Type = (ServerType)Enum.Parse(typeof(ServerType), entry.ReadString("type"));

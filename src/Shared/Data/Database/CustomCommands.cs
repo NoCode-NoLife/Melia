@@ -14,10 +14,14 @@ namespace Melia.Shared.Data.Database
 	}
 
 	/// <summary>
-	/// Custom command database, indexed by id.
+	/// Custom command database, indexed by their ids.
 	/// </summary>
 	public class CustomCommandDb : DatabaseJsonIndexed<int, CustomCommandData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "name", "script", "useTx");

@@ -54,24 +54,46 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ItemDb : DatabaseJsonIndexed<int, ItemData>
 	{
+		/// <summary>
+		/// Returns the item with the given name or null if there was no
+		/// matching item.
+		/// </summary>
+		/// <param name="name">Name of the item (case-insensitive)</param>
+		/// <returns></returns>
 		public ItemData Find(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
 		}
 
+		/// <summary>
+		/// Returns the item with the given class name or null if there was no
+		/// matching item.
+		/// </summary>
+		/// <param name="name">Name of the item (case-insensitive)</param>
+		/// <returns></returns>
 		public ItemData FindByClass(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FirstOrDefault(a => a.Value.ClassName.ToLower() == name).Value;
 		}
 
-		public List<ItemData> FindAll(string name)
+		/// <summary>
+		/// Returns a list of all items whichs' names contain the given
+		/// string.
+		/// </summary>
+		/// <param name="searchString">String to look for in the item names (case-insensitive)</param>
+		/// <returns></returns>
+		public List<ItemData> FindAll(string searchString)
 		{
-			name = name.ToLower();
-			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(name)).Select(a => a.Value).ToList();
+			searchString = searchString.ToLower();
+			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(searchString)).Select(a => a.Value).ToList();
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("itemId", "className", "name", "localKey", "type", "group", "weight", "maxStack", "price", "sellPrice");
@@ -121,11 +143,16 @@ namespace Melia.Shared.Data.Database
 			this.AddOrReplace(data.Id, data);
 		}
 
+		/// <summary>
+		/// Returns the category for the given item.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		private static InventoryCategory GetCategory(ItemData data)
 		{
-			// As far as I can tell there is nothing in the client to
-			// simplify this. We just have to manually categorize the
-			// items.
+			// This data is not included in the client and as far as I
+			// can tell there is nothing in the client to simplify this.
+			// We just have to manually categorize the items.
 
 			if (data.Group == ItemGroup.Premium)
 			{

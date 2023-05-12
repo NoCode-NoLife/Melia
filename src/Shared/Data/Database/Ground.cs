@@ -27,6 +27,10 @@ namespace Melia.Shared.Data.Database
 
 	public class GroundDb : DatabaseBinaryIndexed<string, GroundData>
 	{
+		/// <summary>
+		/// Reads data from file and adds it to the database.
+		/// </summary>
+		/// <param name="fs"></param>
 		protected override void Read(FileStream fs)
 		{
 			using (var brfs = new BinaryReader(fs))
@@ -40,6 +44,12 @@ namespace Melia.Shared.Data.Database
 			}
 		}
 
+		/// <summary>
+		/// Reads maps from given reader.
+		/// </summary>
+		/// <param name="brfs"></param>
+		/// <param name="compressed"></param>
+		/// <param name="mapCount"></param>
 		private void ReadMaps(BinaryReader brfs, bool compressed, int mapCount)
 		{
 			for (var i = 0; i < mapCount; ++i)
@@ -64,6 +74,10 @@ namespace Melia.Shared.Data.Database
 			}
 		}
 
+		/// <summary>
+		/// Reads one map from given reader.
+		/// </summary>
+		/// <param name="brms"></param>
 		private void ReadMap(BinaryReader brms)
 		{
 			var data = new GroundData();

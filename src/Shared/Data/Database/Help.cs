@@ -21,13 +21,22 @@ namespace Melia.Shared.Data.Database
 	{
 		private readonly Dictionary<string, HelpData> _nameIndex = new Dictionary<string, HelpData>();
 
+		/// <summary>
+		/// Returns the help entry with given name, or null if there was
+		/// no matching entry.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public HelpData Find(string name)
 		{
-			HelpData result;
-			_nameIndex.TryGetValue(name, out result);
+			_nameIndex.TryGetValue(name, out var result);
 			return result;
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "name", "dbSave", "basicHelp");

@@ -51,6 +51,10 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.Where(a => a.JobId == jobId);
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("category", "jobId", "abilityId", "maxLevel", "unlock");

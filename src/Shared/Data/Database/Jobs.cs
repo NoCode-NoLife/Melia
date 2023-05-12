@@ -46,36 +46,6 @@ namespace Melia.Shared.Data.Database
 		public ISet<string> DefaultAbilities { get; set; }
 		public ISet<string> DefaultItems { get; set; }
 		public IDictionary<EquipSlot, string> DefaultEquip { get; set; }
-
-		/// <summary>
-		/// Returns initial HP for this job on level 1.
-		/// </summary>
-		/// <returns></returns>
-		public int GetInitialHp()
-		{
-			var rate = this.HpRate;
-			var stat = this.Con;
-
-			var byJob = Math.Floor(400 * rate);
-			var byStats = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byJob);
-
-			return (int)(byJob + byStats);
-		}
-
-		/// <summary>
-		/// Returns initial HP for this job on level 1.
-		/// </summary>
-		/// <returns></returns>
-		public int GetInitialSp()
-		{
-			var rate = this.SpRate;
-			var stat = this.Spr;
-
-			var byJob = Math.Floor(200 * rate);
-			var byStats = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byJob);
-
-			return (int)(byJob + byStats);
-		}
 	}
 
 	/// <summary>
@@ -83,6 +53,10 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class JobDb : DatabaseJsonIndexed<JobId, JobData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");

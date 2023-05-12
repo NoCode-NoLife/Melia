@@ -14,6 +14,9 @@ namespace Melia.Shared.Data.Database
 		public int OverheatResetTime { get; set; }
 	}
 
+	/// <summary>
+	/// Cooldown database, indexed by their their ids.
+	/// </summary>
 	public class CooldownDb : DatabaseJsonIndexed<int, CooldownData>
 	{
 		/// <summary>
@@ -27,6 +30,10 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "className", "isOverheat", "overheatResetTime");

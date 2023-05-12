@@ -14,10 +14,14 @@ namespace Melia.Shared.Data.Database
 	}
 
 	/// <summary>
-	/// Achievement point database.
+	/// Achievement point database, indexed by their ids.
 	/// </summary>
 	public class AchievementPointDb : DatabaseJsonIndexed<int, AchievementPointData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "className", "useDaily", "useWeekly");

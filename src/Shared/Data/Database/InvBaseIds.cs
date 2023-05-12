@@ -14,10 +14,14 @@ namespace Melia.Shared.Data.Database
 	}
 
 	/// <summary>
-	/// Help database indexed by the help id.
+	/// Inventory category database, indexed by the category type.
 	/// </summary>
 	public class InvBaseIdDb : DatabaseJsonIndexed<InventoryCategory, InvBaseIdData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "baseId", "name");

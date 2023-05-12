@@ -14,6 +14,9 @@ namespace Melia.Shared.Data.Database
 		public HashSet<FactionType> Hostile { get; set; } = new HashSet<FactionType>();
 	}
 
+	/// <summary>
+	/// Faction database, indexed by their types.
+	/// </summary>
 	public class FactionDb : DatabaseJsonIndexed<FactionType, FactionData>
 	{
 		/// <summary>
@@ -30,6 +33,10 @@ namespace Melia.Shared.Data.Database
 			return data.Hostile.Contains(faction2);
 		}
 
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "name");

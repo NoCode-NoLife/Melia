@@ -18,6 +18,10 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ChatMacroDb : DatabaseJsonIndexed<int, ChatMacroData>
 	{
+		/// <summary>
+		/// Reads given entry and adds it to the database.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "name", "pose", "text");
