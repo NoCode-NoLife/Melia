@@ -90,6 +90,18 @@ namespace Melia.Shared.Network2
 			_crypto.Decrypt(buffer, 0, buffer.Length);
 
 			var packet = new Packet(buffer);
+
+			// Check login state
+			if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CB_LOGIN_BY_PASSPORT && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)
+			{
+				if (!this.LoggedIn)
+				{
+					Log.Warning("Non-login packet ({0:X4}) sent before login from '{1}'. Killing connection.", packet.Op, this.Address);
+					this.Close();
+					return;
+				}
+			}
+
 			this.OnPacketReceived(packet);
 		}
 
