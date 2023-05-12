@@ -409,7 +409,7 @@ namespace Melia.Login.Network
 			//   their statuses, etc, broadcast that list to login and the
 			//   channels, and use in places like this.
 			var serverId = 1;
-			if (!LoginServer.Instance.Data.ServerDb.TryFind(ServerType.Barracks, serverId, out var channelServerData))
+			if (!LoginServer.Instance.Data.ServerDb.TryFind(ServerType.Zone, serverId, out var channelServerData))
 			{
 				Log.Error("CB_START_GAME: Channel with id '{0}' not found.", serverId);
 				return;
