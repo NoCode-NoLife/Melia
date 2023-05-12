@@ -186,10 +186,10 @@ namespace Melia.Barracks.Network
 			// response, which affects how the name can be changed from
 			// the client. For example, when changing the name from the
 			// barracks, the function used is different from the one in
-			// the initial setting, and displays a dialog for the TP the
-			// change is gong to cost. Just passing the message back to
-			// the client shouldn't cause any issues, but we could sanity
-			// chech them.
+			// the initial setting, displaying a dialog for the amount
+			// of TP the change is going to cost. Just passing the message
+			// back to the client shouldn't cause any issues, but we could
+			// sanity check them.
 
 			var serverId = packet.GetShort();
 			var name = packet.GetString(64);
