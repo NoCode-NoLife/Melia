@@ -101,7 +101,7 @@ namespace Melia.Barracks.Database
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		public Character GetCharacterByIndex(byte index)
+		public Character GetCharacterByIndex(int index)
 		{
 			lock (_characters)
 				return _characters.FirstOrDefault(a => a.Index == index);
