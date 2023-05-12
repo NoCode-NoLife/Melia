@@ -3,9 +3,6 @@
 //---------------------------------------------------------------------------
 
 [
-{ type: "Login", id: 1, ip: "127.0.0.1", port: 2000 },
-{ type: "Channel", id: 1, ip: "127.0.0.1", port: 7000, maps: "all" },
-
 { type: "Barracks", id: 1, ip: "127.0.0.1", port: 2000 },
 { type: "Zone", id: 1, ip: "127.0.0.1", port: 7001, maps: "all" },
 { type: "Zone", id: 2, ip: "127.0.0.1", port: 7002, maps: "all" },
