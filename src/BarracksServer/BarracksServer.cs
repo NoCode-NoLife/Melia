@@ -7,7 +7,6 @@ using Melia.Shared.Data.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
-using Yggdrasil.Util.Commands;
 
 namespace Melia.Barracks
 {
@@ -19,7 +18,7 @@ namespace Melia.Barracks
 		/// <summary>
 		/// Returns global instance of the barracks server.
 		/// </summary>
-		public static BarracksServer Instance = new BarracksServer();
+		public readonly static BarracksServer Instance = new BarracksServer();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
 
