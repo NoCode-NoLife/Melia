@@ -76,38 +76,36 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("itemId", "className", "name", "localKey", "type", "group", "weight", "maxStack", "price", "sellPrice");
 
-			var info = new ItemData();
+			var data = new ItemData();
 
-			info.Id = entry.ReadInt("itemId");
-			info.ClassName = entry.ReadString("className");
-			info.Name = entry.ReadString("name");
-			info.LocalKey = entry.ReadString("localKey");
-			info.Type = entry.ReadEnum<ItemType>("type");
-			info.Group = entry.ReadEnum<ItemGroup>("group");
-			info.Category = GetCategory(info);
-			info.Weight = entry.ReadFloat("weight", 0);
-			info.MaxStack = entry.ReadInt("maxStack", 1);
-			info.Price = entry.ReadInt("price", 0);
-			info.SellPrice = entry.ReadInt("sellPrice", 0);
-			info.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
-			info.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
-			info.MinLevel = entry.ReadInt("minLevel", 1);
-			info.MinAtk = entry.ReadFloat("minAtk", 0);
-			info.MaxAtk = entry.ReadFloat("maxAtk", 0);
-			info.PAtk = entry.ReadFloat("pAtk", 0);
-			info.MAtk = entry.ReadFloat("mAtk", 0);
-			info.AddMinAtk = entry.ReadFloat("addMinAtk", 0);
-			info.AddMaxAtk = entry.ReadFloat("addMaxAtk", 0);
-			info.AddMAtk = entry.ReadFloat("addMAtk", 0);
-			info.Def = entry.ReadFloat("def", 0);
-			info.MDef = entry.ReadFloat("mDef", 0);
-			info.AddDef = entry.ReadFloat("addDef", 0);
-			info.AddMDef = entry.ReadFloat("addMDef", 0);
+			data.Id = entry.ReadInt("itemId");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
+			data.LocalKey = entry.ReadString("localKey");
+			data.Type = entry.ReadEnum<ItemType>("type");
+			data.Group = entry.ReadEnum<ItemGroup>("group");
+			data.Category = GetCategory(data);
+			data.Weight = entry.ReadFloat("weight", 0);
+			data.MaxStack = entry.ReadInt("maxStack", 1);
+			data.Price = entry.ReadInt("price", 0);
+			data.SellPrice = entry.ReadInt("sellPrice", 0);
+			data.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
+			data.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
+			data.MinLevel = entry.ReadInt("minLevel", 1);
+			data.MinAtk = entry.ReadFloat("minAtk", 0);
+			data.MaxAtk = entry.ReadFloat("maxAtk", 0);
+			data.PAtk = entry.ReadFloat("pAtk", 0);
+			data.MAtk = entry.ReadFloat("mAtk", 0);
+			data.AddMinAtk = entry.ReadFloat("addMinAtk", 0);
+			data.AddMaxAtk = entry.ReadFloat("addMaxAtk", 0);
+			data.AddMAtk = entry.ReadFloat("addMAtk", 0);
+			data.Def = entry.ReadFloat("def", 0);
+			data.MDef = entry.ReadFloat("mDef", 0);
+			data.AddDef = entry.ReadFloat("addDef", 0);
+			data.AddMDef = entry.ReadFloat("addMDef", 0);
 
-			if (entry.ContainsKey("script"))
+			if (entry.TryGetObject("script", out var scriptEntry))
 			{
-				var scriptEntry = (JObject)entry["script"];
-
 				scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
 
 				var scriptData = new ItemScriptData();
@@ -117,10 +115,10 @@ namespace Melia.Shared.Data.Database
 				scriptData.NumArg1 = scriptEntry.ReadFloat("numArg1");
 				scriptData.NumArg2 = scriptEntry.ReadFloat("numArg2");
 
-				info.Script = scriptData;
+				data.Script = scriptData;
 			}
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 
 		private static InventoryCategory GetCategory(ItemData data)

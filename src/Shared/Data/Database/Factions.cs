@@ -45,7 +45,7 @@ namespace Melia.Shared.Data.Database
 					data.Hostile.Add((FactionType)Enum.Parse(typeof(FactionType), factionName));
 			}
 
-			this.Entries[data.Id] = data;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

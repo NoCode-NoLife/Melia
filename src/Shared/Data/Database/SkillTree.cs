@@ -42,7 +42,7 @@ namespace Melia.Shared.Data.Database
 			data.UnlockLevel = entry.ReadInt("unlockLevel");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 
-			this.Entries.Add(data);
+			this.Add(data);
 		}
 	}
 }

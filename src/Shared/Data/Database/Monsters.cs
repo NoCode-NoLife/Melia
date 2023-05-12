@@ -74,38 +74,38 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "race", "size", "faction", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
 
-			var info = new MonsterData();
+			var data = new MonsterData();
 
-			info.Id = entry.ReadInt("monsterId");
-			info.ClassName = entry.ReadString("className");
-			info.Name = entry.ReadString("name");
-			info.LocalKey = entry.ReadString("localKey");
-			info.Race = entry.ReadEnum<RaceType>("race");
-			info.Size = entry.ReadEnum<Size>("size");
-			info.Faction = entry.ReadEnum<FactionType>("faction");
+			data.Id = entry.ReadInt("monsterId");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
+			data.LocalKey = entry.ReadString("localKey");
+			data.Race = entry.ReadEnum<RaceType>("race");
+			data.Size = entry.ReadEnum<Size>("size");
+			data.Faction = entry.ReadEnum<FactionType>("faction");
 
-			info.WalkSpeed = entry.ReadInt("walkSpeed");
-			info.RunSpeed = entry.ReadInt("runSpeed");
+			data.WalkSpeed = entry.ReadInt("walkSpeed");
+			data.RunSpeed = entry.ReadInt("runSpeed");
 
-			info.Level = entry.ReadInt("level");
-			info.Exp = entry.ReadInt("exp");
-			info.ClassExp = entry.ReadInt("classExp");
-			info.Hp = entry.ReadInt("hp");
-			info.Sp = entry.ReadInt("sp");
+			data.Level = entry.ReadInt("level");
+			data.Exp = entry.ReadInt("exp");
+			data.ClassExp = entry.ReadInt("classExp");
+			data.Hp = entry.ReadInt("hp");
+			data.Sp = entry.ReadInt("sp");
 
-			info.PhysicalAttackMin = entry.ReadInt("pAttackMin");
-			info.PhysicalAttackMax = entry.ReadInt("pAttackMax");
-			info.MagicalAttackMin = entry.ReadInt("mAttackMin");
-			info.MagicalAttackMax = entry.ReadInt("mAttackMax");
-			info.PhysicalDefense = entry.ReadInt("pDefense");
-			info.MagicalDefense = entry.ReadInt("mDefense");
-			info.HitRatio = entry.ReadInt("mDefense");
-			info.BlockBreak = entry.ReadInt("mDefense");
-			info.BlockRate = entry.ReadInt("mDefense");
-			info.CritAttack = entry.ReadInt("mDefense");
-			info.CritDefenseRate = entry.ReadInt("mDefense");
-			info.CritHitRate = entry.ReadInt("mDefense");
-			info.DodgeRate = entry.ReadInt("mDefense");
+			data.PhysicalAttackMin = entry.ReadInt("pAttackMin");
+			data.PhysicalAttackMax = entry.ReadInt("pAttackMax");
+			data.MagicalAttackMin = entry.ReadInt("mAttackMin");
+			data.MagicalAttackMax = entry.ReadInt("mAttackMax");
+			data.PhysicalDefense = entry.ReadInt("pDefense");
+			data.MagicalDefense = entry.ReadInt("mDefense");
+			data.HitRatio = entry.ReadInt("mDefense");
+			data.BlockBreak = entry.ReadInt("mDefense");
+			data.BlockRate = entry.ReadInt("mDefense");
+			data.CritAttack = entry.ReadInt("mDefense");
+			data.CritDefenseRate = entry.ReadInt("mDefense");
+			data.CritHitRate = entry.ReadInt("mDefense");
+			data.DodgeRate = entry.ReadInt("mDefense");
 
 			if (entry.ContainsKey("drops"))
 			{
@@ -123,11 +123,11 @@ namespace Melia.Shared.Data.Database
 					if (dropData.MaxAmount < dropData.MinAmount)
 						dropData.MaxAmount = dropData.MinAmount;
 
-					info.Drops.Add(dropData);
+					data.Drops.Add(dropData);
 				}
 			}
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Melia.Shared.Data.Database
 			data.BaseId = entry.ReadInt("baseId");
 			data.Type = entry.ReadEnum<InventoryCategory>("name");
 
-			this.Entries.Add(data.Type, data);
+			this.AddOrReplace(data.Type, data);
 		}
 	}
 }

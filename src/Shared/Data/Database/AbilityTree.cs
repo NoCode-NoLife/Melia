@@ -68,7 +68,7 @@ namespace Melia.Shared.Data.Database
 			data.Unlock = entry.ReadString("unlock", "");
 
 			this.Entries.RemoveAll(a => a.JobId == data.JobId && a.AbilityId == data.AbilityId);
-			this.Entries.Add(data);
+			this.Add(data);
 		}
 	}
 }

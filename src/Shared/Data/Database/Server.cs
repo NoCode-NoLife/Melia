@@ -67,7 +67,7 @@ namespace Melia.Shared.Data.Database
 			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))
 				throw new DatabaseErrorException(string.Format("Duplicate: {0}, {1}", data.Type, data.Id));
 
-			this.Entries.Add(data);
+			this.Add(data);
 		}
 
 		private void ReadDefault(JObject entry, ServerData data)

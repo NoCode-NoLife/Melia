@@ -19,7 +19,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class HelpDb : DatabaseJsonIndexed<int, HelpData>
 	{
-		private Dictionary<string, HelpData> _nameIndex = new Dictionary<string, HelpData>();
+		private readonly Dictionary<string, HelpData> _nameIndex = new Dictionary<string, HelpData>();
 
 		public HelpData Find(string name)
 		{
@@ -39,8 +39,9 @@ namespace Melia.Shared.Data.Database
 			data.DbSave = entry.ReadBool("dbSave");
 			data.BasicHelp = entry.ReadBool("basicHelp");
 
-			this.Entries[data.Id] = data;
 			_nameIndex[data.Name] = data;
+
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

@@ -106,44 +106,44 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "skillFactor", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");
 
-			var info = new SkillData();
+			var data = new SkillData();
 
-			info.Id = (SkillId)entry.ReadInt("skillId");
-			info.ClassName = entry.ReadString("className");
-			info.Name = entry.ReadString("name");
-			info.Element = entry.ReadInt("element");
-			info.BasicSp = entry.ReadFloat("basicSp");
-			info.LvUpSpendSp = entry.ReadFloat("lvUpSpendSp");
+			data.Id = (SkillId)entry.ReadInt("skillId");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
+			data.Element = entry.ReadInt("element");
+			data.BasicSp = entry.ReadFloat("basicSp");
+			data.LvUpSpendSp = entry.ReadFloat("lvUpSpendSp");
 
-			info.Angle = entry.ReadFloat("angle");
-			info.MaxRange = entry.ReadFloat("maxRange");
-			info.WaveLength = entry.ReadFloat("waveLength");
+			data.Angle = entry.ReadFloat("angle");
+			data.MaxRange = entry.ReadFloat("maxRange");
+			data.WaveLength = entry.ReadFloat("waveLength");
 
-			info.SplashType = (SplashType)entry.ReadInt("splashType");
-			info.SplashRange = entry.ReadFloat("splashRange");
-			info.SplashHeight = entry.ReadFloat("splashHeight");
-			info.SplashAngle = entry.ReadFloat("splashAngle");
-			info.SplashRate = entry.ReadFloat("splashRate");
-			info.SkillFactor = entry.ReadFloat("skillFactor");
+			data.SplashType = (SplashType)entry.ReadInt("splashType");
+			data.SplashRange = entry.ReadFloat("splashRange");
+			data.SplashHeight = entry.ReadFloat("splashHeight");
+			data.SplashAngle = entry.ReadFloat("splashAngle");
+			data.SplashRate = entry.ReadFloat("splashRate");
+			data.SkillFactor = entry.ReadFloat("skillFactor");
 
-			info.Cooldown = entry.ReadInt("cooldown");
-			info.CooldownGroup = entry.ReadString("cooldownGroup");
+			data.Cooldown = entry.ReadInt("cooldown");
+			data.CooldownGroup = entry.ReadString("cooldownGroup");
 
-			info.ShootTime = entry.ReadInt("shootTime");
-			info.HitDelay = entry.ReadInt("hitDelay");
-			info.HitTime = entry.ReadList<int>("hitTime");
-			info.HoldTime = entry.ReadList<int>("holdTime");
-			info.DeadHitTime = entry.ReadInt("deadHitDelay");
-			info.EnableCastMove = entry.ReadBool("enableCastMove");
-			info.UseType = entry.ReadEnum<SkillUseType>("useType");
-			info.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
-			info.ClassType = entry.ReadEnum<SkillClassType>("classType");
+			data.ShootTime = entry.ReadInt("shootTime");
+			data.HitDelay = entry.ReadInt("hitDelay");
+			data.HitTime = entry.ReadList<int>("hitTime");
+			data.HoldTime = entry.ReadList<int>("holdTime");
+			data.DeadHitTime = entry.ReadInt("deadHitDelay");
+			data.EnableCastMove = entry.ReadBool("enableCastMove");
+			data.UseType = entry.ReadEnum<SkillUseType>("useType");
+			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
+			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
-			info.Overheat = entry.ReadInt("overheat");
-			info.OverHeatDelay = entry.ReadInt("overheatDelay");
-			info.OverheatGroup = entry.ReadString("overheatGroup");
+			data.Overheat = entry.ReadInt("overheat");
+			data.OverHeatDelay = entry.ReadInt("overheatDelay");
+			data.OverheatGroup = entry.ReadString("overheatGroup");
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

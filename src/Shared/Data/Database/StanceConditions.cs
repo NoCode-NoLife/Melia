@@ -74,7 +74,7 @@ namespace Melia.Shared.Data.Database
 
 			// XXX: Maybe index on a hash of the values?
 
-			this.Entries.Add(data);
+			this.Add(data);
 		}
 	}
 }

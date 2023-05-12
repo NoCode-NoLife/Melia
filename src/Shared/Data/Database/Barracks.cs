@@ -21,13 +21,13 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("mapId", "price", "characters");
 
-			var info = new BarrackData();
+			var data = new BarrackData();
 
-			info.MapId = entry.ReadInt("mapId");
-			info.Price = entry.ReadInt("price");
-			info.Characters = entry.ReadInt("characters");
+			data.MapId = entry.ReadInt("mapId");
+			data.Price = entry.ReadInt("price");
+			data.Characters = entry.ReadInt("characters");
 
-			this.Entries[info.MapId] = info;
+			this.AddOrReplace(data.MapId, data);
 		}
 	}
 }

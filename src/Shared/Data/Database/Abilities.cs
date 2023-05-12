@@ -43,7 +43,7 @@ namespace Melia.Shared.Data.Database
 			data.Level = entry.ReadInt("level");
 			data.Passive = entry.ReadBool("passive");
 
-			this.Entries[data.Id] = data;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

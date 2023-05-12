@@ -29,7 +29,7 @@ namespace Melia.Shared.Data.Database
 			data.UseDaily = entry.ReadBool("useDaily");
 			data.UseWeekly = entry.ReadBool("useWeekly");
 
-			this.Entries[data.Id] = data;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

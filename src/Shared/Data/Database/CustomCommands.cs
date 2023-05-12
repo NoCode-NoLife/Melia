@@ -22,14 +22,14 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "name", "script", "useTx");
 
-			var info = new CustomCommandData();
+			var data = new CustomCommandData();
 
-			info.Id = entry.ReadInt("id");
-			info.Name = entry.ReadString("name");
-			info.Script = entry.ReadString("script");
-			info.UseTx = entry.ReadBool("useTx");
+			data.Id = entry.ReadInt("id");
+			data.Name = entry.ReadString("name");
+			data.Script = entry.ReadString("script");
+			data.UseTx = entry.ReadBool("useTx");
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

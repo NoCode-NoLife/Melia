@@ -22,14 +22,14 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "name", "pose", "text");
 
-			var info = new ChatMacroData();
+			var data = new ChatMacroData();
 
-			info.Id = entry.ReadInt("id");
-			info.Name = entry.ReadString("name");
-			info.Pose = entry.ReadInt("pose");
-			info.Text = entry.ReadString("text");
+			data.Id = entry.ReadInt("id");
+			data.Name = entry.ReadString("name");
+			data.Pose = entry.ReadInt("pose");
+			data.Text = entry.ReadString("text");
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

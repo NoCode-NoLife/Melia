@@ -49,11 +49,11 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "className", "name");
 
-			var info = new SessionObjectData();
+			var data = new SessionObjectData();
 
-			info.Id = entry.ReadInt("id");
-			info.ClassName = entry.ReadString("className");
-			info.Name = entry.ReadString("name");
+			data.Id = entry.ReadInt("id");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
 
 			if (entry.ContainsKey("quest"))
 			{
@@ -72,10 +72,10 @@ namespace Melia.Shared.Data.Database
 				questData.MonsterView = questEntry.ReadList<int>("monsterView", null);
 				questData.MonsterViewTerms = questEntry.ReadList<string>("monsterViewTerms", null);
 
-				info.QuestData = questData;
+				data.QuestData = questData;
 			}
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

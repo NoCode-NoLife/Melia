@@ -19,12 +19,11 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MapDb : DatabaseJsonIndexed<int, MapData>
 	{
-		private Dictionary<string, MapData> _nameIndex = new Dictionary<string, MapData>();
+		private readonly Dictionary<string, MapData> _nameIndex = new Dictionary<string, MapData>();
 
 		public MapData Find(string className)
 		{
-			MapData result;
-			_nameIndex.TryGetValue(className, out result);
+			_nameIndex.TryGetValue(className, out var result);
 			return result;
 		}
 
@@ -32,15 +31,16 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("mapId", "className", "engName", "localKey");
 
-			var info = new MapData();
+			var data = new MapData();
 
-			info.Id = entry.ReadInt("mapId");
-			info.ClassName = entry.ReadString("className");
-			info.EngName = entry.ReadString("engName");
-			info.LocalKey = entry.ReadString("localKey");
+			data.Id = entry.ReadInt("mapId");
+			data.ClassName = entry.ReadString("className");
+			data.EngName = entry.ReadString("engName");
+			data.LocalKey = entry.ReadString("localKey");
 
-			this.Entries[info.Id] = info;
-			_nameIndex[info.ClassName] = info;
+			_nameIndex[data.ClassName] = data;
+
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

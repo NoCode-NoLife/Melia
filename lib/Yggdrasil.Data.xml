@@ -182,6 +182,15 @@
             <param name="data"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Data.Binary.DatabaseBinaryIndexed`2.TryFind(System.Func{`1,System.Boolean},`1@)">
+            <summary>
+            Returns the first entry matching the given predicate via out.
+            Returns false if no matches were found.
+            </summary>
+            <param name="predicate"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Data.CSV.DatabaseCsvBase">
             <summary>
             A text-based database using CSV.
@@ -310,6 +319,15 @@
             if the index wasn't found.
             </summary>
             <param name="index"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.CSV.DatabaseCsvIndexed`2.TryFind(System.Func{`1,System.Boolean},`1@)">
+            <summary>
+            Returns the first entry matching the given predicate via out.
+            Returns false if no matches were found.
+            </summary>
+            <param name="predicate"></param>
             <param name="data"></param>
             <returns></returns>
         </member>
@@ -696,6 +714,15 @@
             if the index wasn't found.
             </summary>
             <param name="index"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.IDatabaseIndexed`2.TryFind(System.Func{`1,System.Boolean},`1@)">
+            <summary>
+            Returns the first entry matching the given predicate via out.
+            Returns false if no matches were found.
+            </summary>
+            <param name="predicate"></param>
             <param name="data"></param>
             <returns></returns>
         </member>

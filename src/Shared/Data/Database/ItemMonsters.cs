@@ -22,7 +22,7 @@ namespace Melia.Shared.Data.Database
 			data.ItemId = entry.ReadInt("itemId");
 			data.MonsterId = entry.ReadInt("monsterId");
 
-			this.Entries[data.ItemId] = data;
+			this.AddOrReplace(data.ItemId, data);
 		}
 	}
 }

@@ -212,6 +212,16 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.TryGetObject(Newtonsoft.Json.Linq.JObject,System.String,Newtonsoft.Json.Linq.JObject@)">
+            <summary>
+            Checks if a field with the given name exists and returns it
+            via out. Returns false if no matching field was found.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Data.JSON.DatabaseJsonBase">
             <summary>
             A text-based database using JSON.

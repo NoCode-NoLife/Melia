@@ -31,14 +31,14 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "className", "isOverheat", "overheatResetTime");
 
-			var info = new CooldownData();
+			var data = new CooldownData();
 
-			info.Id = entry.ReadInt("id");
-			info.ClassName = entry.ReadString("className");
-			info.IsOverheat = entry.ReadBool("isOverheat");
-			info.OverheatResetTime = entry.ReadInt("overheatResetTime");
+			data.Id = entry.ReadInt("id");
+			data.ClassName = entry.ReadString("className");
+			data.IsOverheat = entry.ReadBool("isOverheat");
+			data.OverheatResetTime = entry.ReadInt("overheatResetTime");
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

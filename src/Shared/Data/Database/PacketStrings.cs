@@ -25,7 +25,7 @@ namespace Melia.Shared.Data.Database
 			data.Name = entry.ReadString("name");
 			data.Id = entry.ReadInt("id");
 
-			this.Entries[data.Name] = data;
+			this.AddOrReplace(data.Name, data);
 		}
 	}
 }

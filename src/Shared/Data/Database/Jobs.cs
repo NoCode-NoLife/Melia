@@ -87,69 +87,69 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");
 
-			var info = new JobData();
+			var data = new JobData();
 
-			info.Id = (JobId)entry.ReadInt("jobId");
-			info.ClassName = entry.ReadString("className");
-			info.Initial = entry.ReadString("initial");
-			info.Name = entry.ReadString("name");
-			info.Rank = entry.ReadInt("rank");
-			info.Str = entry.ReadInt("str");
-			info.Con = entry.ReadInt("con");
-			info.Int = entry.ReadInt("int");
-			info.Spr = entry.ReadInt("spr");
-			info.Dex = entry.ReadInt("dex");
-			info.StrRatio = entry.ReadInt("strRatio");
-			info.ConRatio = entry.ReadInt("conRatio");
-			info.IntRatio = entry.ReadInt("intRatio");
-			info.SprRatio = entry.ReadInt("sprRatio");
-			info.DexRatio = entry.ReadInt("dexRatio");
-			info.HpRate = entry.ReadFloat("hpRate");
-			info.SpRate = entry.ReadFloat("spRate");
-			info.Stamina = entry.ReadInt("stamina");
-			info.DefRate = entry.ReadFloat("defRate", 1);
-			info.MDefRate = entry.ReadFloat("mdefRate", 1);
-			info.HrRate = entry.ReadFloat("hrRate", 1);
-			info.DrRate = entry.ReadFloat("drRate", 1);
-			info.BlkRate = entry.ReadFloat("blkRate", 1);
-			info.BlkBreakRate = entry.ReadFloat("blkBreakRate", 1);
-			info.CrtHrRate = entry.ReadFloat("crthrRate", 1);
-			info.CrtDrRate = entry.ReadFloat("crtdrRate", 1);
-			info.RHpRate = entry.ReadFloat("rhpRate", 1);
-			info.RSpRate = entry.ReadFloat("rspRate", 1);
-			info.AtkSpeedRate = entry.ReadFloat("atkSpeedRate", 1);
-			info.MoveSpeedRate = entry.ReadFloat("moveSpeedRate", 1);
-			info.BarrackStance = entry.ReadInt("barrackStance");
+			data.Id = (JobId)entry.ReadInt("jobId");
+			data.ClassName = entry.ReadString("className");
+			data.Initial = entry.ReadString("initial");
+			data.Name = entry.ReadString("name");
+			data.Rank = entry.ReadInt("rank");
+			data.Str = entry.ReadInt("str");
+			data.Con = entry.ReadInt("con");
+			data.Int = entry.ReadInt("int");
+			data.Spr = entry.ReadInt("spr");
+			data.Dex = entry.ReadInt("dex");
+			data.StrRatio = entry.ReadInt("strRatio");
+			data.ConRatio = entry.ReadInt("conRatio");
+			data.IntRatio = entry.ReadInt("intRatio");
+			data.SprRatio = entry.ReadInt("sprRatio");
+			data.DexRatio = entry.ReadInt("dexRatio");
+			data.HpRate = entry.ReadFloat("hpRate");
+			data.SpRate = entry.ReadFloat("spRate");
+			data.Stamina = entry.ReadInt("stamina");
+			data.DefRate = entry.ReadFloat("defRate", 1);
+			data.MDefRate = entry.ReadFloat("mdefRate", 1);
+			data.HrRate = entry.ReadFloat("hrRate", 1);
+			data.DrRate = entry.ReadFloat("drRate", 1);
+			data.BlkRate = entry.ReadFloat("blkRate", 1);
+			data.BlkBreakRate = entry.ReadFloat("blkBreakRate", 1);
+			data.CrtHrRate = entry.ReadFloat("crthrRate", 1);
+			data.CrtDrRate = entry.ReadFloat("crtdrRate", 1);
+			data.RHpRate = entry.ReadFloat("rhpRate", 1);
+			data.RSpRate = entry.ReadFloat("rspRate", 1);
+			data.AtkSpeedRate = entry.ReadFloat("atkSpeedRate", 1);
+			data.MoveSpeedRate = entry.ReadFloat("moveSpeedRate", 1);
+			data.BarrackStance = entry.ReadInt("barrackStance");
 
 			// TODO: It would be good if we could check right here whether
 			//   these skills and items and such actually exist.
 
 			// Skills
-			info.DefaultSkills = new HashSet<string>();
+			data.DefaultSkills = new HashSet<string>();
 			if (entry.ContainsKey("defaultSkills"))
 			{
 				foreach (var name in entry["defaultSkills"])
-					info.DefaultSkills.Add((string)name);
+					data.DefaultSkills.Add((string)name);
 			}
 
 			// Abilities
-			info.DefaultAbilities = new HashSet<string>();
+			data.DefaultAbilities = new HashSet<string>();
 			if (entry.ContainsKey("defaultAbilities"))
 			{
 				foreach (var name in entry["defaultAbilities"])
-					info.DefaultAbilities.Add((string)name);
+					data.DefaultAbilities.Add((string)name);
 			}
 
 			// Items
-			info.DefaultItems = new HashSet<string>();
+			data.DefaultItems = new HashSet<string>();
 			if (entry.ContainsKey("defaultItems"))
 			{
 				foreach (var name in entry["defaultItems"])
-					info.DefaultItems.Add((string)name);
+					data.DefaultItems.Add((string)name);
 			}
 
 			// Equip
-			info.DefaultEquip = new Dictionary<EquipSlot, string>();
+			data.DefaultEquip = new Dictionary<EquipSlot, string>();
 			if (entry.ContainsKey("defaultEquip"))
 			{
 				var equipEntry = (JObject)entry["defaultEquip"];
@@ -158,11 +158,11 @@ namespace Melia.Shared.Data.Database
 					var slot = StringToEquipSlot(pair.Key);
 					var name = pair.Value;
 
-					info.DefaultEquip[slot] = (string)name;
+					data.DefaultEquip[slot] = (string)name;
 				}
 			}
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 
 		/// <summary>

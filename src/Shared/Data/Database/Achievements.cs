@@ -37,7 +37,7 @@ namespace Melia.Shared.Data.Database
 			data.IsRepeatable = entry.ReadBool("repeatable");
 			data.IsAccountReward = entry.ReadBool("account");
 
-			this.Entries[data.Id] = data;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

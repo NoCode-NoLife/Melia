@@ -28,12 +28,12 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("classId", "className");
 
-			var info = new DialogData();
+			var data = new DialogData();
 
-			info.ClassId = entry.ReadInt("DialogId");
-			info.ClassName = entry.ReadString("className");
+			data.ClassId = entry.ReadInt("DialogId");
+			data.ClassName = entry.ReadString("className");
 
-			this.Entries.Add(info);
+			this.Add(data);
 		}
 
 		protected override void AfterLoad()

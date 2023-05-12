@@ -31,22 +31,22 @@ namespace Melia.Shared.Data.Database
 		{
 			entry.AssertNotMissing("id", "className", "name", "level", "duration", "overBuff", "updateTime", "buffExpUp", "removable", "removeOnDeath", "removeBySkill", "updateProperties");
 
-			var info = new BuffData();
+			var data = new BuffData();
 
-			info.Id = (BuffId)entry.ReadInt("id");
-			info.ClassName = entry.ReadString("className");
-			info.Name = entry.ReadString("name");
-			info.Level = entry.ReadInt("level");
-			info.Duration = TimeSpan.FromMilliseconds(entry.ReadInt("duration"));
-			info.UpdateTime = TimeSpan.FromMilliseconds(entry.ReadInt("updateTime"));
-			info.OverBuff = entry.ReadInt("overBuff");
-			info.BuffUpExp = entry.ReadInt("buffExpUp");
-			info.Removable = entry.ReadBool("removable");
-			info.RemoveOnDeath = entry.ReadBool("removeOnDeath");
-			info.RemoveBySkill = entry.ReadBool("removeBySkill");
-			info.UpdateProperties = entry.ReadString("updateProperties");
+			data.Id = (BuffId)entry.ReadInt("id");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
+			data.Level = entry.ReadInt("level");
+			data.Duration = TimeSpan.FromMilliseconds(entry.ReadInt("duration"));
+			data.UpdateTime = TimeSpan.FromMilliseconds(entry.ReadInt("updateTime"));
+			data.OverBuff = entry.ReadInt("overBuff");
+			data.BuffUpExp = entry.ReadInt("buffExpUp");
+			data.Removable = entry.ReadBool("removable");
+			data.RemoveOnDeath = entry.ReadBool("removeOnDeath");
+			data.RemoveBySkill = entry.ReadBool("removeBySkill");
+			data.UpdateProperties = entry.ReadString("updateProperties");
 
-			this.Entries[info.Id] = info;
+			this.AddOrReplace(data.Id, data);
 		}
 	}
 }

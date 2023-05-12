@@ -56,7 +56,7 @@ namespace Melia.Shared.Data.Database
 				shopData = new ShopData();
 				shopData.Name = data.ShopName;
 
-				this.Entries[data.ShopName] = shopData;
+				this.AddOrReplace(data.ShopName, shopData);
 			}
 
 			shopData.Products[data.Id] = data;
