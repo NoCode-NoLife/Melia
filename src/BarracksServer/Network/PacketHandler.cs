@@ -464,16 +464,15 @@ namespace Melia.Barracks.Network
 			{
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 
-				// Even though the integrity check fails, send these packets
-				// as well. This is done because the client is in a hanging
-				// state waiting for these packets. Without these, the invalid
-				// IPF message will not be visible.
+				// Send these packets as well, even if the integrity check
+				// fails, because the client is in a hanging state waiting
+				// for them. If they aren't sent, the invalid IPF message
+				// will not be shown.
 				Send.BC_COMMANDER_LIST(conn);
 				Send.BC_NORMAL_ZoneTraffic(conn);
 				Send.BC_NORMAL_TeamUI(conn);
 
-				// Terminate any further requests from the client at this point.
-				//conn.IgnorePackets = true;
+				conn.Close(100);
 			}
 		}
 
