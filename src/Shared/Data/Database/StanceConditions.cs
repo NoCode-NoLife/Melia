@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {
@@ -62,11 +64,12 @@ namespace Melia.Shared.Data.Database
 			var rightHand = entry.ReadString("rightHand", null);
 			if (!Enum.TryParse<EquipType>(rightHand, out var rightHandType))
 				throw new DatabaseErrorException($"Invalid equip type '{rightHand}'.");
-			data.RightHand = rightHandType;
 
 			var leftHand = entry.ReadString("leftHand", null);
 			if (!Enum.TryParse<EquipType>(leftHand, out var leftHandType))
 				throw new DatabaseErrorException($"Invalid equip type '{leftHand}'.");
+
+			data.RightHand = rightHandType;
 			data.LeftHand = leftHandType;
 
 			// XXX: Maybe index on a hash of the values?

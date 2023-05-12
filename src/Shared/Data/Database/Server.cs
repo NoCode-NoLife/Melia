@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {
@@ -21,12 +23,12 @@ namespace Melia.Shared.Data.Database
 	{
 		public ServerData FindLogin(int id)
 		{
-			return this.FirstOrDefault(a => a.Type == ServerType.Login && a.Id == id);
+			return this.Entries.FirstOrDefault(a => a.Type == ServerType.Login && a.Id == id);
 		}
 
 		public ChannelServerData FindChannel(int id)
 		{
-			return (ChannelServerData)this.FirstOrDefault(a => a.Type == ServerType.Channel && a.Id == id);
+			return (ChannelServerData)this.Entries.FirstOrDefault(a => a.Type == ServerType.Channel && a.Id == id);
 		}
 
 		protected override void ReadEntry(JObject entry)

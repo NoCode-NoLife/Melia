@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {
@@ -68,7 +69,7 @@ namespace Melia.Shared.Data.Database
 		public List<ItemData> FindAll(string name)
 		{
 			name = name.ToLower();
-			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
+			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(name)).Select(a => a.Value).ToList();
 		}
 
 		protected override void ReadEntry(JObject entry)

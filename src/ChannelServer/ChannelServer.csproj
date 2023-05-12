@@ -59,6 +59,14 @@
     <Reference Include="Ubiety.Dns.Core">
       <HintPath>..\..\lib\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Yggdrasil.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\Base\IBuffHandler.cs" />

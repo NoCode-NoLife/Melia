@@ -98,7 +98,7 @@ namespace Melia.Channel.Database
 		private void LoadDefaultChatMacros()
 		{
 			// Get all and add a maximum of 10
-			var macroData = ChannelServer.Instance.Data.ChatMacroDb.OrderBy(x => x.Id);
+			var macroData = ChannelServer.Instance.Data.ChatMacroDb.Entries.Values.OrderBy(x => x.Id);
 
 			var i = 1;
 			foreach (var data in macroData)

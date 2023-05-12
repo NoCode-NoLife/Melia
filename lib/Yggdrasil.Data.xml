@@ -49,6 +49,11 @@
             </summary>
             <param name="filePath"></param>
         </member>
+        <member name="M:Yggdrasil.Data.Binary.DatabaseBinaryBase.AfterLoad">
+            <summary>
+            Called at the end of LoadFile.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Data.Binary.DatabaseBinaryBase.Read(System.IO.FileStream)">
             <summary>
             Reads entries from binary reader.
@@ -203,6 +208,11 @@
             Loads data from given file.
             </summary>
             <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Data.CSV.DatabaseCsvBase.AfterLoad">
+            <summary>
+            Called at the end of LoadFile.
+            </summary>
         </member>
         <member name="M:Yggdrasil.Data.CSV.DatabaseCsvBase.ReadEntry(Yggdrasil.Data.CSV.CsvEntry)">
             <summary>
@@ -739,6 +749,12 @@
             Information about a major issue that was encountered while
             reading a database.
             </summary>
+        </member>
+        <member name="M:Yggdrasil.Data.DatabaseErrorException.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="msg"></param>
         </member>
         <member name="M:Yggdrasil.Data.DatabaseErrorException.#ctor(System.String,System.String)">
             <summary>

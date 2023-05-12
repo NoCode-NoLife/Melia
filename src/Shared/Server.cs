@@ -7,8 +7,10 @@ using Melia.Shared.Database;
 using Melia.Shared.Scripting;
 using Melia.Shared.Util;
 using Melia.Shared.Util.Configuration;
+using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Scripting;
+using Yggdrasil.Util;
 
 namespace Melia.Shared
 {
@@ -199,28 +201,34 @@ namespace Melia.Shared
 		/// Loads db, first from system, then from user.
 		/// Logs problems as warnings.
 		/// </summary>
-		private void LoadDb(IDatabase db, string path, bool reload, bool log = true)
+		private void LoadDb(IDatabase db, string fileName, bool reload, bool log = true)
 		{
-			var systemPath = Path.Combine("system", path).Replace('\\', '/');
-			var userPath = Path.Combine("user", path).Replace('\\', '/');
-
-			string cachePath = null;
-			//var cachePath = Path.Combine("cache", path).Replace('\\', '/');
-			//cachePath = Path.ChangeExtension(cachePath, "mpk");
-			//var cacheDir = Path.GetDirectoryName(cachePath);
-			//if (!Directory.Exists(cacheDir))
-			//	Directory.CreateDirectory(cacheDir);
+			var systemPath = Path.Combine("system", fileName).Replace('\\', '/');
+			var userPath = Path.Combine("user", fileName).Replace('\\', '/');
 
 			if (!File.Exists(systemPath))
-				throw new FileNotFoundException("Data file '" + systemPath + "' couldn't be found.", systemPath);
+			{
+				Log.Error("LoadDataFile: File '{0}' not found.", systemPath);
+				ConsoleUtil.Exit(1);
+				return;
+			}
 
-			db.Load(new string[] { systemPath, userPath }, cachePath, reload);
-
-			foreach (var ex in db.Warnings)
+			db.Clear();
+			db.LoadFile(systemPath);
+			foreach (var ex in db.GetWarnings())
 				Log.Warning("{0}", ex.ToString());
 
-			if (log)
-				Log.Info("  done loading {0} entries from {1}", db.Count, Path.GetFileName(path));
+			if (File.Exists(userPath))
+			{
+				db.LoadFile(userPath);
+				foreach (var ex in db.GetWarnings())
+					Log.Warning("{0}", ex.ToString());
+			}
+
+			if (db.Count == 1)
+				Log.Info("  done loading {0} entry from {1}.", db.Count, fileName);
+			else
+				Log.Info("  done loading {0} entries from {1}.", db.Count, fileName);
 		}
 
 		/// <summary>

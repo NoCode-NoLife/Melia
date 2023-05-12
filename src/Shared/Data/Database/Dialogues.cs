@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {
@@ -16,7 +17,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class DialogDb : DatabaseJson<DialogData>
 	{
-		private HashSet<string> _classNames = new HashSet<string>();
+		private readonly HashSet<string> _classNames = new HashSet<string>();
 
 		public bool Exists(string className)
 		{

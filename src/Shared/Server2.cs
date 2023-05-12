@@ -10,6 +10,7 @@ using Melia.Shared.Data;
 using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Scripting;
+using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
@@ -233,27 +234,34 @@ namespace Melia.Shared
 		/// Loads db, first from system, then from user.
 		/// Logs problems as warnings.
 		/// </summary>
-		private void LoadDb(IDatabase db, string path)
+		private void LoadDb(IDatabase db, string fileName)
 		{
-			var systemPath = Path.Combine("system", path).Replace('\\', '/');
-			var userPath = Path.Combine("user", path).Replace('\\', '/');
-
-			string cachePath = null;
-			//var cachePath = Path.Combine("cache", path).Replace('\\', '/');
-			//cachePath = Path.ChangeExtension(cachePath, "mpk");
-			//var cacheDir = Path.GetDirectoryName(cachePath);
-			//if (!Directory.Exists(cacheDir))
-			//	Directory.CreateDirectory(cacheDir);
+			var systemPath = Path.Combine("system", fileName).Replace('\\', '/');
+			var userPath = Path.Combine("user", fileName).Replace('\\', '/');
 
 			if (!File.Exists(systemPath))
-				throw new FileNotFoundException("Data file '" + systemPath + "' couldn't be found.", systemPath);
+			{
+				Log.Error("LoadDataFile: File '{0}' not found.", systemPath);
+				ConsoleUtil.Exit(1);
+				return;
+			}
 
-			db.Load(new string[] { systemPath, userPath }, cachePath, true);
+			db.Clear();
+			db.LoadFile(systemPath);
+			foreach (var ex in db.GetWarnings())
+				Log.Warning(ex);
 
-			foreach (var ex in db.Warnings)
-				Log.Warning("{0}", ex.ToString());
+			if (File.Exists(userPath))
+			{
+				db.LoadFile(userPath);
+				foreach (var ex in db.GetWarnings())
+					Log.Warning(ex);
+			}
 
-			Log.Info("  done loading {0} entries from {1}", db.Count, Path.GetFileName(path));
+			if (db.Count == 1)
+				Log.Info("  done loading {0} entry from {1}.", db.Count, fileName);
+			else
+				Log.Info("  done loading {0} entries from {1}.", db.Count, fileName);
 		}
 
 		/// <summary>

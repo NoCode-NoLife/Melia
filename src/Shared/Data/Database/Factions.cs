@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Melia.Shared.Const;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {

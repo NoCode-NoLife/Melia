@@ -261,7 +261,7 @@ namespace Melia.Channel.Util
 			if (!int.TryParse(args[1], out var itemId))
 				return CommandResult.InvalidArgument;
 
-			if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+			if (!ChannelServer.Instance.Data.ItemDb.Contains(itemId))
 			{
 				sender.ServerMessage("Item not found.");
 				return CommandResult.Okay;
@@ -433,7 +433,7 @@ namespace Melia.Channel.Util
 			var addedCount = 0;
 			for (var itemId = 628001; itemId <= 629503; ++itemId)
 			{
-				if (!ChannelServer.Instance.Data.ItemDb.Exists(itemId))
+				if (!ChannelServer.Instance.Data.ItemDb.Contains(itemId))
 					continue;
 
 				if (!sender.Inventory.HasItem(itemId))
@@ -1111,7 +1111,7 @@ namespace Melia.Channel.Util
 				return CommandResult.InvalidArgument;
 
 			var jobId = (JobId)iJobId;
-			if (!ChannelServer.Instance.Data.JobDb.Exists(jobId))
+			if (!ChannelServer.Instance.Data.JobDb.Contains(jobId))
 			{
 				sender.ServerMessage("Job data for '{0}' not found.", jobId);
 				return CommandResult.Okay;

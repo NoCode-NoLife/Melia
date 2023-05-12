@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
 {

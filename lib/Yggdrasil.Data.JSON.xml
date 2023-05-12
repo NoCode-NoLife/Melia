@@ -90,6 +90,24 @@
             <param name="def"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadLong(Newtonsoft.Json.Linq.JObject,System.String,System.Int64)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadULong(Newtonsoft.Json.Linq.JObject,System.String,System.UInt64)">
+            <summary>
+            Reads value and returns it, or default if it was missing.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadFloat(Newtonsoft.Json.Linq.JObject,System.String,System.Single)">
             <summary>
             Reads value and returns it, or default if it was missing.
@@ -132,6 +150,16 @@
             <returns></returns>
         </member>
         <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadArray``1(Newtonsoft.Json.Linq.JObject,System.String,``0[])">
+            <summary>
+            Reads and returns single value array.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadList``1(Newtonsoft.Json.Linq.JObject,System.String,System.Collections.Generic.List{``0})">
             <summary>
             Reads and returns single value array.
             </summary>
@@ -205,6 +233,11 @@
             Loads data from given file.
             </summary>
             <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonBase.AfterLoad">
+            <summary>
+            Called at the end of LoadFile.
+            </summary>
         </member>
         <member name="M:Yggdrasil.Data.JSON.DatabaseJsonBase.ReadEntry(Newtonsoft.Json.Linq.JObject)">
             <summary>
@@ -302,6 +335,15 @@
             if the index wasn't found.
             </summary>
             <param name="index"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Data.JSON.DatabaseJsonIndexed`2.TryFind(System.Func{`1,System.Boolean},`1@)">
+            <summary>
+            Returns the first entry matching the given predicate via out.
+            Returns false if no matches were found.
+            </summary>
+            <param name="predicate"></param>
             <param name="data"></param>
             <returns></returns>
         </member>

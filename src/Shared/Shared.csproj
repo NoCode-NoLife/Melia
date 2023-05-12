@@ -64,6 +64,12 @@
     <Reference Include="Yggdrasil">
       <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil.Data">
+      <HintPath>..\..\lib\Yggdrasil.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil.Data.JSON">
+      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
+    </Reference>
     <Reference Include="Yggdrasil.Scripting">
       <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
     </Reference>
@@ -123,14 +129,7 @@
     <Compile Include="Data\Database\Maps.cs" />
     <Compile Include="Data\Database\Server.cs" />
     <Compile Include="Data\MeliaData.cs" />
-    <Compile Include="Data\CsvReader.cs" />
-    <Compile Include="Data\Database.cs" />
-    <Compile Include="Data\DatabaseCsv.cs" />
-    <Compile Include="Data\DatabaseDat.cs" />
-    <Compile Include="Data\DatabaseJson.cs" />
     <Compile Include="Data\Database\Items.cs" />
-    <Compile Include="Data\Exceptions.cs" />
-    <Compile Include="Data\Extensions.cs" />
     <Compile Include="EntityComponents\Component.cs" />
     <Compile Include="EntityComponents\ComponentCollection.cs" />
     <Compile Include="L10N\Localization.cs" />
