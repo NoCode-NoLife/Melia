@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network;
+using Melia.Barracks.Util;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Yggdrasil.Logging;
@@ -69,7 +70,7 @@ namespace Melia.Barracks
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
 
 			ConsoleUtil.RunningTitle();
-			new ConsoleCommands().Wait();
+			new BarracksConsoleCommands().Wait();
 		}
 
 		/// <summary>

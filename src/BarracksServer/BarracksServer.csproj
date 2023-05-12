@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarracksServer.cs" />
+    <Compile Include="Commands\BarracksConsoleCommands.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Character.cs" />
     <Compile Include="Database\EquipItem.cs" />
