@@ -611,6 +611,23 @@
             <param name="list">The list.</param>
             <returns></returns>
         </member>
+        <member name="T:Yggdrasil.Extensions.IpAddressExtensions">
+            <summary>
+            Extensions for IPAddress.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.IpAddressExtensions.ToInt32(System.Net.IPAddress,Yggdrasil.Util.Endianness)">
+            <summary>
+            Returns IP address as integer.
+            </summary>
+            <example>
+            IPAddress.Parse("127.0.0.1").ToInt32(); // 0x0100007F
+            IPAddress.Parse("127.0.0.1", Endianness.BigEndian).ToInt32(); // 0x7F000001
+            </example>
+            <param name="ipAddress"></param>
+            <param name="endianness"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Extensions.QueueExtensions">
             <summary>
             Extensions for the Queue class.
