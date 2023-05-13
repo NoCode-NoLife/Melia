@@ -11,6 +11,7 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Network;
+using Melia.Shared.Scripting;
 
 namespace Melia.Zone.World.Entities
 {
@@ -191,7 +192,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Character's scripting variables.
 		/// </summary>
-		public Variables Variables { get; private set; } = new Variables();
+		public VariablesContainer Variables { get; } = new VariablesContainer();
 
 		/// <summary>
 		/// Specifies which hats are visible on the character.
@@ -356,7 +357,7 @@ namespace Melia.Zone.World.Entities
 
 			// We need something to check whether the properties were
 			// already initialized. Let's just use a variable for that.
-			if (!this.Variables.Perm.Defined("PropertiesInitialized"))
+			if (!this.Variables.Perm.Has("PropertiesInitialized"))
 			{
 				this.Properties.Set(PropertyId.PC.Lv, 1);
 				this.Exp = 0;
@@ -373,7 +374,7 @@ namespace Melia.Zone.World.Entities
 
 				(this.Properties as CharacterProperties).Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
 
-				this.Variables.Perm["PropertiesInitialized"] = true;
+				this.Variables.Perm.SetBool("PropertiesInitialized", true);
 			}
 
 			var properties = (this.Properties as CharacterProperties);

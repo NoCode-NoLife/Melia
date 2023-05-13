@@ -40,7 +40,7 @@ namespace Melia.Zone.Buffs.Handlers
 				// those modifiers. Let's stick to this solution for
 				// now, even if it's not the prettiest.
 				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm[ModifierVar] = modifier + add;
+				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
 			}
 			else
 			{
@@ -55,7 +55,7 @@ namespace Melia.Zone.Buffs.Handlers
 				target.Properties.Modify(PropertyId.PC.MSPD_BM, add);
 
 				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm[ModifierVar] = modifier + add;
+				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
 			}
 
 			Send.ZC_MOVE_SPEED(target);

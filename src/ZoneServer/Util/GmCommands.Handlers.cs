@@ -1324,10 +1324,10 @@ namespace Melia.Zone.Util
 		/// <returns></returns>
 		private CommandResult HandleUpdateMouse(IZoneConnection conn, Character sender, Character target, string command, string[] args)
 		{
-			sender.Variables.Temp["MouseX"] = float.Parse(args[1], CultureInfo.InvariantCulture);
-			sender.Variables.Temp["MouseY"] = float.Parse(args[2], CultureInfo.InvariantCulture);
-			sender.Variables.Temp["ScreenWidth"] = float.Parse(args[3], CultureInfo.InvariantCulture);
-			sender.Variables.Temp["ScreenHeight"] = float.Parse(args[4], CultureInfo.InvariantCulture);
+			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args[1], CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args[2], CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args[3], CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args[4], CultureInfo.InvariantCulture));
 
 			return CommandResult.Okay;
 		}

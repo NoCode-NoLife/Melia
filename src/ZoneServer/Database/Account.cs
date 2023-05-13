@@ -3,6 +3,7 @@ using System.Linq;
 using Melia.Zone.Scripting;
 using Melia.Zone.World;
 using Melia.Shared.Network2.Helpers;
+using Melia.Shared.Scripting;
 
 namespace Melia.Zone.Database
 {
@@ -14,12 +15,12 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// List of chat macros associated with the account.
 		/// </summary>
-		private IList<ChatMacro> _chatMacros;
+		private readonly IList<ChatMacro> _chatMacros;
 
 		/// <summary>
 		/// List of the revealed maps the user has explored.
 		/// </summary>
-		private Dictionary<int, RevealedMap> _revealedMaps;
+		private readonly Dictionary<int, RevealedMap> _revealedMaps;
 
 		/// <summary>
 		/// Account id
@@ -75,7 +76,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Account's scripting variables.
 		/// </summary>
-		public Variables Variables { get; private set; }
+		public VariablesContainer Variables { get; } = new VariablesContainer();
 
 		/// <summary>
 		/// Creates new account.
@@ -85,7 +86,6 @@ namespace Melia.Zone.Database
 			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
 			this.Settings = new AccountSettings();
-			this.Variables = new Variables();
 			_chatMacros = new List<ChatMacro>();
 			_revealedMaps = new Dictionary<int, RevealedMap>();
 

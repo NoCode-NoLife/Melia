@@ -13,6 +13,8 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
+using Melia.Shared.Scripting;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Database
 {
@@ -641,7 +643,7 @@ namespace Melia.Zone.Database
 		/// </summary>
 		/// <param name="owner"></param>
 		/// <param name="vars"></param>
-		public void SaveVariables(string owner, VariableManager vars)
+		public void SaveVariables(string owner, Variables vars)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
@@ -715,7 +717,7 @@ namespace Melia.Zone.Database
 		/// </summary>
 		/// <param name="owner"></param>
 		/// <returns></returns>
-		public void LoadVars(string owner, VariableManager vars)
+		public void LoadVars(string owner, Variables vars)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `vars` WHERE `owner` = @owner", conn))
@@ -737,18 +739,18 @@ namespace Melia.Zone.Database
 						{
 							switch (type)
 							{
-								case "1u": vars[name] = byte.Parse(val); break;
-								case "2u": vars[name] = ushort.Parse(val); break;
-								case "4u": vars[name] = uint.Parse(val); break;
-								case "8u": vars[name] = ulong.Parse(val); break;
-								case "1": vars[name] = sbyte.Parse(val); break;
-								case "2": vars[name] = short.Parse(val); break;
-								case "4": vars[name] = int.Parse(val); break;
-								case "8": vars[name] = long.Parse(val); break;
-								case "f": vars[name] = float.Parse(val, CultureInfo.InvariantCulture); break;
-								case "d": vars[name] = double.Parse(val, CultureInfo.InvariantCulture); break;
-								case "b": vars[name] = bool.Parse(val); break;
-								case "s": vars[name] = val; break;
+								case "1u": vars.Set(name, byte.Parse(val)); break;
+								case "2u": vars.Set(name, ushort.Parse(val)); break;
+								case "4u": vars.Set(name, uint.Parse(val)); break;
+								case "8u": vars.Set(name, ulong.Parse(val)); break;
+								case "1": vars.Set(name, sbyte.Parse(val)); break;
+								case "2": vars.Set(name, short.Parse(val)); break;
+								case "4": vars.Set(name, int.Parse(val)); break;
+								case "8": vars.Set(name, long.Parse(val)); break;
+								case "f": vars.Set(name, float.Parse(val, CultureInfo.InvariantCulture)); break;
+								case "d": vars.Set(name, double.Parse(val, CultureInfo.InvariantCulture)); break;
+								case "b": vars.Set(name, bool.Parse(val)); break;
+								case "s": vars.Set(name, val); break;
 
 								default:
 									Log.Warning("LoadVars: Unknown variable type '{0}'.", type);
