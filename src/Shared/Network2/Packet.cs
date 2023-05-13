@@ -1,21 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
-using Newtonsoft.Json.Linq;
 using Yggdrasil.Util;
 
 namespace Melia.Shared.Network2
 {
 	public class Packet
 	{
-		private const int DefaultSize = 1024;
-
-		private BufferReaderWriter _buffer;
-		private int _bodyStart;
+		private readonly BufferReaderWriter _buffer;
+		private readonly int _bodyStart;
 
 		/// <summary>
 		/// Returns the length of the packet's buffer.

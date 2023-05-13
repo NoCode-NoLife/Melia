@@ -517,8 +517,7 @@ namespace Melia.Channel.World.Entities
 		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
 		public void Warp(string mapName, Position pos)
 		{
-			var map = ChannelServer.Instance.Data.MapDb.Find(mapName);
-			if (map == null)
+			if (!ChannelServer.Instance.Data.MapDb.TryFind(mapName, out var map))
 				throw new ArgumentException("Map '" + mapName + "' not found in data.");
 
 			this.Warp(map.Id, pos);
@@ -532,8 +531,7 @@ namespace Melia.Channel.World.Entities
 		/// <exception cref="ArgumentException">Thrown if map doesn't exist in world.</exception>
 		public void Warp(int mapId, Position pos)
 		{
-			var map = ChannelServer.Instance.World.GetMap(mapId);
-			if (map == null)
+			if (!ChannelServer.Instance.World.TryGetMap(mapId, out var map))
 				throw new ArgumentException("Map with id '" + mapId + "' doesn't exist in world.");
 
 			this.Position = pos;

@@ -14,12 +14,12 @@ namespace Melia.Channel.Database
 		/// <summary>
 		/// List of chat macros associated with the account.
 		/// </summary>
-		private IList<ChatMacro> _chatMacros;
+		private readonly IList<ChatMacro> _chatMacros;
 
 		/// <summary>
 		/// List of the revealed maps the user has explored.
 		/// </summary>
-		private Dictionary<int, RevealedMap> _revealedMaps;
+		private readonly Dictionary<int, RevealedMap> _revealedMaps;
 
 		/// <summary>
 		/// Account id

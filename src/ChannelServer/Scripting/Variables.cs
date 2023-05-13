@@ -20,7 +20,7 @@ namespace Melia.Channel.Scripting
 	/// </summary>
 	public class VariableManager
 	{
-		private Dictionary<string, object> _variables;
+		private readonly Dictionary<string, object> _variables;
 
 		/// <summary>
 		/// Last time a variable was changed.
