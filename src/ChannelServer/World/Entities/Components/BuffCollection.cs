@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.World.Entities;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World

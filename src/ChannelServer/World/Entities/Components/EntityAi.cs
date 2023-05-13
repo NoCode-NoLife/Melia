@@ -6,7 +6,7 @@ using System.Reflection;
 using Melia.Channel.Network;
 using Melia.Channel.World.Entities.Components.AI;
 using Melia.Channel.World.Entities.Components.AI.Events;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 using Melia.Shared.World;

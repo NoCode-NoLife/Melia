@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Barracks.Network.Helpers;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 

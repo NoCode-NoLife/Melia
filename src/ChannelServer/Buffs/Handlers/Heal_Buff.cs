@@ -1,6 +1,6 @@
 ﻿using Melia.Channel.Buffs.Base;
 using Melia.Channel.World;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Channel.Buffs.Handlers
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Channel.Buffs
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 

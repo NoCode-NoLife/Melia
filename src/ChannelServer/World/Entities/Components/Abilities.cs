@@ -2,7 +2,7 @@
 using System.Linq;
 using Melia.Channel.Network;
 using Melia.Channel.Skills;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.EntityComponents;
 
 namespace Melia.Channel.World.Entities.Components

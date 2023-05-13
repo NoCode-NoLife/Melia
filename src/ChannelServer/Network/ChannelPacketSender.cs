@@ -7,7 +7,7 @@ using Melia.Channel.Skills;
 using Melia.Channel.World;
 using Melia.Channel.World.Entities;
 using Melia.Channel.World.Entities.Components;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;

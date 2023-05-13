@@ -4,7 +4,7 @@ using Melia.Channel.Network;
 using Melia.Channel.Skills;
 using Melia.Channel.World.Entities.Components;
 using Melia.Channel.World.Entities.Components.AI.Events;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;

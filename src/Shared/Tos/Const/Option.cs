@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Const
+﻿namespace Melia.Shared.Tos.Const
 {
 	// TODO: config.ies has all values, incl. defaults. Make a db as well?
 	public enum Option

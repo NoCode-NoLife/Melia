@@ -2,7 +2,7 @@
 using System.Linq;
 using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 

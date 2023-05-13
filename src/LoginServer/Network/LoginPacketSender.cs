@@ -3,7 +3,7 @@ using System.Net;
 using Melia.Login.Database;
 using Melia.Login.Network.Helpers;
 using Melia.Login.World;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;

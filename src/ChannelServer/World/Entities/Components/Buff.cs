@@ -1,7 +1,7 @@
 ﻿using System;
 using Melia.Channel.Buffs.Base;
 using Melia.Channel.World.Entities;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 

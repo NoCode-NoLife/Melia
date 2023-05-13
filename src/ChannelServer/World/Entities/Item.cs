@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Melia.Channel.Network;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;

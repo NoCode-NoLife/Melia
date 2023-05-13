@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Shared.Tos.Const;
 
 namespace Melia.Shared.Network2.Helpers
 {

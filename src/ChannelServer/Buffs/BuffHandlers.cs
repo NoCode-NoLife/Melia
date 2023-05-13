@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Melia.Channel.Buffs.Base;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Channel.Buffs
 {

@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Const
+﻿namespace Melia.Shared.Tos.Const
 {
 	/// <summary>
 	/// Used in BC_MESSAGE.

@@ -2,7 +2,7 @@
 using Melia.Channel.Network;
 using Melia.Channel.World;
 using Melia.Channel.World.Entities;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Channel.Buffs.Handlers
 {

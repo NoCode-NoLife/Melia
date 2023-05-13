@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Const
+﻿namespace Melia.Shared.Tos.Const
 {
 	public enum PcUpdateType
 	{

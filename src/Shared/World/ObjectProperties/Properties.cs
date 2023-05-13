@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Shared.World.ObjectProperties
 {

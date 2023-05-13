@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Const;
+﻿using Melia.Shared.Tos.Const;
 using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Channel.World.Entities.Components

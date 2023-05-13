@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Channel.World.Entities;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;

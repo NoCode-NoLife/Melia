@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Channel.Database;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Xunit;
 
 namespace Melia.Test.Channel.Database

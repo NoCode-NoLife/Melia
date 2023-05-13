@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Melia.Channel.Skills.Base;
 using Melia.Channel.Skills.General;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Channel.Skills
 {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Melia.Login.World;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
 using Melia.Shared.World;

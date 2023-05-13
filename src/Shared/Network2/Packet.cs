@@ -63,33 +63,6 @@ namespace Melia.Shared.Network2
 		}
 
 		/// <summary>
-		/// Throws if not enough bytes are left to read a value with the given length.
-		/// </summary>
-		/// <param name="needed"></param>
-		///// <returns></returns>
-		//private void AssertGotEnough(int needed)
-		//{
-		//	if (_ptr + needed > this.Length)
-		//		throw new InvalidOperationException("Not enough bytes left to read a '" + needed + "' byte value.");
-		//}
-
-		/// <summary>
-		/// Increases buffer size if more space is needed to fit the given
-		/// amount of bytes.
-		/// </summary>
-		/// <param name="needed"></param>
-		//private void EnsureSpace(int needed)
-		//{
-		//	if (_ptr + needed > this.Length)
-		//	{
-		//		// Add DefaultSize as many times as necessary to get past
-		//		// the necessary amount.
-		//		var add = (1 + (needed / DefaultSize)) * DefaultSize;
-		//		Array.Resize(ref _buffer, _buffer.Length + add);
-		//	}
-		//}
-
-		/// <summary>
 		/// Sets the reading and writing pointer back to the start of
 		/// the packet.
 		/// </summary>

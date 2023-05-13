@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World.ObjectProperties;
