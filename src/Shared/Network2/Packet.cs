@@ -272,22 +272,44 @@ namespace Melia.Shared.Network2
 			=> _buffer.WriteFloat(val);
 
 		/// <summary>
-		/// Writes string of given length to buffer.
+		/// Writes string to packet, padding it with zeroes to reach the
+		/// given byte length.
 		/// </summary>
 		/// <remarks>
-		/// If length is greater than string's length it's filled with null bytes.
+		/// Commonly used for fixed-sized strings as used in C.
+		/// For example: char teamName[64].
+		/// 
+		/// The bytes written to the packet will always include a
+		/// null-terminator, so if you have a string of length 5,
+		/// you must call this method with a byte length of at
+		/// least 6 or it will throw an exception.
 		/// </remarks>
-		/// <param name="val"></param>
-		/// <param name="length"></param>
-		public void PutString(string val, int length)
+		/// <example>
+		/// packet.PutString("foo", 6); // 66 6F 6F 00 00 00
+		/// packet.PutString("foo", 4); // 66 6F 6F 00
+		/// packet.PutString("foo", 3); // Error, 3 < "foo".Length + 1
+		/// </example>
+		/// <param name="val">The string to write to the packet.</param>
+		/// <param name="byteLength">
+		/// The number of writes that will be written into the packet,
+		/// starting with the string and padded with zeroes.
+		/// </param>
+		/// <exception cref="ArgumentException">
+		/// Thrown if the byte length is less than the string length + 1.
+		/// </exception>
+		public void PutString(string val, int byteLength)
 		{
 			var bytes = Encoding.UTF8.GetBytes(val ?? "");
-			var writeLength = Math.Min(bytes.Length, length - 1);
-			var remain = length - writeLength;
+
+			if (bytes.Length + 1 > byteLength)
+				throw new ArgumentException($"Byte length of string ({bytes.Length}) is longer than given length ({byteLength}).");
+
+			var writeLength = Math.Min(bytes.Length, byteLength - 1);
+			var paddingLength = byteLength - writeLength;
 
 			_buffer.Write(bytes, 0, writeLength);
 
-			for (var i = 0; i < remain; ++i)
+			for (var i = 0; i < paddingLength; ++i)
 				_buffer.WriteByte(0);
 		}
 
