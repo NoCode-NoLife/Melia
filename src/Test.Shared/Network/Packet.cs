@@ -56,10 +56,14 @@ namespace Test.Shared.Network
 			Assert.Equal(expected, bytes);
 
 			packet = new Packet(1001);
-			Assert.Throws<ArgumentException>(() => packet.PutString("foo", 2));
+			packet.PutString("foo", 3);
+
+			bytes = packet.Build();
+			expected = Hex.ToByteArray("66 6F 6F");
+			Assert.Equal(expected, bytes);
 
 			packet = new Packet(1001);
-			Assert.Throws<ArgumentException>(() => packet.PutString("foo", 3));
+			Assert.Throws<ArgumentException>(() => packet.PutString("foo", 2));
 		}
 	}
 }
