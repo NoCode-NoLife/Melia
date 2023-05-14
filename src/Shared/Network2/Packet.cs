@@ -462,6 +462,18 @@ namespace Melia.Shared.Network2
 		}
 
 		/// <summary>
+		/// Builds the packet and returns it.
+		/// </summary>
+		/// <returns></returns>
+		public byte[] Build()
+		{
+			var buffer = new byte[this.Length];
+			this.Build(ref buffer, 0);
+
+			return buffer;
+		}
+
+		/// <summary>
 		/// Copies packet's body to given buffer at offset.
 		/// </summary>
 		/// <param name="buffer"></param>

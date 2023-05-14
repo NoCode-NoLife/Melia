@@ -45,8 +45,13 @@
     <Reference Include="xunit">
       <HintPath>..\..\lib\xunit.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Position.cs" />
