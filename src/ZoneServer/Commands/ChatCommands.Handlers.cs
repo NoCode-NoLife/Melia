@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using Melia.Shared.Data.Database;
+using Melia.Shared.L10N;
 using Melia.Shared.Network2;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
-using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Util;
@@ -42,6 +43,7 @@ namespace Melia.Zone.Commands
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
+			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
 
 			// VIP
 			this.Add("autoloot", "", "Toggles autolooting.", this.HandleAutoloot);
@@ -113,6 +115,87 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
 				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Displays a list of usable commands or details about one command.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleHelp(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var targetAuthLevel = target.Connection.Account.Authority;
+
+			// Display info about one command
+			if (args.Count != 0)
+			{
+				var helpCommandName = args.Get(0);
+				var command = this.GetCommand(helpCommandName);
+				var levels = ZoneServer.Instance.Conf.Commands.GetLevelsOrDefault(command.Name);
+
+				if (levels.Self > targetAuthLevel)
+				{
+					sender.ServerMessage(Localization.Get("Command not found or not available."));
+					return CommandResult.Okay;
+				}
+
+				var aliases = _commands.Where(a => a.Value == command && a.Key != helpCommandName).Select(a => a.Key);
+
+				sender.ServerMessage(Localization.Get("Name: {0}"), command.Name);
+				if (aliases.Any())
+					sender.ServerMessage(Localization.Get("Aliases: {0}"), string.Join(", ", aliases));
+				sender.ServerMessage(Localization.Get("Description: {0}"), command.Description);
+				sender.ServerMessage(Localization.Get("Arguments: {0}"), command.Usage);
+			}
+			// Display list of available commands
+			else
+			{
+				var commandNames = new List<string>();
+
+				foreach (var command in _commands.Values)
+				{
+					var levels = ZoneServer.Instance.Conf.Commands.GetLevelsOrDefault(command.Name);
+					if (levels.Self > targetAuthLevel)
+						continue;
+
+					commandNames.Add(command.Name);
+				}
+
+				if (commandNames.Count == 0)
+				{
+					sender.ServerMessage(Localization.Get("No commands found."));
+					return CommandResult.Okay;
+				}
+
+				var sb = new StringBuilder();
+
+				sender.ServerMessage(Localization.Get("Available commands:"));
+				foreach (var name in commandNames)
+				{
+					// Group command names in strings up to 100 characters,
+					// as that's the maximum amount some clients will display
+					// as one message.
+					if (sb.Length + 2 + name.Length >= 100)
+					{
+						sender.ServerMessage(sb.ToString());
+						sb.Clear();
+					}
+
+					if (sb.Length != 0)
+						sb.Append(", ");
+
+					sb.Append(name);
+				}
+
+				if (sb.Length != 0)
+					sender.ServerMessage(sb.ToString());
+			}
 
 			return CommandResult.Okay;
 		}
