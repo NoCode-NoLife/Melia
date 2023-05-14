@@ -5,7 +5,6 @@ using System.Net;
 using Melia.Shared.Network2;
 using Melia.Shared.Network2.Helpers;
 using Melia.Shared.Tos.Const;
-//using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Network.Helpers;
@@ -3567,7 +3566,7 @@ namespace Melia.Zone.Network
 		/// Sends ZC_PCBANG_SHOP_COMMON to character (dummy).
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_PCBANG_SHOP_COMMON(Connection conn)
+		public static void ZC_PCBANG_SHOP_COMMON(IConnection conn)
 		{
 			var packet = new Packet(Op.ZC_PCBANG_SHOP_COMMON);
 

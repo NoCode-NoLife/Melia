@@ -5,6 +5,7 @@ using Melia.Zone.Buffs;
 using Melia.Zone.Database;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Util;
 using Melia.Zone.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
@@ -46,6 +47,11 @@ namespace Melia.Zone
 		/// Returns reference to the server's buff handlers.
 		/// </summary>
 		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
+
+		/// <summary>
+		/// Returns reference to the server's buff handlers.
+		/// </summary>
+		public GmCommands ChatCommands { get; } = new GmCommands();
 
 		/// <summary>
 		/// Runs the server.

@@ -1,28 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.Network2;
+﻿using Melia.Shared.Network2;
 using Melia.Zone.Database;
+using Melia.Zone.Scripting;
 using Melia.Zone.World.Entities;
 
 namespace Melia.Zone.Network
 {
+	/// <summary>
+	/// A connection from the client to the zone server.
+	/// </summary>
 	public interface IZoneConnection : IConnection
 	{
-		Account Account { get; }
-		Character SelectedCharacter { get; }
+		/// <summary>
+		/// Gets or sets the account associated with the connection.
+		/// </summary>
+		Account Account { get; set; }
+
+		/// <summary>
+		/// Gets or sets a reference to the currently controlled character.
+		/// </summary>
+		Character SelectedCharacter { get; set; }
+
+		/// <summary>
+		/// Gets or sets the connection's script state.
+		/// </summary>
+		ScriptState ScriptState { get; set; }
 	}
 
+	/// <summary>
+	/// A connection from the client to the zone server.
+	/// </summary>
 	public class ZoneConnection : Connection, IZoneConnection
 	{
-		public Account Account => throw new NotImplementedException();
-		public Character SelectedCharacter => throw new NotImplementedException();
+		/// <summary>
+		/// Gets or sets the account associated with the connection.
+		/// </summary>
+		public Account Account { get; set; }
 
+		/// <summary>
+		/// Gets or sets a reference to the currently controlled character.
+		/// </summary>
+		public Character SelectedCharacter { get; set; }
+
+		/// <summary>
+		/// Gets or sets the connection's script state.
+		/// </summary>
+		public ScriptState ScriptState { get; set; }
+
+		/// <summary>
+		/// Handles the given packet for this connection.
+		/// </summary>
+		/// <param name="packet"></param>
 		protected override void OnPacketReceived(Packet packet)
 		{
-			throw new NotImplementedException();
+			ZoneServer.Instance.PacketHandler.Handle(this, packet);
 		}
 	}
 }
