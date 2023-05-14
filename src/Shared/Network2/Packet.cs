@@ -9,6 +9,8 @@ namespace Melia.Shared.Network2
 {
 	public class Packet
 	{
+		private static Encoding DefaultEncoding = Encoding.UTF8;
+
 		private readonly BufferReaderWriter _buffer;
 		private readonly int _bodyStart;
 
@@ -65,6 +67,15 @@ namespace Melia.Shared.Network2
 		{
 			_buffer.Seek(_bodyStart, SeekOrigin.Begin);
 		}
+
+		/// <summary>
+		/// Returns the length of the string when converted to bytes,
+		/// as per the packet's encoding for strings.
+		/// </summary>
+		/// <param name="val"></param>
+		/// <returns></returns>
+		public int GetByteLength(string val)
+			=> DefaultEncoding.GetByteCount(val);
 
 		/// <summary>
 		/// Reads byte from buffer.

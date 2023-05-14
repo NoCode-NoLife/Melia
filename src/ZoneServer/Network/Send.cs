@@ -1975,7 +1975,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
-			packet.PutByte((byte)(msg.Length));
+			packet.PutByte((byte)packet.GetByteLength(msg));
 			packet.PutInt(duration);
 			packet.PutByte(0);
 			packet.PutString(msg, msg.Length);
