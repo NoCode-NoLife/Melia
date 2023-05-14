@@ -47,13 +47,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ChannelServer\ChannelServer.csproj">
-      <Project>{a29f2142-7252-4a6a-8644-5f5b29d37e31}</Project>
-      <Name>ChannelServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Shared\Shared.csproj">
       <Project>{DF6ABA4A-9E79-4746-AC43-E9A2080A00C1}</Project>
       <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj">
+      <Project>{d508c2a7-44ad-4e39-ade1-c255f968c278}</Project>
+      <Name>ZoneServer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,6 @@ pause
 exit
 
 :NO_ARGS
-start start-login
-start start-channel
+start start-barracks
+start start-zone-1
 start start-web
