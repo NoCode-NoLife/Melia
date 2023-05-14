@@ -10,19 +10,19 @@ namespace Melia.Shared.Configuration.Files
 	public class CommandsConfFile : ConfFile
 	{
 		/// <summary>
-		/// Prefix for normal commands.
+		/// Prefix for using commands on yourself.
 		/// </summary>
-		public string Prefix { get; protected set; }
+		public string SelfPrefix { get; protected set; }
 
 		/// <summary>
-		/// Prefix for character commands.
+		/// Prefix for using commands on someone else.
 		/// </summary>
-		public string Prefix2 { get; protected set; }
+		public string TargetPrefix { get; protected set; }
 
 		/// <summary>
 		/// List of commands and their authority levels.
 		/// </summary>
-		public Dictionary<string, CommandAuthConf> Auth { get; protected set; }
+		public Dictionary<string, CommandAuthLevels> CommandLevels { get; protected set; }
 
 		/// <summary>
 		/// Loads conf file and its options from the given path.
@@ -33,11 +33,11 @@ namespace Melia.Shared.Configuration.Files
 			this.Include(filePath);
 
 			// Prefix
-			this.Prefix = this.GetString("prefix", "/").Substring(0, 1);
-			this.Prefix2 = this.Prefix + this.Prefix;
+			this.SelfPrefix = this.GetString("prefix", "/").Substring(0, 1);
+			this.TargetPrefix = this.SelfPrefix + this.SelfPrefix;
 
 			// Commands
-			this.Auth = new Dictionary<string, CommandAuthConf>();
+			this.CommandLevels = new Dictionary<string, CommandAuthLevels>();
 
 			foreach (var option in _options)
 			{
@@ -57,7 +57,7 @@ namespace Melia.Shared.Configuration.Files
 					continue;
 				}
 
-				this.Auth[option.Key.Trim()] = new CommandAuthConf(auth1, auth2);
+				this.CommandLevels[option.Key.Trim()] = new CommandAuthLevels(auth1, auth2);
 			}
 		}
 
@@ -66,27 +66,43 @@ namespace Melia.Shared.Configuration.Files
 		/// if the command wasn't found in the config.
 		/// </summary>
 		/// <param name="command"></param>
-		/// <param name="defaultAuth"></param>
-		/// <param name="defaultCharAuth"></param>
 		/// <returns></returns>
-		public CommandAuthConf GetAuth(string command)
+		public CommandAuthLevels GetLevels(string command)
 		{
-			this.Auth.TryGetValue(command, out var result);
+			this.CommandLevels.TryGetValue(command, out var result);
 			if (result == null)
-				result = new CommandAuthConf(99, 99);
+				result = new CommandAuthLevels(99, 99);
 
 			return result;
 		}
 	}
 
-	public class CommandAuthConf
+	/// <summary>
+	/// Represents the authority levels for a command.
+	/// </summary>
+	public class CommandAuthLevels
 	{
-		public int Auth, CharAuth;
+		/// <summary>
+		/// Returns the authority level required to use the command on
+		/// yourself.
+		/// </summary>
+		public int Self;
 
-		public CommandAuthConf(int auth, int charAuth)
+		/// <summary>
+		/// Returns the authority level required to use the command on
+		/// someone else.
+		/// </summary>
+		public int Target;
+
+		/// <summary>
+		/// Creates a new instance.
+		/// </summary>
+		/// <param name="self"></param>
+		/// <param name="target"></param>
+		public CommandAuthLevels(int self, int target)
 		{
-			this.Auth = auth;
-			this.CharAuth = charAuth;
+			this.Self = self;
+			this.Target = target;
 		}
 	}
 }

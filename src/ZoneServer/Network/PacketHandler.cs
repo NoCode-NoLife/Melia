@@ -194,7 +194,9 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (!ZoneServer.Instance.ChatCommands.Process(conn, character, msg))
+			// Try to execute message as a command. If it failed,
+			// broadcast it.
+			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				Send.ZC_CHAT(character, msg);
 		}
 

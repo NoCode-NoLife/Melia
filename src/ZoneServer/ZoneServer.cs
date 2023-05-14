@@ -2,6 +2,7 @@
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Buffs;
+using Melia.Zone.Commands;
 using Melia.Zone.Database;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
@@ -51,7 +52,7 @@ namespace Melia.Zone
 		/// <summary>
 		/// Returns reference to the server's buff handlers.
 		/// </summary>
-		public GmCommands ChatCommands { get; } = new GmCommands();
+		public ChatCommands ChatCommands { get; } = new ChatCommands();
 
 		/// <summary>
 		/// Runs the server.

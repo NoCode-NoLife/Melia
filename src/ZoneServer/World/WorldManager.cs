@@ -179,6 +179,19 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Returns the first character found with the given team name via
+		/// out. Retrns false if no matching character was found.
+		/// </summary>
+		/// <param name="teamName"></param>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool TryGetCharacterByTeamName(string teamName, out Character character)
+		{
+			character = this.GetCharacterByTeamName(teamName);
+			return character != null;
+		}
+
+		/// <summary>
 		/// Returns all Characters that are currently online.
 		/// </summary>
 		public Character[] GetCharacters()

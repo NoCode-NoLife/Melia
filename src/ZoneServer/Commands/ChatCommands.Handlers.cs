@@ -6,72 +6,74 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network2;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Util;
-using Melia.Shared.Util.Commands;
 using Melia.Shared.World;
+using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Util;
 using Melia.Zone.World.Entities;
 using Melia.Zone.World.Entities.Components;
+using Yggdrasil.Util.Commands;
 
-namespace Melia.Zone.Util
+namespace Melia.Zone.Commands
 {
 	/// <summary>
-	/// GM command manager.
+	/// The chat command manager, holding the commands and executing them.
 	/// </summary>
-	public partial class GmCommands : CommandManager<GmCommand, GmCommandFunc>
+	public partial class ChatCommands : CommandManager<ChatCommand, ChatCommandFunc>
 	{
 		/// <summary>
 		/// Creates new manager and initializes it.
 		/// </summary>
-		public GmCommands()
+		public ChatCommands()
 		{
 			// The required authority levels for commands can be specified
 			// in the configuration file "system/conf/commands.conf".
 
 			// Official
-			this.Add("requpdateequip", "", this.HandleReqUpdateEquip);
-			this.Add("buyabilpoint", "<amount>", this.HandleBuyAbilPoint);
-			this.Add("learnpcabil", "<ability class name>", this.HandleLearnPcAbil);
+			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
+			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+			this.Add("learnpcabil", "<ability class name>", "", this.HandleLearnPcAbil);
 
 			// Custom
-			this.Add("buyshop", "", this.HandleBuyShop);
-			this.Add("updatemouse", "", this.HandleUpdateMouse);
+			this.Add("buyshop", "", "", this.HandleBuyShop);
+			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
 
 			// Normal
-			this.Add("where", "", this.HandleWhere);
-			this.Add("name", "<new name>", this.HandleName);
+			this.Add("where", "", "", this.HandleWhere);
+			this.Add("name", "<new name>", "", this.HandleName);
 
 			// VIP
-			this.Add("autoloot", "", this.HandleAutoloot);
+			this.Add("autoloot", "", "", this.HandleAutoloot);
 
 			// GMs
-			this.Add("jump", "<x> <y> <z>", this.HandleJump);
-			this.Add("warp", "<map id> <x> <y> <z>", this.HandleWarp);
-			this.Add("item", "<item id> [amount]", this.HandleItem);
-			this.Add("silver", "<modifier>", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1]", this.HandleSpawn);
-			this.Add("madhatter", "", this.HandleGetAllHats);
-			this.Add("levelup", "<levels>", this.HandleLevelUp);
-			this.Add("speed", "<speed>", this.HandleSpeed);
-			this.Add("iteminfo", "<name>", this.HandleItemInfo);
-			this.Add("monsterinfo", "<name>", this.HandleMonsterInfo);
-			this.Add("go", "<destination>", this.HandleGo);
-			this.Add("goto", "<team name>", this.HandleGoTo);
-			this.Add("recall", "<team name>", this.HandleRecall);
-			this.Add("recallmap", "[map id/name]", this.HandleRecallMap);
-			this.Add("recallall", "", this.HandleRecallAll);
-			this.Add("clearinv", "", this.HandleClearInventory);
-			this.Add("addjob", "<job id> [circle]", this.HandleAddJob);
-			this.Add("removejob", "<job id>", this.HandleRemoveJob);
-			this.Add("skillpoints", "<job id> <modifier>", this.HandleSkillPoints);
-			this.Add("statpoints", "<amount>", this.HandleStatPoints);
+			this.Add("jump", "<x> <y> <z>", "", this.HandleJump);
+			this.Add("warp", "<map id> <x> <y> <z>", "", this.HandleWarp);
+			this.Add("item", "<item id> [amount]", "", this.HandleItem);
+			this.Add("silver", "<modifier>", "", this.HandleSilver);
+			this.Add("spawn", "<monster id|class name> [amount=1]", "", this.HandleSpawn);
+			this.Add("madhatter", "", "", this.HandleGetAllHats);
+			this.Add("levelup", "<levels>", "", this.HandleLevelUp);
+			this.Add("speed", "<speed>", "", this.HandleSpeed);
+			this.Add("iteminfo", "<name>", "", this.HandleItemInfo);
+			this.Add("monsterinfo", "<name>", "", this.HandleMonsterInfo);
+			this.Add("go", "<destination>", "", this.HandleGo);
+			this.Add("goto", "<team name>", "", this.HandleGoTo);
+			this.Add("recall", "<team name>", "", this.HandleRecall);
+			this.Add("recallmap", "[map id/name]", "", this.HandleRecallMap);
+			this.Add("recallall", "", "", this.HandleRecallAll);
+			this.Add("clearinv", "", "", this.HandleClearInventory);
+			this.Add("addjob", "<job id> [circle]", "", this.HandleAddJob);
+			this.Add("removejob", "<job id>", "", this.HandleRemoveJob);
+			this.Add("skillpoints", "<job id> <modifier>", "", this.HandleSkillPoints);
+			this.Add("statpoints", "<amount>", "", this.HandleStatPoints);
 
 			// Dev
-			this.Add("test", "", this.HandleTest);
-			this.Add("reloadscripts", "", this.HandleReloadScripts);
-			this.Add("reloadconf", "", this.HandleReloadConf);
-			this.Add("reloaddata", "", this.HandleReloadData);
-			this.Add("ai", "[ai name]", this.HandleAi);
+			this.Add("test", "", "", this.HandleTest);
+			this.Add("reloadscripts", "", "", this.HandleReloadScripts);
+			this.Add("reloadconf", "", "", this.HandleReloadConf);
+			this.Add("reloaddata", "", "", this.HandleReloadData);
+			this.Add("ai", "[ai name]", "", this.HandleAi);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -89,7 +91,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleTest(IZoneConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleTest(Character sender, Character target, string message, string command, Arguments args)
 		{
 			Log.Debug("test!!");
 
@@ -105,7 +107,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleWhere(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleWhere(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (sender == target)
 				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
@@ -124,11 +126,11 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleJump(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleJump(Character sender, Character target, string message, string command, Arguments args)
 		{
 			Position newPos;
 
-			if (args.Length < 2)
+			if (args.Count < 1)
 			{
 				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
 				{
@@ -138,13 +140,13 @@ namespace Melia.Zone.Util
 
 				newPos = rndPos;
 			}
-			else if (args.Length < 4)
+			else if (args.Count < 3)
 			{
 				return CommandResult.InvalidArgument;
 			}
 			else
 			{
-				if (!float.TryParse(args[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
 					return CommandResult.InvalidArgument;
 
 				newPos = new Position(x, y, z);
@@ -175,15 +177,15 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleWarp(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleWarp(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			// Get map id
-			if (!int.TryParse(args[1], out var mapId))
+			if (!int.TryParse(args.Get(0), out var mapId))
 			{
-				var data = ZoneServer.Instance.Data.MapDb.Find(args[1]);
+				var data = ZoneServer.Instance.Data.MapDb.Find(args.Get(0));
 				if (data == null)
 				{
 					sender.ServerMessage("Map not found.");
@@ -202,7 +204,7 @@ namespace Melia.Zone.Util
 
 			// Get target position
 			Position targetPos;
-			if (args.Length < 5)
+			if (args.Count < 4)
 			{
 				if (!map.Ground.TryGetRandomPosition(out targetPos))
 				{
@@ -212,7 +214,13 @@ namespace Melia.Zone.Util
 			}
 			else
 			{
-				if (!float.TryParse(args[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args[3], NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args[4], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var y))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(3), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
 					return CommandResult.InvalidArgument;
 
 				targetPos = new Position(x, y, z);
@@ -250,15 +258,15 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleItem(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleItem(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			var amount = 1;
 
 			// Get and check id
-			if (!int.TryParse(args[1], out var itemId))
+			if (!int.TryParse(args.Get(0), out var itemId))
 				return CommandResult.InvalidArgument;
 
 			if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
@@ -268,9 +276,9 @@ namespace Melia.Zone.Util
 			}
 
 			// Get amount
-			if (args.Length > 2)
+			if (args.Count > 2)
 			{
-				if (!int.TryParse(args[2], out amount) || amount < 1)
+				if (!int.TryParse(args.Get(1), out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
 			}
 
@@ -294,12 +302,12 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleSilver(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleSilver(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var modifier) || modifier == 0)
+			if (!int.TryParse(args.Get(0), out var modifier) || modifier == 0)
 				return CommandResult.InvalidArgument;
 
 			// Create and add silver item
@@ -348,13 +356,13 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleSpawn(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleSpawn(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			MonsterData monsterData;
-			if (int.TryParse(args[1], out var id))
+			if (int.TryParse(args.Get(0), out var id))
 			{
 				monsterData = ZoneServer.Instance.Data.MonsterDb.Find(id);
 				if (monsterData == null)
@@ -365,7 +373,7 @@ namespace Melia.Zone.Util
 			}
 			else
 			{
-				var searchName = args[1].ToLower();
+				var searchName = args.Get(0).ToLower();
 
 				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
 				if (monstersData.Count == 0)
@@ -381,7 +389,7 @@ namespace Melia.Zone.Util
 			}
 
 			var amount = 1;
-			if (args.Length > 2 && !int.TryParse(args[2], out amount))
+			if (args.Count > 2 && !int.TryParse(args.Get(1), out amount))
 				return CommandResult.InvalidArgument;
 
 			amount = Math2.Clamp(1, 100, amount);
@@ -428,7 +436,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleGetAllHats(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleGetAllHats(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var addedCount = 0;
 			for (var itemId = 628001; itemId <= 629503; ++itemId)
@@ -465,19 +473,19 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleName(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleName(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			var newName = args[1];
+			var newName = args.Get(0);
 			if (newName == sender.Name)
 				return CommandResult.Okay;
 
 			// TODO: Can you rename any time, without cooldown?
 
 			// TODO: Keep a list of all account characters after all?
-			if (ZoneServer.Instance.Database.CharacterExists(conn.Account.Id, newName))
+			if (ZoneServer.Instance.Database.CharacterExists(target.Connection.Account.Id, newName))
 			{
 				sender.ServerMessage("Name already exists.");
 				return CommandResult.Okay;
@@ -502,14 +510,14 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleReloadScripts(IZoneConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleReloadScripts(Character sender, Character target, string message, string command, Arguments args)
 		{
-			character.ServerMessage("Reloading scripts...");
+			sender.ServerMessage("Reloading scripts...");
 
 			ZoneServer.Instance.World.RemoveScriptedEntities();
 			ZoneServer.Instance.ReloadScripts();
 
-			character.ServerMessage("Done.");
+			sender.ServerMessage("Done.");
 
 			return CommandResult.Okay;
 		}
@@ -523,13 +531,13 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleReloadConf(IZoneConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleReloadConf(Character sender, Character target, string message, string command, Arguments args)
 		{
-			character.ServerMessage("Reloading configuration...");
+			sender.ServerMessage("Reloading configuration...");
 
 			ZoneServer.Instance.Conf.Load();
 
-			character.ServerMessage("Done.");
+			sender.ServerMessage("Done.");
 
 			return CommandResult.Okay;
 		}
@@ -543,13 +551,13 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleReloadData(IZoneConnection conn, Character character, Character target, string command, string[] args)
+		private CommandResult HandleReloadData(Character sender, Character target, string message, string command, Arguments args)
 		{
-			character.ServerMessage("Reloading data...");
+			sender.ServerMessage("Reloading data...");
 
 			ZoneServer.Instance.LoadData();
 
-			character.ServerMessage("Done.");
+			sender.ServerMessage("Done.");
 
 			return CommandResult.Okay;
 		}
@@ -563,10 +571,10 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleLevelUp(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleLevelUp(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var levels = 1;
-			if (args.Length > 1 && (!int.TryParse(args[1], out levels) || levels < 1))
+			if (args.Count > 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
@@ -597,12 +605,12 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleSpeed(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleSpeed(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!float.TryParse(args[1], out var speed))
+			if (!float.TryParse(args.Get(0), out var speed))
 				return CommandResult.InvalidArgument;
 
 			var currentSpeed = target.Properties.GetFloat(PropertyId.PC.MSPD);
@@ -633,9 +641,9 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleItemInfo(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleItemInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			var search = command.Substring(command.IndexOf(" ")).Trim();
@@ -668,9 +676,9 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleMonsterInfo(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleMonsterInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			var search = command.Substring(command.IndexOf(" ")).Trim();
@@ -703,17 +711,17 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleGo(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleGo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 			{
 				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
 			}
 
-			if (args[1].StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
-			else if (args[1].StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
-			else if (args[1].StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
+			if (args.Get(0).StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
+			else if (args.Get(0).StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args.Get(0).StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
 				sender.ServerMessage("Unknown destination.");
@@ -742,15 +750,15 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleGoTo(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleGoTo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
 			//   we have to search for characters across all of them.
 
-			var teamName = args[1];
+			var teamName = args.Get(0);
 			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
 			if (character == null)
 			{
@@ -782,15 +790,15 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleRecall(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleRecall(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
 			//   we have to search for characters across all of them.
 
-			var teamName = args[1];
+			var teamName = args.Get(0);
 			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
 			if (character == null)
 			{
@@ -817,9 +825,9 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleRecallMap(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleRecallMap(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length > 2)
+			if (args.Count > 2)
 				return CommandResult.InvalidArgument;
 
 			var map = target.Map;
@@ -827,13 +835,13 @@ namespace Melia.Zone.Util
 			// TODO: Once we have support for channels and map servers,
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
-			if (args.Length > 1)
+			if (args.Count > 1)
 			{
 				// Search for map by name and id
-				if (int.TryParse(args[1], out var mapId))
+				if (int.TryParse(args.Get(0), out var mapId))
 					map = ZoneServer.Instance.World.GetMap(mapId);
 				else
-					map = ZoneServer.Instance.World.GetMap(args[1]);
+					map = ZoneServer.Instance.World.GetMap(args.Get(0));
 
 				// Check map
 				if (map == null)
@@ -866,9 +874,9 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleRecallAll(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleRecallAll(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length > 1)
+			if (args.Count > 1)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for channels and map servers,
@@ -889,6 +897,33 @@ namespace Melia.Zone.Util
 		}
 
 		/// <summary>
+		/// Recalls characters to target's location and sends appropriate
+		/// server messages.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="characters"></param>
+		private static void RecallCharacters(Character sender, Character target, Character[] characters)
+		{
+			var location = target.GetLocation();
+			foreach (var character in characters)
+			{
+				character.Warp(location);
+				character.ServerMessage("You've been warped to {0}'s location.", target.TeamName);
+			}
+
+			if (sender == target)
+			{
+				sender.ServerMessage("You have called {0} characters to your location.", characters.Length);
+			}
+			else
+			{
+				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
+				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
+			}
+		}
+
+		/// <summary>
 		/// Removes all items from target's inventory.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -897,7 +932,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleClearInventory(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleClearInventory(Character sender, Character target, string message, string command, Arguments args)
 		{
 			target.Inventory.Clear();
 
@@ -917,7 +952,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleReqUpdateEquip(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleReqUpdateEquip(Character sender, Character target, string message, string command, Arguments args)
 		{
 			// Command is sent when the inventory is opened, purpose unknown,
 			// officials don't seem to send anything back.
@@ -938,21 +973,21 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleBuyAbilPoint(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleBuyAbilPoint(Character sender, Character target, string message, string command, Arguments args)
 		{
 			// Since this command is sent via UI interactions, we'll not
 			// use any automated command result messages, but we'll leave
 			// debug messages for now, in case of unexpected values.
 
-			if (args.Length < 0)
+			if (args.Count < 0)
 			{
-				Log.Debug("HandleBuyAbilPoint: No amount given by user '{0}'.", conn.Account.Name);
+				Log.Debug("HandleBuyAbilPoint: No amount given by user '{0}'.", sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
-			if (!int.TryParse(args[1], out var amount))
+			if (!int.TryParse(args.Get(0), out var amount))
 			{
-				Log.Debug("HandleBuyAbilPoint: Invalid amount '{0}' by user '{1}'.", amount, conn.Account.Name);
+				Log.Debug("HandleBuyAbilPoint: Invalid amount '{0}' by user '{1}'.", amount, sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
@@ -960,7 +995,7 @@ namespace Melia.Zone.Util
 			var silver = sender.Inventory.CountItem(ItemId.Silver);
 			if (silver < cost)
 			{
-				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", conn.Account.Name);
+				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
@@ -980,24 +1015,24 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleLearnPcAbil(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleLearnPcAbil(Character sender, Character target, string message, string command, Arguments args)
 		{
 			// Since this command is sent via UI interactions, we'll not
 			// use any automated command result messages, but we'll leave
 			// debug messages for now, in case of unexpected values.
 
-			if (args.Length != 3 || !int.TryParse(args[2], out var levels) || levels < 1)
+			if (args.Count != 3 || !int.TryParse(args.Get(1), out var levels) || levels < 1)
 			{
-				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", conn.Account.Name, command);
+				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", sender.Connection.Account.Name, command);
 				return CommandResult.Okay;
 			}
 
-			var className = args[1];
+			var className = args.Get(0);
 
 			var abilityData = ZoneServer.Instance.Data.AbilityDb.Find(className);
 			if (abilityData == null)
 			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn non-existent ability '{1}'.", conn.Account.Name, className);
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn non-existent ability '{1}'.", sender.Connection.Account.Name, className);
 				return CommandResult.Okay;
 			}
 
@@ -1030,7 +1065,7 @@ namespace Melia.Zone.Util
 
 			if (!canLearn)
 			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn ability '{1}', which they can't learn (yet).", conn.Account.Name, className);
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn ability '{1}', which they can't learn (yet).", sender.Connection.Account.Name, className);
 				return CommandResult.Okay;
 			}
 
@@ -1041,7 +1076,7 @@ namespace Melia.Zone.Util
 
 			if (newLevel > maxLevel)
 			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to increase ability '{1}'s level past the max level of {2}.", conn.Account.Name, className, maxLevel);
+				Log.Debug("HandleLearnPcAbil: User '{0}' tried to increase ability '{1}'s level past the max level of {2}.", sender.Connection.Account.Name, className, maxLevel);
 				return CommandResult.Okay;
 			}
 
@@ -1065,7 +1100,7 @@ namespace Melia.Zone.Util
 			var points = sender.Properties.GetFloat(PropertyId.PC.AbilityPoint);
 			if (points < price)
 			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", conn.Account.Name);
+				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
@@ -1102,12 +1137,12 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleAddJob(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleAddJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var iJobId))
+			if (!int.TryParse(args.Get(0), out var iJobId))
 				return CommandResult.InvalidArgument;
 
 			var jobId = (JobId)iJobId;
@@ -1119,9 +1154,9 @@ namespace Melia.Zone.Util
 
 			var circle = Circle.First;
 
-			if (args.Length > 2)
+			if (args.Count > 2)
 			{
-				if (!short.TryParse(args[2], out var iCircle) || iCircle < (short)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
+				if (!short.TryParse(args.Get(1), out var iCircle) || iCircle < (short)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
 					return CommandResult.InvalidArgument;
 
 				circle = (Circle)iCircle;
@@ -1146,12 +1181,12 @@ namespace Melia.Zone.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandleRemoveJob(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleRemoveJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var iJobId))
+			if (!int.TryParse(args.Get(0), out var iJobId))
 				return CommandResult.InvalidArgument;
 
 			var jobId = (JobId)iJobId;
@@ -1184,15 +1219,15 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleSkillPoints(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleSkillPoints(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 3)
+			if (args.Count < 2)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var iJobId))
+			if (!int.TryParse(args.Get(0), out var iJobId))
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[2], out var modifier))
+			if (!int.TryParse(args.Get(1), out var modifier))
 				return CommandResult.InvalidArgument;
 
 			var jobId = (JobId)iJobId;
@@ -1225,12 +1260,12 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleStatPoints(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleStatPoints(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args[1], out var amount) || amount < 1)
+			if (!int.TryParse(args.Get(0), out var amount) || amount < 1)
 				return CommandResult.InvalidArgument;
 
 			// Modification for stat points is a little tricky, because ToS
@@ -1261,31 +1296,31 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleBuyShop(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Length < 2)
+			if (args.Count < 1)
 			{
-				Send.ZC_EXEC_CLIENT_SCP(conn, "OPEN_PERSONAL_SHOP_REGISTER()");
+				Send.ZC_EXEC_CLIENT_SCP(target.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
 				return CommandResult.Okay;
 			}
 
-			if (args.Length < 3)
+			if (args.Count < 2)
 			{
 				Log.Debug("HandleBuyShop: Not enough arguments.");
 				return CommandResult.Okay;
 			}
 
 			// Read arguments
-			var title = args[1];
+			var title = args.Get(0);
 			var items = new List<Tuple<int, int, int>>();
 
-			for (var i = 2; i < args.Length; ++i)
+			for (var i = 2; i < args.Count; ++i)
 			{
-				var split = args[i].Split(',');
+				var split = args.Get(i).Split(',');
 
 				if (split.Length != 3 || !int.TryParse(split[0], out var id) || !int.TryParse(split[1], out var amount) || !int.TryParse(split[2], out var price))
 				{
-					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args[i]);
+					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args.Get(i));
 					return CommandResult.Okay;
 				}
 
@@ -1308,7 +1343,7 @@ namespace Melia.Zone.Util
 				packet.PutEmptyBin(264);
 			}
 
-			ZoneServer.Instance.PacketHandler.Handle(conn, packet);
+			ZoneServer.Instance.PacketHandler.Handle(target.Connection, packet);
 
 			return CommandResult.Okay;
 		}
@@ -1322,12 +1357,12 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleUpdateMouse(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleUpdateMouse(Character sender, Character target, string message, string command, Arguments args)
 		{
-			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args[1], CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args[2], CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args[3], CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args[4], CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args.Get(0), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
 
 			return CommandResult.Okay;
 		}
@@ -1341,16 +1376,16 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleAutoloot(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleAutoloot(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var autoloot = sender.Variables.Temp.Get("Autoloot", 0);
 
 			// If we got an argument, use it as the max drop chance of
 			// items that are to be autolooted. Without an argument,
 			// toggle autolooting completely on or off.
-			if (args.Length > 1)
+			if (args.Count > 1)
 			{
-				if (!int.TryParse(args[1], out autoloot))
+				if (!int.TryParse(args.Get(0), out autoloot))
 					return CommandResult.InvalidArgument;
 
 				autoloot = Math2.Clamp(0, 100, autoloot);
@@ -1385,7 +1420,7 @@ namespace Melia.Zone.Util
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleAi(IZoneConnection conn, Character sender, Character target, string command, string[] args)
+		private CommandResult HandleAi(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (target.Components.Has<EntityAi>())
 			{
@@ -1394,21 +1429,21 @@ namespace Melia.Zone.Util
 				target.Components.Remove<Movement>();
 				target.Components.Remove<EntityAi>();
 
-				if (args.Length < 2)
+				if (args.Count < 1)
 				{
 					sender.ServerMessage("Disabled AI.");
 					return CommandResult.Okay;
 				}
 			}
-			else if (args.Length < 2)
+			else if (args.Count < 1)
 			{
 				sender.ServerMessage("No AI active.");
 				return CommandResult.Okay;
 			}
 
-			if (args.Length > 1)
+			if (args.Count > 1)
 			{
-				var aiName = args[1];
+				var aiName = args.Get(0);
 
 				// Characters need to be in "cutscene mode" for the server
 				// to move them, otherwise they'll just ignore the move

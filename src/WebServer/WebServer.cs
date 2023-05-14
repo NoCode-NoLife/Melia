@@ -4,9 +4,9 @@ using System.Net;
 using Melia.Shared;
 using Melia.Shared.Database;
 using Melia.Shared.Util;
-using Melia.Shared.Util.Commands;
 using Melia.Shared.Util.Configuration;
 using Swebs;
+using Yggdrasil.Util.Commands;
 
 namespace Melia.Web
 {
@@ -32,11 +32,6 @@ namespace Melia.Web
 		public MeliaDb Database { get; private set; }
 
 		/// <summary>
-		/// Web's console commands
-		/// </summary>
-		public ConsoleCommands ConsoleCommands { get; private set; }
-
-		/// <summary>
 		/// Starts the server.
 		/// </summary>
 		public override void Run()
@@ -46,23 +41,15 @@ namespace Melia.Web
 			CliUtil.WriteHeader("Web", ConsoleColor.DarkRed);
 			CliUtil.LoadingTitle();
 
-			// Conf
 			this.LoadConf(this.Conf = new Conf());
-
-			// Database
 			this.InitDatabase(this.Database = new MeliaDb(), this.Conf);
-
-			// Data
 			this.LoadData(DataToLoad.Servers, true);
 
-			// Web server
 			this.StartWebServer();
 
 			CliUtil.RunningTitle();
 
-			// Commands
-			this.ConsoleCommands = new ConsoleCommands();
-			this.ConsoleCommands.Wait();
+			new ConsoleCommands().Wait();
 		}
 
 		/// <summary>

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Melia.Shared.Util;
-using Melia.Shared.Util.Commands;
+﻿using Melia.Shared.Util;
+using Yggdrasil.Util.Commands;
 
 namespace Melia.Barracks.Util
 {
@@ -12,14 +11,14 @@ namespace Melia.Barracks.Util
 			this.Add("passwd", "<account> <password>", "Changes password of account", this.HandlePasswd);
 		}
 
-		private CommandResult HandleAuth(string command, IList<string> args)
+		private CommandResult HandleAuth(string command, Arguments args)
 		{
 			if (args.Count < 3)
 				return CommandResult.InvalidArgument;
 
-			var accountName = args[1];
+			var accountName = args.Get(1);
 
-			if (!int.TryParse(args[2], out var level))
+			if (!int.TryParse(args.Get(2), out var level))
 				return CommandResult.InvalidArgument;
 
 			if (!BarracksServer.Instance.Database.AccountExists(accountName))
@@ -39,15 +38,15 @@ namespace Melia.Barracks.Util
 			return CommandResult.Okay;
 		}
 
-		private CommandResult HandlePasswd(string command, IList<string> args)
+		private CommandResult HandlePasswd(string command, Arguments args)
 		{
 			if (args.Count < 3)
 			{
 				return CommandResult.InvalidArgument;
 			}
 
-			var accountName = args[1];
-			var password = args[2];
+			var accountName = args.Get(1);
+			var password = args.Get(2);
 
 			if (!BarracksServer.Instance.Database.AccountExists(accountName))
 			{
