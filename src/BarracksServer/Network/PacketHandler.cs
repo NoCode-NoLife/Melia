@@ -407,8 +407,6 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
-			Log.Debug(zoneServerInfo.Port);
-
 			Send.BC_START_GAMEOK(conn, character, zoneServerInfo.Ip, zoneServerInfo.Port);
 		}
 
