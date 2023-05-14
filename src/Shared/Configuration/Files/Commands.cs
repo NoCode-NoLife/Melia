@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Melia.Shared.Tos.Const;
 using Yggdrasil.Configuration;
 using Yggdrasil.Logging;
 
@@ -9,6 +12,8 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class CommandsConfFile : ConfFile
 	{
+		private string[] _nonCommands = new[] { "prefix" };
+
 		/// <summary>
 		/// Prefix for using commands on yourself.
 		/// </summary>
@@ -18,6 +23,12 @@ namespace Melia.Shared.Configuration.Files
 		/// Prefix for using commands on someone else.
 		/// </summary>
 		public string TargetPrefix { get; protected set; }
+
+		/// <summary>
+		/// Returns the default authority levels for commands that
+		/// have no levels defined.
+		/// </summary>
+		public CommandAuthLevels DefaultLevels { get; protected set; }
 
 		/// <summary>
 		/// List of commands and their authority levels.
@@ -32,46 +43,73 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
-			// Prefix
 			this.SelfPrefix = this.GetString("prefix", "/").Substring(0, 1);
 			this.TargetPrefix = this.SelfPrefix + this.SelfPrefix;
 
-			// Commands
+			// Get levels by iterating of the remaining options
 			this.CommandLevels = new Dictionary<string, CommandAuthLevels>();
 
 			foreach (var option in _options)
 			{
-				if (option.Key == "prefix")
+				if (_nonCommands.Contains(option.Key))
 					continue;
 
-				var sAuth = option.Value.Split(',');
-				if (sAuth.Length < 2)
-				{
-					Log.Error("CommandsConfFile.Load: Commands need 2 auth settings, '{0}' has less.", option.Key);
-					continue;
-				}
+				var command = option.Key;
+				var levels = ParseAuthLevels(command, option.Value);
 
-				if (!int.TryParse(sAuth[0], out var auth1) || !int.TryParse(sAuth[1], out var auth2))
-				{
-					Log.Error("CommandsConfFile.Load: Unable to parse auth for '{0}'.", option.Key);
-					continue;
-				}
-
-				this.CommandLevels[option.Key.Trim()] = new CommandAuthLevels(auth1, auth2);
+				this.CommandLevels[command] = levels;
 			}
 		}
 
 		/// <summary>
-		/// Returns auth for command, or a new auth with auth levels being 99
-		/// if the command wasn't found in the config.
+		/// Parses comma separated string as auth levels and returns it.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="levelsStr"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if the levels are formatted properly or contain invalid
+		/// integer values.
+		/// </exception>
+		private static CommandAuthLevels ParseAuthLevels(string command, string levelsStr)
+		{
+			var sAuth = levelsStr.Split(',');
+			if (sAuth.Length < 2)
+				throw new ArgumentException($"Invalid format for command auth levels. ({command}: {levelsStr})");
+
+			if (!int.TryParse(sAuth[0], out var selfAuth) || !int.TryParse(sAuth[1], out var targetAuth))
+				throw new ArgumentException($"Invalid values for command auth levels. ({command}: {levelsStr})");
+
+			return new CommandAuthLevels(selfAuth, targetAuth);
+		}
+
+		/// <summary>
+		/// Returns auth levels for the given command, or null if no levels
+		/// were defined for this specific command.
 		/// </summary>
 		/// <param name="command"></param>
 		/// <returns></returns>
 		public CommandAuthLevels GetLevels(string command)
 		{
-			this.CommandLevels.TryGetValue(command, out var result);
-			if (result == null)
-				result = new CommandAuthLevels(99, 99);
+			if (!this.CommandLevels.TryGetValue(command, out var result))
+				return null;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns auth levels for the given command. Returns default
+		/// levels if no levels were defined for this specific command.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
+		public CommandAuthLevels GetLevelsOrDefault(string command)
+		{
+			if (!this.CommandLevels.TryGetValue(command, out var result))
+			{
+				if (!this.CommandLevels.TryGetValue("default", out result))
+					throw new ArgumentException("No levels or defaults found for the given command.");
+			}
 
 			return result;
 		}

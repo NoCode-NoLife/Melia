@@ -76,7 +76,7 @@ namespace Melia.Zone.Commands
 				levels = ZoneServer.Instance.Conf.Commands.GetLevels("default");
 				if (levels == null)
 				{
-					character.ServerMessage(Localization.Get("No authority levels were set for this command and no default level could be found."));
+					character.ServerMessage(Localization.Get("No authority levels were set for this command and no default levels could be found."));
 					return true;
 				}
 
@@ -84,6 +84,7 @@ namespace Melia.Zone.Commands
 			}
 
 			var authority = character.Connection.Account.Authority;
+
 			if ((!isDoublePrefix && authority < levels.Self) || (isDoublePrefix && authority < levels.Target))
 			{
 				character.ServerMessage(Localization.Get("You're not authorized to use this command."));
