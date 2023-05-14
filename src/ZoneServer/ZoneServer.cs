@@ -70,6 +70,8 @@ namespace Melia.Zone
 			this.LoadData();
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
+			this.InitWorld();
+			this.LoadScripts("system/scripts/scripts_zone.txt");
 
 			// Get server data
 			var serverInfo = this.GetServerInfo(ServerType.Zone, args);
@@ -83,6 +85,16 @@ namespace Melia.Zone
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Loads maps ad initializes them.
+		/// </summary>
+		private void InitWorld()
+		{
+			Log.Info("Initializing world...");
+			this.World.Initialize();
+			Log.Info("  done loading {0} maps.", this.World.Count);
 		}
 
 		/// <summary>
