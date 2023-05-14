@@ -28,7 +28,7 @@ namespace Melia.Zone.Commands
 		public ChatCommands()
 		{
 			// The required authority levels for commands can be specified
-			// in the configuration file "system/conf/commands.conf".
+			// in the configuration file "conf/commands.conf".
 
 			// Official
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
@@ -40,40 +40,40 @@ namespace Melia.Zone.Commands
 			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
 
 			// Normal
-			this.Add("where", "", "", this.HandleWhere);
-			this.Add("name", "<new name>", "", this.HandleName);
+			this.Add("where", "", "Displays current location.", this.HandleWhere);
+			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 
 			// VIP
-			this.Add("autoloot", "", "", this.HandleAutoloot);
+			this.Add("autoloot", "", "Toggles autolooting.", this.HandleAutoloot);
 
 			// GMs
-			this.Add("jump", "<x> <y> <z>", "", this.HandleJump);
-			this.Add("warp", "<map id> <x> <y> <z>", "", this.HandleWarp);
-			this.Add("item", "<item id> [amount]", "", this.HandleItem);
-			this.Add("silver", "<modifier>", "", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1]", "", this.HandleSpawn);
-			this.Add("madhatter", "", "", this.HandleGetAllHats);
-			this.Add("levelup", "<levels>", "", this.HandleLevelUp);
-			this.Add("speed", "<speed>", "", this.HandleSpeed);
-			this.Add("iteminfo", "<name>", "", this.HandleItemInfo);
-			this.Add("monsterinfo", "<name>", "", this.HandleMonsterInfo);
-			this.Add("go", "<destination>", "", this.HandleGo);
-			this.Add("goto", "<team name>", "", this.HandleGoTo);
-			this.Add("recall", "<team name>", "", this.HandleRecall);
-			this.Add("recallmap", "[map id/name]", "", this.HandleRecallMap);
-			this.Add("recallall", "", "", this.HandleRecallAll);
-			this.Add("clearinv", "", "", this.HandleClearInventory);
-			this.Add("addjob", "<job id> [circle]", "", this.HandleAddJob);
-			this.Add("removejob", "<job id>", "", this.HandleRemoveJob);
-			this.Add("skillpoints", "<job id> <modifier>", "", this.HandleSkillPoints);
-			this.Add("statpoints", "<amount>", "", this.HandleStatPoints);
+			this.Add("jump", "<x> <y> <z>", "Teleports to given location on the same map.", this.HandleJump);
+			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
+			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
+			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
+			this.Add("spawn", "<monster id|class name> [amount=1]", "Spawns monster.", this.HandleSpawn);
+			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
+			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
+			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
+			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
+			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
+			this.Add("go", "<destination>", "Warps to certain pre-defined destinations.", this.HandleGo);
+			this.Add("goto", "<team name>", "Warps to another character.", this.HandleGoTo);
+			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
+			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
+			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
+			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
+			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
+			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
+			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
+			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
-			this.Add("reloadscripts", "", "", this.HandleReloadScripts);
-			this.Add("reloadconf", "", "", this.HandleReloadConf);
-			this.Add("reloaddata", "", "", this.HandleReloadData);
-			this.Add("ai", "[ai name]", "", this.HandleAi);
+			this.Add("reloadscripts", "", "Reloads all scripts.", this.HandleReloadScripts);
+			this.Add("reloadconf", "", "Reloads configuration files.", this.HandleReloadConf);
+			this.Add("reloaddata", "", "Reloads data.", this.HandleReloadData);
+			this.Add("ai", "[ai name]", "Activates AI for character.", this.HandleAi);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -85,9 +85,9 @@ namespace Melia.Zone.Commands
 		/// Test command, modify to quickly test something, but never
 		/// commit the changes to it.
 		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -101,9 +101,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Tells the sender where the target currently is.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -120,9 +120,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps target to given position on their current map.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -171,9 +171,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps target to given location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -252,9 +252,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Spawns item in target's inventory.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -296,9 +296,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Adds or removes silver from target's inventory.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -350,9 +350,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Spawns monsters at target's location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -430,9 +430,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Adds all available hats to target's inventory.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -467,9 +467,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Changes target's name (not team name).
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -504,9 +504,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Reloads all scripts.
 		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -525,9 +525,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Reloads all conf files.
 		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -545,9 +545,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Reloads all data files.
 		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -565,9 +565,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Levels up target.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -599,9 +599,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Changes target's speed.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -635,9 +635,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Searches item database for given string.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -670,9 +670,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Searches monster database for given string.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -705,9 +705,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps target to a pre-defined location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -744,9 +744,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps target to a specific character's location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -784,9 +784,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps specific character to target.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -819,9 +819,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps all players on the map to target's location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -868,9 +868,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Warps all players on the server to target's location.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -926,9 +926,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Removes all items from target's inventory.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -946,9 +946,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Official slash command, purpose unknown.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -967,9 +967,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Official slash command, exchanges silver for ability points.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1001,6 +1001,7 @@ namespace Melia.Zone.Commands
 
 			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
+
 			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
 
 			return CommandResult.Okay;
@@ -1009,9 +1010,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Official slash command to learn abilities.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1131,9 +1132,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Adds job to target.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1181,6 +1182,15 @@ namespace Melia.Zone.Commands
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Removes a given job from target.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private CommandResult HandleRemoveJob(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (args.Count < 1)
@@ -1213,9 +1223,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Modifies target's skill points for the given job.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1254,9 +1264,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Adds stat points to target character.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1290,9 +1300,9 @@ namespace Melia.Zone.Commands
 		/// Opens buy-in shop creation window or creates shop based on
 		/// arguments.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1351,9 +1361,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Updates the character's mouse position variables.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1370,9 +1380,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Toggles autoloot.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -1414,9 +1424,9 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Toggles AI for target.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
+		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
