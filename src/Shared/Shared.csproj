@@ -83,6 +83,8 @@
     <Compile Include="Configuration\Files\Login.cs" />
     <Compile Include="Configuration\Files\Web.cs" />
     <Compile Include="Configuration\Files\World.cs" />
+    <Compile Include="Network2\Crypto\BlowFish.cs" />
+    <Compile Include="Network2\Crypto\TOSCrypto.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
     <Compile Include="Tos\Const\BuffId.cs" />
     <Compile Include="Tos\Const\AnimationId.cs" />
