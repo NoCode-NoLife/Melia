@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data;
@@ -46,6 +47,14 @@ namespace Melia.Shared.Data.Database
 			data = this.Entries.FirstOrDefault(a => a.Type == type && a.Id == id);
 			return data != null;
 		}
+
+		/// <summary>
+		/// Returns all servers that match the given type.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public ServerData[] FindAll(ServerType type)
+			=> this.Entries.Where(a => a.Type == type).ToArray();
 
 		/// <summary>
 		/// Reads given entry and adds it to the database.

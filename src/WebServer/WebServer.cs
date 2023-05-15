@@ -1,96 +1,191 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using EmbedIO;
+using EmbedIO.Files;
+using EmbedIO.Net;
+using EmbedIO.WebApi;
 using Melia.Shared;
-using Melia.Shared.Database;
 using Melia.Shared.Util;
-using Melia.Shared.Util.Configuration;
-using Swebs;
+using Melia.Web.Controllers;
+using Melia.Web.Logging;
+using Melia.Web.Modules;
+using Swan.Logging;
+using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
 namespace Melia.Web
 {
-	public class WebServer : Server
+	public class WebServer : Server2
 	{
-		public static readonly WebServer Instance = new WebServer();
+		public readonly static WebServer Instance = new WebServer();
 
-		private List<object> _swebsReferences = new List<object>();
-
-		/// <summary>
-		/// Actual HTTP server.
-		/// </summary>
-		public HttpServer HttpServer { get; private set; }
+		private EmbedIO.WebServer _server;
 
 		/// <summary>
-		/// Configuration.
+		/// Runs the server.
 		/// </summary>
-		public Conf Conf { get; private set; }
-
-		/// <summary>
-		/// Wev server's database.
-		/// </summary>
-		public MeliaDb Database { get; private set; }
-
-		/// <summary>
-		/// Starts the server.
-		/// </summary>
-		public override void Run()
+		/// <param name="args"></param>
+		public override void Run(string[] args)
 		{
-			base.Run();
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Web", ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			ConsoleUtil.LoadingTitle();
 
-			CliUtil.WriteHeader("Web", ConsoleColor.DarkRed);
-			CliUtil.LoadingTitle();
-
-			this.LoadConf(this.Conf = new Conf());
-			this.InitDatabase(this.Database = new MeliaDb(), this.Conf);
-			this.LoadData(DataToLoad.Servers, true);
+			this.NavigateToRoot();
+			this.LoadConf(this.Conf);
+			this.LoadData();
+			this.CheckDependencies();
 
 			this.StartWebServer();
 
-			CliUtil.RunningTitle();
+			ConsoleUtil.RunningTitle();
 
 			new ConsoleCommands().Wait();
 		}
 
 		/// <summary>
-		/// Sets up default controllers and starts web server
+		/// Checks and downloads dependencies, such as PHP.
 		/// </summary>
-		public void StartWebServer()
+		private void CheckDependencies()
 		{
-			Log.Info("Starting web server...");
+			var phpFilePath = this.Conf.Web.PhpCgiFilePath;
+			var phpFolderPath = Path.GetDirectoryName(phpFilePath);
 
-			// Trick compiler into referencing DLLs, so Swebs references them
-			// in the C# scripts as well.
-			//_swebsReferences.Add(...);
+			// If the binary exists we got all we need
+			if (File.Exists(phpFilePath))
+				return;
 
-			var conf = new Configuration();
-			conf.Host = IPAddress.Parse(this.Conf.Web.Ip);
-			conf.Port = this.Conf.Web.Port;
-			conf.SourcePaths.Add("user/web/");
-			conf.SourcePaths.Add("system/web/");
-
-			this.HttpServer = new HttpServer(conf);
-			this.HttpServer.RequestReceived += (s, e) =>
+			// If the binary doesn't exist, and the intended path is
+			// not inside the user folder, we'll let the user figure
+			// out what to do, since they changed the path.
+			if (!phpFilePath.Replace("\\", "/").StartsWith("user/tools/"))
 			{
-				Log.Debug("[{0}] - {1}", e.Request.HttpMethod, e.Request.Path);
-				//Log.Debug(e.Request.UserAgent); // Client: TEST_ARI
-			};
-			this.HttpServer.UnhandledException += (s, e) => Log.Exception(e.Exception);
+				Log.Error("Configured PHP CGI binary not found at '{0}', please check your web configuration.", phpFilePath);
+				ConsoleUtil.Exit(1);
+				return;
+			}
 
+			// If the binary wasn't found, and we're not Windows, this is
+			// the end of the road for now.
+			// TODO: Add auto-download for Linux and MacOS?
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+			{
+				Log.Error("The configured PHP binary couldn't be found and we can't set it up automatically. Please install PHP on your system and set the binary path in the web configuration.");
+				ConsoleUtil.Exit(1);
+				return;
+			}
+
+			Log.Info("PHP not found. Downloading now...");
+
+			using (var wc = new WebClient())
+			{
+				var tempFileName = Path.GetTempFileName();
+				var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+
+				try
+				{
+					wc.Headers.Set(HttpRequestHeader.UserAgent, "Lela");
+					wc.DownloadProgressChanged += (s, e) => Console.Write("         Download Progress: {0,3:0}%\r", e.ProgressPercentage);
+
+					var task = wc.DownloadFileTaskAsync(downloadUrl, tempFileName);
+					task.Wait();
+
+					Log.Info("PHP download complete, extracting...");
+
+					if (!Directory.Exists(phpFolderPath))
+						Directory.CreateDirectory(phpFolderPath);
+
+					ZipFile.ExtractToDirectory(tempFileName, phpFolderPath);
+
+					Log.Info("PHP extraction complete, setting up...");
+
+					var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
+					var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
+					File.Copy(productionIniFilePath, iniFilePath);
+
+					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Failed to download PHP: " + ex);
+					ConsoleUtil.Exit(1);
+				}
+				finally
+				{
+					try { File.Delete(tempFileName); }
+					catch { }
+				}
+			}
+		}
+
+		/// <summary>
+		/// Starts web server.
+		/// </summary>
+		private void StartWebServer()
+		{
 			try
 			{
-				this.HttpServer.Start();
+				var url = string.Format("http://{0}:{1}/", this.Conf.Web.Ip, this.Conf.Web.Port);
 
-				Log.Info("ServerListURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/serverlist.cs");
-				Log.Info("StaticConfigURL: http://*:{0}/{1}", this.Conf.Web.Port, "toslive/patch/");
-				Log.Status("Server ready, listening on 0.0.0.0:{0}.", this.Conf.Web.Port);
+				Logger.NoLogging();
+				Logger.RegisterLogger<YggdrasilLogger>();
+
+				EndPointManager.UseIpv6 = false;
+
+				_server = new EmbedIO.WebServer(url);
+
+				// The PHP module handles all requests to PHP scripts,
+				// including defaulting to index.php and prioritizing
+				// the user folder. Should this fail, we'll try static
+				// requests to user and system.
+				// TODO: Look into handling PHP scripts from a FileModule,
+				//   adding a pre-processor.
+
+				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
+
+				_server.WithModule(new PhpModule("/"));
+
+				if (Directory.Exists("user/web/"))
+				{
+					_server.WithStaticFolder("/", "user/web/", false, fm =>
+					{
+						fm.DefaultDocument = "index.htm";
+						fm.OnMappingFailed = FileRequestHandler.PassThrough;
+						fm.OnDirectoryNotListable = FileRequestHandler.PassThrough;
+					});
+				}
+
+				if (Directory.Exists("system/web/"))
+				{
+					_server.WithStaticFolder("/", "system/web/", false, fm =>
+					{
+						fm.DefaultDocument = "index.htm";
+					});
+				}
+
+				_server.RunAsync();
+
+				if (_server.State == WebServerState.Stopped)
+				{
+					Log.Error("Failed to start web server, make sure there's only one instance running.");
+					ConsoleUtil.Exit(1);
+				}
+
+				Log.Status("Server now running on '{0}'", url);
 			}
-			catch (NHttpException)
+			catch (Exception ex)
 			{
-				Log.Error("Failed to start web server.");
-				Log.Info("Port {0} might already be in use, make sure no other application, like other web servers or Skype, are using it or set a different port in web.conf.", this.Conf.Web.Port);
-				CliUtil.Exit(1);
+				Log.Error("Failed to start web server: {0}", ex);
+				ConsoleUtil.Exit(1);
 			}
+		}
+
+		private Task TestHandler(IHttpContext context)
+		{
+			return context.SendStringAsync("Hello, world!", "text/plain", Encoding.UTF8);
 		}
 	}
 }

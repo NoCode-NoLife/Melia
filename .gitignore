@@ -7,12 +7,14 @@
 /cache/
 
 /user/conf/*
-!/user/conf/database-example.conf
-
 /user/db/*
-!/user/db/items-example.txt
-
 /user/scripts/*
+/user/tools/*
+/user/web/*
+/user/version/*
+
+!/user/conf/database-example.conf
+!/user/db/items-example.txt
 !/user/scripts/scripts_custom-example.txt
 
 #################

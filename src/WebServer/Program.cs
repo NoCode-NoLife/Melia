@@ -9,7 +9,7 @@ namespace Melia.Web
 		{
 			try
 			{
-				WebServer.Instance.Run();
+				WebServer.Instance.Run(args);
 			}
 			catch (Exception ex)
 			{

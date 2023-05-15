@@ -59,18 +59,6 @@ namespace Melia.Shared
 		public abstract void Run(string[] args);
 
 		/// <summary>
-		/// Starts the server.
-		/// </summary>
-		public virtual void Run()
-		{
-			if (_running)
-				throw new Exception("Server is already running.");
-			_running = true;
-
-			this.NavigateToRoot();
-		}
-
-		/// <summary>
 		/// Changes current directory to the project's root folder.
 		/// </summary>
 		protected void NavigateToRoot()
