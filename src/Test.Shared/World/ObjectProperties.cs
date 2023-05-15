@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.Network;
+using Melia.Shared.Network2;
 using Melia.Shared.World.ObjectProperties;
 using Xunit;
 

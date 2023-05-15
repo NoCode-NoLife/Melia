@@ -498,8 +498,8 @@ namespace Melia.Shared.Network2
 			var sb = new StringBuilder();
 			var buffer = _buffer.Copy();
 			var length = this.Length;
-			var tableSize = Network.Op.GetSize(this.Op);
-			var opName = Network.Op.GetName(this.Op);
+			var tableSize = Network2.Op.GetSize(this.Op);
+			var opName = Network2.Op.GetName(this.Op);
 			var spacer = "".PadLeft(78, '-');
 
 			sb.AppendLine(spacer);

@@ -1,8 +1,6 @@
 ﻿using System;
-using Melia.Shared.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Framing;
-using Yggdrasil.Util;
 
 namespace Melia.Shared.Network2
 {

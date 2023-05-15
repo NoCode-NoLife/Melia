@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Melia.Shared.Network.Crypto;
+using Melia.Shared.Network2.Crypto;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 

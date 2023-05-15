@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Network;
 using Yggdrasil.Logging;
 
 namespace Melia.Shared.Network2
