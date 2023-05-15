@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
-using Melia.Shared.Network2;
+using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;

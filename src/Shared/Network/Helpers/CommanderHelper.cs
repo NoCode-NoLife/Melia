@@ -1,6 +1,6 @@
 ﻿using Melia.Shared.World;
 
-namespace Melia.Shared.Network2.Helpers
+namespace Melia.Shared.Network.Helpers
 {
 	public static class CommanderHelper
 	{

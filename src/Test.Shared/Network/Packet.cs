@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Network2;
+using Melia.Shared.Network;
 using Xunit;
 using Yggdrasil.Util;
 

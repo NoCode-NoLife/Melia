@@ -10,7 +10,7 @@ using Melia.Shared.Data;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.L10N;
-using Melia.Shared.Network2;
+using Melia.Shared.Network;
 using Melia.Shared.Scripting;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;

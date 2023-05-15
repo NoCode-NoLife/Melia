@@ -1,6 +1,6 @@
 ﻿using Melia.Shared.World;
 
-namespace Melia.Shared.Network2.Helpers
+namespace Melia.Shared.Network.Helpers
 {
 	/// <summary>
 	/// Helper extension methods for reading and writing positions and

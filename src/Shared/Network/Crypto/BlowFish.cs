@@ -27,7 +27,7 @@
 using System;
 using System.Text;
 
-namespace Melia.Shared.Network2.Crypto
+namespace Melia.Shared.Network.Crypto
 {
 	/// <summary>
 	/// Class that provides blowfish encryption.

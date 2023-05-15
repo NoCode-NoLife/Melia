@@ -1,5 +1,5 @@
 ﻿using Melia.Barracks.Database;
-using Melia.Shared.Network2;
+using Melia.Shared.Network;
 
 namespace Melia.Barracks.Network
 {

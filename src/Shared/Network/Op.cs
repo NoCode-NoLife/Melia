@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Melia.Shared.Network2
+namespace Melia.Shared.Network
 {
 	/// <summary>
 	/// Packet op code enum

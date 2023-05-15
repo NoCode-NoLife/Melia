@@ -6,7 +6,7 @@ using Melia.Zone.World.Entities.Components;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.EntityComponents;
-using Melia.Shared.Network2.Helpers;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;

@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Network2
+﻿namespace Melia.Shared.Network
 {
 	public static class NormalOp
 	{

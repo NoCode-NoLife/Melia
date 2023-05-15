@@ -1,5 +1,5 @@
-﻿using Melia.Shared.Network2.Helpers;
-using Melia.Shared.Network2;
+﻿using Melia.Shared.Network.Helpers;
+using Melia.Shared.Network;
 using Melia.Shared.World;
 
 namespace Melia.Barracks.Network.Helpers

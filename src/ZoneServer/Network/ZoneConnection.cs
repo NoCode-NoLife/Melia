@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Network2;
+﻿using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Entities;

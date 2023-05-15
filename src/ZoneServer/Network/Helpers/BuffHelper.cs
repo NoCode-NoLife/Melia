@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Melia.Zone.World;
-using Melia.Shared.Network2;
+using Melia.Shared.Network;
 
 namespace Melia.Zone.Network.Helpers
 {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Melia.Shared.Network2;
-using Melia.Shared.Network2.Helpers;
+using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;

@@ -2,7 +2,7 @@
 using System.Linq;
 using Melia.Zone.Scripting;
 using Melia.Zone.World;
-using Melia.Shared.Network2.Helpers;
+using Melia.Shared.Network.Helpers;
 using Melia.Shared.Scripting;
 
 namespace Melia.Zone.Database

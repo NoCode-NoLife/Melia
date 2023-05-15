@@ -2,7 +2,7 @@
 using System.Linq;
 using Melia.Shared.Data.Database;
 
-namespace Melia.Shared.Network2
+namespace Melia.Shared.Network
 {
 	/// <summary>
 	/// Server list manager.

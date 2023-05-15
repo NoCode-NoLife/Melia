@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melia.Shared.Network2.Crypto
+namespace Melia.Shared.Network.Crypto
 {
 	public partial class TOSCrypto
 	{

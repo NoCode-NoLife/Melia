@@ -2,7 +2,7 @@
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Framing;
 
-namespace Melia.Shared.Network2
+namespace Melia.Shared.Network
 {
 	public class TosFramer : IMessageFramer
 	{

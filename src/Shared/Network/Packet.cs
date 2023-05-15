@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Yggdrasil.Util;
 
-namespace Melia.Shared.Network2
+namespace Melia.Shared.Network
 {
 	public class Packet
 	{
@@ -498,8 +498,8 @@ namespace Melia.Shared.Network2
 			var sb = new StringBuilder();
 			var buffer = _buffer.Copy();
 			var length = this.Length;
-			var tableSize = Network2.Op.GetSize(this.Op);
-			var opName = Network2.Op.GetName(this.Op);
+			var tableSize = Network.Op.GetSize(this.Op);
+			var opName = Network.Op.GetName(this.Op);
 			var spacer = "".PadLeft(78, '-');
 
 			sb.AppendLine(spacer);

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.World.ObjectProperties;
 
-namespace Melia.Shared.Network2.Helpers
+namespace Melia.Shared.Network.Helpers
 {
 	public static class PropertyHelper
 	{

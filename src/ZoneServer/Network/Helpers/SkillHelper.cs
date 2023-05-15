@@ -1,6 +1,6 @@
 ﻿using Melia.Zone.Skills;
-using Melia.Shared.Network2;
-using Melia.Shared.Network2.Helpers;
+using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Zone.Network.Helpers
 {
