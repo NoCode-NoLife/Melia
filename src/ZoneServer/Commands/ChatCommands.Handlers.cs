@@ -11,7 +11,6 @@ using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
-using Melia.Zone.Util;
 using Melia.Zone.World.Entities;
 using Melia.Zone.World.Entities.Components;
 using Yggdrasil.Util.Commands;

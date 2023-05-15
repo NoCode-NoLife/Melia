@@ -105,8 +105,8 @@
     <Compile Include="Skills\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\SkillHandlers.cs" />
     <Compile Include="Skills\Swordsman\Thrust.cs" />
-    <Compile Include="Util\AbilityPriceTime.cs" />
-    <Compile Include="Util\AbilityUnlock.cs" />
+    <Compile Include="Skills\AbilityPriceTime.cs" />
+    <Compile Include="Skills\AbilityUnlock.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Entities\Character.cs" />

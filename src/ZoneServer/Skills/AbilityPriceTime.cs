@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Melia.Zone.World;
-using Melia.Zone.World.Entities;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Util;
+using Melia.Zone.World.Entities;
 
-namespace Melia.Zone.Util
+namespace Melia.Zone.Skills
 {
-	// These functions should not be changed, unless the respective
-	// functions on the client are changed as well, as the client displays
-	// and checks the requests based on its own data before sending it
-	// to the server.
-
+	/// <summary>
+	/// Functions for calculating prices and time spans required for
+	/// leveling abilities.
+	/// </summary>
 	public static class AbilityPriceTime
 	{
+		// [Warning]
+		// These functions should not be changed, unless the respective
+		// functions on the client are changed as well, as the client displays
+		// and checks the requests based on its own data before sending it
+		// to the server.
+
 		private static readonly Regex CallRegex = new Regex(@"^\s*(?<funcName>[a-z0-9_]+)\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		/// <summary>
