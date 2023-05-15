@@ -53,7 +53,7 @@ namespace Melia.Shared.Util.Configuration
 			{
 				foreach (var line in fr)
 				{
-					var pos = -1;
+					int pos;
 
 					// Check for seperator
 					if ((pos = line.Value.IndexOf(':')) < 0)
@@ -199,7 +199,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <param name="option"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		protected DateTime GetDateTime(string option, DateTime defaultValue = default(DateTime))
+		protected DateTime GetDateTime(string option, DateTime defaultValue = default)
 		{
 			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
@@ -224,7 +224,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <param name="option"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		protected TimeSpan GetTimeSpan(string option, TimeSpan defaultValue = default(TimeSpan))
+		protected TimeSpan GetTimeSpan(string option, TimeSpan defaultValue = default)
 		{
 			if (!_options.TryGetValue(option, out var value))
 				return defaultValue;
@@ -244,7 +244,7 @@ namespace Melia.Shared.Util.Configuration
 		/// <param name="option"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		protected T GetEnum<T>(string option, T defaultValue = default(T)) where T : struct
+		protected T GetEnum<T>(string option, T defaultValue = default) where T : struct
 		{
 			if (!typeof(T).IsEnum)
 				throw new NotSupportedException("Type " + typeof(T) + " is not an enum.");

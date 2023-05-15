@@ -12,7 +12,7 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class CommandsConfFile : ConfFile
 	{
-		private string[] _nonCommands = new[] { "prefix" };
+		private readonly string[] _nonCommands = new[] { "prefix" };
 
 		/// <summary>
 		/// Prefix for using commands on yourself.

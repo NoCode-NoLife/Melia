@@ -25,8 +25,6 @@ namespace Melia.Shared
 	/// </summary>
 	public abstract class Server
 	{
-		private bool _running;
-
 		/// <summary>
 		/// Returns a reference to all conf files.
 		/// </summary>

@@ -182,10 +182,5 @@ namespace Melia.Web
 				ConsoleUtil.Exit(1);
 			}
 		}
-
-		private Task TestHandler(IHttpContext context)
-		{
-			return context.SendStringAsync("Hello, world!", "text/plain", Encoding.UTF8);
-		}
 	}
 }
