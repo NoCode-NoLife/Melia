@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using Melia.Shared.Configuration;
 using Melia.Shared.Data;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.L10N;
+using Melia.Shared.Network2;
 using Melia.Shared.Scripting;
-using Melia.Shared.Util;
-using Melia.Shared.Util.Configuration;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;
 
@@ -22,9 +28,14 @@ namespace Melia.Shared
 		private bool _running;
 
 		/// <summary>
-		/// File databases.
+		/// Returns a reference to all conf files.
 		/// </summary>
-		public MeliaData Data { get; private set; }
+		public ConfFiles Conf { get; } = new ConfFiles();
+
+		/// <summary>
+		/// Returns a reference to the server's loaded data.
+		/// </summary>
+		public MeliaData Data { get; } = new MeliaData();
 
 		/// <summary>
 		/// Returns a reference to the server's script loader.
@@ -32,29 +43,121 @@ namespace Melia.Shared
 		protected ScriptLoader ScriptLoader { get; private set; }
 
 		/// <summary>
-		/// Initializes class.
+		/// Returns a reference to the server's string localizer manager.
 		/// </summary>
-		public Server()
-		{
-			this.Data = new MeliaData();
-		}
+		public MultiLocalizer MultiLocalization { get; } = new MultiLocalizer();
+
+		/// <summary>
+		/// Returns a reference to the server list.
+		/// </summary>
+		public ServerList ServerList { get; } = new ServerList();
 
 		/// <summary>
 		/// Starts the server.
 		/// </summary>
-		public virtual void Run()
-		{
-			if (_running)
-				throw new Exception("Server is already running.");
-			_running = true;
+		/// <param name="args"></param>
+		public abstract void Run(string[] args);
 
-			this.NavigateToRoot();
+		/// <summary>
+		/// Changes current directory to the project's root folder.
+		/// </summary>
+		protected void NavigateToRoot()
+		{
+			var folderNames = new[] { "lib", "user", "system" };
+			var tries = 3;
+
+			var cwd = Directory.GetCurrentDirectory();
+			for (var i = 0; i < tries; ++i)
+			{
+				if (folderNames.All(a => Directory.Exists(a)))
+					return;
+
+				Directory.SetCurrentDirectory("../");
+			}
+
+			throw new DirectoryNotFoundException($"Failed to navigate to root folder. (Missing: {string.Join(", ", folderNames)})");
+		}
+
+		/// <summary>
+		/// Loads all configuration files.
+		/// </summary>
+		/// <returns></returns>
+		public ConfFiles LoadConf()
+		{
+			Log.Info("Loading configuration...");
+
+			this.Conf.Load();
+
+			return this.Conf;
+		}
+
+		/// <summary>
+		/// Loads localization files and updates cultural settings.
+		/// </summary>
+		/// <returns></returns>
+		protected void LoadLocalization(ConfFiles conf)
+		{
+			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo(conf.Localization.Culture);
+			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo(conf.Localization.CultureUi);
+			Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentCulture;
+			Thread.CurrentThread.CurrentUICulture = CultureInfo.DefaultThreadCurrentUICulture;
+
+			var serverLanguage = conf.Localization.Language;
+			var relativeFolderPath = "localization";
+			var systemFolderPath = Path.Combine("system", relativeFolderPath);
+			var userFolderPath = Path.Combine("system", relativeFolderPath);
+
+			Log.Info("Loading localization...");
+
+			// Load everything from user first, then check system, without
+			// overriding the ones loaded from user
+			if (Directory.Exists(userFolderPath))
+			{
+				foreach (var filePath in Directory.EnumerateFiles(userFolderPath, "*.po", SearchOption.AllDirectories))
+				{
+					var languageName = Path.GetFileNameWithoutExtension(filePath);
+					this.MultiLocalization.Load(languageName, filePath);
+
+					Log.Info("  loaded {0}.", languageName);
+				}
+			}
+
+			if (Directory.Exists(systemFolderPath))
+			{
+				foreach (var filePath in Directory.EnumerateFiles(systemFolderPath, "*.po", SearchOption.AllDirectories))
+				{
+					var languageName = Path.GetFileNameWithoutExtension(filePath);
+					if (this.MultiLocalization.Contains(languageName))
+						continue;
+
+					this.MultiLocalization.Load(languageName, filePath);
+
+					Log.Info("  loaded {0}.", languageName);
+				}
+			}
+
+			Log.Info("  setting default language to {0}.", serverLanguage);
+
+			// Try to set the default localizer, and warn the user about
+			// missing localizers if the selected server language isn't
+			// US english.
+			if (!this.MultiLocalization.Contains(serverLanguage))
+			{
+				if (serverLanguage != "en-US")
+					Log.Warning("Localization file '{0}.po' not found.", serverLanguage);
+			}
+			else
+			{
+				this.MultiLocalization.SetDefault(serverLanguage);
+			}
+
+			Melia.Shared.L10N.Localization.SetLocalizer(this.MultiLocalization.GetDefault());
 		}
 
 		/// <summary>
 		/// Initializes database connection with data from Conf.
 		/// </summary>
-		protected void InitDatabase(MeliaDb db, Conf conf)
+		protected void InitDatabase(MeliaDb db, ConfFiles conf)
 		{
 			try
 			{
@@ -64,136 +167,61 @@ namespace Melia.Shared
 			catch (Exception ex)
 			{
 				Log.Error("Failed to initialize database: {0}", ex.Message);
-				CliUtil.Exit(1, true);
+				ConsoleUtil.Exit(1, true);
 			}
 		}
 
 		/// <summary>
 		/// Loads data from files.
 		/// </summary>
-		public void LoadData(DataToLoad toLoad, bool reload)
+		public void LoadData()
 		{
 			Log.Info("Loading data...");
 
 			try
 			{
-				if ((toLoad & DataToLoad.Items) != 0)
-				{
-					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt", reload);
-					this.LoadDb(this.Data.ItemDb, "db/items.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Jobs) != 0)
-				{
-					this.LoadDb(this.Data.JobDb, "db/jobs.txt", reload);
-					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Maps) != 0)
-				{
-					this.LoadDb(this.Data.MapDb, "db/maps.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Ground) != 0)
-				{
-					this.LoadDb(this.Data.GroundDb, "db/ground.dat", reload);
-				}
-
-				if ((toLoad & DataToLoad.Monsters) != 0)
-				{
-					this.LoadDb(this.Data.MonsterDb, "db/monsters.txt", reload);
-					this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt", reload);
-					this.LoadDb(this.Data.FactionDb, "db/factions.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Servers) != 0)
-				{
-					this.LoadDb(this.Data.ServerDb, "db/servers.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Barracks) != 0)
-				{
-					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Shops) != 0)
-				{
-					this.LoadDb(this.Data.ShopDb, "db/shops.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Skills) != 0)
-				{
-					this.LoadDb(this.Data.SkillDb, "db/skills.txt", reload);
-					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt", reload);
-					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt", reload);
-					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Exp) != 0)
-				{
-					this.LoadDb(this.Data.ExpDb, "db/exp.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Dialogues) != 0)
-				{
-					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Help) != 0)
-				{
-					this.LoadDb(this.Data.HelpDb, "db/help.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.CustomCommands) != 0)
-				{
-					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.ChatMacros) != 0)
-				{
-					this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Buffs) != 0)
-				{
-					this.LoadDb(this.Data.BuffDb, "db/buffs.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.SessionObjects) != 0)
-				{
-					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Achievements) != 0)
-				{
-					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt", reload);
-					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.Cooldowns) != 0)
-				{
-					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt", reload);
-				}
-
-				if ((toLoad & DataToLoad.PacketStrings) != 0)
-				{
-					this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt", reload);
-				}
+				this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
+				this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
+				this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
+				this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
+				this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
+				this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
+				this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
+				this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
+				this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
+				this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
+				this.LoadDb(this.Data.ExpDb, "db/exp.txt");
+				this.LoadDb(this.Data.FactionDb, "db/factions.txt");
+				this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+				this.LoadDb(this.Data.HelpDb, "db/help.txt");
+				this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
+				this.LoadDb(this.Data.ItemDb, "db/items.txt");
+				this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt");
+				this.LoadDb(this.Data.JobDb, "db/jobs.txt");
+				this.LoadDb(this.Data.MapDb, "db/maps.txt");
+				this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
+				this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
+				this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+				this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
+				this.LoadDb(this.Data.ShopDb, "db/shops.txt");
+				this.LoadDb(this.Data.SkillDb, "db/skills.txt");
+				this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+				this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 			}
 			catch (DatabaseErrorException ex)
 			{
 				Log.Error(ex.ToString());
-				CliUtil.Exit(1);
+				ConsoleUtil.Exit(1);
 			}
 			catch (FileNotFoundException ex)
 			{
 				Log.Error(ex.Message);
-				CliUtil.Exit(1);
+				ConsoleUtil.Exit(1);
 			}
 			catch (Exception ex)
 			{
-				Log.Exception(ex, "Error while loading data.");
-				CliUtil.Exit(1);
+				Log.Error("Error while loading data: " + ex);
+				ConsoleUtil.Exit(1);
 			}
 		}
 
@@ -201,7 +229,7 @@ namespace Melia.Shared
 		/// Loads db, first from system, then from user.
 		/// Logs problems as warnings.
 		/// </summary>
-		private void LoadDb(IDatabase db, string fileName, bool reload, bool log = true)
+		private void LoadDb(IDatabase db, string fileName)
 		{
 			var systemPath = Path.Combine("system", fileName).Replace('\\', '/');
 			var userPath = Path.Combine("user", fileName).Replace('\\', '/');
@@ -216,13 +244,13 @@ namespace Melia.Shared
 			db.Clear();
 			db.LoadFile(systemPath);
 			foreach (var ex in db.GetWarnings())
-				Log.Warning("{0}", ex.ToString());
+				Log.Warning(ex);
 
 			if (File.Exists(userPath))
 			{
 				db.LoadFile(userPath);
 				foreach (var ex in db.GetWarnings())
-					Log.Warning("{0}", ex.ToString());
+					Log.Warning(ex);
 			}
 
 			if (db.Count == 1)
@@ -236,41 +264,18 @@ namespace Melia.Shared
 		/// occurs.
 		/// </summary>
 		/// <param name="conf"></param>
-		protected void LoadConf(Conf conf)
+		protected void LoadConf(ConfFiles conf)
 		{
 			try
 			{
 				Log.Info("Loading configuration...");
-				conf.LoadAll();
+				conf.Load();
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Failed to load configuration: {0}", ex.Message);
-				CliUtil.Exit(1, true);
+				ConsoleUtil.Exit(1, true);
 			}
-		}
-
-		/// <summary>
-		/// Tries to find root folder and changes the working directory to it.
-		/// Exits if not successful.
-		/// </summary>
-		public void NavigateToRoot()
-		{
-			// Go back max 2 folders, the bins should be in [root]/bin/(Debug|Release)
-			for (var i = 0; i < 3; ++i)
-			{
-				if (Directory.Exists("system") && Directory.Exists("user"))
-				{
-					//if (i != 0)
-					//	Log.Info("Switched workign directory to '{0}'.", Directory.GetCurrentDirectory());
-					return;
-				}
-
-				Directory.SetCurrentDirectory("..");
-			}
-
-			Log.Error("Unable to find root directory, that contains system and user folders.");
-			CliUtil.Exit(1);
 		}
 
 		/// <summary>
@@ -397,31 +402,38 @@ namespace Melia.Shared
 				}
 			}
 		}
-	}
 
-	[Flags]
-	public enum DataToLoad
-	{
-		Items = 0x01,
-		Maps = 0x02,
-		Jobs = 0x04,
-		Servers = 0x08,
-		Barracks = 0x10,
-		Monsters = 0x20,
-		Skills = 0x40,
-		Exp = 0x80,
-		Dialogues = 0x100,
-		Shops = 0x200,
-		Help = 0x400,
-		CustomCommands = 0x800,
-		ChatMacros = 0x1000,
-		Buffs = 0x2000,
-		SessionObjects = 0x4000,
-		Achievements = 0x8000,
-		Cooldowns = 0x10000,
-		PacketStrings = 0x20000,
-		Ground = 0x40000,
+		/// <summary>
+		/// Loads the server list from given database.
+		/// </summary>
+		/// <param name="serverDb"></param>
+		protected void LoadServerList(ServerDb serverDb)
+		{
+			Log.Info("Loading server list...");
 
-		All = 0x7FFFFFFF,
+			this.ServerList.Load(serverDb);
+		}
+
+		/// <summary>
+		/// Returns the server info for given type and id.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		protected ServerInfo GetServerInfo(ServerType type, string[] args)
+		{
+			var serverId = 1;
+
+			if (args.Length > 0 && int.TryParse(args[0], out var id))
+				serverId = id;
+
+			if (!this.ServerList.TryGet(type, serverId, out var serverData))
+			{
+				Log.Error("No server data for '{0}:{1}' found in 'db/servers.txt'.", type, serverId);
+				ConsoleUtil.Exit(1);
+			}
+
+			return serverData;
+		}
 	}
 }

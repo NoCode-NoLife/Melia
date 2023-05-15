@@ -18,7 +18,7 @@ namespace Melia.Zone
 	/// <summary>
 	/// Represents a zone server.
 	/// </summary>
-	public class ZoneServer : Server2
+	public class ZoneServer : Server
 	{
 		public readonly static ZoneServer Instance = new ZoneServer();
 

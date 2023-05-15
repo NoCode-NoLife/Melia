@@ -13,7 +13,7 @@ namespace Melia.Barracks
 	/// <summary>
 	/// Represents the barracks server.
 	/// </summary>
-	public class BarracksServer : Server2
+	public class BarracksServer : Server
 	{
 		/// <summary>
 		/// Returns global instance of the barracks server.

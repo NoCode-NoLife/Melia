@@ -19,7 +19,7 @@ using Yggdrasil.Util.Commands;
 
 namespace Melia.Web
 {
-	public class WebServer : Server2
+	public class WebServer : Server
 	{
 		public readonly static WebServer Instance = new WebServer();
 
