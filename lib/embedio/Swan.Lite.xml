@@ -1228,6 +1228,36 @@
             <para>If <paramref name="this"/> is not a UTC date / time, its UTC equivalent is converted, leaving <paramref name="this"/> unchanged.</para>
             </remarks>
         </member>
+        <member name="T:Swan.EnumerableExtensions">
+            <summary>
+            This class contains extension methods for types implementing IEnumerable&lt;TSource&gt;
+            </summary>
+        </member>
+        <member name="M:Swan.EnumerableExtensions.UnionExcludingNulls``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            This method returns the <see cref="M:System.Linq.Enumerable.Union``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">Union</see>
+            of all non-null parameters.
+            </summary>
+            <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+            <param name="this">An IEnumerable&lt;TSource&gt; whose distinct elements forms the first set of the union.</param>
+            <param name="second">An IEnumerable&lt;TSource&gt; whose distinct elements forms the second set of the union.</param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1" /> that contains the elements from non-null input sequences, excluding duplicates.
+            </returns>
+        </member>
+        <member name="M:Swan.EnumerableExtensions.UnionExcludingNulls``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            This method returns the <see cref="M:System.Linq.Enumerable.Union``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">Union</see>
+            of all non-null parameters.
+            </summary>
+            <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+            <param name="this">An IEnumerable&lt;TSource&gt; whose distinct elements forms the first set of the union.</param>
+            <param name="second">An IEnumerable&lt;TSource&gt; whose distinct elements forms the second set of the union.</param>
+            <param name="comparer">The IEqualityComparer&lt;TSource&gt; to compare values.</param>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1" /> that contains the elements from non-null input sequences, excluding duplicates.
+            </returns>
+        </member>
         <member name="T:Swan.ExceptionExtensions">
             <summary>
             Provides extension methods for <see cref="T:System.Exception"/>.
@@ -1355,6 +1385,21 @@
             or
             value.
             </exception>
+        </member>
+        <member name="T:Swan.IEnumerableExtensions">
+            <summary>
+            This class contains extensions methods for IEnumerable
+            </summary>
+        </member>
+        <member name="M:Swan.IEnumerableExtensions.UnionNull``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            This method make an union of two IEnumerables
+            validation when some of them is null.
+            </summary>
+            <typeparam name="T">T</typeparam>
+            <param name="this">The this.</param>
+            <param name="second">The second.</param>
+            <returns> The Union </returns>
         </member>
         <member name="T:Swan.PropertyProxyExtensions">
             <summary>
@@ -2734,7 +2779,7 @@
             A simple JSON serializer.
             </summary>
         </member>
-        <member name="M:Swan.Formatters.Json.Serializer.#ctor(System.Object,System.Int32,Swan.Formatters.SerializerOptions)">
+        <member name="M:Swan.Formatters.Json.Serializer.#ctor(System.Object,System.Int32,Swan.Formatters.SerializerOptions,System.String[])">
             <summary>
             Initializes a new instance of the <see cref="T:Swan.Formatters.Json.Serializer" /> class.
             </summary>
@@ -2798,6 +2843,14 @@
             </summary>
             <value>
             The json serializer case.
+            </value>
+        </member>
+        <member name="P:Swan.Formatters.SerializerOptions.ExcludeProperties">
+            <summary>
+            Gets or sets the exclude properties.
+            </summary>
+            <value>
+            The exclude properties.
             </value>
         </member>
         <member name="T:Swan.Formatters.JsonPropertyAttribute">
@@ -4428,6 +4481,14 @@
             </summary>
             <value>
             The help text.
+            </value>
+        </member>
+        <member name="P:Swan.Parsers.ArgumentOptionAttribute.IsDefault">
+            <summary>
+            Gets or sets the default argument.
+            </summary>
+            <value>
+            The default argument.
             </value>
         </member>
         <member name="T:Swan.Parsers.ArgumentParser">

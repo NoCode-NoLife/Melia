@@ -1312,8 +1312,6 @@
             <summary>
             <para>Wraps the request input stream and returns a <see cref="T:System.IO.TextReader" /> that can be used directly.</para>
             <para>Decompression of compressed request bodies is implemented if specified in the web server's options.</para>
-            <para>If the request does not specify a content encoding,
-            <see cref="P:System.Text.Encoding.UTF8">UTF-8</see> is used by default.</para>
             </summary>
             <param name="this">The <see cref="T:EmbedIO.IHttpContext" /> on which this method is called.</param>
             <returns>
@@ -1419,7 +1417,7 @@
             <param name="this">The <see cref="T:EmbedIO.IHttpContext" /> on which this method is called.</param>
             <param name="encoding">
             <para>The <see cref="T:System.Text.Encoding"/> to use to convert text to data bytes.</para>
-            <para>If <see langword="null"/> (the default), <see cref="P:System.Text.Encoding.UTF8">UTF-8</see> is used.</para>
+            <para>If <see langword="null"/> (the default), <see cref="F:EmbedIO.WebServer.DefaultEncoding"/> (UTF-8 without a byte order mark) is used.</para>
             </param>
             <param name="buffered">If set to <see langword="true" />, sent data is collected
             in a <see cref="T:System.IO.MemoryStream" /> and sent all at once when the returned <see cref="T:System.IO.Stream" />
@@ -3756,29 +3754,6 @@
         <member name="P:EmbedIO.Net.Internal.HttpListenerRequest.IsWebSocketRequest">
             <inheritdoc />
         </member>
-        <member name="M:EmbedIO.Net.Internal.HttpListenerRequest.BeginGetClientCertificate(System.AsyncCallback,System.Object)">
-            <summary>
-            Begins to the get client certificate asynchronously.
-            </summary>
-            <param name="requestCallback">The request callback.</param>
-            <param name="state">The state.</param>
-            <returns>An async result.</returns>
-        </member>
-        <member name="M:EmbedIO.Net.Internal.HttpListenerRequest.EndGetClientCertificate(System.IAsyncResult)">
-            <summary>
-            Finishes the get client certificate asynchronous operation.
-            </summary>
-            <param name="asyncResult">The asynchronous result.</param>
-            <returns>The certificate from the client.</returns>
-            <exception cref="T:System.ArgumentNullException">asyncResult.</exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-        </member>
-        <member name="M:EmbedIO.Net.Internal.HttpListenerRequest.GetClientCertificate">
-            <summary>
-            Gets the client certificate.
-            </summary>
-            <returns>The client certificate.</returns>
-        </member>
         <member name="T:EmbedIO.Net.Internal.HttpListenerResponse">
             <summary>
             Represents an HTTP Listener's response.
@@ -4175,7 +4150,7 @@
         <member name="F:EmbedIO.ResponseSerializer.Default">
             <summary>
             <para>The default response serializer callback used by EmbedIO.</para>
-            <para>Equivalent to <see cref="M:EmbedIO.ResponseSerializer.Json(EmbedIO.IHttpContext,System.Object)"/>.</para>
+            <para>Equivalent to <see cref="M:EmbedIO.ResponseSerializer.Json(EmbedIO.IHttpContext,System.Object)">Json</see>.</para>
             </summary>
         </member>
         <member name="M:EmbedIO.ResponseSerializer.Json(EmbedIO.IHttpContext,System.Object)">
@@ -4186,6 +4161,80 @@
             <param name="context">The HTTP context of the request.</param>
             <param name="data">The data to serialize.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the ongoing operation.</returns>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.Json(Swan.Formatters.JsonSerializerCase)">
+            <summary>
+            Serializes data in JSON format with the specified <paramref name="jsonSerializerCase"/>
+            to a HTTP response, using the <see cref="T:Swan.Formatters.Json"/> utility class.
+            </summary>
+            <param name="jsonSerializerCase">The JSON serializer case.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize
+            data to a HTTP response.</returns>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.Json(Swan.Formatters.SerializerOptions)">
+            <summary>
+            Serializes data in JSON format with the specified <paramref name="serializerOptions"/>
+            to a HTTP response, using the <see cref="T:Swan.Formatters.Json"/> utility class.
+            </summary>
+            <param name="serializerOptions">The JSON serializer options.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize
+            data to a HTTP response.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="serializerOptions"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.Json(System.Boolean)">
+            <summary>
+            Serializes data in JSON format to a HTTP response, using the <see cref="T:Swan.Formatters.Json"/> utility class.
+            </summary>
+            <param name="bufferResponse"><see langword="true"/> to write the response body to a memory buffer first,
+            then send it all together with a <c>Content-Length</c> header; <see langword="false"/> to use chunked
+            transfer encoding.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize
+            data to a HTTP response.</returns>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.Json(System.Boolean,Swan.Formatters.JsonSerializerCase)">
+            <summary>
+            Serializes data in JSON format with the specified <paramref name="jsonSerializerCase"/>
+            to a HTTP response, using the <see cref="T:Swan.Formatters.Json"/> utility class.
+            </summary>
+            <param name="bufferResponse"><see langword="true"/> to write the response body to a memory buffer first,
+            then send it all together with a <c>Content-Length</c> header; <see langword="false"/> to use chunked
+            transfer encoding.</param>
+            <param name="jsonSerializerCase">The JSON serializer case.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize
+            data to a HTTP response.</returns>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.Json(System.Boolean,Swan.Formatters.SerializerOptions)">
+            <summary>
+            Serializes data in JSON format with the specified <paramref name="serializerOptions"/>
+            to a HTTP response, using the <see cref="T:Swan.Formatters.Json"/> utility class.
+            </summary>
+            <param name="bufferResponse"><see langword="true"/> to write the response body to a memory buffer first,
+            then send it all together with a <c>Content-Length</c> header; <see langword="false"/> to use chunked
+            transfer encoding.</param>
+            <param name="serializerOptions">The JSON serializer options.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize
+            data to a HTTP response.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="serializerOptions"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:EmbedIO.ResponseSerializer.None(System.Boolean)">
+            <summary>
+            Sends data in a HTTP response without serialization.
+            </summary>
+            <param name="bufferResponse"><see langword="true"/> to write the response body to a memory buffer first,
+            then send it all together with a <c>Content-Length</c> header; <see langword="false"/> to use chunked
+            transfer encoding.</param>
+            <returns>A <see cref="T:EmbedIO.ResponseSerializerCallback"/> that can be used to serialize data to a HTTP response.</returns>
+            <remarks>
+            <para><see cref="T:System.String"/>s and one-dimensional arrays of <see cref="T:System.Byte"/>s
+            are sent to the client unchanged; every other type is converted to a string.</para>
+            <para>The <see cref="P:EmbedIO.IHttpResponse.ContentType">ContentType</see> set on the response is used to negotiate
+            a compression method, according to request headers.</para>
+            <para>Strings (and other types converted to strings) are sent with the encoding specified by <see cref="P:EmbedIO.IHttpResponse.ContentEncoding"/>.</para>
+            </remarks>
         </member>
         <member name="T:EmbedIO.ResponseSerializerCallback">
             <summary>
@@ -7856,7 +7905,7 @@
         </member>
         <member name="T:EmbedIO.WebApi.FormDataAttribute">
             <summary>
-            <para>Specified that a parameter of a controller method will receive a <see cref="T:System.Collections.Specialized.NameValueCollection"/>
+            <para>Specifies that a parameter of a controller method will receive a <see cref="T:System.Collections.Specialized.NameValueCollection"/>
             of HTML form data, obtained by deserializing a request body with a content type
             of <c>application/x-www-form-urlencoded</c>.</para>
             <para>The received collection will be read-only.</para>
@@ -7983,9 +8032,26 @@
             <returns>a <see cref="T:System.Threading.Tasks.Task"/> whose result will be the data
             to pass as a parameter to a controller method.</returns>
         </member>
+        <member name="T:EmbedIO.WebApi.JsonDataAttribute">
+            <summary>
+            <para>Specifies that a parameter of a controller method will receive
+            an object obtained by deserializing the request body as JSON.</para>
+            <para>The received object will be <see langword="null"/>
+            only if the deserialized object is <c>null</c>.</para>
+            <para>If the request body is not valid JSON,
+            or if it cannot be deserialized to the type of the parameter,
+            a <c>400 Bad Request</c> response will be sent to the client.</para>
+            <para>This class cannot be inherited.</para>
+            </summary>
+            <seealso cref="T:System.Attribute" />
+            <seealso cref="T:EmbedIO.WebApi.IRequestDataAttribute`1" />
+        </member>
+        <member name="M:EmbedIO.WebApi.JsonDataAttribute.GetRequestDataAsync(EmbedIO.WebApi.WebApiController,System.Type,System.String)">
+            <inheritdoc />
+        </member>
         <member name="T:EmbedIO.WebApi.QueryDataAttribute">
             <summary>
-            <para>Specified that a parameter of a controller method will receive a <see cref="T:System.Collections.Specialized.NameValueCollection"/>
+            <para>Specifies that a parameter of a controller method will receive a <see cref="T:System.Collections.Specialized.NameValueCollection"/>
             of HTML form data, obtained by deserializing a request URL query.</para>
             <para>The received collection will be read-only.</para>
             <para>This class cannot be inherited.</para>
@@ -9257,9 +9323,34 @@
             <see href="https://referencesource.microsoft.com/#mscorlib/system/io/stream.cs,50">.NET Framework reference source</see>.</para>
             </summary>
         </member>
+        <member name="F:EmbedIO.WebServer.UriSchemeNull">
+            <summary>
+            <para>The scheme of <see cref="F:EmbedIO.WebServer.NullUri"/>.</para>
+            </summary>
+        </member>
         <member name="F:EmbedIO.WebServer.Signature">
             <summary>
             The signature string included in <c>Server</c> response headers.
+            </summary>
+        </member>
+        <member name="F:EmbedIO.WebServer.Utf8NoBomEncoding">
+            <summary>
+            <para>An <see cref="T:System.Text.Encoding"/> that can be used to send UTF-8 responses without a byte order mark (BOM).</para>
+            <para>This is the default encoding used by <see cref="T:EmbedIO.WebServer"/> and should be used instead of <see cref="P:System.Text.Encoding.UTF8"/>
+            when specifying an encoding for <see cref="M:EmbedIO.HttpContextExtensions.OpenResponseText(EmbedIO.IHttpContext,System.Text.Encoding,System.Boolean,System.Boolean)"/>.</para>
+            </summary>
+        </member>
+        <member name="F:EmbedIO.WebServer.DefaultEncoding">
+            <summary>
+            <para>The default encoding that is both assumed for requests that do not specify an encoding,
+            and used for responses when an encoding is not specified.</para>
+            <para>This is the same as <see cref="F:EmbedIO.WebServer.Utf8NoBomEncoding"/>.</para>
+            </summary>
+        </member>
+        <member name="F:EmbedIO.WebServer.NullUri">
+            <summary>
+            <para>An <see cref="T:System.Uri"/> which cannot be equal to any HTTP / HTTP URI.</para>
+            <para>Used as the default value for non-nullable properties of type <see cref="T:System.Uri"/>.</para>
             </summary>
         </member>
         <member name="M:EmbedIO.WebServer.#ctor">
@@ -10748,149 +10839,6 @@
             Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
-            <summary>
-                Specifies that <see langword="null"/> is allowed as an input even if the
-                corresponding type disallows it.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.AllowNullAttribute.#ctor">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.DisallowNullAttribute">
-            <summary>
-                Specifies that <see langword="null"/> is disallowed as an input even if the
-                corresponding type allows it.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.DisallowNullAttribute.#ctor">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.DisallowNullAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute">
-            <summary>
-                Specifies that a method that will never return under any circumstance.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute.#ctor">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute">
-            <summary>
-                Specifies that the method will not return if the associated <see cref="T:System.Boolean"/>
-                parameter is passed the specified value.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.ParameterValue">
-            <summary>
-                Gets the condition parameter value.
-                Code after the method is considered unreachable by diagnostics if the argument
-                to the associated parameter matches this value.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.#ctor(System.Boolean)">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute"/>
-                class with the specified parameter value.
-            </summary>
-            <param name="parameterValue">
-                The condition parameter value.
-                Code after the method is considered unreachable by diagnostics if the argument
-                to the associated parameter matches this value.
-            </param>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullAttribute">
-            <summary>
-                Specifies that an output may be <see langword="null"/> even if the
-                corresponding type disallows it.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.MaybeNullAttribute.#ctor">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.MaybeNullAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute">
-            <summary>
-                Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue"/>, 
-                the parameter may be <see langword="null"/> even if the corresponding type disallows it.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue">
-            <summary>
-                Gets the return value condition.
-                If the method returns this value, the associated parameter may be <see langword="null"/>.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)">
-            <summary>
-                 Initializes the attribute with the specified return value condition.
-            </summary>
-            <param name="returnValue">
-                The return value condition.
-                If the method returns this value, the associated parameter may be <see langword="null"/>.
-            </param>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.NotNullAttribute">
-            <summary>
-                Specifies that an output is not <see langword="null"/> even if the
-                corresponding type allows it.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.NotNullAttribute.#ctor">
-            <summary>
-                Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.NotNullAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute">
-            <summary>
-                Specifies that the output will be non-<see langword="null"/> if the
-                named parameter is non-<see langword="null"/>.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.ParameterName">
-            <summary>
-                Gets the associated parameter name.
-                The output will be non-<see langword="null"/> if the argument to the
-                parameter specified is non-<see langword="null"/>.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.#ctor(System.String)">
-            <summary>
-                Initializes the attribute with the associated parameter name.
-            </summary>
-            <param name="parameterName">
-                The associated parameter name.
-                The output will be non-<see langword="null"/> if the argument to the
-                parameter specified is non-<see langword="null"/>.
-            </param>
-        </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute">
-            <summary>
-                Specifies that when a method returns <see cref="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue"/>,
-                the parameter will not be <see langword="null"/> even if the corresponding type allows it.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue">
-            <summary>
-                Gets the return value condition.
-                If the method returns this value, the associated parameter will not be <see langword="null"/>.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)">
-            <summary>
-                Initializes the attribute with the specified return value condition.
-            </summary>
-            <param name="returnValue">
-                The return value condition.
-                If the method returns this value, the associated parameter will not be <see langword="null"/>.
-            </param>
         </member>
     </members>
 </doc>
