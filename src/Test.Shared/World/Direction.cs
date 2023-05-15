@@ -1,7 +1,7 @@
 ﻿using Melia.Shared.World;
 using Xunit;
 
-namespace Test.Shared.World
+namespace Melia.Test.Shared.World
 {
 	public class DirectionTests
 	{

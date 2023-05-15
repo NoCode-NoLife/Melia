@@ -3,7 +3,7 @@ using Melia.Shared.Network;
 using Xunit;
 using Yggdrasil.Util;
 
-namespace Test.Shared.Network
+namespace Melia.Test.Shared.Network
 {
 	public class PacketTests
 	{

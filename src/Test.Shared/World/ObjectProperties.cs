@@ -5,7 +5,7 @@ using Melia.Shared.Network;
 using Melia.Shared.World.ObjectProperties;
 using Xunit;
 
-namespace Test.Shared.World
+namespace Melia.Test.Shared.World
 {
 	public class ObjectPropertiesTest
 	{
