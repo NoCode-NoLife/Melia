@@ -199,6 +199,7 @@ namespace Melia.Shared
 				this.LoadDb(this.Data.MapDb, "db/maps.txt");
 				this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
 				this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
+				this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
 				this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 				this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
 				this.LoadDb(this.Data.ShopDb, "db/shops.txt");

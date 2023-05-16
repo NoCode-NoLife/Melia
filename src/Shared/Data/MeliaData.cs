@@ -27,6 +27,7 @@ namespace Melia.Shared.Data
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
 		public PacketStringDb PacketStringDb = new PacketStringDb();
+		public PropertiesDb PropertiesDb = new PropertiesDb();
 		public ServerDb ServerDb;
 		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
 		public ShopDb ShopDb = new ShopDb();
