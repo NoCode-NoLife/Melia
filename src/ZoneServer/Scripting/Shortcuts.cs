@@ -9,13 +9,11 @@ namespace Melia.Zone.Scripting
 {
 	public static class Shortcuts
 	{
-		//private static long AnonymousShopCounter = 1;
-
 		/// <summary>
 		/// A function that initializes a shop.
 		/// </summary>
 		/// <param name="shop"></param>
-		//public delegate void ShopCreationFunc(NpcShop shop);
+		public delegate void ShopCreationFunc(ShopBuilder shop);
 
 		/// <summary>
 		/// Returns an option element, to be used with the Menu function.
@@ -97,6 +95,25 @@ namespace Melia.Zone.Scripting
 			mapObj.AddMonster(monster);
 
 			return monster;
+		}
+
+		/// <summary>
+		/// Creates a custom shop.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="creationFunc"></param>
+		public static void CreateShop(string name, ShopCreationFunc creationFunc)
+		{
+			var shopBuilder = new ShopBuilder(name);
+			creationFunc(shopBuilder);
+
+			// TODO: Not a big fan of dynamically modifying the data.
+			//   Perhaps we should create shop objects based on the
+			//   data and add to that, where we could also do more
+			//   things without poluting the data classes.
+
+			var shopData = shopBuilder.Build();
+			ZoneServer.Instance.Data.ShopDb.AddOrReplace(shopData.Name, shopData);
 		}
 	}
 }

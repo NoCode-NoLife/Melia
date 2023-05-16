@@ -1,5 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
-using Melia.Zone.Scripting;
+﻿using Melia.Zone.Scripting;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class TestScript1 : GeneralScript
@@ -20,8 +19,7 @@ public class TestScript1 : GeneralScript
 			}
 			else if (selected == "shop")
 			{
-				await dialog.Msg("Maybe in the next version of my script =){np}But have a free potion on the house.");
-				dialog.Player.Inventory.Add(640002, 1, InventoryAddType.Buy);
+				await dialog.OpenShop("Klapeda_Accessory");
 			}
 		});
 	}

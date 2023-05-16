@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Util.Configuration;
 using Melia.Zone.Network;
 using Melia.Zone.World.Entities;
 using Yggdrasil.Logging;
@@ -20,6 +23,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		private const string NpcNameSeperator = "*@*";
 		private const string NpcDialogTextSeperator = "\\";
 		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private const int ClientScriptMaxSize = 2048;
 
 		private string _response;
 		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
@@ -45,7 +49,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <summary>
 		/// Returns the data for a potentially open shop.
 		/// </summary>
-		internal ShopData Shop { get; }
+		internal ShopData Shop { get; private set; }
 
 		/// <summary>
 		/// Returns the title that's display on the dialog window.
@@ -401,6 +405,57 @@ namespace Melia.Zone.Scripting.Dialogues
 
 			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
 			throw new OperationCanceledException("Dialog closed by script.");
+		}
+
+		/// <summary>
+		/// Opens the shop with the given name for the player.
+		/// </summary>
+		/// <param name="shopName"></param>
+		public async Task OpenShop(string shopName)
+		{
+			if (!ZoneServer.Instance.Data.ShopDb.TryFind(shopName, out var shopData))
+				throw new ArgumentException($"Shop '{shopName}' not found.");
+
+			await this.OpenShop(shopData);
+		}
+
+		/// <summary>
+		/// Opens the given shop for the player.
+		/// </summary>
+		/// <param name="shopData"></param>
+		public async Task OpenShop(ShopData shopData)
+		{
+			this.Shop = shopData;
+
+			// If this is a custom shop, we need to set it up on the client
+			// by executing some custom Lua code.
+			if (shopData.IsCustom)
+			{
+				var sb = new StringBuilder();
+				sb.Append("M_SET_CUSTOM_SHOP({");
+
+				foreach (var productData in shopData.Products.Values)
+				{
+					sb.AppendFormat("{{{0},{1},{2},{3}}},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
+
+					// One script call can only hold so many items,
+					// but we could split it up into multiple calls
+					// if necessary.
+					if (sb.Length > ClientScriptMaxSize)
+						throw new InvalidOperationException($"Shop '{shopData.Name}' contains too many items.");
+				}
+
+				sb.Append("})");
+
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, sb.ToString());
+				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");
+			}
+			else
+			{
+				Send.ZC_DIALOG_TRADE(this.Player.Connection, shopData.Name);
+			}
+
+			await this.GetClientResponse();
 		}
 	}
 
