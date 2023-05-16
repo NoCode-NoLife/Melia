@@ -94,7 +94,13 @@
     <Compile Include="Network\ZoneConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\ScriptState.cs" />
+    <Compile Include="Scripting\Dialogues\Dialog.cs" />
+    <Compile Include="Scripting\Dialogues\DialogActionType.cs" />
+    <Compile Include="Scripting\Dialogues\DialogOption.cs" />
+    <Compile Include="Scripting\Dialogues\DialogState.cs" />
+    <Compile Include="Scripting\GeneralScript.cs" />
+    <Compile Include="Scripting\ItemScript.cs" />
+    <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="Skills\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />

@@ -8,6 +8,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Entities;
@@ -720,7 +721,9 @@ namespace Melia.Zone.Network
 			var handle = packet.GetInt();
 			var unkByte = packet.GetByte();
 
-			var monster = conn.SelectedCharacter.Map.GetMonster(handle);
+			var character = conn.SelectedCharacter;
+			var monster = character.Map.GetMonster(handle);
+
 			if (monster == null)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to unknown monster.", conn.Account.Name);
@@ -739,14 +742,13 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			conn.ScriptState.CurrentNpc = monster;
-
-			// I don't know what this does, or why this was put here,
+			// I don't remember what this does or why it was put here,
 			// but it makes the client lag for a second before starting
 			// the dialog.
 			//Send.ZC_SHARED_MSG(conn, 108);
 
-			//ZoneServer.Instance.ScriptManager.CallDialog(conn, monster.DialogName);
+			conn.CurrentDialog = new Dialog(character, monster);
+			conn.CurrentDialog.Start();
 		}
 
 		/// <summary>
@@ -761,13 +763,16 @@ namespace Melia.Zone.Network
 			var option = packet.GetByte();
 
 			// Check state
-			if (conn.ScriptState.CurrentNpc == null)
+			if (conn.CurrentDialog == null)
 			{
-				Log.Debug("CZ_DIALOG_SELECT: Null NPC.");
+				Log.Debug("CZ_DIALOG_SELECT: User '{0}' is not in a dialog.", conn.Account.Name);
 				return;
 			}
 
-			//ZoneServer.Instance.ScriptManager.ResumeDialog(conn, option);
+			// Resume dialog with the option as a string. We use a string
+			// because we can use one method for both selections and inputs
+			// this way.
+			conn.CurrentDialog.Resume(option.ToString());
 		}
 
 		/// <summary>
@@ -781,11 +786,11 @@ namespace Melia.Zone.Network
 			var type = packet.GetInt();
 
 			// Check state
-			if (conn.ScriptState.CurrentNpc == null)
+			if (conn.CurrentDialog == null)
 			{
 				// Don't log, can happen due to key spamming at the end
 				// of a dialog.
-				//Log.Debug("CZ_DIALOG_ACK: Null NPC.");
+				//Log.Debug("CZ_DIALOG_ACK: User '{0}' is not in a dialog.", conn.Account.Name);
 				return;
 			}
 
@@ -794,12 +799,12 @@ namespace Melia.Zone.Network
 			// escape is pressed, to cancel the dialog.
 			if (type == 1)
 			{
-				//ZoneServer.Instance.ScriptManager.ResumeDialog(conn);
+				conn.CurrentDialog.Resume(null);
 			}
 			else
 			{
-				conn.ScriptState.Reset();
 				Send.ZC_DIALOG_CLOSE(conn);
+				conn.CurrentDialog = null;
 			}
 		}
 
@@ -814,13 +819,13 @@ namespace Melia.Zone.Network
 			var input = packet.GetString(128);
 
 			// Check state
-			if (conn.ScriptState.CurrentNpc == null)
+			if (conn.CurrentDialog == null)
 			{
-				Log.Debug("CZ_DIALOG_STRINGINPUT: Null NPC.");
+				Log.Debug("CZ_DIALOG_STRINGINPUT: User '{0}' is not in a dialog.", conn.Account.Name);
 				return;
 			}
 
-			//ZoneServer.Instance.ScriptManager.ResumeDialog(conn, input);
+			conn.CurrentDialog.Resume(input);
 		}
 
 		/// <summary>
@@ -1326,6 +1331,8 @@ namespace Melia.Zone.Network
 			}
 
 			var character = conn.SelectedCharacter;
+			var dialog = conn.CurrentDialog;
+			var shopData = dialog?.Shop;
 
 			// Check amount
 			if (count > 10)
@@ -1335,17 +1342,9 @@ namespace Melia.Zone.Network
 			}
 
 			// Check open shop
-			if (conn.ScriptState.CurrentNpc == null || conn.ScriptState.CurrentShop == null)
+			if (dialog == null || shopData == null)
 			{
 				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy something with no shop open.", conn.Account.Name);
-				return;
-			}
-
-			// Get shop
-			var shopData = conn.ScriptState.CurrentShop;
-			if (shopData == null)
-			{
-				Log.Warning("CZ_ITEM_BUY: User '{0}' tried to buy from a shop that is not in the db.", conn.Account.Name);
 				return;
 			}
 

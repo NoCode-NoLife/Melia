@@ -12,6 +12,7 @@ using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Network;
 using Melia.Shared.Scripting;
+using Melia.Shared.L10N;
 
 namespace Melia.Zone.World.Entities
 {
@@ -308,6 +309,16 @@ namespace Melia.Zone.World.Entities
 		/// possible.
 		/// </remarks>
 		public Properties Properties { get; }
+
+		/// <summary>
+		/// Gets or sets the player's localizer.
+		/// </summary>
+		public Localizer Localizer
+		{
+			get => _localizer ?? ZoneServer.Instance.MultiLocalization.GetDefault();
+			private set => _localizer = value;
+		}
+		private Localizer _localizer;
 
 		/// <summary>
 		/// Raised when the characters sits down or stands up.

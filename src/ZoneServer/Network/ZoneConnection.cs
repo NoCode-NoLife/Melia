@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Entities;
 
 namespace Melia.Zone.Network
@@ -21,9 +22,9 @@ namespace Melia.Zone.Network
 		Character SelectedCharacter { get; set; }
 
 		/// <summary>
-		/// Gets or sets the connection's script state.
+		/// Gets or sets the current dialog.
 		/// </summary>
-		ScriptState ScriptState { get; set; }
+		Dialog CurrentDialog { get; set; }
 	}
 
 	/// <summary>
@@ -42,9 +43,9 @@ namespace Melia.Zone.Network
 		public Character SelectedCharacter { get; set; }
 
 		/// <summary>
-		/// Gets or sets the connection's script state.
+		/// Gets or sets the current dialog.
 		/// </summary>
-		public ScriptState ScriptState { get; set; }
+		public Dialog CurrentDialog { get; set; }
 
 		/// <summary>
 		/// Handles the given packet for this connection.

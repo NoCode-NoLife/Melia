@@ -10,6 +10,7 @@ using Melia.Shared.EntityComponents;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
+using Melia.Zone.Scripting.Dialogues;
 
 namespace Melia.Zone.World.Entities
 {
@@ -68,6 +69,11 @@ namespace Melia.Zone.World.Entities
 		/// leave empty for no dialog hotkey display.
 		/// </summary>
 		public string DialogName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the NPC's dialog function.
+		/// </summary>
+		public DialogFunc DialogFunc { get; set; }
 
 		/// <summary>
 		/// Warp identifier?

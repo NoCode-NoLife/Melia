@@ -1395,14 +1395,23 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		/// <param name="arguments"></param>
 		public static void ZC_DIALOG_SELECT(IZoneConnection conn, params string[] arguments)
+			=> ZC_DIALOG_SELECT(conn, (IEnumerable<string>)arguments);
+
+		/// <summary>
+		/// Sends ZC_DIALOG_SELECT to connection, containing a dialog message
+		/// and a list of selectable options.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="arguments"></param>
+		public static void ZC_DIALOG_SELECT(IZoneConnection conn, IEnumerable<string> arguments)
 		{
-			if (arguments == null || arguments.Length == 0)
+			if (arguments == null || arguments.Count() == 0)
 				return;
 
 			var packet = new Packet(Op.ZC_DIALOG_SELECT);
 
 			packet.PutInt(0); // handle?
-			packet.PutByte((byte)arguments.Length);
+			packet.PutByte((byte)arguments.Count());
 
 			// If both bytes are 0, the message before the selection is
 			// displayed as expected. First the message, then the options
