@@ -2,6 +2,11 @@
 // Script List File
 //---------------------------------------------------------------------------
 
+const/**/*
+commands/**/*
+items/**/*
+warps/**/*
+
 custom/test.cs
 
 include "/user/scripts/scripts_zone.txt"

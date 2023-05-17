@@ -6,6 +6,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Util;
 using Melia.Shared.World;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World
 {
@@ -69,6 +70,11 @@ namespace Melia.Zone.World
 		public int Id { get; protected set; }
 
 		/// <summary>
+		/// Returns a reference to the map's data.
+		/// </summary>
+		public MapData Data { get; protected set; }
+
+		/// <summary>
 		/// Returns the map's ground.
 		/// </summary>
 		public Ground Ground { get; } = new Ground();
@@ -105,6 +111,8 @@ namespace Melia.Zone.World
 		/// </summary>
 		private void Load()
 		{
+			this.Data = ZoneServer.Instance.Data.MapDb.Find(this.Id);
+
 			// A few maps don't seem to have any ground data.
 			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.Name, out var groundData))
 				this.Ground.Load(groundData);
