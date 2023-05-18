@@ -7,6 +7,7 @@ using EmbedIO.Files;
 using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
+using Melia.Shared.Data.Database;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
@@ -33,7 +34,7 @@ namespace Melia.Web
 
 			this.NavigateToRoot();
 			this.LoadConf(this.Conf);
-			this.LoadData();
+			this.LoadData(ServerType.Web);
 			this.CheckDependencies();
 
 			this.StartWebServer();
