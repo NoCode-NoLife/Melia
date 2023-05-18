@@ -19,8 +19,15 @@ public class TestScript1 : GeneralScript
 			}
 			else if (selected == "shop")
 			{
-				await dialog.OpenShop("Klapeda_Accessory");
+				await dialog.OpenShop("RonesaShop");
 			}
+		});
+
+		CreateShop("RonesaShop", shop =>
+		{
+			shop.AddItem(ItemId.BRC01_111, amount: 1, price: 1);
+			shop.AddItem(ItemId.BRC02_111, amount: 1, price: 1);
+			shop.AddItem(ItemId.Drug_HP1, amount: 3, price: 1);
 		});
 	}
 }
