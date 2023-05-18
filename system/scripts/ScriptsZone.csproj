@@ -72,6 +72,8 @@
     <Compile Include="const\ItemId.cs" />
     <Compile Include="const\MonsterId.cs" />
     <Compile Include="custom\test.cs" />
+    <Compile Include="npcs\city\c_klaipe.cs" />
+    <Compile Include="npcs\fields\f_siauliai_west.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="client\dialog_portraits\001.lua" />

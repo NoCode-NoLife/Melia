@@ -1,12 +1,12 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.World;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting
 {
@@ -209,6 +209,54 @@ namespace Melia.Zone.Scripting
 
 			var shopData = shopBuilder.Build();
 			ZoneServer.Instance.Data.ShopDb.AddOrReplace(shopData.Name, shopData);
+		}
+
+		/// <summary>
+		/// Returns a random number between 0 and max - 1.
+		/// </summary>
+		/// <param name="max"></param>
+		/// <returns></returns>
+		public static int Random(int max)
+		{
+			return RandomProvider.Next(max);
+		}
+
+		/// <summary>
+		/// Returns a random number between min and max - 1.
+		/// </summary>
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		/// <returns></returns>
+		public static int Random(int min, int max)
+		{
+			return RandomProvider.Next(min, max);
+		}
+
+		/// <summary>
+		/// Plays chest opening animations and makes the chest disappear.
+		/// Returns after the animation played and the chest's contents
+		/// can be distributed.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npc"></param>
+		/// <returns></returns>
+		public static async Task OpenChest(Character character, Monster npc)
+		{
+			// Play animations for character to kick open the chest
+			Send.ZC_PLAY_ANI(character, AnimationName.KickBox);
+			Send.ZC_PLAY_ANI(npc, AnimationName.Opened, true);
+
+			// Wait a second, so the animations can play
+			await Task.Delay(1000);
+
+			// Make chest disappear
+			Send.ZC_NORMAL_FadeOut(npc, TimeSpan.FromSeconds(4));
+			npc.SetState(MonsterState.Invisible);
+
+			// Make chest reappear after a certain amount of time
+			// TODO: Add timer component, to set up and associate timers
+			//   and intervals with entities.
+			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(MonsterState.Normal));
 		}
 	}
 }

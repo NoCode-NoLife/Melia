@@ -304,7 +304,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
 		/// <param name="addType"></param>
-		public void Add(int itemId, int amount, InventoryAddType addType)
+		public void Add(int itemId, int amount, InventoryAddType addType = InventoryAddType.PickUp)
 		{
 			while (amount > 0)
 			{
