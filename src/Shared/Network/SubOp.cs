@@ -50,9 +50,9 @@
 			public const int Unknown_Map_12A = 0x12B;
 			public const int SetGreetingMessage = 0x136;
 			public const int SetSessionKey = 0x14F;
-			public const int ItemDrop = 0x150;
-			public const int NGSCallback = 0x16E;
-			public const int HatVisibleState = 0x182;
+			public const int ItemDrop = 0x152;
+			public const int NGSCallback = 0x170;
+			public const int HatVisibleState = 0x184;
 			public const int UpdateSkillUI = 0x189;
 			public const int AdventureBook = 0x197;
 			public const int Unknown_19B = 0x19E;
