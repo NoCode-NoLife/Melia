@@ -3,7 +3,7 @@
 	public static class NormalOp
 	{
 		/// <summary>
-		/// Sub opcodes to be used with the BC_NORMAL packet.
+		/// Sub-opcodes used with BC_NORMAL.
 		/// </summary>
 		public static class Barrack
 		{
@@ -23,7 +23,7 @@
 		}
 
 		/// <summary>
-		/// Sub opcodes to be used with the ZC_NORMAL packet.
+		/// Sub-opcodes used with ZC_NORMAL.
 		/// </summary>
 		public static class Zone
 		{
