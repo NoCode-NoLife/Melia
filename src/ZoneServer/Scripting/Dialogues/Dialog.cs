@@ -166,8 +166,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		private string FrameMessage(string message)
 		{
-			if (this.IsLocalizationKey(message))
-				return this.WrapLocalizationKey(message);
+			if (IsLocalizationKey(message))
+				return WrapLocalizationKey(message);
 
 			message = this.ReplaceCustomCodes(message);
 			message = this.AddNpcIdenty(message);
@@ -252,7 +252,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		private bool IsLocalizationKey(string value)
+		internal static bool IsLocalizationKey(string value)
 		{
 			return (value.StartsWith("ETC_") || value.StartsWith("QUEST_"));
 		}
@@ -262,7 +262,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		private string WrapLocalizationKey(string key)
+		internal static string WrapLocalizationKey(string key)
 		{
 			if (key.StartsWith("@dicID_^*$") && key.EndsWith("$*^"))
 				return key;

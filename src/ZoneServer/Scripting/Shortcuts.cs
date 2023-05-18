@@ -87,6 +87,23 @@ namespace Melia.Zone.Scripting
 			if (mapObj.Ground.TryGetHeightAt(pos, out var height))
 				pos.Y = height;
 
+			// Wrap name in localization code if applicable
+			if (Dialog.IsLocalizationKey(name))
+			{
+				name = Dialog.WrapLocalizationKey(name);
+			}
+			// Insert line breaks in tagged NPC names that don't have one
+			else if (name.StartsWith("[") && !name.Contains("{nl}"))
+			{
+				var endIndex = name.LastIndexOf("] ");
+				if (endIndex != -1)
+				{
+					// Remove space and insert new line instead.
+					name = name.Remove(endIndex + 1, 1);
+					name = name.Insert(endIndex + 1, "{nl}");
+				}
+			}
+
 			var monster = new Monster(monsterId, NpcType.NPC);
 			monster.Name = name;
 			monster.DialogName = dialog != null ? "DYNAMIC" : null;
@@ -119,7 +136,7 @@ namespace Melia.Zone.Scripting
 			// Get name, preferably a localization key
 			var name = toMap.Name;
 			if (toMap.Data.LocalKey != "?")
-				name = "@dicID_^*$" + toMap.Data.LocalKey + "$*^";
+				name = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
 
 			// Create a "warp monster"...
 			var monster = new Monster(40001, NpcType.NPC);
