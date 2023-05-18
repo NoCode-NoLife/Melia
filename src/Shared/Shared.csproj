@@ -150,7 +150,7 @@
     <Compile Include="Network\Packet.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\ServerList.cs" />
-    <Compile Include="Network\SubOp.cs" />
+    <Compile Include="Network\NormalOp.cs" />
     <Compile Include="Network\TosFramer.cs" />
     <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Server.cs" />
