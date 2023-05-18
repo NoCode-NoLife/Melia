@@ -86,6 +86,7 @@
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
+    <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
     <Compile Include="Tos\Const\BuffId.cs" />
     <Compile Include="Tos\Const\AnimationId.cs" />
