@@ -3663,6 +3663,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
+			// [i373230] Maybe added earlier
+			{
+				packet.PutByte(0);
+				packet.PutByte(0);
+			}
+
 			entity.Map.Broadcast(packet, entity);
 		}
 

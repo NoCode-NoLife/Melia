@@ -3,12 +3,13 @@
 //
 //      File: ZC_PLAY_ANI.bt
 //   Authors: Salman T. Khan, exec
-//   Version: i339427
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   -i373230: Added b3+4
 //------------------------------------------------
 #include "inc/common.bt"
 
@@ -20,3 +21,5 @@ byte b1;
 byte b2;
 float i2;
 float f1;
+byte b3;
+byte b4;
