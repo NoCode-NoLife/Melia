@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Melia.Zone.Network;
 using Melia.Zone.World.Entities;
@@ -47,6 +48,36 @@ namespace Melia.Zone.Scripting
 		{
 			var script = _files[fileName];
 			Send.ZC_EXEC_CLIENT_SCP(character.Connection, script);
+		}
+
+		/// <summary>
+		/// Loads a Lua script from the same directory as the script.
+		/// </summary>
+		/// <param name="sourceFilePath">Please ignore. Used to determine the path to the script file.</param>
+		protected void LoadAllScripts([CallerFilePath] string sourceFilePath = "")
+		{
+			var fileDirPath = Path.GetDirectoryName(sourceFilePath);
+			var luaFilePaths = Directory.EnumerateFiles(fileDirPath, "*.lua").OrderBy(a => a);
+
+			foreach (var filePath in luaFilePaths)
+			{
+				var fileName = Path.GetFileName(filePath);
+				var script = File.ReadAllText(filePath);
+				_files[fileName] = script;
+			}
+		}
+
+		/// <summary>
+		/// Sends all loaded Lua scripts to the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		protected void SendAllScripts(Character character)
+		{
+			foreach (var file in _files)
+			{
+				var script = file.Value;
+				Send.ZC_EXEC_CLIENT_SCP(character.Connection, script);
+			}
 		}
 	}
 }
