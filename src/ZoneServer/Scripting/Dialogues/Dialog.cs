@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Util.Configuration;
 using Melia.Zone.Network;
 using Melia.Zone.World.Entities;
 using Yggdrasil.Logging;

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
 using Melia.Zone.World.Entities;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.Util;
-using Melia.Shared.World;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.General
 {

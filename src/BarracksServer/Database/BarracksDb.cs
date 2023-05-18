@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.Database;
-using Melia.Shared.Util;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
+using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;
 
@@ -59,7 +59,7 @@ namespace Melia.Barracks.Database
 			catch (Exception ex)
 			{
 				Log.Error("RunUpdate: Failed to run '{0}': {1}", updateFile, ex.Message);
-				CliUtil.Exit(1);
+				ConsoleUtil.Exit(1);
 			}
 		}
 

@@ -2,8 +2,8 @@
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.Util;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills
 {

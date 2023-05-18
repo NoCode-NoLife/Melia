@@ -2,18 +2,15 @@
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
 using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
-using Melia.Shared.Util;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
-using Swan.Logging;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -130,8 +127,8 @@ namespace Melia.Web
 			{
 				var url = string.Format("http://{0}:{1}/", this.Conf.Web.Ip, this.Conf.Web.Port);
 
-				Logger.NoLogging();
-				Logger.RegisterLogger<YggdrasilLogger>();
+				Swan.Logging.Logger.NoLogging();
+				Swan.Logging.Logger.RegisterLogger<YggdrasilLogger>();
 
 				EndPointManager.UseIpv6 = false;
 

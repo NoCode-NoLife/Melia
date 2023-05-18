@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Util;
 using Melia.Shared.World;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World
 {

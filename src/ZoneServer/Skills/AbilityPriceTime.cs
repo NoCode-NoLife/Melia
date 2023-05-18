@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Util;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills
 {

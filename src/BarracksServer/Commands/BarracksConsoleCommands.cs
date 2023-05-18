@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Util;
+﻿using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 
 namespace Melia.Barracks.Util

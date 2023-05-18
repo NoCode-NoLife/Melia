@@ -8,13 +8,15 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Entities;
 using Melia.Zone.World.Entities.Components;
+using Yggdrasil.Logging;
+using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
+using Yggdrasil.Extensions;
 
 namespace Melia.Zone.Commands
 {
@@ -474,7 +476,7 @@ namespace Melia.Zone.Commands
 
 				// Sort candidates by how close their name is to the search
 				// name, to find the one that's closest to it.
-				var sorted = monstersData.OrderBy(a => a.ClassName.ToLower().LevenshteinDistance(searchName));
+				var sorted = monstersData.OrderBy(a => a.ClassName.ToLower().GetLevenshteinDistance(searchName));
 				monsterData = sorted.First();
 			}
 
@@ -744,7 +746,7 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var eItems = items.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
+			var eItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
 			var max = 20;
 			for (var i = 0; eItems.MoveNext() && i < max; ++i)
 			{
@@ -779,7 +781,7 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var entries = monsters.OrderBy(a => a.Name.LevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
+			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
 			var max = 20;
 			for (var i = 0; entries.MoveNext() && i < max; ++i)
 			{

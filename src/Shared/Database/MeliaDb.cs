@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Melia.Shared.Util;
 using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
+using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 
 namespace Melia.Shared.Database
@@ -103,7 +103,7 @@ namespace Melia.Shared.Database
 				}
 				catch (Exception ex)
 				{
-					Log.Exception(ex, "Failed to create account '{0}'.", name);
+					Log.Error("Failed to create account '{0}'. Exception: {1}", name, ex);
 				}
 			}
 

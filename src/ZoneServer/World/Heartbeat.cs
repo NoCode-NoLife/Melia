@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using Melia.Shared.Util;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.World
 {

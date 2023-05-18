@@ -1,5 +1,6 @@
 ﻿using System;
-using Melia.Shared.Util;
+using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Melia.Web
 {
@@ -14,7 +15,7 @@ namespace Melia.Web
 			catch (Exception ex)
 			{
 				Log.Error("Error on startup: {0}", ex);
-				CliUtil.Exit(1, true);
+				ConsoleUtil.Exit(1, true);
 			}
 		}
 	}

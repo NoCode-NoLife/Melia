@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Util.Configuration;
+﻿using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network.Helpers;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Util;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Yggdrasil.Extensions;
 
 namespace Melia.Barracks.Network
 {
