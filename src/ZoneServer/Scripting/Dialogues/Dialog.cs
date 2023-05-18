@@ -27,8 +27,6 @@ namespace Melia.Zone.Scripting.Dialogues
 		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
 		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
-		private DialogActionType _lastAction;
-
 		/// <summary>
 		/// Returns a reference to the character that initiated the dialog.
 		/// </summary>
@@ -118,6 +116,9 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="response"></param>
 		internal void Resume(string response)
 		{
+			if (this.State != DialogState.Waiting)
+				throw new InvalidOperationException($"The dialog is not paused and waiting for a response.");
+
 			_response = response;
 			_resumeSignal.Release();
 
@@ -289,8 +290,6 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="text"></param>
 		public async Task Msg(string text)
 		{
-			_lastAction = DialogActionType.Message;
-
 			text = this.FrameMessage(text);
 			Send.ZC_DIALOG_OK(this.Player.Connection, text);
 
@@ -337,8 +336,6 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task<int> Select(string text, IEnumerable<string> options)
 		{
-			_lastAction = DialogActionType.Input;
-
 			text = this.FrameMessage(text);
 
 			var arguments = new List<string>();
@@ -399,8 +396,6 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <exception cref="OperationCanceledException"></exception>
 		public void Close()
 		{
-			_lastAction = DialogActionType.Close;
-
 			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
 			throw new OperationCanceledException("Dialog closed by script.");
 		}

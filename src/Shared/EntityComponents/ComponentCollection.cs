@@ -90,7 +90,7 @@ namespace Melia.Shared.EntityComponents
 					return (TComponent)component;
 			}
 
-			return default(TComponent);
+			return default;
 		}
 
 		/// <summary>

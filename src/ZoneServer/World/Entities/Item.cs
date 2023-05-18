@@ -15,7 +15,7 @@ namespace Melia.Zone.World.Entities
 	/// </summary>
 	public class Item : IPropertyObject
 	{
-		private static long _worldId = 0x0050000000000000;
+		private static long WorldId = 0x0050000000000000;
 
 		private int _amount;
 
@@ -106,7 +106,7 @@ namespace Melia.Zone.World.Entities
 			this.Id = itemId;
 			this.LoadData();
 
-			this.ObjectId = Interlocked.Increment(ref _worldId);
+			this.ObjectId = Interlocked.Increment(ref WorldId);
 			this.Amount = amount;
 		}
 

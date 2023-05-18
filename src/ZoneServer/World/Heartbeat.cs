@@ -17,8 +17,11 @@ namespace Melia.Zone.World
 		private const int Period = 250;
 
 		private bool _running = false;
-		private Timer _heartbeatTimer;
 		private Stopwatch _updateTimer;
+
+#pragma warning disable IDE0052 // Unused private member
+		private Timer _heartbeatTimer; // Required for the timer not be garbage collected
+#pragma warning restore IDE0052
 
 		private int _lastSecond;
 		private int _lastMinute;
