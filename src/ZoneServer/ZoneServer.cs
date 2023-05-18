@@ -73,7 +73,7 @@ namespace Melia.Zone
 			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
-			this.LoadData();
+			this.LoadData(ServerType.Zone);
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
 			this.InitWorld();

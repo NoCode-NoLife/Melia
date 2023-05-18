@@ -647,7 +647,7 @@ namespace Melia.Zone.Commands
 		{
 			sender.ServerMessage("Reloading data...");
 
-			ZoneServer.Instance.LoadData();
+			ZoneServer.Instance.LoadData(ServerType.Zone);
 
 			sender.ServerMessage("Done.");
 

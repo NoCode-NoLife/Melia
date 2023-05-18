@@ -172,40 +172,62 @@ namespace Melia.Shared
 		/// <summary>
 		/// Loads data from files.
 		/// </summary>
-		public void LoadData()
+		public void LoadData(ServerType serverType)
 		{
 			Log.Info("Loading data...");
 
 			try
 			{
-				this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
-				this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
-				this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
-				this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
-				this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
-				this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
-				this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
-				this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
-				this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
-				this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
-				this.LoadDb(this.Data.ExpDb, "db/exp.txt");
-				this.LoadDb(this.Data.FactionDb, "db/factions.txt");
-				this.LoadDb(this.Data.GroundDb, "db/ground.dat");
-				this.LoadDb(this.Data.HelpDb, "db/help.txt");
-				this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
-				this.LoadDb(this.Data.ItemDb, "db/items.txt");
-				this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt");
-				this.LoadDb(this.Data.JobDb, "db/jobs.txt");
-				this.LoadDb(this.Data.MapDb, "db/maps.txt");
-				this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
-				this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
-				this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
-				this.LoadDb(this.Data.ServerDb, "db/servers.txt");
-				this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
-				this.LoadDb(this.Data.ShopDb, "db/shops.txt");
-				this.LoadDb(this.Data.SkillDb, "db/skills.txt");
-				this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
-				this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+				// Originally we were using a bitmask to specify which dbs
+				// to load, but that's not very scalable, because even with
+				// 64 bits, we'd run out of bits eventually. We could use a
+				// list of enums, but that's kind of annoying to manage.
+				// So we'll be lazy for now and just if/else it.
+				// We could also move it to the servers to clean it up a
+				// bit. TBD.
+
+				if (serverType == ServerType.Barracks)
+				{
+					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
+					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
+					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
+					this.LoadDb(this.Data.ItemDb, "db/items.txt");
+					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
+					this.LoadDb(this.Data.MapDb, "db/maps.txt");
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+				}
+				else if (serverType == ServerType.Zone)
+				{
+					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
+					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
+					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
+					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
+					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
+					this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
+					this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
+					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
+					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
+					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
+					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
+					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
+					this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+					this.LoadDb(this.Data.HelpDb, "db/help.txt");
+					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
+					this.LoadDb(this.Data.ItemDb, "db/items.txt");
+					this.LoadDb(this.Data.ItemMonsterDb, "db/itemmonsters.txt");
+					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
+					this.LoadDb(this.Data.MapDb, "db/maps.txt");
+					this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
+					this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
+					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
+					this.LoadDb(this.Data.ShopDb, "db/shops.txt");
+					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
+					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+				}
+
 			}
 			catch (DatabaseErrorException ex)
 			{

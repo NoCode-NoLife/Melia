@@ -46,7 +46,7 @@ namespace Melia.Barracks
 			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
-			this.LoadData();
+			this.LoadData(ServerType.Barracks);
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
 
