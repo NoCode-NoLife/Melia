@@ -1,4 +1,10 @@
-﻿using Melia.Zone.Scripting;
+﻿//--- Melia Script ----------------------------------------------------------
+// Test Script
+//--- Description -----------------------------------------------------------
+// Exec's personal playground.
+//---------------------------------------------------------------------------
+
+using Melia.Zone.Scripting;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class TestScript1 : GeneralScript

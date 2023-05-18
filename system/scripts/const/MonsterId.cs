@@ -1,13 +1,12 @@
-// Melia
-// Script file
-// 
+//--- Melia Script ----------------------------------------------------------
+// Monster ids
+//--- Description -----------------------------------------------------------
 // Auto-generated list of monster ids for easy access.
 //---------------------------------------------------------------------------
-
 public static class MonsterId
 {
 	// Item
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Moneybag1 = 50092;
 	public const int Moneybag2 = 50093;
 	public const int Moneybag3 = 50094;
@@ -19,7 +18,7 @@ public static class MonsterId
 	public const int Default_Recipe = 850000;
 
 	// Monster
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Stone = 10001;
 	public const int Bomb = 10005;
 	public const int Bomb_Score = 10006;
@@ -4235,7 +4234,7 @@ public static class MonsterId
 	public const int Poiming = 4014210;
 
 	// Neutral
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int event_fullmoon_lapindion = 101005;
 	public const int event_fullmoon_lapindal = 101006;
 	public const int event_anvil_gold_mon = 101007;
@@ -4244,12 +4243,12 @@ public static class MonsterId
 	public const int boss_Sequoia_sleep = 401663;
 
 	// Npc
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int boss_RevivalPaulius_Kruvina_Pillar = 160115;
 	public const int boss_Spreader_Kruvina_Pillar = 160136;
 
 	// NPC
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int mon_paladin_follower1_2 = 11282;
 	public const int mon_paladin_follower1_3 = 11283;
 	public const int HiddenTrigge_DMINE8_QUEST04 = 12080;
@@ -6659,7 +6658,7 @@ public static class MonsterId
 	public const int Trophy_hp_f_ignas_gold = 3019073;
 
 	// Sign
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int SavePlace = 40060;
 	public const int Board1 = 40070;
 	public const int Board2 = 40080;

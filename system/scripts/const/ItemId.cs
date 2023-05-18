@@ -1,13 +1,12 @@
-// Melia
-// Script file
-// 
+//--- Melia Script ----------------------------------------------------------
+// Item ids
+//--- Description -----------------------------------------------------------
 // Auto-generated list of item ids for easy access.
 //---------------------------------------------------------------------------
-
 public static class ItemId
 {
 	// Arcane
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int SWD04_126 = 104126;
 	public const int DAG04_123 = 114023;
 	public const int TSW04_126 = 124126;
@@ -390,7 +389,7 @@ public static class ItemId
 	public const int TSP04_128_3_Lv4 = 11050187;
 
 	// Ark
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Ark_str = 620001;
 	public const int Ark_dex = 620002;
 	public const int Ark_int = 620003;
@@ -419,11 +418,11 @@ public static class ItemId
 	public const int Ark_dummy = 11040002;
 
 	// Armband
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int NoArmband = 11000;
 
 	// Armor
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int NoHat = 2;
 	public const int NoOuter = 4;
 	public const int NoPants = 5;
@@ -4010,7 +4009,7 @@ public static class ItemId
 	public const int ep15spring01_shield = 11104014;
 
 	// BELT
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int EP13_penetration_belt = 11100044;
 	public const int EP13_penetration_belt_high = 11100045;
 	public const int EP13_penetration_belt_high2 = 11100046;
@@ -4018,7 +4017,7 @@ public static class ItemId
 	public const int NoTrade_EP13_penetration_belt_high2 = 11100061;
 
 	// Book
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Collection_Base_CASTLE65_3_HQ1 = 661203;
 	public const int JOB_1_SAGE_ITEM1 = 663196;
 	public const int JOB_1_SAGE_ITEM2 = 663197;
@@ -4127,7 +4126,7 @@ public static class ItemId
 	public const int SAGE_QUEST_BOOK03 = 690104;
 
 	// Card
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Episode_Select_Monster_NoTrade = 92110;
 	public const int card_Gaigalas = 644001;
 	public const int card_GazingGolem = 644002;
@@ -4367,7 +4366,7 @@ public static class ItemId
 	public const int Goddess_card_EP14_baubas = 11039407;
 
 	// Collection
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int COLLECT_101 = 642001;
 	public const int COLLECT_102 = 642002;
 	public const int COLLECT_103 = 642003;
@@ -4604,11 +4603,11 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_13 = 11039013;
 
 	// Consume
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Event_2010_Enchant_Jewel_Box_3 = 10003292;
 
 	// Cube
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Event_DefenceMission01 = 495031;
 	public const int Ghaca_PC_Rabdom = 640403;
 	public const int Ghaca_PC_Misc = 640404;
@@ -5449,7 +5448,7 @@ public static class ItemId
 	public const int Baubas_cube_2 = 11200269;
 
 	// Drug
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int ColorSpray_1 = 201001;
 	public const int ColorSpray_2 = 201002;
 	public const int ColorSpray_3 = 201003;
@@ -9071,13 +9070,13 @@ public static class ItemId
 	public const int QuestReward_repairPotion_490 = 11200243;
 
 	// Earring
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int EP13_GabijaEarring = 11100001;
 	public const int EP13_SampleGabijaEarring = 11100014;
 	public const int NoTrade_EP13_GabijaEarring = 11100062;
 
 	// Entrance_Ticket
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Event_dungeoncount_11 = 10000175;
 	public const int Event_ChallengeModeReset_13 = 10000182;
 	public const int Event_ChallengeModeReset_16 = 10000229;
@@ -9103,7 +9102,7 @@ public static class ItemId
 	public const int SoloRaidCntReset_Team_Event_5 = 10600215;
 
 	// Event
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Premium_indunReset_14d = 490048;
 	public const int Premium_boostToken_14d = 490049;
 	public const int Premium_boostToken_14d_test = 490052;
@@ -10033,7 +10032,7 @@ public static class ItemId
 	public const int selectbox_Event_costume_laima_NoTrade = 11035682;
 
 	// ExpOrb
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Legend_ExpPotion = 699003;
 	public const int Legend_ExpPotion_2 = 699011;
 	public const int Legend_ExpPotion_2_complete = 699012;
@@ -10043,7 +10042,7 @@ public static class ItemId
 	public const int Legend_ExpPotion_2_460_complete = 11030237;
 
 	// FishingRod
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Fishing_Rod_1 = 730000;
 	public const int Fishing_Rod_2 = 730001;
 	public const int Fishing_Rod_3 = 730002;
@@ -10053,7 +10052,7 @@ public static class ItemId
 	public const int Fishing_Rod_Premium_1 = 730100;
 
 	// Gem
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int gem_circle_1 = 643501;
 	public const int gem_square_1 = 643502;
 	public const int gem_diamond_1 = 643503;
@@ -10820,7 +10819,7 @@ public static class ItemId
 	public const int GEM_SpearMaster_Hierophany = 744879;
 
 	// Gem_High_Color
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Gem_High_STR = 850001;
 	public const int Gem_High_INT = 850002;
 	public const int Gem_High_DEX = 850003;
@@ -10833,7 +10832,7 @@ public static class ItemId
 	public const int Gem_High_CON_480 = 850010;
 
 	// Gem_Relic
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Gem_Relic_Cyan_L_001 = 844000;
 	public const int Gem_Relic_Cyan_L_002 = 844001;
 	public const int Gem_Relic_Cyan_L_003 = 844002;
@@ -10900,7 +10899,7 @@ public static class ItemId
 	public const int Gem_Relic_Black_G_025 = 849024;
 
 	// Helmet
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int NoHelmet = 10000;
 	public const int murmillo_helmet = 10001;
 	public const int helmet_plaguedoctor = 10002;
@@ -10945,7 +10944,7 @@ public static class ItemId
 	public const int helmet_astronaut_teamtrade = 6360001;
 
 	// HiddenAbility
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int HiddenAbility_Swordman33 = 2040001;
 	public const int HiddenAbility_NakMuay6 = 2040002;
 	public const int HiddenAbility_Doppelsoeldner27 = 2040003;
@@ -11557,7 +11556,7 @@ public static class ItemId
 	public const int HiddenAbility_Keraunos15 = 2040609;
 
 	// Icor
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Weapon_icor = 699001;
 	public const int Armor_icor = 699002;
 	public const int Market_Weapon_icor = 2050022;
@@ -11570,14 +11569,14 @@ public static class ItemId
 	public const int NoTrade_EP14_GoddessIcor_Weapon_high = 11201038;
 
 	// LegendMaterial
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int misc_Planium = 647024;
 	public const int misc_Planium_NoTrade = 647049;
 	public const int misc_Brikynite = 11030011;
 	public const int piece_misc_Brikynite = 11030012;
 
 	// MagicAmulet
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int magicAmulet_1 = 648001;
 	public const int magicAmulet_2 = 648002;
 	public const int magicAmulet_3 = 648003;
@@ -11606,7 +11605,7 @@ public static class ItemId
 	public const int magicAmulet_26 = 648026;
 
 	// Material
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int misc_collect_gimk_001 = 300000;
 	public const int misc_collect_gimk_002 = 300001;
 	public const int misc_collect_gimk_003 = 300002;
@@ -13169,7 +13168,7 @@ public static class ItemId
 	public const int common_skill_enchant_jewal_480 = 11201039;
 
 	// Misc
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int test_seal_set = 495164;
 	public const int Legend_Misc_Moringponia = 699016;
 	public const int Legend_Misc_Misrus = 699017;
@@ -13356,7 +13355,7 @@ public static class ItemId
 	public const int piece_EP14_GoddessIcor_Weapon_high_NoTrade_Belonging = 11201036;
 
 	// PasteBait
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Paste_Bait_basic = 730200;
 	public const int Paste_Bait_silverfish_small = 730201;
 	public const int Paste_Bait_shrimp = 730202;
@@ -13373,7 +13372,7 @@ public static class ItemId
 	public const int EVENT_2107_Octopus_bait_2 = 10007006;
 
 	// PetArmor
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int PETAR01_101 = 291001;
 	public const int PETAR01_102 = 291002;
 	public const int PETAR01_103 = 291003;
@@ -13387,7 +13386,7 @@ public static class ItemId
 	public const int PETAR01_111 = 291011;
 
 	// PetWeapon
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int PETWP01_101 = 281001;
 	public const int PETWP01_102 = 281002;
 	public const int PETWP01_103 = 281003;
@@ -13401,7 +13400,7 @@ public static class ItemId
 	public const int PETWP01_111 = 281011;
 
 	// Premium
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int helmet_baniclips = 10017;
 	public const int helmet_tantaliser1 = 10028;
 	public const int helmet_moth1 = 10029;
@@ -17912,7 +17911,7 @@ public static class ItemId
 	public const int tosw_2304_package_4c = 11205044;
 
 	// Quest
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int EP12_2_D_DCAPITAL_108_MQ11_ITEM_01 = 92010;
 	public const int EP12_2_D_DCAPITAL_108_MQ13_ITEM_01 = 92012;
 	public const int D_DCAPITAL_108_SECRET_PAPER = 92100;
@@ -20115,7 +20114,7 @@ public static class ItemId
 	public const int P_D_EP13_10_ITEM_1 = 870005;
 
 	// Recipe
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Default_Recipe = 910000;
 	public const int R_timber_01 = 911001;
 	public const int R_timber_02 = 911002;
@@ -21466,11 +21465,11 @@ public static class ItemId
 	public const int R_Steam_SP_Potion_7Day = 1310067;
 
 	// Relic
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Relic_Guilty = 11040003;
 
 	// Seal
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Seal_Boruta_Sword = 610001;
 	public const int Seal_Boruta_Wizard = 610002;
 	public const int Seal_Boruta_Cleric = 610003;
@@ -21498,13 +21497,13 @@ public static class ItemId
 	public const int Seal_jurate3_def = 11100054;
 
 	// SHOULDER
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int EP14_fierce_shoulder = 11100047;
 	public const int EP14_fierce_shoulder_high = 11100048;
 	public const int NoTrade_EP14_fierce_shoulder_high = 11100059;
 
 	// SpecialMaterial
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int misc_thierrynium = 649032;
 	public const int misc_mothstone = 649033;
 	public const int misc_low_mothstone = 649034;
@@ -21533,14 +21532,14 @@ public static class ItemId
 	public const int misc_Ectonite_Care = 11030451;
 
 	// SubExpOrb
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int SubExpOrb = 699038;
 	public const int SubExpOrb_complete = 699039;
 	public const int SubExpOrb_460 = 11030228;
 	public const int SubExpOrb_460_complete = 11030229;
 
 	// SubWeapon
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int ABAND01_101 = 11101;
 	public const int ABAND01_102 = 11102;
 	public const int ABAND01_103 = 11103;
@@ -22163,12 +22162,12 @@ public static class ItemId
 	public const int EP15_Artefact_002 = 11104008;
 
 	// Unused
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int Vis = 900011;
 	public const int Feso = 900012;
 
 	// Weapon
-	//---------------------------------------------------------------------------
+	//-----------------------------------------------------------------------
 	public const int SWD01_101 = 101101;
 	public const int SWD01_102 = 101102;
 	public const int SWD01_103 = 101103;
