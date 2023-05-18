@@ -96,7 +96,7 @@ namespace Melia.Shared.Network
 				// terminate the connection.
 				if (packetSize < tableSize)
 				{
-					Log.Warning("Packet size doesn't match packet table size. (op: {3} ({0:X4}), size: {1}, expected: {2})", op, fixHeaderSize, tableSize, Op.GetName(op));
+					Log.Warning("Packet size doesn't match packet table size. (op: {3} ({0:X4}), size: {1}, expected: {2})", op, packetSize, tableSize, Op.GetName(op));
 					packetSize = tableSize;
 				}
 			}
