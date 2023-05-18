@@ -10,5 +10,6 @@ warps/**/*
 custom/test.cs
 
 client/custom_npc_shops/custom_npc_shops.cs
+client/unclutter/unclutter.cs
 
 include "/user/scripts/scripts_zone.txt"
