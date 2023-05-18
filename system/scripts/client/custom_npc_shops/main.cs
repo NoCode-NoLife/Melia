@@ -2,10 +2,12 @@
 // Custom NPC Shops Enabler
 //--- Description -----------------------------------------------------------
 // This client script allows the server to send custom NPC shops to the
-// client. The Lua scripts intercept the requests to load the shop data
-// and dynamically use custom data instead.
+// client, which is usually in control over what items are displayed for
+// specific shops. The Lua scripts intercept the requests to load the shop
+// data and dynamically use custom data instead.
 // 
-// If this script is not loaded, custom shops will simply be empty.
+// If this script is not loaded, custom shops opened by the server will
+// simply be empty.
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Scripting;
