@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Melia.Shared.Data.Database;
@@ -75,6 +76,8 @@ namespace Melia.Zone.Commands
 			this.Add("reloadconf", "", "Reloads configuration files.", this.HandleReloadConf);
 			this.Add("reloaddata", "", "Reloads data.", this.HandleReloadData);
 			this.Add("ai", "[ai name]", "Activates AI for character.", this.HandleAi);
+			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
+			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -95,6 +98,11 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleTest(Character sender, Character target, string message, string command, Arguments args)
 		{
 			Log.Debug("test!!");
+
+			var itemId = int.Parse(args.Get(0));
+			var dropItem = new World.Entities.Item(itemId, 1);
+			dropItem.SetRePickUpProtection(sender);
+			dropItem.Drop(sender.Map, sender.Position, new Direction(0), 10);
 
 			return CommandResult.Okay;
 		}
@@ -1546,6 +1554,135 @@ namespace Melia.Zone.Commands
 				//target.Components.Add(new EntityAi(target, aiName));
 
 				sender.ServerMessage("Enabled '{0}' AI.", aiName);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Initiates data update.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleUpdateData(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			// Instructs the client to iterate over all its items (including
+			// auto-generated ones), retrieve their monster ids, and send
+			// them back to the server using >updatedatacom.
+
+			Send.ZC_EXEC_CLIENT_SCP(sender.Connection, @"
+				local result = ''
+				
+				ui.Chat('>updatedatacom init')
+
+				local itemClassList, cnt  = GetClassList('Item');
+				for i = 0, cnt - 1 do
+					local itemClass = GetClassByIndexFromList(itemClassList, i)
+					local itemMonsterId = geItemTable.GetItemMonster(itemClass.ClassID)
+					local itemClassName = itemClass.ClassName
+					
+					result = result .. itemClass.ClassID .. '\t' .. itemMonsterId .. '\t' .. itemClass.ClassName .. '\n'
+
+					if string.len(result) > 1000 then
+						ui.Chat('>updatedatacom add ' .. result)
+						result = ''
+					end
+				end
+
+				ui.Chat('>updatedatacom fin')
+			");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Accepts data updates and writes them to file.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleUpdateDataCom(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			var tmpFilePath = "user/tmp/updatedata/itemmonsters.txt";
+			var outFilePath = "system/db/itemmonsters.txt";
+
+			var tmpDirPath = Path.GetDirectoryName(tmpFilePath);
+			if (!Directory.Exists(tmpDirPath))
+				Directory.CreateDirectory(tmpDirPath);
+
+			var outDirPath = Path.GetDirectoryName(outFilePath);
+			if (!Directory.Exists(outDirPath))
+				Directory.CreateDirectory(outDirPath);
+
+			switch (args.Get(0))
+			{
+				// Clear file
+				case "init":
+				{
+					File.WriteAllText(tmpFilePath, "");
+					break;
+				}
+				// Add text to file
+				case "add":
+				{
+					File.AppendAllText(tmpFilePath, message.Substring(message.IndexOf(" add") + " add".Length).Trim() + "\n");
+					break;
+				}
+				// Generate final data
+				case "fin":
+				{
+					var lines = File.ReadAllLines(tmpFilePath);
+
+					var idTable = new Dictionary<int, int>();
+					foreach (var line in lines)
+					{
+						var split = line.Split('\t');
+						var itemId = int.Parse(split[0]);
+						var itemMonsterId = int.Parse(split[1]);
+
+						idTable[itemId] = itemMonsterId;
+					}
+
+					var sb = new StringBuilder();
+
+					sb.AppendLine("// Melia");
+					sb.AppendLine("// Database file");
+					sb.AppendLine("//---------------------------------------------------------------------------");
+					sb.AppendLine();
+					sb.AppendLine("[");
+
+					foreach (var entry in idTable.OrderBy(a => a.Key))
+					{
+						var itemId = entry.Key;
+						var itemMonsterId = entry.Value;
+						var className = "";
+						var name = "";
+
+						if (ZoneServer.Instance.Data.ItemDb.TryFind(itemId, out var data))
+						{
+							className = data.ClassName;
+							name = data.Name;
+						}
+
+						sb.AppendFormat("{{ itemId: {0}, monsterId: {1}, className: \"{2}\", name: \"{3}\" }},", itemId, itemMonsterId, className, name);
+						sb.AppendLine();
+					}
+
+					sb.AppendLine("]");
+
+					File.WriteAllText(outFilePath, sb.ToString());
+					break;
+				}
 			}
 
 			return CommandResult.Okay;
