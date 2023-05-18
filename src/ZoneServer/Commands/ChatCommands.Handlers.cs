@@ -1573,6 +1573,8 @@ namespace Melia.Zone.Commands
 			// Instructs the client to iterate over all its items (including
 			// auto-generated ones), retrieve their monster ids, and send
 			// them back to the server using >updatedatacom.
+			// The max length of chat messages appears to be ~4090 characters,
+			// so we need to split the data into multiple messages.
 
 			Send.ZC_EXEC_CLIENT_SCP(sender.Connection, @"
 				local result = ''
@@ -1587,7 +1589,7 @@ namespace Melia.Zone.Commands
 					
 					result = result .. itemClass.ClassID .. '\t' .. itemMonsterId .. '\t' .. itemClass.ClassName .. '\n'
 
-					if string.len(result) > 1000 then
+					if string.len(result) > 2000 then
 						ui.Chat('>updatedatacom add ' .. result)
 						result = ''
 					end
