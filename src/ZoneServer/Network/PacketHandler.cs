@@ -18,12 +18,13 @@ using Yggdrasil.Logging;
 namespace Melia.Zone.Network
 {
 	public class PacketHandler : PacketHandler<IZoneConnection>
-	{/// <summary>
-	 /// Sent wrongfully if a channel wasn't available and the client
-	 /// tries to log in again afterwards.
-	 /// </summary>
-	 /// <param name="conn"></param>
-	 /// <param name="packet"></param>
+	{
+		/// <summary>
+		/// Sent wrongfully if a channel wasn't available and the client
+		/// tries to log in again afterwards.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(IZoneConnection conn, Packet packet)
 		{
@@ -89,6 +90,8 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
+			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
 
@@ -150,7 +153,7 @@ namespace Melia.Zone.Network
 			Send.ZC_DAYLIGHT_FIXED(character);
 			character.OpenEyes();
 
-			//ZoneServer.Instance.ScriptManager.SendClientScripts(conn);
+			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
 		}
 
 		/// <summary>

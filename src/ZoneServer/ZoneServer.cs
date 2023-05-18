@@ -4,6 +4,7 @@ using Melia.Shared.Data.Database;
 using Melia.Zone.Buffs;
 using Melia.Zone.Commands;
 using Melia.Zone.Database;
+using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
@@ -52,6 +53,11 @@ namespace Melia.Zone
 		/// Returns reference to the server's buff handlers.
 		/// </summary>
 		public ChatCommands ChatCommands { get; } = new ChatCommands();
+
+		/// <summary>
+		/// Returns a reference to the server's event manager.
+		/// </summary>
+		public ServerEvents ServerEvents { get; } = new ServerEvents();
 
 		/// <summary>
 		/// Runs the server.

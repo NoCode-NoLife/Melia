@@ -85,6 +85,8 @@
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\AccountSettings.cs" />
     <Compile Include="Database\ZoneDb.cs" />
+    <Compile Include="Events\PlayerEventArgs.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Network\ZoneConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\ClientScript.cs" />
     <Compile Include="Scripting\Dialogues\Dialog.cs" />
     <Compile Include="Scripting\Dialogues\DialogActionType.cs" />
     <Compile Include="Scripting\Dialogues\DialogOption.cs" />
