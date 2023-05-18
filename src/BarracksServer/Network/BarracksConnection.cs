@@ -1,5 +1,6 @@
 ﻿using Melia.Barracks.Database;
 using Melia.Shared.Network;
+using Yggdrasil.Network.TCP;
 
 namespace Melia.Barracks.Network
 {
@@ -31,6 +32,17 @@ namespace Melia.Barracks.Network
 		protected override void OnPacketReceived(Packet packet)
 		{
 			BarracksServer.Instance.PacketHandler.Handle(this, packet);
+		}
+
+		/// <summary>
+		/// Called when the connection was closed.
+		/// </summary>
+		/// <param name="type"></param>
+		protected override void OnClosed(ConnectionCloseType type)
+		{
+			base.OnClosed(type);
+
+			this.Account?.Save();
 		}
 	}
 }
