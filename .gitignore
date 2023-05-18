@@ -9,6 +9,7 @@
 /user/conf/*
 /user/db/*
 /user/scripts/*
+/user/tmp/*
 /user/tools/*
 /user/web/*
 /user/version/*
