@@ -63,8 +63,8 @@
     <Content Include="scripts_zone.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="client\unclutter\unclutter.cs" />
-    <Compile Include="client\custom_npc_shops\custom_npc_shops.cs" />
+    <Compile Include="client\unclutter\main.cs" />
+    <Compile Include="client\custom_npc_shops\main.cs" />
     <Compile Include="const\ItemId.cs" />
     <Compile Include="const\MonsterId.cs" />
     <Compile Include="custom\test.cs" />
