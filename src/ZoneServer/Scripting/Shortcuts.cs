@@ -242,6 +242,9 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static async Task OpenChest(Character character, Monster npc)
 		{
+			//if (character.Help.NotSeen(34))
+			//	Send.ZC_HELP_ADD(character, 34, 1);
+
 			// Play animations for character to kick open the chest
 			Send.ZC_PLAY_ANI(character, AnimationName.KickBox);
 			Send.ZC_PLAY_ANI(npc, AnimationName.Opened, true);

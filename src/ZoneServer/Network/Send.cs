@@ -3094,6 +3094,21 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Opens help panel for the given topic on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="helpTopicId"></param>
+		/// <param name="maybeSeen"></param>
+		public static void ZC_HELP_ADD(Character character, int helpTopicId, byte maybeSeen)
+		{
+			var packet = new Packet(Op.ZC_HELP_LIST);
+			packet.PutInt(helpTopicId);
+			packet.PutByte(maybeSeen);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Requests the client to send information that needs to be saved
 		/// before exiting?
 		/// </summary>
