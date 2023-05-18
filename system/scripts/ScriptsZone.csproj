@@ -63,6 +63,10 @@
     <Content Include="scripts_zone.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="client\dialog_portraits\main.cs" />
+    <Compile Include="client\free_drops\main.cs" />
+    <Compile Include="client\personal_shops\main.cs" />
+    <Compile Include="client\stat_by_level\main.cs" />
     <Compile Include="client\unclutter\main.cs" />
     <Compile Include="client\custom_npc_shops\main.cs" />
     <Compile Include="const\ItemId.cs" />
@@ -70,12 +74,15 @@
     <Compile Include="custom\test.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="client\dialog_portraits\001.lua" />
+    <None Include="client\free_drops\001.lua" />
+    <None Include="client\personal_shops\001.lua" />
+    <None Include="client\personal_shops\002.lua" />
+    <None Include="client\stat_by_level\001.lua" />
     <None Include="client\unclutter\001.lua" />
-    <None Include="client\unclutter\README.md" />
     <None Include="client\custom_npc_shops\001.lua" />
     <None Include="client\custom_npc_shops\002.lua" />
     <None Include="client\custom_npc_shops\003.lua" />
-    <None Include="client\custom_npc_shops\README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
