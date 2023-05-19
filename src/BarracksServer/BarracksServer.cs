@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
@@ -49,6 +51,7 @@ namespace Melia.Barracks
 			this.LoadData(ServerType.Barracks);
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
+			this.CheckDatabaseUpdates();
 
 			// Get server data
 			var serverInfo = this.GetServerInfo(ServerType.Barracks, args);
@@ -71,6 +74,32 @@ namespace Melia.Barracks
 		private void OnConnectionAccepted(BarracksConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
+		}
+
+		/// <summary>
+		/// Checks for potential updates for the database.
+		/// </summary>
+		private void CheckDatabaseUpdates()
+		{
+			Log.Info("Checking for updates...");
+
+			var files = Directory.GetFiles("sql").OrderBy(a => a);
+			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
+				this.RunUpdate(Path.GetFileName(filePath));
+		}
+
+		/// <summary>
+		/// Attempts to execute the given update file.
+		/// </summary>
+		/// <param name="updateFile"></param>
+		private void RunUpdate(string updateFile)
+		{
+			if (BarracksServer.Instance.Database.CheckUpdate(updateFile))
+				return;
+
+			Log.Info("Update '{0}' found, executing...", updateFile);
+
+			BarracksServer.Instance.Database.RunUpdate(updateFile);
 		}
 	}
 }
