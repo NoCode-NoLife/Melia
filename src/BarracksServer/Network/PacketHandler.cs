@@ -9,6 +9,7 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
+using System.Threading.Tasks;
 
 namespace Melia.Barracks.Network
 {
@@ -115,6 +116,11 @@ namespace Melia.Barracks.Network
 			Send.BC_NORMAL_TeamUI(conn);
 			Send.BC_NORMAL_ZoneTraffic(conn);
 			//Send.BC_NORMAL_MESSAGE_MAIL(conn);
+
+			// Update account properties with Lua code to send scripts
+			// to the client
+			//conn.Account.Properties.String("foobar").Value = "print('Hello, World!')";
+			//Send.BC_ACCOUNT_PROP(conn, conn.Account);
 		}
 
 		/// <summary>
