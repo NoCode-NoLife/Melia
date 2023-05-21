@@ -745,6 +745,13 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			if (conn.CurrentDialog != null && conn.CurrentDialog.State != DialogState.Ended)
+			{
+				// Don't acutally log this, as it might happen naturally.
+				//Log.Debug("CZ_CLICK_TRIGGER: User '{0}' is already in a dialog.", conn.Account.Name);
+				return;
+			}
+
 			// I don't remember what this does or why it was put here,
 			// but it makes the client lag for a second before starting
 			// the dialog.
