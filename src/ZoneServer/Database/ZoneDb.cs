@@ -137,7 +137,11 @@ namespace Melia.Zone.Database
 			this.LoadAbilities(character);
 			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
 
-			(character.Properties as CharacterProperties).Stamina = stamina;
+			// We'll simply set stamina to the max on load for now until
+			// we do some more research on how stamina works, whether it's
+			// saved at all, and what we want the default behavior to be.
+			//character.Properties.Stamina = stamina;
+			character.Properties.Stamina = (int)character.Properties.Calculate(PropertyId.PC.MaxSta);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
