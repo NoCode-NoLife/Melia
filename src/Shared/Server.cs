@@ -195,6 +195,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 				}
 				else if (serverType == ServerType.Zone)
 				{
