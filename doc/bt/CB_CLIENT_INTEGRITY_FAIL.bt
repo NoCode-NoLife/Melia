@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CB_CLIENT_INTEGRITY_FAIL.bt
+//   Authors: exec
+//   Version: i373230
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+// Sent multiple times until the full file list
+// was transferred and "last" is 1.
+char list[1024];
+byte last;
