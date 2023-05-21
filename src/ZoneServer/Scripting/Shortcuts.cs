@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.World;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Geometry;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting
@@ -150,6 +155,69 @@ namespace Melia.Zone.Scripting
 			fromMap.AddMonster(monster);
 
 			return monster;
+		}
+
+		/// <summary>
+		/// Adds monster spawner to the world.
+		/// </summary>
+		/// <param name="monsterClassName"></param>
+		/// <param name="amount"></param>
+		/// <param name="respawn"></param>
+		/// <param name="map"></param>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area)
+		{
+			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _))
+				throw new ArgumentException($"Monster '{monsterClassName}' not found.");
+
+			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
+				throw new ArgumentException($"Map '{map}' not found.");
+
+			var spawner = new MonsterSpawner(monsterClassName, amount, respawn, map, area);
+			mapObj.AddSpawner(spawner);
+
+			return spawner;
+		}
+
+		/// <summary>
+		/// Returns a polygonal shape made up of the given coordinates.
+		/// </summary>
+		/// <param name="coordinates">Evenly numbered list of at least 3 X and Y coordinates.</param>
+		/// <returns></returns>
+		/// <example>
+		/// Area(0, 0, 0, 10, 10, 10, 10, 0) // 10x10 square
+		/// </example>
+		public static IShape Area(params double[] coordinates)
+		{
+			if (coordinates.Length == 0 || coordinates.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of coordinates for area.");
+
+			if (coordinates.Length < 3)
+				throw new ArgumentException("Needs at least 3 points (6 X/Y coordinates).");
+
+			var points = new List<Vector2>();
+			for (var i = 0; i < coordinates.Length;)
+			{
+				var point = new Vector2((int)coordinates[i++], (int)coordinates[i++]);
+				points.Add(point);
+			}
+
+			return new Polygon(points);
+		}
+
+		/// <summary>
+		/// Returns a circular shape with the given coordinates and radius.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public static IShape Spot(double x, double y, double radius = 0)
+		{
+			var center = new Vector2((int)x, (int)y);
+			return new Yggdrasil.Geometry.Shapes.Circle(center, (int)radius);
 		}
 
 		/// <summary>

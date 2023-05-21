@@ -17,5 +17,6 @@ client/stat_by_level/main.cs
 client/unclutter/main.cs
 
 npcs/**/*
+mobs/**/*
 
 include "/user/scripts/scripts_zone.txt"

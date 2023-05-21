@@ -739,6 +739,720 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="T:Yggdrasil.Geometry.Line">
+            <summary>
+            A line, respresent by two points.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Line.Point1">
+            <summary>
+            The first point of the line.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Line.Point2">
+            <summary>
+            The second point of the line.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.#ctor(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="point1"></param>
+            <param name="point2"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.Intersects(Yggdrasil.Geometry.Line,Yggdrasil.Geometry.Vector2@)">
+            <summary>
+            Returns true if this line intersects with the given line,
+            and returns the point at which they intersect via out.
+            </summary>
+            <param name="otherLine"></param>
+            <param name="intersection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.op_Equality(Yggdrasil.Geometry.Line,Yggdrasil.Geometry.Line)">
+            <summary>
+            Returns true if the line's points are the same.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.op_Inequality(Yggdrasil.Geometry.Line,Yggdrasil.Geometry.Line)">
+            <summary>
+            Returns true if the line's points are not the same.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.GetHashCode">
+            <summary>
+            Returns a hash code for this line that will equal lines
+            with the same points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.Equals(System.Object)">
+            <summary>
+            Returns true if the given object is this exact line instance.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Line.ToString">
+            <summary>
+            Returns a string representation of this Line.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Outline">
+            <summary>
+            Represents the outline of a shape.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Outline.Lines">
+            <summary>
+            Returns the lines that make up the outline.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Outline.#ctor(Yggdrasil.Geometry.Line[])">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="lines"></param>
+        </member>
+        <member name="T:Yggdrasil.Geometry.PointUtil">
+            <summary>
+            Provides utility functions to modify points.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.PointUtil.Rotate(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Double)">
+            <summary>
+            Returns new point that was rotated by the given amount
+            around pivot.
+            </summary>
+            <param name="point"></param>
+            <param name="pivot"></param>
+            <param name="degrees"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.PointUtil.Rotate(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F,System.Double)">
+            <summary>
+            Returns new point that was rotated by the given amount
+            around pivot.
+            </summary>
+            <param name="point"></param>
+            <param name="pivot"></param>
+            <param name="degrees"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.PointUtil.Rotate(Yggdrasil.Geometry.Vector2[]@,Yggdrasil.Geometry.Vector2,System.Double)">
+            <summary>
+            Rotates points by the given amount around pivot.
+            </summary>
+            <remarks>
+            The rotation is continually, not fixed, meaning a degree of
+            90 doesn't rotate the points "to" 90 degree, but that the 90
+            degrees are "added" to the current rotation of the points.
+            There is no base rotation.
+            </remarks>
+            <param name="points"></param>
+            <param name="pivot"></param>
+            <param name="degrees"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.PointUtil.Rotate(Yggdrasil.Geometry.Vector2F[]@,Yggdrasil.Geometry.Vector2F,System.Double)">
+            <summary>
+            Rotates points by the given amount around pivot.
+            </summary>
+            <remarks>
+            The rotation is continually, not fixed, meaning a degree of
+            90 doesn't rotate the points "to" 90 degree, but that the 90
+            degrees are "added" to the current rotation of the points.
+            There is no base rotation.
+            </remarks>
+            <param name="points"></param>
+            <param name="pivot"></param>
+            <param name="degrees"></param>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.Circle">
+            <summary>
+            A round shape.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Center">
+            <summary>
+            Returns the circle's center position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Radius">
+            <summary>
+            Returns the circle's radius.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.#ctor(Yggdrasil.Geometry.Vector2,System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="center"></param>
+            <param name="radius"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this circle.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetDefaultEdges">
+            <summary>
+            Returns the number of edges to use by default, based on the size
+            of circle.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints">
+            <summary>
+            Returns an aproximation for the circle's edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetOutlines">
+            <summary>
+            Returns the circle's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints(System.Int32)">
+            <summary>
+            Returns the given amount of edge points for this circle.
+            </summary>
+            <param name="edges"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point within the circle.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.CompositeShape">
+            <summary>
+            A shape that combines multiple shapes.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Shapes">
+            <summary>
+            Returns all shapes this composite shape contains.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Center">
+            <summary>
+            Returns the average of the combined shapes.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(Yggdrasil.Geometry.Shapes.IShape[])">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Shapes.IShape})">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position inside any of this composite
+            shape's shapes.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetEdgePoints">
+            <summary>
+            Returns a list of all edge points of all shapes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetOutlines">
+            <summary>
+            Returns the outlines for all sub-shapes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point within one of this shape's shapes.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.Cone">
+            <summary>
+            A triangular base with a round top, akin to a flashlight's cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Center">
+            <summary>
+            Returns the center of the cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Tip">
+            <summary>
+            Returns the position of the pointed tip of the cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Direction">
+            <summary>
+            Returns the direction of the cone in degress, extending from
+            the tip.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Radius">
+            <summary>
+            Returns the radius or "length" of the cone, from the tip to
+            the rounded edge.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Angle">
+            <summary>
+            Returns the angle of the cone in degrees, from 0° (a line)
+            to 180° (a half circle).
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.#ctor(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Single)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="tipPos">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this cone.
+            </summary>
+            <param name="checkPos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Double,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this cone.
+            </summary>
+            <param name="tip">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
+            <param name="checkPos">The position to check whether it is inside the cone.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetEdgePoints">
+            <summary>
+            Returns approximation of the edge points of the cone.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetOutlines">
+            <summary>
+            Returns the cone's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetRandomPoint(System.Random)">
+            <summary>
+            Returns random point within the cone.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.Polygon">
+            <summary>
+            A shape with an undefined number of edge points, but a minimum of 3,
+            forming a triangle.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Center">
+            <summary>
+            Returns the polygon's position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Points">
+            <summary>
+            Returns the polygon's points.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2[])">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Vector2})">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(System.Int32,System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            Returns a polyon with 4 edge points, making up a rectangle
+            with the given properties.
+            </summary>
+            <param name="x">Center position of the rectangle.</param>
+            <param name="y">Center position of the rectangle.</param>
+            <param name="width">Width of the rectangle.</param>
+            <param name="height">Height of the rectangle.</param>
+            <param name="rotation">Rotation of the rectangle in degrees.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Single)">
+            <summary>
+            Returns a polyon with 4 edge points, making up a rectangle
+            with the given properties.
+            </summary>
+            <param name="center">Center position of the rectangle.</param>
+            <param name="size">Size of the rectangle.</param>
+            <param name="rotation">Rotation of the rectangle in degrees.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given point is within this polygon.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetEdgePoints">
+            <summary>
+            Returns the polygon's edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetOutlines">
+            <summary>
+            Returns the polygon's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetRandomPoint(System.Random)">
+            <summary>
+            Returns random point within the cone.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.Rectangle">
+            <summary>
+            A rectangle shape.
+            </summary>
+            <remarks>
+            To create a rotated rectangle use Polygon.Rectangle.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Position">
+            <summary>
+            Returns the rectangle's position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Center">
+            <summary>
+            Returns the rectangle's center position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Size">
+            <summary>
+            Returns the rectangle's size.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.#ctor(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="pos"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.Centered(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns a new rectangle from a center position and a size.
+            </summary>
+            <param name="center"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this rectangle.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetEdgePoints">
+            <summary>
+            Returns the rectangle's four edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetOutlines">
+            <summary>
+            Returns the rectangle's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetRandomPoint(System.Random)">
+            <summary>
+            Returns random point inside the rectangle.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.IShape">
+            <summary>
+            A 2D shape.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.IShape.Center">
+            <summary>
+            Returns the center of the shape.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.IShape.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this shape.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.IShape.GetEdgePoints">
+            <summary>
+            Returns the shape's edge points.
+            </summary>
+            <remarks>
+            Depending on the shape the result of this method might be an
+            aproximation, such as with circular shapes that don't
+            technically have edges.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.IShape.GetOutlines">
+            <summary>
+            Returns the shape's outlines based on its edge points.
+            </summary>
+            <remarks>
+            Most shapes have only one outline, but shapes can also be made
+            out of multiple sub-shapes, in which case this will return
+            outlines for all sub-shapes separately.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.IShape.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point inside the shape.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Vector2">
+            <summary>
+            Represents a 2-dimensional vector.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Vector2.X">
+            <summary>
+            The vector's X value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Vector2.Y">
+            <summary>
+            The vector's Y value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Vector2.Zero">
+            <summary>
+            Returns a new instance with all values set to 0.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Creates new vector.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Addition(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns a new vector, that had vector2's values added
+            to vector1's values.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Subtraction(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns a new vector, that had vector2's values subtracted
+            from vector1's values.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Multiply(Yggdrasil.Geometry.Vector2,System.Int32)">
+            <summary>
+            Returns a new vector, that had vector1's values multiplied
+            by the given amount.
+            </summary>
+            <param name="vector"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Division(Yggdrasil.Geometry.Vector2,System.Int32)">
+            <summary>
+            Returns a new vector, that had vector1's values divided
+            by the given amount.
+            </summary>
+            <param name="vector1"></param>
+            <param name="divider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Equality(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the vector's coordinates are the same.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.op_Inequality(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the vector's coordinates are not the same.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.GetHashCode">
+            <summary>
+            Returns a hash code for this vector that will equal vector
+            with the same coordinates.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.Equals(System.Object)">
+            <summary>
+            Returns true if the given object is this exact vector instance.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.ToString">
+            <summary>
+            Returns a string representation of this Vector2.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Vector2F">
+            <summary>
+            Represents a 2-dimensional vector.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Vector2F.X">
+            <summary>
+            The vector's X value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.Vector2F.Y">
+            <summary>
+            The vector's Y value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Vector2F.Zero">
+            <summary>
+            Returns a new instance with all values set to 0.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.#ctor(System.Single,System.Single)">
+            <summary>
+            Creates new vector.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Addition(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns a new vector, that had vector2's values added
+            to vector1's values.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Subtraction(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns a new vector, that had vector2's values subtracted
+            from vector1's values.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Multiply(Yggdrasil.Geometry.Vector2F,System.Int32)">
+            <summary>
+            Returns a new vector, that had vector1's values multiplied
+            by the given amount.
+            </summary>
+            <param name="vector"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Division(Yggdrasil.Geometry.Vector2F,System.Int32)">
+            <summary>
+            Returns a new vector, that had vector1's values divided
+            by the given amount.
+            </summary>
+            <param name="vector1"></param>
+            <param name="divider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Equality(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the vector's coordinates are the same.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.op_Inequality(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the vector's coordinates are not the same.
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.GetHashCode">
+            <summary>
+            Returns a hash code for this vector that will equal vector
+            with the same coordinates.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.Equals(System.Object)">
+            <summary>
+            Returns true if the given object is this exact vector instance.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2F.ToString">
+            <summary>
+            Returns a string representation of this Vector2F.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Logging.Logger">
             <summary>
             Logging class with support for codes that are passed down to the
