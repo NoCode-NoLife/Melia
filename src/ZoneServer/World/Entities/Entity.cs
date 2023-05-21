@@ -8,7 +8,7 @@ namespace Melia.Zone.World.Entities
 	/// <summary>
 	/// Describes a living entity that can exist on a map.
 	/// </summary>
-	public interface IEntity
+	public interface IEntity : IPropertyHolder
 	{
 		/// <summary>
 		/// Returns the entity's globally unique, session limited, id.
@@ -57,7 +57,7 @@ namespace Melia.Zone.World.Entities
 
 		/// Returns the entity's property collection.
 		/// </summary>
-		Properties Properties { get; }
+		//Properties Properties { get; }
 
 		/// <summary>
 		/// Returns the entity's component collection.

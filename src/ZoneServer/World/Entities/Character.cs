@@ -28,8 +28,6 @@ namespace Melia.Zone.World.Entities
 		private Monster[] _visibleMonsters = new Monster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
-		private readonly CharacterProperties _characterProperties;
-
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
@@ -258,12 +256,12 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's current stamina.
 		/// </summary>
-		public int Stamina => _characterProperties.Stamina;
+		public int Stamina => this.Properties.Stamina;
 
 		/// <summary>
 		/// Returns the character's max stamina.
 		/// </summary>
-		public int MaxStamina => _characterProperties.MaxStamina;
+		public int MaxStamina => this.Properties.MaxStamina;
 
 		/// <summary>
 		/// Returns true if the character has run out of HP and died.
@@ -304,11 +302,16 @@ namespace Melia.Zone.World.Entities
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
-		/// Beware, some of these are reference properties, that can't be
+		/// Beware, some of these are reference properties that can't be
 		/// set directly. Use this object's actual properties whenever
 		/// possible.
 		/// </remarks>
-		public Properties Properties { get; }
+		public CharacterProperties Properties { get; }
+
+		/// <summary>
+		/// Returns a reference to the character's properties.
+		/// </summary>
+		Properties IPropertyHolder.Properties => this.Properties;
 
 		/// <summary>
 		/// Gets or sets the player's localizer.
@@ -339,7 +342,7 @@ namespace Melia.Zone.World.Entities
 			this.Components.Add(this.Buffs = new BuffCollection(this));
 			this.Components.Add(new Recovery(this));
 
-			this.Properties = _characterProperties = new CharacterProperties(this);
+			this.Properties = new CharacterProperties(this);
 
 			this.AddSessionObjects();
 		}
@@ -696,8 +699,8 @@ namespace Melia.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void ModifyStamina(int amount)
 		{
-			_characterProperties.Stamina += amount;
-			Send.ZC_STAMINA(this, _characterProperties.Stamina);
+			this.Properties.Stamina += amount;
+			Send.ZC_STAMINA(this, this.Properties.Stamina);
 		}
 
 		/// <summary>
