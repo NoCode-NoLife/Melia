@@ -101,11 +101,6 @@ namespace Melia.Zone.Commands
 		{
 			Log.Debug("test!!");
 
-			var itemId = int.Parse(args.Get(0));
-			var dropItem = new World.Entities.Item(itemId, 1);
-			dropItem.SetRePickUpProtection(sender);
-			dropItem.Drop(sender.Map, sender.Position, new Direction(0), 10);
-
 			return CommandResult.Okay;
 		}
 
