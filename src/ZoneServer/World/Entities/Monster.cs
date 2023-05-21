@@ -208,7 +208,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
-		public Properties Properties { get; private set; }
+		public Properties Properties { get; protected set; }
 
 		/// <summary>
 		/// Returns the monster's component collection.

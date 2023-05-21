@@ -16,6 +16,9 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="monster"></param>
 		public static void AddMonster(this Packet packet, IMonster monster)
 		{
+			var properties = monster.Properties.GetAll();
+			var propertiesSize = monster.Properties.Size;
+
 			packet.PutInt(monster.Handle);
 			packet.PutFloat(monster.Position.X);
 			packet.PutFloat(monster.Position.Y);
@@ -53,7 +56,7 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.PutInt(0);  // keeps getting added and removed every other week
 
-			packet.PutShort(0); // Property Size?
+			packet.PutShort(propertiesSize);
 
 			packet.PutInt(0);
 			packet.PutInt(0);
@@ -62,8 +65,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte(0);
 
 			packet.AddMonsterApperance(monster);
-
-			packet.PutEmptyBin(0); // parameters
+			packet.AddProperties(properties);
 		}
 
 		/// <summary>

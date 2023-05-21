@@ -1,5 +1,6 @@
 ﻿using System;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Zone.World.Entities
 {
@@ -30,6 +31,7 @@ namespace Melia.Zone.World.Entities
 		private ItemMonster(Item item, int monsterId) : base(monsterId, NpcType.NPC)
 		{
 			this.Item = item;
+			this.Properties = new Properties();
 		}
 
 		/// <summary>
