@@ -6,6 +6,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Network;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Entities.Components;
 using Yggdrasil.Logging;
@@ -13,7 +14,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Entities
 {
-	public class Monster : ICombatEntity, IUpdateable
+	public class Monster : ICombatEntity, IUpdateable, IMonster
 	{
 		private static int GenTypes = 1_000_000;
 
@@ -64,10 +65,42 @@ namespace Melia.Zone.World.Entities
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Name of dialog function to call on trigger,
-		/// leave empty for no dialog hotkey display.
+		/// Gets or sets monster's unique name.
 		/// </summary>
+		/// <remarks>
+		/// Purpose currently unknown.
+		/// </remarks>
+		public string UniqueName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the function to call when the monster is clicked.
+		/// </summary>
+		/// <remarks>
+		/// Not actively used in Melia, but important to the client,
+		/// as it's used to determine whether the monster is clickable
+		/// and should display an HP bar.
+		/// </remarks>
 		public string DialogName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the function to call when the monster's
+		/// trigger area is entered.
+		/// </summary>
+		/// <remarks>
+		/// Not actively used in Melia, but potentially importat to the
+		/// client.
+		/// </remarks>
+		public string EnterName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the function to call when the monster's
+		/// trigger area is left.
+		/// </summary>
+		/// <remarks>
+		/// Not actively used in Melia, but potentially importat to the
+		/// client.
+		/// </remarks>
+		public string LeaveName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the NPC's dialog function.
@@ -111,7 +144,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// AoE Defense Ratio
 		/// </summary>
-		public int SDR { get; set; } = 1;
+		public float SDR { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets the monster's HP, capped to 0~MaxHp.

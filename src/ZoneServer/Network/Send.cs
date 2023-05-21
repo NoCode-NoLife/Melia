@@ -4259,7 +4259,7 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
 			packet.PutInt(monster.Handle);
-			packet.AddMonsterBase(monster);
+			packet.AddMonsterApperanceBase(monster);
 
 			packet.PutInt(namesLength);
 			packet.PutLpString(monster.Name);
