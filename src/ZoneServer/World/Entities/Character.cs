@@ -386,15 +386,13 @@ namespace Melia.Zone.World.Entities
 				this.Properties.Set(PropertyId.PC.HP, this.Properties.Calculate(PropertyId.PC.MHP));
 				this.Properties.Set(PropertyId.PC.SP, this.Properties.Calculate(PropertyId.PC.MSP));
 
-				(this.Properties as CharacterProperties).Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
+				this.Properties.Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
 
 				this.Variables.Perm.SetBool("PropertiesInitialized", true);
 			}
 
-			var properties = (this.Properties as CharacterProperties);
-
-			properties.UpdateCalculated();
-			properties.InitAutoUpdates();
+			this.Properties.UpdateCalculated();
+			this.Properties.InitAutoUpdates();
 		}
 
 		/// <summary>
