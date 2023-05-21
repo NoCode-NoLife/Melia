@@ -4246,27 +4246,12 @@ namespace Melia.Zone.Network
 		/// <param name="monster"></param>
 		public static void ZC_UPDATED_MONSTERAPPEARANCE(Monster monster)
 		{
-			// 5 strings, 5 short length prefixes, 5 null terminators
-			// There must be a better way to get the length. Also,
-			// we aren't doing this in AddMonster... does the client
-			// even use it?
-			var namesLength = 5 * sizeof(short) + 5;
-			namesLength += monster.Name.Length;
-			//namesLength += monster.UniqueName.Length;
-			namesLength += monster.DialogName.Length;
-			namesLength += monster.WarpName.Length;
-			//namesLength += monster.Str3Name.Length;
-
 			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
 			packet.PutInt(monster.Handle);
 			packet.AddMonsterApperanceBase(monster);
 
-			packet.PutInt(namesLength);
-			packet.PutLpString(monster.Name);
-			packet.PutLpString(""); // uniqueName
-			packet.PutLpString(monster.DialogName);
-			packet.PutLpString(monster.WarpName);
-			packet.PutLpString(""); // str3
+			packet.PutInt(monster.GetByteSize());
+			packet.AddMonsterApperance(monster);
 
 			monster.Map.Broadcast(packet, monster);
 		}

@@ -18,6 +18,7 @@ namespace Melia.Zone.Network.Helpers
 		{
 			var properties = monster.Properties.GetAll();
 			var propertiesSize = monster.Properties.Size;
+			var appearanceSize = monster.GetByteSize();
 
 			packet.PutInt(monster.Handle);
 			packet.PutFloat(monster.Position.X);
@@ -45,17 +46,14 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.AddMonsterApperanceBase(monster);
 
-			packet.PutInt(5); // Name Size?
+			packet.PutInt(5);
 
-			//packet.PutShort(0); // parameters size
-			// it was, like this in IDA o.o
-			packet.PutByte(0); // parameters size
-			packet.PutByte(0); // ??
-			packet.PutByte(0); // [i170175] ?
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
 			packet.PutByte(0);
 
-			packet.PutInt(0);  // keeps getting added and removed every other week
-
+			packet.PutInt(appearanceSize);
 			packet.PutShort(propertiesSize);
 
 			packet.PutInt(0);
@@ -104,6 +102,31 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutLpString(monster.DialogName);
 			packet.PutLpString(monster.EnterName);
 			packet.PutLpString(monster.LeaveName);
+		}
+
+		/// <summary>
+		/// Returns the size the monster's names will take up in a packet.
+		/// </summary>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public static int GetByteSize(this IMonsterAppearance monster)
+		{
+			var size = 0;
+
+			// Length-prefixes
+			size += 5 * sizeof(short);
+
+			// Null-terminators
+			size += 5;
+
+			// Strings
+			size += Encoding.UTF8.GetByteCount(monster.Name ?? "");
+			size += Encoding.UTF8.GetByteCount(monster.UniqueName ?? "");
+			size += Encoding.UTF8.GetByteCount(monster.DialogName ?? "");
+			size += Encoding.UTF8.GetByteCount(monster.EnterName ?? "");
+			size += Encoding.UTF8.GetByteCount(monster.LeaveName ?? "");
+
+			return size;
 		}
 	}
 

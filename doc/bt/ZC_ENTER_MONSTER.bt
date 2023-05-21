@@ -35,12 +35,8 @@ int i7;
 float f1;
 MONSTER monster;
 int i4; // npc state?
+byte unk1[8];
 int namesSize;
-byte b2;
-byte b4;
-byte b5;
-byte b6;
-int i1;
 short propertiesSize;
 int i3;
 int i5;
