@@ -8,4 +8,4 @@ This is a list of abbreviations commonly found while working with this game.
 | ------------ | ----------------------
 | APC          | Appearance
 | SCP          | Script
-| SDP          | AoE/Skill Defense Ratio (maybe)
+| SDR          | AoE/Skill Defense Ratio (maybe)
