@@ -271,6 +271,17 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			// Get map data
+			var startMapName = BarracksServer.Instance.Conf.Login.StartMap;
+			var startPosition = BarracksServer.Instance.Conf.Login.StartPosition;
+
+			if (!BarracksServer.Instance.Data.MapDb.TryFind(startMapName, out var startMapData))
+			{
+				Log.Error("CB_COMMANDER_CREATE: Map '{0}' not found.", startMapName);
+				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+				return;
+			}
+
 			// Create
 			var character = new Character();
 			character.Name = name;
@@ -279,10 +290,9 @@ namespace Melia.Barracks.Network
 			character.Gender = gender;
 			character.Hair = hair;
 
-			//var startLocation = BarracksServer.Instance.Conf.Login.StartLocation;
-			//character.MapId = startLocation.MapId;
-			//character.Position = new Position(startLocation.X, startLocation.Y, startLocation.Z);
-			//character.BarracksPosition = barrackPos;
+			character.MapId = startMapData.Id;
+			character.Position = startPosition;
+			character.BarracksPosition = barrackPos;
 
 			// XXX: Maybe we could get rid of this and the (sub-)stats in
 			//   Character by passing the jobData to the database, for it
