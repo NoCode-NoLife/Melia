@@ -90,7 +90,7 @@ namespace Melia.Zone.World
 		/// <returns></returns>
 		public Monster Spawn()
 		{
-			var monster = new Monster(_monsterData.Id, NpcType.Monster);
+			var monster = new Monster(_monsterData.Id, MonsterType.Mob);
 			monster.Position = this.GetRandomPosition();
 			monster.FromGround = true;
 			monster.Died += this.OnMonsterDied;

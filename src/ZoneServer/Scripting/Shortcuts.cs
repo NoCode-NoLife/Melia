@@ -109,7 +109,7 @@ namespace Melia.Zone.Scripting
 				}
 			}
 
-			var monster = new Monster(monsterId, NpcType.NPC);
+			var monster = new Monster(monsterId, MonsterType.NPC);
 			monster.Name = name;
 			monster.DialogName = dialog != null ? "DYNAMIC" : null;
 			monster.DialogFunc = dialog;
@@ -144,7 +144,7 @@ namespace Melia.Zone.Scripting
 				name = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
 
 			// Create a "warp monster"...
-			var monster = new Monster(40001, NpcType.NPC);
+			var monster = new Monster(40001, MonsterType.NPC);
 			monster.Name = name;
 			monster.WarpName = warpName;
 			monster.Position = from.Position;

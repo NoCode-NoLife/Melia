@@ -733,7 +733,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (monster.NpcType == NpcType.Monster)
+			if (monster.MonsterType == MonsterType.Mob)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to an actual monster.", conn.Account.Name);
 				return;

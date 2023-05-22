@@ -28,7 +28,7 @@ namespace Melia.Zone.World.Entities
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="monsterId"></param>
-		private ItemMonster(Item item, int monsterId) : base(monsterId, NpcType.NPC)
+		private ItemMonster(Item item, int monsterId) : base(monsterId, MonsterType.NPC)
 		{
 			this.Item = item;
 			this.Properties = new Properties();

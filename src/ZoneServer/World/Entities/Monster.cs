@@ -57,7 +57,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// What kind of NPC the monster is.
 		/// </summary>
-		public NpcType NpcType { get; set; }
+		public MonsterType MonsterType { get; set; }
 
 		/// <summary>
 		/// Monster's name, leave empty for default.
@@ -223,7 +223,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
-		public Monster(int id, NpcType type)
+		public Monster(int id, MonsterType type)
 		{
 			this.Handle = ZoneServer.Instance.World.CreateHandle();
 
@@ -234,7 +234,7 @@ namespace Melia.Zone.World.Entities
 			this.GenType = Interlocked.Increment(ref GenTypes);
 
 			this.Id = id;
-			this.NpcType = type;
+			this.MonsterType = type;
 
 			this.Components.Add(this.Buffs = new BuffCollection(this));
 

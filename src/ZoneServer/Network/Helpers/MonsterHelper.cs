@@ -26,7 +26,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutFloat(monster.Position.Z);
 			packet.PutFloat(monster.Direction.Cos);
 			packet.PutFloat(monster.Direction.Sin);
-			packet.PutByte((byte)monster.NpcType); // 0~2,  0: friendly?, 1: monster, 2: NPC
+			packet.PutByte((byte)monster.MonsterType); // 0~2,  0: friendly?, 1: monster, 2: NPC
 			packet.PutByte(monster.FromGround);
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
@@ -154,7 +154,7 @@ namespace Melia.Zone.Network.Helpers
 		/// <summary>
 		/// Returns the monster's type.
 		/// </summary>
-		NpcType NpcType { get; }
+		MonsterType MonsterType { get; }
 
 		/// <summary>
 		/// Returns whether the monster emerged from the ground.

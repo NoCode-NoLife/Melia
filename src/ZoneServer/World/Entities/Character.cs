@@ -1096,7 +1096,7 @@ namespace Melia.Zone.World.Entities
 		{
 			// For now, let's specify that characters can attack actual
 			// monsters.
-			return (entity is Monster monster && monster.NpcType == NpcType.Monster);
+			return (entity is Monster monster && monster.MonsterType == MonsterType.Mob);
 		}
 
 		/// <summary>
