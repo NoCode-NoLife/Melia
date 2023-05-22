@@ -35,7 +35,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <summary>
 		/// Returns a reference to the NPC the player is talking to.
 		/// </summary>
-		public Monster Npc { get; }
+		public MonsterLegacy Npc { get; }
 
 		/// <summary>
 		/// Gets or sets the dialog's current state.
@@ -64,7 +64,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// </summary>
 		/// <param name="player"></param>
 		/// <param name="npc"></param>
-		public Dialog(Character player, Monster npc)
+		public Dialog(Character player, MonsterLegacy npc)
 		{
 			this.Player = player;
 			this.Npc = npc;

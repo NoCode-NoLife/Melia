@@ -25,7 +25,7 @@ namespace Melia.Zone.World.Entities
 
 		private readonly object _lookAroundLock = new object();
 		private readonly object _hpLock = new object();
-		private Monster[] _visibleMonsters = new Monster[0];
+		private MonsterLegacy[] _visibleMonsters = new MonsterLegacy[0];
 		private Character[] _visibleCharacters = new Character[0];
 
 		/// <summary>
@@ -721,7 +721,7 @@ namespace Melia.Zone.World.Entities
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(int exp, int classExp, Monster monster)
+		public void GiveExp(int exp, int classExp, MonsterLegacy monster)
 		{
 			// Base EXP
 			this.Exp += exp;
@@ -833,7 +833,7 @@ namespace Melia.Zone.World.Entities
 				foreach (var character in _visibleCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
 
-				_visibleMonsters = new Monster[0];
+				_visibleMonsters = new MonsterLegacy[0];
 				_visibleCharacters = new Character[0];
 			}
 		}
@@ -1096,7 +1096,7 @@ namespace Melia.Zone.World.Entities
 		{
 			// For now, let's specify that characters can attack actual
 			// monsters.
-			return (entity is Monster monster && monster.MonsterType == MonsterType.Mob);
+			return (entity is MonsterLegacy monster && monster.MonsterType == MonsterType.Mob);
 		}
 
 		/// <summary>

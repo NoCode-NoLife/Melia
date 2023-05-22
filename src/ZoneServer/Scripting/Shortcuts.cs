@@ -83,7 +83,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="direction"></param>
 		/// <param name="dialog"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public static Monster AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
+		public static MonsterLegacy AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
@@ -130,7 +130,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="from"></param>
 		/// <param name="to"></param>
 		/// <returns></returns>
-		public static Monster AddWarp(string warpName, double direction, Location from, Location to)
+		public static MonsterLegacy AddWarp(string warpName, double direction, Location from, Location to)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(from.MapId, out var fromMap))
 				throw new ArgumentException($"Map '{from.MapId}' not found.");
@@ -144,7 +144,7 @@ namespace Melia.Zone.Scripting
 				name = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
 
 			// Create a "warp monster"...
-			var monster = new Monster(40001, MonsterType.NPC);
+			var monster = new MonsterLegacy(40001, MonsterType.NPC);
 			monster.Name = name;
 			monster.WarpName = warpName;
 			monster.Position = from.Position;
@@ -308,7 +308,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="character"></param>
 		/// <param name="npc"></param>
 		/// <returns></returns>
-		public static async Task OpenChest(Character character, Monster npc)
+		public static async Task OpenChest(Character character, MonsterLegacy npc)
 		{
 			//if (character.Help.NotSeen(34))
 			//	Send.ZC_HELP_ADD(character, 34, 1);

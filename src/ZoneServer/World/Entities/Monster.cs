@@ -14,7 +14,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Entities
 {
-	public class Monster : ICombatEntity, IUpdateable, IMonster
+	public class MonsterLegacy : ICombatEntity, IUpdateable, IMonster
 	{
 		private static int GenTypes = 1_000_000;
 
@@ -174,7 +174,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
-		public event Action<Monster, ICombatEntity> Died;
+		public event Action<MonsterLegacy, ICombatEntity> Died;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -223,7 +223,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
-		public Monster(int id, MonsterType type)
+		public MonsterLegacy(int id, MonsterType type)
 		{
 			this.Handle = ZoneServer.Instance.World.CreateHandle();
 

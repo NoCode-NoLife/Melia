@@ -11,13 +11,13 @@ namespace Melia.Zone.World.Entities.Components
 		/// <summary>
 		/// Returns the monster the properties belong to.
 		/// </summary>
-		public Monster Monster { get; }
+		public MonsterLegacy Monster { get; }
 
 		/// <summary>
 		/// Creates new instance for monster.
 		/// </summary>
 		/// <param name="monster"></param>
-		public MonsterProperties(Monster monster)
+		public MonsterProperties(MonsterLegacy monster)
 		{
 			this.Monster = monster;
 			this.AddDefaultProperties();

@@ -33,10 +33,10 @@ namespace Melia.Zone.World
 
 		/// <summary>
 		/// Collection of monsters.
-		/// <para>Key: <see cref="Monster.Handle"/></para>
-		/// <para>Value: <see cref="Monster"/></para>
+		/// <para>Key: <see cref="MonsterLegacy.Handle"/></para>
+		/// <para>Value: <see cref="MonsterLegacy"/></para>
 		/// </summary>
-		private readonly Dictionary<int, Monster> _monsters = new Dictionary<int, Monster>();
+		private readonly Dictionary<int, MonsterLegacy> _monsters = new Dictionary<int, MonsterLegacy>();
 
 		/// <summary>
 		/// Collection of monster spawners.
@@ -46,7 +46,7 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Monsters to add to the map on the next update.
 		/// </summary>
-		private readonly Queue<Monster> _addMonsters = new Queue<Monster>();
+		private readonly Queue<MonsterLegacy> _addMonsters = new Queue<MonsterLegacy>();
 
 		/// <summary>
 		/// List for entities during entity update.
@@ -174,7 +174,7 @@ namespace Melia.Zone.World
 		{
 			var now = DateTime.Now;
 
-			List<Monster> toDisappear;
+			List<MonsterLegacy> toDisappear;
 			lock (_monsters)
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
@@ -318,7 +318,7 @@ namespace Melia.Zone.World
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
-		public void AddMonster(Monster monster)
+		public void AddMonster(MonsterLegacy monster)
 		{
 			monster.Map = this;
 
@@ -345,7 +345,7 @@ namespace Melia.Zone.World
 		/// Removes monster from map.
 		/// </summary>
 		/// <param name="monster"></param>
-		public void RemoveMonster(Monster monster)
+		public void RemoveMonster(MonsterLegacy monster)
 		{
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
@@ -479,9 +479,9 @@ namespace Melia.Zone.World
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public Monster GetMonster(int handle)
+		public MonsterLegacy GetMonster(int handle)
 		{
-			Monster result;
+			MonsterLegacy result;
 			lock (_monsters)
 				_monsters.TryGetValue(handle, out result);
 
@@ -494,7 +494,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public bool TryGetMonster(int handle, out Monster monster)
+		public bool TryGetMonster(int handle, out MonsterLegacy monster)
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
@@ -539,7 +539,7 @@ namespace Melia.Zone.World
 		/// Returns all monsters on this map.
 		/// </summary>
 		/// <returns></returns>
-		public Monster[] GetMonsters()
+		public MonsterLegacy[] GetMonsters()
 		{
 			lock (_monsters)
 				return _monsters.Values.ToArray();
@@ -550,7 +550,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public Monster[] GetMonsters(Func<Monster, bool> predicate)
+		public MonsterLegacy[] GetMonsters(Func<MonsterLegacy, bool> predicate)
 		{
 			lock (_monsters)
 				return _monsters.Values.Where(predicate).ToArray();
@@ -561,7 +561,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		/// <param name="character"></param>
 		/// <returns></returns>
-		public Monster[] GetVisibleMonsters(Character character)
+		public MonsterLegacy[] GetVisibleMonsters(Character character)
 			=> this.GetMonsters(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
@@ -569,7 +569,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		public void RemoveScriptedEntities()
 		{
-			var toRemove = new List<Monster>();
+			var toRemove = new List<MonsterLegacy>();
 			lock (_monsters)
 				toRemove.AddRange(_monsters.Values);
 
@@ -583,7 +583,7 @@ namespace Melia.Zone.World
 		/// Returns warp NPC that should be used when at given position.
 		/// </summary>
 		/// <param name="character"></param>
-		public Monster GetNearbyWarp(Position pos)
+		public MonsterLegacy GetNearbyWarp(Position pos)
 		{
 			// TODO: Not very efficient with a lot of monsters, we might want
 			//   to add more dedicated dictionaries and/or a quad tree.
