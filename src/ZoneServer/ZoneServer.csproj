@@ -143,7 +143,7 @@
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />
     <Compile Include="World\Entities\ItemMonster.cs" />
-    <Compile Include="World\Entities\Monster.cs" />
+    <Compile Include="World\Entities\MonsterLegacy.cs" />
     <Compile Include="World\Ground.cs" />
     <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Map.cs" />
