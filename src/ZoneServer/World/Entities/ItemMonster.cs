@@ -10,11 +10,6 @@ namespace Melia.Zone.World.Entities
 	public class ItemMonster : MonsterLegacy
 	{
 		/// <summary>
-		/// Returns the item's entity type.
-		/// </summary>
-		public override EntityType Type => EntityType.Item;
-
-		/// <summary>
 		/// Returns the item this monster represents.
 		/// </summary>
 		public Item Item { get; private set; }

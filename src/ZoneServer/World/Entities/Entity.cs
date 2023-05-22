@@ -16,11 +16,6 @@ namespace Melia.Zone.World.Entities
 		int Handle { get; }
 
 		/// <summary>
-		/// Returns the entity's type.
-		/// </summary>
-		EntityType Type { get; }
-
-		/// <summary>
 		/// Returns the entity's faction.
 		/// </summary>
 		FactionType Faction { get; }
@@ -93,26 +88,5 @@ namespace Melia.Zone.World.Entities
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		void Heal(float hpAmount, float spAmount);
-	}
-
-	/// <summary>
-	/// Defines an entity's type.
-	/// </summary>
-	public enum EntityType
-	{
-		/// <summary>
-		/// Entity is a player character.
-		/// </summary>
-		Character,
-
-		/// <summary>
-		/// Entity is an actual monster.
-		/// </summary>
-		Mob,
-
-		/// <summary>
-		/// Entity is an item "monster".
-		/// </summary>
-		Item,
 	}
 }

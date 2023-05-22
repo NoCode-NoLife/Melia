@@ -22,11 +22,6 @@ namespace Melia.Zone.World.Entities
 		public int Handle { get; private set; }
 
 		/// <summary>
-		/// Returns the monster's entity type.
-		/// </summary>
-		public virtual EntityType Type => EntityType.Mob;
-
-		/// <summary>
 		/// Gets or sets the monster's faction.
 		/// </summary>
 		public virtual FactionType Faction { get; set; } = FactionType.Peaceful;

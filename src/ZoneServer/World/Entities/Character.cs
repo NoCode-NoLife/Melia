@@ -60,11 +60,6 @@ namespace Melia.Zone.World.Entities
 		public int Handle { get; private set; }
 
 		/// <summary>
-		/// Returns the character's entity type.
-		/// </summary>
-		public EntityType Type => EntityType.Character;
-
-		/// <summary>
 		/// Returns the character's faction.
 		/// </summary>
 		public FactionType Faction => FactionType.Law;
