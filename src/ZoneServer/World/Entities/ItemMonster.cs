@@ -7,7 +7,7 @@ namespace Melia.Zone.World.Entities
 	/// <summary>
 	/// A representation of an item on a map.
 	/// </summary>
-	public class ItemMonster : MonsterLegacy
+	public class ItemMonster : MonsterLegacy, IActor
 	{
 		/// <summary>
 		/// Returns the item this monster represents.

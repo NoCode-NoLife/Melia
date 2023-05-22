@@ -119,6 +119,7 @@
     <Compile Include="Skills\AbilityUnlock.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\ChatMacro.cs" />
+    <Compile Include="World\Entities\Actor.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\Entities\CharacterProperties.cs" />
     <Compile Include="World\Entities\Components\Abilities.cs" />

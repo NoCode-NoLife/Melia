@@ -19,7 +19,7 @@ namespace Melia.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public class Character : Actor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 
@@ -53,11 +53,6 @@ namespace Melia.Zone.World.Entities
 		/// Id of the character's account.
 		/// </summary>
 		public long AccountId { get; set; }
-
-		/// <summary>
-		/// Index in world collection?
-		/// </summary>
-		public int Handle { get; private set; }
 
 		/// <summary>
 		/// Returns the character's faction.
@@ -118,26 +113,6 @@ namespace Melia.Zone.World.Entities
 		/// The map the character is in.
 		/// </summary>
 		public int MapId { get; set; }
-
-		/// <summary>
-		/// The map the character is currently on.
-		/// </summary>
-		/// <remarks>
-		/// Since every map change includes a reconnect, the map reference
-		/// will only ever be set once, upon connection.
-		/// </remarks>
-		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
-		private Map _map = Map.Limbo;
-
-		/// <summary>
-		/// Character's current position.
-		/// </summary>
-		public Position Position { get; set; }
-
-		/// <summary>
-		/// Character's direction.
-		/// </summary>
-		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// Character's head's direction.
@@ -326,10 +301,8 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
-		public Character()
+		public Character() : base()
 		{
-			this.Handle = ZoneServer.Instance.World.CreateHandle();
-
 			this.Components.Add(this.Inventory = new Inventory(this));
 			this.Components.Add(this.Jobs = new Jobs(this));
 			this.Components.Add(this.Skills = new CharacterSkills(this));
