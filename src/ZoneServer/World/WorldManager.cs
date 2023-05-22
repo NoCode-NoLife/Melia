@@ -10,8 +10,11 @@ namespace Melia.Zone.World
 	{
 		// Unique handles for entities
 		private int _handles = 0;
+
 		// Unique handles for buffs
 		private int _buffhandles = 0;
+
+		private int _genTypes = 1_000_000;
 
 		// These are object id range starting points. The skill objects I
 		// saw in-game so far were above 0x54B600000000 for example,
@@ -49,6 +52,15 @@ namespace Melia.Zone.World
 			//   need a fallback, or a way to release handles of logged out
 			//   characters or killed monsters.
 			return Interlocked.Increment(ref _handles);
+		}
+
+		/// <summary>
+		/// Returns a new gen type to be used for a monster.
+		/// </summary>
+		/// <returns></returns>
+		public int CreateGenType()
+		{
+			return Interlocked.Increment(ref _genTypes);
 		}
 
 		/// <summary>

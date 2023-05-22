@@ -16,8 +16,6 @@ namespace Melia.Zone.World.Entities
 {
 	public class MonsterLegacy : ICombatEntity, IUpdateable, IMonster
 	{
-		private static int GenTypes = 1_000_000;
-
 		/// <summary>
 		/// Index in world collection?
 		/// </summary>
@@ -231,7 +229,7 @@ namespace Melia.Zone.World.Entities
 			// bothersome. For now, we'll generate them automatically and
 			// see for what purpose we would need them to be the same for
 			// multiple monsters.
-			this.GenType = Interlocked.Increment(ref GenTypes);
+			this.GenType = ZoneServer.Instance.World.CreateGenType();
 
 			this.Id = id;
 			this.MonsterType = type;
