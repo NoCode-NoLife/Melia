@@ -12,6 +12,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Scripting;
+using Melia.Shared.Tos.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -194,8 +195,11 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.ItemDb, "db/items.txt");
 					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
+					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+
+					PropertyTable.Load(this.Data.PropertiesDb);
 				}
 				else if (serverType == ServerType.Zone)
 				{
@@ -227,6 +231,8 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+
+					PropertyTable.Load(this.Data.PropertiesDb);
 				}
 
 			}

@@ -17,45 +17,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class PropertiesDb : DatabaseJsonIndexed<string, PropertyData>
 	{
-		private readonly Dictionary<string, Dictionary<string, int>> _idLookUp = new Dictionary<string, Dictionary<string, int>>();
-		private readonly Dictionary<string, Dictionary<int, string>> _nameLookUp = new Dictionary<string, Dictionary<int, string>>();
-
-		/// <summary>
-		/// Returns the id of the given property in the given namespace.
-		/// </summary>
-		/// <param name="namespaceName"></param>
-		/// <param name="propertyName"></param>
-		/// <returns></returns>
-		/// <exception cref="KeyNotFoundException"></exception>
-		public int GetId(string namespaceName, string propertyName)
-		{
-			if (!_idLookUp.TryGetValue(namespaceName, out var ns))
-				throw new KeyNotFoundException($"Namespace '{namespaceName}' not found.");
-
-			if (!ns.TryGetValue(propertyName, out var propertyId))
-				throw new KeyNotFoundException($"Property '{propertyName}' not found in namespace '{namespaceName}'.");
-
-			return propertyId;
-		}
-
-		/// <summary>
-		/// Returns the name of the given property in the given namespace.
-		/// </summary>
-		/// <param name="namespaceName"></param>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		/// <exception cref="KeyNotFoundException"></exception>
-		public string GetName(string namespaceName, int id)
-		{
-			if (!_nameLookUp.TryGetValue(namespaceName, out var ns))
-				throw new KeyNotFoundException($"Namespace '{namespaceName}' not found.");
-
-			if (!ns.TryGetValue(id, out var propertyName))
-				throw new KeyNotFoundException($"Property with id '{id}' not found in namespace '{namespaceName}'.");
-
-			return propertyName;
-		}
-
 		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
@@ -77,18 +38,8 @@ namespace Melia.Shared.Data.Database
 
 				var fullName = data.Namespace + "." + data.Name;
 
-				if (!_idLookUp.ContainsKey(namespaceName))
-					_idLookUp.Add(namespaceName, new Dictionary<string, int>());
-
-				if (!_nameLookUp.ContainsKey(namespaceName))
-					_nameLookUp.Add(namespaceName, new Dictionary<int, string>());
-
-				_idLookUp[namespaceName][data.Name] = data.Id;
-				_nameLookUp[namespaceName][data.Id] = data.Name;
-
 				this.AddOrReplace(fullName, data);
 			}
-
 		}
 	}
 }
