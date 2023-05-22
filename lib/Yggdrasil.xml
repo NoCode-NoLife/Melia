@@ -1120,6 +1120,16 @@
             <param name="rotation">Rotation of the rectangle in degrees.</param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.RectangleBetween(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Int32)">
+            <summary>
+            Returns a polygon with 4 edge points, making up a rectangle
+            spanning from start to end.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Geometry.Shapes.Polygon.IsInside(Yggdrasil.Geometry.Vector2)">
             <summary>
             Returns true if the given point is within this polygon.
@@ -1281,6 +1291,20 @@
             </summary>
             <param name="x"></param>
             <param name="y"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.GetDistance(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns distance between this and another vector in 2D space.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Vector2.GetAngle(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns direction the other vetcor is in as an angle in degree.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
         </member>
         <member name="M:Yggdrasil.Geometry.Vector2.op_Addition(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2)">
             <summary>

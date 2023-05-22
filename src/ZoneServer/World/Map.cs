@@ -6,6 +6,8 @@ using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Geometry;
+using Yggdrasil.Geometry.Shapes;
 
 namespace Melia.Zone.World
 {
@@ -398,80 +400,37 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Returns attackable monsters in the given radius around position.
 		/// </summary>
-		/// <param name="position"></param>
-		/// <param name="radius"></param>
+		/// <param name="attacker"></param>
+		/// <param name="shape"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesInRectangle(ICombatEntity attacker, Position attackerPos, Position targetPos, int rectWidth)
+		public List<ICombatEntity> GetAttackableEntitiesIn(ICombatEntity attacker, IShape shape)
 		{
 			var result = new List<ICombatEntity>();
 
-			var rectPoints = GetRectangle(attackerPos, targetPos, rectWidth);
-
 			// Debugging
-			//foreach (var point in rectPoints)
+			//foreach (var point in shape.GetEdgePoints())
 			//{
-			//	var monster = new Monster(10005, NpcType.Friendly);
-			//	monster.Position = new Position(point.X, attackerPos.Y, point.Z);
+			//	var monster = new MonsterLegacy(10005, MonsterType.Friendly);
+			//	monster.Position = new Position(point.X, attacker.Position.Y, point.Y);
 			//	monster.DisappearTime = DateTime.Now.AddSeconds(5);
 			//	attacker.Map.AddMonster(monster);
 			//}
 
 			lock (_combatEntities)
 			{
-				var entities = _combatEntities.Values.Where(a => attacker.CanAttack(a) && a.Position.InPolygon2D(rectPoints));
-				result.AddRange(entities);
+				foreach (var entity in _combatEntities.Values)
+				{
+					if (!attacker.CanAttack(entity))
+						continue;
+
+					if (!shape.IsInside(new Vector2((int)entity.Position.X, (int)entity.Position.Z)))
+						continue;
+
+					result.Add(entity);
+				}
 			}
 
 			return result;
-		}
-
-		/// <summary>
-		/// Returns edge points of a rectangle, spanning from start to end,
-		/// with the given width.
-		/// </summary>
-		/// <param name="startPos"></param>
-		/// <param name="endPos"></param>
-		/// <param name="rectWidth"></param>
-		/// <returns></returns>
-		private static Position[] GetRectangle(Position startPos, Position endPos, int rectWidth)
-		{
-			var result = new Position[4];
-
-			var length = startPos.Get2DDistance(endPos);
-			var halfWidth = rectWidth / 2;
-			var dir = startPos.GetDirection(endPos);
-
-			var x1 = startPos.X - halfWidth;
-			var x2 = startPos.X + halfWidth;
-			var z1 = startPos.Z;
-			var z2 = (float)(startPos.Z + length);
-
-			result[0] = RotatePoint(new Position(x1, 0, z1), startPos, dir);
-			result[1] = RotatePoint(new Position(x2, 0, z1), startPos, dir);
-			result[2] = RotatePoint(new Position(x2, 0, z2), startPos, dir);
-			result[3] = RotatePoint(new Position(x1, 0, z2), startPos, dir);
-
-			return result;
-		}
-
-		/// <summary>
-		/// Rotates point around pivot.
-		/// </summary>
-		/// <param name="point">Point to rotate.</param>
-		/// <param name="pivot">Center of the rotation.</param>
-		/// <param name="dir">Direction to rotate the point to.</param>
-		/// <returns></returns>
-		private static Position RotatePoint(Position point, Position pivot, Direction dir)
-		{
-			dir = dir.GetNormal();
-
-			var cos = dir.Cos;
-			var sin = dir.Sin;
-
-			var x = (int)(cos * (point.X - pivot.X) - sin * (point.Z - pivot.Z) + pivot.X);
-			var z = (int)(sin * (point.X - pivot.X) + cos * (point.Z - pivot.Z) + pivot.Z);
-
-			return new Position(x, point.Y, z);
 		}
 
 		/// <summary>

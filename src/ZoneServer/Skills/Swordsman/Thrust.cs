@@ -3,6 +3,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Swordsman
@@ -47,7 +48,7 @@ namespace Melia.Zone.Skills.Swordsman
 			// into this. Double the splash range for the width for now.
 			var radius = (int)skill.Data.SplashRange * 3;
 
-			var targets = caster.Map.GetAttackableEntitiesInRectangle(caster, castPosition, targetPosition, radius);
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, Polygon.RectangleBetween(castPosition, targetPosition, radius));
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, damage);

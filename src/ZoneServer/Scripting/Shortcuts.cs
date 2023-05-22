@@ -109,7 +109,7 @@ namespace Melia.Zone.Scripting
 				}
 			}
 
-			var monster = new Monster(monsterId, MonsterType.NPC);
+			var monster = new MonsterLegacy(monsterId, MonsterType.NPC);
 			monster.Name = name;
 			monster.DialogName = dialog != null ? "DYNAMIC" : null;
 			monster.DialogFunc = dialog;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Yggdrasil.Geometry;
 
 namespace Melia.Shared.World
 {
@@ -209,6 +210,15 @@ namespace Melia.Shared.World
 			var sin = Math.Sin(radianAngle);
 
 			return new Direction((float)cos, (float)sin);
+		}
+
+		/// <summary>
+		/// Implicitly converts the position to a vector.
+		/// </summary>
+		/// <param name="pos"></param>
+		public static implicit operator Vector2(Position pos)
+		{
+			return new Vector2((int)pos.X, (int)pos.Z);
 		}
 
 		/// <summary>
