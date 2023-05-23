@@ -13,6 +13,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Entities.Components;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Entities
 {

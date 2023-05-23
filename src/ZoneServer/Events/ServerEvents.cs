@@ -9,6 +9,59 @@ namespace Melia.Zone.Events
 	/// </summary>
 	public class ServerEvents
 	{
+		// Time Events
+		//-------------------------------------------------------------------
+
+		/// <summary>
+		/// Raised on every heartbeat tick.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> WorldTick;
+		public void OnWorldTick(DateTime now) => WorldTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full real-life second.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> SecondTick;
+		public void OnSecondTick(DateTime now) => SecondTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full real-life minute.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> MinuteTick;
+		public void OnMinuteTick(DateTime now) => MinuteTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full five real-life minutes.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> FiveMinutesTick;
+		public void OnFiveMinutesTick(DateTime now) => FiveMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full fifteen real-life minutes.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> FifteenMinutesTick;
+		public void OnFifteenMinutesTick(DateTime now) => FifteenMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full twenty real-life minutes.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> TwentyMinutesTick;
+		public void OnTwentyMinutesTick(DateTime now) => TwentyMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full thirty real-life minutes.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> ThirtyMinutesTick;
+		public void OnThirtyMinutesTick(DateTime now) => ThirtyMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		/// <summary>
+		/// Raised every full real-life hour.
+		/// </summary>
+		public event EventHandler<TimeEventArgs> HourTick;
+		public void OnHourTick(DateTime now) => HourTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+
+		// Player Events
+		//-------------------------------------------------------------------
 		/// <summary>
 		/// Raised when a player logged in.
 		/// </summary>

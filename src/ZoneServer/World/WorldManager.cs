@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Zone.Events;
 using Melia.Zone.World.Entities;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
 {
+	/// <summary>
+	/// Manages the world, including maps and the heartbeat update loop.
+	/// </summary>
 	public class WorldManager
 	{
 		// Unique handles for entities
@@ -40,7 +45,7 @@ namespace Melia.Zone.World
 		/// Returns the world's heartbeat, a manager for regularly
 		/// occurring events.
 		/// </summary>
-		public Heartbeat Heartbeat { get; } = new Heartbeat();
+		public Heartbeat Heartbeat { get; } = new Heartbeat(4);
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -99,15 +104,21 @@ namespace Melia.Zone.World
 		/// </summary>
 		public void Initialize()
 		{
+			// Create maps based on map data
 			foreach (var entry in ZoneServer.Instance.Data.MapDb.Entries.Values)
 			{
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
 				_mapsName.Add(map.Name, map);
 
+				// Add maps to heartbeat's update scheduling
 				this.Heartbeat.Add(map);
 			}
 
+			// Set up time event raiser
+			this.Heartbeat.Add(new TimeEventRaiser());
+
+			// Start hearbeat loop and updates
 			this.Heartbeat.Start();
 		}
 
@@ -120,6 +131,7 @@ namespace Melia.Zone.World
 			Map result;
 			lock (_mapsLock)
 				_mapsId.TryGetValue(mapId, out result);
+
 			return result;
 		}
 
@@ -132,6 +144,7 @@ namespace Melia.Zone.World
 			Map result;
 			lock (_mapsLock)
 				_mapsName.TryGetValue(mapClassName, out result);
+
 			return result;
 		}
 
@@ -204,7 +217,7 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Returns all Characters that are currently online.
+		/// Returns all characters that are currently online.
 		/// </summary>
 		public Character[] GetCharacters()
 		{

@@ -8,6 +8,7 @@ using Melia.Shared.World;
 using Melia.Zone.World.Entities;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
 {

@@ -87,6 +87,8 @@
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Events\PlayerEventArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
+    <Compile Include="Events\TimeEventArgs.cs" />
+    <Compile Include="Events\TimeEventRaiser.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
@@ -147,7 +149,6 @@
     <Compile Include="World\Entities\Monster.cs" />
     <Compile Include="World\Entities\MonsterLegacy.cs" />
     <Compile Include="World\Ground.cs" />
-    <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\PropertyObject.cs" />
