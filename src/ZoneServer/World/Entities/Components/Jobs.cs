@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Zone.Network;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.EntityComponents;
+using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Entities.Components
 {

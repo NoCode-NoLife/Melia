@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.EntityComponents;
+using Yggdrasil.Composition;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Shared.ObjectProperties;

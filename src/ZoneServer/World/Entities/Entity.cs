@@ -1,4 +1,4 @@
-﻿using Melia.Shared.EntityComponents;
+﻿using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Entities
 {

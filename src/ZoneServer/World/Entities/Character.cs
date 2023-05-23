@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Melia.Shared.Data.Database;
-using Melia.Shared.EntityComponents;
+using Yggdrasil.Composition;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Scripting;

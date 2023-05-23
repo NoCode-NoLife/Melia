@@ -135,8 +135,6 @@
     <Compile Include="Data\Database\Server.cs" />
     <Compile Include="Data\MeliaData.cs" />
     <Compile Include="Data\Database\Items.cs" />
-    <Compile Include="EntityComponents\Component.cs" />
-    <Compile Include="EntityComponents\ComponentCollection.cs" />
     <Compile Include="L10N\Localization.cs" />
     <Compile Include="L10N\Localizer.cs" />
     <Compile Include="L10N\MultiLocalizer.cs" />

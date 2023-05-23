@@ -473,23 +473,17 @@
             <param name="defaultValue"></param>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.EntityComponentSystem.IComponent">
+        <member name="T:Yggdrasil.Composition.IComponent">
             <summary>
             Base interface for components.
             </summary>
         </member>
-        <member name="T:Yggdrasil.EntityComponentSystem.IUpdatableComponent">
+        <member name="T:Yggdrasil.Composition.IUpdatableComponent">
             <summary>
             Base interface for updatable components.
             </summary>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.IUpdatableComponent.Update(System.TimeSpan)">
-            <summary>
-            Updates component.
-            </summary>
-            <param name="elapsed"></param>
-        </member>
-        <member name="T:Yggdrasil.EntityComponentSystem.ComponentCollection">
+        <member name="T:Yggdrasil.Composition.ComponentCollection">
             <summary>
             A collection of components for an entity.
             </summary>
@@ -499,21 +493,21 @@
             skill collection, etc.
             </remarks>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Add``1(``0)">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Add``1(``0)">
             <summary>
             Adds a component.
             </summary>
             <typeparam name="TComponent"></typeparam>
             <param name="component"></param>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Remove(Yggdrasil.EntityComponentSystem.IComponent)">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove(Yggdrasil.Composition.IComponent)">
             <summary>
             Removes the given component, returns false if the
             component didn't exist.
             </summary>
             <param name="component"></param>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Remove``1">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove``1">
             <summary>
             Removes component of the given type, returns false if the
             component didn't exist.
@@ -521,7 +515,7 @@
             <typeparam name="TComponent"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Get``1">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Get``1">
             <summary>
             Returns the component of the given type, or the type's default
             value if the component wasn't found.
@@ -529,7 +523,7 @@
             <typeparam name="TComponent"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.TryGet``1(``0@)">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.TryGet``1(``0@)">
             <summary>
             Returns the component of the given type via out, returns false
             if the component wasn't found.
@@ -538,14 +532,14 @@
             <param name="component"></param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Has``1">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Has``1">
             <summary>
             Returns true if a component with the given type exists.
             </summary>
             <typeparam name="TComponent"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.EntityComponentSystem.ComponentCollection.Update(System.TimeSpan)">
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Update(System.TimeSpan)">
             <summary>
             Updates updatable components.
             </summary>

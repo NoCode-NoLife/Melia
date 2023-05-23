@@ -1,6 +1,6 @@
 ﻿using System;
-using Melia.Shared.EntityComponents;
 using Melia.Shared.Tos.Const;
+using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Entities.Components
 {

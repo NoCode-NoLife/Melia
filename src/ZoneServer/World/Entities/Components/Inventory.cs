@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.EntityComponents;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
+using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.World.Entities.Components

@@ -1,13 +1,10 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see licence.txt in the main folder
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Entities;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.EntityComponents;
+using Yggdrasil.Composition;
 
 namespace Melia.Zone.World
 {
