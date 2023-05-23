@@ -7,7 +7,7 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World
+namespace Melia.Zone.Buffs
 {
 	/// <summary>
 	/// Buff

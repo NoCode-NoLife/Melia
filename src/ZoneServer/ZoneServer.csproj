@@ -132,7 +132,7 @@
     <Compile Include="World\Entities\Components\AI\Routine.cs" />
     <Compile Include="World\Entities\Components\AI\RoutineResult.cs" />
     <Compile Include="World\Entities\Components\AI\ScriptFunctionAttribute.cs" />
-    <Compile Include="World\Entities\Components\Buff.cs" />
+    <Compile Include="Buffs\Buff.cs" />
     <Compile Include="World\Entities\Components\BuffCollection.cs" />
     <Compile Include="World\Entities\Components\EntityAi.cs" />
     <Compile Include="World\Entities\Components\Inventory.cs" />

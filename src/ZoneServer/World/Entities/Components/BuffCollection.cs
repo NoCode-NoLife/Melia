@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.World.Entities;
 using Yggdrasil.Composition;
