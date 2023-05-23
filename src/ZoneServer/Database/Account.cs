@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Melia.Zone.Scripting;
-using Melia.Zone.World;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Scripting;
+using Melia.Zone.World;
+using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.Database
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Melia.Shared.World;
+using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.World.Actors
 {

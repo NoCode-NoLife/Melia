@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World

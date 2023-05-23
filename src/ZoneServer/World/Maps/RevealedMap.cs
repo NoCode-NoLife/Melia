@@ -1,4 +1,4 @@
-﻿namespace Melia.Zone.World
+﻿namespace Melia.Zone.World.Maps
 {
 	public class RevealedMap
 	{

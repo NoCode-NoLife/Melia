@@ -6,6 +6,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;

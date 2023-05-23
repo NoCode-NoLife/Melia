@@ -4,7 +4,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.World;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World
+namespace Melia.Zone.World.Maps
 {
 	/// <summary>
 	/// Represents a map's ground.

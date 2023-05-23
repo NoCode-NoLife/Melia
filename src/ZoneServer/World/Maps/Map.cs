@@ -12,7 +12,7 @@ using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Scheduling;
 
-namespace Melia.Zone.World
+namespace Melia.Zone.World.Maps
 {
 	public class Map : IUpdateable
 	{

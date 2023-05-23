@@ -14,6 +14,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network

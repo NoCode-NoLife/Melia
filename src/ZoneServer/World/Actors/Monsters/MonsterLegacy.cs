@@ -8,6 +8,7 @@ using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;

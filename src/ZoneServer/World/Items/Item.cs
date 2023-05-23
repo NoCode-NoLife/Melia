@@ -5,8 +5,9 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Items

@@ -150,11 +150,11 @@
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
     <Compile Include="World\Actors\Monsters\Monster.cs" />
     <Compile Include="World\Actors\Monsters\MonsterLegacy.cs" />
-    <Compile Include="World\Ground.cs" />
-    <Compile Include="World\Map.cs" />
+    <Compile Include="World\Maps\Ground.cs" />
+    <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\PropertyObject.cs" />
-    <Compile Include="World\RevealedMap.cs" />
+    <Compile Include="World\Maps\RevealedMap.cs" />
     <Compile Include="World\SessionObject.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
