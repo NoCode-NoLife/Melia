@@ -32,7 +32,7 @@ namespace Melia.Shared.World.ObjectProperties
 	/// every single time it's requested. Though this behavior might yet
 	/// change if the need arises.
 	/// </remarks>
-	public class CFloatProperty : FloatProperty, IProperty
+	public class CFloatProperty : FloatProperty, IUnsettableProperty, IProperty
 	{
 		private readonly Func<float> _getter;
 		private float _value;
@@ -83,7 +83,7 @@ namespace Melia.Shared.World.ObjectProperties
 	/// <summary>
 	/// A float-type property that returns a referenced value.
 	/// </summary>
-	public class RFloatProperty : FloatProperty, IProperty
+	public class RFloatProperty : FloatProperty, IUnsettableProperty, IProperty
 	{
 		private readonly Func<float> _getter;
 

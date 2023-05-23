@@ -214,7 +214,7 @@ namespace Melia.Shared.Database
 							if (!properties.TryGet<FloatProperty>(propertyName, out var property))
 								property = properties.Create(new FloatProperty(propertyName));
 
-							if (!(property is CFloatProperty))
+							if (!(property is IUnsettableProperty))
 								property.Deserialize(valueStr);
 						}
 						else
