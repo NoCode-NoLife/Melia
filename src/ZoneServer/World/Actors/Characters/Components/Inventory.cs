@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
-using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.Characters.Components
 {
 	/// <summary>
 	/// Represents a character's inventory.
 	/// </summary>
-	public class Inventory : IComponent
+	public class Inventory : CharacterComponent
 	{
-		private readonly Character _character;
-
 		private readonly object _syncLock = new object();
 
 		private Dictionary<InventoryCategory, List<Item>> _items = new Dictionary<InventoryCategory, List<Item>>();
@@ -26,10 +22,8 @@ namespace Melia.Zone.World.Actors.Components
 		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
-		public Inventory(Character character)
+		public Inventory(Character character) : base(character)
 		{
-			_character = character;
-
 			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
 				_items.Add(category, new List<Item>());
 
@@ -292,12 +286,12 @@ namespace Melia.Zone.World.Actors.Components
 				this.AddStack(item, addType, false);
 			}
 
-			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
+			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
 
 			// Temp fix. The amounts on item stacks that items were added
 			// to are sometimes wrong, a full updates fixes that. Maybe
 			// ZC_ITEM_ADD needs an update.
-			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 		}
 
 		/// <summary>
@@ -363,7 +357,7 @@ namespace Melia.Zone.World.Actors.Components
 						// or NotNew if only some was just added to a stack.
 						var adjustedAddType = (amount == 0 ? addType : InventoryAddType.NotNew);
 
-						Send.ZC_ITEM_ADD(_character, categoryItem, categoryIndex, add, adjustedAddType);
+						Send.ZC_ITEM_ADD(this.Character, categoryItem, categoryIndex, add, adjustedAddType);
 					}
 				}
 
@@ -391,7 +385,7 @@ namespace Melia.Zone.World.Actors.Components
 				if (!silent)
 				{
 					var categoryIndex = item.GetInventoryIndex(_items[cat].Count - 1);
-					Send.ZC_ITEM_ADD(_character, item, categoryIndex, item.Amount, addType);
+					Send.ZC_ITEM_ADD(this.Character, item, categoryIndex, item.Amount, addType);
 				}
 			}
 		}
@@ -430,7 +424,7 @@ namespace Melia.Zone.World.Actors.Components
 			lock (_syncLock)
 				_equip[slot] = item;
 
-			_character.UpdateStance();
+			this.Character.UpdateStance();
 		}
 
 		/// <summary>
@@ -465,13 +459,13 @@ namespace Melia.Zone.World.Actors.Components
 			}
 
 			// Update character
-			_character.UpdateStance();
+			this.Character.UpdateStance();
 
 			// Update client
-			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
-			Send.ZC_ITEM_EQUIP_LIST(_character);
-			Send.ZC_UPDATED_PCAPPEARANCE(_character);
-			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
+			Send.ZC_ITEM_EQUIP_LIST(this.Character);
+			Send.ZC_UPDATED_PCAPPEARANCE(this.Character);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
 			return InventoryResult.Success;
 		}
@@ -493,8 +487,8 @@ namespace Melia.Zone.World.Actors.Components
 			lock (_syncLock)
 				_equip[slot] = new DummyEquipItem(slot);
 
-			Send.ZC_ITEM_EQUIP_LIST(_character);
-			Send.ZC_UPDATED_PCAPPEARANCE(_character);
+			Send.ZC_ITEM_EQUIP_LIST(this.Character);
+			Send.ZC_UPDATED_PCAPPEARANCE(this.Character);
 
 			this.Add(item, InventoryAddType.NotNew);
 
@@ -530,19 +524,19 @@ namespace Melia.Zone.World.Actors.Components
 
 			// TODO: Add localizable strings or dictionary keys to item data,
 			//   so that we can send those for the system message.
-			Send.ZC_SYSTEM_MSG(_character, 2225, new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount.ToString()));
+			Send.ZC_SYSTEM_MSG(this.Character, 2225, new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount.ToString()));
 
-			Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 
 			// We need to update the indices after removing an item,
 			// because we'll run into issues with the client potentially
 			// misidentifying items otherwise, caused by duplicate indices.
 			// Alternatively, we could revamp our index handling, so there's
 			// no more risk for duplicates.
-			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
-			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character, item.Data.Category);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
-			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight", "MSPD");
+			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight", "MSPD");
 
 			return InventoryResult.Success;
 		}
@@ -570,8 +564,8 @@ namespace Melia.Zone.World.Actors.Components
 			{
 				item.Amount -= amount;
 
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, amount, msg, InventoryType.Inventory);
-				Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
+				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, amount, msg, InventoryType.Inventory);
+				Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
 			}
 
 			return InventoryResult.Success;
@@ -614,13 +608,13 @@ namespace Melia.Zone.World.Actors.Components
 					}
 				}
 
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, reduce, msg, InventoryType.Inventory);
-				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
-				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, reduce, msg, InventoryType.Inventory);
+				//Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character, item.Data.Category);
+				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 			}
 
 			if (result != 0)
-				Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
+				Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
 
 			return result;
 		}
@@ -654,7 +648,7 @@ namespace Melia.Zone.World.Actors.Components
 				list[index2] = item1;
 			}
 
-			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, category);
+			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character, category);
 
 			return InventoryResult.Success;
 		}
@@ -703,14 +697,14 @@ namespace Melia.Zone.World.Actors.Components
 
 			// Sending ZC_ITEM_INVENTORY_INDEX_LIST stopped working at some
 			// point after the iCBT2, officials send a full list now.
-			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character);
+			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character);
 
 			// Sending ZC_ITEM_INVENTORY_LIST stopped working at some point.
 			// Third time's the charm, I bet ZC_ITEM_INVENTORY_DIVISION_LIST
 			// is way better than the previous options!
-			//Send.ZC_ITEM_INVENTORY_LIST(_character);
+			//Send.ZC_ITEM_INVENTORY_LIST(this.Character);
 
-			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 		}
 
 		/// <summary>
@@ -776,16 +770,16 @@ namespace Melia.Zone.World.Actors.Components
 				}
 
 				modifiedCategories.Add(item.Data.Category);
-				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
+				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 			}
 
 			// Update categories
 			//foreach (var category in modifiedCategories)
-			//	Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, category);
-			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
+			//	Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character, category);
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
 			// Update weight
-			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
+			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
 
 			return InventoryResult.Success;
 		}

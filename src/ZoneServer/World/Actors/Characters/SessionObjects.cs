@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.Characters
 {
 	/// <summary>
 	/// Session object collection.
 	/// </summary>
 	public class SessionObjects
 	{
-		private Dictionary<int, SessionObject> _objects = new Dictionary<int, SessionObject>();
+		private readonly Dictionary<int, SessionObject> _objects = new Dictionary<int, SessionObject>();
 
 		/// <summary>
 		/// Adds given session object to collection.

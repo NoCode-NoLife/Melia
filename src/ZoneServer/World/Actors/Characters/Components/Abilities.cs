@@ -3,15 +3,13 @@ using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
-using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Composition;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.Characters.Components
 {
 	/// <summary>
 	/// A character's abilities.
 	/// </summary>
-	public class Abilities : IComponent
+	public class Abilities : CharacterComponent
 	{
 		private readonly Dictionary<int, Ability> _abilities = new Dictionary<int, Ability>();
 
@@ -21,17 +19,11 @@ namespace Melia.Zone.World.Actors.Components
 		public int Count { get { lock (_abilities) return _abilities.Count; } }
 
 		/// <summary>
-		/// The owner of this ability collection.
-		/// </summary>
-		public Character Character { get; }
-
-		/// <summary>
 		/// Creates a new instance for character.
 		/// </summary>
 		/// <param name="character"></param>
-		public Abilities(Character character)
+		public Abilities(Character character) : base(character)
 		{
-			this.Character = character;
 		}
 
 		/// <summary>

@@ -11,6 +11,7 @@ using Melia.Shared.World;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Items;
 using MySql.Data.MySqlClient;

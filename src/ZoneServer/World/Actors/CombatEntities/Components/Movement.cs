@@ -4,21 +4,16 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Yggdrasil.Composition;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
 	/// <summary>
 	/// A component that controls an entity's movement.
 	/// </summary>
-	public class Movement : IUpdatableComponent
+	public class Movement : CombatEntityComponent, IUpdatableComponent
 	{
 		private readonly object _positionSyncLock = new object();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
-
-		/// <summary>
-		/// Returns the entity this component controls.
-		/// </summary>
-		public ICombatEntity Entity { get; }
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -35,9 +30,8 @@ namespace Melia.Zone.World.Actors.Components
 		/// Creates new movement component.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Movement(ICombatEntity entity)
+		public Movement(ICombatEntity entity) : base(entity)
 		{
-			this.Entity = entity;
 		}
 
 		/// <summary>

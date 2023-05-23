@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
-using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Composition;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.Characters.Components
 {
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class CharacterSkills : IComponent
+	public class CharacterSkills : CharacterComponent
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
-
-		/// <summary>
-		/// The owner of this object.
-		/// </summary>
-		public Character Character { get; }
 
 		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="character"></param>
-		public CharacterSkills(Character character)
+		public CharacterSkills(Character character) : base(character)
 		{
-			this.Character = character ?? throw new ArgumentNullException(nameof(character));
 		}
 
 		/// <summary>

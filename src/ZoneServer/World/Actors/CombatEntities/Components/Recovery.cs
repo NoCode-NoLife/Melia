@@ -2,29 +2,23 @@
 using Melia.Shared.Tos.Const;
 using Yggdrasil.Composition;
 
-namespace Melia.Zone.World.Actors.Components
+namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
 	/// <summary>
 	/// Recovery component, restores an entity's HP, SP, and Stamina
 	/// over time.
 	/// </summary>
-	public class Recovery : IUpdatableComponent
+	public class Recovery : CombatEntityComponent, IUpdatableComponent
 	{
 		private TimeSpan _rhpTime;
 		private TimeSpan _rspTime;
 
 		/// <summary>
-		/// Returns the owner of this component.
-		/// </summary>
-		public ICombatEntity Entity { get; }
-
-		/// <summary>
 		/// Creates new component.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Recovery(ICombatEntity entity)
+		public Recovery(ICombatEntity entity) : base(entity)
 		{
-			this.Entity = entity;
 		}
 
 		/// <summary>

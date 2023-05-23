@@ -1,6 +1,5 @@
-﻿using Melia.Shared.Tos.Const;
-using Melia.Shared.World;
-using Melia.Shared.ObjectProperties;
+﻿using Melia.Shared.ObjectProperties;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Zone.World.Actors.Monsters
 {

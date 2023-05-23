@@ -4,30 +4,23 @@ using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
-using Melia.Zone.World.Actors;
 using Yggdrasil.Composition;
 
-namespace Melia.Zone.World
+namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
 	/// <summary>
 	/// Buff collection and manager for an entity.
 	/// </summary>
-	public class BuffCollection : IUpdatableComponent
+	public class BuffCollection : CombatEntityComponent, IUpdatableComponent
 	{
 		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
-
-		/// <summary>
-		/// The owner of the collection.
-		/// </summary>
-		public ICombatEntity Entity { get; }
 
 		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="entity"></param>
-		public BuffCollection(ICombatEntity entity)
+		public BuffCollection(ICombatEntity entity) : base(entity)
 		{
-			this.Entity = entity;
 		}
 
 		/// <summary>

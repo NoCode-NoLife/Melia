@@ -120,29 +120,30 @@
     <Compile Include="Skills\AbilityPriceTime.cs" />
     <Compile Include="Skills\AbilityUnlock.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
+    <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Actors\Actor.cs" />
     <Compile Include="World\Actors\Characters\Character.cs" />
     <Compile Include="World\Actors\Characters\CharacterProperties.cs" />
-    <Compile Include="World\Actors\Components\Abilities.cs" />
-    <Compile Include="World\Actors\Components\AI\Events\AiEvent.cs" />
-    <Compile Include="World\Actors\Components\AI\Events\AiEventCallback.cs" />
-    <Compile Include="World\Actors\Components\AI\Events\HitEvent.cs" />
-    <Compile Include="World\Actors\Components\AI\HandleId.cs" />
-    <Compile Include="World\Actors\Components\AI\Routine.cs" />
-    <Compile Include="World\Actors\Components\AI\RoutineResult.cs" />
-    <Compile Include="World\Actors\Components\AI\ScriptFunctionAttribute.cs" />
+    <Compile Include="World\Actors\Characters\Components\Abilities.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\AiEvent.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\AiEventCallback.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\HitEvent.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\HandleId.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\Routine.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\RoutineResult.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AI\ScriptFunctionAttribute.cs" />
     <Compile Include="Buffs\Buff.cs" />
-    <Compile Include="World\Actors\Components\BuffCollection.cs" />
-    <Compile Include="World\Actors\Components\EntityAi.cs" />
-    <Compile Include="World\Actors\Components\Inventory.cs" />
-    <Compile Include="World\Actors\Components\Job.cs" />
-    <Compile Include="World\Actors\Components\Jobs.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\BuffCollection.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\EntityAi.cs" />
+    <Compile Include="World\Actors\Characters\Components\Inventory.cs" />
+    <Compile Include="World\Actors\Characters\Components\Jobs.cs" />
     <Compile Include="World\Actors\Monsters\MonsterProperties.cs" />
-    <Compile Include="World\Actors\Components\Movement.cs" />
-    <Compile Include="World\Actors\Components\Recovery.cs" />
-    <Compile Include="World\Actors\Components\SessionObjects.cs" />
-    <Compile Include="World\Actors\Components\Skills.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\Movement.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\Recovery.cs" />
+    <Compile Include="World\Actors\Characters\SessionObjects.cs" />
+    <Compile Include="World\Actors\Characters\Components\Skills.cs" />
     <Compile Include="World\Actors\Entity.cs" />
     <Compile Include="World\Items\DummyEquipItem.cs" />
     <Compile Include="World\Items\Item.cs" />
@@ -167,5 +168,6 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
