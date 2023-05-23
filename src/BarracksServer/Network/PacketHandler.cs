@@ -272,8 +272,8 @@ namespace Melia.Barracks.Network
 			}
 
 			// Get map data
-			var startMapName = BarracksServer.Instance.Conf.Login.StartMap;
-			var startPosition = BarracksServer.Instance.Conf.Login.StartPosition;
+			var startMapName = BarracksServer.Instance.Conf.Barracks.StartMap;
+			var startPosition = BarracksServer.Instance.Conf.Barracks.StartPosition;
 
 			if (!BarracksServer.Instance.Data.MapDb.TryFind(startMapName, out var startMapData))
 			{
@@ -465,10 +465,10 @@ namespace Melia.Barracks.Network
 		{
 			var checksum = packet.GetString(64);
 
-			if (!BarracksServer.Instance.Conf.Login.VerifyIpf)
+			if (!BarracksServer.Instance.Conf.Barracks.VerifyIpf)
 				return;
 
-			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Login.IpfChecksum + 0 /*conn.IntegritySeed*/);
+			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Barracks.IpfChecksum + 0 /*conn.IntegritySeed*/);
 			var hash = MD5.Encode(bytes);
 
 			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();

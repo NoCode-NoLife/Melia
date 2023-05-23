@@ -5,9 +5,9 @@ using Yggdrasil.Logging;
 namespace Melia.Shared.Configuration.Files
 {
 	/// <summary>
-	/// Represents login.conf.
+	/// Represents barracks.conf.
 	/// </summary>
-	public class LoginConfFile : ConfFile
+	public class BarracksConfFile : ConfFile
 	{
 		/// <summary>
 		/// When enabled, client integrity checks are applied.
@@ -58,13 +58,13 @@ namespace Melia.Shared.Configuration.Files
 			var split = value.Split(',');
 			if (split.Length != 3)
 			{
-				Log.Warning("login.conf: Invalid position format for '{0}'.", option);
+				Log.Warning("barracks.conf: Invalid position format for '{0}'.", option);
 				return defaultValue;
 			}
 
 			if (!int.TryParse(split[0], out var x) || !int.TryParse(split[1], out var y) || !int.TryParse(split[2], out var z))
 			{
-				Log.Warning("login.conf: Invalid coordinates in '{0}'.", option);
+				Log.Warning("barracks.conf: Invalid coordinates in '{0}'.", option);
 				return defaultValue;
 			}
 

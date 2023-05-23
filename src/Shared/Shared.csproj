@@ -80,7 +80,7 @@
     <Compile Include="Configuration\Files\Commands.cs" />
     <Compile Include="Configuration\Files\Database.cs" />
     <Compile Include="Configuration\Files\Localization.cs" />
-    <Compile Include="Configuration\Files\Login.cs" />
+    <Compile Include="Configuration\Files\Barracks.cs" />
     <Compile Include="Configuration\Files\Web.cs" />
     <Compile Include="Configuration\Files\World.cs" />
     <Compile Include="Data\Database\Properties.cs" />

@@ -23,9 +23,9 @@ namespace Melia.Shared.Configuration
 		public LocalizationConf Localization { get; } = new LocalizationConf();
 
 		/// <summary>
-		/// login.conf
+		/// barracks.conf
 		/// </summary>
-		public LoginConfFile Login { get; } = new LoginConfFile();
+		public BarracksConfFile Barracks { get; } = new BarracksConfFile();
 
 		/// <summary>
 		/// web.conf
@@ -42,7 +42,7 @@ namespace Melia.Shared.Configuration
 		/// </summary>
 		public virtual void Load()
 		{
-			this.Login.Load("system/conf/login.conf");
+			this.Barracks.Load("system/conf/barracks.conf");
 
 			this.Commands.Load("system/conf/commands.conf");
 			this.Database.Load("system/conf/database.conf");
