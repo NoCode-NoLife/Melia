@@ -5,6 +5,7 @@ using System.Net;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Network.Helpers;
@@ -277,12 +278,15 @@ namespace Melia.Zone.Network
 			// ago there were also only two bytes before the properties,
 			// but one garbage byte at the end of the packet to pad it.
 			// We'll just mimic the official packets for now.
+			//
+			// Alternative theory: It could also be a string that wasn't
+			// zeroed, and maybe a few bytes or something.
 			packet.PutByte(0x00);
 			packet.PutByte(0x80);
 			packet.PutByte(0x3F);
-			packet.PutInt(PropertyId.Skill.SkillFactor);
+			packet.PutInt(PropertyTable.GetId("Skill", "SkillFactor"));
 			packet.PutFloat(1);
-			packet.PutInt(PropertyId.Skill.CaptionTime);
+			packet.PutInt(PropertyTable.GetId("Skill", "CaptionTime"));
 			packet.PutFloat(0);
 
 			character.Connection.Send(packet);
