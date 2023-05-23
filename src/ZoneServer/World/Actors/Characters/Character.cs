@@ -29,7 +29,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 		private readonly object _lookAroundLock = new object();
 		private readonly object _hpLock = new object();
-		private MonsterLegacy[] _visibleMonsters = new MonsterLegacy[0];
+		private IMonster[] _visibleMonsters = new IMonster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
 		/// <summary>
@@ -693,7 +693,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(int exp, int classExp, MonsterLegacy monster)
+		public void GiveExp(int exp, int classExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;
@@ -762,7 +762,9 @@ namespace Melia.Zone.World.Actors.Characters
 				foreach (var monster in appearMonsters)
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
-					Send.ZC_FACTION(this.Connection, monster, monster.Faction);
+
+					if (monster is ICombatEntity entity)
+						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
 				}
 
 				foreach (var monster in disappearMonsters)
@@ -805,7 +807,7 @@ namespace Melia.Zone.World.Actors.Characters
 				foreach (var character in _visibleCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
 
-				_visibleMonsters = new MonsterLegacy[0];
+				_visibleMonsters = new IMonster[0];
 				_visibleCharacters = new Character[0];
 			}
 		}
@@ -1065,7 +1067,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			// For now, let's specify that characters can attack actual
 			// monsters.
-			return (entity is MonsterLegacy monster && monster.MonsterType == MonsterType.Mob);
+			return (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
 		}
 
 		/// <summary>

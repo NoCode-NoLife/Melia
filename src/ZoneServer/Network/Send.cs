@@ -195,7 +195,7 @@ namespace Melia.Zone.Network
 		/// Broadcasts ZC_ENTER_MONSTER on monster's map, making it appear.
 		/// </summary>
 		/// <param name="monster"></param>
-		public static void ZC_ENTER_MONSTER(MonsterLegacy monster)
+		public static void ZC_ENTER_MONSTER(IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
 			packet.AddMonster(monster);
@@ -222,7 +222,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="monster"></param>
-		public static void ZC_ENTER_MONSTER(IZoneConnection conn, MonsterLegacy monster)
+		public static void ZC_ENTER_MONSTER(IZoneConnection conn, IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
 			packet.AddMonster(monster);
@@ -606,7 +606,7 @@ namespace Melia.Zone.Network
 		/// Updates an NPC's state on all clients in range of it.
 		/// </summary>
 		/// <param name="npc"></param>
-		public static void ZC_SET_NPC_STATE(MonsterLegacy npc)
+		public static void ZC_SET_NPC_STATE(Npc npc)
 		{
 			var packet = new Packet(Op.ZC_SET_NPC_STATE);
 
@@ -1924,7 +1924,7 @@ namespace Melia.Zone.Network
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, MonsterLegacy monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 
@@ -2527,7 +2527,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="monster"></param>
 		/// <param name="duration"></param>
-		public static void ZC_NORMAL_FadeOut(MonsterLegacy monster, TimeSpan duration)
+		public static void ZC_NORMAL_FadeOut(IMonster monster, TimeSpan duration)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(NormalOp.Zone.FadeOut);
@@ -2546,7 +2546,7 @@ namespace Melia.Zone.Network
 		/// <param name="monster"></param>
 		/// <param name="direction"></param>
 		/// <param name="distance"></param>
-		public static void ZC_NORMAL_ItemDrop(MonsterLegacy monster, Direction direction, float distance)
+		public static void ZC_NORMAL_ItemDrop(IMonster monster, Direction direction, float distance)
 		{
 			// The distance might be more like a force, since items fly
 			// farther than they should with high distances. Whether this
@@ -4259,7 +4259,7 @@ namespace Melia.Zone.Network
 		/// Updates monster appearance on clients in range of the monster.
 		/// </summary>
 		/// <param name="monster"></param>
-		public static void ZC_UPDATED_MONSTERAPPEARANCE(MonsterLegacy monster)
+		public static void ZC_UPDATED_MONSTERAPPEARANCE(IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_UPDATED_MONSTERAPPEARANCE);
 			packet.PutInt(monster.Handle);

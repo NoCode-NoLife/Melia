@@ -90,9 +90,9 @@ namespace Melia.Zone.World
 		/// Spawns a monster.
 		/// </summary>
 		/// <returns></returns>
-		public MonsterLegacy Spawn()
+		public Mob Spawn()
 		{
-			var monster = new MonsterLegacy(_monsterData.Id, MonsterType.Mob);
+			var monster = new Mob(_monsterData.Id, MonsterType.Mob);
 			monster.Position = this.GetRandomPosition();
 			monster.FromGround = true;
 			monster.Died += this.OnMonsterDied;
@@ -121,7 +121,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		/// <param name="monster"></param>
 		/// <param name="killer"></param>
-		private void OnMonsterDied(MonsterLegacy monster, ICombatEntity killer)
+		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
 			_spawnCount = Interlocked.Decrement(ref _spawnCount);
 

@@ -83,7 +83,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="direction"></param>
 		/// <param name="dialog"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterLegacy AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
+		public static Npc AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
@@ -109,14 +109,10 @@ namespace Melia.Zone.Scripting
 				}
 			}
 
-			var monster = new MonsterLegacy(monsterId, MonsterType.NPC);
-			monster.Name = name;
-			monster.DialogName = dialog != null ? "DYNAMIC" : null;
-			monster.DialogFunc = dialog;
-			monster.Position = pos;
-			monster.Direction = new Direction(direction);
-			monster.Faction = FactionType.Peaceful;
+			var location = new Location(mapObj.Id, pos);
+			var dir = new Direction(direction);
 
+			var monster = new Npc(monsterId, name, location, dir, dialog);
 			mapObj.AddMonster(monster);
 
 			return monster;
@@ -130,7 +126,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="from"></param>
 		/// <param name="to"></param>
 		/// <returns></returns>
-		public static MonsterLegacy AddWarp(string warpName, double direction, Location from, Location to)
+		public static WarpMonster AddWarp(string warpName, double direction, Location from, Location to)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(from.MapId, out var fromMap))
 				throw new ArgumentException($"Map '{from.MapId}' not found.");
@@ -139,19 +135,12 @@ namespace Melia.Zone.Scripting
 				throw new ArgumentException($"Map '{to.MapId}' not found.");
 
 			// Get name, preferably a localization key
-			var name = toMap.Name;
+			var targetLocationName = toMap.Name;
 			if (toMap.Data.LocalKey != "?")
-				name = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
+				targetLocationName = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
 
 			// Create a "warp monster"...
-			var monster = new MonsterLegacy(40001, MonsterType.NPC);
-			monster.Name = name;
-			monster.WarpName = warpName;
-			monster.Position = from.Position;
-			monster.Direction = new Direction(direction);
-			monster.WarpLocation = to;
-			monster.Faction = FactionType.Peaceful;
-
+			var monster = new WarpMonster(warpName, targetLocationName, from, to, new Direction(direction));
 			fromMap.AddMonster(monster);
 
 			return monster;
@@ -308,7 +297,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="character"></param>
 		/// <param name="npc"></param>
 		/// <returns></returns>
-		public static async Task OpenChest(Character character, MonsterLegacy npc)
+		public static async Task OpenChest(Character character, Npc npc)
 		{
 			//if (character.Help.NotSeen(34))
 			//	Send.ZC_HELP_ADD(character, 34, 1);
@@ -322,12 +311,12 @@ namespace Melia.Zone.Scripting
 
 			// Make chest disappear
 			Send.ZC_NORMAL_FadeOut(npc, TimeSpan.FromSeconds(4));
-			npc.SetState(MonsterState.Invisible);
+			npc.SetState(NpcState.Invisible);
 
 			// Make chest reappear after a certain amount of time
 			// TODO: Add timer component, to set up and associate timers
 			//   and intervals with entities.
-			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(MonsterState.Normal));
+			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(NpcState.Normal));
 		}
 	}
 }

@@ -488,7 +488,7 @@ namespace Melia.Zone.Commands
 			var rnd = new Random(Environment.TickCount);
 			for (var i = 0; i < amount; ++i)
 			{
-				var monster = new MonsterLegacy(monsterData.Id, MonsterType.Mob);
+				var monster = new Mob(monsterData.Id, MonsterType.Mob);
 
 				Position pos;
 				Direction dir;

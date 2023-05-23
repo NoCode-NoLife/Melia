@@ -122,6 +122,9 @@
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
+    <Compile Include="World\Actors\Monsters\MonsterInName.cs" />
+    <Compile Include="World\Actors\Monsters\Npc.cs" />
+    <Compile Include="World\Actors\Monsters\WarpMonster.cs" />
     <Compile Include="World\ChatMacro.cs" />
     <Compile Include="World\Actors\Actor.cs" />
     <Compile Include="World\Actors\Characters\Character.cs" />
@@ -149,7 +152,7 @@
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
     <Compile Include="World\Actors\Monsters\Monster.cs" />
-    <Compile Include="World\Actors\Monsters\MonsterLegacy.cs" />
+    <Compile Include="World\Actors\Monsters\Mob.cs" />
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />

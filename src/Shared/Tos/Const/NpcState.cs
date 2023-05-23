@@ -1,9 +1,9 @@
 ﻿namespace Melia.Shared.Tos.Const
 {
 	/// <summary>
-	/// Defines a monster's state.
+	/// Defines a NPC's state.
 	/// </summary>
-	public enum MonsterState
+	public enum NpcState
 	{
 		/// <summary>
 		/// Presumed default state.

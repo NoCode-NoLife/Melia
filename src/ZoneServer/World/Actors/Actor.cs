@@ -17,7 +17,7 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Returns the map the actor is currently on.
 		/// </summary>
-		Map Map { get; }
+		Map Map { get; set; }
 
 		/// <summary>
 		/// Returns the actor's position on its current map.
@@ -67,11 +67,5 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction the actor is facing.
 		/// </summary>
 		public Direction Direction { get; set; }
-
-		/// <summary>
-		/// Gets or sets the time the actor will be removed from the
-		/// map it's on.
-		/// </summary>
-		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
 	}
 }

@@ -99,7 +99,7 @@
     <Compile Include="Tos\Const\Job.cs" />
     <Compile Include="Tos\Const\Message.cs" />
     <Compile Include="Tos\Const\Misc.cs" />
-    <Compile Include="Tos\Const\MonsterState.cs" />
+    <Compile Include="Tos\Const\NpcState.cs" />
     <Compile Include="Tos\Const\MonsterType.cs" />
     <Compile Include="Tos\Const\Option.cs" />
     <Compile Include="Tos\Const\PropertyName.cs" />

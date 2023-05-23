@@ -1,5 +1,8 @@
-﻿using Melia.Shared.ObjectProperties;
+﻿using System;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
+using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -7,7 +10,16 @@ namespace Melia.Zone.World.Actors.Monsters
 	/// Represents a "monster" in the world, or in other words, an entity
 	/// that is not a player, but can exist on a map.
 	/// </summary>
-	public interface IMonster : INamedActor, IMonsterAppearance, IMonsterAppearanceBase
+	public interface IMonster : INamedActor, IMonsterBase, IMonsterAppearance, IMonsterAppearanceBase
+	{
+		/// <summary>
+		/// Gets or sets the time the actor will be removed from the
+		/// map it's on.
+		/// </summary>
+		DateTime DisappearTime { get; }
+	}
+
+	public interface IMonsterBase : IActor, IMonsterAppearance, IMonsterAppearanceBase
 	{
 		/// <summary>
 		/// Returns the monster's type.
@@ -21,7 +33,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// This determines the animation played when the monster spawns
 		/// and should probably not be set all the time.
 		/// </remarks>
-		bool FromGround { get; }
+		bool FromGround { get; set; }
 
 		/// <summary>
 		/// Returns the monster's current HP.

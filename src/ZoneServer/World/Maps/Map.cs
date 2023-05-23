@@ -38,10 +38,10 @@ namespace Melia.Zone.World.Maps
 
 		/// <summary>
 		/// Collection of monsters.
-		/// <para>Key: <see cref="MonsterLegacy.Handle"/></para>
-		/// <para>Value: <see cref="MonsterLegacy"/></para>
+		/// <para>Key: <see cref="IMonster.Handle"/></para>
+		/// <para>Value: <see cref="IMonster"/></para>
 		/// </summary>
-		private readonly Dictionary<int, MonsterLegacy> _monsters = new Dictionary<int, MonsterLegacy>();
+		private readonly Dictionary<int, IMonster> _monsters = new Dictionary<int, IMonster>();
 
 		/// <summary>
 		/// Collection of monster spawners.
@@ -51,7 +51,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Monsters to add to the map on the next update.
 		/// </summary>
-		private readonly Queue<MonsterLegacy> _addMonsters = new Queue<MonsterLegacy>();
+		private readonly Queue<IMonster> _addMonsters = new Queue<IMonster>();
 
 		/// <summary>
 		/// List for entities during entity update.
@@ -160,7 +160,7 @@ namespace Melia.Zone.World.Maps
 			lock (_updateEntities)
 			{
 				lock (_monsters)
-					_updateEntities.AddRange(_monsters.Values);
+					_updateEntities.AddRange(_monsters.Values.OfType<IUpdateable>());
 
 				lock (_characters)
 					_updateEntities.AddRange(_characters.Values);
@@ -179,7 +179,7 @@ namespace Melia.Zone.World.Maps
 		{
 			var now = DateTime.Now;
 
-			List<MonsterLegacy> toDisappear;
+			List<IMonster> toDisappear;
 			lock (_monsters)
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
@@ -323,17 +323,17 @@ namespace Melia.Zone.World.Maps
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
-		public void AddMonster(MonsterLegacy monster)
+		public void AddMonster(IMonster monster)
 		{
 			monster.Map = this;
 
 			lock (_monsters)
 				_monsters[monster.Handle] = monster;
 
-			if (monster is ICombatEntity)
+			if (monster is ICombatEntity entity)
 			{
 				lock (_combatEntities)
-					_combatEntities[monster.Handle] = monster;
+					_combatEntities[monster.Handle] = entity;
 			}
 
 			// Update visibily after adding the monster, so it gets sent
@@ -350,7 +350,7 @@ namespace Melia.Zone.World.Maps
 		/// Removes monster from map.
 		/// </summary>
 		/// <param name="monster"></param>
-		public void RemoveMonster(MonsterLegacy monster)
+		public void RemoveMonster(IMonster monster)
 		{
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
@@ -422,9 +422,9 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public MonsterLegacy GetMonster(int handle)
+		public IMonster GetMonster(int handle)
 		{
-			MonsterLegacy result;
+			IMonster result;
 			lock (_monsters)
 				_monsters.TryGetValue(handle, out result);
 
@@ -437,7 +437,7 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public bool TryGetMonster(int handle, out MonsterLegacy monster)
+		public bool TryGetMonster(int handle, out IMonster monster)
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
@@ -452,7 +452,7 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_monsters)
 			{
-				if (_monsters.TryGetValue(handle, out var entity))
+				if (_monsters.TryGetValue(handle, out var monster) && monster is ICombatEntity entity)
 					return entity;
 			}
 
@@ -482,7 +482,7 @@ namespace Melia.Zone.World.Maps
 		/// Returns all monsters on this map.
 		/// </summary>
 		/// <returns></returns>
-		public MonsterLegacy[] GetMonsters()
+		public IMonster[] GetMonsters()
 		{
 			lock (_monsters)
 				return _monsters.Values.ToArray();
@@ -493,7 +493,7 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public MonsterLegacy[] GetMonsters(Func<MonsterLegacy, bool> predicate)
+		public IMonster[] GetMonsters(Func<IMonster, bool> predicate)
 		{
 			lock (_monsters)
 				return _monsters.Values.Where(predicate).ToArray();
@@ -504,15 +504,16 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="character"></param>
 		/// <returns></returns>
-		public MonsterLegacy[] GetVisibleMonsters(Character character)
-			=> this.GetMonsters(a => a.State != MonsterState.Invisible && character.Position.InRange2D(a.Position, VisibleRange));
+		public IMonster[] GetVisibleMonsters(Character character)
+			// TODO: Move responsibility about visibility to Character.
+			=> this.GetMonsters(a => (!(a is Npc npc) || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
 		/// Removes all scripted entities, like NPCs, monsters, and warps.
 		/// </summary>
 		public void RemoveScriptedEntities()
 		{
-			var toRemove = new List<MonsterLegacy>();
+			var toRemove = new List<IMonster>();
 			lock (_monsters)
 				toRemove.AddRange(_monsters.Values);
 
@@ -526,13 +527,13 @@ namespace Melia.Zone.World.Maps
 		/// Returns warp NPC that should be used when at given position.
 		/// </summary>
 		/// <param name="character"></param>
-		public MonsterLegacy GetNearbyWarp(Position pos)
+		public WarpMonster GetNearbyWarp(Position pos)
 		{
 			// TODO: Not very efficient with a lot of monsters, we might want
 			//   to add more dedicated dictionaries and/or a quad tree.
 
 			lock (_monsters)
-				return _monsters.Values.FirstOrDefault(a => a.IsWarp && a.Position.InRange2D(pos, 35));
+				return _monsters.Values.OfType<WarpMonster>().FirstOrDefault(a => a.Position.InRange2D(pos, 35));
 		}
 
 		/// <summary>

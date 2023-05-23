@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.ObjectProperties;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Composition;
 
@@ -9,6 +10,11 @@ namespace Melia.Zone.World.Actors
 	/// </summary>
 	public interface ICombatEntity : INamedActor, IPropertyHolder
 	{
+		/// <summary>
+		/// Returns the entity's faction.
+		/// </summary>
+		FactionType Faction { get; }
+
 		/// <summary>
 		/// Returns the entity's current HP.
 		/// </summary>

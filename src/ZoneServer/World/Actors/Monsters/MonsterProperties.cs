@@ -11,13 +11,13 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Returns the monster the properties belong to.
 		/// </summary>
-		public MonsterLegacy Monster { get; }
+		public Mob Monster { get; }
 
 		/// <summary>
 		/// Creates new instance for monster.
 		/// </summary>
 		/// <param name="monster"></param>
-		public MonsterProperties(MonsterLegacy monster) : base("Monster")
+		public MonsterProperties(Mob monster) : base("Monster")
 		{
 			this.Monster = monster;
 			this.AddDefaultProperties();

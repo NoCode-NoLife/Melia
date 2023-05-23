@@ -12,7 +12,7 @@ namespace Melia.Zone.Network.Helpers
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="monster"></param>
-		public static void AddMonster(this Packet packet, IMonster monster)
+		public static void AddMonster(this Packet packet, IMonsterBase monster)
 		{
 			var propertyList = monster.Properties.GetAll();
 			var propertiesSize = propertyList.GetByteCount();

@@ -8,7 +8,6 @@ using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
-using Melia.Zone.World.Maps;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -16,23 +15,15 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
-	public class MonsterLegacy : INamedActor, ICombatEntity, IUpdateable, IMonster
+	/// <summary>
+	/// An actual monster.
+	/// </summary>
+	public class Mob : Actor, IMonster, ICombatEntity, IUpdateable
 	{
-		/// <summary>
-		/// Index in world collection?
-		/// </summary>
-		public int Handle { get; private set; }
-
 		/// <summary>
 		/// Gets or sets the monster's faction.
 		/// </summary>
-		public virtual FactionType Faction { get; set; } = FactionType.Peaceful;
-
-		private Map _map = Map.Limbo;
-		/// <summary>
-		/// The map the monster is currently on.
-		/// </summary>
-		public Map Map { get { return _map; } set { _map = value ?? Map.Limbo; } }
+		public FactionType Faction { get; set; } = FactionType.Peaceful;
 
 		/// <summary>
 		/// Monster ID in database.
@@ -48,6 +39,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// identify NPCs however, like in ZC_SET_NPC_STATE.
 		/// </remarks>
 		public int GenType { get; set; }
+			// The client files set the gen type manually, but that seems
+			// bothersome. For now, we'll generate them automatically and
+			// see for what purpose we would need them to be the same for
+			// multiple monsters.
+			= ZoneServer.Instance.World.CreateGenType();
 
 		/// <summary>
 		/// What kind of NPC the monster is.
@@ -103,20 +99,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public DialogFunc DialogFunc { get; set; }
 
 		/// <summary>
-		/// Warp identifier?
-		/// </summary>
-		/// <remarks>
-		/// Purpose unknown, doesn't seem to affect anything.
-		/// Examples: WS_KLAPEDA_HIGHLANDER, WS_SIAULST1_KLAPEDA
-		/// </remarks>
-		public string WarpName { get; set; }
-
-		/// <summary>
-		/// Returns true if WarpName is not empty.
-		/// </summary>
-		public bool IsWarp => !string.IsNullOrWhiteSpace(this.WarpName);
-
-		/// <summary>
 		/// Location to warp to.
 		/// </summary>
 		public Location WarpLocation { get; set; }
@@ -125,16 +107,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Level.
 		/// </summary>
 		public int Level { get; set; } = 1;
-
-		/// <summary>
-		/// Gets or sets the monster's current position.
-		/// </summary>
-		public Position Position { get; set; }
-
-		/// <summary>
-		/// Monster's direction.
-		/// </summary>
-		public Direction Direction { get; set; }
 
 		/// <summary>
 		/// AoE Defense Ratio
@@ -169,7 +141,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
-		public event Action<MonsterLegacy, ICombatEntity> Died;
+		public event Action<Mob, ICombatEntity> Died;
 
 		/// <summary>
 		/// At this time the monster will be removed from the map.
@@ -198,7 +170,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Gets or sets the monster's state.
 		/// </summary>
-		public MonsterState State { get; set; }
+		public NpcState State { get; set; }
 
 		/// <summary>
 		/// Returns the monster's property collection.
@@ -218,16 +190,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
-		public MonsterLegacy(int id, MonsterType type)
+		public Mob(int id, MonsterType type) : base()
 		{
-			this.Handle = ZoneServer.Instance.World.CreateHandle();
-
-			// The client files set the gen type manually, but that seems
-			// bothersome. For now, we'll generate them automatically and
-			// see for what purpose we would need them to be the same for
-			// multiple monsters.
-			this.GenType = ZoneServer.Instance.World.CreateGenType();
-
 			this.Id = id;
 			this.MonsterType = type;
 
@@ -375,17 +339,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
-		}
-
-		/// <summary>
-		/// Changes the monster's state and updates the clients in range
-		/// of the monster.
-		/// </summary>
-		/// <param name="state"></param>
-		public void SetState(MonsterState state)
-		{
-			this.State = state;
-			Send.ZC_SET_NPC_STATE(this);
 		}
 
 		/// <summary>

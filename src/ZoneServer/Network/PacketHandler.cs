@@ -747,6 +747,12 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			if (!(monster is Npc npc))
+			{
+				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to a monster that's not an NPC.", conn.Account.Name);
+				return;
+			}
+
 			if (conn.CurrentDialog != null && conn.CurrentDialog.State != DialogState.Ended)
 			{
 				// Don't acutally log this, as it might happen naturally.
@@ -759,7 +765,7 @@ namespace Melia.Zone.Network
 			// the dialog.
 			//Send.ZC_SHARED_MSG(conn, 108);
 
-			conn.CurrentDialog = new Dialog(character, monster);
+			conn.CurrentDialog = new Dialog(character, npc);
 			conn.CurrentDialog.Start();
 		}
 

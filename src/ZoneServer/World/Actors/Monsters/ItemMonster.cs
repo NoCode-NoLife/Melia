@@ -1,5 +1,4 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Items;
 
 namespace Melia.Zone.World.Actors.Monsters
@@ -7,7 +6,7 @@ namespace Melia.Zone.World.Actors.Monsters
 	/// <summary>
 	/// A representation of an item on a map.
 	/// </summary>
-	public class ItemMonster : MonsterLegacy, INamedActor
+	public class ItemMonster : MonsterInName
 	{
 		/// <summary>
 		/// Returns the item this monster represents.
@@ -23,17 +22,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="monsterId"></param>
-		private ItemMonster(Item item, int monsterId) : base(monsterId, MonsterType.NPC)
+		private ItemMonster(Item item, int monsterId) : base(monsterId)
 		{
 			this.Item = item;
-			this.Properties = item.Properties;
-		}
-
-		/// <summary>
-		/// Does nothing, as items have no monster data to load.
-		/// </summary>
-		protected override void LoadData()
-		{
+			//this.Properties = item.Properties;
 		}
 
 		/// <summary>
