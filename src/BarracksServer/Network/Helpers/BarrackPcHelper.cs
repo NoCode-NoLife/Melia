@@ -3,7 +3,7 @@ using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Barracks.Network.Helpers
 {

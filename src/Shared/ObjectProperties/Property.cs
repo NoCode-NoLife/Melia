@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.World.ObjectProperties
+﻿namespace Melia.Shared.ObjectProperties
 {
 	/// <summary>
 	/// Base interface for all property-type variables.

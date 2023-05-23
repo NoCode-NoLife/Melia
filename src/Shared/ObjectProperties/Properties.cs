@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Melia.Shared.Tos.Properties;
 using Yggdrasil.Variables;
 
-namespace Melia.Shared.World.ObjectProperties
+namespace Melia.Shared.ObjectProperties
 {
 	/// <summary>
 	/// A collection of properties.

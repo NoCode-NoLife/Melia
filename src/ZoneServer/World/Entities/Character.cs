@@ -7,7 +7,7 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Entities.Components;

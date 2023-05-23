@@ -3,7 +3,7 @@ using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
 

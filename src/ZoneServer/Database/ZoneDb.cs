@@ -8,7 +8,7 @@ using Melia.Shared.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Entities;

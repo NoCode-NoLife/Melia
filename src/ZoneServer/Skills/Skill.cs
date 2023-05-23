@@ -4,7 +4,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Entities;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Zone.Skills
 {

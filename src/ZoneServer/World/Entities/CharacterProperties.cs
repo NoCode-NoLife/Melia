@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
 

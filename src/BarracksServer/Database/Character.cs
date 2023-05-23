@@ -3,7 +3,7 @@ using System.Linq;
 using Melia.Barracks.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Barracks.Database
 {

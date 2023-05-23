@@ -161,11 +161,11 @@
     <Compile Include="Tos\Properties\PropertyTable.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Location.cs" />
-    <Compile Include="World\ObjectProperties\FloatProperty.cs" />
-    <Compile Include="World\ObjectProperties\Properties.cs" />
-    <Compile Include="World\ObjectProperties\Property.cs" />
-    <Compile Include="World\ObjectProperties\PropertyList.cs" />
-    <Compile Include="World\ObjectProperties\StringProperty.cs" />
+    <Compile Include="ObjectProperties\FloatProperty.cs" />
+    <Compile Include="ObjectProperties\Properties.cs" />
+    <Compile Include="ObjectProperties\Property.cs" />
+    <Compile Include="ObjectProperties\PropertyList.cs" />
+    <Compile Include="ObjectProperties\StringProperty.cs" />
     <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup />

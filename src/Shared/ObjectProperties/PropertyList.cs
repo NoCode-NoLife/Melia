@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Melia.Shared.World.ObjectProperties
+namespace Melia.Shared.ObjectProperties
 {
 	/// <summary>
 	/// A list of properties from a given namespace.

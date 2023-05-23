@@ -1,5 +1,5 @@
 ﻿using Melia.Zone.World;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Zone.Skills
 {

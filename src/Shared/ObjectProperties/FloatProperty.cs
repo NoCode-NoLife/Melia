@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melia.Shared.World.ObjectProperties
+namespace Melia.Shared.ObjectProperties
 {
 	/// <summary>
 	/// A float-type property.

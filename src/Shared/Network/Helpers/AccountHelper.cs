@@ -1,5 +1,5 @@
 ﻿using Melia.Shared.Tos.Const;
-using Melia.Shared.World.ObjectProperties;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Shared.Network.Helpers
 {

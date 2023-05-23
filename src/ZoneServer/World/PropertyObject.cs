@@ -1,4 +1,4 @@
-﻿using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Shared.ObjectProperties;
 
 namespace Melia.Zone.World
 {
