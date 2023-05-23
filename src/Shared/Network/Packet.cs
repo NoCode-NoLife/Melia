@@ -9,7 +9,7 @@ namespace Melia.Shared.Network
 {
 	public class Packet
 	{
-		private static Encoding DefaultEncoding = Encoding.UTF8;
+		private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 
 		private readonly BufferReaderWriter _buffer;
 		private readonly int _bodyStart;

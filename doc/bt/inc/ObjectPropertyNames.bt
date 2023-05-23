@@ -21651,7 +21651,7 @@ string getPropertyName(int id)
         case 107440: return "DefAries";
         case 107441: return "DefSlash";
         case 107442: return "DefStrike";
-        case 107443: return "Dex";
+        case 107443: return "DEX";
         case 107444: return "DR";
         case 107445: return "Forester_Atk";
         case 107446: return "Ghost_Atk";
@@ -21674,7 +21674,7 @@ string getPropertyName(int id)
         case 107463: return "Magic_Soul_Atk";
         case 107464: return "MiddleSize_Atk";
         case 107465: return "MiddleSize_Def";
-        case 107466: return "Mna";
+        case 107466: return "MNA";
         case 107467: return "Paramune_Atk";
         case 107468: return "RHP";
         case 107469: return "Slash_Atk";
