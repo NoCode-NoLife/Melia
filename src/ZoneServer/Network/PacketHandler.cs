@@ -1200,22 +1200,22 @@ namespace Melia.Zone.Network
 					if (stat <= 0)
 						continue;
 
-					if (character.Properties.GetFloat(PropertyId.PC.StatPoint) < stat)
+					if (character.Properties.GetFloat("StatPoint") < stat)
 					{
 						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
 						break;
 					}
 
 					//characterProperties.UsedStat += stat;
-					character.Properties.Modify(PropertyId.PC.UsedStat, stat);
+					character.Properties.Modify("UsedStat", stat);
 
 					switch (i)
 					{
-						case 0: character.Properties.Modify(PropertyId.PC.STR_STAT, stat); break;
-						case 1: character.Properties.Modify(PropertyId.PC.CON_STAT, stat); break;
-						case 2: character.Properties.Modify(PropertyId.PC.INT_STAT, stat); break;
-						case 3: character.Properties.Modify(PropertyId.PC.MNA_STAT, stat); break;
-						case 4: character.Properties.Modify(PropertyId.PC.DEX_STAT, stat); break;
+						case 0: character.Properties.Modify("STR_STAT", stat); break;
+						case 1: character.Properties.Modify("CON_STAT", stat); break;
+						case 2: character.Properties.Modify("INT_STAT", stat); break;
+						case 3: character.Properties.Modify("MNA_STAT", stat); break;
+						case 4: character.Properties.Modify("DEX_STAT", stat); break;
 					}
 				}
 
@@ -1225,12 +1225,12 @@ namespace Melia.Zone.Network
 				// but presumably the PROP_UPDATE below. Why send more
 				// packets than necessary though?
 				Send.ZC_OBJECT_PROPERTY(character,
-					PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.INT,
-					PropertyId.PC.INT_STAT, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.DEX, PropertyId.PC.DEX_STAT,
-					PropertyId.PC.UsedStat, PropertyId.PC.MINPATK, PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK,
-					PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB, PropertyId.PC.CRTATK,
-					PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.RHP, PropertyId.PC.RSP,
-					PropertyId.PC.MHP, PropertyId.PC.MSP
+					"STR", "STR_STAT", "CON", "CON_STAT", "INT",
+					"INT_STAT", "MNA", "MNA_STAT", "DEX", "DEX_STAT",
+					"UsedStat", "MINPATK", "MAXPATK", "MINMATK",
+					"MAXMATK", "MINPATK_SUB", "MAXPATK_SUB", "CRTATK",
+					"HR", "DR", "BLK_BREAK", "RHP", "RSP",
+					"MHP", "MSP"
 				);
 
 				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);

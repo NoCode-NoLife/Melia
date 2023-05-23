@@ -1,5 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
-using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Zone.World.Entities.Components
 {
@@ -17,7 +16,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// Creates new instance for monster.
 		/// </summary>
 		/// <param name="monster"></param>
-		public MonsterProperties(MonsterLegacy monster)
+		public MonsterProperties(MonsterLegacy monster) : base("Monster")
 		{
 			this.Monster = monster;
 			this.AddDefaultProperties();
@@ -28,11 +27,11 @@ namespace Melia.Zone.World.Entities.Components
 		/// </summary>
 		private void AddDefaultProperties()
 		{
-			this.Add(new FloatProperty(PropertyId.Monster.WlkMSPD, this.Monster.Data.WalkSpeed));
-			this.Add(new FloatProperty(PropertyId.Monster.RunMSPD, this.Monster.Data.RunSpeed));
-			this.Add(new CalculatedFloatProperty(PropertyId.Monster.MSPD, this.GetMSPD));
+			this.Create(new FloatProperty("WlkMSPD", this.Monster.Data.WalkSpeed));
+			this.Create(new FloatProperty("RunMSPD", this.Monster.Data.RunSpeed));
+			this.Create(new CFloatProperty("MSPD", this.GetMSPD));
 
-			this.UpdateCalculated();
+			this.RecalculateAll();
 		}
 
 		/// <summary>
@@ -41,7 +40,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// <returns></returns>
 		private float GetMSPD()
 		{
-			return this.GetFloat(PropertyId.Monster.WlkMSPD);
+			return this.GetFloat("WlkMSPD");
 		}
 	}
 }

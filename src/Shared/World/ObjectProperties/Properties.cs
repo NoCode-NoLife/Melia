@@ -1,251 +1,231 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Tos.Properties;
+using Yggdrasil.Variables;
 
 namespace Melia.Shared.World.ObjectProperties
 {
 	/// <summary>
-	/// Represents a collection of properties.
+	/// A collection of properties.
 	/// </summary>
-	public class Properties
+	public class Properties : VariableContainer<string>
 	{
-		private readonly Dictionary<int, IProperty> _properties = new Dictionary<int, IProperty>();
-		private readonly Dictionary<int, List<int>> _maxPropertyIds = new Dictionary<int, List<int>>();
+		private readonly Dictionary<string, List<string>> _maxProperties = new Dictionary<string, List<string>>();
 
 		/// <summary>
-		/// Returns the byte size of all properties, as they would take
-		/// in a packet.
+		/// Returns the namespace of the properties in this collection.
 		/// </summary>
-		/// XXX: Could be cached if performance is a problem.
-		public int Size { get { lock (_properties) return _properties.Values.Sum(a => a.Size); } }
+		public string Namespace { get; }
 
 		/// <summary>
-		/// Returns true if a property with the given id was defined
-		/// already.
+		/// Creates new property collection with the given namespace.
 		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <returns></returns>
-		public bool Has(int propertyId)
+		/// <param name="namespaceName"></param>
+		public Properties(string namespaceName)
 		{
-			lock (_properties)
-				return _properties.ContainsKey(propertyId);
+			this.Namespace = namespaceName;
 		}
 
 		/// <summary>
-		/// Returns the property with the given property id,
-		/// or null if it doesn't exist.
+		/// Creates the given property and adds it to this collection.
 		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <typeparam name="TVariable"></typeparam>
+		/// <param name="variable"></param>
 		/// <returns></returns>
-		public IProperty Get(int propertyId)
+		/// <exception cref="ArgumentException"></exception>
+		public override TVariable Create<TVariable>(TVariable variable)
 		{
-			lock (_properties)
+			if (!(variable is IProperty))
+				throw new ArgumentException($"The given variable '{variable.Ident}' is not a property.");
+
+			if (!PropertyTable.Exists(this.Namespace, variable.Ident))
+				throw new ArgumentException($"The property '{variable.Ident}' doesn't exist in the namespace '{this.Namespace}'.");
+
+			return base.Create(variable);
+		}
+
+		/// <summary>
+		/// Returns a list of all properties.
+		/// </summary>
+		/// <returns></returns>
+		public new PropertyList GetAll()
+		{
+			// We're returning a specialized list from the multi-getters
+			// because we need the namespace as well on the other side
+			// to be able to get the ids from the property table before
+			// sending anything to the client.
+
+			var propertyList = new PropertyList(this.Namespace);
+
+			lock (_syncLock)
 			{
-				if (!_properties.TryGetValue(propertyId, out var property))
-					return null;
-
-				return property;
-			}
-		}
-
-		/// <summary>
-		/// Returns the property with the given property id,
-		/// or null if it doesn't exist.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <returns></returns>
-		public TProperty Get<TProperty>(int propertyId)
-		{
-			return (TProperty)this.Get(propertyId);
-		}
-
-		/// <summary>
-		/// Returns the property with the given property id via out.
-		/// Returns false if it doesn't exist.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="property"></param>
-		/// <returns></returns>
-		public bool TryGet(int propertyId, out IProperty property)
-		{
-			property = this.Get(propertyId);
-			return (property != null);
-		}
-
-		/// <summary>
-		/// Returns the property with the given property id via out.
-		/// Returns null if it doesn't exist or the type doesn't match.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="property"></param>
-		/// <returns></returns>
-		public bool TryGet<TProperty>(int propertyId, out TProperty property)
-		{
-			var prop = this.Get(propertyId);
-			if (prop == null || !(prop is TProperty tprop))
-			{
-				property = default(TProperty);
-				return false;
+				foreach (var variable in _vars.Values)
+				{
+					if (variable is IProperty property)
+						propertyList.Add(property);
+				}
 			}
 
-			property = tprop;
-			return true;
+			return propertyList;
 		}
 
 		/// <summary>
-		/// Returns list of all set properties.
+		/// Returns a list of properties with the given names.
 		/// </summary>
+		/// <param name="propertyNames"></param>
 		/// <returns></returns>
-		public IProperty[] GetAll()
+		public PropertyList GetAll(params string[] propertyNames)
 		{
-			lock (_properties)
-				return _properties.Values.ToArray();
+			// TODO: Rename to "GetSelect" or something to avoid confusion
+			//   and issues.
+
+			if (propertyNames == null || propertyNames.Length == 0)
+				return this.GetAll();
+
+			var propertyList = new PropertyList(this.Namespace);
+
+			foreach (var propertyName in propertyNames)
+			{
+				if (!this.TryGet<IProperty>(propertyName, out var property))
+					continue;
+
+				propertyList.Add(property);
+			}
+
+			return propertyList;
 		}
 
 		/// <summary>
-		/// Returns list of all set properties.
+		/// Returns the property with the given identifier. If the
+		/// property doesn't exist yet, it will be created.
 		/// </summary>
-		/// <param name="propertyIds"></param>
+		/// <param name="ident"></param>
 		/// <returns></returns>
-		public IProperty[] GetAll(params int[] propertyIds)
+		public FloatProperty Float(string ident)
 		{
-			lock (_properties)
-				return _properties.Values.Where(a => propertyIds.Contains(a.Id)).ToArray();
+			if (!this.TryGet<FloatProperty>(ident, out var property))
+				property = this.Create(new FloatProperty(ident));
+
+			return property;
 		}
 
 		/// <summary>
-		/// Sets the given propery's value.
+		/// Returns the calculated property with the given identifier.
 		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <param name="ident"></param>
+		/// <returns></returns>
+		public CFloatProperty CFloat(string ident)
+		{
+			if (!this.TryGet<CFloatProperty>(ident, out var property))
+				throw new ArgumentException($"No calculated property '{ident}' found in '{this.GetType().Name}'.");
+
+			return property;
+		}
+
+		/// <summary>
+		/// Returns the property with the given identifier. If the
+		/// property doesn't exist yet, it will be created.
+		/// </summary>
+		/// <param name="ident"></param>
+		/// <returns></returns>
+		public StringProperty String(string ident)
+		{
+			if (!this.TryGet<StringProperty>(ident, out var property))
+				property = this.Create(new StringProperty(ident));
+
+			return property;
+		}
+
+		/// <summary>
+		/// Returns the value of the given property, or the default value
+		/// if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public float GetFloat(string propertyName, float defaultValue = 0)
+		{
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+				return defaultValue;
+
+			return property.Value;
+		}
+
+		/// <summary>
+		/// Returns the value of the given property, or the default value
+		/// if the property wasn't defined.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public string GetString(string propertyName, string defaultValue = null)
+		{
+			if (!this.TryGet<StringProperty>(propertyName, out var property))
+				return defaultValue;
+
+			return property.Value;
+		}
+
+		/// <summary>
+		/// Sets the value of the given property. If the property doesn't
+		/// exist yet it will be created.
+		/// </summary>
+		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
-		public void Set(int propertyId, float value)
+		/// <returns></returns>
+		public FloatProperty SetFloat(string propertyName, float value)
 		{
-			if (GetPropertyType(propertyId) != PropertyType.Float)
-				throw new ArgumentException($"Property '{propertyId}' is not supposed to be a float, or is missing from the property type switch.");
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+				return this.Create(new FloatProperty(propertyName, value));
 
-			lock (_properties)
-			{
-				if (!_properties.TryGetValue(propertyId, out var property))
-					_properties[propertyId] = new FloatProperty(propertyId, value);
-				else
-					(property as FloatProperty).Value = value;
-			}
+			property.Value = value;
+			return property;
 		}
 
 		/// <summary>
-		/// Sets the given propery's value.
+		/// Sets the value of the given property. If the property doesn't
+		/// exist yet it will be created.
 		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
-		public void Set(int propertyId, string value)
+		/// <returns></returns>
+		public StringProperty SetString(string propertyName, string value)
 		{
-			if (GetPropertyType(propertyId) != PropertyType.String)
-				throw new ArgumentException($"Property '{propertyId}' is not supposed to be a string, or is missing from the property type switch.");
+			if (!this.TryGet<StringProperty>(propertyName, out var property))
+				return this.Create(new StringProperty(propertyName, value));
 
-			lock (_properties)
-			{
-				if (!_properties.TryGetValue(propertyId, out var property))
-					_properties[propertyId] = new StringProperty(propertyId, value);
-				else
-					(property as StringProperty).Value = value;
-			}
+			property.Value = value;
+			return property;
 		}
 
 		/// <summary>
-		/// Modifies the property with the given id and returns the new
-		/// value. If the property doesn't exist yet, it's created with
-		/// the modifier as the initial value.
+		/// Modifies the value of the property by the given modifier.
+		/// If the property doesn't exist yet it will be created.
 		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <param name="propertyName"></param>
 		/// <param name="modifier"></param>
 		/// <returns></returns>
-		public float Modify(int propertyId, float modifier)
+		public float Modify(string propertyName, float modifier)
 		{
-			var property = this.Get(propertyId);
-			if (property == null)
-			{
-				this.Set(propertyId, modifier);
-				return modifier;
-			}
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+				return this.Create(new FloatProperty(propertyName, modifier));
 
-			if (!(property is FloatProperty floatProperty))
-				throw new ArgumentException($"The property is not a float.");
-
-			floatProperty.Value += modifier;
-
-			return floatProperty.Value;
+			property.Value += modifier;
+			return property;
 		}
 
 		/// <summary>
-		/// Returns the value of the given property, or the default value
-		/// if the property wasn't defined.
+		/// Returns the sum of all given properties.
 		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="defaultValue"></param>
+		/// <param name="propertyNames"></param>
 		/// <returns></returns>
-		public float GetFloat(int propertyId, float defaultValue = 0)
-		{
-			var property = this.Get(propertyId);
-			if (property == null)
-				return defaultValue;
-
-			if (!(property is FloatProperty floatProperty))
-				throw new ArgumentException($"The property is not a float.");
-
-			return floatProperty.Value;
-		}
-
-		/// <summary>
-		/// Returns the value of the given property casted to an integer,
-		/// or the default value if the property wasn't defined.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public int GetInt(int propertyId, int defaultValue = 0)
-		{
-			var property = this.Get(propertyId);
-			if (property == null)
-				return defaultValue;
-
-			if (!(property is FloatProperty floatProperty))
-				throw new ArgumentException($"The property is not a float.");
-
-			return (int)floatProperty.Value;
-		}
-
-		/// <summary>
-		/// Returns the value of the given property, or the default value
-		/// if the property wasn't defined.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public string GetString(int propertyId, string defaultValue = null)
-		{
-			var property = this.Get(propertyId);
-			if (property == null)
-				return defaultValue;
-
-			if (!(property is StringProperty stringProperty))
-				throw new ArgumentException($"The property is not a string.");
-
-			return stringProperty.Value;
-		}
-
-		/// <summary>
-		/// Gets the values of the given properties and returns their sum.
-		/// </summary>
-		/// <param name="propertyIds"></param>
-		/// <returns></returns>
-		public float Sum(params int[] propertyIds)
+		public float Sum(params string[] propertyNames)
 		{
 			var result = 0f;
 
-			foreach (var propertyId in propertyIds)
+			foreach (var propertyName in propertyNames)
 			{
-				if (!this.TryGet<FloatProperty>(propertyId, out var property))
+				if (!this.TryGet<FloatProperty>(propertyName, out var property))
 					continue;
 
 				result += property.Value;
@@ -255,62 +235,33 @@ namespace Melia.Shared.World.ObjectProperties
 		}
 
 		/// <summary>
-		/// Adds the given property
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="value"></param>
-		public void Add(IProperty property)
-		{
-			if (!Enum.IsDefined(typeof(PropertyType), property.Type))
-				throw new ArgumentException($"Invalid property type '{property.Type}'.");
-
-			lock (_properties)
-				_properties[property.Id] = property;
-		}
-
-		/// <summary>
-		/// Removes given property, returns false if the property didn't
-		/// exist.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <returns></returns>
-		public bool Remove(int propertyId)
-		{
-			lock (_properties)
-				return _properties.Remove(propertyId);
-		}
-
-		/// <summary>
 		/// Sets up automatic update for a property when any of its
-		/// "sub-properties" change.
+		/// dependencies change.
 		/// </summary>
 		/// <remarks>
-		/// Use for calculated properties, whichs' values depend on other
+		/// Used for calculated properties, whichs' values depend on other
 		/// properties. For example, STR should be calculated based on
 		/// other properties and factors and should be updated automatically
 		/// if any property it depends on changes, like STR_ADD.
 		/// </remarks>
-		/// <param name="propertyId"></param>
-		/// <param name="subPropertyIds"></param>
-		public void AutoUpdate(int propertyId, int[] subPropertyIds)
+		/// <param name="parentPropertyName"></param>
+		/// <param name="dependencyPropertyNames"></param>
+		public void AutoUpdate(string parentPropertyName, string[] dependencyPropertyNames)
 		{
-			if (subPropertyIds == null || subPropertyIds.Length == 0)
-				throw new ArgumentException($"No sub-property ids defined.");
+			if (dependencyPropertyNames == null || dependencyPropertyNames.Length == 0)
+				throw new ArgumentException($"No dependencies defined.");
 
-			if (!this.TryGet(propertyId, out var property))
-				throw new ArgumentException($"Property '{propertyId}' not found.");
+			if (!this.TryGet<CFloatProperty>(parentPropertyName, out var parentProperty))
+				throw new ArgumentException($"Property '{parentPropertyName}' not found.");
 
-			if (!(property is CalculatedFloatProperty floatProperty))
-				throw new ArgumentException($"Property '{propertyId}' is not a calculated float property.");
-
-			foreach (var subPropertyId in subPropertyIds)
+			foreach (var dependency in dependencyPropertyNames)
 			{
 				// Add sub-property if it doesn't exist yet? There are quite
 				// a few buff and bonus properties, and this way we don't
 				// need to explicitly define all of them.
-				if (!this.TryGet(subPropertyId, out var subProperty))
+				if (!this.TryGet(dependency, out var dependencyProperty))
 					//throw new ArgumentException($"Sub-property '{subPropertyId}' not found.");
-					this.Add(subProperty = new FloatProperty(subPropertyId));
+					this.Create(dependencyProperty = new FloatProperty(dependency));
 
 				// Subscribe to sub-property's ValueChanged event, so we
 				// automatically trigger a recalculation of the "parent"
@@ -318,41 +269,40 @@ namespace Melia.Shared.World.ObjectProperties
 				// when STR_Bonus changes.
 				// Before subscribing, unsubscribe, just in case, so we
 				// don't get duplicate subscriptions.
-				subProperty.ValueChanged -= floatProperty.TriggerCalculation;
-				subProperty.ValueChanged += floatProperty.TriggerCalculation;
+				dependencyProperty.ValueChanged -= parentProperty.OnDependencyValueChange;
+				dependencyProperty.ValueChanged += parentProperty.OnDependencyValueChange;
 			}
 		}
 
 		/// <summary>
 		/// Sets up automatic updates of max values on float properties.
-		/// For example, HP's max should be increased when MHP changes.
 		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="maxPropertyId"></param>
-		public void AutoUpdateMax(int propertyId, int maxPropertyId)
+		/// <remarks>
+		/// Used for properties like HP, which have max values corresponding
+		/// with other properties, like MHP (Max HP). If the value of MHP
+		/// changes, the max value of HP should be updated automatically.
+		/// </remarks>
+		/// <param name="propertyName"></param>
+		/// <param name="maxPropertyName"></param>
+		public void AutoUpdateMax(string propertyName, string maxPropertyName)
 		{
 			// Check if both properties exist and have the right type
-			if (!this.TryGet(propertyId, out var property))
-				throw new ArgumentException($"Property '{propertyId}' not found.");
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+				throw new ArgumentException($"Property '{propertyName}' not found.");
 
-			if (!this.TryGet(maxPropertyId, out var maxProperty))
-				throw new ArgumentException($"Max property '{maxPropertyId}' not found.");
-
-			if (!(property is FloatProperty floatProperty))
-				throw new ArgumentException($"Property '{propertyId}' is not a float property.");
-
-			if (!(maxProperty is FloatProperty floatMaxProperty))
-				throw new ArgumentException($"Max property '{propertyId}' is not a float property.");
+			if (!this.TryGet<FloatProperty>(maxPropertyName, out var maxProperty))
+				throw new ArgumentException($"Max property '{maxPropertyName}' not found.");
 
 			// Update the list of properties to update when the max property
 			// changes
-			if (!_maxPropertyIds.TryGetValue(maxPropertyId, out var propertyIds))
-				_maxPropertyIds[maxPropertyId] = propertyIds = new List<int>();
+			if (!_maxProperties.TryGetValue(maxPropertyName, out var propertyNames))
+				_maxProperties[maxPropertyName] = propertyNames = new List<string>();
 
-			if (propertyIds.Contains(propertyId))
+			// Stop if the property is already in the list
+			if (propertyNames.Contains(propertyName))
 				return;
 
-			propertyIds.Add(propertyId);
+			propertyNames.Add(propertyName);
 
 			// Subscribe to the max changed event, which updates the
 			// "child" properties
@@ -360,51 +310,31 @@ namespace Melia.Shared.World.ObjectProperties
 			maxProperty.ValueChanged += this.OnMaxValueChanged;
 
 			// Set the initial max value
-			floatProperty.MaxValue = floatMaxProperty.Value;
+			property.MaxValue = maxProperty.Value;
 		}
 
 		/// <summary>
 		/// Called when a property's designated max property changed.
 		/// </summary>
-		/// <param name="maxProperty"></param>
-		private void OnMaxValueChanged(IProperty maxProperty)
+		/// <param name="maxPropertyName"></param>
+		private void OnMaxValueChanged(string maxPropertyName)
 		{
-			if (!_maxPropertyIds.TryGetValue(maxProperty.Id, out var propertyIds))
+			if (!_maxProperties.TryGetValue(maxPropertyName, out var propertyNames))
 				return;
 
-			if (!(maxProperty is FloatProperty maxFloatProperty))
+			if (!this.TryGet<FloatProperty>(maxPropertyName, out var maxProperty))
 				return;
 
-			foreach (var propertyId in propertyIds)
+			foreach (var propertyName in propertyNames)
 			{
-				if (!this.TryGet(propertyId, out var property) || !(property is FloatProperty floatProperty))
+				if (!this.TryGet(propertyName, out var property) || !(property is FloatProperty floatProperty))
 					continue;
 
-				floatProperty.MaxValue = maxFloatProperty.Value;
+				floatProperty.MaxValue = maxProperty.Value;
 
-				if (floatProperty.Value > maxFloatProperty.Value)
-					floatProperty.Value = maxFloatProperty.Value;
+				if (floatProperty.Value > maxProperty.Value)
+					floatProperty.Value = maxProperty.Value;
 			}
-		}
-
-		/// <summary>
-		/// Triggers recalculation of the property, updating its value,
-		/// and returning the new one.
-		/// </summary>
-		/// <remarks>
-		/// An explicit recalculation shouldn't usually be necessary,
-		/// and using GetFloat will be more efficient.
-		/// </remarks>
-		public float Calculate(int propertyId)
-		{
-			if (!this.TryGet(propertyId, out var property))
-				throw new ArgumentException($"Property '{propertyId}' not defined yet.");
-
-			if (!(property is CalculatedFloatProperty cfp))
-				throw new ArgumentException($"Property '{propertyId}' is not a calculated property.");
-
-			cfp.TriggerCalculation(null);
-			return cfp.Value;
 		}
 
 		/// <summary>
@@ -414,160 +344,14 @@ namespace Melia.Shared.World.ObjectProperties
 		/// Recalculations should generally happen automatically and
 		/// should only be done manually if necessary.
 		/// </remarks>
-		public void UpdateCalculated()
+		public void RecalculateAll()
 		{
-			lock (_properties)
-			{
-				foreach (var property in _properties.Values)
-				{
-					if (property is CalculatedFloatProperty cfp)
-						cfp.TriggerCalculation(null);
-				}
-			}
-		}
+			var properties = this.GetAll();
 
-		/// <summary>
-		/// Returns the given property's type.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <returns></returns>
-		public static PropertyType GetPropertyType(int propertyId)
-		{
-			// This is a terrible way to handle this, but it's the only
-			// one we got. Extend this switch case as we find new string
-			// values, which IMC apparently use for anything that's not
-			// fit to be a float, like coordinates or precise, large
-			// numbers.
-
-			switch (propertyId)
+			foreach (var property in properties)
 			{
-				case PropertyId.Party.Note:
-				case PropertyId.Party.ExpGainType:
-				case PropertyId.Party.CreateTime:
-				case PropertyId.Party.P_PARTY_Q_030_TicketLifeTime:
-				case PropertyId.SessionObject.QSTARTZONETYPE:
-				case PropertyId.SessionObject.DROPITEM_COLLECTINGQUEST_RR:
-				case PropertyId.PCEtc.LastUIOpenPos:
-				case PropertyId.PCEtc.Kill_boss_Velmosquy:
-				case PropertyId.Account.Medal_Get_Date:
-				case PropertyId.PC.JobName:
-				case PropertyId.PC.AbilityPoint:
-				case PropertyId.Item.BuffEndTime:
-				case PropertyId.Item.Destroyable:
-				case PropertyId.Item.HiddenProp:
-				case PropertyId.Item.BuffCaster:
-				case PropertyId.Item.Memo:
-				case PropertyId.Item.CustomName:
-				case PropertyId.Item.Maker:
-				case PropertyId.Monster.AdoptTime:
-				case PropertyId.PCEtc.StartHairName:
-				case PropertyId.SessionObject.DROPITEM_REQUEST1_RR:
-				case PropertyId.SessionObject.LastGenPosServer:
-				case PropertyId.SessionObject.DROPITEM_REQUEST1_TRL:
-				case PropertyId.Item.HatPropName_1:
-				case PropertyId.Item.HatPropName_2:
-				case PropertyId.Item.HatPropName_3:
-				case PropertyId.Item.ItemLifeTime:
-				case PropertyId.Account.PlayTimeEventPlayMin:
-				case PropertyId.Account.DAYCHECK_EVENT_LAST_DATE:
-				case PropertyId.Account.DAYCHECK_EVENT_REWARD_DATE:
-				case PropertyId.PC.LastExp:
-				case PropertyId.Item.EnchanterBuffEndTime:
-				case PropertyId.Item.EnchanterBuffValue:
-				case PropertyId.PCEtc.CompanionAutoAtk:
-				case PropertyId.Account.LimitPaymentStateBySteam:
-				case PropertyId.Item.RandomOptionGroup_2:
-				case PropertyId.Item.RandomOption_2:
-				case PropertyId.Item.RandomOptionGroup_6:
-				case PropertyId.Item.RandomOption_6:
-				case PropertyId.Item.RandomOption_4:
-				case PropertyId.Item.RandomOption_5:
-				case PropertyId.Item.RandomOptionGroup_4:
-				case PropertyId.Item.RandomOptionValue_6:
-				case PropertyId.Item.LootingChance:
-				case PropertyId.Item.RandomOption_1:
-				case PropertyId.Item.RandomOptionGroup_1:
-				case PropertyId.Item.RandomOption_3:
-				case PropertyId.Item.RandomOptionGroup_5:
-				case PropertyId.Item.RandomOptionGroup_3:
-				case PropertyId.Account.EVENT_MYMON01:
-				case PropertyId.Account.EVENT_MYMON02:
-				case PropertyId.Account.EV171114_STEAM_NRU_DAY_CHECK:
-				case PropertyId.Account.JUNK_BUY_COUNT_RESET_DAY:
-				case PropertyId.Account.EV180206_VALENTINE_MAP:
-				case PropertyId.Item.InheritanceItemName:
-				case PropertyId.Item.LegendPrefix:
-				case PropertyId.Account.EVENT_BEAUTY_BUY_CHECK:
-				case PropertyId.Item.RandomOptionRare:
-				case PropertyId.PCEtc.RepresentationClassID:
-				case PropertyId.SessionObject.CHARACTER_ATTENDANCE_CHECK:
-				case PropertyId.Account.EVENT_1811_KUPOLE_ZONEENTER:
-				case PropertyId.Account.EVENT_1811_KUPOLE_PLAYTIME_DATE:
-				case PropertyId.Account.EVENT_1811_DAYCHECK_DATE:
-				case PropertyId.Account.EVENT1902_FISHING_YOHA_ITEM_2:
-				case PropertyId.Account.EVENT1902_FISHING_YOHA_ITEM_1:
-				case PropertyId.Item.InheritanceRandomItemName:
-				case PropertyId.PCEtc.SkintoneName:
-				case PropertyId.Account.EVENT_RESET_DATE:
-				case PropertyId.Account.EVENT_1910_HALLOWEEN_DATE:
-				case PropertyId.Account.PersonalHousing_HasPlace_7000:
-				case PropertyId.Account.EVENT1912_4TH_BUFF_1:
-				case PropertyId.Account.EVENT1912_4TH_BUFF_2:
-				case PropertyId.Account.EVENT1912_XMAS_WEEKEND_BONUS:
-				case PropertyId.Account.CTT_TempProperty_AC_Str_1:
-				case PropertyId.Account.CTT_TempProperty_AC_Str_2:
-				case PropertyId.Account.CTT_TempProperty_AC_Str_3:
-				case PropertyId.Account.STEAM190716_GACHA_HAIRACC_DATE:
-				case PropertyId.Account.ASSISTORQUEST_01REWARD_CLASSNAME:
-				case PropertyId.Account.MISC_PVP_MINE2:
-				case PropertyId.Account.EVENT_YOUR_MASTER_TOTAL_VOTE_LIST:
-				case PropertyId.Account.EVENT_YOUR_MASTER_VOTE_LIST:
-				case PropertyId.Account.REPUTATION_QUEST_LIST:
-				case PropertyId.Item.AdditionalOption_3:
-				case PropertyId.Account.EVENT_LUCKYBREAK_REINFORCE_TIME:
-				case PropertyId.Account.HOUSINGCRAFT_END_TIME:
-				case PropertyId.Account.PVP_MINE_MISC_BOOST_END_DATETIME:
-				case PropertyId.Account.EV170427_DAYCHECK_TYPE1_DATE:
-				case PropertyId.Account.GabijaCertificate:
-				case PropertyId.PCEtc.UnknownSantuary_CurCity:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_GLOVES:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_SHIRT:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_LH:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_BOOTS:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_BOOTS:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_GLOVES:
-				case PropertyId.PCEtc.RandomOptionPreset_1_PANTS:
-				case PropertyId.PCEtc.RandomOptionPreset_1_BOOTS:
-				case PropertyId.PCEtc.RandomOptionPreset_1_LH:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_PANTS:
-				case PropertyId.PCEtc.RandomOptionPreset_1_GLOVES:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_RH:
-				case PropertyId.PCEtc.RandomOptionGroupPreset_1_SHIRT:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_RH:
-				case PropertyId.PCEtc.RandomOptionPreset_1_RH:
-				case PropertyId.PCEtc.RandomOptionPreset_1_SHIRT:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_PANTS:
-				case PropertyId.PCEtc.RandomOptionValuePreset_1_LH:
-				case PropertyId.PCEtc.PrevEquipItem_GLOVES:
-				case PropertyId.PCEtc.PrevEquipItem_HAT_L:
-				case PropertyId.PCEtc.PrevEquipItem_RH:
-				case PropertyId.PCEtc.PrevEquipItem_PANTS:
-				case PropertyId.PCEtc.PrevEquipItem_RING2:
-				case PropertyId.PCEtc.PrevEquipItem_RH_SUB:
-				case PropertyId.PCEtc.PrevEquipItem_HAT_T:
-				case PropertyId.PCEtc.PrevEquipItem_LH_SUB:
-				case PropertyId.PCEtc.PrevEquipItem_RING1:
-				case PropertyId.PCEtc.PrevEquipItem_BOOTS:
-				case PropertyId.PCEtc.PrevEquipItem_RELIC:
-				case PropertyId.PCEtc.PrevEquipItem_HAT:
-				case PropertyId.PCEtc.PrevEquipItem_LH:
-				case PropertyId.PCEtc.PrevEquipItem_NECK:
-				case PropertyId.PCEtc.PrevEquipItem_SEAL:
-				case PropertyId.PCEtc.PrevEquipItem_SHIRT:
-				case PropertyId.PCEtc.PrevEquipItem_ARK:
-					return PropertyType.String;
-				default:
-					return PropertyType.Float;
+				if (property is CFloatProperty calcProperty)
+					calcProperty.Recalculate();
 			}
 		}
 	}

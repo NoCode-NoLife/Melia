@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
 using Melia.Shared.World.ObjectProperties;
 using Melia.Zone.Skills;
@@ -90,7 +93,7 @@ namespace Melia.Zone.Database
 		public Character GetCharacter(long accountId, long characterId)
 		{
 			var character = new Character();
-			var stamina = 25000;
+			//var stamina = 25000;
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
@@ -119,7 +122,7 @@ namespace Melia.Zone.Database
 					// because this is not a PC property. Actually setting
 					// it has to wait until we loaded the properties, however,
 					// to get the accurate MaxStamina.
-					stamina = reader.GetInt32("stamina");
+					//stamina = reader.GetInt32("stamina");
 
 					var x = reader.GetFloat("x");
 					var y = reader.GetFloat("y");
@@ -141,7 +144,7 @@ namespace Melia.Zone.Database
 			// we do some more research on how stamina works, whether it's
 			// saved at all, and what we want the default behavior to be.
 			//character.Properties.Stamina = stamina;
-			character.Properties.Stamina = (int)character.Properties.Calculate(PropertyId.PC.MaxSta);
+			character.Properties.Stamina = (int)character.Properties.CFloat("MaxSta").Recalculate();
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -316,20 +319,31 @@ namespace Melia.Zone.Database
 					while (reader.Read())
 					{
 						var sessionObjectId = reader.GetInt32("sessionObjectId");
-						var propertyId = reader.GetInt32("propertyId");
-						var value = reader.GetString("value");
+						var propertyName = reader.GetString("name");
+						var typeStr = reader.GetString("type");
+						var valueStr = reader.GetString("value");
+
+						// Hotfix for converting old character property
+						// ids to names.
+						if (Regex.IsMatch(propertyName, @"^[0-9]+$"))
+							propertyName = PropertyTable.GetName("SessionObject", int.Parse(propertyName));
 
 						var sessionObject = character.SessionObjects.GetOrCreate(sessionObjectId);
-						switch (Properties.GetPropertyType(propertyId))
-						{
-							case PropertyType.Float:
-								var floatValue = Convert.ToSingle(value, CultureInfo.InvariantCulture);
-								sessionObject.Properties.Set(propertyId, floatValue);
-								break;
+						var properties = sessionObject.Properties;
 
-							case PropertyType.String:
-								sessionObject.Properties.Set(propertyId, value);
-								break;
+						if (typeStr == "f")
+						{
+							if (!properties.TryGet<FloatProperty>(propertyName, out var property))
+								property = properties.Create(new FloatProperty(propertyName));
+
+							property.Deserialize(valueStr);
+						}
+						else
+						{
+							if (!properties.TryGet<StringProperty>(propertyName, out var property))
+								property = properties.Create(new StringProperty(propertyName));
+
+							property.Deserialize(valueStr);
 						}
 					}
 				}
@@ -359,16 +373,16 @@ namespace Melia.Zone.Database
 					var properties = sessionObject.Properties.GetAll();
 					foreach (var property in properties)
 					{
+						var typeStr = property is FloatProperty ? "f" : "s";
+						var valueStr = property.Serialize();
+
 						using (var cmd = new InsertCommand("INSERT INTO `session_objects_properties` {0}", conn, trans))
 						{
 							cmd.Set("characterId", character.Id);
 							cmd.Set("sessionObjectId", sessionObject.Id);
-							cmd.Set("propertyId", property.Id);
-							switch (property)
-							{
-								case FloatProperty floatProperty: cmd.Set("value", floatProperty.Value.ToString(CultureInfo.InvariantCulture)); break;
-								case StringProperty stringProperty: cmd.Set("value", stringProperty.Value); break;
-							}
+							cmd.Set("name", property.Ident);
+							cmd.Set("type", typeStr);
+							cmd.Set("value", property.Serialize());
 
 							cmd.Execute();
 						}

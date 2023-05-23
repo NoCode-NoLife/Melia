@@ -700,10 +700,10 @@ namespace Melia.Zone.Commands
 			if (!float.TryParse(args.Get(0), out var speed))
 				return CommandResult.InvalidArgument;
 
-			var currentSpeed = target.Properties.GetFloat(PropertyId.PC.MSPD);
+			var currentSpeed = target.Properties.GetFloat("MSPD");
 			var bonusSpeed = speed - currentSpeed;
 
-			target.Properties.Modify(PropertyId.PC.MSPD_Bonus, bonusSpeed);
+			target.Properties.Modify("MSPD_Bonus", bonusSpeed);
 			Send.ZC_MOVE_SPEED(target);
 
 			if (sender == target)
@@ -1185,7 +1185,7 @@ namespace Melia.Zone.Commands
 				}
 			}
 
-			var points = sender.Properties.GetFloat(PropertyId.PC.AbilityPoint);
+			var points = sender.Properties.GetFloat("AbilityPoint");
 			if (points < price)
 			{
 				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", sender.Connection.Account.Name);

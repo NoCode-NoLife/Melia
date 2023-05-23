@@ -83,10 +83,10 @@ namespace Melia.Zone.World.Entities.Components
 		/// Returns the sum of the property on all equipped items.
 		/// </summary>
 		/// <returns></returns>
-		public float GetEquipProperties(int propertyId)
+		public float GetEquipProperties(string propertyName)
 		{
 			lock (_syncLock)
-				return _equip.Values.Sum(a => a.Properties.GetFloat(propertyId, 0));
+				return _equip.Values.Sum(a => a.Properties.GetFloat(propertyName, 0));
 		}
 
 		/// <summary>
@@ -290,7 +290,7 @@ namespace Melia.Zone.World.Entities.Components
 				this.AddStack(item, addType, false);
 			}
 
-			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
 
 			// Temp fix. The amounts on item stacks that items were added
 			// to are sometimes wrong, a full updates fixes that. Maybe
@@ -540,7 +540,7 @@ namespace Melia.Zone.World.Entities.Components
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(_character, item.Data.Category);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 
-			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight, PropertyId.PC.MSPD);
+			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight", "MSPD");
 
 			return InventoryResult.Success;
 		}
@@ -569,7 +569,7 @@ namespace Melia.Zone.World.Entities.Components
 				item.Amount -= amount;
 
 				Send.ZC_ITEM_REMOVE(_character, item.ObjectId, amount, msg, InventoryType.Inventory);
-				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+				Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
 			}
 
 			return InventoryResult.Success;
@@ -618,7 +618,7 @@ namespace Melia.Zone.World.Entities.Components
 			}
 
 			if (result != 0)
-				Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+				Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
 
 			return result;
 		}
@@ -783,7 +783,7 @@ namespace Melia.Zone.World.Entities.Components
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(_character);
 
 			// Update weight
-			Send.ZC_OBJECT_PROPERTY(_character, PropertyId.PC.NowWeight);
+			Send.ZC_OBJECT_PROPERTY(_character, "NowWeight");
 
 			return InventoryResult.Success;
 		}

@@ -26,7 +26,7 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// The skill's properties.
 		/// </summary>
-		public Properties Properties { get; } = new Properties();
+		public Properties Properties { get; } = new Properties("Skill");
 
 		/// <summary>
 		/// The skill's owner.
@@ -117,43 +117,43 @@ namespace Melia.Zone.Skills
 			// It's like that's the value the client uses to calculate
 			// the current max level.
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.Level, () => this.Level));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.LevelByDB, () => this.Level));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendSP, () => this.SpendSp));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplAngle, () => this.Data.SplashAngle));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SplRange, () => this.Data.SplashRange));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SR, () => this.Data.SplashRate));
+			this.Properties.Create(new RFloatProperty("Level", () => this.Level));
+			this.Properties.Create(new RFloatProperty("LevelByDB", () => this.Level));
+			this.Properties.Create(new RFloatProperty("SpendSP", () => this.SpendSp));
+			this.Properties.Create(new RFloatProperty("WaveLength", () => this.Data.WaveLength));
+			this.Properties.Create(new RFloatProperty("SplAngle", () => this.Data.SplashAngle));
+			this.Properties.Create(new RFloatProperty("SplRange", () => this.Data.SplashRange));
+			this.Properties.Create(new RFloatProperty("SR", () => this.Data.SplashRate));
 
 			// This property's value is the result of a Lua function,
 			// see skill.ies. Does the item's SR (SCR_Get_Skl_SR) count
 			// towards this as well?
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => this.Data.SplashRate + this.Character.Properties.GetFloat(PropertyId.PC.SR)));
+			this.Properties.Create(new RFloatProperty("SkillSR", () => this.Data.SplashRate + this.Character.Properties.GetFloat("SR")));
 
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.MaxR, () => this.Data.MaxRange));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CoolDown, () => this.Data.Cooldown));
-			//this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendItemCount, () => 1f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.WaveLength, () => this.Data.WaveLength));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillFactor, () => this.Data.SkillFactor));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.HitDelay, () => this.Data.HitDelay));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendSta, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.AbleShootRotate, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SklSpdRate, () => 1f)); // Constant
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SpendPoison, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.ReadyTime, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillAtkAdd, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.EnableShootMove, () => this.Data.EnableCastMove ? 1f : 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.UseOverHeat, () => this.Data.Overheat));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillASPD, () => 1f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.BackHitRange, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.Skill_Delay, () => 0f));
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.ReinforceAtk, () => 0f));
+			this.Properties.Create(new RFloatProperty("MaxR", () => this.Data.MaxRange));
+			this.Properties.Create(new RFloatProperty("CoolDown", () => this.Data.Cooldown));
+			//this.Properties.Create(new RFloatProperty("SpendItemCount", () => 1f));
+			this.Properties.Create(new RFloatProperty("WaveLength", () => this.Data.WaveLength));
+			this.Properties.Create(new RFloatProperty("SkillFactor", () => this.Data.SkillFactor));
+			this.Properties.Create(new RFloatProperty("HitDelay", () => this.Data.HitDelay));
+			this.Properties.Create(new RFloatProperty("SpendSta", () => 0f));
+			this.Properties.Create(new RFloatProperty("AbleShootRotate", () => 0f));
+			this.Properties.Create(new RFloatProperty("SklSpdRate", () => 1f)); // Constant
+			this.Properties.Create(new RFloatProperty("SpendPoison", () => 0f));
+			this.Properties.Create(new RFloatProperty("ReadyTime", () => 0f));
+			this.Properties.Create(new RFloatProperty("SkillAtkAdd", () => 0f));
+			this.Properties.Create(new RFloatProperty("EnableShootMove", () => this.Data.EnableCastMove ? 1f : 0f));
+			this.Properties.Create(new RFloatProperty("UseOverHeat", () => this.Data.Overheat));
+			this.Properties.Create(new RFloatProperty("SkillASPD", () => 1f));
+			this.Properties.Create(new RFloatProperty("BackHitRange", () => 0f));
+			this.Properties.Create(new RFloatProperty("Skill_Delay", () => 0f));
+			this.Properties.Create(new RFloatProperty("ReinforceAtk", () => 0f));
 
-			//this.Properties.Add(new RefFloatProperty(PropertyId.Skill.SkillSR, () => 14f)); // Has to be calculated with Lua Script
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionTime, () => 0f)); // Needs to be calculated if used, uses lua script
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio, () => 0f)); // Needs to be calculated if used, uses lua script
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio2, () => 0f)); // Needs to be calculated if used, uses lua script
-			this.Properties.Add(new RefFloatProperty(PropertyId.Skill.CaptionRatio3, () => 0f)); // Needs to be calculated if used, uses lua script
+			//this.Properties.Create(new RFloatProperty("SkillSR", () => 14f)); // Has to be calculated with Lua Script
+			this.Properties.Create(new RFloatProperty("CaptionTime", () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Create(new RFloatProperty("CaptionRatio", () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Create(new RFloatProperty("CaptionRatio2", () => 0f)); // Needs to be calculated if used, uses lua script
+			this.Properties.Create(new RFloatProperty("CaptionRatio3", () => 0f)); // Needs to be calculated if used, uses lua script
 		}
 
 		/// <summary>

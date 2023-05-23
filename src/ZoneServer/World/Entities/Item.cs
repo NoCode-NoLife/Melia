@@ -93,7 +93,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the item's property collection.
 		/// </summary>
-		public Properties Properties { get; } = new Properties();
+		public Properties Properties { get; } = new Properties("Item");
 
 		/// <summary>
 		/// Creates new item.
@@ -122,17 +122,17 @@ namespace Melia.Zone.World.Entities
 			if (this.Data == null)
 				throw new NullReferenceException("No item data found for '" + this.Id + "'.");
 
-			if (this.Data.MinAtk != 0) this.Properties.Set(PropertyId.Item.MINATK, this.Data.MinAtk);
-			if (this.Data.MaxAtk != 0) this.Properties.Set(PropertyId.Item.MAXATK, this.Data.MaxAtk);
-			if (this.Data.MAtk != 0) this.Properties.Set(PropertyId.Item.MATK, this.Data.MAtk);
-			if (this.Data.PAtk != 0) this.Properties.Set(PropertyId.Item.PATK, this.Data.PAtk);
-			if (this.Data.AddMinAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MINATK, this.Data.AddMinAtk);
-			if (this.Data.AddMaxAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MAXATK, this.Data.AddMaxAtk);
-			if (this.Data.AddMAtk != 0) this.Properties.Set(PropertyId.Item.ADD_MATK, this.Data.AddMAtk);
-			if (this.Data.Def != 0) this.Properties.Set(PropertyId.Item.DEF, this.Data.Def);
-			if (this.Data.MDef != 0) this.Properties.Set(PropertyId.Item.MDEF, this.Data.MDef);
-			if (this.Data.AddDef != 0) this.Properties.Set(PropertyId.Item.ADD_DEF, this.Data.AddDef);
-			if (this.Data.AddMDef != 0) this.Properties.Set(PropertyId.Item.ADD_MDEF, this.Data.AddMDef);
+			if (this.Data.MinAtk != 0) this.Properties.SetFloat("MINATK", this.Data.MinAtk);
+			if (this.Data.MaxAtk != 0) this.Properties.SetFloat("MAXATK", this.Data.MaxAtk);
+			if (this.Data.MAtk != 0) this.Properties.SetFloat("MATK", this.Data.MAtk);
+			if (this.Data.PAtk != 0) this.Properties.SetFloat("PATK", this.Data.PAtk);
+			if (this.Data.AddMinAtk != 0) this.Properties.SetFloat("ADD_MINATK", this.Data.AddMinAtk);
+			if (this.Data.AddMaxAtk != 0) this.Properties.SetFloat("ADD_MAXATK", this.Data.AddMaxAtk);
+			if (this.Data.AddMAtk != 0) this.Properties.SetFloat("ADD_MATK", this.Data.AddMAtk);
+			if (this.Data.Def != 0) this.Properties.SetFloat("DEF", this.Data.Def);
+			if (this.Data.MDef != 0) this.Properties.SetFloat("MDEF", this.Data.MDef);
+			if (this.Data.AddDef != 0) this.Properties.SetFloat("ADD_DEF", this.Data.AddDef);
+			if (this.Data.AddMDef != 0) this.Properties.SetFloat("ADD_MDEF", this.Data.AddMDef);
 		}
 
 		/// <summary>

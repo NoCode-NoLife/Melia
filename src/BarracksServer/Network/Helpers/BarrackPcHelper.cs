@@ -32,13 +32,13 @@ namespace Melia.Barracks.Network.Helpers
 			for (var i = 0; i < equipProperties.Length; ++i)
 			{
 				var propertiesObj = equipProperties[i];
-				var properties = propertiesObj.GetAll();
-				var propertiesSize = properties.Sum(a => a.Size);
+				var propertyList = propertiesObj.GetAll();
+				var propertiesSize = propertyList.GetSize();
 
 				packet.PutShort(propertiesSize);
 				if (propertiesSize > 0)
 				{
-					packet.AddProperties(properties);
+					packet.AddProperties(propertyList);
 					packet.PutLong(pc.Id + (i + 1));
 					packet.PutShort(0);
 				}

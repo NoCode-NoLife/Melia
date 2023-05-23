@@ -26,7 +26,7 @@ namespace Melia.Zone.World.Entities
 		private ItemMonster(Item item, int monsterId) : base(monsterId, MonsterType.NPC)
 		{
 			this.Item = item;
-			this.Properties = new Properties();
+			this.Properties = item.Properties;
 		}
 
 		/// <summary>

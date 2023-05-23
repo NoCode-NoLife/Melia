@@ -24,7 +24,7 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// The object's properties.
 		/// </summary>
-		public Properties Properties { get; } = new Properties();
+		public Properties Properties { get; } = new Properties("SessionObject");
 
 		/// <summary>
 		/// Creates new instance.

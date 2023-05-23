@@ -13,8 +13,8 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="skill"></param>
 		public static void AddSkill(this Packet packet, Skill skill)
 		{
-			var properties = skill.Properties.GetAll();
-			var propertiesSize = skill.Properties.Size;
+			var propertyList = skill.Properties.GetAll();
+			var propertiesSize = propertyList.GetSize();
 
 			packet.PutLong(skill.ObjectId);
 			packet.PutInt((int)skill.Id);
@@ -23,7 +23,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt(0);
 			packet.PutShort(0);
 			packet.PutEmptyBin(2); // alignment
-			packet.AddProperties(properties);
+			packet.AddProperties(propertyList);
 		}
 	}
 }

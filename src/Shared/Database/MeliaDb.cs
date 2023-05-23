@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
+using Melia.Shared.Tos.Properties;
 using Melia.Shared.World.ObjectProperties;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
@@ -181,23 +183,46 @@ namespace Melia.Shared.Database
 				{
 					while (reader.Read())
 					{
-						var propertyId = reader.GetInt32("id");
+						var propertyName = reader.GetString("name");
 						var typeStr = reader.GetString("type");
 						var valueStr = reader.GetString("value");
 
-						if (typeStr == "f")
+						// Hotfix for converting old character property
+						// ids to names.
+						if (databaseName == "character_properties" && Regex.IsMatch(propertyName, @"^[0-9]+$"))
 						{
-							if (!float.TryParse(valueStr, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+							var propertyId = int.Parse(propertyName);
+
+							// It seems like we added some PCEtc properties
+							// to characters at some point. I dearly hope
+							// that this was a mistake on our part, as our
+							// new system would crumble under the requirement
+							// of supporting multiple namespaces per
+							// properties instance.
+							if (!PropertyTable.TryGetName("PC", propertyId, out propertyName))
 							{
-								Log.Warning("MeliaDb.LoadProperties: Invalid float value '{0}' on '{1}/{2}/{3}/{4}'.", valueStr, databaseName, idName, id, propertyId);
+								if (!PropertyTable.TryGetName("PCEtc", propertyId, out propertyName))
+									throw new Exception($"Property '{propertyName}' exists in neither PC nor PCEtc.");
+
+								Log.Debug("MeliaDb.LoadProperties: Found a PCEtc property on a character. Skipping.");
 								continue;
 							}
+						}
 
-							properties.Set(propertyId, value);
+						if (typeStr == "f")
+						{
+							if (!properties.TryGet<FloatProperty>(propertyName, out var property))
+								property = properties.Create(new FloatProperty(propertyName));
+
+							if (!(property is CFloatProperty))
+								property.Deserialize(valueStr);
 						}
 						else
 						{
-							properties.Set(propertyId, valueStr);
+							if (!properties.TryGet<StringProperty>(propertyName, out var property))
+								property = properties.Create(new StringProperty(propertyName));
+
+							property.Deserialize(valueStr);
 						}
 					}
 				}
@@ -223,13 +248,13 @@ namespace Melia.Shared.Database
 
 				foreach (var property in properties.GetAll())
 				{
-					var typeStr = property.Type == PropertyType.Float ? "f" : "s";
-					var valueStr = property.GetString();
+					var typeStr = property is FloatProperty ? "f" : "s";
+					var valueStr = property.Serialize();
 
 					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn))
 					{
 						cmd.Set(idName, id);
-						cmd.Set("id", property.Id);
+						cmd.Set("name", property.Ident);
 						cmd.Set("type", typeStr);
 						cmd.Set("value", valueStr);
 

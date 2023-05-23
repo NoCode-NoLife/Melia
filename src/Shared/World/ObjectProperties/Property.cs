@@ -1,37 +1,9 @@
-﻿using System;
-
-namespace Melia.Shared.World.ObjectProperties
+﻿namespace Melia.Shared.World.ObjectProperties
 {
 	/// <summary>
-	/// Describes a property of an object.
+	/// Base interface for all property-type variables.
 	/// </summary>
-	public interface IProperty
+	public interface IProperty : Properties.IVariable
 	{
-		/// <summary>
-		/// Returns the property's id.
-		/// </summary>
-		int Id { get; }
-
-		/// <summary>
-		/// Returns the property's size in bytes, as it would take
-		/// up in a packet, incl. the id.
-		/// </summary>
-		int Size { get; }
-
-		/// <summary>
-		/// Returns the property's type.
-		/// </summary>
-		PropertyType Type { get; }
-
-		/// <summary>
-		/// Raised when the value of the property changed.
-		/// </summary>
-		event Action<IProperty> ValueChanged;
-
-		/// <summary>
-		/// Returns a string representation of the property's value.
-		/// </summary>
-		/// <returns></returns>
-		string GetString();
 	}
 }

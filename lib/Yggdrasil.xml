@@ -5367,5 +5367,1285 @@
             <param name="line"></param>
             <param name="file"></param>
         </member>
+        <member name="T:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions">
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int32)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int64)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Single)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Double)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Object)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.String)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt64)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt32)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt16)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int16)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.SByte)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Byte)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1">
+            <summary>
+            A collection of variables.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.DoubleVariable">
+            <summary>
+            A double type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.DoubleVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.DoubleVariable.#ctor(`0,System.Double)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.DoubleVariable.#ctor(`0,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.DoubleVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.DoubleVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.FloatVariable">
+            <summary>
+            A float type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.FloatVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.FloatVariable.#ctor(`0,System.Single)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.FloatVariable.#ctor(`0,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.FloatVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.FloatVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ByteVariable">
+            <summary>
+            A byte type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.SByteVariable">
+            <summary>
+            An integer type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte,System.SByte,System.SByte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.IntVariable">
+            <summary>
+            An integer type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.IntVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IntVariable.#ctor(`0,System.Int32)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IntVariable.#ctor(`0,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IntVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IntVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.LongVariable">
+            <summary>
+            An long type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.LongVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.LongVariable.#ctor(`0,System.Int64)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.LongVariable.#ctor(`0,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.LongVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.LongVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.INumericVariable">
+            <summary>
+            Describes a numeric variable with a value that can be
+            represented as a double.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.INumericVariable.NumberValue">
+            <summary>
+            Returns the variable's value as a double.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1">
+            <summary>
+            Base class for variables with a numeric values.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Type">
+            <summary>
+            Returns the variable's underlying type.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Ident">
+            <summary>
+            Returns the variable's identifier.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.ValueChanged">
+            <summary>
+            Raised when the variable's value changed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Value">
+            <summary>
+            Gets or sets the variable's value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.MinValue">
+            <summary>
+            Gets or sets the variable's minimum value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.MaxValue">
+            <summary>
+            Gets or sets the variable's maximum value.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.NumberValue">
+            <summary>
+            Returns the variable's value as a double.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.#ctor(`0,`1,`1,`1)">
+            <summary>
+            Initializes numeric variable.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.OnValueChanged">
+            <summary>
+            Raises the ValueChanged event.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Serialize">
+            <summary>
+            Serializes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_Equality(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is equal to the variable's
+            value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_Inequality(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is not equal to the
+            variable's value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_LessThanOrEqual(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is lower than or equal to
+            the variable's value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_GreaterThanOrEqual(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is greater than or equal to
+            the variable's value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_LessThan(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is lower than the variable's
+            value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_GreaterThan(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1},`1)">
+            <summary>
+            Returns whether the given value is greater than the
+            variable's value.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.op_Implicit(Yggdrasil.Variables.VariableContainer{`0}.NumericVariable{`1})~`1">
+            <summary>
+            Implicitly converts the variables's value to its base-type.
+            </summary>
+            <param name="a"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.Equals(System.Object)">
+            <summary>
+            Returns true if the given object is a numeric variable
+            and its value is equal to this variable's value.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.GetHashCode">
+            <summary>
+            Returns the hash code of the variable's value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.ToString">
+            <summary>
+            Returns a string representation of the variable's value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.NumericVariable`1.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns a formatted string representation of the variable's
+            value.
+            </summary>
+            <param name="format"></param>
+            <param name="formatProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.Number(`0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <remarks>
+            Unlike other variable getters, this method doesn't create
+            variables automatically and only returns available ones.
+            </remarks>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ShortVariable">
+            <summary>
+            A short type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ObjectVariable">
+            <summary>
+            A string type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.Type">
+            <summary>
+            Returns the variable's underlying type.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.Ident">
+            <summary>
+            Returns the variable's identifier.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.ValueChanged">
+            <summary>
+            Fired when the variable's value changed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.Value">
+            <summary>
+            Gets or sets the variable's value.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.#ctor(`0,System.Object)">
+            <summary>
+            Creates new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.Serialize">
+            <summary>
+            Serializes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ObjectVariable.ToString">
+            <summary>
+            Returns a string representation of the variable's value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.StringVariable">
+            <summary>
+            A string type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.StringVariable.Type">
+            <summary>
+            Returns the variable's underlying type.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.StringVariable.Ident">
+            <summary>
+            Returns the variable's identifier.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Variables.VariableContainer`1.StringVariable.ValueChanged">
+            <summary>
+            Fired when the variable's value changed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.StringVariable.Value">
+            <summary>
+            Gets or sets the variable's value.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.StringVariable.#ctor(`0,System.String)">
+            <summary>
+            Creates new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.StringVariable.Serialize">
+            <summary>
+            Serializes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.StringVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.StringVariable.ToString">
+            <summary>
+            Returns a string representation of the variable's value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.UIntVariable">
+            <summary>
+            An integer type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.UIntVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UIntVariable.#ctor(`0,System.UInt32)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UIntVariable.#ctor(`0,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UIntVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UIntVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ULongVariable">
+            <summary>
+            An ulong type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ULongVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ULongVariable.#ctor(`0,System.UInt64)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ULongVariable.#ctor(`0,System.UInt64,System.UInt64,System.UInt64)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ULongVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ULongVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.UShortVariable">
+            <summary>
+            A short type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.UShortVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UShortVariable.#ctor(`0,System.UInt16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UShortVariable.#ctor(`0,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UShortVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.UShortVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.IVariable">
+            <summary>
+            Describes a variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.IVariable.Type">
+            <summary>
+            Returns the variable's underlying type.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.IVariable.Ident">
+            <summary>
+            Returns the variable's identifier.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Variables.VariableContainer`1.IVariable.ValueChanged">
+            <summary>
+            Fired when the variable's value changed.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IVariable.Serialize">
+            <summary>
+            Serializes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.IVariable.Deserialize(System.String)">
+            <summary>
+            Reads the given value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.IVariable`1">
+            <summary>
+            Descibes a variable with a value.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.IVariable`1.Value">
+            <summary>
+            Gets or sets the variable's value.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableContainer`1._syncLock">
+            <summary>
+            Lock object for thread safety. Lock while accessing the
+            variable list.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableContainer`1._vars">
+            <summary>
+            List of variables.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.AutoCreate">
+            <summary>
+            Gets or sets whether variables are created automatically on
+            access if they don't exist yet.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.Create``1(``0)">
+            <summary>
+            Adds the given variable to the container.
+            </summary>
+            <typeparam name="TVariable"></typeparam>
+            <param name="variable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.Get``1(`0)">
+            <summary>
+            Removes the variable with the given identifier from the
+            container.
+            </summary>
+            <typeparam name="TVariable"></typeparam>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the type of the variable with the given identifier
+            doesn't match the requested type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.Get(`0)">
+            <summary>
+            Returns the variable with the given identifier, or null if
+            no matching variable was found.
+            </summary>
+            <param name="ident"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.TryGet``1(`0,``0@)">
+            <summary>
+            Returns the variable with the given identifier via out,
+            cast to the requested type. Returns false if no matching
+            variable was found.
+            </summary>
+            <typeparam name="TVariable"></typeparam>
+            <param name="ident"></param>
+            <param name="variable"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the type of the variable with the given identifier
+            doesn't match the requested type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.TryGet(`0,Yggdrasil.Variables.VariableContainer{`0}.IVariable@)">
+            <summary>
+            Returns the variable with the given identifier via out.
+            Returns false if no matching variable was found.
+            </summary>
+            <param name="ident"></param>
+            <param name="variable"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the type of the variable with the given identifier
+            doesn't match the requested type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.GetAll">
+            <summary>
+            Returns a list of all variables.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.Has(`0)">
+            <summary>
+            Returns true if a variable with the given identifier exists.
+            </summary>
+            <param name="ident"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Variables.TypeMismatchException">
+            <summary>
+            Exception thrown when trying to get a variable of a different
+            type than the one requested.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.TypeMismatchException.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableType">
+            <summary>
+            The underlying type of a variable.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Bool">
+            <summary>
+            A boolean type.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Byte">
+            <summary>
+            An 8-bit unsigned integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.SByte">
+            <summary>
+            An 8-bit signed integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Short">
+            <summary>
+            A 16-bit signed integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.UShort">
+            <summary>
+            A 16-bit unsigned integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Int">
+            <summary>
+            A 32-bit signed integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.UInt">
+            <summary>
+            A 32-bit unsigned integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Long">
+            <summary>
+            A 64-bit signed integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.ULong">
+            <summary>
+            A 64-bit unsigned integer.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Float">
+            <summary>
+            A 32-bit floating point number.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Double">
+            <summary>
+            A 64-bit floating point number.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.String">
+            <summary>
+            A string type.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Variables.VariableType.Object">
+            <summary>
+            An object type.
+            </summary>
+        </member>
     </members>
 </doc>

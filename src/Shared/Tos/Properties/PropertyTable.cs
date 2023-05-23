@@ -32,7 +32,10 @@ namespace Melia.Shared.Tos.Properties
 					NsIds[entry.Namespace] = nsIds = new Dictionary<int, string>();
 
 				nsNames.Add(entry.Name, entry.Id);
-				nsIds.Add(entry.Id, entry.Name);
+
+				// Use index since ids can appear multiple times, though
+				// the names just have a different capitilization.
+				nsIds[entry.Id] = entry.Name;
 			}
 		}
 
@@ -74,18 +77,36 @@ namespace Melia.Shared.Tos.Properties
 		/// Returns the name of the given property in the given namespace.
 		/// </summary>
 		/// <param name="namespaceName"></param>
-		/// <param name="id"></param>
+		/// <param name="propertyId"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public static string GetName(string namespaceName, int id)
+		public static string GetName(string namespaceName, int propertyId)
 		{
 			if (!NsIds.TryGetValue(namespaceName, out var ns))
 				throw new KeyNotFoundException($"Namespace '{namespaceName}' not found.");
 
-			if (!ns.TryGetValue(id, out var propertyName))
-				throw new KeyNotFoundException($"Property with id '{id}' not found in namespace '{namespaceName}'.");
+			if (!ns.TryGetValue(propertyId, out var propertyName))
+				throw new KeyNotFoundException($"Property with id '{propertyId}' not found in namespace '{namespaceName}'.");
 
 			return propertyName;
+		}
+
+		/// <summary>
+		/// Returns the property name for the given id via out. Returns
+		/// false if the property wasn't found.
+		/// </summary>
+		/// <param name="namespaceName"></param>
+		/// <param name="propertyId"></param>
+		/// <param name="propertyName"></param>
+		/// <returns></returns>
+		public static bool TryGetName(string namespaceName, int propertyId, out string propertyName)
+		{
+			propertyName = null;
+
+			if (!NsIds.TryGetValue(namespaceName, out var ns))
+				return false;
+
+			return ns.TryGetValue(propertyId, out propertyName);
 		}
 	}
 }

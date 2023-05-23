@@ -14,8 +14,8 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="monster"></param>
 		public static void AddMonster(this Packet packet, IMonster monster)
 		{
-			var properties = monster.Properties.GetAll();
-			var propertiesSize = monster.Properties.Size;
+			var propertyList = monster.Properties.GetAll();
+			var propertiesSize = propertyList.GetSize();
 			var appearanceSize = monster.GetByteSize();
 
 			packet.PutInt(monster.Handle);
@@ -61,7 +61,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte(0);
 
 			packet.AddMonsterApperance(monster);
-			packet.AddProperties(properties);
+			packet.AddProperties(propertyList);
 		}
 
 		/// <summary>

@@ -393,8 +393,8 @@ namespace Melia.Zone.World.Entities
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Set(PropertyId.PC.HP, this.Properties.GetFloat(PropertyId.PC.MHP));
-			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
+			this.Properties.SetFloat("HP", this.Properties.GetFloat("MHP"));
+			this.Properties.SetFloat("SP", this.Properties.GetFloat("MSP"));
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
 		}

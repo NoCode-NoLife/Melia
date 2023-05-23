@@ -201,27 +201,27 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's current level.
 		/// </summary>
-		public int Level => (int)this.Properties.GetFloat(PropertyId.PC.Lv);
+		public int Level => (int)this.Properties.GetFloat("Lv");
 
 		/// <summary>
 		/// Returns the character's current HP.
 		/// </summary>
-		public int Hp => (int)this.Properties.GetFloat(PropertyId.PC.HP);
+		public int Hp => (int)this.Properties.GetFloat("HP");
 
 		/// <summary>
 		/// Returns the character's max HP.
 		/// </summary>
-		public int MaxHp => (int)this.Properties.GetFloat(PropertyId.PC.MHP);
+		public int MaxHp => (int)this.Properties.GetFloat("MHP");
 
 		/// <summary>
 		/// Returns the character's current SP.
 		/// </summary>
-		public int Sp => (int)this.Properties.GetFloat(PropertyId.PC.SP);
+		public int Sp => (int)this.Properties.GetFloat("SP");
 
 		/// <summary>
 		/// Returns the character's max SP.
 		/// </summary>
-		public int MaxSp => (int)this.Properties.GetFloat(PropertyId.PC.MSP);
+		public int MaxSp => (int)this.Properties.GetFloat("MSP");
 
 		/// <summary>
 		/// Returns the character's current stamina.
@@ -241,7 +241,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's move speed via its MSPD property.
 		/// </summary>
-		public float MoveSpeed => this.Properties.GetFloat(PropertyId.PC.MSPD);
+		public float MoveSpeed => this.Properties.GetFloat("MSPD");
 
 		/// <summary>
 		/// Returns the character's component collection.
@@ -341,25 +341,25 @@ namespace Melia.Zone.World.Entities
 			// already initialized. Let's just use a variable for that.
 			if (!this.Variables.Perm.Has("PropertiesInitialized"))
 			{
-				this.Properties.Set(PropertyId.PC.Lv, 1);
+				this.Properties.SetFloat("Lv", 1);
 				this.Exp = 0;
 				this.TotalExp = 0;
 				this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(1);
 
-				this.Properties.Set(PropertyId.PC.STR_JOB, this.Job.Data.Str);
-				this.Properties.Set(PropertyId.PC.CON_JOB, this.Job.Data.Con);
-				this.Properties.Set(PropertyId.PC.INT_JOB, this.Job.Data.Int);
-				this.Properties.Set(PropertyId.PC.MNA_JOB, this.Job.Data.Spr);
-				this.Properties.Set(PropertyId.PC.DEX_JOB, this.Job.Data.Dex);
-				this.Properties.Set(PropertyId.PC.HP, this.Properties.Calculate(PropertyId.PC.MHP));
-				this.Properties.Set(PropertyId.PC.SP, this.Properties.Calculate(PropertyId.PC.MSP));
+				this.Properties.SetFloat("STR_JOB", this.Job.Data.Str);
+				this.Properties.SetFloat("CON_JOB", this.Job.Data.Con);
+				this.Properties.SetFloat("INT_JOB", this.Job.Data.Int);
+				this.Properties.SetFloat("MNA_JOB", this.Job.Data.Spr);
+				this.Properties.SetFloat("DEX_JOB", this.Job.Data.Dex);
+				this.Properties.SetFloat("HP", this.Properties.CFloat("MHP").Recalculate());
+				this.Properties.SetFloat("SP", this.Properties.CFloat("MSP").Recalculate());
 
-				this.Properties.Stamina = (int)this.Properties.Calculate(PropertyId.PC.MaxSta);
+				this.Properties.Stamina = (int)this.Properties.CFloat("MaxSta").Recalculate();
 
 				this.Variables.Perm.SetBool("PropertiesInitialized", true);
 			}
 
-			this.Properties.UpdateCalculated();
+			this.Properties.RecalculateAll();
 			this.Properties.InitAutoUpdates();
 		}
 
@@ -566,8 +566,8 @@ namespace Melia.Zone.World.Entities
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			var newLevel = this.Properties.Modify(PropertyId.PC.Lv, amount);
-			this.Properties.Modify(PropertyId.PC.StatByLevel, amount);
+			var newLevel = this.Properties.Modify("Lv", amount);
+			this.Properties.Modify("StatByLevel", amount);
 
 			this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
 			this.Heal();
@@ -603,8 +603,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public void Heal()
 		{
-			this.Properties.Set(PropertyId.PC.HP, this.Properties.GetFloat(PropertyId.PC.MHP));
-			this.Properties.Set(PropertyId.PC.SP, this.Properties.GetFloat(PropertyId.PC.MSP));
+			this.Properties.SetFloat("HP", this.Properties.GetFloat("MHP"));
+			this.Properties.SetFloat("SP", this.Properties.GetFloat("MSP"));
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
 		}
@@ -620,8 +620,8 @@ namespace Melia.Zone.World.Entities
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			this.Properties.Modify(PropertyId.PC.HP, hpAmount);
-			this.Properties.Modify(PropertyId.PC.SP, spAmount);
+			this.Properties.Modify("HP", hpAmount);
+			this.Properties.Modify("SP", spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
 		}
@@ -641,7 +641,7 @@ namespace Melia.Zone.World.Entities
 			// the client, with the correct priority.
 			lock (_hpLock)
 			{
-				hp = (int)this.Properties.Modify(PropertyId.PC.HP, amount);
+				hp = (int)this.Properties.Modify("HP", amount);
 				priority = (this.HpChangeCounter += 1);
 			}
 
@@ -655,7 +655,7 @@ namespace Melia.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void ModifySp(int amount)
 		{
-			var sp = (int)this.Properties.Modify(PropertyId.PC.SP, amount);
+			var sp = (int)this.Properties.Modify("SP", amount);
 			Send.ZC_UPDATE_SP(this, sp);
 		}
 
@@ -676,11 +676,11 @@ namespace Melia.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void ModifyAbilityPoints(int amount)
 		{
-			var abilityPoints = int.Parse(this.Properties.GetString(PropertyId.PC.AbilityPoint));
+			var abilityPoints = int.Parse(this.Properties.GetString("AbilityPoint"));
 			abilityPoints += amount;
-			this.Properties.Set(PropertyId.PC.AbilityPoint, abilityPoints.ToString());
+			this.Properties.SetString("AbilityPoint", abilityPoints.ToString());
 
-			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.AbilityPoint);
+			Send.ZC_OBJECT_PROPERTY(this, "AbilityPoint");
 		}
 
 		/// <summary>
@@ -888,8 +888,8 @@ namespace Melia.Zone.World.Entities
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be negative.");
 
-			this.Properties.Modify(PropertyId.PC.StatByBonus, amount);
-			Send.ZC_OBJECT_PROPERTY(this, PropertyId.PC.StatByBonus);
+			this.Properties.Modify("StatByBonus", amount);
+			Send.ZC_OBJECT_PROPERTY(this, "StatByBonus");
 		}
 
 		/// <summary>
@@ -916,33 +916,33 @@ namespace Melia.Zone.World.Entities
 			// that went into the *_JOB properties, which we'll just add
 			// to StatByBonus.
 
-			var jobStatPoints = character.Properties.Sum(PropertyId.PC.STR_JOB, PropertyId.PC.CON_JOB, PropertyId.PC.INT_JOB, PropertyId.PC.MNA_JOB, PropertyId.PC.DEX_JOB) - 5;
-			character.Properties.Modify(PropertyId.PC.StatByBonus, jobStatPoints);
+			var jobStatPoints = character.Properties.Sum("STR_JOB", "CON_JOB", "INT_JOB", "MNA_JOB", "DEX_JOB") - 5;
+			character.Properties.Modify("StatByBonus", jobStatPoints);
 
-			character.Properties.Set(PropertyId.PC.UsedStat, 0);
+			character.Properties.SetFloat("UsedStat", 0);
 
-			character.Properties.Set(PropertyId.PC.STR_STAT, 0);
-			character.Properties.Set(PropertyId.PC.CON_STAT, 0);
-			character.Properties.Set(PropertyId.PC.INT_STAT, 0);
-			character.Properties.Set(PropertyId.PC.MNA_STAT, 0);
-			character.Properties.Set(PropertyId.PC.DEX_STAT, 0);
+			character.Properties.SetFloat("STR_STAT", 0);
+			character.Properties.SetFloat("CON_STAT", 0);
+			character.Properties.SetFloat("INT_STAT", 0);
+			character.Properties.SetFloat("MNA_STAT", 0);
+			character.Properties.SetFloat("DEX_STAT", 0);
 
-			character.Properties.Set(PropertyId.PC.STR_JOB, 1);
-			character.Properties.Set(PropertyId.PC.CON_JOB, 1);
-			character.Properties.Set(PropertyId.PC.INT_JOB, 1);
-			character.Properties.Set(PropertyId.PC.MNA_JOB, 1);
-			character.Properties.Set(PropertyId.PC.DEX_JOB, 1);
+			character.Properties.SetFloat("STR_JOB", 1);
+			character.Properties.SetFloat("CON_JOB", 1);
+			character.Properties.SetFloat("INT_JOB", 1);
+			character.Properties.SetFloat("MNA_JOB", 1);
+			character.Properties.SetFloat("DEX_JOB", 1);
 
 			// TODO: Add semi-automatic updating of all properties that
 			//   changed.
 			Send.ZC_OBJECT_PROPERTY(character,
-				PropertyId.PC.STR, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB, PropertyId.PC.CON, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB,
-				PropertyId.PC.INT, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB, PropertyId.PC.MNA, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB,
-				PropertyId.PC.DEX, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB,
-				PropertyId.PC.UsedStat, PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus,
-				PropertyId.PC.MINPATK, PropertyId.PC.MAXPATK, PropertyId.PC.MINMATK, PropertyId.PC.MAXMATK, PropertyId.PC.MINPATK_SUB, PropertyId.PC.MAXPATK_SUB,
-				PropertyId.PC.CRTATK, PropertyId.PC.HR, PropertyId.PC.DR, PropertyId.PC.BLK_BREAK, PropertyId.PC.BLK, PropertyId.PC.RHP,
-				PropertyId.PC.RSP, PropertyId.PC.MHP, PropertyId.PC.MSP
+				"STR", "STR_STAT", "STR_JOB", "CON", "CON_STAT", "CON_JOB",
+				"INT", "INT_STAT", "INT_JOB", "MNA", "MNA_STAT", "MNA_JOB",
+				"DEX", "DEX_STAT", "DEX_JOB",
+				"UsedStat", "StatByLevel", "StatByBonus",
+				"MINPATK", "MAXPATK", "MINMATK", "MAXMATK", "MINPATK_SUB", "MAXPATK_SUB",
+				"CRTATK", "HR", "DR", "BLK_BREAK", "BLK", "RHP",
+				"RSP", "MHP", "MSP"
 			);
 		}
 
@@ -989,8 +989,8 @@ namespace Melia.Zone.World.Entities
 		{
 			var rnd = RandomProvider.Get();
 
-			var min = this.Properties.GetInt(PropertyId.PC.MINPATK);
-			var max = this.Properties.GetInt(PropertyId.PC.MAXPATK);
+			var min = (int)this.Properties.GetFloat("MINPATK");
+			var max = (int)this.Properties.GetFloat("MAXPATK");
 
 			return rnd.Next(min, max + 1);
 		}
@@ -1003,8 +1003,8 @@ namespace Melia.Zone.World.Entities
 		{
 			var rnd = RandomProvider.Get();
 
-			var min = this.Properties.GetInt(PropertyId.PC.MINMATK);
-			var max = this.Properties.GetInt(PropertyId.PC.MAXMATK);
+			var min = (int)this.Properties.GetFloat("MINMATK");
+			var max = (int)this.Properties.GetFloat("MAXMATK");
 
 			return rnd.Next(min, max + 1);
 		}
@@ -1029,18 +1029,18 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public void SendPCEtcProperties()
 		{
-			var pcEtcProps = new Properties();
-			pcEtcProps.Set(PropertyId.PCEtc.SkintoneName, "skintone2");
-			pcEtcProps.Set(PropertyId.PCEtc.StartHairName, "UnbalancedShortcut");
-			pcEtcProps.Set(PropertyId.PCEtc.LobbyMapID, this.MapId);
-			pcEtcProps.Set(PropertyId.PCEtc.RepresentationClassID, this.JobId.ToString());
-			pcEtcProps.Set(PropertyId.PCEtc.LastPlayDate, 20210728.000000f);
-			pcEtcProps.Set(PropertyId.PCEtc.CTRLTYPE_RESET_EXCEPT, 1f);
+			var pcEtcProps = new Properties("PCEtc");
+			pcEtcProps.SetString("SkintoneName", "skintone2");
+			pcEtcProps.SetString("StartHairName", "UnbalancedShortcut");
+			pcEtcProps.SetFloat("LobbyMapID", this.MapId);
+			pcEtcProps.SetString("RepresentationClassID", this.JobId.ToString());
+			pcEtcProps.SetFloat("LastPlayDate", 20210728.000000f);
+			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1f);
 
 			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
 
-			foreach (var property in pcEtcProps.GetAll())
-				this.Properties.Add(property);
+			//foreach (var property in pcEtcProps.GetAll())
+			//	this.Properties.Add(property);
 		}
 
 		/// <summary>

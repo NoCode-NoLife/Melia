@@ -29,7 +29,7 @@ namespace Melia.Zone.Buffs.Handlers
 			if (buff.OverbuffCounter <= 3)
 			{
 				var add = 3f;
-				target.Properties.Modify(PropertyId.PC.MSPD_BM, add);
+				target.Properties.Modify("MSPD_BM", add);
 
 				// Keep track of the changes we made to the speed buff
 				// property, to be able to reset it accurately once the
@@ -49,10 +49,10 @@ namespace Melia.Zone.Buffs.Handlers
 				//   but if we do that manually, couldn't we end up removing
 				//   more than we should in OnEnd, when the speed changes?
 
-				var mspd = target.Properties.GetFloat(PropertyId.PC.MSPD);
+				var mspd = target.Properties.GetFloat("MSPD");
 				var add = -mspd * 0.05f;
 
-				target.Properties.Modify(PropertyId.PC.MSPD_BM, add);
+				target.Properties.Modify("MSPD_BM", add);
 
 				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
 				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
@@ -72,7 +72,7 @@ namespace Melia.Zone.Buffs.Handlers
 			var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
 			target.Variables.Perm.Remove(ModifierVar);
 
-			target.Properties.Modify(PropertyId.PC.SPEED_BM, modifier);
+			target.Properties.Modify("SPEED_BM", modifier);
 
 			Send.ZC_MOVE_SPEED(target);
 		}

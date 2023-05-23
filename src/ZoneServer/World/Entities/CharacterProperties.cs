@@ -20,7 +20,7 @@ namespace Melia.Zone.World.Entities
 		/// Creates new instance for the character.
 		/// </summary>
 		/// <param name="character"></param>
-		public CharacterProperties(Character character)
+		public CharacterProperties(Character character) : base("PC")
 		{
 			this.Character = character;
 			this.AddDefaultProperties();
@@ -36,75 +36,75 @@ namespace Melia.Zone.World.Entities
 			// have min/max or non-default values. All others will be
 			// created with default values as needed on demand.
 
-			this.Add(new FloatProperty(PropertyId.PC.Lv, 1, min: 1));
+			this.Create(new FloatProperty("Lv", 1, min: 1));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR_ADD, this.GetSTR_ADD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.STR, this.GetSTR));
+			this.Create(new CFloatProperty("STR_ADD", this.GetSTR_ADD));
+			this.Create(new CFloatProperty("STR", this.GetSTR));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON_ADD, this.GetCON_ADD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CON, this.GetCON));
+			this.Create(new CFloatProperty("CON_ADD", this.GetCON_ADD));
+			this.Create(new CFloatProperty("CON", this.GetCON));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT_ADD, this.GetINT_ADD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.INT, this.GetINT));
+			this.Create(new CFloatProperty("INT_ADD", this.GetINT_ADD));
+			this.Create(new CFloatProperty("INT", this.GetINT));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA_ADD, this.GetMNA_ADD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MNA, this.GetMNA));
+			this.Create(new CFloatProperty("MNA_ADD", this.GetMNA_ADD));
+			this.Create(new CFloatProperty("MNA", this.GetMNA));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX_ADD, this.GetDEX_ADD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEX, this.GetDEX));
+			this.Create(new CFloatProperty("DEX_ADD", this.GetDEX_ADD));
+			this.Create(new CFloatProperty("DEX", this.GetDEX));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MHP, this.GetMHP));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MSP, this.GetMSP));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MaxSta, this.GetMaxSta));
+			this.Create(new CFloatProperty("MHP", this.GetMHP));
+			this.Create(new CFloatProperty("MSP", this.GetMSP));
+			this.Create(new CFloatProperty("MaxSta", this.GetMaxSta));
 
 			// Don't set a max value initially, as that could cap the HP
 			// during loading.
-			this.Add(new FloatProperty(PropertyId.PC.HP, this.GetMHP(), min: 0));
-			this.Add(new FloatProperty(PropertyId.PC.SP, this.GetMSP(), min: 0));
+			this.Create(new FloatProperty("HP", this.GetMHP(), min: 0));
+			this.Create(new FloatProperty("SP", this.GetMSP(), min: 0));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.RHP, this.GetRHP));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.RSP, this.GetRSP));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.RHPTIME, this.GetRHPTIME));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.RSPTIME, this.GetRSPTIME));
+			this.Create(new CFloatProperty("RHP", this.GetRHP));
+			this.Create(new CFloatProperty("RSP", this.GetRSP));
+			this.Create(new CFloatProperty("RHPTIME", this.GetRHPTIME));
+			this.Create(new CFloatProperty("RSPTIME", this.GetRSPTIME));
 
-			this.Add(new FloatProperty(PropertyId.PC.StatByLevel, min: 0));
-			this.Add(new FloatProperty(PropertyId.PC.StatByBonus, min: 0));
-			this.Add(new FloatProperty(PropertyId.PC.UsedStat, min: 0));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.StatPoint, this.GetStatPoint));
-			this.Add(new StringProperty(PropertyId.PC.AbilityPoint, "0")); // Why oh why did they make this a string >_>
+			this.Create(new FloatProperty("StatByLevel", min: 0));
+			this.Create(new FloatProperty("StatByBonus", min: 0));
+			this.Create(new FloatProperty("UsedStat", min: 0));
+			this.Create(new CFloatProperty("StatPoint", this.GetStatPoint));
+			this.Create(new StringProperty("AbilityPoint", "0")); // Why oh why did they make this a string >_>
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK, this.GetMAXPATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK, this.GetMINPATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXMATK, this.GetMAXMATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINMATK, this.GetMINMATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MAXPATK_SUB, this.GetMAXPATK_SUB));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MINPATK_SUB, this.GetMINPATK_SUB));
+			this.Create(new CFloatProperty("MAXPATK", this.GetMAXPATK));
+			this.Create(new CFloatProperty("MINPATK", this.GetMINPATK));
+			this.Create(new CFloatProperty("MAXMATK", this.GetMAXMATK));
+			this.Create(new CFloatProperty("MINMATK", this.GetMINMATK));
+			this.Create(new CFloatProperty("MAXPATK_SUB", this.GetMAXPATK_SUB));
+			this.Create(new CFloatProperty("MINPATK_SUB", this.GetMINPATK_SUB));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.DEF, this.GetDEF));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MDEF, this.GetMDEF));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTATK, this.GetCRTATK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTHR, this.GetCRTHR));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CRTDR, this.GetCRTDR));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.HR, this.GetHR));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.DR, this.GetDR));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.BLK, this.GetBLK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.BLK_BREAK, this.GetBLK_BREAK));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.SR, this.GetSR));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.SDR, this.GetSDR));
+			this.Create(new CFloatProperty("DEF", this.GetDEF));
+			this.Create(new CFloatProperty("MDEF", this.GetMDEF));
+			this.Create(new CFloatProperty("CRTATK", this.GetCRTATK));
+			this.Create(new CFloatProperty("CRTHR", this.GetCRTHR));
+			this.Create(new CFloatProperty("CRTDR", this.GetCRTDR));
+			this.Create(new CFloatProperty("HR", this.GetHR));
+			this.Create(new CFloatProperty("DR", this.GetDR));
+			this.Create(new CFloatProperty("BLK", this.GetBLK));
+			this.Create(new CFloatProperty("BLK_BREAK", this.GetBLK_BREAK));
+			this.Create(new CFloatProperty("SR", this.GetSR));
+			this.Create(new CFloatProperty("SDR", this.GetSDR));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MaxWeight, this.GetMaxWeight));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.NowWeight, this.GetNowWeight));
+			this.Create(new CFloatProperty("MaxWeight", this.GetMaxWeight));
+			this.Create(new CFloatProperty("NowWeight", this.GetNowWeight));
 
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.MSPD, this.GetMSPD));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.JumpPower, this.GetJumpPower));
-			this.Add(new CalculatedFloatProperty(PropertyId.PC.CastingSpeed, this.GetCastingSpeed));
+			this.Create(new CFloatProperty("MSPD", this.GetMSPD));
+			this.Create(new CFloatProperty("JumpPower", this.GetJumpPower));
+			this.Create(new CFloatProperty("CastingSpeed", this.GetCastingSpeed));
 
-			this.Add(new FloatProperty(PropertyId.PC.MovingShotable, 0));
-			this.Add(new FloatProperty(PropertyId.PC.HPDrain, 2));
-			this.Add(new FloatProperty(PropertyId.PC.BOOST, 1));
-			this.Add(new FloatProperty(PropertyId.PC.Const, 1.909859f));
-			this.Add(new FloatProperty(PropertyId.PC.CAST, 1));
-			this.Add(new FloatProperty(PropertyId.PC.Sta_Jump, 1000));
+			this.Create(new FloatProperty("MovingShotable", 0));
+			this.Create(new FloatProperty("HPDrain", 2));
+			this.Create(new FloatProperty("BOOST", 1));
+			this.Create(new FloatProperty("Const", 1.909859f));
+			this.Create(new FloatProperty("CAST", 1));
+			this.Create(new FloatProperty("Sta_Jump", 1000));
 		}
 
 		/// <summary>
@@ -116,30 +116,30 @@ namespace Melia.Zone.World.Entities
 		/// </remarks>
 		public void InitAutoUpdates()
 		{
-			this.AutoUpdate(PropertyId.PC.STR, new[] { PropertyId.PC.Lv, PropertyId.PC.STR_ADD, PropertyId.PC.STR_STAT, PropertyId.PC.STR_JOB });
-			this.AutoUpdate(PropertyId.PC.CON, new[] { PropertyId.PC.Lv, PropertyId.PC.CON_ADD, PropertyId.PC.CON_STAT, PropertyId.PC.CON_JOB });
-			this.AutoUpdate(PropertyId.PC.INT, new[] { PropertyId.PC.Lv, PropertyId.PC.INT_ADD, PropertyId.PC.INT_STAT, PropertyId.PC.INT_JOB });
-			this.AutoUpdate(PropertyId.PC.MNA, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA_ADD, PropertyId.PC.MNA_STAT, PropertyId.PC.MNA_JOB });
-			this.AutoUpdate(PropertyId.PC.DEX, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX_ADD, PropertyId.PC.DEX_STAT, PropertyId.PC.DEX_JOB });
-			this.AutoUpdate(PropertyId.PC.MHP, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.MHP_BM, PropertyId.PC.MHP_Bonus });
-			this.AutoUpdate(PropertyId.PC.MSP, new[] { PropertyId.PC.Lv, PropertyId.PC.MNA, PropertyId.PC.MSP_BM, PropertyId.PC.MSP_Bonus });
-			this.AutoUpdate(PropertyId.PC.StatPoint, new[] { PropertyId.PC.StatByLevel, PropertyId.PC.StatByBonus, PropertyId.PC.UsedStat });
-			this.AutoUpdate(PropertyId.PC.MSPD, new[] { PropertyId.PC.MSPD_BM, PropertyId.PC.MSPD_Bonus });
-			this.AutoUpdate(PropertyId.PC.CastingSpeed, new[] { PropertyId.PC.CastingSpeed_BM });
-			this.AutoUpdate(PropertyId.PC.DEF, new[] { PropertyId.PC.Lv, PropertyId.PC.DEF_BM, PropertyId.PC.DEF_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.MDEF, new[] { PropertyId.PC.Lv, PropertyId.PC.MDEF_BM, PropertyId.PC.MDEF_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.CRTATK, new[] { PropertyId.PC.CRTATK_BM });
-			this.AutoUpdate(PropertyId.PC.CRTHR, new[] { PropertyId.PC.Lv, PropertyId.PC.CRTHR_BM });
-			this.AutoUpdate(PropertyId.PC.CRTDR, new[] { PropertyId.PC.Lv, PropertyId.PC.CRTDR_BM });
-			this.AutoUpdate(PropertyId.PC.HR, new[] { PropertyId.PC.Lv, PropertyId.PC.STR, PropertyId.PC.HR_BM, PropertyId.PC.HR_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.DR, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX, PropertyId.PC.DR_BM, PropertyId.PC.DR_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.BLK, new[] { PropertyId.PC.Lv, PropertyId.PC.CON, PropertyId.PC.BLK_BM, PropertyId.PC.BLK_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.BLK_BREAK, new[] { PropertyId.PC.Lv, PropertyId.PC.DEX, PropertyId.PC.BLK_BREAK_BM, PropertyId.PC.BLK_BREAK_RATE_BM });
-			this.AutoUpdate(PropertyId.PC.SR, new[] { PropertyId.PC.SR_BM });
-			this.AutoUpdate(PropertyId.PC.SDR, new[] { PropertyId.PC.SDR_BM });
+			this.AutoUpdate("STR", new[] { "Lv", "STR_ADD", "STR_STAT", "STR_JOB" });
+			this.AutoUpdate("CON", new[] { "Lv", "CON_ADD", "CON_STAT", "CON_JOB" });
+			this.AutoUpdate("INT", new[] { "Lv", "INT_ADD", "INT_STAT", "INT_JOB" });
+			this.AutoUpdate("MNA", new[] { "Lv", "MNA_ADD", "MNA_STAT", "MNA_JOB" });
+			this.AutoUpdate("DEX", new[] { "Lv", "DEX_ADD", "DEX_STAT", "DEX_JOB" });
+			this.AutoUpdate("MHP", new[] { "Lv", "CON", "MHP_BM", "MHP_Bonus" });
+			this.AutoUpdate("MSP", new[] { "Lv", "MNA", "MSP_BM", "MSP_Bonus" });
+			this.AutoUpdate("StatPoint", new[] { "StatByLevel", "StatByBonus", "UsedStat" });
+			this.AutoUpdate("MSPD", new[] { "MSPD_BM", "MSPD_Bonus" });
+			this.AutoUpdate("CastingSpeed", new[] { "CastingSpeed_BM" });
+			this.AutoUpdate("DEF", new[] { "Lv", "DEF_BM", "DEF_RATE_BM" });
+			this.AutoUpdate("MDEF", new[] { "Lv", "MDEF_BM", "MDEF_RATE_BM" });
+			this.AutoUpdate("CRTATK", new[] { "CRTATK_BM" });
+			this.AutoUpdate("CRTHR", new[] { "Lv", "CRTHR_BM" });
+			this.AutoUpdate("CRTDR", new[] { "Lv", "CRTDR_BM" });
+			this.AutoUpdate("HR", new[] { "Lv", "STR", "HR_BM", "HR_RATE_BM" });
+			this.AutoUpdate("DR", new[] { "Lv", "DEX", "DR_BM", "DR_RATE_BM" });
+			this.AutoUpdate("BLK", new[] { "Lv", "CON", "BLK_BM", "BLK_RATE_BM" });
+			this.AutoUpdate("BLK_BREAK", new[] { "Lv", "DEX", "BLK_BREAK_BM", "BLK_BREAK_RATE_BM" });
+			this.AutoUpdate("SR", new[] { "SR_BM" });
+			this.AutoUpdate("SDR", new[] { "SDR_BM" });
 
-			this.AutoUpdateMax(PropertyId.PC.HP, PropertyId.PC.MHP);
-			this.AutoUpdateMax(PropertyId.PC.SP, PropertyId.PC.MSP);
+			this.AutoUpdateMax("HP", "MHP");
+			this.AutoUpdateMax("SP", "MSP");
 		}
 
 		/// <summary>
@@ -159,10 +159,10 @@ namespace Melia.Zone.World.Entities
 		/// <param name="character"></param>
 		private void UpdateRecoveryTimes(Character character)
 		{
-			this.Calculate(PropertyId.PC.RHPTIME);
-			this.Calculate(PropertyId.PC.RSPTIME);
+			this.CFloat("RHPTIME").Recalculate();
+			this.CFloat("RSPTIME").Recalculate();
 
-			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyId.PC.RHPTIME, PropertyId.PC.RSPTIME);
+			Send.ZC_OBJECT_PROPERTY(this.Character, "RHPTIME", "RSPTIME");
 		}
 
 		/// <summary>
@@ -170,22 +170,22 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMHP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.CON, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("CON", 1);
 
 			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
 			var byJob = Math.Floor(400 * rateByJob);
 
 			var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
 			var byStat = Math.Floor(((stat * 0.003f) + (Math.Floor(stat / 10.0f) * 0.01f)) * byLevel);
-			var byItem = this.Character.Inventory.GetEquipProperties(PropertyId.Item.MHP);
-			var byItemRatio = (byLevel + byStat) * (this.Character.Inventory.GetEquipProperties(PropertyId.Item.MHPRatio) / 100f);
-			var byBonus = this.GetFloat(PropertyId.PC.MHP_Bonus);
+			var byItem = this.Character.Inventory.GetEquipProperties("MHP");
+			var byItemRatio = (byLevel + byStat) * (this.Character.Inventory.GetEquipProperties("MHPRatio") / 100f);
+			var byBonus = this.GetFloat("MHP_Bonus");
 
 			var value = byLevel + byStat + byItem + byItemRatio + byBonus;
 
-			var byBuffs = this.GetFloat(PropertyId.PC.MHP_BM);
-			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyId.PC.MHP_RATE_BM));
+			var byBuffs = this.GetFloat("MHP_BM");
+			var byBuffRate = Math.Floor(value * this.GetFloat("MHP_RATE_BM"));
 
 			value += byBuffs + byBuffRate;
 
@@ -197,21 +197,21 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMSP()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.MNA, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("MNA", 1);
 
 			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
 			var byJob = Math.Floor(200 * rateByJob);
 
 			var byLevel = Math.Floor(byJob + ((level - 1) * 18 * rateByJob));
 			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-			var byItem = this.Character.Inventory.GetEquipProperties(PropertyId.Item.MSP);
-			var byBonus = this.GetFloat(PropertyId.PC.MSP_Bonus);
+			var byItem = this.Character.Inventory.GetEquipProperties("MSP");
+			var byBonus = this.GetFloat("MSP_Bonus");
 
 			var value = byLevel + byStat + byItem + byBonus;
 
-			var byBuffs = this.GetFloat(PropertyId.PC.MSP_BM);
-			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyId.PC.MSP_RATE_BM));
+			var byBuffs = this.GetFloat("MSP_BM");
+			var byBuffRate = Math.Floor(value * this.GetFloat("MSP_RATE_BM"));
 
 			value += byBuffs + byBuffRate;
 
@@ -231,7 +231,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's maximum stamina (PC.MaxSta).
 		/// </summary>
-		public int MaxStamina => (int)this.GetFloat(PropertyId.PC.MaxSta);
+		public int MaxStamina => (int)this.GetFloat("MaxSta");
 
 		/// <summary>
 		/// Returns the character's maximum stamina.
@@ -247,12 +247,12 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetRHP()
 		{
-			var mhp = this.GetFloat(PropertyId.PC.MHP, 1);
+			var mhp = this.GetFloat("MHP", 1);
 			var jobHpRate = this.Character.Job?.Data.RHpRate ?? 1;
 
 			var byDefault = Math.Floor(mhp / 100f * jobHpRate);
-			var byItems = this.Character.Inventory.GetEquipProperties(PropertyId.Item.RHP);
-			var byBuffs = this.GetFloat(PropertyId.PC.RHP_BM);
+			var byItems = this.Character.Inventory.GetEquipProperties("RHP");
+			var byBuffs = this.GetFloat("RHP_BM");
 
 			var value = (byDefault + byItems + byBuffs);
 			return (float)Math.Max(0, value);
@@ -270,8 +270,8 @@ namespace Melia.Zone.World.Entities
 			var defaultTime = 20000;
 
 			// Item.RHPTIME doesn't exist?
-			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties(PropertyId.Item.RHPTIME));
-			var byBuffs = this.GetFloat(PropertyId.PC.RHPTIME_BM);
+			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties("RHPTIME"));
+			var byBuffs = this.GetFloat("RHPTIME_BM");
 
 			var value = defaultTime - byItems - byBuffs;
 
@@ -286,12 +286,12 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetRSP()
 		{
-			var mhp = this.GetFloat(PropertyId.PC.MSP, 1);
+			var mhp = this.GetFloat("MSP", 1);
 			var jobSpRate = this.Character.Job?.Data.RSpRate ?? 1;
 
 			var byDefault = Math.Floor(mhp * 0.03f * jobSpRate);
-			var byItems = this.Character.Inventory.GetEquipProperties(PropertyId.Item.RSP);
-			var byBuffs = this.GetFloat(PropertyId.PC.RSP_BM);
+			var byItems = this.Character.Inventory.GetEquipProperties("RSP");
+			var byBuffs = this.GetFloat("RSP_BM");
 
 			var value = (byDefault + byItems + byBuffs);
 			return (float)Math.Max(0, value);
@@ -304,8 +304,8 @@ namespace Melia.Zone.World.Entities
 		{
 			var defaultTime = 20000;
 
-			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties(PropertyId.Item.RSPTIME));
-			var byBuffs = this.GetFloat(PropertyId.PC.RSPTIME_BM);
+			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties("RSPTIME"));
+			var byBuffs = this.GetFloat("RSPTIME_BM");
 
 			var value = defaultTime - byItems - byBuffs;
 
@@ -336,9 +336,9 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetStatPoint()
 		{
-			var byLevel = (int)this.GetFloat(PropertyId.PC.StatByLevel);
-			var byBonus = (int)this.GetFloat(PropertyId.PC.StatByBonus);
-			var usedStat = (int)this.GetFloat(PropertyId.PC.UsedStat);
+			var byLevel = (int)this.GetFloat("StatByLevel");
+			var byBonus = (int)this.GetFloat("StatByBonus");
+			var usedStat = (int)this.GetFloat("UsedStat");
 
 			return (byLevel + byBonus - usedStat);
 		}
@@ -367,18 +367,18 @@ namespace Melia.Zone.World.Entities
 		/// <returns></returns>
 		public float GetSTR()
 		{
-			var defaultStat = this.GetFloat(PropertyId.PC.STR_JOB);
+			var defaultStat = this.GetFloat("STR_JOB");
 
 			var byJob = 0f;
 			var jobs = this.Character.Jobs.GetList();
 			foreach (var job in jobs)
 				byJob += job.Data.StrRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+			byJob = (float)Math.Floor((this.GetFloat("Lv") - 1) * (byJob / jobs.Length / 100f));
 
-			var byStat = this.GetFloat(PropertyId.PC.STR_STAT);
-			var byBonus = this.GetFloat(PropertyId.PC.STR_Bonus);
-			var byAdd = this.GetFloat(PropertyId.PC.STR_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyId.PC.STR_TEMP);
+			var byStat = this.GetFloat("STR_STAT");
+			var byBonus = this.GetFloat("STR_Bonus");
+			var byAdd = this.GetFloat("STR_ADD");
+			var byTemp = 0; // this.GetFloat("STR_TEMP");
 
 			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
@@ -409,18 +409,18 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetCON()
 		{
-			var defaultStat = this.GetFloat(PropertyId.PC.CON_JOB);
+			var defaultStat = this.GetFloat("CON_JOB");
 
 			var byJob = 0f;
 			var jobs = this.Character.Jobs.GetList();
 			foreach (var job in jobs)
 				byJob += job.Data.ConRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+			byJob = (float)Math.Floor((this.GetFloat("Lv") - 1) * (byJob / jobs.Length / 100f));
 
-			var byStat = this.GetFloat(PropertyId.PC.CON_STAT);
-			var byBonus = this.GetFloat(PropertyId.PC.CON_Bonus);
-			var byAdd = this.GetFloat(PropertyId.PC.CON_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyId.PC.CON_TEMP);
+			var byStat = this.GetFloat("CON_STAT");
+			var byBonus = this.GetFloat("CON_Bonus");
+			var byAdd = this.GetFloat("CON_ADD");
+			var byTemp = 0; // this.GetFloat("CON_TEMP");
 
 			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
@@ -451,18 +451,18 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetINT()
 		{
-			var defaultStat = this.GetFloat(PropertyId.PC.INT_JOB);
+			var defaultStat = this.GetFloat("INT_JOB");
 
 			var byJob = 0f;
 			var jobs = this.Character.Jobs.GetList();
 			foreach (var job in jobs)
 				byJob += job.Data.IntRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+			byJob = (float)Math.Floor((this.GetFloat("Lv") - 1) * (byJob / jobs.Length / 100f));
 
-			var byStat = this.GetFloat(PropertyId.PC.INT_STAT);
-			var byBonus = this.GetFloat(PropertyId.PC.INT_Bonus);
-			var byAdd = this.GetFloat(PropertyId.PC.INT_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyId.PC.INT_TEMP);
+			var byStat = this.GetFloat("INT_STAT");
+			var byBonus = this.GetFloat("INT_Bonus");
+			var byAdd = this.GetFloat("INT_ADD");
+			var byTemp = 0; // this.GetFloat("INT_TEMP");
 
 			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
@@ -493,18 +493,18 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMNA()
 		{
-			var defaultStat = this.GetFloat(PropertyId.PC.MNA_JOB);
+			var defaultStat = this.GetFloat("MNA_JOB");
 
 			var byJob = 0f;
 			var jobs = this.Character.Jobs.GetList();
 			foreach (var job in jobs)
 				byJob += job.Data.SprRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+			byJob = (float)Math.Floor((this.GetFloat("Lv") - 1) * (byJob / jobs.Length / 100f));
 
-			var byStat = this.GetFloat(PropertyId.PC.MNA_STAT);
-			var byBonus = this.GetFloat(PropertyId.PC.MNA_Bonus);
-			var byAdd = this.GetFloat(PropertyId.PC.MNA_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyId.PC.MNA_TEMP);
+			var byStat = this.GetFloat("MNA_STAT");
+			var byBonus = this.GetFloat("MNA_Bonus");
+			var byAdd = this.GetFloat("MNA_ADD");
+			var byTemp = 0; // this.GetFloat("MNA_TEMP");
 
 			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
@@ -535,18 +535,18 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetDEX()
 		{
-			var defaultStat = this.GetFloat(PropertyId.PC.DEX_JOB);
+			var defaultStat = this.GetFloat("DEX_JOB");
 
 			var byJob = 0f;
 			var jobs = this.Character.Jobs.GetList();
 			foreach (var job in jobs)
 				byJob += job.Data.DexRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyId.PC.Lv) - 1) * (byJob / jobs.Length / 100f));
+			byJob = (float)Math.Floor((this.GetFloat("Lv") - 1) * (byJob / jobs.Length / 100f));
 
-			var byStat = this.GetFloat(PropertyId.PC.DEX_STAT);
-			var byBonus = this.GetFloat(PropertyId.PC.DEX_Bonus);
-			var byAdd = this.GetFloat(PropertyId.PC.DEX_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyId.PC.DEX_TEMP);
+			var byStat = this.GetFloat("DEX_STAT");
+			var byBonus = this.GetFloat("DEX_Bonus");
+			var byAdd = this.GetFloat("DEX_ADD");
+			var byTemp = 0; // this.GetFloat("DEX_TEMP");
 
 			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
@@ -559,8 +559,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMINPATK()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.STR, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("STR", 1);
 
 			var baseValue = 20;
 			var byLevel = level;
@@ -568,23 +568,23 @@ namespace Melia.Zone.World.Entities
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MINATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.PATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MINATK);
+			byItem += this.Character.Inventory.GetEquipProperties("MINATK");
+			byItem += this.Character.Inventory.GetEquipProperties("PATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MINATK");
 
 			var value = (baseValue + byLevel + byStat + byItem);
 
 			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyId.PC.PATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MINPATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MINPATK_MAIN_BM);
+			byBuffs += this.GetFloat("PATK_BM");
+			byBuffs += this.GetFloat("MINPATK_BM");
+			byBuffs += this.GetFloat("PATK_MAIN_BM");
+			byBuffs += this.GetFloat("MINPATK_MAIN_BM");
 
 			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MINPATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MINPATK_MAIN_RATE_BM);
+			byRateBuffs += this.GetFloat("PATK_RATE_BM");
+			byRateBuffs += this.GetFloat("MINPATK_RATE_BM");
+			byRateBuffs += this.GetFloat("PATK_MAIN_RATE_BM");
+			byRateBuffs += this.GetFloat("MINPATK_MAIN_RATE_BM");
 			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
@@ -598,8 +598,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMAXPATK()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.STR, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("STR", 1);
 
 			var baseValue = 20;
 			var byLevel = level;
@@ -607,23 +607,23 @@ namespace Melia.Zone.World.Entities
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MAXATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.PATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MAXATK);
+			byItem += this.Character.Inventory.GetEquipProperties("MAXATK");
+			byItem += this.Character.Inventory.GetEquipProperties("PATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MAXATK");
 
 			var value = (baseValue + byLevel + byStat + byItem);
 
 			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyId.PC.PATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MAXPATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MAXPATK_MAIN_BM);
+			byBuffs += this.GetFloat("PATK_BM");
+			byBuffs += this.GetFloat("MAXPATK_BM");
+			byBuffs += this.GetFloat("PATK_MAIN_BM");
+			byBuffs += this.GetFloat("MAXPATK_MAIN_BM");
 
 			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MAXPATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.PATK_MAIN_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MAXPATK_MAIN_RATE_BM);
+			byRateBuffs += this.GetFloat("PATK_RATE_BM");
+			byRateBuffs += this.GetFloat("MAXPATK_RATE_BM");
+			byRateBuffs += this.GetFloat("PATK_MAIN_RATE_BM");
+			byRateBuffs += this.GetFloat("MAXPATK_MAIN_RATE_BM");
 			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
@@ -637,8 +637,8 @@ namespace Melia.Zone.World.Entities
 		public float GetMINPATK_SUB()
 		{
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.STR);
+			var level = this.GetFloat("Lv");
+			var stat = this.GetFloat("STR");
 
 			var byLevel = level / 2f;
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
@@ -675,8 +675,8 @@ namespace Melia.Zone.World.Entities
 		public float GetMAXPATK_SUB()
 		{
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.STR);
+			var level = this.GetFloat("Lv");
+			var stat = this.GetFloat("STR");
 
 			var byLevel = level / 2f;
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
@@ -708,8 +708,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMINMATK()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.INT, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("INT", 1);
 
 			var baseValue = 20;
 			var byLevel = level;
@@ -717,19 +717,19 @@ namespace Melia.Zone.World.Entities
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MINATK);
+			byItem += this.Character.Inventory.GetEquipProperties("MATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MINATK");
 
 			var value = (baseValue + byLevel + byStat + byItem);
 
 			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyId.PC.MATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MINMATK_BM);
+			byBuffs += this.GetFloat("MATK_BM");
+			byBuffs += this.GetFloat("MINMATK_BM");
 
 			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyId.PC.MATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MINMATK_RATE_BM);
+			byRateBuffs += this.GetFloat("MATK_RATE_BM");
+			byRateBuffs += this.GetFloat("MINMATK_RATE_BM");
 			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
@@ -743,8 +743,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetMAXMATK()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv, 1);
-			var stat = this.GetFloat(PropertyId.PC.INT, 1);
+			var level = this.GetFloat("Lv", 1);
+			var stat = this.GetFloat("INT", 1);
 
 			var baseValue = 20;
 			var byLevel = level;
@@ -752,19 +752,19 @@ namespace Melia.Zone.World.Entities
 			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.MATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MATK);
-			byItem += this.Character.Inventory.GetEquipProperties(PropertyId.Item.ADD_MAXATK);
+			byItem += this.Character.Inventory.GetEquipProperties("MATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MATK");
+			byItem += this.Character.Inventory.GetEquipProperties("ADD_MAXATK");
 
 			var value = (baseValue + byLevel + byStat + byItem);
 
 			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyId.PC.MATK_BM);
-			byBuffs += this.GetFloat(PropertyId.PC.MINMATK_BM);
+			byBuffs += this.GetFloat("MATK_BM");
+			byBuffs += this.GetFloat("MINMATK_BM");
 
 			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyId.PC.MATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyId.PC.MINMATK_RATE_BM);
+			byRateBuffs += this.GetFloat("MATK_RATE_BM");
+			byRateBuffs += this.GetFloat("MINMATK_RATE_BM");
 			byRateBuffs = (value * byRateBuffs);
 
 			value += byBuffs + byRateBuffs;
@@ -778,7 +778,7 @@ namespace Melia.Zone.World.Entities
 		public float GetDEF()
 		{
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
+			var level = this.GetFloat("Lv");
 
 			var byLevel = level;
 			var byItem = 0f; // TODO: "DEF" "DEF_Rate"
@@ -803,7 +803,7 @@ namespace Melia.Zone.World.Entities
 		public float GetMDEF()
 		{
 			var baseValue = 20;
-			var level = this.GetFloat(PropertyId.PC.Lv);
+			var level = this.GetFloat("Lv");
 
 			var byLevel = level;
 			var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
@@ -827,7 +827,7 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetCRTATK()
 		{
-			var stat = this.GetFloat(PropertyId.PC.DEX);
+			var stat = this.GetFloat("DEX");
 
 			var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
 			var byItem = 0; // TODO
@@ -851,7 +851,7 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetCRTHR()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
+			var level = this.GetFloat("Lv");
 
 			var byLevel = level / 2f;
 			var byItem = 0; // TODO
@@ -875,7 +875,7 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetCRTDR()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
+			var level = this.GetFloat("Lv");
 
 			var byLevel = level / 2f;
 			var byItem = 0; // TODO
@@ -899,8 +899,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetHR()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.STR);
+			var level = this.GetFloat("Lv");
+			var stat = this.GetFloat("STR");
 
 			var byLevel = level / 4f;
 			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
@@ -925,8 +925,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetDR()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.DEX);
+			var level = this.GetFloat("Lv");
+			var stat = this.GetFloat("DEX");
 
 			var byLevel = level / 4f;
 			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
@@ -956,8 +956,8 @@ namespace Melia.Zone.World.Entities
 			if (this.Character.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 != EquipType.Shield)
 				return 0;
 
-			var Level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.CON);
+			var Level = this.GetFloat("Lv");
+			var stat = this.GetFloat("CON");
 
 			var byLevel = Level / 4f;
 			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
@@ -982,8 +982,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public float GetBLK_BREAK()
 		{
-			var level = this.GetFloat(PropertyId.PC.Lv);
-			var stat = this.GetFloat(PropertyId.PC.DEX);
+			var level = this.GetFloat("Lv");
+			var stat = this.GetFloat("DEX");
 
 			var byLevel = level / 4f;
 			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
@@ -1052,8 +1052,8 @@ namespace Melia.Zone.World.Entities
 		private float GetMSPD()
 		{
 			var byDefault = 30;
-			var byBuff = this.GetFloat(PropertyId.PC.MSPD_BM);
-			var byBonus = this.GetFloat(PropertyId.PC.MSPD_Bonus);
+			var byBuff = this.GetFloat("MSPD_BM");
+			var byBonus = this.GetFloat("MSPD_Bonus");
 
 			return (byDefault + byBuff + byBonus);
 		}
@@ -1075,7 +1075,7 @@ namespace Melia.Zone.World.Entities
 		public float GetCastingSpeed()
 		{
 			var byDefault = 100;
-			var byBuff = this.GetFloat(PropertyId.PC.CastingSpeed_BM);
+			var byBuff = this.GetFloat("CastingSpeed_BM");
 
 			var result = byDefault + byBuff;
 			return (float)Math.Floor(Math2.Clamp(10, 200, result));

@@ -21,8 +21,8 @@ namespace Melia.Zone.Buffs.Handlers
 			var target = (Character)buff.Target;
 
 			// Increase movement speed and add stamina usage over time
-			target.Properties.Modify(PropertyId.PC.MSPD_BM, 10);
-			target.Properties.Modify(PropertyId.PC.Sta_Run, 500);
+			target.Properties.Modify("MSPD_BM", 10);
+			target.Properties.Modify("Sta_Run", 500);
 
 			Send.ZC_MOVE_SPEED(target);
 		}
@@ -35,8 +35,8 @@ namespace Melia.Zone.Buffs.Handlers
 		{
 			var target = (Character)buff.Target;
 
-			target.Properties.Modify(PropertyId.PC.MSPD_BM, -10);
-			target.Properties.Modify(PropertyId.PC.Sta_Run, -500);
+			target.Properties.Modify("MSPD_BM", -10);
+			target.Properties.Modify("Sta_Run", -500);
 
 			Send.ZC_MOVE_SPEED(target);
 		}

@@ -27,7 +27,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Returns the item's properties.
 		/// </summary>
-		public Properties Properties { get; } = new Properties();
+		public Properties Properties { get; } = new Properties("Item");
 
 		/// <summary>
 		/// Creates new instance.

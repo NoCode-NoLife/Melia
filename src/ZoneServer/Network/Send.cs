@@ -156,15 +156,15 @@ namespace Melia.Zone.Network
 		/// <param name="sessionObject"></param>
 		public static void ZC_SESSION_OBJ_ADD(IZoneConnection conn, SessionObject sessionObject)
 		{
-			var properties = sessionObject.Properties.GetAll();
-			var propertiesSize = sessionObject.Properties.Size;
+			var propertyList = sessionObject.Properties.GetAll();
+			var propertiesSize = propertyList.GetSize();
 
 			var packet = new Packet(Op.ZC_SESSION_OBJ_ADD);
 			packet.PutInt(sessionObject.Id);
 			packet.PutInt(propertiesSize);
 			packet.PutLong(sessionObject.ObjectId);
 			packet.PutInt(0);
-			packet.AddProperties(properties);
+			packet.AddProperties(propertyList);
 			packet.PutInt(sessionObject.Id);
 
 			conn.Send(packet);
@@ -655,8 +655,8 @@ namespace Melia.Zone.Network
 
 			foreach (var ability in abilities)
 			{
-				var properties = ability.Properties.GetAll();
-				var propertiesSize = ability.Properties.Size;
+				var propertyList = ability.Properties.GetAll();
+				var propertiesSize = propertyList.GetSize();
 
 				packet.PutLong(ability.ObjectId);
 				packet.PutInt(ability.Id);
@@ -664,7 +664,7 @@ namespace Melia.Zone.Network
 				packet.PutShort(0);
 
 				if (propertiesSize > 0)
-					packet.AddProperties(properties);
+					packet.AddProperties(propertyList);
 				else
 					packet.PutInt(0);
 			}
@@ -702,7 +702,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_CASTING_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Properties.GetFloat(PropertyId.PC.CastingSpeed));
+			packet.PutFloat(character.Properties.GetFloat("CastingSpeed"));
 			packet.PutLong(character.Id);
 
 			character.Map.Broadcast(packet, character);
@@ -724,8 +724,8 @@ namespace Melia.Zone.Network
 			{
 				foreach (var item in items)
 				{
-					var properties = item.Value.Properties.GetAll();
-					var propertiesSize = item.Value.Properties.Size;
+					var propertyList = item.Value.Properties.GetAll();
+					var propertiesSize = propertyList.GetSize();
 
 					zpacket.PutInt(item.Value.Id);
 					zpacket.PutShort(propertiesSize);
@@ -735,7 +735,7 @@ namespace Melia.Zone.Network
 					zpacket.PutInt(item.Value.Price);
 					zpacket.PutInt(item.Key);
 					zpacket.PutInt(1);
-					zpacket.AddProperties(properties);
+					zpacket.AddProperties(propertyList);
 				}
 			});
 
@@ -761,8 +761,8 @@ namespace Melia.Zone.Network
 			{
 				foreach (var item in items)
 				{
-					var properties = item.Value.Properties.GetAll();
-					var propertiesSize = item.Value.Properties.Size;
+					var propertyList = item.Value.Properties.GetAll();
+					var propertiesSize = propertyList.GetSize();
 
 					zpacket.PutInt(item.Value.Id);
 					zpacket.PutShort(propertiesSize);
@@ -772,7 +772,7 @@ namespace Melia.Zone.Network
 					zpacket.PutInt(item.Value.Price);
 					zpacket.PutInt(0);
 					zpacket.PutInt(item.Key);
-					zpacket.AddProperties(properties);
+					zpacket.AddProperties(propertyList);
 
 					if (item.Value.ObjectId != 0)
 					{
@@ -801,8 +801,8 @@ namespace Melia.Zone.Network
 
 			foreach (var equipItem in equip)
 			{
-				var properties = equipItem.Value.Properties.GetAll();
-				var propertiesSize = equipItem.Value.Properties.Size;
+				var propertyList = equipItem.Value.Properties.GetAll();
+				var propertiesSize = propertyList.GetSize();
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutShort(propertiesSize);
@@ -812,7 +812,7 @@ namespace Melia.Zone.Network
 				packet.PutEmptyBin(3);
 				packet.PutInt(0);
 				packet.PutShort(0);
-				packet.AddProperties(properties);
+				packet.AddProperties(propertyList);
 
 				if (equipItem.Value.ObjectId != 0)
 				{
@@ -975,7 +975,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_JUMP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Properties.GetFloat(PropertyId.PC.JumpPower));
+			packet.PutFloat(character.Properties.GetFloat("JumpPower"));
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(0);  // 1 or 0
 			packet.PutPosition(pos);
@@ -1107,11 +1107,11 @@ namespace Melia.Zone.Network
 			// otherwise the client crashes. Let's catch this here for the
 			// moment, as it seems to be an issue exclusive to this packet,
 			// and maybe we'll figure out why exactly it happens.
-			var properties = item.Properties.GetAll();
-			if (properties.Length == 0)
-				properties = new[] { new FloatProperty(PropertyId.Item.CoolDown, 0) };
+			var propertyList = item.Properties.GetAll();
+			if (propertyList.Count == 0)
+				propertyList.Add(new FloatProperty("CoolDown", 0));
 
-			var propertiesSize = properties.Sum(a => a.Size);
+			var propertiesSize = propertyList.GetSize();
 
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
@@ -1126,7 +1126,7 @@ namespace Melia.Zone.Network
 			packet.PutByte(0); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.AddProperties(properties);
+			packet.AddProperties(propertyList);
 
 			if (item.ObjectId != 0)
 			{
@@ -1266,7 +1266,6 @@ namespace Melia.Zone.Network
 		/// Updates all of character's  properties.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="properties"></param>
 		public static void ZC_OBJECT_PROPERTY(Character character)
 		{
 			ZC_OBJECT_PROPERTY(character.Connection, character);
@@ -1276,10 +1275,10 @@ namespace Melia.Zone.Network
 		/// Updates character's given properties.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="properties"></param>
-		public static void ZC_OBJECT_PROPERTY(Character character, params int[] properties)
+		/// <param name="propertyNames"></param>
+		public static void ZC_OBJECT_PROPERTY(Character character, params string[] propertyNames)
 		{
-			ZC_OBJECT_PROPERTY(character.Connection, character, properties);
+			ZC_OBJECT_PROPERTY(character.Connection, character, propertyNames);
 		}
 
 		/// <summary>
@@ -1304,23 +1303,23 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="obj"></param>
-		/// <param name="propertyIds"></param>
-		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, IPropertyObject obj, params int[] propertyIds)
-			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetAll(propertyIds));
+		/// <param name="propertyNames"></param>
+		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, IPropertyObject obj, params string[] propertyNames)
+			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetAll(propertyNames));
 
 		/// <summary>
 		/// Updates object's given properties.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="objectId"></param>
-		/// <param name="properties"></param>
-		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, IEnumerable<IProperty> properties)
+		/// <param name="propertyList"></param>
+		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
 			packet.PutInt(0); // isTrickPacket
-			packet.AddProperties(properties);
+			packet.AddProperties(propertyList);
 
 			conn.Send(packet);
 		}
@@ -2999,10 +2998,10 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		public static void ZC_UPDATE_ALL_STATUS(IEntity entity)
 		{
-			var hp = entity.Properties.GetInt(PropertyId.PC.HP);
-			var maxHp = entity.Properties.GetInt(PropertyId.PC.MHP);
-			var sp = entity.Properties.GetInt(PropertyId.PC.SP);
-			var maxSp = entity.Properties.GetInt(PropertyId.PC.MSP);
+			var hp = (int)entity.Properties.GetFloat("HP");
+			var maxHp = (int)entity.Properties.GetFloat("MHP");
+			var sp = (int)entity.Properties.GetFloat("SP");
+			var maxSp = (int)entity.Properties.GetFloat("MSP");
 
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
 
@@ -4085,8 +4084,8 @@ namespace Melia.Zone.Network
 				{
 					for (var i = 0; i < items.Count; i++)
 					{
-						var properties = items[i].Properties.GetAll();
-						var propertiesSize = properties.Sum(a => a.Size);
+						var propertyList = items[i].Properties.GetAll();
+						var propertiesSize = propertyList.GetSize();
 
 						zpacket.PutInt(items[i].Id);
 						zpacket.PutInt(propertiesSize);
@@ -4098,7 +4097,7 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(items[i].Price);
 						zpacket.PutInt(1);
 						zpacket.PutInt(items.Count - i - 1);
-						zpacket.AddProperties(properties);
+						zpacket.AddProperties(propertyList);
 						if (propertiesSize > 0)
 						{
 							if (items[i].Id != 900011 && items[i].ObjectId > 0)
@@ -4126,10 +4125,12 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_PROPERTY_COMPARE(IZoneConnection conn, Character character)
 		{
+			// TODO: This method is in desperate need of a cleanup.
+
 			var packet = new Packet(Op.ZC_PROPERTY_COMPARE);
 
-			var properties = character.Properties.GetAll();
-			var propertiesSize = properties.Sum(a => a.Size);
+			//var propertyList = character.Properties.GetAll();
+			//var propertiesSize = propertyList.GetSize();
 			var equip = character.Inventory.GetEquip();
 
 			packet.PutInt(character.Handle);
@@ -4170,42 +4171,42 @@ namespace Melia.Zone.Network
 			{
 				if (equipItem.Value.Id == 521101)
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
 				}
 				else if (equipItem.Value.Id == 101101)
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MINATK, 36f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MAXATK, 38f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3331f));
+					equipItem.Value.Properties.Create(new FloatProperty("MINATK", 36f));
+					equipItem.Value.Properties.Create(new FloatProperty("MAXATK", 38f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 0f));
 				}
 				else if (equipItem.Value.Id == 141101)
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3331f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MATK, 37f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3331f));
+					equipItem.Value.Properties.Create(new FloatProperty("MATK", 37f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 0f));
 				}
 				else if (equipItem.Value.Id == 531101)
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
 				}
 				else if (equipItem.Value.Id == 521101)
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.Dur, 3963f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MDEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.DEF, 19f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.MaxSocket, 1f));
+					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
 				}
 				else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
 				{
@@ -4213,22 +4214,25 @@ namespace Melia.Zone.Network
 				}
 				else
 				{
-					equipItem.Value.Properties.Add(new FloatProperty(PropertyId.Item.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
 				}
 
-				properties = equipItem.Value.Properties.GetAll();
-				propertiesSize = equipItem.Value.Properties.Size;
+				var propertyList = equipItem.Value.Properties.GetAll();
+				var propertiesSize = propertyList.GetSize();
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutInt(propertiesSize);
+
 				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
 					packet.PutLong(0);
 				else
 					packet.PutLong(equipItem.Value.ObjectId);
+
 				packet.PutInt((int)equipItem.Key);
 				packet.PutInt(0);
 				packet.PutShort(0);
-				packet.AddProperties(properties);
+				packet.AddProperties(propertyList);
+
 				if (propertiesSize > 0)
 				{
 					packet.PutShort(0);

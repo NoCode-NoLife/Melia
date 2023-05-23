@@ -1,6 +1,4 @@
 ﻿using System;
-using Melia.Zone.Network;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.EntityComponents;
 
 namespace Melia.Zone.World.Entities.Components
@@ -40,13 +38,13 @@ namespace Melia.Zone.World.Entities.Components
 			if (_rhpTime <= TimeSpan.Zero)
 			{
 				this.RecoverHp();
-				_rhpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RHPTIME));
+				_rhpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat("RHPTIME"));
 			}
 
 			if (_rspTime <= TimeSpan.Zero)
 			{
 				this.RecoverSp();
-				_rspTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyId.PC.RSPTIME));
+				_rspTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat("RSPTIME"));
 			}
 		}
 
@@ -55,9 +53,9 @@ namespace Melia.Zone.World.Entities.Components
 		/// </summary>
 		private void RecoverHp()
 		{
-			var cur = this.Entity.Properties.GetFloat(PropertyId.PC.HP);
-			var max = this.Entity.Properties.GetFloat(PropertyId.PC.MHP);
-			var rec = this.Entity.Properties.GetFloat(PropertyId.PC.RHP);
+			var cur = this.Entity.Properties.GetFloat("HP");
+			var max = this.Entity.Properties.GetFloat("MHP");
+			var rec = this.Entity.Properties.GetFloat("RHP");
 
 			if (rec > 0 && cur < max)
 				this.Entity.Heal(rec, 0);
@@ -68,9 +66,9 @@ namespace Melia.Zone.World.Entities.Components
 		/// </summary>
 		private void RecoverSp()
 		{
-			var cur = this.Entity.Properties.GetFloat(PropertyId.PC.SP);
-			var max = this.Entity.Properties.GetFloat(PropertyId.PC.MSP);
-			var rec = this.Entity.Properties.GetFloat(PropertyId.PC.RSP);
+			var cur = this.Entity.Properties.GetFloat("SP");
+			var max = this.Entity.Properties.GetFloat("MSP");
+			var rec = this.Entity.Properties.GetFloat("RSP");
 
 			if (rec > 0 && cur < max)
 				this.Entity.Heal(0, rec);

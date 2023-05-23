@@ -12,14 +12,15 @@ namespace Melia.Shared.Network.Helpers
 		/// <param name="account"></param>
 		public static void AddAccountProperties(this Packet packet, IAccount account)
 		{
-			var properties = new Properties();
-			properties.Add(new FloatProperty(PropertyId.Account.Medal, account.Medals));
-			properties.Add(new StringProperty(PropertyId.Account.CTT_TempProperty_AC_Str_2, "x64_Client"));
-			properties.Add(new StringProperty(PropertyId.Account.CTT_TempProperty_AC_Str_3, "x86_Client"));
-			properties.Add(new StringProperty(PropertyId.Account.CTT_TempProperty_AC_Str_1, "x64_OS"));
-			properties.Add(new StringProperty(PropertyId.Account.Medal_Get_Date, "202107321185720"));
+			var properties = new Properties("Account");
+			properties.SetFloat("Medal", account.Medals);
+			properties.SetString("CTT_TempProperty_AC_Str_2", "x64_Client");
+			properties.SetString("CTT_TempProperty_AC_Str_3", "x86_Client");
+			properties.SetString("CTT_TempProperty_AC_Str_1", "x64_OS");
+			properties.SetString("Medal_Get_Date", "202107321185720");
 
-			var size = properties.Size;
+			var propertyList = properties.GetAll();
+			var size = propertyList.GetSize();
 
 			packet.PutShort(size);
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
@@ -27,7 +28,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte(1);
 			packet.PutByte(1);
 
-			packet.AddProperties(properties.GetAll());
+			packet.AddProperties(propertyList);
 		}
 	}
 

@@ -1,189 +1,109 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Melia.Shared.World.ObjectProperties
 {
 	/// <summary>
-	/// An object property of type float.
+	/// A float-type property.
 	/// </summary>
-	public class FloatProperty : IProperty
+	public class FloatProperty : Properties.FloatVariable, IProperty
 	{
-		protected float _value;
-		protected float _minValue;
-		protected float _maxValue;
-
 		/// <summary>
-		/// Returns this property's id.
+		/// Creates new property.
 		/// </summary>
-		public int Id { get; }
-
-		/// <summary>
-		/// Returns the property's type.
-		/// </summary>
-		public PropertyType Type => PropertyType.Float;
-
-		/// <summary>
-		/// Returns byte size of float.
-		/// </summary>
-		public int Size => sizeof(int) + sizeof(float);
-
-		/// <summary>
-		/// Gets or sets this property's value.
-		/// </summary>
-		public virtual float Value
-		{
-			get => _value;
-			set
-			{
-				var valueBefore = _value;
-
-				if (value < this.MinValue)
-					_value = this.MinValue;
-				else if (value > this.MaxValue)
-					_value = this.MaxValue;
-				else
-					_value = value;
-
-				if (_value != valueBefore)
-					this.ValueChanged?.Invoke(this);
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the minimum value this property can have.
-		/// </summary>
-		public float MinValue
-		{
-			get => _minValue;
-			set
-			{
-				_minValue = value;
-
-				if (value < _minValue)
-					this.Value = _minValue;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the maximum value this property can have.
-		/// </summary>
-		public float MaxValue
-		{
-			get => _maxValue;
-			set
-			{
-				_maxValue = value;
-
-				if (value > _maxValue)
-					this.Value = _maxValue;
-			}
-		}
-
-		/// <summary>
-		/// Raised when the property's value changed.
-		/// </summary>
-		/// <remarks>
-		/// The event is only raised if the value actually changed, not if
-		/// the value is set, but it ends up being the same as before.
-		/// </remarks>
-		public event Action<IProperty> ValueChanged;
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <param name="ident"></param>
 		/// <param name="value"></param>
 		/// <param name="min"></param>
 		/// <param name="max"></param>
-		public FloatProperty(int propertyId, float value = 0, float min = float.MinValue, float max = float.MaxValue)
+		public FloatProperty(string ident, float value = 0, float min = float.MinValue, float max = float.MaxValue)
+			: base(ident, value, min, max)
 		{
-			this.Id = propertyId;
-			this.MinValue = min;
-			this.MaxValue = max;
-			this.Value = value;
-		}
-
-		/// <summary>
-		/// Returns the property's value as a string.
-		/// </summary>
-		/// <returns></returns>
-		public string GetString()
-		{
-			return _value.ToString("g", CultureInfo.InvariantCulture);
-		}
-
-		/// <summary>
-		/// Raises the ValueChanged event.
-		/// </summary>
-		protected void OnValueChanged()
-			=> this.ValueChanged?.Invoke(this);
-	}
-
-	/// <summary>
-	/// An object property of type float, that takes its value from
-	/// a function, with no way of setting it.
-	/// </summary>
-	public class RefFloatProperty : FloatProperty
-	{
-		private readonly Func<float> _func;
-
-		/// <summary>
-		/// Returns this property's value, setting it doesn't do anything.
-		/// </summary>
-		public override float Value { get => _func(); set { } }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="propertyId"></param>
-		/// <param name="func">Function that returns the value.</param>
-		public RefFloatProperty(int propertyId, Func<float> func) : base(propertyId, func())
-		{
-			_func = func;
 		}
 	}
 
 	/// <summary>
-	/// A property that gets its value from a getter function and is able
-	/// to be updated automatically when other properties change.
+	/// A float-type property that is calculated as needed.
 	/// </summary>
-	public class CalculatedFloatProperty : FloatProperty
+	/// <remarks>
+	/// The difference between CFloatProperty and RFloatProperty is that
+	/// CFloatProperty will raise the ValueChanged event whenever it gets
+	/// recalculated and the value changes. Since RFloatProperty just
+	/// returns a referenced value, it can't keep track of changes.
+	/// Additionally it saves computing power to not calculate the value
+	/// every single time it's requested. Though this behavior might yet
+	/// change if the need arises.
+	/// </remarks>
+	public class CFloatProperty : FloatProperty, IProperty
 	{
 		private readonly Func<float> _getter;
+		private float _value;
 
 		/// <summary>
-		/// Returns the property's last calculated value. Setting does
-		/// nothing.
+		/// Returns the calculated value of the property.
 		/// </summary>
 		public override float Value
 		{
 			get => _value;
-			set { }
+			set => throw new InvalidOperationException($"Calculated property '{this.Ident}' in '{this.GetType().Name}' cannot be set.");
 		}
 
 		/// <summary>
-		/// Creates a new property. The getter is used to set the initial
-		/// value.
+		/// Creates new property.
 		/// </summary>
-		/// <param name="propertyId"></param>
+		/// <param name="ident"></param>
 		/// <param name="getter"></param>
-		public CalculatedFloatProperty(int propertyId, Func<float> getter) : base(propertyId, getter())
+		public CFloatProperty(string ident, Func<float> getter) : base(ident, 0)
 		{
 			_getter = getter;
 		}
 
 		/// <summary>
-		/// Triggers a recalculation of the property's value and updates
-		/// it. ValueChanged will be raised if the value did change.
+		/// Triggers recalculation of this property's value.
 		/// </summary>
-		/// <param name="property"></param>
-		public void TriggerCalculation(IProperty property)
+		/// <param name="ident"></param>
+		public void OnDependencyValueChange(string ident)
+			=> this.Recalculate();
+
+		/// <summary>
+		/// Triggers recalculation of this property's value and returns
+		/// its new value.
+		/// </summary>
+		/// <returns></returns>
+		public float Recalculate()
 		{
 			var valueBefore = _value;
 			_value = _getter();
 
 			if (_value != valueBefore)
 				this.OnValueChanged();
+
+			return _value;
+		}
+	}
+
+	/// <summary>
+	/// A float-type property that returns a referenced value.
+	/// </summary>
+	public class RFloatProperty : FloatProperty, IProperty
+	{
+		private readonly Func<float> _getter;
+
+		/// <summary>
+		/// Returns the calculated value of the property.
+		/// </summary>
+		public override float Value
+		{
+			get => _getter();
+			set => throw new InvalidOperationException($"Referenced property '{this.Ident}' in '{this.GetType().Name}' cannot be set.");
+		}
+
+		/// <summary>
+		/// Creates new property.
+		/// </summary>
+		/// <param name="ident"></param>
+		/// <param name="getter"></param>
+		public RFloatProperty(string ident, Func<float> getter) : base(ident, 0)
+		{
+			_getter = getter;
 		}
 	}
 }
