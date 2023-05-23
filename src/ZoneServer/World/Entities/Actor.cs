@@ -21,12 +21,20 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the actor's position on its current map.
 		/// </summary>
-		Position Position { get; }
+		Position Position { get; set; }
 
 		/// <summary>
 		/// Returns the direction the actor is facing.
 		/// </summary>
-		Direction Direction { get; }
+		Direction Direction { get; set; }
+	}
+
+	/// <summary>
+	/// An actor that has a name.
+	/// </summary>
+	public interface INamedActor : IActor
+	{
+		string Name { get; }
 	}
 
 	/// <summary>

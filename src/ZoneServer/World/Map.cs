@@ -360,25 +360,6 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Returns all entities that match the predicate.
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public IEntity[] GetEntities(Func<IEntity, bool> predicate)
-		{
-			lock (_combatEntities)
-				return _combatEntities.Values.Where(predicate).ToArray();
-		}
-
-		/// <summary>
-		/// Returns all entities in visible range of entity.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <returns></returns>
-		public IEntity[] GetVisibleEntities(IEntity entity)
-			=> this.GetEntities(a => a != entity && entity.Position.InRange2D(a.Position, VisibleRange));
-
-		/// <summary>
 		/// Returns attackable monsters in the given radius around position.
 		/// </summary>
 		/// <param name="position"></param>
@@ -568,10 +549,10 @@ namespace Melia.Zone.World
 		/// Broadcasts packet to all characters on map, that are within
 		/// visible range of source.
 		/// </summary>
-		/// <param name="packet">Packet to send.</param>
-		/// <param name="source">Reference entity for visible range to send in.</param>
+		/// <param name="packet">Packet to broadcast.</param>
+		/// <param name="source">Reference actor for visible range to broadcast in.</param>
 		/// <param name="includeSource">Send to source as well?</param>
-		public virtual void Broadcast(Packet packet, IEntity source, bool includeSource = true)
+		public virtual void Broadcast(Packet packet, IActor source, bool includeSource = true)
 		{
 			lock (_characters)
 			{

@@ -1,30 +1,12 @@
-﻿using Melia.Shared.Tos.Const;
-using Melia.Shared.EntityComponents;
-using Melia.Shared.World;
-using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Shared.EntityComponents;
 
 namespace Melia.Zone.World.Entities
 {
 	/// <summary>
-	/// Describes a living entity that can exist on a map.
+	/// Describes an entity that can actively participate in combat.
 	/// </summary>
-	public interface IEntity : IPropertyHolder
+	public interface ICombatEntity : INamedActor, IPropertyHolder
 	{
-		/// <summary>
-		/// Returns the entity's globally unique, session limited, id.
-		/// </summary>
-		int Handle { get; }
-
-		/// <summary>
-		/// Returns the entity's faction.
-		/// </summary>
-		FactionType Faction { get; }
-
-		/// <summary>
-		/// Returns the entity's name.
-		/// </summary>
-		string Name { get; }
-
 		/// <summary>
 		/// Returns the entity's current HP.
 		/// </summary>
@@ -36,35 +18,10 @@ namespace Melia.Zone.World.Entities
 		bool IsDead { get; }
 
 		/// <summary>
-		/// Returns the map the entity is currently on.
-		/// </summary>
-		Map Map { get; }
-
-		/// <summary>
-		/// Returns the entity's position on its current map.
-		/// </summary>
-		Position Position { get; set; }
-
-		/// <summary>
-		/// Returns the entity's direction on its current map.
-		/// </summary>
-		Direction Direction { get; set; }
-
-		/// Returns the entity's property collection.
-		/// </summary>
-		//Properties Properties { get; }
-
-		/// <summary>
 		/// Returns the entity's component collection.
 		/// </summary>
 		ComponentCollection Components { get; }
-	}
 
-	/// <summary>
-	/// Describes an entity that can actively participate in combat.
-	/// </summary>
-	public interface ICombatEntity : IEntity
-	{
 		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
 		/// Returns whether the entity is dead.

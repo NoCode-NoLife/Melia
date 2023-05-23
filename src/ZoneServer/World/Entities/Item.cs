@@ -226,40 +226,40 @@ namespace Melia.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Activates the loot protection for the item if entity is set.
-		/// Deactivates it if entity is null.
+		/// Activates the loot protection for the item if actor is set.
+		/// Deactivates it if actor is null.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="protectionTime"></param>
-		public void SetLootProtection(IEntity entity, TimeSpan protectionTime)
+		public void SetLootProtection(IActor actor, TimeSpan protectionTime)
 		{
-			if (entity == null)
+			if (actor == null)
 			{
 				this.OwnerHandle = -1;
 				this.LootProtectionEnd = DateTime.MinValue;
 			}
 			else
 			{
-				this.OwnerHandle = entity.Handle;
+				this.OwnerHandle = actor.Handle;
 				this.LootProtectionEnd = DateTime.Now.Add(protectionTime);
 			}
 		}
 
 		/// <summary>
-		/// Sets up a protection, so that the entity won't pick the item
+		/// Sets up a protection, so that the actor won't pick the item
 		/// right back up.
 		/// </summary>
-		/// <param name="entity"></param>
-		public void SetRePickUpProtection(IEntity entity)
+		/// <param name="actor"></param>
+		public void SetRePickUpProtection(IActor actor)
 		{
-			if (entity == null)
+			if (actor == null)
 			{
 				this.OriginalOwnerHandle = -1;
 				this.RePickUpTime = DateTime.MinValue;
 			}
 			else
 			{
-				this.OriginalOwnerHandle = entity.Handle;
+				this.OriginalOwnerHandle = actor.Handle;
 				this.RePickUpTime = DateTime.Now.AddSeconds(2);
 			}
 		}

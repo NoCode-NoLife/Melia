@@ -14,7 +14,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Entities
 {
-	public class MonsterLegacy : ICombatEntity, IUpdateable, IMonster
+	public class MonsterLegacy : INamedActor, ICombatEntity, IUpdateable, IMonster
 	{
 		/// <summary>
 		/// Index in world collection?

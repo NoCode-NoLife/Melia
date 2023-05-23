@@ -7,7 +7,7 @@ namespace Melia.Zone.World.Entities
 	/// <summary>
 	/// A representation of an item on a map.
 	/// </summary>
-	public class ItemMonster : MonsterLegacy, IActor
+	public class ItemMonster : MonsterLegacy, INamedActor
 	{
 		/// <summary>
 		/// Returns the item this monster represents.
@@ -53,9 +53,9 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns true if the entity is allowed to pick up the item.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <returns></returns>
-		public bool CanBePickedUpBy(IEntity entity)
+		public bool CanBePickedUpBy(IActor actor)
 		{
 			// If the entity is the original owner, we want them to have
 			// to make more of an effort to get the item, otherwise it
@@ -68,19 +68,19 @@ namespace Melia.Zone.World.Entities
 			// - We could disable pick ups for a certain amount of time,
 			//   but if you drop something and want to pick it right back
 			//   up for whatever reason, a delay would be annoying.
-			if (this.Item.OriginalOwnerHandle == entity.Handle)
+			if (this.Item.OriginalOwnerHandle == actor.Handle)
 			{
 				if (DateTime.Now < this.Item.RePickUpTime)
 					return false;
 
-				if (!this.Position.InRange2D(entity.Position, 20))
+				if (!this.Position.InRange2D(actor.Position, 20))
 					return false;
 			}
 
 			// If the loot protection is active, only the owner can pick
 			// up the item.
 			if (DateTime.Now < this.Item.LootProtectionEnd)
-				return this.Item.OwnerHandle == entity.Handle;
+				return this.Item.OwnerHandle == actor.Handle;
 
 			return true;
 		}

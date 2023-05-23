@@ -315,7 +315,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="target"></param>
-		public static void ZC_SKILL_CAST_CANCEL(Character character, IEntity target)
+		public static void ZC_SKILL_CAST_CANCEL(Character character, IActor target)
 		{
 			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
 			packet.PutInt(target.Handle);
@@ -330,7 +330,7 @@ namespace Melia.Zone.Network
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_FORCE_TARGET(Character character, IEntity target, Skill skill, int damage)
+		public static void ZC_SKILL_FORCE_TARGET(Character character, ICombatEntity target, Skill skill, int damage)
 		{
 			var validHit = (target != null && damage > 0);
 
@@ -392,7 +392,7 @@ namespace Melia.Zone.Network
 		/// <param name="targetPosition"></param>
 		/// <param name="targets"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<IEntity> targets = null, int damage = 0)
+		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, int damage = 0)
 		{
 			var targetCount = targets?.Count() ?? 0;
 
@@ -881,23 +881,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_CHAT in range of character.
+		/// Broadcasts ZC_CHAT in range of actor.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void ZC_CHAT(IEntity entity, string format, params object[] args)
+		public static void ZC_CHAT(INamedActor actor, string format, params object[] args)
 		{
 			if (args.Length > 0)
 				format = string.Format(format, args);
 
 			var teamName = "";
-			var name = entity.Name;
+			var name = actor.Name;
 			var jobId = JobId.Swordsman;
 			var gender = Gender.Male;
 			var hair = 0;
 
-			if (entity is Character character)
+			if (actor is Character character)
 			{
 				teamName = character.TeamName;
 				jobId = character.JobId;
@@ -907,9 +907,9 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_CHAT);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutString(teamName, 64);
-			packet.PutString(entity.Name, 65);
+			packet.PutString(actor.Name, 65);
 			packet.PutByte(0); // -11, -60, -1, -19, 1
 			packet.PutShort((short)jobId);
 			packet.PutInt((int)jobId); // 1, 10, 11
@@ -934,7 +934,7 @@ namespace Melia.Zone.Network
 			packet.PutEmptyBin(24);         // [i373230]
 			packet.PutString(format);
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1329,28 +1329,28 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates entity's rotation for characters in range of it.
+		/// Updates actor's rotation for characters in range of it.
 		/// </summary>
-		/// <param name="entity"></param>
-		public static void ZC_ROTATE(IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_ROTATE(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_ROTATE);
 
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Direction.Cos);
-			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(actor.Handle);
+			packet.PutFloat(actor.Direction.Cos);
+			packet.PutFloat(actor.Direction.Sin);
 			packet.PutByte(1); // Seems to be 1
 			packet.PutByte(1); // Seems to be 1
 			packet.PutInt(0);
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
-		/// Updates entity's head rotation for characters in range of it.
+		/// Updates actor's head rotation for characters in range of it.
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_HEAD_ROTATE(IEntity entity)
+		public static void ZC_HEAD_ROTATE(IActor entity)
 		{
 			var packet = new Packet(Op.ZC_HEAD_ROTATE);
 
@@ -1495,25 +1495,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_LEAVE on monster's map, making it disappear.
+		/// Removes actor from all clients on the map it's on.
 		/// </summary>
-		/// <param name="entity"></param>
-		public static void ZC_LEAVE(IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_LEAVE(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_LEAVE);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
 
-			entity.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet);
 		}
 
 		/// <summary>
-		/// Sends ZC_LEAVE to conn, making it disappear.
+		/// Removes actor from map on connection's client.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="entity"></param>
-		public static void ZC_LEAVE(IZoneConnection conn, IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_LEAVE(IZoneConnection conn, IActor actor)
 		{
 			var s1 = 1;
 
@@ -1523,28 +1523,28 @@ namespace Melia.Zone.Network
 			// play. I'm guessing the item can't be removed if it's supposed
 			// to get picked up for this very reason, so we'll check whether
 			// it was picked up or not.
-			if (entity is ItemMonster itemMonster)
+			if (actor is ItemMonster itemMonster)
 				s1 = itemMonster.PickedUp ? 2 : 4;
 
 			var packet = new Packet(Op.ZC_LEAVE);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutShort(s1); // 0 shows a blue effect when the entity disappears
 
 			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_DEAD in range of entity, which kills it visually.
+		/// Makes actor appear dead on all clients in range of it.
 		/// </summary>
-		/// <param name="entity">Entity to kill visually.</param>
-		public static void ZC_DEAD(IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_DEAD(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(0);
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1554,7 +1554,7 @@ namespace Melia.Zone.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_HIT_INFO(IEntity attacker, IEntity target, int damage, int attackIndex = 0)
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, int damage, int attackIndex = 0)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
@@ -1588,7 +1588,7 @@ namespace Melia.Zone.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(IEntity attacker, IEntity target, int damage)
+		public static void ZC_SKILL_HIT_INFO(ICombatEntity attacker, ICombatEntity target, int damage)
 		{
 			var validHit = (target != null && damage > 0);
 
@@ -1727,7 +1727,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="target"></param>
 		/// <param name="position"></param>
-		public static void ZC_NORMAL_Skill_16(Character character, IEntity target, Position position)
+		public static void ZC_NORMAL_Skill_16(Character character, IActor target, Position position)
 		{
 			var packet = new Packet(Op.ZC_NORMAL);
 			packet.PutInt(NormalOp.Zone.Skill_16);
@@ -2015,42 +2015,42 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Shows emoticon for entity.
+		/// Shows emoticon for actor on nearby clients.
 		/// </summary>
 		/// <remarks>
 		/// For available emoticons, search the packet string data for
 		/// entries with "_emo_" in the name.
 		/// </remarks>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="emoticonName">Name of the emoticon, uses packet string data to look up the id of the string.</param>
 		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IEntity entity, string emoticonName, int duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, string emoticonName, int duration)
 		{
 			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(emoticonName, out var packetStringData))
 				throw new ArgumentException($"Unknown packet string '{emoticonName}'.");
 
-			ZC_SHOW_EMOTICON(entity, packetStringData.Id, duration);
+			ZC_SHOW_EMOTICON(actor, packetStringData.Id, duration);
 		}
 
 		/// <summary>
-		/// Shows emoticon for entity.
+		/// Shows emoticon for actor on nearby clients.
 		/// </summary>
 		/// <remarks>
 		/// For available emoticons, search the packet string data for
 		/// entries with "_emo_" in the name.
 		/// </remarks>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="packetStringId">Id of the string for the emoticon from the packet string data.</param>
 		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IEntity entity, int packetStringId, int duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, int packetStringId, int duration)
 		{
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(packetStringId);
 			packet.PutInt(duration);
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -2184,17 +2184,17 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends an updated value for the shield to an entity.
+		/// Updates "shield" (?) for actor on nearby clients.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="shield"></param>
-		public static void ZC_UPDATE_SHIELD(IEntity entity, int shield)
+		public static void ZC_UPDATE_SHIELD(IActor actor, int shield)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_SHIELD);
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(shield);
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -2315,29 +2315,29 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sets the team ID for an entity.
+		/// Updates actor's team id on the client.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="team">The team ID which is a value of either '0', '1', or '2'.</param>
-		public static void ZC_TEAMID(IZoneConnection conn, IEntity entity, byte team)
+		public static void ZC_TEAMID(IZoneConnection conn, IActor actor, byte team)
 		{
 			var packet = new Packet(Op.ZC_TEAMID);
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutByte(team);
 
 			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Sets the entity's owner to the specified character handle.
+		/// Makes the character the owner of actor.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="entity"></param>
-		public static void ZC_OWNER(Character character, IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_OWNER(Character character, IActor actor)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(character.Handle);
 
 			character.Connection.Send(packet);
@@ -2870,12 +2870,12 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Draws circle area on ground at position for characters in range
-		/// of the source entity.
+		/// of the caster.
 		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="position"></param>
 		/// <param name="radius"></param>
-		public static void ZC_SKILL_RANGE_CIRCLE(IEntity caster, Position position, float radius)
+		public static void ZC_SKILL_RANGE_CIRCLE(IActor caster, Position position, float radius)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_CIRCLE);
 
@@ -2893,14 +2893,14 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Draws fan area on ground at position for characters in range
-		/// of the source entity.
+		/// of the caster.
 		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="position"></param>
 		/// <param name="direction"></param>
 		/// <param name="radius"></param>
 		/// <param name="radianHalfAngle"></param>
-		public static void ZC_SKILL_RANGE_FAN(IEntity caster, Position position, Direction direction, float radius, float radianHalfAngle)
+		public static void ZC_SKILL_RANGE_FAN(IActor caster, Position position, Direction direction, float radius, float radianHalfAngle)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_FAN);
 
@@ -2920,13 +2920,13 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Draws square area on ground at position for characters in range
-		/// of the source entity.
+		/// of the source caster.
 		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="position"></param>
 		/// <param name="targetPosition"></param>
 		/// <param name="width"></param>
-		public static void ZC_SKILL_RANGE_SQUARE(IEntity caster, Position position, Position targetPosition, float width)
+		public static void ZC_SKILL_RANGE_SQUARE(IActor caster, Position position, Position targetPosition, float width)
 		{
 			var packet = new Packet(Op.ZC_SKILL_RANGE_SQUARE);
 
@@ -3000,7 +3000,7 @@ namespace Melia.Zone.Network
 		/// Updates creature's HP and SP stats.
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_UPDATE_ALL_STATUS(IEntity entity)
+		public static void ZC_UPDATE_ALL_STATUS(ICombatEntity entity)
 		{
 			var hp = (int)entity.Properties.GetFloat(PropertyName.HP);
 			var maxHp = (int)entity.Properties.GetFloat(PropertyName.MHP);
@@ -3056,16 +3056,16 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sets the faction of the entity.
+		/// Updates the actor's faction on the client.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="faction"></param>
-		public static void ZC_FACTION(IZoneConnection conn, IEntity entity, FactionType faction)
+		public static void ZC_FACTION(IZoneConnection conn, IActor actor, FactionType faction)
 		{
 			var packet = new Packet(Op.ZC_FACTION);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt((int)faction);
 
 			conn.Send(packet);
@@ -3636,30 +3636,30 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Plays animation on entity.
+		/// Plays animation for actor on nearby clients.
 		/// </summary>
-		/// <param name="entity">Entity to animate.</param>
+		/// <param name="actor">Entity to animate.</param>
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IEntity entity, string animationName, bool stopOnLastFrame = false)
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
 		{
 			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
 				throw new ArgumentException($"Unknown packet string '{animationName}'.");
 
-			ZC_PLAY_ANI(entity, packetStringData.Id, stopOnLastFrame);
+			ZC_PLAY_ANI(actor, packetStringData.Id, stopOnLastFrame);
 		}
 
 		/// <summary>
-		/// Plays animation on entity.
+		/// Plays animation for actor on nearby clients.
 		/// </summary>
-		/// <param name="entity">Entity to animate.</param>
+		/// <param name="actor">Entity to animate.</param>
 		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IEntity entity, int packetStringId, bool stopOnLastFrame = false)
+		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(packetStringId);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
@@ -3672,7 +3672,7 @@ namespace Melia.Zone.Network
 				packet.PutByte(0);
 			}
 
-			entity.Map.Broadcast(packet, entity);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -3796,15 +3796,16 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Notifies the client that the entity is leaving a trigger event.
+		/// Notifies nearby clients that the actor is leaving a trigger event.
 		/// </summary>
-		/// <param name="entity"></param>
-		public static void ZC_LEAVE_HOOK(IEntity entity)
+		/// <param name="actor"></param>
+		public static void ZC_LEAVE_HOOK(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_LEAVE_HOOK);
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 
-			entity.Map.Broadcast(packet);
+			// TODO: Does this actually need to be broadcasted?
+			actor.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -4269,7 +4270,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="buff"></param>
-		public static void ZC_BUFF_ADD(IEntity entity, Buff buff)
+		public static void ZC_BUFF_ADD(ICombatEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_ADD);
 			packet.AddTargetedBuff(buff);
@@ -4282,7 +4283,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="buff"></param>
-		public static void ZC_BUFF_UPDATE(IEntity entity, Buff buff)
+		public static void ZC_BUFF_UPDATE(ICombatEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_UPDATE);
 			packet.AddTargetedBuff(buff);
@@ -4295,7 +4296,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="buff"></param>
-		public static void ZC_BUFF_REMOVE(IEntity entity, Buff buff)
+		public static void ZC_BUFF_REMOVE(ICombatEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_REMOVE);
 
@@ -4312,7 +4313,7 @@ namespace Melia.Zone.Network
 		/// Buff list, sent when a entity spawns?
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_BUFF_LIST(IEntity entity)
+		public static void ZC_BUFF_LIST(ICombatEntity entity)
 		{
 			var buffs = entity.Components.Get<BuffCollection>();
 			var buffCount = buffs?.Count ?? 0;
@@ -4335,7 +4336,7 @@ namespace Melia.Zone.Network
 		/// removal.
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_BUFF_CLEAR(IEntity entity)
+		public static void ZC_BUFF_CLEAR(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_BUFF_CLEAR);
 
@@ -4367,7 +4368,7 @@ namespace Melia.Zone.Network
 		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="buff"></param>
-		public static void ZC_BUFF_UPDATE_TIME(IEntity entity, Buff buff)
+		public static void ZC_BUFF_UPDATE_TIME(ICombatEntity entity, Buff buff)
 		{
 			var packet = new Packet(Op.ZC_BUFF_UPDATE_TIME);
 
@@ -4385,7 +4386,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="itemMonster"></param>
-		public static void ZC_ITEM_GET(IEntity character, IEntity itemMonster)
+		public static void ZC_ITEM_GET(IActor character, IActor itemMonster)
 		{
 			var packet = new Packet(Op.ZC_ITEM_GET);
 
@@ -4397,21 +4398,21 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Makes entity move between the given positions.
+		/// Makes actor move between the given positions.
 		/// </summary>
 		/// <remarks>
 		/// The positions must use the cell for Y, instead of the height,
 		/// otherwise the client is not able to handle the packet.
 		/// </remarks>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
 		/// <param name="fromCellPos"></param>
 		/// <param name="toCellPos"></param>
 		/// <param name="speed"></param>
-		public static void ZC_MOVE_PATH(IEntity entity, Position fromCellPos, Position toCellPos, float speed)
+		public static void ZC_MOVE_PATH(IActor actor, Position fromCellPos, Position toCellPos, float speed)
 		{
 			var packet = new Packet(Op.ZC_MOVE_PATH);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt((int)fromCellPos.X);
 			packet.PutInt((int)fromCellPos.Z);
 			packet.PutInt((int)fromCellPos.Y);
@@ -4424,7 +4425,7 @@ namespace Melia.Zone.Network
 			//packet.PutFloat(0);
 			packet.PutByte(0);
 
-			entity.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet);
 		}
 
 		/// <summary>

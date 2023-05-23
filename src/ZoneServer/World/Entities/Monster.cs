@@ -8,7 +8,7 @@ namespace Melia.Zone.World.Entities
 	/// Represents a "monster" in the world, or in other words, an entity
 	/// that is not a player, but can exist on a map.
 	/// </summary>
-	public interface IMonster : IActor, IMonsterAppearance, IMonsterAppearanceBase
+	public interface IMonster : INamedActor, IMonsterAppearance, IMonsterAppearanceBase
 	{
 		/// <summary>
 		/// Returns the monster's type.

@@ -18,7 +18,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// <summary>
 		/// Returns the entity this component controls.
 		/// </summary>
-		public IEntity Entity { get; }
+		public ICombatEntity Entity { get; }
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -35,7 +35,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// Creates new movement component.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Movement(IEntity entity)
+		public Movement(ICombatEntity entity)
 		{
 			this.Entity = entity;
 		}

@@ -19,7 +19,7 @@ namespace Melia.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public class Character : Actor, INamedActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 
