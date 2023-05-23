@@ -1309,7 +1309,7 @@ namespace Melia.Zone.Network
 		/// <param name="obj"></param>
 		/// <param name="propertyNames"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, IPropertyObject obj, params string[] propertyNames)
-			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetAll(propertyNames));
+			=> ZC_OBJECT_PROPERTY(conn, obj.ObjectId, obj.Properties.GetSelect(propertyNames));
 
 		/// <summary>
 		/// Updates object's given properties.

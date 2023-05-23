@@ -74,11 +74,8 @@ namespace Melia.Shared.World.ObjectProperties
 		/// </summary>
 		/// <param name="propertyNames"></param>
 		/// <returns></returns>
-		public PropertyList GetAll(params string[] propertyNames)
+		public PropertyList GetSelect(params string[] propertyNames)
 		{
-			// TODO: Rename to "GetSelect" or something to avoid confusion
-			//   and issues.
-
 			if (propertyNames == null || propertyNames.Length == 0)
 				return this.GetAll();
 
