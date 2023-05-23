@@ -1,4 +1,5 @@
-﻿using Melia.Zone.World.Actors.Characters;
+﻿using Melia.Shared.ObjectProperties;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors

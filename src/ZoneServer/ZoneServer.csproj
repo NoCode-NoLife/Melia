@@ -153,9 +153,7 @@
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
-    <Compile Include="World\PropertyObject.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
-    <Compile Include="World\SessionObject.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>

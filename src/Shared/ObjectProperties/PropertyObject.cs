@@ -1,6 +1,4 @@
-﻿using Melia.Shared.ObjectProperties;
-
-namespace Melia.Zone.World
+﻿namespace Melia.Shared.ObjectProperties
 {
 	/// <summary>
 	/// Represents an object with properties.
