@@ -204,7 +204,7 @@ namespace Melia.Shared.Database
 								if (!PropertyTable.TryGetName("PCEtc", propertyId, out propertyName))
 									throw new Exception($"Property '{propertyName}' exists in neither PC nor PCEtc.");
 
-								Log.Debug("MeliaDb.LoadProperties: Found a PCEtc property on a character. Skipping.");
+								Log.Debug($"MeliaDb.LoadProperties: Found PCEtc property '{propertyName}' on a character. Skipping.");
 								continue;
 							}
 						}

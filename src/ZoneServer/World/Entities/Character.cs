@@ -1034,13 +1034,10 @@ namespace Melia.Zone.World.Entities
 			pcEtcProps.SetString("StartHairName", "UnbalancedShortcut");
 			pcEtcProps.SetFloat("LobbyMapID", this.MapId);
 			pcEtcProps.SetString("RepresentationClassID", this.JobId.ToString());
-			pcEtcProps.SetFloat("LastPlayDate", 20210728.000000f);
-			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1f);
+			pcEtcProps.SetFloat("LastPlayDate", 20210728);
+			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1);
 
 			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
-
-			//foreach (var property in pcEtcProps.GetAll())
-			//	this.Properties.Add(property);
 		}
 
 		/// <summary>
