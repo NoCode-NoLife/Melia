@@ -10,7 +10,8 @@ namespace Melia.Shared.Network
 
 		private readonly byte[] _headerBuffer;
 		private byte[] _messageBuffer;
-		private int _bytesReceived, _headerLength;
+		private int _bytesReceived;
+		private readonly int _headerLength;
 
 		/// <summary>
 		/// Maximum size of messages.
