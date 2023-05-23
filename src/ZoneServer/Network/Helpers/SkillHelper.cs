@@ -14,7 +14,7 @@ namespace Melia.Zone.Network.Helpers
 		public static void AddSkill(this Packet packet, Skill skill)
 		{
 			var propertyList = skill.Properties.GetAll();
-			var propertiesSize = propertyList.GetSize();
+			var propertiesSize = propertyList.GetByteCount();
 
 			packet.PutLong(skill.ObjectId);
 			packet.PutInt((int)skill.Id);

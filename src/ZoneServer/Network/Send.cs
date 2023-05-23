@@ -158,7 +158,7 @@ namespace Melia.Zone.Network
 		public static void ZC_SESSION_OBJ_ADD(IZoneConnection conn, SessionObject sessionObject)
 		{
 			var propertyList = sessionObject.Properties.GetAll();
-			var propertiesSize = propertyList.GetSize();
+			var propertiesSize = propertyList.GetByteCount();
 
 			var packet = new Packet(Op.ZC_SESSION_OBJ_ADD);
 			packet.PutInt(sessionObject.Id);
@@ -660,7 +660,7 @@ namespace Melia.Zone.Network
 			foreach (var ability in abilities)
 			{
 				var propertyList = ability.Properties.GetAll();
-				var propertiesSize = propertyList.GetSize();
+				var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutLong(ability.ObjectId);
 				packet.PutInt(ability.Id);
@@ -729,7 +729,7 @@ namespace Melia.Zone.Network
 				foreach (var item in items)
 				{
 					var propertyList = item.Value.Properties.GetAll();
-					var propertiesSize = propertyList.GetSize();
+					var propertiesSize = propertyList.GetByteCount();
 
 					zpacket.PutInt(item.Value.Id);
 					zpacket.PutShort(propertiesSize);
@@ -766,7 +766,7 @@ namespace Melia.Zone.Network
 				foreach (var item in items)
 				{
 					var propertyList = item.Value.Properties.GetAll();
-					var propertiesSize = propertyList.GetSize();
+					var propertiesSize = propertyList.GetByteCount();
 
 					zpacket.PutInt(item.Value.Id);
 					zpacket.PutShort(propertiesSize);
@@ -806,7 +806,7 @@ namespace Melia.Zone.Network
 			foreach (var equipItem in equip)
 			{
 				var propertyList = equipItem.Value.Properties.GetAll();
-				var propertiesSize = propertyList.GetSize();
+				var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutShort(propertiesSize);
@@ -1115,7 +1115,7 @@ namespace Melia.Zone.Network
 			if (propertyList.Count == 0)
 				propertyList.Add(new FloatProperty("CoolDown", 0));
 
-			var propertiesSize = propertyList.GetSize();
+			var propertiesSize = propertyList.GetByteCount();
 
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
@@ -4089,7 +4089,7 @@ namespace Melia.Zone.Network
 					for (var i = 0; i < items.Count; i++)
 					{
 						var propertyList = items[i].Properties.GetAll();
-						var propertiesSize = propertyList.GetSize();
+						var propertiesSize = propertyList.GetByteCount();
 
 						zpacket.PutInt(items[i].Id);
 						zpacket.PutInt(propertiesSize);
@@ -4222,7 +4222,7 @@ namespace Melia.Zone.Network
 				}
 
 				var propertyList = equipItem.Value.Properties.GetAll();
-				var propertiesSize = propertyList.GetSize();
+				var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutInt(equipItem.Value.Id);
 				packet.PutInt(propertiesSize);
@@ -4258,7 +4258,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(monster.Handle);
 			packet.AddMonsterApperanceBase(monster);
 
-			packet.PutInt(monster.GetByteSize());
+			packet.PutInt(monster.GetByteCount());
 			packet.AddMonsterApperance(monster);
 
 			monster.Map.Broadcast(packet, monster);

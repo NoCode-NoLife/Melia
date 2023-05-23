@@ -20,7 +20,7 @@ namespace Melia.Shared.Network.Helpers
 			properties.SetString("Medal_Get_Date", "202107321185720");
 
 			var propertyList = properties.GetAll();
-			var size = propertyList.GetSize();
+			var size = propertyList.GetByteCount();
 
 			packet.PutShort(size);
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.

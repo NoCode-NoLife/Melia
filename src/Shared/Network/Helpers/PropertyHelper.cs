@@ -44,7 +44,7 @@ namespace Melia.Shared.Network.Helpers
 		/// </summary>
 		/// <param name="properties"></param>
 		/// <returns></returns>
-		public static int GetSize(this IEnumerable<IProperty> properties)
+		public static int GetByteCount(this IEnumerable<IProperty> properties)
 		{
 			var result = 0;
 

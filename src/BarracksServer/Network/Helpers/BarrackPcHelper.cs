@@ -33,7 +33,7 @@ namespace Melia.Barracks.Network.Helpers
 			{
 				var propertiesObj = equipProperties[i];
 				var propertyList = propertiesObj.GetAll();
-				var propertiesSize = propertyList.GetSize();
+				var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutShort(propertiesSize);
 				if (propertiesSize > 0)
