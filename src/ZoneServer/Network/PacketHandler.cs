@@ -1200,7 +1200,7 @@ namespace Melia.Zone.Network
 					if (stat <= 0)
 						continue;
 
-					if (character.Properties.GetFloat("StatPoint") < stat)
+					if (character.Properties.GetFloat(PropertyName.StatPoint) < stat)
 					{
 						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
 						break;

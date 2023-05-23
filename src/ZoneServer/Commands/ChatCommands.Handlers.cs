@@ -700,7 +700,7 @@ namespace Melia.Zone.Commands
 			if (!float.TryParse(args.Get(0), out var speed))
 				return CommandResult.InvalidArgument;
 
-			var currentSpeed = target.Properties.GetFloat("MSPD");
+			var currentSpeed = target.Properties.GetFloat(PropertyName.MSPD);
 			var bonusSpeed = speed - currentSpeed;
 
 			target.Properties.Modify("MSPD_Bonus", bonusSpeed);
@@ -1185,7 +1185,7 @@ namespace Melia.Zone.Commands
 				}
 			}
 
-			var points = sender.Properties.GetFloat("AbilityPoint");
+			var points = sender.Properties.GetFloat(PropertyName.AbilityPoint);
 			if (points < price)
 			{
 				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", sender.Connection.Account.Name);

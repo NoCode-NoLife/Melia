@@ -706,7 +706,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_CASTING_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Properties.GetFloat("CastingSpeed"));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.CastingSpeed));
 			packet.PutLong(character.Id);
 
 			character.Map.Broadcast(packet, character);
@@ -979,7 +979,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_JUMP);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Properties.GetFloat("JumpPower"));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.JumpPower));
 			packet.PutInt(character.GetJumpType());
 			packet.PutByte(0);  // 1 or 0
 			packet.PutPosition(pos);
@@ -1113,7 +1113,7 @@ namespace Melia.Zone.Network
 			// and maybe we'll figure out why exactly it happens.
 			var propertyList = item.Properties.GetAll();
 			if (propertyList.Count == 0)
-				propertyList.Add(new FloatProperty("CoolDown", 0));
+				propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
 
 			var propertiesSize = propertyList.GetByteCount();
 
@@ -3002,10 +3002,10 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		public static void ZC_UPDATE_ALL_STATUS(IEntity entity)
 		{
-			var hp = (int)entity.Properties.GetFloat("HP");
-			var maxHp = (int)entity.Properties.GetFloat("MHP");
-			var sp = (int)entity.Properties.GetFloat("SP");
-			var maxSp = (int)entity.Properties.GetFloat("MSP");
+			var hp = (int)entity.Properties.GetFloat(PropertyName.HP);
+			var maxHp = (int)entity.Properties.GetFloat(PropertyName.MHP);
+			var sp = (int)entity.Properties.GetFloat(PropertyName.SP);
+			var maxSp = (int)entity.Properties.GetFloat(PropertyName.MSP);
 
 			var packet = new Packet(Op.ZC_UPDATE_ALL_STATUS);
 
@@ -4175,42 +4175,42 @@ namespace Melia.Zone.Network
 			{
 				if (equipItem.Value.Id == 521101)
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
-					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
 				}
 				else if (equipItem.Value.Id == 101101)
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3331f));
-					equipItem.Value.Properties.Create(new FloatProperty("MINATK", 36f));
-					equipItem.Value.Properties.Create(new FloatProperty("MAXATK", 38f));
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
-					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3331f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MINATK, 36f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MAXATK, 38f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 0f));
 				}
 				else if (equipItem.Value.Id == 141101)
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3331f));
-					equipItem.Value.Properties.Create(new FloatProperty("MATK", 37f));
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
-					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3331f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MATK, 37f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 0f));
 				}
 				else if (equipItem.Value.Id == 531101)
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
-					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
 				}
 				else if (equipItem.Value.Id == 521101)
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("Dur", 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty("MDEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("DEF", 19f));
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
-					equipItem.Value.Properties.Create(new FloatProperty("MaxSocket", 1f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
 				}
 				else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
 				{
@@ -4218,7 +4218,7 @@ namespace Melia.Zone.Network
 				}
 				else
 				{
-					equipItem.Value.Properties.Create(new FloatProperty("CoolDown", 0f));
+					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
 				}
 
 				var propertyList = equipItem.Value.Properties.GetAll();

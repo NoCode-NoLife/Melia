@@ -49,7 +49,7 @@ namespace Melia.Zone.Buffs.Handlers
 				//   but if we do that manually, couldn't we end up removing
 				//   more than we should in OnEnd, when the speed changes?
 
-				var mspd = target.Properties.GetFloat("MSPD");
+				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
 				var add = -mspd * 0.05f;
 
 				target.Properties.Modify("MSPD_BM", add);

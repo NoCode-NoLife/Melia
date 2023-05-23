@@ -1,4 +1,5 @@
-﻿using Melia.Shared.World.ObjectProperties;
+﻿using Melia.Shared.Tos.Const;
+using Melia.Shared.World.ObjectProperties;
 
 namespace Melia.Zone.World.Entities.Components
 {
@@ -27,9 +28,9 @@ namespace Melia.Zone.World.Entities.Components
 		/// </summary>
 		private void AddDefaultProperties()
 		{
-			this.Create(new FloatProperty("WlkMSPD", this.Monster.Data.WalkSpeed));
-			this.Create(new FloatProperty("RunMSPD", this.Monster.Data.RunSpeed));
-			this.Create(new CFloatProperty("MSPD", this.GetMSPD));
+			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
+			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
+			this.Create(new CFloatProperty(PropertyName.MSPD, this.GetMSPD));
 
 			this.RecalculateAll();
 		}
@@ -40,7 +41,7 @@ namespace Melia.Zone.World.Entities.Components
 		/// <returns></returns>
 		private float GetMSPD()
 		{
-			return this.GetFloat("WlkMSPD");
+			return this.GetFloat(PropertyName.WlkMSPD);
 		}
 	}
 }

@@ -201,27 +201,27 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's current level.
 		/// </summary>
-		public int Level => (int)this.Properties.GetFloat("Lv");
+		public int Level => (int)this.Properties.GetFloat(PropertyName.Lv);
 
 		/// <summary>
 		/// Returns the character's current HP.
 		/// </summary>
-		public int Hp => (int)this.Properties.GetFloat("HP");
+		public int Hp => (int)this.Properties.GetFloat(PropertyName.HP);
 
 		/// <summary>
 		/// Returns the character's max HP.
 		/// </summary>
-		public int MaxHp => (int)this.Properties.GetFloat("MHP");
+		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
 		/// Returns the character's current SP.
 		/// </summary>
-		public int Sp => (int)this.Properties.GetFloat("SP");
+		public int Sp => (int)this.Properties.GetFloat(PropertyName.SP);
 
 		/// <summary>
 		/// Returns the character's max SP.
 		/// </summary>
-		public int MaxSp => (int)this.Properties.GetFloat("MSP");
+		public int MaxSp => (int)this.Properties.GetFloat(PropertyName.MSP);
 
 		/// <summary>
 		/// Returns the character's current stamina.
@@ -241,7 +241,7 @@ namespace Melia.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's move speed via its MSPD property.
 		/// </summary>
-		public float MoveSpeed => this.Properties.GetFloat("MSPD");
+		public float MoveSpeed => this.Properties.GetFloat(PropertyName.MSPD);
 
 		/// <summary>
 		/// Returns the character's component collection.
@@ -603,8 +603,8 @@ namespace Melia.Zone.World.Entities
 		/// </summary>
 		public void Heal()
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat("MHP"));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat("MSP"));
+			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
 
 			Send.ZC_UPDATE_ALL_STATUS(this);
 		}
@@ -676,7 +676,7 @@ namespace Melia.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void ModifyAbilityPoints(int amount)
 		{
-			var abilityPoints = int.Parse(this.Properties.GetString("AbilityPoint"));
+			var abilityPoints = int.Parse(this.Properties.GetString(PropertyName.AbilityPoint));
 			abilityPoints += amount;
 			this.Properties.SetString("AbilityPoint", abilityPoints.ToString());
 
@@ -989,8 +989,8 @@ namespace Melia.Zone.World.Entities
 		{
 			var rnd = RandomProvider.Get();
 
-			var min = (int)this.Properties.GetFloat("MINPATK");
-			var max = (int)this.Properties.GetFloat("MAXPATK");
+			var min = (int)this.Properties.GetFloat(PropertyName.MINPATK);
+			var max = (int)this.Properties.GetFloat(PropertyName.MAXPATK);
 
 			return rnd.Next(min, max + 1);
 		}
@@ -1003,8 +1003,8 @@ namespace Melia.Zone.World.Entities
 		{
 			var rnd = RandomProvider.Get();
 
-			var min = (int)this.Properties.GetFloat("MINMATK");
-			var max = (int)this.Properties.GetFloat("MAXMATK");
+			var min = (int)this.Properties.GetFloat(PropertyName.MINMATK);
+			var max = (int)this.Properties.GetFloat(PropertyName.MAXMATK);
 
 			return rnd.Next(min, max + 1);
 		}

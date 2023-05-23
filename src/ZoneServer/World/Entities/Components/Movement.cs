@@ -89,7 +89,7 @@ namespace Melia.Zone.World.Entities.Components
 				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
 
 				// Get speed
-				var speed = this.Entity.Properties.GetFloat("MSPD");
+				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
 
 				// With 0 speed, we can't move anywhere
 				if (speed == 0)
