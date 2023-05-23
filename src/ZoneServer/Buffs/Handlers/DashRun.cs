@@ -1,8 +1,7 @@
-﻿using Melia.Zone.Buffs.Base;
+﻿using Melia.Shared.Tos.Const;
+using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
-using Melia.Zone.World;
-using Melia.Zone.World.Entities;
-using Melia.Shared.Tos.Const;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Buffs.Handlers
 {

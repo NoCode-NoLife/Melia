@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;

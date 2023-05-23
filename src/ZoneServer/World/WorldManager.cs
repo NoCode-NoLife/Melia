@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Zone.Events;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World

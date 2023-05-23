@@ -1,4 +1,4 @@
-﻿using Melia.Zone.World.Entities;
+﻿using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Util.Commands;
 
 namespace Melia.Zone.Commands

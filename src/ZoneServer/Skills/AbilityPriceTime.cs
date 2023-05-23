@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 

@@ -176,7 +176,7 @@ namespace Melia.Barracks.Database
 
 				// Equip
 				// Only save items that aren't default equipment
-				foreach (var item in character.Equipment.Where(a => !Items.DefaultItems.Contains(a.Id)))
+				foreach (var item in character.Equipment.Where(a => !InventoryDefaults.EquipItems.Contains(a.Id)))
 				{
 					var newId = 0L;
 

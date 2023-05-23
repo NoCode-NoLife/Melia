@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills

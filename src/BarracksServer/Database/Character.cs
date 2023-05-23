@@ -199,11 +199,11 @@ namespace Melia.Barracks.Database
 		/// </summary>
 		public Character()
 		{
-			this.Equipment = new EquipItem[Items.EquipSlotCount];
+			this.Equipment = new EquipItem[InventoryDefaults.EquipSlotCount];
 
-			for (var i = 0; i < Items.EquipSlotCount; ++i)
+			for (var i = 0; i < InventoryDefaults.EquipSlotCount; ++i)
 			{
-				var itemId = Items.DefaultItems[i];
+				var itemId = InventoryDefaults.EquipItems[i];
 				var slot = (EquipSlot)i;
 
 				this.Equipment[i] = new EquipItem(itemId, slot);

@@ -2,7 +2,7 @@
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;

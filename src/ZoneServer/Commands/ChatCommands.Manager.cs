@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.L10N;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 

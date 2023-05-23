@@ -7,7 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Scripting.Dialogues

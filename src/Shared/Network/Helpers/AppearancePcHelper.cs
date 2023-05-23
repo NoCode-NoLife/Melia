@@ -35,7 +35,7 @@ namespace Melia.Shared.Network.Helpers
 
 			// Items
 			var equipIds = appearancePc.GetEquipIds();
-			if (equipIds.Length != Items.EquipSlotCount)
+			if (equipIds.Length != InventoryDefaults.EquipSlotCount)
 				throw new InvalidOperationException("Incorrect amount of equipment (" + equipIds.Length + ").");
 
 			for (var i = 0; i < equipIds.Length; ++i)
@@ -49,8 +49,8 @@ namespace Melia.Shared.Network.Helpers
 			}
 
 			// Visual Equip Ids?
-			for (var i = 0; i < Items.DefaultItems.Length; ++i)
-				packet.PutInt(Items.DefaultItems[i]);
+			for (var i = 0; i < InventoryDefaults.EquipItems.Length; ++i)
+				packet.PutInt(InventoryDefaults.EquipItems[i]);
 
 			// [i336041, 2021-07-25]
 			{

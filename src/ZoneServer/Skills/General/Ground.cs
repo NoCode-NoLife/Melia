@@ -3,7 +3,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.General

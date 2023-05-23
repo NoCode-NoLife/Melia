@@ -21,8 +21,8 @@ namespace Melia.Barracks.Network.Helpers
 		public static void AddBarrackPc(this Packet packet, IBarrackPc pc)
 		{
 			var equipProperties = pc.GetEquipmentProperties();
-			if (equipProperties.Length != Items.EquipSlotCount)
-				throw new InvalidOperationException("Expected " + Items.EquipSlotCount + " items for property list.");
+			if (equipProperties.Length != InventoryDefaults.EquipSlotCount)
+				throw new InvalidOperationException("Expected " + InventoryDefaults.EquipSlotCount + " items for property list.");
 
 			var jobIds = pc.GetJobIds();
 

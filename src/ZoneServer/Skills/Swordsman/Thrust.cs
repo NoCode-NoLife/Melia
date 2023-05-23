@@ -2,7 +2,7 @@
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 

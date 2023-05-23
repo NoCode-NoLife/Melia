@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
-using Melia.Shared.ObjectProperties;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
-using Melia.Zone.World.Entities;
-using Melia.Zone.World.Entities.Components;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Items;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -625,7 +625,7 @@ namespace Melia.Zone.Database
 				// Save only non-dummy equip to the database, and make sure
 				// that dummy equip that was loaded into the character as a
 				// normal item wrongfully isn't saved again.
-				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !Items.DefaultItems.Contains(a.Value.Id)))
+				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !InventoryDefaults.EquipItems.Contains(a.Value.Id)))
 				{
 					var newId = 0L;
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using Melia.Zone.Network;
-using Melia.Zone.World;
-using Melia.Zone.World.Entities;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
+using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
+using Melia.Zone.World;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills
 {

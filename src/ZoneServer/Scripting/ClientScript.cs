@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Melia.Zone.Network;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Scripting
 {

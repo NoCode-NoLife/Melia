@@ -12,8 +12,11 @@ using Melia.Zone.Buffs;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
-using Melia.Zone.World.Entities;
-using Melia.Zone.World.Entities.Components;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -799,7 +802,7 @@ namespace Melia.Zone.Network
 		public static void ZC_ITEM_EQUIP_LIST(Character character)
 		{
 			var equip = character.Inventory.GetEquip();
-			if (equip.Count != Items.EquipSlotCount)
+			if (equip.Count != InventoryDefaults.EquipSlotCount)
 				throw new InvalidOperationException("Incorrect amount of equipment (" + equip.Count + ").");
 
 			var packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);

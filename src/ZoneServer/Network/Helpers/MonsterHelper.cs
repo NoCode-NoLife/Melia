@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Network.Helpers
 {

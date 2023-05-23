@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Melia.Zone.World;
-using Melia.Zone.World.Entities;
 using Melia.Shared.World;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Base
 {

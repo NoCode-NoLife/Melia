@@ -1,7 +1,7 @@
 ﻿using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
-using Melia.Zone.World.Entities;
-using Melia.Shared.Tos.Const;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.General
 {

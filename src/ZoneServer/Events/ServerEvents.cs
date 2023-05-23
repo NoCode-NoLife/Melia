@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Events
 {

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
@@ -11,8 +9,10 @@ using Melia.Shared.World;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
-using Melia.Zone.World.Entities;
-using Melia.Zone.World.Entities.Components;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network

@@ -1,8 +1,7 @@
 ﻿using Melia.Shared.Network;
 using Melia.Zone.Database;
-using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.World.Entities;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Network.TCP;
 
 namespace Melia.Zone.Network
