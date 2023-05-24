@@ -1894,6 +1894,11 @@ namespace Melia.Zone.Network
 			if (character == null)
 				return;
 
+			// Only allow dashing for swordsmen, unless the respective
+			// feature was enabled.
+			if (character.JobClass != JobClass.Swordsman && !Feature.IsEnabled("DashingForAll"))
+				return;
+
 			// For some reason this packet is sent multiple times while
 			// the character is dashing, which is a potential problem if
 			// DashRun gets stacked and started again, but the buff manager

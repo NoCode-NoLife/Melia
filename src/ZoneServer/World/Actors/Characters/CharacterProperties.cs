@@ -280,8 +280,11 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var defaultValue = 50f;
 
+			if (Feature.IsEnabled("FreeRunning"))
+				defaultValue = 0;
+
 			var isDashRun = this.GetFloat("DashRun", 0);
-			if (isDashRun > 0)
+			if (isDashRun > 0 && !Feature.IsEnabled("FreeDashing"))
 			{
 				var dashAmount = 500f;
 				if (isDashRun == 2)
