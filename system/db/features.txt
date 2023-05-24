@@ -1,0 +1,21 @@
+// Melia
+// Database file
+//---------------------------------------------------------------------------
+
+[
+{ name: "Re:Build", enabled: true, children: [
+
+	// Movement-related changes
+	{ name: "MovementRevamp", enabled: true, children: [
+		// Disables stamina drain while running
+		{ name: "FreeRunning", enabled: true },
+		
+		// Disables stamina drain while dashing
+		{ name: "FreeDashing", enabled: false },
+		
+		// Enables dashing for all classes
+		{ name: "DashingForAll", enabled: true },
+	]},
+	
+]},
+]

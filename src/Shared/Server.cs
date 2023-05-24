@@ -191,6 +191,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
 					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
+					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
 					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
 					this.LoadDb(this.Data.ItemDb, "db/items.txt");
 					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
@@ -216,6 +217,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
 					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
+					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
 					this.LoadDb(this.Data.GroundDb, "db/ground.dat");
 					this.LoadDb(this.Data.HelpDb, "db/help.txt");
 					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");

@@ -89,6 +89,7 @@
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Events\TimeEventArgs.cs" />
     <Compile Include="Events\TimeEventRaiser.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
