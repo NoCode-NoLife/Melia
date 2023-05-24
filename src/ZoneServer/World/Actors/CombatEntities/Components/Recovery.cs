@@ -1,6 +1,10 @@
 ﻿using System;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Composition;
+using Yggdrasil.Geometry.Shapes;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
@@ -12,6 +16,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	{
 		private TimeSpan _rhpTime;
 		private TimeSpan _rspTime;
+		private TimeSpan _staminaTime;
 
 		/// <summary>
 		/// Creates new component.
@@ -29,6 +34,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			_rhpTime -= elapsed;
 			_rspTime -= elapsed;
+			_staminaTime -= elapsed;
 
 			if (_rhpTime <= TimeSpan.Zero)
 			{
@@ -40,6 +46,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				this.RecoverSp();
 				_rspTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.RSPTIME));
+			}
+
+			if (_staminaTime <= TimeSpan.Zero)
+			{
+				this.RecoverStamina();
+				_staminaTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.Sta_R_Delay));
 			}
 		}
 
@@ -67,6 +79,41 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 			if (rec > 0 && cur < max)
 				this.Entity.Heal(0, rec);
+		}
+
+		/// <summary>
+		/// Recovers or drains stamina.
+		/// </summary>
+		private void RecoverStamina()
+		{
+			// Stamina is weird. Do monsters have stamina? Why is there
+			// no property for the current stamina? Should we make it a
+			// separate component if only characters have it? Meh.
+			if (!(this.Entity is Character character))
+				return;
+
+			var stamina = character.Properties.Stamina;
+			var maxStamina = (int)character.Properties.GetFloat(PropertyName.MaxSta);
+
+			var prev = stamina;
+
+			// Drain stamina during movement, recover otherwise
+			if (character.IsMoving)
+			{
+				var runDrain = (int)character.Properties.GetFloat(PropertyName.Sta_Run, 0);
+				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);
+			}
+			else
+			{
+				var recovery = (int)character.Properties.GetFloat(PropertyName.Sta_Recover, 0);
+				stamina = Math2.Clamp(0, maxStamina, stamina + recovery);
+			}
+
+			if (prev == stamina)
+				return;
+
+			character.Properties.Stamina = stamina;
+			Send.ZC_STAMINA(character, stamina);
 		}
 	}
 }

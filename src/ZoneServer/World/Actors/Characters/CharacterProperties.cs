@@ -55,7 +55,15 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(new CFloatProperty(PropertyName.MHP, this.GetMHP));
 			this.Create(new CFloatProperty(PropertyName.MSP, this.GetMSP));
-			this.Create(new CFloatProperty(PropertyName.MaxSta, this.GetMaxSta));
+
+			this.Create(new CFloatProperty(PropertyName.MaxSta, this.Get_MSTA));
+			this.Create(new CFloatProperty(PropertyName.Sta_RunStart, this.Get_Sta_RunStart));
+			this.Create(new CFloatProperty(PropertyName.Sta_Run, this.Get_Sta_Run));
+			this.Create(new CFloatProperty(PropertyName.Sta_Recover, this.Get_Sta_Recover));
+			this.Create(new CFloatProperty(PropertyName.Sta_R_Delay, this.Get_Sta_R_Delay));
+			this.Create(new CFloatProperty(PropertyName.Sta_Runable, this.Get_Sta_Runable));
+			this.Create(new CFloatProperty(PropertyName.Sta_Jump, this.Get_Sta_Jump));
+			this.Create(new CFloatProperty(PropertyName.Sta_Step, this.Get_Sta_Step));
 
 			// Don't set a max value initially, as that could cap the HP
 			// during loading.
@@ -137,6 +145,9 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("BLK_BREAK", new[] { "Lv", "DEX", "BLK_BREAK_BM", "BLK_BREAK_RATE_BM" });
 			this.AutoUpdate("SR", new[] { "SR_BM" });
 			this.AutoUpdate("SDR", new[] { "SDR_BM" });
+			this.AutoUpdate("MaxSta", new[] { "CON", "MAXSTA_Bonus", "MaxSta_BM" });
+			this.AutoUpdate("Sta_Run", new[] { "DashRun" });
+			this.AutoUpdate("Sta_Recover", new[] { "REST_BM", "RSta_BM" });
 
 			this.AutoUpdateMax("HP", "MHP");
 			this.AutoUpdateMax("SP", "MSP");
@@ -224,7 +235,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public int Stamina
 		{
 			get => _stamina;
-			set => _stamina = (int)Math2.Clamp(0, this.GetMaxSta(), value);
+			set => _stamina = (int)Math2.Clamp(0, this.Get_MSTA(), value);
 		}
 		private int _stamina;
 
@@ -236,10 +247,108 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's maximum stamina.
 		/// </summary>
-		public float GetMaxSta()
+		public float Get_MSTA()
 		{
-			// TODO: Item and buff bonus.
-			return this.Character.Job?.Data.Stamina ?? 1;
+			var defaultValue = 25;
+			var stat = this.GetFloat(PropertyName.CON, 1);
+
+			var byStat = Math.Floor(stat / 20f);
+			var byItem = this.Character.Inventory.GetEquipProperties(PropertyName.MSTA);
+			var byBonus = this.GetFloat(PropertyName.MAXSTA_Bonus, 0);
+			var byBuff = this.GetFloat(PropertyName.MaxSta_BM, 0);
+			//var byReward = GetReward(PropertyName.MSTA);
+
+			var value = defaultValue + byStat + byItem + byBonus + byBuff;
+
+			return (int)(value * 1000);
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina used when starting to run.
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_RunStart()
+		{
+			return 0;
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina used while moving.
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_Run()
+		{
+			var defaultValue = 50f;
+
+			var isDashRun = this.GetFloat("DashRun", 0);
+			if (isDashRun > 0)
+			{
+				var dashAmount = 500f;
+				if (isDashRun == 2)
+					dashAmount *= 0.9f;
+
+				defaultValue += dashAmount;
+			}
+
+			var value = 250f * defaultValue / 100f;
+
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina recovered per second.
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_Recover()
+		{
+			//if (buffCursed?)
+			//	return 0;
+
+			var defaultValue = 400;
+
+			var byBuff = this.GetFloat(PropertyName.REST_BM, 0) + this.GetFloat(PropertyName.RSta_BM, 0);
+			var value = defaultValue + byBuff;
+
+			if (this.Character.Buffs.Has(BuffId.SitRest))
+				value *= 2;
+
+			return (int)value;
+		}
+
+		/// <summary>
+		/// Returns the amount of time between stamina recovery ticks?
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_R_Delay()
+		{
+			return 1000;
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina necessary to start dashing.
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_Runable()
+		{
+			return 250;
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina used when jumping.
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_Jump()
+		{
+			return 0;
+		}
+
+		/// <summary>
+		/// Returns the amount of stamina for ...?
+		/// </summary>
+		/// <returns></returns>
+		public float Get_Sta_Step()
+		{
+			return 2500;
 		}
 
 		/// <summary>
