@@ -39,7 +39,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// line. Returns the amount of time the move will take.
 		/// </summary>
 		/// <remarks>
-		/// The position doesn't need to a correct Y coordinate, as the
+		/// The position doesn't need a correct Y coordinate, as the
 		/// method sets it as needed.
 		/// </remarks>
 		/// <param name="destination"></param>
