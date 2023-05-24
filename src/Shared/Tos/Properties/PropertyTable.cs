@@ -23,6 +23,9 @@ namespace Melia.Shared.Tos.Properties
 		{
 			Loaded = true;
 
+			NsNames.Clear();
+			NsIds.Clear();
+
 			foreach (var entry in db.Entries.Values)
 			{
 				if (!NsNames.TryGetValue(entry.Namespace, out var nsNames))
