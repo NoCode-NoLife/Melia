@@ -83,6 +83,7 @@
     <Compile Include="Configuration\Files\Barracks.cs" />
     <Compile Include="Configuration\Files\Web.cs" />
     <Compile Include="Configuration\Files\World.cs" />
+    <Compile Include="Data\Database\AccountOptions.cs" />
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Tos\Const\Misc.cs" />
     <Compile Include="Tos\Const\NpcState.cs" />
     <Compile Include="Tos\Const\MonsterType.cs" />
-    <Compile Include="Tos\Const\Option.cs" />
     <Compile Include="Tos\Const\PropertyName.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />

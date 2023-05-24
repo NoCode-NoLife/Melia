@@ -9,6 +9,7 @@ namespace Melia.Shared.Data
 	{
 		public AbilityDb AbilityDb = new AbilityDb();
 		public AbilityTreeDb AbilityTreeDb = new AbilityTreeDb();
+		public AccountOptionDb AccountOptionDb = new AccountOptionDb();
 		public AchievementDb AchievementDb = new AchievementDb();
 		public AchievementPointDb AchievementPointDb = new AchievementPointDb();
 		public BarrackDb BarrackDb = new BarrackDb();

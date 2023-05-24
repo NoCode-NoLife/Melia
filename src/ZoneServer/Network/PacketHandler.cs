@@ -847,23 +847,24 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when changing an option in the settings.
+		/// Sent when changing an option in the settings. Or when the
+		/// client randomly decides to spam you with all options.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var option = (Option)packet.GetInt();
+			var optionId = packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!Enum.IsDefined(typeof(Option), option))
+			if (!conn.Account.Settings.IsValid(optionId))
 			{
-				Log.Debug("CZ_CHANGE_CONFIG: Unknown option '{0}'.", option);
+				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;
 			}
 
-			conn.Account.Settings.Set(option, value);
+			conn.Account.Settings.Set(optionId, value);
 		}
 
 		/// <summary>
