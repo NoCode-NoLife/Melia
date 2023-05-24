@@ -44,14 +44,14 @@ namespace Melia.Barracks.Network.Helpers
 			packet.PutFloat(pc.BarracksPosition.X);
 			packet.PutFloat(pc.BarracksPosition.Y);
 			packet.PutFloat(pc.BarracksPosition.Z);
-			packet.PutFloat(0); // Vector direction
-			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(pc.BarracksDirection.Cos);
+			packet.PutFloat(pc.BarracksDirection.Sin);
 
 			packet.PutFloat(pc.BarracksPosition.X);
 			packet.PutFloat(pc.BarracksPosition.Y);
 			packet.PutFloat(pc.BarracksPosition.Z);
-			packet.PutFloat(0); // Vector direction
-			packet.PutFloat(0); // Vector direction
+			packet.PutFloat(pc.BarracksDirection.Cos);
+			packet.PutFloat(pc.BarracksDirection.Sin);
 		}
 	}
 

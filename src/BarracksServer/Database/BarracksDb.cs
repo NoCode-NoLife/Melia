@@ -153,6 +153,7 @@ namespace Melia.Barracks.Database
 					cmd.Set("bx", character.BarracksPosition.X);
 					cmd.Set("by", character.BarracksPosition.Y);
 					cmd.Set("bz", character.BarracksPosition.Z);
+					cmd.Set("bd", character.BarracksDirection.DegreeAngle);
 
 					cmd.Set("hp", character.Hp);
 					cmd.Set("hpRate", character.HpRateByJob);
@@ -246,6 +247,7 @@ namespace Melia.Barracks.Database
 				cmd.Set("bx", character.BarracksPosition.X);
 				cmd.Set("by", character.BarracksPosition.Y);
 				cmd.Set("bz", character.BarracksPosition.Z);
+				cmd.Set("bd", character.BarracksDirection.DegreeAngle);
 				cmd.Set("barrackLayer", character.BarrackLayer);
 				cmd.Set("slot", character.Index);
 
@@ -289,6 +291,7 @@ namespace Melia.Barracks.Database
 							var by = reader.GetFloat("by");
 							var bz = reader.GetFloat("bz");
 							character.BarracksPosition = new Position(bx, by, bz);
+							character.BarracksDirection = new Direction(reader.GetFloat("bd"));
 
 							result.Add(character);
 						}

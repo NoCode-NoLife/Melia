@@ -375,8 +375,8 @@ namespace Melia.Barracks.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat(); // ?
-			var d2 = packet.GetFloat(); // ?
+			var d1 = packet.GetFloat();
+			var d2 = packet.GetFloat();
 
 			// On a new character creation, this packet is sent with the index as this byte.
 			if (index == 0xFF)
@@ -395,6 +395,8 @@ namespace Melia.Barracks.Network
 
 			// Move
 			character.BarracksPosition = new Position(x, y, z);
+			character.BarracksDirection = new Direction(d1, d2);
+
 			Send.BC_NORMAL_SetPosition(conn, index, character.BarracksPosition);
 		}
 
