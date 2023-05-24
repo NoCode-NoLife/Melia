@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CS_LOGIN.bt
+//   Authors: exec
+//   Version: i373230
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+int sequence;
+int checksum;
+
+char name[56];
+byte unk1[17];
+int64 accountId;
+byte sessionKey[256];
+char locale[40];
+byte unk2[24];
