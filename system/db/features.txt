@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------
 
 [
-{ name: "Re:Build", enabled: true, children: [
+{ name: "Re:Build", enabled: false, children: [
 
 	// Movement-related changes
 	{ name: "MovementRevamp", enabled: true, children: [
@@ -11,11 +11,15 @@
 		{ name: "FreeRunning", enabled: true },
 		
 		// Disables stamina drain while dashing
-		{ name: "FreeDashing", enabled: false },
+		{ name: "FreeDashing", enabled: true },
 		
 		// Enables dashing for all classes
 		{ name: "DashingForAll", enabled: true },
 	]},
 	
 ]},
+
+// Let's enable certain features by default for now, as them being missing
+// could confuse some users.
+{ name: "DashingForAll", enabled: true },
 ]
