@@ -15,7 +15,7 @@ typedef struct
 {
     int i1;
     int i2;
-    int64 l1;
+    int64 id;
     float f1;
     short propertySize;
     short s1;

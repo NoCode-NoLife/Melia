@@ -329,7 +329,12 @@ namespace Melia.Zone.World.Actors.Characters
 			// For now we'll add only one, to be able to get rid of the
 			// message "You can buy items from a shop", which has been
 			// bugging me. I know I can buy items! I coded that!
-			this.SessionObjects.Add(new SessionObject(SessionObjectId.Jansori));
+			// 
+			// Update: Disabling this for now so we can take a fresh
+			//   look at session objects. Curiously, I don't get the
+			//   aformentioned tooltip anymore right now, even if this
+			//   object is missing.
+			//this.SessionObjects.Add(new SessionObject(SessionObjectId.Jansori));
 		}
 
 		/// <summary>
