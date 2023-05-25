@@ -15,6 +15,7 @@
 //   - i218535: BARRACK_PC.b4 was added
 //   - i218535: AccountProperties.i1 was added
 //   - i336041: ???
+//   - i373230: AccountProperties.s1 added
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
@@ -24,6 +25,7 @@ typedef struct
 {
     short size;
     short serverId;
+    short s1;
     int barrackLayer;
     byte b1;
     byte b2;
@@ -70,15 +72,19 @@ byte characterCount;
 char teamName[64];
 
 AccountProperties properties;
+
 short disableAdditionalCharacterSlots;
-if (disableAdditionalCharacterSlots == 0) {
+if (disableAdditionalCharacterSlots == 0)
+{
     ushort additionalCharacterCount;
     int teamExp;
     if (properties.size != 0)
         int totalCharacterCount;
     else
         short characterCount2;
-} else {
+}
+else
+{
     int mapId;
     short layerCharacterCount;
     short additionalSlotCount;

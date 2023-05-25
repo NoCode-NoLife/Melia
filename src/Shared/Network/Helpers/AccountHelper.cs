@@ -24,6 +24,7 @@ namespace Melia.Shared.Network.Helpers
 
 			packet.PutShort(size);
 			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
+			packet.PutShort(0); // [i373230] Value: 1003
 			packet.PutInt(account.SelectedBarrackLayer);
 			packet.PutByte(1);
 			packet.PutByte(1);

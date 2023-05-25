@@ -37,13 +37,13 @@ string propertyRead(property &p)
     
 #ifdef OPN
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
+        case OBJP_STRING: SPrintf(ret, "%s : \"%s\"",   getPropertyName(p.id), p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
         case OBJP_FILETIME:  SPrintf(ret, "%s : %s", getPropertyName(p.id), FileTimeToString(p.val)); break;
     }
 #else
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
+        case OBJP_STRING: SPrintf(ret, "%d : \"%s\"",   p.id, p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
         case OBJP_FILETIME:  SPrintf(ret, "%d : %s", p.id, FileTimeToString(p.val)); break;
     }
@@ -218,6 +218,9 @@ int getPropertyType(int id)
         case 109567:
         case 109568:
         case 109569:
+        case 109827:
+        case 109829:
+        case 110719:
             return OBJP_STRING;
             break;
         case 107249:
