@@ -15,6 +15,7 @@
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
+
 int64 accountId;
 short propertySize;
 getProperties(propertySize);

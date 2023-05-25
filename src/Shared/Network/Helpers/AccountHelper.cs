@@ -12,19 +12,12 @@ namespace Melia.Shared.Network.Helpers
 		/// <param name="account"></param>
 		public static void AddAccountProperties(this Packet packet, IAccount account)
 		{
-			var properties = new Properties("Account");
-			properties.SetFloat("Medal", account.Medals);
-			properties.SetString("CTT_TempProperty_AC_Str_2", "x64_Client");
-			properties.SetString("CTT_TempProperty_AC_Str_3", "x86_Client");
-			properties.SetString("CTT_TempProperty_AC_Str_1", "x64_OS");
-			properties.SetString("Medal_Get_Date", "202107321185720");
-
-			var propertyList = properties.GetAll();
+			var propertyList = account.Properties.GetAll();
 			var size = propertyList.GetByteCount();
 
 			packet.PutShort(size);
-			packet.PutShort(100); // This is the server group ID found in serverlist.xml.
-			packet.PutShort(0); // [i373230] Value: 1003
+			packet.PutShort(100); // This is the server group ID found in serverlist.xml. Update: Is it though? Looks more like the enter limit.
+			packet.PutShort(0); // [i373230] Value: 1003. Server group id?
 			packet.PutInt(account.SelectedBarrackLayer);
 			packet.PutByte(1);
 			packet.PutByte(1);
@@ -62,5 +55,10 @@ namespace Melia.Shared.Network.Helpers
 		/// Returns the selected barrack layer.
 		/// </summary>
 		int SelectedBarrackLayer { get; }
+
+		/// <summary>
+		/// Returns a reference to the account's properties.
+		/// </summary>
+		Properties Properties { get; }
 	}
 }

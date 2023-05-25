@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
 using Melia.Zone.World;
 using Melia.Zone.World.Maps;
@@ -77,6 +78,11 @@ namespace Melia.Zone.Database
 		/// Account's scripting variables.
 		/// </summary>
 		public VariablesContainer Variables { get; } = new VariablesContainer();
+
+		/// <summary>
+		/// Returns a reference to the account's properties.
+		/// </summary>
+		public Properties Properties { get; } = new Properties("Account");
 
 		/// <summary>
 		/// Creates new account.

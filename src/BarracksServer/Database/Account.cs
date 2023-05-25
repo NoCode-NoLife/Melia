@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Barracks.Database
 {
@@ -85,6 +86,23 @@ namespace Melia.Barracks.Database
 		/// across all characters.
 		/// </summary>
 		public int TeamExp { get; set; }
+
+		/// <summary>
+		/// Returns a reference to the account's properties.
+		/// </summary>
+		public Properties Properties { get; } = new Properties("Account");
+
+		/// <summary>
+		/// Initializes account and its properties.
+		/// </summary>
+		public Account()
+		{
+			this.Properties.Create(new RFloatProperty("Medal", () => this.Medals));
+			this.Properties.Create(new StringProperty("Medal_Get_Date", "202107321185720"));
+			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_1", "x64_OS"));
+			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_2", "x86_Client"));
+			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_3", "x64_Client"));
+		}
 
 		/// <summary>
 		/// Returns list of all characters on account.
