@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Melia.Shared.Database;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
@@ -84,6 +85,7 @@ namespace Melia.Barracks.Database
 				cmd.Set("premiumMedals", account.PremiumMedals);
 				cmd.Set("additionalSlotCount", account.AdditionalSlotCount);
 				cmd.Set("teamExp", account.TeamExp);
+				cmd.Set("barracksThema", account.SelectedBarrack);
 
 				return cmd.Execute() > 0;
 			}
@@ -116,6 +118,7 @@ namespace Melia.Barracks.Database
 					account.PremiumMedals = reader.GetInt32("premiumMedals");
 					account.AdditionalSlotCount = reader.GetInt32("additionalSlotCount");
 					account.TeamExp = reader.GetInt32("teamExp");
+					account.SelectedBarrack = reader.GetInt32("barracksThema");
 
 					// Upgrade MD5 hashes
 					if (account.Password.Length == 32)

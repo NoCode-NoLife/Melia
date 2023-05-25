@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Barracks.Database
 {
@@ -97,11 +98,12 @@ namespace Melia.Barracks.Database
 		/// </summary>
 		public Account()
 		{
-			this.Properties.Create(new RFloatProperty("Medal", () => this.Medals));
-			this.Properties.Create(new StringProperty("Medal_Get_Date", "202107321185720"));
-			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_1", "x64_OS"));
-			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_2", "x86_Client"));
-			this.Properties.Create(new StringProperty("CTT_TempProperty_AC_Str_3", "x64_Client"));
+			this.Properties.Create(new RFloatProperty(PropertyName.SelectedBarrack, () => this.SelectedBarrack));
+			this.Properties.Create(new RFloatProperty(PropertyName.Medal, () => this.Medals));
+			this.Properties.Create(new StringProperty(PropertyName.Medal_Get_Date, "202107321185720"));
+			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_1, "x64_OS"));
+			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_2, "x86_Client"));
+			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_3, "x64_Client"));
 		}
 
 		/// <summary>
