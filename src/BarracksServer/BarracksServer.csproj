@@ -73,6 +73,7 @@
     <Compile Include="Network\Helpers\BarrackPcHelper.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Send.cs" />
+    <Compile Include="Network\Send.Normal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

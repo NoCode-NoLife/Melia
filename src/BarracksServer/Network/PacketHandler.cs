@@ -110,12 +110,12 @@ namespace Melia.Barracks.Network
 			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
 
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
-			Send.BC_NORMAL_SetBarrack(conn);
+			Send.BC_NORMAL.SetBarrack(conn);
 			Send.BC_COMMANDER_LIST(conn);
-			Send.BC_NORMAL_CharacterInfo(conn);
-			Send.BC_NORMAL_TeamUI(conn);
-			Send.BC_NORMAL_ZoneTraffic(conn);
-			//Send.BC_NORMAL_MESSAGE_MAIL(conn);
+			Send.BC_NORMAL.CharacterInfo(conn);
+			Send.BC_NORMAL.TeamUI(conn);
+			Send.BC_NORMAL.ZoneTraffic(conn);
+			//Send.BC_NORMAL.MESSAGE_MAIL(conn);
 
 			// Update account properties with Lua code to send scripts
 			// to the client
@@ -139,7 +139,7 @@ namespace Melia.Barracks.Network
 			var dx = packet.GetFloat();
 			var dy = packet.GetFloat();
 
-			//Send.BC_NORMAL_SetBarrack(conn);
+			//Send.BC_NORMAL.SetBarrack(conn);
 		}
 
 		/// <summary>
@@ -363,7 +363,7 @@ namespace Melia.Barracks.Network
 			}
 
 			Send.BC_COMMANDER_DESTROY(conn, character.Index);
-			Send.BC_NORMAL_TeamUI(conn);
+			Send.BC_NORMAL.TeamUI(conn);
 		}
 
 		/// <summary>
@@ -400,7 +400,7 @@ namespace Melia.Barracks.Network
 			character.BarracksPosition = new Position(x, y, z);
 			character.BarracksDirection = new Direction(d1, d2);
 
-			Send.BC_NORMAL_SetPosition(conn, index, character.BarracksPosition);
+			Send.BC_NORMAL.SetPosition(conn, index, character.BarracksPosition);
 		}
 
 		/// <summary>
@@ -456,7 +456,7 @@ namespace Melia.Barracks.Network
 			conn.Account.SelectedBarrack = newMapId;
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
+			Send.BC_NORMAL.Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
@@ -487,8 +487,8 @@ namespace Melia.Barracks.Network
 				// for them. If they aren't sent, the invalid IPF message
 				// will not be shown.
 				Send.BC_COMMANDER_LIST(conn);
-				Send.BC_NORMAL_ZoneTraffic(conn);
-				Send.BC_NORMAL_TeamUI(conn);
+				Send.BC_NORMAL.ZoneTraffic(conn);
+				Send.BC_NORMAL.TeamUI(conn);
 
 				conn.Close(100);
 			}
@@ -502,7 +502,7 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_REQ_CHANNEL_TRAFFIC)]
 		public void CB_REQ_CHANNEL_TRAFFIC(IBarracksConnection conn, Packet packet)
 		{
-			Send.BC_NORMAL_ZoneTraffic(conn);
+			Send.BC_NORMAL.ZoneTraffic(conn);
 		}
 
 		/// <summary>
@@ -524,10 +524,10 @@ namespace Melia.Barracks.Network
 
 			conn.Account.SetSelectedBarrackLayer(layer);
 
-			Send.BC_NORMAL_SetBarrack(conn);
+			Send.BC_NORMAL.SetBarrack(conn);
 			Send.BC_COMMANDER_LIST(conn);
-			Send.BC_NORMAL_CharacterInfo(conn);
-			Send.BC_NORMAL_TeamUI(conn);
+			Send.BC_NORMAL.CharacterInfo(conn);
+			Send.BC_NORMAL.TeamUI(conn);
 		}
 
 		/// <summary>
@@ -652,11 +652,11 @@ namespace Melia.Barracks.Network
 			{
 				character.BarrackLayer = targetLayer;
 
-				Send.BC_NORMAL_SetBarrack(conn);
+				Send.BC_NORMAL.SetBarrack(conn);
 				Send.BC_COMMANDER_LIST(conn);
-				Send.BC_NORMAL_CharacterInfo(conn);
-				Send.BC_NORMAL_TeamUI(conn);
-				Send.BC_NORMAL_SetBarrackCharacter(conn, character);
+				Send.BC_NORMAL.CharacterInfo(conn);
+				Send.BC_NORMAL.TeamUI(conn);
+				Send.BC_NORMAL.SetBarrackCharacter(conn, character);
 				Send.BC_LAYER_CHANGE_SYSTEM_MESSAGE(conn, targetLayer);
 			}
 		}
