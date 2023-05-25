@@ -110,7 +110,7 @@ namespace Melia.Barracks.Network
 			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
 
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
-			Send.BC_NORMAL.SetBarrack(conn);
+			//Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
@@ -139,7 +139,7 @@ namespace Melia.Barracks.Network
 			var dx = packet.GetFloat();
 			var dy = packet.GetFloat();
 
-			//Send.BC_NORMAL.SetBarrack(conn);
+			// Seems like there's no response to this.
 		}
 
 		/// <summary>
@@ -524,7 +524,7 @@ namespace Melia.Barracks.Network
 
 			conn.Account.SetSelectedBarrackLayer(layer);
 
-			Send.BC_NORMAL.SetBarrack(conn);
+			Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
@@ -652,7 +652,7 @@ namespace Melia.Barracks.Network
 			{
 				character.BarrackLayer = targetLayer;
 
-				Send.BC_NORMAL.SetBarrack(conn);
+				Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 				Send.BC_COMMANDER_LIST(conn);
 				Send.BC_NORMAL.CharacterInfo(conn);
 				Send.BC_NORMAL.TeamUI(conn);

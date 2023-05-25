@@ -10,11 +10,11 @@
 			public const int SetBarrackCharacter = 0x00;
 			public const int SetPosition = 0x02;
 			public const int SetBarrack = 0x05;
-			public const int PostBoxState = 0x12;
 			public const int TeamUI = 0x0C;
 			public const int ZoneTraffic = 0x0D;
 			public const int Run = 0x10;
 			public const int Message = 0x11;
+			public const int PostBoxState = 0x12;
 			public const int SetSessionKey = 0x14;
 			public const int ClientIntegrityFailure = 0x18;
 			public const int BarrackSlotCount = 0x19;

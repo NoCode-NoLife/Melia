@@ -34,15 +34,15 @@ namespace Melia.Barracks.Network
 			/// Use the account property to do this.
 			/// </summary>
 			/// <param name="conn"></param>
-			/// <param name="id"></param>
-			public static void SetBarrack(IBarracksConnection conn, int id = 0x0B)
+			/// <param name="mapId"></param>
+			public static void SetBarrack(IBarracksConnection conn, int mapId)
 			{
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.SetBarrack);
 				packet.PutLong(conn.Account.Id);
-				packet.PutInt(id);
+				packet.PutInt(mapId);
+				packet.PutByte(1);
 				packet.PutInt(0);
-				packet.PutByte(0);
 				conn.Send(packet);
 			}
 
