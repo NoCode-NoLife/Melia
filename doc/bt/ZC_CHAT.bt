@@ -1,3 +1,4 @@
+
 //--------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
@@ -36,6 +37,5 @@ int i6;
 float displayTime;
 byte bin2[32];
 byte b2;
-char str1[40]; // "GLOBAL"
-byte unk1[24];
+char str1[64]; // "GLOBAL"
 string message;

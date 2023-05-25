@@ -17,4 +17,4 @@
 ClientHeaderFixed header;
 
 byte b1;
-char str1[40]; // "GLOBAL", localization selection?
+char str1[64]; // "GLOBAL", localization selection?

@@ -936,8 +936,7 @@ namespace Melia.Zone.Network
 			packet.PutEmptyBin(16); // [i170175] ?
 			packet.PutEmptyBin(16); // [i339415] ?
 			packet.PutByte(1);
-			packet.PutString("GLOBAL", 40); // [i373230]
-			packet.PutEmptyBin(24);         // [i373230]
+			packet.PutString("GLOBAL", 64); // [i373230]
 			packet.PutString(format);
 
 			actor.Map.Broadcast(packet, actor);

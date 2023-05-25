@@ -33,4 +33,4 @@ int LCID;        // system locale.
 int lodge;       // active lodge to display.
 int slot;        // active character to display.
 byte unk1[285];
-char str1[40]; // "GLOBAL", localization selection?
+char str1[64]; // "GLOBAL", localization selection?
