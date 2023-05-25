@@ -84,7 +84,6 @@ namespace Melia.Barracks.Network
 		{
 			var allCharacters = conn.Account.GetCharacters();
 			var layerCharacters = allCharacters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
-
 			var totalCharacterCount = allCharacters.Length;
 			var layerCharacterCount = layerCharacters.Count();
 
@@ -96,9 +95,17 @@ namespace Melia.Barracks.Network
 			packet.PutString(conn.Account.TeamName, 64);
 			packet.AddAccountProperties(conn.Account);
 
-			packet.PutShort(1); // 0 = 15 slots, 1 = 4, 2 = 8, 3+ = 4, only 1 shows correct max values?
-			packet.PutInt(11);
-			packet.PutShort(layerCharacterCount);
+			// List of available themas. The client won't apply themas if
+			// they're not in this list.
+			packet.PutShort(3);
+			foreach (var mapId in new[] { 11, /*12, 13*/ })
+			{
+				var selected = (conn.Account.SelectedBarrack == mapId);
+
+				packet.PutInt(mapId);
+				packet.PutShort(selected ? 1 : 0);
+			}
+
 			packet.PutShort(conn.Account.AdditionalSlotCount);
 			packet.PutInt(conn.Account.TeamExp);
 			packet.PutShort(totalCharacterCount);

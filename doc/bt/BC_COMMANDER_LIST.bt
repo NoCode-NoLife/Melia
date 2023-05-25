@@ -64,6 +64,13 @@ string readBARRACK_PC(BARRACK_PC &v)
     return v.abpc.appearancePc.name;
 }
 
+typedef struct
+{
+    int mapId;
+    short isApplied;
+}
+Thema;
+
 ServerHeaderDynamic header;
 
 int64 accountId;
@@ -73,21 +80,9 @@ char teamName[64];
 
 AccountProperties properties;
 
-short disableAdditionalCharacterSlots;
-if (disableAdditionalCharacterSlots == 0)
-{
-    ushort additionalCharacterCount;
-    int teamExp;
-    if (properties.size != 0)
-        int totalCharacterCount;
-    else
-        short characterCount2;
-}
-else
-{
-    int mapId;
-    short layerCharacterCount;
-    short additionalSlotCount;
-    int teamExp;
-    short totalCharacterCount;
-}
+short themaCount;
+Thema themas[themaCount];
+
+short additionalSlotCount;
+int teamExp;
+short totalCharacterCount;
