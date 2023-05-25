@@ -270,10 +270,14 @@ namespace Melia.Barracks.Network
 		/// <param name="account"></param>
 		public static void BC_ACCOUNT_PROP(IBarracksConnection conn, Account account)
 		{
+			var propertyList = account.Properties.GetAll();
+			var size = propertyList.GetByteCount();
+
 			var packet = new Packet(Op.BC_ACCOUNT_PROP);
 
 			packet.PutLong(account.Id);
-			packet.AddAccountProperties(account);
+			packet.PutShort(size);
+			packet.AddProperties(propertyList);
 
 			conn.Send(packet);
 		}
