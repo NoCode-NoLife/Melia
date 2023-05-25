@@ -72,6 +72,11 @@ namespace Melia.Barracks.Database
 		public int SelectedBarrackLayer { get; set; } = 1;
 
 		/// <summary>
+		/// Returns a list of themas available to the account.
+		/// </summary>
+		public HashSet<int> Themas { get; } = new HashSet<int>() { 11 };
+
+		/// <summary>
 		/// Returns the number of characters the account has.
 		/// </summary>
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }

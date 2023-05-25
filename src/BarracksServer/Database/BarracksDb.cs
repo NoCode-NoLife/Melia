@@ -86,6 +86,7 @@ namespace Melia.Barracks.Database
 				cmd.Set("additionalSlotCount", account.AdditionalSlotCount);
 				cmd.Set("teamExp", account.TeamExp);
 				cmd.Set("barracksThema", account.SelectedBarrack);
+				cmd.Set("themas", string.Join(" ", account.Themas));
 
 				return cmd.Execute() > 0;
 			}
@@ -119,6 +120,10 @@ namespace Melia.Barracks.Database
 					account.AdditionalSlotCount = reader.GetInt32("additionalSlotCount");
 					account.TeamExp = reader.GetInt32("teamExp");
 					account.SelectedBarrack = reader.GetInt32("barracksThema");
+
+					var themas = reader.GetStringSafe("themas");
+					account.Themas.Clear();
+					account.Themas.UnionWith(themas.Split(' ').Select(int.Parse));
 
 					// Upgrade MD5 hashes
 					if (account.Password.Length == 32)

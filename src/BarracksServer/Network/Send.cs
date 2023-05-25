@@ -86,6 +86,7 @@ namespace Melia.Barracks.Network
 			var layerCharacters = allCharacters.Where(x => x.BarrackLayer == conn.Account.SelectedBarrackLayer);
 			var totalCharacterCount = allCharacters.Length;
 			var layerCharacterCount = layerCharacters.Count();
+			var availableThemas = conn.Account.Themas;
 
 			var packet = new Packet(Op.BC_COMMANDER_LIST);
 
@@ -97,8 +98,8 @@ namespace Melia.Barracks.Network
 
 			// List of available themas. The client won't apply themas if
 			// they're not in this list.
-			packet.PutShort(3);
-			foreach (var mapId in new[] { 11, /*12, 13*/ })
+			packet.PutShort(availableThemas.Count);
+			foreach (var mapId in availableThemas)
 			{
 				var selected = (conn.Account.SelectedBarrack == mapId);
 
