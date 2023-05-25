@@ -371,7 +371,7 @@ switch (type)
         break;
 
     // Map Data?
-    case 0x12A:
+    case 0x12D:
         typedef struct
         {
             short id;

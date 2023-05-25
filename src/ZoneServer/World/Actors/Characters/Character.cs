@@ -14,6 +14,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
@@ -26,6 +27,7 @@ namespace Melia.Zone.World.Actors.Characters
 	public class Character : Actor, INamedActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
+		private int _destinationChannelId;
 
 		private readonly object _lookAroundLock = new object();
 		private readonly object _hpLock = new object();
@@ -540,6 +542,19 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
+		/// Makes character warp to the same map on another, previously
+		/// selected channel.
+		/// </summary>
+		internal void WarpChannel(int channelId)
+		{
+			_warping = true;
+			_destinationChannelId = channelId;
+
+			Send.ZC_SAVE_INFO(this.Connection);
+			Send.ZC_MOVE_ZONE(this.Connection);
+		}
+
+		/// <summary>
 		/// Finalizes warp, after client announced readiness.
 		/// </summary>
 		public void FinalizeWarp()
@@ -556,14 +571,14 @@ namespace Melia.Zone.World.Actors.Characters
 			ZoneServer.Instance.Database.SaveCharacter(this);
 
 			// Get channel
-			var serverId = 1;
-			if (!ZoneServer.Instance.Data.ServerDb.TryFind(ServerType.Zone, serverId, out var ZoneServerData))
-			{
-				Log.Error("Channel with id '{0}' not found.", serverId);
-				return;
-			}
+			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(this.MapId);
+			if (availableZones.Length == 0)
+				throw new Exception($"No suitable zone server found for map '{this.MapId}'");
 
-			Send.ZC_MOVE_ZONE_OK(this, ZoneServerData.Ip, ZoneServerData.Port, this.MapId);
+			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
+			var serverInfo = availableZones[channelId];
+
+			Send.ZC_MOVE_ZONE_OK(this, channelId, serverInfo.Ip, serverInfo.Port, this.MapId);
 		}
 
 		/// <summary>

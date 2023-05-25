@@ -1202,10 +1202,11 @@ namespace Melia.Zone.Network
 		/// connect to, and which map to load.
 		/// </summary>
 		/// <param name="character"></param>
+		/// <param name="channelId"></param>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
 		/// <param name="mapId"></param>
-		public static void ZC_MOVE_ZONE_OK(Character character, string ip, int port, int mapId)
+		public static void ZC_MOVE_ZONE_OK(Character character, int channelId, string ip, int port, int mapId)
 		{
 			var packet = new Packet(Op.ZC_MOVE_ZONE_OK);
 
@@ -1222,7 +1223,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(20);
 			packet.PutInt(59);
 			packet.PutShort(0);
-			packet.PutByte(0);
+			packet.PutByte((byte)channelId);
 			packet.PutLong(character.Id);
 
 			character.Connection.Send(packet);
@@ -2793,24 +2794,34 @@ namespace Melia.Zone.Network
 		/// Unknown purpose yet.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NORMAL_Unknown_Map_12A(Character character)
+		public static void ZC_NORMAL_ChannelTraffic(Character character)
 		{
-			if (character.MapId == 1021)
+			var packet = new Packet(Op.ZC_NORMAL);
+			packet.PutInt(NormalOp.Zone.ChannelTraffic);
+
+			packet.Zlib(true, zpacket =>
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Unknown_Map_12A);
-				packet.Zlib(true, zpacket =>
+				var availableZoneServers = ZoneServer.Instance.ServerList.GetZoneServers(character.MapId);
+
+				zpacket.PutShort(character.MapId);
+				zpacket.PutShort(availableZoneServers.Length);
+
+				for (var channelId = 0; channelId < availableZoneServers.Length; ++channelId)
 				{
-					zpacket.PutShort(character.MapId);
-					zpacket.PutShort(2); // Count?
-					zpacket.PutShort(0); //First Channel?
-					zpacket.PutShort(1); //Available? Online? User Count?
-					zpacket.PutShort(100); //User Limit?
-					zpacket.PutShort(0); //Second Channel?
-					zpacket.PutShort(1); //Available? Online? User Count?
-					zpacket.PutShort(100); //User Limit?
-				});
-			}
+					var zoneServerInfo = availableZoneServers[channelId];
+
+					// The client uses the "channelId" as part of the
+					// channel name. For example, id 0 becomes "Ch 1",
+					// id 1 becomes "Ch 2", etc. Because of this we
+					// can't just send anything here, it needs to be
+					// a sequential number starting from 0 to match
+					// official behavior.
+
+					zpacket.PutShort(channelId);
+					zpacket.PutShort(zoneServerInfo.CurrentPlayers);
+					zpacket.PutShort(zoneServerInfo.MaxPlayers);
+				}
+			});
 		}
 
 		/// <summary>

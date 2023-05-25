@@ -1529,6 +1529,7 @@ namespace Melia.Zone.Network
 			{
 				case "Logout":
 				case "Barrack":
+				case "Channel":
 				case "Exit":
 					//Send.ZC_ADDON_MSG(conn.SelectedCharacter, AddonMessage.EXPIREDITEM_ALERT_OPEN, destination);
 
@@ -2129,6 +2130,33 @@ namespace Melia.Zone.Network
 				return;
 
 			character.PickUp(itemMonster);
+		}
+
+		/// <summary>
+		/// Request for the latest channel traffic data, sent when the
+		/// player opens the channel selection in-game.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_CHANNEL_TRAFFICS)]
+		public void CZ_REQ_CHANNEL_TRAFFICS(IZoneConnection conn, Packet packet)
+		{
+			var serverGroupId = packet.GetShort();
+
+			Send.ZC_NORMAL_ChannelTraffic(conn.SelectedCharacter);
+		}
+
+		/// <summary>
+		/// Request to change the channel.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHANGE_CHANNEL)]
+		public void CZ_CHANGE_CHANNEL(IZoneConnection conn, Packet packet)
+		{
+			var channelId = packet.GetShort();
+
+			conn.SelectedCharacter.WarpChannel(channelId);
 		}
 	}
 }

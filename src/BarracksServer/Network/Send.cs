@@ -233,9 +233,10 @@ namespace Melia.Barracks.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
+		/// <param name="channelId"></param>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
-		public static void BC_START_GAMEOK(IBarracksConnection conn, Character character, string ip, int port)
+		public static void BC_START_GAMEOK(IBarracksConnection conn, Character character, int channelId, string ip, int port)
 		{
 			var packet = new Packet(Op.BC_START_GAMEOK);
 
@@ -243,7 +244,7 @@ namespace Melia.Barracks.Network
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(character.MapId);
-			packet.PutByte(1); // Channel ID.
+			packet.PutByte((byte)channelId);
 			packet.PutLong(character.Id);
 			packet.PutByte(0); // Only connects if 0
 			packet.PutByte(1); // Passed to a function if ^ is 0

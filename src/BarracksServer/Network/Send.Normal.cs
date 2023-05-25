@@ -144,7 +144,7 @@ namespace Melia.Barracks.Network
 
 							for (var channelId = 0; channelId < availableZoneServers.Length; ++channelId)
 							{
-								var zoneServerInfo = availableZoneServers[(int)channelId];
+								var zoneServerInfo = availableZoneServers[channelId];
 
 								// The client uses the "channelId" as part of the
 								// channel name. For example, id 0 becomes "Ch 1",
@@ -153,7 +153,7 @@ namespace Melia.Barracks.Network
 								// a sequential number starting from 0 to match
 								// official behavior.
 
-								zpacket.PutShort((int)channelId);
+								zpacket.PutShort(channelId);
 								zpacket.PutShort(zoneServerInfo.CurrentPlayers);
 								zpacket.PutShort(zoneServerInfo.MaxPlayers);
 							}

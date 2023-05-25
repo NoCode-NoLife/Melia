@@ -48,7 +48,7 @@
 			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;
 			public const int Unknown_EF = 0xF0;
-			public const int Unknown_Map_12A = 0x12B;
+			public const int ChannelTraffic = 0x12D;
 			public const int SetGreetingMessage = 0x136;
 			public const int SetSessionKey = 0x14F;
 			public const int ItemDrop = 0x152;
