@@ -177,8 +177,11 @@ namespace Melia.Barracks.Network
 			BarracksServer.Instance.Database.UpdateTeamName(conn.Account.Id, name);
 
 			Send.BC_BARRACKNAME_CHANGE(conn, TeamNameChangeResult.Okay, name);
-			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL_Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
+
+			// For some reason we were sending these even though they don't
+			// appear in my logs. Disabled.
+			//Send.BC_ACCOUNT_PROP(conn, conn.Account);
+			//Send.BC_NORMAL.Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
