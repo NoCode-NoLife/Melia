@@ -54,7 +54,8 @@ namespace Melia.Barracks
 			this.CheckDatabaseUpdates();
 
 			// Get server data
-			var serverInfo = this.GetServerInfo(ServerType.Barracks, args);
+			var serverId = this.GetServerId(args);
+			var serverInfo = this.GetServerInfo(ServerType.Barracks, serverId);
 
 			// Start listener
 			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Ip, serverInfo.Port);

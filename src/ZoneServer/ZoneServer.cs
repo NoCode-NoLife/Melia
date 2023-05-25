@@ -68,6 +68,13 @@ namespace Melia.Zone
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Zone", ConsoleColor.DarkGreen, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
+			// Set up zone server specific logging or we might run into
+			// issues with multiple servers trying to write files at the
+			// same time.
+			var serverId = this.GetServerId(args);
+			Log.Init("ZoneServer" + serverId);
+
+			// Change working directory to the server's root directory
 			this.NavigateToRoot();
 
 			// Load data
@@ -80,7 +87,7 @@ namespace Melia.Zone
 			this.LoadScripts("system/scripts/scripts_zone.txt");
 
 			// Get server data
-			var serverInfo = this.GetServerInfo(ServerType.Zone, args);
+			var serverInfo = this.GetServerInfo(ServerType.Zone, serverId);
 
 			// Start listener
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(serverInfo.Ip, serverInfo.Port);

@@ -446,18 +446,28 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Returns the server info for given type and id.
+		/// Reads the server id from the arguments and returns it.
 		/// </summary>
-		/// <param name="type"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		protected ServerInfo GetServerInfo(ServerType type, string[] args)
+		protected int GetServerId(string[] args)
 		{
 			var serverId = 1;
 
 			if (args.Length > 0 && int.TryParse(args[0], out var id))
 				serverId = id;
 
+			return serverId;
+		}
+
+		/// <summary>
+		/// Returns the server info for given type and id.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="serverId"></param>
+		/// <returns></returns>
+		protected ServerInfo GetServerInfo(ServerType type, int serverId)
+		{
 			if (!this.ServerList.TryGet(type, serverId, out var serverData))
 			{
 				Log.Error("No server data for '{0}:{1}' found in 'db/servers.txt'.", type, serverId);

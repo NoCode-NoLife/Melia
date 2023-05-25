@@ -1902,6 +1902,20 @@
             Logs messages to command line and file.
             </summary>
         </member>
+        <member name="M:Yggdrasil.Logging.Log.Init(System.String)">
+            <summary>
+            Initiaizes global Log instance with the given name. If Init is
+            not called, a default logger with the name of the assembly will
+            be created.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.GetLogger">
+            <summary>
+            Creates a logger if it doesn't exist yet.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Logging.Log.Info(System.String)">
             <summary>
             Logs an info message.
