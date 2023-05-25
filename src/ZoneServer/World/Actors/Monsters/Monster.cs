@@ -10,7 +10,7 @@ namespace Melia.Zone.World.Actors.Monsters
 	/// Represents a "monster" in the world, or in other words, an entity
 	/// that is not a player, but can exist on a map.
 	/// </summary>
-	public interface IMonster : INamedActor, IMonsterBase, IMonsterAppearance, IMonsterAppearanceBase
+	public interface IMonster : IMonsterBase
 	{
 		/// <summary>
 		/// Gets or sets the time the actor will be removed from the
