@@ -148,6 +148,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("MaxSta", new[] { "CON", "MAXSTA_Bonus", "MaxSta_BM" });
 			this.AutoUpdate("Sta_Run", new[] { "DashRun" });
 			this.AutoUpdate("Sta_Recover", new[] { "REST_BM", "RSta_BM" });
+			this.AutoUpdate("MINPATK", new[] { "Lv", "STR", "PATK_BM", "MINPATK_BM", "PATK_MAIN_BM", "MINPATK_MAIN_BM", "PATK_RATE_BM", "MINPATK_RATE_BM", "PATK_MAIN_RATE_BM", "MINPATK_MAIN_RATE_BM" });
+			this.AutoUpdate("MAXPATK", new[] { "Lv", "STR", "PATK_BM", "MAXPATK_BM", "PATK_MAIN_BM", "MAXPATK_MAIN_BM", "PATK_RATE_BM", "MAXPATK_RATE_BM", "PATK_MAIN_RATE_BM", "MAXPATK_MAIN_RATE_BM" });
 
 			this.AutoUpdateMax("HP", "MHP");
 			this.AutoUpdateMax("SP", "MSP");
