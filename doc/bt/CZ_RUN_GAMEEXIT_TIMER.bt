@@ -2,13 +2,14 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_RUN_GAMEEXIT_TIMER.bt
-//   Authors: celophi
-//   Version: i170175
-//   Purpose: Notifies the server that the client wants to make a state transition.
+//   Authors: celophi, exec
+//   Version: i373230
+//   Purpose: Starts exit timer after which the game can be exited.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i373230: parameter added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -16,3 +17,4 @@
 ClientHeaderFixed header;
 
 char destination[32];
+char parameter[32]; // None

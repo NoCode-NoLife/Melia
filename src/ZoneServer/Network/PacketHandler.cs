@@ -1523,6 +1523,7 @@ namespace Melia.Zone.Network
 		public void CZ_RUN_GAMEEXIT_TIMER(IZoneConnection conn, Packet packet)
 		{
 			var destination = packet.GetString();
+			var parameter = packet.GetString(); // [i373230]
 
 			switch (destination)
 			{
