@@ -47,6 +47,20 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
+			/// Purpose unknown. Related to buying themas and appears to
+			/// sometimes send the player back to the character selection
+			/// screen.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void UnkThema1(IBarracksConnection conn)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.UnkThema1);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
 			/// Moves a character in the barrack.
 			/// </summary>
 			/// <param name="conn"></param>

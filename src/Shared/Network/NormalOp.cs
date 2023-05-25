@@ -19,6 +19,7 @@
 			public const int ClientIntegrityFailure = 0x18;
 			public const int BarrackSlotCount = 0x19;
 			public const int NGSCallback = 0x1A;
+			public const int UnkThema1 = 0x1B;
 			public const int CharacterInfo = 0x1C;
 		}
 

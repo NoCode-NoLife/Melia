@@ -437,26 +437,58 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_BUY_THEMA)]
 		public void CB_BUY_THEMA(IBarracksConnection conn, Packet packet)
 		{
-			var unkInt = packet.GetInt();
+			var type = packet.GetInt(); // 0 = Buy, 1 = Use
 			var newMapId = packet.GetInt();
 			var oldMapId = packet.GetInt();
 
 			// Get barrack
-			var barrackData = BarracksServer.Instance.Data.BarrackDb.Find(newMapId);
-			if (barrackData == null)
-				return;
-
-			// Check medals
-			if (!conn.Account.Charge(barrackData.Price))
+			if (!BarracksServer.Instance.Data.BarrackDb.TryFind(newMapId, out var barrackData))
 			{
-				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy barrack without having the necessary medals.");
+				Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy invalid thema '{1}'.", conn.Account.Name, newMapId);
+				return;
+			}
+
+			// If buying, check if the user has enough TP
+			if (type == 0)
+			{
+				if (!conn.Account.Charge(barrackData.Price))
+				{
+					Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy thema without having the necessary TP.", conn.Account.Name);
+					return;
+				}
+			}
+			// If using, check if the user owns the thema
+			else if (type == 1)
+			{
+				if (!conn.Account.Themas.Contains(newMapId))
+				{
+					Log.Warning("CB_BUY_THEMA: User '{0}' tried to use thema they don't own.", conn.Account.Name);
+					return;
+				}
+			}
+			else
+			{
+				Log.Debug("CB_BUY_THEMA: User '{0}' sent unknown type '{1}'.", conn.Account.Name, type);
 				return;
 			}
 
 			conn.Account.SelectedBarrack = newMapId;
+			conn.Account.Themas.Add(newMapId);
+
+			// XXX: There's currently an issue where you might get stuck
+			//   in the thema buying screen if you preview a thema, don't
+			//   return, and then click buy or use. This seems to be a
+			//   client bug, because it's been observed on other servers.
+			//   as well.
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL.Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
+			Send.BC_NORMAL.UnkThema1(conn);
+			Send.BC_NORMAL.SetBarrack(conn, newMapId);
+
+			Send.BC_COMMANDER_LIST(conn);
+
+			// This function no longer exists in the client
+			//Send.BC_NORMAL.Run(conn, BarrackMessage.THEMA_BUY_SUCCESS);
 		}
 
 		/// <summary>
