@@ -50,7 +50,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public void Add(Job job)
 		{
 			this.AddSilent(job);
-			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+			Send.ZC_NORMAL.UpdateSkillUI(this.Character);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			// XXX: Seems like this is not enough to get rid of the jobs at
 			//   run-time. Is there a way for us to refresh the UI?
-			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+			Send.ZC_NORMAL.UpdateSkillUI(this.Character);
 
 			return true;
 		}
@@ -139,7 +139,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				return false;
 
 			job.Circle = circle;
-			Send.ZC_NORMAL_UpdateSkillUI(this.Character);
+			Send.ZC_NORMAL.UpdateSkillUI(this.Character);
 
 			return true;
 		}

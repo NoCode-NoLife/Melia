@@ -209,7 +209,7 @@ namespace Melia.Zone.World.Items
 			map.AddMonster(itemMonster);
 
 			itemMonster.Position = flyDropPos;
-			Send.ZC_NORMAL_ItemDrop(itemMonster, direction, distance);
+			Send.ZC_NORMAL.ItemDrop(itemMonster, direction, distance);
 
 			return itemMonster;
 		}

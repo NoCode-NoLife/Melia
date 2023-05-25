@@ -99,9 +99,9 @@ namespace Melia.Zone.Network
 
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
-			Send.ZC_NORMAL_AdventureBook(conn);
+			Send.ZC_NORMAL.AdventureBook(conn);
 			Send.ZC_SET_CHATBALLOON_SKIN(conn);
-			Send.ZC_NORMAL_Unknown_1B4(character);
+			Send.ZC_NORMAL.Unknown_1B4(character);
 		}
 
 		/// <summary>
@@ -127,14 +127,14 @@ namespace Melia.Zone.Network
 			Send.ZC_HELP_LIST(character);
 			Send.ZC_MYPAGE_MAP(conn);
 			Send.ZC_GUESTPAGE_MAP(conn);
-			Send.ZC_NORMAL_UpdateSkillUI(character);
+			Send.ZC_NORMAL.UpdateSkillUI(character);
 			// Official server sends Skintone Object Property around here
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_COOLDOWN_LIST(character);
-			Send.ZC_NORMAL_Unknown_DA(character);
-			Send.ZC_NORMAL_Unknown_E4(character);
+			Send.ZC_NORMAL.Unknown_DA(character);
+			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
 			Send.ZC_START_GAME(conn);
@@ -144,11 +144,11 @@ namespace Melia.Zone.Network
 			Send.ZC_UPDATE_SP(character, character.Sp);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
-			Send.ZC_NORMAL_Unknown_1B4(character);
+			Send.ZC_NORMAL.Unknown_1B4(character);
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(character);
-			Send.ZC_NORMAL_Unknown_EF(character);
+			Send.ZC_NORMAL.Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
@@ -1096,10 +1096,10 @@ namespace Melia.Zone.Network
 			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
 
 			// Create skill in client
-			Send.ZC_NORMAL_Skill(character, skillId, skillPosition, skillDirection, true);
+			Send.ZC_NORMAL.Skill(character, skillId, skillPosition, skillDirection, true);
 
 			// Unkown Normal
-			Send.ZC_NORMAL_Unkown_1c(character, skillId, packetPosition1, skillDirection);
+			Send.ZC_NORMAL.Unkown_1c(character, skillId, packetPosition1, skillDirection);
 
 			// Set range of effect
 			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
@@ -2007,7 +2007,7 @@ namespace Melia.Zone.Network
 			if (character != null)
 			{
 				character.GreetingMessage = message;
-				Send.ZC_NORMAL_SetGreetingMessage(character);
+				Send.ZC_NORMAL.SetGreetingMessage(character);
 			}
 		}
 
@@ -2143,7 +2143,7 @@ namespace Melia.Zone.Network
 		{
 			var serverGroupId = packet.GetShort();
 
-			Send.ZC_NORMAL_ChannelTraffic(conn.SelectedCharacter);
+			Send.ZC_NORMAL.ChannelTraffic(conn.SelectedCharacter);
 		}
 
 		/// <summary>

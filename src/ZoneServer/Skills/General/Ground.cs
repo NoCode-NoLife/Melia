@@ -40,9 +40,9 @@ namespace Melia.Zone.Skills.General
 
 					foreach (var target in targets)
 					{
-						Send.ZC_NORMAL_SkillParticleEffect(caster, 1234);
+						Send.ZC_NORMAL.SkillParticleEffect(caster, 1234);
 						Send.ZC_SYNC_START(caster, 1234, 1);
-						Send.ZC_NORMAL_Skill_16(caster, target, targetPosition);
+						Send.ZC_NORMAL.Skill_16(caster, target, targetPosition);
 						Send.ZC_SYNC_END(caster, 1234, 0);
 
 						if (target.TakeDamage(damage, caster))
@@ -56,9 +56,9 @@ namespace Melia.Zone.Skills.General
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk();
 
-					Send.ZC_NORMAL_Skill_4E(caster, skill.Id, 1);
-					Send.ZC_NORMAL_Skill(caster, skill, targetPosition, caster.Direction, true);
-					Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
+					Send.ZC_NORMAL.Skill_4E(caster, skill.Id, 1);
+					Send.ZC_NORMAL.Skill(caster, skill, targetPosition, caster.Direction, true);
+					Send.ZC_NORMAL.Unknown_06(caster, targetPosition);
 					Send.ZC_SYNC_START(caster, 1234, 1);
 					Send.ZC_SYNC_END(caster, 1234, 0);
 					Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.General
 					{
 						Task.Delay(skill.Data.HitDelay).ContinueWith(_ =>
 						{
-							Send.ZC_NORMAL_Unknown_06(caster, targetPosition);
+							Send.ZC_NORMAL.Unknown_06(caster, targetPosition);
 							Send.ZC_SYNC_START(caster, 1234, 1);
 							Send.ZC_SYNC_END(caster, 1234, 0);
 							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);

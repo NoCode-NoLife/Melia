@@ -310,7 +310,7 @@ namespace Melia.Zone.Scripting
 			await Task.Delay(1000);
 
 			// Make chest disappear
-			Send.ZC_NORMAL_FadeOut(npc, TimeSpan.FromSeconds(4));
+			Send.ZC_NORMAL.FadeOut(npc, TimeSpan.FromSeconds(4));
 			npc.SetState(NpcState.Invisible);
 
 			// Make chest reappear after a certain amount of time
