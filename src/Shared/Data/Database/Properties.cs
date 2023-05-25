@@ -8,7 +8,15 @@ namespace Melia.Shared.Data.Database
 	{
 		public string Namespace { get; set; }
 		public string Name { get; set; }
+		public PropertyType Type { get; set; }
 		public int Id { get; set; }
+	}
+
+	public enum PropertyType
+	{
+		Number,
+		String,
+		Calculated,
 	}
 
 	/// <summary>
@@ -29,11 +37,12 @@ namespace Melia.Shared.Data.Database
 
 			foreach (var propertyEntry in entry.ReadArray<JObject>("properties"))
 			{
-				propertyEntry.AssertNotMissing("name", "id");
+				propertyEntry.AssertNotMissing("namespace", "name", "type", "id");
 
 				var data = new PropertyData();
 				data.Namespace = namespaceName;
 				data.Name = propertyEntry.ReadString("name");
+				data.Type = propertyEntry.ReadEnum<PropertyType>("type");
 				data.Id = propertyEntry.ReadInt("id");
 
 				var fullName = data.Namespace + "." + data.Name;
