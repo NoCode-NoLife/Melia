@@ -8182,6 +8182,12 @@
 		public const string ep15picnic_cannon_cabinet = "ep15picnic_cannon_cabinet";
 		public const string ep15picnic_sword_cabinet = "ep15picnic_sword_cabinet";
 		public const string ep15picnic_thstaff_cabinet = "ep15picnic_thstaff_cabinet";
+		public const string HUD_SKIN_DATE_GODDESS_GRADE = "HUD_SKIN_DATE_GODDESS_GRADE";
+		public const string HUD_SKIN_DATE_MAGIC_GRADE = "HUD_SKIN_DATE_MAGIC_GRADE";
+		public const string HUD_SKIN_DATE_LEGEND_GRADE = "HUD_SKIN_DATE_LEGEND_GRADE";
+		public const string HUD_SKIN_DATE_UNIQUE_GRADE = "HUD_SKIN_DATE_UNIQUE_GRADE";
+		public const string HUD_SKIN_SELECT_GRADE = "HUD_SKIN_SELECT_GRADE";
+		public const string HUD_SKIN_DATE_NORMAL_GRADE = "HUD_SKIN_DATE_NORMAL_GRADE";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

@@ -7876,6 +7876,9 @@ public static class ItemId
 	public const int Artifact_Ep14zemina = 721059;
 	public const int Artifact_Ep14rider = 721060;
 	public const int Artifact_Laima_Flag = 721061;
+	public const int Tosw_Colony_Flag_Klapeda = 721062;
+	public const int Tosw_Colony_Flag_Orsha = 721063;
+	public const int Tosw_Colony_Flag_Pedimian = 721064;
 	public const int Spread_Bait_Basic = 730400;
 	public const int Event_1902_Spread_Bait = 730499;
 	public const int Spread_Bait_Premium_1 = 730500;
@@ -17911,6 +17914,7 @@ public static class ItemId
 	public const int Tosw_2304_Package_3b = 11205042;
 	public const int Tosw_2304_Package_3c = 11205043;
 	public const int Tosw_2304_Package_4c = 11205044;
+	public const int Special_Gift_Box_Leticia_2306 = 11205046;
 
 	// Quest
 	//-----------------------------------------------------------------------

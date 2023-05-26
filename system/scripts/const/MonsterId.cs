@@ -6074,6 +6074,9 @@ public static class MonsterId
 	public const int Tree_2 = 160164;
 	public const int Bridge_Wailing_Hidden_Npc = 160165;
 	public const int Hiddennpc_BridgeWailing_Reward_Multiple = 160166;
+	public const int Tosw_Colony_Flag_Klapeda = 160167;
+	public const int Tosw_Colony_Flag_Orsha = 160168;
+	public const int Tosw_Colony_Flag_Fedimian = 160169;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

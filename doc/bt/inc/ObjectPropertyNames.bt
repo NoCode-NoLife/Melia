@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i373230
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -28157,6 +28157,12 @@ string getPropertyName(int id)
         case 113946: return "ep15picnic_cannon_cabinet";
         case 113947: return "ep15picnic_sword_cabinet";
         case 113948: return "ep15picnic_thstaff_cabinet";
+        case 113949: return "HUD_SKIN_DATE_GODDESS_GRADE";
+        case 113950: return "HUD_SKIN_DATE_MAGIC_GRADE";
+        case 113951: return "HUD_SKIN_DATE_LEGEND_GRADE";
+        case 113952: return "HUD_SKIN_DATE_UNIQUE_GRADE";
+        case 113953: return "HUD_SKIN_SELECT_GRADE";
+        case 113954: return "HUD_SKIN_DATE_NORMAL_GRADE";
         default: return "Unknown";
     }
 }

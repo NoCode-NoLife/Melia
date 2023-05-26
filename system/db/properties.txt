@@ -8179,6 +8179,12 @@
 	{ namespace: "Account", name: "ep15picnic_cannon_cabinet", type: "Number", id: 113946 },
 	{ namespace: "Account", name: "ep15picnic_sword_cabinet", type: "Number", id: 113947 },
 	{ namespace: "Account", name: "ep15picnic_thstaff_cabinet", type: "Number", id: 113948 },
+	{ namespace: "Account", name: "HUD_SKIN_DATE_GODDESS_GRADE", type: "Number", id: 113949 },
+	{ namespace: "Account", name: "HUD_SKIN_DATE_MAGIC_GRADE", type: "Number", id: 113950 },
+	{ namespace: "Account", name: "HUD_SKIN_DATE_LEGEND_GRADE", type: "Number", id: 113951 },
+	{ namespace: "Account", name: "HUD_SKIN_DATE_UNIQUE_GRADE", type: "Number", id: 113952 },
+	{ namespace: "Account", name: "HUD_SKIN_SELECT_GRADE", type: "Number", id: 113953 },
+	{ namespace: "Account", name: "HUD_SKIN_DATE_NORMAL_GRADE", type: "Number", id: 113954 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },
