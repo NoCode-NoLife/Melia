@@ -18,9 +18,17 @@ typedef struct
     short op;
     int sequence;
     int checksum;
-    byte bin[12];    
+    byte bin[12];
 }
 ClientHeaderFixed <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ClientHeaderFixedOld <optimize=false>;
 
 typedef struct
 {
