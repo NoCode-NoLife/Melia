@@ -86,8 +86,14 @@
     <Compile Include="Data\Database\AccountOptions.cs" />
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />
+    <Compile Include="IES\IesModClass.cs" />
+    <Compile Include="IES\IesModGroup.cs" />
+    <Compile Include="IES\IesModList.cs" />
+    <Compile Include="IES\IesModProperty.cs" />
+    <Compile Include="IES\IesModPropertyChange.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
+    <Compile Include="Network\Helpers\IesHelper.cs" />
     <Compile Include="ObjectProperties\PropertyObject.cs" />
     <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />

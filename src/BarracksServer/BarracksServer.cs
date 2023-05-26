@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
+using Melia.Shared.IES;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -33,6 +36,11 @@ namespace Melia.Barracks
 		/// Returns reference to the server's database interface.
 		/// </summary>
 		public BarracksDb Database { get; } = new BarracksDb();
+
+		/// <summary>
+		/// Returns reference to the server's IES mods.
+		/// </summary>
+		public IesModList IesMods { get; } = new IesModList();
 
 		/// <summary>
 		/// Runs the server.

@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.IES;
 using Melia.Zone.Buffs;
 using Melia.Zone.Commands;
 using Melia.Zone.Database;
@@ -58,6 +59,11 @@ namespace Melia.Zone
 		/// Returns a reference to the server's event manager.
 		/// </summary>
 		public ServerEvents ServerEvents { get; } = new ServerEvents();
+
+		/// <summary>
+		/// Returns reference to the server's IES mods.
+		/// </summary>
+		public IesModList IesMods { get; } = new IesModList();
 
 		/// <summary>
 		/// Runs the server.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Melia.Shared.IES;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -1842,71 +1843,13 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_IES_MODIFY_LIST to connection, containing a list of
-		/// modifications for IES files.
+		/// Sends list of IES modifications to client.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_IES_MODIFY_LIST(IZoneConnection conn)
 		{
 			var packet = new Packet(Op.ZC_IES_MODIFY_LIST);
-
-			var iesModified = false;
-			if (!iesModified)
-			{
-				packet.PutShort(0);
-			}
-			else
-			{
-				packet.PutShort(1); // count
-				{
-					packet.PutLpString("SharedConst");
-					packet.PutShort(2); // row count
-					{
-						packet.PutInt(251);
-						packet.PutShort(1); // col count
-						{
-							packet.PutLpString("Value");
-							packet.PutShort(5); // patch count
-							{
-								packet.PutInt(6);
-								packet.PutLpString("0");
-								packet.PutLpString("0.00");
-								packet.PutLpString("YEJI");
-								packet.PutLpString("2016-3-30 3:15");
-								packet.PutLpString("Change By Tool");
-
-								packet.PutInt(5);
-								packet.PutLpString("0");
-								packet.PutLpString("0.00");
-								packet.PutLpString("YEJI");
-								packet.PutLpString("2016-3-30 3:15");
-								packet.PutLpString("Change By Tool");
-
-								packet.PutInt(4);
-								packet.PutLpString("0");
-								packet.PutLpString("0.00");
-								packet.PutLpString("YEJI");
-								packet.PutLpString("2016-3-30 3:15");
-								packet.PutLpString("Change By Tool");
-
-								packet.PutInt(3);
-								packet.PutLpString("0");
-								packet.PutLpString("0.00");
-								packet.PutLpString("YEJI");
-								packet.PutLpString("2016-3-30 3:15");
-								packet.PutLpString("Change By Tool");
-
-								packet.PutInt(2);
-								packet.PutLpString("0");
-								packet.PutLpString("0.00");
-								packet.PutLpString("YEJI");
-								packet.PutLpString("2016-3-30 3:15");
-								packet.PutLpString("Change By Tool");
-							}
-						}
-					}
-				}
-			}
+			packet.AddIesModList(ZoneServer.Instance.IesMods);
 
 			conn.Send(packet);
 		}

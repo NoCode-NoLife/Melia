@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Melia.Barracks.Database;
+using Melia.Shared.IES;
 using Melia.Barracks.Network.Helpers;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -346,6 +348,18 @@ namespace Melia.Barracks.Network
 		public static void BC_CHARACTER_SLOT_SWAP_FAIL(IBarracksConnection conn)
 		{
 			var packet = new Packet(Op.BC_CHARACTER_SLOT_SWAP_FAIL);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends IES mod list to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void BC_IES_MODIFY_LIST(IBarracksConnection conn)
+		{
+			var packet = new Packet(Op.BC_IES_MODIFY_LIST);
+			packet.AddIesModList(BarracksServer.Instance.IesMods);
+
 			conn.Send(packet);
 		}
 	}
