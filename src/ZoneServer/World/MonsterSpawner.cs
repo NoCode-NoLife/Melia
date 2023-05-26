@@ -175,8 +175,6 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			Log.Debug("{0} flex: {1}", this.MonsterClassName, this.FlexAmount);
-
 			// Spawn new monsters regularly
 			_spawnDelay -= elapsed;
 			if (_spawnDelay <= TimeSpan.Zero)
