@@ -545,6 +545,27 @@
             </summary>
             <param name="elapsed"></param>
         </member>
+        <member name="T:Yggdrasil.Extensions.TimeSpanExtensions">
+            <summary>
+            Extensions for TimeSpan.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Divide(System.TimeSpan,System.Int32)">
+            <summary>
+            Divides the timespan by the divisor and returns the result.
+            </summary>
+            <param name="timespan"></param>
+            <param name="divisor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Multiply(System.TimeSpan,System.Int32)">
+            <summary>
+            Multiplies the timespan by the multiplier and returns the result.
+            </summary>
+            <param name="timespan"></param>
+            <param name="multiplier"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Extensions.DateTimeExtensions">
             <summary>
             Extensions for DateTime.

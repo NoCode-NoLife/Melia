@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
+using Yggdrasil.Extensions;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -18,27 +18,29 @@ namespace Melia.Zone.World
 	/// </summary>
 	public class MonsterSpawner
 	{
+		private static int Ids;
+
+		private readonly static TimeSpan SpawnAmountIncreaseDelay = TimeSpan.FromSeconds(30);
+		private readonly static TimeSpan SpawnAmountDecreaseDelay = TimeSpan.FromSeconds(60);
+
 		private readonly MonsterData _monsterData;
 		private readonly Map _map;
-		private int _spawnCount;
-		private readonly int _totalAmount;
-		private readonly Random _rnd;
+
+		private bool _initialSpawnDone;
+		private TimeSpan _spawnDelay = TimeSpan.MaxValue;
+		private TimeSpan _spawnAmountIncreaseDelay = SpawnAmountIncreaseDelay;
+		private TimeSpan _spawnAmountDecreaseDelay = SpawnAmountDecreaseDelay;
+		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+
+		/// <summary>
+		/// Returns the unique id of this spawner.
+		/// </summary>
+		public int Id { get; }
 
 		/// <summary>
 		/// Returns the class name of the monster that is to be spawned.
 		/// </summary>
 		public string MonsterClassName { get; }
-
-		/// <summary>
-		/// Returns the amount of monsters to spawn and keep around.
-		/// </summary>
-		public int Amount { get; }
-
-		/// <summary>
-		/// Returns the delay until a monster is spawned again after
-		/// it died.
-		/// </summary>
-		public TimeSpan RespawnDelay { get; }
 
 		/// <summary>
 		/// Returns the class name of the map the monsters are to be
@@ -47,19 +49,61 @@ namespace Melia.Zone.World
 		public string MapClassName { get; }
 
 		/// <summary>
-		/// Returns the polygonal area that monsters are spawned in.
+		/// Returns the min amount of monsters this spawner spawns at a time.
+		/// </summary>
+		public int MinAmount { get; }
+
+		/// <summary>
+		/// Returns the max amount of monsters this spawner spawns at a time.
+		/// </summary>
+		public int MaxAmount { get; }
+
+		/// <summary>
+		/// Returns the  amount of monsters this spawner currently spawns at
+		/// a time. This number may change based on how frequently monsters
+		/// are killed.
+		/// </summary>
+		public int FlexAmount { get; private set; }
+
+		/// <summary>
+		/// Returns the amount of monsters currently spawned.
+		/// </summary>
+		public int Amount { get; private set; }
+
+		/// <summary>
+		/// Returns the area in which the monsters are spawned.
 		/// </summary>
 		public IShape Area { get; }
 
 		/// <summary>
-		/// Creates a new spawner.
+		/// Returns the initial delay before the first spawn.
 		/// </summary>
-		/// <param name="monsterClassName">Class name of the monster to spawn.</param>
-		/// <param name="amount">Amount of monsters to spawn and keep around.</param>
-		/// <param name="respawnDelay">Delay until a monster is spawned again.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters on.</param>
-		/// <param name="area">Area monsters might spawn in.</param>
-		public MonsterSpawner(string monsterClassName, int amount, TimeSpan respawnDelay, string mapClassName, IShape area)
+		public TimeSpan InitialDelay { get; }
+
+		/// <summary>
+		/// Returns the minimum time until a respawn after a monster
+		/// disappeared.
+		/// </summary>
+		public TimeSpan MinRespawnDelay { get; }
+
+		/// <summary>
+		/// Returns the maximum time until a respawn after a monster
+		/// disappeared.
+		/// </summary>
+		public TimeSpan MaxRespawnDelay { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="raceId"></param>
+		/// <param name="maxAmount"></param>
+		/// <param name="regionId"></param>
+		/// <param name="area"></param>
+		/// <param name="initialSpawnDelay"></param>
+		/// <param name="minRespawnDelay"></param>
+		/// <param name="maxRespawnDelay"></param>
+		/// <param name="titles"></param>
+		public MonsterSpawner(string monsterClassName, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassName}'.");
@@ -67,76 +111,133 @@ namespace Melia.Zone.World
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out _map))
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
+			maxAmount = Math.Max(1, maxAmount);
+			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
+			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
+			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
+
+			var minAmount = Math.Max(1, maxAmount / 4);
+
+			this.Id = Interlocked.Increment(ref Ids);
 			this.MonsterClassName = monsterClassName;
-			this.Amount = amount;
-			this.RespawnDelay = respawnDelay;
+			this.MinAmount = minAmount;
+			this.MaxAmount = maxAmount;
+			this.FlexAmount = this.MinAmount;
 			this.MapClassName = mapClassName;
 			this.Area = area;
+			this.InitialDelay = initialSpawnDelay;
+			this.MinRespawnDelay = minRespawnDelay;
+			this.MaxRespawnDelay = maxRespawnDelay;
 
-			_rnd = new Random(RandomProvider.Get().Next());
-			_totalAmount = this.Amount;
+			_spawnDelay = this.InitialDelay;
 		}
 
 		/// <summary>
-		/// Spawns monsters until the total amount is reached.
+		/// Spawns the given number of monsters.
 		/// </summary>
-		public void InitialSpawn()
+		public void Spawn(int amount)
 		{
-			while (_spawnCount < _totalAmount)
-				this.Spawn();
+			for (var i = 0; i < amount; ++i)
+			{
+				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
+				monster.Position = this.GetRandomPosition();
+				monster.FromGround = true;
+				monster.Died += this.OnMonsterDied;
+
+				//monster.AI = new AIMonster(monster);
+				//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+
+				_map.AddMonster(monster);
+			}
+
+			this.Amount += amount;
 		}
 
 		/// <summary>
-		/// Spawns a monster.
-		/// </summary>
-		/// <returns></returns>
-		public Mob Spawn()
-		{
-			var monster = new Mob(_monsterData.Id, MonsterType.Mob);
-			monster.Position = this.GetRandomPosition();
-			monster.FromGround = true;
-			monster.Died += this.OnMonsterDied;
-
-			//monster.AI = new AIMonster(monster);
-			//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
-
-			_map.AddMonster(monster);
-
-			_spawnCount = Interlocked.Increment(ref _spawnCount);
-
-			return monster;
-		}
-
-		/// <summary>
-		/// Spawns a monster if the current amount is lower than the total.
-		/// </summary>
-		private void Respawn()
-		{
-			if (_spawnCount < _totalAmount)
-				this.Spawn();
-		}
-
-		/// <summary>
-		/// Called when a monster spawned by this spawner died.
+		/// Called when one of the monsters this instance spawned died and
+		/// disappeared.
 		/// </summary>
 		/// <param name="monster"></param>
 		/// <param name="killer"></param>
 		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
-			_spawnCount = Interlocked.Decrement(ref _spawnCount);
+			this.Amount--;
 
-			// Use the spawner's respawn delay as the base, but add
-			// a few random milliseconds on top, to make it appear
-			// more dynamic.
-			var delay = this.RespawnDelay;
-			if (delay > TimeSpan.Zero)
-				delay = delay.Add(TimeSpan.FromMilliseconds(_rnd.Next(250, 2000)));
-
-			Task.Delay(delay).ContinueWith(_ => this.Respawn());
+			// Reset spawn decreaser because the death of an monster means
+			// activity, and we only want to decrease the amount when
+			// nothing is happening.
+			_spawnAmountDecreaseDelay = SpawnAmountDecreaseDelay;
 		}
 
 		/// <summary>
-		/// Returns a random position inside the spawn area.
+		/// (Re)spawns monsters regularly.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			Log.Debug("{0} flex: {1}", this.MonsterClassName, this.FlexAmount);
+
+			// Spawn new monsters regularly
+			_spawnDelay -= elapsed;
+			if (_spawnDelay <= TimeSpan.Zero)
+			{
+				// Do a full spawn on the first run
+				if (!_initialSpawnDone)
+				{
+					this.Spawn(this.FlexAmount);
+					_initialSpawnDone = true;
+					_spawnDelay = this.GetRandomRespawnDelay();
+					return;
+				}
+
+				if (this.Amount < this.FlexAmount)
+					this.Spawn(1);
+
+				// Use halfed respawn rate during respawns. This is set
+				// back to the normal rate when monsters are killed.
+				_spawnDelay = this.GetRandomRespawnDelay().Divide(2);
+			}
+
+			// Regularly check how many monsters there currently are and
+			// increase their max amount if their numbers are being kept
+			// low.
+			_spawnAmountIncreaseDelay -= elapsed;
+			if (_spawnAmountIncreaseDelay <= TimeSpan.Zero)
+			{
+				// Increase amount by 1 if less than half of the spawns
+				// are left
+				if (this.Amount < this.FlexAmount / 2)
+					this.FlexAmount = Math.Min(this.MaxAmount, this.FlexAmount + 1);
+
+				_spawnAmountIncreaseDelay = SpawnAmountIncreaseDelay;
+			}
+
+			// Decrease spawn amount in regular intervals. This variable
+			// is reset when a monster dies, to keep the number from going
+			// down while monster are being hunted.
+			_spawnAmountDecreaseDelay -= elapsed;
+			if (_spawnAmountDecreaseDelay <= TimeSpan.Zero)
+			{
+				this.FlexAmount = Math2.Clamp(this.MinAmount, this.MaxAmount, this.FlexAmount - 1);
+				_spawnAmountDecreaseDelay = SpawnAmountDecreaseDelay;
+			}
+		}
+
+		/// <summary>
+		/// Returns a random delay between min and max respawn delay.
+		/// </summary>
+		/// <returns></returns>
+		private TimeSpan GetRandomRespawnDelay()
+		{
+			var min = (int)this.MinRespawnDelay.TotalMilliseconds;
+			var max = (int)this.MaxRespawnDelay.TotalMilliseconds;
+			var result = _rnd.Next(min, max + 1);
+
+			return TimeSpan.FromMilliseconds(result);
+		}
+
+		/// <summary>
+		/// Returns a random position within the spawn area.
 		/// </summary>
 		/// <returns></returns>
 		private Position GetRandomPosition()

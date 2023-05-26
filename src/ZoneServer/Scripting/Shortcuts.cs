@@ -164,7 +164,11 @@ namespace Melia.Zone.Scripting
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
 
-			var spawner = new MonsterSpawner(monsterClassName, amount, respawn, map, area);
+			var initialSpawnDelay = TimeSpan.Zero;
+			var minRespawnDelay = respawn;
+			var maxRespawnDelay = respawn.Add(TimeSpan.FromMilliseconds(2000));
+
+			var spawner = new MonsterSpawner(monsterClassName, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay);
 			mapObj.AddSpawner(spawner);
 
 			return spawner;

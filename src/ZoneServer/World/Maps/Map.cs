@@ -131,6 +131,7 @@ namespace Melia.Zone.World.Maps
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.UpdateEntities(elapsed);
+			this.UpdateSpawners(elapsed);
 		}
 
 		/// <summary>
@@ -304,10 +305,7 @@ namespace Melia.Zone.World.Maps
 		public void AddSpawner(MonsterSpawner spawner)
 		{
 			lock (_spawners)
-			{
 				_spawners.Add(spawner);
-				spawner.InitialSpawn();
-			}
 		}
 
 		/// <summary>
@@ -317,6 +315,15 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_spawners)
 				_spawners.Clear();
+		}
+
+		public void UpdateSpawners(TimeSpan elapsed)
+		{
+			lock (_spawners)
+			{
+				foreach (var spawner in _spawners)
+					spawner.Update(elapsed);
+			}
 		}
 
 		/// <summary>
