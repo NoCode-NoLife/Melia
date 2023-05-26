@@ -62,6 +62,11 @@ namespace Melia.Shared
 		/// </summary>
 		protected void NavigateToRoot()
 		{
+			// First go to the assemblies directory and then back from
+			// there until we find the root folder.
+			var appDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			Directory.SetCurrentDirectory(appDirectory);
+
 			var folderNames = new[] { "lib", "user", "system" };
 			var tries = 3;
 

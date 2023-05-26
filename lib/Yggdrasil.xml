@@ -4180,6 +4180,12 @@
             <param name="logo">ASCII logo.</param>
             <param name="credits">Credits for header footer.</param>
         </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.GetWindowWidth">
+            <summary>
+            Attempts to read the window width from Console. If it fails,
+            it returns a default value of 80.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Util.ConsoleUtil.WriteSeperator">
             <summary>
             Writes seperator in form of horizontal line to Console.
