@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -158,9 +159,24 @@ namespace Melia.Zone.Scripting
 		/// <exception cref="ArgumentException"></exception>
 		public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area)
 		{
-			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _))
+			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out var monsterData))
 				throw new ArgumentException($"Monster '{monsterClassName}' not found.");
 
+			return AddSpawner(monsterData.Id, amount, respawn, map, area);
+		}
+
+		/// <summary>
+		/// Adds monster spawner to the world.
+		/// </summary>
+		/// <param name="monsterClassName"></param>
+		/// <param name="amount"></param>
+		/// <param name="respawn"></param>
+		/// <param name="map"></param>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area)
+		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
 
@@ -168,7 +184,7 @@ namespace Melia.Zone.Scripting
 			var minRespawnDelay = respawn;
 			var maxRespawnDelay = respawn.Add(TimeSpan.FromMilliseconds(2000));
 
-			var spawner = new MonsterSpawner(monsterClassName, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay);
+			var spawner = new MonsterSpawner(monsterClassId, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay);
 			mapObj.AddSpawner(spawner);
 
 			return spawner;

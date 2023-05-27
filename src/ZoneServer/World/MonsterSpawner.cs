@@ -38,11 +38,6 @@ namespace Melia.Zone.World
 		public int Id { get; }
 
 		/// <summary>
-		/// Returns the class name of the monster that is to be spawned.
-		/// </summary>
-		public string MonsterClassName { get; }
-
-		/// <summary>
 		/// Returns the class name of the map the monsters are to be
 		/// spawned on
 		/// </summary>
@@ -95,7 +90,7 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
-		/// <param name="raceId"></param>
+		/// <param name="monsterClassId"></param>
 		/// <param name="maxAmount"></param>
 		/// <param name="regionId"></param>
 		/// <param name="area"></param>
@@ -103,10 +98,10 @@ namespace Melia.Zone.World
 		/// <param name="minRespawnDelay"></param>
 		/// <param name="maxRespawnDelay"></param>
 		/// <param name="titles"></param>
-		public MonsterSpawner(string monsterClassName, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay)
+		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay)
 		{
-			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out _monsterData))
-				throw new ArgumentException($"No monster data found for '{monsterClassName}'.");
+			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
+				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
 
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out _map))
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
@@ -119,7 +114,6 @@ namespace Melia.Zone.World
 			var minAmount = Math.Max(1, maxAmount / 4);
 
 			this.Id = Interlocked.Increment(ref Ids);
-			this.MonsterClassName = monsterClassName;
 			this.MinAmount = minAmount;
 			this.MaxAmount = maxAmount;
 			this.FlexAmount = this.MinAmount;
@@ -244,7 +238,7 @@ namespace Melia.Zone.World
 			var pos = new Position(rndVector.X, 0, rndVector.Y);
 
 			if (!_map.Ground.TryGetHeightAt(pos, out var height))
-				Log.Warning("MonsterSpawner.GetRandomPosition: Failed to get height at {0} for '{1}' spawner on '{2}'.", pos, this.MonsterClassName, this.MapClassName);
+				Log.Warning("MonsterSpawner.GetRandomPosition: Failed to get height at {0} for '{1}' spawner on '{2}'.", pos, _monsterData.ClassName, this.MapClassName);
 
 			pos.Y = height;
 
