@@ -90,9 +90,10 @@ switch (type)
         float f6;
         break;
 
-    case 0x1D:
+    case 0x1F:
         int characterHandle;
         int i0;
+        int i1;
         int targetHandle;
         position castPosition;
         direction targetDirection;
