@@ -16,5 +16,4 @@
 ClientHeaderDynamic header;
 
 short s1;
-int i1;
-int i2;
+int64 itemObjectId;
