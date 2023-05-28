@@ -1,5 +1,6 @@
 ﻿using Melia.Zone.World;
 using Melia.Shared.ObjectProperties;
+using Melia.Shared.Tos.Const;
 
 namespace Melia.Zone.Skills
 {
@@ -21,7 +22,7 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// The ability's id.
 		/// </summary>
-		public int Id { get; set; }
+		public AbilityId Id { get; set; }
 
 		/// <summary>
 		/// The ability's level.
@@ -36,7 +37,7 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
-		public Ability(int abilityId, int level)
+		public Ability(AbilityId abilityId, int level)
 		{
 			// It seems like abilities and session objects use the same
 			// id pool on officials, so we'll do the same for now.

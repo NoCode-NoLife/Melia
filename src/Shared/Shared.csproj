@@ -97,6 +97,7 @@
     <Compile Include="ObjectProperties\PropertyObject.cs" />
     <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
+    <Compile Include="Tos\Const\AbilityId.cs" />
     <Compile Include="Tos\Const\BuffId.cs" />
     <Compile Include="Tos\Const\AnimationId.cs" />
     <Compile Include="Tos\Const\Character.cs" />

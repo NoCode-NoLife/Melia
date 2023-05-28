@@ -235,7 +235,7 @@ namespace Melia.Zone.Database
 					{
 						while (reader.Read())
 						{
-							var abilityId = reader.GetInt32("id");
+							var abilityId = (AbilityId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
 							var ability = new Ability(abilityId, level);

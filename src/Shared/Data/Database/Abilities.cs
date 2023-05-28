@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Melia.Shared.Tos.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -8,7 +9,7 @@ namespace Melia.Shared.Data.Database
 	[Serializable]
 	public class AbilityData
 	{
-		public int Id { get; set; }
+		public AbilityId Id { get; set; }
 		public string ClassName { get; set; }
 		public string EngName { get; set; }
 		public int Level { get; set; }
@@ -18,7 +19,7 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Ability database, indexed by ability id.
 	/// </summary>
-	public class AbilityDb : DatabaseJsonIndexed<int, AbilityData>
+	public class AbilityDb : DatabaseJsonIndexed<AbilityId, AbilityData>
 	{
 		/// <summary>
 		/// Returns data for the first ability with the given class name,
@@ -41,7 +42,7 @@ namespace Melia.Shared.Data.Database
 
 			var data = new AbilityData();
 
-			data.Id = entry.ReadInt("id");
+			data.Id = (AbilityId)entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
 			data.EngName = entry.ReadString("name");
 			data.Level = entry.ReadInt("level");
