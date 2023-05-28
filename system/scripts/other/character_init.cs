@@ -6,6 +6,7 @@
 
 using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
+using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
@@ -52,10 +53,15 @@ public class CharacterInitializationScript : GeneralScript
 		LearnAbility(character, AbilityId.Staff);
 		LearnAbility(character, AbilityId.Mace);
 
-		//GiveItem(character, ItemId.Select_Growth_Sword_Weapon, 4);
-		//GiveItem(character, ItemId.Select_Growth_Sword_SubWeapon, 4);
-
-		EquipItem(character, EquipSlot.RightHand, ItemId.SWD01_101);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.RightHand, ItemId.SWD01_101);
+		}
+		else
+		{
+			GiveItem(character, ItemId.Select_Growth_Sword_Weapon, 4);
+			GiveItem(character, ItemId.Select_Growth_Sword_SubWeapon, 4);
+		}
 	}
 
 	private static void InitWizard(Character character)
@@ -70,10 +76,15 @@ public class CharacterInitializationScript : GeneralScript
 		LearnAbility(character, AbilityId.Mace);
 		LearnAbility(character, AbilityId.THStaff);
 
-		//GiveItem(character, ItemId.Select_Growth_Wizard_Weapon, 4);
-		//GiveItem(character, ItemId.Select_Growth_Wizard_SubWeapon, 4);
-
-		EquipItem(character, EquipSlot.RightHand, ItemId.STF01_101);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.RightHand, ItemId.STF01_101);
+		}
+		else
+		{
+			GiveItem(character, ItemId.Select_Growth_Wizard_Weapon, 4);
+			GiveItem(character, ItemId.Select_Growth_Wizard_SubWeapon, 4);
+		}
 	}
 
 	private static void InitArcher(Character character)
@@ -89,10 +100,15 @@ public class CharacterInitializationScript : GeneralScript
 		LearnAbility(character, AbilityId.THBow);
 		LearnAbility(character, AbilityId.Bow);
 
-		//GiveItem(character, ItemId.Select_Growth_Archer_Weapon, 4);
-		//GiveItem(character, ItemId.Select_Growth_Archer_SubWeapon, 4);
-
-		EquipItem(character, EquipSlot.RightHand, ItemId.TBW01_101);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.RightHand, ItemId.TBW01_101);
+		}
+		else
+		{
+			GiveItem(character, ItemId.Select_Growth_Archer_Weapon, 4);
+			GiveItem(character, ItemId.Select_Growth_Archer_SubWeapon, 4);
+		}
 	}
 
 	private static void InitCleric(Character character)
@@ -107,10 +123,15 @@ public class CharacterInitializationScript : GeneralScript
 		LearnAbility(character, AbilityId.THMace);
 		LearnAbility(character, AbilityId.Cleric36);
 
-		//GiveItem(character, ItemId.Select_Growth_Cleric_Weapon, 4);
-		//GiveItem(character, ItemId.Select_Growth_Cleric_SubWeapon, 4);
-
-		EquipItem(character, EquipSlot.RightHand, ItemId.MAC01_101);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.RightHand, ItemId.MAC01_101);
+		}
+		else
+		{
+			GiveItem(character, ItemId.Select_Growth_Cleric_Weapon, 4);
+			GiveItem(character, ItemId.Select_Growth_Cleric_SubWeapon, 4);
+		}
 	}
 
 	private static void InitScout(Character character)
@@ -126,11 +147,16 @@ public class CharacterInitializationScript : GeneralScript
 
 		LearnAbility(character, AbilityId.Sword);
 
-		//GiveItem(character, ItemId.Select_Growth_Scout_Weapon, 4);
-		//GiveItem(character, ItemId.Select_Growth_Scout_SubWeapon, 4);
-
-		EquipItem(character, EquipSlot.RightHand, ItemId.DAG01_113);
-		EquipItem(character, EquipSlot.LeftHand, ItemId.SWD01_101);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.RightHand, ItemId.DAG01_113);
+			EquipItem(character, EquipSlot.LeftHand, ItemId.SWD01_101);
+		}
+		else
+		{
+			GiveItem(character, ItemId.Select_Growth_Scout_Weapon, 4);
+			GiveItem(character, ItemId.Select_Growth_Scout_SubWeapon, 4);
+		}
 	}
 
 	private static void InitCommon(Character character)
@@ -154,13 +180,18 @@ public class CharacterInitializationScript : GeneralScript
 		GiveItem(character, ItemId.Escape_Orb, 1);
 		GiveItem(character, ItemId.EscapeStone_Klaipeda, 1);
 
-		EquipItem(character, EquipSlot.Top, ItemId.TOP01_101);
-		EquipItem(character, EquipSlot.Pants, ItemId.LEG01_101);
-
-		//EquipItem(character, EquipSlot.Top, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_TOP);
-		//EquipItem(character, EquipSlot.Pants, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_LEG);
-		//EquipItem(character, EquipSlot.Shoes, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_FOOT);
-		//EquipItem(character, EquipSlot.Gloves, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_HAND);
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.Top, ItemId.TOP01_101);
+			EquipItem(character, EquipSlot.Pants, ItemId.LEG01_101);
+		}
+		else
+		{
+			EquipItem(character, EquipSlot.Top, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_TOP);
+			EquipItem(character, EquipSlot.Pants, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_LEG);
+			EquipItem(character, EquipSlot.Shoes, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_FOOT);
+			EquipItem(character, EquipSlot.Gloves, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_HAND);
+		}
 	}
 
 	private static void GiveItem(Character character, int itemId, int amount)
