@@ -12,7 +12,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public string Category { get; set; }
 		public JobId JobId { get; set; }
-		public int AbilityId { get; set; }
+		public AbilityId AbilityId { get; set; }
 		public string ClassName { get; set; }
 		public int MaxLevel { get; set; }
 		public int Price { get; set; }
@@ -36,7 +36,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="jobId"></param>
 		/// <param name="abilityId"></param>
 		/// <returns></returns>
-		public AbilityTreeData Find(JobId jobId, int abilityId)
+		public AbilityTreeData Find(JobId jobId, AbilityId abilityId)
 		{
 			return this.Entries.FirstOrDefault(a => a.JobId == jobId && a.AbilityId == abilityId);
 		}
@@ -63,7 +63,7 @@ namespace Melia.Shared.Data.Database
 
 			data.Category = entry.ReadString("category");
 			data.JobId = (JobId)entry.ReadInt("jobId");
-			data.AbilityId = entry.ReadInt("abilityId");
+			data.AbilityId = (AbilityId)entry.ReadInt("abilityId");
 			data.ClassName = entry.ReadString("className");
 			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.Price = entry.ReadInt("price", 0);

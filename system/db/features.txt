@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------
 
 [
-{ name: "Re:Build", enabled: false, children: [
+{ name: "ReBuild", enabled: false, children: [
 
 	// Movement-related changes
 	{ name: "MovementRevamp", enabled: true, children: [
@@ -16,6 +16,13 @@
 		// Enables dashing for all classes
 		{ name: "DashingForAll", enabled: true },
 	]},
+	
+]},
+
+{ name: "Misc", enabled: false, children: [
+
+	// Enables new characters receiving growth equipment
+	{ name: "GrowthEquipOnStart", enabled: true },
 	
 ]},
 

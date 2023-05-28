@@ -188,35 +188,6 @@ namespace Melia.Zone.Database
 
 				// Properties?
 			}
-
-			// Load default skills of all jobs
-			// Interestingly, it seems like officials don't actually save
-			// those skills, they add them via ZC_SKILL_ADD on every login,
-			// the skill list only containing the skills from the jobs'
-			// skill trees. Abilities on the other hand are all sent in
-			// their normal list. Should we mimic that? Could there be a
-			// reason for it, aside from saving space in the db?
-			if (character.Skills.Count == 0)
-			{
-				foreach (var job in character.Jobs.GetList())
-				{
-					foreach (var skillName in job.Data.DefaultSkills)
-					{
-						var skillData = ZoneServer.Instance.Data.SkillDb.Find(skillName);
-						if (skillData == null)
-						{
-							Log.Warning("ChannelDb.LoadSkills: Skill '{0}' not found.", skillName);
-							continue;
-						}
-
-						if (character.Skills.Has(skillData.Id))
-							continue;
-
-						var skill = new Skill(character, skillData.Id, 1);
-						character.Skills.AddSilent(skill);
-					}
-				}
-			}
 		}
 
 		/// <summary>
@@ -235,7 +206,7 @@ namespace Melia.Zone.Database
 					{
 						while (reader.Read())
 						{
-							var abilityId = reader.GetInt32("id");
+							var abilityId = (AbilityId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
 
 							var ability = new Ability(abilityId, level);
@@ -246,29 +217,6 @@ namespace Melia.Zone.Database
 				}
 
 				// Properties?
-			}
-
-			// Load default abilities of all jobs
-			if (character.Abilities.Count == 0)
-			{
-				foreach (var job in character.Jobs.GetList())
-				{
-					foreach (var abilityName in job.Data.DefaultAbilities)
-					{
-						var data = ZoneServer.Instance.Data.AbilityDb.Find(abilityName);
-						if (data == null)
-						{
-							Log.Warning("ChannelDb.LoadAbilities: Ability '{0}' not found.", abilityName);
-							continue;
-						}
-
-						if (character.Abilities.Has(data.Id))
-							continue;
-
-						var ability = new Ability(data.Id, 1);
-						character.Abilities.AddSilent(ability);
-					}
-				}
 			}
 		}
 
@@ -602,7 +550,7 @@ namespace Melia.Zone.Database
 					// TODO: Add generic item load and save methods, for
 					//   other item collections to use, such as warehouse.
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -612,7 +560,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", newId);
@@ -630,7 +578,7 @@ namespace Melia.Zone.Database
 				{
 					var newId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -640,7 +588,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", newId);

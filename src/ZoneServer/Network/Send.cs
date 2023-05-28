@@ -670,7 +670,7 @@ namespace Melia.Zone.Network
 				var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutLong(ability.ObjectId);
-				packet.PutInt(ability.Id);
+				packet.PutInt((int)ability.Id);
 				packet.PutShort(propertiesSize);
 				packet.PutShort(0);
 

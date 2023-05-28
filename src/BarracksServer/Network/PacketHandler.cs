@@ -317,23 +317,6 @@ namespace Melia.Barracks.Network
 			//character.SprByJob = jobData.Spr;
 			//character.DexByJob = jobData.Dex;
 
-			// Initialize with the default equipment set.
-			var equipList = new EquipList();
-			foreach (var equip in jobData.DefaultEquip)
-			{
-				var itemData = BarracksServer.Instance.Data.ItemDb.FindByClass(equip.Value);
-				if (itemData == null)
-				{
-					Log.Error("CB_COMMANDER_CREATE : Unable to find item data with class name '{0}'.", equip.Value);
-					Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
-					return;
-				}
-
-				equipList[equip.Key] = itemData.Id;
-			}
-
-			character.SetEquipment(equipList);
-
 			conn.Account.CreateCharacter(character);
 
 			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);

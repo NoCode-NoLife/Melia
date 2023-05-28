@@ -41,11 +41,6 @@ namespace Melia.Shared.Data.Database
 		public float AtkSpeedRate { get; set; }
 		public float MoveSpeedRate { get; set; }
 		public int BarrackStance { get; set; }
-
-		public ISet<string> DefaultSkills { get; set; }
-		public ISet<string> DefaultAbilities { get; set; }
-		public ISet<string> DefaultItems { get; set; }
-		public IDictionary<EquipSlot, string> DefaultEquip { get; set; }
 	}
 
 	/// <summary>
@@ -95,69 +90,7 @@ namespace Melia.Shared.Data.Database
 			data.MoveSpeedRate = entry.ReadFloat("moveSpeedRate", 1);
 			data.BarrackStance = entry.ReadInt("barrackStance");
 
-			// TODO: It would be good if we could check right here whether
-			//   these skills and items and such actually exist.
-
-			// Skills
-			data.DefaultSkills = new HashSet<string>();
-			if (entry.ContainsKey("defaultSkills"))
-			{
-				foreach (var name in entry["defaultSkills"])
-					data.DefaultSkills.Add((string)name);
-			}
-
-			// Abilities
-			data.DefaultAbilities = new HashSet<string>();
-			if (entry.ContainsKey("defaultAbilities"))
-			{
-				foreach (var name in entry["defaultAbilities"])
-					data.DefaultAbilities.Add((string)name);
-			}
-
-			// Items
-			data.DefaultItems = new HashSet<string>();
-			if (entry.ContainsKey("defaultItems"))
-			{
-				foreach (var name in entry["defaultItems"])
-					data.DefaultItems.Add((string)name);
-			}
-
-			// Equip
-			data.DefaultEquip = new Dictionary<EquipSlot, string>();
-			if (entry.ContainsKey("defaultEquip"))
-			{
-				var equipEntry = (JObject)entry["defaultEquip"];
-				foreach (var pair in equipEntry)
-				{
-					var slot = StringToEquipSlot(pair.Key);
-					var name = pair.Value;
-
-					data.DefaultEquip[slot] = (string)name;
-				}
-			}
-
 			this.AddOrReplace(data.Id, data);
-		}
-
-		/// <summary>
-		/// Returns equip slot for given default equip key.
-		/// </summary>
-		/// <param name="str"></param>
-		/// <returns></returns>
-		private static EquipSlot StringToEquipSlot(string str)
-		{
-			switch (str)
-			{
-				case "rightHand": return EquipSlot.RightHand;
-				case "body": return EquipSlot.Outer2;
-				case "shirt": return EquipSlot.Top;
-				case "outer": return EquipSlot.Outer2;
-				case "pants": return EquipSlot.Pants;
-				case "gloves": return EquipSlot.Gloves;
-				case "boots": return EquipSlot.Shoes;
-			}
-
-			throw new DatabaseErrorException("Unknown equip slot '" + str + "'.");
 		}
 	}
 }

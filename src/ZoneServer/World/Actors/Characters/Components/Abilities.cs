@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class Abilities : CharacterComponent
 	{
-		private readonly Dictionary<int, Ability> _abilities = new Dictionary<int, Ability>();
+		private readonly Dictionary<AbilityId, Ability> _abilities = new Dictionary<AbilityId, Ability>();
 
 		/// <summary>
 		/// Returns amount of abilities.
@@ -53,7 +53,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="abilityId"></param>
 		/// <returns></returns>
-		public bool Remove(int abilityId)
+		public bool Remove(AbilityId abilityId)
 		{
 			lock (_abilities)
 				return _abilities.Remove(abilityId);
@@ -75,7 +75,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="abilityId"></param>
 		/// <returns></returns>
-		public bool Has(int abilityId, int level = 0)
+		public bool Has(AbilityId abilityId, int level = 0)
 		{
 			var ability = this.Get(abilityId);
 			return (ability != null && ability.Level >= level);
@@ -87,7 +87,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="abilityId"></param>
 		/// <returns></returns>
-		public Ability Get(int abilityId)
+		public Ability Get(AbilityId abilityId)
 		{
 			lock (_abilities)
 			{
