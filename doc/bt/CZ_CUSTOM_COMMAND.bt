@@ -2,9 +2,9 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_CUSTOM_COMMAND.bt
-//   Authors: celophi
-//   Version: i170175
-//   Purpose: Makes a custom command request to the server.
+//   Authors: celophi, exec
+//   Version: i373766
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -16,6 +16,6 @@
 ClientHeaderFixed header;
 
 int command;
-int classId;
-int cmdArg;
-int i1;         // This could be a second argument.
+int arg1;
+int arg2;
+int arg3;
