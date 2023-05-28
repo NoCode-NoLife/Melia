@@ -59,5 +59,20 @@
 			public const int Unknown_19B = 0x19E;
 			public const int Unknown_1B4 = 0x1B7;
 		}
+
+		/// <summary>
+		/// Sub-opcodes used with SC_NORMAL.
+		/// </summary>
+		public static class Social
+		{
+			public const int Unknown_00 = 0x00;
+			public const int Unknown_02 = 0x02;
+			public const int Chat = 0x03;
+			public const int CreateChatRoom = 0x04;
+			public const int ChatLog = 0x05;
+			public const int SystemMessage = 0x07;
+			public const int Buff_0C = 0x0C;
+			public const int Unknown_19 = 0x19;
+		}
 	}
 }

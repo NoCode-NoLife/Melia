@@ -108,9 +108,13 @@ namespace Melia.Barracks.Network
 		{
 			var unkByte = packet.GetByte();
 			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
+			var socialServers = BarracksServer.Instance.ServerList.GetSocialServers();
 
 			Send.BC_IES_MODIFY_LIST(conn);
-			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
+			if (socialServers.Length >= 2)
+				Send.BC_SERVER_ENTRY(conn, socialServers[0].Ip, socialServers[0].Port, socialServers[1].Ip, socialServers[1].Port);
+			else if (socialServers.Length == 1)
+				Send.BC_SERVER_ENTRY(conn, socialServers[0].Ip, socialServers[0].Port, socialServers[0].Ip, socialServers[0].Port);
 			//Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);

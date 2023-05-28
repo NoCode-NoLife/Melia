@@ -158,6 +158,7 @@
     <Compile Include="Network\ServerList.cs" />
     <Compile Include="Network\NormalOp.cs" />
     <Compile Include="Network\TosFramer.cs" />
+    <Compile Include="Network\TosSocialFramer.cs" />
     <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Database\Commands.cs" />

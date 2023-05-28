@@ -52,6 +52,17 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Returns a list of social servers.
+		/// </summary>
+		/// <returns></returns>
+		public ServerInfo[] GetSocialServers()
+		{
+			var socialServers = _servers.Where(a => a.Type == ServerType.Social);
+
+			return socialServers.ToArray();
+		}
+
+		/// <summary>
 		/// Returns the zone server with the given index that serves the
 		/// given map via out. Returns false if no matching server was found.
 		/// </summary>

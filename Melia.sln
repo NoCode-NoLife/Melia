@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarracksServer", "src\Barra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneServer", "src\ZoneServer\ZoneServer.csproj", "{D508C2A7-44AD-4E39-ADE1-C255F968C278}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialServer", "src\SocialServer\SocialServer.csproj", "{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{495610AF-FC52-455A-B053-D83B4E056684} = {35E8C024-37C9-4EFB-AC93-D72B00F41D48}
 		{3D99B1C2-6F51-4968-9B78-79A5502556D4} = {4827E608-0822-47B0-9A94-A91702B1D220}
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278} = {4827E608-0822-47B0-9A94-A91702B1D220}
+		{B3856739-7B3F-4F5E-9B36-BC8C8920D03B} = {4827E608-0822-47B0-9A94-A91702B1D220}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D172B2A8-8AB6-4A70-B599-83BF3F349384}

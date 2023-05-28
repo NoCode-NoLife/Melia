@@ -105,5 +105,6 @@ namespace Melia.Shared.Data.Database
 		Barracks,
 		Zone,
 		Web,
+		Social,
 	}
 }

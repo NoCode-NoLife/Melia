@@ -40,7 +40,8 @@ namespace Melia.Shared.Network
 			// [i339427]
 			// Unknown values that appeared in the header of
 			// all client packets at some point.
-			var extra = this.GetBin(12);
+			if (this.Op < Network.Op.CS_LOGIN)
+				this.GetBin(12);
 
 			_bodyStart = _buffer.Index;
 		}
