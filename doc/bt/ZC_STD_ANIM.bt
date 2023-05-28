@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_STD_ANIM
+//      File: ZC_STD_ANIM.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -14,5 +14,6 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle; //?
-byte faction; //?
+byte animationId; //?

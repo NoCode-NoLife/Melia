@@ -19,12 +19,14 @@ ServerHeaderDynamic header;
 int deadHandle;
 //byte b1;
 int i1;
-int64 l1;
-float f1;
+position pos;
 int i2;
-int killerHandle;
-int i3;
-int64 i4;
-int64 i6;
-int64 i7;
+if (i1 > 64)
+{
+    int killerHandle;
+    int i3;
+    int64 i4;
+    int64 i6;
+    int64 i7;
+}
 

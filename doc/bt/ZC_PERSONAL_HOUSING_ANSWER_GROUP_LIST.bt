@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_PERSONAL_HOUSING_ANSWER_GROUP_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+typedef struct
+{
+    int furnitureGroupId;
+    int furnitureGroupCount;
+} FurnitureGroup <optimize=false>;
+
+ServerHeaderDynamic header;
+
+int count; // 0
+FurnitureGroup group[count];

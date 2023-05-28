@@ -14,4 +14,3 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-ushort s1;

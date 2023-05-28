@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ATTACH_TO_OBJ.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Flying Companions Related Packet?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle; // 4237
+int attachToHandle; // 4235 / 0
+int packetString1; // 270089 - Dummy_pet_hawk_R (Packet Id String for Animation?) / 0
+int i1; // 0 / 0
+float f1; // 1 / 0 (Duration?)
+int64 l1; // 0 / 0
+int64 l2; // 0 / 0
+int packetString2; // 2562221 - SIT (Packet Id String for Animation?) / 0
+short s1; // 1 / 0
+byte b1; // 0 / 0
+//byte bin[39]; // 0s

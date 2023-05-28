@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_REQ_FISHING.bt
+//   Authors: Salman T. Khan
+//   Version: i354444
+//   Purpose: Start or Stop Fishing
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+byte b1;
+int fishingSpotId;
+int fishingRodId;
+int baitId;

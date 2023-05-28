@@ -17,7 +17,7 @@
 //   - i184075: APPEARANCE_BARRACK_PC.i6+7 were added
 //   - i186893: APPEARANCE_PC.bin2 was removed
 //   - i218535: APPEARANCE_BARRACK_PC.s1 was... moved? Or removed and a new one was added.
-//   - i373230: APPEARANCE_PC.unk1 was added
+//   - i373230: APPEARANCE_PC.wigVisible and l1 was added.
 //------------------------------------------------
 
 typedef struct
@@ -33,7 +33,7 @@ typedef struct
     int level;
     int i1;
     ubyte bin2[4];
-    int i2;
+    int chatBubbleId;
     int equipIds[EquipSlotCount];
     int ibin1[3];
     int equipIds2[EquipSlotCount];
@@ -50,7 +50,8 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
-    short s2;
-    byte unk1[8];
+    byte b3;
+    byte wigVisible;
+    int64 l1;
 }
 APPEARANCE_PC;

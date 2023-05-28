@@ -73,6 +73,15 @@ switch(type)
 		byte barrackIndex;
 		position pos;
         break;
+
+    // Set Pet Position
+	// Notifies the client that the server successfully set the barrack
+	// position for a companion.
+    case 0x03:
+        int64 accountId;
+        int64 petId;
+		position pos;
+        break;
 		
     case 0x05:
         int64 accountId;
@@ -84,15 +93,26 @@ switch(type)
 		int64 accountId;
 		int i1;
         break;
-		
-	// Old Team UI
-	// Updates the client UI with character slots, team experience,
-	// names, etc.
+
+    // Companion Packet
     case 0x09:
         int64 accountId;
-		short purchasedBarrackSlots; // 0
-		int teamExp; // 0
-		short characterCount; // 0
+		int count;
+        PetInfo pets[count];
+        int count2;
+        break;
+
+    // Response to CB_PET_PC
+    case 0x0A:
+        int64 accountId;
+        int64 petId;
+        int64 characterId;
+        break;
+
+    // Response to CB_PET_COMMAND (Delete)
+    case 0x0B:
+        int64 accountId;
+        int64 petId;
         break;
 
     // New Team UI Packet?
@@ -140,6 +160,12 @@ switch(type)
     // Enable packets from client to barrack.
     // (CB packets are disabled normally after connecting to the zone server.)
     case 0x0E:
+        int i1; // 1350001
+        break;
+        
+    // Enable packets from client to barrack.
+    // (CB packets are disabled normally after connecting to the zone server.)
+    case 0x0F:
         break;
 		
 	// Run lua function
@@ -152,31 +178,32 @@ switch(type)
         if (!checkCompression())
         {
             byte b1;
-            int i1;
             int newMessageCount;
+            int readMessageCount;
             int messageCount;
             if (messageCount != 0)
-                Message messages[messageCount] <optimize=false>;
+                PostMessage messages[messageCount] <optimize=false>;
         }
         break;
 
     // PostBox State
-    case 0x12:
-        int64 messageId;
-        PostBoxState state;
-
-    // Message Box item update
     case 0x13:
         int64 messageId;
-        byte b1;
-        int i1;
-        int itemCount;
+        PostBoxState state;
+        break;
+
+    // Message Box item update
+    case 0x14:
+        int64 messageId;
+        byte b1; // 1
+        int i1; // 7
+        int itemCount; // 20
         if (itemCount != 0)
-            MessageItem items[itemCount] <optimize=false>;
+            PostMessageItem items[itemCount] <optimize=false>;
         break;
 		
 	// Login queue
-    case 0x14:
+    case 0x15:
         int currentPosition;
         break;
 

@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v13.0 Binary Template
+//
+//      File: ZC_ATTACH_TO_SLOT.bt
+//   Authors: Salman T. Khan
+//   Version: i234929
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc\common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int slot;
+int packetString;
+int packetString;

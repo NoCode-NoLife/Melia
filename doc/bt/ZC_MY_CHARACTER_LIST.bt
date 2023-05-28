@@ -1,0 +1,29 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_MY_CHARACTER_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i344887
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int i1; // 1
+int i2; // 0
+int i3; // 0
+byte b1; // 0
+int i4; // 102
+int i5; // 122547
+char name[64];
+int i6; // 0
+int jobCount;
+short jobs[jobCount]; //[1001, 1006, 1009, 1012]
+int i8; // 1
+int i9; // 1

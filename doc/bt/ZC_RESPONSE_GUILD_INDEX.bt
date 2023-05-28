@@ -16,5 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-int64 characterId;
-ushort s1;
+int64 guildId;
+ushort serverId; // 1001?

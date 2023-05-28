@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_CHANGE_CAMERA_ZOOM.bt
+//   Authors: Salman T. Khan
+//   Version: i343298
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History:
+//   - i336041: b1 added
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+int i1; // 1
+int i2; // 2
+float f1;
+float f2;
+float f3;
+float f4;
+float f5;
+float f6;

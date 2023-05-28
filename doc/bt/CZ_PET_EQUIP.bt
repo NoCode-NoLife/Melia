@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_PET_EQUIP.bt
+//   Authors: Salman T. Khan
+//   Version: i352081
+//   Purpose: Sent when un/equipping a pet with an item
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int64 petWorldId;
+int64 itemWorldId;
+int i1;
+int i2;

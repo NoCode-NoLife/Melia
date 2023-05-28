@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_VEHICLE_RIDE.bt
+//   Authors: Salman T. Khan
+//   Version: i340957
+//   Purpose: Sent when mounting a pet
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int petHandle;
+byte isRiding;

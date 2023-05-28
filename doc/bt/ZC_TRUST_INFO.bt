@@ -13,5 +13,10 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 byte bin[20];
-int64 l[4];
+int64 marketLimit;
+int64 accountWarehouseLimit;
+int64 inventoryLimit;
+int i1;
+int i2;

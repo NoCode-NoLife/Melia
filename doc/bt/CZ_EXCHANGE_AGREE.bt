@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_EXCHANGE_AGREE.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Initial trade agreement
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

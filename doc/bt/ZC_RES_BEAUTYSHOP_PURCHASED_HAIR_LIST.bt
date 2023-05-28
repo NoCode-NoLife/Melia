@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: ZC_RES_BEAUTYSHOP_PURCHASED_HAIR_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Purchased hair list
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int count;

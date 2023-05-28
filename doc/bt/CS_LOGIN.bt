@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CS_LOGIN.bt
+//   Authors: Salman T. Khan
+//   Version: i373219
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//      - i373219: serverType added
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+char accountName[56];
+byte md5password[16];
+byte b1;
+int64 accountId;
+char sessionKey[256];
+char serverType[64];

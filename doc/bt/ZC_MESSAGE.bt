@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_MESSAGE.bt
+//   Authors: Salman T. Khan
+//   Version: i366809
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int i1;
+byte b1;
+int i[9];
+byte b2;

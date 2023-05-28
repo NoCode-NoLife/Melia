@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ITEM_LOCK_STATE.bt
+//   Authors: Salman T. Khan
+//   Version: i347755
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int64 l1; // itemWorldId?
+byte b1; // isLocked?

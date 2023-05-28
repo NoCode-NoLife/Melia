@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_OBJECT_PROPERTY_BY_NAMES.bt
+//   Authors: Salman T. Khan
+//   Version: i358471
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int64 worldId;
+int count; // 1
+lpString objectName; // GemLevel
+byte type; // 0
+int value; // 1

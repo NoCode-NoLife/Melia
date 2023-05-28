@@ -14,5 +14,5 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int i1; // 34
-byte b1; // 1
+int helpId; // 34
+byte isShowing; //? 1

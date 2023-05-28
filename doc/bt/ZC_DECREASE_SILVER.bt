@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_DECREASE_SILVER.bt
+//   Authors: Salman T. Khan
+//   Version: i369838
+//   Purpose: Used when creating guilds
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int amount;

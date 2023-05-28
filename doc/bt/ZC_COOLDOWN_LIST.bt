@@ -12,6 +12,18 @@
 //------------------------------------------------
 #include "inc/common.bt"
 
+typedef struct
+{
+    int cooldownId;
+    int cooldownValue;
+    int i1;
+} Cooldown <optimize=false>;
+
 ServerHeaderDynamic header;
-int64 l1;
-int i1;
+int64 characterId;
+int count;
+
+if (count > 0)
+{
+    Cooldown cooldowns[count];
+}

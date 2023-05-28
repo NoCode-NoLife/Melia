@@ -15,5 +15,5 @@
 
 ServerHeaderFixed header;
 int handle; //?
+float f1;
 byte b1;
-uint i1;

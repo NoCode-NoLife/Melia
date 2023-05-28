@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CS_CREATE_GROUP_CHAT.bt
+//   Authors: Salman T. Khan
+//   Version: i373219
+//   Purpose: Create a chat room (group)
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

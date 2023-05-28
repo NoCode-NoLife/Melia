@@ -30,3 +30,22 @@ else if (txType == 2)
     int jobId;
     int skill[count-1];
 }
+// TP Shop Purchase
+else if (txType == 14)
+{
+    int count;
+    int tpItemClassId[count];
+}
+// TP Shop Purchase
+else if (txType == 23)
+{
+    int count;
+    int tpItemClassId[count];
+}
+// Assister Card
+else if (txType == 28)
+{
+    int i1; // 1
+    int i2; // 1,2
+    byte b[4];
+}

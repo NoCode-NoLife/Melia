@@ -15,7 +15,7 @@
 typedef struct
 {
     int monsterId;
-    int i1;
+    int genType;
     int maxHp;
 
     //short s1;

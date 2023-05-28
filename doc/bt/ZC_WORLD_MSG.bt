@@ -14,9 +14,12 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int i1;
-char name[64];
-int i2;
-int handle;
-int i3;
-byte b1;
+char name[64]; // Bellcross
+// Or could be character Id?
+//int64 l1; // 300656300755705
+int i2; // 101113
+int handle; // 70002
+int i3; // 2
+byte b1; // 0

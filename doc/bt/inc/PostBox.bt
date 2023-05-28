@@ -1,0 +1,52 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: PostBox.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+enum <int> PostBoxState 
+{
+    POST_BOX_STATE_NONE = 0,
+    POST_BOX_STATE_READ = 1,
+    POST_BOX_STATE_STORE = 2,
+    POST_BOX_STATE_DELETE = 3,
+    POST_BOX_STATE_REQ_LOAD = 4,
+    POST_BOX_STATE_COUNT = 5,
+};
+
+typedef struct
+{
+    int id;
+    int itemId;
+    int amount;
+    int received; // bool?
+}
+PostMessageItem <optimize=false>;
+
+typedef struct
+{
+    lpString sender;
+    lpString title;
+    lpString text;
+    FILETIME date1;
+    FILETIME expiration;
+    FILETIME date2;
+    int64 id;
+    byte isRead;
+    short itemCount1;
+    byte b1; // ?
+    byte b2;
+    byte b3;
+    short s2;
+    int itemCount2;
+    if (itemCount2 != 0)
+        PostMessageItem items[itemCount2];
+}
+PostMessage <optimize=false>;

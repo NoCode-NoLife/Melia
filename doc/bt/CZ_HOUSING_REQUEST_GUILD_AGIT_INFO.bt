@@ -3,7 +3,7 @@
 //
 //      File: CZ_HOUSING_REQUEST_GUILD_AGIT_INFO.bt
 //   Authors: Salman T. Khan
-//   Version: i339415
+//   Version: i355874
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,5 @@
 
 ClientHeaderFixed header;
 
-int i1; // 30
-int i2; // Guild ID?
-char script[128]; // Might be 64 + 64 for params?
+int64 guildId;
+char msg[128]; // Might be 64 + 64 for params?

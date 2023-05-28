@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_SPLIT_ACHIEVE_SET.bt
+//   Authors: Salman T. Khan
+//   Version: 354245
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+short s1;
+byte b1;
+byte b2;
+int i1;

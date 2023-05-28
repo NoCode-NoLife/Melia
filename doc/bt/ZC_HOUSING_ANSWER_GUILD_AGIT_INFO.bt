@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_HOUSING_ANSWER_GUILD_AGIT_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i355874
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int64 guildId;
+int mapId; // 6000, When not in a guild, it's 0?
+int i2; // 5, could be guild level?, When not in a guild, 0?
+byte bin[128]; // 0s

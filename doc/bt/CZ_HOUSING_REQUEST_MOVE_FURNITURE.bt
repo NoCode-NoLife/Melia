@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_HOUSING_REQUEST_MOVE_FURNITURE.bt
+//   Authors: Salman T. Khan
+//   Version: i370844
+//   Purpose: Request arranged furniture in the house
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderDynamic header;
+
+int furnitureId;
+int furnitureHandle;
+byte dir; // 0 = Down Facing, 3 = Left Facing
+int column;
+int row;
+int usedCellCount;
+int usedCells[usedCellCount];

@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_CHANGE_REPRESENTATION_CLASS.bt
+//   Authors: Salman T. Khan
+//   Version: i366809
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int jobId;

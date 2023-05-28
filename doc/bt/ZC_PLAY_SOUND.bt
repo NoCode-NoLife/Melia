@@ -4,7 +4,7 @@
 //      File: ZC_PLAY_SOUND
 //   Authors: Salman T. Khan
 //   Version: i336041
-//   Purpose: 
+//   Purpose: Play a sound effect
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,6 +15,7 @@
 
 ServerHeaderFixed header;
 int handle;
-short s1;
-short s2;
-byte b1;
+int packetString;
+byte b1; // 0
+float f1; // 1 or -1 (Endless Loop?)
+byte b2; // 0

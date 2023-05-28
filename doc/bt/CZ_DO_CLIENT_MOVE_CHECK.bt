@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CZ_DO_CLIENT_MOVE_CHECK.bt
+//   Authors: Salman T. Khan
+//   Version: i343298
+//   Purpose: Unknown Purpose
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

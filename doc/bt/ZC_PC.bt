@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PC.bt
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: Sent on Class Change
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int handle;
+int type; // Name = 0, Job = 2
+int i1; // class 3002
+int i2; // 0

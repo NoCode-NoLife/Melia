@@ -9,11 +9,14 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//  367446: i1 noticed
+//  371852: Moved i1 into the SessionObject
 //------------------------------------------------
 
 typedef struct
 {
     short size;
+    //int i1; // Added Recently? First Seen in 367446
     short s1;
     if(size > 0)
         getProperties(size-2);

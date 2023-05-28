@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_DPK_QUEST_DESTORY_SESSIONOBJ.bt
+//   Authors: celophi
+//   Version: i170175
+//   Purpose: Notifies the server that the client wants to make a state transition.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int64 accountId; // ?
+char sessionObjectName[128];

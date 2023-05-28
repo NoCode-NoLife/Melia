@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_WEEKLY_BOSS_CLASS_RANKING_REWARD_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int i0; // 90, rank week?
+int count; // count
+
+typedef struct
+{
+    int jobId;
+    int hasReward; // 0 or 1
+    if (hasReward > 0) {
+        int i3;
+        int i4;
+        lpString itemName;
+        int amount;
+    }
+} WeeklyBossReward <optimize=false>;
+
+WeeklyBossReward rewards[count];

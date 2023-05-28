@@ -21,4 +21,4 @@ int hp;
 int maxHp;
 int sp;
 int maxSp;
-int i1; // 19, 0
+int i1; // 19, 0, 1

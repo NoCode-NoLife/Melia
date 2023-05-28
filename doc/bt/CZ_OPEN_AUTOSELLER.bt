@@ -15,10 +15,11 @@
 
 ClientHeaderFixed header;
 
-int i1; // Shop Type? Faction? - 5
-int handle; // 1075
-int i2; // -1
-int i3; // 43786
+int shopType; // Shop Type - 5
+int handle; // 1075, 1685
+int optionSelected; // -1, 0, 1, 2
+// Rest might be garbage data? missing first letter like ELLTYPE
+int i3; // 43786 (Amount? 1)
 short s1;  // 0
 ushort s2; // 60800
 short s3; // 7932
@@ -27,7 +28,7 @@ byte bin[16]; // 0 x 16
 int64 l2; // 1
 float i4; // 2.439832
 int i5; // 1
-int64 l4; // 519892320
-float i6; // 2.45859
+byte b1;
+char str[9]; // ELLTYPE
 short s4; // 1
 ushort s5;

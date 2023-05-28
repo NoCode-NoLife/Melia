@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CS_GROUP_CHAT_INVITE.bt
+//   Authors: Salman T. Khan
+//   Version: i373219
+//   Purpose: Invite to Chat Room
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int64 chatId;
+char teamName[64];
+char chatName[10];
+int i1;

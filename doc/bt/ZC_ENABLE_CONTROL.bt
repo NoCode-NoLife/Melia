@@ -3,7 +3,7 @@
 //
 //      File: ZC_ENABLE_CONTROL.bt
 //   Authors: Salman T. Khan
-//   Version: i337645
+//   Version: i351431
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,8 +14,10 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int i1; // 0
-string name; // TUTORIAL_DIRECT
+int handle; // 0
+char name[64]; // TUTORIAL_DIRECT
+byte isEnabled; // Enabled or Disabled?
+/**
 short s1; // 0
 int i11;
 int i12;
@@ -28,6 +30,7 @@ int64 i4; // 3037879632
 int i5; // 15
 short s2; // 0
 byte b1; // 0
+**/
 
 /**
 00 00 00 00 i1

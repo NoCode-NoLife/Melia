@@ -21,5 +21,6 @@ ServerHeaderDynamic header;
 
 short count;
 byte b1;
-float f1; // no clue? 306740.6
-SessionObject objects[count];
+float f1; // no clue? 306740.6, 461984.3
+if (count > 0)
+    SessionObject objects[count];

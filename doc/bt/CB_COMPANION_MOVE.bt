@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CB_COMPANION_MOVE.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: Move companion in Barracks
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int64 petId;
+position pos;
+direction dir;
