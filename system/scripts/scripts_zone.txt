@@ -19,4 +19,6 @@ client/unclutter/main.cs
 npcs/**/*
 mobs/**/*
 
+other/character_init.cs
+
 include "/user/scripts/scripts_zone.txt"

@@ -76,6 +76,7 @@
     <Compile Include="mobs\fields\f_siauliai_west.cs" />
     <Compile Include="npcs\cities\c_klaipe.cs" />
     <Compile Include="npcs\fields\f_siauliai_west.cs" />
+    <Compile Include="other\character_init.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="client\dialog_portraits\001.lua" />
