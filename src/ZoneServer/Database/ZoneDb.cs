@@ -602,7 +602,7 @@ namespace Melia.Zone.Database
 					// TODO: Add generic item load and save methods, for
 					//   other item collections to use, such as warehouse.
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -612,7 +612,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", newId);
@@ -630,7 +630,7 @@ namespace Melia.Zone.Database
 				{
 					var newId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -640,7 +640,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.Id);
 						cmd.Set("itemId", newId);
