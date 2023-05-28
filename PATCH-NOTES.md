@@ -79,7 +79,7 @@ Patch Notes
 
 ### [Rank Down](https://treeofsavior.com/page/news/view.php?n=1187) Feb 20th, 2018
 - Rank Down System
-- NEW Hidden Class (Swordsman)
+- NEW Hidden Class (Swordsman) Nuak May?
 - White Gems (Loot Chance Gem)
 - Ancient Golden Socket (+1 Base Socket Consumable Item)
 
