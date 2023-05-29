@@ -2160,5 +2160,24 @@ namespace Melia.Zone.Network
 
 			conn.SelectedCharacter.WarpChannel(channelId);
 		}
+
+		/// <summary>
+		/// Sent when attacking with sub-weapon.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_HARDCODED_ITEM)]
+		public void CZ_HARDCODED_ITEM(IZoneConnection conn, Packet packet)
+		{
+			var s1 = packet.GetShort();
+			var itemObjectId = packet.GetLong();
+
+			// Do something with this information? It sends the id of
+			// the sub-weapon, so perhaps the client is telling us which
+			// weapon to attack with, but it uses a different skill for
+			// sub-weapon attacks, so we don't need this information. The
+			// same packet also appears to be sent twice for some reason.
+			// We'll just leave this empty for now.
+		}
 	}
 }
