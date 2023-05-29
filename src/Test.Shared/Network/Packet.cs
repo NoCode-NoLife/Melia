@@ -65,5 +65,24 @@ namespace Melia.Test.Shared.Network
 			packet = new Packet(1001);
 			Assert.Throws<ArgumentException>(() => packet.PutString("foo", 2));
 		}
+
+		[Fact]
+		public void WriteRawString()
+		{
+			var packet1 = new Packet(1001);
+			packet1.PutString("foo", 3);
+
+			var packet2 = new Packet(1001);
+			packet2.PutRawString("foo");
+
+			var bytes1 = packet1.Build();
+			var bytes2 = packet2.Build();
+
+			Assert.Equal(bytes1, bytes2);
+
+			var expected = Hex.ToByteArray("66 6F 6F");
+			Assert.Equal(expected, bytes1);
+			Assert.Equal(expected, bytes2);
+		}
 	}
 }

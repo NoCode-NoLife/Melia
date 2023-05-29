@@ -283,8 +283,8 @@ namespace Melia.Shared.Network
 			=> _buffer.WriteFloat(val);
 
 		/// <summary>
-		/// Writes string to packet, padding it with zeroes to reach the
-		/// given byte length.
+		/// Writes fixed-sized string to packet, padding it with zeroes
+		/// to reach the given byte length.
 		/// </summary>
 		/// <remarks>
 		/// Commonly used for fixed-sized strings as used in C.
@@ -338,8 +338,19 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Writes raw string to buffer, without null terminator or
+		/// length prefix.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutRawString(string val)
+		{
+			var bytes = DefaultEncoding.GetBytes(val ?? "");
+			this.PutBin(bytes);
+		}
+
+		/// <summary>
 		/// Writes string to buffer, incl. null terminator, and prefixed
-		/// with a short describing its length.
+		/// with a short specifiying the string's byte length.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutLpString(string val)

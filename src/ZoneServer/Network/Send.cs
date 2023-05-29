@@ -1717,7 +1717,6 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Executes Lua addon function.
 		/// </summary>
-		/// <remarks>Strings are placed without terminating bytes.</remarks>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
 		/// <param name="parameter"></param>
@@ -1729,7 +1728,6 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Executes Lua addon function.
 		/// </summary>
-		/// <remarks>Strings are placed without terminating bytes.</remarks>
 		/// <param name="character"></param>
 		/// <param name="duration">Duration that messages are displayed in seconds?</param>
 		/// <param name="msg"></param>
@@ -1738,13 +1736,17 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
-			packet.PutByte((byte)packet.GetByteLength(msg));
+			var msgByteLength = packet.GetByteLength(msg);
+			if (msgByteLength > byte.MaxValue)
+				throw new ArgumentException($"Message is too long with {msgByteLength} bytes. The maximum length is {byte.MaxValue}.");
+
+			packet.PutByte((byte)msgByteLength);
 			packet.PutInt(duration);
 			packet.PutByte(0);
-			packet.PutString(msg, msg.Length);
+			packet.PutRawString(msg);
 
 			if (parameter != null)
-				packet.PutString(parameter, parameter.Length);
+				packet.PutRawString(parameter);
 
 			character.Connection.Send(packet);
 		}
