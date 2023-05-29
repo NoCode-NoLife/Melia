@@ -44,7 +44,7 @@ you to follow the following guidelines.
 - Your pull requests and commits should be as concice as possible, focusing
   on as few related things as possible. For example: one PR per bug fix.
 - Your commit messages should be clear and descriptive. For example:
-  "Fixed bug XY", "Added feature YZ".
+  "Fixed bug XY" or "Added feature YZ".
 - You should give a short description of what your PR accomplishes.
 - The PR should be based on a resonably recent fork of the `master` branch.
 - Your code should follow the coding conventions below.
@@ -85,12 +85,12 @@ formatting settings that match the coding conventions as much as possible.
 
 ## JSON
 * Our JSON based databases are arrays of objects on the lowest indent level.
-  Only sub-objects and -array may be indented with tabs.
+  Only sub-objects and -arrays may be indented with tabs.
 * All keys should use `camelCase` and no quotation.
-* All values should use a representing type. For example, bool instead
-  of "YES" and "NO" strings.
+* All values should use a representing type. For example, prefer a bool
+  over "YES" and "NO" strings.
 * No comments should be placed at the end of lines.
-* Comments should only be used sparingly, to categorize data. Comments
+* Comments should be used sparingly, to categorize data. Comments
   that explain data or functions should go into the header.
 * A space should be used after a comment. For example, `// comment`.
 
@@ -123,15 +123,15 @@ Branching Strategy
 compilable and working at all times, with little to no debug or test code.
 
 For every feature or fix that goes beyond a handful of lines, a
-branch is created, that acts as a kind of "beta" branch for that
+branch is created that acts as a kind of "beta" branch for that
 feature. These branches are to be named appropriately, based on
 their content and potentially the issues they reference. For example,
 a branch for implementing feature Foobar, that is outlined in issue
-#2447, might be named "feature-2447-foobar", and a branch for fixing
-a skill bug in issue #1029 might be named "fix-1029-skill-bug".
+#2447, might be named "feature/2447-foobar", and a branch for fixing
+a skill bug in issue #1029 might be named "fix/1029-skill-bug".
 
 Once the feature, fix, or update is complete, a PR is created, the branch
-is reviewed by the team members, and then merged into `master`.
+is reviewed by the maintainers, and then merged into `master`.
 
 Fork and Pull Request Strategy
 -----------------------------------------------------------------------------
@@ -148,9 +148,9 @@ contributor, we recommend the following process.
 6. Create pull requests from your branches to Melia's master once you're
    done.
 
-With this approach, you always have a clean master to create new branches
-off of, your changes naturally make their way into your fork by updating
+With this approach, you always have a clean master to branch off of,
+your changes naturally make their way into your fork by updating
 from the upstream repository, and you keep your changes organized.
 
-This is just a suggestions however, and as long as you follow the other
+This is just a suggestions of course, and as long as you follow the other
 guidelines, your fork is your fork.
