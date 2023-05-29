@@ -1248,7 +1248,7 @@ namespace Melia.Zone.Commands
 
 			if (args.Count > 2)
 			{
-				if (!short.TryParse(args.Get(1), out var iCircle) || iCircle < (short)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
+				if (!int.TryParse(args.Get(1), out var iCircle) || iCircle < (int)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
 					return CommandResult.InvalidArgument;
 
 				circle = (Circle)iCircle;
@@ -1262,7 +1262,11 @@ namespace Melia.Zone.Commands
 			}
 
 			if (job == null)
+			{
+				Send.ZC_PC(target, PcUpdateType.Job, (int)jobId, (int)circle);
+				target.JobId = jobId;
 				target.Jobs.Add(new Job(target, jobId, circle));
+			}
 			else
 				target.Jobs.ChangeCircle(jobId, circle);
 

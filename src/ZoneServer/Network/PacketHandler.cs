@@ -15,6 +15,7 @@ using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -1657,6 +1658,46 @@ namespace Melia.Zone.Network
 				{
 					// classId = 0~2 (hats 1~3)
 					goto default;
+				}
+
+				case "CLICK_CHANGEJOB_BUTTON":
+				{
+					var character = conn.SelectedCharacter;
+					var jobId = (JobId)arg1;
+
+					if (!ZoneServer.Instance.Data.JobDb.TryFind(jobId, out var jobData))
+					{
+						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to missing job '{1}'.", conn.Account.Name, jobId);
+						return;
+					}
+
+					if (character.Job.Level < character.Job.MaxLevel)
+					{
+						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change before reaching their current job's max level of {1}.", conn.Account.Name, character.Job.MaxLevel);
+						return;
+					}
+
+					if (character.JobClass != jobData.JobClassId)
+					{
+						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to job '{1}', a '{2}' job, while being a '{3}'.", conn.Account.Name, jobId, jobData.JobClassId, character.JobClass);
+						return;
+					}
+
+					if (character.Jobs.Has(jobId))
+					{
+						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to job '{1}' despite already having it.", conn.Account.Name, jobId);
+						return;
+					}
+
+					var newJob = new Job(character, jobId, skillPoints: 1);
+
+					Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
+					Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
+
+					character.JobId = jobId;
+					character.Jobs.Add(newJob);
+
+					break;
 				}
 
 				default:

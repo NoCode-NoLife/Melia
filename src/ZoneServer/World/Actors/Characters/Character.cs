@@ -76,25 +76,29 @@ namespace Melia.Zone.World.Actors.Characters
 		public string TeamName { get; set; }
 
 		/// <summary>
-		/// Character's base job's id.
+		/// Gets or sets the character's current job id.
 		/// </summary>
+		/// <remarks>
+		/// This should essentially and presumably alwas be the id of the
+		/// last job the character has changed to.
+		/// </remarks>
 		public JobId JobId { get; set; }
 
 		/// <summary>
-		/// Character's base job's class.
+		/// Returns the class of the character's current job.
 		/// </summary>
 		public JobClass JobClass => this.JobId.ToClass();
 
 		/// <summary>
-		/// Returns reference to character's base job, based on JobId.
+		/// Returns the character's current job.
 		/// </summary>
 		public Job Job => this.Jobs.Get(this.JobId);
 
 		/// <summary>
-		/// Character's jobs.
+		/// Returns a reference to the character's job list.
 		/// </summary>
 		/// <remarks>
-		/// A character has one base job which determines, for example,
+		/// A character has one main job which determines, for example,
 		/// what items they can equip, but they can have various jobs,
 		/// that all come with their own skills and abilities.
 		/// </remarks>
@@ -193,7 +197,8 @@ namespace Melia.Zone.World.Actors.Characters
 		public long TotalExp { get; set; }
 
 		/// <summary>
-		/// Character's class level.
+		/// Returns the character's current class level, which is
+		/// equivalent to their current job's level.
 		/// </summary>
 		public int ClassLevel
 		{
@@ -729,22 +734,23 @@ namespace Melia.Zone.World.Actors.Characters
 			}
 
 			// Class EXP
+			// Increase the total EXP and check whether the class level,
+			// which is calculcated from that value, has changed.
 			var classLevel = this.ClassLevel;
 			var rank = this.Jobs.GetCurrentRank();
 			var job = this.Job;
-			var maxTotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.
-			job.TotalExp = (int)Math.Min(maxTotalExp, ((long)job.TotalExp + classExp));
+			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + classExp));
 
 			var newClassLevel = this.ClassLevel;
-			var diff = (newClassLevel - classLevel);
+			var classLevelsGained = (newClassLevel - classLevel);
 
 			Send.ZC_JOB_EXP_UP(this, classExp);
 
-			if (diff > 0)
-				this.ClassLevelUp(diff);
+			if (classLevelsGained > 0)
+				this.ClassLevelUp(classLevelsGained);
 		}
 
 		/// <summary>

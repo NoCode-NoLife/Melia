@@ -10,6 +10,9 @@
 		/// <summary>
 		/// Adds new job.
 		/// </summary>
+		/// <remarks>
+		/// Changes main class and makes advancement button disappear.
+		/// </remarks>
 		Job = 2,
 	}
 }
