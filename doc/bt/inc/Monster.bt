@@ -25,5 +25,7 @@ typedef struct
     float sdr;
     byte b1;
     byte bin2[3];
+
+    int genType;
 }
 MONSTER;

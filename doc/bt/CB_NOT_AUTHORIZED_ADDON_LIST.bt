@@ -16,6 +16,5 @@
 ClientHeaderFixed header;
 
 int addonCount;
-char addons[518];
-char internal[470];
-string hash;
+char str1[1024];
+byte b1;

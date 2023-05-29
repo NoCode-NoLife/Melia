@@ -24,6 +24,8 @@
 
 ServerHeaderDynamic header;
 
+// MONSTER_BASE
+//------------------------
 int handle;
 position pos;
 direction dir;
@@ -32,27 +34,40 @@ byte fromGround; // bool?
 int hp, maxHp;
 short s1;
 short s2;
-int i7; // 0
+int i7;
 float walkSpeed;
+
+// MONSTER_APPEARANCE_BASE
+//------------------------
 MONSTER monster;
-int i1; // type
+
+// ?
+//------------------------
 int namesSize; // 5
-byte b2; // 2?
+
+byte b2;
 byte b4;
 byte b5;
 byte b6;
-int namesSize; // 11, 15?
+
+int namesSize; // aka size of "MonsterAppearance", 5 length-prefixed strings
 short propertiesSize;
+
 int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
-int ownerHandle; //
+int ownerHandle;
+
 short i6;
 byte b7;
 
+// MONSTER_APPEARANCE
+//------------------------
 lpString name;
 lpString uniqueName;
 lpString dialogName;
 lpString warpName; // ?
 lpString str3;
 
+// Properties
+//------------------------
 if(propertiesSize > 0)
     getProperties(propertiesSize);
