@@ -1,6 +1,5 @@
-// Melia
-// Documentation
-//---------------------------------------------------------------------------
+Common Abbreviations
+=============================================================================
 
 This is a list of abbreviations commonly found while working with this game.
 

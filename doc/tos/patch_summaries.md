@@ -1,5 +1,6 @@
 Patch Notes
 =============================================================================
+
 ### [Guild vs. Guild 1](https://treeofsavior.com/page/news/view.php?n=551) Jul 28th, 2016
 - Regional Guild Battles
 - Team Battle League
