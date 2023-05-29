@@ -583,7 +583,7 @@ namespace Melia.Zone.Commands
 			}
 
 			target.Name = newName;
-			Send.ZC_PC(target, PcUpdateType.Name, newName);
+			Send.ZC_PC(target, PcUpdateType.Name, 0, 0, newName);
 
 			sender.ServerMessage("Name changed.", target.Position);
 			if (sender != target)

@@ -1248,27 +1248,20 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="updateType"></param>
-		/// <param name="newValue"></param>
-		public static void ZC_PC(Character character, PcUpdateType updateType, object newValue)
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		/// <param name="strArg1"></param>
+		public static void ZC_PC(Character character, PcUpdateType updateType, int arg1, int arg2, string strArg1 = null)
 		{
 			var packet = new Packet(Op.ZC_PC);
+
 			packet.PutInt((int)character.Handle);
 			packet.PutInt((int)updateType);
+			packet.PutInt(arg1);
+			packet.PutInt(arg2);
 
-			if (updateType == PcUpdateType.Name)
-			{
-				packet.PutShort(0);
-				packet.PutEmptyBin(2);
-				packet.PutInt(0);
-				packet.PutShort(65);
-				packet.PutString((string)newValue, 65);
-			}
-			else if (updateType == PcUpdateType.Job)
-			{
-				packet.PutShort((short)newValue);
-				packet.PutEmptyBin(2);
-				packet.PutInt(0);
-			}
+			if (strArg1 != null)
+				packet.PutLpString(strArg1);
 
 			character.Map.Broadcast(packet, character);
 		}
