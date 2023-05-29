@@ -280,7 +280,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// to change the max class EXP from the server, as it is with
 		/// the base EXP.
 		/// </remarks>
-		public int TotalExp { get; set; }
+		public long TotalExp { get; set; }
 
 		/// <summary>
 		/// Returns the class level reached on this job.

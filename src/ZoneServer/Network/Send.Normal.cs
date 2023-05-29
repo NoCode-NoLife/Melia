@@ -771,7 +771,7 @@ namespace Melia.Zone.Network
 					packet.PutShort((short)job.Id);
 					packet.PutShort((short)job.Level);
 					packet.PutInt(0);
-					packet.PutInt(job.TotalExp);
+					packet.PutInt((int)job.TotalExp); // The EXP can go well over 2b, is this actually a long?
 					packet.PutInt(0);
 					packet.PutByte((byte)job.SkillPoints);
 					packet.PutShort(41857);
