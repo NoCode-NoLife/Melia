@@ -769,7 +769,7 @@ namespace Melia.Zone.Network
 				foreach (var job in jobs)
 				{
 					packet.PutShort((short)job.Id);
-					packet.PutShort(1); // 174
+					packet.PutShort((short)job.Level);
 					packet.PutInt(0);
 					packet.PutInt(job.TotalExp);
 					packet.PutInt(0);

@@ -56,7 +56,7 @@ string skillPropertyRead(SkillProps &p)
 typedef struct
 {
     short jobId;
-    short circle;
+    short level;
     int i1;
     int totalExp;
     int i2;
