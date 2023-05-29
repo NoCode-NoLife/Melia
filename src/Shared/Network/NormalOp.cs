@@ -30,8 +30,8 @@
 		{
 			public const int Unknown_06 = 0x06;
 			public const int LevelUp = 0x12;
-			public const int ClassLevelUp = 0x15;
-			public const int Skill_16 = 0x16;
+			public const int PlayEffect = 0x16;
+			public const int Skill_16 = 0x17;
 			public const int Unkown_1D = 0x1F;
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;

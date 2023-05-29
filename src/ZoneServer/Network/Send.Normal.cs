@@ -53,17 +53,23 @@ namespace Melia.Zone.Network
 			/// Plays class level up effect.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void ClassLevelUp(Character character)
+			/// <param name="packetString"></param>
+			/// <param name="scale"></param>
+			public static void PlayEffect(Character character, string packetString, float scale = 1)
 			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.ClassLevelUp);
+				packet.PutInt(NormalOp.Zone.PlayEffect);
 
 				packet.PutInt(character.Handle);
 				packet.PutByte(1);
 				packet.PutInt(2);
-				packet.PutByte(1);
-				packet.PutFloat(6); // Effect size
-				packet.PutBinFromHex("9E 20 27 00 00 00 00 00"); // Necessary for it to play
+				packet.PutByte(0);
+				packet.PutFloat(scale);
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt(0);
 
 				character.Map.Broadcast(packet, character);
 			}

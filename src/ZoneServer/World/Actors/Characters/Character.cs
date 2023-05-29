@@ -618,7 +618,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
-			Send.ZC_NORMAL.ClassLevelUp(this);
+			Send.ZC_NORMAL.PlayEffect(this, "F_pc_class_change");
 		}
 
 		/// <summary>
