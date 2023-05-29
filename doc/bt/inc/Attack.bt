@@ -52,11 +52,10 @@ typedef struct
     short s4;
 
     int i4; // 50 on Magic Missiles
-    short defaultHitDelay;
+    short s13;
     byte b11;
     byte b12;
-    byte b13;
-    byte attackIndex; //?
+    short skillHitDelay;
     short s5;
     int attackId; //?
     int i6;
