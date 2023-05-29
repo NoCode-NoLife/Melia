@@ -128,7 +128,7 @@ namespace Melia.Shared.Network
 		public string GetString(int length)
 		{
 			var bytes = _buffer.Read(length);
-			var val = Encoding.UTF8.GetString(bytes);
+			var val = DefaultEncoding.GetString(bytes);
 
 			// Relatively fast way to get rid of null bytes.
 			var nullIndex = val.IndexOf((char)0);
@@ -306,7 +306,7 @@ namespace Melia.Shared.Network
 		/// </exception>
 		public void PutString(string val, int byteLength)
 		{
-			var bytes = Encoding.UTF8.GetBytes(val ?? "");
+			var bytes = DefaultEncoding.GetBytes(val ?? "");
 
 			if (bytes.Length > byteLength)
 				throw new ArgumentException($"Byte length of string ({bytes.Length}) is longer than given length ({byteLength}).");
@@ -333,7 +333,7 @@ namespace Melia.Shared.Network
 			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			var bytes = Encoding.UTF8.GetBytes(val);
+			var bytes = DefaultEncoding.GetBytes(val);
 			this.PutBin(bytes);
 		}
 
@@ -362,7 +362,7 @@ namespace Melia.Shared.Network
 			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			var bytes = Encoding.UTF8.GetBytes(val);
+			var bytes = DefaultEncoding.GetBytes(val);
 			this.PutShort(bytes.Length);
 			this.PutBin(bytes);
 		}
