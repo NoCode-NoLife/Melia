@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: CZ_REQ_COMMANDER_INFO.bt
-//   Authors: Salman T. Khan, exec
+//      File: ZC_CLASS_RESET_POINT_INFO.bt
+//   Authors: exec
 //   Version: i373766
 //   Purpose: 
 //  Category: 
@@ -13,6 +13,7 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixed header;
+ServerHeaderFixed header;
 
-short s1; // Type?
+int i1;
+int i2;

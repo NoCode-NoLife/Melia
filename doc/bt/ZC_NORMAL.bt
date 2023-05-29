@@ -39,7 +39,7 @@ typedef struct
     ushort s2;
     byte bin1[4];
     byte b1;
-    int64 l1;
+    FILETIME advancedDate;
     int64 l2;
 }
 Job;
