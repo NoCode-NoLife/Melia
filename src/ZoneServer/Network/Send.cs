@@ -413,7 +413,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(skill.Data.ShootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt((int)skill.ObjectId); // Attacker Handle?
+			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
 			packet.PutFloat(1.083666f);
 
 			if (targets != null && targetCount == 1)
@@ -1611,20 +1611,24 @@ namespace Melia.Zone.Network
 				packet.PutInt(damage);
 				packet.PutInt(target.Hp);
 				packet.PutInt(3); //attackCount?
-				packet.PutInt(1);
+				packet.PutShort(0);
+				packet.PutShort(0);
 				packet.PutShort(0);
 				packet.PutShort(3);
-				packet.PutInt(1);
+				packet.PutShort(1);
+				packet.PutShort(0);
 				packet.PutInt(0);
-				packet.PutInt(306);
-				packet.PutShort(0x63);
-				packet.PutByte(3);
-				packet.PutByte(1);
+				packet.PutShort(306); // Delay until damage is shown
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutShort(50); // Skill Hit Delay? Adds pause in attack animation?
+				packet.PutShort(0); // 258
 				packet.PutInt(0);
-				packet.PutInt(attacker.Handle); // Attacker Handle?
+				packet.PutInt(0); // This being set to anything causes a delay in the dagger damage animation
 				packet.PutInt(0);
 				packet.PutShort(0);
 				packet.PutShort(1);
+
 				packet.PutByte(3);
 				packet.PutFloat(-1845);
 			}

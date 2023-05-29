@@ -1627,7 +1627,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Specifies various commands found in 'customcommand.ies'.
+		/// Handles various commands found in the custom command data.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1635,9 +1635,9 @@ namespace Melia.Zone.Network
 		public void CZ_CUSTOM_COMMAND(IZoneConnection conn, Packet packet)
 		{
 			var commandId = packet.GetInt();
-			var classId = packet.GetInt();
-			var cmdArg = packet.GetInt();
-			var i1 = packet.GetInt();
+			var arg1 = packet.GetInt();
+			var arg2 = packet.GetInt();
+			var arg3 = packet.GetInt();
 
 			// The command id references an entry in the custom command db,
 			// which we can use to get the class name of the command, giving
@@ -1661,7 +1661,7 @@ namespace Melia.Zone.Network
 
 				default:
 				{
-					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}', {1}({2}, {3}, {4}).", commandData.Name, commandData.Script, classId, cmdArg, i1);
+					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}', {1}({2}, {3}, {4}).", commandData.Name, commandData.Script, arg1, arg2, arg3);
 					break;
 				}
 
@@ -2159,6 +2159,25 @@ namespace Melia.Zone.Network
 			var channelId = packet.GetShort();
 
 			conn.SelectedCharacter.WarpChannel(channelId);
+		}
+
+		/// <summary>
+		/// Sent when attacking with sub-weapon.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_HARDCODED_ITEM)]
+		public void CZ_HARDCODED_ITEM(IZoneConnection conn, Packet packet)
+		{
+			var s1 = packet.GetShort();
+			var itemObjectId = packet.GetLong();
+
+			// Do something with this information? It sends the id of
+			// the sub-weapon, so perhaps the client is telling us which
+			// weapon to attack with, but it uses a different skill for
+			// sub-weapon attacks, so we don't need this information. The
+			// same packet also appears to be sent twice for some reason.
+			// We'll just leave this empty for now.
 		}
 	}
 }

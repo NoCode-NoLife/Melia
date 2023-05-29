@@ -2,9 +2,9 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_PC.bt
-//   Authors: Salman T. Khan
-//   Version: 
-//   Purpose: Sent on Class Change
+//   Authors: exec
+//   Version: i373766
+//   Purpose: Updates certain character properties?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -13,9 +13,35 @@
 
 #include "inc/common.bt"
 
+enum ZcPcType
+{
+    ZcPcType_Name = 0,
+    ZcPcType_Unk1 = 1,
+    ZcPcType_Job = 2,
+    ZcPcType_TeamName = 3,
+};
+
 ServerHeaderDynamic header;
 
 int handle;
-int type; // Name = 0, Job = 2
-int i1; // class 3002
-int i2; // 0
+ZcPcType type;
+
+switch (type)
+{
+    case ZcPcType_Name:
+    case ZcPcType_TeamName:
+        int arg1;
+        int arg2;
+        lpString newName;
+        break;
+
+    case ZcPcType_Job:
+        int jobId;
+        int circle; // ?
+        break;
+
+    default:
+        int arg1;
+        int arg2;
+        break;
+}

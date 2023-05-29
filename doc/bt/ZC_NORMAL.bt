@@ -61,10 +61,10 @@ typedef struct
     int totalExp;
     int i2;
     byte unusedSkillPoints;
-    ushort circle;
+    ushort s2;
     byte bin1[4];
     byte b1;
-    FILETIME l1;
+    FILETIME advancedDate;
     int64 l2;
 }
 Job;
@@ -217,16 +217,15 @@ switch (type)
         break;
 
     // Class lv up effect
+    // Play effect?
     case 0x16:
         int handle;
         byte b1;
         int i1;
         byte b2;
         float effectSize;
-        int packetString; // Used in Play Animation
-        float f1;
-        int handle2;
-        //float f2;
+        int packetStringId;
+        int i3;
         break;
 
     // ?

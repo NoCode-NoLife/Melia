@@ -2,22 +2,24 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_REQ_COMMANDER_INFO.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
-#include "inc/common.bt"
 
-ClientHeaderFixed header;
+#include "inc/common.bt"
 
 enum <short> CommanderInfoType
 {
-    InventoryInfo,
-    ClassResetInfo,
+    InventoryInfo = 0,
+    ClassResetInfo = 1,
+    Unk2 = 2,
 };
+
+ClientHeaderFixed header;
 
 CommanderInfoType type;

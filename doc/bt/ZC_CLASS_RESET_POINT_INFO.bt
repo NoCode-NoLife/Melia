@@ -14,5 +14,6 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int i1; // 60
-int i2; // 15
+
+int i1;
+int i2;
