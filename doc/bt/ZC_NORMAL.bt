@@ -36,8 +36,11 @@ typedef struct
     int totalExp;
     int i2;
     byte unusedSkillPoints;
-    ushort circle;
+    ushort s2;
     byte bin1[4];
+    byte b1;
+    int64 l1;
+    int64 l2;
 }
 Job;
 
@@ -505,9 +508,6 @@ switch (type)
         int64 characterId;
         int jobCount;
         Job jobs[jobCount];
-        byte b1;
-        int64 l1;
-        int64 l2;
         break;
 
     case 0x188:

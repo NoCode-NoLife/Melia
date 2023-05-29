@@ -13,6 +13,7 @@ namespace Melia.Shared.Data.Database
 		public JobId Id { get; set; }
 		public string ClassName { get; set; }
 		public string Initial { get; set; }
+		public JobClass JobClassId { get; set; }
 		public string Name { get; set; }
 		public int Rank { get; set; }
 		public int Str { get; set; }
@@ -54,13 +55,14 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("jobId", "className", "initial", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");
+			entry.AssertNotMissing("jobId", "className", "initial", "jobClass", "name", "rank", "str", "con", "int", "spr", "dex", "strRatio", "conRatio", "intRatio", "sprRatio", "dexRatio", "hpRate", "spRate", "stamina", "barrackStance");
 
 			var data = new JobData();
 
 			data.Id = (JobId)entry.ReadInt("jobId");
 			data.ClassName = entry.ReadString("className");
 			data.Initial = entry.ReadString("initial");
+			data.JobClassId = entry.ReadEnum<JobClass>("jobClass");
 			data.Name = entry.ReadString("name");
 			data.Rank = entry.ReadInt("rank");
 			data.Str = entry.ReadInt("str");
