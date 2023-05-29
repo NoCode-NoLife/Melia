@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_DECLINE_ACK.bt
+//   Authors: Salman T. Khan
+//   Version: i370069
+//   Purpose: Sent to player who requested a trade that was declined.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;

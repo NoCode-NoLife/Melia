@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CS_REQ_CHAT_HISTORY.bt
+//   Authors: Salman T. Khan
+//   Version: i373219
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int64 chatId; // 557001423716382
+int64 l2; // 0

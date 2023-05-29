@@ -16,9 +16,11 @@
 typedef struct
 {
     int classId;
-    int amount;
+    int index;
+    int i1;
     int price;
-    byte unk1[264];
+    int amount;
+    byte unk1[260];
 }
 AutoSellerItem <optimize=false, read=readAutoSellerItem>;
 
@@ -32,8 +34,10 @@ string readAutoSellerItem(AutoSellerItem& v)
 ClientHeaderDynamic header;
 
 char shopName[64];
-int count;
-int group; // see packeteffects.xml, PersonalShop = 270065
-int i1;
+int count; // -1 = close shop
+int group; // see packeteffects.xml, PersonalShop = 270065, 690006 = RepairShop
 
-AutoSellerItem items[count];
+if (count > 0)
+    AutoSellerItem items[count];
+else
+    int i1;

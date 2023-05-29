@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_HOUSING_ANSWER_ENABLE_MOVE_FURNITURE.bt
+//   Authors: Salman T. Khan
+//   Version: i370844
+//   Purpose: Request arranged furniture in the house
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int furnitureId;
+int furnitureHandle;

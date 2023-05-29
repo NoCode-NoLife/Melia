@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_SKILL_CELL_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+typedef struct
+{
+    int x;
+    int y;
+} Cell <optimize=false>;
+
+short s1; // 64
+position pos;
+direction dir;
+int cellCount;
+Cell cell[cellCount];

@@ -14,6 +14,7 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle;
-int skillId;
+int skillHandle;
 int time; // ?

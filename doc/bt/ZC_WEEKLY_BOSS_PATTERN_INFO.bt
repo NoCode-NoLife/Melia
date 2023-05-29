@@ -1,0 +1,31 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_WEEKLY_BOSS_PATTERN_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+char pattern[48]; // weekly_boss_lucy
+short s1; // 0
+byte b1; // 0
+char str1[20]; // Earth
+char str2[20]; // Klaida
+char str3[20]; // Iron
+int i1; // 4
+int i2; // 1
+int i3;
+int i4;
+int i5;
+int i6;
+int i7;
+int i8;

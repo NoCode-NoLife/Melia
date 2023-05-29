@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_REQ_MARKET_REGISTER.bt
+//   Authors: Salman T. Khan
+//   Version: i355874
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int64 worldId;
+int amount; // ? / 1
+char price[4];
+int64 price; // 990
+short s1; // 1 / 1
+short s2; // 1 / 0
+int i5; // 0 / 0
+int saleLength; // 1 / 14
+short s3; // 16434
+int i7; // 1
+int i8; // 2
+short s4; // 0

@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_EXTEND_WAREHOUSE.bt
+//   Authors: Salman T. Khan
+//   Version: i366809
+//   Purpose: Add a slot to Team Storage
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

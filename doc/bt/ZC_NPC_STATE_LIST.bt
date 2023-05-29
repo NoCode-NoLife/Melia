@@ -17,8 +17,8 @@
 typedef struct 
 {
     int mapId; // ?
-	int i1; // NPC id...?
-	int i2;
+	int genType; // NPC id...?
+	int state;
 }
 state <optimize=false>;
 

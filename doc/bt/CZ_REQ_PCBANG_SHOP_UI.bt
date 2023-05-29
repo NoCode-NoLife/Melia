@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0 Binary Template
+//
+//      File: CZ_REQ_PCBANG_SHOP_UI.bt
+//   Authors: Salman T. Khan
+//   Version: i366660
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int i1; // 3
+ushort s1;

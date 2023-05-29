@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: FactionType.bt
+//   Authors: exec, Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+enum FactionType {
+    Player = 1,
+    Monster = 2,
+    NPC = 3,
+    ALLY = 4,
+    NEUTRAL = 6,
+};

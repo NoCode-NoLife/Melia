@@ -15,6 +15,5 @@
 
 ServerHeaderFixed header;
 
-//ushort s1;
-//short s2;
-int64 l1;
+int handle;
+int itemId;

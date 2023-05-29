@@ -18,14 +18,14 @@ typedef struct
 {
     int x;
     int z;
-    int i1;
+    int cell;
 }
 CellPosition <read=readCellPosition>;
 
 string readCellPosition(CellPosition &v)
 {
     local string result;
-    SPrintf(result, "X: %d, Z: %d, Cell: %d", v.x, v.z, v.i1);
+    SPrintf(result, "X: %d, Z: %d, Cell: %d", v.x, v.z, v.cell);
     return result;
 }
 
@@ -35,5 +35,4 @@ int handle;
 CellPosition cellPos1;
 CellPosition cellPos2;
 float speed;
-//float f2;
 byte b1;

@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_PLAY_INSTRUMENT.bt
+//   Authors: Salman T. Khan
+//   Version: i357733
+//   Purpose: Plays an instrument (from an item? Rosy Floret Erhu, Pied Piper flute)
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int i1;
+int i2;
+int i3;
+byte b1;
+byte b2;
+byte b3;
+char instrument[64];

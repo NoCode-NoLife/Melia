@@ -1,0 +1,67 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: Pet.bt
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#define PROPERTY_NAMES
+
+typedef struct
+{
+    byte isEquipped;
+    if (isEquipped == 1)
+    {
+        int itemId;
+        int64 worldId;
+        short propertyCount;
+        if (propertyCount > 0)
+            getProperties(propertyCount);
+        short s1;
+    }
+} PetEquip <optimize=false>;
+
+typedef struct
+{
+    int id;
+    int64 petId;
+    int64 ownerId;
+    int64 exp;
+    lpString petName;
+    byte b1;
+    position pos;
+    direction dir;
+    int petHandle;
+    int i1; // new
+    byte b2;
+    int weaponSlots;
+    if (weaponSlots > 0)
+        PetEquip weapons[weaponSlots];
+    byte b3;
+    short armorSlots; // new
+    short propertyCount;
+    if (armorSlots > 0)
+    {
+        PetEquip armors[armorSlots];
+    }
+    if (propertyCount > 0)
+        getProperties(propertyCount);
+    byte b6;
+    int i4;
+    byte b7;
+    int64 stamina; // Stamina?
+    
+} PetInfo <read=petInfoRead, optimize=false>;
+
+string petInfoRead(PetInfo &p)
+{
+    local char ret[];
+    SPrintf(ret, "%s : %d",  p.petName.text, p.id);
+    return ret;
+}

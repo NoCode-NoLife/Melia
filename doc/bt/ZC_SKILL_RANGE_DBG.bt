@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_SKILL_RANGE_DBG.bt
+//   Authors: Salman T. Khan
+//   Version: i340957
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int i1; // 1
+float f1; // 0.01
+position castPos;
+direction dir;
+position targetPos;
+float f2; // 15
+float f3; // 0
+float f4; // -1
+float f5; // 0
+float f6; // 0

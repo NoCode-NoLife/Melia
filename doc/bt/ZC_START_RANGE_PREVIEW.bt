@@ -1,0 +1,32 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_START_RANGE_PREVIEW.bt
+//   Authors: Salman T. Khan
+//   Version: i372198
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+char skillName[64];
+char skillDrawType[10];
+int64 l1;
+int64 l2;
+float f1;
+short s1;
+float duration;
+int i1;
+position pos;
+direction dir;
+float f3;
+float height;
+float width;
+byte b1;

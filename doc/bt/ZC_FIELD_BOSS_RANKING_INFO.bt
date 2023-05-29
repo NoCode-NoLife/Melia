@@ -1,0 +1,34 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_FIELD_BOSS_RANKING_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i363295
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int64 dateAsInt;
+int64 count1;
+byte b1;
+int i1;
+int i2;
+int count2;
+
+if (count2 > 0)
+{
+    local int i;
+    for (i = 0; i < count2; i++)
+    {
+        int64 rank;
+        int64 damage;
+        int i3;
+    }
+}

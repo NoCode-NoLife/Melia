@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_DIRECTION_MOVE_STATE.bt
-//   Authors: 
-//   Version: 
+//   Authors: Salman T. Khan
+//   Version: i342769
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,7 +13,17 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixed header;
-short s1; // Same as Packet Size? 280
-local int size = s1;
-float f[64];
+typedef struct
+{
+    direction dir;
+    position pos;
+    float f1;
+    float f2;
+} DirPos <optimize=false>;
+
+ClientHeaderDynamic header;
+
+local int i = (header.size - 24) / 28;
+DirPos dpos[i];
+//float f[64];
+//float f1;

@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: BC_JUMP.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: Response to companion's request to jump in Barracks
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int64 l1; // 0
+int i1; // 0
+int64 accountId;
+byte b1; // 0

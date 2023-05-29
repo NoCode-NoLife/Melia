@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_BID_FIELDBOSS_WORLD_EVENT.bt
+//   Authors: Salman T. Khan
+//   Version: i368379
+//   Purpose: Sent on Connection Failed
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

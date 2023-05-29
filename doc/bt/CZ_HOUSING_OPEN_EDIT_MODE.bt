@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_HOUSING_OPEN_EDIT_MODE.bt
+//   Authors: Salman T. Khan
+//   Version: i370431
+//   Purpose: Open edit mode
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

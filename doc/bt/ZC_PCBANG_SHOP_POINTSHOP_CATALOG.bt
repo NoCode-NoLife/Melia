@@ -15,12 +15,19 @@
 
 typedef struct
 {
-    char name[64];
-    int i[4];
+    int i1;
+    char name1[64];
+    int purchasedCount;
+    int i2;
+    int cost;
+    int maxPurchaseAmount;
+    char name2[64];
+    int i3;
+    int amount;
+    int64 l[3];
 } ShopItem;
 
 ServerHeaderDynamic header;
-int i1;
-int id;
-while(!FEof())
-    ShopItem shopItem;
+int count;
+if (count > 0)
+    ShopItem shopItems[count];

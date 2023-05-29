@@ -21,6 +21,6 @@ position originPosition;
 position castPosition;
 direction castDirection;
 int casterHandle; // Different from handleId
-int64 l1;
-int i2;
+int i1;
 byte b2;
+int i2;

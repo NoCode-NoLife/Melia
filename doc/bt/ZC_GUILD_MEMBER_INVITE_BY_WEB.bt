@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_GUILD_MEMBER_INVITE_BY_WEB.bt
+//   Authors: Salman T. Khan
+//   Version: i370069
+//   Purpose: Sent to player invited to a guild
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int64 accountId;
+char teamName[65];
+int64 guildId;

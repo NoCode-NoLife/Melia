@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_CHANGE_QUICKSLOT_INIT.bt
+//   Authors: Salman T. Khan
+//   Version: i371440
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int64 l1;
+int i1;
+string str;
+float f1;
+int64 l2;

@@ -8,7 +8,8 @@
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: i336041 - Added additional 4 bytes (int,float) between key and value.
+//   History: i336041 - Added additional 4 bytes (int,float) between key and value (double).
+			  i3xxxxx - Turn float into a double.
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -16,30 +17,28 @@
 typedef struct
 {
     lpString key;
-    float value1;
-    float value2;
+    double value1;
 }
 KeyValueLpStrFloat <read=KeyValueLpStrFloatRead>;
 
 string KeyValueLpStrFloatRead(KeyValueLpStrFloat &v)
 {
     local string result;
-    SPrintf(result, "%s : %f", v.key.text, v.value);
+    SPrintf(result, "%s : %d", v.key.text, v.value1);
     return result;
 }
 
 typedef struct
 {
     int key;
-    float value1;
-    float value2;
+    double value1;
 }
 KeyValueIntFloat <read=KeyValueIntFloatRead>;
 
 string KeyValueIntFloatRead(KeyValueIntFloat &v)
 {
     local string result;
-    SPrintf(result, "%d : %f", v.key, v.value);
+    SPrintf(result, "%d : %d", v.key, v.value1);
     return result;
 }
 
@@ -56,3 +55,5 @@ KeyValueLpStrFloat values3[count3] <optimize=false>;
 
 int count4;
 KeyValueIntFloat values4[count3] <optimize=false>;
+
+int i1; // 33

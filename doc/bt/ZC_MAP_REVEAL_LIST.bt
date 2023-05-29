@@ -17,6 +17,7 @@
 ServerHeaderDynamic header;
 
 int count;
-mapRevealData dataSets[count];
-int64 l1;
-float f1;
+if (!checkCompression())
+{
+    mapRevealData dataSets[count];
+}

@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ANCIENT_CARD_EXP_UP.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int i1; // 0
+int i2; // 0
+int i3; // 0
+int64 assisterId; // Assister World Id? 527181466212194
+int64 exp; // exp? 276659552
+int i4; // 0

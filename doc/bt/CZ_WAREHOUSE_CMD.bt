@@ -2,28 +2,24 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_WAREHOUSE_CMD.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i339027
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      - 366809: i2 added (original i2 renamed to i3)
 //------------------------------------------------
 
 #include "inc/common.bt"
 
-typedef enum <byte>
-{
-    IN,
-    OUT,
-}
-WAREHOUSE_DIRECTION;
-
 ClientHeaderFixed header;
 
+InventoryType type; // 1 = personal / 6 = team
 int64 worldId; // ?
 int i1;
 int amount;
-WAREHOUSE_DIRECTION direction; // 0=in, 1=out?
-int i2;
+int i2; // Added at some point noticed during 366809
+WAREHOUSE_INTERACTION interaction; // 0=in, 1=out?
+int i3;

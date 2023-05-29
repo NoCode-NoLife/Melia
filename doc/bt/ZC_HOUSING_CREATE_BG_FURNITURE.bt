@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_HOUSING_CREATE_BG_FURNITURE.bt
+//   Authors: Salman T. Khan
+//   Version: i347755
+//   Purpose: Create furniture
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int monsterId;
+position pos;
+byte b1; // Direction?

@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_OBJECT_MOVE.bt
+//   Authors: Salman T. Khan
+//   Version: i361207
+//   Purpose: Move an attached object?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle; // 4237
+int attachToHandle; // 4235 / 0
+int packetString1; // 270089 - Dummy_pet_hawk_R (Packet Id String for Animation?) / 0
+int i1; // 0 / 0
+position pos;

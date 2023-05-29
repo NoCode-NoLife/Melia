@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: ZC_CANCEL_MOUSE_MOVE.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Cancel on mouse move?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+int handle;

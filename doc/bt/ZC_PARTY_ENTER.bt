@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PARTY_ENTER.bt
+//   Authors: Salman T. Khan
+//   Version: i339932
+//   Purpose: Sent when new member joins party or guild
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+byte type; // 0 = party, 1 = guild
+int64 partyId;
+
+PartyMember partyMember;
+short s1;

@@ -17,7 +17,7 @@
 ServerHeaderFixed header;
 
 int64 characterId;
-int i1;
-int coolDown;
+int cooldownId;
+int cooldownValue;
 int i3;
 byte b1;

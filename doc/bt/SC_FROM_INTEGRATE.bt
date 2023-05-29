@@ -1,0 +1,37 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: SC_FROM_INTEGRATE.bt
+//   Authors: Salman T. Khan
+//   Version: i340313
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int type;
+switch(type)
+{
+    case 0x01:
+        int64 accountId1;
+        int i2; // 0
+        break;
+    case 0x14:
+        int64 accountId1;
+        int i2; // 728
+        break;
+    // Don't see this packet here,
+    // but it does show up in SC_NORMAL
+    case 0x19:
+        int64 accountId1;
+        int64 accountId2;
+        byte bin[16]; // 0s
+        lpString str; // WEEK
+        int64 l1; // 1
+        break;
+}

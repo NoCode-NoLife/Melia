@@ -3,7 +3,7 @@
 //
 //      File: ZC_BUFF_UPDATE_TIME.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i344887
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,7 +15,8 @@
 
 ServerHeaderFixed header;
 
-int64 id;
-int i1;
-int i2;
-short s1;
+int64 id; // 0
+int i1; // 0
+int handle; // 78985
+int buffId; // 67
+int increasingValue; // 1564848

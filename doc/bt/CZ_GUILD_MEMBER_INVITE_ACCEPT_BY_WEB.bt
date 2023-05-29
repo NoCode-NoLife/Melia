@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_GUILD_MEMBER_INVITE_ACCEPT_BY_WEB.bt
+//   Authors: Salman T. Khan
+//   Version: i370069
+//   Purpose: Send response to accepting guild invite.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+char name[64];
+int64 accountId;
+int64 inviteeAccountId;

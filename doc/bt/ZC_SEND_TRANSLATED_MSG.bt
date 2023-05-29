@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_SEND_TRANSLATED_MSG.bt
+//   Authors: Salman T. Khan
+//   Version: i372854
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+byte bin[12];
+int handle;
+char translatedMsg[1025];
+char languageCode[32];
+char uiFrame[512];
+char uiElement[512];
+byte bin2[4];

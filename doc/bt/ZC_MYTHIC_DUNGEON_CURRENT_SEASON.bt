@@ -3,7 +3,7 @@
 //
 //      File: ZC_MYTHIC_DUNGEON_CURRENT_SEASON.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i344887
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,12 +13,8 @@
 
 #include "inc/common.bt"
 
-typedef struct
-{
-    int id[2];
-    short s[4];
-} DunInfo;
-
 ServerHeaderFixed header;
+
 short s1;
-DunInfo info[2];
+ShortDate startDate;
+ShortDate endDate;

@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CB_REQ_GET_POSTBOX_ITEM_LIST.bt
+//   Authors: exec, celophi
+//   Version: i171140
+//   Purpose: Request to change the state of a message in the
+//            message box, such as deleting it.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int i1;

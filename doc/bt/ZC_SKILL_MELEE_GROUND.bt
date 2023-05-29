@@ -15,7 +15,7 @@
 
 ServerHeaderDynamic header;
 int skillId;
-int characterHandle;
+int casterHandle;
 direction dir;
 int i2;
 float shootTime;

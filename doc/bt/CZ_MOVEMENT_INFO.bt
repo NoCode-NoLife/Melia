@@ -16,6 +16,8 @@
 ClientHeaderFixed header;
 
 byte b1;
-float x;
-float y;
-float z;
+position pos;
+position pos;
+int i1; // 103934
+int i2; // 0
+int i3; // 1

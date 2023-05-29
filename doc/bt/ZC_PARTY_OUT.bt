@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PARTY_OUT.bt
+//   Authors: Salman T. Khan
+//   Version: i339932
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+byte b1; // Leave Type 0 = Party 1 = Guild
+int64 partyId; // ?
+int64 characterId;
+byte b2;

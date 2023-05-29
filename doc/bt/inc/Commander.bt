@@ -10,6 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //   - i184075: COMMANDER.i2~5 were added
+//   - i3xxxxx: currentExp, maxExp, totalExp are all int64.
 //------------------------------------------------
 
 typedef struct
@@ -19,12 +20,9 @@ typedef struct
     APPEARANCE_PC appearancePc;
     position pos;
     int i2;
-    int currentExp;
-    int i3;
-    int maxExp;
-    int i4;
-    int totalExp;
-    int i5;
+    int64 currentExp;
+    int64 maxExp;
+    int64 totalExp;
     int64 characterId;
     int64 socialInfoId;
     int hp;

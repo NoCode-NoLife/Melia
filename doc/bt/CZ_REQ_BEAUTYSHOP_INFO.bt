@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CZ_REQ_BEAUTYSHOP_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Beauty Shop Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+byte b1;
+byte b2;

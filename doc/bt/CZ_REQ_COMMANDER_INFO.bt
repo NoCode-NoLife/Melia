@@ -13,6 +13,13 @@
 
 #include "inc/common.bt"
 
+enum <short> CommanderInfoType
+{
+    InventoryInfo = 0,
+    ClassResetInfo = 1,
+    Unk2 = 2,
+};
+
 ClientHeaderFixed header;
 
-short s1; // Type?
+CommanderInfoType type;

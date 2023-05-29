@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CB_REQ_GET_POSTBOX_ITEM.bt
+//   Authors: SalmanTKhan
+//   Version: i171140
+//   Purpose: Request to associate the post message item to
+//            message box, such as deleting it.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+byte b1;
+int64 messageId;
+int64 characterId;
+string items; // 1462913/1462914/1462915/1462916/1462917/1462918/1462919/1462920/1462921/1462922

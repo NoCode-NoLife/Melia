@@ -2,9 +2,9 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_SET_AURA_INFO.bt
-//   Authors: 
-//   Version: 
-//   Purpose: 
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Aura Info?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -14,7 +14,25 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle;
-int64 characterId;
-short s1;
-int64 l[10];
+int equipSlot; // 9
+char str[256];
+int i1;
+byte b1;
+/**
+short s1; // 0
+int i2; // -2
+int i3; // -1
+byte bin1[4];
+int i4;
+byte bin2[4];
+int i5; // 4017
+int64 l1; // 6
+float f1; // 239245.8
+float f2;
+int64 l2; // 0
+**/
+//int64 characterId;
+//short s1;
+//int64 l[20];

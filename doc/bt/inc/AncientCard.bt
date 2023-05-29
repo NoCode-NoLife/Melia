@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: AncientCard.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+typedef struct
+{
+    lpString name; // card name?
+    int64 exp; // ?
+    int64 worldId; // ?
+    int slot; // 0, 1, or 4
+    int i4; // 1
+    int i5; // 1
+    byte b1; // 0
+} AncientCard <optimize=false>;

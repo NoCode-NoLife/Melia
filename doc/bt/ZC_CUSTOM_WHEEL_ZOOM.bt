@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0 Binary Template
+//
+//      File: ZC_CUSTOM_WHEEL_ZOOM.bt
+//   Authors: Salman T. Khan
+//   Version: i364542
+//   Purpose: Custom Zoom Limits
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+byte b1; // 1
+position pos; // X: 120.000000, Y: 400.000000, Z: 50.000000

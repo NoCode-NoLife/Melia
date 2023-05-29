@@ -14,7 +14,9 @@
 typedef struct
 {
     int mapId;
-    byte data[128];
+    ubyte data[128];
+    float mapExplored1;
+    float mapExplored2;
 }
 mapRevealData <read=mapRevealDataRead>;
 

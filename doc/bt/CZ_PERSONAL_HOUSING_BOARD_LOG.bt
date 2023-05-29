@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_PERSONAL_HOUSING_BOARD_LOG.bt
+//   Authors: Salman T. Khan
+//   Version: i347755
+//   Purpose: View Personal House Bullshit?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

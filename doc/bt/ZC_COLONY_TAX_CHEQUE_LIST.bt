@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_COLONY_TAX_CHEQUE_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i369838
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int count; // 0

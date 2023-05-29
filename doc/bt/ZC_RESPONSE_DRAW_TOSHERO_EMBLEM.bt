@@ -15,26 +15,25 @@
 
 typedef struct
 {
-    int64 date;
-    int64 l1; // 1 ?
+    int64 date; // 20211204
+    int i1; // 1
+    int i2; // 0
     int64 accountId;
     int64 characterId;
     char name[64];
     char guild[64];
     int jobId;
-    int i3;
+    int rank;
     int i4;
     int i5;
-    int handle;
+    int score;
     int i6;
-    int i7;
-    int64 l2;
-    short s1;
-    short s2;
-    int64 l2;
+    int i7; // -1
+    ShortDate date;
+    int i8;
 } TOSHERO;
 
 ServerHeaderDynamic header;
-int i1; // Count?
-int i2; // Count?
+int i1; // Count? 50
+int i2; // Count? 50
 TOSHERO heroes[i1];

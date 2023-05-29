@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_REQUEST_FIELD_BOSS_RANKING_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i363295
+//   Purpose: Joint Strike Raid Entry Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+ShortDate entryTime;

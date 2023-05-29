@@ -20,7 +20,5 @@ ServerHeaderFixed header;
 int expAcquired;    // Newly acquired EXP to add.
 int exp;            // Sum of acquired EXP for the current level.
 int i1;
-int maxExp;         // Maximum EXP for next level.
-int i2;
-int totalExp;       // Total EXP acquired since creation.
-int i3;
+int64 maxExp;         // Maximum EXP for next level.
+int64 totalExp;       // Total EXP acquired since creation.

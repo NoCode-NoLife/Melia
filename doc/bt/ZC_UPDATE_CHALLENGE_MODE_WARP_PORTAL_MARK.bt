@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_UPDATE_CHALLENGE_MODE_WARP_PORTAL_MARK.bt
+//   Authors: Salman T. Khan
+//   Version: i354444
+//   Purpose: Challenge Mode?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+position pos; // [0, 0, 0] when no portal
+byte b1; // 0 or 1 [portal exists]
+byte b2; // 1 or 0 [portal doesn't exist]

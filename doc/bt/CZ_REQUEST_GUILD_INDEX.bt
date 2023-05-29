@@ -14,6 +14,5 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-byte bin[12];
+
 int64 accountId;
-ushort guildId; //?

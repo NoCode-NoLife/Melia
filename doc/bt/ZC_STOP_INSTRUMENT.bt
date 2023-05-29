@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_STOP_INSTRUMENT.bt
+//   Authors: Salman T. Khan
+//   Version: i357733
+//   Purpose: Stops an instrument (from an item? Rosy Floret Erhu, Pied Piper flute)
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int i1;
+int i2;
+byte b1;
+char instrument[64];

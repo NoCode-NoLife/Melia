@@ -21,8 +21,10 @@ typedef struct
     int64 characterId;
     int64 accountId;
     byte bin[6];
-    int i1; // Property Count ?
-    int64 i2;
+    int adventurerIndex; // -1 if Index = 0
+    int adventurerRank; // -1 if unranked
+    int achievementCount;
+    int i0;
     char team[64];
 }
 COMPARE_APPEARANCE_PC;
@@ -36,10 +38,13 @@ typedef struct
     int barrackMapId;
     short s2;
     short s3; // 11
-    ushort s4;
-    int i12; // 11
-    int64 l2; // 0
-    byte bin[6];
+    short s4;
+    float f1;
+    float f2;
+    int l3; // 0
+    short s5;
+    short s6;
+    short s7;
     int i1; // Map ID? 1003
     int i2; // 10
 
@@ -53,26 +58,65 @@ typedef struct
     byte hat1Visible;
     byte hat2Visible;
     byte hat3Visible;
-    int64 jobId3;
+    short jobIds[4];
     int64 l3;
-    short s3;
-    short s4;
+    short etcProps;
+    short propertySize;
 }
 COMPARE_APPEARANCE_PC2;
 
 typedef struct
 {
+    lpString optionName;
+    byte b1;
+    switch(b1) {
+        case 0:
+            int optionValue;
+            break;
+        case 1:
+            lpString optionValue;
+            break;
+    }
+} SealOption <optimize=false>;
+
+typedef struct
+{
+    short s1; // 0
+    int64 worldId1;
+    int i1; // 0
+    int i2; // 0
+    int itemId1; // 744070
+    int i4; // 0
+    int i5; // 1
+    short s2; // 0
+    int64 worldId2;
+    int i6; // 0
+    int i7; // 0
+    int itemId2; // 744070
+    int i8; // 0
+    int i9; // 1 
+} GemInfo <optimize=false>;
+
+typedef struct
+{
     int itemId;
-    int propertiesSize;
+    short propertiesSize;
+    short amount;
     int64 worldId;
     int slot;
     int i1;
     short s1;
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
-        short s2;
+        short sealOptionsSize;
+        if (sealOptionsSize > 0) {
+            SealOption sealOptions[sealOptionsSize];
+        }
         int64 worldId2;
-        short s3;
+        short gemCount;
+        if (gemCount > 0) {
+            GemInfo data[gemCount];
+        }
     }
 }
 EquipItem2 <read=readEquipItem2, optimize=false>;
@@ -85,12 +129,23 @@ string readEquipItem2(EquipItem2 &v)
 }
 
 typedef struct {
+    int jobId;
+    int i1; // 0
+    int i[8];
+} JobData <optimize=false>;
+
+typedef struct {
     int handle;
     COMPARE_APPEARANCE_PC compareAppearancePc;
     COMPARE_APPEARANCE_PC2 compareAppearancePc2;
     APPEARANCE_PC appearancePc;
-    getProperties(compareAppearancePc.i1);
-    EquipItem2 item[32];
+    getProperties(compareAppearancePc2.etcProps);
+    getProperties(compareAppearancePc2.propertySize);
+    EquipItem2 item[EquipSlotCount];
+    short count;
+    if (count > 0)
+        JobData data[count];
+    int achievementIds[compareAppearancePc.achievementCount];
 }
 COMPARE_COMMANDER;
 

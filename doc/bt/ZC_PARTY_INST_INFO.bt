@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PARTY_INST_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i339932
+//   Purpose: Party Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+byte type; // 0 = party?
+int memberCount; // 2
+PartyMemberInfo members[memberCount];
+int i1;
+int i2;
+int i3;
+int i4;
+byte b1;

@@ -1,8 +1,8 @@
 //------------------------------------------------
-//--- 010 Editor v8.0 Binary Template
+//--- 010 Editor v12.0 Binary Template
 //
 //      File: SessionObject.bt
-//   Authors: exec
+//   Authors: exec, Salman T. Khan
 //   Version: i339427
 //   Purpose: 
 //  Category: 
@@ -13,9 +13,9 @@
 
 typedef struct
 {
-    int i1;
+    int sessionId;
     int i2;
-    int64 id;
+    int64 sessionObjectId;
     float f1;
     short propertySize;
     short s1;
@@ -27,6 +27,24 @@ SessionObject <optimize=false, read=readSessionObject>;
 string readSessionObject(SessionObject &v)
 {
     local string result;
-    SPrintf(result, "%d, Properties: %d Byte", v.i1, v.propertySize);
+    SPrintf(result, "%Ld, %d, Properties Size: %d", v.sessionObjectId, v.sessionId, v.propertySize);
+    return result;
+}
+
+typedef struct
+{
+    int sessionId;
+    int i2;
+    //int64 objectId <format=hex>;
+    int64 objectId; // 72247
+    float param; // 46? (parameter?)
+    SessionProperties properties;
+    int sessionId2;
+} AddSessionObject <read=readAddSessionObject, optimize=false>;
+
+string readAddSessionObject(AddSessionObject &v)
+{
+    string result;
+    SPrintf(result, "%LXh : %d", v.objectId, v.sessionId);
     return result;
 }
