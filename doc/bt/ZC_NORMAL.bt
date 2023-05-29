@@ -62,18 +62,19 @@ switch (type)
         byte bin3[4];
         break;
 
-    // Class lv up effect
-    case 0x15:
+    // Play effect?
+    case 0x16:
         int handle;
         byte b1;
         int i1;
         byte b2;
         float effectSize;
-        byte bin[8];
+        int packetStringId;
+        int i3;
         break;
 
     // ?
-    case 0x16:
+    case 0x17:
         int handle;
         int handle1;
         int handle2;
