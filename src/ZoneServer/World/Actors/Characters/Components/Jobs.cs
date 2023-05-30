@@ -356,7 +356,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="totalExp"></param>
 		/// <param name="circle"></param>
 		/// <param name="skillPoints"></param>
-		public Job(Character character, JobId jobId, int totalExp, Circle circle = Circle.First, int skillPoints = 0)
+		public Job(Character character, JobId jobId, long totalExp, Circle circle = Circle.First, int skillPoints = 0)
 		{
 			this.Character = character;
 			this.Id = jobId;

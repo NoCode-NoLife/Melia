@@ -115,9 +115,9 @@ namespace Melia.Zone.Database
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetInt32("hair");
 					character.MapId = reader.GetInt32("zone");
-					character.Exp = reader.GetInt32("exp");
-					character.MaxExp = reader.GetInt32("maxExp");
-					character.TotalExp = reader.GetInt32("totalExp");
+					character.Exp = reader.GetInt64("exp");
+					character.MaxExp = reader.GetInt64("maxExp");
+					character.TotalExp = reader.GetInt64("totalExp");
 
 					// We get the character's stamina from its data here
 					// because this is not a PC property. Actually setting
@@ -238,7 +238,7 @@ namespace Melia.Zone.Database
 						var jobId = (JobId)reader.GetInt32("jobId");
 						var circle = (Circle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
-						var totalExp = reader.GetInt32("totalExp");
+						var totalExp = reader.GetInt64("totalExp");
 
 						var job = new Job(character, jobId, totalExp, circle, skillPoints);
 
