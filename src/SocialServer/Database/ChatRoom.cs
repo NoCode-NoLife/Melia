@@ -21,6 +21,11 @@ namespace Melia.Social.Database
 		public long Id { get; set; }
 
 		/// <summary>
+		/// Get or set the chat room's name.
+		/// </summary>
+		public string Name { get; set; } = "";
+
+		/// <summary>
 		/// Chat room's type
 		/// </summary>
 		public ChatRoomType Type { get; set; } = ChatRoomType.Group;
@@ -111,9 +116,9 @@ namespace Melia.Social.Database
 
 	public enum ChatRoomType
 	{
-		Friends,
-		OneToOne,
-		Group
+		OneToOne = 0,
+		Friends = 1,
+		Group = 3,
 	}
 
 	/// <summary>

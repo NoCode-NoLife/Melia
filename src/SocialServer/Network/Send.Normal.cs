@@ -26,6 +26,23 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
+			/// Unknown purpose
+			/// </summary>
+			/// <remarks>
+			/// Might be a response to 
+			/// </remarks>
+			/// <param name="conn"></param>
+			public static void Unknown_01(ISocialConnection conn)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+
+				packet.PutInt(NormalOp.Social.Unknown_01);
+				packet.PutInt(3);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
 			/// Login related
 			/// </summary>
 			/// <param name="conn"></param>
@@ -69,8 +86,7 @@ namespace Melia.Social.Network
 
 
 			/// <summary>
-			/// Create's a chat room
-			/// Dummy
+			/// Create's a chat room message.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
@@ -100,46 +116,17 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
 			/// <param name="chatMessage"></param>
-			public static void ChatLogNotWorking(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
-			{
-				var packet = new Packet(Op.SC_NORMAL);
-
-				packet.PutInt(NormalOp.Social.ChatLog);
-				packet.PutLong(chatRoom.Id);
-				packet.PutInt(3);
-				packet.PutShort(1);
-				packet.PutByte(0); // b1
-				packet.PutLong(0);
-				packet.PutShort(1);
-				packet.PutByte(0); // b2
-				packet.PutInt(1);
-				packet.PutInt(2);
-				packet.PutByte(1); // b3
-				packet.PutLong(chatMessage.Sender.Id);
-				packet.PutLpString(chatMessage.Sender.TeamName);
-				packet.PutInt(1);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
-			/// Chat Log
-			/// </summary>
-			/// <param name="conn"></param>
-			/// <param name="chatRoom"></param>
-			/// <param name="chatMessage"></param>
 			public static void ChatLog(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
 
 				packet.PutInt(NormalOp.Social.ChatLog);
 				packet.PutLong(chatRoom.Id);
-				packet.PutInt(0);
+				packet.PutInt((int)chatRoom.Type); // 0 or 3?
 				packet.PutShort(1);
 				packet.PutByte(0); // b1
 				packet.PutLong(0);
-				packet.PutShort(1);
-				packet.PutByte(0); // b2
+				packet.PutLpString(chatRoom.Name);
 				packet.PutInt(chatRoom.MemberCount());
 				packet.PutInt(2);
 				packet.PutByte(1); // b3
@@ -152,36 +139,6 @@ namespace Melia.Social.Network
 					packet.PutLpString(chatMessage.Recipient.TeamName);
 					packet.PutInt(1);
 				}
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
-			/// Dummy
-			/// </summary>
-			/// <param name="conn"></param>
-			/// <param name="sender"></param>
-			public static void ChatLog(ISocialConnection conn, Account sender, long chatId, Account target)
-			{
-				var packet = new Packet(Op.SC_NORMAL);
-
-				packet.PutInt(NormalOp.Social.ChatLog);
-				packet.PutLong(chatId);
-				packet.PutInt(0);
-				packet.PutShort(1);
-				packet.PutByte(0); // b1
-				packet.PutLong(1);
-				packet.PutShort(1);
-				packet.PutShort(0);
-				packet.PutByte(0); // b2
-				packet.PutInt(2);
-				packet.PutInt(2);
-				packet.PutByte(1); // b3
-				packet.PutLong(sender.Id);
-				packet.PutLpString(sender.TeamName);
-				packet.PutInt(1);
-				packet.PutLong(target.Id);
-				packet.PutLpString(target.TeamName);
 
 				conn.Send(packet);
 			}

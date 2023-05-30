@@ -66,6 +66,7 @@
 		public static class Social
 		{
 			public const int Unknown_00 = 0x00;
+			public const int Unknown_01 = 0x01;
 			public const int Unknown_02 = 0x02;
 			public const int Chat = 0x03;
 			public const int ChatRoomMessage = 0x04;

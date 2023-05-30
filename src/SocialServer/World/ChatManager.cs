@@ -92,7 +92,7 @@ namespace Melia.Social.World
 			};
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.ChatRoomMessage(owner.Connection, chatRoom, chatMessage);
+			//Send.SC_NORMAL.ChatRoomMessage(owner.Connection, chatRoom, chatMessage);
 			Send.SC_NORMAL.ChatLog(owner.Connection, chatRoom, chatMessage);
 			Send.SC_NORMAL.Chat(owner.Connection, chatRoom, chatMessage);
 

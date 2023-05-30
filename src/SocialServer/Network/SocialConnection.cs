@@ -4,7 +4,6 @@ using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
-using System.Collections.Generic;
 
 namespace Melia.Social.Network
 {
@@ -78,7 +77,7 @@ namespace Melia.Social.Network
 			var op = packet.Op;
 
 			var tableSize = Op.GetSize(op);
-			if (tableSize != TosFramer.DynamicPacketSize && buffer.Length != tableSize)
+			if (tableSize != TosSocialFramer.DynamicPacketSize && buffer.Length != tableSize)
 			{
 				var name = Op.GetName(packet.Op);
 
