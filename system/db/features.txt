@@ -3,9 +3,11 @@
 //---------------------------------------------------------------------------
 
 [
+// Re:Build was a large update in late 2018, most notably changing how
+// the class system worked.
 { name: "ReBuild", enabled: false, children: [
 
-	// Movement-related changes
+	// Enables movement-related changes
 	{ name: "MovementRevamp", enabled: true, children: [
 		// Disables stamina drain while running
 		{ name: "FreeRunning", enabled: true },
@@ -17,8 +19,19 @@
 		{ name: "DashingForAll", enabled: true },
 	]},
 	
+	// Enables job-related changes
+	{ name: "JobRevamp", enabled: true, children: [
+		// Enables the Scout job as an option for character creation
+		{ name: "ScoutJob", enabled: true },
+		
+		// Shuffles jobs and skills around to, quote, "maximize compatibility
+		// between classes and synergy between players."
+		//{ name: "JobTreeReassignment", enabled: true },
+	]},
 ]},
 
+// Miscellaneous changes that don't belong to a specific update or are yet
+// to get categorized.
 { name: "Misc", enabled: false, children: [
 
 	// Enables new characters receiving growth equipment
@@ -29,4 +42,5 @@
 // Let's enable certain features by default for now, as them being missing
 // could confuse some users.
 { name: "DashingForAll", enabled: true },
+{ name: "ScoutJob", enabled: true },
 ]

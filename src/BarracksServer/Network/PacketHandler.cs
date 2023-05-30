@@ -10,6 +10,7 @@ using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using System.Threading.Tasks;
+using Melia.Shared.L10N;
 
 namespace Melia.Barracks.Network
 {
@@ -272,6 +273,12 @@ namespace Melia.Barracks.Network
 			{
 				Log.Error("CB_COMMANDER_CREATE: Job '{0}' not found.", job);
 				Send.BC_MESSAGE(conn, MsgType.CannotCreateCharacter);
+				return;
+			}
+
+			if (jobData.JobClassId == JobClass.Scout && !Feature.IsEnabled("ScoutJob"))
+			{
+				Send.BC_MESSAGE(conn, Localization.Get("This job has been disabled on this server."));
 				return;
 			}
 
