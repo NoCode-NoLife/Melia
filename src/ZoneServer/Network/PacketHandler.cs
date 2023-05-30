@@ -1689,6 +1689,12 @@ namespace Melia.Zone.Network
 						return;
 					}
 
+					if (character.Jobs.GetCurrentRank() >= 4)
+					{
+						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change at or above the max rank of 4.", conn.Account.Name, jobId);
+						return;
+					}
+
 					var newJob = new Job(character, jobId, skillPoints: 1);
 
 					Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
