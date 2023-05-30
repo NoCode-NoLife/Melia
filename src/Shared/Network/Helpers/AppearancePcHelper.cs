@@ -26,7 +26,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte((byte)appearancePc.Gender);
 			packet.PutByte(0);
 			packet.PutInt(appearancePc.Level);
-			packet.PutInt(1022); // i1
+			packet.PutInt(1022); // i1. 5001 on Scout, maybe display job?
 			packet.PutByte(0x80); //128
 			packet.PutByte(0x80); //128
 			packet.PutByte(0x80); //128
