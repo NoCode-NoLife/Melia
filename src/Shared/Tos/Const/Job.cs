@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 
 namespace Melia.Shared.Tos.Const
 {
 	public enum JobId : short
 	{
+		// Swordsman
 		Swordsman = 1001,
 		Highlander = 1002,
 		Peltasta = 1003,
@@ -24,7 +25,9 @@ namespace Melia.Shared.Tos.Const
 		Hackapell = 1021,
 		BlossomBlader = 1022,
 		Luchador = 1023,
+		Shenji = 1024,
 
+		// Wizard
 		Wizard = 2001,
 		Pyromancer = 2002,
 		Cryomancer = 2003,
@@ -44,7 +47,9 @@ namespace Melia.Shared.Tos.Const
 		Taoist = 2021,
 		Bokor = 2022,
 		Terramancer = 2023,
+		Keraunos = 2024,
 
+		// Archer
 		Archer = 3001,
 		Hunter = 3002,
 		QuarrelShooter = 3003,
@@ -64,6 +69,7 @@ namespace Melia.Shared.Tos.Const
 		Arquebusier = 3104,
 		Hwarang = 3105,
 
+		// Cleric
 		Cleric = 4001,
 		Priest = 4002,
 		Krivis = 4003,
@@ -83,7 +89,9 @@ namespace Melia.Shared.Tos.Const
 		Zealot = 4019,
 		Exorcist = 4020,
 		Crusader = 4021,
+		Lama = 4022,
 
+		// Scout
 		Scout = 5001,
 		Assassin = 5002,
 		Outlaw = 5003,
@@ -100,7 +108,10 @@ namespace Melia.Shared.Tos.Const
 		Sheriff = 5014,
 		Rangda = 5015,
 		Clown = 5016,
+		Hakkapeliter = 5017,
+		Jaguar = 5018,
 
+		// GM
 		GM = 9001,
 	}
 
