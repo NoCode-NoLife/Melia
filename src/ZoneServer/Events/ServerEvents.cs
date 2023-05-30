@@ -86,5 +86,11 @@ namespace Melia.Zone.Events
 		/// </remarks>
 		public event EventHandler<PlayerEventArgs> PlayerReady;
 		public void OnPlayerReady(Character character) => PlayerReady?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+
+		/// <summary>
+		/// Raised when a player gains a new job or circle.
+		/// </summary>
+		public event EventHandler<PlayerEventArgs> PlayerAdvancedJob;
+		public void OnPlayerAdvancedJob(Character character) => PlayerAdvancedJob?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
 	}
 }

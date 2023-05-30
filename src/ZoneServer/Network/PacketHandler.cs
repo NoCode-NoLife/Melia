@@ -1703,6 +1703,11 @@ namespace Melia.Zone.Network
 					character.JobId = jobId;
 					character.Jobs.Add(newJob);
 
+					// Should the event happen regardless of how the job
+					// change happened? Should this code be cleaned up to
+					// use one simple function to accomplish all this? TBD.
+					ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+
 					break;
 				}
 
