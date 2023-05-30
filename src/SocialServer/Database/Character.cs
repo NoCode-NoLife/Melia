@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -67,31 +68,6 @@ namespace Melia.Social.Database
 		public int Level { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets the amount of silver the character owns.
-		/// </summary>
-		/// <remarks>
-		/// This is just for information's sake and modifying this property
-		/// won't actually change the amount of silver a character owns.
-		/// </remarks>
-		public long Silver { get; set; }
-
-		/// <summary>
-		/// Gets or sets the layer in the barracks that the character should
-		/// appear in.
-		/// </summary>
-		public int BarrackLayer { get; set; } = 1;
-
-		/// <summary>
-		/// Gets or sets the character's position in the barracks.
-		/// </summary>
-		public Position BarracksPosition { get; set; }
-
-		/// <summary>
-		/// Gets or sets the character's direction in the barracks.
-		/// </summary>
-		public Direction BarracksDirection { get; set; }
-
-		/// <summary>
 		/// Gets or sets the channel the character connected to last.
 		/// </summary>
 		public int Channel { get; set; } = 0;
@@ -107,19 +83,9 @@ namespace Melia.Social.Database
 		public Position Position { get; set; }
 
 		/// <summary>
-		/// Gets or sets the character's HP multiplier from their base job.
-		/// </summary>
-		public float HpRateByJob { get; set; }
-
-		/// <summary>
 		/// Gets or sets the character's current HP.
 		/// </summary>
 		public int Hp { get; set; }
-
-		/// <summary>
-		/// Gets or sets the character's SP multiplier from their base job.
-		/// </summary>
-		public float SpRateByJob { get; set; }
 
 		/// <summary>
 		/// Gets or sets the character's current SP.
@@ -127,45 +93,9 @@ namespace Melia.Social.Database
 		public int Sp { get; set; }
 
 		/// <summary>
-		/// Gets or sets the amount of stamina the character receives from
-		/// their job.
+		/// Gets or sets the character's last login date.
 		/// </summary>
-		public int StaminaByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets the character's current stamina.
-		/// </summary>
-		public int Stamina { get; set; }
-
-		/// <summary>
-		/// Gets or sets the amount of STR the character receives from
-		/// their job.
-		/// </summary>
-		public int StrByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets the amount of CON the character receives from
-		/// their job.
-		/// </summary>
-		public int ConByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets the amount of INT the character receives from
-		/// their job.
-		/// </summary>
-		public int IntByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets the amount of SPR/MNA the character receives from
-		/// their job.
-		/// </summary>
-		public int SprByJob { get; set; }
-
-		/// <summary>
-		/// Gets or sets the amount of DEX the character receives from
-		/// their job.
-		/// </summary>
-		public int DexByJob { get; set; }
+		public DateTime LastLoginDate { get; set; } = DateTime.MinValue;
 
 		/// <summary>
 		/// Creates a new character with default values.

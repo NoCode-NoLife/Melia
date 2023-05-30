@@ -52,16 +52,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ChatCommand.cs" />
+    <Compile Include="Commands\ChatCommands.Handlers.cs" />
+    <Compile Include="Commands\ChatCommands.Manager.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Character.cs" />
-    <Compile Include="Database\ChatGroup.cs" />
+    <Compile Include="Database\ChatRoom.cs" />
+    <Compile Include="Database\Friend.cs" />
     <Compile Include="Database\SocialDb.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Send.cs" />
+    <Compile Include="Network\Send.Normal.cs" />
     <Compile Include="Network\SocialConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocialServer.cs" />
+    <Compile Include="World\ChatManager.cs" />
+    <Compile Include="World\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

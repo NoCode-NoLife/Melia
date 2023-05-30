@@ -57,17 +57,6 @@ namespace Melia.Shared.Network
 			if (tableSize == -1)
 				throw new ArgumentException("Size for op '" + packet.Op.ToString("X4") + "' unknown.");
 
-			// Prior to i174236 packet headers sent from the server to the
-			// client were 4 bytes shorter, as they didn't have the part
-			// that we call "checksum". Now they all have it. Should this
-			// change again at some point, the respective sizeof(int)s need
-			// to be removed again.
-
-			// Calculate length
-			//var fixHeaderSize = (sizeof(short) + sizeof(int) + sizeof(int) + packet.Length);
-			//var dynHeaderSize = (sizeof(short) + sizeof(int) + sizeof(int) + sizeof(short) + packet.Length);
-			//var size = (tableSize == DynamicPacketSize ? dynHeaderSize : tableSize);
-
 			int packetSize;
 
 			// Check table length
@@ -155,7 +144,7 @@ namespace Melia.Shared.Network
 						// header length and go back to filling the buffer.
 						// On the second round we can read the size from
 						// the buffer.
-						if (messageSize == 0)
+						if (messageSize == DynamicPacketSize)
 						{
 							if (_headerLength == 10)
 							{

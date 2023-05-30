@@ -4,6 +4,7 @@ using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
+using System.Collections.Generic;
 
 namespace Melia.Social.Network
 {
@@ -122,6 +123,7 @@ namespace Melia.Social.Network
 		/// <param name="type"></param>
 		protected override void OnClosed(ConnectionCloseType type)
 		{
+			SocialServer.Instance.AccountManager.Remove(this);
 			base.OnClosed(type);
 		}
 	}

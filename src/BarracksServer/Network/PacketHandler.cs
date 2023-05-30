@@ -108,6 +108,7 @@ namespace Melia.Barracks.Network
 		{
 			var unkByte = packet.GetByte();
 			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
+
 			var socialServers = BarracksServer.Instance.ServerList.GetSocialServers();
 
 			Send.BC_IES_MODIFY_LIST(conn);

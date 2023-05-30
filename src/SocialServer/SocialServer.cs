@@ -3,8 +3,10 @@ using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
+using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -31,11 +33,20 @@ namespace Melia.Social
 		/// </summary>
 		public SocialDb Database { get; } = new SocialDb();
 
-		private static long ChatId = 0x1FB0F00000000;
-		public long GetNewChatId()
-		{
-			return Interlocked.Increment(ref ChatId);
-		}
+		/// <summary>
+		/// Returns reference to the server's chat command handlers.
+		/// </summary>
+		public ChatCommands ChatCommands { get; } = new ChatCommands();
+
+		/// <summary>
+		/// Returns reference to the server's account manager.
+		/// </summary>
+		public UserManager AccountManager { get; } = new UserManager();
+
+		/// <summary>
+		/// Returns reference to the server's chat manager.
+		/// </summary>
+		public ChatManager ChatManager { get; } = new ChatManager();
 
 		/// <summary>
 		/// Runs the server.

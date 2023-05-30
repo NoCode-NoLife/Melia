@@ -68,10 +68,15 @@
 			public const int Unknown_00 = 0x00;
 			public const int Unknown_02 = 0x02;
 			public const int Chat = 0x03;
-			public const int CreateChatRoom = 0x04;
+			public const int ChatRoomMessage = 0x04;
 			public const int ChatLog = 0x05;
 			public const int SystemMessage = 0x07;
+			public const int FriendInfo = 0x08;
+			public const int FriendResponse = 0x09;
 			public const int Buff_0C = 0x0C;
+			public const int PartyInfo = 0x0D;
+			public const int FriendRequested = 0x10;
+			public const int FriendBlocked = 0x11;
 			public const int Unknown_19 = 0x19;
 		}
 	}
