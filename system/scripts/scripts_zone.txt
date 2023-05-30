@@ -20,5 +20,6 @@ npcs/**/*
 mobs/**/*
 
 other/character_init.cs
+other/character_adv.cs
 
 include "/user/scripts/scripts_zone.txt"
