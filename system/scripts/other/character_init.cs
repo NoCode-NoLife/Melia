@@ -149,8 +149,14 @@ public class CharacterInitializationScript : GeneralScript
 
 		if (!Feature.IsEnabled("GrowthEquipOnStart"))
 		{
+			// It's difficult to find information on what kind of
+			// equipment Scout got by default before growth items,
+			// but the data mentions "Practice Pistol" and "Training
+			// Kris Dagger", so we'll equip the dagger and give the
+			// pistol for now.
+
 			EquipItem(character, EquipSlot.RightHand, ItemId.DAG01_113);
-			EquipItem(character, EquipSlot.LeftHand, ItemId.SWD01_101);
+			GiveItem(character, ItemId.PST01_109, 1);
 		}
 		else
 		{
