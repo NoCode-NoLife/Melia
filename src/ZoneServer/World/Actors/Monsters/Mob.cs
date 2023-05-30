@@ -4,7 +4,6 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
@@ -94,16 +93,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public string LeaveName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the NPC's dialog function.
-		/// </summary>
-		public DialogFunc DialogFunc { get; set; }
-
-		/// <summary>
-		/// Location to warp to.
-		/// </summary>
-		public Location WarpLocation { get; set; }
-
-		/// <summary>
 		/// Level.
 		/// </summary>
 		public int Level { get; set; } = 1;
@@ -166,11 +155,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// ground when it appears. 
 		/// </remarks>
 		public bool FromGround { get; set; }
-
-		/// <summary>
-		/// Gets or sets the monster's state.
-		/// </summary>
-		public NpcState State { get; set; }
 
 		/// <summary>
 		/// Returns the monster's property collection.
