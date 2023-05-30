@@ -184,12 +184,12 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Current experience points.
 		/// </summary>
-		public int Exp { get; set; }
+		public long Exp { get; set; }
 
 		/// <summary>
 		/// Current maximum experience points.
 		/// </summary>
-		public int MaxExp { get; set; }
+		public long MaxExp { get; set; }
 
 		/// <summary>
 		/// Total number of accumulated experience points.
@@ -718,7 +718,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(int exp, int classExp, IMonster monster)
+		public void GiveExp(long exp, long classExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;

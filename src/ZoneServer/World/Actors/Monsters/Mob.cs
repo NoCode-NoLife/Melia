@@ -255,16 +255,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Hp = 0;
 
-			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100;
-			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100;
+			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
+			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
 
-			var exp = 0;
-			var classExp = 0;
+			var exp = 0L;
+			var classExp = 0L;
 
 			if (this.Data.Exp > 0)
-				exp = (int)Math.Max(1, this.Data.Exp * expRate);
+				exp = (long)Math.Max(1, this.Data.Exp * expRate);
 			if (this.Data.ClassExp > 0)
-				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
+				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 

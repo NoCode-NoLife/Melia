@@ -1652,12 +1652,9 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_MAX_EXP_CHANGED);
 
 			packet.PutInt(exp);
-			packet.PutInt(character.Exp);
-			packet.PutInt(0);
-			packet.PutInt(character.MaxExp);
-			packet.PutInt(0);
-			packet.PutUInt((uint)Math2.Clamp(0, uint.MaxValue, character.TotalExp));
-			packet.PutInt(0);
+			packet.PutLong(character.Exp);
+			packet.PutLong(character.MaxExp);
+			packet.PutLong(character.TotalExp);
 
 			character.Connection.Send(packet);
 		}
@@ -1669,7 +1666,7 @@ namespace Melia.Zone.Network
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, int exp, int classExp, IMonster monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, long exp, long classExp, IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 
@@ -1687,7 +1684,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
-		public static void ZC_EXP_UP(Character character, int exp, int classExp)
+		public static void ZC_EXP_UP(Character character, long exp, long classExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 
@@ -1703,13 +1700,12 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		public static void ZC_JOB_EXP_UP(Character character, int exp)
+		public static void ZC_JOB_EXP_UP(Character character, long exp)
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(exp);
-			packet.PutInt(0);
+			packet.PutLong(exp);
 
 			character.Connection.Send(packet);
 		}
