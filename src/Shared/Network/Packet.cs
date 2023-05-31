@@ -480,6 +480,57 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Calls the given callback to write data into a temporary
+		/// packet and returns the written data in compressed form.
+		/// </summary>
+		/// <param name="packetFunc"></param>
+		/// <returns></returns>
+		public byte[] CompressData(Action<Packet> packetFunc)
+		{
+			var subPacket = new Packet(this.Op);
+			packetFunc(subPacket);
+
+			var buffer = subPacket._buffer.Copy();
+
+			using (var ms = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+					ds.Write(buffer, 0, buffer.Length);
+
+				var compressed = ms.ToArray();
+				return compressed;
+			}
+		}
+
+		/// <summary>
+		/// Reads the given amount of bytes from the packet, uncompresses
+		/// them, and adds the data to a temporary packet that is passed
+		/// to the call-back to read the data.
+		/// </summary>
+		/// <param name="compressedSize"></param>
+		/// <param name="packetFunc"></param>
+		public void UncompressData(int compressedSize, Action<Packet> packetFunc)
+		{
+			var compressed = this.GetBin(compressedSize);
+
+			byte[] uncompressed;
+			using (var msIn = new MemoryStream(compressed))
+			using (var msOut = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+					ds.CopyTo(msOut);
+
+				uncompressed = msOut.ToArray();
+			}
+
+			var packet = new Packet(this.Op);
+			packet.PutBin(uncompressed);
+			packet.Rewind();
+
+			packetFunc(packet);
+		}
+
+		/// <summary>
 		/// Builds the packet and returns it.
 		/// </summary>
 		/// <returns></returns>

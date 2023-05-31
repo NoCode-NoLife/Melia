@@ -111,6 +111,7 @@
     <Compile Include="Tos\Const\NpcState.cs" />
     <Compile Include="Tos\Const\MonsterType.cs" />
     <Compile Include="Tos\Const\PropertyName.cs" />
+    <Compile Include="Tos\Const\QuickSlotType.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />
     <Compile Include="Tos\Const\Size.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
@@ -584,26 +585,42 @@ namespace Melia.Zone.Network
 		{
 			var packetSize = packet.GetShort();
 			var compressedSize = packet.GetInt();
-			var buffer = packet.GetCompressedBin(compressedSize);
 
-			// The buffer is always 705 bytes long and seems to contain
-			// 54 entries of the following format:
-			// 
-			//  byte b1;
-			//  byte type;
-			//  int id;
-			//  byte bin1[7];
-			// 
-			// That leaves 3 bytes of unknown value at the end of the buffer.
-			// We could parse this and do something with the hotkeys...
-			// or we could just throw them into the database for now.
-			// Though we presumably need them, to modify them from the
-			// server.
+			var serialized = new StringBuilder("#");
+
+			packet.UncompressData(compressedSize, p =>
+			{
+				var b2 = p.GetByte();
+
+				for (var i = 0; i < 50; i++)
+				{
+					var type = (QuickSlotType)p.GetByte();
+					var classId = p.GetInt();
+					var objectId = p.GetLong();
+
+					serialized.AppendFormat("{0},{1},{2}#", type, classId, objectId);
+				}
+
+				for (var i = 0; i < 4; i++)
+				{
+					var type = (QuickSlotType)p.GetByte();
+					var classId = p.GetInt();
+					var objectId = p.GetLong();
+
+					serialized.AppendFormat("{0},{1},{2}#", type, classId, objectId);
+				}
+
+				var b3 = p.GetByte();
+				var b4 = p.GetByte();
+			});
+
+			// What do you mean "this is a terrible way of saving the
+			// hotkeys"? I bet this is how all great games do it! Yes!
+			// I'm certain of it! There's absolutely no reason to refactor
+			// any of this! It's perfect! Perfect, I tell you!
 
 			var character = conn.SelectedCharacter;
-
-			var serialized = Convert.ToBase64String(buffer);
-			character.Variables.Perm.SetString("Melia.QuickSlotList", serialized);
+			character.Variables.Perm.SetString("Melia.QuickSlotList", serialized.ToString());
 		}
 
 		/// <summary>

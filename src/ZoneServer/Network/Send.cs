@@ -242,10 +242,47 @@ namespace Melia.Zone.Network
 			if (string.IsNullOrWhiteSpace(serialized))
 				return;
 
-			var bin = Convert.FromBase64String(serialized);
-
 			var packet = new Packet(Op.ZC_QUICK_SLOT_LIST);
-			packet.PutCompressedBin(bin, bin.Length);
+
+			var compressedData = packet.CompressData(p =>
+			{
+				var quickSlotsStr = serialized.Split(new[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
+
+				p.PutByte(0);
+
+				for (var i = 0; i < 50; ++i)
+				{
+					var split = quickSlotsStr[i].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+					var type = Enum.Parse(typeof(QuickSlotType), split[0]);
+					var id = int.Parse(split[1]);
+					var objectId = long.Parse(split[2]);
+
+					p.PutByte((byte)type);
+					p.PutInt(id);
+					p.PutLong(objectId);
+				}
+
+				for (var i = 0; i < 4; ++i)
+				{
+					var split = quickSlotsStr[i].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+					var type = Enum.Parse(typeof(QuickSlotType), split[0]);
+					var id = int.Parse(split[1]);
+					var objectId = long.Parse(split[2]);
+
+					p.PutByte((byte)type);
+					p.PutInt(id);
+					p.PutLong(objectId);
+				}
+
+				p.PutByte(0);
+				p.PutByte(0);
+			});
+
+			packet.PutInt(compressedData.Length);
+			packet.PutByte(0);
+			packet.PutBin(compressedData);
 
 			character.Connection.Send(packet);
 		}
