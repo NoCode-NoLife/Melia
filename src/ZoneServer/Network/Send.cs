@@ -238,7 +238,7 @@ namespace Melia.Zone.Network
 		public static void ZC_QUICK_SLOT_LIST(Character character)
 		{
 			// If no hotkeys were saved yet, we don't need to send anything.
-			var serialized = character.Variables.Perm.Get<string>("_QuickSlotList", null);
+			var serialized = character.Variables.Perm.Get<string>("Melia.QuickSlotList", null);
 			if (string.IsNullOrWhiteSpace(serialized))
 				return;
 

@@ -355,7 +355,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// We need something to check whether the properties were
 			// already initialized. Let's just use a variable for that.
-			if (!this.Variables.Perm.Has("PropertiesInitialized"))
+			if (!this.Variables.Perm.Has("Melia.PropertiesInitialized"))
 			{
 				this.Properties.SetFloat("Lv", 1);
 				this.Exp = 0;
@@ -372,7 +372,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 				this.Properties.Stamina = (int)this.Properties.CFloat("MaxSta").Recalculate();
 
-				this.Variables.Perm.SetBool("PropertiesInitialized", true);
+				this.Variables.Perm.SetBool("Melia.PropertiesInitialized", true);
 			}
 
 			this.Properties.RecalculateAll();

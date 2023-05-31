@@ -603,7 +603,7 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			var serialized = Convert.ToBase64String(buffer);
-			character.Variables.Perm.SetString("_QuickSlotList", serialized);
+			character.Variables.Perm.SetString("Melia.QuickSlotList", serialized);
 		}
 
 		/// <summary>
