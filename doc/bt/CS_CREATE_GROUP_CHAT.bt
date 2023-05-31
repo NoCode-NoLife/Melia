@@ -13,4 +13,4 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixed header;
+ClientHeaderFixedOld header;

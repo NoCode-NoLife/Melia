@@ -18,8 +18,7 @@ typedef struct
     short op;
     int sequence;
     int checksum;
-    if (op < 0x3500)
-        byte bin[12];
+    byte bin[12];
 }
 ClientHeaderFixed <optimize=false>;
 
@@ -36,8 +35,7 @@ typedef struct
     short op;
     int sequence;
     int checksum;
-    if (op < 0x3500)
-        byte bin[12];
+    byte bin[12];
     short size;
 }
 ClientHeaderDynamic <optimize=false>;

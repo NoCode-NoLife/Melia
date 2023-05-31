@@ -13,6 +13,6 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixed header;
+ClientHeaderFixedOld header;
 
 int64 chatId;

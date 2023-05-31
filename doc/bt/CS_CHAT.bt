@@ -13,5 +13,6 @@
 
 #include "inc/common.bt"
 
-ClientHeaderDynamic header;
+ClientHeaderDynamicOld header;
+
 string chat;
