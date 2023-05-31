@@ -2,16 +2,33 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_QUICK_SLOT_LIST.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
-//   Purpose: 
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
+//   Purpose: Loads saved hotkeys on the client.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 #include "inc/common.bt"
+#include "inc/QuickSlots.bt"
 
 ServerHeaderDynamic header;
-int size;
-byte b[size];
+
+int compressedSize;
+byte b1;
+
+local int expectedPacketSize = (compressedSize + sizeof(ServerHeaderDynamic) + sizeof(short) + 10);
+if (expectedPacketSize > FileSize())
+{
+    byte data[compressedSize];
+}
+else
+{
+    byte b2;
+    QuickSlotInfo quickSlots[50];
+    QuickSlotInfo unkSlots1[4];
+    byte b3;
+    byte b4;
+}
