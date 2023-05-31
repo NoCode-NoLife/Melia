@@ -3,6 +3,12 @@
 //---------------------------------------------------------------------------
 
 [
+// Second Closed Beta Phase
+{ name: "iCBT2", enabled: true, children: [
+	// Removes Centurion from the Swordman job tree
+	{ name: "CenturionRemoved", enabled: true },
+]},
+
 // Re:Build was a large update in late 2018, most notably changing how
 // the class system worked.
 { name: "ReBuild", enabled: false, children: [

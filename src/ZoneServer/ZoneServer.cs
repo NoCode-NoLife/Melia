@@ -91,6 +91,7 @@ namespace Melia.Zone
 			this.InitDatabase(this.Database, this.Conf);
 			this.InitWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt");
+			this.LoadIesMods();
 
 			// Get server data
 			var serverInfo = this.GetServerInfo(ServerType.Zone, serverId);
@@ -114,6 +115,33 @@ namespace Melia.Zone
 			Log.Info("Initializing world...");
 			this.World.Initialize();
 			Log.Info("  done loading {0} maps.", this.World.Count);
+		}
+
+		/// <summary>
+		/// Sets up IES mods.
+		/// </summary>
+		private void LoadIesMods()
+		{
+			// This method is temporary until we have a more proper way
+			// way of handling IES mods.
+
+			// Centurion was apparently disabled during the beta phase
+			// in 2015 and replaced with Fencer, and while it was supposed
+			// get added back in on a higher rank, that never happened (?).
+			// To enable it, we need to adjust the job rank to make it
+			// selectable and give the skills a max level.
+			if (!Feature.IsEnabled("CenturionRemoved"))
+			{
+				this.IesMods.Add("Job", 1005, "Rank", 2);
+				this.IesMods.Add("SkillTree", 10502, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10503, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10504, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10505, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10506, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10507, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10508, "MaxLevel", 5);
+				this.IesMods.Add("SkillTree", 10509, "MaxLevel", 5);
+			}
 		}
 
 		/// <summary>
