@@ -46,7 +46,7 @@ namespace Melia.Social.Network
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 			SocialServer.Instance.AccountManager.Add(conn);
 
-			Send.SC_NORMAL.Unknown_00(conn);
+			Send.SC_NORMAL.EnableChat(conn);
 			Send.SC_LOGIN_OK(conn);
 			Send.SC_NORMAL.Unknown_02(conn);
 
@@ -156,9 +156,10 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (state == FriendState.Delete && !conn.Account.DeleteFriend(friend))
+			if (state == FriendState.Delete)
 			{
-				Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.Name, conn.Account.Name);
+				if (!conn.Account.DeleteFriend(friend))
+					Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.Name, conn.Account.Name);
 				Send.SC_NORMAL.FriendResponse(conn, friend);
 				return;
 			}
@@ -271,6 +272,11 @@ namespace Melia.Social.Network
 			}
 		}
 
+		/// <summary>
+		/// Leaves a chat room.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CS_REQ_OUT_ROOM)]
 		public void CS_REQ_OUT_ROOM(ISocialConnection conn, Packet packet)
 		{
@@ -292,6 +298,14 @@ namespace Melia.Social.Network
 			}
 		}
 
+		/// <summary>
+		/// Unnknown purpose
+		/// </summary>
+		/// <remarks>
+		/// Sent when you open Skill Tree (F3).
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CS_REDIS_SKILLPOINT)]
 		public void CS_REDIS_SKILLPOINT(ISocialConnection conn, Packet packet)
 		{

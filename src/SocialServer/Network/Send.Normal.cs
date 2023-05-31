@@ -13,10 +13,12 @@ namespace Melia.Social.Network
 		public static class SC_NORMAL
 		{
 			/// <summary>
-			/// Login related
+			/// Enables chat functions, without this
+			/// the client doesn't send chat packets to
+			/// the server.
 			/// </summary>
 			/// <param name="conn"></param>
-			public static void Unknown_00(ISocialConnection conn)
+			public static void EnableChat(ISocialConnection conn)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
 
@@ -29,7 +31,7 @@ namespace Melia.Social.Network
 			/// Unknown purpose
 			/// </summary>
 			/// <remarks>
-			/// Might be a response to 
+			/// Might be a response to CS_ADD_RELATION_SCORE.
 			/// </remarks>
 			/// <param name="conn"></param>
 			public static void Unknown_01(ISocialConnection conn)
@@ -43,8 +45,12 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Login related
+			/// Unknown purpose
+			/// Sent after login.
 			/// </summary>
+			/// <remarks>
+			/// Tried disabling and made no visible difference.
+			/// </remarks>
 			/// <param name="conn"></param>
 			public static void Unknown_02(ISocialConnection conn)
 			{
@@ -144,37 +150,6 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Logs Chat
-			/// Dummy
-			/// </summary>
-			/// <param name="conn"></param>
-			/// <param name="sender"></param>
-			public static void ChatLog(ISocialConnection conn, Account sender, long chatId, long targetId, string targetName)
-			{
-				var packet = new Packet(Op.SC_NORMAL);
-
-				packet.PutInt(NormalOp.Social.ChatLog);
-				packet.PutLong(chatId);
-				packet.PutInt(0);
-				packet.PutShort(1);
-				packet.PutByte(0); // b1
-				packet.PutLong(1);
-				packet.PutShort(1);
-				packet.PutShort(0);
-				packet.PutByte(0); // b2
-				packet.PutInt(2);
-				packet.PutInt(2);
-				packet.PutByte(1); // b3
-				packet.PutLong(sender.Id);
-				packet.PutLpString(sender.TeamName);
-				packet.PutInt(1);
-				packet.PutLong(targetId);
-				packet.PutLpString(targetName);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
 			/// Sends a message to client using client message ids.
 			/// </summary>
 			/// <param name="conn"></param>
@@ -226,8 +201,8 @@ namespace Melia.Social.Network
 				packet.PutShortDate(friend.LastLoginDate);
 				packet.PutEmptyBin(36);
 				packet.PutByte(0);
-				packet.PutLpString(friend.Group); // Group name?
-				packet.PutLpString(friend.Note); // Might be notes?
+				packet.PutLpString(friend.Group);
+				packet.PutLpString(friend.Note);
 
 				conn.Send(packet);
 			}
@@ -270,8 +245,11 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Response to CS_REQ_ADD_FRIEND
+			/// Sends account id of friend request.
 			/// </summary>
+			/// <remarks>
+			/// Response to CS_REQ_ADD_FRIEND
+			/// </remarks>
 			public static void FriendRequested(ISocialConnection conn, long accountId)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
@@ -283,8 +261,11 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Response to CS_REQ_BLOCK_FRIEND
+			/// Sends account id of player blocked.
 			/// </summary>
+			/// <remarks>
+			/// Response to CS_REQ_BLOCK_FRIEND
+			/// </remarks>
 			public static void FriendBlocked(ISocialConnection conn, long accountId)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
@@ -296,7 +277,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Dummy
+			/// Unknown purpose
 			/// </summary>
 			public static void Unknown_19(ISocialConnection conn)
 			{

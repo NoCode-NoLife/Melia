@@ -22,7 +22,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Dummy
+		/// Unknown Purpose
 		/// </summary>
 		public static void SC_FROM_INTEGRATE(ISocialConnection conn, int type)
 		{
@@ -37,6 +37,13 @@ namespace Melia.Social.Network
 				case 0x14:
 					packet.PutLong(conn.Account.Id);
 					packet.PutInt(0); // 728
+					break;
+				case 0x19:
+					packet.PutLong(conn.Account.Id);
+					packet.PutLong(conn.Account.Id);
+					packet.PutEmptyBin(16);
+					packet.PutLpString("WEEK");
+					packet.PutLong(1);
 					break;
 			}
 			conn.Send(packet);
