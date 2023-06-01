@@ -123,7 +123,7 @@ namespace Melia.Shared.Data.Database
 			data.MaxRange = entry.ReadFloat("maxRange");
 			data.WaveLength = entry.ReadFloat("waveLength");
 
-			data.SplashType = (SplashType)entry.ReadInt("splashType");
+			data.SplashType = entry.ReadEnum<SplashType>("splashType");
 			data.SplashRange = entry.ReadFloat("splashRange");
 			data.SplashHeight = entry.ReadFloat("splashHeight");
 			data.SplashAngle = entry.ReadFloat("splashAngle");
