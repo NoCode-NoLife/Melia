@@ -78,6 +78,8 @@
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
+    <Compile Include="Buffs\Handlers\Drug_HealHP.cs" />
+    <Compile Include="Buffs\Handlers\Drug_HealHP_MHP.cs" />
     <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
     <Compile Include="Commands\ChatCommand.cs" />

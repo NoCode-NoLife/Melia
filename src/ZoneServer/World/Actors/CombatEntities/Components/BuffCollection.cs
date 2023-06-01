@@ -203,6 +203,36 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Starts the buff with the given name or overbuffs it if it's
+		/// already active. Returns the new or modified buff.
+		/// </summary>
+		/// <param name="buffClassName"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if the buff doesn't exist in the data.
+		/// </exception>
+		/// <exception cref="InvalidOperationException">
+		/// Thrown if the buff doesn't have a handler.
+		/// </exception>
+		public Buff Start(string buffClassName, float numArg1, float numArg2, TimeSpan duration)
+		{
+			if (!ZoneServer.Instance.Data.BuffDb.TryFind(a => a.ClassName == buffClassName, out var buffData))
+				throw new ArgumentException($"Buff with class name '{buffClassName}' not found.");
+
+			// I'm split on whether we should let buffs run without a
+			// handler, but this method will primarily used from item
+			// scripts, and we don't want items to be used when they
+			// start a buff that isn't implemented.
+			if (!ZoneServer.Instance.BuffHandlers.Has(buffData.Id))
+				throw new BuffNotImplementedException(buffData.Id);
+
+			return this.Start(buffData.Id, numArg1, numArg2, duration, null);
+		}
+
+		/// <summary>
 		/// Starts the buff with the given id, returns the created buff.
 		/// If the buff was already active, it gets overbuffed.
 		/// </summary>
@@ -290,6 +320,26 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				foreach (var buff in toRemove)
 					this.Remove(buff);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Exception for when a buff handler is not implemented.
+	/// </summary>
+	public class BuffNotImplementedException : Exception
+	{
+		/// <summary>
+		/// Returns the id of the buff that wasn't implemented.
+		/// </summary>
+		public BuffId BuffId { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="buffId"></param>
+		public BuffNotImplementedException(BuffId buffId) : base($"Buff handler for '{buffId}' not implemented.")
+		{
+			this.BuffId = buffId;
 		}
 	}
 }

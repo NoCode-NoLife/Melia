@@ -37,9 +37,34 @@ namespace Melia.Zone.Buffs
 				var handler = Activator.CreateInstance(type) as IBuffHandler;
 				var buffIds = (attributes.First() as BuffHandlerAttribute).BuffIds;
 
-				foreach (var buffId in buffIds)
-					_buffHandlers[buffId] = handler;
+				lock (_buffHandlers)
+				{
+					foreach (var buffId in buffIds)
+						this.Register(buffId, handler);
+				}
 			}
+		}
+
+		/// <summary>
+		/// Registers a buff handler for the given buff id.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="handler"></param>
+		public void Register(BuffId buffId, IBuffHandler handler)
+		{
+			lock (_buffHandlers)
+				_buffHandlers[buffId] = handler;
+		}
+
+		/// <summary>
+		/// Returns true if a handler was registered for the given buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public bool Has(BuffId buffId)
+		{
+			lock (_buffHandlers)
+				return _buffHandlers.ContainsKey(buffId);
 		}
 
 		/// <summary>
@@ -50,10 +75,26 @@ namespace Melia.Zone.Buffs
 		/// <returns></returns>
 		public IBuffHandler GetHandler(BuffId buffId)
 		{
-			if (_buffHandlers.TryGetValue(buffId, out var handler))
-				return handler;
+			lock (_buffHandlers)
+			{
+				if (_buffHandlers.TryGetValue(buffId, out var handler))
+					return handler;
+			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Returns handler for the given buff via out. Returns false if
+		/// no handler was found.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		public bool TryGetHandler(BuffId buffId, out IBuffHandler handler)
+		{
+			lock (_buffHandlers)
+				return _buffHandlers.TryGetValue(buffId, out handler);
 		}
 	}
 }

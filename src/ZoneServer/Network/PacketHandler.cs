@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -14,6 +15,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
@@ -724,18 +726,31 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			var result = scriptFunc(character, item, script.StrArg, script.NumArg1, script.NumArg2);
-			if (result == ItemUseResult.Fail)
+			try
+			{
+				var result = scriptFunc(character, item, script.StrArg, script.NumArg1, script.NumArg2);
+				if (result == ItemUseResult.Fail)
+				{
+					character.ServerMessage(Localization.Get("Item usage failed."));
+					return;
+				}
+
+				// Remove consumeable items on success
+				if (item.Data.Type == ItemType.Consume)
+					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+
+				Send.ZC_ITEM_USE(character, item.Id);
+			}
+			catch (BuffNotImplementedException ex)
+			{
+				character.ServerMessage(Localization.Get("This item has not been fully implemented yet."));
+				Log.Debug("CZ_ITEM_USE: Buff handler '{4}' missing for script execution of '{0}(\"{1}\", {2}, {3})'", script.Function, script.StrArg, script.NumArg1, script.NumArg2, ex.BuffId);
+			}
+			catch (Exception ex)
 			{
 				character.ServerMessage(Localization.Get("Item usage failed."));
-				return;
+				Log.Debug("CZ_ITEM_USE: Exception while executing script function '{0}(\"{1}\", {2}, {3})': {4}", script.Function, script.StrArg, script.NumArg1, script.NumArg2, ex);
 			}
-
-			// Remove consumeable items on success
-			if (item.Data.Type == ItemType.Consume)
-				character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
-
-			Send.ZC_ITEM_USE(character, item.Id);
 		}
 
 		/// <summary>
