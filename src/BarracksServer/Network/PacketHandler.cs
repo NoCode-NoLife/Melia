@@ -419,6 +419,8 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			conn.Account.SelectedCharacterSlot = character.Index;
+
 			Send.BC_START_GAMEOK(conn, character, channelId, zoneServerInfo.Ip, zoneServerInfo.Port);
 		}
 

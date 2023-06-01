@@ -87,6 +87,7 @@ namespace Melia.Barracks.Database
 				cmd.Set("teamExp", account.TeamExp);
 				cmd.Set("barracksThema", account.SelectedBarrack);
 				cmd.Set("themas", string.Join(" ", account.Themas));
+				cmd.Set("selectedSlot", account.SelectedCharacterSlot);
 
 				return cmd.Execute() > 0;
 			}
@@ -120,6 +121,7 @@ namespace Melia.Barracks.Database
 					account.AdditionalSlotCount = reader.GetInt32("additionalSlotCount");
 					account.TeamExp = reader.GetInt32("teamExp");
 					account.SelectedBarrack = reader.GetInt32("barracksThema");
+					account.SelectedCharacterSlot = reader.GetInt32("selectedSlot");
 
 					var themas = reader.GetStringSafe("themas");
 					account.Themas.Clear();
