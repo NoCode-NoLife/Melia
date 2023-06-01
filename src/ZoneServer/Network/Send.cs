@@ -3635,6 +3635,21 @@ namespace Melia.Zone.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Informs client that the item has been used, playing animations
+		/// for some types.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="itemClassId"></param>
+		public static void ZC_ITEM_USE(Character character, int itemClassId)
+		{
+			var packet = new Packet(Op.ZC_ITEM_USE);
+			packet.PutInt(character.Handle);
+			packet.PutInt(itemClassId);
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(IZoneConnection conn)
 		{
 		}

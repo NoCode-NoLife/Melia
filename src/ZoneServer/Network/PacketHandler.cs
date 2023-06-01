@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
@@ -690,7 +692,7 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Get item.
+			// Get item
 			var item = character.Inventory.GetItem(worldId);
 			if (item == null)
 			{
@@ -698,14 +700,14 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// Do not allow use of locked items.
+			// Do not allow use of locked items
 			if (item.IsLocked)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
 				return;
 			}
 
-			// Nothing to do if the item doesn't have a script.
+			// Nothing to do if the item doesn't have a script
 			if (!item.Data.HasScript)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item without script.", conn.Account.Name);
@@ -714,23 +716,26 @@ namespace Melia.Zone.Network
 
 			// Try to execute script
 			var script = item.Data.Script;
-			Log.Debug("Execute: " + script.Function);
 
-			//var result = ZoneServer.Instance.ScriptManager.Call(conn, script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+			if (!ItemScript.TryGet(script.Function, out var scriptFunc))
+			{
+				character.ServerMessage(Localization.Get("This item has not been implemented yet."));
+				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
+				return;
+			}
 
-			//if (result.Type == ScriptCallResultType.NotFound)
-			//{
-			//	Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
-			//	character.ServerMessage("This item hasn't been implemented yet.");
-			//}
-			//else if (result.Type == ScriptCallResultType.Error)
-			//{
-			//	Log.Debug("CZ_ITEM_USE: An error occurred. {0}", result.ErrorMessage);
-			//	character.ServerMessage("An error occurred.");
-			//}
+			var result = scriptFunc(character, item, script.StrArg, script.NumArg1, script.NumArg2);
+			if (result == ItemUseResult.Fail)
+			{
+				character.ServerMessage(Localization.Get("Item usage failed."));
+				return;
+			}
 
-			// Success
-			// TODO: Consume items
+			// Remove consumeable items on success
+			if (item.Data.Type == ItemType.Consume)
+				character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+
+			Send.ZC_ITEM_USE(character, item.Id);
 		}
 
 		/// <summary>

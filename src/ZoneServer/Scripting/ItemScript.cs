@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
-using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;
 
@@ -13,20 +13,31 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	public class ItemScript : IScript
 	{
-		private static readonly Dictionary<int, ItemScript> Scripts = new Dictionary<int, ItemScript>();
+		private static readonly Dictionary<string, ItemScriptFunc> Scripts = new Dictionary<string, ItemScriptFunc>();
 		private static readonly Random Rnd = new Random(RandomProvider.GetSeed());
+
+		/// <summary>
+		/// Registers the given function as the handler for the script name.
+		/// </summary>
+		/// <param name="scriptFuncName"></param>
+		/// <param name="scriptFunc"></param>
+		public static void Register(string scriptFuncName, ItemScriptFunc scriptFunc)
+		{
+			lock (Scripts)
+				Scripts[scriptFuncName] = scriptFunc;
+		}
 
 		/// <summary>
 		/// Returns the script for the given item class id via out,
 		/// returns false if no script was defined.
 		/// </summary>
-		/// <param name="classId"></param>
+		/// <param name="scriptName"></param>
 		/// <param name="script"></param>
 		/// <returns></returns>
-		public static bool TryGetScript(int classId, out ItemScript script)
+		public static bool TryGet(string scriptName, out ItemScriptFunc scriptFunc)
 		{
 			lock (Scripts)
-				return Scripts.TryGetValue(classId, out script);
+				return Scripts.TryGetValue(scriptName, out scriptFunc);
 		}
 
 		/// <summary>
@@ -36,37 +47,19 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public bool Init()
 		{
-			// get class ids from attribute ItemScriptAttribute and add this
-			// script to the Dictionary Scripts for all class ids
-			var attributes = this.GetType().GetCustomAttributes(typeof(ItemScriptAttribute), false);
-			if (attributes.Length == 0)
+			// Iterate over all methods in this class and check if they have
+			// an ItemScriptAttribute. For all that do and match the signature
+			// of ItemScriptFunc, add them to the Scripts dictionary.
+			foreach (var method in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				Log.Warning("Item script '{0}' is missing an ItemScript attribute.", this.GetType().Name);
-				return false;
-			}
-
-			lock (Scripts)
-			{
-				foreach (ItemScriptAttribute attr in attributes)
+				foreach (var attribute in method.GetCustomAttributes<ItemScriptAttribute>(false))
 				{
-					foreach (var classId in attr.ClassIds)
-						Scripts[classId] = this;
+					var func = (ItemScriptFunc)Delegate.CreateDelegate(typeof(ItemScriptFunc), this, method);
+					Register(attribute.ScriptFuncName, func);
 				}
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Called when the player uses the item, returns whether the
-		/// usage was successful and the item should be decremented.
-		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		public virtual ItemUseResult OnUse(Character player, Item item)
-		{
-			return ItemUseResult.Okay;
 		}
 
 		/// <summary>
@@ -83,25 +76,36 @@ namespace Melia.Zone.Scripting
 	}
 
 	/// <summary>
-	/// Used to specify information about an item script.
+	/// Used to specify information about an item script function.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class ItemScriptAttribute : Attribute
 	{
 		/// <summary>
-		/// Returns the class ids of the items the script should
-		/// handle.
+		/// Returns the name of the script that is handled by the function.
 		/// </summary>
-		public int[] ClassIds { get; }
+		public string ScriptFuncName { get; }
 
 		/// <summary>
 		/// Creates new attribute.
 		/// </summary>
-		/// <param name="classIds"></param>
-		public ItemScriptAttribute(params int[] classIds)
+		/// <param name="scriptFuncName"></param>
+		public ItemScriptAttribute(string scriptFuncName)
 		{
-			this.ClassIds = classIds;
+			this.ScriptFuncName = scriptFuncName;
 		}
 	}
+
+	/// <summary>
+	/// A function that handles the usage of an item.
+	/// </summary>
+	/// <param name="player">The player who used the item.</param>
+	/// <param name="item">The item that is being used.</param>
+	/// <param name="strArg">String argument, as defined in the item data.</param>
+	/// <param name="numArg1">First number argument, as defined in the item data.</param>
+	/// <param name="numArg2">Second number argument, as defined in the item data.</param>
+	/// <returns></returns>
+	public delegate ItemUseResult ItemScriptFunc(Character player, Item item, string strArg, float numArg1, float numArg2);
 
 	/// <summary>
 	/// Specifies the result of using an item.
