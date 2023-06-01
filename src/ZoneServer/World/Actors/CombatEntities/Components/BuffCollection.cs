@@ -222,21 +222,23 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="duration">Custom duration of the buff.</param>
 		/// <returns></returns>
 		public Buff Start(BuffId buffId, TimeSpan duration)
-			=> this.Start(buffId, this.Entity, duration);
+			=> this.Start(buffId, 0, 0, duration, this.Entity);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
 		/// <param name="buffId"></param>
-		/// <param name="caster">The entity that casted the buff.</param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
 		/// <param name="duration">Custom duration of the buff.</param>
+		/// <param name="caster">The entity that casted the buff.</param>
 		/// <returns></returns>
-		public Buff Start(BuffId buffId, ICombatEntity caster, TimeSpan duration)
+		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
 		{
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(caster, this.Entity, buffId, duration);
+				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity);
 				this.Add(buff);
 			}
 			else

@@ -102,19 +102,34 @@ namespace Melia.Zone.Buffs
 		private IBuffHandler Handler { get; }
 
 		/// <summary>
+		/// Returns the first argument the buff was started with.
+		/// </summary>
+		public float NumArg1 { get; }
+
+		/// <summary>
+		/// Returns the second argument the buff was started with.
+		/// </summary>
+		public float NumArg2 { get; }
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="caster"></param>
-		/// <param name="target"></param>
 		/// <param name="buffId"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
 		/// <param name="duration">Use MinValue to use the buff's default duration.</param>
+		/// <param name="target"></param>
+		/// <param name="caster"></param>
 		/// <param name="skillId">Id of the skill associated with this buff.</param>
-		public Buff(ICombatEntity caster, ICombatEntity target, BuffId buffId, TimeSpan duration, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity target, ICombatEntity caster, SkillId skillId = SkillId.Normal_Attack)
 		{
-			this.Caster = caster;
-			this.Target = target;
 			this.Id = buffId;
+			this.NumArg1 = numArg1;
+			this.NumArg2 = numArg2;
 			this.Duration = duration;
+			this.Target = target;
+			this.Caster = caster;
 			this.SkillId = skillId;
 
 			this.Handle = ZoneServer.Instance.World.CreateBuffHandle();
