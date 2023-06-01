@@ -11,7 +11,118 @@
 //   History: 
 //------------------------------------------------
 
+// This struct appears in various packets, such as ZC_SKILL_HIT_INFO
+// and ZC_HIT_INFO. As of i373766 it's 24 bytes in size. It's structure
+// should be correct, though it's unknown which bytes might be padding.
 typedef struct
+{
+	int damage;
+	int hp;
+	int i1;
+	short s1;
+
+    byte b1;
+    byte b2;
+	byte b5;
+	byte b6;
+
+	short resultType;
+
+    byte b3;
+    byte b4;
+    byte b7;
+    byte b8;
+}
+HitInfo;
+
+typedef struct
+{
+    byte type;
+    
+    switch(type)
+    {
+        // Seen with hitting two targets with
+        // one energy bolt and double attack.
+        case 0:
+            int i1;
+            
+            // This byte and int combo is guessed, but without it
+            // this variable info array approach doesn't work.
+            byte b1;
+            int i2;
+            break;
+
+        case 1:
+            int i1;
+            break;
+
+        case 2:
+            int i1;
+            byte b1;
+            break;
+    
+        // Part of many packets. Weirdly, the float
+        // is often times negative, but it is always
+        // a valid float.
+        case 3:
+            float f1;
+            break;
+    }
+}
+VariableHitInfo <optimize=false, read=readVariableHitInfo>;
+
+string readVariableHitInfo(VariableHitInfo &val)
+{
+    string result;
+    SPrintf(result, "Type: %d", val.type);
+    return result;
+}
+
+// Every SkillHitInfo appears to contain information about one hit
+// that happened on a target. Unfortunately its structure is flexible,
+// which makes analysis pretty difficult. Most of this data is guessed.
+typedef struct
+{
+	byte b9;
+	byte b10; // 4 = hands/sword? 9 = magic? 102 = dagger, 103 = Onion attack, potentially related to AttackType.Aries/Strike in skill attributes
+    byte b1;
+    byte b2;
+
+	int targetHandle;
+    HitInfo hitInfo;
+	
+	int i1;
+	short damageDelay;
+	byte b4;
+
+	byte b5;
+    short skillHitDelay;
+	byte b6;
+	byte b7;
+	int i2;
+	int i3; // weird id-looking int I can't find anywhere in the data
+    short s1;
+    short s2;
+	short bin1Count;
+	byte varInfoCount;
+	byte b8;
+
+    if (bin1Count > 0)
+        byte bin1[bin1Count];
+    
+    if (varInfoCount > 0)
+        VariableHitInfo varInfo[varInfoCount];
+}
+SkillHitInfo <optimize=false, read=readSkillHitInfo>;
+
+string readSkillHitInfo(SkillHitInfo& val)
+{
+    string result;
+    SPrintf(result, "Target: %d, Damage: %d", val.targetHandle, val.hitInfo.damage);
+    return result;
+}
+
+/*typedef struct
 {
     byte type;
     switch(type)
@@ -105,4 +216,4 @@ string readAttack(Attack& val)
     string result;
     SPrintf(result, "Target: %d, Damage: %d", val.targetHandle, val.damage);
     return result;
-}
+}*/

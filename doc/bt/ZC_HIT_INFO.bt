@@ -3,13 +3,12 @@
 //
 //      File: ZC_HIT_INFO.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i355949
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//      - i355949: Added b6
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -17,23 +16,25 @@
 ServerHeaderFixed header;
 
 int targetHandle;
-int attackerHandle; // ?
+int attackerHandle;
 int skillId;
-int damage;
-int hpLeft;
+
+// This is a sub-struct that also appears in ZC_SKILL_INFO.
+// As of i373766 it's 24 bytes in size.
+HitInfo hit;
+
+// This structure following the hit info should be correct
+// as of time of writing, though some of these bytes might
+// be padding.
+byte b7;
+int type;
 int i1;
-int i2; // ?
-byte b1; // ?
-byte b2; // ?
-short s1;
-byte b3;
-byte b4;
-int64 l1; // 1
-int i3; // 0
-int i4; // 0
-byte b5; // 0
-float f1; // 0
-int i5; // 0
-int attackAmount; // 3
-int64 damagePerAttack; // 1
-byte b6;
+int i2; // same weird integer as in ZC_SKILL_FORCE_TARGET and ZC_SKILL_HIT_INFO?
+byte b8;
+byte b9;
+float f1;
+float f2;
+int attackCount;
+byte align1;
+float f3;
+int i3;

@@ -16,6 +16,5 @@
 ServerHeaderDynamic header;
 
 int attackerHandle;
-
 byte count;
-Attack hits[count] <optimize=false>;
+SkillHitInfo hits[count];

@@ -28,4 +28,4 @@ position pos;
 short hitCount; // ?
 
 if (hitCount > 0)
-    Attack attacks[hitCount];
+    SkillHitInfo hits[hitCount];

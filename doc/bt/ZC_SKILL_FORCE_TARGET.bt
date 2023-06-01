@@ -23,16 +23,14 @@ int i4;
 float f3;
 float f4;
 int i5;
-int attackerHandle1;
+int i12; // Same as SkillHitInfo.i3
 float f5;
 int i8;
-int targetHandle1;
+int mainTargetHandle;
 int i10;
 float f6; // 512?
 int i11;
-byte hitCount; // Hit Count
+byte hitCount;
 
 if (hitCount  > 0)
-{
-    Attack attacks[hitCount];
-}
+    SkillHitInfo hits[hitCount];
