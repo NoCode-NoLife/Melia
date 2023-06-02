@@ -1686,128 +1686,40 @@ namespace Melia.Zone.Network
 		public void CZ_CUSTOM_COMMAND(IZoneConnection conn, Packet packet)
 		{
 			var commandId = packet.GetInt();
-			var arg1 = packet.GetInt();
-			var arg2 = packet.GetInt();
-			var arg3 = packet.GetInt();
+			var numArg1 = packet.GetInt();
+			var numArg2 = packet.GetInt();
+			var numArg3 = packet.GetInt();
 
-			// The command id references an entry in the custom command db,
-			// which we can use to get the class name of the command, giving
-			// us more information about what it does. The data also comes
-			// with script function names, though it will be easier to
-			// handle these here for now.
+			var character = conn.SelectedCharacter;
 
-			if (!ZoneServer.Instance.Data.CustomCommandDb.TryFind(commandId, out var commandData))
+			// Get data
+			if (!ZoneServer.Instance.Data.CustomCommandDb.TryFind(commandId, out var data))
 			{
 				Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' sent an unknown command id ({1}).", conn.Account.Name, commandId);
 				return;
 			}
 
-			switch (commandData.Name)
+			// Get handler
+			if (!CustomCommandScripts.TryGet(data.Script, out var scriptFunc))
 			{
-				case "HAT_VISIBLE_STATE":
+				Log.Debug("CZ_CUSTOM_COMMAND: No handler registered for custom command script '{0}({1}, {2}, {3})'", data.Script, numArg1, numArg2, numArg3);
+				return;
+			}
+
+
+			// Try to execute command
+			try
+			{
+				var result = scriptFunc(character, numArg1, numArg2, numArg3);
+				if (result == CustomCommandResult.Fail)
 				{
-					// classId = 0~2 (hats 1~3)
-					goto default;
+					Log.Debug("CZ_CUSTOM_COMMAND: Execution of script '{0}({1}, {2}, {3})' failed.", data.Script, numArg1, numArg2, numArg3);
+
 				}
-
-				case "LAST_INFOSET_OPEN":
-					// Example: SCR_LAST_INFOSET_OPEN(2, 0, 0)
-					// Sent from "chase info", notifying us about the last
-					// selected index, with 1 being "achieve" and 2 "quest".
-					// Potentially related to adventure book? In any case,
-					// we're going to ignore this for now, to get rid of
-					// unhandled message upon login.
-					break;
-
-				case "REQ_GUILD_PROMOTE_NOTICE_COUNT":
-					// Example: SCR_GUILD_PROMOTE_NOTICE_COUNT(0, 0, 0)
-					// Sent from "system menu" if player is not in a guild.
-					// I can only assume that responding to it would make
-					// some kind of "OMG! JOIN A GUILD!" message appear,
-					// so we're going to promptly ignore this.
-					break;
-
-				case "CLICK_CHANGEJOB_BUTTON":
-				{
-					var character = conn.SelectedCharacter;
-					var jobId = (JobId)arg1;
-
-					if (!ZoneServer.Instance.Data.JobDb.TryFind(jobId, out var jobData))
-					{
-						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to missing job '{1}'.", conn.Account.Name, jobId);
-						return;
-					}
-
-					if (character.Job.Level < character.Job.MaxLevel)
-					{
-						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change before reaching their current job's max level of {1}.", conn.Account.Name, character.Job.MaxLevel);
-						return;
-					}
-
-					if (character.JobClass != jobData.JobClassId)
-					{
-						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to job '{1}', a '{2}' job, while being a '{3}'.", conn.Account.Name, jobId, jobData.JobClassId, character.JobClass);
-						return;
-					}
-
-					if (character.Jobs.Has(jobId))
-					{
-						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to job '{1}' despite already having it.", conn.Account.Name, jobId);
-						return;
-					}
-
-					if (character.Jobs.GetCurrentRank() >= 4)
-					{
-						Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change at or above the max rank of 4.", conn.Account.Name, jobId);
-						return;
-					}
-
-					var newJob = new Job(character, jobId, skillPoints: 1);
-
-					Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
-					Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
-
-					character.JobId = jobId;
-					character.Jobs.Add(newJob);
-
-					// Should the event happen regardless of how the job
-					// change happened? Should this code be cleaned up to
-					// use one simple function to accomplish all this? TBD.
-					ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
-
-					break;
-				}
-
-				default:
-				{
-					Log.Debug("CZ_CUSTOM_COMMAND: Unhandled command '{0}', {1}({2}, {3}, {4}).", commandData.Name, commandData.Script, arg1, arg2, arg3);
-					break;
-				}
-
-				// At some point, this was the command "JANSORI_COUNT",
-				// but it doesn't seem to exist anymore.
-				//case 0x0C:
-				//{
-				//	// Disable "You can buy items" tooltip, sent after
-				//	// opening a shop.
-				//	if (classId == 5 && cmdArg == 1)
-				//	{
-				//		// The property is on the session object "Jansori".
-				//		var jansori = conn.SelectedCharacter.SessionObjects.Get(SessionObjectId.Jansori);
-				//		jansori.Properties.Set(PropertyId.SessionObject.Shop_Able_Clicked, 1);
-				//		Send.ZC_OBJECT_PROPERTY(conn, jansori, PropertyId.SessionObject.Shop_Able_Clicked);
-				//		break;
-				//	}
-				//	goto default;
-				//}
-
-				// I don't know why we were ever referencing 0x71, because
-				// there never was a command with that id.
-				//case 0x71:
-				//{
-				//	Send.ZC_CUSTOM_COMMANDER_INFO(conn);
-				//	break;
-				//}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_CUSTOM_COMMAND: Exception while executing script '{0}({1}, {2}, {3})': {4}", data.Script, numArg1, numArg2, numArg3, ex);
 			}
 		}
 
