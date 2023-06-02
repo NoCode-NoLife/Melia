@@ -176,9 +176,6 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Specifies which hats are visible on the character.
 		/// </summary>
-		/// <remarks>
-		/// TODO: Handle toggling and save/load with character.
-		/// </remarks>
 		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 
 		/// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
@@ -118,6 +119,14 @@ namespace Melia.Zone.Database
 					character.Exp = reader.GetInt64("exp");
 					character.MaxExp = reader.GetInt64("maxExp");
 					character.TotalExp = reader.GetInt64("totalExp");
+
+					// Something isn't quite right with the visibility
+					// after login right now, because the client always
+					// shows everything as visible, even when it's not.
+					// So we'll default to everything being visible
+					// for now, so the player can at least properly
+					// disable the visibility while in-game.
+					//character.VisibleEquip = (VisibleEquip)reader.GetInt32("equipVisibility");
 
 					// We get the character's stamina from its data here
 					// because this is not a PC property. Actually setting
@@ -367,7 +376,8 @@ namespace Melia.Zone.Database
 				cmd.Set("exp", character.Exp);
 				cmd.Set("maxExp", character.MaxExp);
 				cmd.Set("totalExp", character.TotalExp);
-				cmd.Set("stamina", (character.Properties as CharacterProperties).Stamina);
+				cmd.Set("equipVisibility", character.VisibleEquip);
+				cmd.Set("stamina", character.Properties.Stamina);
 				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
 
 				cmd.Execute();

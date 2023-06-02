@@ -63,8 +63,8 @@ namespace Melia.Barracks.Database
 		public HashSet<JobId> Jobs { get; } = new HashSet<JobId>();
 
 		/// <summary>
-		/// Returns a bitmask that specifies which hats are visible on
-		/// the character.
+		/// Returns a bitmask that specifies which equip items are visible
+		/// on the character.
 		/// </summary>
 		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 

@@ -157,9 +157,11 @@ namespace Melia.Zone.Network
 			Send.ZC_QUICK_SLOT_LIST(character);
 			Send.ZC_NORMAL.Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
+			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
+
 			character.OpenEyes();
 
 			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);

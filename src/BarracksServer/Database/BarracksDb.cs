@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
@@ -296,6 +297,14 @@ namespace Melia.Barracks.Database
 							character.Index = (byte)reader.GetInt32("slot");
 							character.BarrackLayer = reader.GetInt32("barrackLayer");
 							character.Silver = reader.GetInt32("silver");
+
+							// Something isn't quite right with the visibility
+							// after login right now, because the client always
+							// shows everything as visible, even when it's not.
+							// So we'll default to everything being visible
+							// for now, so the player can at least properly
+							// disable the visibility while in-game.
+							//character.VisibleEquip = (VisibleEquip)reader.GetInt32("equipVisibility");
 
 							var bx = reader.GetFloat("bx");
 							var by = reader.GetFloat("by");

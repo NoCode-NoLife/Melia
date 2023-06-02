@@ -406,7 +406,7 @@ namespace Melia.Shared.Tos.Const
 	/// Specifies which hats are visible for a character.
 	/// </summary>
 	[Flags]
-	public enum VisibleEquip : byte
+	public enum VisibleEquip
 	{
 		None = 0x00,
 
@@ -416,6 +416,6 @@ namespace Melia.Shared.Tos.Const
 		Wig = 0x08,
 		SubWeapon = 0x10,
 
-		All = 0xFF,
+		All = 0xFFFF,
 	}
 }
