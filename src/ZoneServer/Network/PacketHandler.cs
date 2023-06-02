@@ -1999,25 +1999,37 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQ_NORMAL_TX)]
 		public void CZ_REQ_NORMAL_TX(IZoneConnection conn, Packet packet)
 		{
-			var type = packet.GetShort();
+			var classId = packet.GetShort();
+			var strArg = packet.GetString(33);
 
 			var character = conn.SelectedCharacter;
 
-			switch (type)
+			// Get data
+			if (!ZoneServer.Instance.Data.NormalTxDb.TryFind(classId, out var data))
 			{
-				// Toggle ability state
-				case 0x0D:
+				Log.Warning("CZ_REQ_NORMAL_TX: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!NormalTxScripts.TryGet(data.Script, out var scriptFunc))
+			{
+				Log.Debug("CZ_REQ_NORMAL_TX: No handler registered for transaction script '{0}(\"{1}\")'", data.Script, strArg);
+				return;
+			}
+
+			// Try to execute transaction
+			try
+			{
+				var result = scriptFunc(character, strArg);
+				if (result == NormalTxResult.Fail)
 				{
-					var className = packet.GetString(33);
-					if (!character.Abilities.Toggle(className))
-						Log.Warning("CZ_REQ_NORMAL_TX: User '{0}' tried to toggle ability '{1}', which they either don't have or is passive.", conn.Account.Name, className);
-					break;
+					Log.Debug("CZ_REQ_NORMAL_TX: Execution of script '{0}({1})' failed.", data.Script, strArg);
 				}
-				default:
-				{
-					Log.Debug("CZ_REQ_NORMAL_TX: Unhandled type '{0}'.", type);
-					break;
-				}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_REQ_NORMAL_TX: Exception while executing script '{0}(\"{1}\")': {2}", data.Script, strArg, ex);
 			}
 		}
 

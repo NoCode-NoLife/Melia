@@ -4,6 +4,7 @@
 
 const/**/*
 commands/**/*
+core/**/*
 items/**/*
 warps/**/*
 

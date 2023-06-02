@@ -72,6 +72,7 @@
     <Compile Include="client\custom_npc_shops\main.cs" />
     <Compile Include="const\ItemId.cs" />
     <Compile Include="const\MonsterId.cs" />
+    <Compile Include="core\normal_tx.cs" />
     <Compile Include="custom\test.cs" />
     <Compile Include="items\dot_buff.cs" />
     <Compile Include="items\exp_cards.cs" />
