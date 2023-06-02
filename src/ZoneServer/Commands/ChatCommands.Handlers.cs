@@ -221,7 +221,7 @@ namespace Melia.Zone.Commands
 		{
 			Position newPos;
 
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
 				{
@@ -270,7 +270,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleWarp(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// Get map id
@@ -351,7 +351,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleItem(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var amount = 1;
@@ -367,7 +367,7 @@ namespace Melia.Zone.Commands
 			}
 
 			// Get amount
-			if (args.Count > 2)
+			if (args.Count >= 2)
 			{
 				if (!int.TryParse(args.Get(1), out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
@@ -395,7 +395,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSilver(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var modifier) || modifier == 0)
@@ -449,7 +449,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSpawn(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			MonsterData monsterData;
@@ -480,7 +480,7 @@ namespace Melia.Zone.Commands
 			}
 
 			var amount = 1;
-			if (args.Count > 2 && !int.TryParse(args.Get(1), out amount))
+			if (args.Count >= 2 && !int.TryParse(args.Get(1), out amount))
 				return CommandResult.InvalidArgument;
 
 			amount = Math2.Clamp(1, 100, amount);
@@ -566,7 +566,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleName(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var newName = args.Get(0);
@@ -665,7 +665,7 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleLevelUp(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var levels = 1;
-			if (args.Count > 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
+			if (args.Count >= 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
@@ -698,7 +698,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSpeed(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!float.TryParse(args.Get(0), out var speed))
@@ -734,7 +734,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleItemInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var search = command.Substring(command.IndexOf(" ")).Trim();
@@ -769,7 +769,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleMonsterInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var search = command.Substring(command.IndexOf(" ")).Trim();
@@ -804,7 +804,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleGo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
@@ -843,7 +843,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleGoTo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
@@ -883,7 +883,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRecall(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
@@ -926,7 +926,7 @@ namespace Melia.Zone.Commands
 			// TODO: Once we have support for channels and map servers,
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				// Search for map by name and id
 				if (int.TryParse(args.Get(0), out var mapId))
@@ -967,9 +967,6 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRecallAll(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count > 1)
-				return CommandResult.InvalidArgument;
-
 			// TODO: Once we have support for channels and map servers,
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
@@ -1113,7 +1110,7 @@ namespace Melia.Zone.Commands
 			// use any automated command result messages, but we'll leave
 			// debug messages for now, in case of unexpected values.
 
-			if (args.Count != 3 || !int.TryParse(args.Get(1), out var levels) || levels < 1)
+			if (args.Count != 2 || !int.TryParse(args.Get(1), out var levels) || levels < 1)
 			{
 				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", sender.Connection.Account.Name, command);
 				return CommandResult.Okay;
@@ -1231,7 +1228,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAddJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var iJobId))
@@ -1246,7 +1243,7 @@ namespace Melia.Zone.Commands
 
 			var circle = Circle.First;
 
-			if (args.Count > 2)
+			if (args.Count >= 2)
 			{
 				if (!int.TryParse(args.Get(1), out var iCircle) || iCircle < (int)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
 					return CommandResult.InvalidArgument;
@@ -1288,7 +1285,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRemoveJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var iJobId))
@@ -1367,7 +1364,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleStatPoints(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var amount) || amount < 1)
@@ -1403,7 +1400,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				Send.ZC_EXEC_CLIENT_SCP(target.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
 				return CommandResult.Okay;
@@ -1488,7 +1485,7 @@ namespace Melia.Zone.Commands
 			// If we got an argument, use it as the max drop chance of
 			// items that are to be autolooted. Without an argument,
 			// toggle autolooting completely on or off.
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				if (!int.TryParse(args.Get(0), out autoloot))
 					return CommandResult.InvalidArgument;
@@ -1534,19 +1531,19 @@ namespace Melia.Zone.Commands
 				target.Components.Remove<Movement>();
 				target.Components.Remove<EntityAi>();
 
-				if (args.Count < 1)
+				if (args.Count == 0)
 				{
 					sender.ServerMessage("Disabled AI.");
 					return CommandResult.Okay;
 				}
 			}
-			else if (args.Count < 1)
+			else if (args.Count == 0)
 			{
 				sender.ServerMessage("No AI active.");
 				return CommandResult.Okay;
 			}
 
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				var aiName = args.Get(0);
 
@@ -1617,7 +1614,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleUpdateDataCom(Character sender, Character target, string message, string commandName, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var tmpFilePath = "user/tmp/updatedata/itemmonsters.txt";
