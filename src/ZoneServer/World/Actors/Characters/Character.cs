@@ -604,6 +604,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.LevelUp(this);
+			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
 		}
 
 		/// <summary>
@@ -620,7 +621,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
-			Send.ZC_NORMAL.PlayEffect(this, "F_pc_class_change");
+			Send.ZC_NORMAL.PlayEffect(this, "F_pc_joblevel_up", 3);
 		}
 
 		/// <summary>
