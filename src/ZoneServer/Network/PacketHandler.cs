@@ -720,7 +720,7 @@ namespace Melia.Zone.Network
 			// Try to execute script
 			var script = item.Data.Script;
 
-			if (!ItemScript.TryGet(script.Function, out var scriptFunc))
+			if (!ItemScripts.TryGet(script.Function, out var scriptFunc))
 			{
 				character.ServerMessage(Localization.Get("This item has not been implemented yet."));
 				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);

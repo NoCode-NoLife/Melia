@@ -9,7 +9,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
 
-public class DotBuffItemScript : ItemScript
+public class DotBuffItemScript : GeneralScript
 {
 	[ItemScript("SCR_USE_ITEM_DotBuff")]
 	public ItemUseResult SCR_USE_ITEM_DotBuff(Character character, Item item, string buffName, float numArg1, float numArg2)
