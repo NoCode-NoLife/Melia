@@ -496,6 +496,15 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Unequips all currently equipped items.
+		/// </summary>
+		public void UnequipAll()
+		{
+			foreach (var slot in Enum.GetValues(typeof(EquipSlot)))
+				this.Unequip((EquipSlot)slot);
+		}
+
+		/// <summary>
 		/// Removes item with given id from inventory.
 		/// </summary>
 		/// <param name="slot"></param>

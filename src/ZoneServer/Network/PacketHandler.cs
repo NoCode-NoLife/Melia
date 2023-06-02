@@ -446,6 +446,18 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Request to unequip all equipped items.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_UNEQUIP_ITEM_ALL)]
+		public void CZ_UNEQUIP_ITEM_ALL(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+			character.Inventory.UnequipAll();
+		}
+
+		/// <summary>
 		/// Sent when removing an item from the inventory.
 		/// </summary>
 		/// <param name="conn"></param>
