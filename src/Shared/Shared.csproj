@@ -84,6 +84,7 @@
     <Compile Include="Configuration\Files\Web.cs" />
     <Compile Include="Configuration\Files\World.cs" />
     <Compile Include="Data\Database\AccountOptions.cs" />
+    <Compile Include="Data\Database\NormalTx.cs" />
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Data\Database\DialogTx.cs" />

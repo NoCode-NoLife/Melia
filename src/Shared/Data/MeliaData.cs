@@ -29,6 +29,7 @@ namespace Melia.Shared.Data
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
+		public NormalTxDb NormalTxDb = new NormalTxDb();
 		public PacketStringDb PacketStringDb = new PacketStringDb();
 		public PropertiesDb PropertiesDb = new PropertiesDb();
 		public ServerDb ServerDb;
