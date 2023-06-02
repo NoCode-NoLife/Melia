@@ -1710,7 +1710,7 @@ namespace Melia.Zone.Network
 			packet.PutLong(exp);
 			packet.PutLong(classExp);
 			packet.PutLong(exp);
-			packet.PutInt(monster.Handle);
+			packet.PutInt(monster?.Handle ?? 0);
 
 			character.Connection.Send(packet);
 		}

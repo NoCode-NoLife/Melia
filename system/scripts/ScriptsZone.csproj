@@ -74,6 +74,7 @@
     <Compile Include="const\MonsterId.cs" />
     <Compile Include="custom\test.cs" />
     <Compile Include="items\dot_buff.cs" />
+    <Compile Include="items\exp_cards.cs" />
     <Compile Include="mobs\fields\f_siauliai_west.cs" />
     <Compile Include="npcs\cities\c_klaipe.cs" />
     <Compile Include="npcs\fields\f_siauliai_west.cs" />

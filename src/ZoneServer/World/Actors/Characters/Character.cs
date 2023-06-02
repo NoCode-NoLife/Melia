@@ -1143,5 +1143,14 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_REST_SIT(this);
 		}
+
+		/// <summary>
+		/// Plays effect for the character.
+		/// </summary>
+		/// <param name="packetString"></param>
+		public void PlayEffect(string packetString)
+		{
+			Send.ZC_NORMAL.PlayEffect(this, packetString);
+		}
 	}
 }
