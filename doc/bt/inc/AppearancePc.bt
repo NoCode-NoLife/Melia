@@ -52,6 +52,10 @@ typedef struct
     byte hat3Visible;
     byte b3;
     byte wigVisible;
-    int64 l1;
+    byte subWeaponVisible;
+    int i2;
+    byte b4;
+    byte b5;
+    byte b6;
 }
 APPEARANCE_PC;
