@@ -257,18 +257,52 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sets the state of whether a hat is visible or not.
+			/// Updates which headgears are visible for the character on
+			/// clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void HatVisibleState(Character character)
+			public static void HeadgearVisibilityUpdate(Character character)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.HatVisibleState);
+				packet.PutInt(NormalOp.Zone.HeadgearVisibilityUpdate);
 
 				packet.PutInt(character.Handle);
+				packet.PutByte(0); // [i373766] Might've been added earlier
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear1) != 0);
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear2) != 0);
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear3) != 0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Updates weather wig eequipment is visible for the character
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void WigVisibilityUpdate(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.WigVisibilityUpdate);
+
+				packet.PutInt(character.Handle);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.Wig) != 0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Updates weather wig eequipment is visible for the character
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void SubWeaponVisibilityUpdate(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SubWeaponVisibilityUpdate);
+
+				packet.PutInt(character.Handle);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.SubWeapon) != 0);
 
 				character.Map.Broadcast(packet, character);
 			}

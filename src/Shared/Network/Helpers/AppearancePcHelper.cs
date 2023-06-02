@@ -74,10 +74,16 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Headgear2) != 0);
 				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Headgear3) != 0);
 				packet.PutByte(0);
-				packet.PutByte(1);
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Wig) != 0);
 			}
 
-			packet.PutEmptyBin(8); // [i373230 (2023-05-10)] Might've been added before
+			// [i373230 (2023-05-10)] Might've been added before
+			// Depending on what was added when, the sub-weapon visibility
+			// might have been part of the above byte block.
+			{
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.SubWeapon) != 0);
+				packet.PutEmptyBin(7);
+			}
 		}
 	}
 

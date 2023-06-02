@@ -41,6 +41,46 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
+	[CustomCommandScript("SCR_HAT_VISIBLE_STATE")]
+	public CustomCommandResult SCR_HAT_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
+	{
+		var headgearIndex = numArg1;
+
+		switch (headgearIndex)
+		{
+			case 0: character.VisibleEquip ^= VisibleEquip.Headgear1; break;
+			case 1: character.VisibleEquip ^= VisibleEquip.Headgear2; break;
+			case 2: character.VisibleEquip ^= VisibleEquip.Headgear3; break;
+		}
+
+		Send.ZC_UPDATED_PCAPPEARANCE(character);
+		Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
+
+		return CustomCommandResult.Okay;
+	}
+
+	[CustomCommandScript("SCR_HAIR_WIG_VISIBLE_STATE")]
+	public CustomCommandResult SCR_HAIR_WIG_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
+	{
+		character.VisibleEquip ^= VisibleEquip.Wig;
+
+		Send.ZC_UPDATED_PCAPPEARANCE(character);
+		Send.ZC_NORMAL.WigVisibilityUpdate(character);
+
+		return CustomCommandResult.Okay;
+	}
+
+	[CustomCommandScript("SCR_SUBWEAPON_VISIBLE_STATE")]
+	public CustomCommandResult SCR_SUBWEAPON_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
+	{
+		character.VisibleEquip ^= VisibleEquip.SubWeapon;
+
+		Send.ZC_UPDATED_PCAPPEARANCE(character);
+		Send.ZC_NORMAL.SubWeaponVisibilityUpdate(character);
+
+		return CustomCommandResult.Okay;
+	}
+
 	[CustomCommandScript("CLICK_CHANGEJOB_BUTTON")]
 	public CustomCommandResult CLICK_CHANGEJOB_BUTTON(Character character, int numArg1, int numArg2, int numArg3)
 	{
