@@ -267,10 +267,10 @@ namespace Melia.Zone.Network
 				packet.PutInt(NormalOp.Zone.HeadgearVisibilityUpdate);
 
 				packet.PutInt(character.Handle);
-				packet.PutByte(0); // [i373766] Might've been added earlier
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear1) != 0);
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear2) != 0);
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear3) != 0);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.Wig) != 0);
 
 				character.Map.Broadcast(packet, character);
 			}
