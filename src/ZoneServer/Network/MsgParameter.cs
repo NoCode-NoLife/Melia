@@ -25,5 +25,14 @@
 			this.Key = key;
 			this.Value = value;
 		}
+
+		/// <summary>
+		/// Creates new parameter.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		public MsgParameter(string key, long value) : this(key, value.ToString())
+		{
+		}
 	}
 }

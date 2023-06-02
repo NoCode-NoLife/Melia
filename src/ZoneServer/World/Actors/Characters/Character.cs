@@ -888,7 +888,7 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Sends server message to character.
+		/// Displays server message in character's chat.
 		/// </summary>
 		/// <remarks>
 		/// Abuses a certain system message that takes two parameters,
@@ -898,6 +898,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// improvement over using ZC_CHAT.
 		/// </remarks>
 		/// <param name="format"></param>
+		/// <param name="args"></param>
 		public void ServerMessage(string format, params object[] args)
 		{
 			if (args.Length > 0)
@@ -907,7 +908,20 @@ namespace Melia.Zone.World.Actors.Characters
 			// messages, we're abusing clientmessage 21254, which has the
 			// format "X:Y", where we replace X and Y with a prefix and
 			// our custom message.
-			Send.ZC_SYSTEM_MSG(this, 21254, new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
+			this.SystemMessage("{Hour}:{Min}", new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
+		}
+
+		/// <summary>
+		/// Displays system message in character's chat.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="args"></param>
+		public void SystemMessage(string className, params MsgParameter[] args)
+		{
+			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(className, out var sysMsgData))
+				throw new ArgumentException($"System message '{className}' not found.");
+
+			Send.ZC_SYSTEM_MSG(this, sysMsgData.ClassId, args);
 		}
 
 		/// <summary>

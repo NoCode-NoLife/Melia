@@ -44,7 +44,7 @@ public class ExpCardScripts : GeneralScript
 			classExp *= amount;
 
 			character.GiveExp(baseExp, classExp, null);
-			Send.ZC_SYSTEM_MSG(character, 2230, new MsgParameter("CHAR", baseExp.ToString()), new MsgParameter("JOB", classExp.ToString()));
+			character.SystemMessage("GetExp{CHAR}{JOB}", new MsgParameter("CHAR", baseExp), new MsgParameter("JOB", classExp));
 
 			character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Used);
 		}

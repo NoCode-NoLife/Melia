@@ -1805,6 +1805,7 @@ namespace Melia.Zone.Network
 			var lockItem = packet.GetBool();
 
 			var character = conn.SelectedCharacter;
+
 			var item = character.Inventory.GetItem(worldId);
 			if (item == null)
 			{
@@ -1818,11 +1819,12 @@ namespace Melia.Zone.Network
 			// to add those to the item data.
 			// <Item> item locked.
 			// <Item> item unlocked.
-			Send.ZC_SYSTEM_MSG(character, lockItem ? 4138 : 4139, new MsgParameter("Item", item.Data.Name));
+			var sysMsg = lockItem ? "{Item}LockSuccess" : "{Item}UnlockSuccess";
+			character.SystemMessage(sysMsg, new MsgParameter("Item", item.Data.Name));
 		}
 
-		/// <summary>
-		/// Sent upon login. (Dummy handler)
+		/// <summary> 
+		/// Sent upon login, purpose unknown. (Dummy handler)
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>

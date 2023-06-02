@@ -524,7 +524,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			// TODO: Add localizable strings or dictionary keys to item data,
 			//   so that we can send those for the system message.
-			Send.ZC_SYSTEM_MSG(this.Character, 2225, new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount.ToString()));
+			this.Character.SystemMessage("Delete{ITEM}{COUNT}", new MsgParameter("ITEM", item.Data.Name), new MsgParameter("COUNT", item.Amount));
 
 			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, item.Amount, InventoryItemRemoveMsg.Destroyed, InventoryType.Inventory);
 
