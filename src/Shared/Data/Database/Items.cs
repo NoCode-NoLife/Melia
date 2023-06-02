@@ -128,7 +128,10 @@ namespace Melia.Shared.Data.Database
 
 			if (entry.TryGetObject("script", out var scriptEntry))
 			{
-				scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
+				// We can't really assert that no fields are missing,
+				// because thanks to dialog transactions, some items
+				// have no script function but do define arguments.
+				//scriptEntry.AssertNotMissing("function", "strArg", "numArg1", "numArg2");
 
 				var scriptData = new ItemScriptData();
 
