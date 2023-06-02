@@ -66,7 +66,7 @@ namespace Melia.Barracks.Database
 		/// Returns a bitmask that specifies which hats are visible on
 		/// the character.
 		/// </summary>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 
 		/// <summary>
 		/// Gets or sets the character's level.

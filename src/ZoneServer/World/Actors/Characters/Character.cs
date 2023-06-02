@@ -179,7 +179,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <remarks>
 		/// TODO: Handle toggling and save/load with character.
 		/// </remarks>
-		public HatVisibleStates VisibleHats => HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3;
+		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 
 		/// <summary>
 		/// Current experience points.

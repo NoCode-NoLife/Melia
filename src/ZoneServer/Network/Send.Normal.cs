@@ -266,9 +266,9 @@ namespace Melia.Zone.Network
 				packet.PutInt(NormalOp.Zone.HatVisibleState);
 
 				packet.PutInt(character.Handle);
-				packet.PutByte((character.VisibleHats & HatVisibleStates.Hat1) != 0);
-				packet.PutByte((character.VisibleHats & HatVisibleStates.Hat2) != 0);
-				packet.PutByte((character.VisibleHats & HatVisibleStates.Hat3) != 0);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear1) != 0);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear2) != 0);
+				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear3) != 0);
 
 				character.Map.Broadcast(packet, character);
 			}
