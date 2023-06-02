@@ -24,11 +24,11 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Returns the script for the given item class id via out,
+		/// Returns the handler function for the tiven script via out,
 		/// returns false if no script was defined.
 		/// </summary>
 		/// <param name="scriptName"></param>
-		/// <param name="script"></param>
+		/// <param name="scriptFunc"></param>
 		/// <returns></returns>
 		public static bool TryGet(string scriptName, out NormalTxScriptFunc scriptFunc)
 		{

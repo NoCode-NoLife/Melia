@@ -7,4 +7,6 @@ This is a list of abbreviations commonly found while working with this game.
 | ------------ | ----------------------
 | APC          | Appearance
 | SCP          | Script
+| SCR          | Script
 | SDR          | AoE/Skill Defense Ratio (maybe)
+| TX           | Transaction?
