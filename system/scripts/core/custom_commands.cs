@@ -81,8 +81,8 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("CLICK_CHANGEJOB_BUTTON")]
-	public CustomCommandResult CLICK_CHANGEJOB_BUTTON(Character character, int numArg1, int numArg2, int numArg3)
+	[CustomCommandScript("SCR_CLICK_CHANGEJOB_BUTTON")]
+	public CustomCommandResult SCR_CLICK_CHANGEJOB_BUTTON(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var jobId = (JobId)numArg1;
 		var username = character.Connection.Account.Name;
