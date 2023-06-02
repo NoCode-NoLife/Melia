@@ -1947,7 +1947,7 @@ namespace Melia.Zone.Network
 			if (!DialogTxScripts.TryGet(data.Script, out var scriptFunc))
 			{
 				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
-				Log.Warning("CZ_DIALOG_TX: No handler registered for transaction script '{0}'", data.Script);
+				Log.Debug("CZ_DIALOG_TX: No handler registered for transaction script '{0}'", data.Script);
 				return;
 			}
 
@@ -1961,6 +1961,12 @@ namespace Melia.Zone.Network
 				if (item == null)
 				{
 					Log.Warning("CZ_DIALOG_TX: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+					return;
+				}
+
+				if (item.Amount < dialogTxItem.Amount)
+				{
+					Log.Warning("CZ_DIALOG_TX: User '{0}' tried to use more items than they have.", conn.Account.Name);
 					return;
 				}
 
