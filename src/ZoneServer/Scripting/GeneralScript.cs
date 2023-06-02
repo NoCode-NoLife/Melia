@@ -19,6 +19,7 @@ namespace Melia.Zone.Scripting
 
 			OnAttribute.Load(this, ZoneServer.Instance.ServerEvents);
 			ItemScripts.Load(this);
+			DialogTxScripts.Load(this);
 
 			return true;
 		}

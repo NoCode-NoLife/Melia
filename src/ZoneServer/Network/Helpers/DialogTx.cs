@@ -12,7 +12,7 @@ namespace Melia.Zone.Network.Helpers
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <returns></returns>
-		public static DialogTxItem GetTxItem(this Packet packet)
+		public static DialogTxItem GetDialogTxItem(this Packet packet)
 		{
 			var result = new DialogTxItem();
 

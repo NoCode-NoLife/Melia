@@ -749,7 +749,7 @@ namespace Melia.Zone.Network
 			}
 			catch (Exception ex)
 			{
-				character.ServerMessage(Localization.Get("Item usage failed."));
+				character.ServerMessage(Localization.Get("Apologies, something went wrong there. Please report this issue."));
 				Log.Debug("CZ_ITEM_USE: Exception while executing script function '{0}(\"{1}\", {2}, {3})': {4}", script.Function, script.StrArg, script.NumArg1, script.NumArg2, ex);
 			}
 		}
@@ -1925,17 +1925,66 @@ namespace Melia.Zone.Network
 		public void CZ_DIALOG_TX(IZoneConnection conn, Packet packet)
 		{
 			var size = packet.GetShort();
-			var type = packet.GetInt();
+			var classId = packet.GetInt();
 			var itemCount = packet.GetShort();
 			var numArgCount = packet.GetShort();
 			var strArgCount = packet.GetShort();
-			var txItems = packet.GetList(itemCount, packet.GetTxItem);
+			var dialogTxItems = packet.GetList(itemCount, packet.GetDialogTxItem);
 			var numArgs = packet.GetList(numArgCount, packet.GetInt);
 			var strArgs = packet.GetList(strArgCount, packet.GetString);
 
 			var character = conn.SelectedCharacter;
 
-			Log.Debug("CZ_DIALOG_TX: Unhandled type {0}.", type);
+			// Get data
+			if (!ZoneServer.Instance.Data.DialogTxDb.TryFind(classId, out var data))
+			{
+				character.ServerMessage(Localization.Get("Apologies, something went wrong there. Please report this issue."));
+				Log.Warning("CZ_DIALOG_TX: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!DialogTxScripts.TryGet(data.Script, out var scriptFunc))
+			{
+				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
+				Log.Warning("CZ_DIALOG_TX: No handler registered for transaction script '{0}'", data.Script);
+				return;
+			}
+
+			// Get items from character
+			var txItems = new Scripting.DialogTxItem[itemCount];
+			for (var i = 0; i < dialogTxItems.Length; ++i)
+			{
+				var dialogTxItem = dialogTxItems[i];
+
+				var item = character.Inventory.GetItem(dialogTxItem.ItemObjectId);
+				if (item == null)
+				{
+					Log.Warning("CZ_DIALOG_TX: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+					return;
+				}
+
+				txItems[i] = new Scripting.DialogTxItem(item, dialogTxItem.Amount);
+			}
+
+			// Try to execute transaction
+			var args = new DialogTxArgs(character, txItems, numArgs, strArgs);
+
+			try
+			{
+				var result = scriptFunc(character, args);
+				if (result == DialogTxResult.Fail)
+				{
+					character.ServerMessage(Localization.Get("Apologies, something went wrong there. Please report this issue."));
+					Log.Debug("CZ_DIALOG_TX: Execution of script '{0}' failed.", data.Script);
+
+				}
+			}
+			catch (Exception ex)
+			{
+				character.ServerMessage(Localization.Get("Apologies, something went wrong there. Please report this issue."));
+				Log.Debug("CZ_DIALOG_TX: Exception while executing script '{0}': {1}", data.Script, ex);
+			}
 		}
 
 		/// <summary>
