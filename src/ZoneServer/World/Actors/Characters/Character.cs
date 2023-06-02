@@ -80,7 +80,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		/// <remarks>
 		/// This should essentially and presumably alwas be the id of the
-		/// last job the character has changed to.
+		/// last job the character changed to.
 		/// </remarks>
 		public JobId JobId { get; set; }
 

@@ -21,7 +21,8 @@ namespace Melia.Shared.Data.Database
 	public class SkillTreeDb : DatabaseJson<SkillTreeData>
 	{
 		/// <summary>
-		/// Returns all skills the given job can learn at a certain circle.
+		/// Returns all skills the given job can learn at a certain class
+		/// level.
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
