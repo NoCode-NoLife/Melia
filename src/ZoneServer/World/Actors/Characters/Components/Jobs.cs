@@ -99,6 +99,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns job with the given id via out. Returns false if it
+		/// wasn't found.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <param name="job"></param>
+		/// <returns></returns>
+		public bool TryGet(JobId jobId, out Job job)
+		{
+			lock (_jobs)
+				return _jobs.TryGetValue(jobId, out job);
+		}
+
+		/// <summary>
 		/// Returns a list with all jobs.
 		/// </summary>
 		/// <returns></returns>

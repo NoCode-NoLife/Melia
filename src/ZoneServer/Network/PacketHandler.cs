@@ -1783,6 +1783,80 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Request to reset a character's job, or rather to switch
+		/// out one job for another.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_RANKRESET_SYSTEM)]
+		public void CZ_REQ_RANKRESET_SYSTEM(IZoneConnection conn, Packet packet)
+		{
+			var oldJobId = (JobId)packet.GetShort();
+			var newJobId = (JobId)packet.GetShort();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.TryGet(oldJobId, out var oldJob))
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' requested job reset for a job they don't have ({1})'.", conn.Account.Name, oldJobId);
+				return;
+			}
+
+			if (character.Jobs.TryGet(newJobId, out _))
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' tried to switch to a job they already have ({1})'.", conn.Account.Name, newJobId);
+				return;
+			}
+
+			if (oldJobId.ToClass() != newJobId.ToClass())
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' tried to switch to a job outside of their class tree ({1} -> {2})'.", conn.Account.Name, oldJobId, newJobId);
+				return;
+			}
+
+			// Remove the skills associated with the old job. This could
+			// be easier and safer if we were to save the job a skill was
+			// learned for with the skill data.
+			var oldJobTreeData = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(oldJob.Id, oldJob.Level);
+
+			foreach (var treeData in oldJobTreeData)
+			{
+				if (!character.Skills.TryGet(treeData.SkillId, out var skill))
+					continue;
+
+				character.Skills.Remove(skill.Id);
+			}
+
+			// Remove old job and grant new one
+			var newJob = new Job(character, newJobId, oldJob.Circle);
+			newJob.TotalExp = oldJob.TotalExp;
+			newJob.SkillPoints = oldJob.Level;
+
+			character.Jobs.Remove(oldJobId);
+			character.Jobs.Add(newJob);
+			character.JobId = newJob.Id;
+
+			// I'd prefer to let the player keep playing after the switch,
+			// but the intended behavior is apparently that you get DCed
+			// and have to log back in. We'll mimic this for now, though
+			// we could probably do it better. The only problem I noticed
+			// so far is that the "Are you sure?" prompt doesn't disappear,
+			// but that we can solve with client scripting.
+
+			//Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
+			//Send.ZC_JOB_PTS(character, newJob);
+			//Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
+
+			ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+
+			// The intended behavior is to trigger a clean DC from the
+			// client with a move to barracks, but if we *need* the
+			// player to DC, we might want to force it, because users
+			// could make the client skip this packet and stay online.
+			Send.ZC_MOVE_BARRACK(conn);
+		}
+
+		/// <summary>
 		/// Sent after a loading screen is completed.
 		/// </summary>
 		/// <param name="conn"></param>
