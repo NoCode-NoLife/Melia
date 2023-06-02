@@ -1710,6 +1710,23 @@ namespace Melia.Zone.Network
 					goto default;
 				}
 
+				case "LAST_INFOSET_OPEN":
+					// Example: SCR_LAST_INFOSET_OPEN(2, 0, 0)
+					// Sent from "chase info", notifying us about the last
+					// selected index, with 1 being "achieve" and 2 "quest".
+					// Potentially related to adventure book? In any case,
+					// we're going to ignore this for now, to get rid of
+					// unhandled message upon login.
+					break;
+
+				case "REQ_GUILD_PROMOTE_NOTICE_COUNT":
+					// Example: SCR_GUILD_PROMOTE_NOTICE_COUNT(0, 0, 0)
+					// Sent from "system menu" if player is not in a guild.
+					// I can only assume that responding to it would make
+					// some kind of "OMG! JOIN A GUILD!" message appear,
+					// so we're going to promptly ignore this.
+					break;
+
 				case "CLICK_CHANGEJOB_BUTTON":
 				{
 					var character = conn.SelectedCharacter;
@@ -2433,6 +2450,21 @@ namespace Melia.Zone.Network
 			// sub-weapon attacks, so we don't need this information. The
 			// same packet also appears to be sent twice for some reason.
 			// We'll just leave this empty for now.
+		}
+
+		/// <summary>
+		/// Sent upon login.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_RANK_SYSTEM_TIME_TABLE)]
+		public void CZ_REQUEST_RANK_SYSTEM_TIME_TABLE(IZoneConnection conn, Packet packet)
+		{
+			var i1 = packet.GetInt();
+
+			// The purpose of this packet is currently unknown. Based on
+			// the name it's probably related to jobs, but that's about
+			// all we got on it. Ignore for now.
 		}
 	}
 }
