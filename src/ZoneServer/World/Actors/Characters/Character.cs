@@ -727,11 +727,26 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
 			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
 
-			while (this.Exp >= this.MaxExp)
+			var level = this.Level;
+			var levelUps = 0;
+			var maxExp = this.MaxExp;
+			var maxLevel = ZoneServer.Instance.Data.ExpDb.GetMaxLevel();
+
+			// Consume EXP as many times as possible to reach new levels
+			while (this.Exp >= maxExp && level < maxLevel)
 			{
-				this.Exp -= this.MaxExp;
-				this.LevelUp();
+				this.Exp -= maxExp;
+
+				level++;
+				levelUps++;
+				maxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(level);
 			}
+
+			// Execute level up only once to avoid client lag on multiple
+			// level ups. Leveling up a thousand times in a loop is not
+			// fun for the client =D"
+			if (levelUps > 0)
+				this.LevelUp(levelUps);
 
 			// Class EXP
 			// Increase the total EXP and check whether the class level,

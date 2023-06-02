@@ -192,7 +192,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Returns the max EXP for the character's current level.
 		/// </summary>
-		public int MaxExp => BarracksServer.Instance.Data.ExpDb.GetNextExp(this.Level);
+		public long MaxExp => BarracksServer.Instance.Data.ExpDb.GetNextExp(this.Level);
 
 		/// <summary>
 		/// Creates a new character with default values.
