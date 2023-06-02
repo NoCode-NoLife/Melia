@@ -9,6 +9,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
@@ -1913,6 +1914,28 @@ namespace Melia.Zone.Network
 					break;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Transaction requests from the player as per the TX item data.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_DIALOG_TX)]
+		public void CZ_DIALOG_TX(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var type = packet.GetInt();
+			var itemCount = packet.GetShort();
+			var numArgCount = packet.GetShort();
+			var strArgCount = packet.GetShort();
+			var txItems = packet.GetList(itemCount, packet.GetTxItem);
+			var numArgs = packet.GetList(numArgCount, packet.GetInt);
+			var strArgs = packet.GetList(strArgCount, packet.GetString);
+
+			var character = conn.SelectedCharacter;
+
+			Log.Debug("CZ_DIALOG_TX: Unhandled type {0}.", type);
 		}
 
 		/// <summary>

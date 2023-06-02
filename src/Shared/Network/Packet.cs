@@ -234,6 +234,24 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads the given number of values from the packet using the
+		/// getter function and returns them as an array.
+		/// </summary>
+		/// <typeparam name="TListItem"></typeparam>
+		/// <param name="count"></param>
+		/// <param name="getter"></param>
+		/// <returns></returns>
+		public TListItem[] GetList<TListItem>(int count, Func<TListItem> getter)
+		{
+			var result = new TListItem[count];
+
+			for (var i = 0; i < count; i++)
+				result[i] = getter();
+
+			return result;
+		}
+
+		/// <summary>
 		/// Writes byte to buffer.
 		/// </summary>
 		/// <param name="val"></param>

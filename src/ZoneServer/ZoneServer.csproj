@@ -97,6 +97,7 @@
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
+    <Compile Include="Network\Helpers\DialogTx.cs" />
     <Compile Include="Network\MsgParameter.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Send.cs" />

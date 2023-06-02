@@ -2,9 +2,9 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_DIALOG_TX.bt
-//   Authors: Salman T. Khan
-//   Version: i350756
-//   Purpose: One usage is in Repair Shop (Multiple Items)
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,87 +15,24 @@
 
 typedef struct
 {
-    int64 worldId;
+    int64 itemObjectId;
     int amount;
-    int itemId; // Item ID
-} TxItem <optimize=false>;
+    int itemClassId;
+}
+TxItem;
 
 ClientHeaderDynamic header;
 
-int txType; // 4 = Repair, 18 = Collection
-switch (txType)
-{
-    // Repair Item
-    case 4:
-        int count;
-        short s2;
-        TxItem items[count];
-        float f1;
-        break;
-    // Craft Item
-    case 14:
-        short s1; // 2
-        short s2; // 2
-        short s3; // 2
-        TxItem items[s1];
-        int i1; // 10029 (Wiki Recipe.ies?)
-        int amount; // 1
-        lpString name;
-        lpString memo;
-        // Rest might be garbage
-        break;
-    // Reinforce Item
-    case 17:
-        int count;
-        short s2; // 0
-        TxItem items[count];
-        ubyte bin[4]; // Could be garbage
-        break;
-    // Put Collection
-    case 18:
-        short s1;
-        int count;
-        TxItem items[count];
-        int collectionId;
-        break;
-    case 40:
-        int count;
-        short s2;
-        TxItem items[count];
-        break;
-    case 120:
-        short s1; // 1
-        short s2; // 2
-        short s3; // 1
-        TxItem items[s1];
-        int i1;
-        int i2;
-        lpString str;
-        break;
-    case 140:
-        int count;
-        short s1;
-        TxItem items[count];
-        lpString type;
-        int i1;
-        break;
-    case 191:
-        short s1;
-        int count;
-        int i1;
-        int i2;
-        break;
-    case 250:
-        short count;
-        int i1;
-        TxItem items[count];
-        int tradeShopItemId;
-        int tradeShopItemAmount;
-        break;
-    default:
-        int64 worldId;
-        int amount;
-        int itemId; // Item ID
-        float f1;
-    break;
-}
+int type; // classId in tx_item
+short itemCount;
+short numArgCount;
+short strArgCount;
+
+if (itemCount > 0)
+    TxItem items[itemCount];
+
+if (numArgCount > 0)
+    int numArgs[numArgCount];
+
+if (strArgCount > 0)
+    lpString strArgs[strArgCount];
