@@ -220,6 +220,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
+					this.LoadDb(this.Data.DialogTxDb, "db/dialog_tx_scripts.txt");
 					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
 					this.LoadDb(this.Data.FeatureDb, "db/features.txt");

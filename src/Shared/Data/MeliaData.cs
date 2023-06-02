@@ -18,6 +18,7 @@ namespace Melia.Shared.Data
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public CooldownDb CooldownDb = new CooldownDb();
 		public DialogDb DialogDb = new DialogDb();
+		public DialogTxDb DialogTxDb = new DialogTxDb();
 		public ExpDb ExpDb = new ExpDb();
 		public FeatureDb FeatureDb = new FeatureDb();
 		public FactionDb FactionDb = new FactionDb();
