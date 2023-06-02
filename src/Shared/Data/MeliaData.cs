@@ -37,6 +37,7 @@ namespace Melia.Shared.Data
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
 		public StanceConditionDb StanceConditionDb = new StanceConditionDb();
+		public SystemMessageDb SystemMessageDb = new SystemMessageDb();
 		public HelpDb HelpDb = new HelpDb();
 
 		public MeliaData()

@@ -240,6 +240,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}

@@ -87,6 +87,7 @@
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Data\Database\DialogTx.cs" />
+    <Compile Include="Data\Database\SystemMessages.cs" />
     <Compile Include="IES\IesModClass.cs" />
     <Compile Include="IES\IesModGroup.cs" />
     <Compile Include="IES\IesModList.cs" />
