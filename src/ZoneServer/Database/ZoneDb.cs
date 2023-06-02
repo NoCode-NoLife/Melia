@@ -141,17 +141,17 @@ namespace Melia.Zone.Database
 			this.LoadAbilities(character);
 			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
 
-			// We'll simply set stamina to the max on load for now until
-			// we do some more research on how stamina works, whether it's
-			// saved at all, and what we want the default behavior to be.
-			//character.Properties.Stamina = stamina;
-			character.Properties.Stamina = (int)character.Properties.CFloat("MaxSta").Recalculate();
-
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
 			// hasn't received its initial properties based on their job's
 			// data yet.
 			character.InitProperties();
+
+			// We'll simply set stamina to the max on load for now until
+			// we do some more research on how stamina works, whether it's
+			// saved at all, and what we want the default behavior to be.
+			//character.Properties.Stamina = stamina;
+			character.Properties.Stamina = (int)character.Properties.CFloat("MaxSta").Recalculate();
 
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.
