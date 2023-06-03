@@ -43,7 +43,7 @@ namespace Melia.Zone.Database
 					return false;
 			}
 
-			this.SaveVariables("account:" + account.Id, account.Variables.Perm);
+			this.SaveVariables(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
 			this.SaveChatMacros(account);
 			this.SaveRevealedMaps(account);
 
@@ -81,7 +81,7 @@ namespace Melia.Zone.Database
 				}
 			}
 
-			this.LoadVars("account:" + account.Id, account.Variables.Perm);
+			this.LoadVars(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
 			this.LoadChatMacros(account);
 			this.LoadRevealedMaps(account);
 			return account;
@@ -143,7 +143,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
-			this.LoadVars("character:" + character.Id, character.Variables.Perm);
+			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.Id);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
@@ -384,7 +384,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveCharacterItems(character);
-			this.SaveVariables("character:" + character.Id, character.Variables.Perm);
+			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.Id);
 			this.SaveSessionObjects(character);
 			this.SaveProperties("character_properties", "characterId", character.Id, character.Properties);
 			this.SaveJobs(character);
@@ -616,16 +616,22 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Saves owner's variables in database.
 		/// </summary>
-		/// <param name="owner"></param>
 		/// <param name="vars"></param>
-		public void SaveVariables(string owner, Variables vars)
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
+		public void SaveVariables(Variables vars, string tableName, string ownerField, long ownerId)
 		{
+			var checkOwner = ownerField != null;
+			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
+
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `vars` WHERE `owner` = @owner", conn, trans))
+				using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE {where}", conn, trans))
 				{
-					mc.Parameters.AddWithValue("@owner", owner);
+					if (checkOwner)
+						mc.Parameters.AddWithValue("@ownerId", ownerId);
 					mc.ExecuteNonQuery();
 				}
 
@@ -672,9 +678,11 @@ namespace Melia.Zone.Database
 					}
 
 					// Save
-					using (var cmd = new InsertCommand("INSERT INTO `vars` {0}", conn, trans))
+					using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
 					{
-						cmd.Set("owner", owner);
+						if (checkOwner)
+							cmd.Set(ownerField, ownerId);
+
 						cmd.Set("name", var.Key);
 						cmd.Set("type", type);
 						cmd.Set("value", val);
@@ -690,14 +698,21 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Loads owner's variables into the variable manager.
 		/// </summary>
-		/// <param name="owner"></param>
+		/// <param name="vars"></param>
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
 		/// <returns></returns>
-		public void LoadVars(string owner, Variables vars)
+		public void LoadVars(Variables vars, string tableName, string ownerField, long ownerId)
 		{
+			var checkOwner = ownerField != null;
+			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
+
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `vars` WHERE `owner` = @owner", conn))
+			using (var mc = new MySqlCommand($"SELECT * FROM `{tableName}` WHERE {where}", conn))
 			{
-				mc.Parameters.AddWithValue("@owner", owner);
+				if (checkOwner)
+					mc.Parameters.AddWithValue("@ownerId", ownerId);
 
 				using (var reader = mc.ExecuteReader())
 				{
@@ -734,12 +749,12 @@ namespace Melia.Zone.Database
 						}
 						catch (FormatException)
 						{
-							Log.Warning("LoadVars: Variable '{0}' could not be parsed as type '{1}'. Value: '{2}', Owner: '{3}'", name, type, val, owner);
+							Log.Warning("LoadVars: Variable '{0}' could not be parsed as type '{1}'. Value: '{2}', Owner: '{3}:{4}'", name, type, val, ownerField, ownerId);
 							continue;
 						}
 						catch (OverflowException)
 						{
-							Log.Warning("LoadVars: Value '{2}' of variable '{0}' doesn't fit into type '{1}'. Owner: '{3}'", name, type, val, owner);
+							Log.Warning("LoadVars: Value '{2}' of variable '{0}' doesn't fit into type '{1}'. Owner: '{3}:{4}'", name, type, val, ownerField, ownerId);
 							continue;
 						}
 					}
