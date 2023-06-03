@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
@@ -24,13 +25,7 @@ public class CharacterCalculationsScript : GeneralScript
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
 
-		var baseValue = properties.GetFloat(PropertyName.STR_JOB);
-
-		var byJob = 0f;
-		foreach (var job in jobs)
-			byJob += job.Data.StrRatio;
-		byJob = (float)Math.Floor((properties.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
+		var byJob = properties.GetFloat(PropertyName.STR_JOB);
 		var byStat = properties.GetFloat(PropertyName.STR_STAT);
 		var byBonus = properties.GetFloat(PropertyName.STR_Bonus);
 		var byAdd = properties.GetFloat(PropertyName.STR_ADD);
@@ -38,7 +33,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-		var result = baseValue + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+		var result = byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
 		return (float)Math.Floor(Math.Max(1, result));
 	}
 
@@ -51,15 +46,8 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_CON(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
-		var baseValue = properties.GetFloat(PropertyName.CON_JOB);
-
-		var byJob = 0f;
-		foreach (var job in jobs)
-			byJob += job.Data.ConRatio;
-		byJob = (float)Math.Floor((properties.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
+		var byJob = properties.GetFloat(PropertyName.CON_JOB);
 		var byStat = properties.GetFloat(PropertyName.CON_STAT);
 		var byBonus = properties.GetFloat(PropertyName.CON_Bonus);
 		var byAdd = properties.GetFloat(PropertyName.CON_ADD);
@@ -67,7 +55,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-		var result = baseValue + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+		var result = byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
 		return (float)Math.Floor(Math.Max(1, result));
 	}
 
@@ -80,15 +68,8 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_INT(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
-		var baseValue = properties.GetFloat(PropertyName.INT_JOB);
-
-		var byJob = 0f;
-		foreach (var job in jobs)
-			byJob += job.Data.IntRatio;
-		byJob = (float)Math.Floor((properties.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
+		var byJob = properties.GetFloat(PropertyName.INT_JOB);
 		var byStat = properties.GetFloat(PropertyName.INT_STAT);
 		var byBonus = properties.GetFloat(PropertyName.INT_Bonus);
 		var byAdd = properties.GetFloat(PropertyName.INT_ADD);
@@ -96,7 +77,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-		var result = baseValue + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+		var result = byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
 		return (float)Math.Floor(Math.Max(1, result));
 	}
 
@@ -109,15 +90,8 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_MNA(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
-		var baseValue = properties.GetFloat(PropertyName.MNA_JOB);
-
-		var byJob = 0f;
-		foreach (var job in jobs)
-			byJob += job.Data.SprRatio;
-		byJob = (float)Math.Floor((properties.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
+		var byJob = properties.GetFloat(PropertyName.MNA_JOB);
 		var byStat = properties.GetFloat(PropertyName.MNA_STAT);
 		var byBonus = properties.GetFloat(PropertyName.MNA_Bonus);
 		var byAdd = properties.GetFloat(PropertyName.MNA_ADD);
@@ -125,7 +99,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-		var result = baseValue + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+		var result = byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
 		return (float)Math.Floor(Math.Max(1, result));
 	}
 
@@ -138,15 +112,8 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_DEX(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
-		var baseValue = properties.GetFloat(PropertyName.DEX_JOB);
-
-		var byJob = 0f;
-		foreach (var job in jobs)
-			byJob += job.Data.DexRatio;
-		byJob = (float)Math.Floor((properties.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
+		var byJob = properties.GetFloat(PropertyName.DEX_JOB);
 		var byStat = properties.GetFloat(PropertyName.DEX_STAT);
 		var byBonus = properties.GetFloat(PropertyName.DEX_Bonus);
 		var byAdd = properties.GetFloat(PropertyName.DEX_ADD);
@@ -154,7 +121,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
 
-		var result = baseValue + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
+		var result = byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
 		return (float)Math.Floor(Math.Max(1, result));
 	}
 
@@ -273,7 +240,18 @@ public class CharacterCalculationsScript : GeneralScript
 	[Calculation("SCR_Get_Character_STR_JOB")]
 	public float SCR_Get_Character_STR_JOB(Character character)
 	{
-		return character.Job?.Data.Str ?? 1;
+		var properties = character.Properties;
+		var jobs = character.Jobs.GetList();
+		var level = properties.GetFloat(PropertyName.Lv);
+
+		var baseValue = character.Job?.Data.Str ?? 1;
+
+		var totalRatio = jobs.Sum(a => a.Data.StrRatio);
+		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
+
+		var value = baseValue + byJobs;
+
+		return value;
 	}
 
 	/// <summary>
@@ -284,7 +262,18 @@ public class CharacterCalculationsScript : GeneralScript
 	[Calculation("SCR_Get_Character_CON_JOB")]
 	public float SCR_Get_Character_CON_JOB(Character character)
 	{
-		return character.Job?.Data.Con ?? 1;
+		var properties = character.Properties;
+		var jobs = character.Jobs.GetList();
+		var level = properties.GetFloat(PropertyName.Lv);
+
+		var baseValue = character.Job?.Data.Con ?? 1;
+
+		var totalRatio = jobs.Sum(a => a.Data.ConRatio);
+		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
+
+		var value = baseValue + byJobs;
+
+		return value;
 	}
 
 	/// <summary>
@@ -295,7 +284,18 @@ public class CharacterCalculationsScript : GeneralScript
 	[Calculation("SCR_Get_Character_INT_JOB")]
 	public float SCR_Get_Character_INT_JOB(Character character)
 	{
-		return character.Job?.Data.Int ?? 1;
+		var properties = character.Properties;
+		var jobs = character.Jobs.GetList();
+		var level = properties.GetFloat(PropertyName.Lv);
+
+		var baseValue = character.Job?.Data.Int ?? 1;
+
+		var totalRatio = jobs.Sum(a => a.Data.IntRatio);
+		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
+
+		var value = baseValue + byJobs;
+
+		return value;
 	}
 
 	/// <summary>
@@ -306,7 +306,18 @@ public class CharacterCalculationsScript : GeneralScript
 	[Calculation("SCR_Get_Character_MNA_JOB")]
 	public float SCR_Get_Character_MNA_JOB(Character character)
 	{
-		return character.Job?.Data.Spr ?? 1;
+		var properties = character.Properties;
+		var jobs = character.Jobs.GetList();
+		var level = properties.GetFloat(PropertyName.Lv);
+
+		var baseValue = character.Job?.Data.Spr ?? 1;
+
+		var totalRatio = jobs.Sum(a => a.Data.SprRatio);
+		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
+
+		var value = baseValue + byJobs;
+
+		return value;
 	}
 
 	/// <summary>
@@ -317,7 +328,18 @@ public class CharacterCalculationsScript : GeneralScript
 	[Calculation("SCR_Get_Character_DEX_JOB")]
 	public float SCR_Get_Character_DEX_JOB(Character character)
 	{
-		return character.Job?.Data.Dex ?? 1;
+		var properties = character.Properties;
+		var jobs = character.Jobs.GetList();
+		var level = properties.GetFloat(PropertyName.Lv);
+
+		var baseValue = character.Job?.Data.Dex ?? 1;
+
+		var totalRatio = jobs.Sum(a => a.Data.DexRatio);
+		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
+
+		var value = baseValue + byJobs;
+
+		return value;
 	}
 
 	/// <summary>
