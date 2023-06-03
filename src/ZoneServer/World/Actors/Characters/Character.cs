@@ -363,15 +363,23 @@ namespace Melia.Zone.World.Actors.Characters
 				this.TotalExp = 0;
 				this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(1);
 
-				this.Properties.SetFloat("HP", this.Properties.CFloat("MHP").Recalculate());
-				this.Properties.SetFloat("SP", this.Properties.CFloat("MSP").Recalculate());
+				// Invalidate max properties so we get the correct values
+				// when using them here
+				this.Properties.Invalidate(PropertyName.MHP, PropertyName.MSP, PropertyName.MaxSta);
 
-				this.Properties.Stamina = (int)this.Properties.CFloat("MaxSta").Recalculate();
+				// Set HP, SP and stamina to max
+				this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+				this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
+				this.Properties.Stamina = (int)this.Properties.GetFloat(PropertyName.MaxSta);
 
+				// Only do this once, as we will have saved property values
+				// next time we come here
 				this.Variables.Perm.SetBool("Melia.PropertiesInitialized", true);
 			}
 
-			this.Properties.RecalculateAll();
+			// Invalidate all properties so they get updated and then set
+			// up the auto-updates
+			this.Properties.InvalidateAll();
 			this.Properties.InitAutoUpdates();
 		}
 

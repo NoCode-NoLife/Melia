@@ -335,20 +335,32 @@ namespace Melia.Shared.ObjectProperties
 		}
 
 		/// <summary>
-		/// Triggers recalculation of all calculated properties.
+		/// Invalidates the given property.
 		/// </summary>
-		/// <remarks>
-		/// Recalculations should generally happen automatically and
-		/// should only be done manually if necessary.
-		/// </remarks>
-		public void RecalculateAll()
+		/// <param name="propertyName"></param>
+		public void Invalidate(params string[] propertyNames)
+		{
+			foreach (var propertyName in propertyNames)
+			{
+				if (!this.TryGet<CFloatProperty>(propertyName, out var property))
+					return;
+
+				property.Invalidate();
+			}
+		}
+
+		/// <summary>
+		/// Invalidates all calculated properties, to update them when
+		/// they're accessed next.
+		/// </summary>
+		public void InvalidateAll()
 		{
 			var properties = this.GetAll();
 
 			foreach (var property in properties)
 			{
 				if (property is CFloatProperty calcProperty)
-					calcProperty.Recalculate();
+					calcProperty.Invalidate();
 			}
 		}
 	}

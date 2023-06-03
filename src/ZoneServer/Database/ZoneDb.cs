@@ -160,7 +160,7 @@ namespace Melia.Zone.Database
 			// we do some more research on how stamina works, whether it's
 			// saved at all, and what we want the default behavior to be.
 			//character.Properties.Stamina = stamina;
-			character.Properties.Stamina = (int)character.Properties.CFloat("MaxSta").Recalculate();
+			character.Properties.Stamina = (int)character.Properties.GetFloat(PropertyName.MaxSta);
 
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.

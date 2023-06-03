@@ -85,8 +85,8 @@ namespace Melia.Zone.World.Actors.Characters
 			// during loading.
 			this.Create(PropertyName.MHP, "SCR_Get_Character_MHP");
 			this.Create(PropertyName.MSP, "SCR_Get_Character_MSP");
-			this.Create(new FloatProperty(PropertyName.HP, this.GetFloat(PropertyName.MHP), min: 0));
-			this.Create(new FloatProperty(PropertyName.SP, this.GetFloat(PropertyName.MSP), min: 0));
+			this.Create(new FloatProperty(PropertyName.HP, min: 0));
+			this.Create(new FloatProperty(PropertyName.SP, min: 0));
 
 			this.Create(PropertyName.RHP, "SCR_Get_Character_RHP");
 			this.Create(PropertyName.RSP, "SCR_Get_Character_RSP");
@@ -198,10 +198,8 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="character"></param>
 		private void UpdateRecoveryTimes(Character character)
 		{
-			this.CFloat("RHPTIME").Recalculate();
-			this.CFloat("RSPTIME").Recalculate();
-
-			Send.ZC_OBJECT_PROPERTY(this.Character, "RHPTIME", "RSPTIME");
+			this.Invalidate(PropertyName.RHPTIME, PropertyName.RSPTIME);
+			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.RHPTIME, PropertyName.RSPTIME);
 		}
 
 		/// <summary>

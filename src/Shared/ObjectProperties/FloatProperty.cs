@@ -26,7 +26,7 @@ namespace Melia.Shared.ObjectProperties
 	/// <remarks>
 	/// The difference between CFloatProperty and RFloatProperty is that
 	/// CFloatProperty will raise the ValueChanged event whenever it gets
-	/// recalculated and the value changes. Since RFloatProperty just
+	/// updated and the value changed. Since RFloatProperty just
 	/// returns a referenced value, it can't keep track of changes.
 	/// Additionally it saves computing power to not calculate the value
 	/// every single time it's requested. Though this behavior might yet
@@ -35,6 +35,7 @@ namespace Melia.Shared.ObjectProperties
 	public class CFloatProperty : FloatProperty, IUnsettableProperty, IProperty
 	{
 		private readonly Func<float> _getter;
+		private bool _invalid = true;
 		private float _value;
 
 		/// <summary>
@@ -42,7 +43,17 @@ namespace Melia.Shared.ObjectProperties
 		/// </summary>
 		public override float Value
 		{
-			get => _value;
+			get
+			{
+				if (_invalid)
+				{
+					_value = _getter();
+					_invalid = false;
+				}
+
+				return _value;
+			}
+
 			set => throw new InvalidOperationException($"Calculated property '{this.Ident}' in '{this.GetType().Name}' cannot be set.");
 		}
 
@@ -61,22 +72,16 @@ namespace Melia.Shared.ObjectProperties
 		/// </summary>
 		/// <param name="ident"></param>
 		public void OnDependencyValueChange(string ident)
-			=> this.Recalculate();
+			=> this.Invalidate();
 
 		/// <summary>
-		/// Triggers recalculation of this property's value and returns
-		/// its new value.
+		/// Invalidates value of this property to update it when it's
+		/// accessed next.
 		/// </summary>
-		/// <returns></returns>
-		public float Recalculate()
+		public void Invalidate()
 		{
-			var valueBefore = _value;
-			_value = _getter();
-
-			if (_value != valueBefore)
-				this.OnValueChanged();
-
-			return _value;
+			_invalid = true;
+			this.OnValueChanged();
 		}
 	}
 

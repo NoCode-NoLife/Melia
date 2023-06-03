@@ -32,7 +32,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
 			this.Create(new CFloatProperty(PropertyName.MSPD, this.GetMSPD));
 
-			this.RecalculateAll();
+			this.InvalidateAll();
 		}
 
 		/// <summary>
