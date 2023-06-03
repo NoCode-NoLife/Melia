@@ -119,7 +119,6 @@
     <Compile Include="Tos\Const\SessionObjects.cs" />
     <Compile Include="Tos\Const\Size.cs" />
     <Compile Include="Tos\Const\SkillId.cs" />
-    <Compile Include="Tos\Const\TxType.cs" />
     <Compile Include="Data\Database\AchievementPoints.cs" />
     <Compile Include="Data\Database\Achievements.cs" />
     <Compile Include="Data\Database\AbilityTree.cs" />

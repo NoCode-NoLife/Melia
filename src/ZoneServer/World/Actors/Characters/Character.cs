@@ -40,6 +40,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public IZoneConnection Connection { get; set; }
 
 		/// <summary>
+		/// Returns the name of the character's account.
+		/// </summary>
+		public string Username => this.Connection.Account.Name;
+
+		/// <summary>
 		/// Character's unique id.
 		/// </summary>
 		public long Id { get; set; }

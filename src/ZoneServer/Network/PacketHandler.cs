@@ -1237,154 +1237,6 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when distributing stat points.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
-		public void CZ_REQ_NORMAL_TX_NUMARG(IZoneConnection conn, Packet packet)
-		{
-			var size = packet.GetShort();
-			var txType = (TxType)packet.GetShort();
-			var count = packet.GetInt();
-
-			var character = conn.SelectedCharacter;
-
-			if (txType == TxType.StatUp)
-			{
-				if (count != 5)
-				{
-					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of stat changes ({1}).", conn.Account.Name, count);
-					return;
-				}
-
-				for (var i = 0; i < count; ++i)
-				{
-					var stat = packet.GetInt();
-					if (stat <= 0)
-						continue;
-
-					if (character.Properties.GetFloat(PropertyName.StatPoint) < stat)
-					{
-						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to spent more stat points than they have.", conn.Account.Name);
-						break;
-					}
-
-					//characterProperties.UsedStat += stat;
-					character.Properties.Modify("UsedStat", stat);
-
-					switch (i)
-					{
-						case 0: character.Properties.Modify("STR_STAT", stat); break;
-						case 1: character.Properties.Modify("CON_STAT", stat); break;
-						case 2: character.Properties.Modify("INT_STAT", stat); break;
-						case 3: character.Properties.Modify("MNA_STAT", stat); break;
-						case 4: character.Properties.Modify("DEX_STAT", stat); break;
-					}
-				}
-
-				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP);
-
-				// Official doesn't update UsedStat with this packet,
-				// but presumably the PROP_UPDATE below. Why send more
-				// packets than necessary though?
-				Send.ZC_OBJECT_PROPERTY(character,
-					"STR", "STR_STAT", "CON", "CON_STAT", "INT",
-					"INT_STAT", "MNA", "MNA_STAT", "DEX", "DEX_STAT",
-					"UsedStat", "MINPATK", "MAXPATK", "MINMATK",
-					"MAXMATK", "MINPATK_SUB", "MAXPATK_SUB", "CRTATK",
-					"HR", "DR", "BLK_BREAK", "RHP", "RSP",
-					"MHP", "MSP"
-				);
-
-				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.STR_STAT, 0);
-				//Send.ZC_PC_PROP_UPDATE(character, ObjectProperty.PC.UsedStat, 0);
-			}
-			else if (txType == TxType.SkillUp)
-			{
-				var jobId = (JobId)packet.GetInt();
-
-				// Check job
-				var job = character.Jobs.Get(jobId);
-				if (job == null)
-				{
-					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to learn skills of a job they don't have.", conn.Account.Name);
-					return;
-				}
-
-				// Check skill data
-				// The clients sends the number of points to add to every
-				// skill, incl. the skills the player shouldn't be able to
-				// put points into yet, so we need to use the job's MaxLevel
-				// for getting all available skills.
-				var skillTreeData = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.MaxLevel);
-				if (count - 1 != skillTreeData.Length)
-				{
-					Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unexpected number of skill level changes ({1}).", conn.Account.Name, count);
-					return;
-				}
-
-				// The count-1 is the number of skills available to the
-				// given job. Similar to the stats no ids are sent,
-				// just the number of levels to raise the skill at the
-				// given index.
-				for (var i = 0; i < count - 1; ++i)
-				{
-					var add = packet.GetInt();
-					if (add <= 0)
-						continue;
-
-					// Check skill points
-					if (job.SkillPoints < add)
-					{
-						Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to use more skill points than they have.", conn.Account.Name);
-						break;
-					}
-
-					var data = skillTreeData[i];
-					var skillId = data.SkillId;
-
-					// Check max level
-					var maxLevel = character.Skills.GetMaxLevel(skillId);
-					var currentLevel = character.Skills.GetLevel(skillId);
-					var newLevel = (currentLevel + add);
-
-					if (newLevel > maxLevel)
-					{
-						// Don't warn about this, since the client doesn't
-						// check the max level for skill's with unlock levels.
-						// The player can try, but nothing should happen.
-						//Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", conn.Account.Name, skillId, newLevel, maxLevel);
-						continue;
-					}
-
-					// Create skill or update its level
-					var skill = character.Skills.Get(skillId);
-					if (skill == null)
-					{
-						skill = new Skill(character, skillId, newLevel);
-						character.Skills.Add(skill);
-					}
-					else
-					{
-						skill.Level = newLevel;
-						Send.ZC_OBJECT_PROPERTY(conn, skill);
-					}
-
-					job.SkillPoints -= add;
-				}
-
-				Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
-				Send.ZC_JOB_PTS(character, job);
-				//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
-			}
-			else
-			{
-				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: txType {0} not handled.", txType);
-			}
-		}
-
-		/// <summary>
 		/// Sent when clicking Confirm in a shop, with items in the "Bought" list.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1905,8 +1757,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Presumably multiple functions, one of them being toggling
-		/// ability states.
+		/// Request to execute a transaction script function with a string
+		/// argument.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1938,12 +1790,57 @@ namespace Melia.Zone.Network
 				var result = scriptFunc(character, strArg);
 				if (result == NormalTxResult.Fail)
 				{
-					Log.Debug("CZ_REQ_NORMAL_TX: Execution of script '{0}({1})' failed.", data.Script, strArg);
+					Log.Debug("CZ_REQ_NORMAL_TX: Execution of script '{0}(\"{1}\")' failed.", data.Script, strArg);
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Debug("CZ_REQ_NORMAL_TX: Exception while executing script '{0}(\"{1}\")': {2}", data.Script, strArg, ex);
+			}
+		}
+
+		/// <summary>
+		/// Request to execute a transaction script function with numeric
+		/// arguments.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_NORMAL_TX_NUMARG)]
+		public void CZ_REQ_NORMAL_TX_NUMARG(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var classId = packet.GetShort();
+			var argCount = packet.GetInt();
+			var numArgs = packet.GetList(argCount, packet.GetInt);
+
+			var character = conn.SelectedCharacter;
+
+			// Get data
+			if (!ZoneServer.Instance.Data.NormalTxDb.TryFind(classId, out var data))
+			{
+				Log.Warning("CZ_REQ_NORMAL_TX_NUMARG: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!NormalTxScripts.TryGetNum(data.Script, out var scriptFunc))
+			{
+				Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: No handler registered for transaction script '{0}({1})'", data.Script, string.Join(", ", numArgs));
+				return;
+			}
+
+			// Try to execute transaction
+			try
+			{
+				var result = scriptFunc(character, numArgs);
+				if (result == NormalTxResult.Fail)
+				{
+					Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Execution of script '{0}({1})' failed.", data.Script, string.Join(", ", numArgs));
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
 			}
 		}
 
