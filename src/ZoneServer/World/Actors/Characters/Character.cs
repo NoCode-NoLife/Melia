@@ -446,7 +446,7 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Starts movement.
+		/// Makes character jump into the air.
 		/// </summary>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
@@ -454,9 +454,12 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="unkByte"></param>
 		public void Jump(Position pos, Direction dir, float unkFloat, byte unkByte)
 		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = true;
+			//this.SetPosition(pos);
+			//this.SetDirection(dir);
+			//this.IsMoving = true;
+
+			var staminaUsage = (int)this.Properties.GetFloat(PropertyName.Sta_Jump);
+			this.UseStamina(staminaUsage);
 
 			Send.ZC_JUMP(this, pos, dir, unkFloat, unkByte);
 		}
@@ -591,8 +594,8 @@ namespace Melia.Zone.World.Actors.Characters
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			var newLevel = this.Properties.Modify("Lv", amount);
-			this.Properties.Modify("StatByLevel", amount);
+			var newLevel = this.Properties.Modify(PropertyName.Lv, amount);
+			this.Properties.Modify(PropertyName.StatByLevel, amount);
 
 			this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
 			this.Heal();
@@ -1162,6 +1165,16 @@ namespace Melia.Zone.World.Actors.Characters
 		public void PlayEffect(string packetString)
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
+		}
+
+		/// <summary>
+		/// Reduces character's stamina and updates the client.
+		/// </summary>
+		/// <param name="staminaUsage"></param>
+		private void UseStamina(int staminaUsage)
+		{
+			var stamina = (this.Properties.Stamina -= staminaUsage);
+			Send.ZC_STAMINA(this, stamina);
 		}
 	}
 }

@@ -23,6 +23,9 @@
 		
 		// Enables dashing for all classes
 		{ name: "DashingForAll", enabled: true },
+		
+		// Disables jumping costing stamina
+		{ name: "FreeJumping", enabled: true },
 	]},
 	
 	// Enables job-related changes
