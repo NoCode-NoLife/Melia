@@ -19,7 +19,7 @@ namespace Melia.Shared.Data.Database
 		public bool Removable { get; set; }
 		public bool RemoveOnDeath { get; set; }
 		public bool RemoveBySkill { get; set; }
-		public string UpdateProperties { get; set; }
+		public string[] UpdateProperties { get; set; }
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ namespace Melia.Shared.Data.Database
 			data.Removable = entry.ReadBool("removable");
 			data.RemoveOnDeath = entry.ReadBool("removeOnDeath");
 			data.RemoveBySkill = entry.ReadBool("removeBySkill");
-			data.UpdateProperties = entry.ReadString("updateProperties");
+			data.UpdateProperties = entry.ReadArray<string>("updateProperties", new string[0]);
 
 			this.AddOrReplace(data.Id, data);
 		}
