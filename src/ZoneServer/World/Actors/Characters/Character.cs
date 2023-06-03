@@ -359,16 +359,10 @@ namespace Melia.Zone.World.Actors.Characters
 			// already initialized. Let's just use a variable for that.
 			if (!this.Variables.Perm.Has("Melia.PropertiesInitialized"))
 			{
-				this.Properties.SetFloat("Lv", 1);
 				this.Exp = 0;
 				this.TotalExp = 0;
 				this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(1);
 
-				this.Properties.SetFloat("STR_JOB", this.Job.Data.Str);
-				this.Properties.SetFloat("CON_JOB", this.Job.Data.Con);
-				this.Properties.SetFloat("INT_JOB", this.Job.Data.Int);
-				this.Properties.SetFloat("MNA_JOB", this.Job.Data.Spr);
-				this.Properties.SetFloat("DEX_JOB", this.Job.Data.Dex);
 				this.Properties.SetFloat("HP", this.Properties.CFloat("MHP").Recalculate());
 				this.Properties.SetFloat("SP", this.Properties.CFloat("MSP").Recalculate());
 

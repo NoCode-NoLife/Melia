@@ -310,6 +310,7 @@
     <Compile Include="content\test\warps\other\mission_test.cs" />
     <Compile Include="content\test\warps\other\p_catacomb_1.cs" />
     <Compile Include="content\test\warps\other\p_cathedral_1.cs" />
+    <Compile Include="core\calc_character.cs" />
     <Compile Include="core\custom_commands.cs" />
     <Compile Include="core\normal_tx.cs" />
     <Compile Include="custom\test.cs" />

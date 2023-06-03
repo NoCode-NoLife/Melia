@@ -3,6 +3,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
+using Melia.Zone.Scripting;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -15,6 +16,21 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns the owner of the properties.
 		/// </summary>
 		public Character Character { get; }
+
+		/// <summary>
+		/// Gets or sets stamina, clamped between 0 and MaxStamina.
+		/// </summary>
+		public int Stamina
+		{
+			get => _stamina;
+			set => _stamina = (int)Math2.Clamp(0, this.MaxStamina, value);
+		}
+		private int _stamina;
+
+		/// <summary>
+		/// Returns the character's maximum stamina (property MaxSta).
+		/// </summary>
+		public int MaxStamina => (int)this.GetFloat(PropertyName.MaxSta);
 
 		/// <summary>
 		/// Creates new instance for the character.
@@ -38,81 +54,84 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(new FloatProperty(PropertyName.Lv, 1, min: 1));
 
-			this.Create(new CFloatProperty(PropertyName.STR_ADD, this.GetSTR_ADD));
-			this.Create(new CFloatProperty(PropertyName.STR, this.GetSTR));
+			this.Create(PropertyName.STR, "SCR_Get_Character_STR");
+			this.Create(PropertyName.CON, "SCR_Get_Character_CON");
+			this.Create(PropertyName.INT, "SCR_Get_Character_INT");
+			this.Create(PropertyName.MNA, "SCR_Get_Character_MNA");
+			this.Create(PropertyName.DEX, "SCR_Get_Character_DEX");
 
-			this.Create(new CFloatProperty(PropertyName.CON_ADD, this.GetCON_ADD));
-			this.Create(new CFloatProperty(PropertyName.CON, this.GetCON));
+			this.Create(PropertyName.STR_JOB, "SCR_Get_Character_STR_JOB");
+			this.Create(PropertyName.CON_JOB, "SCR_Get_Character_CON_JOB");
+			this.Create(PropertyName.INT_JOB, "SCR_Get_Character_INT_JOB");
+			this.Create(PropertyName.MNA_JOB, "SCR_Get_Character_MNA_JOB");
+			this.Create(PropertyName.DEX_JOB, "SCR_Get_Character_DEX_JOB");
 
-			this.Create(new CFloatProperty(PropertyName.INT_ADD, this.GetINT_ADD));
-			this.Create(new CFloatProperty(PropertyName.INT, this.GetINT));
+			this.Create(PropertyName.STR_ADD, "SCR_Get_Character_STR_ADD");
+			this.Create(PropertyName.CON_ADD, "SCR_Get_Character_CON_ADD");
+			this.Create(PropertyName.INT_ADD, "SCR_Get_Character_INT_ADD");
+			this.Create(PropertyName.MNA_ADD, "SCR_Get_Character_MNA_ADD");
+			this.Create(PropertyName.DEX_ADD, "SCR_Get_Character_DEX_ADD");
 
-			this.Create(new CFloatProperty(PropertyName.MNA_ADD, this.GetMNA_ADD));
-			this.Create(new CFloatProperty(PropertyName.MNA, this.GetMNA));
+			this.Create(PropertyName.MaxSta, "SCR_Get_Character_MaxSta");
+			this.Create(PropertyName.Sta_RunStart, "SCR_Get_Character_Sta_RunStart");
+			this.Create(PropertyName.Sta_Run, "SCR_Get_Character_Sta_Run");
+			this.Create(PropertyName.Sta_Recover, "SCR_Get_Character_Sta_Recover");
+			this.Create(PropertyName.Sta_R_Delay, "SCR_Get_Character_Sta_R_Delay");
+			this.Create(PropertyName.Sta_Runable, "SCR_Get_Character_Sta_Runable");
+			this.Create(PropertyName.Sta_Jump, "SCR_Get_Character_Sta_Jump");
+			this.Create(PropertyName.Sta_Step, "SCR_Get_Character_Sta_Step");
 
-			this.Create(new CFloatProperty(PropertyName.DEX_ADD, this.GetDEX_ADD));
-			this.Create(new CFloatProperty(PropertyName.DEX, this.GetDEX));
-
-			this.Create(new CFloatProperty(PropertyName.MHP, this.GetMHP));
-			this.Create(new CFloatProperty(PropertyName.MSP, this.GetMSP));
-
-			this.Create(new CFloatProperty(PropertyName.MaxSta, this.Get_MSTA));
-			this.Create(new CFloatProperty(PropertyName.Sta_RunStart, this.Get_Sta_RunStart));
-			this.Create(new CFloatProperty(PropertyName.Sta_Run, this.Get_Sta_Run));
-			this.Create(new CFloatProperty(PropertyName.Sta_Recover, this.Get_Sta_Recover));
-			this.Create(new CFloatProperty(PropertyName.Sta_R_Delay, this.Get_Sta_R_Delay));
-			this.Create(new CFloatProperty(PropertyName.Sta_Runable, this.Get_Sta_Runable));
-			this.Create(new CFloatProperty(PropertyName.Sta_Jump, this.Get_Sta_Jump));
-			this.Create(new CFloatProperty(PropertyName.Sta_Step, this.Get_Sta_Step));
-
-			// Don't set a max value initially, as that could cap the HP
+			// Don't set a max values for HP and SP initially, as that could cap the HP
 			// during loading.
-			this.Create(new FloatProperty(PropertyName.HP, this.GetMHP(), min: 0));
-			this.Create(new FloatProperty(PropertyName.SP, this.GetMSP(), min: 0));
+			this.Create(PropertyName.MHP, "SCR_Get_Character_MHP");
+			this.Create(PropertyName.MSP, "SCR_Get_Character_MSP");
+			this.Create(new FloatProperty(PropertyName.HP, this.GetFloat(PropertyName.MHP), min: 0));
+			this.Create(new FloatProperty(PropertyName.SP, this.GetFloat(PropertyName.MSP), min: 0));
 
-			this.Create(new CFloatProperty(PropertyName.RHP, this.GetRHP));
-			this.Create(new CFloatProperty(PropertyName.RSP, this.GetRSP));
-			this.Create(new CFloatProperty(PropertyName.RHPTIME, this.GetRHPTIME));
-			this.Create(new CFloatProperty(PropertyName.RSPTIME, this.GetRSPTIME));
+			this.Create(PropertyName.RHP, "SCR_Get_Character_RHP");
+			this.Create(PropertyName.RSP, "SCR_Get_Character_RSP");
+			this.Create(PropertyName.RHPTIME, "SCR_Get_Character_RHPTIME");
+			this.Create(PropertyName.RSPTIME, "SCR_Get_Character_RSPTIME");
 
 			this.Create(new FloatProperty(PropertyName.StatByLevel, min: 0));
 			this.Create(new FloatProperty(PropertyName.StatByBonus, min: 0));
 			this.Create(new FloatProperty(PropertyName.UsedStat, min: 0));
-			this.Create(new CFloatProperty(PropertyName.StatPoint, this.GetStatPoint));
+			this.Create(PropertyName.StatPoint, "SCR_Get_Character_StatPoint");
 			this.Create(new StringProperty(PropertyName.AbilityPoint, "0")); // Why oh why did they make this a string >_>
 
-			this.Create(new CFloatProperty(PropertyName.MAXPATK, this.GetMAXPATK));
-			this.Create(new CFloatProperty(PropertyName.MINPATK, this.GetMINPATK));
-			this.Create(new CFloatProperty(PropertyName.MAXMATK, this.GetMAXMATK));
-			this.Create(new CFloatProperty(PropertyName.MINMATK, this.GetMINMATK));
-			this.Create(new CFloatProperty(PropertyName.MAXPATK_SUB, this.GetMAXPATK_SUB));
-			this.Create(new CFloatProperty(PropertyName.MINPATK_SUB, this.GetMINPATK_SUB));
+			this.Create(PropertyName.MAXPATK, "SCR_Get_Character_MAXPATK");
+			this.Create(PropertyName.MINPATK, "SCR_Get_Character_MINPATK");
+			this.Create(PropertyName.MAXMATK, "SCR_Get_Character_MAXMATK");
+			this.Create(PropertyName.MINMATK, "SCR_Get_Character_MINMATK");
+			this.Create(PropertyName.MAXPATK_SUB, "SCR_Get_Character_MAXPATK_SUB");
+			this.Create(PropertyName.MINPATK_SUB, "SCR_Get_Character_MINPATK_SUB");
 
-			this.Create(new CFloatProperty(PropertyName.DEF, this.GetDEF));
-			this.Create(new CFloatProperty(PropertyName.MDEF, this.GetMDEF));
-			this.Create(new CFloatProperty(PropertyName.CRTATK, this.GetCRTATK));
-			this.Create(new CFloatProperty(PropertyName.CRTHR, this.GetCRTHR));
-			this.Create(new CFloatProperty(PropertyName.CRTDR, this.GetCRTDR));
-			this.Create(new CFloatProperty(PropertyName.HR, this.GetHR));
-			this.Create(new CFloatProperty(PropertyName.DR, this.GetDR));
-			this.Create(new CFloatProperty(PropertyName.BLK, this.GetBLK));
-			this.Create(new CFloatProperty(PropertyName.BLK_BREAK, this.GetBLK_BREAK));
-			this.Create(new CFloatProperty(PropertyName.SR, this.GetSR));
-			this.Create(new CFloatProperty(PropertyName.SDR, this.GetSDR));
+			this.Create(PropertyName.DEF, "SCR_Get_Character_DEF");
+			this.Create(PropertyName.MDEF, "SCR_Get_Character_MDEF");
+			this.Create(PropertyName.CRTATK, "SCR_Get_Character_CRTATK");
+			this.Create(PropertyName.CRTHR, "SCR_Get_Character_CRTHR");
+			this.Create(PropertyName.CRTDR, "SCR_Get_Character_CRTDR");
+			this.Create(PropertyName.HR, "SCR_Get_Character_HR");
+			this.Create(PropertyName.DR, "SCR_Get_Character_DR");
+			this.Create(PropertyName.BLK, "SCR_Get_Character_BLK");
+			this.Create(PropertyName.BLK_BREAK, "SCR_Get_Character_BLK_BREAK");
+			this.Create(PropertyName.SR, "SCR_Get_Character_SR");
+			this.Create(PropertyName.SDR, "SCR_Get_Character_SDR");
 
-			this.Create(new CFloatProperty(PropertyName.MaxWeight, this.GetMaxWeight));
-			this.Create(new CFloatProperty(PropertyName.NowWeight, this.GetNowWeight));
+			this.Create(PropertyName.MaxWeight, "SCR_Get_Character_MaxWeight");
+			this.Create(PropertyName.NowWeight, "SCR_Get_Character_NowWeight");
 
-			this.Create(new CFloatProperty(PropertyName.MSPD, this.GetMSPD));
-			this.Create(new CFloatProperty(PropertyName.JumpPower, this.GetJumpPower));
-			this.Create(new CFloatProperty(PropertyName.CastingSpeed, this.GetCastingSpeed));
+			this.Create(PropertyName.MSPD, "SCR_Get_Character_MSPD");
+			this.Create(PropertyName.JumpPower, "SCR_Get_Character_JumpPower");
+			this.Create(PropertyName.CastingSpeed, "SCR_Get_Character_CastingSpeed");
 
+			// TODO: These were probably added for testing purposes or to
+			// reproduce logged packets. Can they be removed?
 			this.Create(new FloatProperty(PropertyName.MovingShotable, 0));
 			this.Create(new FloatProperty(PropertyName.HPDrain, 2));
 			this.Create(new FloatProperty(PropertyName.BOOST, 1));
 			this.Create(new FloatProperty(PropertyName.Const, 1.909859f));
 			this.Create(new FloatProperty(PropertyName.CAST, 1));
-			this.Create(new FloatProperty(PropertyName.Sta_Jump, 1000));
 		}
 
 		/// <summary>
@@ -181,1020 +200,31 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Returns the character's maximum HP.
+		/// Creates a new calculated float property that uses the given
+		/// function.
 		/// </summary>
-		public float GetMHP()
+		/// <param name="propertyName"></param>
+		/// <param name="calcFuncName"></param>
+		private void Create(string propertyName, string calcFuncName)
 		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.CON, 1);
-
-			var rateByJob = this.Character.Job?.Data.HpRate ?? 1;
-			var byJob = Math.Floor(400 * rateByJob);
-
-			var byLevel = Math.Floor(byJob + ((level - 1) * 80 * rateByJob));
-			var byStat = Math.Floor(((stat * 0.003f) + (Math.Floor(stat / 10.0f) * 0.01f)) * byLevel);
-			var byItem = this.Character.Inventory.GetEquipProperties("MHP");
-			var byItemRatio = (byLevel + byStat) * (this.Character.Inventory.GetEquipProperties("MHPRatio") / 100f);
-			var byBonus = this.GetFloat(PropertyName.MHP_Bonus);
-
-			var value = byLevel + byStat + byItem + byItemRatio + byBonus;
-
-			var byBuffs = this.GetFloat(PropertyName.MHP_BM);
-			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyName.MHP_RATE_BM));
-
-			value += byBuffs + byBuffRate;
-
-			return (int)Math.Max(1, value);
+			this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
 		}
 
 		/// <summary>
-		/// Returns the character's maximum SP.
+		/// Calls the calculation function with the given name and returns
+		/// the result.
 		/// </summary>
-		public float GetMSP()
-		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.MNA, 1);
-
-			var rateByJob = this.Character.Job?.Data.SpRate ?? 1;
-			var byJob = Math.Floor(200 * rateByJob);
-
-			var byLevel = Math.Floor(byJob + ((level - 1) * 18 * rateByJob));
-			var byStat = Math.Floor(((stat * 0.005f) + (Math.Floor(stat / 10.0f) * 0.015f)) * byLevel);
-			var byItem = this.Character.Inventory.GetEquipProperties("MSP");
-			var byBonus = this.GetFloat(PropertyName.MSP_Bonus);
-
-			var value = byLevel + byStat + byItem + byBonus;
-
-			var byBuffs = this.GetFloat(PropertyName.MSP_BM);
-			var byBuffRate = Math.Floor(value * this.GetFloat(PropertyName.MSP_RATE_BM));
-
-			value += byBuffs + byBuffRate;
-
-			return (int)Math.Max(0, value);
-		}
-
-		/// <summary>
-		/// Gets or set Stamina, clamped between 0 and MaxStamina.
-		/// </summary>
-		public int Stamina
-		{
-			get => _stamina;
-			set => _stamina = (int)Math2.Clamp(0, this.Get_MSTA(), value);
-		}
-		private int _stamina;
-
-		/// <summary>
-		/// Returns the character's maximum stamina (PC.MaxSta).
-		/// </summary>
-		public int MaxStamina => (int)this.GetFloat(PropertyName.MaxSta);
-
-		/// <summary>
-		/// Returns the character's maximum stamina.
-		/// </summary>
-		public float Get_MSTA()
-		{
-			var defaultValue = 25;
-			var stat = this.GetFloat(PropertyName.CON, 1);
-
-			var byStat = Math.Floor(stat / 20f);
-			var byItem = this.Character.Inventory.GetEquipProperties(PropertyName.MSTA);
-			var byBonus = this.GetFloat(PropertyName.MAXSTA_Bonus, 0);
-			var byBuff = this.GetFloat(PropertyName.MaxSta_BM, 0);
-			//var byReward = GetReward(PropertyName.MSTA);
-
-			var value = defaultValue + byStat + byItem + byBonus + byBuff;
-
-			return (int)(value * 1000);
-		}
-
-		/// <summary>
-		/// Returns the amount of stamina used when starting to run.
-		/// </summary>
+		/// <param name="calcFuncName"></param>
 		/// <returns></returns>
-		public float Get_Sta_RunStart()
+		/// <exception cref="ArgumentException">
+		/// Thrown if the function doesn't exist.
+		/// </exception>
+		private float CalculateProperty(string calcFuncName)
 		{
-			return 0;
-		}
+			if (!CalculationScripts.TryGetCharacterFunc(calcFuncName, out var func))
+				throw new ArgumentException($"Calculation function '{calcFuncName}' not found.");
 
-		/// <summary>
-		/// Returns the amount of stamina used while moving.
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_Run()
-		{
-			var defaultValue = 50f;
-
-			if (Feature.IsEnabled("FreeRunning"))
-				defaultValue = 0;
-
-			var isDashRun = this.GetFloat("DashRun", 0);
-			if (isDashRun > 0 && !Feature.IsEnabled("FreeDashing"))
-			{
-				var dashAmount = 500f;
-				if (isDashRun == 2)
-					dashAmount *= 0.9f;
-
-				defaultValue += dashAmount;
-			}
-
-			var value = 250f * defaultValue / 100f;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns the amount of stamina recovered per second.
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_Recover()
-		{
-			//if (buffCursed?)
-			//	return 0;
-
-			var defaultValue = 400;
-
-			var byBuff = this.GetFloat(PropertyName.REST_BM, 0) + this.GetFloat(PropertyName.RSta_BM, 0);
-			var value = defaultValue + byBuff;
-
-			if (this.Character.Buffs.Has(BuffId.SitRest))
-				value *= 2;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns the amount of time between stamina recovery ticks?
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_R_Delay()
-		{
-			return 1000;
-		}
-
-		/// <summary>
-		/// Returns the amount of stamina necessary to start dashing.
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_Runable()
-		{
-			return 250;
-		}
-
-		/// <summary>
-		/// Returns the amount of stamina used when jumping.
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_Jump()
-		{
-			return 0;
-		}
-
-		/// <summary>
-		/// Returns the amount of stamina for ...?
-		/// </summary>
-		/// <returns></returns>
-		public float Get_Sta_Step()
-		{
-			return 2500;
-		}
-
-		/// <summary>
-		/// Returns HP recovery.
-		/// </summary>
-		public float GetRHP()
-		{
-			var mhp = this.GetFloat(PropertyName.MHP, 1);
-			var jobHpRate = this.Character.Job?.Data.RHpRate ?? 1;
-
-			var byDefault = Math.Floor(mhp / 100f * jobHpRate);
-			var byItems = this.Character.Inventory.GetEquipProperties("RHP");
-			var byBuffs = this.GetFloat(PropertyName.RHP_BM);
-
-			var value = (byDefault + byItems + byBuffs);
-			return (float)Math.Max(0, value);
-		}
-
-		/// <summary>
-		/// Returns HP recovery time.
-		/// </summary>
-		public float GetRHPTIME()
-		{
-			// The recovery time is presumably the number of milliseconds
-			// between regen ticks, with the default being 20 seconds,
-			// which is reduced by items, buffs, sitting, etc.
-
-			var defaultTime = 20000;
-
-			// Item.RHPTIME doesn't exist?
-			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties("RHPTIME"));
-			var byBuffs = this.GetFloat(PropertyName.RHPTIME_BM);
-
-			var value = defaultTime - byItems - byBuffs;
-
-			if (this.Character.IsSitting)
-				value /= 2;
-
-			return (int)Math.Max(1000, value);
-		}
-
-		/// <summary>
-		/// Returns SP recovery.
-		/// </summary>
-		public float GetRSP()
-		{
-			var mhp = this.GetFloat(PropertyName.MSP, 1);
-			var jobSpRate = this.Character.Job?.Data.RSpRate ?? 1;
-
-			var byDefault = Math.Floor(mhp * 0.03f * jobSpRate);
-			var byItems = this.Character.Inventory.GetEquipProperties("RSP");
-			var byBuffs = this.GetFloat(PropertyName.RSP_BM);
-
-			var value = (byDefault + byItems + byBuffs);
-			return (float)Math.Max(0, value);
-		}
-
-		/// <summary>
-		/// Returns SP recovery time.
-		/// </summary>
-		public float GetRSPTIME()
-		{
-			var defaultTime = 20000;
-
-			var byItems = 0; ; // TimeSpan.FromMilliseconds(this.Character.Inventory.GetEquipProperties("RSPTIME"));
-			var byBuffs = this.GetFloat(PropertyName.RSPTIME_BM);
-
-			var value = defaultTime - byItems - byBuffs;
-
-			if (this.Character.IsSitting)
-				value /= 2;
-
-			return (int)Math.Max(1000, value);
-		}
-
-		/// <summary>
-		/// Returns maximum weight the character can carry.
-		/// </summary>
-		/// <remarks>
-		/// At release: Base 5000, plus 5 for each Str/Con.
-		/// Now: Base 8000 plus bonuses?
-		/// </remarks>
-		public float GetMaxWeight()
-			=> 8000;
-
-		/// <summary>
-		/// Returns combined weight of all items the character is currently carrying.
-		/// </summary>
-		public float GetNowWeight()
-			=> this.Character.Inventory.GetNowWeight();
-
-		/// <summary>
-		/// Stat points.
-		/// </summary>
-		public float GetStatPoint()
-		{
-			var byLevel = (int)this.GetFloat(PropertyName.StatByLevel);
-			var byBonus = (int)this.GetFloat(PropertyName.StatByBonus);
-			var usedStat = (int)this.GetFloat(PropertyName.UsedStat);
-
-			return (byLevel + byBonus - usedStat);
-		}
-
-		/// <summary>
-		/// Returns character's STR bonus from items and buffs.
-		/// </summary>
-		public float GetSTR_ADD()
-		{
-			var byItem = 0; // TODO
-
-			// Buffs: "STR_BM"
-			var byBuffs = 0;
-
-			// "STR_ITEM_BM" Item Awakening/Enchantment ?
-			var byItemBuff = 0;
-
-			var value = byItem + byBuffs + byItemBuff;
-
-			return value;
-		}
-
-		/// <summary>
-		/// Returns character's total strength.
-		/// </summary>
-		/// <returns></returns>
-		public float GetSTR()
-		{
-			var defaultStat = this.GetFloat(PropertyName.STR_JOB);
-
-			var byJob = 0f;
-			var jobs = this.Character.Jobs.GetList();
-			foreach (var job in jobs)
-				byJob += job.Data.StrRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
-			var byStat = this.GetFloat(PropertyName.STR_STAT);
-			var byBonus = this.GetFloat(PropertyName.STR_Bonus);
-			var byAdd = this.GetFloat(PropertyName.STR_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyName.STR_TEMP);
-
-			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-			return (float)Math.Floor(Math.Max(1, result));
-		}
-
-		/// <summary>
-		/// Returns character's CON bonus from items and buffs.
-		/// </summary>
-		public float GetCON_ADD()
-		{
-			var byItem = 0; // TODO
-
-			// Buffs: "CON_BM"
-			var byBuffs = 0;
-
-			// "CON_ITEM_BM" Item Awakening/Enchantment ?
-			var byItemBuff = 0;
-
-			var value = byItem + byBuffs + byItemBuff;
-
-			return value;
-		}
-
-		/// <summary>
-		/// Returns character's total constitution.
-		/// </summary>
-		public float GetCON()
-		{
-			var defaultStat = this.GetFloat(PropertyName.CON_JOB);
-
-			var byJob = 0f;
-			var jobs = this.Character.Jobs.GetList();
-			foreach (var job in jobs)
-				byJob += job.Data.ConRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
-			var byStat = this.GetFloat(PropertyName.CON_STAT);
-			var byBonus = this.GetFloat(PropertyName.CON_Bonus);
-			var byAdd = this.GetFloat(PropertyName.CON_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyName.CON_TEMP);
-
-			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-			return (float)Math.Floor(Math.Max(1, result));
-		}
-
-		/// <summary>
-		/// Returns character's INT bonus from items and buffs.
-		/// </summary>
-		public float GetINT_ADD()
-		{
-			var byItem = 0; // TODO
-
-			// Buffs: "INT_BM"
-			var byBuffs = 0;
-
-			// "INT_ITEM_BM" Item Awakening/Enchantment ?
-			var byItemBuff = 0;
-
-			var value = byItem + byBuffs + byItemBuff;
-
-			return value;
-		}
-
-		/// <summary>
-		/// Returns character's total intelligence.
-		/// </summary>
-		public float GetINT()
-		{
-			var defaultStat = this.GetFloat(PropertyName.INT_JOB);
-
-			var byJob = 0f;
-			var jobs = this.Character.Jobs.GetList();
-			foreach (var job in jobs)
-				byJob += job.Data.IntRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
-			var byStat = this.GetFloat(PropertyName.INT_STAT);
-			var byBonus = this.GetFloat(PropertyName.INT_Bonus);
-			var byAdd = this.GetFloat(PropertyName.INT_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyName.INT_TEMP);
-
-			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-			return (float)Math.Floor(Math.Max(1, result));
-		}
-
-		/// <summary>
-		/// Returns character's MNA (SPR) bonus from items and buffs.
-		/// </summary>
-		public float GetMNA_ADD()
-		{
-			var byItem = 0; // TODO
-
-			// Buffs: "SPR_BM"
-			var byBuffs = 0;
-
-			// "SPR_ITEM_BM" Item Awakening/Enchantment ?
-			var byItemBuff = 0;
-
-			var value = byItem + byBuffs + byItemBuff;
-
-			return value;
-		}
-
-		/// <summary>
-		/// Returns character's total spirit.
-		/// </summary>
-		public float GetMNA()
-		{
-			var defaultStat = this.GetFloat(PropertyName.MNA_JOB);
-
-			var byJob = 0f;
-			var jobs = this.Character.Jobs.GetList();
-			foreach (var job in jobs)
-				byJob += job.Data.SprRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
-			var byStat = this.GetFloat(PropertyName.MNA_STAT);
-			var byBonus = this.GetFloat(PropertyName.MNA_Bonus);
-			var byAdd = this.GetFloat(PropertyName.MNA_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyName.MNA_TEMP);
-
-			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-			return (float)Math.Floor(Math.Max(1, result));
-		}
-
-		/// <summary>
-		/// Returns character's DEX bonus from items and buffs.
-		/// </summary>
-		public float GetDEX_ADD()
-		{
-			var byItem = 0; // TODO
-
-			// Buffs: "DEX_BM"
-			var byBuffs = 0;
-
-			// "DEX_ITEM_BM" Item Awakening/Enchantment ?
-			var byItemBuff = 0;
-
-			var value = byItem + byBuffs + byItemBuff;
-
-			return value;
-		}
-
-		/// <summary>
-		/// Returns character's total dexterity.
-		/// </summary>
-		public float GetDEX()
-		{
-			var defaultStat = this.GetFloat(PropertyName.DEX_JOB);
-
-			var byJob = 0f;
-			var jobs = this.Character.Jobs.GetList();
-			foreach (var job in jobs)
-				byJob += job.Data.DexRatio;
-			byJob = (float)Math.Floor((this.GetFloat(PropertyName.Lv) - 1) * (byJob / jobs.Length / 100f));
-
-			var byStat = this.GetFloat(PropertyName.DEX_STAT);
-			var byBonus = this.GetFloat(PropertyName.DEX_Bonus);
-			var byAdd = this.GetFloat(PropertyName.DEX_ADD);
-			var byTemp = 0; // this.GetFloat(PropertyName.DEX_TEMP);
-
-			var rewardProperty = 0; // GET_REWARD_PROPERTY(self, statString);
-
-			var result = defaultStat + byJob + byStat + byBonus + byAdd + byTemp + rewardProperty;
-			return (float)Math.Floor(Math.Max(1, result));
-		}
-
-		/// <summary>
-		/// Returns minimum physical ATK.
-		/// </summary>
-		public float GetMINPATK()
-		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.STR, 1);
-
-			var baseValue = 20;
-			var byLevel = level;
-
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
-
-			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties("MINATK");
-			byItem += this.Character.Inventory.GetEquipProperties("PATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MINATK");
-
-			var value = (baseValue + byLevel + byStat + byItem);
-
-			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyName.PATK_BM);
-			byBuffs += this.GetFloat(PropertyName.MINPATK_BM);
-			byBuffs += this.GetFloat(PropertyName.PATK_MAIN_BM);
-			byBuffs += this.GetFloat(PropertyName.MINPATK_MAIN_BM);
-
-			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyName.PATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MINPATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.PATK_MAIN_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MINPATK_MAIN_RATE_BM);
-			byRateBuffs = (value * byRateBuffs);
-
-			value += byBuffs + byRateBuffs;
-
-			var max = this.GetMAXPATK();
-			return (float)Math2.Clamp(1, max, value);
-		}
-
-		/// <summary>
-		/// Returns maximum physical ATK.
-		/// </summary>
-		public float GetMAXPATK()
-		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.STR, 1);
-
-			var baseValue = 20;
-			var byLevel = level;
-
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
-
-			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties("MAXATK");
-			byItem += this.Character.Inventory.GetEquipProperties("PATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MAXATK");
-
-			var value = (baseValue + byLevel + byStat + byItem);
-
-			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyName.PATK_BM);
-			byBuffs += this.GetFloat(PropertyName.MAXPATK_BM);
-			byBuffs += this.GetFloat(PropertyName.PATK_MAIN_BM);
-			byBuffs += this.GetFloat(PropertyName.MAXPATK_MAIN_BM);
-
-			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyName.PATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MAXPATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.PATK_MAIN_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MAXPATK_MAIN_RATE_BM);
-			byRateBuffs = (value * byRateBuffs);
-
-			value += byBuffs + byRateBuffs;
-
-			return (float)Math.Max(1, value);
-		}
-
-		/// <summary>
-		/// Returns minimum physical ATK (for sub-weapon?).
-		/// </summary>
-		public float GetMINPATK_SUB()
-		{
-			var baseValue = 20;
-			var level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.STR);
-
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: "MINATK" "PATK" "ADD_MINATK"
-
-			var value = baseValue + byLevel + byStat + byItem;
-
-			// Reducation for shields and stuff?
-			//value -= leftHand.MinAtk;
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//	value -= rightHand.MinAtk
-
-			// Buffs: "PATK_BM", "MINPATK_SUB_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: "PATK_RATE_BM", "MINPATK_SUB_RATE_BM"
-			//if(hasBuff("Guardian"))
-			//	rate -= SkillLevel
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			var maxPatk_sub = this.GetMAXPATK_SUB();
-			if (value > maxPatk_sub)
-				return maxPatk_sub;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns maximum physical ATK (for sub-weapon?).
-		/// </summary>
-		public float GetMAXPATK_SUB()
-		{
-			var baseValue = 20;
-			var level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.STR);
-
-			var byLevel = level / 2f;
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * 5f);
-			var byItem = 0; // TODO: "MAXATK" "PATK" "ADD_MAXATK"
-
-			var value = baseValue + byLevel + byStat + byItem;
-
-			// Reducation for shields and stuff?
-			//value -= leftHand.MaxAtk;
-			//if(hasBuff("Warrior_RH_VisibleObject"))
-			//	value -= rightHand.MaxAtk;
-
-			// Buffs: "PATK_BM", "MAXPATK_SUB_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: "PATK_RATE_BM", "MAXPATK_SUB_RATE_BM"
-			//if(hasBuff("Guardian"))
-			//	rate -= SkillLevel
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns minimum magic ATK.
-		/// </summary>
-		public float GetMINMATK()
-		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.INT, 1);
-
-			var baseValue = 20;
-			var byLevel = level;
-
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
-
-			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties("MATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MINATK");
-
-			var value = (baseValue + byLevel + byStat + byItem);
-
-			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyName.MATK_BM);
-			byBuffs += this.GetFloat(PropertyName.MINMATK_BM);
-
-			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyName.MATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MINMATK_RATE_BM);
-			byRateBuffs = (value * byRateBuffs);
-
-			value += byBuffs + byRateBuffs;
-
-			var max = this.GetMAXMATK();
-			return (float)Math2.Clamp(1, max, value);
-		}
-
-		/// <summary>
-		/// Returns maximum magic ATK.
-		/// </summary>
-		public float GetMAXMATK()
-		{
-			var level = this.GetFloat(PropertyName.Lv, 1);
-			var stat = this.GetFloat(PropertyName.INT, 1);
-
-			var baseValue = 20;
-			var byLevel = level;
-
-			var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
-
-			var byItem = 0f;
-			byItem += this.Character.Inventory.GetEquipProperties("MATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MATK");
-			byItem += this.Character.Inventory.GetEquipProperties("ADD_MAXATK");
-
-			var value = (baseValue + byLevel + byStat + byItem);
-
-			var byBuffs = 0f;
-			byBuffs += this.GetFloat(PropertyName.MATK_BM);
-			byBuffs += this.GetFloat(PropertyName.MINMATK_BM);
-
-			var byRateBuffs = 0f;
-			byRateBuffs += this.GetFloat(PropertyName.MATK_RATE_BM);
-			byRateBuffs += this.GetFloat(PropertyName.MINMATK_RATE_BM);
-			byRateBuffs = (value * byRateBuffs);
-
-			value += byBuffs + byRateBuffs;
-
-			return (float)Math.Max(1, value);
-		}
-
-		/// <summary>
-		/// Returns Physical Defense.
-		/// </summary>
-		public float GetDEF()
-		{
-			var baseValue = 20;
-			var level = this.GetFloat(PropertyName.Lv);
-
-			var byLevel = level;
-			var byItem = 0f; // TODO: "DEF" "DEF_Rate"
-
-			var value = baseValue + byLevel + byItem;
-
-			// Buffs: "DEF_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: "DEF_RATE_BM"
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns Magic Defense.
-		/// </summary>
-		public float GetMDEF()
-		{
-			var baseValue = 20;
-			var level = this.GetFloat(PropertyName.Lv);
-
-			var byLevel = level;
-			var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
-
-			var value = baseValue + byLevel + byItem;
-
-			// Buffs: "MDEF_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: "MDEF_RATE_BM"
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns critical attack.
-		/// </summary>
-		public float GetCRTATK()
-		{
-			var stat = this.GetFloat(PropertyName.DEX);
-
-			var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
-			var byItem = 0; // TODO
-
-			var value = byStat + byItem;
-
-			// Buffs: "CRTATK_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: Does Tos have something like CritATK +x%?
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns critical hit rate (crit chance).
-		/// </summary>
-		public float GetCRTHR()
-		{
-			var level = this.GetFloat(PropertyName.Lv);
-
-			var byLevel = level / 2f;
-			var byItem = 0; // TODO
-
-			var value = byLevel + byItem;
-
-			// Buffs: "CRTHR_BM"
-			var byBuffs = 0;
-
-			// Rate buffs:
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns critical dodge rate.
-		/// </summary>
-		public float GetCRTDR()
-		{
-			var level = this.GetFloat(PropertyName.Lv);
-
-			var byLevel = level / 2f;
-			var byItem = 0; // TODO
-
-			var value = byLevel + byItem;
-
-			// Buffs: "CRTDR_BM"
-			var byBuffs = 0;
-
-			// Rate buffs:
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns hit rate.
-		/// </summary>
-		public float GetHR()
-		{
-			var level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.STR);
-
-			var byLevel = level / 4f;
-			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-			var byItem = 0; // HR, ADD_HR
-
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "HR_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: HR_RATE_BM
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns dodge rate.
-		/// </summary>
-		public float GetDR()
-		{
-			var level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.DEX);
-
-			var byLevel = level / 4f;
-			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-			var byItem = 0; // TODO
-
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "DR_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: "ADD_DR"
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns block.
-		/// </summary>
-		public float GetBLK()
-		{
-			// TODO: Update it after equipment change.
-			// Shield/Dagger = Right hand.
-			if (this.Character.Inventory.GetItem(EquipSlot.LeftHand).Data.EquipType1 != EquipType.Shield)
-				return 0;
-
-			var Level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.CON);
-
-			var byLevel = Level / 4f;
-			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-			var byItem = 0f; // TODO
-
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "BLK_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: BlockRate
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns block break (penetration).
-		/// </summary>
-		public float GetBLK_BREAK()
-		{
-			var level = this.GetFloat(PropertyName.Lv);
-			var stat = this.GetFloat(PropertyName.DEX);
-
-			var byLevel = level / 4f;
-			var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-			var byItem = 0; // TODO
-
-			var value = byLevel + byStat + byItem;
-
-			// Buffs: "BLK_BREAK_BM"
-			var byBuffs = 0;
-
-			// Rate buffs: 
-			var rate = 0;
-			var byRateBuffs = (float)Math.Floor(value * rate);
-
-			value += byBuffs + byRateBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns the character's splash rate?
-		/// </summary>
-		public float GetSR()
-		{
-			var baseValue = 3;
-
-			if (this.Character.Jobs.Has(JobId.Swordsman, Circle.First))
-				baseValue = 4;
-			else if (this.Character.Jobs.Has(JobId.Archer, Circle.First))
-				baseValue = 0;
-
-			var byItem = 0f; // TODO
-
-			var value = baseValue + byItem;
-
-			// Buffs: "SR_BM"
-			var byBuffs = 0;
-
-			value += byBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns splash dodge rate.
-		/// </summary>
-		public float GetSDR()
-		{
-			var baseValue = 1;
-			var byItem = 0f; // TODO
-
-			var value = baseValue + byItem;
-
-			// Buffs: "SDR_BM"
-			var byBuffs = 0;
-
-			value += byBuffs;
-
-			return (int)value;
-		}
-
-		/// <summary>
-		/// Returns character's movement speed.
-		/// </summary>
-		/// <returns></returns>
-		private float GetMSPD()
-		{
-			var byDefault = 30;
-			var byBuff = this.GetFloat(PropertyName.MSPD_BM);
-			var byBonus = this.GetFloat(PropertyName.MSPD_Bonus);
-
-			return (byDefault + byBuff + byBonus);
-		}
-
-		/// <summary>
-		/// Returns character's current jump power, which dictates how
-		/// high they can jump.
-		/// </summary>
-		/// <returns></returns>
-		public float GetJumpPower()
-		{
-			return 350;
-		}
-
-		/// <summary>
-		/// Returns character's current casting speed.
-		/// </summary>
-		/// <returns></returns>
-		public float GetCastingSpeed()
-		{
-			var byDefault = 100;
-			var byBuff = this.GetFloat(PropertyName.CastingSpeed_BM);
-
-			var result = byDefault + byBuff;
-			return (float)Math.Floor(Math2.Clamp(10, 200, result));
+			return func(this.Character);
 		}
 	}
 }
