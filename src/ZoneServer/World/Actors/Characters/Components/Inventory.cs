@@ -20,6 +20,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		private readonly Dictionary<EquipSlot, Item> _equip = new Dictionary<EquipSlot, Item>(InventoryDefaults.EquipSlotCount);
 
 		/// <summary>
+		/// Raised when the character equipped an item.
+		/// </summary>
+		public event Action<Character, Item> Equipped;
+
+		/// <summary>
+		/// Raised when the character unequipped an item.
+		/// </summary>
+		public event Action<Character, Item> Unequipped;
+
+		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
 		public Inventory(Character character) : base(character)
@@ -467,6 +477,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			Send.ZC_UPDATED_PCAPPEARANCE(this.Character);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
+			this.Equipped?.Invoke(this.Character, item);
+
 			return InventoryResult.Success;
 		}
 
@@ -491,6 +503,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			Send.ZC_UPDATED_PCAPPEARANCE(this.Character);
 
 			this.Add(item, InventoryAddType.NotNew);
+
+			this.Unequipped?.Invoke(this.Character, item);
 
 			return InventoryResult.Success;
 		}

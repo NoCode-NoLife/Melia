@@ -4,6 +4,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -190,6 +191,28 @@ namespace Melia.Zone.World.Actors.Characters
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
 			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+
+			// Subscribe to equipment changes, as any number of properties
+			// might make use of equipment stats
+			this.Character.Inventory.Equipped += this.OnEquipmentChanged;
+			this.Character.Inventory.Unequipped += this.OnEquipmentChanged;
+		}
+
+		/// <summary>
+		/// Called when an item was equipped or equipped.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <exception cref="NotImplementedException"></exception>
+		private void OnEquipmentChanged(Character character, Item item)
+		{
+			// We could possibly limit this to only update equip-related
+			// properties, such as MINATK and MAXATK, but we don't want
+			// to accidentally miss something, and users might do god
+			// knows what with custom property calculations.
+
+			this.InvalidateAll();
+			Send.ZC_OBJECT_PROPERTY(this.Character);
 		}
 
 		/// <summary>
