@@ -92,17 +92,14 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Removes buff with given id, returns false if it
-		/// didn't exist. Doesn't update the client.
+		/// Adds buff without starting it again or updating the client.
+		/// Use for restoring saved buffs on load.
 		/// </summary>
-		/// <param name="buffId"></param>
-		/// <returns></returns>
-		private bool RemoveSilent(Buff buff)
+		/// <param name="buff"></param>
+		public void Restore(Buff buff)
 		{
-			buff.End();
-
 			lock (_buffs)
-				return _buffs.Remove(buff.Id);
+				_buffs[buff.Id] = buff;
 		}
 
 		/// <summary>
@@ -150,6 +147,20 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			var buffs = this.GetList();
 			foreach (var buff in buffs)
 				this.Remove(buff);
+		}
+
+		/// <summary>
+		/// Removes all buffs that match given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		public void RemoveAll(Func<Buff, bool> predicate)
+		{
+			var buffs = this.GetList();
+			foreach (var buff in buffs)
+			{
+				if (predicate(buff))
+					this.Remove(buff);
+			}
 		}
 
 		/// <summary>

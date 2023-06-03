@@ -47,6 +47,16 @@ namespace Melia.Zone.Buffs
 		public TimeSpan Duration { get; } = TimeSpan.Zero;
 
 		/// <summary>
+		/// Returns the amount of time the buff was active.
+		/// </summary>
+		public TimeSpan RunTime { get; private set; }
+
+		/// <summary>
+		/// Returns the time the buff has left to run.
+		/// </summary>
+		public TimeSpan RemainingDuration => Math2.Max(TimeSpan.Zero, this.Duration - this.RunTime);
+
+		/// <summary>
 		/// Index in world collection?
 		/// </summary>
 		public int Handle { get; }
@@ -188,6 +198,7 @@ namespace Melia.Zone.Buffs
 			{
 				this.Handler?.WhileActive(this);
 				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
+				this.RunTime += this.Data.UpdateTime;
 			}
 		}
 	}

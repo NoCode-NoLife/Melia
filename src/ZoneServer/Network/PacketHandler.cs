@@ -162,6 +162,11 @@ namespace Melia.Zone.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 
+			// Send updates for the buffs loaded from db, so the client
+			// will display the restored buffs
+			foreach (var buff in character.Buffs.GetList())
+				Send.ZC_BUFF_UPDATE(character, buff);
+
 			character.OpenEyes();
 
 			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);

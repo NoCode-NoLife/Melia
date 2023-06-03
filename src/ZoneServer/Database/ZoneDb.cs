@@ -9,6 +9,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
@@ -148,6 +149,7 @@ namespace Melia.Zone.Database
 			this.LoadJobs(character);
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
+			this.LoadBuffs(character);
 			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
@@ -390,6 +392,7 @@ namespace Melia.Zone.Database
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
+			this.SaveBuffs(character);
 
 			return false;
 		}
@@ -879,44 +882,64 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Executes query and returns list of returned rows. Also returns
-		/// the amount of affected rows and the last insert id via out.
+		/// Saves character's buffs.
 		/// </summary>
-		/// <param name="sqlQuery"></param>
-		/// <param name="affectedRows"></param>
-		/// <param name="lastInsertId"></param>
-		/// <returns></returns>
-		public List<Dictionary<string, object>> GetQueryResult(string sqlQuery, out int affectedRows, out long lastInsertId)
+		/// <param name="character"></param>
+		private void SaveBuffs(Character character)
 		{
-			var result = new List<Dictionary<string, object>>();
-			affectedRows = 0;
-			lastInsertId = 0;
-
 			using (var conn = this.GetConnection())
-			using (var cmd = new MySqlCommand(sqlQuery, conn))
+			using (var trans = conn.BeginTransaction())
 			{
+				using (var cmd = new MySqlCommand("DELETE FROM `buffs` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var buff in character.Buffs.GetList())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("classId", buff.Id);
+						cmd.Set("numArg1", buff.NumArg1);
+						cmd.Set("numArg2", buff.NumArg2);
+						cmd.Set("remainingDuration", buff.RemainingDuration);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads buffs for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadBuffs(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
+			{
+				cmd.Parameters.AddWithValue("@characterId", character.Id);
+
 				using (var reader = cmd.ExecuteReader())
 				{
-					affectedRows = reader.RecordsAffected;
-					lastInsertId = cmd.LastInsertedId;
-
 					while (reader.Read())
 					{
-						var row = new Dictionary<string, object>();
-						for (var i = 0; i < reader.FieldCount; ++i)
-						{
-							var columnName = reader.GetName(i);
-							var value = reader.GetValue(i);
+						var classId = (BuffId)reader.GetInt32("classId");
+						var numArg1 = reader.GetInt32("numArg1");
+						var numArg2 = reader.GetInt32("numArg2");
+						var remainingDuration = reader.GetTimeSpan("remainingDuration");
 
-							row[columnName] = value;
-						}
+						var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
 
-						result.Add(row);
+						character.Buffs.Restore(buff);
 					}
 				}
 			}
-
-			return result;
 		}
 	}
 }

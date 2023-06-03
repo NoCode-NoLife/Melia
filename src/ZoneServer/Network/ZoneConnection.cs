@@ -71,10 +71,8 @@ namespace Melia.Zone.Network
 			{
 				character.Map.RemoveCharacter(character);
 
-				// Remove all buffs on logout for now, until we have
-				// buff saving. Otherwise, we would save and then
-				// stack buff effects, such as from DashRun.
-				character.Buffs.RemoveAll();
+				// Remove all buffs that are not supposed to be saved
+				character.Buffs.RemoveAll(a => !a.Data.Save);
 
 				ZoneServer.Instance.Database.SaveCharacter(character);
 			}
