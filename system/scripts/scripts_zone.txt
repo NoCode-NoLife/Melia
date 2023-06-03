@@ -8,8 +8,6 @@ core/**/*
 items/**/*
 warps/**/*
 
-//custom/test.cs
-
 client/custom_npc_shops/main.cs
 client/dialog_portraits/main.cs
 client/free_drops/main.cs
@@ -17,10 +15,9 @@ client/personal_shops/main.cs
 client/stat_by_level/main.cs
 client/unclutter/main.cs
 
-npcs/**/*
-mobs/**/*
-
 other/character_init.cs
 other/character_adv.cs
+
+include "scripts_content.txt"
 
 include "/user/scripts/scripts_zone.txt"

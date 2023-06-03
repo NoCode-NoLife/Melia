@@ -1,0 +1,9 @@
+// Melia
+// Script List File
+//---------------------------------------------------------------------------
+
+// Use the content list in the user folder instead if it exists
+divert "/user/scripts/scripts_content.txt"
+
+// Use test content by default
+include "content/test/scripts.txt"
