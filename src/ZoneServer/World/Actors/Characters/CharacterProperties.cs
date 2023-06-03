@@ -54,12 +54,6 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(new FloatProperty(PropertyName.Lv, 1, min: 1));
 
-			this.Create(PropertyName.STR, "SCR_Get_Character_STR");
-			this.Create(PropertyName.CON, "SCR_Get_Character_CON");
-			this.Create(PropertyName.INT, "SCR_Get_Character_INT");
-			this.Create(PropertyName.MNA, "SCR_Get_Character_MNA");
-			this.Create(PropertyName.DEX, "SCR_Get_Character_DEX");
-
 			this.Create(PropertyName.STR_JOB, "SCR_Get_Character_STR_JOB");
 			this.Create(PropertyName.CON_JOB, "SCR_Get_Character_CON_JOB");
 			this.Create(PropertyName.INT_JOB, "SCR_Get_Character_INT_JOB");
@@ -71,6 +65,12 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.INT_ADD, "SCR_Get_Character_INT_ADD");
 			this.Create(PropertyName.MNA_ADD, "SCR_Get_Character_MNA_ADD");
 			this.Create(PropertyName.DEX_ADD, "SCR_Get_Character_DEX_ADD");
+
+			this.Create(PropertyName.STR, "SCR_Get_Character_STR");
+			this.Create(PropertyName.CON, "SCR_Get_Character_CON");
+			this.Create(PropertyName.INT, "SCR_Get_Character_INT");
+			this.Create(PropertyName.MNA, "SCR_Get_Character_MNA");
+			this.Create(PropertyName.DEX, "SCR_Get_Character_DEX");
 
 			this.Create(PropertyName.MaxSta, "SCR_Get_Character_MaxSta");
 			this.Create(PropertyName.Sta_RunStart, "SCR_Get_Character_Sta_RunStart");
@@ -148,6 +148,11 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("INT", new[] { "Lv", "INT_ADD", "INT_STAT", "INT_JOB" });
 			this.AutoUpdate("MNA", new[] { "Lv", "MNA_ADD", "MNA_STAT", "MNA_JOB" });
 			this.AutoUpdate("DEX", new[] { "Lv", "DEX_ADD", "DEX_STAT", "DEX_JOB" });
+			this.AutoUpdate("STR_JOB", new[] { "Lv" });
+			this.AutoUpdate("CON_JOB", new[] { "Lv" });
+			this.AutoUpdate("INT_JOB", new[] { "Lv" });
+			this.AutoUpdate("MNA_JOB", new[] { "Lv" });
+			this.AutoUpdate("DEX_JOB", new[] { "Lv" });
 			this.AutoUpdate("MHP", new[] { "Lv", "CON", "MHP_BM", "MHP_Bonus" });
 			this.AutoUpdate("MSP", new[] { "Lv", "MNA", "MSP_BM", "MSP_Bonus" });
 			this.AutoUpdate("StatPoint", new[] { "StatByLevel", "StatByBonus", "UsedStat" });
