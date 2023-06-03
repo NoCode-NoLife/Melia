@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\test\scripts.txt" />
+    <Content Include="scripts_custom.txt" />
     <Content Include="scripts_content.txt" />
     <Content Include="scripts_zone.txt" />
   </ItemGroup>

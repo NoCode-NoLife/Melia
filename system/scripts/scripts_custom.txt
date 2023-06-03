@@ -1,0 +1,12 @@
+// Melia
+// Script List File
+// 
+// List of custom scripts to load that aren't part of other script sets.
+// Simply uncomment scripts you want to load (removing the // at the
+// start of the line), or add the lines to the custom scripts list in
+// the user folder.
+//---------------------------------------------------------------------------
+
+// custom/test.cs
+
+include "/user/scripts/scripts_custom.txt"

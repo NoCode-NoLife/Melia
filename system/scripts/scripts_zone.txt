@@ -18,5 +18,6 @@ other/character_init.cs
 other/character_adv.cs
 
 include "scripts_content.txt"
+include "scripts_custom.txt"
 
 include "/user/scripts/scripts_zone.txt"
