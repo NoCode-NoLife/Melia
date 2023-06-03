@@ -6,7 +6,6 @@ const/**/*
 commands/**/*
 core/**/*
 items/**/*
-warps/**/*
 
 client/custom_npc_shops/main.cs
 client/dialog_portraits/main.cs
