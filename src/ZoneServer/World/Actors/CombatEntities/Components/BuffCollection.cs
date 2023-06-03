@@ -16,6 +16,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
 
 		/// <summary>
+		/// Raised when a buff starts.
+		/// </summary>
+		public event Action<ICombatEntity, Buff> BuffStarted;
+
+		/// <summary>
+		/// Raised when a buff ends.
+		/// </summary>
+		public event Action<ICombatEntity, Buff> BuffEnded;
+
+		/// <summary>
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="entity"></param>
@@ -29,28 +39,21 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public int Count { get { lock (_buffs) return _buffs.Count; } }
 
 		/// <summary>
-		/// Adds given buff without updating the client, replaces the
-		/// buff if it was already active.
-		/// </summary>
-		/// <param name="buff"></param>
-		private void AddSilent(Buff buff)
-		{
-			lock (_buffs)
-				_buffs[buff.Id] = buff;
-
-			buff.IncreaseOverbuff();
-			buff.Start();
-		}
-
-		/// <summary>
 		/// Adds given buff and updates the client, replaces the
 		/// buff if it was already active.
 		/// </summary>
 		/// <param name="buff"></param>
 		private void Add(Buff buff)
 		{
-			this.AddSilent(buff);
+			lock (_buffs)
+				_buffs[buff.Id] = buff;
+
+			buff.IncreaseOverbuff();
+			buff.Start();
+
 			Send.ZC_BUFF_ADD(this.Entity, buff);
+
+			this.BuffStarted?.Invoke(this.Entity, buff);
 		}
 
 		/// <summary>
@@ -110,11 +113,19 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		private bool Remove(Buff buff)
 		{
-			var removed = this.RemoveSilent(buff);
-			if (removed)
-				Send.ZC_BUFF_REMOVE(this.Entity, buff);
+			lock (_buffs)
+			{
+				if (!_buffs.Remove(buff.Id))
+					return false;
+			}
 
-			return removed;
+			buff.End();
+
+			Send.ZC_BUFF_REMOVE(this.Entity, buff);
+
+			this.BuffEnded?.Invoke(this.Entity, buff);
+
+			return true;
 		}
 
 		/// <summary>

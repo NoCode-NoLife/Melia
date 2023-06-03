@@ -5,6 +5,7 @@ using Melia.Zone.Network;
 using Yggdrasil.Util;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
+using Melia.Zone.Buffs;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -196,6 +197,10 @@ namespace Melia.Zone.World.Actors.Characters
 			// might make use of equipment stats
 			this.Character.Inventory.Equipped += this.OnEquipmentChanged;
 			this.Character.Inventory.Unequipped += this.OnEquipmentChanged;
+
+			// Subscribe to buff changes
+			this.Character.Buffs.BuffStarted += this.OnBuffsChanged;
+			this.Character.Buffs.BuffEnded += this.OnBuffsChanged;
 		}
 
 		/// <summary>
@@ -203,13 +208,28 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="item"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		private void OnEquipmentChanged(Character character, Item item)
 		{
 			// We could possibly limit this to only update equip-related
 			// properties, such as MINATK and MAXATK, but we don't want
 			// to accidentally miss something, and users might do god
 			// knows what with custom property calculations.
+
+			this.InvalidateAll();
+			Send.ZC_OBJECT_PROPERTY(this.Character);
+		}
+
+		/// <summary>
+		/// Called when a buff was started or ended.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buff"></param>
+		private void OnBuffsChanged(ICombatEntity entity, Buff buff)
+		{
+			// Buffs come with a list of properties they affect,
+			// but since we have no control over user customaization,
+			// and because like 80% of them invalidate all properties
+			// anyway, we'll just always refresh everything.
 
 			this.InvalidateAll();
 			Send.ZC_OBJECT_PROPERTY(this.Character);
