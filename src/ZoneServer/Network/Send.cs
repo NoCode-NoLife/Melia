@@ -1807,36 +1807,18 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <remarks>
 		/// For available emoticons, search the packet string data for
-		/// entries with "_emo_" in the name.
-		/// </remarks>
-		/// <param name="actor"></param>
-		/// <param name="emoticonName">Name of the emoticon, uses packet string data to look up the id of the string.</param>
-		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, string emoticonName, int duration)
-		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(emoticonName, out var packetStringData))
-				throw new ArgumentException($"Unknown packet string '{emoticonName}'.");
-
-			ZC_SHOW_EMOTICON(actor, packetStringData.Id, duration);
-		}
-
-		/// <summary>
-		/// Shows emoticon for actor on nearby clients.
-		/// </summary>
-		/// <remarks>
-		/// For available emoticons, search the packet string data for
-		/// entries with "_emo_" in the name.
+		/// entries with "_emo_" in their names, such as "I_emo_fear".
 		/// </remarks>
 		/// <param name="actor"></param>
 		/// <param name="packetStringId">Id of the string for the emoticon from the packet string data.</param>
-		/// <param name="duration"></param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, int packetStringId, int duration)
+		/// <param name="duration">Time to show to the emoticon for.</param>
+		public static void ZC_SHOW_EMOTICON(IActor actor, int packetStringId, TimeSpan duration)
 		{
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
 			packet.PutInt(packetStringId);
-			packet.PutInt(duration);
+			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
 		}
