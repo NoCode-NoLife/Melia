@@ -92,5 +92,11 @@ namespace Melia.Zone.Events
 		/// </summary>
 		public event EventHandler<PlayerEventArgs> PlayerAdvancedJob;
 		public void OnPlayerAdvancedJob(Character character) => PlayerAdvancedJob?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+
+		/// <summary>
+		/// Raised when a player says something in public chat.
+		/// </summary>
+		public event EventHandler<PlayerChatEventArgs> PlayerChat;
+		public void OnPlayerChat(Character character, string message) => PlayerChat?.Invoke(ZoneServer.Instance, new PlayerChatEventArgs(character, message));
 	}
 }

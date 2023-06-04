@@ -213,7 +213,10 @@ namespace Melia.Zone.Network
 			// Try to execute message as a command. If it failed,
 			// broadcast it.
 			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
+			{
 				Send.ZC_CHAT(character, msg);
+				ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
+			}
 		}
 
 		/// <summary>
