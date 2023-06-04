@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -12,16 +11,13 @@ using Melia.Shared.World;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -949,24 +945,18 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CLIENT_HIT_LIST)]
 		public void CZ_CLIENT_HIT_LIST(IZoneConnection conn, Packet packet)
 		{
-			var size = packet.GetShort();
+			var packetSize = packet.GetShort();
 			var i1 = packet.GetInt();
-			var handleCount = packet.GetInt();
-			var castPosition = packet.GetPosition();
-			var targetPosition = packet.GetPosition();
+			var targetHandleCount = packet.GetInt();
+			var originPos = packet.GetPosition();
+			var farPos = packet.GetPosition();
 			var direction = packet.GetDirection();
 			var skillId = (SkillId)packet.GetInt();
-			var bin1 = packet.GetBin(5); // 01 00 00 00 00 00 00 00 00
+			var b1 = packet.GetByte();
+			var f3 = packet.GetFloat();
 			var f1 = packet.GetFloat();
-
-			var handles = new int[handleCount];
-			if (handleCount > 0)
-			{
-				var f2 = packet.GetFloat();
-
-				for (var i = 0; i < handleCount; ++i)
-					handles[i] = packet.GetInt();
-			}
+			var f2 = packet.GetFloat();
+			var targetHandles = packet.GetList(targetHandleCount, packet.GetInt);
 
 			var character = conn.SelectedCharacter;
 
@@ -980,14 +970,14 @@ namespace Melia.Zone.Network
 			Send.ZC_OVERHEAT_CHANGED(character, skill);
 			Send.ZC_PC_ATKSTATE(character, true);
 
-			if (handleCount == 0)
+			if (targetHandleCount == 0)
 			{
 				switch (skill.Data.UseType)
 				{
 					case SkillUseType.MELEE_GROUND:
 					{
 						var handler = ZoneServer.Instance.SkillHandlers.GetGround(skill.Id);
-						handler.Handle(skill, character, castPosition, targetPosition);
+						handler.Handle(skill, character, originPos, farPos);
 						break;
 					}
 					case SkillUseType.FORCE:
@@ -1006,7 +996,7 @@ namespace Melia.Zone.Network
 			else
 			{
 				var targets = new List<ICombatEntity>();
-				foreach (var handle in handles)
+				foreach (var handle in targetHandles)
 				{
 					var target = character.Map.GetCombatEntity(handle);
 					if (target == null || !character.CanAttack(target))
@@ -1022,7 +1012,7 @@ namespace Melia.Zone.Network
 				{
 					case SkillUseType.MELEE_GROUND:
 						var handler = ZoneServer.Instance.SkillHandlers.GetTargetedGround(skill.Id);
-						handler.Handle(skill, character, castPosition, targetPosition, targets);
+						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 
 					default:
