@@ -150,7 +150,7 @@ namespace Melia.Zone.Skills
 			var circle = character.Jobs.GetCircle(JobId.Priest);
 			var skill = character.Skills.Get(skillClassName);
 
-			return (circle >= Circle.Second && skill != null && skill.Level >= minLevel);
+			return (circle >= JobCircle.Second && skill != null && skill.Level >= minLevel);
 		}
 
 		/// <summary>
@@ -184,7 +184,7 @@ namespace Melia.Zone.Skills
 			var circle = character.Jobs.GetCircle(JobId.Musketeer);
 			var skill = character.Skills.Get(skillClassName);
 
-			return (circle >= Circle.Second && skill != null && skill.Level >= 1);
+			return (circle >= JobCircle.Second && skill != null && skill.Level >= 1);
 		}
 
 		/// <summary>
@@ -201,7 +201,7 @@ namespace Melia.Zone.Skills
 			var circle = character.Jobs.GetCircle(JobId.Elementalist);
 			var skill = character.Skills.Get("Elementalist_Meteor");
 
-			return (circle >= Circle.Third && skill != null && skill.Level >= 10);
+			return (circle >= JobCircle.Third && skill != null && skill.Level >= 10);
 		}
 	}
 }

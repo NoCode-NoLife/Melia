@@ -1241,14 +1241,14 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var circle = Circle.First;
+			var circle = JobCircle.First;
 
 			if (args.Count >= 2)
 			{
-				if (!int.TryParse(args.Get(1), out var iCircle) || iCircle < (int)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
+				if (!int.TryParse(args.Get(1), out var iCircle) || iCircle < (int)JobCircle.First || !Enum.IsDefined(typeof(JobCircle), iCircle))
 					return CommandResult.InvalidArgument;
 
-				circle = (Circle)iCircle;
+				circle = (JobCircle)iCircle;
 			}
 
 			var job = target.Jobs.Get(jobId);

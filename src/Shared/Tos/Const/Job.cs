@@ -125,7 +125,7 @@ namespace Melia.Shared.Tos.Const
 		GM = 9,
 	}
 
-	public enum Circle : short
+	public enum JobCircle : short
 	{
 		None,
 		First,

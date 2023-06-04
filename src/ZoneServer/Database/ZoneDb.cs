@@ -247,7 +247,7 @@ namespace Melia.Zone.Database
 					while (reader.Read())
 					{
 						var jobId = (JobId)reader.GetInt32("jobId");
-						var circle = (Circle)reader.GetInt32("circle");
+						var circle = (JobCircle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
 						var totalExp = reader.GetInt64("totalExp");
 

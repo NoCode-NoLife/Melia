@@ -128,7 +128,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
 		/// <returns></returns>
-		public bool Has(JobId jobId, Circle circle = Circle.First)
+		public bool Has(JobId jobId, JobCircle circle = JobCircle.First)
 		{
 			lock (_jobs)
 			{
@@ -145,7 +145,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
-		public bool ChangeCircle(JobId jobId, Circle circle)
+		public bool ChangeCircle(JobId jobId, JobCircle circle)
 		{
 			var job = this.Get(jobId);
 			if (job == null)
@@ -180,11 +180,11 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <returns></returns>
-		public Circle GetCircle(JobId jobId)
+		public JobCircle GetCircle(JobId jobId)
 		{
 			var job = this.Get(jobId);
 			if (job == null)
-				return Circle.None;
+				return JobCircle.None;
 
 			return job.Circle;
 		}
@@ -194,7 +194,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="jobClassName"></param>
 		/// <returns></returns>
-		public Circle GetCircle(string jobClassName)
+		public JobCircle GetCircle(string jobClassName)
 		{
 			var jobId = GetJobIdFromClassName(jobClassName);
 			return this.GetCircle(jobId);
@@ -266,7 +266,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Gets or sets the circle this job is on.
 		/// </summary>
-		public Circle Circle { get; set; }
+		public JobCircle Circle { get; set; }
 
 		/// <summary>
 		/// Gets or sets skill points available for this job.
@@ -356,7 +356,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
 		/// <param name="skillPoints"></param>
-		public Job(Character character, JobId jobId, Circle circle = Circle.First, int skillPoints = 0)
+		public Job(Character character, JobId jobId, JobCircle circle = JobCircle.First, int skillPoints = 0)
 			: this(character, jobId, 0, circle, skillPoints)
 		{
 		}
@@ -369,7 +369,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="totalExp"></param>
 		/// <param name="circle"></param>
 		/// <param name="skillPoints"></param>
-		public Job(Character character, JobId jobId, long totalExp, Circle circle = Circle.First, int skillPoints = 0)
+		public Job(Character character, JobId jobId, long totalExp, JobCircle circle = JobCircle.First, int skillPoints = 0)
 		{
 			this.Character = character;
 			this.Id = jobId;
