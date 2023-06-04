@@ -1267,6 +1267,10 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
+		var fixMspd = properties.GetFloat(PropertyName.FIXMSPD_BM);
+		if (fixMspd != 0)
+			return fixMspd;
+
 		var baseValue = 30;
 		var byBuff = properties.GetFloat(PropertyName.MSPD_BM);
 		var byBonus = properties.GetFloat(PropertyName.MSPD_Bonus);

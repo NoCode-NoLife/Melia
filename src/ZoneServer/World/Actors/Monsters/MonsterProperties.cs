@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Shared.ObjectProperties;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -41,6 +42,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		private float GetMSPD()
 		{
+			var fixMspd = this.GetFloat(PropertyName.FIXMSPD_BM);
+			if (fixMspd != 0)
+				return fixMspd;
+
 			return this.GetFloat(PropertyName.WlkMSPD);
 		}
 	}
