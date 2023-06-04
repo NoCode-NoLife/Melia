@@ -127,6 +127,10 @@
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\SkillHandlers.cs" />
+    <Compile Include="Skills\SplashAreas\Circle.cs" />
+    <Compile Include="Skills\SplashAreas\Fan.cs" />
+    <Compile Include="Skills\SplashAreas\SplashArea.cs" />
+    <Compile Include="Skills\SplashAreas\Square.cs" />
     <Compile Include="Skills\Swordsman\Thrust.cs" />
     <Compile Include="Skills\AbilityPriceTime.cs" />
     <Compile Include="Skills\AbilityUnlock.cs" />

@@ -1151,6 +1151,85 @@
             <param name="rnd"></param>
             <returns></returns>
         </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.ConeF">
+            <summary>
+            A triangular base with a round top, akin to a flashlight's cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.ConeF.Center">
+            <summary>
+            Returns the center of the cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.ConeF.Tip">
+            <summary>
+            Returns the position of the pointed tip of the cone.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.ConeF.Direction">
+            <summary>
+            Returns the direction of the cone in degress, extending from
+            the tip.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.ConeF.Radius">
+            <summary>
+            Returns the radius or "length" of the cone, from the tip to
+            the rounded edge.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.ConeF.Angle">
+            <summary>
+            Returns the angle of the cone in degrees, from 0° (a line)
+            to 180° (a half circle).
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.#ctor(Yggdrasil.Geometry.Vector2F,System.Double,System.Double,System.Single)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="tipPos">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.IsInside(Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the given position is within this cone.
+            </summary>
+            <param name="checkPos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.IsInside(Yggdrasil.Geometry.Vector2F,System.Double,System.Double,System.Double,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the given position is within this cone.
+            </summary>
+            <param name="tip">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
+            <param name="checkPos">The position to check whether it is inside the cone.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.GetEdgePoints">
+            <summary>
+            Returns approximation of the edge points of the cone.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.GetOutlines">
+            <summary>
+            Returns the cone's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.ConeF.GetRandomPoint(System.Random)">
+            <summary>
+            Returns random point within the cone.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.Cone">
             <summary>
             A triangular base with a round top, akin to a flashlight's cone.
@@ -1398,6 +1477,70 @@
         <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetRandomPoint(System.Random)">
             <summary>
             Returns random point within the cone.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.RectangleF">
+            <summary>
+            A rectangle shape.
+            </summary>
+            <remarks>
+            To create a rotated rectangle use PolygonF.Rectangle.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Position">
+            <summary>
+            Returns the rectangle's position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Center">
+            <summary>
+            Returns the rectangle's center position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Size">
+            <summary>
+            Returns the rectangle's size.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.#ctor(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="pos"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.Centered(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns a new rectangle from a center position and a size.
+            </summary>
+            <param name="center"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.IsInside(Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the given position is within this rectangle.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetEdgePoints">
+            <summary>
+            Returns the rectangle's four edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetOutlines">
+            <summary>
+            Returns the rectangle's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetRandomPoint(System.Random)">
+            <summary>
+            Returns random point inside the rectangle.
             </summary>
             <param name="rnd"></param>
             <returns></returns>

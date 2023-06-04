@@ -5,6 +5,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -393,7 +394,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="attacker"></param>
 		/// <param name="shape"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesIn(ICombatEntity attacker, IShape shape)
+		public List<ICombatEntity> GetAttackableEntitiesIn(ICombatEntity attacker, IShapeF shape)
 		{
 			var result = new List<ICombatEntity>();
 
