@@ -1941,15 +1941,15 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="pos"></param>
-		public static void ZC_MOVE_STOP(Character character, Position pos)
+		public static void ZC_MOVE_STOP(ICombatEntity entity, Position pos)
 		{
 			var packet = new Packet(Op.ZC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutPosition(pos);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>

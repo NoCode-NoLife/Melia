@@ -118,6 +118,21 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Stops movement and returns the current position the entity
+		/// stopped at.
+		/// </summary>
+		/// <returns></returns>
+		public Position Stop()
+		{
+			this.IsMoving = false;
+			this.Destination = this.Entity.Position;
+
+			Send.ZC_MOVE_STOP(this.Entity, this.Entity.Position);
+
+			return this.Entity.Position;
+		}
+
+		/// <summary>
 		/// Updates the entity's position while it's moving.
 		/// </summary>
 		/// <param name="elapsed"></param>
