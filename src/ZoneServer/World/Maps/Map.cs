@@ -398,14 +398,19 @@ namespace Melia.Zone.World.Maps
 		{
 			var result = new List<ICombatEntity>();
 
+#if false
 			// Debugging
-			//foreach (var point in shape.GetEdgePoints())
-			//{
-			//	var monster = new MonsterLegacy(10005, MonsterType.Friendly);
-			//	monster.Position = new Position(point.X, attacker.Position.Y, point.Y);
-			//	monster.DisappearTime = DateTime.Now.AddSeconds(5);
-			//	attacker.Map.AddMonster(monster);
-			//}
+			foreach (var point in shape.GetEdgePoints())
+			{
+				var monster = new Mob(10005, MonsterType.Friendly);
+				monster.Position = new Position(point.X, attacker.Position.Y, point.Y);
+				monster.DisappearTime = DateTime.Now.AddSeconds(8);
+				attacker.Map.AddMonster(monster);
+			}
+
+			if (shape is ISplashArea splashArea)
+				Network.Send.ZC_START_RANGE_PREVIEW(attacker, null, TimeSpan.FromSeconds(8), splashArea);
+#endif
 
 			lock (_combatEntities)
 			{

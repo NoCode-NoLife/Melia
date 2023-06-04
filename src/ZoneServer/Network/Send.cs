@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -12,6 +13,7 @@ using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -3648,6 +3650,50 @@ namespace Melia.Zone.Network
 			packet.PutInt(itemClassId);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Displays area of affect for skill.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skillClassName"></param>
+		/// <param name="duration"></param>
+		/// <param name="area"></param>
+		public static void ZC_START_RANGE_PREVIEW(ICombatEntity caster, string skillClassName, TimeSpan duration, ISplashArea area)
+			=> ZC_START_RANGE_PREVIEW(caster, skillClassName, duration, area.SplashType, area.OriginPos, area.Direction, area.Height, area.Width);
+
+		/// <summary>
+		/// Displays area of affect for skill.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skillClassName"></param>
+		/// <param name="duration"></param>
+		/// <param name="splashType"></param>
+		/// <param name="originPos"></param>
+		/// <param name="direction"></param>
+		/// <param name="height"></param>
+		/// <param name="width"></param>
+		public static void ZC_START_RANGE_PREVIEW(ICombatEntity caster, string skillClassName, TimeSpan duration, SplashType splashType, Position originPos, Direction direction, float height, float width)
+		{
+			var packet = new Packet(Op.ZC_START_RANGE_PREVIEW);
+
+			packet.PutInt(caster.Handle);
+			packet.PutString(skillClassName, 64);
+			packet.PutString(splashType.ToString(), 10);
+			packet.PutLong(0);
+			packet.PutLong(0);
+			packet.PutFloat(0);
+			packet.PutShort(0);
+			packet.PutFloat((float)duration.TotalSeconds);
+			packet.PutFloat(0);
+			packet.PutPosition(originPos);
+			packet.PutDirection(direction);
+			packet.PutFloat(0); // animation start distance, if > length, animation starts past the splash area and goes back towards it
+			packet.PutFloat(height);
+			packet.PutFloat(width);
+			packet.PutByte(0);
+
+			caster.Map.Broadcast(packet);
 		}
 
 		public static void DUMMY(IZoneConnection conn)

@@ -2,6 +2,7 @@
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
@@ -47,9 +48,10 @@ namespace Melia.Zone.Skills.Swordsman
 
 			// The hitbox seems pretty small, there's presumably more going
 			// into this. Double the splash range for the width for now.
-			var radius = (int)skill.Data.SplashRange * 3;
+			//var radius = (int)skill.Data.SplashRange * 3;
 
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, Polygon.RectangleBetween(castPosition, targetPosition, radius));
+			var splashArea = new Square(castPosition, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, damage);
