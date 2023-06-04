@@ -168,7 +168,7 @@ namespace Melia.Zone.World.Maps
 			}
 
 			cellIndex = -1;
-			return true;
+			return false;
 		}
 
 		/// <summary>
