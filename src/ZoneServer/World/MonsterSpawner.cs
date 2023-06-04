@@ -7,7 +7,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
-using Yggdrasil.Geometry.Shapes;
+using Yggdrasil.Geometry;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 

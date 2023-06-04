@@ -222,6 +222,15 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
+		/// Implicitly converts the position to a vector.
+		/// </summary>
+		/// <param name="pos"></param>
+		public static implicit operator Vector2F(Position pos)
+		{
+			return new Vector2F(pos.X, pos.Z);
+		}
+
+		/// <summary>
 		/// Returns true if both positions represent the same position.
 		/// </summary>
 		/// <param name="pos1"></param>

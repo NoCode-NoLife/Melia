@@ -9,7 +9,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Maps
@@ -414,7 +413,7 @@ namespace Melia.Zone.World.Maps
 					if (!attacker.CanAttack(entity))
 						continue;
 
-					if (!shape.IsInside(new Vector2((int)entity.Position.X, (int)entity.Position.Z)))
+					if (!shape.IsInside(entity.Position))
 						continue;
 
 					result.Add(entity);
