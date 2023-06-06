@@ -6,6 +6,7 @@ const/**/*
 commands/**/*
 core/**/*
 items/**/*
+ais/**/*
 
 client/custom_npc_shops/main.cs
 client/dialog_portraits/main.cs

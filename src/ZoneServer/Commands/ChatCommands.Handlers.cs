@@ -14,7 +14,6 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
@@ -449,7 +448,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSpawn(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count == 0)
+			if (args.IndexedCount == 0)
 				return CommandResult.InvalidArgument;
 
 			MonsterData monsterData;
@@ -480,7 +479,7 @@ namespace Melia.Zone.Commands
 			}
 
 			var amount = 1;
-			if (args.Count >= 2 && !int.TryParse(args.Get(1), out amount))
+			if (args.IndexedCount >= 2 && !int.TryParse(args.Get(1), out amount))
 				return CommandResult.InvalidArgument;
 
 			amount = Math2.Clamp(1, 100, amount);
@@ -506,6 +505,9 @@ namespace Melia.Zone.Commands
 				monster.Position = pos;
 				monster.Direction = dir;
 				monster.Components.Add(new Movement(monster));
+
+				if (args.TryGet("ai", out var aiName))
+					monster.Components.Add(new AiComponent(monster, aiName));
 
 				target.Map.AddMonster(monster);
 			}

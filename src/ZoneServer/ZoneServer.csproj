@@ -105,6 +105,9 @@
     <Compile Include="Network\ZoneConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\AI\AiScript.cs" />
+    <Compile Include="Scripting\AI\AiScript.Init.cs" />
+    <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
     <Compile Include="Scripting\ClientScript.cs" />
     <Compile Include="Scripting\CalculationScripts.cs" />
     <Compile Include="Scripting\CustomCommandScripts.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="Skills\AbilityUnlock.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
+    <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
     <Compile Include="World\Actors\Monsters\MonsterInName.cs" />
     <Compile Include="World\Actors\Monsters\Npc.cs" />
@@ -145,13 +149,6 @@
     <Compile Include="World\Actors\Characters\Character.cs" />
     <Compile Include="World\Actors\Characters\CharacterProperties.cs" />
     <Compile Include="World\Actors\Characters\Components\Abilities.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\AiEvent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\AiEventCallback.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\Events\HitEvent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\HandleId.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\Routine.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\RoutineResult.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AI\ScriptFunctionAttribute.cs" />
     <Compile Include="Buffs\Buff.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\BuffCollection.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\EntityAi.cs" />
@@ -177,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="Scripting\AI\AiScript.Routines.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
@@ -184,6 +182,8 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

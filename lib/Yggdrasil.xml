@@ -4691,6 +4691,16 @@
             Returns the amount of all parameters.
             </summary>
         </member>
+        <member name="P:Yggdrasil.Util.Commands.Arguments.IndexedCount">
+            <summary>
+            Returns the amount of indexed parameters.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.Commands.Arguments.NamedCount">
+            <summary>
+            Returns the amount of named parameters.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Util.Commands.Arguments.#ctor">
             <summary>
             Creates new Arguments instance.
@@ -4738,6 +4748,15 @@
             </summary>
             <param name="name"></param>
             <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Util.Commands.Arguments.TryGet(System.String,System.String@)">
+            <summary>
+            Returns the argument with the given name via out. Returns false
+            if parameter wasn't found.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Yggdrasil.Util.Commands.Arguments.GetAll">
