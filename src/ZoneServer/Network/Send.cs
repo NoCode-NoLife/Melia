@@ -438,7 +438,7 @@ namespace Melia.Zone.Network
 		/// <param name="targetPosition"></param>
 		/// <param name="targets"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_MELEE_GROUND(Character character, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, int damage = 0)
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity character, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, int damage = 0)
 		{
 			var targetCount = targets?.Count() ?? 0;
 
@@ -1627,7 +1627,7 @@ namespace Melia.Zone.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(ICombatEntity attacker, ICombatEntity target, int damage)
+		public static void ZC_SKILL_HIT_INFO(IActor attacker, ICombatEntity target, int damage)
 		{
 			var validHit = (target != null && damage > 0);
 
