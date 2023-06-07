@@ -155,14 +155,15 @@ namespace Melia.Zone.Scripting
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
+		/// <param name="propertyOverrides"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area)
+		public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides = null)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out var monsterData))
 				throw new ArgumentException($"Monster '{monsterClassName}' not found.");
 
-			return AddSpawner(monsterData.Id, amount, respawn, map, area);
+			return AddSpawner(monsterData.Id, amount, respawn, map, area, propertyOverrides);
 		}
 
 		/// <summary>
@@ -173,9 +174,10 @@ namespace Melia.Zone.Scripting
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
+		/// <param name="propertyOverrides"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides = null)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
@@ -184,7 +186,7 @@ namespace Melia.Zone.Scripting
 			var minRespawnDelay = respawn;
 			var maxRespawnDelay = respawn.Add(TimeSpan.FromMilliseconds(2000));
 
-			var spawner = new MonsterSpawner(monsterClassId, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay);
+			var spawner = new MonsterSpawner(monsterClassId, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, propertyOverrides);
 			mapObj.AddSpawner(spawner);
 
 			return spawner;
@@ -227,6 +229,47 @@ namespace Melia.Zone.Scripting
 		{
 			var center = new Vector2((int)x, (int)y);
 			return new Yggdrasil.Geometry.Shapes.Circle(center, (int)radius);
+		}
+
+		/// <summary>
+		/// Returns a list of named properties based on a list of key/value
+		/// pairs.
+		/// </summary>
+		/// <example>
+		/// Properties("MHP", 1000, "EXP", 5) // { "MHP": 1000, "EXP": 5 }
+		/// </example>
+		/// <param name="properties"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static PropertyOverrides Properties(params object[] properties)
+		{
+			var result = new PropertyOverrides();
+
+			if (properties.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of arguments for key/value pairs.");
+
+			for (var i = 0; i < properties.Length; i += 2)
+			{
+				var propertyNameObj = properties[i];
+				var propertyValueObj = properties[i + 1];
+
+				if (!(propertyNameObj is string propertyName))
+					throw new ArgumentException($"Expected a string for key, got '{propertyValueObj.GetType().Name}'.");
+
+				switch (propertyValueObj)
+				{
+					case int _:
+					case float _:
+					case string _:
+						result[propertyName] = propertyValueObj;
+						break;
+
+					default:
+						throw new ArgumentException($"Expected an int, float or string for value, got '{propertyValueObj.GetType().Name}'.");
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -338,5 +381,13 @@ namespace Melia.Zone.Scripting
 			//   and intervals with entities.
 			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(NpcState.Normal));
 		}
+	}
+
+	/// <summary>
+	/// A list of properties that can be used to override default values
+	/// for spawned monsters.
+	/// </summary>
+	public class PropertyOverrides : Dictionary<string, object>
+	{
 	}
 }

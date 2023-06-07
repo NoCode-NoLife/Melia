@@ -3,6 +3,7 @@ using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
@@ -88,6 +89,11 @@ namespace Melia.Zone.World
 		public TimeSpan MaxRespawnDelay { get; }
 
 		/// <summary>
+		/// Returns overrides for the spawn monsters' properties.
+		/// </summary>
+		public PropertyOverrides PropertyOverrides { get; }
+
+		/// <summary>
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
@@ -98,7 +104,7 @@ namespace Melia.Zone.World
 		/// <param name="minRespawnDelay"></param>
 		/// <param name="maxRespawnDelay"></param>
 		/// <param name="titles"></param>
-		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay)
+		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
@@ -122,6 +128,7 @@ namespace Melia.Zone.World
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
 			this.MaxRespawnDelay = maxRespawnDelay;
+			this.PropertyOverrides = propertyOverrides;
 
 			_spawnDelay = this.InitialDelay;
 		}
@@ -138,6 +145,8 @@ namespace Melia.Zone.World
 				monster.FromGround = true;
 				monster.Died += this.OnMonsterDied;
 
+				this.OverrideProperties(monster);
+
 				//monster.AI = new AIMonster(monster);
 				//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
 
@@ -145,6 +154,40 @@ namespace Melia.Zone.World
 			}
 
 			this.Amount += amount;
+		}
+
+		/// <summary>
+		/// Overrides monster's properties with the ones defined for
+		/// this spawner.
+		/// </summary>
+		/// <param name="monster"></param>
+		private void OverrideProperties(Mob monster)
+		{
+			if (this.PropertyOverrides == null)
+				return;
+
+			foreach (var propertyOverride in this.PropertyOverrides)
+			{
+				var propertyName = propertyOverride.Key;
+
+				switch (propertyOverride.Value)
+				{
+					case int intValue:
+						monster.Properties.SetFloat(propertyName, intValue);
+						break;
+
+					case float floatValue:
+						monster.Properties.SetFloat(propertyName, floatValue);
+						break;
+
+					case string stringValue:
+						monster.Properties.SetString(propertyName, stringValue);
+						break;
+				}
+			}
+
+			monster.Properties.InvalidateAll();
+			monster.Properties.SetFloat(PropertyName.HP, monster.Properties.GetFloat(PropertyName.MHP));
 		}
 
 		/// <summary>
