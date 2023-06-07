@@ -375,7 +375,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="position"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, int radius)
+		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, float radius)
 		{
 			var result = new List<ICombatEntity>();
 

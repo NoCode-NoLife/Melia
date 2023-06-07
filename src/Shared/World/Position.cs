@@ -75,7 +75,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange2D(Position otherPos, int range)
+		public bool InRange2D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
@@ -85,7 +85,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange3D(Position otherPos, int range)
+		public bool InRange3D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
