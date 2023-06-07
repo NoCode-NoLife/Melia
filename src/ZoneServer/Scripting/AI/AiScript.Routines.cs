@@ -14,10 +14,11 @@ namespace Melia.Zone.Scripting.AI
 		/// <summary>
 		/// Moves entity to a random location within the given distance.
 		/// </summary>
-		/// <param name="min"></param>
-		/// <param name="max"></param>
+		/// <param name="min">Minimum distance to move.</param>
+		/// <param name="max">Maximum distance to move.</param>
+		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
 		/// <returns></returns>
-		protected IEnumerable MoveRandom(int min = 25, int max = 50)
+		protected IEnumerable MoveRandom(int min = 25, int max = 50, bool wait = true)
 		{
 			min = 100;
 			min = Math.Max(1, min);
@@ -38,8 +39,8 @@ namespace Melia.Zone.Scripting.AI
 			}
 
 			if (foundValidDest)
-				yield return this.MoveTo(destination);
-			else
+				yield return this.MoveTo(destination, wait);
+			else if (wait)
 				yield return this.Wait(2000);
 
 			yield break;
@@ -49,13 +50,27 @@ namespace Melia.Zone.Scripting.AI
 		/// Moves entity to the given destination.
 		/// </summary>
 		/// <param name="destination"></param>
+		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
 		/// <returns></returns>
-		protected IEnumerable MoveTo(Position destination)
+		protected IEnumerable MoveTo(Position destination, bool wait = true)
 		{
 			var movement = this.Entity.Components.Get<Movement>();
 			var moveTime = movement.MoveTo(destination);
 
-			yield return this.Wait(moveTime);
+			if (wait)
+				yield return this.Wait(moveTime);
+			else
+				yield break;
+		}
+
+		/// <summary>
+		/// Stops entity movement.
+		/// </summary>
+		/// <returns></returns>
+		protected IEnumerable StopMove()
+		{
+			this.Entity.Components.Get<Movement>().Stop();
+			yield break;
 		}
 
 		/// <summary>

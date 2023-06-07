@@ -77,6 +77,7 @@
     <Content Include="scripts_zone.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ais\basic_monster.cs" />
     <Compile Include="ais\test.cs" />
     <Compile Include="client\dialog_portraits\main.cs" />
     <Compile Include="client\free_drops\main.cs" />
