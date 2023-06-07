@@ -103,19 +103,14 @@ namespace Melia.Zone.World.Actors.Monsters
 		public float SDR { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets the monster's HP, capped to 0~MaxHp.
+		/// Returns the mob's current HP.
 		/// </summary>
-		public int Hp
-		{
-			get { return _hp; }
-			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
-		}
-		private int _hp = 100;
+		public int Hp => (int)this.Properties.GetFloat(PropertyName.HP);
 
 		/// <summary>
-		/// Maximum health points.
+		/// Returns the mob's maximum HP.
 		/// </summary>
-		public int MaxHp { get; private set; } = 100;
+		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
 		/// Physical defense.
@@ -196,7 +191,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Hp = this.MaxHp = this.Data.Hp;
 			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
@@ -216,7 +210,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return true;
 
-			this.Hp -= damage;
+			this.Properties.Modify(PropertyName.HP, -damage);
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
@@ -237,7 +231,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="killer"></param>
 		public void Kill(Character killer)
 		{
-			this.Hp = 0;
+			this.Properties.SetFloat(PropertyName.HP, 0);
 
 			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
 			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;

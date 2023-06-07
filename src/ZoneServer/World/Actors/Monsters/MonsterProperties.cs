@@ -29,9 +29,14 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		private void AddDefaultProperties()
 		{
+			this.Create(new FloatProperty(PropertyName.MHP, this.Monster.Data.Hp));
+			this.Create(new FloatProperty(PropertyName.HP, this.Monster.Data.Hp, min: 0));
+
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
 			this.Create(new CFloatProperty(PropertyName.MSPD, this.GetMSPD));
+
+			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 
 			this.InvalidateAll();
 		}
