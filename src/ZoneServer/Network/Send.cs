@@ -20,6 +20,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -3560,6 +3561,17 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Displays area of affect for skill.
 		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="casterHandle"></param>
+		/// <param name="skillClassName"></param>
+		/// <param name="duration"></param>
+		/// <param name="area"></param>
+		public static void ZC_START_RANGE_PREVIEW(Map map, int casterHandle, string skillClassName, TimeSpan duration, ISplashArea area)
+			=> ZC_START_RANGE_PREVIEW(map, casterHandle, skillClassName, duration, area.SplashType, area.OriginPos, area.Direction, area.Height, area.Width);
+
+		/// <summary>
+		/// Displays area of affect for skill.
+		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="skillClassName"></param>
 		/// <param name="duration"></param>
@@ -3569,10 +3581,25 @@ namespace Melia.Zone.Network
 		/// <param name="height"></param>
 		/// <param name="width"></param>
 		public static void ZC_START_RANGE_PREVIEW(ICombatEntity caster, string skillClassName, TimeSpan duration, SplashType splashType, Position originPos, Direction direction, float height, float width)
+			=> ZC_START_RANGE_PREVIEW(caster.Map, caster.Handle, skillClassName, duration, splashType, originPos, direction, height, width);
+
+		/// <summary>
+		/// Displays area of affect for skill.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="casterHandle"></param>
+		/// <param name="skillClassName"></param>
+		/// <param name="duration"></param>
+		/// <param name="splashType"></param>
+		/// <param name="originPos"></param>
+		/// <param name="direction"></param>
+		/// <param name="height"></param>
+		/// <param name="width"></param>
+		public static void ZC_START_RANGE_PREVIEW(Map map, int casterHandle, string skillClassName, TimeSpan duration, SplashType splashType, Position originPos, Direction direction, float height, float width)
 		{
 			var packet = new Packet(Op.ZC_START_RANGE_PREVIEW);
 
-			packet.PutInt(caster.Handle);
+			packet.PutInt(casterHandle);
 			packet.PutString(skillClassName, 64);
 			packet.PutString(splashType.ToString(), 10);
 			packet.PutLong(0);
@@ -3588,7 +3615,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(width);
 			packet.PutByte(0);
 
-			caster.Map.Broadcast(packet);
+			map.Broadcast(packet);
 		}
 
 		public static void DUMMY(IZoneConnection conn)

@@ -55,6 +55,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
+			//Debug.ShowShape(caster.Map, splashArea);
+
 			var hits = new List<SkillHitInfo>();
 
 			foreach (var target in targets)
