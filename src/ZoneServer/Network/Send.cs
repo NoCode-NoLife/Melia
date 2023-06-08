@@ -393,9 +393,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(512f);
 			packet.PutInt(0);
 
-			packet.PutByte((byte)hits.Count());
-			foreach (var hit in hits)
-				packet.AddSkillHitInfo(hit);
+			packet.PutByte((byte)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
 
 			entity.Map.Broadcast(packet);
 		}
@@ -439,9 +442,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(targetPos.Y);
 			packet.PutFloat(targetPos.Z);
 
-			packet.PutShort((short)hits.Count());
-			foreach (var hit in hits)
-				packet.AddSkillHitInfo(hit);
+			packet.PutShort((short)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
 
 			entity.Map.Broadcast(packet);
 		}
