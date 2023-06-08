@@ -19,4 +19,3 @@ byte b1;
 int skillId;
 int targetHandle;
 short b2;
-short b3;
