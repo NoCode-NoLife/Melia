@@ -29,7 +29,7 @@ namespace Melia.Zone.Skills.Handlers.General
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
 
 			if (target.IsDead)
-				Send.ZC_SKILL_CAST_CANCEL(caster, target);
+				Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}
 }

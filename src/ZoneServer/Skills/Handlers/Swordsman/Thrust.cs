@@ -1,6 +1,9 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using System;
+using System.Collections.Generic;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
@@ -20,49 +23,55 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="castPosition"></param>
-		/// <param name="targetPosition"></param>
-		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition)
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
 			// This is just a test for a dedicated skill handler, the code
 			// was largely copied from the default handler for now, without
 			// referencing logs. And the packets are definitely not right
 			// yet.
 
-			var castRange = castPosition.Get3DDistance(targetPosition);
-			if (castRange > skill.Data.MaxRange)
-			{
-				Log.Warning("Thrust: Player {0} cast skill farther than max range ({1} > {2}).", caster.Name, castRange, skill.Data.MaxRange);
-				return;
-			}
+			var splashAreaHeight = 60;
 
-			// TODO: Cancel if not enough SP?
+			// We'll ignore the data sent by the client and get the
+			// positions ourselves, because players are dirty cheaters
+			// who can't be trusted.
+			originPos = caster.Position;
+			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
 
 			if (skill.SpendSp > 0)
 				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
 
-			Send.ZC_SKILL_READY(caster, skill, caster.Position, targetPosition);
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, farPos);
 
 			// The hitbox seems pretty small, there's presumably more going
 			// into this. Double the splash range for the width for now.
 			//var radius = (int)skill.Data.SplashRange * 3;
 
-			var splashArea = new Square(castPosition, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
+			var splashArea = new Square(originPos, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, damage);
+			var hits = new List<SkillHitInfo>();
+			var anyDead = false;
 
 			foreach (var target in targets)
 			{
-				target.TakeDamage(damage, caster);
-				Send.ZC_SKILL_HIT_INFO(caster, target, damage);
+				if (target.TakeDamage(damage, caster))
+					anyDead = true;
 
-				if (target.IsDead)
-					Send.ZC_SKILL_CAST_CANCEL(caster, target);
+				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
+				hits.Add(skillHitInfo);
 			}
+
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null, damage);
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
+
+			if (anyDead)
+				Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}
 }

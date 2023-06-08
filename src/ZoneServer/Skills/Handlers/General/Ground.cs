@@ -50,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.General
 						}
 
 						if (target.TakeDamage(damage, caster))
-							Send.ZC_SKILL_CAST_CANCEL(caster, target);
+							Send.ZC_SKILL_CAST_CANCEL(caster);
 					}
 					break;
 				}
@@ -92,7 +92,7 @@ namespace Melia.Zone.Skills.Handlers.General
 								Send.ZC_HIT_INFO(caster, target, damage, i + 1);
 
 								if (target.IsDead)
-									Send.ZC_SKILL_CAST_CANCEL(caster, target);
+									Send.ZC_SKILL_CAST_CANCEL(caster);
 							}
 						});
 					}
@@ -112,7 +112,7 @@ namespace Melia.Zone.Skills.Handlers.General
 					foreach (var target in targets)
 					{
 						if (target.TakeDamage(damage, caster))
-							Send.ZC_SKILL_CAST_CANCEL(caster, target);
+							Send.ZC_SKILL_CAST_CANCEL(caster);
 					}
 					break;
 				}

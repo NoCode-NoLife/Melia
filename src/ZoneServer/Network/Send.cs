@@ -12,6 +12,7 @@ using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -354,14 +355,13 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Cancel a skill cast, usually when a monster has died.
+		/// Cancels a skill cast, usually sent when a monster has died.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="target"></param>
-		public static void ZC_SKILL_CAST_CANCEL(ICombatEntity entity, IActor target)
+		public static void ZC_SKILL_CAST_CANCEL(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
-			packet.PutInt(target.Handle);
+			packet.PutInt(entity.Handle);
 
 			entity.Map.Broadcast(packet, entity);
 		}
@@ -1623,47 +1623,18 @@ namespace Melia.Zone.Network
 		/// new hp, after damage was applied.
 		/// </summary>
 		/// <param name="attacker"></param>
-		/// <param name="target"></param>
-		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(IActor attacker, ICombatEntity target, float damage)
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_HIT_INFO(IActor attacker, IEnumerable<SkillHitInfo> hits)
 		{
-			var validHit = (target != null && damage > 0);
-
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 
 			packet.PutInt(attacker.Handle);
-			packet.PutByte(validHit);
+			packet.PutByte((byte)hits.Count());
 
-			if (validHit)
-			{
-				packet.PutBinFromHex("00 09 00 00");
-				packet.PutInt(target.Handle);
-				packet.PutInt((int)damage);
-				packet.PutInt(target.Hp);
-				packet.PutInt(3); //attackCount?
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(3);
-				packet.PutShort(1);
-				packet.PutShort(0);
-				packet.PutInt(0);
-				packet.PutShort(306); // Delay until damage is shown
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutShort(50); // Skill Hit Delay? Adds pause in attack animation?
-				packet.PutShort(0); // 258
-				packet.PutInt(0);
-				packet.PutInt(0); // This being set to anything causes a delay in the dagger damage animation
-				packet.PutInt(0);
-				packet.PutShort(0);
-				packet.PutShort(1);
+			foreach (var skillHit in hits)
+				packet.AddSkillHitInfo(skillHit);
 
-				packet.PutByte(3);
-				packet.PutFloat(-1845);
-			}
-
-			target.Map.Broadcast(packet);
+			attacker.Map.Broadcast(packet);
 		}
 
 		/// <summary>

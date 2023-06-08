@@ -103,6 +103,7 @@ typedef struct
 	int i3; // weird id-looking int I can't find anywhere in the data
     short s1;
     short s2;
+
 	short bin1Count;
 	byte varInfoCount;
 	byte b8;
