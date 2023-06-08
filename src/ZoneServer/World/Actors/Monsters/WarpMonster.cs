@@ -13,8 +13,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		public const int WarpMonsterClassId = 40001;
 
 		/// <summary>
-		/// Returns the warp name, which is used to display the name
-		/// of the destination.
+		/// Returns the warp's name that can be used to identify it.
 		/// </summary>
 		public string WarpName { get; }
 

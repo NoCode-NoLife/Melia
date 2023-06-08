@@ -929,7 +929,7 @@ namespace Melia.Zone.Network
 		/// <param name="actor"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void ZC_CHAT(INamedActor actor, string format, params object[] args)
+		public static void ZC_CHAT(IActor actor, string format, params object[] args)
 		{
 			if (args.Length > 0)
 				format = string.Format(format, args);

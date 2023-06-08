@@ -69,7 +69,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Gets or sets the monster's display name.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the monster's unique name (?).

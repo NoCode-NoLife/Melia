@@ -15,6 +15,11 @@ namespace Melia.Zone.World.Actors
 		int Handle { get; }
 
 		/// <summary>
+		/// Returns the actor's display name.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
 		/// Returns the map the actor is currently on.
 		/// </summary>
 		Map Map { get; set; }
@@ -31,14 +36,6 @@ namespace Melia.Zone.World.Actors
 	}
 
 	/// <summary>
-	/// An actor that has a name.
-	/// </summary>
-	public interface INamedActor : IActor
-	{
-		string Name { get; }
-	}
-
-	/// <summary>
 	/// An object that can be placed on a map.
 	/// </summary>
 	public abstract class Actor : IActor
@@ -47,6 +44,11 @@ namespace Melia.Zone.World.Actors
 		/// Returns the actor's unique handle.
 		/// </summary>
 		public int Handle { get; } = ZoneServer.Instance.World.CreateHandle();
+
+		/// <summary>
+		/// Returns the actor's display name.
+		/// </summary>
+		public abstract string Name { get; set; }
 
 		/// <summary>
 		/// Returns the map the actor is currently on.

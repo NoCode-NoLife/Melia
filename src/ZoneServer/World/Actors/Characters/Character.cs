@@ -22,7 +22,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, INamedActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 		private int _destinationChannelId;
@@ -71,7 +71,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Character's name.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Character's team name.

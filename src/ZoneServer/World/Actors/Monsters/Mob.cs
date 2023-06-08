@@ -52,7 +52,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Monster's name, leave empty for default.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets monster's unique name.

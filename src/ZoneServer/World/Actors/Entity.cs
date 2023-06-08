@@ -8,7 +8,7 @@ namespace Melia.Zone.World.Actors
 	/// <summary>
 	/// Describes an entity that can actively participate in combat.
 	/// </summary>
-	public interface ICombatEntity : INamedActor, IPropertyHolder
+	public interface ICombatEntity : IActor, IPropertyHolder
 	{
 		/// <summary>
 		/// Returns the entity's faction.
