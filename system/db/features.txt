@@ -55,4 +55,5 @@
 // could confuse some users.
 { name: "DashingForAll", enabled: true },
 { name: "ScoutJob", enabled: true },
+{ name: "SpawnPropertyOverrides", enabled: true },
 ]

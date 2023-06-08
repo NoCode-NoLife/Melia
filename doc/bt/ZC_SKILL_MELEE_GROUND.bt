@@ -14,6 +14,7 @@
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
+
 int skillId;
 int casterHandle;
 direction dir;
@@ -23,7 +24,7 @@ float f2;
 int i3;
 int i4;
 float f5;
-int targetHandle;
+int i5;
 position pos;
 short hitCount; // ?
 
