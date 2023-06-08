@@ -506,6 +506,18 @@ namespace Melia.Zone.Commands
 				monster.Direction = dir;
 				monster.Components.Add(new Movement(monster));
 
+				if (args.TryGet("hp", out var hpStr))
+				{
+					if (!int.TryParse(hpStr, out var hp))
+					{
+						sender.ServerMessage("Invalid HP amount.");
+						return CommandResult.Okay;
+					}
+
+					monster.Properties.SetFloat(PropertyName.MHP, hp);
+					monster.Properties.SetFloat(PropertyName.HP, hp);
+				}
+
 				if (args.TryGet("ai", out var aiName))
 					monster.Components.Add(new AiComponent(monster, aiName));
 
