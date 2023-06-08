@@ -59,6 +59,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			foreach (var target in targets)
 			{
+				if (!caster.CanAttack(target))
+					continue;
+
 				target.TakeDamage(damage, caster);
 
 				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(270), TimeSpan.FromMilliseconds(0));

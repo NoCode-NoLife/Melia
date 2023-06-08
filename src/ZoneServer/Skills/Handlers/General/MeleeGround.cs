@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -28,6 +29,9 @@ namespace Melia.Zone.Skills.Handlers.General
 
 			foreach (var target in targets)
 			{
+				if (!caster.CanAttack(target))
+					continue;
+
 				target.TakeDamage(damage, caster);
 
 				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));

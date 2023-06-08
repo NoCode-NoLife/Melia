@@ -1126,9 +1126,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
+			if (entity.IsDead)
+				return false;
+
 			// For now, let's specify that characters can attack actual
 			// monsters.
-			return (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
+			var isHostileMonster = (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
+			if (!isHostileMonster)
+				return false;
+
+			return true;
 		}
 
 		/// <summary>
