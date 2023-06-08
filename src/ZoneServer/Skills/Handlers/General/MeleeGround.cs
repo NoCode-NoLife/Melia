@@ -23,24 +23,21 @@ namespace Melia.Zone.Skills.Handlers.General
 			skill.IncreaseOverheat();
 
 			var hits = new List<SkillHitInfo>();
-			var anyDead = false;
 
 			var damage = caster.GetRandomAtk(skill);
 
 			foreach (var target in targets)
 			{
-				if (target.TakeDamage(damage, caster))
-					anyDead = true;
+				target.TakeDamage(damage, caster);
 
 				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
 				hits.Add(skillHitInfo);
 			}
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null);
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			if (anyDead)
-				Send.ZC_SKILL_CAST_CANCEL(caster);
+			if (hits.Any())
+				Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }
