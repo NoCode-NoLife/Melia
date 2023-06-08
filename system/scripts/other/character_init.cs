@@ -191,7 +191,7 @@ public class CharacterInitializationScript : GeneralScript
 			// pistol for now.
 
 			EquipItem(character, EquipSlot.RightHand, ItemId.DAG01_113);
-			GiveItem(character, ItemId.PST01_109, 1);
+			GiveItem(character, ItemId.PST01_111, 1);
 		}
 		else
 		{
