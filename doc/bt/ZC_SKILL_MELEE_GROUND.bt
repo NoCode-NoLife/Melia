@@ -21,7 +21,7 @@ int i2;
 float shootTime;
 float f2;
 int i3;
-int attackerHandle;
+int i4;
 float f5;
 int targetHandle;
 position pos;
