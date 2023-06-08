@@ -61,9 +61,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			{
 				target.TakeDamage(damage, caster);
 
-				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
+				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(270), TimeSpan.FromMilliseconds(0));
 				hits.Add(skillHitInfo);
 			}
+
+			// TODO: There's an issue with Thrust where the animation
+			//   sometimes plays too early, but it happens somewhat
+			//   randomly.
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
