@@ -91,6 +91,11 @@ namespace Melia.Zone.World
 		public TimeSpan MaxRespawnDelay { get; }
 
 		/// <summary>
+		/// Returns the default tendency for monsters spawned by this spawner.
+		/// </summary>
+		public TendencyType Tendency { get; }
+
+		/// <summary>
 		/// Returns overrides for the spawn monsters' properties.
 		/// </summary>
 		public PropertyOverrides PropertyOverrides { get; }
@@ -105,8 +110,9 @@ namespace Melia.Zone.World
 		/// <param name="initialSpawnDelay"></param>
 		/// <param name="minRespawnDelay"></param>
 		/// <param name="maxRespawnDelay"></param>
-		/// <param name="titles"></param>
-		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, PropertyOverrides propertyOverrides)
+		/// <param name="tendency"></param>
+		/// <param name="propertyOverrides"></param>
+		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
@@ -130,6 +136,7 @@ namespace Melia.Zone.World
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
 			this.MaxRespawnDelay = maxRespawnDelay;
+			this.Tendency = tendency;
 			this.PropertyOverrides = propertyOverrides;
 
 			_spawnDelay = this.InitialDelay;
@@ -151,6 +158,7 @@ namespace Melia.Zone.World
 				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
 				monster.Position = pos;
 				monster.FromGround = true;
+				monster.Tendency = this.Tendency;
 				monster.Died += this.OnMonsterDied;
 
 				this.OverrideProperties(monster);

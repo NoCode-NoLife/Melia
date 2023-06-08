@@ -25,6 +25,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public FactionType Faction { get; set; } = FactionType.Peaceful;
 
 		/// <summary>
+		/// Gets or sets the monster's tendency
+		/// </summary>
+		public TendencyType Tendency { get; set; } = TendencyType.Peaceful;
+
+		/// <summary>
 		/// Monster ID in database.
 		/// </summary>
 		public int Id { get; set; }
@@ -45,12 +50,12 @@ namespace Melia.Zone.World.Actors.Monsters
 			= ZoneServer.Instance.World.CreateGenType();
 
 		/// <summary>
-		/// What kind of NPC the monster is.
+		/// Gets or sets what kind of "monster" the mob is.
 		/// </summary>
 		public MonsterType MonsterType { get; set; }
 
 		/// <summary>
-		/// Monster's name, leave empty for default.
+		/// Gets or sets monster's name, leave empty for default.
 		/// </summary>
 		public override string Name { get; set; }
 
@@ -93,12 +98,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		public string LeaveName { get; set; }
 
 		/// <summary>
-		/// Level.
+		/// Gets or sets the mob's level.
 		/// </summary>
 		public int Level { get; set; } = 1;
 
 		/// <summary>
-		/// AoE Defense Ratio
+		/// Gets or sets the mob's AoE Defense Ratio.
 		/// </summary>
 		public float SDR { get; set; } = 1;
 

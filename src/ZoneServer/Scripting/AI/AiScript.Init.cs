@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Scripting.AI
 {
@@ -62,6 +64,7 @@ namespace Melia.Zone.Scripting.AI
 
 			aiScript = (AiScript)Activator.CreateInstance(type);
 			aiScript.Entity = entity;
+			aiScript._tendency = (entity is Mob mob ? mob.Tendency : TendencyType.Peaceful);
 
 			return true;
 		}

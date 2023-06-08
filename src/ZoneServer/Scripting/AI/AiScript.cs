@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -16,6 +18,7 @@ namespace Melia.Zone.Scripting.AI
 	{
 		private bool _setupDone;
 
+		private TendencyType _tendency;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private float _overHateRate = 1 / 20f;
@@ -64,8 +67,8 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _hateRange);
 
-			this.ForgiveOutdatedHate(elapsed, potentialEnemies);
-			this.MakeNewEnemies(elapsed, potentialEnemies);
+			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
+			this.IncreaseNearbyHate(elapsed, potentialEnemies);
 		}
 
 		/// <summary>
@@ -73,7 +76,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void ForgiveOutdatedHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
+		private void RemoveNonNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
 		{
 			_hateLevelsToRemove.Clear();
 
@@ -94,8 +97,13 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void MakeNewEnemies(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
+		private void IncreaseNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
 		{
+			// Only increase hate for nearby enemies if the AI has
+			// aggressive tendencies
+			if (_tendency == TendencyType.Peaceful)
+				return;
+
 			foreach (var potentialEnemy in potentialEnemies)
 			{
 				var handle = potentialEnemy.Handle;
@@ -207,6 +215,15 @@ namespace Melia.Zone.Scripting.AI
 		protected void SetMinHate(float minAggroHateLevel)
 		{
 			_minAggroHateLevel = minAggroHateLevel;
+		}
+
+		/// <summary>
+		/// Sets the AI's tendency to attack.
+		/// </summary>
+		/// <param name="tendency"></param>
+		protected void SetTendency(TendencyType tendency)
+		{
+			_tendency = tendency;
 		}
 
 		/// <summary>
