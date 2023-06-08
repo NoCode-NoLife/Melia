@@ -102,7 +102,7 @@ namespace Melia.Zone.Skills.Handlers.General
 							foreach (var target in targets)
 							{
 								target.TakeDamage(damage, caster);
-								Send.ZC_HIT_INFO(caster, target, skill, new HitInfo(damage, target.Hp, i + 1, 9));
+								Send.ZC_HIT_INFO(caster, target, skill, new HitInfo(damage, target.Hp, i + 1, HitResultType.MagicMissile));
 
 								if (target.IsDead)
 									Send.ZC_SKILL_CAST_CANCEL(caster);

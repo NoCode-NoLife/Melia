@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Skills.Combat
@@ -17,7 +18,7 @@ namespace Melia.Zone.Skills.Combat
 			this.Attacker = attacker;
 			this.Target = target;
 			this.Skill = skill;
-			this.HitInfo = new HitInfo(damage, target.Hp, 0, 3);
+			this.HitInfo = new HitInfo(damage, target.Hp, 0, HitResultType.Hit);
 			this.DamageDelay = damageDelay;
 			this.SkillHitDelay = skillHitDelay;
 		}
