@@ -231,17 +231,17 @@ switch (type)
     // ?
     case 0x17:
         int i1;
-        int characterHandle;
-        int target1Handle;
-        int target2Handle;
-        int animId;
-        float f2;
-        int animId;
-        int animId;
-        float f3;
-        int animId;
-        int animId;
-        float f4;
+        int casterHandle;
+        int handle1;
+        int handle2;
+        int packetStringId1;
+        float scale1;
+        int packetStringId2;
+        int packetStringId3;
+        float scale2;
+        int packetStringId4;
+        int packetStringId5;
+        float speed;
         float f5;
         float f6;
         float f7;
