@@ -46,6 +46,9 @@
 	// Enables new characters receiving growth equipment
 	{ name: "GrowthEquipOnStart", enabled: true },
 	
+	// Enables overriding properties of monsters added via spawners
+	{ name: "SpawnPropertyOverrides", enabled: true },
+	
 ]},
 
 // Let's enable certain features by default for now, as them being missing

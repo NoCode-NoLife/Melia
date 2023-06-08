@@ -166,6 +166,9 @@ namespace Melia.Zone.World
 			if (this.PropertyOverrides == null)
 				return;
 
+			if (!Feature.IsEnabled("SpawnPropertyOverrides"))
+				return;
+
 			foreach (var propertyOverride in this.PropertyOverrides)
 			{
 				var propertyName = propertyOverride.Key;
