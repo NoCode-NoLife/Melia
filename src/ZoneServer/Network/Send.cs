@@ -493,7 +493,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends overheat data for a character, by sending ZC_OVERHEAT_CHANGED.
+		/// Updates the skill's overheat counter.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skill"></param>
@@ -503,9 +503,9 @@ namespace Melia.Zone.Network
 
 			packet.PutLong(character.Id);
 			packet.PutInt(skill.OverheatData.Id);
-			packet.PutInt(skill.OverheatCounter * skill.Data.OverHeatDelay); // Increasing OverHeatValue
+			packet.PutInt(skill.OverheatCounter * skill.OverheatData.OverheatResetTime);
 			packet.PutInt(0);
-			packet.PutInt(skill.Data.OverHeatDelay);
+			packet.PutInt(skill.OverheatData.OverheatResetTime);
 			packet.PutByte(0);
 			packet.PutByte(0xFF);
 			packet.PutByte(0xFF);
