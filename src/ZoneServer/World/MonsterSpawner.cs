@@ -19,6 +19,8 @@ namespace Melia.Zone.World
 	/// </summary>
 	public class MonsterSpawner
 	{
+		private const int MaxValidPositionTries = 50;
+
 		private static int Ids;
 
 		private readonly static TimeSpan SpawnAmountIncreaseDelay = TimeSpan.FromSeconds(30);
@@ -140,8 +142,14 @@ namespace Melia.Zone.World
 		{
 			for (var i = 0; i < amount; ++i)
 			{
+				if (!this.TryGetRandomPosition(out var pos))
+				{
+					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{_map.Name}'.");
+					continue;
+				}
+
 				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
-				monster.Position = this.GetRandomPosition();
+				monster.Position = pos;
 				monster.FromGround = true;
 				monster.Died += this.OnMonsterDied;
 
@@ -275,20 +283,35 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Returns a random position within the spawn area.
+		/// Attempts to find a valid random position within the spawn
+		/// area and returns it via out. Returns false if no valid
+		/// position could be found within a reasonable amount of
+		/// tries.
 		/// </summary>
 		/// <returns></returns>
-		private Position GetRandomPosition()
+		private bool TryGetRandomPosition(out Position pos)
 		{
 			var rndVector = this.Area.GetRandomPoint(_rnd);
-			var pos = new Position(rndVector.X, 0, rndVector.Y);
+			pos = Position.Zero;
 
-			if (!_map.Ground.TryGetHeightAt(pos, out var height))
-				Log.Warning("MonsterSpawner.GetRandomPosition: Failed to get height at {0} for '{1}' spawner on '{2}'.", pos, _monsterData.ClassName, this.MapClassName);
+			// Since we have no way of knowing what kinds of spawn areas
+			// users will create, we have no other choice but to try a
+			// a couple of positions and see if we can find a valid one.
+			// If we can't, we have to fail the attempt because even the
+			// area's center or edge points might be invalid.
 
-			pos.Y = height;
+			for (var i = 0; i < MaxValidPositionTries; ++i)
+			{
+				pos = new Position(rndVector.X, 0, rndVector.Y);
 
-			return pos;
+				if (_map.Ground.TryGetHeightAt(pos, out var height))
+				{
+					pos.Y = height;
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
