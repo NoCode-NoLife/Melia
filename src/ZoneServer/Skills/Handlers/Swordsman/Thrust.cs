@@ -67,7 +67,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 				hits.Add(skillHitInfo);
 			}
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null, damage);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			if (anyDead)

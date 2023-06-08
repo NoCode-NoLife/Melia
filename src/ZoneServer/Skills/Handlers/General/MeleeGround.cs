@@ -36,7 +36,7 @@ namespace Melia.Zone.Skills.Handlers.General
 				hits.Add(skillHitInfo);
 			}
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null);
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			if (anyDead)

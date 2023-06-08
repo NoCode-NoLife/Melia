@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -37,7 +40,8 @@ namespace Melia.Zone.Skills.Handlers.General
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomMAtk();
 
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
+					var hits = new List<SkillHitInfo>();
+					var anyDead = false;
 
 					foreach (var target in targets)
 					{
@@ -50,8 +54,17 @@ namespace Melia.Zone.Skills.Handlers.General
 						}
 
 						if (target.TakeDamage(damage, caster))
-							Send.ZC_SKILL_CAST_CANCEL(caster);
+							anyDead = true;
+
+						var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
+						hits.Add(skillHitInfo);
 					}
+
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, hits);
+
+					if (anyDead)
+						Send.ZC_SKILL_CAST_CANCEL(caster);
+
 					break;
 				}
 
@@ -69,7 +82,7 @@ namespace Melia.Zone.Skills.Handlers.General
 						Send.ZC_SYNC_START(characterCaster, 1234, 1);
 						Send.ZC_SYNC_END(characterCaster, 1234, 0);
 						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.HitDelay);
-						Send.ZC_SKILL_MELEE_GROUND(characterCaster, skill, targetPosition, null, 0);
+						Send.ZC_SKILL_MELEE_GROUND(characterCaster, skill, targetPosition, null);
 						Send.ZC_SYNC_EXEC(characterCaster, 1234);
 					}
 
@@ -89,7 +102,7 @@ namespace Melia.Zone.Skills.Handlers.General
 							foreach (var target in targets)
 							{
 								target.TakeDamage(damage, caster);
-								Send.ZC_HIT_INFO(caster, target, damage, i + 1);
+								Send.ZC_HIT_INFO(caster, target, skill, new HitInfo(damage, target.Hp, i + 1, 9));
 
 								if (target.IsDead)
 									Send.ZC_SKILL_CAST_CANCEL(caster);
@@ -104,16 +117,25 @@ namespace Melia.Zone.Skills.Handlers.General
 
 				default:
 				{
+					var hits = new List<SkillHitInfo>();
+					var anyDead = false;
+
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomAtk(skill);
-
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, targets, damage);
 
 					foreach (var target in targets)
 					{
 						if (target.TakeDamage(damage, caster))
-							Send.ZC_SKILL_CAST_CANCEL(caster);
+							anyDead = true;
+
+						var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
+						hits.Add(skillHitInfo);
 					}
+
+					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, hits);
+
+					if (anyDead)
+						Send.ZC_SKILL_CAST_CANCEL(caster);
 					break;
 				}
 			}

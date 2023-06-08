@@ -1,5 +1,7 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using System;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
@@ -19,14 +21,15 @@ namespace Melia.Zone.Skills.Handlers.General
 
 			if (target == null)
 			{
-				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, 0);
+				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				return;
 			}
 
 			var damage = caster.GetRandomAtk(skill);
 			target.TakeDamage(damage, caster);
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, damage);
+			var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(100));
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, new[] { skillHitInfo });
 
 			if (target.IsDead)
 				Send.ZC_SKILL_CAST_CANCEL(caster);

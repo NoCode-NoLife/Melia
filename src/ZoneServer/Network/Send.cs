@@ -372,11 +372,9 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="damage"></param>
-		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, float damage)
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
 		{
-			var validHit = (target != null && damage > 0);
-
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -395,50 +393,27 @@ namespace Melia.Zone.Network
 			packet.PutFloat(512f);
 			packet.PutInt(0);
 
-			packet.PutByte(validHit);
-			if (validHit)
-			{
-				packet.PutBinFromHex("00 09 00 00");
-				packet.PutInt(target.Handle);
-				packet.PutInt((int)damage);
-				packet.PutInt(target.Hp);
-				packet.PutInt(1); //attackCount?
-				packet.PutFloat(0);
-				packet.PutShort(0);
-				packet.PutShort(3);
-				packet.PutInt(1);
-				packet.PutInt(0);
-				packet.PutInt(549);
-				packet.PutShort(0x63);
-				packet.PutByte(2);
-				packet.PutByte(1);
-				packet.PutInt(0);
-				packet.PutInt(entity.Handle); // Attacker Handle?
-				packet.PutInt(0);
-				packet.PutShort(0);
-				packet.PutShort(1);
-				packet.PutByte(3);
-				packet.PutFloat(-1845);
-			}
+			packet.PutByte((byte)hits.Count());
+			foreach (var hit in hits)
+				packet.AddSkillHitInfo(hit);
 
 			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
-		/// Shows skill use for character, by sending ZC_SKILL_MELEE_GROUND to its connection.
+		/// Shows entity using the skill.
 		/// </summary>
 		/// <remarks>
-		/// i339415, looks hit info is being used instead of this for showing damage on a target
+		/// In some cases this packet contains the hit information,
+		/// while they're sent with ZC_SKILL_HIT_INFO in others.
+		/// Why this is is yet to be determined.
 		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
-		/// <param name="targetPosition"></param>
-		/// <param name="targets"></param>
-		/// <param name="damage"></param>
-		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, float damage = 0)
+		/// <param name="targetPos"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, IEnumerable<SkillHitInfo> hits)
 		{
-			var targetCount = targets?.Count() ?? 0;
-
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -452,42 +427,21 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
 			packet.PutFloat(1.083666f);
 
-			if (targets != null && targetCount == 1)
-				packet.PutInt(targets.First().Handle);
-			else
-				packet.PutInt(0);
+			// This does _not_ look like a handle to me... And sending a
+			// single target handle for an AoE skill packet doesn't make
+			// sense either. Let's send 0 for now.
+			//if (targets != null && targetCount == 1)
+			//	packet.PutInt(targets.First().Handle);
+			//else
+			packet.PutInt(0);
 
-			packet.PutFloat(targetPosition.X);
-			packet.PutFloat(targetPosition.Y);
-			packet.PutFloat(targetPosition.Z);
-			packet.PutShort(targetCount);
+			packet.PutFloat(targetPos.X);
+			packet.PutFloat(targetPos.Y);
+			packet.PutFloat(targetPos.Z);
 
-			if (targetCount > 0)
-			{
-				foreach (var target in targets)
-				{
-					if (target != null && damage > 0)
-					{
-						packet.PutInt(0x900);
-						packet.PutInt(target.Handle);
-						packet.PutInt((int)damage);
-						packet.PutInt(target.Hp);
-						packet.PutLong(2);
-						packet.PutShort(0);
-						packet.PutShort(3);
-						packet.PutLong(1);
-						packet.PutInt(50);
-						packet.PutShort(skill.Data.HitDelay);
-						packet.PutByte(0);
-						packet.PutByte(0); // Attack Index
-						packet.PutShort(0);
-						packet.PutInt((int)skill.ObjectId); // Skill Handle
-						packet.PutInt(0);
-						packet.PutShort(0);
-						packet.PutShort(1);
-					}
-				}
-			}
+			packet.PutShort((short)hits.Count());
+			foreach (var hit in hits)
+				packet.AddSkillHitInfo(hit);
 
 			entity.Map.Broadcast(packet);
 		}
@@ -1589,31 +1543,16 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
-		/// <param name="damage"></param>
-		/// <param name="attackIndex"></param>
-		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, float damage, int attackIndex = 0)
+		/// <param name="skill"></param>
+		/// <param name="hitInfo"></param>
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, Skill skill, HitInfo hitInfo)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
-			packet.PutInt(100);
-			packet.PutInt((int)damage);
-			packet.PutInt(target.Hp);
-			packet.PutInt(attackIndex);
-			packet.PutInt(0);
-			packet.PutByte(0);
-			packet.PutByte(104);
-			packet.PutShort(3);
-			packet.PutByte(1);
-			packet.PutByte(64);
-			packet.PutLong(1);
-			packet.PutLong(0);
-			packet.PutByte(0);
-			packet.PutFloat(0);
-			packet.PutLong(0);
-			packet.PutLong(1);
-			packet.PutByte(0);
+			packet.PutInt((int)skill.Id);
+			packet.AddHitInfo(hitInfo);
 
 			target.Map.Broadcast(packet);
 		}
@@ -1972,14 +1911,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(entity.Handle);
-			packet.PutFloat(position1.X);
-			packet.PutFloat(position1.Y);
-			packet.PutFloat(position1.Z);
-			packet.PutFloat(position2.X);
-			packet.PutFloat(position2.Y);
-			packet.PutFloat(position2.Z);
+			packet.PutPosition(position1);
+			packet.PutPosition(position2);
 
-			// Temporary solution until we our skill handling system is
+			// Temporary solution until our skill handling system is
 			// more streamlined
 			if (entity is Character character)
 				character.Connection.Send(packet);

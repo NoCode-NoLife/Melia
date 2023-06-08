@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Combat
 			this.Attacker = attacker;
 			this.Target = target;
 			this.Skill = skill;
-			this.HitInfo = new HitInfo(damage, target.Hp, 3);
+			this.HitInfo = new HitInfo(damage, target.Hp, 0, 3);
 			this.DamageDelay = damageDelay;
 			this.SkillHitDelay = skillHitDelay;
 		}
