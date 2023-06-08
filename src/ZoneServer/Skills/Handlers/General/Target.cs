@@ -1,19 +1,19 @@
-﻿using Melia.Zone.Network;
-using Melia.Zone.Skills.Base;
+﻿using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
+using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
-namespace Melia.Zone.Skills.General
+namespace Melia.Zone.Skills.Handlers.General
 {
 	/// <summary>
 	/// Targeted skill handler implmentation when the client provides a target
 	/// </summary>
-	public class TargetedSkillHandler : ITargetedSkillHandler
+	public class TargetSkillHandler : ITargetSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, ICombatEntity target)
+		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
+				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
 

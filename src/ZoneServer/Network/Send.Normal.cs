@@ -169,22 +169,23 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Unknown skill related
 			/// </summary>
-			/// <param name="character"></param>
-			public static void SkillParticleEffect(Character character, int skillActorId)
+			/// <param name="entity"></param>
+			/// <param name="skillActorId"></param>
+			public static void SkillParticleEffect(ICombatEntity entity, int skillActorId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillParticleEffect);
 
-				packet.PutInt(character.Handle);
+				packet.PutInt(entity.Handle);
 				packet.PutInt(skillActorId);
-				packet.PutInt(character.Hp);
+				packet.PutInt(entity.Hp);
 				packet.PutShort(6904);
 				packet.PutShort(39);
 				packet.PutFloat(25);
 				packet.PutLpString("Melee");
 				packet.PutLong(0);
 
-				character.Connection.Send(packet);
+				entity.Map.Broadcast(packet, entity);
 			}
 
 			/// <summary>

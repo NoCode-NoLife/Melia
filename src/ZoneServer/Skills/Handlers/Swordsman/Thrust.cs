@@ -1,14 +1,13 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Base;
+using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Geometry;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Skills.Swordsman
+namespace Melia.Zone.Skills.Handlers.Swordsman
 {
 	/// <summary>
 	/// Handler for the Swordsman skill Thrust.
@@ -23,7 +22,7 @@ namespace Melia.Zone.Skills.Swordsman
 		/// <param name="caster"></param>
 		/// <param name="castPosition"></param>
 		/// <param name="targetPosition"></param>
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
+		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition)
 		{
 			// This is just a test for a dedicated skill handler, the code
 			// was largely copied from the default handler for now, without
@@ -40,7 +39,7 @@ namespace Melia.Zone.Skills.Swordsman
 			// TODO: Cancel if not enough SP?
 
 			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
+				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
 

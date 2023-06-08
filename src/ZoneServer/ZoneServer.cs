@@ -7,7 +7,7 @@ using Melia.Zone.Commands;
 using Melia.Zone.Database;
 using Melia.Zone.Events;
 using Melia.Zone.Network;
-using Melia.Zone.Skills;
+using Melia.Zone.Skills.Handlers;
 using Melia.Zone.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;

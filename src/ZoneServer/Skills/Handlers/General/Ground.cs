@@ -2,18 +2,19 @@
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Base;
+using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Skills.General
+namespace Melia.Zone.Skills.Handlers.General
 {
 	/// <summary>
-	/// Generic Ground Skill Handler
+	/// Generic handler for ground skills.
 	/// </summary>
 	public class GroundSkillHandler : IGroundSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition)
+		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition)
 		{
 			var castedRange = castPosition.Get3DDistance(targetPosition);
 			if (castedRange > skill.Data.MaxRange)
@@ -23,7 +24,7 @@ namespace Melia.Zone.Skills.General
 			}
 
 			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
+				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
 
@@ -40,10 +41,13 @@ namespace Melia.Zone.Skills.General
 
 					foreach (var target in targets)
 					{
-						Send.ZC_NORMAL.SkillParticleEffect(caster, 1234);
-						Send.ZC_SYNC_START(caster, 1234, 1);
-						Send.ZC_NORMAL.Skill_16(caster, target, targetPosition);
-						Send.ZC_SYNC_END(caster, 1234, 0);
+						if (caster is Character characterCaster)
+						{
+							Send.ZC_NORMAL.SkillParticleEffect(characterCaster, 1234);
+							Send.ZC_SYNC_START(characterCaster, 1234, 1);
+							Send.ZC_NORMAL.Skill_16(characterCaster, target, targetPosition);
+							Send.ZC_SYNC_END(characterCaster, 1234, 0);
+						}
 
 						if (target.TakeDamage(damage, caster))
 							Send.ZC_SKILL_CAST_CANCEL(caster, target);
@@ -56,24 +60,31 @@ namespace Melia.Zone.Skills.General
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
 					var damage = caster.GetRandomPAtk();
 
-					Send.ZC_NORMAL.Skill_4E(caster, skill.Id, 1);
-					Send.ZC_NORMAL.Skill(caster, skill, targetPosition, caster.Direction, true);
-					Send.ZC_NORMAL.Unknown_06(caster, targetPosition);
-					Send.ZC_SYNC_START(caster, 1234, 1);
-					Send.ZC_SYNC_END(caster, 1234, 0);
-					Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, null, 0);
-					Send.ZC_SYNC_EXEC(caster, 1234);
+					var characterCaster = caster as Character;
+					if (characterCaster != null)
+					{
+						Send.ZC_NORMAL.Skill_4E(characterCaster, skill.Id, 1);
+						Send.ZC_NORMAL.Skill(characterCaster, skill, targetPosition, caster.Direction, true);
+						Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
+						Send.ZC_SYNC_START(characterCaster, 1234, 1);
+						Send.ZC_SYNC_END(characterCaster, 1234, 0);
+						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.HitDelay);
+						Send.ZC_SKILL_MELEE_GROUND(characterCaster, skill, targetPosition, null, 0);
+						Send.ZC_SYNC_EXEC(characterCaster, 1234);
+					}
 
 					for (var i = 0; i < 10; i++)
 					{
 						Task.Delay(skill.Data.HitDelay).ContinueWith(_ =>
 						{
-							Send.ZC_NORMAL.Unknown_06(caster, targetPosition);
-							Send.ZC_SYNC_START(caster, 1234, 1);
-							Send.ZC_SYNC_END(caster, 1234, 0);
-							Send.ZC_SYNC_EXEC_BY_SKILL_TIME(caster, 1234, skill.Data.HitDelay);
-							Send.ZC_SYNC_EXEC(caster, 1234);
+							if (characterCaster != null)
+							{
+								Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
+								Send.ZC_SYNC_START(characterCaster, 1234, 1);
+								Send.ZC_SYNC_END(characterCaster, 1234, 0);
+								Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.HitDelay);
+								Send.ZC_SYNC_EXEC(characterCaster, 1234);
+							}
 
 							foreach (var target in targets)
 							{
@@ -86,7 +97,8 @@ namespace Melia.Zone.Skills.General
 						});
 					}
 
-					Send.ZC_SKILL_DISABLE(caster);
+					if (characterCaster != null)
+						Send.ZC_SKILL_DISABLE(characterCaster);
 					break;
 				}
 

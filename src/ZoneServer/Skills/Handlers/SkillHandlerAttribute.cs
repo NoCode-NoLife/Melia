@@ -1,12 +1,13 @@
 ﻿using System;
 using Melia.Shared.Tos.Const;
 
-namespace Melia.Zone.Skills
+namespace Melia.Zone.Skills.Handlers
 {
 	/// <summary>
 	/// Used to mark skill handler classes, which are then automatically
 	/// loaded by the skill handler manager.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class SkillHandlerAttribute : Attribute
 	{
 		/// <summary>

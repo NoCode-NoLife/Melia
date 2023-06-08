@@ -11,6 +11,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -963,65 +964,78 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
+			// Check skill
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
-			// Should check state of the character
+			// Get targets
+			var targets = new List<ICombatEntity>();
+			foreach (var handle in targetHandles)
+			{
+				if (!character.Map.TryGetCombatEntity(handle, out var target))
+				{
+					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to attack non-existant target '{1}'.", conn.Account.Name, handle);
+					continue;
+				}
+
+				if (!character.CanAttack(target))
+				{
+					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to attack invalid target '{1}'.", conn.Account.Name, handle);
+					continue;
+				}
+
+				targets.Add(target);
+			}
+
+			// Do... stuff.
+			// TODO: Move these senders to appropriate methods on Skill
+			//   and Character and handle them properly from the skill
+			//   handling.
 			Send.ZC_OVERHEAT_CHANGED(character, skill);
 			Send.ZC_PC_ATKSTATE(character, true);
 
-			if (targetHandleCount == 0)
+			// Try to use skill
+			try
 			{
 				switch (skill.Data.UseType)
 				{
 					case SkillUseType.MELEE_GROUND:
 					{
-						var handler = ZoneServer.Instance.SkillHandlers.GetGround(skill.Id);
-						handler.Handle(skill, character, originPos, farPos);
+						if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IMeleeGroundSkillHandler>(skillId, out var handler))
+						{
+							character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+							Log.Warning("CZ_CLIENT_HIT_LIST: No handler for skill '{0}' found.", skillId);
+							return;
+						}
+
+						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 					}
 					case SkillUseType.FORCE:
 					{
-						var handler = ZoneServer.Instance.SkillHandlers.GetTargeted(skill.Id);
-						handler.Handle(skill, character, null);
+						if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IForceSkillHandler>(skillId, out var handler))
+						{
+							character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+							Log.Warning("CZ_CLIENT_HIT_LIST: No handler for skill '{0}' found.", skillId);
+							return;
+						}
+
+						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 					}
 					default:
 					{
-						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
+						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to use skill '{1}' of unknown use type '{2}'.", conn.Account.Name, skillId, skill.Data.UseType);
 						break;
 					}
 				}
 			}
-			else
+			catch (ArgumentException ex)
 			{
-				var targets = new List<ICombatEntity>();
-				foreach (var handle in targetHandles)
-				{
-					var target = character.Map.GetCombatEntity(handle);
-					if (target == null || !character.CanAttack(target))
-					{
-						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' attacked invalid target '{1}'.", conn.Account.Name, handle);
-						continue;
-					}
-
-					targets.Add(target);
-				}
-
-				switch (skill.Data.UseType)
-				{
-					case SkillUseType.MELEE_GROUND:
-						var handler = ZoneServer.Instance.SkillHandlers.GetTargetedGround(skill.Id);
-						handler.Handle(skill, character, originPos, farPos, targets);
-						break;
-
-					default:
-						Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' used unknown skill use type '{1}'.", conn.Account.Name, skill.Data.UseType);
-						break;
-				}
+				Log.Error("CZ_CLIENT_HIT_LIST: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
 			}
 		}
 
@@ -1041,16 +1055,17 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
+			// Check skill
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
+			// Check target
 			// TODO: Should the target be checked properly? Is it possible
 			//   to use this handler without target? We should document
 			//   such things.
-
 			var target = character.Map.GetCombatEntity(targetHandle);
 			//if (!character.Map.TryGetCombatEntity(targetHandle, out var target))
 			//{
@@ -1058,8 +1073,22 @@ namespace Melia.Zone.Network
 			//	return;
 			//}
 
-			var handler = ZoneServer.Instance.SkillHandlers.GetTargeted(skill.Id);
-			handler.Handle(skill, character, target);
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_SKILL_TARGET: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, target);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_SKILL_TARGET: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
 		}
 
 		/// <summary>
@@ -1083,18 +1112,31 @@ namespace Melia.Zone.Network
 			// in that case, but we probably don't want to execute the skill
 			// handler.
 			if (skillId == 0)
-			{
 				return;
-			}
 
+			// Check skill
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_TARGET_ANI: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
-			var handler = ZoneServer.Instance.SkillHandlers.GetTargeted(skillId);
-			handler.Handle(skill, character, null);
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetAniSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_SKILL_TARGET_ANI: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, direction);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_SKILL_TARGET_ANI: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
 		}
 
 		/// <summary>
@@ -1108,8 +1150,8 @@ namespace Melia.Zone.Network
 			var unk1 = packet.GetByte();
 			var skillId = (SkillId)packet.GetInt();
 			var targetHandle = packet.GetInt();
-			var castPosition = packet.GetPosition();
-			var targetPosition = packet.GetPosition();
+			var originPos = packet.GetPosition();
+			var farPos = packet.GetPosition();
 			var direction = packet.GetDirection();
 			var handle = packet.GetInt(); // This seems to be "target actorId"
 			var unk6 = packet.GetByte();
@@ -1117,14 +1159,29 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
+			// Check skill
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
-			var handler = ZoneServer.Instance.SkillHandlers.GetGround(skill.Id);
-			handler.Handle(skill, character, castPosition, targetPosition);
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IGroundSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_SKILL_GROUND: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, originPos, farPos);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_SKILL_GROUND: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
 
 			// The following code is what has been observed from GROUND SKILL
 			// packet responses.

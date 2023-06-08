@@ -1052,7 +1052,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns a random physical attack damage value.
 		/// </summary>
 		/// <returns></returns>
-		public int GetRandomPAtk()
+		public float GetRandomPAtk()
 		{
 			var rnd = RandomProvider.Get();
 
@@ -1066,7 +1066,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns a random magic attack damage value.
 		/// </summary>
 		/// <returns></returns>
-		public int GetRandomMAtk()
+		public float GetRandomMAtk()
 		{
 			var rnd = RandomProvider.Get();
 
@@ -1082,7 +1082,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <returns></returns>
-		public int GetRandomAtk(Skill skill)
+		public float GetRandomAtk(Skill skill)
 		{
 			if (skill.Data.ClassType <= SkillClassType.Missile)
 				return this.GetRandomPAtk();
@@ -1112,9 +1112,9 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns true if the character is dead.
 		/// </summary>
 		/// <param name="damage"></param>
-		/// <param name="from"></param>
+		/// <param name="attacker"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from)
+		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
 			throw new NotImplementedException();
 		}

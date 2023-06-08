@@ -356,38 +356,38 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Cancel a skill cast, usually when a monster has died.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="target"></param>
-		public static void ZC_SKILL_CAST_CANCEL(Character character, IActor target)
+		public static void ZC_SKILL_CAST_CANCEL(ICombatEntity entity, IActor target)
 		{
 			var packet = new Packet(Op.ZC_SKILL_CAST_CANCEL);
 			packet.PutInt(target.Handle);
 
-			character.Connection.Send(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
 		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_FORCE_TARGET(Character character, ICombatEntity target, Skill skill, int damage)
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, float damage)
 		{
 			var validHit = (target != null && damage > 0);
 
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
 			packet.PutFloat(550.7403f); // Skill Particle Distance?
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(character.Handle); // Attacker Handle?
+			packet.PutInt(entity.Handle); // Attacker Handle?
 			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
@@ -400,7 +400,7 @@ namespace Melia.Zone.Network
 			{
 				packet.PutBinFromHex("00 09 00 00");
 				packet.PutInt(target.Handle);
-				packet.PutInt(damage);
+				packet.PutInt((int)damage);
 				packet.PutInt(target.Hp);
 				packet.PutInt(1); //attackCount?
 				packet.PutFloat(0);
@@ -413,7 +413,7 @@ namespace Melia.Zone.Network
 				packet.PutByte(2);
 				packet.PutByte(1);
 				packet.PutInt(0);
-				packet.PutInt(character.Handle); // Attacker Handle?
+				packet.PutInt(entity.Handle); // Attacker Handle?
 				packet.PutInt(0);
 				packet.PutShort(0);
 				packet.PutShort(1);
@@ -421,7 +421,7 @@ namespace Melia.Zone.Network
 				packet.PutFloat(-1845);
 			}
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -430,21 +430,21 @@ namespace Melia.Zone.Network
 		/// <remarks>
 		/// i339415, looks hit info is being used instead of this for showing damage on a target
 		/// </remarks>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="skill"></param>
 		/// <param name="targetPosition"></param>
 		/// <param name="targets"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity character, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, int damage = 0)
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPosition, IEnumerable<ICombatEntity> targets = null, float damage = 0)
 		{
 			var targetCount = targets?.Count() ?? 0;
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Direction.Cos);
-			packet.PutFloat(character.Direction.Sin);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
 			packet.PutFloat(skill.Data.ShootTime);
 			packet.PutFloat(1);
@@ -470,7 +470,7 @@ namespace Melia.Zone.Network
 					{
 						packet.PutInt(0x900);
 						packet.PutInt(target.Handle);
-						packet.PutInt(damage);
+						packet.PutInt((int)damage);
 						packet.PutInt(target.Hp);
 						packet.PutLong(2);
 						packet.PutShort(0);
@@ -489,7 +489,7 @@ namespace Melia.Zone.Network
 				}
 			}
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -1590,14 +1590,15 @@ namespace Melia.Zone.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, int damage, int attackIndex = 0)
+		/// <param name="attackIndex"></param>
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, float damage, int attackIndex = 0)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
 			packet.PutInt(100);
-			packet.PutInt(damage);
+			packet.PutInt((int)damage);
 			packet.PutInt(target.Hp);
 			packet.PutInt(attackIndex);
 			packet.PutInt(0);
@@ -1624,7 +1625,7 @@ namespace Melia.Zone.Network
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="damage"></param>
-		public static void ZC_SKILL_HIT_INFO(IActor attacker, ICombatEntity target, int damage)
+		public static void ZC_SKILL_HIT_INFO(IActor attacker, ICombatEntity target, float damage)
 		{
 			var validHit = (target != null && damage > 0);
 
@@ -1637,7 +1638,7 @@ namespace Melia.Zone.Network
 			{
 				packet.PutBinFromHex("00 09 00 00");
 				packet.PutInt(target.Handle);
-				packet.PutInt(damage);
+				packet.PutInt((int)damage);
 				packet.PutInt(target.Hp);
 				packet.PutInt(3); //attackCount?
 				packet.PutShort(0);
@@ -1987,19 +1988,19 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Inform client that the skill is ready
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="id"></param>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
 		/// <param name="position1"></param>
 		/// <param name="position2"></param>
-		public static void ZC_SKILL_READY(Character character, Skill skill, Position position1, Position position2)
+		public static void ZC_SKILL_READY(ICombatEntity entity, Skill skill, Position position1, Position position2)
 		{
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutFloat(position1.X);
 			packet.PutFloat(position1.Y);
 			packet.PutFloat(position1.Z);
@@ -2007,7 +2008,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(position2.Y);
 			packet.PutFloat(position2.Z);
 
-			character.Connection.Send(packet);
+			// Temporary solution until we our skill handling system is
+			// more streamlined
+			if (entity is Character character)
+				character.Connection.Send(packet);
 		}
 
 		/// <summary>

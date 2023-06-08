@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Base;
+using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
-namespace Melia.Zone.Skills.General
+namespace Melia.Zone.Skills.Handlers.General
 {
 	/// <summary>
-	/// Targeted ground skill implementation when the client provides targets
+	/// Generic handler for melee ground skills.
 	/// </summary>
-	public class TargetedGroundSkillHandler : ITargetGroundSkillHandler
+	[SkillHandler(SkillId.Normal_Attack)]
+	public class MeleeGroundSkillHandler : IMeleeGroundSkillHandler
 	{
-		public void Handle(Skill skill, Character caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets)
+		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition, IList<ICombatEntity> targets)
 		{
 			if (skill.SpendSp > 0)
-				caster.ModifySp(-skill.SpendSp);
+				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
 

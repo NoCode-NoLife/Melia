@@ -4,6 +4,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
@@ -209,7 +210,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="damage"></param>
 		/// <param name="attacker"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character attacker)
+		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
@@ -234,7 +235,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Kills monster.
 		/// </summary>
 		/// <param name="killer"></param>
-		public void Kill(Character killer)
+		public void Kill(ICombatEntity killer)
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 
@@ -251,9 +252,12 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			this.DropItems(killer);
+			if (killer is Character characterKiller)
+			{
+				this.DropItems(characterKiller);
+				characterKiller?.GiveExp(exp, classExp, this);
+			}
 
-			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
@@ -276,7 +280,8 @@ namespace Melia.Zone.World.Actors.Monsters
 				var dropChance = dropItemData.DropChance;
 				dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
 
-				if (rnd.NextDouble() > dropChance / 100f)
+				var dropSuccess = rnd.NextDouble() < dropChance / 100f;
+				if (!dropSuccess)
 					continue;
 
 				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
@@ -313,6 +318,48 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			// For now, let's specify that monsters can attack characters.
 			return (entity is Character);
+		}
+
+		/// <summary>
+		/// Returns a random physical attack damage value.
+		/// </summary>
+		/// <returns></returns>
+		public float GetRandomPAtk()
+		{
+			var rnd = RandomProvider.Get();
+
+			var min = (int)this.Properties.GetFloat(PropertyName.MINPATK);
+			var max = (int)this.Properties.GetFloat(PropertyName.MAXPATK);
+
+			return rnd.Next(min, max + 1);
+		}
+
+		/// <summary>
+		/// Returns a random magic attack damage value.
+		/// </summary>
+		/// <returns></returns>
+		public float GetRandomMAtk()
+		{
+			var rnd = RandomProvider.Get();
+
+			var min = (int)this.Properties.GetFloat(PropertyName.MINMATK);
+			var max = (int)this.Properties.GetFloat(PropertyName.MAXMATK);
+
+			return rnd.Next(min, max + 1);
+		}
+
+		/// <summary>
+		/// Returns a random physical or magic attack damage value,
+		/// for usage with the given skill.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public float GetRandomAtk(Skill skill)
+		{
+			if (skill.Data.ClassType <= SkillClassType.Missile)
+				return this.GetRandomPAtk();
+			else
+				return this.GetRandomMAtk();
 		}
 
 		/// <summary>

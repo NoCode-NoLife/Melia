@@ -5,7 +5,7 @@ namespace Melia.Shared.World
 	/// <summary>
 	/// Describes the direction an entity is looking at.
 	/// </summary>
-	public struct Direction
+	public readonly struct Direction
 	{
 		public readonly float Cos;
 		public readonly float Sin;

@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Composition;
 
@@ -35,10 +36,30 @@ namespace Melia.Zone.World.Actors
 		/// Returns whether the entity is dead.
 		/// </summary>
 		/// <param name="damage"></param>
-		/// <param name="from"></param>
-		/// <param name="type"></param>
-		/// <returns>If damage is fatal returns true</returns>
-		bool TakeDamage(int damage, Character from/*, DamageVisibilityModifier damageVisibility, int attackIndex*/);
+		/// <param name="attacker"></param>
+		/// <returns>Returns true if the entity died from the attack.</returns>
+		bool TakeDamage(float damage, ICombatEntity attacker/*, DamageVisibilityModifier damageVisibility, int attackIndex*/);
+
+		/// <summary>
+		/// Returns a random physical attack value based on the entity's
+		/// physical attack.
+		/// </summary>
+		/// <returns></returns>
+		float GetRandomPAtk();
+
+		/// <summary>
+		/// Returns a random magic attack value based on the entity's
+		/// magic attack.
+		/// </summary>
+		/// <returns></returns>
+		float GetRandomMAtk();
+
+		/// <summary>
+		/// Returns a random attack value based on the entity's attack and
+		/// the skill's type.
+		/// </summary>
+		/// <returns></returns>
+		float GetRandomAtk(Skill skill);
 
 		/// <summary>
 		/// Returns true if this entity can attack the given one.
