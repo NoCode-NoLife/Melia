@@ -55,7 +55,7 @@ namespace Melia.Zone.Network.Helpers
 		{
 			packet.PutInt((int)hitInfo.Damage);
 			packet.PutInt((int)hitInfo.Hp);
-			packet.PutInt(3); // attackCount?
+			packet.PutInt(3); // attackCount? or maybe hp-update-thingy like in ZC_ADD_HP?
 			packet.PutShort(0);
 
 			packet.PutByte(0);
