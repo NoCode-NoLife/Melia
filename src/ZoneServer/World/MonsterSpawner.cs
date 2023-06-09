@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
+using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -308,13 +310,40 @@ namespace Melia.Zone.World
 			for (var i = 0; i < MaxValidPositionTries; ++i)
 			{
 				var rndVector = this.Area.GetRandomPoint(_rnd);
-				pos = new Position(rndVector.X, 0, rndVector.Y);
-
-				if (_map.Ground.TryGetHeightAt(pos, out var height))
-				{
-					pos.Y = height;
+				if (this.TryGetPositionFromPoint(rndVector, out pos))
 					return true;
-				}
+			}
+
+			// If all tries failed, try the area's center point
+			if (this.TryGetPositionFromPoint(this.Area.Center, out pos))
+				return true;
+
+			// No dice? Okay... What about the edge points?
+			foreach (var edgePoint in this.Area.GetEdgePoints().OrderBy(_ => _rnd.Next()))
+			{
+				if (this.TryGetPositionFromPoint(edgePoint, out pos))
+					return true;
+			}
+
+			// Well, we gave our best. Kind of.
+			pos = Position.Zero;
+			return false;
+		}
+
+		/// <summary>
+		/// Tries to turn point into a valid position and returns it via
+		/// out. Returns false if the point was not a valid position.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		private bool TryGetPositionFromPoint(Vector2 point, out Position pos)
+		{
+			pos = new Position(point.X, 0, point.Y);
+			if (_map.Ground.TryGetHeightAt(pos, out var height))
+			{
+				pos.Y = height;
+				return true;
 			}
 
 			pos = Position.Zero;
