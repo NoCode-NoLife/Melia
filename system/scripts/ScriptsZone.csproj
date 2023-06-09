@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="ais\basic_monster.cs" />
     <Compile Include="ais\test.cs" />
+    <Compile Include="client\api\main.cs" />
     <Compile Include="client\dialog_portraits\main.cs" />
     <Compile Include="client\free_drops\main.cs" />
     <Compile Include="client\personal_shops\main.cs" />
@@ -328,6 +329,12 @@
     <Compile Include="other\character_init.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="client\api\002_util.lua" />
+    <None Include="client\api\005_communication.lua" />
+    <None Include="client\api\004_execution.lua" />
+    <None Include="client\api\003_log.lua" />
+    <None Include="client\api\001_override.lua" />
+    <None Include="client\api\README.md" />
     <None Include="client\dialog_portraits\001.lua" />
     <None Include="client\free_drops\001.lua" />
     <None Include="client\personal_shops\001.lua" />

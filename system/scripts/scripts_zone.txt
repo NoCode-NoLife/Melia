@@ -8,6 +8,7 @@ core/**/*
 items/**/*
 ais/**/*
 
+client/api/main.cs
 client/custom_npc_shops/main.cs
 client/dialog_portraits/main.cs
 client/free_drops/main.cs
