@@ -1,21 +1,17 @@
-if not session_GetShopItemList_Original then
-	session_GetShopItemList_Original = session.GetShopItemList
-end
-
 -- Reroute the request for the shop item list of the current shop, so we
 -- can return our custom shop list instead.
-function session.GetShopItemList()
+Melia.OverrideIn(session, "GetShopItemList", function(original)
 
 	local shopName = session.GetCurrentShopName()
 	if shopName ~= M_CUSTOM_SHOP_NAME then
-		return session_GetShopItemList_Original()
+		return original()
 	end
 	
 	return M_CUSTOM_SHOP
 
-end
+end)
 
--- Function executed from the server, to load a new shop.
+-- Function executed from the server to load a new shop.
 function M_SET_CUSTOM_SHOP(items)
 	
 	local customShop = M_CUSTOM_SHOP

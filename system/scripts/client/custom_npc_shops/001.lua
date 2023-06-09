@@ -63,17 +63,9 @@ function ShopItem_New(classId, itemId, count, price)
 		return TryGet_Str(cls, "Icon")
 	end
 	
-	function result:GetPropName()
-		return "None"
-	end
-	
-	function result:GetBuyAccountPropName()
-		return "None"
-	end
-	
-	function result:GetAccountPropIcon()
-		return "None"
-	end
+	function result:GetPropName() return "None" end
+	function result:GetBuyAccountPropName() return "None" end
+	function result:GetAccountPropIcon() return "None" end
 	
 	return result
 	

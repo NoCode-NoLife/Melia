@@ -1,11 +1,7 @@
-if not BUFFSELLER_REG_EXEC_Original then
-	BUFFSELLER_REG_EXEC_Original = BUFFSELLER_REG_EXEC
-end
-
 -- The original function fails to find the slot control because it"s
 -- searching in the wrong place. We have to make sure it finds it,
 -- for the clicked items to be moved to slot and be added to the list.
-PS_SET_ITEM_TO_SLOT = function(parent, ctrl)
+Melia.Override("PS_SET_ITEM_TO_SLOT", function(original, parent, ctrl)
 
 	local slot = ctrl:GetTopParentFrame():GetChild("gbox"):GetChild("selllist"):GetChild("CTRLSET_NEW"):GetChild("slot")
 	local classId = ctrl:GetUserIValue("ITEM_CLSID")
@@ -14,13 +10,13 @@ PS_SET_ITEM_TO_SLOT = function(parent, ctrl)
 	SET_SLOT_ITEM_CLS(slot, cls)
 	slot:SetUserValue("ITEM_CLSID", classId)
 	
-end
+end)
 
 -- The original function makes assumptions about the things in the shop
 -- and doesn't work with normal items anymore. We'll catch PersonalShop
 -- requests and handle them ourselves, while calling the original function
 -- for all other requests.
-BUFFSELLER_REG_EXEC = function(frame)
+Melia.Override("BUFFSELLER_REG_EXEC", function(original, frame)
 
 	frame = frame:GetTopParentFrame();
 	
@@ -28,7 +24,7 @@ BUFFSELLER_REG_EXEC = function(frame)
 	local serverGroupName = frame:GetUserValue("ServerGroupName");
 	
 	if groupName ~= "PersonalShop" then
-		BUFFSELLER_REG_EXEC_Original(frame);
+		original(frame);
 	end
 
 	local title = frame:GetChild("gbox"):GetChild("inputname"):GetText()
@@ -54,4 +50,5 @@ BUFFSELLER_REG_EXEC = function(frame)
 	ui.Chat(msg)
 	
 	frame:ShowWindow(0);
-end
+
+end)

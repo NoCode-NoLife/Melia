@@ -1,11 +1,8 @@
-if not GET_STAT_POINT_Original then
-	GET_STAT_POINT_Original = GET_STAT_POINT
-end
-
 -- Usage of StatByLevel is commented in the official scripts, since it's
 -- not being used anymore. This override simply adds that property on top
 -- of the result of the official function again.
-function GET_STAT_POINT(pc)
+Melia.Override("GET_STAT_POINT", function(original, pc)
+
 	local result = GET_STAT_POINT_Original(pc)
 
 	local byLevel = TryGetProp(pc, "StatByLevel")
@@ -14,4 +11,5 @@ function GET_STAT_POINT(pc)
 	end
     
     return math.floor(result);
-end
+
+end)

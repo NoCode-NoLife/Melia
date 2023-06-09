@@ -424,23 +424,36 @@ namespace Melia.Zone.Scripting.Dialogues
 			// by executing some custom Lua code.
 			if (shopData.IsCustom)
 			{
-				var sb = new StringBuilder();
-				sb.Append("M_SET_CUSTOM_SHOP({");
+				// Start receival of the shop data
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.BeginRecv('CustomShop')");
 
+				// Append products and send them in intervals when the calls
+				// get too close to the max script length
+				var sb = new StringBuilder();
 				foreach (var productData in shopData.Products.Values)
 				{
-					sb.AppendFormat("{{{0},{1},{2},{3}}},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
+					sb.AppendFormat("{{ {0},{1},{2},{3} }},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
 
-					// One script call can only hold so many items,
-					// but we could split it up into multiple calls
-					// if necessary.
-					if (sb.Length > ClientScript.ScriptMaxLength)
-						throw new InvalidOperationException($"Shop '{shopData.Name}' contains too many items.");
+					if (sb.Length > ClientScript.ScriptMaxLength * 0.8)
+					{
+						Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomShop', {{ {sb} }})");
+						sb.Clear();
+					}
 				}
 
-				sb.Append("})");
+				// Send remaining products, which will cover all items
+				// if the max script length wasn't exceeded, and the
+				// remaining ones that weren't sent yet.
+				if (sb.Length > 0)
+				{
+					Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomShop', {{ {sb} }})");
+					sb.Clear();
+				}
 
-				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, sb.ToString());
+				// End receival of the shop data and set it
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop', M_SET_CUSTOM_SHOP)");
+
+				// Open the shop
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");
 			}
 			else
