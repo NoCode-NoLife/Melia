@@ -174,6 +174,19 @@ namespace Melia.Zone.Scripting
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area)
+			=> AddSpawner(monsterClassId, amount, respawn, map, area, TendencyType.Peaceful, null);
+
+		/// <summary>
+		/// Adds monster spawner to the world.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="amount"></param>
+		/// <param name="respawn"></param>
+		/// <param name="map"></param>
+		/// <param name="area"></param>
 		/// <param name="tendency"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
