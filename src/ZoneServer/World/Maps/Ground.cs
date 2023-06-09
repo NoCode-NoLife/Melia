@@ -11,6 +11,8 @@ namespace Melia.Zone.World.Maps
 	/// </summary>
 	public class Ground
 	{
+		private const float RayOriginHeight = 20000;
+
 		private GroundData _data;
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
@@ -106,7 +108,7 @@ namespace Melia.Zone.World.Maps
 				return false;
 			}
 
-			var origin = new Vector3f(pos.X, 1000, pos.Z);
+			var origin = new Vector3f(pos.X, RayOriginHeight, pos.Z);
 			var ray = new Ray3f(origin, new Vector3f(0, -1, 0));
 
 			var hitId = _spatial.FindNearestHitTriangle(ray);
@@ -119,7 +121,7 @@ namespace Melia.Zone.World.Maps
 			var intersection = MeshQueries.TriangleIntersection(_mesh, hitId, ray);
 			var hitDistance = origin.Distance(ray.PointAt((float)intersection.RayParameter));
 
-			height = (1000 - hitDistance);
+			height = (RayOriginHeight - hitDistance);
 			return true;
 		}
 
