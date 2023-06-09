@@ -26,7 +26,6 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Idle()
 	{
-		yield return StopMove();
 		yield return Wait(1000, 5000);
 		yield return MoveRandom();
 	}
@@ -61,6 +60,12 @@ public class BasicMonsterAiScript : AiScript
 		yield break;
 	}
 
+	protected IEnumerable StopAndIdle()
+	{
+		yield return StopMove();
+		StartRoutine("Idle", Idle());
+	}
+
 	private void CheckEnemies()
 	{
 		var mostHated = GetMostHated();
@@ -76,7 +81,7 @@ public class BasicMonsterAiScript : AiScript
 		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance))
 		{
 			target = null;
-			StartRoutine("Idle", Idle());
+			StartRoutine("StopAndIdle", StopAndIdle());
 		}
 	}
 
