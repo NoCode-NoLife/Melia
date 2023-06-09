@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Scripting
 {
@@ -12,7 +13,22 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	public abstract class ClientScript : GeneralScript
 	{
+		public const int ScriptMaxLength = 2048;
+
 		private readonly Dictionary<string, string> _files = new Dictionary<string, string>();
+
+		/// <summary>
+		/// Adds script under the given name.
+		/// </summary>
+		/// <param name="fileName"></param>
+		/// <param name="script"></param>
+		private void AddLuaScript(string fileName, string script)
+		{
+			if (script.Length > ScriptMaxLength)
+				Log.Warning("ClientScript: Script file '{0}', loaded by '{1}', exceeds the recommended maximum length of {2} characters. (Length: {3}).", fileName, this.GetType().Name, ScriptMaxLength, script.Length);
+
+			_files[fileName] = script;
+		}
 
 		/// <summary>
 		/// Loads a Lua script from the same directory as the script.
@@ -23,10 +39,9 @@ namespace Melia.Zone.Scripting
 		{
 			var fileDirPath = Path.GetDirectoryName(sourceFilePath);
 			var filePath = Path.Combine(fileDirPath, fileName);
-
 			var script = File.ReadAllText(filePath);
 
-			_files[fileName] = script;
+			this.AddLuaScript(fileName, script);
 		}
 
 		/// <summary>
@@ -63,7 +78,8 @@ namespace Melia.Zone.Scripting
 			{
 				var fileName = Path.GetFileName(filePath);
 				var script = File.ReadAllText(filePath);
-				_files[fileName] = script;
+
+				this.AddLuaScript(fileName, script);
 			}
 		}
 

@@ -22,7 +22,6 @@ namespace Melia.Zone.Scripting.Dialogues
 		private const string NpcNameSeperator = "*@*";
 		private const string NpcDialogTextSeperator = "\\";
 		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private const int ClientScriptMaxSize = 2048;
 
 		private string _response;
 		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
@@ -435,7 +434,7 @@ namespace Melia.Zone.Scripting.Dialogues
 					// One script call can only hold so many items,
 					// but we could split it up into multiple calls
 					// if necessary.
-					if (sb.Length > ClientScriptMaxSize)
+					if (sb.Length > ClientScript.ScriptMaxLength)
 						throw new InvalidOperationException($"Shop '{shopData.Name}' contains too many items.");
 				}
 
