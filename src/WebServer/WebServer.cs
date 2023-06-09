@@ -172,6 +172,10 @@ namespace Melia.Web
 					ConsoleUtil.Exit(1);
 				}
 
+				Log.Info("Client XML Config:");
+				Log.Info("  ServerListURL: {0}", url + "toslive/patch/serverlist.xml");
+				Log.Info("  StaticConfigURL: {0}", url + "toslive/patch/");
+
 				Log.Status("Server now running on '{0}'", url);
 			}
 			catch (Exception ex)
