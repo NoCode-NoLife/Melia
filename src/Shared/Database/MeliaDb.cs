@@ -239,8 +239,9 @@ namespace Melia.Shared.Database
 		protected void SaveProperties(string databaseName, string idName, long id, Properties properties)
 		{
 			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn))
+				using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn, trans))
 				{
 					cmd.Parameters.AddWithValue("@id", id);
 					cmd.ExecuteNonQuery();
@@ -251,7 +252,7 @@ namespace Melia.Shared.Database
 					var typeStr = property is FloatProperty ? "f" : "s";
 					var valueStr = property.Serialize();
 
-					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn))
+					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn, trans))
 					{
 						cmd.Set(idName, id);
 						cmd.Set("name", property.Ident);
@@ -261,6 +262,8 @@ namespace Melia.Shared.Database
 						cmd.Execute();
 					}
 				}
+
+				trans.Commit();
 			}
 		}
 	}
