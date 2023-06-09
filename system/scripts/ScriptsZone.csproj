@@ -79,13 +79,13 @@
   <ItemGroup>
     <Compile Include="ais\basic_monster.cs" />
     <Compile Include="ais\test.cs" />
-    <Compile Include="client\api\main.cs" />
-    <Compile Include="client\dialog_portraits\main.cs" />
-    <Compile Include="client\free_drops\main.cs" />
-    <Compile Include="client\personal_shops\main.cs" />
-    <Compile Include="client\stat_by_level\main.cs" />
-    <Compile Include="client\unclutter\main.cs" />
-    <Compile Include="client\custom_npc_shops\main.cs" />
+    <Compile Include="core\client\api\main.cs" />
+    <Compile Include="core\client\dialog_portraits\main.cs" />
+    <Compile Include="core\client\free_drops\main.cs" />
+    <Compile Include="core\client\personal_shops\main.cs" />
+    <Compile Include="core\client\stat_by_level\main.cs" />
+    <Compile Include="custom\client\unclutter\main.cs" />
+    <Compile Include="core\client\custom_npc_shops\main.cs" />
     <Compile Include="const\ItemId.cs" />
     <Compile Include="const\MonsterId.cs" />
     <Compile Include="content\test\warps\city\c_fedimian.cs" />
@@ -329,21 +329,21 @@
     <Compile Include="other\character_init.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="client\api\002_util.lua" />
-    <None Include="client\api\005_communication.lua" />
-    <None Include="client\api\004_execution.lua" />
-    <None Include="client\api\003_log.lua" />
-    <None Include="client\api\001_override.lua" />
-    <None Include="client\api\README.md" />
-    <None Include="client\dialog_portraits\001.lua" />
-    <None Include="client\free_drops\001.lua" />
-    <None Include="client\personal_shops\001.lua" />
-    <None Include="client\personal_shops\002.lua" />
-    <None Include="client\stat_by_level\001.lua" />
-    <None Include="client\unclutter\001.lua" />
-    <None Include="client\custom_npc_shops\001.lua" />
-    <None Include="client\custom_npc_shops\002.lua" />
-    <None Include="client\custom_npc_shops\003.lua" />
+    <None Include="core\client\api\002_util.lua" />
+    <None Include="core\client\api\005_communication.lua" />
+    <None Include="core\client\api\004_execution.lua" />
+    <None Include="core\client\api\003_log.lua" />
+    <None Include="core\client\api\001_override.lua" />
+    <None Include="core\client\api\README.md" />
+    <None Include="core\client\dialog_portraits\001.lua" />
+    <None Include="core\client\free_drops\001.lua" />
+    <None Include="core\client\personal_shops\001.lua" />
+    <None Include="core\client\personal_shops\002.lua" />
+    <None Include="core\client\stat_by_level\001.lua" />
+    <None Include="custom\client\unclutter\001.lua" />
+    <None Include="core\client\custom_npc_shops\001.lua" />
+    <None Include="core\client\custom_npc_shops\002.lua" />
+    <None Include="core\client\custom_npc_shops\003.lua" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

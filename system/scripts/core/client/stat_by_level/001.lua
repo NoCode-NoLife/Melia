@@ -3,13 +3,13 @@
 -- of the result of the official function again.
 Melia.Override("GET_STAT_POINT", function(original, pc)
 
-	local result = GET_STAT_POINT_Original(pc)
+	local result = original(pc)
 
 	local byLevel = TryGetProp(pc, "StatByLevel")
 	if byLevel ~= nil then
 		result = result + byLevel
 	end
-    
-    return math.floor(result);
+	
+	return math.floor(result);
 
 end)

@@ -21,7 +21,7 @@ end
 
 
 Melia.OverrideIn = function (parent, original, override)
-	local backup =  Melia.Backup(parent, original)
+	local backup = Melia.BackupIn(parent, original)
 	
 	parent[original] = function(...)
 		return override(backup, ...)
