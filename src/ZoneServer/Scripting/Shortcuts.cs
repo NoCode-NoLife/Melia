@@ -151,7 +151,7 @@ namespace Melia.Zone.Scripting
 		/// Adds monster spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassName"></param>
-		/// <param name="amount"></param>
+		/// <param name="maxAmount"></param>
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
@@ -170,48 +170,48 @@ namespace Melia.Zone.Scripting
 		/// Adds monster spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
-		/// <param name="amount"></param>
+		/// <param name="maxAmount"></param>
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area)
-			=> AddSpawner(monsterClassId, amount, respawn, map, area, TendencyType.Peaceful, null);
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area)
+			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, TendencyType.Peaceful, null);
 
 		/// <summary>
 		/// Adds monster spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
-		/// <param name="amount"></param>
+		/// <param name="maxAmount"></param>
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
 		/// <param name="tendency"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area, TendencyType tendency)
-			=> AddSpawner(monsterClassId, amount, respawn, map, area, tendency, null);
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, TendencyType tendency)
+			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, tendency, null);
 
 		/// <summary>
 		/// Adds monster spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
-		/// <param name="amount"></param>
+		/// <param name="maxAmount"></param>
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
 		/// <param name="propertyOverrides"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides)
-			=> AddSpawner(monsterClassId, amount, respawn, map, area, TendencyType.Peaceful, propertyOverrides);
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides)
+			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, TendencyType.Peaceful, propertyOverrides);
 
 		/// <summary>
 		/// Adds monster spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
-		/// <param name="amount"></param>
+		/// <param name="maxAmount"></param>
 		/// <param name="respawn"></param>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
@@ -219,7 +219,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="propertyOverrides"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
@@ -228,7 +228,9 @@ namespace Melia.Zone.Scripting
 			var minRespawnDelay = respawn;
 			var maxRespawnDelay = respawn.Add(TimeSpan.FromMilliseconds(2000));
 
-			var spawner = new MonsterSpawner(monsterClassId, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
+			var minAmount = Math.Max(1, (int)(maxAmount * 0.05));
+
+			var spawner = new MonsterSpawner(monsterClassId, minAmount, maxAmount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
 			mapObj.AddSpawner(spawner);
 
 			return spawner;

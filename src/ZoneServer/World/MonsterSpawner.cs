@@ -7,6 +7,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
@@ -106,15 +107,16 @@ namespace Melia.Zone.World
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
+		/// <param name="minAmount"></param>
 		/// <param name="maxAmount"></param>
-		/// <param name="regionId"></param>
+		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
 		/// <param name="initialSpawnDelay"></param>
 		/// <param name="minRespawnDelay"></param>
 		/// <param name="maxRespawnDelay"></param>
 		/// <param name="tendency"></param>
 		/// <param name="propertyOverrides"></param>
-		public MonsterSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
@@ -126,8 +128,6 @@ namespace Melia.Zone.World
 			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
 			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
 			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
-
-			var minAmount = Math.Max(1, maxAmount / 4);
 
 			this.Id = Interlocked.Increment(ref Ids);
 			this.MinAmount = minAmount;
@@ -167,6 +167,8 @@ namespace Melia.Zone.World
 
 				//monster.AI = new AIMonster(monster);
 				//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
+				monster.Components.Add(new Movement(monster));
+				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
 				_map.AddMonster(monster);
 			}
