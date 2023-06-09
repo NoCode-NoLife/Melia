@@ -578,8 +578,6 @@ namespace Melia.Zone.World.Actors.Characters
 
 			_warping = false;
 
-			ZoneServer.Instance.Database.SaveCharacter(this);
-
 			// Get channel
 			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(this.MapId);
 			if (availableZones.Length == 0)
