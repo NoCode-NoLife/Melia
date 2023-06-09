@@ -299,9 +299,6 @@ namespace Melia.Zone.World
 		/// <returns></returns>
 		private bool TryGetRandomPosition(out Position pos)
 		{
-			var rndVector = this.Area.GetRandomPoint(_rnd);
-			pos = Position.Zero;
-
 			// Since we have no way of knowing what kinds of spawn areas
 			// users will create, we have no other choice but to try a
 			// a couple of positions and see if we can find a valid one.
@@ -310,6 +307,7 @@ namespace Melia.Zone.World
 
 			for (var i = 0; i < MaxValidPositionTries; ++i)
 			{
+				var rndVector = this.Area.GetRandomPoint(_rnd);
 				pos = new Position(rndVector.X, 0, rndVector.Y);
 
 				if (_map.Ground.TryGetHeightAt(pos, out var height))
@@ -319,6 +317,7 @@ namespace Melia.Zone.World
 				}
 			}
 
+			pos = Position.Zero;
 			return false;
 		}
 	}
