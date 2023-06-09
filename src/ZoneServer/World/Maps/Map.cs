@@ -317,6 +317,16 @@ namespace Melia.Zone.World.Maps
 				_spawners.Clear();
 		}
 
+		/// <summary>
+		/// Returns a list with all spawners.
+		/// </summary>
+		/// <returns></returns>
+		public MonsterSpawner[] GetSpawners()
+		{
+			lock (_spawners)
+				return _spawners.ToArray();
+		}
+
 		public void UpdateSpawners(TimeSpan elapsed)
 		{
 			lock (_spawners)
