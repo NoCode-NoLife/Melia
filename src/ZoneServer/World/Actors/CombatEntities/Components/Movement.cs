@@ -124,12 +124,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public Position Stop()
 		{
-			this.IsMoving = false;
-			this.Destination = this.Entity.Position;
+			var pos = this.Entity.Position;
 
-			Send.ZC_MOVE_STOP(this.Entity, this.Entity.Position);
+			if (this.IsMoving)
+			{
+				this.IsMoving = false;
+				this.Destination = pos;
 
-			return this.Entity.Position;
+				Send.ZC_MOVE_STOP(this.Entity, pos);
+			}
+
+			return pos;
 		}
 
 		/// <summary>
