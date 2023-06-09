@@ -79,10 +79,14 @@ namespace Melia.Web.Controllers
 
 		private void SendText(string mimeType, string content)
 		{
+			var contentLength = Encoding.UTF8.GetByteCount(content);
+
+			this.Response.StatusCode = 200;
 			this.Response.ContentType = mimeType;
+			this.Response.ContentLength64 = contentLength;
 
 			using (var stream = this.Response.OutputStream)
-			using (var sw = new StreamWriter(stream))
+			using (var sw = new StreamWriter(stream, Encoding.UTF8))
 				sw.Write(content);
 		}
 
