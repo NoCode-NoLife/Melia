@@ -274,6 +274,21 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Returns a rectangular shape with the given coordinates and radius.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <returns></returns>
+		public static IShape Rectangle(double x, double y, double width, double height = 0)
+		{
+			var center = new Vector2((int)x, (int)y);
+			var size = new Vector2((int)width, (int)(height != 0 ? height : width));
+			return Yggdrasil.Geometry.Shapes.Rectangle.Centered(center, size);
+		}
+
+		/// <summary>
 		/// Returns a list of named properties based on a list of key/value
 		/// pairs.
 		/// </summary>
