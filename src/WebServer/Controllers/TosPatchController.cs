@@ -15,6 +15,8 @@ namespace Melia.Web.Controllers
 	/// </summary>
 	public class TosPatchController : WebApiController
 	{
+		private readonly Encoding _encoding = new UTF8Encoding(false);
+
 		/// <summary>
 		/// Serves a list of barrack servers.
 		/// </summary>
@@ -79,20 +81,21 @@ namespace Melia.Web.Controllers
 
 		private void SendText(string mimeType, string content)
 		{
-			var contentLength = Encoding.UTF8.GetByteCount(content);
+			var contentLength = _encoding.GetByteCount(content);
 
 			this.Response.StatusCode = 200;
 			this.Response.ContentType = mimeType;
 			this.Response.ContentLength64 = contentLength;
 
 			using (var stream = this.Response.OutputStream)
-			using (var sw = new StreamWriter(stream, Encoding.UTF8))
+			using (var sw = new StreamWriter(stream, _encoding))
 				sw.Write(content);
 		}
 
 		private class Utf8StringWriter : StringWriter
 		{
-			public override Encoding Encoding => Encoding.UTF8;
+			private readonly Encoding _encoding = new UTF8Encoding(false);
+			public override Encoding Encoding => _encoding;
 		}
 	}
 }
