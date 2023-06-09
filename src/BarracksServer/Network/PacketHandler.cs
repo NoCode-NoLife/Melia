@@ -32,10 +32,22 @@ namespace Melia.Barracks.Network
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
 			var unk1 = packet.GetBin(285);
-			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_START_BARRACK
+			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 			Send.BC_DISCONNECT_PACKET_LOG_COUNT(conn);
+
+			// If TAIWAN is set as the service nation, the client doesn't
+			// send the account name and password, but something else.
+			// We might be able to handle this, but for the time being
+			// we'll just require the GLOBAL service nation, which gives
+			// us the login packet we expect.
+			if (serviceNation == "TAIWAN")
+			{
+				Send.BC_MESSAGE(conn, "The TAIWAN service nation login is currently not supported. Please use the GLOBAL service nation instead.");
+				conn.Close(100);
+				return;
+			}
 
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
@@ -108,7 +120,7 @@ namespace Melia.Barracks.Network
 		public void CB_START_BARRACK(IBarracksConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
-			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
+			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_IES_MODIFY_LIST(conn);
 			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
