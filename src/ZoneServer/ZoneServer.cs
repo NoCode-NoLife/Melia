@@ -97,7 +97,7 @@ namespace Melia.Zone
 			var serverInfo = this.GetServerInfo(ServerType.Zone, serverId);
 
 			// Start listener
-			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(serverInfo.Ip, serverInfo.Port);
+			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(serverInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 

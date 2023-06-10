@@ -66,7 +66,7 @@ namespace Melia.Barracks
 			var serverInfo = this.GetServerInfo(ServerType.Barracks, serverId);
 
 			// Start listener
-			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Ip, serverInfo.Port);
+			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 

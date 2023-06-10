@@ -126,7 +126,7 @@ namespace Melia.Web
 		{
 			try
 			{
-				var url = string.Format("http://{0}:{1}/", this.Conf.Web.Ip, this.Conf.Web.Port);
+				var url = string.Format("http://*:{0}/", this.Conf.Web.Port);
 
 				Swan.Logging.Logger.NoLogging();
 				Swan.Logging.Logger.RegisterLogger<YggdrasilLogger>();
@@ -172,9 +172,12 @@ namespace Melia.Web
 					ConsoleUtil.Exit(1);
 				}
 
-				Log.Info("Client XML Config:");
-				Log.Info("  ServerListURL: {0}", url + "toslive/patch/serverlist.xml");
-				Log.Info("  StaticConfigURL: {0}", url + "toslive/patch/");
+				// Disabled for now. Giving the URLs makes things easier,
+				// but the IP should ideally match what the user will
+				// actually use to connect.
+				//Log.Info("Client XML Config:");
+				//Log.Info("  ServerListURL: {0}", url + "toslive/patch/serverlist.xml");
+				//Log.Info("  StaticConfigURL: {0}", url + "toslive/patch/");
 
 				Log.Status("Server now running on '{0}'", url);
 			}
