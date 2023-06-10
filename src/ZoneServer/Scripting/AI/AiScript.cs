@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
@@ -26,7 +27,9 @@ namespace Melia.Zone.Scripting.AI
 		private float _minAggroHateLevel = 100;
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
 		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
+
 		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
+		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
 
@@ -161,6 +164,9 @@ namespace Melia.Zone.Scripting.AI
 			if (_hatedFactions.Contains(otherEntity.Faction))
 				return true;
 
+			if (otherEntity is Mob mob && _hatedMonsters.Contains(mob.Id))
+				return true;
+
 			return false;
 		}
 
@@ -178,6 +184,15 @@ namespace Melia.Zone.Scripting.AI
 		protected void HatesFaction(IEnumerable<FactionType> factions)
 		{
 			_hatedFactions.UnionWith(factions);
+		}
+
+		/// <summary>
+		/// Makes AI hostile towards the given monsters.
+		/// </summary>
+		/// <param name="monsterIds"></param>
+		protected void HatesMonster(params int[] monsterIds)
+		{
+			_hatedMonsters.UnionWith(monsterIds);
 		}
 
 		/// <summary>
