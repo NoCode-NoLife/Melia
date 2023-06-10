@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
@@ -104,8 +105,12 @@ namespace Melia.Zone.Scripting.AI
 			if (_tendency == TendencyType.Peaceful)
 				return;
 
+			// Increase hate for enemies that the entity is hostile towards
 			foreach (var potentialEnemy in potentialEnemies)
 			{
+				if (!this.IsHostileTowards(potentialEnemy))
+					continue;
+
 				var handle = potentialEnemy.Handle;
 
 				if (!_hateLevels.ContainsKey(handle))
@@ -124,8 +129,26 @@ namespace Melia.Zone.Scripting.AI
 
 				_hateLevels[handle] += (float)(hatePerSecond * elapsed.TotalSeconds);
 
-				Log.Debug("Hating {0}: {1}", potentialEnemy.Name, _hateLevels[handle]);
+				//Log.Debug("Hating {0}: {1}", potentialEnemy.Name, _hateLevels[handle]);
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the AI's entity is hostile towards the given
+		/// entity based on the factions they belong to.
+		/// </summary>
+		/// <param name="otherEntity"></param>
+		/// <returns></returns>
+		protected virtual bool IsHostileTowards(ICombatEntity otherEntity)
+		{
+			// I want us to be able to script what kinds of entities
+			// the AI can hate, but for now, we use only the faction
+			// data and let users override this method if necessary.
+
+			if (this.Entity.IsHostileFaction(otherEntity))
+				return true;
+
+			return false;
 		}
 
 		/// <summary>

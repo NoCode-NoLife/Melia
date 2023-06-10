@@ -75,4 +75,25 @@ namespace Melia.Zone.World.Actors
 		/// <param name="spAmount"></param>
 		void Heal(float hpAmount, float spAmount);
 	}
+
+	/// <summary>
+	/// Extensions for working with combat entities.
+	/// </summary>
+	public static class ICombatEntityExtensions
+	{
+		// TODO: Should we create a "CombatEntity" parent class for Mobs
+		//   and Characters? Probably. Maybe? Not sure yet.
+
+		/// <summary>
+		/// Returns true if the other entity is part of a hostile faction.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		/// <returns></returns>
+		public static bool IsHostileFaction(this ICombatEntity entity, ICombatEntity otherEntity)
+		{
+			var isHostileFaction = ZoneServer.Instance.Data.FactionDb.CheckHostility(entity.Faction, otherEntity.Faction);
+			return isHostileFaction;
+		}
+	}
 }
