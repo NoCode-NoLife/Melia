@@ -41,6 +41,19 @@ namespace Melia.Zone.Scripting.AI
 		public string CurrentRoutine { get; private set; }
 
 		/// <summary>
+		/// Initializes AI for the given entity, setting the initial
+		/// hostility and tendency.
+		/// </summary>
+		/// <param name="combatEntity"></param>
+		internal void InitFor(ICombatEntity combatEntity)
+		{
+			this.Entity = combatEntity;
+
+			if (combatEntity is Mob mob)
+				this.SetTendency(mob.Tendency);
+		}
+
+		/// <summary>
 		/// Executes the AI, furthering the current routine.
 		/// </summary>
 		/// <param name="elapsed"></param>

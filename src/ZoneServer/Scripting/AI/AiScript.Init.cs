@@ -63,8 +63,7 @@ namespace Melia.Zone.Scripting.AI
 				return false;
 
 			aiScript = (AiScript)Activator.CreateInstance(type);
-			aiScript.Entity = entity;
-			aiScript._tendency = (entity is Mob mob ? mob.Tendency : TendencyType.Peaceful);
+			aiScript.InitFor(entity);
 
 			return true;
 		}
