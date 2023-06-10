@@ -26,6 +26,7 @@ namespace Melia.Zone.Scripting.AI
 		private float _minAggroHateLevel = 100;
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
 		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
+		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
 
@@ -51,6 +52,9 @@ namespace Melia.Zone.Scripting.AI
 
 			if (combatEntity is Mob mob)
 				this.SetTendency(mob.Tendency);
+
+			if (ZoneServer.Instance.Data.FactionDb.TryFind(this.Entity.Faction, out var factionData))
+				this.HatesFaction(factionData.Hostile);
 		}
 
 		/// <summary>
@@ -154,14 +158,34 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected virtual bool IsHostileTowards(ICombatEntity otherEntity)
 		{
-			// I want us to be able to script what kinds of entities
-			// the AI can hate, but for now, we use only the faction
-			// data and let users override this method if necessary.
-
-			if (this.Entity.IsHostileFaction(otherEntity))
+			if (_hatedFactions.Contains(otherEntity.Faction))
 				return true;
 
 			return false;
+		}
+
+		/// <summary>
+		/// Makes AI hostile towards the given factions.
+		/// </summary>
+		/// <param name="faction"></param>
+		protected void HatesFaction(params FactionType[] factions)
+			=> this.HatesFaction((IEnumerable<FactionType>)factions);
+
+		/// <summary>
+		/// Makes AI hostile towards the given factions.
+		/// </summary>
+		/// <param name="faction"></param>
+		protected void HatesFaction(IEnumerable<FactionType> factions)
+		{
+			_hatedFactions.UnionWith(factions);
+		}
+
+		/// <summary>
+		/// Removes all hate factors, such as hostility towards factions.
+		/// </summary>
+		protected void ClearHate()
+		{
+			_hatedFactions.Clear();
 		}
 
 		/// <summary>
