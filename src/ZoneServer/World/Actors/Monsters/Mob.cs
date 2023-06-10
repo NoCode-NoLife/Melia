@@ -316,8 +316,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
-			// For now, let's specify that monsters can attack characters.
-			return (entity is Character);
+			// For now, let's specify that mobs can attack any combat
+			// entities, since we want them them to be able to attack
+			// both characters and other mobs.
+			return (entity is ICombatEntity);
 		}
 
 		/// <summary>
