@@ -316,6 +316,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
+			if (entity.IsDead)
+				return false;
+
 			// For now, let's specify that mobs can attack any combat
 			// entities, since we want them them to be able to attack
 			// both characters and other mobs.
