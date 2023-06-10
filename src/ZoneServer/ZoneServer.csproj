@@ -156,7 +156,6 @@
     <Compile Include="World\Actors\Characters\Components\Abilities.cs" />
     <Compile Include="Buffs\Buff.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\BuffCollection.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\EntityAi.cs" />
     <Compile Include="World\Actors\Characters\Components\Inventory.cs" />
     <Compile Include="World\Actors\Characters\Components\Jobs.cs" />
     <Compile Include="World\Actors\Monsters\MonsterProperties.cs" />
@@ -187,8 +186,6 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

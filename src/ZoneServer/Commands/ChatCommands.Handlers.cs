@@ -1537,12 +1537,12 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAi(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (target.Components.Has<EntityAi>())
+			if (target.Components.Has<AiComponent>())
 			{
 				Send.ZC_NORMAL.Cutscene(target, false, false, false);
 
 				target.Components.Remove<Movement>();
-				target.Components.Remove<EntityAi>();
+				target.Components.Remove<AiComponent>();
 
 				if (args.Count == 0)
 				{
@@ -1566,7 +1566,7 @@ namespace Melia.Zone.Commands
 				Send.ZC_NORMAL.Cutscene(target, true, false, false);
 
 				target.Components.Add(new Movement(target));
-				//target.Components.Add(new EntityAi(target, aiName));
+				target.Components.Add(new AiComponent(target, aiName));
 
 				sender.ServerMessage("Enabled '{0}' AI.", aiName);
 			}
