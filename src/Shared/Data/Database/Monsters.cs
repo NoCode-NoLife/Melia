@@ -42,6 +42,7 @@ namespace Melia.Shared.Data.Database
 		public int DodgeRate { get; set; }
 
 		public List<DropData> Drops { get; set; } = new List<DropData>();
+		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
 	}
 
 	[Serializable]
@@ -51,6 +52,13 @@ namespace Melia.Shared.Data.Database
 		public float DropChance { get; set; }
 		public int MinAmount { get; set; }
 		public int MaxAmount { get; set; }
+	}
+
+	[Serializable]
+	public class MonsterSkillData
+	{
+		public string Name { get; set; }
+		public SkillId SkillId { get; set; }
 	}
 
 	/// <summary>
@@ -122,6 +130,21 @@ namespace Melia.Shared.Data.Database
 			data.CritDefenseRate = entry.ReadInt("mDefense");
 			data.CritHitRate = entry.ReadInt("mDefense");
 			data.DodgeRate = entry.ReadInt("mDefense");
+
+			if (entry.ContainsKey("skills"))
+			{
+				foreach (JObject skillEntry in entry["skills"])
+				{
+					skillEntry.AssertNotMissing("name", "skillId");
+
+					var skillData = new MonsterSkillData();
+
+					skillData.Name = skillEntry.ReadString("name");
+					skillData.SkillId = skillEntry.ReadEnum<SkillId>("skillId");
+
+					data.Skills.Add(skillData);
+				}
+			}
 
 			if (entry.ContainsKey("drops"))
 			{
