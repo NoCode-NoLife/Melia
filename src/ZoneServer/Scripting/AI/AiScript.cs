@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Principal;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
 
@@ -18,7 +15,7 @@ namespace Melia.Zone.Scripting.AI
 	/// </summary>
 	public abstract partial class AiScript : EnumerableAi, IScript, IUpdateable
 	{
-		private bool _setupDone;
+		private bool _initiated;
 
 		private TendencyType _tendency;
 		private float _hateRange = 100;
@@ -58,6 +55,10 @@ namespace Melia.Zone.Scripting.AI
 
 			if (ZoneServer.Instance.Data.FactionDb.TryFind(this.Entity.Faction, out var factionData))
 				this.HatesFaction(factionData.Hostile);
+
+			this.Setup();
+
+			_initiated = true;
 		}
 
 		/// <summary>
@@ -66,11 +67,8 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			if (!_setupDone)
-			{
-				this.Setup();
-				_setupDone = true;
-			}
+			if (!_initiated)
+				throw new InvalidOperationException("AI has not been initiated.");
 
 			if (this.Entity.IsDead || this.Entity.Map.CharacterCount == 0)
 				return;
