@@ -98,5 +98,16 @@ namespace Melia.Zone.Scripting.AI
 			Send.ZC_SHOW_EMOTICON(this.Entity, data.Id, TimeSpan.FromSeconds(2));
 			yield break;
 		}
+
+		/// <summary>
+		/// Makes entity play the given animation.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <returns></returns>
+		protected IEnumerable Animation(string packetString)
+		{
+			Send.ZC_PLAY_ANI(this.Entity, packetString);
+			yield break;
+		}
 	}
 }

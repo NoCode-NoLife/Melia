@@ -27,7 +27,16 @@ public class BasicMonsterAiScript : AiScript
 	protected IEnumerable Idle()
 	{
 		yield return Wait(1000, 5000);
-		yield return MoveRandom();
+
+		SwitchRandom();
+		if (Case(80))
+		{
+			yield return MoveRandom();
+		}
+		else
+		{
+			yield return Animation("IDLE");
+		}
 	}
 
 	protected IEnumerable Chase()
