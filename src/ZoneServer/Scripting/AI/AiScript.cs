@@ -72,7 +72,7 @@ namespace Melia.Zone.Scripting.AI
 				_setupDone = true;
 			}
 
-			if (this.Entity.IsDead)
+			if (this.Entity.IsDead || this.Entity.Map.CharacterCount == 0)
 				return;
 
 			this.UpdateHate(elapsed);
