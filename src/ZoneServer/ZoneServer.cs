@@ -89,6 +89,7 @@ namespace Melia.Zone
 			this.LoadData(ServerType.Zone);
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
+			this.InitSkills();
 			this.InitWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt");
 			this.LoadIesMods();
@@ -105,6 +106,15 @@ namespace Melia.Zone
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Loads skill handlers.
+		/// </summary>
+		private void InitSkills()
+		{
+			Log.Info("Initializing skills...");
+			this.SkillHandlers.Init();
 		}
 
 		/// <summary>

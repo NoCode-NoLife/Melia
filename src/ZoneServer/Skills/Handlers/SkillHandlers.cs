@@ -15,9 +15,10 @@ namespace Melia.Zone.Skills.Handlers
 		private readonly Dictionary<SkillId, ISkillHandler> _handlers = new Dictionary<SkillId, ISkillHandler>();
 
 		/// <summary>
-		/// Creates a new skill handler manager.
+		/// Initializes the skill handlers, loading all it can find in
+		/// the executing assembly.
 		/// </summary>
-		public SkillHandlers()
+		public void Init()
 		{
 			this.LoadHandlersFromAssembly();
 		}
