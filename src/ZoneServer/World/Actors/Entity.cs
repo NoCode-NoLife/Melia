@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Composition;
@@ -94,6 +95,17 @@ namespace Melia.Zone.World.Actors
 		{
 			var isHostileFaction = ZoneServer.Instance.Data.FactionDb.CheckHostility(entity.Faction, otherEntity.Faction);
 			return isHostileFaction;
+		}
+
+		/// <summary>
+		/// Makes the entity turn towards the other entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
+		{
+			entity.Direction = entity.Position.GetDirection(otherEntity.Position);
+			Send.ZC_ROTATE(entity);
 		}
 	}
 }

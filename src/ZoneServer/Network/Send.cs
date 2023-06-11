@@ -1570,6 +1570,15 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="hits"></param>
+		public static void ZC_SKILL_HIT_INFO(IActor attacker, params SkillHitInfo[] hits)
+			=> ZC_SKILL_HIT_INFO(attacker, (IEnumerable<SkillHitInfo>)hits);
+
+		/// <summary>
+		/// Informs players about a hit that occured, and about the target's
+		/// new hp, after damage was applied.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="hits"></param>
 		public static void ZC_SKILL_HIT_INFO(IActor attacker, IEnumerable<SkillHitInfo> hits)
 		{
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);

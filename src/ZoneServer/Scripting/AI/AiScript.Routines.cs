@@ -1,8 +1,18 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Skills;
+using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.Handlers.General;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting.AI
@@ -97,6 +107,61 @@ namespace Melia.Zone.Scripting.AI
 
 			Send.ZC_SHOW_EMOTICON(this.Entity, data.Id, TimeSpan.FromSeconds(2));
 			yield break;
+		}
+
+		/// <summary>
+		/// Returns a random skill the entity can use
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		protected bool TryGetRandomSkill(out Skill skill)
+		{
+			skill = null;
+
+			if (!(this.Entity is Mob mob))
+				return false;
+
+			if (!mob.Data.Skills.Any())
+				return false;
+
+			// I thought we wouldn't need probabilities in the
+			// monster skill data, but it actually would be convenient
+			// to have. Though we have no source for them, so we'd have
+			// to define them ourselves. Anyway, for now we'll just
+			// always pick the first skill, assuming it's the default
+			// attack for the given monster.
+
+			//var rndSkillId = mob.Data.Skills.Random().SkillId;
+			var rndSkillId = mob.Data.Skills.First().SkillId;
+
+			// Should we give monsters a skill manager? We might not
+			// actually need it, though we should probably at least
+			// cache the skills if we create them on demand.
+			skill = new Skill(null, rndSkillId, 1);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Makes entity use the given skill on the target.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		protected IEnumerable UseSkill(Skill skill, ICombatEntity target)
+		{
+			this.Entity.TurnTowards(target);
+
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))
+			{
+				Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
+				yield return this.Wait(2000);
+				yield break;
+			}
+
+			handler.Handle(skill, this.Entity, target);
+
+			yield return this.Wait(2000);
 		}
 
 		/// <summary>

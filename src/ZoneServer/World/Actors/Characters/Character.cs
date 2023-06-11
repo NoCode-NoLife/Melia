@@ -1114,7 +1114,32 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
-			throw new NotImplementedException();
+			// Don't hit an already dead monster
+			if (this.IsDead)
+				return true;
+
+			this.Properties.Modify(PropertyName.HP, -damage);
+
+			// Kill monster if it reached 0 HP.
+			if (this.Hp == 0)
+			{
+				this.Kill(attacker);
+				return true;
+			}
+
+			return this.IsDead;
+		}
+
+		/// <summary>
+		/// Kills character.
+		/// </summary>
+		/// <param name="killer"></param>
+		public void Kill(ICombatEntity killer)
+		{
+			this.Properties.SetFloat(PropertyName.HP, 0);
+			//this.Died?.Invoke(this, killer);
+
+			Send.ZC_DEAD(this);
 		}
 
 		/// <summary>

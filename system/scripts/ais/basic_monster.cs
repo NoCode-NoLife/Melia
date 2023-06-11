@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -9,7 +10,7 @@ public class BasicMonsterAiScript : AiScript
 	ICombatEntity target;
 
 	protected int MaxChaseDistance = 200;
-	protected int MinAttackDistance = 30;
+	protected int MinAttackDistance = 35;
 
 	protected override void Setup()
 	{
@@ -55,15 +56,18 @@ public class BasicMonsterAiScript : AiScript
 
 		while (!target.IsDead)
 		{
-			switch (Random(4))
+			if (!TryGetRandomSkill(out var skill))
 			{
-				case 0: yield return Say("Die!"); break;
-				case 1: yield return Say("Attack!"); break;
-				case 2: yield return Say("Whabam!"); break;
-				case 3: yield return Say("You're dooomed!"); break;
+				yield return Wait(2000);
+				continue;
+
 			}
 
-			yield return Wait(1000, 2000);
+			while (!InRangeOf(target, skill.Data.MaxRange))
+				yield return MoveTo(target.Position, wait: false);
+
+			yield return UseSkill(skill, target);
+			yield return Wait(2000);
 		}
 
 		yield break;
