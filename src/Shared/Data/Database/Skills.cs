@@ -30,14 +30,14 @@ namespace Melia.Shared.Data.Database
 		public int Cooldown { get; set; }
 		public string CooldownGroup { get; set; }
 		public int Overheat { get; set; }
-		public int OverHeatDelay { get; set; }
+		public TimeSpan OverHeatDelay { get; set; }
 		public string OverheatGroup { get; set; }
-		public int ShootTime { get; set; }
-		public List<int> HitTime { get; set; }
-		public List<int> HoldTime { get; set; }
-		public int DeadHitTime { get; set; }
+		public TimeSpan ShootTime { get; set; }
+		public List<TimeSpan> HitTime { get; set; }
+		public List<TimeSpan> HoldTime { get; set; }
+		public TimeSpan DeadHitTime { get; set; }
 		public bool EnableCastMove { get; set; }
-		public int HitDelay { get; set; }
+		public TimeSpan HitDelay { get; set; }
 		public SkillUseType UseType { get; set; }
 		public SkillAttribute Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
@@ -133,18 +133,18 @@ namespace Melia.Shared.Data.Database
 			data.Cooldown = entry.ReadInt("cooldown");
 			data.CooldownGroup = entry.ReadString("cooldownGroup");
 
-			data.ShootTime = entry.ReadInt("shootTime");
-			data.HitDelay = entry.ReadInt("hitDelay");
-			data.HitTime = entry.ReadList<int>("hitTime");
-			data.HoldTime = entry.ReadList<int>("holdTime");
-			data.DeadHitTime = entry.ReadInt("deadHitDelay");
+			data.ShootTime = entry.ReadTimeSpan("shootTime");
+			data.HitDelay = entry.ReadTimeSpan("hitDelay");
+			data.HitTime = entry.ReadList<int>("hitTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
+			data.HoldTime = entry.ReadList<int>("holdTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
+			data.DeadHitTime = entry.ReadTimeSpan("deadHitDelay");
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 			data.UseType = entry.ReadEnum<SkillUseType>("useType");
 			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
 			data.Overheat = entry.ReadInt("overheat");
-			data.OverHeatDelay = entry.ReadInt("overheatDelay");
+			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay");
 			data.OverheatGroup = entry.ReadString("overheatGroup");
 
 			this.AddOrReplace(data.Id, data);

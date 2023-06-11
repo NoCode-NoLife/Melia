@@ -425,7 +425,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(skill.Data.ShootTime);
+			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
@@ -3122,13 +3122,13 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="skillActorId"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, float f1)
+		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, TimeSpan f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC_BY_SKILL_TIME);
 
 			packet.PutInt(character.Handle);
 			packet.PutInt(skillActorId);
-			packet.PutFloat(f1);
+			packet.PutFloat((float)f1.TotalMilliseconds);
 
 			character.Connection.Send(packet);
 		}

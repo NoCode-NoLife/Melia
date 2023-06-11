@@ -149,6 +149,16 @@
             <param name="def"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadTimeSpan(Newtonsoft.Json.Linq.JObject,System.String,System.TimeSpan)">
+            <summary>
+            Reads value as a number and treats it as a number of milliseconds
+            to return it as a TimeSpan.
+            </summary>
+            <param name="obj"></param>
+            <param name="key"></param>
+            <param name="def"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Data.JSON.JsonExtensions.ReadArray``1(Newtonsoft.Json.Linq.JObject,System.String,``0[])">
             <summary>
             Reads and returns single value array.
