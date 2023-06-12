@@ -4,6 +4,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -225,8 +226,11 @@ namespace Melia.Zone.World.Actors.Monsters
 				return true;
 			}
 
-			//if (this.Components.TryGet<EntityAi>(out var ai))
-			//	ai.QueueEvent(new HitEvent(attacker?.Handle ?? 0));
+			if (this.Components.TryGet<AiComponent>(out var ai))
+			{
+				var attackerHandle = attacker?.Handle ?? 0;
+				ai.Script.QueueEventAlert(new HitEventAlert(this.Handle, attackerHandle, damage));
+			}
 
 			return false;
 		}

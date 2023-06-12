@@ -5,6 +5,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
 
@@ -20,6 +21,7 @@ namespace Melia.Zone.Scripting.AI
 		private TendencyType _tendency;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
+		private float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
@@ -29,6 +31,8 @@ namespace Melia.Zone.Scripting.AI
 		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
+
+		private readonly Queue<IAiEventAlert> _eventAlerts = new Queue<IAiEventAlert>();
 
 		/// <summary>
 		/// Returns the entity that this script is controlling.
@@ -74,6 +78,7 @@ namespace Melia.Zone.Scripting.AI
 				return;
 
 			this.UpdateHate(elapsed);
+			this.HandleEventAlerts();
 			this.ExecuteDuringActions();
 			this.Heartbeat();
 		}
@@ -130,25 +135,35 @@ namespace Melia.Zone.Scripting.AI
 					continue;
 
 				var handle = potentialEnemy.Handle;
+				var amount = (float)(_hatePerSecond * elapsed.TotalSeconds);
 
-				if (!_hateLevels.ContainsKey(handle))
-					_hateLevels[handle] = 0;
-
-				// Increase the hate level at the normal rate up to the
-				// min aggro level. Once we reach that point we lower
-				// the hate increase so it will still accumulate for
-				// an enemy, but not at such a rate that other enemies
-				// couldn't potentially keep up. In theory this should
-				// make it possible to steal aggro, but not too easily.
-
-				var hatePerSecond = _hatePerSecond;
-				if (_hateLevels[handle] >= _minAggroHateLevel)
-					hatePerSecond = _hatePerSecond * _overHateRate;
-
-				_hateLevels[handle] += (float)(hatePerSecond * elapsed.TotalSeconds);
-
-				//Log.Debug("Hating {0}: {1}", potentialEnemy.Name, _hateLevels[handle]);
+				this.IncreaseHate(handle, amount);
 			}
+		}
+
+		/// <summary>
+		/// Increases hate towards the entity with the given handle.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="amount"></param>
+		protected void IncreaseHate(int handle, float amount)
+		{
+			// Increase the hate level at the normal rate up to the
+			// min aggro level. Once we reach that point we lower
+			// the hate increase so it will still accumulate for
+			// an enemy, but not at such a rate that other enemies
+			// couldn't potentially keep up. In theory this should
+			// make it possible to steal aggro, but not too easily.
+
+			if (!_hateLevels.ContainsKey(handle))
+				_hateLevels[handle] = 0;
+
+			if (_hateLevels[handle] >= _minAggroHateLevel)
+				amount *= _overHateRate;
+
+			_hateLevels[handle] += amount;
+
+			Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
 		}
 
 		/// <summary>
@@ -248,6 +263,38 @@ namespace Melia.Zone.Scripting.AI
 
 			if (!list.Contains(action))
 				list.Add(action);
+		}
+
+		/// <summary>
+		/// Handles events that happened since the last tick.
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
+		private void HandleEventAlerts()
+		{
+			lock (_eventAlerts)
+			{
+				while (_eventAlerts.Count > 0)
+				{
+					var eventAlert = _eventAlerts.Dequeue();
+
+					if (eventAlert is HitEventAlert hitEventAlert)
+					{
+						if (hitEventAlert.TargetHandle == this.Entity.Handle)
+							this.IncreaseHate(hitEventAlert.AttackerHandle, _hatePerHit);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Queues up an alert about something that happened for the AI to
+		/// potentially react to.
+		/// </summary>
+		/// <param name="eventAlert"></param>
+		public void QueueEventAlert(IAiEventAlert eventAlert)
+		{
+			lock (_eventAlerts)
+				_eventAlerts.Enqueue(eventAlert);
 		}
 
 		/// <summary>

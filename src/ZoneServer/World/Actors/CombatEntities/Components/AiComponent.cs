@@ -9,7 +9,10 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class AiComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly AiScript _script;
+		/// <summary>
+		/// Returns a reference to the AI script.
+		/// </summary>
+		public AiScript Script { get; }
 
 		/// <summary>
 		/// Creates new component and loads the given AI script.
@@ -22,7 +25,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (!AiScript.TryCreate(aiName, entity, out var aiScript))
 				throw new ArgumentException($"No AI script with name '{aiName}' exists.");
 
-			_script = aiScript;
+			this.Script = aiScript;
 		}
 
 		/// <summary>
@@ -31,7 +34,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			_script.Update(elapsed);
+			this.Script.Update(elapsed);
 		}
 	}
 }

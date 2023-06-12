@@ -108,6 +108,7 @@
     <Compile Include="Network\ZoneConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\AI\AiEvent.cs" />
     <Compile Include="Scripting\AI\AiScript.cs" />
     <Compile Include="Scripting\AI\AiScript.Init.cs" />
     <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
