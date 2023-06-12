@@ -3052,6 +3052,12 @@
             Closes the connection.
             </summary>
         </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.Close(Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Closes the connection.
+            </summary>
+            <param name="type"></param>
+        </member>
         <member name="M:Yggdrasil.Network.TCP.TcpConnection.OnClosed(Yggdrasil.Network.TCP.ConnectionCloseType)">
             <summary>
             Called when the connection was closed, raises Closed event.
