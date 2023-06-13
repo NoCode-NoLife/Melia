@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -71,9 +72,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
+			// TODO: Simplify access to scriptable functions
+			CalculationScripts.TryGetSkillUseFunc("SCR_CalculateDamage", out var calcDamage);
+
 			foreach (var target in targets)
 			{
-				var damage = caster.GetRandomAtk(skill);
+				var damage = calcDamage(caster, target, skill);
 				target.TakeDamage(damage, caster);
 
 				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, hitDelay);
