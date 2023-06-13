@@ -21,25 +21,33 @@ namespace Melia.Zone
 		/// <param name="map"></param>
 		/// <param name="shape"></param>
 		/// <param name="duration"></param>
-		public static void ShowShape(Map map, IShapeF shape, TimeSpan? duration = null)
+		/// <param name="edgePoints"></param>
+		/// <param name="rangePreview"></param>
+		public static void ShowShape(Map map, IShapeF shape, TimeSpan? duration = null, bool edgePoints = true, bool rangePreview = true)
 		{
 			if (duration == null)
 				duration = TimeSpan.FromSeconds(5);
 
-			foreach (var point in shape.GetEdgePoints())
+			if (edgePoints)
 			{
-				var pos = new Position(point.X, 0, point.Y);
-				var height = map.Ground.GetHeightAt(pos);
-				pos.Y = height;
+				foreach (var point in shape.GetEdgePoints())
+				{
+					var pos = new Position(point.X, 0, point.Y);
+					var height = map.Ground.GetHeightAt(pos);
+					pos.Y = height;
 
-				var monster = new Mob(10005, MonsterType.Friendly);
-				monster.Position = pos;
-				monster.DisappearTime = DateTime.Now.Add((TimeSpan)duration);
-				map.AddMonster(monster);
+					var monster = new Mob(10005, MonsterType.Friendly);
+					monster.Position = pos;
+					monster.DisappearTime = DateTime.Now.Add((TimeSpan)duration);
+					map.AddMonster(monster);
+				}
 			}
 
-			if (shape is ISplashArea splashArea)
-				Send.ZC_START_RANGE_PREVIEW(map, 0, null, (TimeSpan)duration, splashArea);
+			if (rangePreview)
+			{
+				if (shape is ISplashArea splashArea)
+					Send.ZC_START_RANGE_PREVIEW(map, 0, null, (TimeSpan)duration, splashArea);
+			}
 		}
 
 		/// <summary>

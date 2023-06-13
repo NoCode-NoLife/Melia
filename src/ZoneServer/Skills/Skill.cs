@@ -2,7 +2,9 @@
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 
@@ -176,6 +178,51 @@ namespace Melia.Zone.Skills
 				Send.ZC_COOLDOWN_CHANGED(this.Character, this);
 				this.OverheatCounter = 0;
 			}
+		}
+
+		/// <summary>
+		/// Generates a splash area based on the given arguments and the
+		/// skill's data.
+		/// </summary>
+		/// <param name="originPos"></param>
+		/// <param name="dir"></param>
+		/// <returns></returns>
+		public ISplashArea GetSplashArea(Position originPos, Direction dir)
+		{
+			var skill = this;
+			ISplashArea splashArea;
+
+			switch (this.Data.SplashType)
+			{
+				default:
+				case SplashType.Square:
+				{
+					// These sizes are currently guessed and should
+					// probably also use calculation functions
+					var height = skill.Data.SplashHeight;
+					var width = skill.Data.SplashRange;
+
+					splashArea = new Square(originPos, dir, height, width);
+					break;
+				}
+				case SplashType.Circle:
+				{
+					var radius = skill.Data.SplashHeight;
+
+					splashArea = new Circle(originPos, radius);
+					break;
+				}
+				case SplashType.Fan:
+				{
+					var height = skill.Data.SplashHeight;
+					var angle = skill.Data.SplashAngle;
+
+					splashArea = new Fan(originPos, dir, height, angle);
+					break;
+				}
+			}
+
+			return splashArea;
 		}
 	}
 }
