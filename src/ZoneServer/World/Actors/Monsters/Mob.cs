@@ -332,6 +332,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
+			if (entity == this)
+				return false;
+
 			if (entity.IsDead)
 				return false;
 
