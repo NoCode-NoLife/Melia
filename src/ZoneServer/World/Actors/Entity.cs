@@ -63,6 +63,12 @@ namespace Melia.Zone.World.Actors
 		float GetRandomAtk(Skill skill);
 
 		/// <summary>
+		/// Returns true if this entity is able to attack others.
+		/// </summary>
+		/// <returns></returns>
+		bool CanFight();
+
+		/// <summary>
 		/// Returns true if this entity can attack the given one.
 		/// </summary>
 		/// <param name="entity"></param>

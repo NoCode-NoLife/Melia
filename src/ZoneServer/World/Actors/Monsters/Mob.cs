@@ -314,6 +314,18 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
+		/// Returns true if the character can attack others.
+		/// </summary>
+		/// <returns></returns>
+		public bool CanFight()
+		{
+			if (this.IsDead)
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns true if the monster can attack the entity.
 		/// </summary>
 		/// <param name="entity"></param>

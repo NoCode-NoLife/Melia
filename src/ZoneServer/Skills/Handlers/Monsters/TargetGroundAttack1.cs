@@ -62,6 +62,10 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 			if (hitTime > TimeSpan.Zero)
 				await Task.Delay(hitTime);
 
+			// Check if attacker is still able to fight after the delay
+			if (!caster.CanFight())
+				return;
+
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
