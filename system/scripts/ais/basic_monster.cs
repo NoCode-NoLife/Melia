@@ -27,7 +27,7 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Idle()
 	{
-		yield return Wait(1000, 5000);
+		yield return Wait(4000, 8000);
 
 		SwitchRandom();
 		if (Case(80))
@@ -67,7 +67,7 @@ public class BasicMonsterAiScript : AiScript
 				yield return MoveTo(target.Position, wait: false);
 
 			yield return UseSkill(skill, target);
-			yield return Wait(2000);
+			yield return Wait(4000);
 		}
 
 		yield break;
@@ -91,6 +91,7 @@ public class BasicMonsterAiScript : AiScript
 
 	private void CheckTarget()
 	{
+		// Transition to idle if the target has vanished or is out of range
 		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance))
 		{
 			target = null;
@@ -100,6 +101,12 @@ public class BasicMonsterAiScript : AiScript
 
 	private void CheckTargetDistance()
 	{
+		// Don't give chase while waiting or we might cancel skill and
+		// movement delays. Be patient, little monster.
+		if (IsWaiting)
+			return;
+
+		// Chase after target if it's too far away
 		if (!InRangeOf(target, MinAttackDistance))
 			StartRoutine("Chase", Chase());
 	}

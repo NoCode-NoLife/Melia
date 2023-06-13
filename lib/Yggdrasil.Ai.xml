@@ -416,6 +416,12 @@
             An IEnumerable based, state-machine/behavior-tree hybrid AI.
             </summary>
         </member>
+        <member name="P:Yggdrasil.Ai.Enumerable.EnumerableAi.IsWaiting">
+            <summary>
+            Gets or sets whether the AI is currently executing a Wait
+            routine.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Heartbeat">
             <summary>
             Makes the AI execute once.
