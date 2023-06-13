@@ -168,10 +168,8 @@ namespace Melia.Zone.World
 
 				this.OverrideProperties(monster);
 
-				//monster.AI = new AIMonster(monster);
-				//monster.AI.SetIntention(IntentionTypes.AI_INTENTION_ACTIVE);
 				monster.Components.Add(new Movement(monster));
-				//monster.Components.Add(new AiComponent(monster, "BasicMonster"));
+				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
 				_map.AddMonster(monster);
 			}
