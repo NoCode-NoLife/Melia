@@ -102,23 +102,20 @@ namespace Melia.Zone.Scripting
 			{
 				foreach (var attribute in method.GetCustomAttributes<CalculationAttribute>(false))
 				{
-					// Choose delegate based on the parameters
+					var funcName = attribute.ScriptFuncName;
 					var parameters = method.GetParameters();
 
-					if (CheckSignature<CharacterCalcFunc>(method, parameters))
+					if (TryCreateDelegate<CharacterCalcFunc>(method, out var charFunc))
 					{
-						var func = (CharacterCalcFunc)Delegate.CreateDelegate(typeof(CharacterCalcFunc), obj, method);
-						RegisterCharacterFunc(attribute.ScriptFuncName, func);
+						RegisterCharacterFunc(funcName, charFunc);
 					}
-					else if (CheckSignature<MonsterCalcFunc>(method, parameters))
+					else if (TryCreateDelegate<MonsterCalcFunc>(method, out var monsterFunc))
 					{
-						var func = (MonsterCalcFunc)Delegate.CreateDelegate(typeof(MonsterCalcFunc), obj, method);
-						RegisterMonsterFunc(attribute.ScriptFuncName, func);
+						RegisterMonsterFunc(funcName, monsterFunc);
 					}
-					else if (CheckSignature<SkillCalcFunc>(method, parameters))
+					else if (TryCreateDelegate<SkillCalcFunc>(method, out var skillFunc))
 					{
-						var func = (SkillCalcFunc)Delegate.CreateDelegate(typeof(SkillCalcFunc), obj, method);
-						RegisterSkillFunc(attribute.ScriptFuncName, func);
+						RegisterSkillFunc(funcName, skillFunc);
 					}
 					else
 					{
@@ -153,6 +150,27 @@ namespace Melia.Zone.Scripting
 					return false;
 			}
 
+			return true;
+		}
+
+		/// <summary>
+		/// Checks method's signature against the delegate type and creates
+		/// the delegate if it matches, returning it via out. Returns false
+		/// if signature didn't match.
+		/// </summary>
+		/// <typeparam name="TDelegate"></typeparam>
+		/// <param name="method"></param>
+		/// <param name="func"></param>
+		/// <returns></returns>
+		private static bool TryCreateDelegate<TDelegate>(MethodInfo method, out TDelegate func) where TDelegate : Delegate
+		{
+			if (!CheckSignature<TDelegate>(method, method.GetParameters()))
+			{
+				func = null;
+				return false;
+			}
+
+			func = (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), null, method);
 			return true;
 		}
 	}
