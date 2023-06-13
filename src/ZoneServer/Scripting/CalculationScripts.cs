@@ -86,7 +86,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="scriptName"></param>
 		/// <param name="scriptFunc"></param>
 		/// <returns></returns>
-		public static bool TryGetMonsterFunc(string scriptName, out SkillCalcFunc scriptFunc)
+		public static bool TryGetSkillFunc(string scriptName, out SkillCalcFunc scriptFunc)
 		{
 			lock (SkillFuncs)
 				return SkillFuncs.TryGetValue(scriptName, out scriptFunc);
@@ -168,5 +168,5 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	public delegate float SkillCalcFunc(SkillCalcFunc skill);
+	public delegate float SkillCalcFunc(Skill skill);
 }
