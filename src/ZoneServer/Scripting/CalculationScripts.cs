@@ -103,28 +103,57 @@ namespace Melia.Zone.Scripting
 				foreach (var attribute in method.GetCustomAttributes<CalculationAttribute>(false))
 				{
 					// Choose delegate based on the parameters
+					var parameters = method.GetParameters();
 
-					if (method.GetParameters().Any(a => a.ParameterType == typeof(Character)))
+					if (CheckSignature<CharacterCalcFunc>(method, parameters))
 					{
 						var func = (CharacterCalcFunc)Delegate.CreateDelegate(typeof(CharacterCalcFunc), obj, method);
 						RegisterCharacterFunc(attribute.ScriptFuncName, func);
 					}
-					else if (method.GetParameters().Any(a => a.ParameterType == typeof(IMonster)))
+					else if (CheckSignature<MonsterCalcFunc>(method, parameters))
 					{
 						var func = (MonsterCalcFunc)Delegate.CreateDelegate(typeof(MonsterCalcFunc), obj, method);
 						RegisterMonsterFunc(attribute.ScriptFuncName, func);
 					}
-					else if (method.GetParameters().Any(a => a.ParameterType == typeof(Skill)))
+					else if (CheckSignature<SkillCalcFunc>(method, parameters))
 					{
 						var func = (SkillCalcFunc)Delegate.CreateDelegate(typeof(SkillCalcFunc), obj, method);
 						RegisterSkillFunc(attribute.ScriptFuncName, func);
 					}
 					else
 					{
-						throw new Exception("Invalid parameters for calculation script function: " + method.Name);
+						throw new Exception($"Unknown method signature for calculation method '{method.Name}' on '{obj.GetType().Name}'.");
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the method has the given signature.
+		/// </summary>
+		/// <param name="method"></param>
+		/// <param name="parameters"></param>
+		/// <param name="types"></param>
+		/// <returns></returns>
+		private static bool CheckSignature<TDelegate>(MethodInfo method, ParameterInfo[] parameters) where TDelegate : Delegate
+		{
+			var delegateType = typeof(TDelegate);
+			var invokeInfo = delegateType.GetMethod("Invoke");
+
+			if (method.ReturnType != invokeInfo.ReturnType)
+				return false;
+
+			var invokeParameters = invokeInfo.GetParameters();
+			if (parameters.Length != invokeParameters.Length)
+				return false;
+
+			for (var i = 0; i < parameters.Length; ++i)
+			{
+				if (parameters[i].ParameterType != invokeParameters[i].ParameterType)
+					return false;
+			}
+
+			return true;
 		}
 	}
 
