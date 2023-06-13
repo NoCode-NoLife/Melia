@@ -163,7 +163,7 @@ namespace Melia.Zone.Scripting.AI
 
 			_hateLevels[handle] += amount;
 
-			Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
+			//Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
 		}
 
 		/// <summary>
