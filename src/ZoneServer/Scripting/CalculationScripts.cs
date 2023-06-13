@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using static Melia.Zone.Scripting.CalculationScripts;
 
 namespace Melia.Zone.Scripting
 {
@@ -19,6 +22,7 @@ namespace Melia.Zone.Scripting
 		private static readonly Dictionary<string, CharacterCalcFunc> CharacterFuncs = new Dictionary<string, CharacterCalcFunc>();
 		private static readonly Dictionary<string, MonsterCalcFunc> MonsterFuncs = new Dictionary<string, MonsterCalcFunc>();
 		private static readonly Dictionary<string, SkillCalcFunc> SkillFuncs = new Dictionary<string, SkillCalcFunc>();
+		private static readonly Dictionary<string, SkillUseFunc> SkillUseFuncs = new Dictionary<string, SkillUseFunc>();
 
 		/// <summary>
 		/// Registers the given function as the calculator for the name.
@@ -93,6 +97,30 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Registers the given function as the calculator for the name.
+		/// </summary>
+		/// <param name="scriptFuncName"></param>
+		/// <param name="scriptFunc"></param>
+		public static void RegisterSkillUseFunc(string scriptFuncName, SkillUseFunc scriptFunc)
+		{
+			lock (SkillUseFuncs)
+				SkillUseFuncs[scriptFuncName] = scriptFunc;
+		}
+
+		/// <summary>
+		/// Returns the calc function for the given name via out,
+		/// returns false if no script was defined.
+		/// </summary>
+		/// <param name="scriptName"></param>
+		/// <param name="scriptFunc"></param>
+		/// <returns></returns>
+		public static bool TryGetSkillUseFunc(string scriptName, out SkillUseFunc scriptFunc)
+		{
+			lock (SkillUseFuncs)
+				return SkillUseFuncs.TryGetValue(scriptName, out scriptFunc);
+		}
+
+		/// <summary>
 		/// Loads handler methods on the given object.
 		/// </summary>
 		/// <param name="obj"></param>
@@ -116,6 +144,10 @@ namespace Melia.Zone.Scripting
 					else if (TryCreateDelegate<SkillCalcFunc>(method, out var skillFunc))
 					{
 						RegisterSkillFunc(funcName, skillFunc);
+					}
+					else if (TryCreateDelegate<SkillUseFunc>(method, out var skillUseFunc))
+					{
+						RegisterSkillUseFunc(funcName, skillUseFunc);
 					}
 					else
 					{
@@ -216,4 +248,13 @@ namespace Melia.Zone.Scripting
 	/// <param name="skill"></param>
 	/// <returns></returns>
 	public delegate float SkillCalcFunc(Skill skill);
+
+	/// <summary>
+	/// A function that calculates values related to skills and combat.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	public delegate float SkillUseFunc(ICombatEntity attacker, ICombatEntity target, Skill skill);
 }
