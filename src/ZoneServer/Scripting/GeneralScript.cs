@@ -29,7 +29,7 @@ namespace Melia.Zone.Scripting
 			DialogTxScripts.Load(this);
 			NormalTxScripts.Load(this);
 			CustomCommandScripts.Load(this);
-			CalculationScripts.Load(this);
+			ScriptableFunctions.Load(this);
 
 			return true;
 		}

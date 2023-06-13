@@ -23,7 +23,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[Calculation("SCR_GetRandomAtk")]
+	[ScriptableFunction("SCR_GetRandomAtk")]
 	public float SCR_GetRandomAtk(ICombatEntity attacker, ICombatEntity target, Skill skill)
 	{
 		var rnd = RandomProvider.Get();
@@ -52,7 +52,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[Calculation("SCR_CalculateDamage")]
+	[ScriptableFunction("SCR_CalculateDamage")]
 	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill)
 	{
 		var rnd = RandomProvider.Get();

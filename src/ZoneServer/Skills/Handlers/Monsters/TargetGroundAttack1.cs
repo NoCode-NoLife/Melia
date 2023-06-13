@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 			var hits = new List<SkillHitInfo>();
 
 			// TODO: Simplify access to scriptable functions
-			CalculationScripts.TryGetSkillUseFunc("SCR_CalculateDamage", out var calcDamage);
+			ScriptableFunctions.TryGetSkillUseFunc("SCR_CalculateDamage", out var calcDamage);
 
 			foreach (var target in targets)
 			{

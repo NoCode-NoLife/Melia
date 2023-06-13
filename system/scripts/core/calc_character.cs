@@ -19,7 +19,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_STR")]
+	[ScriptableFunction("SCR_Get_Character_STR")]
 	public float SCR_Get_Character_STR(Character character)
 	{
 		var properties = character.Properties;
@@ -42,7 +42,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CON")]
+	[ScriptableFunction("SCR_Get_Character_CON")]
 	public float SCR_Get_Character_CON(Character character)
 	{
 		var properties = character.Properties;
@@ -64,7 +64,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_INT")]
+	[ScriptableFunction("SCR_Get_Character_INT")]
 	public float SCR_Get_Character_INT(Character character)
 	{
 		var properties = character.Properties;
@@ -86,7 +86,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MNA")]
+	[ScriptableFunction("SCR_Get_Character_MNA")]
 	public float SCR_Get_Character_MNA(Character character)
 	{
 		var properties = character.Properties;
@@ -108,7 +108,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_DEX")]
+	[ScriptableFunction("SCR_Get_Character_DEX")]
 	public float SCR_Get_Character_DEX(Character character)
 	{
 		var properties = character.Properties;
@@ -130,7 +130,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_STR_ADD")]
+	[ScriptableFunction("SCR_Get_Character_STR_ADD")]
 	public float SCR_Get_Character_STR_ADD(Character character)
 	{
 		var properties = character.Properties;
@@ -153,7 +153,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CON_ADD")]
+	[ScriptableFunction("SCR_Get_Character_CON_ADD")]
 	public float SCR_Get_Character_CON_ADD(Character character)
 	{
 		var byItem = 0; // TODO
@@ -174,7 +174,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_INT_ADD")]
+	[ScriptableFunction("SCR_Get_Character_INT_ADD")]
 	public float SCR_Get_Character_INT_ADD(Character character)
 	{
 		var byItem = 0; // TODO
@@ -195,7 +195,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MNA_ADD")]
+	[ScriptableFunction("SCR_Get_Character_MNA_ADD")]
 	public float SCR_Get_Character_MNA_ADD(Character character)
 	{
 		var byItem = 0; // TODO
@@ -216,7 +216,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_DEX_ADD")]
+	[ScriptableFunction("SCR_Get_Character_DEX_ADD")]
 	public float SCR_Get_Character_DEX_ADD(Character character)
 	{
 		var byItem = 0; // TODO
@@ -237,7 +237,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_STR_JOB")]
+	[ScriptableFunction("SCR_Get_Character_STR_JOB")]
 	public float SCR_Get_Character_STR_JOB(Character character)
 	{
 		var properties = character.Properties;
@@ -259,7 +259,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CON_JOB")]
+	[ScriptableFunction("SCR_Get_Character_CON_JOB")]
 	public float SCR_Get_Character_CON_JOB(Character character)
 	{
 		var properties = character.Properties;
@@ -281,7 +281,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_INT_JOB")]
+	[ScriptableFunction("SCR_Get_Character_INT_JOB")]
 	public float SCR_Get_Character_INT_JOB(Character character)
 	{
 		var properties = character.Properties;
@@ -303,7 +303,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MNA_JOB")]
+	[ScriptableFunction("SCR_Get_Character_MNA_JOB")]
 	public float SCR_Get_Character_MNA_JOB(Character character)
 	{
 		var properties = character.Properties;
@@ -325,7 +325,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_DEX_JOB")]
+	[ScriptableFunction("SCR_Get_Character_DEX_JOB")]
 	public float SCR_Get_Character_DEX_JOB(Character character)
 	{
 		var properties = character.Properties;
@@ -347,7 +347,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MHP")]
+	[ScriptableFunction("SCR_Get_Character_MHP")]
 	public float SCR_Get_Character_MHP(Character character)
 	{
 		var properties = character.Properties;
@@ -379,7 +379,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MSP")]
+	[ScriptableFunction("SCR_Get_Character_MSP")]
 	public float SCR_Get_Character_MSP(Character character)
 	{
 		var properties = character.Properties;
@@ -410,7 +410,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MaxSta")]
+	[ScriptableFunction("SCR_Get_Character_MaxSta")]
 	public float SCR_Get_Character_MaxSta(Character character)
 	{
 		var properties = character.Properties;
@@ -434,7 +434,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_RunStart")]
+	[ScriptableFunction("SCR_Get_Character_Sta_RunStart")]
 	public float SCR_Get_Character_Sta_RunStart(Character character)
 	{
 		return 0;
@@ -445,7 +445,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_Run")]
+	[ScriptableFunction("SCR_Get_Character_Sta_Run")]
 	public float SCR_Get_Character_Sta_Run(Character character)
 	{
 		var properties = character.Properties;
@@ -479,7 +479,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_Recover")]
+	[ScriptableFunction("SCR_Get_Character_Sta_Recover")]
 	public float SCR_Get_Character_Sta_Recover(Character character)
 	{
 		var properties = character.Properties;
@@ -503,7 +503,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_R_Delay")]
+	[ScriptableFunction("SCR_Get_Character_Sta_R_Delay")]
 	public float SCR_Get_Character_Sta_R_Delay(Character character)
 	{
 		return 1000;
@@ -514,7 +514,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_Runable")]
+	[ScriptableFunction("SCR_Get_Character_Sta_Runable")]
 	public float SCR_Get_Character_Sta_Runable(Character character)
 	{
 		return 250;
@@ -525,7 +525,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_Jump")]
+	[ScriptableFunction("SCR_Get_Character_Sta_Jump")]
 	public float SCR_Get_Character_Sta_Jump(Character character)
 	{
 		if (Feature.IsEnabled("FreeJumping"))
@@ -539,7 +539,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_Sta_Step")]
+	[ScriptableFunction("SCR_Get_Character_Sta_Step")]
 	public float SCR_Get_Character_Sta_Step(Character character)
 	{
 		return 2500;
@@ -550,7 +550,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_RHP")]
+	[ScriptableFunction("SCR_Get_Character_RHP")]
 	public float SCR_Get_Character_RHP(Character character)
 	{
 		var properties = character.Properties;
@@ -571,7 +571,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_RHPTIME")]
+	[ScriptableFunction("SCR_Get_Character_RHPTIME")]
 	public float SCR_Get_Character_RHPTIME(Character character)
 	{
 		var properties = character.Properties;
@@ -599,7 +599,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_RSP")]
+	[ScriptableFunction("SCR_Get_Character_RSP")]
 	public float SCR_Get_Character_RSP(Character character)
 	{
 		var properties = character.Properties;
@@ -620,7 +620,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_RSPTIME")]
+	[ScriptableFunction("SCR_Get_Character_RSPTIME")]
 	public float SCR_Get_Character_RSPTIME(Character character)
 	{
 		var properties = character.Properties;
@@ -643,7 +643,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MaxWeight")]
+	[ScriptableFunction("SCR_Get_Character_MaxWeight")]
 	public float SCR_Get_Character_MaxWeight(Character character)
 	{
 		var properties = character.Properties;
@@ -660,7 +660,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_NowWeight")]
+	[ScriptableFunction("SCR_Get_Character_NowWeight")]
 	public float SCR_Get_Character_NowWeight(Character character)
 	{
 		return character.Inventory.GetNowWeight();
@@ -671,7 +671,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_StatPoint")]
+	[ScriptableFunction("SCR_Get_Character_StatPoint")]
 	public float SCR_Get_Character_StatPoint(Character character)
 	{
 		var properties = character.Properties;
@@ -688,7 +688,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MINPATK")]
+	[ScriptableFunction("SCR_Get_Character_MINPATK")]
 	public float SCR_Get_Character_MINPATK(Character character)
 	{
 		var properties = character.Properties;
@@ -732,7 +732,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MAXPATK")]
+	[ScriptableFunction("SCR_Get_Character_MAXPATK")]
 	public float SCR_Get_Character_MAXPATK(Character character)
 	{
 		var properties = character.Properties;
@@ -775,7 +775,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MINPATK_SUB")]
+	[ScriptableFunction("SCR_Get_Character_MINPATK_SUB")]
 	public float SCR_Get_Character_MINPATK_SUB(Character character)
 	{
 		var properties = character.Properties;
@@ -818,7 +818,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MAXPATK_SUB")]
+	[ScriptableFunction("SCR_Get_Character_MAXPATK_SUB")]
 	public float SCR_Get_Character_MAXPATK_SUB(Character character)
 	{
 		var properties = character.Properties;
@@ -857,7 +857,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MINMATK")]
+	[ScriptableFunction("SCR_Get_Character_MINMATK")]
 	public float SCR_Get_Character_MINMATK(Character character)
 	{
 		var properties = character.Properties;
@@ -897,7 +897,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MAXMATK")]
+	[ScriptableFunction("SCR_Get_Character_MAXMATK")]
 	public float SCR_Get_Character_MAXMATK(Character character)
 	{
 		var properties = character.Properties;
@@ -936,7 +936,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_DEF")]
+	[ScriptableFunction("SCR_Get_Character_DEF")]
 	public float SCR_Get_Character_DEF(Character character)
 	{
 		var properties = character.Properties;
@@ -966,7 +966,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MDEF")]
+	[ScriptableFunction("SCR_Get_Character_MDEF")]
 	public float SCR_Get_Character_MDEF(Character character)
 	{
 		var properties = character.Properties;
@@ -996,7 +996,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CRTATK")]
+	[ScriptableFunction("SCR_Get_Character_CRTATK")]
 	public float SCR_Get_Character_CRTATK(Character character)
 	{
 		var properties = character.Properties;
@@ -1025,7 +1025,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CRTHR")]
+	[ScriptableFunction("SCR_Get_Character_CRTHR")]
 	public float SCR_Get_Character_CRTHR(Character character)
 	{
 		var properties = character.Properties;
@@ -1054,7 +1054,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CRTDR")]
+	[ScriptableFunction("SCR_Get_Character_CRTDR")]
 	public float SCR_Get_Character_CRTDR(Character character)
 	{
 		var properties = character.Properties;
@@ -1083,7 +1083,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_HR")]
+	[ScriptableFunction("SCR_Get_Character_HR")]
 	public float SCR_Get_Character_HR(Character character)
 	{
 		var properties = character.Properties;
@@ -1114,7 +1114,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_DR")]
+	[ScriptableFunction("SCR_Get_Character_DR")]
 	public float SCR_Get_Character_DR(Character character)
 	{
 		var properties = character.Properties;
@@ -1145,7 +1145,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_BLK")]
+	[ScriptableFunction("SCR_Get_Character_BLK")]
 	public float SCR_Get_Character_BLK(Character character)
 	{
 		var properties = character.Properties;
@@ -1181,7 +1181,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_BLK_BREAK")]
+	[ScriptableFunction("SCR_Get_Character_BLK_BREAK")]
 	public float SCR_Get_Character_BLK_BREAK(Character character)
 	{
 		var properties = character.Properties;
@@ -1212,7 +1212,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_SR")]
+	[ScriptableFunction("SCR_Get_Character_SR")]
 	public float SCR_Get_Character_SR(Character character)
 	{
 		var properties = character.Properties;
@@ -1241,7 +1241,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_SDR")]
+	[ScriptableFunction("SCR_Get_Character_SDR")]
 	public float SCR_Get_Character_SDR(Character character)
 	{
 		var baseValue = 1;
@@ -1262,7 +1262,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_MSPD")]
+	[ScriptableFunction("SCR_Get_Character_MSPD")]
 	public float SCR_Get_Character_MSPD(Character character)
 	{
 		var properties = character.Properties;
@@ -1284,7 +1284,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_JumpPower")]
+	[ScriptableFunction("SCR_Get_Character_JumpPower")]
 	public float SCR_Get_Character_JumpPower(Character character)
 	{
 		return 350;
@@ -1295,7 +1295,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[Calculation("SCR_Get_Character_CastingSpeed")]
+	[ScriptableFunction("SCR_Get_Character_CastingSpeed")]
 	public float SCR_Get_Character_CastingSpeed(Character character)
 	{
 		var properties = character.Properties;

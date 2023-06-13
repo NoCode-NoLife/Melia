@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Melia.Zone.Skills;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using static Melia.Zone.Scripting.CalculationScripts;
 
 namespace Melia.Zone.Scripting
 {
 	/// <summary>
-	/// Manager for scriptable calculation functions.
+	/// Manager for scriptable functions.
 	/// </summary>
 	/// <remarks>
-	/// Primarily used for the calculation of properties.
+	/// Primarily used for the calculation of properties and results
+	/// related to combat and skill usage.
 	/// </remarks>
-	public static class CalculationScripts
+	public static class ScriptableFunctions
 	{
 		private static readonly Dictionary<string, CharacterCalcFunc> CharacterFuncs = new Dictionary<string, CharacterCalcFunc>();
 		private static readonly Dictionary<string, MonsterCalcFunc> MonsterFuncs = new Dictionary<string, MonsterCalcFunc>();
@@ -128,7 +126,7 @@ namespace Melia.Zone.Scripting
 		{
 			foreach (var method in obj.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				foreach (var attribute in method.GetCustomAttributes<CalculationAttribute>(false))
+				foreach (var attribute in method.GetCustomAttributes<ScriptableFunctionAttribute>(false))
 				{
 					var funcName = attribute.ScriptFuncName;
 					var parameters = method.GetParameters();
@@ -211,7 +209,7 @@ namespace Melia.Zone.Scripting
 	/// Used to mark a method as a custom command script handler.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
-	public class CalculationAttribute : Attribute
+	public class ScriptableFunctionAttribute : Attribute
 	{
 		/// <summary>
 		/// Returns the name of the script that is handled by the function.
@@ -222,7 +220,7 @@ namespace Melia.Zone.Scripting
 		/// Creates new attribute.
 		/// </summary>
 		/// <param name="scriptFuncName"></param>
-		public CalculationAttribute(string scriptFuncName)
+		public ScriptableFunctionAttribute(string scriptFuncName)
 		{
 			this.ScriptFuncName = scriptFuncName;
 		}
