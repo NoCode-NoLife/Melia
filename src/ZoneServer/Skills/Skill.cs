@@ -136,7 +136,7 @@ namespace Melia.Zone.Skills
 			this.Properties.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Data.Cooldown));
 			//this.Properties.Create(new RFloatProperty(PropertyName.SpendItemCount, () => 1f));
 			this.Properties.Create(new RFloatProperty(PropertyName.WaveLength, () => this.Data.WaveLength));
-			this.Properties.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Data.SkillFactor));
+			this.Properties.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Data.Factor));
 			this.Properties.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Data.HitDelay.TotalMilliseconds));
 			this.Properties.Create(new RFloatProperty(PropertyName.SpendSta, () => 0f));
 			this.Properties.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));

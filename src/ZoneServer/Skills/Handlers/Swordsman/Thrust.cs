@@ -53,7 +53,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			var splashArea = new Square(originPos, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var damage = (int)(caster.GetRandomPAtk() * skill.Data.SkillFactor / 100f);
+			var damage = (int)(caster.GetRandomPAtk() * skill.Data.Factor / 100f);
 
 			//Debug.ShowShape(caster.Map, splashArea);
 
