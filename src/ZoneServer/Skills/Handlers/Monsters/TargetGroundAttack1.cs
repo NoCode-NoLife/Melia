@@ -73,10 +73,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 
 			foreach (var target in targets)
 			{
-				var hit = new SkillHitInfo(caster, target, skill, 42, damageDelay, hitDelay);
-				hits.Add(hit);
+				var damage = caster.GetRandomAtk(skill);
+				target.TakeDamage(damage, caster);
 
-				target.TakeDamage(hit.HitInfo.Damage, caster);
+				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, hitDelay);
+				hits.Add(hit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
