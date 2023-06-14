@@ -26,7 +26,7 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.PutByte(0);
 			packet.PutShort((short)skillHitInfo.SkillHitDelay.TotalMilliseconds); // Skill Hit Delay? Adds pause in attack animation?
-			packet.PutByte(0);
+			packet.PutByte((byte)skillHitInfo.HitEffect);
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutInt(0); // This being set to anything causes a delay in the dagger damage animation

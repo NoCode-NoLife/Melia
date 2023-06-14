@@ -107,6 +107,7 @@
     <Compile Include="Tos\Const\FactionType.cs" />
     <Compile Include="Tos\Const\Gender.cs" />
     <Compile Include="Tos\Const\HealType.cs" />
+    <Compile Include="Tos\Const\HitEffect.cs" />
     <Compile Include="Tos\Const\HitResultType.cs" />
     <Compile Include="Tos\Const\Items.cs" />
     <Compile Include="Tos\Const\Job.cs" />

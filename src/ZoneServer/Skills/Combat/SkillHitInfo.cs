@@ -12,6 +12,7 @@ namespace Melia.Zone.Skills.Combat
 		public HitInfo HitInfo { get; }
 		public TimeSpan DamageDelay { get; }
 		public TimeSpan SkillHitDelay { get; }
+		public HitEffect HitEffect { get; set; } = HitEffect.Impact;
 
 		public SkillHitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, TimeSpan damageDelay, TimeSpan skillHitDelay)
 		{
