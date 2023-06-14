@@ -149,7 +149,7 @@ namespace Melia.Zone.Scripting
 					}
 					else
 					{
-						throw new Exception($"Unknown method signature for calculation method '{method.Name}' on '{obj.GetType().Name}'.");
+						throw new Exception($"Unknown method signature for scriptable function '{method.Name}' on '{obj.GetType().Name}'.");
 					}
 				}
 			}
