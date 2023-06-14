@@ -26,13 +26,13 @@ namespace Melia.Zone.Skills
 		/// </exception>
 		public static float Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill)
 		{
-			if (Cached.TryGetValue(name, out var func))
-				return func(caster, target, skill);
+			if (!Cached.TryGetValue(name, out var func))
+			{
+				if (!ScriptableFunctions.SkillUse.TryGet(name, out func))
+					throw new ArgumentException($"Scriptable function '{name}' was not defined.");
 
-			if (!ScriptableFunctions.TryGetSkillUseFunc(name, out func))
-				throw new ArgumentException($"Scriptable function '{name}' was not defined.");
-
-			Cached[name] = func;
+				Cached[name] = func;
+			}
 
 			return func(caster, target, skill);
 		}

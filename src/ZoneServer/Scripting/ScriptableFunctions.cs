@@ -17,109 +17,32 @@ namespace Melia.Zone.Scripting
 	/// </remarks>
 	public static class ScriptableFunctions
 	{
-		private static readonly Dictionary<string, CharacterCalcFunc> CharacterFuncs = new Dictionary<string, CharacterCalcFunc>();
-		private static readonly Dictionary<string, MonsterCalcFunc> MonsterFuncs = new Dictionary<string, MonsterCalcFunc>();
-		private static readonly Dictionary<string, SkillCalcFunc> SkillFuncs = new Dictionary<string, SkillCalcFunc>();
-		private static readonly Dictionary<string, SkillUseFunc> SkillUseFuncs = new Dictionary<string, SkillUseFunc>();
+		// A list with all delegate collections for easy iteration
+		// during setup and dedicated lists for easy access afterwards.
+		// New collections can be added by creating a new delegate type,
+		// adding the collection to the class, and initializing it
+		// in the constructor.
+
+		private static readonly List<IDelegateCollection> Collections = new List<IDelegateCollection>();
+
+		public static readonly DelegateCollection<CharacterCalcFunc> Character = new DelegateCollection<CharacterCalcFunc>();
+		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new DelegateCollection<MonsterCalcFunc>();
+		public static readonly DelegateCollection<SkillCalcFunc> Skill = new DelegateCollection<SkillCalcFunc>();
+		public static readonly DelegateCollection<SkillUseFunc> SkillUse = new DelegateCollection<SkillUseFunc>();
 
 		/// <summary>
-		/// Registers the given function as the calculator for the name.
+		/// Sets up delegate collections.
 		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		/// <param name="scriptFunc"></param>
-		public static void RegisterCharacterFunc(string scriptFuncName, CharacterCalcFunc scriptFunc)
+		static ScriptableFunctions()
 		{
-			lock (CharacterFuncs)
-				CharacterFuncs[scriptFuncName] = scriptFunc;
+			Collections.Add(Character = new DelegateCollection<CharacterCalcFunc>());
+			Collections.Add(Monster = new DelegateCollection<MonsterCalcFunc>());
+			Collections.Add(Skill = new DelegateCollection<SkillCalcFunc>());
+			Collections.Add(SkillUse = new DelegateCollection<SkillUseFunc>());
 		}
 
 		/// <summary>
-		/// Returns the calc function for the given name via out,
-		/// returns false if no script was defined.
-		/// </summary>
-		/// <param name="scriptName"></param>
-		/// <param name="scriptFunc"></param>
-		/// <returns></returns>
-		public static bool TryGetCharacterFunc(string scriptName, out CharacterCalcFunc scriptFunc)
-		{
-			lock (CharacterFuncs)
-				return CharacterFuncs.TryGetValue(scriptName, out scriptFunc);
-		}
-
-		/// <summary>
-		/// Registers the given function as the calculator for the name.
-		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		/// <param name="scriptFunc"></param>
-		public static void RegisterMonsterFunc(string scriptFuncName, MonsterCalcFunc scriptFunc)
-		{
-			lock (MonsterFuncs)
-				MonsterFuncs[scriptFuncName] = scriptFunc;
-		}
-
-		/// <summary>
-		/// Returns the calc function for the given name via out,
-		/// returns false if no script was defined.
-		/// </summary>
-		/// <param name="scriptName"></param>
-		/// <param name="scriptFunc"></param>
-		/// <returns></returns>
-		public static bool TryGetMonsterFunc(string scriptName, out MonsterCalcFunc scriptFunc)
-		{
-			lock (MonsterFuncs)
-				return MonsterFuncs.TryGetValue(scriptName, out scriptFunc);
-		}
-
-		/// <summary>
-		/// Registers the given function as the calculator for the name.
-		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		/// <param name="scriptFunc"></param>
-		public static void RegisterSkillFunc(string scriptFuncName, SkillCalcFunc scriptFunc)
-		{
-			lock (SkillFuncs)
-				SkillFuncs[scriptFuncName] = scriptFunc;
-		}
-
-		/// <summary>
-		/// Returns the calc function for the given name via out,
-		/// returns false if no script was defined.
-		/// </summary>
-		/// <param name="scriptName"></param>
-		/// <param name="scriptFunc"></param>
-		/// <returns></returns>
-		public static bool TryGetSkillFunc(string scriptName, out SkillCalcFunc scriptFunc)
-		{
-			lock (SkillFuncs)
-				return SkillFuncs.TryGetValue(scriptName, out scriptFunc);
-		}
-
-		/// <summary>
-		/// Registers the given function as the calculator for the name.
-		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		/// <param name="scriptFunc"></param>
-		public static void RegisterSkillUseFunc(string scriptFuncName, SkillUseFunc scriptFunc)
-		{
-			lock (SkillUseFuncs)
-				SkillUseFuncs[scriptFuncName] = scriptFunc;
-		}
-
-		/// <summary>
-		/// Returns the calc function for the given name via out,
-		/// returns false if no script was defined.
-		/// </summary>
-		/// <param name="scriptName"></param>
-		/// <param name="scriptFunc"></param>
-		/// <returns></returns>
-		public static bool TryGetSkillUseFunc(string scriptName, out SkillUseFunc scriptFunc)
-		{
-			lock (SkillUseFuncs)
-				return SkillUseFuncs.TryGetValue(scriptName, out scriptFunc);
-		}
-
-		/// <summary>
-		/// Loads handler methods on the given object.
+		/// Loads and registers scriptable functions on the given object.
 		/// </summary>
 		/// <param name="obj"></param>
 		public static void Load(object obj)
@@ -129,79 +52,21 @@ namespace Melia.Zone.Scripting
 				foreach (var attribute in method.GetCustomAttributes<ScriptableFunctionAttribute>(false))
 				{
 					var funcName = attribute.ScriptFuncName;
-					var parameters = method.GetParameters();
+					var registered = false;
 
-					if (TryCreateDelegate<CharacterCalcFunc>(method, out var charFunc))
+					foreach (var col in Collections)
 					{
-						RegisterCharacterFunc(funcName, charFunc);
+						if (col.TryRegister(funcName, method))
+						{
+							registered = true;
+							break;
+						}
 					}
-					else if (TryCreateDelegate<MonsterCalcFunc>(method, out var monsterFunc))
-					{
-						RegisterMonsterFunc(funcName, monsterFunc);
-					}
-					else if (TryCreateDelegate<SkillCalcFunc>(method, out var skillFunc))
-					{
-						RegisterSkillFunc(funcName, skillFunc);
-					}
-					else if (TryCreateDelegate<SkillUseFunc>(method, out var skillUseFunc))
-					{
-						RegisterSkillUseFunc(funcName, skillUseFunc);
-					}
-					else
-					{
+
+					if (!registered)
 						throw new Exception($"Unknown method signature for scriptable function '{method.Name}' on '{obj.GetType().Name}'.");
-					}
 				}
 			}
-		}
-
-		/// <summary>
-		/// Returns true if the method has the given signature.
-		/// </summary>
-		/// <param name="method"></param>
-		/// <param name="parameters"></param>
-		/// <param name="types"></param>
-		/// <returns></returns>
-		private static bool CheckSignature<TDelegate>(MethodInfo method, ParameterInfo[] parameters) where TDelegate : Delegate
-		{
-			var delegateType = typeof(TDelegate);
-			var invokeInfo = delegateType.GetMethod("Invoke");
-
-			if (method.ReturnType != invokeInfo.ReturnType)
-				return false;
-
-			var invokeParameters = invokeInfo.GetParameters();
-			if (parameters.Length != invokeParameters.Length)
-				return false;
-
-			for (var i = 0; i < parameters.Length; ++i)
-			{
-				if (parameters[i].ParameterType != invokeParameters[i].ParameterType)
-					return false;
-			}
-
-			return true;
-		}
-
-		/// <summary>
-		/// Checks method's signature against the delegate type and creates
-		/// the delegate if it matches, returning it via out. Returns false
-		/// if signature didn't match.
-		/// </summary>
-		/// <typeparam name="TDelegate"></typeparam>
-		/// <param name="method"></param>
-		/// <param name="func"></param>
-		/// <returns></returns>
-		private static bool TryCreateDelegate<TDelegate>(MethodInfo method, out TDelegate func) where TDelegate : Delegate
-		{
-			if (!CheckSignature<TDelegate>(method, method.GetParameters()))
-			{
-				func = null;
-				return false;
-			}
-
-			func = (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), null, method);
-			return true;
 		}
 	}
 

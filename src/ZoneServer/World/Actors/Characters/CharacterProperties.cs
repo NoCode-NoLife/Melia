@@ -267,8 +267,8 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </exception>
 		private float CalculateProperty(string calcFuncName)
 		{
-			if (!ScriptableFunctions.TryGetCharacterFunc(calcFuncName, out var func))
-				throw new ArgumentException($"Calculation function '{calcFuncName}' not found.");
+			if (!ScriptableFunctions.Character.TryGet(calcFuncName, out var func))
+				throw new ArgumentException($"Scriptable character function '{calcFuncName}' not found.");
 
 			return func(this.Character);
 		}

@@ -113,6 +113,7 @@
     <Compile Include="Scripting\AI\AiScript.Init.cs" />
     <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
     <Compile Include="Scripting\ClientScript.cs" />
+    <Compile Include="Scripting\DelegateCollection.cs" />
     <Compile Include="Scripting\ScriptableFunctions.cs" />
     <Compile Include="Scripting\CustomCommandScripts.cs" />
     <Compile Include="Scripting\NormalTxScripts.cs" />
