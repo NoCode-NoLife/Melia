@@ -61,15 +61,17 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="funcName"></param>
 		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no matching function was found.
+		/// </exception>
 		public TDelegate Get(string funcName)
 		{
 			lock (_funcs)
 			{
-				if (!_funcs.ContainsKey(funcName))
+				if (!_funcs.TryGetValue(funcName, out var func))
 					throw new ArgumentException($"Function '{funcName}' not found.");
 
-				return _funcs[funcName];
+				return func;
 			}
 		}
 
