@@ -55,8 +55,6 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_CalculateDamage")]
 	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill)
 	{
-		var rnd = RandomProvider.Get();
-
 		var damage = SCR_GetRandomAtk(attacker, target, skill);
 		damage *= skill.Data.Factor / 100f;
 		damage += skill.Data.FactorByLevel * (skill.Level - 1);
