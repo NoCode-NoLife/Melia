@@ -257,6 +257,23 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Adds an override for the properties of a monster on a specific
+		/// map. These override the stats of monsters spawned via spawners
+		/// if no property overrides are specified for the spawner itself.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <returns></returns>
+		public static void AddPropertyOverrides(string mapClassName, int monsterClassId, PropertyOverrides propertyOverrides)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
+				throw new ArgumentException($"Map '{mapClassName}' not found.");
+
+			map.AddPropertyOverrides(monsterClassId, propertyOverrides);
+		}
+
+		/// <summary>
 		/// Returns a polygonal shape made up of the given coordinates.
 		/// </summary>
 		/// <param name="coordinates">Evenly numbered list of at least 3 X and Y coordinates.</param>

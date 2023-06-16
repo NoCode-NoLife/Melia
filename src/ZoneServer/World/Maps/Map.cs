@@ -5,6 +5,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -62,6 +63,11 @@ namespace Melia.Zone.World.Maps
 		/// List for characters during visibility update.
 		/// </summary>
 		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
+
+		/// <summary>
+		/// List of property overrides for monsters spawned on this map.
+		/// </summary>
+		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new Dictionary<int, PropertyOverrides>();
 
 		/// <summary>
 		/// Map name.
@@ -542,6 +548,30 @@ namespace Melia.Zone.World.Maps
 
 			lock (_monsters)
 				return _monsters.Values.OfType<WarpMonster>().FirstOrDefault(a => a.Position.InRange2D(pos, 35));
+		}
+
+		/// <summary>
+		/// Sets the property overrides for the given monster on this map.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		public void AddPropertyOverrides(int monsterClassId, PropertyOverrides propertyOverrides)
+		{
+			lock (_monsterPropertyOverrides)
+				_monsterPropertyOverrides[monsterClassId] = propertyOverrides;
+		}
+
+		/// <summary>
+		/// Returns the property overrides for the given monster via out.
+		/// Returns false if no overrides were defined.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <returns></returns>
+		public bool TryGetPropertyOverrides(int monsterClassId, out PropertyOverrides propertyOverrides)
+		{
+			lock (_monsterPropertyOverrides)
+				return _monsterPropertyOverrides.TryGetValue(monsterClassId, out propertyOverrides);
 		}
 
 		/// <summary>

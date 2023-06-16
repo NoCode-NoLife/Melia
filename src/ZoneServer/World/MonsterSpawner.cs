@@ -184,13 +184,21 @@ namespace Melia.Zone.World
 		/// <param name="monster"></param>
 		private void OverrideProperties(Mob monster)
 		{
-			if (this.PropertyOverrides == null)
-				return;
-
+			// Don't override anything if the feature is disabled
 			if (!Feature.IsEnabled("SpawnPropertyOverrides"))
 				return;
 
-			foreach (var propertyOverride in this.PropertyOverrides)
+			// Check for overrides defined for this spawner first,
+			// if there are none, check the overrides for the
+			// map the spawner is on.
+			var propertyOverrides = this.PropertyOverrides;
+			if (propertyOverrides == null)
+			{
+				if (!_map.TryGetPropertyOverrides(_monsterData.Id, out propertyOverrides))
+					return;
+			}
+
+			foreach (var propertyOverride in propertyOverrides)
 			{
 				var propertyName = propertyOverride.Key;
 
