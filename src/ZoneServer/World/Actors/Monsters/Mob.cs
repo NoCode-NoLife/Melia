@@ -159,6 +159,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		public bool FromGround { get; set; }
 
 		/// <summary>
+		/// Holds the order of successive changes in character HP.
+		/// A higher value indicates the latest HP amount.
+		/// </summary>
+		public int HpChangeCounter { get; private set; }
+
+		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
 		public Properties Properties { get; protected set; }

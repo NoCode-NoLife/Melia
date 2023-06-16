@@ -159,7 +159,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 		/// <summary>
 		/// Holds the order of successive changes in character HP.
-		/// A higher value indicates the latest damage taken.
+		/// A higher value indicates the latest HP amount.
 		/// </summary>
 		/// TODO: I'm not sure when this gets rolled over;
 		///   More investigation is needed.
@@ -1131,7 +1131,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.IsDead)
 				return true;
 
-			this.Properties.Modify(PropertyName.HP, -damage);
+			this.ModifyHpSafe(-damage, out _, out _);
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)

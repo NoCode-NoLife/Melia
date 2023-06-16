@@ -6,14 +6,14 @@ namespace Melia.Zone.Skills.Combat
 	{
 		public float Damage { get; }
 		public float Hp { get; }
-		public int UnkCountUp { get; }
+		public int HpPriority { get; }
 		public HitResultType ResultType { get; }
 
-		public HitInfo(float damage, float hp, int countUp, HitResultType resultType)
+		public HitInfo(float damage, float hp, int hpPriority, HitResultType resultType)
 		{
 			this.Damage = damage;
 			this.Hp = hp;
-			this.UnkCountUp = countUp;
+			this.HpPriority = hpPriority;
 			this.ResultType = resultType;
 		}
 	}

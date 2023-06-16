@@ -23,6 +23,12 @@ namespace Melia.Zone.World.Actors
 		int Hp { get; }
 
 		/// <summary>
+		/// Holds the order of successive changes in entity's HP.
+		/// A higher value indicates the latest HP amount.
+		/// </summary>
+		int HpChangeCounter { get; }
+
+		/// <summary>
 		/// Returns true if the entity is dead.
 		/// </summary>
 		bool IsDead { get; }
