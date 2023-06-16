@@ -1013,15 +1013,24 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// TODO: Add semi-automatic updating of all properties that
 			//   changed.
-			Send.ZC_OBJECT_PROPERTY(character,
-				"STR", "STR_STAT", "STR_JOB", "CON", "CON_STAT", "CON_JOB",
-				"INT", "INT_STAT", "INT_JOB", "MNA", "MNA_STAT", "MNA_JOB",
-				"DEX", "DEX_STAT", "DEX_JOB",
-				"UsedStat", "StatByLevel", "StatByBonus",
-				"MINPATK", "MAXPATK", "MINMATK", "MAXMATK", "MINPATK_SUB", "MAXPATK_SUB",
-				"CRTATK", "HR", "DR", "BLK_BREAK", "BLK", "RHP",
-				"RSP", "MHP", "MSP"
-			);
+			//Send.ZC_OBJECT_PROPERTY(character,
+			//	"STR", "STR_STAT", "STR_JOB", "CON", "CON_STAT", "CON_JOB",
+			//	"INT", "INT_STAT", "INT_JOB", "MNA", "MNA_STAT", "MNA_JOB",
+			//	"DEX", "DEX_STAT", "DEX_JOB",
+			//	"UsedStat", "StatByLevel", "StatByBonus",
+			//	"MINPATK", "MAXPATK", "MINMATK", "MAXMATK", "MINPATK_SUB", "MAXPATK_SUB",
+			//	"CRTATK", "HR", "DR", "BLK_BREAK", "BLK", "RHP",
+			//	"RSP", "MHP", "MSP"
+			//);
+
+			// I don't trust that we will always get the updated properties
+			// right and creating semi-auto updating is difficult with this
+			// game's property system, so we'll just update all of them
+			// That might not actually be necessary in all cases, but it's
+			// much simpler and safer. It's also not like we reset characters
+			// all the time anyway.
+			character.Properties.InvalidateAll();
+			Send.ZC_OBJECT_PROPERTY(character);
 		}
 
 		/// <summary>
