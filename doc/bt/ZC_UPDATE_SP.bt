@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_UPDATE_SP.bt
-//   Authors: Salman T. Khan
-//   Version: i336041
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,6 +14,7 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle;
-int sp;
-byte b;
+int currentSp;
+byte displayGain;
