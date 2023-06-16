@@ -2089,18 +2089,24 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="amount"></param>
-		/// <param name="isDamage"></param>
-		/// <param name="maxHp"></param>
+		/// <param name="currentHp"></param>
 		/// <param name="priority"></param>
-		public static void ZC_ADD_HP(Character character, int amount, bool isDamage, int maxHp, int priority)
+		public static void ZC_ADD_HP(Character character, float amount, float currentHp, int priority)
 		{
-			// For some reason this is '1' for damage.
-			var healing = (isDamage ? 1 : amount);
+			// For some reason they send 1 for the amount if the expected
+			// amount was negative, such as in the case of damage?
+			// Or at least this appeared to be the case at some point in
+			// time. We should probably double-check it, but then again,
+			// the client doesn't really use that value. It simply
+			// takes the new HP to update its UI.
+
+			var isDamage = (amount < 0);
+			var adjustedAmount = (isDamage ? 1 : amount);
 
 			var packet = new Packet(Op.ZC_ADD_HP);
 			packet.PutInt(character.Handle);
-			packet.PutInt(healing);
-			packet.PutInt(maxHp);
+			packet.PutInt((int)adjustedAmount);
+			packet.PutInt((int)currentHp);
 			packet.PutInt(priority);
 
 			character.Connection.Send(packet);

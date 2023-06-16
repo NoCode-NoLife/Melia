@@ -653,16 +653,34 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			int priority;
-			lock (_hpLock)
-			{
-				this.Properties.Modify(PropertyName.HP, hpAmount);
-				this.Properties.Modify(PropertyName.SP, spAmount);
-
-				priority = (this.HpChangeCounter += 1);
-			}
+			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
+			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);
+		}
+
+		/// <summary>
+		/// Modifies character's HP by the given amount without updating
+		/// the client. Returns the new HP value and the priority number
+		/// of this modification.
+		/// </summary>
+		/// <remarks>
+		/// There are several packets in this game that require the HP
+		/// to be set synchronized, to ensure that it's only set from
+		/// one source and to identify the latest amount based on the
+		/// "priority".
+		/// </remarks>
+		/// <param name="amount"></param>
+		public void ModifyHpSafe(float amount, out float newHp, out int priority)
+		{
+			// Make sure it's not possible for two calls to interfere
+			// with each other, so that the correct amount makes it to
+			// the client, with the correct priority.
+			lock (_hpLock)
+			{
+				newHp = (int)this.Properties.Modify("HP", amount);
+				priority = (this.HpChangeCounter += 1);
+			}
 		}
 
 		/// <summary>
@@ -672,19 +690,8 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="amount"></param>
 		public void ModifyHp(int amount)
 		{
-			int hp, priority;
-			var negative = (amount < 0);
-
-			// Make sure it's not possible for two calls to interfere
-			// with each other, so that the correct amount makes it to
-			// the client, with the correct priority.
-			lock (_hpLock)
-			{
-				hp = (int)this.Properties.Modify("HP", amount);
-				priority = (this.HpChangeCounter += 1);
-			}
-
-			Send.ZC_ADD_HP(this, amount, negative, hp, priority);
+			this.ModifyHpSafe(amount, out var hp, out var priority);
+			Send.ZC_ADD_HP(this, amount, hp, priority);
 		}
 
 		/// <summary>
