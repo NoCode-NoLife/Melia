@@ -691,6 +691,8 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_MINPATK")]
 	public float SCR_Get_Character_MINPATK(Character character)
 	{
+		var SCR_Get_Character_MAXPATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK");
+
 		var properties = character.Properties;
 
 		var level = properties.GetFloat(PropertyName.Lv, 1);
@@ -723,7 +725,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		value += byBuffs + byRateBuffs;
 
-		var max = this.SCR_Get_Character_MAXPATK(character);
+		var max = SCR_Get_Character_MAXPATK(character);
 		return (float)Math2.Clamp(1, max, value);
 	}
 
@@ -778,6 +780,8 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_MINPATK_SUB")]
 	public float SCR_Get_Character_MINPATK_SUB(Character character)
 	{
+		var SCR_Get_Character_MAXPATK_SUB = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK_SUB");
+
 		var properties = character.Properties;
 
 		var baseValue = 20;
@@ -806,7 +810,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		value += byBuffs + byRateBuffs;
 
-		var maxPatk_sub = this.SCR_Get_Character_MAXPATK_SUB(character);
+		var maxPatk_sub = SCR_Get_Character_MAXPATK_SUB(character);
 		if (value > maxPatk_sub)
 			return maxPatk_sub;
 
@@ -860,6 +864,8 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_MINMATK")]
 	public float SCR_Get_Character_MINMATK(Character character)
 	{
+		var SCR_Get_Character_MAXMATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXMATK");
+
 		var properties = character.Properties;
 
 		var level = properties.GetFloat(PropertyName.Lv, 1);
@@ -888,7 +894,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		value += byBuffs + byRateBuffs;
 
-		var max = this.SCR_Get_Character_MAXMATK(character);
+		var max = SCR_Get_Character_MAXMATK(character);
 		return (float)Math2.Clamp(1, max, value);
 	}
 
