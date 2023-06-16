@@ -2073,15 +2073,20 @@ namespace Melia.Zone.Network
 		/// Updates creature's SP
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="spValue"></param>
-		public static void ZC_UPDATE_SP(Character character, int spValue)
+		/// <param name="currentSp"></param>
+		/// <param name="displayGain">
+		/// If true, the client displays the amount of SP gained
+		/// above the character's head. Doesn't display anything
+		/// if SP were lost.
+		/// </param>
+		public static void ZC_UPDATE_SP(Character character, float currentSp, bool displayGain)
 		{
 			var packet = new Packet(Op.ZC_UPDATE_SP);
 			packet.PutInt(character.Handle);
-			packet.PutInt(spValue);
-			packet.PutByte(0);
+			packet.PutInt((int)currentSp);
+			packet.PutByte(displayGain);
 
-			character.Map.Broadcast(packet, character);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>

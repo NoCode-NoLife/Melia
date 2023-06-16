@@ -702,7 +702,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public void ModifySp(int amount)
 		{
 			var sp = (int)this.Properties.Modify("SP", amount);
-			Send.ZC_UPDATE_SP(this, sp);
+			Send.ZC_UPDATE_SP(this, sp, true);
 		}
 
 		/// <summary>
