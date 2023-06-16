@@ -606,7 +606,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			//Send.ZC_UPDATE_ALL_STATUS(this); // sent by Heal
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.LevelUp(this);
@@ -636,10 +636,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public void Heal()
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
+			var maxHp = this.Properties.GetFloat(PropertyName.MHP);
+			var maxSp = this.Properties.GetFloat(PropertyName.MSP);
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			this.Heal(maxHp, maxSp);
 		}
 
 		/// <summary>
@@ -653,10 +653,16 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			this.Properties.Modify("HP", hpAmount);
-			this.Properties.Modify("SP", spAmount);
+			int priority;
+			lock (_hpLock)
+			{
+				this.Properties.Modify(PropertyName.HP, hpAmount);
+				this.Properties.Modify(PropertyName.SP, spAmount);
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+				priority = (this.HpChangeCounter += 1);
+			}
+
+			Send.ZC_UPDATE_ALL_STATUS(this, priority);
 		}
 
 		/// <summary>

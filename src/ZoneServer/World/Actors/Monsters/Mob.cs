@@ -405,7 +405,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
 			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			Send.ZC_UPDATE_ALL_STATUS(this, 0);
 		}
 	}
 }

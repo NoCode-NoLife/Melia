@@ -2110,7 +2110,8 @@ namespace Melia.Zone.Network
 		/// Updates creature's HP and SP stats.
 		/// </summary>
 		/// <param name="entity"></param>
-		public static void ZC_UPDATE_ALL_STATUS(ICombatEntity entity)
+		/// <param name="priority"></param>
+		public static void ZC_UPDATE_ALL_STATUS(ICombatEntity entity, int priority)
 		{
 			var hp = (int)entity.Properties.GetFloat(PropertyName.HP);
 			var maxHp = (int)entity.Properties.GetFloat(PropertyName.MHP);
@@ -2124,7 +2125,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(maxHp);
 			packet.PutInt(sp);
 			packet.PutInt(maxSp);
-			packet.PutInt(0);
+			packet.PutInt(priority);
 
 			entity.Map.Broadcast(packet, entity);
 		}
