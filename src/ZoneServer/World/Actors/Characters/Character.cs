@@ -678,7 +678,7 @@ namespace Melia.Zone.World.Actors.Characters
 			// the client, with the correct priority.
 			lock (_hpLock)
 			{
-				newHp = (int)this.Properties.Modify("HP", amount);
+				newHp = (int)this.Properties.Modify(PropertyName.HP, amount);
 				priority = (this.HpChangeCounter += 1);
 			}
 		}
@@ -701,7 +701,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="amount"></param>
 		public void ModifySp(int amount)
 		{
-			var sp = (int)this.Properties.Modify("SP", amount);
+			var sp = (int)this.Properties.Modify(PropertyName.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp, true);
 		}
 
@@ -724,9 +724,9 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var abilityPoints = int.Parse(this.Properties.GetString(PropertyName.AbilityPoint));
 			abilityPoints += amount;
-			this.Properties.SetString("AbilityPoint", abilityPoints.ToString());
+			this.Properties.SetString(PropertyName.AbilityPoint, abilityPoints.ToString());
 
-			Send.ZC_OBJECT_PROPERTY(this, "AbilityPoint");
+			Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
 		}
 
 		/// <summary>
@@ -966,8 +966,8 @@ namespace Melia.Zone.World.Actors.Characters
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be negative.");
 
-			this.Properties.Modify("StatByBonus", amount);
-			Send.ZC_OBJECT_PROPERTY(this, "StatByBonus");
+			this.Properties.Modify(PropertyName.StatByBonus, amount);
+			Send.ZC_OBJECT_PROPERTY(this, PropertyName.StatByBonus);
 		}
 
 		/// <summary>
@@ -994,22 +994,22 @@ namespace Melia.Zone.World.Actors.Characters
 			// that went into the *_JOB properties, which we'll just add
 			// to StatByBonus.
 
-			var jobStatPoints = character.Properties.Sum("STR_JOB", "CON_JOB", "INT_JOB", "MNA_JOB", "DEX_JOB") - 5;
-			character.Properties.Modify("StatByBonus", jobStatPoints);
+			var jobStatPoints = character.Properties.Sum(PropertyName.STR_JOB, PropertyName.CON_JOB, PropertyName.INT_JOB, PropertyName.MNA_JOB, PropertyName.DEX_JOB) - 5;
+			character.Properties.Modify(PropertyName.StatByBonus, jobStatPoints);
 
-			character.Properties.SetFloat("UsedStat", 0);
+			character.Properties.SetFloat(PropertyName.UsedStat, 0);
 
-			character.Properties.SetFloat("STR_STAT", 0);
-			character.Properties.SetFloat("CON_STAT", 0);
-			character.Properties.SetFloat("INT_STAT", 0);
-			character.Properties.SetFloat("MNA_STAT", 0);
-			character.Properties.SetFloat("DEX_STAT", 0);
+			character.Properties.SetFloat(PropertyName.STR_STAT, 0);
+			character.Properties.SetFloat(PropertyName.CON_STAT, 0);
+			character.Properties.SetFloat(PropertyName.INT_STAT, 0);
+			character.Properties.SetFloat(PropertyName.MNA_STAT, 0);
+			character.Properties.SetFloat(PropertyName.DEX_STAT, 0);
 
-			character.Properties.SetFloat("STR_JOB", 1);
-			character.Properties.SetFloat("CON_JOB", 1);
-			character.Properties.SetFloat("INT_JOB", 1);
-			character.Properties.SetFloat("MNA_JOB", 1);
-			character.Properties.SetFloat("DEX_JOB", 1);
+			character.Properties.SetFloat(PropertyName.STR_JOB, 1);
+			character.Properties.SetFloat(PropertyName.CON_JOB, 1);
+			character.Properties.SetFloat(PropertyName.INT_JOB, 1);
+			character.Properties.SetFloat(PropertyName.MNA_JOB, 1);
+			character.Properties.SetFloat(PropertyName.DEX_JOB, 1);
 
 			// TODO: Add semi-automatic updating of all properties that
 			//   changed.
