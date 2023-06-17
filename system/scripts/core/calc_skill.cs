@@ -4,6 +4,8 @@
 // Functions that calculate skill-related values, such as properties.
 //---------------------------------------------------------------------------
 
+using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
@@ -22,6 +24,57 @@ public class SkillCalculationsScript : GeneralScript
 		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SR);
 
 		return baseValue + byOwner;
+	}
+
+	/// <summary>
+	/// Returns the amount of SP spent when using the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SpendSP")]
+	public float SCR_Get_SpendSP(Skill skill)
+	{
+		var baseValue = skill.Data.BasicSp;
+		if (baseValue == 0)
+			return 0;
+
+		var ownerLevel = skill.Character.Level;
+		var levelCorrection = ownerLevel - 300f;
+
+		// The value starts at ~18% at level 1 and keeps going up as the
+		// owner's level increases. At level 100 it's 45%, at level 200
+		// it's 72.5%, at 300 it's 100%, and it goes past that afterwards.
+		if (levelCorrection < 0)
+			levelCorrection = levelCorrection * 2.75f / 1000f;
+		else if (levelCorrection >= 0)
+			levelCorrection = levelCorrection * 1.25f / 1000f;
+
+		var value = baseValue * (levelCorrection + 1);
+
+		var byAbilityRate = 0; // TODO: Add ability multiplier support
+		value += value * (byAbilityRate / 100f);
+
+		return (int)Math.Max(0, value);
+	}
+
+	/// <summary>
+	/// Returns the amount of stamina spent when using the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Skill_STA")]
+	public float SCR_Skill_STA(Skill skill)
+	{
+		var baseValue = skill.Data.BasicStamina;
+		if (baseValue == 0)
+			return 0;
+
+		// The value in the database is in "displayed stamina", so they
+		// need to be multiplied to get the actual value, which is a
+		// thousand times the display value. Alternatively we could
+		// adjust the skill data, but it's safer to leave the game's
+		// data untouched.
+		return baseValue * 1000;
 	}
 
 	/// <summary>

@@ -49,13 +49,7 @@ namespace Melia.Zone.Skills
 		/// Returns the amount of SP necessary to use the skill.
 		/// </summary>
 		public int SpendSp
-		{
-			get
-			{
-				var lvUpSpendSpRounded = Math.Round(this.Data.LvUpSpendSp, 4);
-				return (int)(this.Data.BasicSp + (this.Level - 1) * lvUpSpendSpRounded);
-			}
-		}
+			=> (int)this.Properties.GetFloat(PropertyName.SpendSP);
 
 		/// <summary>
 		/// Returns the skill's overheat count. If this value reaches the

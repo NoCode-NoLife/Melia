@@ -41,7 +41,9 @@ namespace Melia.Zone.Skills
 
 			this.Create(new RFloatProperty(PropertyName.Level, () => this.Skill.Level));
 			this.Create(new RFloatProperty(PropertyName.LevelByDB, () => this.Skill.Level));
-			this.Create(new RFloatProperty(PropertyName.SpendSP, () => this.Skill.SpendSp));
+
+			this.Create(PropertyName.SpendSP, "SCR_Get_SpendSP");
+			this.Create(PropertyName.SpendSta, "SCR_Skill_STA");
 			this.Create(PropertyName.WaveLength, "SCR_Get_WaveLength");
 			this.Create(PropertyName.SplAngle, "SCR_SPLANGLE");
 			this.Create(PropertyName.SplRange, "SCR_Get_SplRange");
@@ -61,7 +63,6 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Skill.Data.Cooldown));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Skill.Data.Factor));
 			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.HitDelay.TotalMilliseconds));
-			this.Create(new RFloatProperty(PropertyName.SpendSta, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SklSpdRate, () => 1f)); // Constant
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));
