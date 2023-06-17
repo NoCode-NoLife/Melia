@@ -42,9 +42,9 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.Level, () => this.Skill.Level));
 			this.Create(new RFloatProperty(PropertyName.LevelByDB, () => this.Skill.Level));
 			this.Create(new RFloatProperty(PropertyName.SpendSP, () => this.Skill.SpendSp));
-			this.Create(new RFloatProperty(PropertyName.WaveLength, () => this.Skill.Data.WaveLength));
-			this.Create(new RFloatProperty(PropertyName.SplAngle, () => this.Skill.Data.SplashAngle));
-			this.Create(new RFloatProperty(PropertyName.SplRange, () => this.Skill.Data.SplashRange));
+			this.Create(PropertyName.WaveLength, "SCR_Get_WaveLength");
+			this.Create(PropertyName.SplAngle, "SCR_SPLANGLE");
+			this.Create(PropertyName.SplRange, "SCR_Get_SplRange");
 
 			// While a property named SR exists for skills, it doesn't seem
 			// to be used in the property calculations. Instead, there's
@@ -59,7 +59,6 @@ namespace Melia.Zone.Skills
 
 			this.Create(new RFloatProperty(PropertyName.MaxR, () => this.Skill.Data.MaxRange));
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Skill.Data.Cooldown));
-			this.Create(new RFloatProperty(PropertyName.WaveLength, () => this.Skill.Data.WaveLength));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Skill.Data.Factor));
 			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.HitDelay.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.SpendSta, () => 0f));
