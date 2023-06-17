@@ -40,6 +40,7 @@ namespace Melia.Shared.Data.Database
 		public bool EnableCastMove { get; set; }
 		public TimeSpan HitDelay { get; set; }
 		public SkillUseType UseType { get; set; }
+		public SkillAttackType AttackType { get; set; }
 		public SkillAttribute Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
 	}
@@ -63,6 +64,21 @@ namespace Melia.Shared.Data.Database
 		SCRIPT,
 		TARGET_GROUND,
 		MELEE,
+	}
+
+	public enum SkillAttackType
+	{
+		None,
+		Melee,
+		Strike,
+		Slash,
+		Aries,
+		Arrow,
+		Magic,
+		Gun,
+		Cannon,
+		Holy,
+		Pad,
 	}
 
 	public enum SkillAttribute
@@ -109,7 +125,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attribute");
+			entry.AssertNotMissing("skillId", "className", "name", "maxLevel", "angle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "cooldown", "cooldownGroup", "hitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "useType", "attackType", "attribute");
 
 			var data = new SkillData();
 
@@ -142,6 +158,7 @@ namespace Melia.Shared.Data.Database
 			data.DeadHitTime = entry.ReadTimeSpan("deadHitDelay");
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 			data.UseType = entry.ReadEnum<SkillUseType>("useType");
+			data.AttackType = entry.ReadEnum<SkillAttackType>("attackType");
 			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
