@@ -15,6 +15,7 @@ namespace Melia.Shared.Data.Database
 		public string Name { get; set; }
 		public int Element { get; set; }
 		public float BasicSp { get; set; }
+		public float BasicStamina { get; set; }
 		public float LvUpSpendSp { get; set; }
 
 		public float Angle { get; set; }
@@ -133,7 +134,8 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 			data.Element = entry.ReadInt("element");
-			data.BasicSp = entry.ReadFloat("basicSp");
+			data.BasicSp = entry.ReadFloat("basicSp", 0);
+			data.BasicStamina = entry.ReadFloat("basicStamina", 0);
 			data.LvUpSpendSp = entry.ReadFloat("lvUpSpendSp");
 
 			data.Angle = entry.ReadFloat("angle");
