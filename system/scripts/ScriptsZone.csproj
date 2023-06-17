@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="ais\basic_monster.cs" />
     <Compile Include="ais\test.cs" />
+    <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
     <Compile Include="core\client\api\main.cs" />
     <Compile Include="core\client\dialog_portraits\main.cs" />
