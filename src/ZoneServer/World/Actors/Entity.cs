@@ -48,27 +48,6 @@ namespace Melia.Zone.World.Actors
 		bool TakeDamage(float damage, ICombatEntity attacker/*, DamageVisibilityModifier damageVisibility, int attackIndex*/);
 
 		/// <summary>
-		/// Returns a random physical attack value based on the entity's
-		/// physical attack.
-		/// </summary>
-		/// <returns></returns>
-		float GetRandomPAtk();
-
-		/// <summary>
-		/// Returns a random magic attack value based on the entity's
-		/// magic attack.
-		/// </summary>
-		/// <returns></returns>
-		float GetRandomMAtk();
-
-		/// <summary>
-		/// Returns a random attack value based on the entity's attack and
-		/// the skill's type.
-		/// </summary>
-		/// <returns></returns>
-		float GetRandomAtk(Skill skill);
-
-		/// <summary>
 		/// Returns true if this entity is able to attack others.
 		/// </summary>
 		/// <returns></returns>

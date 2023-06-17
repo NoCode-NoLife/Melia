@@ -1069,48 +1069,6 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Returns a random physical attack damage value.
-		/// </summary>
-		/// <returns></returns>
-		public float GetRandomPAtk()
-		{
-			var rnd = RandomProvider.Get();
-
-			var min = (int)this.Properties.GetFloat(PropertyName.MINPATK);
-			var max = (int)this.Properties.GetFloat(PropertyName.MAXPATK);
-
-			return rnd.Next(min, max + 1);
-		}
-
-		/// <summary>
-		/// Returns a random magic attack damage value.
-		/// </summary>
-		/// <returns></returns>
-		public float GetRandomMAtk()
-		{
-			var rnd = RandomProvider.Get();
-
-			var min = (int)this.Properties.GetFloat(PropertyName.MINMATK);
-			var max = (int)this.Properties.GetFloat(PropertyName.MAXMATK);
-
-			return rnd.Next(min, max + 1);
-		}
-
-		/// <summary>
-		/// Returns a random physical or magic attack damage value,
-		/// for usage with the given skill.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <returns></returns>
-		public float GetRandomAtk(Skill skill)
-		{
-			if (skill.Data.ClassType <= SkillClassType.Missile)
-				return this.GetRandomPAtk();
-			else
-				return this.GetRandomMAtk();
-		}
-
-		/// <summary>
 		/// These should be reference properties?
 		/// PCETC Properties
 		/// </summary>

@@ -7,8 +7,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Logging;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
@@ -53,7 +52,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			var splashArea = new Square(originPos, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var damage = (int)(caster.GetRandomPAtk() * skill.Data.Factor / 100f);
+
+			var damage = SCR_GetRandomAtk(caster, null, skill);
+
+			var skillFactor = skill.Data.Factor + (skill.Data.FactorByLevel * (skill.Level - 1));
+			damage *= skillFactor / 100f;
 
 			//Debug.ShowShape(caster.Map, splashArea);
 

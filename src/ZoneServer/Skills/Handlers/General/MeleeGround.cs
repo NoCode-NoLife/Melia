@@ -7,6 +7,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.General
 {
@@ -25,7 +26,7 @@ namespace Melia.Zone.Skills.Handlers.General
 
 			var hits = new List<SkillHitInfo>();
 
-			var damage = caster.GetRandomAtk(skill);
+			var damage = SCR_GetRandomAtk(caster, null, skill);
 
 			foreach (var target in targets)
 			{

@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.General
 {
@@ -38,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.General
 				case SkillId.Wizard_MagicMissile:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomMAtk();
+					var damage = SCR_GetRandomAtk(caster, null, skill);
 
 					var hits = new List<SkillHitInfo>();
 					var anyDead = false;
@@ -71,7 +72,7 @@ namespace Melia.Zone.Skills.Handlers.General
 				case SkillId.Archer_Multishot:
 				{
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomPAtk();
+					var damage = SCR_GetRandomAtk(caster, null, skill);
 
 					var characterCaster = caster as Character;
 					if (characterCaster != null)
@@ -121,7 +122,7 @@ namespace Melia.Zone.Skills.Handlers.General
 					var anyDead = false;
 
 					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = caster.GetRandomAtk(skill);
+					var damage = SCR_GetRandomAtk(caster, null, skill);
 
 					foreach (var target in targets)
 					{

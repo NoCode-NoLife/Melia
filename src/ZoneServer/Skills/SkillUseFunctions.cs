@@ -38,6 +38,17 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
+		/// Returns a random attack value between the min and max values
+		/// for the type that matches the given skill (PATK or MATK).
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static float SCR_GetRandomAtk(ICombatEntity caster, ICombatEntity target, Skill skill)
+			=> Call("SCR_GetRandomAtk", caster, target, skill);
+
+		/// <summary>
 		/// Calculates the damage for the given skill if used by the attacker
 		/// on the target, factoring in attack and defense properties.
 		/// </summary>
