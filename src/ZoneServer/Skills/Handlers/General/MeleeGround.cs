@@ -16,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.General
 	/// <summary>
 	/// Generic handler for melee ground skills.
 	/// </summary>
-	[SkillHandler(SkillId.Normal_Attack, SkillId.Common_DaggerAries)]
+	[SkillHandler(SkillId.Normal_Attack, SkillId.Hammer_Attack, SkillId.Common_DaggerAries)]
 	public class MeleeGroundSkillHandler : IMeleeGroundSkillHandler
 	{
 		/// <summary>
