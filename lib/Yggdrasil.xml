@@ -729,6 +729,16 @@
             </code>
             </example>
         </member>
+        <member name="M:Yggdrasil.Extensions.StringExtensions.GetSimilarity(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns the similarly between two strings as a percentage value
+            based on the Levenshtein distance between them.
+            </summary>
+            <param name="str"></param>
+            <param name="compare"></param>
+            <param name="caseSensitive"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
             <summary>
             Indicates whether a specified string is null, empty, or consists

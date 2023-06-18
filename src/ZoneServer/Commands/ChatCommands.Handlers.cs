@@ -350,23 +350,32 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleItem(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count == 0)
+			if (args.IndexedCount == 0)
 				return CommandResult.InvalidArgument;
 
-			var amount = 1;
-
-			// Get and check id
 			if (!int.TryParse(args.Get(0), out var itemId))
-				return CommandResult.InvalidArgument;
+			{
+				var itemName = args.Get(0);
 
-			if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				if (classNameMatches.Length == 0)
+				{
+					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
+					return CommandResult.Okay;
+				}
+
+				var rankedMatches = classNameMatches.OrderBy(a => a.ClassName.GetLevenshteinDistance(itemName, false));
+				itemId = rankedMatches.First().Id;
+			}
+			else if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 			{
 				sender.ServerMessage("Item not found.");
 				return CommandResult.Okay;
 			}
 
 			// Get amount
-			if (args.Count >= 2)
+			var amount = 1;
+			if (args.IndexedCount >= 2)
 			{
 				if (!int.TryParse(args.Get(1), out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
