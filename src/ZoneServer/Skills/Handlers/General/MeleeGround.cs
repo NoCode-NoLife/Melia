@@ -59,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.General
 			// the correct value for the skill hit delay. Not a clue
 			// about damage delay though. Though there are potentially
 			// related values in older skill_bytool files.
-			var damageDelay = TimeSpan.FromMilliseconds(skill.Id == SkillId.Normal_Attack ? 330 : 250);
+			var damageDelay = TimeSpan.FromMilliseconds(skill.Id != SkillId.Common_DaggerAries ? 330 : 250);
 			var skillHitDelay = skill.Properties.HitDelay;
 
 			if (skillHitDelay > TimeSpan.Zero)
