@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -17,8 +13,8 @@ namespace Melia.Zone.Skills.Handlers.General
 	/// <summary>
 	/// Handles skills of use type Force.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack)]
-	public class Bow_Attack : ITargetSkillHandler
+	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack)]
+	public class BasicProjectiles : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles usage of the skill.
