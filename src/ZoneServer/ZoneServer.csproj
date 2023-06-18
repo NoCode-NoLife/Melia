@@ -136,6 +136,7 @@
     <Compile Include="Skills\Handlers\Common\BasicProjectiles.cs" />
     <Compile Include="Skills\Handlers\General\Target.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
+    <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\Handlers\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\Handlers\SkillHandlers.cs" />
