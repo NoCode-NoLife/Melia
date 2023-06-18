@@ -225,6 +225,20 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Returns the overbuff counter for the given buff. Returns 0
+		/// if the buff isn't active.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public int GetOverbuffCount(BuffId buffId)
+		{
+			if (!this.TryGet(buffId, out var buff))
+				return 0;
+
+			return buff.OverbuffCounter;
+		}
+
+		/// <summary>
 		/// Starts the buff with the given name or overbuffs it if it's
 		/// already active. Returns the new or modified buff.
 		/// </summary>

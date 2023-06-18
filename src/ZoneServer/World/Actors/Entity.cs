@@ -112,18 +112,30 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool TrySpendSp(this ICombatEntity entity, Skill skill)
 		{
+			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
+			return entity.TrySpendSp(spendSp);
+		}
+
+		/// <summary>
+		/// Attempts to reduce the entity's SP by the given amount.
+		/// Returns false if it didn't have enough SP.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public static bool TrySpendSp(this ICombatEntity entity, float amount)
+		{
 			if (!(entity is Character character))
 				return true;
 
-			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
-			if (spendSp == 0)
+			if (amount == 0)
 				return true;
 
 			var sp = entity.Properties.GetFloat(PropertyName.SP);
-			if (sp < spendSp)
+			if (sp < amount)
 				return false;
 
-			character.ModifySp(-spendSp);
+			character.ModifySp(-amount);
 			return true;
 		}
 
