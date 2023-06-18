@@ -133,6 +133,7 @@
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\Handlers\General\MeleeGround.cs" />
     <Compile Include="Skills\Handlers\General\Ground.cs" />
+    <Compile Include="Skills\Handlers\Common\Bow_Attack.cs" />
     <Compile Include="Skills\Handlers\General\Target.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
     <Compile Include="Skills\Skill.cs" />

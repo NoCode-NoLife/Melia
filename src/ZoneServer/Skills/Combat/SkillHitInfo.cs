@@ -45,6 +45,11 @@ namespace Melia.Zone.Skills.Combat
 		public HitEffect HitEffect { get; set; } = HitEffect.Impact;
 
 		/// <summary>
+		/// Gets or sets an unknown value that's necessary for force skills.
+		/// </summary>
+		public int UnkForceId { get; set; }
+
+		/// <summary>
 		/// Creates new skill hit.
 		/// </summary>
 		/// <param name="attacker"></param>

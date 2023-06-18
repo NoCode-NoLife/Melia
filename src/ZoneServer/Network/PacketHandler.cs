@@ -1117,14 +1117,14 @@ namespace Melia.Zone.Network
 			// Try to use skill
 			try
 			{
-				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetAniSkillHandler>(skillId, out var handler))
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skillId, out var handler))
 				{
 					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
 					Log.Warning("CZ_SKILL_TARGET_ANI: No handler for skill '{0}' found.", skillId);
 					return;
 				}
 
-				handler.Handle(skill, character, direction);
+				handler.Handle(skill, character, null);
 			}
 			catch (ArgumentException ex)
 			{
