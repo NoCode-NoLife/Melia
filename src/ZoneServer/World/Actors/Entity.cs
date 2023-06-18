@@ -1,4 +1,5 @@
-﻿using Melia.Shared.ObjectProperties;
+﻿using Melia.Shared.L10N;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
@@ -97,6 +98,41 @@ namespace Melia.Zone.World.Actors
 		{
 			entity.Direction = entity.Position.GetDirection(otherEntity.Position);
 			Send.ZC_ROTATE(entity);
+		}
+
+		/// <summary>
+		/// Attempts to reduce the entity's SP by the amount necessary
+		/// to use the skill. Returns false if it didn't have enough SP.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static bool TrySpendSp(this ICombatEntity entity, Skill skill)
+		{
+			if (!(entity is Character character))
+				return true;
+
+			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
+			var sp = entity.Properties.GetFloat(PropertyName.SP);
+
+			if (sp < spendSp)
+				return false;
+
+			character.ModifySp(-spendSp);
+			return true;
+		}
+
+		/// <summary>
+		/// Displays server message for entity if it's able to receive
+		/// server messages.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public static void ServerMessage(this ICombatEntity entity, string format, params object[] args)
+		{
+			if (entity is Character character)
+				character.ServerMessage(format, args);
 		}
 	}
 }

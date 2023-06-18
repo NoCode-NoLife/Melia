@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
+using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
@@ -26,12 +32,23 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
-			// This is just a test for a dedicated skill handler, the code
-			// was largely copied from the default handler for now, without
-			// referencing logs. And the packets are definitely not right
-			// yet.
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
 
+			skill.IncreaseOverheat();
+
+			// Get splash area
+			// It's currently unknown where exactly these values are coming
+			// from. The width might be skill.SkillSR, but nothing matches
+			// the presumed height of 60. WaveLength is 40, and there's
+			// a client file that lists a length value of 50, but neither
+			// seems quite right, so we'll hardcode it for now, making it
+			// a bit higher than a normal attack a bit narrower.
 			var splashAreaHeight = 60;
+			var splashAreaWidth = 14;
 
 			// We'll ignore the data sent by the client and get the
 			// positions ourselves, because players are dirty cheaters
@@ -39,45 +56,49 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			originPos = caster.Position;
 			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
 
-			if (skill.SpendSp > 0)
-				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
+			var splashArea = new Square(originPos, caster.Direction, splashAreaHeight, splashAreaWidth);
 
-			skill.IncreaseOverheat();
+			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			Send.ZC_SKILL_READY(caster, skill, caster.Position, farPos);
+			this.Attack(skill, caster, splashArea);
+		}
 
-			// The hitbox seems pretty small, there's presumably more going
-			// into this. Double the splash range for the width for now.
-			//var radius = (int)skill.Data.SplashRange * 3;
+		/// <summary>
+		/// Executes the actual attack after a delay.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="splashArea"></param>
+		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		{
+			// For monster skills the delay until the attack occurs
+			// appears to be be the hit delay, but while the hit delay
+			// for Thrust is 200, the packets look more like a 50~100ms
+			// delay. However, the hit comes too early with either value
+			// on Melia. One value that appears to work well is 300ms,
+			// so we'll use that for now.
 
-			var splashArea = new Square(originPos, caster.Direction, 60, 14); // higher than Normal_Attack, but narrower
+			var hitTime = TimeSpan.FromMilliseconds(300);
+			var skillHitDelay = TimeSpan.Zero;
+			var damageDelay = TimeSpan.FromMilliseconds(270);
+
+			await Task.Delay(hitTime);
+
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
+
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			var damage = SCR_GetRandomAtk(caster, null, skill);
-
-			var skillFactor = skill.Data.Factor + (skill.Data.FactorByLevel * (skill.Level - 1));
-			damage *= skillFactor / 100f;
-
-			//Debug.ShowShape(caster.Map, splashArea);
-
 			var hits = new List<SkillHitInfo>();
 
 			foreach (var target in targets)
 			{
-				if (!caster.CanAttack(target))
-					continue;
-
+				var damage = SCR_CalculateDamage(caster, target, skill);
 				target.TakeDamage(damage, caster);
 
-				var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(270), TimeSpan.FromMilliseconds(0));
-				hits.Add(skillHitInfo);
+				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
+				hits.Add(hit);
 			}
 
-			// TODO: There's an issue with Thrust where the animation
-			//   sometimes plays too early, but it happens somewhat
-			//   randomly.
-
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}

@@ -699,9 +699,9 @@ namespace Melia.Zone.World.Actors.Characters
 		/// client with ZC_UPDATE_SP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void ModifySp(int amount)
+		public void ModifySp(float amount)
 		{
-			var sp = (int)this.Properties.Modify(PropertyName.SP, amount);
+			var sp = this.Properties.Modify(PropertyName.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp, true);
 		}
 
