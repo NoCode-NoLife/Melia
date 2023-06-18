@@ -2056,17 +2056,17 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Enables/disables creature attack state
+		/// Updates entity's attack state.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="attacking"></param>
-		public static void ZC_PC_ATKSTATE(Character character, bool attacking)
+		/// <param name="entity"></param>
+		/// <param name="inAttackState"></param>
+		public static void ZC_PC_ATKSTATE(ICombatEntity entity, bool inAttackState)
 		{
 			var packet = new Packet(Op.ZC_PC_ATKSTATE);
-			packet.PutInt(character.Handle);
-			packet.PutByte(attacking);
+			packet.PutInt(entity.Handle);
+			packet.PutByte(inAttackState);
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>

@@ -188,6 +188,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.MonsterType = type;
 
 			this.Components.Add(this.Buffs = new BuffCollection(this));
+			this.Components.Add(new CombatComponent(this));
 
 			this.LoadData();
 		}

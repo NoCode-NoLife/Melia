@@ -12,6 +12,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -39,6 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			// Get splash area
 			// It's currently unknown where exactly these values are coming

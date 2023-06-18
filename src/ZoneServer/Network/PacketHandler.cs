@@ -990,13 +990,6 @@ namespace Melia.Zone.Network
 				targets.Add(target);
 			}
 
-			// Do... stuff.
-			// TODO: Move these senders to appropriate methods on Skill
-			//   and Character and handle them properly from the skill
-			//   handling.
-			Send.ZC_OVERHEAT_CHANGED(character, skill);
-			Send.ZC_PC_ATKSTATE(character, true);
-
 			// Try to use skill
 			try
 			{

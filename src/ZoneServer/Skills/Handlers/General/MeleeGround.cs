@@ -7,6 +7,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.General
@@ -23,6 +24,7 @@ namespace Melia.Zone.Skills.Handlers.General
 				caster.Properties.Modify(PropertyName.SP, -skill.SpendSp);
 
 			skill.IncreaseOverheat();
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			var hits = new List<SkillHitInfo>();
 

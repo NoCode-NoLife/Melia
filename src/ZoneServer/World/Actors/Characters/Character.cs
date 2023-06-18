@@ -320,6 +320,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Abilities = new Abilities(this));
 			this.Components.Add(this.Buffs = new BuffCollection(this));
 			this.Components.Add(new Recovery(this));
+			this.Components.Add(new CombatComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 
@@ -1098,6 +1099,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.IsDead)
 				return true;
 
+			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out _, out _);
 
 			// Kill monster if it reached 0 HP.
