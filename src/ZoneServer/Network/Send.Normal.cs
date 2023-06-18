@@ -373,27 +373,25 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
 			/// </summary>
-			/// <param name="character"></param>
+			/// <param name="entity"></param>
 			/// <param name="handle"></param>
-			/// <param name="position"></param>
+			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
-			public static void Unkown_1c(Character character, int handle, Position position, Direction direction)
+			/// <param name="farPos"></param>
+			public static void Unkown_1c(ICombatEntity entity, int handle, Position originPos, Direction direction, Position farPos)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unkown_1D);
-				packet.PutInt(character.Handle);
-				packet.PutBinFromHex("00 D9 DB 30 09"); // This is not a fixed value, check more packets
-				packet.PutInt(handle); // Target ActorId (seems to be)
-				packet.PutFloat(position.X);
-				packet.PutFloat(position.Y);
-				packet.PutFloat(position.Z);
-				packet.PutFloat(direction.Cos);
-				packet.PutFloat(direction.Sin);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
 
-				character.Map.Broadcast(packet, character);
+				packet.PutInt(entity.Handle);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(handle); // Target ActorId (seems to be)
+				packet.PutPosition(originPos);
+				packet.PutDirection(direction);
+				packet.PutPosition(farPos);
+
+				entity.Map.Broadcast(packet, entity);
 			}
 
 			/// <summary>

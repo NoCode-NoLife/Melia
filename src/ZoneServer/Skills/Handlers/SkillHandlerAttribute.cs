@@ -29,8 +29,20 @@ namespace Melia.Zone.Skills.Handlers
 		}
 
 		/// <summary>
-		/// Creates new attribute for all skills that match the given
-		/// predicate.
+		/// Creates new attribute for all skills that have the given
+		/// use type.
+		/// </summary>
+		/// <param name="type"></param>
+		public SkillHandlerAttribute(SkillUseType type)
+		{
+			var matchingSkills = ZoneServer.Instance.Data.SkillDb.FindAll(a => a.UseType == type);
+
+			this.SkillIds = matchingSkills.Select(a => a.Id).ToArray();
+		}
+
+		/// <summary>
+		/// Creates new attribute for all skills that have the given
+		///	use type and match name pattern.
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="namePattern"></param>

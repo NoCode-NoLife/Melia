@@ -96,6 +96,9 @@ namespace Melia.Zone.World.Actors
 		/// <param name="otherEntity"></param>
 		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
 		{
+			if (otherEntity == null)
+				return;
+
 			entity.Direction = entity.Position.GetDirection(otherEntity.Position);
 			Send.ZC_ROTATE(entity);
 		}

@@ -15,10 +15,10 @@
 
 ServerHeaderFixed header;
 
-int targetHandle;
+int casterHandle;
 int skillId;
 float f1;
 float f2;
-int casterHandle; //?
+int targetHandle; //?
 position pos1;
 position pos2;
