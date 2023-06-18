@@ -146,8 +146,13 @@ namespace Melia.Zone.Buffs
 			this.Data = ZoneServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
 			this.Handler = ZoneServer.Instance.BuffHandlers.GetHandler(buffId);
 
-			if (this.Handler == null)
-				Log.Warning("Buff: No handler found for '{0}'.", buffId);
+			// Getting messages about missing handlers could be useful,
+			// but since there are buffs that literally do nothing on
+			// their own, we'd have to add dummy buff handlers to get
+			// rid of the messages, so we'll ignore missing handlers
+			// for now.
+			//if (this.Handler == null)
+			//	Log.Debug("Buff: No handler found for '{0}'.", buffId);
 
 			if (this.Duration == TimeSpan.MinValue)
 				this.Duration = this.Data.Duration;
