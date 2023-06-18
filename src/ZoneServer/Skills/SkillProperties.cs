@@ -20,6 +20,11 @@ namespace Melia.Zone.Skills
 		public Skill Skill { get; }
 
 		/// <summary>
+		/// Returns the skill's HitDelay property as a TimeSpan.
+		/// </summary>
+		public TimeSpan HitDelay => TimeSpan.FromMilliseconds(this.GetFloat(PropertyName.HitDelay));
+
+		/// <summary>
 		/// Creates new properties instance for the given skill.
 		/// </summary>
 		/// <param name="skill"></param>

@@ -28,7 +28,12 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns reference to the skill's properties.
 		/// </summary>
-		public Properties Properties { get; }
+		public SkillProperties Properties { get; }
+
+		/// <summary>
+		/// Returns reference to the skill's properties.
+		/// </summary>
+		Properties IPropertyHolder.Properties => this.Properties;
 
 		/// <summary>
 		/// Returns reference to the skill's owner.

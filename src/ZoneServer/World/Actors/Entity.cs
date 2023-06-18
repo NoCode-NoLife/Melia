@@ -113,8 +113,10 @@ namespace Melia.Zone.World.Actors
 				return true;
 
 			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
-			var sp = entity.Properties.GetFloat(PropertyName.SP);
+			if (spendSp == 0)
+				return true;
 
+			var sp = entity.Properties.GetFloat(PropertyName.SP);
 			if (sp < spendSp)
 				return false;
 
