@@ -1913,7 +1913,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Inform client that the skill is ready
+		/// Notifies the client that the skill is ready? Exact purpose
+		/// currently unknown.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>

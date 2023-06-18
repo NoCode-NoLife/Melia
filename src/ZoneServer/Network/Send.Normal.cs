@@ -371,22 +371,31 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unkown purpose yet. It could be a "target" packet. (this actor is targeting "id" actor
+			/// Appears to update information about a skill effect on the
+			/// clients in range of entity.
 			/// </summary>
+			/// <remarks>
+			/// Observed updating the origin position of the Earthquake
+			/// effect. Once the packet was sent once, the dust cloud
+			/// effect would always appear at the same location, even
+			/// when the packet was no longer sent. Only if it was
+			/// sent did the location update and the effect appeared
+			/// in the right place.
+			/// </remarks>
 			/// <param name="entity"></param>
-			/// <param name="handle"></param>
+			/// <param name="targetHandle"></param>
 			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
 			/// <param name="farPos"></param>
-			public static void Unkown_1c(ICombatEntity entity, int handle, Position originPos, Direction direction, Position farPos)
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Unkown_1D);
+				packet.PutInt(NormalOp.Zone.UpdateSkillEffect);
 
 				packet.PutInt(entity.Handle);
 				packet.PutInt(0);
 				packet.PutInt(0);
-				packet.PutInt(handle); // Target ActorId (seems to be)
+				packet.PutInt(targetHandle);
 				packet.PutPosition(originPos);
 				packet.PutDirection(direction);
 				packet.PutPosition(farPos);
