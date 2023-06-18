@@ -50,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitTime = skill.Data.HitTime.First();
-			var hitDelay = skill.Data.HitDelay;
+			var hitDelay = skill.Data.DefaultHitDelay;
 			var damageDelay = hitTime + hitDelay;
 
 			// It seems like some skills run on a timer, such as

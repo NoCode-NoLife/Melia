@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.MaxR, () => this.Skill.Data.MaxRange));
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Skill.Data.Cooldown));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Skill.Data.Factor));
-			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.HitDelay.TotalMilliseconds));
+			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.DefaultHitDelay.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SklSpdRate, () => 1f)); // Constant
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));

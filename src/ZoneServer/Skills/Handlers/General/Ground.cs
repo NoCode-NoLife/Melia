@@ -82,21 +82,21 @@ namespace Melia.Zone.Skills.Handlers.General
 						Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
 						Send.ZC_SYNC_START(characterCaster, 1234, 1);
 						Send.ZC_SYNC_END(characterCaster, 1234, 0);
-						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.HitDelay);
+						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.DefaultHitDelay);
 						Send.ZC_SKILL_MELEE_GROUND(characterCaster, skill, targetPosition, null);
 						Send.ZC_SYNC_EXEC(characterCaster, 1234);
 					}
 
 					for (var i = 0; i < 10; i++)
 					{
-						Task.Delay(skill.Data.HitDelay).ContinueWith(_ =>
+						Task.Delay(skill.Data.DefaultHitDelay).ContinueWith(_ =>
 						{
 							if (characterCaster != null)
 							{
 								Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
 								Send.ZC_SYNC_START(characterCaster, 1234, 1);
 								Send.ZC_SYNC_END(characterCaster, 1234, 0);
-								Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.HitDelay);
+								Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.DefaultHitDelay);
 								Send.ZC_SYNC_EXEC(characterCaster, 1234);
 							}
 
