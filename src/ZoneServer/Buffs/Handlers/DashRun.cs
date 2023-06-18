@@ -76,7 +76,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <returns></returns>
 		private float GetSpeedBonus(Character target)
 		{
-			return 10;
+			return 13;
 		}
 	}
 }
