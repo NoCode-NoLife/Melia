@@ -5776,6 +5776,24 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Util.Variables.ActivateOnce(System.String)">
+            <summary>
+            Sets the boolean value to true, returning false if the value
+            was already set to true.
+            </summary>
+            <remarks>
+            This operation is thread-safe, so only one source can activate
+            the bool.
+            </remarks>
+            <example>
+            if (!variables.ActivateOnce("AlreadyDidIt"))
+                return;
+            
+            OnlyDoThisOnce();
+            </example>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Util.Variables.Remove(System.String)">
             <summary>
             Removes the variable with the given name if it exists.

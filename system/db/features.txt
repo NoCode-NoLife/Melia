@@ -49,6 +49,10 @@
 	// Enables overriding properties of monsters added via spawners
 	{ name: "SpawnPropertyOverrides", enabled: true },
 	
+	// Enables direct healing for the Cleric Heal skill instead of
+	// spawning heal pads on the ground
+	{ name: "DirectClericHeal", enabled: true },
+	
 ]},
 
 // Let's enable certain features by default for now, as them being missing
@@ -56,4 +60,5 @@
 { name: "DashingForAll", enabled: true },
 { name: "ScoutJob", enabled: true },
 { name: "SpawnPropertyOverrides", enabled: true },
+{ name: "DirectClericHeal", enabled: true },
 ]

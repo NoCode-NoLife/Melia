@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Geometry;
+using Yggdrasil.Geometry.Shapes;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
@@ -42,65 +46,121 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var targetHandle = caster.Handle; // Where does the target handle come from?
 			var target = caster.Map.GetCombatEntity(targetHandle);
 
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, targetHandle, originPos, caster.Direction, Position.Zero);
+			this.ExecuteHeal(caster, target, skill);
+
+			var overloadDuration = TimeSpan.FromSeconds(3);
+			caster.Components.Get<BuffCollection>().Start(BuffId.Heal_Overload_Buff, overloadDuration);
+
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+		}
+
+		/// <summary>
+		/// Heals the target or spawns heal pads.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		private void ExecuteHeal(ICombatEntity caster, ICombatEntity target, Skill skill)
+		{
+			if (!Feature.IsEnabled("DirectClericHeal"))
+				this.TriggerHeal(caster, skill);
+			else
+				this.BuffHeal(target, skill);
+		}
+
+		/// <summary>
+		/// Heals target directly with a buff.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		private void BuffHeal(ICombatEntity target, Skill skill)
+		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
 			// TODO: Do we actually need the Heal_Buff? Feels like we could
 			//   just heal the target. But maybe there's a reason for it?
 			var ratio2 = 150f + (skill.Level - 1) * 103f;
 			var healDuration = TimeSpan.FromSeconds(1);
-			var overloadDuration = TimeSpan.FromSeconds(3);
 
-			target.Components.Get<BuffCollection>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
-			caster.Components.Get<BuffCollection>().Start(BuffId.Heal_Overload_Buff, overloadDuration);
-
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-
-			//this.SpawnHealingCircles(caster, skill);
+			target.Components.Get<BuffCollection>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, skill.Character);
 		}
 
-		//private void SpawnHealingCircles(ICombatEntity caster, Skill skill)
-		//{
-		//	var tileShape = new[]
-		//	{
-		//		10,  4,  1,  7,  13,
-		//		11,  5,  2,  8,  14,
-		//		12,  6,  3,  9,  15,
-		//	};
+		/// <summary>
+		/// Spawns heal pads on the ground that heal targets on contact.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		private void TriggerHeal(ICombatEntity caster, Skill skill)
+		{
+			var tileShape = new[]
+			{
+				10,  4,  1,  7,  13,
+				11,  5,  2,  8,  14,
+				12,  6,  3,  9,  15,
+			};
 
-		//	var refPos = caster.Position.GetRelative(caster.Direction, 30);
+			var refPos = caster.Position.GetRelative(caster.Direction, 30);
 
-		//	var level = skill.Level;
+			var level = skill.Level;
 
-		//	// As I currently don't have a log of the old Heal skill,
-		//	// we'll estimate the size of the tiles. The effect scale
-		//	// is about ~0.02 per unit.
-		//	var size = 20;
-		//	var scale = size * 0.02f;
+			// As I currently don't have a log of the old Heal skill,
+			// we'll estimate the size of the tiles. The effect scale
+			// is about ~0.02 per unit.
+			var size = 20;
+			var scale = size * 0.02f;
 
-		//	// Iterate over the shape array by row and column. Each value
-		//	// represents a skill level required for that tile to be
-		//	// spawned. If the caster's skill level is high enough, the
-		//	// x and y offsets are used to calculate the position on the
-		//	// tile grid and the monster is spawned.
-		//	for (var yi = 0; yi < 3; ++yi)
-		//	{
-		//		for (var xi = 0; xi < 5; ++xi)
-		//		{
-		//			var minLevel = tileShape[xi + yi * 5];
-		//			if (level < minLevel)
-		//				continue;
+			// Iterate over the shape array by row and column. Each value
+			// represents a skill level required for that tile to be
+			// spawned. If the caster's skill level is high enough, the
+			// x and y offsets are used to calculate the position on the
+			// tile grid and the monster is spawned.
+			for (var yi = 0; yi < 3; ++yi)
+			{
+				for (var xi = 0; xi < 5; ++xi)
+				{
+					var minLevel = tileShape[xi + yi * 5];
+					if (level < minLevel)
+						continue;
 
-		//			var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
-		//			pos = pos.GetRelative(caster.Direction, yi * size);
+					var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
+					pos = pos.GetRelative(caster.Direction, yi * size);
 
-		//			var monster = new Npc(12082, "", new Location(caster.Map.Id, pos), caster.Direction);
-		//			monster.DisappearTime = DateTime.Now.AddSeconds(4);
-		//			caster.Map.AddMonster(monster);
+					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
 
-		//			Send.ZC_NORMAL.AttachEffect(monster, "F_cleric_heal_loop_ground_cleric01_3", scale);
-		//		}
-		//	}
-		//}
+					var trigger = new Npc(12082, "", new Location(caster.Map.Id, pos), caster.Direction);
+					trigger.Vars.Set("Melia.HealSkill", skill);
+					trigger.SetTriggerArea(area);
+					trigger.SetEnterTrigger("CLERIC_HEAL_ENTER", this.OnEnterHealingPad);
+
+					trigger.DisappearTime = DateTime.Now.AddSeconds(10);
+					caster.Map.AddMonster(trigger);
+
+					Send.ZC_NORMAL.AttachEffect(trigger, "F_cleric_heal_loop_ground_cleric01_3", scale);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Called when a target enters a healing pad.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <returns></returns>
+		private Task OnEnterHealingPad(Dialog dialog)
+		{
+			var trigger = dialog.Npc;
+			var triggerer = dialog.Player;
+			var skill = trigger.Vars.Get<Skill>("Melia.HealSkill");
+
+			if (trigger.Vars.ActivateOnce("Melia.HealTriggered"))
+			{
+				this.BuffHeal(triggerer, skill);
+
+				Send.ZC_NORMAL.ClearEffects(trigger);
+				trigger.DisappearTime = DateTime.Now.AddSeconds(1);
+			}
+
+			return Task.CompletedTask;
+		}
 	}
 }
