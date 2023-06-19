@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
@@ -50,12 +51,49 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Plays class level up effect.
+			/// Attaches effect to actor.
 			/// </summary>
-			/// <param name="entity"></param>
+			/// <param name="actor"></param>
+			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AttachEffect);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutInt(3);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+
+				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
+			/// Removes all effects from actor.
+			/// </summary>
+			/// <param name="actor"></param>
+			public static void ClearEffects(IActor actor)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ClearEffects);
+				packet.PutInt(actor.Handle);
+
+				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
+			/// Plays given effect on actor.
+			/// </summary>
+			/// <param name="actor"></param>
 			/// <param name="packetString"></param>
 			/// <param name="scale"></param>
-			public static void PlayEffect(ICombatEntity entity, string packetString, float scale = 1)
+			public static void PlayEffect(IActor actor, string packetString, float scale = 1)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Packet string '{packetString}' not found.");
@@ -63,7 +101,7 @@ namespace Melia.Zone.Network
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
 
-				packet.PutInt(entity.Handle);
+				packet.PutInt(actor.Handle);
 				packet.PutByte(1);
 				packet.PutInt(2);
 				packet.PutByte(0);
@@ -71,7 +109,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt(0);
 
-				entity.Map.Broadcast(packet, entity);
+				actor.Map.Broadcast(packet, actor);
 			}
 
 			/// <summary>

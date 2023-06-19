@@ -30,6 +30,8 @@
 		{
 			public const int Unknown_06 = 0x06;
 			public const int LevelUp = 0x12;
+			public const int AttachEffect = 0x12;
+			public const int ClearEffects = 0x13;
 			public const int PlayEffect = 0x16;
 			public const int Skill_16 = 0x17;
 			public const int UpdateSkillEffect = 0x1F;
