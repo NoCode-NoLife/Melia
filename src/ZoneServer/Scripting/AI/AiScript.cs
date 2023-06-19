@@ -172,7 +172,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="otherEntity"></param>
 		/// <returns></returns>
-		protected virtual bool IsHostileTowards(ICombatEntity otherEntity)
+		public virtual bool IsHostileTowards(ICombatEntity otherEntity)
 		{
 			if (_hatedFactions.Contains(otherEntity.Faction))
 				return true;

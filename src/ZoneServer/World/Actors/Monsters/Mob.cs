@@ -348,7 +348,17 @@ namespace Melia.Zone.World.Actors.Monsters
 			// For now, let's specify that mobs can attack any combat
 			// entities, since we want them them to be able to attack
 			// both characters and other mobs.
-			return (entity is ICombatEntity);
+			//return (entity is ICombatEntity);
+
+			// New plan. Let's say that mobs can attack those entities
+			// they're hostile towards. That allows AoEs to ignore
+			// friendly entities. If the mob doesn't have an AI,
+			// it shouldn't need to be able to attack anything,
+			// so we return false in that case.
+			if (!this.Components.TryGet<AiComponent>(out var ai))
+				return false;
+
+			return ai.Script.IsHostileTowards(entity);
 		}
 
 		/// <summary>
