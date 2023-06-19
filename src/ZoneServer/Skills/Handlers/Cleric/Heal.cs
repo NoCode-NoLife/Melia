@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
@@ -60,5 +56,44 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
+
+		//private void SpawnHealingCircles(ICombatEntity caster, Skill skill)
+		//{
+		//	var tileShape = new[]
+		//	{
+		//		10,  4,  1,  7,  13,
+		//		11,  5,  2,  8,  14,
+		//		12,  6,  3,  9,  15,
+		//	};
+
+		//	var refPos = caster.Position.GetRelative(caster.Direction, 30);
+
+		//	var level = 10;
+		//	var size = 15;
+
+		//	// Iterate over the shape array by row and column. Each value
+		//	// represents a skill level required for that tile to be
+		//	// spawned. If the caster's skill level is high enough, the
+		//	// x and y offsets are used to calculate the position on the
+		//	// tile grid and the monster is spawned.
+		//	for (var yi = 0; yi < 3; ++yi)
+		//	{
+		//		for (var xi = 0; xi < 5; ++xi)
+		//		{
+		//			var minLevel = tileShape[xi + yi * 5];
+		//			if (level < minLevel)
+		//				continue;
+
+		//			var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
+		//			pos = pos.GetRelative(caster.Direction, yi * size);
+
+		//			var monster = new Npc(12082, "", new Location(caster.Map.Id, pos), caster.Direction);
+		//			monster.DisappearTime = DateTime.Now.AddSeconds(4);
+		//			caster.Map.AddMonster(monster);
+
+		//			Send.ZC_NORMAL.AttachEffect(monster, "F_cleric_heal_loop_ground_cleric01_3", 0.3f);
+		//		}
+		//	}
+		//}
 	}
 }
