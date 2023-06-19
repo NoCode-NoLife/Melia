@@ -1184,40 +1184,6 @@ namespace Melia.Zone.Network
 			{
 				Log.Error("CZ_SKILL_GROUND: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
 			}
-
-			// The following code is what has been observed from GROUND SKILL
-			// packet responses.
-
-			/*
-			var packetPosition1 = new Position(x1, y1, z1);
-			var packetPosition2 = new Position(x2, y2, z2);
-			var skillPosition = new Position(x1, y1, z1 - 20);
-			var packetDirection = new Direction(cos, sin);
-
-			var skillDirection = new Direction(0.707f, 0.707f);
-
-			// Player in Attack state (if not already)
-			Send.ZC_PC_ATKSTATE(character, true);
-
-			// Update caster's SP 
-			short consumedSp = 10;
-			Send.ZC_UPDATE_SP(character, consumedSp);
-
-			// Skill is ready to be casted ?
-			Send.ZC_SKILL_READY(character, skillId, packetPosition1, packetPosition2);
-
-			// Create skill in client
-			Send.ZC_NORMAL.Skill(character, skillId, skillPosition, skillDirection, true);
-
-			// Unkown Normal
-			Send.ZC_NORMAL.Unkown_1c(character, skillId, packetPosition1, skillDirection);
-
-			// Set range of effect
-			Send.ZC_SKILL_RANGE_FAN(character, skillId, packetPosition1, skillDirection);
-
-			// Broadcast action to all?
-			Send.ZC_SKILL_MELEE_GROUND(character, skillId, packetPosition1, packetDirection);
-			*/
 		}
 
 		/// <summary>
