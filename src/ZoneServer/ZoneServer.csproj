@@ -132,6 +132,7 @@
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\Handlers\Cleric\Heal.cs" />
+    <Compile Include="Skills\Handlers\Cleric\Smite.cs" />
     <Compile Include="Skills\Handlers\General\MeleeGround.cs" />
     <Compile Include="Skills\Handlers\General\Ground.cs" />
     <Compile Include="Skills\Handlers\Common\BasicProjectiles.cs" />
