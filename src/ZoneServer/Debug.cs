@@ -51,6 +51,23 @@ namespace Melia.Zone
 		}
 
 		/// <summary>
+		/// Temporarily places a monster at the given position.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="pos"></param>
+		/// <param name="duration"></param>
+		public static void ShowPosition(Map map, Position pos, TimeSpan? duration = null)
+		{
+			if (duration == null)
+				duration = TimeSpan.FromSeconds(5);
+
+			var monster = new Mob(10005, MonsterType.Friendly);
+			monster.Position = pos;
+			monster.DisappearTime = DateTime.Now.Add((TimeSpan)duration);
+			map.AddMonster(monster);
+		}
+
+		/// <summary>
 		/// Creates an image of the map's ground and saves it to the given
 		/// file path to help visualize potential problems.
 		/// </summary>
