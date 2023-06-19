@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Network;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -35,6 +36,7 @@ namespace Melia.Zone.Buffs.Handlers
 			healAmount *= ratio2 / 100f;
 
 			target.Heal(healAmount, 0);
+			Send.ZC_HEAL_INFO(target, healAmount, 0, HealType.Hp);
 		}
 	}
 }

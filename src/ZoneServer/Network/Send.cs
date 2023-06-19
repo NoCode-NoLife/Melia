@@ -2147,23 +2147,23 @@ namespace Melia.Zone.Network
 		/// Updates character's HP or SP and displays a floating text
 		/// with the modifier, notifying the player of the change.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="amount"></param>
 		/// <param name="max"></param>
 		/// <param name="type"></param>
-		public static void ZC_HEAL_INFO(Character character, int amount, int max, HealType type)
+		public static void ZC_HEAL_INFO(ICombatEntity entity, float amount, int max, HealType type)
 		{
 			var packet = new Packet(Op.ZC_HEAL_INFO);
 
-			packet.PutInt(character.Handle);
-			packet.PutInt(amount);
+			packet.PutInt(entity.Handle);
+			packet.PutInt((int)amount);
 			packet.PutInt(max);
 			packet.PutInt(1);
 			packet.PutInt(0);
 			packet.PutInt((int)type); // !0 = blue text
 			packet.PutInt(0);
 
-			character.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
