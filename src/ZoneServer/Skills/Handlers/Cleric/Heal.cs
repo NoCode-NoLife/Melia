@@ -29,12 +29,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			// Not sure if this is correct in any shape or form
-			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
-			var overloadBuffCount = caster.Components.Get<BuffCollection>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-			spendSp += (spendSp * 0.5f * overloadBuffCount);
-
-			if (!caster.TrySpendSp(spendSp))
+			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;

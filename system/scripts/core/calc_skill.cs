@@ -9,6 +9,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 
 public class SkillCalculationsScript : GeneralScript
 {
@@ -55,6 +56,25 @@ public class SkillCalculationsScript : GeneralScript
 		value += value * (byAbilityRate / 100f);
 
 		return (int)Math.Max(0, value);
+	}
+
+	/// <summary>
+	/// Returns the amount of SP spent when using the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Heal")]
+	public float SCR_Get_SpendSP_Cleric_Heal(Skill skill)
+	{
+		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
+
+		// Not sure if this is correct in any shape or form
+		var value = SCR_Get_SpendSP(skill);
+
+		var overloadBuffCount = skill.Character.Components.Get<BuffCollection>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		value += (value * 0.5f * overloadBuffCount);
+
+		return value;
 	}
 
 	/// <summary>
