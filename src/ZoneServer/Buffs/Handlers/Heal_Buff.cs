@@ -36,7 +36,9 @@ namespace Melia.Zone.Buffs.Handlers
 			healAmount *= ratio2 / 100f;
 
 			target.Heal(healAmount, 0);
-			Send.ZC_HEAL_INFO(target, healAmount, 0, HealType.Hp);
+
+			var maxHp = target.Properties.GetFloat(PropertyName.MHP);
+			Send.ZC_HEAL_INFO(target, healAmount, maxHp, HealType.Hp);
 		}
 	}
 }

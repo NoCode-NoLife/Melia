@@ -2151,13 +2151,13 @@ namespace Melia.Zone.Network
 		/// <param name="amount"></param>
 		/// <param name="max"></param>
 		/// <param name="type"></param>
-		public static void ZC_HEAL_INFO(ICombatEntity entity, float amount, int max, HealType type)
+		public static void ZC_HEAL_INFO(ICombatEntity entity, float amount, float maxHp, HealType type)
 		{
 			var packet = new Packet(Op.ZC_HEAL_INFO);
 
 			packet.PutInt(entity.Handle);
 			packet.PutInt((int)amount);
-			packet.PutInt(max);
+			packet.PutInt((int)maxHp);
 			packet.PutInt(1);
 			packet.PutInt(0);
 			packet.PutInt((int)type); // !0 = blue text
