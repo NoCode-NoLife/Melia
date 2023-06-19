@@ -45,6 +45,11 @@ namespace Melia.Zone.World.Maps
 		private readonly Dictionary<int, IMonster> _monsters = new Dictionary<int, IMonster>();
 
 		/// <summary>
+		/// Collection of trigger areas on the map.
+		/// </summary>
+		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
+
+		/// <summary>
 		/// Collection of monster spawners.
 		/// </summary>
 		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
@@ -199,6 +204,9 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		private void UpdateVisibility()
 		{
+			// TODO: Someone remind me why we're doing this here...
+			//   Why is this not inside Character.Update?
+
 			// Same challenge as in UpdateEntities, LookAround queries
 			// the visible characters while locking them to iterate
 			// them, which can cause a deadlock if another thread
@@ -359,6 +367,12 @@ namespace Melia.Zone.World.Maps
 					_combatEntities[monster.Handle] = entity;
 			}
 
+			if (monster is ITriggerableArea trigger)
+			{
+				lock (_triggerableAreas)
+					_triggerableAreas[monster.Handle] = trigger;
+			}
+
 			// Update visibily after adding the monster, so it gets sent
 			// to the clients right away, and then disable FromGround,
 			// which is supposed to only be true once, when the monster
@@ -381,8 +395,23 @@ namespace Melia.Zone.World.Maps
 			lock (_combatEntities)
 				_combatEntities.Remove(monster.Handle);
 
+			lock (_combatEntities)
+				_triggerableAreas.Remove(monster.Handle);
+
 			monster.Map = null;
 			this.UpdateVisibility();
+		}
+
+		/// <summary>
+		/// Returns all triggerable areas that overlap with the given
+		/// position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public ITriggerableArea[] GetTriggerableAreasAt(Position pos)
+		{
+			lock (_triggerableAreas)
+				return _triggerableAreas.Values.Where(a => a.Area?.IsInside(pos) ?? false).ToArray();
 		}
 
 		/// <summary>

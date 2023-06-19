@@ -8,6 +8,7 @@ using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -31,6 +32,7 @@ namespace Melia.Zone.World.Actors.Characters
 		private readonly object _hpLock = new object();
 		private IMonster[] _visibleMonsters = new IMonster[0];
 		private Character[] _visibleCharacters = new Character[0];
+		private ITriggerableArea[] _triggerAreas = new ITriggerableArea[0];
 
 		/// <summary>
 		/// Connection this character uses.
@@ -389,6 +391,52 @@ namespace Melia.Zone.World.Actors.Characters
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
+
+			// TODO: Add Movement to Character and do this there, where
+			//   it belongs. That will also technically allow monsters
+			//   to enter trigger areas, which we'll likely need.
+			this.UpdateTriggerAreas();
+		}
+
+		/// <summary>
+		/// Updates trigger areas and triggers relevant ones.
+		/// </summary>
+		private void UpdateTriggerAreas()
+		{
+			var prevTriggerAreas = _triggerAreas;
+			var triggerAreas = this.Map.GetTriggerableAreasAt(this.Position);
+
+			if (prevTriggerAreas.Length == 0 && triggerAreas.Length == 0)
+				return;
+
+			var enteredTriggerAreas = triggerAreas.Except(prevTriggerAreas);
+			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
+
+			foreach (var triggerArea in enteredTriggerAreas)
+			{
+				if (triggerArea.EnterFunc == null)
+					continue;
+
+				if (triggerArea is Npc npc)
+				{
+					var dialog = new Dialog(this, npc);
+					triggerArea.EnterFunc.Invoke(dialog);
+				}
+			}
+
+			foreach (var triggerArea in leftTriggerAreas)
+			{
+				if (triggerArea.LeaveFunc == null)
+					continue;
+
+				if (triggerArea is Npc npc)
+				{
+					var dialog = new Dialog(this, npc);
+					triggerArea.LeaveFunc.Invoke(dialog);
+				}
+			}
+
+			_triggerAreas = triggerAreas;
 		}
 
 		/// <summary>

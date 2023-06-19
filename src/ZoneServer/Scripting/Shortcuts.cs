@@ -114,7 +114,11 @@ namespace Melia.Zone.Scripting
 			var location = new Location(mapObj.Id, pos);
 			var dir = new Direction(direction);
 
-			var monster = new Npc(monsterId, name, location, dir, dialog);
+			var monster = new Npc(monsterId, name, location, dir);
+
+			if (dialog != null)
+				monster.SetClickTrigger("DYNAMIC_DIALOG", dialog);
+
 			mapObj.AddMonster(monster);
 
 			return monster;
