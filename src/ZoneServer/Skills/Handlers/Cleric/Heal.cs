@@ -12,7 +12,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman
+namespace Melia.Zone.Skills.Handlers.Cleric
 {
 	/// <summary>
 	/// Handler for the Cleric skill Heal.

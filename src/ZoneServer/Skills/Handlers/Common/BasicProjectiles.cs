@@ -8,7 +8,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.General
+namespace Melia.Zone.Skills.Handlers.Common
 {
 	/// <summary>
 	/// Handles skills of use type Force.

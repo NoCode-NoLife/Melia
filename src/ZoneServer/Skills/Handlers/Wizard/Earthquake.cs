@@ -12,7 +12,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman
+namespace Melia.Zone.Skills.Handlers.Wizard
 {
 	/// <summary>
 	/// Handler for the Wizard skill Earthquake.

@@ -2149,7 +2149,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="amount"></param>
-		/// <param name="max"></param>
+		/// <param name="maxHp"></param>
 		/// <param name="type"></param>
 		public static void ZC_HEAL_INFO(ICombatEntity entity, float amount, float maxHp, HealType type)
 		{
