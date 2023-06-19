@@ -55,6 +55,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			caster.Components.Get<BuffCollection>().Start(BuffId.Heal_Overload_Buff, overloadDuration);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+
+			//this.SpawnHealingCircles(caster, skill);
 		}
 
 		//private void SpawnHealingCircles(ICombatEntity caster, Skill skill)
@@ -68,8 +70,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 		//	var refPos = caster.Position.GetRelative(caster.Direction, 30);
 
-		//	var level = 10;
-		//	var size = 15;
+		//	var level = skill.Level;
+
+		//	// As I currently don't have a log of the old Heal skill,
+		//	// we'll estimate the size of the tiles. The effect scale
+		//	// is about ~0.02 per unit.
+		//	var size = 20;
+		//	var scale = size * 0.02f;
 
 		//	// Iterate over the shape array by row and column. Each value
 		//	// represents a skill level required for that tile to be
@@ -91,7 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		//			monster.DisappearTime = DateTime.Now.AddSeconds(4);
 		//			caster.Map.AddMonster(monster);
 
-		//			Send.ZC_NORMAL.AttachEffect(monster, "F_cleric_heal_loop_ground_cleric01_3", 0.3f);
+		//			Send.ZC_NORMAL.AttachEffect(monster, "F_cleric_heal_loop_ground_cleric01_3", scale);
 		//		}
 		//	}
 		//}
