@@ -4,7 +4,6 @@
 // Auto-generated list of monster ids for easy access.
 //---------------------------------------------------------------------------
 
-#pragma warning disable IDE1006 // Naming Conventions
 public static class MonsterId
 {
 	// Item
@@ -6673,4 +6672,3 @@ public static class MonsterId
 	public const int Fishing_Sign = 150008;
 	public const int Reputation_Board1 = 157106;
 }
-#pragma warning restore IDE1006 // Naming Conventions

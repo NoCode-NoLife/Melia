@@ -514,7 +514,7 @@ namespace Melia.Zone.Commands
 
 				monster.Position = pos;
 				monster.Direction = dir;
-				monster.Components.Add(new Movement(monster));
+				monster.Components.Add(new MovementComponent(monster));
 
 				if (args.TryGet("hp", out var hpStr))
 				{
@@ -1551,7 +1551,7 @@ namespace Melia.Zone.Commands
 			{
 				Send.ZC_NORMAL.Cutscene(target, false, false, false);
 
-				target.Components.Remove<Movement>();
+				target.Components.Remove<MovementComponent>();
 				target.Components.Remove<AiComponent>();
 
 				if (args.Count == 0)
@@ -1575,7 +1575,7 @@ namespace Melia.Zone.Commands
 				// packets.
 				Send.ZC_NORMAL.Cutscene(target, true, false, false);
 
-				target.Components.Add(new Movement(target));
+				target.Components.Add(new MovementComponent(target));
 				target.Components.Add(new AiComponent(target, aiName));
 
 				sender.ServerMessage("Enabled '{0}' AI.", aiName);

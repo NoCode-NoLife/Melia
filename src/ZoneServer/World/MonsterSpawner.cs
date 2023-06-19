@@ -168,7 +168,7 @@ namespace Melia.Zone.World
 
 				this.OverrideProperties(monster);
 
-				monster.Components.Add(new Movement(monster));
+				monster.Components.Add(new MovementComponent(monster));
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
 				_map.AddMonster(monster);

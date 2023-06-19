@@ -12,7 +12,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// <summary>
 	/// Job collection.
 	/// </summary>
-	public class Jobs : CharacterComponent
+	public class JobComponent : CharacterComponent
 	{
 		private static readonly Regex JobClassName = new Regex(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
 
@@ -22,7 +22,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="character"></param>
-		public Jobs(Character character) : base(character)
+		public JobComponent(Character character) : base(character)
 		{
 		}
 

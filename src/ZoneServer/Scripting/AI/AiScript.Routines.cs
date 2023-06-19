@@ -64,7 +64,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected IEnumerable MoveTo(Position destination, bool wait = true)
 		{
-			var movement = this.Entity.Components.Get<Movement>();
+			var movement = this.Entity.Components.Get<MovementComponent>();
 			var moveTime = movement.MoveTo(destination);
 
 			if (wait)
@@ -79,7 +79,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected IEnumerable StopMove()
 		{
-			this.Entity.Components.Get<Movement>().Stop();
+			this.Entity.Components.Get<MovementComponent>().Stop();
 			yield break;
 		}
 

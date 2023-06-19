@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// <summary>
 	/// Represents a character's inventory.
 	/// </summary>
-	public class Inventory : CharacterComponent
+	public class InventoryComponent : CharacterComponent
 	{
 		private readonly object _syncLock = new object();
 
@@ -32,7 +32,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
-		public Inventory(Character character) : base(character)
+		public InventoryComponent(Character character) : base(character)
 		{
 			foreach (InventoryCategory category in Enum.GetValues(typeof(InventoryCategory)))
 				_items.Add(category, new List<Item>());

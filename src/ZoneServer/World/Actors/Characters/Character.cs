@@ -107,7 +107,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// what items they can equip, but they can have various jobs,
 		/// that all come with their own skills and abilities.
 		/// </remarks>
-		public Jobs Jobs { get; }
+		public JobComponent Jobs { get; }
 
 		/// <summary>
 		/// Character's gender.
@@ -152,7 +152,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// The character's inventory.
 		/// </summary>
-		public Inventory Inventory { get; }
+		public InventoryComponent Inventory { get; }
 
 		/// <summary>
 		/// Gets or set the character's greeting message.
@@ -269,17 +269,17 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Character's skills.
 		/// </summary>
-		public CharacterSkills Skills { get; }
+		public SkillComponent Skills { get; }
 
 		/// <summary>
 		/// Character's abilities.
 		/// </summary>
-		public Abilities Abilities { get; }
+		public AbilityComponent Abilities { get; }
 
 		/// <summary>
 		/// Character's buffs.
 		/// </summary>
-		public BuffCollection Buffs { get; }
+		public BuffComponent Buffs { get; }
 
 		/// <summary>
 		/// Character's properties.
@@ -316,12 +316,12 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public Character() : base()
 		{
-			this.Components.Add(this.Inventory = new Inventory(this));
-			this.Components.Add(this.Jobs = new Jobs(this));
-			this.Components.Add(this.Skills = new CharacterSkills(this));
-			this.Components.Add(this.Abilities = new Abilities(this));
-			this.Components.Add(this.Buffs = new BuffCollection(this));
-			this.Components.Add(new Recovery(this));
+			this.Components.Add(this.Inventory = new InventoryComponent(this));
+			this.Components.Add(this.Jobs = new JobComponent(this));
+			this.Components.Add(this.Skills = new SkillComponent(this));
+			this.Components.Add(this.Abilities = new AbilityComponent(this));
+			this.Components.Add(this.Buffs = new BuffComponent(this));
+			this.Components.Add(new RecoveryComponent(this));
 			this.Components.Add(new CombatComponent(this));
 
 			this.Properties = new CharacterProperties(this);

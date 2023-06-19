@@ -478,11 +478,6 @@
             Base interface for components.
             </summary>
         </member>
-        <member name="T:Yggdrasil.Composition.IUpdatableComponent">
-            <summary>
-            Base interface for updatable components.
-            </summary>
-        </member>
         <member name="T:Yggdrasil.Composition.ComponentCollection">
             <summary>
             A collection of components for an entity.
@@ -5786,10 +5781,8 @@
             the bool.
             </remarks>
             <example>
-            if (!variables.ActivateOnce("AlreadyDidIt"))
-                return;
-            
-            OnlyDoThisOnce();
+            if (variables.ActivateOnce("AlreadyDidIt"))
+                OnlyDoThisOnce();
             </example>
             <param name="name"></param>
             <returns></returns>

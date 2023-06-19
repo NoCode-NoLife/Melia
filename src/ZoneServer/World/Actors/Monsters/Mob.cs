@@ -177,7 +177,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Monster's buffs.
 		/// </summary>
-		public BuffCollection Buffs { get; }
+		public BuffComponent Buffs { get; }
 
 		/// <summary>
 		/// Creates new NPC.
@@ -187,7 +187,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Id = id;
 			this.MonsterType = type;
 
-			this.Components.Add(this.Buffs = new BuffCollection(this));
+			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new CombatComponent(this));
 
 			this.LoadData();

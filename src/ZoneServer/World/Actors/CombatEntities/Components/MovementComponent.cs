@@ -2,14 +2,14 @@
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Yggdrasil.Composition;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
 	/// <summary>
 	/// A component that controls an entity's movement.
 	/// </summary>
-	public class Movement : CombatEntityComponent, IUpdatableComponent
+	public class MovementComponent : CombatEntityComponent, IUpdateable
 	{
 		private readonly object _positionSyncLock = new object();
 		private double _moveX, _moveZ;
@@ -30,7 +30,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// Creates new movement component.
 		/// </summary>
 		/// <param name="entity"></param>
-		public Movement(ICombatEntity entity) : base(entity)
+		public MovementComponent(ICombatEntity entity) : base(entity)
 		{
 		}
 

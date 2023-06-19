@@ -9,7 +9,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class CharacterSkills : CharacterComponent
+	public class SkillComponent : CharacterComponent
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 
@@ -17,7 +17,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Creates new instance for character.
 		/// </summary>
 		/// <param name="character"></param>
-		public CharacterSkills(Character character) : base(character)
+		public SkillComponent(Character character) : base(character)
 		{
 		}
 

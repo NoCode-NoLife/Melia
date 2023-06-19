@@ -3429,7 +3429,7 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_LIST(ICombatEntity entity)
 		{
-			var buffs = entity.Components.Get<BuffCollection>();
+			var buffs = entity.Components.Get<BuffComponent>();
 			var buffCount = buffs?.Count ?? 0;
 
 			var packet = new Packet(Op.ZC_BUFF_LIST);

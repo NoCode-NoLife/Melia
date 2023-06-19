@@ -71,7 +71,7 @@ public class SkillCalculationsScript : GeneralScript
 		// Not sure if this is correct in any shape or form
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Character.Components.Get<BuffCollection>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		var overloadBuffCount = skill.Character.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
 		value += (value * 0.5f * overloadBuffCount);
 
 		return value;
