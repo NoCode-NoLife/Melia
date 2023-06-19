@@ -11,10 +11,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Common
 {
 	/// <summary>
-	/// Handles skills of use type Force.
+	/// Handles ranged skills that target a single entity.
 	/// </summary>
 	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack)]
-	public class BasicProjectiles : ITargetSkillHandler
+	public class TargetSkill : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles usage of the skill.

@@ -11,11 +11,12 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.General
+namespace Melia.Zone.Skills.Handlers.Common
 {
 	/// <summary>
-	/// Generic handler for melee ground skills.
+	/// Handles melee skills targeting the ground in front of the caster.
 	/// </summary>
+	[SkillHandler(SkillId.Normal_Attack, SkillId.Hammer_Attack, SkillId.Common_DaggerAries)]
 	public class MeleeGroundSkillHandler : IMeleeGroundSkillHandler
 	{
 		/// <summary>
