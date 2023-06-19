@@ -20,7 +20,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 	public interface IGroundSkillHandler : ISkillHandler
 	{
-		void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos);
+		void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target);
 	}
 
 	public interface IMeleeGroundSkillHandler : ISkillHandler

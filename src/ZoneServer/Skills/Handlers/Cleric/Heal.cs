@@ -27,7 +27,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
+		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			// Not sure if this is correct in any shape or form
 			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
@@ -42,9 +42,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			skill.IncreaseOverheat();
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
-
-			var targetHandle = caster.Handle; // Where does the target handle come from?
-			var target = caster.Map.GetCombatEntity(targetHandle);
 
 			this.ExecuteHeal(caster, target, skill);
 

@@ -14,13 +14,14 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
+
 byte b1;
 int skillId;
-int targetHandle; // ?
+int i3;
 position originPosition;
 position castPosition;
 direction castDirection;
-int casterHandle; // Different from handleId
+int targetHandle;
 int i1;
 byte b2;
 int i2;

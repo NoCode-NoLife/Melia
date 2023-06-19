@@ -27,7 +27,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
+		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity designatedTarget)
 		{
 			if (!caster.TrySpendSp(skill))
 			{

@@ -1142,13 +1142,14 @@ namespace Melia.Zone.Network
 		{
 			var unk1 = packet.GetByte();
 			var skillId = (SkillId)packet.GetInt();
-			var targetHandle = packet.GetInt();
+			var i3 = packet.GetInt();
 			var originPos = packet.GetPosition();
 			var farPos = packet.GetPosition();
 			var direction = packet.GetDirection();
-			var handle = packet.GetInt(); // This seems to be "target actorId"
-			var unk6 = packet.GetByte();
-			var unk7 = packet.GetByte();
+			var targetHandle = packet.GetInt();
+			var i1 = packet.GetInt();
+			var unk2 = packet.GetByte();
+			var i2 = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
 
@@ -1156,6 +1157,14 @@ namespace Melia.Zone.Network
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check target
+			ICombatEntity target = null;
+			if (targetHandle != 0 && !character.Map.TryGetCombatEntity(targetHandle, out target))
+			{
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use skill '{1}' on a non-existing target.", conn.Account.Name, skill.Id);
 				return;
 			}
 
@@ -1169,7 +1178,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				handler.Handle(skill, character, originPos, farPos);
+				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
 			{

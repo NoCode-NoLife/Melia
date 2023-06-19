@@ -18,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.General
 	/// </summary>
 	public class GroundSkillHandler : IGroundSkillHandler
 	{
-		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition)
+		public void Handle(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition, ICombatEntity designatedTarget)
 		{
 			var castedRange = castPosition.Get3DDistance(targetPosition);
 			if (castedRange > skill.Data.MaxRange)
