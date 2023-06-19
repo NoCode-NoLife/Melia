@@ -83,6 +83,7 @@ namespace Melia.Zone.Commands
 			this.Add("ai", "[ai name]", "Activates AI for character.", this.HandleAi);
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
+			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -1710,6 +1711,39 @@ namespace Melia.Zone.Commands
 					break;
 				}
 			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Enables or disables features.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleFeature(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 2)
+				return CommandResult.InvalidArgument;
+
+			var featureName = args.Get(0);
+			var enabled = args.Get(1) == "true";
+
+			if (!ZoneServer.Instance.Data.FeatureDb.TryFind(featureName, out var feature))
+			{
+				sender.ServerMessage(Localization.Get("Feature '{0}' not found."), featureName);
+				return CommandResult.Okay;
+			}
+
+			feature.Enable(enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
+			else
+				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
 
 			return CommandResult.Okay;
 		}
