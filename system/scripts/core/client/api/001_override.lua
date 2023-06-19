@@ -6,10 +6,11 @@ end
 
 Melia.BackupIn = function(parent, original)
 	local backupName = "MeliaBackup__" .. original;
-	local backup = parent["MeliaBackup__" .. original]
+	local backup = parent[backupName]
 	
 	if not backup then
 		backup = parent[original]
+		parent[backupName] = backup
 	end
 	
 	return backup
