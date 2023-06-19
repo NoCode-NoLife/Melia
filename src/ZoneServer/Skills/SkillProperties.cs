@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
@@ -47,11 +48,11 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.Level, () => this.Skill.Level));
 			this.Create(new RFloatProperty(PropertyName.LevelByDB, () => this.Skill.Level));
 
-			this.Create(PropertyName.SpendSP, "SCR_Get_SpendSP");
-			this.Create(PropertyName.SpendSta, "SCR_Skill_STA");
-			this.Create(PropertyName.WaveLength, "SCR_Get_WaveLength");
-			this.Create(PropertyName.SplAngle, "SCR_SPLANGLE");
-			this.Create(PropertyName.SplRange, "SCR_Get_SplRange");
+			this.Create(new RFloatProperty(PropertyName.SpendSP, () => this.CalculateProperty("SCR_Get_SpendSP")));
+			this.Create(new RFloatProperty(PropertyName.SpendSta, () => this.CalculateProperty("SCR_Skill_STA")));
+			this.Create(new RFloatProperty(PropertyName.WaveLength, () => this.CalculateProperty("SCR_Get_WaveLength")));
+			this.Create(new RFloatProperty(PropertyName.SplAngle, () => this.CalculateProperty("SCR_SPLANGLE")));
+			this.Create(new RFloatProperty(PropertyName.SplRange, () => this.CalculateProperty("SCR_Get_SplRange")));
 
 			// While a property named SR exists for skills, it doesn't seem
 			// to be used in the property calculations. Instead, there's
@@ -62,7 +63,7 @@ namespace Melia.Zone.Skills
 			// do that...
 			//this.Create(new RFloatProperty(PropertyName.SR, () => this.Skill.Data.SplashRate));
 			this.Create(new RFloatProperty(PropertyName.SklSR, () => this.Skill.Data.SplashRate));
-			this.Create(PropertyName.SkillSR, "SCR_GET_SR_LV");
+			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));
 
 			this.Create(new RFloatProperty(PropertyName.MaxR, () => this.Skill.Data.MaxRange));
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Skill.Data.Cooldown));
@@ -92,10 +93,10 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		/// <param name="propertyName"></param>
 		/// <param name="calcFuncName"></param>
-		private void Create(string propertyName, string calcFuncName)
-		{
-			this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
-		}
+		//private void Create(string propertyName, string calcFuncName)
+		//{
+		//	this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
+		//}
 
 		/// <summary>
 		/// Calls the calculation function with the given name and returns
@@ -108,8 +109,14 @@ namespace Melia.Zone.Skills
 		/// </exception>
 		private float CalculateProperty(string calcFuncName)
 		{
-			if (!ScriptableFunctions.Skill.TryGet(calcFuncName, out var func))
-				throw new ArgumentException($"Scriptable skill function '{calcFuncName}' not found.");
+			// Custom calculation methods can be defined for skills by
+			// creating functions that are suffixed with the skill class
+			// name.
+			if (!ScriptableFunctions.Skill.TryGet(calcFuncName + "_" + this.Skill.Data.ClassName, out var func))
+			{
+				if (!ScriptableFunctions.Skill.TryGet(calcFuncName, out func))
+					throw new ArgumentException($"Scriptable skill function '{calcFuncName}' not found.");
+			}
 
 			return func(this.Skill);
 		}
