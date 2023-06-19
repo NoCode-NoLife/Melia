@@ -30,27 +30,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Plays level up effect.
-			/// </summary>
-			/// <param name="character"></param>
-			public static void LevelUp(Character character)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.LevelUp);
-				packet.PutInt(character.Handle);
-				packet.PutShort(8351);
-				packet.PutShort(39);
-				packet.PutFloat(6); // Effect size
-				packet.PutInt(2);
-				packet.PutEmptyBin(4);
-				packet.PutFloat(1);
-				packet.PutEmptyBin(4);
-				packet.PutEmptyBin(4);
-
-				character.Map.Broadcast(packet, character);
-			}
-
-			/// <summary>
 			/// Attaches effect to actor.
 			/// </summary>
 			/// <param name="actor"></param>
