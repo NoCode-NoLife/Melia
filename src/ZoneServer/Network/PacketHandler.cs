@@ -2179,7 +2179,27 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
 		public void CZ_REQ_LEARN_ABILITY(IZoneConnection conn, Packet packet)
 		{
+			var abilities = new Dictionary<AbilityId, int>();
+
+			var size = packet.GetShort();
 			var type = packet.GetString(32);
+			var count = packet.GetInt();
+
+			for (var i = 0; i < count; i++)
+			{
+				var abilityId = (AbilityId)packet.GetInt();
+				var level = packet.GetInt();
+
+				abilities[abilityId] = level;
+			}
+
+			var character = conn.SelectedCharacter;
+
+			Log.Debug("CZ_REQ_LEARN_ABILITY: {0}", type);
+			foreach (var ability in abilities)
+			{
+				Log.Debug("  Id: {0}, Levels: {1}", ability.Key, ability.Value);
+			}
 		}
 
 		/// <summary>
