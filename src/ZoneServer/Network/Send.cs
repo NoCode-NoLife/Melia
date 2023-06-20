@@ -629,12 +629,23 @@ namespace Melia.Zone.Network
 		/// Sends a list of cooldowns to the client to update them.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_COOLDOWN_LIST(Character character)
+		/// <param name="cooldowns"></param>
+		public static void ZC_COOLDOWN_LIST(Character character, IEnumerable<Cooldown> cooldowns)
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_LIST);
 
 			packet.PutLong(character.ObjectId);
-			packet.PutInt(0); // ?
+			packet.PutInt(cooldowns?.Count() ?? 0);
+
+			if (cooldowns != null)
+			{
+				foreach (var cooldown in cooldowns)
+				{
+					packet.PutInt((int)cooldown.Id);
+					packet.PutInt((int)cooldown.Remaining.TotalMilliseconds);
+					packet.PutInt((int)cooldown.Duration.TotalMilliseconds);
+				}
+			}
 
 			character.Connection.Send(packet);
 		}

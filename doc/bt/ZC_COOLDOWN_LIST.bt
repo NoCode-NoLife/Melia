@@ -15,15 +15,14 @@
 typedef struct
 {
     int cooldownId;
-    int cooldownValue;
-    int i1;
-} Cooldown <optimize=false>;
+    int remaining;
+    int duration;
+}
+Cooldown <optimize=false>;
 
 ServerHeaderDynamic header;
+
 int64 characterId;
 int count;
-
 if (count > 0)
-{
     Cooldown cooldowns[count];
-}
