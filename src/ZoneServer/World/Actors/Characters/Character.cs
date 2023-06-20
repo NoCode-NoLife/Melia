@@ -45,20 +45,19 @@ namespace Melia.Zone.World.Actors.Characters
 		public string Username => this.Connection.Account.Name;
 
 		/// <summary>
-		/// Character's unique id.
+		/// Gets or sets the character's unique database id.
 		/// </summary>
-		public long Id { get; set; }
+		public long DbId { get; set; }
 
 		/// <summary>
-		/// Character's globally unique id.
+		/// Returns the character's globally unique id.
 		/// </summary>
-		/// <remarks>
-		/// This is basically the same as Id... but until we're entirely
-		/// sure this object business works the way we think it does,
-		/// I'll leave it as a reference. At least it seems like the
-		/// id doesn't change across play sessions.
-		/// </remarks>
-		public long ObjectId => this.Id;
+		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
+
+		/// <summary>
+		/// Returns the character's globally unique id on the social server.
+		/// </summary>
+		public long SocialUserId => ObjectIdRanges.SocialUser + this.DbId;
 
 		/// <summary>
 		/// Id of the character's account.

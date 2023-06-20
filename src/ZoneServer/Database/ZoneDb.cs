@@ -109,7 +109,7 @@ namespace Melia.Zone.Database
 					if (!reader.Read())
 						return null;
 
-					character.Id = reader.GetInt64("characterId");
+					character.DbId = reader.GetInt64("characterId");
 					character.AccountId = accountId;
 					character.Name = reader.GetStringSafe("name");
 					character.TeamName = reader.GetStringSafe("teamName");
@@ -144,13 +144,13 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
-			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.Id);
+			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
-			this.LoadProperties("character_properties", "characterId", character.Id, character.Properties);
+			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -181,7 +181,7 @@ namespace Melia.Zone.Database
 			{
 				using (var mc = new MySqlCommand("SELECT * FROM `skills` WHERE `characterId` = @characterId", conn))
 				{
-					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 					using (var reader = mc.ExecuteReader())
 					{
@@ -211,7 +211,7 @@ namespace Melia.Zone.Database
 			{
 				using (var mc = new MySqlCommand("SELECT * FROM `abilities` WHERE `characterId` = @characterId", conn))
 				{
-					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 					using (var reader = mc.ExecuteReader())
 					{
@@ -240,7 +240,7 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `jobs` WHERE `characterId` = @characterId", conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", character.Id);
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 				using (var reader = mc.ExecuteReader())
 				{
@@ -272,13 +272,13 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `session_objects_properties` WHERE `characterId` = @characterId", conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", character.Id);
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 				using (var reader = mc.ExecuteReader())
 				{
 					while (reader.Read())
 					{
-						var sessionObjectId = reader.GetInt32("sessionObjectId");
+						var sessionObjectId = reader.GetInt32("sessionObjectId"); // session object's class id
 						var propertyName = reader.GetString("name");
 						var typeStr = reader.GetString("type");
 						var valueStr = reader.GetString("value");
@@ -325,7 +325,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new MySqlCommand("DELETE FROM `session_objects_properties` WHERE `characterId` = @characterId AND `sessionObjectId` = @sessionObjectId", conn, trans))
 					{
-						cmd.Parameters.AddWithValue("@characterId", character.Id);
+						cmd.Parameters.AddWithValue("@characterId", character.DbId);
 						cmd.Parameters.AddWithValue("@sessionObjectId", sessionObject.Id);
 						cmd.ExecuteNonQuery();
 					}
@@ -338,7 +338,7 @@ namespace Melia.Zone.Database
 
 						using (var cmd = new InsertCommand("INSERT INTO `session_objects_properties` {0}", conn, trans))
 						{
-							cmd.Set("characterId", character.Id);
+							cmd.Set("characterId", character.DbId);
 							cmd.Set("sessionObjectId", sessionObject.Id);
 							cmd.Set("name", property.Ident);
 							cmd.Set("type", typeStr);
@@ -365,7 +365,7 @@ namespace Melia.Zone.Database
 			{
 				var characterProperties = (CharacterProperties)character.Properties;
 
-				cmd.AddParameter("@characterId", character.Id);
+				cmd.AddParameter("@characterId", character.DbId);
 				cmd.Set("name", character.Name);
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
@@ -386,9 +386,9 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveCharacterItems(character);
-			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.Id);
+			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
-			this.SaveProperties("character_properties", "characterId", character.Id, character.Properties);
+			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
@@ -408,7 +408,7 @@ namespace Melia.Zone.Database
 			{
 				using (var cmd = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
 				{
-					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
 					cmd.ExecuteNonQuery();
 				}
 
@@ -417,7 +417,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", skill.Id);
 						cmd.Set("level", skill.Level);
 						cmd.Execute();
@@ -441,7 +441,7 @@ namespace Melia.Zone.Database
 			{
 				using (var cmd = new MySqlCommand("DELETE FROM `abilities` WHERE `characterId` = @characterId", conn, trans))
 				{
-					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
 					cmd.ExecuteNonQuery();
 				}
 
@@ -450,7 +450,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `abilities` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", ability.Id);
 						cmd.Set("level", ability.Level);
 						cmd.Execute();
@@ -476,7 +476,7 @@ namespace Melia.Zone.Database
 			{
 				using (var cmd = new MySqlCommand("DELETE FROM `jobs` WHERE `characterId` = @characterId", conn, trans))
 				{
-					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
 					cmd.ExecuteNonQuery();
 				}
 
@@ -484,7 +484,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("jobId", job.Id);
 						cmd.Set("circle", job.Circle);
 						cmd.Set("skillPoints", job.SkillPoints);
@@ -508,7 +508,7 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT `i`.*, `inv`.`sort`, `inv`.`equipSlot` FROM `inventory` AS `inv` INNER JOIN `items` AS `i` ON `inv`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", character.Id);
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 				using (var reader = mc.ExecuteReader())
 				{
@@ -548,7 +548,7 @@ namespace Melia.Zone.Database
 			{
 				using (var mc = new MySqlCommand("DELETE FROM `inventory` WHERE `characterId` = @characterId", conn, trans))
 				{
-					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
 					mc.ExecuteNonQuery();
 				}
 
@@ -575,7 +575,7 @@ namespace Melia.Zone.Database
 
 					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
 						cmd.Set("sort", i++);
 						cmd.Set("equipSlot", 0x7F);
@@ -603,7 +603,7 @@ namespace Melia.Zone.Database
 
 					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
 						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", (byte)item.Key);
@@ -892,7 +892,7 @@ namespace Melia.Zone.Database
 			{
 				using (var cmd = new MySqlCommand("DELETE FROM `buffs` WHERE `characterId` = @characterId", conn, trans))
 				{
-					cmd.Parameters.AddWithValue("@characterId", character.Id);
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
 					cmd.ExecuteNonQuery();
 				}
 
@@ -900,7 +900,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("classId", buff.Id);
 						cmd.Set("numArg1", buff.NumArg1);
 						cmd.Set("numArg2", buff.NumArg2);
@@ -923,7 +923,7 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
 			{
-				cmd.Parameters.AddWithValue("@characterId", character.Id);
+				cmd.Parameters.AddWithValue("@characterId", character.DbId);
 
 				using (var reader = cmd.ExecuteReader())
 				{

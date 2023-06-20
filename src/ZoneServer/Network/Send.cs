@@ -133,7 +133,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
 			packet.PutShort(0);
-			packet.PutLong(character.Id + 1); // PCEtc GUID? socialInfoId
+			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
 			packet.PutFloat(character.MoveSpeed);
 			packet.PutInt(0);
@@ -346,7 +346,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
@@ -474,7 +474,7 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutInt((int)skill.Data.OverheatGroup);
 			packet.PutInt((int)overheatTime);
 			packet.PutInt(0);
@@ -494,7 +494,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutInt((int)cooldown.Id);
 			packet.PutInt((int)cooldown.Remaining.TotalMilliseconds);
 			packet.PutInt((int)cooldown.Duration.TotalMilliseconds);
@@ -626,15 +626,14 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_COOLDOWN_LIST to character, containing list of all
-		/// cooldowns?
+		/// Sends a list of cooldowns to the client to update them.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_COOLDOWN_LIST(Character character)
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_LIST);
 
-			packet.PutLong(character.Id); // socialInfoId ?
+			packet.PutLong(character.ObjectId);
 			packet.PutInt(0); // ?
 
 			character.Connection.Send(packet);
@@ -649,7 +648,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_JOB_PTS);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutShort((short)job.Id);
 			packet.PutShort((short)job.SkillPoints);
 
@@ -705,7 +704,7 @@ namespace Melia.Zone.Network
 			{
 				packet.PutByte(0);
 			}
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -720,7 +719,7 @@ namespace Melia.Zone.Network
 
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Properties.GetFloat(PropertyName.CastingSpeed));
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1231,7 +1230,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(59);
 			packet.PutShort(0);
 			packet.PutByte((byte)channelId);
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 
 			character.Connection.Send(packet);
 		}
@@ -1676,7 +1675,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_JOB_EXP_UP);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutLong(exp);
 
 			character.Connection.Send(packet);
@@ -2396,7 +2395,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_RESPONSE_GUILD_INDEX);
 
 			packet.PutInt(character.Handle);
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutShort(1003);
 
 			character.Connection.Send(packet);
@@ -2895,7 +2894,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(character.Level);
 				packet.PutLong(0); // Guild ID? Party ID? Team ID?
 				packet.PutLpString(character.TeamName);
-				packet.PutLong(character.Id);
+				packet.PutLong(character.ObjectId);
 				packet.PutInt(character.Level);
 				packet.PutInt(17);
 
@@ -3108,7 +3107,7 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_OVERHEAT_RESET_TIME);
 
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutInt(i1); // 1551 or 2255
 			packet.PutInt(overheat);
 
@@ -3262,7 +3261,7 @@ namespace Melia.Zone.Network
 
 			packet.PutInt(character.Handle);
 			packet.PutString(character.Name, 65);
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutLong(character.AccountId);
 			packet.PutEmptyBin(5);
 			packet.PutByte(1);

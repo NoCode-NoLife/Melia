@@ -25,6 +25,7 @@
 	public static class ObjectIdRanges
 	{
 		public const long Characters = 0x0100000000000000;
+		public const long SocialUser = 0x0200000000000000;
 		public const long Items = 0x0500000000000000;
 		public const long Skills = 0x0600000000000000;
 		public const long Abilities = 0x0700000000000000;

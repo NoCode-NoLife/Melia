@@ -443,7 +443,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(NormalOp.Zone.Unknown_DA);
 				packet.Zlib(true, zpacket =>
 				{
-					zpacket.PutLong(character.Id);
+					zpacket.PutLong(character.ObjectId);
 					zpacket.PutInt(0);
 				});
 
@@ -471,7 +471,7 @@ namespace Melia.Zone.Network
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AccountUpdate);
-				packet.PutLong(character.Id);
+				packet.PutLong(character.ObjectId);
 				packet.PutInt(0);
 				packet.PutLpString(character.GreetingMessage);
 
@@ -559,7 +559,7 @@ namespace Melia.Zone.Network
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_EF);
 
-				packet.PutLong(character.Id);
+				packet.PutLong(character.ObjectId);
 				packet.PutInt(98); // count
 				packet.PutLpString("Char3_4");
 				packet.PutInt(108213);
@@ -828,7 +828,7 @@ namespace Melia.Zone.Network
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateSkillUI);
-				packet.PutLong(character.Id);
+				packet.PutLong(character.ObjectId);
 
 				packet.PutInt(jobs.Length);
 				foreach (var job in jobs)
