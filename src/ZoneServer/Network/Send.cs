@@ -478,18 +478,18 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends skill to cooldown for a character, by sending ZC_COOLDOWN_CHANGED.
+		/// Updates a cooldown on the character's client.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="skill"></param>
-		public static void ZC_COOLDOWN_CHANGED(Character character, Skill skill)
+		/// <param name="cooldown"></param>
+		public static void ZC_COOLDOWN_CHANGED(Character character, Cooldown cooldown)
 		{
 			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(skill.CooldownData.Id);
-			packet.PutInt(skill.Data.Cooldown);
-			packet.PutInt(skill.Data.Cooldown);
+			packet.PutInt((int)cooldown.Id);
+			packet.PutInt((int)cooldown.Remaining.TotalMilliseconds);
+			packet.PutInt((int)cooldown.Duration.TotalMilliseconds);
 			packet.PutByte(0);
 
 			character.Connection.Send(packet);

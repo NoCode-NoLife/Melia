@@ -333,6 +333,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new RecoveryComponent(this));
 			this.Components.Add(new CombatComponent(this));
+			this.Components.Add(new CooldownComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 
