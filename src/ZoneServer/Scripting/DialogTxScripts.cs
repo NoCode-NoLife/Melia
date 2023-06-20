@@ -1,80 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Melia.Zone.World.Actors.Characters;
+﻿using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Scripting
 {
-	/// <summary>
-	/// TX item script manager.
-	/// </summary>
-	public static class DialogTxScripts
-	{
-		private static readonly Dictionary<string, DialogTxScriptFunc> Scripts = new Dictionary<string, DialogTxScriptFunc>();
-
-		/// <summary>
-		/// Registers the given function as the handler for the script name.
-		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		/// <param name="scriptFunc"></param>
-		public static void Register(string scriptFuncName, DialogTxScriptFunc scriptFunc)
-		{
-			lock (Scripts)
-				Scripts[scriptFuncName] = scriptFunc;
-		}
-
-		/// <summary>
-		/// Returns the handler function for the tiven script via out,
-		/// returns false if no script was defined.
-		/// </summary>
-		/// <param name="scriptName"></param>
-		/// <param name="scriptFunc"></param>
-		/// <returns></returns>
-		public static bool TryGet(string scriptName, out DialogTxScriptFunc scriptFunc)
-		{
-			lock (Scripts)
-				return Scripts.TryGetValue(scriptName, out scriptFunc);
-		}
-
-		/// <summary>
-		/// Loads handler methods on the given object.
-		/// </summary>
-		/// <param name="obj"></param>
-		public static void Load(object obj)
-		{
-			foreach (var method in obj.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-			{
-				foreach (var attribute in method.GetCustomAttributes<DialogTxScriptAttribute>(false))
-				{
-					var func = (DialogTxScriptFunc)Delegate.CreateDelegate(typeof(DialogTxScriptFunc), obj, method);
-					Register(attribute.ScriptFuncName, func);
-				}
-			}
-		}
-	}
-
-	/// <summary>
-	/// Used to mark a method as a dialog transcription script handler.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class DialogTxScriptAttribute : Attribute
-	{
-		/// <summary>
-		/// Returns the name of the script that is handled by the function.
-		/// </summary>
-		public string ScriptFuncName { get; }
-
-		/// <summary>
-		/// Creates new attribute.
-		/// </summary>
-		/// <param name="scriptFuncName"></param>
-		public DialogTxScriptAttribute(string scriptFuncName)
-		{
-			this.ScriptFuncName = scriptFuncName;
-		}
-	}
-
 	/// <summary>
 	/// A function that handles a transaction.
 	/// </summary>

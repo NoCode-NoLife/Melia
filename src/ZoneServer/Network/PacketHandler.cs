@@ -739,7 +739,7 @@ namespace Melia.Zone.Network
 			// Try to execute script
 			var script = item.Data.Script;
 
-			if (!ItemScripts.TryGet(script.Function, out var scriptFunc))
+			if (!ScriptableFunctions.Item.TryGet(script.Function, out var scriptFunc))
 			{
 				character.ServerMessage(Localization.Get("This item has not been implemented yet."));
 				Log.Debug("CZ_ITEM_USE: Missing script function: {0}(\"{1}\", {2}, {3})", script.Function, script.StrArg, script.NumArg1, script.NumArg2);
@@ -1576,7 +1576,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Get handler
-			if (!CustomCommandScripts.TryGet(data.Script, out var scriptFunc))
+			if (!ScriptableFunctions.CustomCommand.TryGet(data.Script, out var scriptFunc))
 			{
 				Log.Debug("CZ_CUSTOM_COMMAND: No handler registered for custom command script '{0}({1}, {2}, {3})'", data.Script, numArg1, numArg2, numArg3);
 				return;
@@ -1800,7 +1800,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Get handler
-			if (!NormalTxScripts.TryGet(data.Script, out var scriptFunc))
+			if (!ScriptableFunctions.NormalTx.TryGet(data.Script, out var scriptFunc))
 			{
 				Log.Debug("CZ_REQ_NORMAL_TX: No handler registered for transaction script '{0}(\"{1}\")'", data.Script, strArg);
 				return;
@@ -1845,7 +1845,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Get handler
-			if (!NormalTxScripts.TryGetNum(data.Script, out var scriptFunc))
+			if (!ScriptableFunctions.NormalTxNum.TryGet(data.Script, out var scriptFunc))
 			{
 				Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: No handler registered for transaction script '{0}({1})'", data.Script, string.Join(", ", numArgs));
 				return;
@@ -1894,7 +1894,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Get handler
-			if (!DialogTxScripts.TryGet(data.Script, out var scriptFunc))
+			if (!ScriptableFunctions.DialogTx.TryGet(data.Script, out var scriptFunc))
 			{
 				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
 				Log.Debug("CZ_DIALOG_TX: No handler registered for transaction script '{0}'", data.Script);

@@ -18,17 +18,6 @@ namespace Melia.Zone.Scripting
 			this.Load();
 
 			OnAttribute.Load(this, ZoneServer.Instance.ServerEvents);
-
-			// The game has an array of dynamically called scripting
-			// functions for various purposes. They all have their own
-			// parameter types and for the moment we'll treat them all
-			// separately, loading them into static classes. We can clean
-			// this up one day when we know everything we have to deal
-			// with.
-			ItemScripts.Load(this);
-			DialogTxScripts.Load(this);
-			NormalTxScripts.Load(this);
-			CustomCommandScripts.Load(this);
 			ScriptableFunctions.Load(this);
 
 			return true;

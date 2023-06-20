@@ -13,9 +13,9 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 
-public class NormalTxScripts : GeneralScript
+public class NormalTxFunctionsScript : GeneralScript
 {
-	[NormalTxScript("SCR_TX_PROPERTY_ACTIVE_TOGGLE")]
+	[ScriptableFunction("SCR_TX_PROPERTY_ACTIVE_TOGGLE")]
 	public NormalTxResult SCR_TX_PROPERTY_ACTIVE_TOGGLE(Character character, string strArg)
 	{
 		var className = strArg;
@@ -26,7 +26,7 @@ public class NormalTxScripts : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[NormalTxScript("GUIDE_QUEST_OPEN_UI")]
+	[ScriptableFunction("GUIDE_QUEST_OPEN_UI")]
 	public NormalTxResult GUIDE_QUEST_OPEN_UI(Character character, string strArg)
 	{
 		switch (strArg)
@@ -49,7 +49,7 @@ public class NormalTxScripts : GeneralScript
 		return NormalTxResult.Fail;
 	}
 
-	[NormalTxScript("SCR_TX_STAT_UP")]
+	[ScriptableFunction("SCR_TX_STAT_UP")]
 	public NormalTxResult SCR_TX_STAT_UP(Character character, int[] numArgs)
 	{
 		// Check amount of parameters
@@ -104,7 +104,7 @@ public class NormalTxScripts : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[NormalTxScript("SCR_TX_SKILL_UP")]
+	[ScriptableFunction("SCR_TX_SKILL_UP")]
 	public NormalTxResult SCR_TX_SKILL_UP(Character character, int[] numArgs)
 	{
 		var jobId = (JobId)numArgs[0];

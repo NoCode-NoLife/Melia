@@ -11,7 +11,7 @@ using Melia.Zone.World.Items;
 
 public class DotBuffItemScript : GeneralScript
 {
-	[ItemScript("SCR_USE_ITEM_DotBuff")]
+	[ScriptableFunction("SCR_USE_ITEM_DotBuff")]
 	public ItemUseResult SCR_USE_ITEM_DotBuff(Character character, Item item, string buffName, float numArg1, float numArg2)
 	{
 		character.Buffs.Start(buffName, numArg1, numArg2, TimeSpan.FromSeconds(15));

@@ -12,9 +12,9 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Yggdrasil.Logging;
 
-public class CoreCustomCommandScripts : GeneralScript
+public class CustomCommandFunctionsScript : GeneralScript
 {
-	[CustomCommandScript("SCR_LAST_INFOSET_OPEN")]
+	[ScriptableFunction("SCR_LAST_INFOSET_OPEN")]
 	public CustomCommandResult SCR_LAST_INFOSET_OPEN(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		// Example: SCR_LAST_INFOSET_OPEN(2, 0, 0)
@@ -28,7 +28,7 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("SCR_GUILD_PROMOTE_NOTICE_COUNT")]
+	[ScriptableFunction("SCR_GUILD_PROMOTE_NOTICE_COUNT")]
 	public CustomCommandResult SCR_GUILD_PROMOTE_NOTICE_COUNT(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		// Example: SCR_GUILD_PROMOTE_NOTICE_COUNT(0, 0, 0)
@@ -41,7 +41,7 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("SCR_HAT_VISIBLE_STATE")]
+	[ScriptableFunction("SCR_HAT_VISIBLE_STATE")]
 	public CustomCommandResult SCR_HAT_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var headgearIndex = numArg1;
@@ -59,7 +59,7 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("SCR_HAIR_WIG_VISIBLE_STATE")]
+	[ScriptableFunction("SCR_HAIR_WIG_VISIBLE_STATE")]
 	public CustomCommandResult SCR_HAIR_WIG_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		character.VisibleEquip ^= VisibleEquip.Wig;
@@ -70,7 +70,7 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("SCR_SUBWEAPON_VISIBLE_STATE")]
+	[ScriptableFunction("SCR_SUBWEAPON_VISIBLE_STATE")]
 	public CustomCommandResult SCR_SUBWEAPON_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		character.VisibleEquip ^= VisibleEquip.SubWeapon;
@@ -81,7 +81,7 @@ public class CoreCustomCommandScripts : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[CustomCommandScript("SCR_CLICK_CHANGEJOB_BUTTON")]
+	[ScriptableFunction("SCR_CLICK_CHANGEJOB_BUTTON")]
 	public CustomCommandResult SCR_CLICK_CHANGEJOB_BUTTON(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var jobId = (JobId)numArg1;
@@ -138,7 +138,7 @@ public class CoreCustomCommandScripts : GeneralScript
 	// and set a session object to remember not to show the tooltip again.
 	// This command was removed at some point though. We'll leave this here
 	// for reference for the time being.
-	//[CustomCommandScript("JANSORI_COUNT")]
+	//[ScriptableFunction("JANSORI_COUNT")]
 	//public CustomCommandResult JANSORI_COUNT(Character character, int numArg1, int numArg2, int numArg3)
 	//{
 	//	var classId = numArg1;

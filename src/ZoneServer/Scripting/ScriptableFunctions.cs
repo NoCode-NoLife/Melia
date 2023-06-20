@@ -29,6 +29,11 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new DelegateCollection<MonsterCalcFunc>();
 		public static readonly DelegateCollection<SkillCalcFunc> Skill = new DelegateCollection<SkillCalcFunc>();
 		public static readonly DelegateCollection<SkillUseFunc> SkillUse = new DelegateCollection<SkillUseFunc>();
+		public static readonly DelegateCollection<ItemScriptFunc> Item = new DelegateCollection<ItemScriptFunc>();
+		public static readonly DelegateCollection<NormalTxScriptFunc> NormalTx = new DelegateCollection<NormalTxScriptFunc>();
+		public static readonly DelegateCollection<NormalTxNumScriptFunc> NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>();
+		public static readonly DelegateCollection<DialogTxScriptFunc> DialogTx = new DelegateCollection<DialogTxScriptFunc>();
+		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new DelegateCollection<CustomCommandScriptFunc>();
 
 		/// <summary>
 		/// Sets up delegate collections.
@@ -39,6 +44,11 @@ namespace Melia.Zone.Scripting
 			Collections.Add(Monster = new DelegateCollection<MonsterCalcFunc>());
 			Collections.Add(Skill = new DelegateCollection<SkillCalcFunc>());
 			Collections.Add(SkillUse = new DelegateCollection<SkillUseFunc>());
+			Collections.Add(Item = new DelegateCollection<ItemScriptFunc>());
+			Collections.Add(NormalTx = new DelegateCollection<NormalTxScriptFunc>());
+			Collections.Add(NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>());
+			Collections.Add(DialogTx = new DelegateCollection<DialogTxScriptFunc>());
+			Collections.Add(CustomCommand = new DelegateCollection<CustomCommandScriptFunc>());
 		}
 
 		/// <summary>

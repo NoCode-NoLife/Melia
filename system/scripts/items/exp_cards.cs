@@ -13,7 +13,7 @@ using Melia.Zone.World.Items;
 
 public class ExpCardScripts : GeneralScript
 {
-	[ItemScript("SCR_USE_ITEM_EXPCARD")]
+	[ScriptableFunction("SCR_USE_ITEM_EXPCARD")]
 	public ItemUseResult SCR_USE_ITEM_EXPCARD(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
 		var baseExp = (long)numArg1;
@@ -25,7 +25,7 @@ public class ExpCardScripts : GeneralScript
 		return ItemUseResult.Okay;
 	}
 
-	[DialogTxScript("MULTIPLE_USE_XPCARD")]
+	[ScriptableFunction("MULTIPLE_USE_XPCARD")]
 	public DialogTxResult TxItemScriptFunc(Character character, DialogTxArgs args)
 	{
 		foreach (var txItem in args.TxItems)
