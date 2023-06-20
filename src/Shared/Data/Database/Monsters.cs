@@ -14,10 +14,13 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public string LocalKey { get; set; }
+
+		public ElementType Element { get; set; }
 		public RaceType Race { get; set; }
 		public Size Size { get; set; }
 		public FactionType Faction { get; set; }
 
+		public MoveType MoveType { get; set; }
 		public int WalkSpeed { get; set; }
 		public int RunSpeed { get; set; }
 
@@ -96,7 +99,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "race", "size", "faction", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
+			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "element", "race", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
 
 			var data = new MonsterData();
 
@@ -104,10 +107,13 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 			data.LocalKey = entry.ReadString("localKey");
+
+			data.Element = entry.ReadEnum<ElementType>("element");
 			data.Race = entry.ReadEnum<RaceType>("race");
 			data.Size = entry.ReadEnum<Size>("size");
 			data.Faction = entry.ReadEnum<FactionType>("faction");
 
+			data.MoveType = entry.ReadEnum<MoveType>("moveType");
 			data.WalkSpeed = entry.ReadInt("walkSpeed");
 			data.RunSpeed = entry.ReadInt("runSpeed");
 
