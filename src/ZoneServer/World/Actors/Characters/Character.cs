@@ -71,6 +71,16 @@ namespace Melia.Zone.World.Actors.Characters
 		public FactionType Faction => FactionType.Law;
 
 		/// <summary>
+		/// Returns the character's race.
+		/// </summary>
+		public RaceType Race => RaceType.None;
+
+		/// <summary>
+		/// Returns the character's mode of movement.
+		/// </summary>
+		public MoveType MoveType => MoveType.Normal;
+
+		/// <summary>
 		/// Character's name.
 		/// </summary>
 		public override string Name { get; set; }

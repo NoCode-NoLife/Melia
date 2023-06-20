@@ -19,6 +19,16 @@ namespace Melia.Zone.World.Actors
 		FactionType Faction { get; }
 
 		/// <summary>
+		/// Returns the entity's race.
+		/// </summary>
+		RaceType Race { get; }
+
+		/// <summary>
+		/// Returns the entity's mode of movement.
+		/// </summary>
+		MoveType MoveType { get; }
+
+		/// <summary>
 		/// Returns the entity's current HP.
 		/// </summary>
 		int Hp { get; }

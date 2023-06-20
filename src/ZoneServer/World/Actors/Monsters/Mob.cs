@@ -5,7 +5,6 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
@@ -25,6 +24,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Gets or sets the monster's faction.
 		/// </summary>
 		public FactionType Faction { get; set; } = FactionType.Peaceful;
+
+		/// <summary>
+		/// Returns the monster's race.
+		/// </summary>
+		public RaceType Race => this.Data.Race;
+
+		/// <summary>
+		/// Returns the monster's mode of movement.
+		/// </summary>
+		public MoveType MoveType => this.Data.MoveType;
 
 		/// <summary>
 		/// Gets or sets the monster's tendency
