@@ -132,7 +132,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "cooldownGroup", "cooldownTime");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -170,10 +170,10 @@ namespace Melia.Shared.Data.Database
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 
-			data.CooldownGroup = entry.ReadEnum<CooldownId>("cooldownGroup", CooldownId.Dummy);
+			data.CooldownGroup = entry.ReadEnum<CooldownId>("cooldownGroup", CooldownId.Default);
 			data.CooldownTime = entry.ReadTimeSpan("cooldownTime", TimeSpan.Zero);
 
-			data.OverheatGroup = entry.ReadEnum<CooldownId>("overheatGroup", CooldownId.Dummy);
+			data.OverheatGroup = entry.ReadEnum<CooldownId>("overheatGroup", CooldownId.Default);
 			data.OverheatCount = entry.ReadInt("overheatCount", 0);
 			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay", TimeSpan.Zero);
 
