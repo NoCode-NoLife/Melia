@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.Characters.Components
 {
 	/// <summary>
 	/// Character skills.
 	/// </summary>
-	public class SkillComponent : CharacterComponent
+	public class SkillComponent : CharacterComponent, IUpdateable
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new Dictionary<SkillId, Skill>();
 
@@ -181,6 +183,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			return maxLevel;
+		}
+
+		/// <summary>
+		/// Updates the skills and their overheats.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			lock (_skills)
+			{
+				foreach (var skill in _skills.Values)
+					skill.Update(elapsed);
+			}
 		}
 	}
 }

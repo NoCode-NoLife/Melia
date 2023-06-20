@@ -7,10 +7,13 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
+using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills
 {
-	public class Skill : IPropertyObject
+	public class Skill : IPropertyObject, IUpdateable
 	{
 		/// <summary>
 		/// The skill's unique id.
@@ -63,6 +66,11 @@ namespace Melia.Zone.Skills
 		public int OverheatCounter { get; private set; }
 
 		/// <summary>
+		/// Returns the time until the skill's overheat counter is reset.
+		/// </summary>
+		public TimeSpan OverheatTimeRemaining { get; private set; }
+
+		/// <summary>
 		/// Returns reference to the skill's data from the file database.
 		/// </summary>
 		public SkillData Data { get; }
@@ -90,6 +98,11 @@ namespace Melia.Zone.Skills
 		public bool IsOverheated => this.CanOverheat && this.OverheatCounter >= this.Data.OverheatCount;
 
 		/// <summary>
+		/// Returns true if the skill is currently on cooldown.
+		/// </summary>
+		public bool IsOnCooldown => this.Character.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="character"></param>
@@ -114,20 +127,24 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		public void IncreaseOverheat()
 		{
-			if (this.CanOverheat)
-				this.OverheatCounter++;
+			// Increase counter regardless of whether the skill can
+			// overheat. In both cases we will eventually get over
+			// the overheat counter, in which case we reset the
+			// overheat and go on cooldown.
+			this.OverheatCounter++;
+			this.OverheatTimeRemaining = this.OverheatData.OverheatResetTime;
 
-			// TODO: Are these packets necessary even if the skill
-			//   can't overheat?
-
-			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
-
-			// TODO: Apply overheat cooldown
-			if (this.IsOverheated)
+			if (this.OverheatCounter >= this.Data.OverheatCount)
 			{
-				Send.ZC_COOLDOWN_CHANGED(this.Character, this);
 				this.OverheatCounter = 0;
+				this.OverheatTimeRemaining = TimeSpan.Zero;
+
+				this.Character.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.Data.CooldownTime);
 			}
+
+			// Update the overheat after the max was checked so we reset it
+			// to 0 if we went into cooldown
+			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
 		}
 
 		/// <summary>
@@ -173,6 +190,24 @@ namespace Melia.Zone.Skills
 			}
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Updates the skill's overheat.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			if (this.OverheatTimeRemaining > TimeSpan.Zero)
+			{
+				this.OverheatTimeRemaining = Math2.Max(TimeSpan.Zero, this.OverheatTimeRemaining - elapsed);
+
+				// There's no need to update the client as it resets the
+				// overheat counter automatically after the overheat reset
+				// time passed
+				if (this.OverheatTimeRemaining == TimeSpan.Zero)
+					this.OverheatCounter = 0;
+			}
 		}
 	}
 }

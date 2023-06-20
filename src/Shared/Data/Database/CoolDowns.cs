@@ -12,7 +12,7 @@ namespace Melia.Shared.Data.Database
 		public CooldownId Id { get; set; }
 		public string ClassName { get; set; }
 		public bool IsOverheat { get; set; }
-		public int OverheatResetTime { get; set; }
+		public TimeSpan OverheatResetTime { get; set; }
 	}
 
 	/// <summary>
@@ -44,7 +44,7 @@ namespace Melia.Shared.Data.Database
 			data.Id = entry.ReadEnum<CooldownId>("id");
 			data.ClassName = entry.ReadString("className");
 			data.IsOverheat = entry.ReadBool("isOverheat");
-			data.OverheatResetTime = entry.ReadInt("overheatResetTime");
+			data.OverheatResetTime = entry.ReadTimeSpan("overheatResetTime");
 
 			this.AddOrReplace(data.Id, data);
 		}

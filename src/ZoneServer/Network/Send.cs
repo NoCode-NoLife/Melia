@@ -461,17 +461,25 @@ namespace Melia.Zone.Network
 		/// <param name="skill"></param>
 		public static void ZC_OVERHEAT_CHANGED(Character character, Skill skill)
 		{
+			var resetTime = skill.OverheatData.OverheatResetTime.TotalMilliseconds;
+
+			// The "overheat time" needs to be "one resetTime" more than
+			// one would expect to display the correct amount of overheat
+			// on the client.
+			// For example, if the skill has a reset time of 10,000, and
+			// has one overheat count, the client needs 20,000 to display
+			// one bubble on the skill icon.
+			var overheatCount = skill.OverheatCounter == 0 ? 0 : skill.OverheatCounter + 1;
+			var overheatTime = overheatCount * resetTime;
+
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt((int)skill.OverheatData.Id);
-			packet.PutInt(skill.OverheatCounter * skill.OverheatData.OverheatResetTime);
+			packet.PutInt((int)skill.Data.OverheatGroup);
+			packet.PutInt((int)overheatTime);
 			packet.PutInt(0);
-			packet.PutInt(skill.OverheatData.OverheatResetTime);
-			packet.PutByte(0);
-			packet.PutByte(0xFF);
-			packet.PutByte(0xFF);
-			packet.PutByte(0xFF);
+			packet.PutInt((int)resetTime);
+			packet.PutInt(4352);
 			packet.PutLong(0);
 
 			character.Connection.Send(packet);
