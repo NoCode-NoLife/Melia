@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
@@ -519,6 +520,37 @@ namespace Melia.Zone.World.Maps
 		{
 			entity = this.GetCombatEntity(handle);
 			return entity != null;
+		}
+
+		/// <summary>
+		/// Returns the actor with the given handle via out. Returns false
+		/// if not matching actor was found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		public bool TryGetActor(int handle, out IActor actor)
+		{
+			lock (_monsters)
+			{
+				if (_monsters.TryGetValue(handle, out var monster))
+				{
+					actor = monster;
+					return true;
+				}
+			}
+
+			lock (_characters)
+			{
+				if (_characters.TryGetValue(handle, out var character))
+				{
+					actor = character;
+					return true;
+				}
+			}
+
+			actor = null;
+			return false;
 		}
 
 		/// <summary>
