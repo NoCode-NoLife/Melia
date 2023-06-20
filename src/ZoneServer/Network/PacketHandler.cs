@@ -2179,7 +2179,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
 		public void CZ_REQ_LEARN_ABILITY(IZoneConnection conn, Packet packet)
 		{
-			var abilities = new Dictionary<AbilityId, int>();
+			// TODO: Is this new? It seems like abilities were learned
+			//   via command in the past, see HandleLearnPcAbil.
+
+			var abilities = new Dictionary<int, int>();
 
 			var size = packet.GetShort();
 			var type = packet.GetString(32);
@@ -2187,7 +2190,7 @@ namespace Melia.Zone.Network
 
 			for (var i = 0; i < count; i++)
 			{
-				var abilityId = (AbilityId)packet.GetInt();
+				var abilityId = packet.GetInt();
 				var level = packet.GetInt();
 
 				abilities[abilityId] = level;
