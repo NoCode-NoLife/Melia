@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
-using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Scheduling;
@@ -15,18 +15,20 @@ namespace Melia.Zone.Skills
 {
 	public class Skill : IPropertyObject, IUpdateable
 	{
+		private static long ObjectIds = ObjectIdRanges.Skills;
+
 		/// <summary>
 		/// The skill's unique id.
 		/// </summary>
 		/// <remarks>
 		/// We're basically assigning a new object id to every skill here,
-		/// every time it's loaded. That *might* work, but we have to be
+		/// every time one is created. That *might* work, but we have to be
 		/// careful. If there's a single case where the skill id needs to
 		/// persist, we have to seriously rethink our approach to object
 		/// ids, and potentially create a global pool on the database or
 		/// something.
 		/// </remarks>
-		public long ObjectId { get; } = ZoneServer.Instance.World.CreateSkillObjectId();
+		public long ObjectId { get; } = Interlocked.Increment(ref ObjectIds);
 
 		/// <summary>
 		/// Returns reference to the skill's properties.

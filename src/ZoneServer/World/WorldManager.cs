@@ -22,17 +22,6 @@ namespace Melia.Zone.World
 
 		private int _genTypes = 1_000_000;
 
-		// These are object id range starting points. The skill objects I
-		// saw in-game so far were above 0x54B600000000 for example,
-		// while the session and ability objects were above 0xE1A900000000.
-		// In some games, ids have to to be in specific ranges, or nothing
-		// will work. You might not be able to login, or interact with the
-		// world, etc. I haven't seen any indication that this is the case in
-		// ToS yet, but I'd rather be on the safe side for now, until we can
-		// confirm that it's unnecessary.
-		private long _sessionObjectIds = 0x0000E1A900000000;
-		private long _skillObjectIds = 0x000054B600000000;
-
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
 		private readonly object _mapsLock = new object();
@@ -76,28 +65,6 @@ namespace Melia.Zone.World
 		public int CreateBuffHandle()
 		{
 			return Interlocked.Increment(ref _buffhandles);
-		}
-
-		/// <summary>
-		/// Returns a new object id that can be used for a session object.
-		/// </summary>
-		/// <returns></returns>
-		public long CreateSessionObjectId()
-		{
-			// XXX: How exactly do these unique ids work? Do they all come
-			// from the same pool? Are there ranges? Do they have to be
-			// unique between multiple types? Can we use one getter for
-			// all "objects"?
-			return Interlocked.Increment(ref _sessionObjectIds);
-		}
-
-		/// <summary>
-		/// Returns a new object id that can be used for a skill object.
-		/// </summary>
-		/// <returns></returns>
-		public long CreateSkillObjectId()
-		{
-			return Interlocked.Increment(ref _skillObjectIds);
 		}
 
 		/// <summary>

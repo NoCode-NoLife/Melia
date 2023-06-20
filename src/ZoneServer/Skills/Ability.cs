@@ -1,6 +1,7 @@
 ﻿using Melia.Zone.World;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using System.Threading;
 
 namespace Melia.Zone.Skills
 {
@@ -9,10 +10,12 @@ namespace Melia.Zone.Skills
 	/// </summary>
 	public class Ability : IPropertyObject
 	{
+		private static long ObjectIds = ObjectIdRanges.Abilities;
+
 		/// <summary>
 		/// The ability's object id.
 		/// </summary>
-		public long ObjectId { get; }
+		public long ObjectId { get; } = Interlocked.Increment(ref ObjectIds);
 
 		/// <summary>
 		/// The ability's properties.
@@ -39,10 +42,6 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		public Ability(AbilityId abilityId, int level)
 		{
-			// It seems like abilities and session objects use the same
-			// id pool on officials, so we'll do the same for now.
-			this.ObjectId = ZoneServer.Instance.World.CreateSessionObjectId();
-
 			this.Id = abilityId;
 			this.Level = level;
 
