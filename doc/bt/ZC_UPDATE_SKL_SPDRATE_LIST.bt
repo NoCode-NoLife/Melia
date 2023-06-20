@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.2 Binary Template
+//
+//      File: ZC_UPDATE_SKL_SPDRATE_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i373765
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History:
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    int skillId;
+    float spdRate;
+    float hitDelay;
+    float useOverHeat;
+}
+SkillSPDRate <optimize=false>;
+
+int count;
+SkillSPDRate list[count];

@@ -3649,6 +3649,29 @@ namespace Melia.Zone.Network
 			map.Broadcast(packet);
 		}
 
+		/// <summary>
+		/// Updates certain skill properties, such as speed rate, hit
+		/// delay, and max overheat count.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skills"></param>
+		public static void ZC_UPDATE_SKL_SPDRATE_LIST(Character character, IEnumerable<Skill> skills)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_SKL_SPDRATE_LIST);
+
+			packet.PutInt(skills.Count());
+
+			foreach (var skill in skills)
+			{
+				packet.PutInt((int)skill.Id);
+				packet.PutFloat(skill.Properties.GetFloat(PropertyName.SklSpdRate));
+				packet.PutFloat(skill.Properties.GetFloat(PropertyName.HitDelay));
+				packet.PutFloat(skill.Data.OverheatCount);
+			}
+
+			character.Connection.Send(packet);
+		}
+
 		public static void DUMMY(IZoneConnection conn)
 		{
 		}

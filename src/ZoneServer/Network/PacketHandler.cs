@@ -159,6 +159,13 @@ namespace Melia.Zone.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 
+			// It's currently unknown what exactly ZC_UPDATE_SKL_SPDRATE_LIST
+			// does, but the data is necessary for the client to display the
+			// overheat bubbles on the skill icons, so we'll send the skills
+			// that have an overheat count.
+			var skillUpdateList = character.Skills.GetList(a => a.Data.OverheatCount > 0);
+			Send.ZC_UPDATE_SKL_SPDRATE_LIST(character, skillUpdateList);
+
 			// Send updates for the buffs loaded from db, so the client
 			// will display the restored buffs
 			foreach (var buff in character.Buffs.GetList())

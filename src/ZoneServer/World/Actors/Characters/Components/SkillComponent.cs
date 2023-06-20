@@ -129,6 +129,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returna a list of all skills that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Skill[] GetList(Func<Skill, bool> predicate)
+		{
+			lock (_skills)
+				return _skills.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Returns true if the skill exists.
 		/// </summary>
 		/// <param name="skillId"></param>
