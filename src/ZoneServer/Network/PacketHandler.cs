@@ -978,6 +978,14 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
+				return;
+			}
+
 			// Get targets
 			var targets = new List<ICombatEntity>();
 			foreach (var handle in targetHandles)
@@ -1059,6 +1067,14 @@ namespace Melia.Zone.Network
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
 				return;
 			}
 
@@ -1164,6 +1180,14 @@ namespace Melia.Zone.Network
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
 				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_SKILL_GROUND: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
 				return;
 			}
 
