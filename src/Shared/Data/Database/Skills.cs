@@ -36,9 +36,6 @@ namespace Melia.Shared.Data.Database
 		public float Factor { get; set; }
 		public float FactorByLevel { get; set; }
 
-		public int Cooldown { get; set; }
-		public string CooldownGroup { get; set; }
-
 		public TimeSpan DefaultHitDelay { get; set; }
 		public TimeSpan DeadHitDelay { get; set; }
 		public TimeSpan ShootTime { get; set; }
@@ -47,9 +44,12 @@ namespace Melia.Shared.Data.Database
 
 		public bool EnableCastMove { get; set; }
 
-		public int Overheat { get; set; }
+		public CooldownId CooldownGroup { get; set; }
+		public TimeSpan CooldownTime { get; set; }
+
+		public CooldownId OverheatGroup { get; set; }
+		public int OverheatCount { get; set; }
 		public TimeSpan OverHeatDelay { get; set; }
-		public string OverheatGroup { get; set; }
 	}
 
 	public enum SplashType
@@ -132,7 +132,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "cooldown", "cooldownGroup", "defaultHitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove", "cooldownGroup", "cooldownTime");
 
 			var data = new SkillData();
 
@@ -162,9 +162,6 @@ namespace Melia.Shared.Data.Database
 			data.Factor = entry.ReadFloat("factor");
 			data.FactorByLevel = entry.ReadFloat("factorByLevel");
 
-			data.Cooldown = entry.ReadInt("cooldown");
-			data.CooldownGroup = entry.ReadString("cooldownGroup");
-
 			data.DefaultHitDelay = entry.ReadTimeSpan("defaultHitDelay");
 			data.DeadHitDelay = entry.ReadTimeSpan("deadHitDelay");
 			data.ShootTime = entry.ReadTimeSpan("shootTime");
@@ -173,9 +170,12 @@ namespace Melia.Shared.Data.Database
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 
-			data.Overheat = entry.ReadInt("overheat");
-			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay");
-			data.OverheatGroup = entry.ReadString("overheatGroup");
+			data.CooldownGroup = entry.ReadEnum<CooldownId>("cooldownGroup", CooldownId.Dummy);
+			data.CooldownTime = entry.ReadTimeSpan("cooldownTime", TimeSpan.Zero);
+
+			data.OverheatGroup = entry.ReadEnum<CooldownId>("overheatGroup", CooldownId.Dummy);
+			data.OverheatCount = entry.ReadInt("overheatCount", 0);
+			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay", TimeSpan.Zero);
 
 			this.AddOrReplace(data.Id, data);
 		}

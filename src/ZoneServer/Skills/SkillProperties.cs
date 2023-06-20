@@ -66,7 +66,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));
 
 			this.Create(new RFloatProperty(PropertyName.MaxR, () => this.Skill.Data.MaxRange));
-			this.Create(new RFloatProperty(PropertyName.CoolDown, () => this.Skill.Data.Cooldown));
+			this.Create(new RFloatProperty(PropertyName.CoolDown, () => (int)this.Skill.Data.CooldownGroup));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.Skill.Data.Factor));
 			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.DefaultHitDelay.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));
@@ -75,7 +75,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.ReadyTime, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SkillAtkAdd, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.EnableShootMove, () => this.Skill.Data.EnableCastMove ? 1f : 0f));
-			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => this.Skill.Data.Overheat));
+			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => this.Skill.Data.OverheatCount));
 			this.Create(new RFloatProperty(PropertyName.SkillASPD, () => 1f));
 			this.Create(new RFloatProperty(PropertyName.BackHitRange, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.Skill_Delay, () => 0f));

@@ -82,12 +82,12 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns whether this skill can overheat.
 		/// </summary>
-		public bool CanOverheat => this.Data.Overheat > 0;
+		public bool CanOverheat => this.Data.OverheatCount > 0;
 
 		/// <summary>
 		/// Returns whether the skill is currently overheated.
 		/// </summary>
-		public bool IsOverheated => this.CanOverheat && this.OverheatCounter >= this.Data.Overheat;
+		public bool IsOverheated => this.CanOverheat && this.OverheatCounter >= this.Data.OverheatCount;
 
 		/// <summary>
 		/// Creates a new instance.

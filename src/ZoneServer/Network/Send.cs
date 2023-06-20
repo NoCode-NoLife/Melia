@@ -464,7 +464,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_OVERHEAT_CHANGED);
 
 			packet.PutLong(character.Id);
-			packet.PutInt(skill.OverheatData.Id);
+			packet.PutInt((int)skill.OverheatData.Id);
 			packet.PutInt(skill.OverheatCounter * skill.OverheatData.OverheatResetTime);
 			packet.PutInt(0);
 			packet.PutInt(skill.OverheatData.OverheatResetTime);
