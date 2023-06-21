@@ -206,15 +206,16 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Disables a skill?
+		/// Exact purpose unknown, but it stops the animation of Multishot.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_SKILL_DISABLE(Character character)
 		{
 			var packet = new Packet(Op.ZC_SKILL_DISABLE);
+
 			packet.PutInt(character.Handle);
 			packet.PutByte(0);
-			packet.PutInt(1482022400);
+			packet.PutInt(0); // very random number?
 
 			character.Connection.Send(packet);
 		}
