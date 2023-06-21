@@ -17420,6 +17420,7 @@
 { classId: 5200211, className: "Fish_Shop_Klapead_Dlg11" },
 { classId: 5200212, className: "FISHING_MANAGER_RUBBING_SEL_DILG" },
 { classId: 5200213, className: "FISHING_MANAGER_RUBBING_SEL_DILG_1" },
+{ classId: 5200214, className: "FISHING_MANAGER_RUBBING_SEL_DILG_2" },
 { classId: 5200300, className: "EMPTY_DIALOG" },
 { classId: 5200301, className: "FISHING_STATUE_DLG1" },
 { classId: 5200302, className: "FISHING_STATUE_DLG2" },

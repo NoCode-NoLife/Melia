@@ -8185,6 +8185,7 @@
 	{ namespace: "Account", name: "HUD_SKIN_DATE_UNIQUE_GRADE", type: "Number", id: 113952 },
 	{ namespace: "Account", name: "HUD_SKIN_SELECT_GRADE", type: "Number", id: 113953 },
 	{ namespace: "Account", name: "HUD_SKIN_DATE_NORMAL_GRADE", type: "Number", id: 113954 },
+	{ namespace: "Account", name: "RidePet_18", type: "Number", id: 113955 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },

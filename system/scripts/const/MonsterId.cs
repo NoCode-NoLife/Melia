@@ -3279,6 +3279,7 @@ public static class MonsterId
 	public const int RidePet_Scooter_1 = 65014;
 	public const int RidePet_Ep15picnic = 65015;
 	public const int RidePet_Cloudkepa = 65016;
+	public const int RidePet_Dragonboat_1 = 65017;
 	public const int ET_NetherBovine_Minimal = 100001;
 	public const int ET_Necrovanter_Minimal = 100002;
 	public const int ET_Spector_M_Minimal = 100003;

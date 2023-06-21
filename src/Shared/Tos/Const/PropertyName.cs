@@ -8188,6 +8188,7 @@
 		public const string HUD_SKIN_DATE_UNIQUE_GRADE = "HUD_SKIN_DATE_UNIQUE_GRADE";
 		public const string HUD_SKIN_SELECT_GRADE = "HUD_SKIN_SELECT_GRADE";
 		public const string HUD_SKIN_DATE_NORMAL_GRADE = "HUD_SKIN_DATE_NORMAL_GRADE";
+		public const string RidePet_18 = "RidePet_18";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

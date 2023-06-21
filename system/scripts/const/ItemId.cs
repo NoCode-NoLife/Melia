@@ -17915,6 +17915,7 @@ public static class ItemId
 	public const int Tosw_2304_Package_3c = 11205043;
 	public const int Tosw_2304_Package_4c = 11205044;
 	public const int Special_Gift_Box_Leticia_2306 = 11205046;
+	public const int Certificate_RidePet_Dragonboat = 11205049;
 
 	// Quest
 	//-----------------------------------------------------------------------

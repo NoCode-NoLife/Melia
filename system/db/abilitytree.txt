@@ -872,7 +872,6 @@
 //---------------------------------------------------------------------------
 { category: "Wugushi", jobId: 3006, abilityId: 306004, className: "Wugushi14", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Wugushi_WugongGu", argNum: 1 } },
 { category: "Wugushi", jobId: 3006, abilityId: 306007, className: "Wugushi17", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Wugushi_ThrowGuPot", argNum: 1 } },
-{ category: "Wugushi", jobId: 3006, abilityId: 306012, className: "SavePoison", maxLevel: 50, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 100 } },
 { category: "Wugushi", jobId: 3006, abilityId: 306014, className: "Wugushi7", maxLevel: 5, priceTimeScript: 'ABIL_COMMON_PRICE_200LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 200 } },
 { category: "Wugushi", jobId: 3006, abilityId: 306018, className: "Wugushi23", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Wugushi_LatentVenom", argNum: 1 } },
 { category: "Wugushi", jobId: 3006, abilityId: 306022, className: "Wugushi27", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Wugushi_WideMiasma", argNum: 1 } },
