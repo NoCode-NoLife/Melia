@@ -1579,7 +1579,21 @@ namespace Melia.Zone.Network
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
 			packet.PutInt((int)skill.Id);
+
 			packet.AddHitInfo(hitInfo);
+
+			packet.PutByte(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutFloat(0);
+			packet.PutInt(0);
 
 			target.Map.Broadcast(packet);
 		}
