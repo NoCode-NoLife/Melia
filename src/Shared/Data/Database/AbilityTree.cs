@@ -17,13 +17,13 @@ namespace Melia.Shared.Data.Database
 		public int MaxLevel { get; set; }
 		public int Price { get; set; }
 		public int Time { get; set; }
-		public string PriceTime { get; set; }
+		public string PriceTimeScript { get; set; }
 		public string UnlockScriptName { get; set; }
 		public string UnlockScriptArgStr { get; set; }
 		public int UnlockScriptArgInt { get; set; }
 
 		public bool HasUnlockScript => !string.IsNullOrWhiteSpace(this.UnlockScriptName);
-		public bool HasPriceTimeScript => !string.IsNullOrWhiteSpace(this.PriceTime);
+		public bool HasPriceTimeScript => !string.IsNullOrWhiteSpace(this.PriceTimeScript);
 	}
 
 	/// <summary>
@@ -70,7 +70,7 @@ namespace Melia.Shared.Data.Database
 			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.Price = entry.ReadInt("price", 0);
 			data.Time = entry.ReadInt("time", 0);
-			data.PriceTime = entry.ReadString("priceTime", "");
+			data.PriceTimeScript = entry.ReadString("priceTimeScript", "");
 
 			if (entry.TryGetObject("unlockScript", out var scriptEntry))
 			{
