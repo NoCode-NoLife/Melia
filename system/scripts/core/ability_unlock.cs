@@ -122,11 +122,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="skillClassName"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_MUSKETEER15(Character character, string skillClassName, int argInt, AbilityData data)
+	public static bool UNLOCK_MUSKETEER15(Character character, string skillClassName, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Musketeer);
 		var skill = character.Skills.Get(skillClassName);
@@ -140,11 +140,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_ELEMENTALIST25(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_ELEMENTALIST25(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Elementalist);
 		var skill = character.Skills.Get(SkillId.Elementalist_Meteor);
@@ -158,11 +158,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_FALCONER20(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_FALCONER20(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Falconer);
 		var skill1 = character.Skills.Get(SkillId.Falconer_Calling);
@@ -177,11 +177,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_SORCERER16(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_SORCERER16(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Sorcerer);
 		var skill = character.Skills.Get(SkillId.Sorcerer_Summoning);
@@ -195,11 +195,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_NECROMANCER24(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_NECROMANCER24(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Necromancer);
 		var skill = character.Skills.Get(SkillId.Pyromancer_EnchantFire);
@@ -213,11 +213,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_NECROMANCER25(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_NECROMANCER25(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Necromancer);
 		var skill = character.Skills.Get(SkillId.Cryomancer_IceBolt);
@@ -230,12 +230,12 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 
 	[ScriptableFunction]
-	public static bool UNLOCK_PELTASTA30(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_PELTASTA30(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Peltasta);
 		var skill = character.Skills.Get(SkillId.Peltasta_SwashBuckling);
@@ -249,11 +249,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_WIZARD25(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_WIZARD25(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Wizard);
 		var skill = character.Skills.Get(SkillId.Wizard_Sleep);
@@ -267,11 +267,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_ONMYOJI8(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_ONMYOJI8(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Onmyoji);
 		var skill = character.Skills.Get(SkillId.Onmyoji_WhiteTigerHowling);
@@ -285,12 +285,12 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction("UNLOCK_ONMYOJI17")]
 	[ScriptableFunction("UNLOCK_ONMYOJI18")]
-	public static bool UNLOCK_ONMYOJI17_18(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_ONMYOJI17_18(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Onmyoji);
 		var skill = character.Skills.Get(SkillId.Onmyoji_FireFoxShikigami);
@@ -304,11 +304,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_PELTASTA33(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_PELTASTA33(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Peltasta);
 		var skill = character.Skills.Get(SkillId.Peltasta_Guardian);
@@ -322,11 +322,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_PELTASTA34(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_PELTASTA34(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Peltasta);
 		var skill = character.Skills.Get(SkillId.Peltasta_Guardian);
@@ -340,11 +340,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_LANCER14(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_LANCER14(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Lancer);
 		var skill = character.Skills.Get(SkillId.Rancer_Prevent);
@@ -358,11 +358,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_LANCER_RHONGOMIANT(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_LANCER_RHONGOMIANT(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Lancer);
 		var skill = character.Skills.Get(SkillId.Rancer_Chage);
@@ -376,11 +376,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_HACKAPELL14(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_HACKAPELL14(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Hackapell);
 		var skill = character.Skills.Get(SkillId.Hackapell_CavalryCharge);
@@ -394,11 +394,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_ONMYOJI10(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_ONMYOJI10(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Onmyoji);
 		var skill = character.Skills.Get(SkillId.Onmyoji_WaterShikigami);
@@ -412,11 +412,11 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="argStr"></param>
-	/// <param name="argInt"></param>
+	/// <param name="argNum"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_LANCER17(Character character, string argStr, int argInt, AbilityData data)
+	public static bool UNLOCK_LANCER17(Character character, string argStr, int argNum, AbilityData data)
 	{
 		var circle = character.Jobs.GetCircle(JobId.Lancer);
 		var skill = character.Skills.Get(SkillId.Rancer_SpillAttack);

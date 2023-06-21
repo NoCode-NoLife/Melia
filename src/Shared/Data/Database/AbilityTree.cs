@@ -20,7 +20,7 @@ namespace Melia.Shared.Data.Database
 		public string PriceTimeScript { get; set; }
 		public string UnlockScriptName { get; set; }
 		public string UnlockScriptArgStr { get; set; }
-		public int UnlockScriptArgInt { get; set; }
+		public int UnlockScriptArgNum { get; set; }
 
 		public bool HasUnlockScript => !string.IsNullOrWhiteSpace(this.UnlockScriptName);
 		public bool HasPriceTimeScript => !string.IsNullOrWhiteSpace(this.PriceTimeScript);
@@ -74,11 +74,11 @@ namespace Melia.Shared.Data.Database
 
 			if (entry.TryGetObject("unlockScript", out var scriptEntry))
 			{
-				scriptEntry.AssertNotMissing("name", "argStr", "argInt");
+				scriptEntry.AssertNotMissing("name", "argStr", "argNum");
 
 				data.UnlockScriptName = scriptEntry.ReadString("name");
 				data.UnlockScriptArgStr = scriptEntry.ReadString("argStr");
-				data.UnlockScriptArgInt = scriptEntry.ReadInt("argInt");
+				data.UnlockScriptArgNum = scriptEntry.ReadInt("argNum");
 			}
 
 			this.Entries.RemoveAll(a => a.JobId == data.JobId && a.AbilityId == data.AbilityId);

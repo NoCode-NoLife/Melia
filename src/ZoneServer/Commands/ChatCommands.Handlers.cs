@@ -1169,7 +1169,7 @@ namespace Melia.Zone.Commands
 
 				var scriptName = jobAbilityTreeData.UnlockScriptName;
 				var argStr = jobAbilityTreeData.UnlockScriptArgStr;
-				var argInt = jobAbilityTreeData.UnlockScriptArgInt;
+				var argInt = jobAbilityTreeData.UnlockScriptArgNum;
 
 				if (!ScriptableFunctions.AbilityUnlock.TryGet(scriptName, out var func))
 				{
