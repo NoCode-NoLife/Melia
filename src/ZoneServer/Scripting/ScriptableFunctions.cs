@@ -61,7 +61,7 @@ namespace Melia.Zone.Scripting
 			{
 				foreach (var attribute in method.GetCustomAttributes<ScriptableFunctionAttribute>(false))
 				{
-					var funcName = attribute.ScriptFuncName;
+					var funcName = attribute.ScriptFuncName ?? method.Name;
 					var registered = false;
 
 					foreach (var col in Collections)
@@ -90,6 +90,16 @@ namespace Melia.Zone.Scripting
 		/// Returns the name of the script that is handled by the function.
 		/// </summary>
 		public string ScriptFuncName { get; }
+
+		/// <summary>
+		/// Creates new attribute that uses the name of the method it's
+		/// on as the script function name.
+		/// </summary>
+		public ScriptableFunctionAttribute()
+		{
+			// Getting the method name actually happens in the scriptable
+			// function loading code, see ScriptableFunctions.
+		}
 
 		/// <summary>
 		/// Creates new attribute.
