@@ -4,13 +4,17 @@ using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
 {
@@ -79,6 +83,29 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		}
 
 		/// <summary>
+		/// Deals damage to the target.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		private void DamageHeal(ICombatEntity caster, ICombatEntity target, Skill skill)
+		{
+			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
+
+			// According to the description of the old version of Heal,
+			// the Attack amount was equal to the Heal Factor, so we'll
+			// simply copy the formula for the heal buff amount for now.
+			var rate = 150f + (skill.Level - 1) * 103f;
+
+			var damage = SCR_GetRandomAtk(caster, target, skill);
+			damage *= rate / 100f;
+
+			target.TakeDamage(damage, caster);
+
+			Send.ZC_SKILL_HIT_INFO(target, new SkillHitInfo(caster, target, skill, damage, TimeSpan.Zero, TimeSpan.Zero));
+		}
+
+		/// <summary>
 		/// Spawns heal pads on the ground that heal targets on contact.
 		/// </summary>
 		/// <param name="caster"></param>
@@ -121,6 +148,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
 
 					var trigger = new Npc(12082, "", new Location(caster.Map.Id, pos), caster.Direction);
+					trigger.Vars.Set("Melia.HealCaster", caster);
 					trigger.Vars.Set("Melia.HealSkill", skill);
 					trigger.SetTriggerArea(area);
 					trigger.SetEnterTrigger("CLERIC_HEAL_ENTER", this.OnEnterHealingPad);
@@ -140,13 +168,20 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		/// <returns></returns>
 		private Task OnEnterHealingPad(Dialog dialog)
 		{
+			if (!(dialog.Initiator is ICombatEntity initiator))
+				return Task.CompletedTask;
+
 			var trigger = dialog.Npc;
-			var triggerer = dialog.Player;
+
+			var caster = trigger.Vars.Get<ICombatEntity>("Melia.HealCaster");
 			var skill = trigger.Vars.Get<Skill>("Melia.HealSkill");
 
 			if (trigger.Vars.ActivateOnce("Melia.HealTriggered"))
 			{
-				this.BuffHeal(triggerer, skill);
+				if (initiator is Character)
+					this.BuffHeal(initiator, skill);
+				else
+					this.DamageHeal(caster, initiator, skill);
 
 				Send.ZC_NORMAL.ClearEffects(trigger);
 				trigger.DisappearTime = DateTime.Now.AddSeconds(1);
