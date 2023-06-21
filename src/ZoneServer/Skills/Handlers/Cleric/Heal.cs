@@ -179,9 +179,14 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			if (trigger.Vars.ActivateOnce("Melia.HealTriggered"))
 			{
 				if (initiator is Character)
+				{
 					this.BuffHeal(initiator, skill);
+				}
 				else
-					this.DamageHeal(caster, initiator, skill);
+				{
+					if (initiator.MoveType != MoveType.Flying)
+						this.DamageHeal(caster, initiator, skill);
+				}
 
 				Send.ZC_NORMAL.ClearEffects(trigger);
 				trigger.DisappearTime = DateTime.Now.AddSeconds(1);
