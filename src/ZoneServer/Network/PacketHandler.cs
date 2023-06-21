@@ -1010,7 +1010,7 @@ namespace Melia.Zone.Network
 			{
 				switch (skill.Data.UseType)
 				{
-					case SkillUseType.MELEE_GROUND:
+					case SkillUseType.MeleeGround:
 					{
 						if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IMeleeGroundSkillHandler>(skillId, out var handler))
 						{
@@ -1022,7 +1022,7 @@ namespace Melia.Zone.Network
 						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 					}
-					case SkillUseType.FORCE:
+					case SkillUseType.Force:
 					{
 						if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IForceSkillHandler>(skillId, out var handler))
 						{

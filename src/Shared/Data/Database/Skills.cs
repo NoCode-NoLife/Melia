@@ -63,14 +63,13 @@ namespace Melia.Shared.Data.Database
 
 	public enum SkillUseType
 	{
-		UNKNOWN,
-		MELEE_GROUND,
-		FORCE,
-		FORCE_GROUND,
-		SELF,
-		SCRIPT,
-		TARGET_GROUND,
-		MELEE,
+		Melee,
+		Force,
+		Self,
+		Script,
+		MeleeGround,
+		ForceGround,
+		TargetGround,
 	}
 
 	public enum SkillAttackType

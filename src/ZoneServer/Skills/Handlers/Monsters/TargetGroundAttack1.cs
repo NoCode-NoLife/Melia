@@ -16,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 	/// Handles default monster skills that target the ground around
 	/// a target.
 	/// </summary>
-	[SkillHandler(SkillUseType.TARGET_GROUND, "^Mon_")]
+	[SkillHandler(SkillUseType.TargetGround, "^Mon_")]
 	public class TargetGroundAttack1 : ITargetSkillHandler
 	{
 		// It's currently not clear whether we'll be able to handle all
