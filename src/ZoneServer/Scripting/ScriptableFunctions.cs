@@ -20,9 +20,9 @@ namespace Melia.Zone.Scripting
 	{
 		// A list with all delegate collections for easy iteration
 		// during setup and dedicated lists for easy access afterwards.
-		// New collections can be added by creating a new delegate type,
-		// adding the collection to the class, and initializing it
-		// in the constructor.
+		// New collections can be added by creating a new delegate type
+		// and adding a public collection for it below. The public
+		// collections are added to the collections list automatically.
 
 		private static readonly List<IDelegateCollection> Collections = new List<IDelegateCollection>();
 
@@ -42,16 +42,11 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		static ScriptableFunctions()
 		{
-			Collections.Add(Character = new DelegateCollection<CharacterCalcFunc>());
-			Collections.Add(Monster = new DelegateCollection<MonsterCalcFunc>());
-			Collections.Add(Skill = new DelegateCollection<SkillCalcFunc>());
-			Collections.Add(SkillUse = new DelegateCollection<SkillUseFunc>());
-			Collections.Add(Item = new DelegateCollection<ItemScriptFunc>());
-			Collections.Add(NormalTx = new DelegateCollection<NormalTxScriptFunc>());
-			Collections.Add(NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>());
-			Collections.Add(DialogTx = new DelegateCollection<DialogTxScriptFunc>());
-			Collections.Add(CustomCommand = new DelegateCollection<CustomCommandScriptFunc>());
-			Collections.Add(AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>());
+			foreach (var fieldInfo in typeof(ScriptableFunctions).GetFields(BindingFlags.Static | BindingFlags.Public))
+			{
+				if (fieldInfo.FieldType.GetInterface(nameof(IDelegateCollection)) != null)
+					Collections.Add((IDelegateCollection)fieldInfo.GetValue(null));
+			}
 		}
 
 		/// <summary>
