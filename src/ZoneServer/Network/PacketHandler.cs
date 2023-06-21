@@ -1284,19 +1284,26 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool ends
+		/// Sent after selecting a target ground position for a skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_SKILL_TOOL_GROUND_POS)]
 		public void CZ_SKILL_TOOL_GROUND_POS(IZoneConnection conn, Packet packet)
 		{
-			var position = packet.GetPosition();
-			var skillId = packet.GetInt();
+			var pos = packet.GetPosition();
+			var skillId = (SkillId)packet.GetInt();
+			var b1 = packet.GetByte();
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: keep track of state?
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_SKILL_TOOL_GROUND_POS: User '{0}' tried to send a position for a skill they don't have.");
+				return;
+			}
+
+			skill.Vars.Set("Melia.ToolGroundPos", pos);
 		}
 
 		/// <summary>

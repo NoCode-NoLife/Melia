@@ -90,6 +90,11 @@ namespace Melia.Zone.Skills
 		public CooldownData OverheatData { get; }
 
 		/// <summary>
+		/// Returns the skill's temporary variables.
+		/// </summary>
+		public Variables Vars { get; } = new Variables();
+
+		/// <summary>
 		/// Returns whether this skill can overheat.
 		/// </summary>
 		public bool CanOverheat => this.Data.OverheatCount > 0;

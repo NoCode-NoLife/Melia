@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_SKILL_TOOL_GROUND_POS.bt
-//   Authors: Salman T. Khan
-//   Version: i3394322
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,5 +14,7 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
+
 position pos;
-int skill;
+int skillId;
+byte b1;
