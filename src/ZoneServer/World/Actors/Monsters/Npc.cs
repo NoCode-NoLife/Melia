@@ -131,7 +131,7 @@ namespace Melia.Zone.World.Actors.Monsters
 	/// An object that defines an area and functions to trigger when
 	/// said area is entered or left.
 	/// </summary>
-	public interface ITriggerableArea
+	public interface ITriggerableArea : IActor
 	{
 		/// <summary>
 		/// Returns a function to call when someone enters the area.

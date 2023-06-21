@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
@@ -28,14 +29,42 @@ namespace Melia.Zone.Scripting.Dialogues
 		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
 		/// <summary>
+		/// Returns a reference to the actor that initiated the trigger.
+		/// </summary>
+		public IActor Initiator { get; }
+
+		/// <summary>
+		/// Returns a reference to the actor that was triggered.
+		/// </summary>
+		public IActor Trigger { get; }
+
+		/// <summary>
 		/// Returns a reference to the character that initiated the dialog.
 		/// </summary>
-		public Character Player { get; }
+		public Character Player
+		{
+			get
+			{
+				if (!(this.Initiator is Character character))
+					throw new InvalidOperationException($"The triggerer is not of type Character, but {this.Initiator.GetType().Name}.");
+
+				return character;
+			}
+		}
 
 		/// <summary>
 		/// Returns a reference to the NPC the player is talking to.
 		/// </summary>
-		public Npc Npc { get; }
+		public Npc Npc
+		{
+			get
+			{
+				if (!(this.Trigger is Npc npc))
+					throw new InvalidOperationException($"The trigger is not of type Npc, but {this.Initiator.GetType().Name}.");
+
+				return npc;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the dialog's current state.
@@ -59,15 +88,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		public string Portrait { get; private set; }
 
 		/// <summary>
-		/// Creates and prepares a new dialog between the player and
-		/// the NPC.
+		/// Creates and prepares a new dialog between the initiator
+		/// and the trigger.
 		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="npc"></param>
-		public Dialog(Character player, Npc npc)
+		/// <param name="initiator"></param>
+		/// <param name="trigger"></param>
+		public Dialog(IActor initiator, IActor trigger)
 		{
-			this.Player = player;
-			this.Npc = npc;
+			this.Initiator = initiator;
+			this.Trigger = trigger;
 		}
 
 		/// <summary>

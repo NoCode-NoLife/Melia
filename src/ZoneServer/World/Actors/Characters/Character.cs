@@ -427,11 +427,8 @@ namespace Melia.Zone.World.Actors.Characters
 				if (triggerArea.EnterFunc == null)
 					continue;
 
-				if (triggerArea is Npc npc)
-				{
-					var dialog = new Dialog(this, npc);
-					triggerArea.EnterFunc.Invoke(dialog);
-				}
+				var dialog = new Dialog(this, triggerArea);
+				triggerArea.EnterFunc.Invoke(dialog);
 			}
 
 			foreach (var triggerArea in leftTriggerAreas)
@@ -439,11 +436,8 @@ namespace Melia.Zone.World.Actors.Characters
 				if (triggerArea.LeaveFunc == null)
 					continue;
 
-				if (triggerArea is Npc npc)
-				{
-					var dialog = new Dialog(this, npc);
-					triggerArea.LeaveFunc.Invoke(dialog);
-				}
+				var dialog = new Dialog(this, triggerArea);
+				triggerArea.LeaveFunc.Invoke(dialog);
 			}
 
 			_triggerAreas = triggerAreas;
