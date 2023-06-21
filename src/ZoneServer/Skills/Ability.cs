@@ -2,6 +2,8 @@
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using System.Threading;
+using Melia.Shared.Data.Database;
+using System;
 
 namespace Melia.Zone.Skills
 {
@@ -16,6 +18,11 @@ namespace Melia.Zone.Skills
 		/// The ability's object id.
 		/// </summary>
 		public long ObjectId { get; } = Interlocked.Increment(ref ObjectIds);
+
+		/// <summary>
+		/// Returns a reference to the ability's data.
+		/// </summary>
+		public AbilityData Data { get; }
 
 		/// <summary>
 		/// The ability's properties.
@@ -44,6 +51,8 @@ namespace Melia.Zone.Skills
 		{
 			this.Id = abilityId;
 			this.Level = level;
+
+			this.Data = ZoneServer.Instance.Data.AbilityDb.Find(this.Id) ?? throw new ArgumentException($"No data found for ability '{this.Id}'.");
 
 			//this.Properties.Add(new RefFloatProperty(PropertyId.Ability.Level, () => this.Level));
 			//this.Properties.Add(new RefFloatProperty(PropertyId.Ability.ActiveState, () => this.Active ? 1 : 0));

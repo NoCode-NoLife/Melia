@@ -97,6 +97,18 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the ability with the given id, or null if it didn't
+		/// exist.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public Ability Get(string abilityClassName)
+		{
+			lock (_abilities)
+				return _abilities.Values.FirstOrDefault(a => a.Data.ClassName == abilityClassName);
+		}
+
+		/// <summary>
 		/// Toggles ability with the given class name on or off.
 		/// Returns whether it was successfully toggled.
 		/// </summary>

@@ -152,7 +152,6 @@
     <Compile Include="Skills\SplashAreas\Square.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Skills\AbilityPriceTime.cs" />
-    <Compile Include="Skills\AbilityUnlock.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />

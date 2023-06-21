@@ -10,6 +10,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -1163,16 +1164,22 @@ namespace Melia.Zone.Commands
 				// An ability can be learned by a job if there's an entry
 				// for it in the tree and an unlock condition is given.
 				var jobAbilityTreeData = ZoneServer.Instance.Data.AbilityTreeDb.Find(job.Id, abilityId);
-				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlockScript)
+				if (jobAbilityTreeData == null || !jobAbilityTreeData.HasUnlockScript)
+					continue;
+
+				var scriptName = jobAbilityTreeData.UnlockScriptName;
+				var argStr = jobAbilityTreeData.UnlockScriptArgStr;
+				var argInt = jobAbilityTreeData.UnlockScriptArgInt;
+
+				if (!ScriptableFunctions.AbilityUnlock.TryGet(scriptName, out var func))
 				{
-					var unlocked = AbilityUnlock.IsUnlocked(sender, abilityData, jobAbilityTreeData);
-					if (unlocked)
-					{
-						canLearn = true;
-						abilityTreeData = jobAbilityTreeData;
-						break;
-					}
+					Log.Warning("HandleLearnPcAbil: Ability unlocked check function '{0}' not found.", scriptName);
+					continue;
 				}
+
+				canLearn = func(sender, argStr, argInt, abilityData);
+				abilityTreeData = jobAbilityTreeData;
+				break;
 			}
 
 			if (!canLearn)

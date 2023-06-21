@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Melia.Shared.Data.Database;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -34,6 +35,7 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<NormalTxNumScriptFunc> NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>();
 		public static readonly DelegateCollection<DialogTxScriptFunc> DialogTx = new DelegateCollection<DialogTxScriptFunc>();
 		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new DelegateCollection<CustomCommandScriptFunc>();
+		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>();
 
 		/// <summary>
 		/// Sets up delegate collections.
@@ -49,6 +51,7 @@ namespace Melia.Zone.Scripting
 			Collections.Add(NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>());
 			Collections.Add(DialogTx = new DelegateCollection<DialogTxScriptFunc>());
 			Collections.Add(CustomCommand = new DelegateCollection<CustomCommandScriptFunc>());
+			Collections.Add(AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>());
 		}
 
 		/// <summary>
@@ -83,7 +86,7 @@ namespace Melia.Zone.Scripting
 	/// <summary>
 	/// Used to mark a method as a custom command script handler.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class ScriptableFunctionAttribute : Attribute
 	{
 		/// <summary>
@@ -140,4 +143,14 @@ namespace Melia.Zone.Scripting
 	/// <param name="skill"></param>
 	/// <returns></returns>
 	public delegate float SkillUseFunc(ICombatEntity attacker, ICombatEntity target, Skill skill);
+
+	/// <summary>
+	/// A function that determines whether an ability can be learned.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="argStr"></param>
+	/// <param name="argInt"></param>
+	/// <param name="data"></param>
+	/// <returns></returns>
+	public delegate bool AbilityUnlockFunc(Character character, string argStr, int argInt, AbilityData data);
 }
