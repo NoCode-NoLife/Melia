@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -14,6 +17,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private readonly object _positionSyncLock = new object();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
+
+		private ITriggerableArea[] _triggerAreas = new ITriggerableArea[0];
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -143,6 +148,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			this.UpdateMove(elapsed);
+			this.UpdateTriggerAreas();
+		}
+
+		/// <summary>
+		/// Updates entity position while it's moving.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateMove(TimeSpan elapsed)
+		{
 			lock (_positionSyncLock)
 			{
 				// No need to update the position if the character isn't moving.
@@ -173,6 +188,48 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					this.Entity.Position = position;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Updates trigger areas and triggers relevant ones.
+		/// </summary>
+		private void UpdateTriggerAreas()
+		{
+			// TODO: It's technically possible for an entity to move so
+			//   quickly that they zap past a trigger area before we see
+			//   it. To solve this issue we'd need to get the movement
+			//   path since the last update and check if it intersects
+			//   with any trigger areas. Not overly complicated, but
+			//   support needs to be added to the shape classes first.
+
+			var prevTriggerAreas = _triggerAreas;
+			var triggerAreas = this.Entity.Map.GetTriggerableAreasAt(this.Entity.Position);
+
+			if (prevTriggerAreas.Length == 0 && triggerAreas.Length == 0)
+				return;
+
+			var enteredTriggerAreas = triggerAreas.Except(prevTriggerAreas);
+			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
+
+			foreach (var triggerArea in enteredTriggerAreas)
+			{
+				if (triggerArea.EnterFunc == null)
+					continue;
+
+				var dialog = new Dialog(this.Entity, triggerArea);
+				triggerArea.EnterFunc.Invoke(dialog);
+			}
+
+			foreach (var triggerArea in leftTriggerAreas)
+			{
+				if (triggerArea.LeaveFunc == null)
+					continue;
+
+				var dialog = new Dialog(this.Entity, triggerArea);
+				triggerArea.LeaveFunc.Invoke(dialog);
+			}
+
+			_triggerAreas = triggerAreas;
 		}
 	}
 }
