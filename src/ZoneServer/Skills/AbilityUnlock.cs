@@ -34,7 +34,7 @@ namespace Melia.Zone.Skills
 			// If we leave it as C#, we might not want to use reflection,
 			// or at least cache the methods, but for now it will work fine.
 
-			var call = abilityTreeData.Unlock;
+			var call = string.Format("{0}(\"{1}\", {2})", abilityTreeData.UnlockScriptName, abilityTreeData.UnlockScriptArgStr, abilityTreeData.UnlockScriptArgInt);
 			var match = UnlockCallRegex.Match(call);
 			if (!match.Success)
 			{

@@ -1163,7 +1163,7 @@ namespace Melia.Zone.Commands
 				// An ability can be learned by a job if there's an entry
 				// for it in the tree and an unlock condition is given.
 				var jobAbilityTreeData = ZoneServer.Instance.Data.AbilityTreeDb.Find(job.Id, abilityId);
-				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlock)
+				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlockScript)
 				{
 					var unlocked = AbilityUnlock.IsUnlocked(sender, abilityData, jobAbilityTreeData);
 					if (unlocked)
@@ -1198,7 +1198,7 @@ namespace Melia.Zone.Commands
 			var price = abilityTreeData.Price;
 			var time = abilityTreeData.Time;
 
-			if (abilityTreeData.HasPriceTime)
+			if (abilityTreeData.HasPriceTimeScript)
 			{
 				price = 0;
 

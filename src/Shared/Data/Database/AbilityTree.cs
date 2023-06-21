@@ -18,10 +18,12 @@ namespace Melia.Shared.Data.Database
 		public int Price { get; set; }
 		public int Time { get; set; }
 		public string PriceTime { get; set; }
-		public string Unlock { get; set; }
+		public string UnlockScriptName { get; set; }
+		public string UnlockScriptArgStr { get; set; }
+		public int UnlockScriptArgInt { get; set; }
 
-		public bool HasUnlock => !string.IsNullOrWhiteSpace(this.Unlock);
-		public bool HasPriceTime => !string.IsNullOrWhiteSpace(this.PriceTime);
+		public bool HasUnlockScript => !string.IsNullOrWhiteSpace(this.UnlockScriptName);
+		public bool HasPriceTimeScript => !string.IsNullOrWhiteSpace(this.PriceTime);
 	}
 
 	/// <summary>
@@ -57,7 +59,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("category", "jobId", "abilityId", "maxLevel", "unlock");
+			entry.AssertNotMissing("category", "jobId", "abilityId", "maxLevel");
 
 			var data = new AbilityTreeData();
 
@@ -69,7 +71,15 @@ namespace Melia.Shared.Data.Database
 			data.Price = entry.ReadInt("price", 0);
 			data.Time = entry.ReadInt("time", 0);
 			data.PriceTime = entry.ReadString("priceTime", "");
-			data.Unlock = entry.ReadString("unlock", "");
+
+			if (entry.TryGetObject("unlockScript", out var scriptEntry))
+			{
+				scriptEntry.AssertNotMissing("name", "argStr", "argInt");
+
+				data.UnlockScriptName = scriptEntry.ReadString("name");
+				data.UnlockScriptArgStr = scriptEntry.ReadString("argStr");
+				data.UnlockScriptArgInt = scriptEntry.ReadInt("argInt");
+			}
 
 			this.Entries.RemoveAll(a => a.JobId == data.JobId && a.AbilityId == data.AbilityId);
 			this.Add(data);
