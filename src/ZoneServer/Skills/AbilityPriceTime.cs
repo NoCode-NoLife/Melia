@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
 using Melia.Zone.World.Actors.Characters;
@@ -130,6 +131,17 @@ namespace Melia.Zone.Skills
 			time = 240 + (4 - maxLevel + abilityLevel) * 100;
 		}
 
+		public static void ABIL_9RANK_NORMAL_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 720 + (4 - maxLevel + abilityLevel) * 67;
+			time = 360 + (4 - maxLevel + abilityLevel) * 120;
+		}
+		public static void ABIL_10RANK_NORMAL_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 1080 + (4 - maxLevel + abilityLevel) * 100;
+			time = 400 + (4 - maxLevel + abilityLevel) * 200;
+		}
+
 		public static void ABIL_1RANK_BUFF_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
 		{
 			price = 1;
@@ -176,6 +188,18 @@ namespace Melia.Zone.Skills
 		{
 			price = 500 + (abilityLevel - 1) * 55;
 			time = 240 + (abilityLevel - 1) * 20;
+		}
+
+		public static void ABIL_9RANK_BUFF_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 600 + (abilityLevel - 1) * 65;
+			time = 360 + (abilityLevel - 1) * 30;
+		}
+
+		public static void ABIL_10RANK_BUFF_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 700 + (abilityLevel - 1) * 75;
+			time = 400 + (abilityLevel - 1) * 50;
 		}
 
 		public static void ABIL_1RANK_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
@@ -226,11 +250,86 @@ namespace Melia.Zone.Skills
 			time = 0;
 		}
 
+		public static void ABIL_9RANK_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = (int)Math.Floor(Math.Pow(1.0822, (abilityLevel - 1)) * 8.5);
+			time = 0;
+		}
+
+		public static void ABIL_10RANK_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = (int)Math.Floor(Math.Pow(1.0822, (abilityLevel - 1)) * 9);
+			time = 0;
+		}
+
+		public static void ABIL_10RANK_FOR67_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 250 + (abilityLevel - 1) * 250;
+			time = 0;
+		}
+
 		public static void ABIL_3RANK_MASTER_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
 		{
 			price = 3;
 			time = 0;
 		}
+
+		public static void ABIL_BASE_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 1;
+			time = 0;
+		}
+
+		public static void ABIL_REINFORCE_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			var baseFactor = 1.07;
+
+			var increaseFactorList = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 8.5, 9 };
+			var increaseFactor = 0.0;
+
+			var index = (int)Math.Ceiling(abilityLevel / 10.0);
+			if (index >= 0 && index < increaseFactorList.Length)
+				increaseFactor = increaseFactorList[index];
+
+			price = (int)Math.Floor(Math.Pow(baseFactor, (abilityLevel - 1)) * increaseFactor);
+			time = 0;
+		}
+
+		public static void ABIL_ABOVE_NORMAL_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 60 + (abilityLevel - 1) * 5;
+			time = 0;
+		}
+
+		private static void ABIL_COMMON_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, int minimumFactor, int increseFactor, out int price, out int time)
+		{
+			price = Math.Max(1, minimumFactor + (4 - maxLevel + abilityLevel) * increseFactor);
+			time = 0;
+		}
+
+		public static void ABIL_COMMON_PRICE_1LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 11, 1, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_100LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 22, 2, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_150LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 34, 3, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_200LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 48, 4, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_250LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 63, 5, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_300LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 84, 6, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_350LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 115, 7, out price, out time);
+
+		public static void ABIL_COMMON_PRICE_400LV(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+			=> ABIL_COMMON_PRICE(character, abilityClassName, abilityLevel, maxLevel, 240, 45, out price, out time);
 
 		public static void ABIL_SWAPWEAPON_PRICE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
 		{
@@ -458,6 +557,18 @@ namespace Melia.Zone.Skills
 		{
 			price = 3 + (abilityLevel - 1) * 1;
 			time = 12 + (9 - maxLevel + abilityLevel) * 4;
+		}
+
+		public static void HIDDENABIL_PRICE_COND_REINFORCE(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 3057 * (int)Math.Max(1, Math.Pow(3, Math.Ceiling(abilityLevel / 10.0) - 2));
+			time = 0;
+		}
+
+		public static void HIDDENABIL_PRICE_COND_JOBLEVEL(Character character, string abilityClassName, int abilityLevel, int maxLevel, out int price, out int time)
+		{
+			price = 36000 / maxLevel;
+			time = 0;
 		}
 	}
 }
