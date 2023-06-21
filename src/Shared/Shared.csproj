@@ -122,7 +122,7 @@
     <Compile Include="Tos\Const\QuickSlotType.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />
-    <Compile Include="Tos\Const\Size.cs" />
+    <Compile Include="Tos\Const\SizeType.cs" />
     <Compile Include="Tos\Const\SkillId.cs" />
     <Compile Include="Data\Database\AchievementPoints.cs" />
     <Compile Include="Data\Database\Achievements.cs" />

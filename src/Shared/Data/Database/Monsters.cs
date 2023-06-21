@@ -17,7 +17,7 @@ namespace Melia.Shared.Data.Database
 
 		public ElementType Element { get; set; }
 		public RaceType Race { get; set; }
-		public Size Size { get; set; }
+		public SizeType Size { get; set; }
 		public FactionType Faction { get; set; }
 
 		public MoveType MoveType { get; set; }
@@ -110,7 +110,7 @@ namespace Melia.Shared.Data.Database
 
 			data.Element = entry.ReadEnum<ElementType>("element");
 			data.Race = entry.ReadEnum<RaceType>("race");
-			data.Size = entry.ReadEnum<Size>("size");
+			data.Size = entry.ReadEnum<SizeType>("size");
 			data.Faction = entry.ReadEnum<FactionType>("faction");
 
 			data.MoveType = entry.ReadEnum<MoveType>("moveType");

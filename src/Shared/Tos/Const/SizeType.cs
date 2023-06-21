@@ -1,6 +1,6 @@
 ﻿namespace Melia.Shared.Tos.Const
 {
-	public enum Size
+	public enum SizeType
 	{
 		None,
 		Hidden,
