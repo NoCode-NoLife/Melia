@@ -1209,10 +1209,17 @@ namespace Melia.Zone.Commands
 			{
 				price = 0;
 
-				for (var i = currentLevel + 1; i <= newLevel; ++i)
+				if (!ScriptableFunctions.AbilityPrice.TryGet(abilityTreeData.PriceTimeScript, out var func))
 				{
-					AbilityPriceTime.Get(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
-					price += addPrice;
+					Log.Warning("HandleLearnPcAbil: Ability price/time calculation function '{0}' not found.", abilityTreeData.PriceTimeScript);
+				}
+				else
+				{
+					for (var i = currentLevel + 1; i <= newLevel; ++i)
+					{
+						func(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
+						price += addPrice;
+					}
 				}
 			}
 

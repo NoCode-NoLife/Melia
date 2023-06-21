@@ -36,6 +36,7 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<DialogTxScriptFunc> DialogTx = new DelegateCollection<DialogTxScriptFunc>();
 		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new DelegateCollection<CustomCommandScriptFunc>();
 		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>();
+		public static readonly DelegateCollection<AbilityPriceFunc> AbilityPrice = new DelegateCollection<AbilityPriceFunc>();
 
 		/// <summary>
 		/// Sets up delegate collections.
@@ -148,4 +149,17 @@ namespace Melia.Zone.Scripting
 	/// <param name="data"></param>
 	/// <returns></returns>
 	public delegate bool AbilityUnlockFunc(Character character, string argStr, int argInt, AbilityData data);
+
+	/// <summary>
+	/// A function that returns the price and time it takes to learn an
+	/// ability.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="abilityData"></param>
+	/// <param name="abilityTreeData"></param>
+	/// <param name="abilityLevel"></param>
+	/// <param name="price"></param>
+	/// <param name="time"></param>
+	/// <returns></returns>
+	public delegate void AbilityPriceFunc(Character character, AbilityData abilityData, AbilityTreeData abilityTreeData, int abilityLevel, out int price, out int time);
 }
