@@ -258,6 +258,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		public void Kill(ICombatEntity killer)
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
+			this.Components.Get<MovementComponent>()?.Stop();
 
 			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
 			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
