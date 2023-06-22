@@ -14,17 +14,17 @@ public class ClassicHealClientScript : ClientScript
 {
 	public override void Load()
 	{
-		// We only enable this script if the PartySelect feature is
-		// disabled. If it is, we override a client function that
-		// determines whether to show the target selection wheel
-		// to cast the skill instantly.
-		if (!Feature.IsEnabled("ClericHealPartySelect"))
-			this.LoadAllScripts();
+		this.LoadAllScripts();
 	}
 
 	[On("PlayerReady")]
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
-		this.SendAllScripts(e.Character);
+		// We only send this script if the PartySelect feature is
+		// disabled. If it is, we override a client function that
+		// determines whether to show the target selection wheel
+		// to cast the skill instantly.
+		if (!Feature.IsEnabled("ClericHealPartySelect"))
+			this.SendAllScripts(e.Character);
 	}
 }
