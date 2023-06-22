@@ -11,7 +11,7 @@
 
 // Re:Build was a large update in late 2018, most notably changing how
 // the class system worked.
-{ name: "ReBuild", enabled: false, children: [
+{ name: "ReBuild", enabled: true, children: [
 
 	// Enables movement-related changes
 	{ name: "MovementRevamp", enabled: true, children: [
@@ -41,7 +41,7 @@
 
 // Miscellaneous changes that don't belong to a specific update or are yet
 // to get categorized.
-{ name: "Misc", enabled: false, children: [
+{ name: "Misc", enabled: true, children: [
 
 	// Enables new characters receiving growth equipment
 	{ name: "GrowthEquipOnStart", enabled: true },
@@ -59,10 +59,7 @@
 	
 ]},
 
-// Let's enable certain features by default for now, as them being missing
-// could confuse some users.
-{ name: "DashingForAll", enabled: true },
-{ name: "ScoutJob", enabled: true },
-{ name: "SpawnPropertyOverrides", enabled: true },
-{ name: "DirectClericHeal", enabled: true },
+// Let's disable certain features for now to hide things that aren't
+// fully implemented
+{ name: "GrowthEquipOnStart", enabled: false },
 ]
