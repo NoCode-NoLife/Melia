@@ -18,8 +18,8 @@
 		// Disables stamina drain while running
 		{ name: "FreeRunning", enabled: true },
 		
-		// Disables stamina drain while dashing
-		{ name: "FreeDashing", enabled: true },
+		// Disables stamina drain while dashing in cities
+		{ name: "FreeDashingInCities", enabled: true },
 		
 		// Enables dashing for all classes
 		{ name: "DashingForAll", enabled: true },

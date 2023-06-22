@@ -59,6 +59,7 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.EngName = entry.ReadString("engName");
 			data.LocalKey = entry.ReadString("localKey");
+			data.Type = entry.ReadEnum<MapType>("type");
 
 			_nameIndex[data.ClassName] = data;
 

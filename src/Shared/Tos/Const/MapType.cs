@@ -2,6 +2,7 @@
 {
 	public enum MapType
 	{
+		None,
 		Login,
 		Barrack,
 		Field,

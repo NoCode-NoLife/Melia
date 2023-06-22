@@ -457,10 +457,11 @@ public class CharacterCalculationsScript : GeneralScript
 		if (Feature.IsEnabled("FreeRunning"))
 			baseValue = 0;
 
-		// If DashRun was activated, and FreeDashing isn't enabled, the
-		// stamina usage is increased
+		// If DashRun is active, the stamina usage is increased. This does
+		// not apply if character is in a city and FreeDashingInCities is
+		// enabled.
 		var isDashRun = properties.GetFloat("DashRun", 0);
-		if (isDashRun > 0 && !Feature.IsEnabled("FreeDashing"))
+		if (isDashRun > 0 && (!Feature.IsEnabled("FreeDashingInCities") || character.Map.Data.Type != MapType.City))
 		{
 			var dashAmount = 500f;
 			if (isDashRun == 2)
