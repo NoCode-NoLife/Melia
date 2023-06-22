@@ -14,5 +14,5 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int handle;
+int key;
 float f1; // 1 or 0 diff of a float from ZC_SYNC_START which is 1
