@@ -388,8 +388,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
+			this.Properties.Modify(PropertyName.HP, hpAmount);
+			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;
 
