@@ -98,6 +98,13 @@ namespace Melia.Zone.Database
 			var character = new Character();
 			//var stamina = 25000;
 
+			// When switching maps, the client sends the character object
+			// id to select the character, as it's the only information
+			// it has. We'll need to adjust that id here to the get the
+			// correct character. DatabaseId is ObjectId - Range.
+			if (characterId > ObjectIdRanges.Characters)
+				characterId -= ObjectIdRanges.Characters;
+
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
 			{
