@@ -6,6 +6,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
@@ -66,53 +67,6 @@ namespace Melia.Zone.Skills.Handlers.General
 					if (anyDead)
 						Send.ZC_SKILL_CAST_CANCEL(caster);
 
-					break;
-				}
-
-				case SkillId.Archer_Multishot:
-				{
-					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = SCR_GetRandomAtk(caster, null, skill);
-
-					var characterCaster = caster as Character;
-					if (characterCaster != null)
-					{
-						Send.ZC_NORMAL.Skill_4E(characterCaster, skill.Id, 1);
-						Send.ZC_NORMAL.Skill(characterCaster, skill, targetPosition, caster.Direction, true);
-						Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
-						Send.ZC_SYNC_START(characterCaster, 1234, 1);
-						Send.ZC_SYNC_END(characterCaster, 1234, 0);
-						Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.DefaultHitDelay);
-						Send.ZC_SKILL_MELEE_GROUND(characterCaster, skill, targetPosition, null);
-						Send.ZC_SYNC_EXEC(characterCaster, 1234);
-					}
-
-					for (var i = 0; i < 10; i++)
-					{
-						Task.Delay(skill.Data.DefaultHitDelay).ContinueWith(_ =>
-						{
-							if (characterCaster != null)
-							{
-								Send.ZC_NORMAL.Unknown_06(characterCaster, targetPosition);
-								Send.ZC_SYNC_START(characterCaster, 1234, 1);
-								Send.ZC_SYNC_END(characterCaster, 1234, 0);
-								Send.ZC_SYNC_EXEC_BY_SKILL_TIME(characterCaster, 1234, skill.Data.DefaultHitDelay);
-								Send.ZC_SYNC_EXEC(characterCaster, 1234);
-							}
-
-							foreach (var target in targets)
-							{
-								target.TakeDamage(damage, caster);
-								Send.ZC_HIT_INFO(caster, target, skill, new HitInfo(damage, target.Hp, i + 1, HitResultType.MagicMissile));
-
-								if (target.IsDead)
-									Send.ZC_SKILL_CAST_CANCEL(caster);
-							}
-						});
-					}
-
-					if (characterCaster != null)
-						Send.ZC_SKILL_DISABLE(characterCaster);
 					break;
 				}
 

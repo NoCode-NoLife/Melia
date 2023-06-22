@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Melia.Shared.L10N;
+using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
+using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
+using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
+using static Melia.Zone.Skills.SkillUseFunctions;
+
+namespace Melia.Zone.Skills.Handlers.Cleric
+{
+	/// <summary>
+	/// Handler for the Archer skill Multishot.
+	/// </summary>
+	[SkillHandler(SkillId.Archer_Multishot)]
+	public class Multishot : IGroundSkillHandler
+	{
+		private const int TotalHits = 10;
+		private readonly static TimeSpan DelayBetweenHits = TimeSpan.FromMilliseconds(120);
+
+		/// <summary>
+		/// Handles skill, damaging targets.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
+		{
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
+
+			var maxRange = skill.Properties.GetFloat(PropertyName.MaxR);
+			if (!caster.Position.InRange2D(farPos, maxRange))
+			{
+				caster.ServerMessage(Localization.Get("Too far away."));
+				return;
+			}
+
+			skill.IncreaseOverheat();
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
+
+			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+
+			var splashArea = new Circle(farPos, 30);
+			this.Attack(skill, caster, splashArea);
+		}
+
+		/// <summary>
+		/// Executes the actual attack after a delay.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="splashArea"></param>
+		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		{
+			try
+			{
+				var hits = new List<SkillHitInfo>();
+
+				for (var i = 0; i < TotalHits; ++i)
+				{
+					// TODO: Try to optimize this to not get all targets
+					//   every time, though we might want/need that?
+					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+					var targetPos = splashArea.OriginPos;
+
+					if (targets.Count != 0)
+					{
+						var target = targets.Random();
+						if (!caster.CanAttack(target))
+							continue;
+
+						var damage = SCR_CalculateDamage(caster, target, skill);
+
+						target.TakeDamage(damage, caster);
+						targetPos = target.Position;
+
+						var hitInfo = new HitInfo(damage, target.Hp, target.HpChangeCounter, HitResultType.Hit);
+						Send.ZC_HIT_INFO(caster, target, skill, hitInfo);
+					}
+
+					// It seems like the game uses ZC_SYNC_* packets
+					// to control how and when packets such as this
+					// are actually handled by the client instead of
+					// sending them on precise timers, though timers
+					// also seem to get employed... Needs more research.
+					Send.ZC_NORMAL.Unknown_06(caster, "I_arrow013_mash_yellow#Dummy_Force", TimeSpan.FromMilliseconds(600), "F_explosion092_hit", TimeSpan.FromMilliseconds(600), targetPos);
+
+					if (i < TotalHits - 1)
+						await Task.Delay(DelayBetweenHits);
+				}
+
+				Send.ZC_SKILL_DISABLE(caster as Character);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Multishot: Attack failed. Error: {0}", ex);
+			}
+		}
+	}
+}

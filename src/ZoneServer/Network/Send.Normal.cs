@@ -94,21 +94,29 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Skill Related ZC_Normal Packet
 			/// </summary>
-			/// <param name="character"></param>
+			/// <param name="entity"></param>
+			/// <param name="packetString1"></param>
+			/// <param name="duration1"></param>
+			/// <param name="packetString2"></param>
+			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void Unknown_06(Character character, Position position)
+			public static void Unknown_06(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
 			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
+					throw new ArgumentException($"Packet string '{packetString1}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
+					throw new ArgumentException($"Packet string '{packetString2}' not found.");
+
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_06);
 
-				packet.PutInt(character.Handle);
-				packet.PutInt(280015);
-				packet.PutFloat(0.6f);
-				packet.PutInt(1150041);
-				packet.PutFloat(0.6f);
-				packet.PutFloat(position.X);
-				packet.PutFloat(position.Y);
-				packet.PutFloat(position.Z);
+				packet.PutInt(entity.Handle);
+				packet.PutInt(packetStringData1.Id);
+				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutInt(packetStringData2.Id);
+				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutPosition(position);
 				packet.PutFloat(30);
 				packet.PutFloat(0.2f);
 				packet.PutFloat(0);
@@ -117,7 +125,7 @@ namespace Melia.Zone.Network
 				packet.PutLong(0);
 				packet.PutLpString("None");
 
-				character.Connection.Send(packet);
+				entity.Map.Broadcast(packet, entity);
 			}
 
 			/// <summary>

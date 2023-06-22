@@ -130,6 +130,7 @@
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="Skills\Combat\HitInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitInfo.cs" />
+    <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\Handlers\Cleric\Heal.cs" />
