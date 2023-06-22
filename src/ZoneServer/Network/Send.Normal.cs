@@ -92,7 +92,9 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Skill Related ZC_Normal Packet
+			/// Plays an animation of an effect getting thrown from the
+			/// entity to the position, where a second effect is played
+			/// for the impact.
 			/// </summary>
 			/// <param name="entity"></param>
 			/// <param name="packetString1"></param>
@@ -100,7 +102,7 @@ namespace Melia.Zone.Network
 			/// <param name="packetString2"></param>
 			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void Unknown_06(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
+			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
@@ -109,7 +111,7 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{packetString2}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Unknown_06);
+				packet.PutInt(NormalOp.Zone.SkillProjectile);
 
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
