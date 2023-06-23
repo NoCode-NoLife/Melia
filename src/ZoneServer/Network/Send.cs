@@ -419,6 +419,21 @@ namespace Melia.Zone.Network
 		/// <param name="targetPos"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, IEnumerable<SkillHitInfo> hits)
+			=> ZC_SKILL_MELEE_GROUND(entity, skill, 0, targetPos, hits);
+
+		/// <summary>
+		/// Shows entity using the skill.
+		/// </summary>
+		/// <remarks>
+		/// In some cases this packet contains the hit information,
+		/// while they're sent with ZC_SKILL_HIT_INFO in others.
+		/// Why this is is yet to be determined.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, int unkForceId, Position targetPos, IEnumerable<SkillHitInfo> hits)
 		{
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
@@ -1199,20 +1214,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_SET_POS in range of character, updating its position.
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_SET_POS(Character character)
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor)
+			=> ZC_SET_POS(actor, actor.Position);
+
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
+		/// </summary>
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
+			packet.PutInt(actor.Handle);
+			packet.PutPosition(pos);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
