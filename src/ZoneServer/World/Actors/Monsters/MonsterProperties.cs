@@ -32,11 +32,19 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new FloatProperty(PropertyName.MHP, this.Monster.Data.Hp));
 			this.Create(new FloatProperty(PropertyName.HP, this.Monster.Data.Hp, min: 0));
 
+			this.Create(new FloatProperty(PropertyName.MINPATK, this.Monster.Data.PhysicalAttackMin));
+			this.Create(new FloatProperty(PropertyName.MAXPATK, this.Monster.Data.PhysicalAttackMax));
+			this.Create(new FloatProperty(PropertyName.MINMATK, this.Monster.Data.MagicalAttackMin));
+			this.Create(new FloatProperty(PropertyName.MAXMATK, this.Monster.Data.MagicalAttackMax));
+			this.Create(new FloatProperty(PropertyName.DEF, this.Monster.Data.PhysicalDefense));
+			this.Create(new FloatProperty(PropertyName.MDEF, this.Monster.Data.MagicalDefense));
+
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
 			this.Create(new CFloatProperty(PropertyName.MSPD, this.GetMSPD));
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
+			this.AutoUpdate(PropertyName.MSPD, new[] { PropertyName.WlkMSPD, PropertyName.RunMSPD, PropertyName.FIXMSPD_BM });
 
 			this.InvalidateAll();
 		}
