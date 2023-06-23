@@ -28,7 +28,7 @@ namespace Melia.Zone.World
 		private const float FlexDecreaseLimit = -100;
 		private const float FlexMeterDefault = 0;
 		private const float FlexMeterIncreasePerDeath = 10;
-		private const float FlexMeterDecreasePerSecond = 0.5f;
+		private const float FlexMeterDecreasePerMillisecond = 0.005f;
 
 		private static int Ids;
 
@@ -36,8 +36,8 @@ namespace Melia.Zone.World
 		private readonly Map _map;
 
 		private float _flexMeter = 0;
-		private TimeSpan _flexSpawnDelay = TimeSpan.MaxValue;
-		private readonly List<TimeSpan> _respawnDelays = new List<TimeSpan>();
+		private TimeSpan _flexSpawnDelay = TimeSpan.Zero;
+		private TimeSpan _respawnDelay = TimeSpan.Zero;
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
@@ -55,12 +55,12 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Returns the min amount of monsters this spawner spawns at a time.
 		/// </summary>
-		public int MinAmount { get; }
+		public int MinRespawnAmount { get; }
 
 		/// <summary>
 		/// Returns the max amount of monsters this spawner spawns at a time.
 		/// </summary>
-		public int MaxAmount { get; }
+		public int MaxRespawnAmount { get; }
 
 		/// <summary>
 		/// Returns the  amount of monsters this spawner currently spawns at
@@ -68,11 +68,6 @@ namespace Melia.Zone.World
 		/// are killed.
 		/// </summary>
 		public int FlexAmount { get; private set; }
-
-		/// <summary>
-		/// Returns the amount of monsters currently spawned.
-		/// </summary>
-		public int Amount { get; private set; }
 
 		/// <summary>
 		/// Returns the area in which the monsters are spawned.
@@ -107,19 +102,28 @@ namespace Melia.Zone.World
 		public PropertyOverrides PropertyOverrides { get; }
 
 		/// <summary>
-		/// Creates new instance.
+		/// The monster population associated to this spawner. The number of monsters
+		/// spawned cannot exceed its max population.
+		/// </summary>
+		public MonsterPopulation MonsterPopulation { get; }
+
+		/// <summary>
+		/// Creates new instance
 		/// </summary>
 		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
+		/// <param name="monsterPopulation"></param>
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
 		/// <param name="initialSpawnDelay"></param>
 		/// <param name="minRespawnDelay"></param>
 		/// <param name="maxRespawnDelay"></param>
+		/// <param name="minRespawnAmount"></param>
+		/// <param name="maxRespawnAmount"></param>
 		/// <param name="tendency"></param>
 		/// <param name="propertyOverrides"></param>
-		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		/// <exception cref="ArgumentException"></exception>
+		public MonsterSpawner(int monsterClassId, MonsterPopulation monsterPopulation, string mapClassName, IShape area, TimeSpan initialSpawnDelay,
+			TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, int minRespawnAmount, int maxRespawnAmount, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
@@ -127,15 +131,16 @@ namespace Melia.Zone.World
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out _map))
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
-			maxAmount = Math.Max(1, maxAmount);
+			minRespawnAmount = Math.Max(0, minRespawnAmount);
+			maxRespawnAmount = Math.Max(1, maxRespawnAmount);
 			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
 			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
 			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
 
 			this.Id = Interlocked.Increment(ref Ids);
-			this.MinAmount = minAmount;
-			this.MaxAmount = maxAmount;
-			this.FlexAmount = this.MinAmount;
+			this.MinRespawnAmount = minRespawnAmount;
+			this.MaxRespawnAmount = maxRespawnAmount;
+			this.FlexAmount = 0;
 			this.MapClassName = mapClassName;
 			this.Area = area;
 			this.InitialDelay = initialSpawnDelay;
@@ -143,12 +148,13 @@ namespace Melia.Zone.World
 			this.MaxRespawnDelay = maxRespawnDelay;
 			this.Tendency = tendency;
 			this.PropertyOverrides = propertyOverrides;
+			this.MonsterPopulation = monsterPopulation;
 
 			_flexSpawnDelay = this.InitialDelay;
 		}
 
 		/// <summary>
-		/// Spawns the given number of monsters.
+		/// Spawns the given number of monsters
 		/// </summary>
 		public void Spawn(int amount)
 		{
@@ -174,7 +180,7 @@ namespace Melia.Zone.World
 				_map.AddMonster(monster);
 			}
 
-			this.Amount += amount;
+			MonsterPopulation.CurrentCount += amount;
 		}
 
 		/// <summary>
@@ -230,9 +236,11 @@ namespace Melia.Zone.World
 		/// <param name="killer"></param>
 		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
-			this.Amount--;
+			MonsterPopulation.CurrentCount -= 1;
 
-			_respawnDelays.Add(this.GetRandomRespawnDelay());
+			if (MonsterPopulation.CurrentCount < 0)
+				MonsterPopulation.CurrentCount = 0;
+
 			_flexMeter += FlexMeterIncreasePerDeath;
 		}
 
@@ -248,46 +256,71 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Respawns monsters that have been killed up until the current
-		/// flex amount.
+		/// This method spawns monsters normally with the constant respawn delay.
+		/// Monsters can only be spawned up to its maximum population.
+		/// Monsters spawn in random amounts between MinRespawnAmount and MaxRespawnAmount at a time.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		private void RespawnMonsters(TimeSpan elapsed)
 		{
-			for (var i = 0; i < _respawnDelays.Count; ++i)
-			{
-				var spawnDelay = _respawnDelays[i];
-				_respawnDelays[i] = spawnDelay - elapsed;
-			}
-
-			var expiredDelayCount = _respawnDelays.Count(d => d <= TimeSpan.Zero);
-			if (expiredDelayCount == 0)
+			int availablePopulation = MonsterPopulation.AvailablePopulation();
+			
+			// No population available to respawn
+			if (availablePopulation <= 0)
 				return;
 
-			_respawnDelays.RemoveAll(d => d <= TimeSpan.Zero);
+			// Updates respawn delay
+			_respawnDelay -= elapsed;
 
-			var spawnAmount = Math.Min(expiredDelayCount, this.FlexAmount - this.Amount);
-			if (spawnAmount <= 0)
+			// If still in delay, return
+			if (_respawnDelay > TimeSpan.Zero)
 				return;
 
-			this.Spawn(spawnAmount);
+			// Checks amount of mobs that can be spawned
+			var amount = Math.Min(GetRandomRespawnAmount(), availablePopulation);
+
+			if (amount <= 0)
+				return;
+
+			// Spawns monsters
+			this.Spawn(amount);
+
+			// Resets the delay
+			_respawnDelay = this.GetRandomRespawnDelay();
 		}
 
 		/// <summary>
-		/// Spawns monsters until the current flex amount is reached.
+		/// This method boosts up the default respawn method by allowing monsters to respawn
+		/// even faster depending on the players killing them. The faster mobs are being killed,
+		/// the faster they will respawn. Monsters can still only respawn up to their max population.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		private void FlexSpawnMonsters(TimeSpan elapsed)
 		{
+			int availablePopulation = MonsterPopulation.AvailablePopulation();
+
+			// No population available to respawn
+			if (availablePopulation <= 0)
+				return;
+
+			// Updates flexible respawn delay
 			_flexSpawnDelay -= elapsed;
+
+			// If still in delay, return
 			if (_flexSpawnDelay > TimeSpan.Zero)
 				return;
 
-			_flexSpawnDelay = this.GetRandomRespawnDelay();
+			// Checks amount of mobs that can be spawned
+			var amount = Math.Min(this.FlexAmount * GetRandomRespawnAmount(), availablePopulation);
 
-			var potentialSpawnAmount = Math.Max(0, this.FlexAmount - this.Amount - _respawnDelays.Count);
-			if (potentialSpawnAmount > 0)
-				this.Spawn(1);
+			if (amount <= 0)
+				return;
+
+			// Spawns monsters
+			this.Spawn(amount);
+
+			// Resets the flex spawn delay
+			_flexSpawnDelay = this.GetRandomRespawnDelay();
 		}
 
 		/// <summary>
@@ -298,20 +331,20 @@ namespace Melia.Zone.World
 		private void BalanceSpawnAmounts(TimeSpan elapsed)
 		{
 			// Drain flex meter over time
-			_flexMeter -= (float)(elapsed.TotalSeconds * FlexMeterDecreasePerSecond);
+			_flexMeter -= (float)(elapsed.TotalMilliseconds * FlexMeterDecreasePerMillisecond);
 
 			// If the flex meter reached the increase limit, we increase
 			// the spawn amount.
 			if (_flexMeter > FlexIncreaseLimit)
 			{
-				this.FlexAmount = Math.Min(this.MaxAmount, this.FlexAmount + 1);
+				this.FlexAmount = Math.Min(MonsterPopulation.MaxCount, this.FlexAmount + 1);
 				_flexMeter = FlexMeterDefault;
 			}
 			// If the meter instead fell below the decrease limit, the
 			// spawn amount decreases.
-			else if (_flexMeter < FlexDecreaseLimit)
+			else if (_flexMeter <= FlexDecreaseLimit)
 			{
-				this.FlexAmount = Math.Max(this.MinAmount, this.FlexAmount - 1);
+				this.FlexAmount = Math.Max(0, this.FlexAmount - 1);
 				_flexMeter = FlexMeterDefault;
 			}
 		}
@@ -322,6 +355,13 @@ namespace Melia.Zone.World
 		/// <returns></returns>
 		private TimeSpan GetRandomRespawnDelay()
 			=> _rnd.Between(this.MinRespawnDelay, this.MaxRespawnDelay);
+
+		/// <summary>
+		/// Returns a random value between min and max respawn amount.
+		/// </summary>
+		/// <returns></returns>
+		private int GetRandomRespawnAmount()
+			=> _rnd.Next(this.MinRespawnAmount, this.MaxRespawnAmount);
 
 		/// <summary>
 		/// Attempts to find a valid random position within the spawn
@@ -362,6 +402,7 @@ namespace Melia.Zone.World
 			//   would want it, so we should find a way to handle them.
 
 			// Well, we gave our best. Kind of.
+			Log.Warning($"TryGetRandomPosition: Failed for position center: 'X={this.Area.Center.X}', 'Z={this.Area.Center.Y}'");
 			pos = Position.Zero;
 			return false;
 		}

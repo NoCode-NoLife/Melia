@@ -71,6 +71,11 @@ namespace Melia.Zone.World.Maps
 		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
 
 		/// <summary>
+		/// List of monster populations in this map.
+		/// </summary>
+		private readonly List<MonsterPopulation> _monsterPopulations = new List<MonsterPopulation>();
+
+		/// <summary>
 		/// List of property overrides for monsters spawned on this map.
 		/// </summary>
 		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new Dictionary<int, PropertyOverrides>();
@@ -320,7 +325,14 @@ namespace Melia.Zone.World.Maps
 		public void AddSpawner(MonsterSpawner spawner)
 		{
 			lock (_spawners)
-				_spawners.Add(spawner);
+			{
+				// Adding spawners to random index of list makes mob spawns more distributed.
+				// If this addition is not random, mobs may spawn all in one room given the
+				// spawn scripts are grouped by map locations.
+				Random r = new Random();
+				int randomIndex = r.Next(0, _spawners.Count);
+				_spawners.Insert(randomIndex, spawner);
+			}
 		}
 
 		/// <summary>
@@ -329,7 +341,15 @@ namespace Melia.Zone.World.Maps
 		public void RemoveSpawners()
 		{
 			lock (_spawners)
+			{
+				foreach (var spawner in _spawners)
+				{
+					spawner.MonsterPopulation.CurrentCount = 0;
+				}
 				_spawners.Clear();
+			}
+				
+
 		}
 
 		/// <summary>
@@ -612,6 +632,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Adds a new monster population to this map
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="maxCount"></param>
+		public void AddMonsterPopulation(MonsterPopulation monsterPopulation)
+		{
+			lock (_monsterPopulations)
+				_monsterPopulations.Add(monsterPopulation);
+		}
+
+		/// <summary>
 		/// Sets the property overrides for the given monster on this map.
 		/// </summary>
 		/// <param name="monsterClassId"></param>
@@ -620,6 +651,22 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_monsterPropertyOverrides)
 				_monsterPropertyOverrides[monsterClassId] = propertyOverrides;
+		}
+
+		/// <summary>
+		/// Returns the monster population of given name via out.
+		/// Returns false if no monster population is found.
+		/// </summary>
+		/// <param name="populationName"></param>
+		/// <param name="monsterPopulation"></param>
+		/// <returns></returns>
+		public bool TryGetMonsterPopulation(string populationName, out MonsterPopulation monsterPopulation)
+		{
+			lock (_monsterPopulations)
+			{
+				monsterPopulation = _monsterPopulations.FirstOrDefault(p => p.Name == populationName);
+				return monsterPopulation != null;
+			}
 		}
 
 		/// <summary>
