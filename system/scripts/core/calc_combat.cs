@@ -58,9 +58,11 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetRandomAtk = ScriptableFunctions.SkillUse.Get("SCR_GetRandomAtk");
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill);
-
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
+		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
+
 		damage *= skillFactor / 100f;
+		damage += skillAtkAdd;
 
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
