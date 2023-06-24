@@ -43,23 +43,21 @@ namespace Melia.Zone.Skills.Handlers.Common
 				return;
 			}
 
-			// This value needs to be set on both the skill hits and
-			// ZC_SKILL_FORCE_TARGET for the client to connect the
-			// pieces and stop arrows from flying past the targets.
-			// We'll just set this to whatever for now, but it
-			// probably needs to be a sequential id.
-			var unkForceId = 179069;
-
 			var damageDelay = TimeSpan.FromMilliseconds(500);
 			var skillHitDelay = skill.Properties.HitDelay;
 
 			var damage = SCR_CalculateDamage(caster, target, skill);
 			target.TakeDamage(damage, caster);
 
-			var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-			hit.UnkForceId = unkForceId;
+			// The force id needs to be set on both the skill hits
+			// and ZC_SKILL_FORCE_TARGET for the client to connect
+			// the pieces and stop arrows from flying past the targets.
+			var forceId = ForceId.GetNew();
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, unkForceId, new[] { hit });
+			var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
+			hit.ForceId = forceId;
+
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, forceId, new[] { hit });
 		}
 	}
 }

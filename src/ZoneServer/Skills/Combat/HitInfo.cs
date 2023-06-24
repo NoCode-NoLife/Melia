@@ -28,6 +28,11 @@ namespace Melia.Zone.Skills.Combat
 		public HitResultType ResultType { get; }
 
 		/// <summary>
+		/// Gets or sets the hit's force id.
+		/// </summary>
+		public int ForceId { get; set; }
+
+		/// <summary>
 		/// Creates new hit.
 		/// </summary>
 		/// <param name="damage"></param>

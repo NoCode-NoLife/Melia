@@ -47,7 +47,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets an unknown value that's necessary for force skills.
 		/// </summary>
-		public int UnkForceId { get; set; }
+		public int ForceId { get; set; }
 
 		/// <summary>
 		/// Creates new skill hit.

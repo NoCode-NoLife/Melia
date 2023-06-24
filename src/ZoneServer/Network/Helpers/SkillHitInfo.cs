@@ -29,7 +29,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte((byte)skillHitInfo.HitEffect);
 			packet.PutByte(0);
 			packet.PutInt(0);
-			packet.PutInt(skillHitInfo.UnkForceId); // This being set to anything causes a delay in the dagger damage animation
+			packet.PutInt(skillHitInfo.ForceId); // This being set to anything causes a delay in the dagger damage animation
 			packet.PutShort(0);
 			packet.PutShort(0);
 

@@ -419,22 +419,9 @@ namespace Melia.Zone.Network
 		/// <param name="targetPos"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, IEnumerable<SkillHitInfo> hits)
-			=> ZC_SKILL_MELEE_GROUND(entity, skill, 0, targetPos, hits);
-
-		/// <summary>
-		/// Shows entity using the skill.
-		/// </summary>
-		/// <remarks>
-		/// In some cases this packet contains the hit information,
-		/// while they're sent with ZC_SKILL_HIT_INFO in others.
-		/// Why this is is yet to be determined.
-		/// </remarks>
-		/// <param name="entity"></param>
-		/// <param name="skill"></param>
-		/// <param name="targetPos"></param>
-		/// <param name="hits"></param>
-		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, int unkForceId, Position targetPos, IEnumerable<SkillHitInfo> hits)
 		{
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -445,7 +432,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
+			packet.PutInt(forceId);
 			packet.PutFloat(1.083666f);
 
 			// This does _not_ look like a handle to me... And sending a
@@ -1605,7 +1592,7 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(hitInfo.ForceId);
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutFloat(0);
