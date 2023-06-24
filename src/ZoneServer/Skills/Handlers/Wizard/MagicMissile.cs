@@ -49,8 +49,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = skill.Properties.HitDelay;
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			var skillHits = new List<SkillHitInfo>();
 			var hits = new List<HitInfo>();
 
@@ -67,8 +65,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 					var skillHit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
 					skillHit.ForceId = forceId;
 					skillHits.Add(skillHit);
-
-					//Log.Debug("character -> {0}", target.Handle);
 				}
 			}
 
@@ -84,8 +80,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				// much.
 				var subSplashArea = Square.Centered(target.Position, caster.Direction, SubSplashAreaSize, SubSplashAreaSize / 2);
 				var subTargets = caster.Map.GetAttackableEntitiesIn(caster, subSplashArea).Where(a => a != target);
-
-				Debug.ShowShape(caster.Map, subSplashArea, edgePoints: false);
 
 				if (!subTargets.Any())
 					continue;
@@ -103,8 +97,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 					var hit = new HitInfo(caster, subTarget, skill, damage, HitResultType.Hit);
 					hit.ForceId = forceId;
 					hits.Add(hit);
-
-					//Log.Debug("{0} -> {1}", target.Handle, subTarget.Handle);
 
 					Send.ZC_NORMAL.Skill_16(forceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);
 				}

@@ -68,8 +68,6 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 
 			await Task.Delay(damageDelay);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 

@@ -87,8 +87,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			await Task.Delay(hitTime);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
