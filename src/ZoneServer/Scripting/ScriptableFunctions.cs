@@ -122,7 +122,7 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	/// <param name="monster"></param>
 	/// <returns></returns>
-	public delegate float MonsterCalcFunc(IMonster monster);
+	public delegate float MonsterCalcFunc(Mob monster);
 
 	/// <summary>
 	/// A function that calculates a value for a skill.

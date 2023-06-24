@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
@@ -201,25 +202,34 @@ namespace Melia.Zone.World
 			foreach (var propertyOverride in propertyOverrides)
 			{
 				var propertyName = propertyOverride.Key;
+				var properties = monster.Properties as Properties;
+
+				// Calculated properties can't be overridden directly,
+				// instead we swap to the override properties that the
+				// calculation functions use.
+				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+					properties = monster.Properties.Overrides;
 
 				switch (propertyOverride.Value)
 				{
 					case int intValue:
-						monster.Properties.SetFloat(propertyName, intValue);
+						properties.SetFloat(propertyName, intValue);
 						break;
 
 					case float floatValue:
-						monster.Properties.SetFloat(propertyName, floatValue);
+						properties.SetFloat(propertyName, floatValue);
 						break;
 
 					case string stringValue:
-						monster.Properties.SetString(propertyName, stringValue);
+						properties.SetString(propertyName, stringValue);
 						break;
 				}
 			}
 
 			monster.Properties.InvalidateAll();
+
 			monster.Properties.SetFloat(PropertyName.HP, monster.Properties.GetFloat(PropertyName.MHP));
+			monster.Properties.SetFloat(PropertyName.SP, monster.Properties.GetFloat(PropertyName.MSP));
 		}
 
 		/// <summary>

@@ -176,7 +176,17 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
-		public Properties Properties { get; protected set; }
+		public MonsterProperties Properties { get; protected set; }
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IPropertyHolder.Properties => this.Properties;
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IMonsterBase.Properties => this.Properties;
 
 		/// <summary>
 		/// Returns the monster's component collection.
@@ -187,6 +197,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Monster's buffs.
 		/// </summary>
 		public BuffComponent Buffs { get; }
+
+		/// <summary>
+		/// Return the monster's temporary variables.
+		/// </summary>
+		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
 		/// Creates new NPC.
@@ -217,7 +232,21 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
+			this.InitProperties();
+		}
+
+		/// <summary>
+		/// Initializes monster's properties.
+		/// </summary>
+		private void InitProperties()
+		{
 			this.Properties = new MonsterProperties(this);
+
+			this.Properties.InitAutoUpdates();
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 
 		/// <summary>

@@ -525,7 +525,8 @@ namespace Melia.Zone.Commands
 						return CommandResult.Okay;
 					}
 
-					monster.Properties.SetFloat(PropertyName.MHP, hp);
+					monster.Properties.Overrides.SetFloat(PropertyName.MHP, hp);
+					monster.Properties.Invalidate(PropertyName.MHP);
 					monster.Properties.SetFloat(PropertyName.HP, hp);
 				}
 
