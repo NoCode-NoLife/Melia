@@ -16,5 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-int skillHandle;
-int time; // ?
+int key;
+int time; // ms?

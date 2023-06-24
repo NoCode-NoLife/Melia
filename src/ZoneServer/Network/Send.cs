@@ -3141,63 +3141,83 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_START(Character character, int skillActorId, float f1)
+		public static void ZC_SYNC_START(Character character, int key, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_START);
 
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 			packet.PutFloat(f1);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_END(Character character, int skillActorId, float f1)
+		public static void ZC_SYNC_END(Character character, int key, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_END);
 
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 			packet.PutFloat(f1);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, TimeSpan f1)
+		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int key, TimeSpan f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC_BY_SKILL_TIME);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(skillActorId);
-			packet.PutFloat((float)f1.TotalMilliseconds);
+			packet.PutInt(key);
+			packet.PutInt((int)f1.TotalMilliseconds);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
-		public static void ZC_SYNC_EXEC(Character character, int skillActorId)
+		/// <param name="key"></param>
+		public static void ZC_SYNC_EXEC(Character character, int key)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC);
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 
 			character.Connection.Send(packet);
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Melia.Shared.Tos.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -12,6 +13,7 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string EngName { get; set; }
 		public string LocalKey { get; set; }
+		public MapType Type { get; set; }
 	}
 
 	/// <summary>
@@ -57,6 +59,7 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.EngName = entry.ReadString("engName");
 			data.LocalKey = entry.ReadString("localKey");
+			data.Type = entry.ReadEnum<MapType>("type");
 
 			_nameIndex[data.ClassName] = data;
 

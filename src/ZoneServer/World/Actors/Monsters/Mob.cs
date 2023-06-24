@@ -234,6 +234,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				return true;
 
 			this.Properties.Modify(PropertyName.HP, -damage);
+			this.HpChangeCounter++;
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
@@ -387,10 +388,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
+			this.Properties.Modify(PropertyName.HP, hpAmount);
+			this.Properties.Modify(PropertyName.SP, spAmount);
 
-			Send.ZC_UPDATE_ALL_STATUS(this, 0);
+			this.HpChangeCounter++;
+
+			Send.ZC_UPDATE_ALL_STATUS(this, this.HpChangeCounter);
 		}
 	}
 }

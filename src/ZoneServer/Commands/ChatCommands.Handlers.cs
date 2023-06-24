@@ -106,14 +106,6 @@ namespace Melia.Zone.Commands
 		{
 			Log.Debug("test!!");
 
-			Send.ZC_EXEC_CLIENT_SCP(sender.Connection, @"
-local pc = GetMyPCObject()
-
-pc:GetEffect():ActorColorBlend(1, 1, 0, 0, 1, 1);
---SKILLSCP_CART(skillType)
---actor:GetEffect():SetColorBlink(0,0.1,0,0,0.05,0.3,0,0, 1.5, 1);
-			");
-
 			return CommandResult.Okay;
 		}
 

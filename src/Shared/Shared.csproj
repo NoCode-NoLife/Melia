@@ -105,6 +105,7 @@
     <Compile Include="Tos\Const\AnimationId.cs" />
     <Compile Include="Tos\Const\Character.cs" />
     <Compile Include="Tos\Const\CooldownId.cs" />
+    <Compile Include="Tos\Const\MapType.cs" />
     <Compile Include="Tos\Const\MoveType.cs" />
     <Compile Include="Tos\Const\ElementType.cs" />
     <Compile Include="Tos\Const\FactionType.cs" />
