@@ -37,39 +37,6 @@ namespace Melia.Zone.Skills.Handlers.General
 
 			switch (skill.Id)
 			{
-				case SkillId.Wizard_MagicMissile:
-				{
-					var targets = caster.Map.GetAttackableEntitiesInRange(caster, targetPosition, (int)skill.Data.SplashRange);
-					var damage = SCR_GetRandomAtk(caster, null, skill);
-
-					var hits = new List<SkillHitInfo>();
-					var anyDead = false;
-
-					foreach (var target in targets)
-					{
-						if (caster is Character characterCaster)
-						{
-							Send.ZC_NORMAL.SkillParticleEffect(characterCaster, 1234);
-							Send.ZC_SYNC_START(characterCaster, 1234, 1);
-							Send.ZC_NORMAL.Skill_16(characterCaster, target, targetPosition);
-							Send.ZC_SYNC_END(characterCaster, 1234, 0);
-						}
-
-						if (target.TakeDamage(damage, caster))
-							anyDead = true;
-
-						var skillHitInfo = new SkillHitInfo(caster, target, skill, damage, TimeSpan.FromMilliseconds(306), TimeSpan.FromMilliseconds(50));
-						hits.Add(skillHitInfo);
-					}
-
-					Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPosition, hits);
-
-					if (anyDead)
-						Send.ZC_SKILL_CAST_CANCEL(caster);
-
-					break;
-				}
-
 				default:
 				{
 					var hits = new List<SkillHitInfo>();

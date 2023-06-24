@@ -75,6 +75,24 @@ namespace Melia.Zone.Skills.SplashAreas
 		}
 
 		/// <summary>
+		/// Returns a square centered around the given position.
+		/// </summary>
+		/// <param name="centerPos"></param>
+		/// <param name="direction"></param>
+		/// <param name="height"></param>
+		/// <param name="width"></param>
+		/// <returns></returns>
+		public static Square Centered(Position centerPos, Direction direction, float height, float width)
+		{
+			var halfHeight = height / 2f;
+
+			var originPos = centerPos.GetRelative(direction, -halfHeight);
+			var farSidePos = centerPos.GetRelative(direction, halfHeight);
+
+			return new Square(originPos, direction, height, width);
+		}
+
+		/// <summary>
 		/// Returns the square's four corner points.
 		/// </summary>
 		/// <returns></returns>
