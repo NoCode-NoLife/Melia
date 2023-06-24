@@ -22,7 +22,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	public class MagicMissile : IGroundSkillHandler
 	{
 		private const int BulletsPerUse = 3;
-		private const int RichochetBulletsPerHit = 1;
 		private const float SplashAreaSize = 100;
 		private const float SubSplashAreaSize = 200;
 
@@ -48,7 +47,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var splashArea = new Square(originPos, caster.Direction, SplashAreaSize, SplashAreaSize / 2);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
-			var skillHitDelay = TimeSpan.FromMilliseconds(350);
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
@@ -91,7 +90,9 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				if (!subTargets.Any())
 					continue;
 
-				for (var i = 0; i < RichochetBulletsPerHit; ++i)
+				var richochetBulletsPerHit = targets.Count - 1;
+
+				for (var i = 0; i < richochetBulletsPerHit; ++i)
 				{
 					var subTarget = subTargets.Random();
 					var forceId = ForceId.GetNew();
@@ -138,6 +139,29 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 		// 460 -> 805
 		// 460 -> 829
 		// 460 -> 810
-
+		// 
+		// Shot at 3 monsters
+		// 
+		// character -> 459
+		// character -> 422
+		// character -> 459
+		// 459 -> 519
+		// 459 -> 422
+		// 422 -> 459
+		// 422 -> 519
+		// 459 -> 519
+		// 459 -> 422
+		// 
+		// New theory. The numer of ricochets is the number of monsters
+		// in the splash area - 1. If you have two targets, you get one
+		// additional bullet out of each hit, matching up our findings
+		// for hitting two targets. If you hit three targets, you get
+		// two additional bullets, matching the test above.
+		// The first log above is more difficult to explain, because
+		// 829 sent four bullets and the others only three, but maybe
+		// 829 had four targets in range and the others only three...?
+		// Although it was a large group and that seems unlikely as well.
+		// Regardless, there does appear to be some kind of scaling based
+		// on the targets involved.
 	}
 }
