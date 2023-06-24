@@ -53,7 +53,8 @@ namespace Melia.Zone.Skills.SplashAreas
 		SplashType ISplashArea.SplashType => SplashType.Square;
 
 		/// <summary>
-		/// Creates new square.
+		/// Creates new square that starts at origin and extends in
+		/// direction by the given height.
 		/// </summary>
 		/// <param name="originPos"></param>
 		/// <param name="direction"></param>

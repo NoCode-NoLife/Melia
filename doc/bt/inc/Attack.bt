@@ -80,10 +80,6 @@ string readVariableHitInfo(VariableHitInfo &val)
 
 typedef struct (int size)
 {
-    //union a {
-    //    short op;
-    //    byte buffer[size];
-    //};
     short op <hidden=true>;
     FSeek(FTell() - 2);
     
