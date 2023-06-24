@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 						target.TakeDamage(damage, caster);
 						targetPos = target.Position;
 
-						var hitInfo = new HitInfo(damage, target.Hp, target.HpChangeCounter, HitResultType.Hit);
+						var hitInfo = new HitInfo(caster, target, skill, damage, HitResultType.Hit);
 						Send.ZC_HIT_INFO(caster, target, skill, hitInfo);
 					}
 
