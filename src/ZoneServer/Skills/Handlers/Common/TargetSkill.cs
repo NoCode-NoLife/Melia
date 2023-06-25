@@ -2,6 +2,7 @@
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -46,18 +47,13 @@ namespace Melia.Zone.Skills.Handlers.Common
 			var damageDelay = TimeSpan.FromMilliseconds(500);
 			var skillHitDelay = skill.Properties.HitDelay;
 
-			var damage = SCR_CalculateDamage(caster, target, skill);
-			target.TakeDamage(damage, caster);
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-			// The force id needs to be set on both the skill hits
-			// and ZC_SKILL_FORCE_TARGET for the client to connect
-			// the pieces and stop arrows from flying past the targets.
-			var forceId = ForceId.GetNew();
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			skillHit.ForceId = ForceId.GetNew();
 
-			var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-			hit.ForceId = forceId;
-
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, forceId, new[] { hit });
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit.ForceId, new[] { skillHit });
 		}
 	}
 }

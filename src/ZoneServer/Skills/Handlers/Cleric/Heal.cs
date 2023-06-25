@@ -92,17 +92,18 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
-			// According to the description of the old version of Heal,
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+			// According to the description of the old version of Heal
 			// the Attack amount was equal to the Heal Factor, so we'll
 			// simply copy the formula for the heal buff amount for now.
 			var rate = 150f + (skill.Level - 1) * 103f;
+			skillHitResult.Damage *= rate / 100f;
 
-			var damage = SCR_GetRandomAtk(caster, target, skill);
-			damage *= rate / 100f;
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-			target.TakeDamage(damage, caster);
-
-			Send.ZC_SKILL_HIT_INFO(target, new SkillHitInfo(caster, target, skill, damage, TimeSpan.Zero, TimeSpan.Zero));
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, TimeSpan.Zero, TimeSpan.Zero);
+			Send.ZC_SKILL_HIT_INFO(target, skillHit);
 		}
 
 		/// <summary>

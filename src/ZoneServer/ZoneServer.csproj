@@ -133,6 +133,7 @@
     <Compile Include="Skills\Combat\ForceId.cs" />
     <Compile Include="Skills\Combat\HitInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitInfo.cs" />
+    <Compile Include="Skills\Combat\SkillHitResult.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />

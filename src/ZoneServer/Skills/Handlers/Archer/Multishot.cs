@@ -83,13 +83,13 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 						if (!caster.CanAttack(target))
 							continue;
 
-						var damage = SCR_CalculateDamage(caster, target, skill);
+						var skillHitResult = SCR_SkillHit(caster, target, skill);
 
-						target.TakeDamage(damage, caster);
+						target.TakeDamage(skillHitResult.Damage, caster);
 						targetPos = target.Position;
 
-						var hitInfo = new HitInfo(caster, target, skill, damage, HitResultType.Hit);
-						Send.ZC_HIT_INFO(caster, target, skill, hitInfo);
+						var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result);
+						Send.ZC_HIT_INFO(caster, target, skill, hit);
 					}
 
 					// It seems like the game uses ZC_SYNC_* packets

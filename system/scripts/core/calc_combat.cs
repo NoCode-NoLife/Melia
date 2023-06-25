@@ -9,9 +9,11 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -23,9 +25,10 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction("SCR_GetRandomAtk")]
-	public float SCR_GetRandomAtk(ICombatEntity attacker, ICombatEntity target, Skill skill)
+	public float SCR_GetRandomAtk(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
 		var rnd = RandomProvider.Get();
 
@@ -52,13 +55,15 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction("SCR_CalculateDamage")]
-	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill)
+	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
-		var SCR_GetRandomAtk = ScriptableFunctions.SkillUse.Get("SCR_GetRandomAtk");
+		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
+		var rnd = RandomProvider.Get();
 
-		var damage = SCR_GetRandomAtk(attacker, target, skill);
+		var damage = SCR_GetRandomAtk(attacker, target, skill, skillHitResult);
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
@@ -89,5 +94,25 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		return (int)damage;
+	}
+
+	/// <summary>
+	/// Determines the result of the skill being used on the target,
+	/// returning the damage that should be dealt and information
+	/// about the hit, such as whether it was a crit.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public SkillHitResult SCR_SkillHit(ICombatEntity attacker, ICombatEntity target, Skill skill)
+	{
+		var SCR_CalculateDamage = ScriptableFunctions.Combat.Get("SCR_CalculateDamage");
+
+		var result = new SkillHitResult();
+		result.Damage = SCR_CalculateDamage(attacker, target, skill, result);
+
+		return result;
 	}
 }

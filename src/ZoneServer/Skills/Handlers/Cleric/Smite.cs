@@ -73,15 +73,14 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 
 			foreach (var target in targets)
 			{
-				var damage = SCR_CalculateDamage(caster, target, skill);
-
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				if (target.Race == RaceType.Paramune || target.Race == RaceType.Velnias)
-					damage *= 1.5f;
+					skillHitResult.Damage *= 1.5f;
 
-				target.TakeDamage(damage, caster);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-				hits.Add(hit);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

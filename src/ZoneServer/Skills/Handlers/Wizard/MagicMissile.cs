@@ -57,13 +57,12 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				for (var i = 0; i < BulletsPerUse; ++i)
 				{
 					var target = targets.Random();
-					var forceId = ForceId.GetNew();
 
-					var damage = SCR_CalculateDamage(caster, target, skill);
-					target.TakeDamage(damage, caster);
+					var skillHitResult = SCR_SkillHit(caster, target, skill);
+					target.TakeDamage(skillHitResult.Damage, caster);
 
-					var skillHit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-					skillHit.ForceId = forceId;
+					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+					skillHit.ForceId = ForceId.GetNew();
 					skillHits.Add(skillHit);
 				}
 			}
@@ -89,16 +88,15 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				for (var i = 0; i < richochetBulletsPerHit; ++i)
 				{
 					var subTarget = subTargets.Random();
-					var forceId = ForceId.GetNew();
 
-					var damage = SCR_CalculateDamage(caster, subTarget, skill);
-					subTarget.TakeDamage(damage, caster);
+					var skillHitResult = SCR_SkillHit(caster, target, skill);
+					subTarget.TakeDamage(skillHitResult.Damage, caster);
 
-					var hit = new HitInfo(caster, subTarget, skill, damage, HitResultType.Hit);
-					hit.ForceId = forceId;
+					var hit = new HitInfo(caster, subTarget, skill, skillHitResult.Damage, skillHitResult.Result);
+					hit.ForceId = ForceId.GetNew();
 					hits.Add(hit);
 
-					Send.ZC_NORMAL.Skill_16(forceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);
+					Send.ZC_NORMAL.Skill_16(hit.ForceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);
 				}
 			}
 
