@@ -1100,11 +1100,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "HR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.HR_BM);
 
-		// Rate buffs: HR_RATE_BM
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.HR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1131,11 +1129,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "DR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.DR_BM);
 
-		// Rate buffs: "ADD_DR"
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.DR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1167,11 +1163,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "BLK_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.BLK_BM);
 
-		// Rate buffs: BlockRate
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.BLK_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1198,11 +1192,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "BLK_BREAK_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.BLK_BREAK_BM);
 
-		// Rate buffs: 
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.BLK_BREAK_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1231,9 +1223,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = baseValue + byItem;
 
-		// Buffs: "SR_BM"
-		var byBuffs = 0;
-
+		var byBuffs = character.Properties.GetFloat(PropertyName.SR_BM);
 		value += byBuffs;
 
 		return (int)value;
@@ -1252,9 +1242,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = baseValue + byItem;
 
-		// Buffs: "SDR_BM"
-		var byBuffs = 0;
-
+		var byBuffs = character.Properties.GetFloat(PropertyName.SDR_BM);
 		value += byBuffs;
 
 		return (int)value;
