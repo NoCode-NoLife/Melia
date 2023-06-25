@@ -146,6 +146,7 @@
     <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
     <Compile Include="Skills\Handlers\Wizard\Lethargy.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
+    <Compile Include="Skills\Handlers\Wizard\Teleportation.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\Handlers\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\Handlers\SkillHandlers.cs" />
