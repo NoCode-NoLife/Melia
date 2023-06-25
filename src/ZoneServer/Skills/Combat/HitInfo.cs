@@ -27,7 +27,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Returns the damage dealt.
 		/// </summary>
-		public float Damage { get; }
+		public float Damage { get; set; }
 
 		/// <summary>
 		/// Returns the target's current HP after the hit.

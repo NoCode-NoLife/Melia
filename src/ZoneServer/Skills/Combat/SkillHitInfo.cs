@@ -30,14 +30,14 @@ namespace Melia.Zone.Skills.Combat
 		public HitInfo HitInfo { get; }
 
 		/// <summary>
-		/// Returns the delay before the damage is shown.
+		/// Gets or sets the delay before the damage is shown.
 		/// </summary>
-		public TimeSpan DamageDelay { get; }
+		public TimeSpan DamageDelay { get; set; }
 
 		/// <summary>
-		/// Returns the skill's hit delay, which affects the animations.
+		/// Gets or sets the skill's hit delay, which affects the animations.
 		/// </summary>
-		public TimeSpan SkillHitDelay { get; }
+		public TimeSpan SkillHitDelay { get; set; }
 
 		/// <summary>
 		/// Gets or sets the hit effect displayed on the target.
@@ -45,7 +45,9 @@ namespace Melia.Zone.Skills.Combat
 		public HitEffect HitEffect { get; set; } = HitEffect.Impact;
 
 		/// <summary>
-		/// Gets or sets an unknown value that's necessary for force skills.
+		/// Gets or sets the force id, which is used to synchronize
+		/// effects and animations during "force" skills, such as
+		/// Magic Missile and Multi Shot.
 		/// </summary>
 		public int ForceId { get; set; }
 

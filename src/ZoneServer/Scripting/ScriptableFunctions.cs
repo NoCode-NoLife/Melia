@@ -132,7 +132,7 @@ namespace Melia.Zone.Scripting
 	public delegate float SkillCalcFunc(Skill skill);
 
 	/// <summary>
-	/// A function that calculates values related to skills and combat.
+	/// A function that calculates values related to skill usage and combat.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
