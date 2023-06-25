@@ -414,7 +414,8 @@ namespace Melia.Barracks.Network
 		public void CB_START_GAME(IBarracksConnection conn, Packet packet)
 		{
 			var channelId = packet.GetShort();
-			var characterIndex = packet.GetShort();
+			var characterIndex = packet.GetByte();
+			var b1 = packet.GetByte();
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(characterIndex);
