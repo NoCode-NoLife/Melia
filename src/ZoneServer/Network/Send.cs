@@ -375,6 +375,16 @@ namespace Melia.Zone.Network
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, params SkillHitInfo[] hits)
+			=> ZC_SKILL_FORCE_TARGET(entity, target, skill, (IEnumerable<SkillHitInfo>)hits);
+
+		/// <summary>
+		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hits"></param>
 		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
 		{
 			var forceId = hits.FirstOrDefault()?.ForceId ?? 0;

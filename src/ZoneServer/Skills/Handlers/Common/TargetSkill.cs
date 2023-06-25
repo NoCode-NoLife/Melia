@@ -52,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 			skillHit.ForceId = ForceId.GetNew();
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, new[] { skillHit });
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 		}
 	}
 }
