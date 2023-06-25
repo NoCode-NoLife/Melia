@@ -374,10 +374,11 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="unkForceId"></param>
 		/// <param name="hits"></param>
-		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int unkForceId, IEnumerable<SkillHitInfo> hits)
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
 		{
+			var forceId = hits.FirstOrDefault()?.ForceId ?? 0;
+
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -388,7 +389,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(550.7403f); // Delay until next attack?
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(unkForceId);
+			packet.PutInt(forceId);
 			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
