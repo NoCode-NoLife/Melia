@@ -10,6 +10,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -58,16 +59,34 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetRandomAtk = ScriptableFunctions.SkillUse.Get("SCR_GetRandomAtk");
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill);
+
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-
 		damage *= skillFactor / 100f;
 		damage += skillAtkAdd;
 
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
-
 		damage = Math.Max(1, damage - def);
+
+		// Check damage (de)buffs
+		// I'm not aware of a general purpose buff or debuff property for
+		// modifying damage that we could utilize to handle buffs like
+		// ReflectShield_Buff, so we'll have to check for it explicitly.
+		// Though this is neither elegant nor efficient, and we won't be
+		// able to easily customize it either. It should probably be a
+		// scriptable function in itself... TODO.
+		if (target.Components.Get<BuffComponent>().TryGet(BuffId.ReflectShield_Buff, out var buff))
+		{
+			var skillLevel = buff.NumArg1;
+			var byBuffRate = (skillLevel * 3 / 100f);
+
+			damage = Math.Max(1, damage - damage * byBuffRate);
+
+			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
+			var spRate = 0.7f / 100f;
+			target.TrySpendSp(maxSp * spRate);
+		}
 
 		return (int)damage;
 	}
