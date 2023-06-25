@@ -409,11 +409,6 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Shows entity using the skill.
 		/// </summary>
-		/// <remarks>
-		/// In some cases this packet contains the hit information,
-		/// while they're sent with ZC_SKILL_HIT_INFO in others.
-		/// Why this is is yet to be determined.
-		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
 		/// <param name="targetPos"></param>
@@ -443,11 +438,53 @@ namespace Melia.Zone.Network
 			//else
 			packet.PutInt(0);
 
-			packet.PutFloat(targetPos.X);
-			packet.PutFloat(targetPos.Y);
-			packet.PutFloat(targetPos.Z);
+			packet.PutPosition(targetPos);
 
 			packet.PutShort((short)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Shows entity using the skill on the target.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_TARGET(ICombatEntity entity, Skill skill, ICombatEntity target, IEnumerable<SkillHitInfo> hits)
+		{
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
+
+			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
+
+			packet.PutInt((int)skill.Id);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(forceId);
+			packet.PutFloat(1.083666f);
+
+			// This does _not_ look like a handle to me... And sending a
+			// single target handle for an AoE skill packet doesn't make
+			// sense either. Let's send 0 for now.
+			//if (targets != null && targetCount == 1)
+			//	packet.PutInt(targets.First().Handle);
+			//else
+			packet.PutInt(0);
+
+			packet.PutInt(target.Handle);
+
+			packet.PutByte((byte)(hits?.Count() ?? 0));
 			if (hits != null)
 			{
 				foreach (var hit in hits)
