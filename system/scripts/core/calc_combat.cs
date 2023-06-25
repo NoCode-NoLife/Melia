@@ -64,6 +64,13 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var rnd = RandomProvider.Get();
 
+		var dr = target.Properties.GetFloat(PropertyName.DR);
+		if (rnd.Next(1000) < dr)
+		{
+			skillHitResult.Result = HitResultType.Dodge;
+			return 0;
+		}
+
 		var damage = SCR_GetRandomAtk(attacker, target, skill, skillHitResult);
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
@@ -72,7 +79,7 @@ public class CombatCalculationsScript : GeneralScript
 		damage += skillAtkAdd;
 
 		var crtHr = attacker.Properties.GetFloat(PropertyName.CRTHR);
-		if (rnd.Next(100) < crtHr)
+		if (rnd.Next(1000) < crtHr)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
 			damage += crtAtk;
