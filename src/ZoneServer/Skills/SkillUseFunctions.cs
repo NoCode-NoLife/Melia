@@ -10,8 +10,6 @@ namespace Melia.Zone.Skills
 	/// </summary>
 	public static class SkillUseFunctions
 	{
-		private readonly static Dictionary<string, SkillUseFunc> Cached = new Dictionary<string, SkillUseFunc>();
-
 		/// <summary>
 		/// Calls the scriptable skill use function with the given name.
 		/// </summary>
@@ -26,13 +24,8 @@ namespace Melia.Zone.Skills
 		/// </exception>
 		public static float Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill)
 		{
-			if (!Cached.TryGetValue(name, out var func))
-			{
-				if (!ScriptableFunctions.SkillUse.TryGet(name, out func))
-					throw new ArgumentException($"Scriptable function '{name}' was not defined.");
-
-				Cached[name] = func;
-			}
+			if (!ScriptableFunctions.SkillUse.TryGet(name, out var func))
+				throw new ArgumentException($"Scriptable function '{name}' was not defined.");
 
 			return func(caster, target, skill);
 		}
