@@ -2,7 +2,6 @@
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -14,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 	/// <summary>
 	/// Handles ranged skills that target a single entity.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack)]
+	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
 	public class TargetSkill : ITargetSkillHandler
 	{
 		/// <summary>
