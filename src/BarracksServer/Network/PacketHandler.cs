@@ -2,15 +2,13 @@
 using System.Linq;
 using System.Text;
 using Melia.Barracks.Database;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.Data.Database;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 
 namespace Melia.Barracks.Network
 {
