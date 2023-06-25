@@ -1228,6 +1228,55 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Request from a player to use a skill on their own character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SKILL_SELF)]
+		public void CZ_SKILL_SELF(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var skillId = (SkillId)packet.GetInt();
+			var originPos = packet.GetPosition();
+			var direction = packet.GetDirection();
+			var b2 = packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			// Check skill
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_SKILL_SELF: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_SKILL_SELF: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
+				return;
+			}
+
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ISelfSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_SKILL_SELF: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, originPos, direction);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_SKILL_SELF: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
+		}
+
+		/// <summary>
 		/// Sent when character starts casting a hold to cast skill
 		/// </summary>
 		/// <param name="conn"></param>
