@@ -11,6 +11,17 @@ public class CKlaipeNpcScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Storage Keeper
+		//-------------------------------------------------------------------------
+		AddNpc(20111, "[Storage Keeper] Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
+		{
+			dialog.SetTitle("Rita");
+			//dialog.SetPortrait("KLAPEDA_Akalabeth_basic28");
+
+			await dialog.OpenStorage();
+		});
+
+
 		// Equipment Merchant
 		//-------------------------------------------------------------------------
 

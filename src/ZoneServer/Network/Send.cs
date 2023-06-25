@@ -10,6 +10,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
+using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -1376,6 +1377,14 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Sin);
 
 			entity.Map.Broadcast(packet, entity);
+		}
+
+		public static void ZC_CUSTOM_DIALOG(Character character)
+		{
+			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
+			packet.PutBinFromHex("77617265686F757365000000000000000000000000000300000000000000ADC32200010000009096021500000000F9E7A30000000000909602150000000009000000000000");
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
