@@ -3,7 +3,6 @@ using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -41,8 +40,11 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 
-			var hit = new SkillHitInfo(caster, target, skill, 0, TimeSpan.FromMilliseconds(50), TimeSpan.Zero);
-			Send.ZC_SKILL_HIT_INFO(caster, hit);
+			// Packet logs show an empty hit being sent here, but it doesn't
+			// appear to be necessary.
+			//var hit = new SkillHitInfo(caster, target, skill, 0, TimeSpan.FromMilliseconds(50), TimeSpan.Zero);
+			//hit.HitInfo.ResultType = HitResultType.None;
+			//Send.ZC_SKILL_HIT_INFO(caster, hit);
 		}
 	}
 }

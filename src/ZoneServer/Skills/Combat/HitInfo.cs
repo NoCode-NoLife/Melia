@@ -42,7 +42,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Returns the result type of the hit, affecting the hit effect.
 		/// </summary>
-		public HitResultType ResultType { get; }
+		public HitResultType ResultType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the hit's force id.
