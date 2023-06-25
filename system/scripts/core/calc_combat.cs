@@ -70,6 +70,15 @@ public class CombatCalculationsScript : GeneralScript
 		damage *= skillFactor / 100f;
 		damage += skillAtkAdd;
 
+		var crtHr = attacker.Properties.GetFloat(PropertyName.CRTHR);
+		if (rnd.Next(100) < crtHr)
+		{
+			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
+			damage += crtAtk;
+
+			skillHitResult.Result = HitResultType.Crit;
+		}
+
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
 		damage = Math.Max(1, damage - def);
