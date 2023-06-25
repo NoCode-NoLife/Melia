@@ -52,6 +52,12 @@ namespace Melia.Zone.Skills.Combat
 		public int ForceId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the number of hits that are displayed. The damage
+		/// is split evenly between the hits.
+		/// </summary>
+		public int HitCount { get; set; } = 1;
+
+		/// <summary>
 		/// Creates new skill hit.
 		/// </summary>
 		/// <param name="attacker"></param>
@@ -69,6 +75,7 @@ namespace Melia.Zone.Skills.Combat
 			this.DamageDelay = damageDelay;
 			this.SkillHitDelay = skillHitDelay;
 			this.HitEffect = result.Effect;
+			this.HitCount = result.HitCount;
 		}
 	}
 }

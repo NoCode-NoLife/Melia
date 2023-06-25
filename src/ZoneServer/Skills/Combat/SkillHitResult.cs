@@ -22,5 +22,11 @@ namespace Melia.Zone.Skills.Combat
 		/// Gets or sets the hit effect displayed on the target.
 		/// </summary>
 		public HitEffect Effect { get; set; } = HitEffect.Impact;
+
+		/// <summary>
+		/// Gets or sets the number of hits that are displayed. The damage
+		/// will be split evenly between the hits.
+		/// </summary>
+		public int HitCount { get; set; } = 1;
 	}
 }

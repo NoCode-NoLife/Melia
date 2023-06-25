@@ -7,6 +7,7 @@
 using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -100,6 +101,17 @@ public class CombatCalculationsScript : GeneralScript
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
 			var spRate = 0.7f / 100f;
 			target.TrySpendSp(maxSp * spRate);
+		}
+
+		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
+		{
+			var rate = 40;
+
+			if (rnd.Next(100) < rate)
+			{
+				damage *= 2;
+				skillHitResult.HitCount = 2;
+			}
 		}
 
 		return (int)damage;
