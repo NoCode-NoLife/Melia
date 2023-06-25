@@ -61,18 +61,11 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			foreach (var target in targets)
 			{
-				var hitCount = 1;
-				if (target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
-					hitCount = 2;
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				for (var i = 0; i < hitCount; ++i)
-				{
-					var skillHitResult = SCR_SkillHit(caster, target, skill);
-					target.TakeDamage(skillHitResult.Damage, caster);
-
-					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
-					hits.Add(skillHit);
-				}
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
+				hits.Add(skillHit);
 			}
 
 			var targetHandle = targets.FirstOrDefault()?.Handle ?? 0;

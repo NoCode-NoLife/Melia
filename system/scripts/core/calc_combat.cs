@@ -113,6 +113,11 @@ public class CombatCalculationsScript : GeneralScript
 				skillHitResult.HitCount = 2;
 			}
 		}
+		else if (skill.Id == SkillId.Wizard_EarthQuake && target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
+		{
+			damage *= 2;
+			skillHitResult.HitCount = 2;
+		}
 
 		return (int)damage;
 	}
