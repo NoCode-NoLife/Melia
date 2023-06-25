@@ -1044,11 +1044,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byItem;
 
-		// Buffs: "CRTHR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.CRTHR_BM);
 
-		// Rate buffs:
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.CRTHR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1073,11 +1071,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byItem;
 
-		// Buffs: "CRTDR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.CRTDR_BM);
 
-		// Rate buffs:
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.CRTDR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
