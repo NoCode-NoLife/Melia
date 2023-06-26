@@ -11,6 +11,7 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.MonsterManager;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 
@@ -51,9 +52,9 @@ namespace Melia.Zone.World.Maps
 		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
 
 		/// <summary>
-		/// Collection of monster spawners.
+		/// Collection of monster spawn points.
 		/// </summary>
-		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
+		private readonly List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
@@ -71,9 +72,9 @@ namespace Melia.Zone.World.Maps
 		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
 
 		/// <summary>
-		/// List of monster populations in this map.
+		/// List of monster generators in this map.
 		/// </summary>
-		private readonly List<MonsterPopulation> _monsterPopulations = new List<MonsterPopulation>();
+		private readonly List<MonsterGenerator> _monsterGenerators = new List<MonsterGenerator>();
 
 		/// <summary>
 		/// List of property overrides for monsters spawned on this map.
@@ -148,7 +149,7 @@ namespace Melia.Zone.World.Maps
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.UpdateEntities(elapsed);
-			this.UpdateSpawners(elapsed);
+			this.UpdateSpawnPoints(elapsed);
 		}
 
 		/// <summary>
@@ -319,55 +320,55 @@ namespace Melia.Zone.World.Maps
 			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
-		/// Adds the spawner to the map.
+		/// Adds the spawn point to the map.
 		/// </summary>
-		/// <param name="spawner"></param>
-		public void AddSpawner(MonsterSpawner spawner)
+		/// <param name="spawnPoint"></param>
+		public void AddSpawnPoint(MonsterSpawnPoint spawnPoint)
 		{
-			lock (_spawners)
+			lock (_spawnPoints)
 			{
-				// Adding spawners to random index of list makes mob spawns more distributed.
+				// Adding spawnPoints to random index of list makes mob spawns more distributed.
 				// If this addition is not random, mobs may spawn all in one room given the
 				// spawn scripts are grouped by map locations.
 				var r = new Random();
-				var randomIndex = r.Next(0, _spawners.Count);
-				_spawners.Insert(randomIndex, spawner);
+				var randomIndex = r.Next(0, _spawnPoints.Count);
+				_spawnPoints.Insert(randomIndex, spawnPoint);
 			}
 		}
 
 		/// <summary>
-		/// Removes all spawners from the map.
+		/// Removes all spawnPoints from the map.
 		/// </summary>
-		public void RemoveSpawners()
+		public void RemoveSpawnPoints()
 		{
-			lock (_spawners)
+			lock (_spawnPoints)
 			{
-				foreach (var spawner in _spawners)
+				foreach (var spawnPoint in _spawnPoints)
 				{
-					spawner.MonsterPopulation.InitializePopulation();
+					spawnPoint.MonsterGenerator.InitializePopulation();
 				}
-				_spawners.Clear();
+				_spawnPoints.Clear();
 			}
 				
 
 		}
 
 		/// <summary>
-		/// Returns a list with all spawners.
+		/// Returns a list with all spawnPoints.
 		/// </summary>
 		/// <returns></returns>
-		public MonsterSpawner[] GetSpawners()
+		public MonsterSpawnPoint[] GetSpawnPoints()
 		{
-			lock (_spawners)
-				return _spawners.ToArray();
+			lock (_spawnPoints)
+				return _spawnPoints.ToArray();
 		}
 
-		public void UpdateSpawners(TimeSpan elapsed)
+		public void UpdateSpawnPoints(TimeSpan elapsed)
 		{
-			lock (_spawners)
+			lock (_spawnPoints)
 			{
-				foreach (var spawner in _spawners)
-					spawner.Update(elapsed);
+				foreach (var spawnPoint in _spawnPoints)
+					spawnPoint.Update(elapsed);
 			}
 		}
 
@@ -615,7 +616,7 @@ namespace Melia.Zone.World.Maps
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
 
-			this.RemoveSpawners();
+			this.RemoveSpawnPoints();
 		}
 
 		/// <summary>
@@ -632,13 +633,13 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Adds a new monster population to this map
+		/// Adds a new monster generator to this map
 		/// </summary>
-		/// <param name="monsterPopulation"></param>
-		public void AddMonsterPopulation(MonsterPopulation monsterPopulation)
+		/// <param name="monsterGenerator"></param>
+		public void AddMonsterGenerator(MonsterGenerator monsterGenerator)
 		{
-			lock (_monsterPopulations)
-				_monsterPopulations.Add(monsterPopulation);
+			lock (_monsterGenerators)
+				_monsterGenerators.Add(monsterGenerator);
 		}
 
 		/// <summary>
@@ -653,18 +654,16 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns the monster population of given name via out.
-		/// Returns false if no monster population is found.
+		/// Returns whether the given monsterGenerator exists within map.
 		/// </summary>
-		/// <param name="populationName"></param>
-		/// <param name="monsterPopulation"></param>
+		/// <param name="monsterGenerator"></param>
 		/// <returns></returns>
-		public bool TryGetMonsterPopulation(string populationName, out MonsterPopulation monsterPopulation)
+		public bool TryGetMonsterGenerator(MonsterGenerator monsterGenerator)
 		{
-			lock (_monsterPopulations)
+			lock (_monsterGenerators)
 			{
-				monsterPopulation = _monsterPopulations.FirstOrDefault(p => p.Name == populationName);
-				return monsterPopulation != null;
+				monsterGenerator = _monsterGenerators.FirstOrDefault(p => p.Equals(monsterGenerator));
+				return monsterGenerator != null;
 			}
 		}
 

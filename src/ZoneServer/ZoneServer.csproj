@@ -183,8 +183,8 @@
     <Compile Include="World\Actors\Monsters\Mob.cs" />
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
-    <Compile Include="World\MonsterPopulation.cs" />
-    <Compile Include="World\MonsterSpawner.cs" />
+    <Compile Include="World\MonsterManager\MonsterGenerator.cs" />
+    <Compile Include="World\MonsterManager\MonsterSpawnPoint.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />

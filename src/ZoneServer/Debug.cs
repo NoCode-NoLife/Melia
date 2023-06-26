@@ -150,7 +150,7 @@ namespace Melia.Zone
 					var brush = new SolidBrush(Color.FromArgb(128, 255, 0, 0));
 					var pen = new Pen(Color.FromArgb(255, 255, 0, 0));
 
-					var spawners = map.GetSpawners();
+					var spawners = map.GetSpawnPoints();
 					for (var i = 0; i < spawners.Length; i++)
 					{
 						var spawner = spawners[i];
