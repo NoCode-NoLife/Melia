@@ -329,8 +329,8 @@ namespace Melia.Zone.World.Maps
 				// Adding spawners to random index of list makes mob spawns more distributed.
 				// If this addition is not random, mobs may spawn all in one room given the
 				// spawn scripts are grouped by map locations.
-				Random r = new Random();
-				int randomIndex = r.Next(0, _spawners.Count);
+				var r = new Random();
+				var randomIndex = r.Next(0, _spawners.Count);
 				_spawners.Insert(randomIndex, spawner);
 			}
 		}
@@ -344,7 +344,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var spawner in _spawners)
 				{
-					spawner.MonsterPopulation.CurrentCount = 0;
+					spawner.MonsterPopulation.InitializePopulation();
 				}
 				_spawners.Clear();
 			}

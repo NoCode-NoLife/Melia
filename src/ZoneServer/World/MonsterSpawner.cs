@@ -5,6 +5,7 @@ using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Database;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -28,7 +29,7 @@ namespace Melia.Zone.World
 		private const float FlexDecreaseLimit = -100;
 		private const float FlexMeterDefault = 0;
 		private const float FlexMeterIncreasePerDeath = 10;
-		private const float FlexMeterDecreasePerMillisecond = 0.005f;
+		private const float FlexMeterDecreasePerMillisecond = 0.0005f;
 
 		private static int Ids;
 
@@ -180,7 +181,7 @@ namespace Melia.Zone.World
 				_map.AddMonster(monster);
 			}
 
-			MonsterPopulation.CurrentCount += amount;
+			this.MonsterPopulation.IncrementPopulation(amount);
 		}
 
 		/// <summary>
@@ -236,10 +237,7 @@ namespace Melia.Zone.World
 		/// <param name="killer"></param>
 		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
-			MonsterPopulation.CurrentCount -= 1;
-
-			if (MonsterPopulation.CurrentCount < 0)
-				MonsterPopulation.CurrentCount = 0;
+			this.MonsterPopulation.IncrementPopulation(-1);
 
 			_flexMeter += FlexMeterIncreasePerDeath;
 		}
@@ -263,7 +261,7 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		private void RespawnMonsters(TimeSpan elapsed)
 		{
-			int availablePopulation = MonsterPopulation.AvailablePopulation();
+			var availablePopulation = this.MonsterPopulation.AvailablePopulation;
 			
 			// No population available to respawn
 			if (availablePopulation <= 0)
@@ -297,7 +295,7 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		private void FlexSpawnMonsters(TimeSpan elapsed)
 		{
-			int availablePopulation = MonsterPopulation.AvailablePopulation();
+			var availablePopulation = this.MonsterPopulation.AvailablePopulation;
 
 			// No population available to respawn
 			if (availablePopulation <= 0)
@@ -337,7 +335,7 @@ namespace Melia.Zone.World
 			// the spawn amount.
 			if (_flexMeter > FlexIncreaseLimit)
 			{
-				this.FlexAmount = Math.Min(MonsterPopulation.MaxCount, this.FlexAmount + 1);
+				this.FlexAmount = Math.Min(this.MonsterPopulation.MaxCount, this.FlexAmount + 1);
 				_flexMeter = FlexMeterDefault;
 			}
 			// If the meter instead fell below the decrease limit, the

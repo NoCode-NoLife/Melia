@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Zone.World.Maps;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World
 {
@@ -17,6 +14,11 @@ namespace Melia.Zone.World
 		private readonly Map _map;
 
 		/// <summary>
+		/// Current amount of monsters in this population
+		/// </summary>
+		private int _currentCount;
+
+		/// <summary>
 		/// Returns the class name of the map
 		/// spawned on
 		/// </summary>
@@ -25,17 +27,28 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Name of this population, used for identification purposes
 		/// </summary>
-		public string Name { get; set; }
-
-		/// <summary>
-		/// Current amount of monsters in this population
-		/// </summary>
-		public int CurrentCount { get; set; }
+		public string Name { get; }
 
 		/// <summary>
 		/// Maximum amount of monsters that can be in this population
 		/// </summary>
-		public int MaxCount { get; set; }
+		public int MaxCount { get; }
+
+		/// <summary>
+		/// Returns current population
+		/// </summary>
+		public int CurrentPopulation
+		{
+			get { return _currentCount; }
+		}
+
+		/// <summary>
+		/// Returns Available population: MaxCount - CurrentCount
+		/// </summary>
+		public int AvailablePopulation
+		{
+			get { return this.MaxCount - _currentCount; }
+		}
 
 		/// <summary>
 		/// Creates new monster population. Current population will always be initialized at zero.
@@ -46,20 +59,26 @@ namespace Melia.Zone.World
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out _map))
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
-			this.CurrentCount = 0;
 			this.Name = name;
 			this.MapClassName = mapClassName;
 			this.MaxCount = maxPopulation;
+			_currentCount = 0;
 		}
 
 		/// <summary>
-		/// Returns Available population: MaxCount - CurrentCount
+		/// Changes current population by a given amount. Clamps between 0 and MaxCount
 		/// </summary>
-		/// <param name="n"></param>
-		/// <returns></returns>
-		public int AvailablePopulation()
+		public void IncrementPopulation(int amount)
 		{
-			return MaxCount - CurrentCount;
+			_currentCount = Math2.Clamp(0, this.MaxCount, _currentCount + amount);
+		}
+
+		/// <summary>
+		/// Sets the current population to zero.
+		/// </summary>
+		public void InitializePopulation()
+		{
+			_currentCount = 0;
 		}
 	}
 }
