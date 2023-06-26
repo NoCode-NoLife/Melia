@@ -23,7 +23,6 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_STR(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
 		var byJob = properties.GetFloat(PropertyName.STR_JOB);
 		var byStat = properties.GetFloat(PropertyName.STR_STAT);
@@ -135,13 +134,9 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
-		var byItem = 0; // TODO
-
-		// Buffs: "STR_BM"
-		var byBuffs = 0;
-
-		// "STR_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.STR);
+		var byBuffs = properties.GetFloat(PropertyName.STR_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.STR_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -156,13 +151,11 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_CON_ADD")]
 	public float SCR_Get_Character_CON_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "CON_BM"
-		var byBuffs = 0;
-
-		// "CON_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.CON);
+		var byBuffs = properties.GetFloat(PropertyName.CON_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.CON_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -177,13 +170,11 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_INT_ADD")]
 	public float SCR_Get_Character_INT_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "INT_BM"
-		var byBuffs = 0;
-
-		// "INT_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.INT);
+		var byBuffs = properties.GetFloat(PropertyName.INT_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.INT_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -198,13 +189,11 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_MNA_ADD")]
 	public float SCR_Get_Character_MNA_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "SPR_BM"
-		var byBuffs = 0;
-
-		// "SPR_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.MNA);
+		var byBuffs = properties.GetFloat(PropertyName.MNA_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.MNA_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -219,13 +208,11 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_Character_DEX_ADD")]
 	public float SCR_Get_Character_DEX_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "DEX_BM"
-		var byBuffs = 0;
-
-		// "DEX_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.DEX);
+		var byBuffs = properties.GetFloat(PropertyName.DEX_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.DEX_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
