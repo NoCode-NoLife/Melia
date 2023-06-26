@@ -36,13 +36,13 @@ namespace Melia.Shared.Data.Database
 		public int MagicalAttackMax { get; set; }
 		public int PhysicalDefense { get; set; }
 		public int MagicalDefense { get; set; }
-		public int HitRatio { get; set; }
-		public int BlockBreak { get; set; }
-		public int BlockRate { get; set; }
-		public int CritAttack { get; set; }
-		public int CritDefenseRate { get; set; }
-		public int CritHitRate { get; set; }
+		public int HitRate { get; set; }
 		public int DodgeRate { get; set; }
+		public int BlockRate { get; set; }
+		public int BlockBreakRate { get; set; }
+		public int CritHitRate { get; set; }
+		public int CritDodgeRate { get; set; }
+		public int CritAttack { get; set; }
 
 		public List<DropData> Drops { get; set; } = new List<DropData>();
 		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
@@ -99,7 +99,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "element", "race", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
+			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "element", "race", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
 
 			var data = new MonsterData();
 
@@ -129,13 +129,13 @@ namespace Melia.Shared.Data.Database
 			data.MagicalAttackMax = entry.ReadInt("mAttackMax");
 			data.PhysicalDefense = entry.ReadInt("pDefense");
 			data.MagicalDefense = entry.ReadInt("mDefense");
-			data.HitRatio = entry.ReadInt("mDefense");
-			data.BlockBreak = entry.ReadInt("mDefense");
-			data.BlockRate = entry.ReadInt("mDefense");
-			data.CritAttack = entry.ReadInt("mDefense");
-			data.CritDefenseRate = entry.ReadInt("mDefense");
-			data.CritHitRate = entry.ReadInt("mDefense");
-			data.DodgeRate = entry.ReadInt("mDefense");
+			data.HitRate = entry.ReadInt("hitRate");
+			data.DodgeRate = entry.ReadInt("dodgeRate");
+			data.BlockRate = entry.ReadInt("blockRate");
+			data.BlockBreakRate = entry.ReadInt("blockBreakRate");
+			data.CritHitRate = entry.ReadInt("critHitRate");
+			data.CritDodgeRate = entry.ReadInt("critDodgeRate");
+			data.CritAttack = entry.ReadInt("critAttack");
 
 			if (entry.ContainsKey("skills"))
 			{

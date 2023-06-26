@@ -280,7 +280,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.HitRatio;
+		var baseValue = (float)monster.Data.HitRate;
 		var byBuffs = properties.GetFloat(PropertyName.HR_BM);
 
 		return baseValue + byBuffs;
