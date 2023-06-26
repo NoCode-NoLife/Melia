@@ -649,11 +649,25 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
-		// TODO: Add feature check to optionall use the old formula.
-		// At release: Base 5000, plus 5 for each Str/Con.
-		// Now: Base 8000 plus bonuses?
+		var value = 5000f;
 
-		return 8000;
+		if (Feature.IsEnabled("IncreasedMaxWeight"))
+			value = 8000f;
+
+		if (Feature.IsEnabled("StaticInventoryWeight"))
+		{
+			var con = properties.GetFloat(PropertyName.CON);
+			var str = properties.GetFloat(PropertyName.STR);
+
+			var byStats = (con * 5) + (str * 5);
+			value += byStats;
+		}
+
+		var byBuffs = properties.GetFloat(PropertyName.MaxWeight_BM);
+		var byBonus = properties.GetFloat(PropertyName.MaxWeight_Bonus);
+		value += byBuffs + byBonus;
+
+		return value;
 	}
 
 	/// <summary>

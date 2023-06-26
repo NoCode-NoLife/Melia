@@ -178,6 +178,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("MAXPATK", new[] { "Lv", "STR", "PATK_BM", "MAXPATK_BM", "PATK_MAIN_BM", "MAXPATK_MAIN_BM", "PATK_RATE_BM", "MAXPATK_RATE_BM", "PATK_MAIN_RATE_BM", "MAXPATK_MAIN_RATE_BM" });
 			this.AutoUpdate("MINMATK", new[] { "Lv", "INT", "MATK_BM", "MINMATK_BM", "MATK_RATE_BM", "MINMATK_RATE_BM" });
 			this.AutoUpdate("MAXMATK", new[] { "Lv", "INT", "MATK_BM", "MAXMATK_BM", "MATK_RATE_BM", "MAXMATK_RATE_BM" });
+			this.AutoUpdate("MaxWeight", new[] { "CON", "STR", "MaxWeight_BM", "MaxWeight_Bonus" });
 
 			this.AutoUpdateMax("HP", "MHP");
 			this.AutoUpdateMax("SP", "MSP");

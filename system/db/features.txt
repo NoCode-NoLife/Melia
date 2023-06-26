@@ -37,6 +37,15 @@
 		// between classes and synergy between players."
 		//{ name: "JobTreeReassignment", enabled: true },
 	]},
+	
+	// Disables jumping costing stamina
+	{ name: "InventoryWeightRevamp", enabled: true, children: [
+		// Raises default max weight
+		{ name: "IncreasedMaxWeight", enabled: true },
+		
+		// Removes stats adding to the max carry weight
+		{ name: "StaticInventoryWeight", enabled: true },
+	]},
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet
