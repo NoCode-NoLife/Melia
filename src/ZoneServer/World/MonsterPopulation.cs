@@ -19,6 +19,11 @@ namespace Melia.Zone.World
 		private int _currentCount;
 
 		/// <summary>
+		/// Maximum amount of monsters that can be in this population
+		/// </summary>
+		public int _maxCount;
+
+		/// <summary>
 		/// Returns the class name of the map
 		/// spawned on
 		/// </summary>
@@ -30,9 +35,12 @@ namespace Melia.Zone.World
 		public string Name { get; }
 
 		/// <summary>
-		/// Maximum amount of monsters that can be in this population
+		/// Returns max population
 		/// </summary>
-		public int MaxCount { get; }
+		public int MaxPopulation
+		{
+			get { return _maxCount; }
+		}
 
 		/// <summary>
 		/// Returns current population
@@ -47,7 +55,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		public int AvailablePopulation
 		{
-			get { return this.MaxCount - _currentCount; }
+			get { return _maxCount - _currentCount; }
 		}
 
 		/// <summary>
@@ -61,7 +69,7 @@ namespace Melia.Zone.World
 
 			this.Name = name;
 			this.MapClassName = mapClassName;
-			this.MaxCount = maxPopulation;
+			_maxCount = maxPopulation;
 			_currentCount = 0;
 		}
 
@@ -70,7 +78,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		public void IncrementPopulation(int amount)
 		{
-			_currentCount = Math2.Clamp(0, this.MaxCount, _currentCount + amount);
+			_currentCount = Math2.Clamp(0, _maxCount, _currentCount + amount);
 		}
 
 		/// <summary>

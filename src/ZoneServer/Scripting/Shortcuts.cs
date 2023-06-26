@@ -224,8 +224,8 @@ namespace Melia.Zone.Scripting
 			var initialSpawnDelay = TimeSpan.FromSeconds(0);
 			var minRespawnDelay = Math2.Max(TimeSpan.Zero, respawn.Divide(2)); // Arbitrary value of 1/2 of respawn time
 			var maxRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn); // Arbitrary value equal to respawn time or constant
-			var maxSpawnAmount = Math.Max(1, (int)(monsterPopulation.MaxCount / 10)); // Arbitrary value of 1/10 of max population
-			var minSpawnAmount = Math.Max(1, (int)(monsterPopulation.MaxCount / 20)); // Arbitrary value of 1/20 of max population
+			var maxSpawnAmount = Math.Max(1, (int)(monsterPopulation.MaxPopulation / 10)); // Arbitrary value of 1/10 of max population
+			var minSpawnAmount = Math.Max(1, (int)(monsterPopulation.MaxPopulation / 20)); // Arbitrary value of 1/20 of max population
 
 			var spawner = new MonsterSpawner(monsterClassId, monsterPopulation, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, minSpawnAmount, maxSpawnAmount, tendency, propertyOverrides);
 			mapObj.AddSpawner(spawner);

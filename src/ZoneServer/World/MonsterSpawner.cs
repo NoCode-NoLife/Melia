@@ -335,7 +335,7 @@ namespace Melia.Zone.World
 			// the spawn amount.
 			if (_flexMeter > FlexIncreaseLimit)
 			{
-				this.FlexAmount = Math.Min(this.MonsterPopulation.MaxCount, this.FlexAmount + 1);
+				this.FlexAmount = Math.Min(this.MonsterPopulation.MaxPopulation, this.FlexAmount + 1);
 				_flexMeter = FlexMeterDefault;
 			}
 			// If the meter instead fell below the decrease limit, the

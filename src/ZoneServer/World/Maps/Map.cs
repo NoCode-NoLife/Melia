@@ -634,8 +634,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Adds a new monster population to this map
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="maxCount"></param>
+		/// <param name="monsterPopulation"></param>
 		public void AddMonsterPopulation(MonsterPopulation monsterPopulation)
 		{
 			lock (_monsterPopulations)
