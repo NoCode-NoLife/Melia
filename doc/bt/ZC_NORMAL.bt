@@ -245,11 +245,11 @@ switch (type)
         float f5;
         float f6;
         float f7;
-        float f8;
+        int i2;
         float f9;
         float f10;
         float f11;
-        float f12;
+        int i3;
         break;
 
     case 0x1B:

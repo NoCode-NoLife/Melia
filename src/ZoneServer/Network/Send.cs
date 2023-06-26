@@ -374,10 +374,21 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="unkForceId"></param>
 		/// <param name="hits"></param>
-		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int unkForceId, IEnumerable<SkillHitInfo> hits)
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, params SkillHitInfo[] hits)
+			=> ZC_SKILL_FORCE_TARGET(entity, target, skill, (IEnumerable<SkillHitInfo>)hits);
+
+		/// <summary>
+		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
 		{
+			var forceId = hits.FirstOrDefault()?.ForceId ?? 0;
+
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -388,7 +399,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(550.7403f); // Delay until next attack?
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(unkForceId);
+			packet.PutInt(forceId);
 			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
@@ -409,17 +420,14 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Shows entity using the skill.
 		/// </summary>
-		/// <remarks>
-		/// In some cases this packet contains the hit information,
-		/// while they're sent with ZC_SKILL_HIT_INFO in others.
-		/// Why this is is yet to be determined.
-		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
 		/// <param name="targetPos"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, IEnumerable<SkillHitInfo> hits)
 		{
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -430,7 +438,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
+			packet.PutInt(forceId);
 			packet.PutFloat(1.083666f);
 
 			// This does _not_ look like a handle to me... And sending a
@@ -441,11 +449,53 @@ namespace Melia.Zone.Network
 			//else
 			packet.PutInt(0);
 
-			packet.PutFloat(targetPos.X);
-			packet.PutFloat(targetPos.Y);
-			packet.PutFloat(targetPos.Z);
+			packet.PutPosition(targetPos);
 
 			packet.PutShort((short)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
+
+			entity.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Shows entity using the skill on the target.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_TARGET(ICombatEntity entity, Skill skill, ICombatEntity target, IEnumerable<SkillHitInfo> hits)
+		{
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
+
+			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
+
+			packet.PutInt((int)skill.Id);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(forceId);
+			packet.PutFloat(1.083666f);
+
+			// This does _not_ look like a handle to me... And sending a
+			// single target handle for an AoE skill packet doesn't make
+			// sense either. Let's send 0 for now.
+			//if (targets != null && targetCount == 1)
+			//	packet.PutInt(targets.First().Handle);
+			//else
+			packet.PutInt(0);
+
+			packet.PutInt(target.Handle);
+
+			packet.PutByte((byte)(hits?.Count() ?? 0));
 			if (hits != null)
 			{
 				foreach (var hit in hits)
@@ -1199,20 +1249,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_SET_POS in range of character, updating its position.
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_SET_POS(Character character)
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor)
+			=> ZC_SET_POS(actor, actor.Position);
+
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
+		/// </summary>
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
+			packet.PutInt(actor.Handle);
+			packet.PutPosition(pos);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1585,7 +1640,7 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(hitInfo.ForceId);
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutFloat(0);

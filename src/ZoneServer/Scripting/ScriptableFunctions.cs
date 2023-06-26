@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -29,7 +30,8 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<CharacterCalcFunc> Character = new DelegateCollection<CharacterCalcFunc>();
 		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new DelegateCollection<MonsterCalcFunc>();
 		public static readonly DelegateCollection<SkillCalcFunc> Skill = new DelegateCollection<SkillCalcFunc>();
-		public static readonly DelegateCollection<SkillUseFunc> SkillUse = new DelegateCollection<SkillUseFunc>();
+		public static readonly DelegateCollection<CombatCalcFunction> Combat = new DelegateCollection<CombatCalcFunction>();
+		public static readonly DelegateCollection<SkillHitFunction> SkillHit = new DelegateCollection<SkillHitFunction>();
 		public static readonly DelegateCollection<ItemScriptFunc> Item = new DelegateCollection<ItemScriptFunc>();
 		public static readonly DelegateCollection<NormalTxScriptFunc> NormalTx = new DelegateCollection<NormalTxScriptFunc>();
 		public static readonly DelegateCollection<NormalTxNumScriptFunc> NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>();
@@ -122,7 +124,7 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	/// <param name="monster"></param>
 	/// <returns></returns>
-	public delegate float MonsterCalcFunc(IMonster monster);
+	public delegate float MonsterCalcFunc(Mob monster);
 
 	/// <summary>
 	/// A function that calculates a value for a skill.
@@ -132,13 +134,23 @@ namespace Melia.Zone.Scripting
 	public delegate float SkillCalcFunc(Skill skill);
 
 	/// <summary>
-	/// A function that calculates values related to skills and combat.
+	/// A function that calculates values related to skill usage and combat.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	public delegate float CombatCalcFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult);
+
+	/// <summary>
+	/// A function that determines the result of a skill hitting a target.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	public delegate float SkillUseFunc(ICombatEntity attacker, ICombatEntity target, Skill skill);
+	public delegate SkillHitResult SkillHitFunction(ICombatEntity attacker, ICombatEntity target, Skill skill);
 
 	/// <summary>
 	/// A function that determines whether an ability can be learned.

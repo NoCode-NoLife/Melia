@@ -343,6 +343,7 @@
     <Compile Include="content\default\mobs\others\test_zone.cs" />
     <Compile Include="core\ability_price.cs" />
     <Compile Include="core\ability_unlock.cs" />
+    <Compile Include="core\calc_monster.cs" />
     <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
     <Compile Include="core\client\api\main.cs" />

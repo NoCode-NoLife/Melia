@@ -62,6 +62,11 @@ namespace Melia.Zone.Buffs
 		public int Handle { get; }
 
 		/// <summary>
+		/// Returns the buff's temporary variables.
+		/// </summary>
+		public Variables Vars { get; } = new Variables();
+
+		/// <summary>
 		/// Returns the buff's overbuff count.
 		/// </summary>
 		/// <remarks>

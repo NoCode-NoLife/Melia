@@ -28,6 +28,41 @@ public class SkillCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
+	/// Returns skill's skill factor, which in most cases in equivilant
+	/// to the skill's damage in percentage.
+	/// </summary>
+	/// <example>
+	/// var damage = SCR_GetRandomAtk(attacker, target, skill) * SCR_Get_SkillFactor(skill) / 100f;
+	/// </example>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SkillFactor")]
+	public float SCR_Get_SkillFactor(Skill skill)
+	{
+		var sklFactor = skill.Properties.GetFloat(PropertyName.SklFactor);
+		var sklFactorByLevel = skill.Properties.GetFloat(PropertyName.SklFactorByLevel);
+
+		return sklFactor + (sklFactorByLevel * (skill.Level - 1));
+	}
+
+	/// <summary>
+	/// Returns skill's bonus damage.
+	/// </summary>
+	/// <example>
+	/// var damage = SCR_GetRandomAtk(attacker, target, skill) + SCR_Get_SkillAtkAdd(skill);
+	/// </example>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SkillAtkAdd")]
+	public float SCR_Get_SkillAtkAdd(Skill skill)
+	{
+		var sklAtkAdd = skill.Properties.GetFloat(PropertyName.SklAtkAdd);
+		var sklAtkAddByLevel = skill.Properties.GetFloat(PropertyName.SklAtkAddByLevel);
+
+		return sklAtkAdd + (sklAtkAddByLevel * (skill.Level - 1));
+	}
+
+	/// <summary>
 	/// Returns the amount of SP spent when using the skill.
 	/// </summary>
 	/// <param name="skill"></param>

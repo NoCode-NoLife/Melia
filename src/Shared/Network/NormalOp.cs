@@ -37,6 +37,7 @@
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AttackCancel = 0x41;
+			public const int Skill_45 = 0x45;
 			public const int AccountUpdate = 0x4C;
 			public const int Skill_4E = 0x4E;
 			public const int Skill = 0x57;

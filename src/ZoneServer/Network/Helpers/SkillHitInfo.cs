@@ -29,19 +29,27 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte((byte)skillHitInfo.HitEffect);
 			packet.PutByte(0);
 			packet.PutInt(0);
-			packet.PutInt(skillHitInfo.UnkForceId); // This being set to anything causes a delay in the dagger damage animation
+			packet.PutInt(skillHitInfo.ForceId); // This being set to anything causes a delay in the dagger damage animation
 			packet.PutShort(0);
 			packet.PutShort(0);
 
 			packet.PutShort(0); // count1
-			packet.PutByte(1); // count2
+			packet.PutByte(2); // count2
 			packet.PutByte(0);
 
 			// for count2
 			{
-				packet.PutByte(3); // type
+				// Type 0 is for multi hits. The damage is divided by
+				// the hit count and the displayed damage splits up
+				// into multiple hits.
+				packet.PutByte(0);
+				packet.PutInt(skillHitInfo.HitCount);
+				packet.PutByte(0);
+				packet.PutInt(0);
 
-				// variable info values
+				// The purpose of type 3 is unknown, usually comes with a
+				// negative float.
+				packet.PutByte(3);
 				packet.PutFloat(-1845);
 			}
 		}

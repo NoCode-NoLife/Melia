@@ -61,11 +61,11 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			foreach (var target in targets)
 			{
-				var damage = SCR_CalculateDamage(caster, target, skill);
-				target.TakeDamage(damage, caster);
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, TimeSpan.Zero);
-				hits.Add(hit);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
+				hits.Add(skillHit);
 			}
 
 			var targetHandle = targets.FirstOrDefault()?.Handle ?? 0;

@@ -131,35 +131,68 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Adjusts the skill speed for a skill.
+			/// Controls a skill's visual effects.
 			/// </summary>
-			/// <param name="character"></param>
+			/// <param name="unkForceId"></param>
+			/// <param name="caster"></param>
+			/// <param name="source"></param>
 			/// <param name="target"></param>
-			/// <param name="position"></param>
-			public static void Skill_16(Character character, IActor target, Position position)
+			/// <param name="effect1PacketString"></param>
+			/// <param name="effect1Scale"></param>
+			/// <param name="effect2PacketString"></param>
+			/// <param name="effect3PacketString"></param>
+			/// <param name="effect3Scale"></param>
+			/// <param name="effect4PacketString"></param>
+			/// <param name="effect5PacketString"></param>
+			/// <param name="speed"></param>
+			/// <exception cref="ArgumentException">
+			/// Thrown if any of the packet strings are not found.
+			/// </exception>
+			public static void Skill_16(int unkForceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
+					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect2PacketString, out var packetStringData2))
+					throw new ArgumentException($"Packet string '{effect2PacketString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect3PacketString, out var packetStringData3))
+					throw new ArgumentException($"Packet string '{effect3PacketString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect4PacketString, out var packetStringData4))
+					throw new ArgumentException($"Packet string '{effect4PacketString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect5PacketString, out var packetStringData5))
+					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
+
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_16);
 
+				packet.PutInt(unkForceId);
+
+				packet.PutInt(caster.Handle);
+				packet.PutInt(source.Handle);
 				packet.PutInt(target.Handle);
-				packet.PutInt(character.Handle);
-				packet.PutInt(character.Handle);
-				packet.PutInt(target.Handle);
-				packet.PutInt(2220111);
-				packet.PutFloat(1);
-				packet.PutInt(2561933);
-				packet.PutInt(190068);
-				packet.PutFloat(1);
-				packet.PutInt(2561934);
-				packet.PutInt(2561931);
-				packet.PutFloat(150);
-				packet.PutEmptyBin(16);
+
+				packet.PutInt(packetStringData1.Id);
+				packet.PutFloat(effect1Scale);
+				packet.PutInt(packetStringData2.Id);
+				packet.PutInt(packetStringData3.Id);
+				packet.PutFloat(effect3Scale);
+				packet.PutInt(packetStringData4.Id);
+				packet.PutInt(packetStringData5.Id);
+
+				packet.PutFloat(speed);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutInt(0);
 				packet.PutFloat(5);
 				packet.PutFloat(5);
 				packet.PutFloat(2);
 				packet.PutInt(0);
 
-				character.Connection.Send(packet);
+				source.Map.Broadcast(packet, target);
 			}
 
 			/// <summary>
@@ -428,6 +461,20 @@ namespace Melia.Zone.Network
 				packet.PutPosition(farPos);
 
 				entity.Map.Broadcast(packet, entity);
+			}
+
+			/// <summary>
+			/// Purpose currently unknown.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="i1"></param>
+			public static void Skill_45(IActor source, int i1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_45);
+				packet.PutInt(i1);
+
+				source.Map.Broadcast(packet, source);
 			}
 
 			/// <summary>

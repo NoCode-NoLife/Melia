@@ -50,8 +50,8 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitTime = skill.Data.HitTime.First();
-			var hitDelay = skill.Data.DefaultHitDelay;
-			var damageDelay = hitTime + hitDelay;
+			var skillHitDelay = skill.Data.DefaultHitDelay;
+			var damageDelay = hitTime + skillHitDelay;
 
 			// It seems like some skills run on a timer, such as
 			// Onion_Attack1. This skill gets initiated, but the
@@ -73,11 +73,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 
 			foreach (var target in targets)
 			{
-				var damage = SCR_CalculateDamage(caster, target, skill);
-				target.TakeDamage(damage, caster);
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, hitDelay);
-				hits.Add(hit);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

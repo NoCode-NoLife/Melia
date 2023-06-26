@@ -78,6 +78,22 @@ string readVariableHitInfo(VariableHitInfo &val)
     return result;
 }
 
+typedef struct (int size)
+{
+    short op <hidden=true>;
+    FSeek(FTell() - 2);
+    
+    byte buffer[size];
+}
+AdditionalPacket <optimize=false, read=readAdditionalPacket>;
+
+string readAdditionalPacket(AdditionalPacket &val)
+{
+    string result;
+    SPrintf(result, "Op: 0x%04X, Size: %d", val.op, sizeof(val.buffer));
+    return result;
+}
+
 // Every SkillHitInfo appears to contain information about one hit
 // that happened on a target. Unfortunately its structure is flexible,
 // which makes analysis pretty difficult. Most of this data is guessed.
@@ -104,12 +120,12 @@ typedef struct
     short s1;
     short s2;
 
-	short bin1Count;
+	short additionalPacketSize;
 	byte varInfoCount;
 	byte b8;
 
-    if (bin1Count > 0)
-        byte bin1[bin1Count];
+    if (additionalPacketSize > 0)
+        AdditionalPacket additionalPacket(additionalPacketSize);
     
     if (varInfoCount > 0)
         VariableHitInfo varInfo[varInfoCount];

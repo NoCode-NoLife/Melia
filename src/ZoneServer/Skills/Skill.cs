@@ -134,6 +134,9 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		public void IncreaseOverheat()
 		{
+			if (this.Character == null)
+				return;
+
 			// Increase counter regardless of whether the skill can
 			// overheat. In both cases we will eventually get over
 			// the overheat counter, in which case we reset the
