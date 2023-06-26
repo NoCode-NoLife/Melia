@@ -247,4 +247,42 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 
 		return value;
 	}
+
+	/// <summary>
+	/// Returns the monster's dodge rate.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_DR(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.DR, out var fixValue))
+			return fixValue;
+
+		var properties = monster.Properties;
+
+		var baseValue = (float)monster.Data.DodgeRate;
+		var byBuffs = properties.GetFloat(PropertyName.DR_BM);
+
+		return baseValue + byBuffs;
+	}
+
+	/// <summary>
+	/// Returns the monster's dodge rate.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_HR(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.HR, out var fixValue))
+			return fixValue;
+
+		var properties = monster.Properties;
+
+		var baseValue = (float)monster.Data.HitRatio;
+		var byBuffs = properties.GetFloat(PropertyName.HR_BM);
+
+		return baseValue + byBuffs;
+	}
 }

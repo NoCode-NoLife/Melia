@@ -62,10 +62,12 @@ public class CombatCalculationsScript : GeneralScript
 	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
+		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
+
 		var rnd = RandomProvider.Get();
 
-		var dr = target.Properties.GetFloat(PropertyName.DR);
-		if (rnd.Next(1000) < dr)
+		var dodgeChance = SCR_GetDodgeChance(attacker, target, skill, skillHitResult);
+		if (rnd.Next(100) < dodgeChance)
 		{
 			skillHitResult.Result = HitResultType.Dodge;
 			return 0;
@@ -147,5 +149,30 @@ public class CombatCalculationsScript : GeneralScript
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, result);
 
 		return result;
+	}
+
+	/// <summary>
+	/// Returns the chance for the target to dodge a hit from the attacker.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		var dr = target.Properties.GetFloat(PropertyName.DR);
+		var hr = attacker.Properties.GetFloat(PropertyName.HR);
+
+		// Preliminary formula based on simple player tests, such as
+		// https://forum.treeofsavior.com/t/evasion-chance-in-tos/404534/11.
+		// With this, the DR needs to be about twice the HR to reach a
+		// chance of 50%+, and 90%, the presumed max, is reached at a
+		// little under thrice the HR.
+
+		var dodgeChance = Math2.Clamp(0, 90, (Math.Pow(dr / hr, 0.65f) - 1) * 100);
+
+		return (float)dodgeChance;
 	}
 }
