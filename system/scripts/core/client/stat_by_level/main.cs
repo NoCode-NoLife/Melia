@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Scripting;
+using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 
@@ -20,6 +21,13 @@ public class StatByLevelClientScript : ClientScript
 	[On("PlayerReady")]
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
-		this.SendAllScripts(e.Character);
+		// We'll only send the scripts if the feature to disable stats
+		// by level wasn't enabled. We still keep track of the stat
+		// points and automatically send them to the client, and
+		// we don't want them to get included in the calculations
+		// if the feature is enabled.
+
+		if (!Feature.IsEnabled("NoStatByLevel"))
+			this.SendAllScripts(e.Character);
 	}
 }

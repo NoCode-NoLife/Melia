@@ -5,11 +5,14 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -229,11 +232,11 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Str ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.StrRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.STR);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -251,11 +254,11 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Con ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.ConRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.CON);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -273,11 +276,11 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Int ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.IntRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.INT);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -295,11 +298,11 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Spr ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.SprRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.MNA);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -317,16 +320,59 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Dex ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.DexRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.DEX);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
 
 		return value;
+	}
+
+	/// <summary>
+	/// Returns the total ratio for the given stat from all of the
+	/// character's jobs.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="propertyName"></param>
+	/// <returns></returns>
+	private static float GetJobStatRatioSum(Character character, IEnumerable<Job> jobs, string propertyName)
+	{
+		// Prior to Re:Build (?) there was no distinction between stat and
+		// stat ratio. Each job had a value assigned to each stat and that
+		// was used as the ratio. The old ratio later became the default
+		// stat value for the job and a new ratio was added to compensate
+		// for the loss of free stat point assignment. We'll implement
+		// the classic system by simply choosing the default stat values
+		// as the ratio.
+
+		if (!Feature.IsEnabled("IncreasedStatRatio"))
+		{
+			switch (propertyName)
+			{
+				case PropertyName.STR: return jobs.Sum(a => a.Data.Str);
+				case PropertyName.CON: return jobs.Sum(a => a.Data.Con);
+				case PropertyName.INT: return jobs.Sum(a => a.Data.Int);
+				case PropertyName.MNA: return jobs.Sum(a => a.Data.Spr);
+				case PropertyName.DEX: return jobs.Sum(a => a.Data.Dex);
+			}
+		}
+		else
+		{
+			switch (propertyName)
+			{
+				case PropertyName.STR: return jobs.Sum(a => a.Data.StrRatio);
+				case PropertyName.CON: return jobs.Sum(a => a.Data.ConRatio);
+				case PropertyName.INT: return jobs.Sum(a => a.Data.IntRatio);
+				case PropertyName.MNA: return jobs.Sum(a => a.Data.SprRatio);
+				case PropertyName.DEX: return jobs.Sum(a => a.Data.DexRatio);
+			}
+		}
+
+		throw new ArgumentException($"Unsupported property '{propertyName}'.");
 	}
 
 	/// <summary>
@@ -678,7 +724,10 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
-		var byLevel = (int)properties.GetFloat(PropertyName.StatByLevel);
+		var byLevel = 0;
+		if (!Feature.IsEnabled("NoStatByLevel"))
+			byLevel = (int)properties.GetFloat(PropertyName.StatByLevel);
+
 		var byBonus = (int)properties.GetFloat(PropertyName.StatByBonus);
 		var usedStat = (int)properties.GetFloat(PropertyName.UsedStat);
 
