@@ -159,11 +159,23 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="id"></param>
 		/// <param name="duration"></param>
 		public Cooldown(CooldownId id, TimeSpan duration)
+			: this(id, duration, duration, DateTime.Now)
+		{
+		}
+
+		/// <summary>
+		/// Creates new cooldown.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="remaining"></param>
+		/// <param name="duration"></param>
+		/// <param name="startTime"></param>
+		public Cooldown(CooldownId id, TimeSpan remaining, TimeSpan duration, DateTime startTime)
 		{
 			this.Id = id;
 			this.Duration = duration;
-			this.Remaining = duration;
-			this.StartTime = DateTime.Now;
+			this.Remaining = remaining;
+			this.StartTime = startTime;
 		}
 
 		/// <summary>

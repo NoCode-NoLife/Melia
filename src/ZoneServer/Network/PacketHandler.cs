@@ -136,7 +136,6 @@ namespace Melia.Zone.Network
 			Send.ZC_ITEM_EQUIP_LIST(character);
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
-			Send.ZC_COOLDOWN_LIST(character, null);
 			Send.ZC_NORMAL.Unknown_DA(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
@@ -170,6 +169,10 @@ namespace Melia.Zone.Network
 			// will display the restored buffs
 			foreach (var buff in character.Buffs.GetList())
 				Send.ZC_BUFF_UPDATE(character, buff);
+
+			// Send updates for the cooldowns loaded from db, so the client
+			// will display the restored cooldowns
+			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
 
 			character.OpenEyes();
 

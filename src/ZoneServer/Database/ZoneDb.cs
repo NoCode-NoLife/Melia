@@ -14,6 +14,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using MySql.Data.MySqlClient;
@@ -157,6 +158,7 @@ namespace Melia.Zone.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
+			this.LoadCooldowns(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
@@ -400,6 +402,7 @@ namespace Melia.Zone.Database
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
+			this.SaveCooldowns(character);
 
 			return false;
 		}
@@ -944,6 +947,77 @@ namespace Melia.Zone.Database
 						var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
 
 						character.Buffs.Restore(buff);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves character's cooldowns.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveCooldowns(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `cooldowns` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var cooldown in character.Components.Get<CooldownComponent>().GetAll())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `cooldowns` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("classId", cooldown.Id);
+						cmd.Set("remaining", cooldown.Remaining);
+						cmd.Set("duration", cooldown.Duration);
+						cmd.Set("startTime", cooldown.StartTime);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads cooldowns for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadCooldowns(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `cooldowns` WHERE `characterId` = @characterId", conn))
+			{
+				cmd.Parameters.AddWithValue("@characterId", character.DbId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						// We load and save the remaining duration because
+						// the game has the capability to freeze cooldowns
+						// while logged out. That's not currently used by
+						// any cooldowns, but this way we're prepared.
+
+						var classId = (CooldownId)reader.GetInt32("classId");
+						var remaining = reader.GetTimeSpan("remaining");
+						var duration = reader.GetTimeSpan("duration");
+						var startTime = reader.GetDateTimeSafe("startTime");
+
+						var endTime = startTime + duration;
+						var updatedRemaining = Math2.Max(TimeSpan.Zero, endTime - DateTime.Now);
+
+						if (updatedRemaining == TimeSpan.Zero)
+							continue;
+
+						var cooldown = new Cooldown(classId, updatedRemaining, duration, startTime);
+						character.Components.Get<CooldownComponent>().Restore(cooldown);
 					}
 				}
 			}
