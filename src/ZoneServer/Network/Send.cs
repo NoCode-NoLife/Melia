@@ -387,7 +387,7 @@ namespace Melia.Zone.Network
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
 		{
-			var forceId = hits.FirstOrDefault()?.ForceId ?? 0;
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
 
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
