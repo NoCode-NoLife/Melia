@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.Network;
+using Melia.Shared.Network.Helpers;
 using Melia.Zone.Skills.Combat;
 
 namespace Melia.Zone.Network.Helpers
@@ -20,7 +21,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt(skillHitInfo.Target.Handle);
 			packet.AddHitInfo(skillHitInfo.HitInfo);
 
-			packet.PutInt(0);
+			packet.PutInt(skillHitInfo.IsKnockBack ? 1 : 0);
 			packet.PutShort((short)skillHitInfo.DamageDelay.TotalMilliseconds);
 			packet.PutByte(0);
 
@@ -36,6 +37,24 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutShort(0); // count1
 			packet.PutByte(2); // count2
 			packet.PutByte(0);
+
+			if (skillHitInfo.IsKnockBack)
+			{
+				var kb = skillHitInfo.KnockBackInfo;
+
+				packet.PutPosition(kb.FromPosition);
+				packet.PutPosition(kb.ToPosition);
+				packet.PutInt(kb.Velocity);
+				packet.PutInt((int)kb.Direction.NormalDegreeAngle);
+				packet.PutInt(10);
+				packet.PutInt(0);
+				packet.PutShort(180); // appears to affect distance
+				packet.PutShort(0);
+				packet.PutFloat(1);
+				packet.PutFloat(1);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
 
 			// for count2
 			{
@@ -64,7 +83,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt((int)hitInfo.Damage);
 			packet.PutInt((int)hitInfo.Hp);
 			packet.PutInt(hitInfo.HpPriority);
-			packet.PutShort(0);
+			packet.PutShort((short)hitInfo.Type);
 
 			packet.PutByte(0);
 			packet.PutByte(0);

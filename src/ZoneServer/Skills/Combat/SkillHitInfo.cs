@@ -58,6 +58,16 @@ namespace Melia.Zone.Skills.Combat
 		public int HitCount { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the knock back information. Leave empty for none.
+		/// </summary>
+		public KnockBackInfo KnockBackInfo { get; set; }
+
+		/// <summary>
+		/// Returns true if the knock back info was set.
+		/// </summary>
+		public bool IsKnockBack => this.KnockBackInfo != null;
+
+		/// <summary>
 		/// Creates new skill hit.
 		/// </summary>
 		/// <param name="attacker"></param>

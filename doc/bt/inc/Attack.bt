@@ -94,6 +94,23 @@ string readAdditionalPacket(AdditionalPacket &val)
     return result;
 }
 
+typedef struct
+{
+    position fromPos;
+    position toPos;
+    int velocity;
+    int directionAngle;
+    int i6;
+    int i7;
+    short s1;
+    short s2;
+    float f1;
+    float f2;
+    int i9;
+    int i10;
+}
+KnockBackInfo;
+
 // Every SkillHitInfo appears to contain information about one hit
 // that happened on a target. Unfortunately its structure is flexible,
 // which makes analysis pretty difficult. Most of this data is guessed.
@@ -123,6 +140,9 @@ typedef struct
 	short additionalPacketSize;
 	byte varInfoCount;
 	byte b8;
+
+    if (i1 != 0)
+        KnockBackInfo kbInfo;
 
     if (additionalPacketSize > 0)
         AdditionalPacket additionalPacket(additionalPacketSize);
