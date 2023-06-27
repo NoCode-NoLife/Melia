@@ -928,9 +928,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MINATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MINATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
@@ -968,9 +968,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MAXATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MAXATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
@@ -1002,15 +1002,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "DEF" "DEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.DEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "DEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.DEF_BM);
 
-		// Rate buffs: "DEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.DEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1032,15 +1030,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.MDEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "MDEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.MDEF_BM);
 
-		// Rate buffs: "MDEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.MDEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
