@@ -149,6 +149,7 @@
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
     <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
+    <Compile Include="Skills\Handlers\Wizard\EnergyBolt.cs" />
     <Compile Include="Skills\Handlers\Wizard\Lethargy.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicShield.cs" />

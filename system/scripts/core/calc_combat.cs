@@ -127,6 +127,11 @@ public class CombatCalculationsScript : GeneralScript
 			damage *= 2;
 			skillHitResult.HitCount = 2;
 		}
+		else if (skill.Id == SkillId.Wizard_EnergyBolt)
+		{
+			damage *= 2;
+			skillHitResult.HitCount = 2;
+		}
 
 		return (int)damage;
 	}
