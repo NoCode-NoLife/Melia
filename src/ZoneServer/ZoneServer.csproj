@@ -154,6 +154,7 @@
     <Compile Include="Skills\Handlers\Swordsman\Liberate.cs" />
     <Compile Include="Skills\Handlers\Swordsman\PainBarrier.cs" />
     <Compile Include="Skills\Handlers\Swordsman\GungHo.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\Bash.cs" />
     <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
     <Compile Include="Skills\Handlers\Wizard\EnergyBolt.cs" />
     <Compile Include="Skills\Handlers\Wizard\Lethargy.cs" />
