@@ -17,13 +17,13 @@ namespace Melia.Zone.Buffs.Handlers
 			var bonus = this.GetDefenseRateBonus(buff);
 			buff.Vars.SetFloat(VarName, bonus);
 
-			buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, bonus);
+			buff.Target.Properties.Modify(PropertyName.DEF_RATE_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
 			if (buff.Vars.TryGetFloat(VarName, out var bonus))
-				buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, -bonus);
+				buff.Target.Properties.Modify(PropertyName.DEF_RATE_BM, -bonus);
 		}
 
 		private float GetDefenseRateBonus(Buff buff)
