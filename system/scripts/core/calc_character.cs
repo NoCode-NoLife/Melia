@@ -976,11 +976,11 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var byBuffs = 0f;
 		byBuffs += properties.GetFloat(PropertyName.MATK_BM);
-		byBuffs += properties.GetFloat(PropertyName.MINMATK_BM);
+		byBuffs += properties.GetFloat(PropertyName.MAXMATK_BM);
 
 		var byRateBuffs = 0f;
 		byRateBuffs += properties.GetFloat(PropertyName.MATK_RATE_BM);
-		byRateBuffs += properties.GetFloat(PropertyName.MINMATK_RATE_BM);
+		byRateBuffs += properties.GetFloat(PropertyName.MAXMATK_RATE_BM);
 		byRateBuffs = (value * byRateBuffs);
 
 		value += byBuffs + byRateBuffs;
