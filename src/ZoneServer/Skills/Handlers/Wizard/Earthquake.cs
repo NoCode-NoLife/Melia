@@ -51,8 +51,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var center = caster.Position.GetRelative(direction, radius);
 			var splashArea = new Circle(center, radius);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			// Attack targets
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(200);
