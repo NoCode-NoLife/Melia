@@ -12,7 +12,9 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.ObliqueFire_Buff)]
 	public class ObliqueFireBuffHandler : BuffHandler
 	{
-		private const string ModifierVar = "Buff:ObliqueFire_Buff/Modifier";
+		private const string VarName = "Melia.StatModifier";
+		private const float BuffBonus = 3f;
+		private const float DebuffPenaltyRate = -0.05f;
 
 		/// <summary>
 		/// Starts buff, modifying the target's movement speed.
@@ -27,34 +29,22 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (buff.OverbuffCounter <= 3)
 			{
-				var add = 3f;
-				target.Properties.Modify("MSPD_BM", add);
+				var bonus = BuffBonus;
 
-				// Keep track of the changes we made to the speed buff
-				// property, to be able to reset it accurately once the
-				// buff ends.
-				// Ideally, we would be able to create named modifiers
-				// for properties, that we can later remove in one fell
-				// swoop, but then we would also need to save and load
-				// those modifiers. Let's stick to this solution for
-				// now, even if it's not the prettiest.
-				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+				var modifier = buff.Vars.GetFloat(VarName);
+				buff.Vars.SetFloat(VarName, modifier + bonus);
+
+				target.Properties.Modify(PropertyName.MSPD_BM, bonus);
 			}
 			else
 			{
-				// TODO: This part needs more research. There doesn't seem
-				//   to be a property for modifying the speed by a percentage,
-				//   but if we do that manually, couldn't we end up removing
-				//   more than we should in OnEnd, when the speed changes?
-
 				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
-				var add = -mspd * 0.05f;
+				var penalty = mspd * DebuffPenaltyRate;
 
-				target.Properties.Modify("MSPD_BM", add);
+				var modifier = buff.Vars.GetFloat(VarName);
+				buff.Vars.SetFloat(VarName, modifier + penalty);
 
-				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+				target.Properties.Modify(PropertyName.MSPD_BM, penalty);
 			}
 
 			Send.ZC_MOVE_SPEED(target);
@@ -68,10 +58,8 @@ namespace Melia.Zone.Buffs.Handlers
 		{
 			var target = buff.Target as Character;
 
-			var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-			target.Variables.Perm.Remove(ModifierVar);
-
-			target.Properties.Modify("SPEED_BM", modifier);
+			if (buff.Vars.TryGetFloat(VarName, out var modifier))
+				target.Properties.Modify(PropertyName.MSPD_BM, -modifier);
 
 			Send.ZC_MOVE_SPEED(target);
 		}

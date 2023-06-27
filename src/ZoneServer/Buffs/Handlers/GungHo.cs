@@ -10,7 +10,7 @@ namespace Melia.Zone.Buffs.Handlers
 	public class GungHo : BuffHandler
 	{
 		private const string VarName = "Melia.AtkRateBonus";
-		private const float BonusPerLevel = 0.02f; // 2%
+		private const float AtkRateBonusPerLevel = 0.02f; // 2%
 
 		public override void OnStart(Buff buff)
 		{
@@ -29,7 +29,7 @@ namespace Melia.Zone.Buffs.Handlers
 		private float GetAtkRateBonus(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			return skillLevel * BonusPerLevel;
+			return skillLevel * AtkRateBonusPerLevel;
 		}
 	}
 }
