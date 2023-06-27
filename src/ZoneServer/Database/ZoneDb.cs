@@ -627,7 +627,7 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Saves owner's variables in database.
+		/// Saves variables in database.
 		/// </summary>
 		/// <param name="vars"></param>
 		/// <param name="tableName"></param>
@@ -635,76 +635,87 @@ namespace Melia.Zone.Database
 		/// <param name="ownerId"></param>
 		public void SaveVariables(Variables vars, string tableName, string ownerField, long ownerId)
 		{
-			var checkOwner = ownerField != null;
-			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
-
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE {where}", conn, trans))
+				this.SaveVariables(conn, trans, vars, tableName, ownerField, ownerId);
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Saves owner's variables in database.
+		/// </summary>
+		/// <param name="vars"></param>
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
+		protected void SaveVariables(MySqlConnection conn, MySqlTransaction trans, Variables vars, string tableName, string ownerField, long ownerId)
+		{
+			var checkOwner = ownerField != null;
+			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
+
+			using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE {where}", conn, trans))
+			{
+				if (checkOwner)
+					mc.Parameters.AddWithValue("@ownerId", ownerId);
+				mc.ExecuteNonQuery();
+			}
+
+			foreach (var var in vars.GetList())
+			{
+				if (var.Value == null)
+					continue;
+
+				// Get type
+				string type;
+				if (var.Value is byte) type = "1u";
+				else if (var.Value is ushort) type = "2u";
+				else if (var.Value is uint) type = "4u";
+				else if (var.Value is ulong) type = "8u";
+				else if (var.Value is sbyte) type = "1";
+				else if (var.Value is short) type = "2";
+				else if (var.Value is int) type = "4";
+				else if (var.Value is long) type = "8";
+				else if (var.Value is float) type = "f";
+				else if (var.Value is double) type = "d";
+				else if (var.Value is bool) type = "b";
+				else if (var.Value is string) type = "s";
+				else
+				{
+					Log.Warning("SaveVars: Skipping variable '{0}', unsupported type '{1}'.", var.Key, var.Value.GetType().Name);
+					continue;
+				}
+
+				// Get value
+				var val = "";
+				switch (type)
+				{
+					case "f": val = ((float)var.Value).ToString(CultureInfo.InvariantCulture); break;
+					case "d": val = ((double)var.Value).ToString(CultureInfo.InvariantCulture); break;
+					default: val = var.Value.ToString(); break;
+				}
+
+				// Make sure value isn't too big for the mediumtext field
+				// (unlikely as it may be). Size: 16,777,215
+				if (val.Length > (1 << 24) - 1)
+				{
+					Log.Warning("SaveVars: Skipping variable '{0}', it's too big.", var.Key);
+					continue;
+				}
+
+				// Save
+				using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
 				{
 					if (checkOwner)
-						mc.Parameters.AddWithValue("@ownerId", ownerId);
-					mc.ExecuteNonQuery();
+						cmd.Set(ownerField, ownerId);
+
+					cmd.Set("name", var.Key);
+					cmd.Set("type", type);
+					cmd.Set("value", val);
+
+					cmd.Execute();
 				}
-
-				foreach (var var in vars.GetList())
-				{
-					if (var.Value == null)
-						continue;
-
-					// Get type
-					string type;
-					if (var.Value is byte) type = "1u";
-					else if (var.Value is ushort) type = "2u";
-					else if (var.Value is uint) type = "4u";
-					else if (var.Value is ulong) type = "8u";
-					else if (var.Value is sbyte) type = "1";
-					else if (var.Value is short) type = "2";
-					else if (var.Value is int) type = "4";
-					else if (var.Value is long) type = "8";
-					else if (var.Value is float) type = "f";
-					else if (var.Value is double) type = "d";
-					else if (var.Value is bool) type = "b";
-					else if (var.Value is string) type = "s";
-					else
-					{
-						Log.Warning("SaveVars: Skipping variable '{0}', unsupported type '{1}'.", var.Key, var.Value.GetType().Name);
-						continue;
-					}
-
-					// Get value
-					var val = "";
-					switch (type)
-					{
-						case "f": val = ((float)var.Value).ToString(CultureInfo.InvariantCulture); break;
-						case "d": val = ((double)var.Value).ToString(CultureInfo.InvariantCulture); break;
-						default: val = var.Value.ToString(); break;
-					}
-
-					// Make sure value isn't too big for the mediumtext field
-					// (unlikely as it may be). Size: 16,777,215
-					if (val.Length > (1 << 24) - 1)
-					{
-						Log.Warning("SaveVars: Skipping variable '{0}', it's too big.", var.Key);
-						continue;
-					}
-
-					// Save
-					using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
-					{
-						if (checkOwner)
-							cmd.Set(ownerField, ownerId);
-
-						cmd.Set("name", var.Key);
-						cmd.Set("type", type);
-						cmd.Set("value", val);
-
-						cmd.Execute();
-					}
-				}
-
-				trans.Commit();
 			}
 		}
 
@@ -718,10 +729,24 @@ namespace Melia.Zone.Database
 		/// <returns></returns>
 		public void LoadVars(Variables vars, string tableName, string ownerField, long ownerId)
 		{
+			using (var conn = this.GetConnection())
+				this.LoadVars(conn, vars, tableName, ownerField, ownerId);
+		}
+
+		/// <summary>
+		/// Loads owner's variables into the variable manager.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="vars"></param>
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
+		/// <returns></returns>
+		protected void LoadVars(MySqlConnection conn, Variables vars, string tableName, string ownerField, long ownerId)
+		{
 			var checkOwner = ownerField != null;
 			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
 
-			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand($"SELECT * FROM `{tableName}` WHERE {where}", conn))
 			{
 				if (checkOwner)
@@ -897,6 +922,8 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void SaveBuffs(Character character)
 		{
+			var buffs = new Dictionary<long, Buff>();
+
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
@@ -908,6 +935,8 @@ namespace Melia.Zone.Database
 
 				foreach (var buff in character.Buffs.GetList())
 				{
+					var lastId = 0L;
+
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
@@ -917,7 +946,10 @@ namespace Melia.Zone.Database
 						cmd.Set("remainingDuration", buff.RemainingDuration);
 
 						cmd.Execute();
+						lastId = cmd.LastId;
 					}
+
+					this.SaveVariables(conn, trans, buff.Vars, "vars_buffs", "buffId", lastId);
 				}
 
 				trans.Commit();
@@ -930,24 +962,34 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void LoadBuffs(Character character)
 		{
+			var buffs = new Dictionary<long, Buff>();
+
 			using (var conn = this.GetConnection())
-			using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
 			{
-				cmd.Parameters.AddWithValue("@characterId", character.DbId);
-
-				using (var reader = cmd.ExecuteReader())
+				using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
 				{
-					while (reader.Read())
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
 					{
-						var classId = (BuffId)reader.GetInt32("classId");
-						var numArg1 = reader.GetInt32("numArg1");
-						var numArg2 = reader.GetInt32("numArg2");
-						var remainingDuration = reader.GetTimeSpan("remainingDuration");
+						while (reader.Read())
+						{
+							var dbId = reader.GetInt64("buffId");
+							var classId = (BuffId)reader.GetInt32("classId");
+							var numArg1 = reader.GetInt32("numArg1");
+							var numArg2 = reader.GetInt32("numArg2");
+							var remainingDuration = reader.GetTimeSpan("remainingDuration");
 
-						var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
-
-						character.Buffs.Restore(buff);
+							var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
+							buffs.Add(dbId, buff);
+						}
 					}
+				}
+
+				foreach (var buff in buffs)
+				{
+					this.LoadVars(conn, buff.Value.Vars, "vars_buffs", "buffId", buff.Key);
+					character.Buffs.Restore(buff.Value);
 				}
 			}
 		}

@@ -62,8 +62,12 @@ namespace Melia.Zone.Buffs
 		public int Handle { get; }
 
 		/// <summary>
-		/// Returns the buff's temporary variables.
+		/// Returns the buff's variables.
 		/// </summary>
+		/// <remarks>
+		/// Saved to database together with the buff. Safe to be used to
+		/// store modifiers that can be used to revert the buff's effects.
+		/// </remarks>
 		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
