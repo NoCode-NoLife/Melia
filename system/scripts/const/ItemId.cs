@@ -4006,9 +4006,12 @@ public static class ItemId
 	public const int Hat_Ep15picnic01 = 11102006;
 	public const int Hat_Ep15picnic02 = 11102007;
 	public const int Hat_Kepaberet = 11102008;
+	public const int Hat_Ep15unicorn01 = 11102009;
+	public const int Hat_Ep15unicorn02 = 11102010;
 	public const int Guiltynelaima_Shield = 11104006;
 	public const int EP15_Artefact_004 = 11104010;
 	public const int Ep15spring01_Shield = 11104014;
+	public const int Ep15unicorn_Shield = 11104019;
 
 	// BELT
 	//-----------------------------------------------------------------------
@@ -4603,6 +4606,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_11 = 11039011;
 	public const int DRESS_ROOM_COLLECT_12 = 11039012;
 	public const int DRESS_ROOM_COLLECT_13 = 11039013;
+	public const int DRESS_ROOM_COLLECT_14 = 11039014;
 
 	// Consume
 	//-----------------------------------------------------------------------
@@ -13994,6 +13998,10 @@ public static class ItemId
 	public const int Premium_TpBox_396 = 493022;
 	public const int Premium_TpBox_16500 = 493023;
 	public const int Premium_EventTpBox_50_3 = 493024;
+	public const int Premium_TpBox_110 = 493025;
+	public const int Premium_TpBox_340 = 493026;
+	public const int Premium_TpBox_580 = 493027;
+	public const int Premium_TpBox_1080 = 493028;
 	public const int Steaml_Premium_EventTpBox_20 = 494052;
 	public const int Steam_Premium_EventTpBox_30 = 494053;
 	public const int DLC_BOX10 = 494054;
@@ -17722,12 +17730,17 @@ public static class ItemId
 	public const int Costume_Ep15picnic02_M = 11101010;
 	public const int Costume_Ep15picnic01_F = 11101011;
 	public const int Costume_Ep15picnic02_F = 11101012;
+	public const int Costume_Ep15unicorn01_M = 11101013;
+	public const int Costume_Ep15unicorn02_M = 11101014;
+	public const int Costume_Ep15unicorn01_F = 11101015;
+	public const int Costume_Ep15unicorn02_F = 11101016;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Wing_Guiltynelaima_1 = 11105001;
 	public const int Wing_Guiltynelaima_2 = 11105002;
 	public const int Wing_Spreader_Backboard = 11105004;
 	public const int Wing_Balloon_Nightrabbit = 11105005;
+	public const int Wing_Ep15unicorn = 11105006;
 	public const int Effect_Ep15snowknight_Aurora = 11106001;
 	public const int Effect_Ep15snowknight_Snowflake = 11106002;
 	public const int Effect_Nightrabbit = 11106003;
@@ -17916,6 +17929,9 @@ public static class ItemId
 	public const int Tosw_2304_Package_4c = 11205044;
 	public const int Special_Gift_Box_Leticia_2306 = 11205046;
 	public const int Certificate_RidePet_Dragonboat = 11205049;
+	public const int Selectbox_Ep15unicorn01 = 11205052;
+	public const int Selectbox_Ep15unicorn02 = 11205053;
+	public const int Special_Gift_Box_Leticia_2307 = 11205054;
 
 	// Quest
 	//-----------------------------------------------------------------------
@@ -25348,5 +25364,8 @@ public static class ItemId
 	public const int Ep15picnic_Sword = 11104015;
 	public const int Ep15picnic_Thstaff = 11104016;
 	public const int Ep15picnic_Cannon = 11104017;
+	public const int Ep15unicorn_Mace = 11104018;
+	public const int Ep15unicorn_Cannon = 11104020;
+	public const int Ep15unicorn_Bow = 11104021;
 }
 #pragma warning restore IDE1006 // Naming Conventions
