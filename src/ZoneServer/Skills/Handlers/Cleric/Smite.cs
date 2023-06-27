@@ -41,8 +41,6 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 
 			caster.Components.Get<BuffComponent>().Start(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-
 			var height = skill.Properties.GetFloat(PropertyName.WaveLength);
 			var width = height / 2;
 			originPos = caster.Position;
