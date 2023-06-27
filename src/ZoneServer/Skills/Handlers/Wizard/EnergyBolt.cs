@@ -26,6 +26,16 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
 		{
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
+
+			skill.IncreaseOverheat();
+			caster.TurnTowards(designatedTarget);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
+
 			if (designatedTarget == null)
 			{
 				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
@@ -37,15 +47,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;
 			}
-
-			if (!caster.TrySpendSp(skill))
-			{
-				caster.ServerMessage(Localization.Get("Not enough SP."));
-				return;
-			}
-
-			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			var damageDelay = TimeSpan.FromMilliseconds(550);
 			var skillHitDelay = TimeSpan.FromMilliseconds(100);
