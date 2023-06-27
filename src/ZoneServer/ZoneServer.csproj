@@ -151,6 +151,7 @@
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\PainBarrier.cs" />
     <Compile Include="Skills\Handlers\Swordsman\GungHo.cs" />
     <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
     <Compile Include="Skills\Handlers\Wizard\EnergyBolt.cs" />
