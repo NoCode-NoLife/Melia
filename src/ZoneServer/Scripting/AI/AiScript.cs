@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
 
@@ -21,7 +21,7 @@ namespace Melia.Zone.Scripting.AI
 		private TendencyType _tendency;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
-		private float _hatePerHit = 100;
+		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
@@ -137,17 +137,19 @@ namespace Melia.Zone.Scripting.AI
 				var handle = potentialEnemy.Handle;
 				var amount = (float)(_hatePerSecond * elapsed.TotalSeconds);
 
-				this.IncreaseHate(handle, amount);
+				this.IncreaseHate(potentialEnemy, amount);
 			}
 		}
 
 		/// <summary>
-		/// Increases hate towards the entity with the given handle.
+		/// Increases hate towards the entity with the given entity.
 		/// </summary>
-		/// <param name="handle"></param>
+		/// <param name="entity"></param>
 		/// <param name="amount"></param>
-		protected void IncreaseHate(int handle, float amount)
+		protected void IncreaseHate(ICombatEntity entity, float amount)
 		{
+			var handle = entity.Handle;
+
 			// Increase the hate level at the normal rate up to the
 			// min aggro level. Once we reach that point we lower
 			// the hate increase so it will still accumulate for
@@ -160,6 +162,12 @@ namespace Melia.Zone.Scripting.AI
 
 			if (_hateLevels[handle] >= _minAggroHateLevel)
 				amount *= _overHateRate;
+
+			// Hate increases 500% faster if entity has the Liberate buff.
+			// This means instant aggro from aggressive monsters and a
+			// higher chance to keep it.
+			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
+				amount *= 5;
 
 			_hateLevels[handle] += amount;
 
@@ -279,8 +287,8 @@ namespace Melia.Zone.Scripting.AI
 
 					if (eventAlert is HitEventAlert hitEventAlert)
 					{
-						if (hitEventAlert.TargetHandle == this.Entity.Handle)
-							this.IncreaseHate(hitEventAlert.AttackerHandle, _hatePerHit);
+						if (hitEventAlert.Target.Handle == this.Entity.Handle)
+							this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
 					}
 				}
 			}

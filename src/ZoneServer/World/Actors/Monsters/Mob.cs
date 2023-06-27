@@ -273,10 +273,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			if (this.Components.TryGet<AiComponent>(out var ai))
-			{
-				var attackerHandle = attacker?.Handle ?? 0;
-				ai.Script.QueueEventAlert(new HitEventAlert(this.Handle, attackerHandle, damage));
-			}
+				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
 
 			return false;
 		}
