@@ -23,7 +23,7 @@ int i4;
 float f3;
 float f4;
 int i5;
-int i12; // Same as SkillHitInfo.i3
+int forceId;
 float f5;
 int i8;
 int mainTargetHandle;

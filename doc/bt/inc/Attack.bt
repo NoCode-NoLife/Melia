@@ -113,10 +113,10 @@ typedef struct
 
 	byte b5;
     short skillHitDelay;
-	byte b6;
+	byte hitEffect;
 	byte b7;
 	int i2;
-	int i3; // weird id-looking int I can't find anywhere in the data
+	int forceId;
     short s1;
     short s2;
 
