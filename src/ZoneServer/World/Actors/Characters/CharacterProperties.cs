@@ -127,9 +127,11 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.JumpPower, "SCR_Get_Character_JumpPower");
 			this.Create(PropertyName.CastingSpeed, "SCR_Get_Character_CastingSpeed");
 
+			this.Create(PropertyName.MovingShotable, "SCR_Get_Character_MovingShotable");
+			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
+
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?
-			this.Create(new FloatProperty(PropertyName.MovingShotable, 0));
 			this.Create(new FloatProperty(PropertyName.HPDrain, 2));
 			this.Create(new FloatProperty(PropertyName.BOOST, 1));
 			this.Create(new FloatProperty(PropertyName.Const, 1.909859f));
@@ -179,6 +181,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("MINMATK", new[] { "Lv", "INT", "MATK_BM", "MINMATK_BM", "MATK_RATE_BM", "MINMATK_RATE_BM" });
 			this.AutoUpdate("MAXMATK", new[] { "Lv", "INT", "MATK_BM", "MAXMATK_BM", "MATK_RATE_BM", "MAXMATK_RATE_BM" });
 			this.AutoUpdate("MaxWeight", new[] { "CON", "STR", "MaxWeight_BM", "MaxWeight_Bonus" });
+			this.AutoUpdate("MovingShot", new[] { "MovingShot_BM" });
 
 			this.AutoUpdateMax("HP", "MHP");
 			this.AutoUpdateMax("SP", "MSP");

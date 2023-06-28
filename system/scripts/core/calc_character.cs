@@ -1343,4 +1343,35 @@ public class CharacterCalculationsScript : GeneralScript
 		var result = baseStat + byBuff;
 		return (float)Math.Floor(Math2.Clamp(10, 200, result));
 	}
+
+	/// <summary>
+	/// Returns 1 if the character is able to shoot while moving.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_Character_MovingShotable")]
+	public float SCR_Get_Character_MovingShotable(Character character)
+	{
+		return character.JobClass == JobClass.Archer ? 1 : 0;
+	}
+
+	/// <summary>
+	/// Returns movement speed for while shooting.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_Character_MovingShot")]
+	public float SCR_Get_Character_MovingShot(Character character)
+	{
+		var canMoveWhileShooting = character.Properties.GetFloat(PropertyName.MovingShotable) == 1;
+		if (!canMoveWhileShooting)
+			return 0;
+
+		var byJob = (character.JobClass == JobClass.Archer ? 0.8f : 0);
+		var byBuff = character.Properties.GetFloat(PropertyName.MovingShot_BM);
+
+		var value = byJob + byBuff;
+
+		return Math.Min(5, value);
+	}
 }

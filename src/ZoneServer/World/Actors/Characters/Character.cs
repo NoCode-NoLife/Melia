@@ -261,11 +261,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsDead => (this.Hp == 0);
 
 		/// <summary>
-		/// Returns the character's move speed via its MSPD property.
-		/// </summary>
-		public float MoveSpeed => this.Properties.GetFloat(PropertyName.MSPD);
-
-		/// <summary>
 		/// Returns the character's component collection.
 		/// </summary>
 		public ComponentCollection Components { get; } = new ComponentCollection();
