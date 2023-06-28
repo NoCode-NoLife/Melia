@@ -135,8 +135,8 @@ namespace Melia.Zone.Network
 			packet.PutShort(0);
 			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
-			packet.PutFloat(character.MoveSpeed);
-			packet.PutInt(0);
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MovingShot));
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
 			packet.PutShort(character.Sp);
@@ -759,8 +759,8 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.MoveSpeed);
-			packet.PutFloat(0);
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MovingShot));
 
 			// [i11257 (2016-03-25)]
 			{
@@ -1938,7 +1938,7 @@ namespace Melia.Zone.Network
 			packet.PutPosition(pos);
 			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.MoveSpeed);
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(24);
 			packet.PutInt(6);
@@ -2913,15 +2913,15 @@ namespace Melia.Zone.Network
 		/// Updates character's movement speed.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_MSPD(Character character)
+		public static void ZC_MSPD(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.MoveSpeed);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
-			character.Connection.Send(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>

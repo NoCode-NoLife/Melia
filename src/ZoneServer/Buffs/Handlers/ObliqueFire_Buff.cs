@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;

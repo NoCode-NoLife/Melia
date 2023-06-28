@@ -10,6 +10,9 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Lethargy_Debuff)]
 	public class Lethargy_Debuff : BuffHandler
 	{
+		private const string PAtkVarName = "Melia.PAtkDebuff";
+		private const string MAtkVarName = "Melia.MAtkDebuff";
+		private const string DRVarName = "Melia.DRDebuff";
 		private const float AtkReductionRatePerLevel = 2;
 		private const float EvasionReductionRatePerLevel = 1;
 
@@ -36,9 +39,9 @@ namespace Melia.Zone.Buffs.Handlers
 			var matkDebuff = matk * (atkRate / 100f);
 			var drDebuff = dr * (drRate / 100f);
 
-			buff.Vars.SetFloat("Melia.PAtkDebuff", patkDebuff);
-			buff.Vars.SetFloat("Melia.MAtkDebuff", matkDebuff);
-			buff.Vars.SetFloat("Melia.DRDebuff", drDebuff);
+			buff.Vars.SetFloat(PAtkVarName, patkDebuff);
+			buff.Vars.SetFloat(MAtkVarName, matkDebuff);
+			buff.Vars.SetFloat(DRVarName, drDebuff);
 
 			buff.Target.Properties.Modify(PropertyName.PATK_BM, -patkDebuff);
 			buff.Target.Properties.Modify(PropertyName.MATK_BM, -matkDebuff);
@@ -47,13 +50,13 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat("Melia.PAtkDebuff", out var patkDebuff))
+			if (buff.Vars.TryGetFloat(PAtkVarName, out var patkDebuff))
 				buff.Target.Properties.Modify(PropertyName.PATK_BM, patkDebuff);
 
-			if (buff.Vars.TryGetFloat("Melia.MAtkDebuff", out var matkDebuff))
+			if (buff.Vars.TryGetFloat(MAtkVarName, out var matkDebuff))
 				buff.Target.Properties.Modify(PropertyName.MATK_BM, matkDebuff);
 
-			if (buff.Vars.TryGetFloat("Melia.DRDebuff", out var drDebuff))
+			if (buff.Vars.TryGetFloat(DRVarName, out var drDebuff))
 				buff.Target.Properties.Modify(PropertyName.DR_BM, drDebuff);
 		}
 	}

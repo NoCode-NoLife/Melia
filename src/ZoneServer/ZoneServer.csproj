@@ -80,10 +80,13 @@
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
+    <Compile Include="Buffs\Handlers\Bear.cs" />
+    <Compile Include="Buffs\Handlers\SwiftStep_Buff.cs" />
     <Compile Include="Buffs\Handlers\Lethargy_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Concentration_Buff.cs" />
     <Compile Include="Buffs\Handlers\DoubleAttack_Buff.cs" />
     <Compile Include="Buffs\Handlers\FreeStep_Buff.cs" />
+    <Compile Include="Buffs\Handlers\GungHo.cs" />
     <Compile Include="Buffs\Handlers\Smite_Buff.cs" />
     <Compile Include="Buffs\Handlers\Drug_HealSP.cs" />
     <Compile Include="Buffs\Handlers\Drug_HealHP.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Skills\Combat\KnockBackInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitResult.cs" />
+    <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
@@ -151,6 +155,11 @@
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
     <Compile Include="Skills\Handlers\Scout\ObliqueFire.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\Liberate.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\PainBarrier.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\GungHo.cs" />
+    <Compile Include="Skills\Handlers\Swordsman\Bash.cs" />
     <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
     <Compile Include="Skills\Handlers\Wizard\EnergyBolt.cs" />
     <Compile Include="Skills\Handlers\Wizard\Lethargy.cs" />

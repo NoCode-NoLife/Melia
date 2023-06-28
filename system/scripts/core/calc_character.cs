@@ -928,9 +928,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MINATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MINATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
@@ -968,19 +968,19 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MAXATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MAXATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
 		var byBuffs = 0f;
 		byBuffs += properties.GetFloat(PropertyName.MATK_BM);
-		byBuffs += properties.GetFloat(PropertyName.MINMATK_BM);
+		byBuffs += properties.GetFloat(PropertyName.MAXMATK_BM);
 
 		var byRateBuffs = 0f;
 		byRateBuffs += properties.GetFloat(PropertyName.MATK_RATE_BM);
-		byRateBuffs += properties.GetFloat(PropertyName.MINMATK_RATE_BM);
+		byRateBuffs += properties.GetFloat(PropertyName.MAXMATK_RATE_BM);
 		byRateBuffs = (value * byRateBuffs);
 
 		value += byBuffs + byRateBuffs;
@@ -1002,15 +1002,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "DEF" "DEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.DEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "DEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.DEF_BM);
 
-		// Rate buffs: "DEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.DEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1032,15 +1030,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.MDEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "MDEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.MDEF_BM);
 
-		// Rate buffs: "MDEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.MDEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1346,5 +1342,36 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var result = baseStat + byBuff;
 		return (float)Math.Floor(Math2.Clamp(10, 200, result));
+	}
+
+	/// <summary>
+	/// Returns 1 if the character is able to shoot while moving.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_Character_MovingShotable")]
+	public float SCR_Get_Character_MovingShotable(Character character)
+	{
+		return character.JobClass == JobClass.Archer ? 1 : 0;
+	}
+
+	/// <summary>
+	/// Returns movement speed for while shooting.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_Character_MovingShot")]
+	public float SCR_Get_Character_MovingShot(Character character)
+	{
+		var canMoveWhileShooting = character.Properties.GetFloat(PropertyName.MovingShotable) == 1;
+		if (!canMoveWhileShooting)
+			return 0;
+
+		var byJob = (character.JobClass == JobClass.Archer ? 0.8f : 0);
+		var byBuff = character.Properties.GetFloat(PropertyName.MovingShot_BM);
+
+		var value = byJob + byBuff;
+
+		return Math.Min(5, value);
 	}
 }

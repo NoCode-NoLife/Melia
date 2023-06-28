@@ -1,6 +1,5 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -11,22 +10,27 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Concentration_Buff)]
 	public class Concentration_Buff : BuffHandler
 	{
+		private const string VarName = "Melia.CritRateBonus";
+		private const float BonusPerLevel = 2;
+
 		public override void OnStart(Buff buff)
 		{
 			var bonus = this.GetCritRateBonus(buff);
+			buff.Vars.SetFloat(VarName, bonus);
+
 			buff.Target.Properties.Modify(PropertyName.CRTHR_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			var bonus = this.GetCritRateBonus(buff);
-			buff.Target.Properties.Modify(PropertyName.CRTHR_BM, -bonus);
+			if (buff.Vars.TryGetFloat(VarName, out var bonus))
+				buff.Target.Properties.Modify(PropertyName.CRTHR_BM, -bonus);
 		}
 
 		private float GetCritRateBonus(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			var bonus = skillLevel * 2;
+			var bonus = skillLevel * BonusPerLevel;
 
 			return bonus;
 		}

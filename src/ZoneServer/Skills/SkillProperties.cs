@@ -80,12 +80,16 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.ReadyTime, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SkillAtkAdd, () => 0f));
-			this.Create(new RFloatProperty(PropertyName.EnableShootMove, () => this.Skill.Data.EnableCastMove ? 1f : 0f));
 			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => (int)this.Skill.Data.CooldownTime.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.SkillASPD, () => 1f));
 			this.Create(new RFloatProperty(PropertyName.BackHitRange, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.Skill_Delay, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.ReinforceAtk, () => 0f));
+
+			// We previously had this as `Enable ? 1 : 0`, but it seems like
+			// EnableShootMove actually needs to be 0 to allow movement while
+			// shooting.
+			this.Create(new RFloatProperty(PropertyName.EnableShootMove, () => this.Skill.Data.EnableCastMove ? 0f : 1f));
 
 			this.Create(new RFloatProperty(PropertyName.CaptionTime, () => 0f)); // Needs to be calculated if used, uses lua script
 			this.Create(new RFloatProperty(PropertyName.CaptionRatio, () => 0f)); // Needs to be calculated if used, uses lua script

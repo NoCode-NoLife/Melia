@@ -236,4 +236,5 @@
 { classId: 249, className: "MOVE_LEGENDCARD_EXP", type: "ItemList", script: "SCR_MOVE_LEGENDCARD_EXP" },
 { classId: 250, className: "EVENT_TOS_WHOLE_SHOP", type: "ItemList", script: "TX_EVENT_TOS_WHOLE_SHOP" },
 { classId: 251, className: "ITEM_REINFORCE_SCROLL", type: "ItemList", script: "SCR_ITEM_REINFORCE_SCROLL" },
+{ classId: 253, className: "ITEM_UNLOCK_BELONGING_SCROLL", type: "ItemList", script: "SCR_ITEM_UNLOCK_BELONGING_SCROLL" },
 ]
