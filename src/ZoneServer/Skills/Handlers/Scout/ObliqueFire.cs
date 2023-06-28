@@ -78,40 +78,19 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			var splashArea = new Circle(designatedTarget.Position, skill.Data.SplashHeight * 2);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			if (targets.Any())
+			var nearestTarget = targets.Where(a => a != designatedTarget).OrderBy(a => a.Position.Get2DDistance(designatedTarget.Position)).FirstOrDefault();
+
+			if (nearestTarget != null)
 			{
-				var targetDistanceDic = new Dictionary<Position, ICombatEntity>();
-				var distancesList = new List<Position>();
+				var skillHitResultPost = SCR_SkillHit(caster, nearestTarget, skill);
+				nearestTarget.TakeDamage(skillHitResultPost.Damage, caster);
 
-				foreach (var target in targets)
-				{
-					if (target != designatedTarget)
-					{
-						if (!targetDistanceDic.ContainsKey(target.Position))
-						{
-							targetDistanceDic.Add(target.Position, target);
-						}
+				var skillHitPost = new SkillHitInfo(caster, nearestTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
+				var hit = new HitInfo(caster, nearestTarget, skill, skillHitResult.Damage, skillHitResult.Result);
 
-						distancesList.Add(target.Position);
-					}
-				}
+				nearestTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), nearestTarget);
 
-				var nearstTargetDistance = distancesList.OrderByDescending(pos2 => GetDistance(designatedTarget.Position, pos2)).LastOrDefault();
-
-				var nearstTarget = targetDistanceDic[nearstTargetDistance];
-
-				if (nearstTarget != null)
-				{
-					var skillHitResultPost = SCR_SkillHit(caster, nearstTarget, skill);
-					nearstTarget.TakeDamage(skillHitResultPost.Damage, caster);
-
-					var skillHitPost = new SkillHitInfo(caster, nearstTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
-					var hit = new HitInfo(caster, nearstTarget, skill, skillHitResult.Damage, skillHitResult.Result);
-
-					nearstTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), nearstTarget);
-
-					Send.ZC_HIT_INFO(caster, nearstTarget, skill, hit);
-				}
+				Send.ZC_HIT_INFO(caster, nearestTarget, skill, hit);
 			}
 		}
 
