@@ -78,6 +78,7 @@
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
+    <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
     <Compile Include="Buffs\Handlers\Lethargy_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Concentration_Buff.cs" />

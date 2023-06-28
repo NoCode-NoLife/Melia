@@ -20,15 +20,14 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target as Character;
-
 			// Movement speed +3 per stack when stack is 3 or less
 			// Movement Speed -5% per stack when stack is 4 or more
+			var targetCharacter = buff.Target as Character;
 
 			if (buff.OverbuffCounter <= 3)
 			{
 				var add = 3f;
-				target.Properties.Modify("MSPD_BM", add);
+				buff.Target.Properties.Modify("MSPD_BM", add);
 
 				// Keep track of the changes we made to the speed buff
 				// property, to be able to reset it accurately once the
@@ -38,8 +37,12 @@ namespace Melia.Zone.Buffs.Handlers
 				// swoop, but then we would also need to save and load
 				// those modifiers. Let's stick to this solution for
 				// now, even if it's not the prettiest.
-				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+
+				if (targetCharacter != null)
+				{
+					var modifier = targetCharacter.Variables.Perm.Get<float>(ModifierVar, 0);
+					targetCharacter.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+				}
 			}
 			else
 			{
@@ -48,16 +51,22 @@ namespace Melia.Zone.Buffs.Handlers
 				//   but if we do that manually, couldn't we end up removing
 				//   more than we should in OnEnd, when the speed changes?
 
-				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
+				var mspd = buff.Target.Properties.GetFloat(PropertyName.MSPD);
 				var add = -mspd * 0.05f;
 
-				target.Properties.Modify("MSPD_BM", add);
+				buff.Target.Properties.Modify("MSPD_BM", add);
 
-				var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-				target.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+				if (targetCharacter != null)
+				{
+					var modifier = targetCharacter.Variables.Perm.Get<float>(ModifierVar, 0);
+					targetCharacter.Variables.Perm.SetFloat(ModifierVar, modifier + add);
+				}
 			}
 
-			Send.ZC_MOVE_SPEED(target);
+			if (targetCharacter != null)
+			{
+				Send.ZC_MOVE_SPEED(targetCharacter);
+			}
 		}
 
 		/// <summary>
@@ -66,14 +75,20 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target as Character;
+			var targetCharacter = buff.Target as Character;
 
-			var modifier = target.Variables.Perm.Get<float>(ModifierVar, 0);
-			target.Variables.Perm.Remove(ModifierVar);
+			var mspd = buff.Target.Properties.GetFloat(PropertyName.MSPD);
+			buff.Target.Properties.SetFloat("MSPD_BM", mspd);
 
-			target.Properties.Modify("SPEED_BM", modifier);
+			if (targetCharacter != null)
+			{
+				var modifier = targetCharacter.Variables.Perm.Get<float>(ModifierVar, 0);
+				targetCharacter.Variables.Perm.Remove(ModifierVar);
 
-			Send.ZC_MOVE_SPEED(target);
+				targetCharacter.Properties.Modify("MSPD_BM", modifier);
+
+				Send.ZC_MOVE_SPEED(targetCharacter);
+			}
 		}
 	}
 }

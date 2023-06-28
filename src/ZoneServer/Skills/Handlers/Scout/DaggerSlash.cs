@@ -67,36 +67,30 @@ namespace Melia.Zone.Skills.Handlers.Scout
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position farPos)
 		{
 			var hits = new List<SkillHitInfo>();
-			
+
 			//HardCoded Values - @TODO: Make it dynamic
-			var SkillFactor = 0.61f;
 			var AoeAttackRatio = 6;
 
-			var hitTime = TimeSpan.FromMilliseconds(300);
-			var secondHitTime = TimeSpan.FromMilliseconds(550);
-			var damageDelay = TimeSpan.FromMilliseconds(270);
-			var damageSecondDelay = TimeSpan.FromMilliseconds(550);
+			var damageDelay = TimeSpan.Zero;
+			var secondHitTime = TimeSpan.FromMilliseconds(100);
+			var damageSecondDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
-			
+
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			if (targets.Any() && targets.Count > 6)
+			if (targets.Count > AoeAttackRatio)
 			{
 				targets = targets.GetRange(0, AoeAttackRatio);
 			}
 
-			await Task.Delay(hitTime);
-
 			foreach (var target in targets)
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				var damage = skillHitResult.Damage * SkillFactor / 2;
+				var damage = skillHitResult.Damage / 2;
 
 				target.TakeDamage(damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.ForceId = ForceId.GetNew();
-
 				hits.Add(skillHit);
 			}
 
@@ -104,22 +98,22 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			await Task.Delay(secondHitTime);
 
-			hits = new List<SkillHitInfo>();
+			hits.Clear();
 
 			foreach (var target in targets)
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				var damage = skillHitResult.Damage * SkillFactor / 2;
+				var damage = skillHitResult.Damage / 2;
 
 				target.TakeDamage(damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageSecondDelay, skillHitDelay);
-				skillHit.ForceId = ForceId.GetNew();
-
 				hits.Add(skillHit);
+
+				target.Components.Get<BuffComponent>().Start(BuffId.DaggerSlash_Buff, skill.Level, 0, TimeSpan.FromSeconds(2), target);
 			}
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);						
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }

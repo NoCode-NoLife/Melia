@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -35,11 +36,9 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(designatedTarget);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			if (designatedTarget == null)
 			{
-				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				return;
 			}
 
@@ -49,21 +48,33 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				return;
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(200);
-			var skillHitDelay = skill.Properties.HitDelay;
+			this.Attack(skill, caster, designatedTarget);
+		}
 
-			var skillHits = new List<SkillHitInfo>();
+		/// <summary>
+		/// Executes the actual attack.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="designatedTarget"></param>
+		private async void Attack(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
+		{
+			var damageDelay = TimeSpan.Zero;
+			var skillHitDelay = TimeSpan.Zero;			
+			var secondHitTime = TimeSpan.FromMilliseconds(100);
 
 			var skillHitResult = SCR_SkillHit(caster, designatedTarget, skill);
 			designatedTarget.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, designatedTarget, skill, skillHitResult, damageDelay, skillHitDelay);
-			skillHit.ForceId = ForceId.GetNew();
 
-			skillHits.Add(skillHit);
+			designatedTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), designatedTarget);
+
+			Send.ZC_SKILL_FORCE_TARGET(caster, designatedTarget, skill, skillHit);
+
+			await Task.Delay(secondHitTime);
 
 			var originPos = caster.Position;
-			var hits = new List<HitInfo>();
 			var splashArea = new Circle(designatedTarget.Position, skill.Data.SplashHeight * 2);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -80,12 +91,12 @@ namespace Melia.Zone.Skills.Handlers.Scout
 						{
 							targetDistanceDic.Add(target.Position, target);
 						}
-						
+
 						distancesList.Add(target.Position);
 					}
 				}
 
-				var nearstTargetDistance = distancesList.OrderByDescending(v2 => GetDistance(designatedTarget.Position, v2)).LastOrDefault();
+				var nearstTargetDistance = distancesList.OrderByDescending(pos2 => GetDistance(designatedTarget.Position, pos2)).LastOrDefault();
 
 				var nearstTarget = targetDistanceDic[nearstTargetDistance];
 
@@ -95,13 +106,13 @@ namespace Melia.Zone.Skills.Handlers.Scout
 					nearstTarget.TakeDamage(skillHitResultPost.Damage, caster);
 
 					var skillHitPost = new SkillHitInfo(caster, nearstTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
-					skillHitPost.ForceId = ForceId.GetNew();
+					var hit = new HitInfo(caster, nearstTarget, skill, skillHitResult.Damage, skillHitResult.Result);
 
-					skillHits.Add(skillHitPost);
+					nearstTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), nearstTarget);
+
+					Send.ZC_HIT_INFO(caster, nearstTarget, skill, hit);
 				}
 			}
-
-			Send.ZC_SKILL_FORCE_TARGET(caster, designatedTarget, skill, skillHits);
 		}
 
 		private static double GetDistance(Position initialPosition, Position mobPosition)
