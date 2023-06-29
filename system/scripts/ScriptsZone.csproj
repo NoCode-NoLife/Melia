@@ -85,6 +85,7 @@
     <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
     <Compile Include="core\client\api\main.cs" />
+    <Compile Include="core\client\chat_history\main.cs" />
     <Compile Include="core\client\classic_heal\main.cs" />
     <Compile Include="core\client\dialog_portraits\main.cs" />
     <Compile Include="core\client\free_drops\main.cs" />
@@ -342,6 +343,7 @@
     <None Include="core\client\api\003_log.lua" />
     <None Include="core\client\api\001_override.lua" />
     <None Include="core\client\api\README.md" />
+    <None Include="core\client\chat_history\001.lua" />
     <None Include="core\client\classic_heal\001.lua" />
     <None Include="core\client\dialog_portraits\001.lua" />
     <None Include="core\client\free_drops\001.lua" />
