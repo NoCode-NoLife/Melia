@@ -143,7 +143,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 					if (level < minLevel)
 						continue;
 
-					var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
+					var pos = refPos.GetRelative(caster.Direction.Left, (xi - 2) * size);
 					pos = pos.GetRelative(caster.Direction, yi * size);
 
 					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
