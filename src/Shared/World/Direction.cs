@@ -93,6 +93,12 @@ namespace Melia.Shared.World
 		public Direction Left => new Direction(this.DegreeAngle + 90);
 
 		/// <summary>
+		/// Returns a direction that points in the opposite direction from
+		/// this direction.
+		/// </summary>
+		public Direction Backwards => new Direction(this.DegreeAngle + 180);
+
+		/// <summary>
 		/// Creates new direction from values.
 		/// </summary>
 		/// <param name="cos"></param>
