@@ -922,6 +922,41 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+			/// <summary>
+			/// Purpose unknown, related to skills.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="casterHandle"></param>
+			/// <param name="packetString"></param>
+			/// <param name="skillId"></param>
+			/// <param name="targetPos"></param>
+			/// <param name="targetDir"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_59(Character character, int casterHandle, string packetString, SkillId skillId, Position targetPos, Direction targetDir)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_59);
+
+				packet.PutInt(casterHandle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt((int)skillId);
+				packet.PutInt(1);
+				packet.PutPosition(targetPos);
+				packet.PutDirection(targetDir);
+				packet.PutFloat(-0.78f);
+				packet.PutFloat(0);
+				packet.PutInt(0);
+				packet.PutInt(1);
+				packet.PutEmptyBin(13);
+				packet.PutFloat(150);
+				packet.PutEmptyBin(16);
+
+				character.Connection.Send(packet);
+			}
 		}
 	}
 }
