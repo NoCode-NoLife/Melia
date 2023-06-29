@@ -252,6 +252,20 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the hate towards the given entity is above
+		/// the aggro threshold.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool IsHating(ICombatEntity entity)
+		{
+			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
+				return false;
+
+			return (hate >= _minAggroHateLevel);
+		}
+
+		/// <summary>
 		/// Executed once during the AI's first tick.
 		/// </summary>
 		protected virtual void Setup()
@@ -276,7 +290,6 @@ namespace Melia.Zone.Scripting.AI
 		/// <summary>
 		/// Handles events that happened since the last tick.
 		/// </summary>
-		/// <exception cref="NotImplementedException"></exception>
 		private void HandleEventAlerts()
 		{
 			lock (_eventAlerts)
@@ -285,10 +298,21 @@ namespace Melia.Zone.Scripting.AI
 				{
 					var eventAlert = _eventAlerts.Dequeue();
 
-					if (eventAlert is HitEventAlert hitEventAlert)
+					switch (eventAlert)
 					{
-						if (hitEventAlert.Target.Handle == this.Entity.Handle)
-							this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+						case HitEventAlert hitEventAlert:
+						{
+							if (hitEventAlert.Target.Handle == this.Entity.Handle)
+								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+							break;
+						}
+
+						case HateResetAlert hateResetAlert:
+						{
+							var targetHandle = hateResetAlert.Target.Handle;
+							_hateLevels.Remove(targetHandle);
+							break;
+						}
 					}
 				}
 			}

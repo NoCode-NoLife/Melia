@@ -92,7 +92,7 @@ public class BasicMonsterAiScript : AiScript
 	private void CheckTarget()
 	{
 		// Transition to idle if the target has vanished or is out of range
-		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance))
+		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance) || !IsHating(target))
 		{
 			target = null;
 			StartRoutine("StopAndIdle", StopAndIdle());
