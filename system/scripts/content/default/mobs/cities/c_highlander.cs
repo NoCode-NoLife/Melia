@@ -14,17 +14,26 @@ public class CHighlanderMobScript : GeneralScript
 	public override void Load()
 	{
 
-		// Monster Populations
-		var WoodCarvingFire_1_1 = AddMonsterGenerator(MonsterId.Wood_Carving_Fire, "c_highlander", 1);
-		var WoodCarvingPoison_2_1 = AddMonsterGenerator(MonsterId.Wood_Carving_Poison, "c_highlander", 1);
-		var WoodCarvingLightning_3_1 = AddMonsterGenerator(MonsterId.Wood_Carving_Lightning, "c_highlander", 1);
-		var WoodCarvingEarth_4_1 = AddMonsterGenerator(MonsterId.Wood_Carving_Earth, "c_highlander", 1);
+		// Monster Spawners --------------------------------
 
-		// Monster Spawners
-		AddSpawnPoint(WoodCarvingFire_1_1, TimeSpan.FromMilliseconds(60000), "c_highlander", Spot(-32, -31, 10));
-		AddSpawnPoint(WoodCarvingPoison_2_1, TimeSpan.FromMilliseconds(60000), "c_highlander", Spot(28, -31, 10));
-		AddSpawnPoint(WoodCarvingLightning_3_1, TimeSpan.FromMilliseconds(60000), "c_highlander", Spot(146, 92, 10));
-		AddSpawnPoint(WoodCarvingEarth_4_1, TimeSpan.FromMilliseconds(60000), "c_highlander", Spot(142, 28, 10));
+		AddSpawner("Spawner1.c_highlander", MonsterId.Wood_Carving_Fire, 1, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("Spawner2.c_highlander", MonsterId.Wood_Carving_Poison, 1, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("Spawner3.c_highlander", MonsterId.Wood_Carving_Lightning, 1, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("Spawner4.c_highlander", MonsterId.Wood_Carving_Earth, 1, TimeSpan.FromMilliseconds(60000));
+
+		// Monster Spawn Points -----------------------------
+
+		// Wood_Carving_Fire Spawn Points
+		AddSpawnPoint("Spawner1.c_highlander", "c_highlander", Spot(-32, -31, 10));
+
+		// Wood_Carving_Poison Spawn Points
+		AddSpawnPoint("Spawner2.c_highlander", "c_highlander", Spot(28, -31, 10));
+
+		// Wood_Carving_Lightning Spawn Points
+		AddSpawnPoint("Spawner3.c_highlander", "c_highlander", Spot(146, 92, 10));
+
+		// Wood_Carving_Earth Spawn Points
+		AddSpawnPoint("Spawner4.c_highlander", "c_highlander", Spot(142, 28, 10));
 
 	}
 }

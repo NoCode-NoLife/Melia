@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
@@ -154,70 +155,179 @@ namespace Melia.Zone.Scripting
 			return monster;
 		}
 
-		// Spawn Point Shorcuts (No Generator) ------------------------
+		// Spawn Point Shorcuts ------------------------
 
 		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// monster class Id and the desired max population
+		/// Adds spawn point and spawner to the world
 		/// </summary>
+		/// <param name="spawnerName"></param>
 		/// <param name="monsterClassId"></param>
 		/// <param name="maxPopulation"></param>
-		/// <param name="respawn"></param>
 		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(int monsterClassId, int maxPopulation, TimeSpan respawn, string map, IShape area)
-			=> AddSpawnPoint(monsterClassId, maxPopulation, respawn, map, area, TendencyType.Peaceful, null);
-
-		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// monster class Id, the desired max population and
-		/// the property overrides.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxPopulation"></param>
 		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(int monsterClassId, int maxPopulation, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides)
-			=> AddSpawnPoint(monsterClassId, maxPopulation, respawn, map, area, TendencyType.Peaceful, null);
-
-		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// monster class Id, the desired max population and tendency
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxPopulation"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(int monsterClassId, int maxPopulation, TimeSpan respawn, string map, IShape area, TendencyType tendency)
-			=> AddSpawnPoint(monsterClassId, maxPopulation, respawn, map, area, tendency, null);
-
-		/// <summary>
-		/// Base shortcut to add monster spawn point to the world 
-		/// using the given monster class Id, the desired max
-		/// population, tendency and the property overrides.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxPopulation"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
 		/// <param name="area"></param>
 		/// <param name="tendency"></param>
 		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(int monsterClassId, int maxPopulation, TimeSpan respawn, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
+		public static void AddSpawnPoint(string spawnerName, int monsterClassId, int maxPopulation, string map, TimeSpan respawn, IShape area)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
+
+			// Creates new spawner internally
+			AddSpawner(spawnerName, monsterClassId, maxPopulation, respawn);
+
+			// Calls spawn point base shortcut
+			AddSpawnPoint(spawnerName, map, area);
+		}
+
+		/// <summary>
+		/// Adds spawn point and spawner to the world
+		/// given property overrides.
+		/// </summary>
+		/// <param name="spawnerName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="map"></param>
+		/// <param name="respawn"></param>
+		/// <param name="area"></param>
+		/// <param name="tendency"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawnPoint(string spawnerName, int monsterClassId, int maxPopulation, string map, TimeSpan respawn, IShape area, PropertyOverrides propertyOverrides)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
+				throw new ArgumentException($"Map '{map}' not found.");
+
+			// Creates new spawner internally
+			AddSpawner(spawnerName, monsterClassId, maxPopulation, respawn, propertyOverrides);
+
+			// Calls spawn point base shortcut
+			AddSpawnPoint(spawnerName, map, area);
+		}
+
+		/// <summary>
+		/// Adds spawn point and spawner to the world
+		/// given tendency.
+		/// </summary>
+		/// <param name="spawnerName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="map"></param>
+		/// <param name="respawn"></param>
+		/// <param name="area"></param>
+		/// <param name="tendency"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawnPoint(string spawnerName, int monsterClassId, int maxPopulation, string map, TimeSpan respawn, IShape area, TendencyType tendency)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
+				throw new ArgumentException($"Map '{map}' not found.");
+
+			// Creates new spawner internally
+			AddSpawner(spawnerName, monsterClassId, maxPopulation, respawn, tendency);
+
+			// Calls spawn point base shortcut
+			AddSpawnPoint(spawnerName, map, area);
+		}
+
+		/// <summary>
+		/// Base shortcut to adds spawn point and spawner
+		/// to the world given tendency and property overrides.
+		/// </summary>
+		/// <param name="spawnerName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="map"></param>
+		/// <param name="respawn"></param>
+		/// <param name="area"></param>
+		/// <param name="tendency"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawnPoint(string spawnerName, int monsterClassId, int maxPopulation, string map, TimeSpan respawn, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
+				throw new ArgumentException($"Map '{map}' not found.");
+
+			// Creates new spawner internally
+			AddSpawner(spawnerName, monsterClassId, maxPopulation, respawn, tendency, propertyOverrides);
+
+			// Calls spawn point base shortcut
+			AddSpawnPoint(spawnerName, map, area);
+		}
+
+		/// <summary>
+		/// Base shortcut to add monster spawn point to the world
+		/// given spawner name.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="map"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawnPoint(string spawnerName, string map, IShape area)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
+				throw new ArgumentException($"Map '{map}' not found.");
+
+			var spawnPoint = new MonsterSpawnPoint(spawnerName, map, area);
+			mapObj.AddSpawnPoint(spawnPoint);
+		}
+
+		// Spawner Shorcuts ------------------------
+
+		/// <summary>
+		/// Shortcut to add monster spawner to the world
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="respawn"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawner(string name, int monsterClassId, int maxPopulation, TimeSpan respawn)
+			=> AddSpawner(name, monsterClassId, maxPopulation, respawn, TendencyType.Peaceful, null);
+
+		/// <summary>
+		/// Shortcut to add monster spawner to the world
+		/// using property overrides.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="respawn"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawner(string name, int monsterClassId, int maxPopulation, TimeSpan respawn, PropertyOverrides propertyOverrides)
+			=> AddSpawner(name, monsterClassId, maxPopulation, respawn, TendencyType.Peaceful, propertyOverrides);
+
+		/// <summary>
+		/// Shortcut to add monster spawner to the world
+		/// using tendency.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="respawn"></param>
+		/// <param name="tendency"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawner(string name, int monsterClassId, int maxPopulation, TimeSpan respawn, TendencyType tendency)
+			=> AddSpawner(name, monsterClassId, maxPopulation, respawn, tendency, null);
+
+		/// <summary>
+		/// Base shortcut to add monster spawner to the world
+		/// using tendency and the property overrides.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="maxPopulation"></param>
+		/// <param name="respawn"></param>
+		/// <param name="tendency"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static void AddSpawner(string name, int monsterClassId, int maxPopulation, TimeSpan respawn, TendencyType tendency, PropertyOverrides propertyOverrides)
+		{
+			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out var monsterData))
+				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
 
 			// Arbitrary Random Respawn Delays and Amounts
 			var initialSpawnDelay = TimeSpan.FromSeconds(0);
@@ -226,109 +336,13 @@ namespace Melia.Zone.Scripting
 			var maxSpawnAmount = Math.Max(1, (int)(maxPopulation / 10)); // Arbitrary value of 1/10 of max population
 			var minSpawnAmount = Math.Max(1, (int)(maxPopulation / 20)); // Arbitrary value of 1/20 of max population
 
-			// Creates new generator internally
-			var generator = AddMonsterGenerator(monsterClassId, map, maxPopulation);
+			var spawner = new MonsterSpawner(name, monsterClassId, maxPopulation, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, minSpawnAmount, maxSpawnAmount, tendency, propertyOverrides);
 
-			var spawnPoint = new MonsterSpawnPoint(generator, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, minSpawnAmount, maxSpawnAmount, tendency, propertyOverrides);
-			mapObj.AddSpawnPoint(spawnPoint);
-
-			return spawnPoint;
+			ZoneServer.Instance.World.AddSpawner(spawner);
 		}
 
-		// Spawn Point Shorcuts (With Generator) ------------------------
+		// End of Spawner Shortcuts -----------------------
 
-		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// generator
-		/// </summary>
-		/// <param name="generator"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(MonsterGenerator generator, TimeSpan respawn, string map, IShape area)
-			=> AddSpawnPoint(generator, respawn, map, area, TendencyType.Peaceful, null);
-
-		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// generator and the property overrides.
-		/// </summary>
-		/// <param name="generator"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(MonsterGenerator generator, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides)
-			=> AddSpawnPoint(generator, respawn, map, area, TendencyType.Peaceful, null);
-
-		/// <summary>
-		/// Adds monster spawn point to the world using	the given
-		/// generator and tendency.
-		/// </summary>
-		/// <param name="generator"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(MonsterGenerator generator, TimeSpan respawn, string map, IShape area, TendencyType tendency)
-			=> AddSpawnPoint(generator, respawn, map, area, tendency, null);
-
-		/// <summary>
-		/// Base shortcut to add monster spawn point to the world using
-		/// monster generator, tendency and the property overrides.
-		/// </summary>
-		/// <param name="generator"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawnPoint AddSpawnPoint(MonsterGenerator generator, TimeSpan respawn, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
-		{
-			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
-				throw new ArgumentException($"Map '{map}' not found.");
-
-			if (!mapObj.TryGetMonsterGenerator(generator))
-				throw new ArgumentException($"MonsterGenerator not found for spawn point of center: 'X={area.Center.X}', 'Z={area.Center.Y}'");
-
-			// Arbitrary Random Respawn Delays and Amounts
-			var initialSpawnDelay = TimeSpan.FromSeconds(0);
-			var minRespawnDelay = Math2.Max(TimeSpan.Zero, respawn.Divide(2)); // Arbitrary value of 1/2 of respawn time
-			var maxRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn); // Arbitrary value equal to respawn time or constant
-			var maxSpawnAmount = Math.Max(1, (int)(generator.MaxPopulation / 10)); // Arbitrary value of 1/10 of max population
-			var minSpawnAmount = Math.Max(1, (int)(generator.MaxPopulation / 20)); // Arbitrary value of 1/20 of max population
-
-			var spawnPoint = new MonsterSpawnPoint(generator, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, minSpawnAmount, maxSpawnAmount, tendency, propertyOverrides);
-			mapObj.AddSpawnPoint(spawnPoint);
-
-			return spawnPoint;
-		}
-
-		// End of Spawn Point Shortcuts -----------------------
-
-		/// <summary>
-		/// Adds a monster generator to the map and returns its reference.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="maxPopulation"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterGenerator AddMonsterGenerator(int monsterClassId, string mapClassName, int maxPopulation)
-		{
-			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
-				throw new ArgumentException($"Map '{mapClassName}' not found.");
-
-			var generator = new MonsterGenerator(mapClassName, monsterClassId, maxPopulation);
-			map.AddMonsterGenerator(generator);
-			return generator;
-		}
 
 		/// <summary>
 		/// Adds an override for the properties of a monster on a specific
