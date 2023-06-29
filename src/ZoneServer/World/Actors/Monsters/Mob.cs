@@ -307,6 +307,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
 		}

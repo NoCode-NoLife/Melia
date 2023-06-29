@@ -100,6 +100,7 @@
     <Compile Include="Database\AccountSettings.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Events\CombatEventArgs.cs" />
     <Compile Include="Events\PlayerEventArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Events\TimeEventArgs.cs" />

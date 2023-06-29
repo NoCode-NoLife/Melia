@@ -155,7 +155,7 @@ public class NormalTxFunctionsScript : GeneralScript
 			if (newLevel > maxLevel)
 			{
 				// Don't warn about this, since the client doesn't
-				// check the max level for skill's with unlock levels.
+				// check the max level for skills with unlock levels.
 				// The player can try, but nothing should happen.
 				//Log.Warning("SCR_TX_SKILL_UP: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", character.Username, skillId, newLevel, maxLevel);
 				continue;
@@ -175,6 +175,8 @@ public class NormalTxFunctionsScript : GeneralScript
 			}
 
 			job.SkillPoints -= addLevels;
+
+			ZoneServer.Instance.ServerEvents.OnPlayerSkillLevelChanged(character, skill);
 		}
 
 		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
