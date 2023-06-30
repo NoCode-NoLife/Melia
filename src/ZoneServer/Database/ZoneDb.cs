@@ -531,7 +531,7 @@ namespace Melia.Zone.Database
 						// Check item, in case its data was removed
 						if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 						{
-							Log.Warning("ChannelDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
+							Log.Warning("ZoneDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
 							continue;
 						}
 
