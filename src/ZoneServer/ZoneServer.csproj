@@ -124,6 +124,8 @@
     <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
     <Compile Include="Scripting\ClientScript.cs" />
     <Compile Include="Scripting\DelegateCollection.cs" />
+    <Compile Include="Scripting\LuaTable.cs" />
+    <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptableFunctions.cs" />
     <Compile Include="Scripting\CustomCommandScripts.cs" />
     <Compile Include="Scripting\NormalTxScripts.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
+    <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
@@ -209,6 +212,24 @@
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
+    <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
+    <Compile Include="World\Quests\Objectives\KillObjective.cs" />
+    <Compile Include="World\Quests\Objectives\SkillLevelObjective.cs" />
+    <Compile Include="World\Quests\Objectives\ManualObjective.cs" />
+    <Compile Include="World\Quests\Prerequisites\CompletedPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\LevelPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\NotSkillPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\OrPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\SkillPrerequisite.cs" />
+    <Compile Include="World\Quests\Quest.cs" />
+    <Compile Include="World\Quests\QuestData.cs" />
+    <Compile Include="World\Quests\QuestObjective.cs" />
+    <Compile Include="World\Quests\QuestPrerequisite.cs" />
+    <Compile Include="World\Quests\QuestProgress.cs" />
+    <Compile Include="World\Quests\QuestReward.cs" />
+    <Compile Include="World\Quests\Rewards\ExpReward.cs" />
+    <Compile Include="World\Quests\Rewards\SilverReward.cs" />
+    <Compile Include="World\Quests\Rewards\ItemReward.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>
