@@ -85,6 +85,7 @@
     <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
     <Compile Include="core\client\api\main.cs" />
+    <Compile Include="core\client\quest_system\main.cs" />
     <Compile Include="core\client\chat_history\main.cs" />
     <Compile Include="core\client\classic_heal\main.cs" />
     <Compile Include="core\client\dialog_portraits\main.cs" />
@@ -343,6 +344,16 @@
     <None Include="core\client\api\003_log.lua" />
     <None Include="core\client\api\001_override.lua" />
     <None Include="core\client\api\README.md" />
+    <None Include="core\client\quest_system\003_list.lua" />
+    <None Include="core\client\quest_system\002_overrides.lua" />
+    <None Include="core\client\quest_system\105_details_buttons.lua" />
+    <None Include="core\client\quest_system\104_details_rewards.lua" />
+    <None Include="core\client\quest_system\103_details_objectives.lua" />
+    <None Include="core\client\quest_system\102_details_summary.lua" />
+    <None Include="core\client\quest_system\101_details_create.lua" />
+    <None Include="core\client\quest_system\001_drawing.lua" />
+    <None Include="core\client\quest_system\901_api.lua" />
+    <None Include="core\client\quest_system\950_main.lua" />
     <None Include="core\client\chat_history\001.lua" />
     <None Include="core\client\classic_heal\001.lua" />
     <None Include="core\client\dialog_portraits\001.lua" />

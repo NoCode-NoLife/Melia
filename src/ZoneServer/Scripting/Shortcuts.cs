@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
+using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World;
@@ -480,6 +481,22 @@ namespace Melia.Zone.Scripting
 			// TODO: Add timer component, to set up and associate timers
 			//   and intervals with entities.
 			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(NpcState.Normal));
+		}
+
+		/// <summary>
+		/// Adds or overrides a command, making it available to players
+		/// who have the given authority levels.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="usage"></param>
+		/// <param name="description"></param>
+		/// <param name="auth"></param>
+		/// <param name="targetAuth"></param>
+		/// <param name="func"></param>
+		public static void AddChatCommand(string command, string usage, string description, int auth, int targetAuth, ChatCommandFunc func)
+		{
+			ZoneServer.Instance.ChatCommands.Add(command, usage, description, func);
+			ZoneServer.Instance.Conf.Commands.CommandLevels[command] = new CommandAuthLevels(auth, targetAuth);
 		}
 	}
 
