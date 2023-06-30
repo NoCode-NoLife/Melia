@@ -503,6 +503,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("Description", quest.Data.Description);
 			questTable.Insert("Level", quest.Data.Level);
 			questTable.Insert("Status", quest.Status.ToString());
+			questTable.Insert("Done", quest.ObjectivesCompleted);
 			questTable.Insert("Cancelable", quest.Data.Cancelable);
 			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);

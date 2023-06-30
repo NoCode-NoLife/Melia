@@ -10,10 +10,10 @@ function M_QUESTS_SET_ICON(questCtrl, quest)
 	local iconName = "minimap_clear"
 	local questmark = GET_CHILD(questCtrl, "questmark", "ui::CPicture")
 
-	if quest.Status == "InProgress" then
+	if not quest.Done then
 		questmark:EnableHitTest(1)
 		questmark:SetTextTooltip("{@st59}The quest is in progress.{/}")
-	elseif quest.Status == "Completed" then
+	else
 		questmark:EnableHitTest(1)
 		questmark:SetTextTooltip("{@st59}The quest's objectives have been cleared.{/}")
 		iconName = "minimap_1_MAIN"
