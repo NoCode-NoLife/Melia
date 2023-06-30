@@ -26,6 +26,7 @@ public class CustomQuestSystemClientScript : ClientScript
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
 		SendAllScripts(e.Character);
+		e.Character.Quests.UpdateClient();
 	}
 
 	private CommandResult HandleQuest(Character sender, Character target, string message, string commandName, Arguments args)

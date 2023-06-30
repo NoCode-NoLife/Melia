@@ -419,6 +419,21 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Sends a list of all quests to the client to update it.
+		/// </summary>
+		public void UpdateClient()
+		{
+			var quests = this.GetList();
+			foreach (var quest in quests.Where(a => a.Status == QuestStatus.InProgress))
+			{
+				var questTable = this.QuestToTable(quest);
+
+				var lua = "Melia.Quests.Restore(" + questTable.Serialize() + ")";
+				Send.ZC_EXEC_CLIENT_SCP(this.Character.Connection, lua);
+			}
+		}
+
+		/// <summary>
 		/// Adds the quest to the client's quest log.
 		/// </summary>
 		/// <param name="quest"></param>

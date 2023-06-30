@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
@@ -17,6 +16,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Quests;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -159,6 +159,7 @@ namespace Melia.Zone.Database
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
 			this.LoadCooldowns(character);
+			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
@@ -403,6 +404,7 @@ namespace Melia.Zone.Database
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
+			this.SaveQuests(character);
 
 			return false;
 		}
@@ -1060,6 +1062,129 @@ namespace Melia.Zone.Database
 
 						var cooldown = new Cooldown(classId, updatedRemaining, duration, startTime);
 						character.Components.Get<CooldownComponent>().Restore(cooldown);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves the character's quests to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="InvalidOperationException"></exception>
+		private void SaveQuests(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var quest in character.Quests.GetList())
+				{
+					var questId = 0L;
+
+					using (var cmd = new InsertCommand("INSERT INTO `quests` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("classId", quest.Data.Id);
+						cmd.Set("status", (int)quest.Status);
+						cmd.Set("startTime", quest.StartTime);
+						cmd.Set("completeTime", quest.CompleteTime);
+
+						cmd.Execute();
+
+						questId = cmd.LastId;
+					}
+
+					foreach (var progress in quest.Progresses)
+					{
+						using (var cmd = new InsertCommand("INSERT INTO `quests_progress` {0}", conn, trans))
+						{
+							cmd.Set("questId", questId);
+							cmd.Set("characterId", character.DbId);
+							cmd.Set("ident", progress.Objective.Ident);
+							cmd.Set("count", progress.Count);
+							cmd.Set("done", progress.Done);
+							cmd.Set("unlocked", progress.Unlocked);
+
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads the character's quests from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadQuests(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				var loadedQuests = new Dictionary<long, Quest>();
+
+				using (var cmd = new MySqlCommand("SELECT * FROM `quests` WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var questDbId = reader.GetInt64("questId");
+							var questClassId = reader.GetInt32("classId");
+							var status = (QuestStatus)reader.GetInt32("status");
+							var startTime = reader.GetDateTimeSafe("startTime");
+							var completeTime = reader.GetDateTimeSafe("completeTime");
+
+							var quest = Quest.Create(questClassId);
+							quest.Status = status;
+							quest.StartTime = startTime;
+							quest.CompleteTime = completeTime;
+
+							character.Quests.AddSilent(quest);
+							loadedQuests.Add(questDbId, quest);
+						}
+					}
+				}
+
+				using (var cmd = new MySqlCommand("SELECT * FROM `quests_progress` WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var questDbId = reader.GetInt64("questId");
+							var ident = reader.GetStringSafe("ident");
+							var count = reader.GetInt32("count");
+							var done = reader.GetBoolean("done");
+							var unlocked = reader.GetBoolean("unlocked");
+
+							if (!loadedQuests.TryGetValue(questDbId, out var quest))
+							{
+								Log.Warning("ZoneDb.LoadQuests: Progress '{0}' loaded for a quest that doesn't exist.", ident);
+								continue;
+							}
+
+							if (!quest.TryGetProgress(ident, out var progress))
+							{
+								Log.Warning("ZoneDb.LoadQuests: Progress '{0}' loaded for quest '{1}', but the objective doesn't exist.", ident, quest.Data.Id);
+								continue;
+							}
+
+							progress.Count = count;
+							progress.Done = done;
+							progress.Unlocked = unlocked;
+						}
 					}
 				}
 			}
