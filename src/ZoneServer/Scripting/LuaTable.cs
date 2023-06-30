@@ -6,11 +6,27 @@ using System.Text;
 
 namespace Melia.Zone.Scripting
 {
+	/// <summary>
+	/// An entry in a Lua table.
+	/// </summary>
 	public class LuaTableEntry
 	{
+		/// <summary>
+		/// Returns the identifier of the entry, either an integer or a
+		/// string.
+		/// </summary>
 		public object Key { get; set; }
+
+		/// <summary>
+		/// Returns the value of the entry.
+		/// </summary>
 		public object Value { get; set; }
 
+		/// <summary>
+		/// Creates new entry.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
 		public LuaTableEntry(object key, object value)
 		{
 			this.Key = key;
@@ -18,17 +34,30 @@ namespace Melia.Zone.Scripting
 		}
 	}
 
+	/// <summary>
+	/// A table with a series of arbitrarily typed values that are indexed
+	/// by either integers or strings.
+	/// </summary>
 	public class LuaTable
 	{
 		private readonly List<LuaTableEntry> _indexedEntries = new List<LuaTableEntry>();
 		private readonly List<LuaTableEntry> _namedEntries = new List<LuaTableEntry>();
 
+		/// <summary>
+		/// Adds value to the end of the table with a numeric index.
+		/// </summary>
+		/// <param name="value"></param>
 		public void Insert(object value)
 		{
 			var key = _indexedEntries.Count + 1;
 			_indexedEntries.Add(new LuaTableEntry(key, value));
 		}
 
+		/// <summary>
+		/// Inserts value at the specified numeric index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="value"></param>
 		public void Insert(int index, object value)
 		{
 			_indexedEntries.Insert(index, new LuaTableEntry(0, value));
@@ -37,17 +66,39 @@ namespace Melia.Zone.Scripting
 				_indexedEntries[i].Key = i + 1;
 		}
 
+		/// <summary>
+		/// Adds value under the given string key.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
 		public void Insert(string key, object value)
 		{
 			_namedEntries.Add(new LuaTableEntry(key, value));
 		}
 
+		/// <summary>
+		/// Removes all values from the table.
+		/// </summary>
 		public void Clear()
 		{
 			_indexedEntries.Clear();
 			_namedEntries.Clear();
 		}
 
+		/// <summary>
+		/// Returns the value with the given key from the table.
+		/// Returns null if key is a string that no value was found
+		/// for.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// Thrown if a numeric key is outside the range of the integer
+		/// indexed values of the table.
+		/// </exception>
+		/// <exception cref="ArgumentException"><
+		/// Thrown if key type is neither an integer nor a string.
+		/// /exception>
 		public object this[object key]
 		{
 			get
@@ -72,6 +123,10 @@ namespace Melia.Zone.Scripting
 			}
 		}
 
+		/// <summary>
+		/// Serializes the table into a Lua string.
+		/// </summary>
+		/// <returns></returns>
 		public string Serialize()
 		{
 			var sb = new StringBuilder();
@@ -100,6 +155,12 @@ namespace Melia.Zone.Scripting
 			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Serializes the given value for use in a Lua string.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
 		private string SerializeValue(object value)
 		{
 			switch (value)
@@ -116,6 +177,10 @@ namespace Melia.Zone.Scripting
 			throw new ArgumentException($"Unsupported type: {value.GetType().Name}");
 		}
 
+		/// <summary>
+		/// Iterates over all entries in the table.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerable<LuaTableEntry> Pairs()
 		{
 			foreach (var entry in _indexedEntries)
@@ -125,6 +190,10 @@ namespace Melia.Zone.Scripting
 				yield return entry;
 		}
 
+		/// <summary>
+		/// Iterates over all integer indexed entries in the table.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerable<LuaTableEntry> IPairs()
 		{
 			foreach (var entry in _indexedEntries)
