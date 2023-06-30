@@ -45,7 +45,7 @@ public class KillOnions2TestQuestScript : QuestScript
 		AddObjective("kill", "Kill a Large Kepa", new KillObjective(1, MonsterId.Onion_Big));
 
 		SetReceive(QuestReceiveType.Auto);
-		AddPrerequisite(new CompletedPrerequisite(10001));
+		AddPrerequisite(new CompletedPrerequisite(1000001));
 
 		AddReward(new SilverReward(10000));
 		AddReward(new ExpReward(2000, 1000));
