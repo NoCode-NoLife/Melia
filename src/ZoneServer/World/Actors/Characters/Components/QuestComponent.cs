@@ -26,7 +26,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </remarks>
 	public class QuestComponent : CharacterComponent, IUpdateable
 	{
-		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromSeconds(20); // TimeSpan.FromMinutes(1);
+		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromMinutes(1);
 
 		private readonly object _syncLock = new object();
 		private readonly List<Quest> _quests = new List<Quest>();

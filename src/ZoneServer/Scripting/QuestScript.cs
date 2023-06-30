@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Melia.Shared.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Quests;
 using Melia.Zone.World.Quests.Prerequisites;
-using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
 
 namespace Melia.Zone.Scripting
@@ -206,9 +203,6 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="ident"></param>
 		/// <param name="description"></param>
-		/// <param name="regionId"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
 		/// <param name="objective"></param>
 		protected void AddObjective(string ident, string description, QuestObjective objective)
 		{
@@ -257,9 +251,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="prerequisites"></param>
 		/// <returns></returns>
 		protected OrPrerequisite Or(params QuestPrerequisite[] prerequisites)
-		{
-			return new OrPrerequisite(prerequisites);
-		}
+			=> new OrPrerequisite(prerequisites);
 
 		/// <summary>
 		/// Called when a character receives this quest.
