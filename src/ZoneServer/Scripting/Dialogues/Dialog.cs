@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -429,14 +430,14 @@ namespace Melia.Zone.Scripting.Dialogues
 			throw new OperationCanceledException("Dialog closed by script.");
 		}
 
-		public async Task OpenStorage()
+		/// <summary>
+		/// Opens warehouse
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenPersonalStorage()
 		{
-			//var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
-			//packet.PutBinFromHex("C80000009501010000000000570F00004200635F4B6C616970652F3239322E31373236303734323138382F37392E39353935353635373935392F3238352E31313138313634303632352F77617265686F75736500");
-			//character.Connection.Send(packet);
-			Send.ZC_OBJECT_PROPERTY(this.Player, "AccountWareHouseExtendByItem");
-			Send.ZC_CUSTOM_DIALOG(this.Player);
-			string response = await this.GetClientResponse();
+			this.Player.OpenPersonalStorage();
+			await this.GetClientResponse();
 		}
 
 		/// <summary>

@@ -1307,6 +1307,94 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Sent when opening storage and requesting item list in the storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_LIST)]
+		public void CZ_REQ_ITEM_LIST(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			if (type == StorageType.PersonalStorage)
+			{
+				var personalStorageEnabled = conn.SelectedCharacter.IsBrowsingPersonalStorage;
+
+				// Server allowance check
+				if (personalStorageEnabled)
+				{
+					var items = conn.SelectedCharacter.PersonalStorage.GetItems();
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
+				}
+			}
+			if (type == StorageType.TeamStorage)
+			{
+				var teamStorageEnabled = conn.SelectedCharacter.IsBrowsingTeamStorage;
+
+				// Server allowance check
+				if (teamStorageEnabled)
+				{
+					var items = conn.Account.TeamStorage.GetItems();
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Sent when attempting to retrieve storage items.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WAREHOUSE_CMD)]
+		public void CZ_WAREHOUSE_CMD(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+			var worldId = packet.GetLong();
+			var i1 = packet.GetInt(); // unknown
+			var amount = packet.GetInt();
+			var i2 = packet.GetInt(); // unknown
+			var interaction = packet.GetByte(); 
+
+			if (type == StorageType.PersonalStorage)
+			{
+				var personalStorageEnabled = conn.SelectedCharacter.IsBrowsingPersonalStorage;
+
+				// Server allowance check
+				if (personalStorageEnabled)
+				{				
+					// Storing items
+					if (interaction == 0)
+					{
+						conn.SelectedCharacter.PersonalStorage.StoreItem(worldId);
+					}
+					// Retrieving items
+					else if (interaction == 1)
+					{
+						conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId);
+					}
+					else
+					{
+						Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
+					}
+				}
+			}
+			else if (type == StorageType.TeamStorage)
+			{
+				var teamStorageEnabled = conn.SelectedCharacter.IsBrowsingTeamStorage;
+
+				if (teamStorageEnabled)
+				{
+					var items = conn.Account.TeamStorage.GetItems();
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
+				}
+			}
+			else
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: No valid storage type for value: '{0}'", type);
+			}
+		}
+
+		/// <summary>
 		/// Sent when clicking Confirm in a shop, with items in the "Bought" list.
 		/// </summary>
 		/// <param name="conn"></param>

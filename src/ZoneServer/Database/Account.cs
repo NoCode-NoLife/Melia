@@ -5,6 +5,9 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
 using Melia.Zone.World;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Actors.Accounts.Components;
+using Yggdrasil.Composition;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Database
 {
@@ -85,6 +88,16 @@ namespace Melia.Zone.Database
 		public Properties Properties { get; } = new Properties("Account");
 
 		/// <summary>
+		/// Returns the account's storage component
+		/// </summary>
+		public TeamStorageComponent TeamStorage { get; }
+
+		/// <summary>
+		/// Returns the account's components collection
+		/// </summary>
+		public ComponentCollection Components { get; } = new ComponentCollection();
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
@@ -94,6 +107,9 @@ namespace Melia.Zone.Database
 			this.Settings = new AccountSettings();
 			_chatMacros = new List<ChatMacro>();
 			_revealedMaps = new Dictionary<int, RevealedMap>();
+
+			// Adds account components
+			this.Components.Add(this.TeamStorage = new TeamStorageComponent(this));
 
 			this.LoadDefaultChatMacros();
 		}

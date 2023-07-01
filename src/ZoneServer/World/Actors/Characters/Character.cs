@@ -10,6 +10,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.Accounts.Components;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -157,6 +158,23 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets whether the character is standing on the ground.
 		/// </summary>
 		public bool IsGrounded { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the character is currently
+		/// browsing personal storage
+		/// </summary>
+		public bool IsBrowsingPersonalStorage { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the character is currently
+		/// browsing team storage
+		/// </summary>
+		public bool IsBrowsingTeamStorage { get; set; }
+
+		/// <summary>
+		/// Returns the characters's storage component
+		/// </summary>
+		public PersonalStorageComponent PersonalStorage { get; }
 
 		/// <summary>
 		/// The character's inventory.
@@ -325,6 +343,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public Character() : base()
 		{
+			this.Components.Add(this.PersonalStorage = new PersonalStorageComponent(this));
 			this.Components.Add(this.Inventory = new InventoryComponent(this));
 			this.Components.Add(this.Jobs = new JobComponent(this));
 			this.Components.Add(this.Skills = new SkillComponent(this));
@@ -1239,6 +1258,44 @@ namespace Melia.Zone.World.Actors.Characters
 			this.SitStatusChanged?.Invoke(this);
 
 			Send.ZC_REST_SIT(this);
+		}
+
+		/// <summary>
+		/// Opens the character's personal storage
+		/// </summary>
+		public void OpenPersonalStorage()
+		{
+			this.IsBrowsingPersonalStorage = true;
+
+			// Third parameter is some lua func in client, unknown purpose.
+			Send.ZC_CUSTOM_DIALOG(this, "warehouse", "");
+		}
+
+		/// <summary>
+		/// Closes the character's personal storage
+		/// </summary>
+		public void ClosePersonalStorage()
+		{
+			this.IsBrowsingPersonalStorage = false;
+		}
+
+		/// <summary>
+		/// Opens the character's account storage
+		/// </summary>
+		public void OpenTeamStorage()
+		{
+			this.IsBrowsingTeamStorage = true;
+
+			// Third parameter is some lua func in client, unknown purpose.
+			Send.ZC_CUSTOM_DIALOG(this, "warehouse", "");
+		}
+
+		/// <summary>
+		/// Closes the character's account storage
+		/// </summary>
+		public void CloseTeamStorage()
+		{
+			this.IsBrowsingPersonalStorage = false;
 		}
 
 		/// <summary>

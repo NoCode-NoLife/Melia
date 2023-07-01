@@ -18,7 +18,7 @@ public class CKlaipeNpcScript : GeneralScript
 			dialog.SetTitle("Rita");
 			//dialog.SetPortrait("KLAPEDA_Akalabeth_basic28");
 
-			await dialog.OpenStorage();
+			await dialog.OpenPersonalStorage();
 		});
 
 

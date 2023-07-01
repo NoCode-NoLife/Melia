@@ -1129,7 +1129,7 @@ namespace Melia.Zone.Network
 		/// <param name="index">Index of the item in the inventory.</param>
 		/// <param name="amount">Amount to add.</param>
 		/// <param name="addType">The way the add is displayed?</param>
-		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType)
+		public static void ZC_ITEM_ADD(Character character, Item item, int index, int amount, InventoryAddType addType, InventoryType invType)
 		{
 			// For some reason this packet requires properties on the item,
 			// otherwise the client crashes. Let's catch this here for the
@@ -1151,7 +1151,7 @@ namespace Melia.Zone.Network
 			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0f); // Notification delay
-			packet.PutByte(0); // InvType
+			packet.PutByte((byte)invType); // InvType
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.AddProperties(propertyList);
@@ -1337,7 +1337,7 @@ namespace Melia.Zone.Network
 		/// <param name="propertyList"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
-			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+			 var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
 			packet.PutInt(0); // isTrickPacket
@@ -1379,10 +1379,12 @@ namespace Melia.Zone.Network
 			entity.Map.Broadcast(packet, entity);
 		}
 
-		public static void ZC_CUSTOM_DIALOG(Character character)
+		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
-			packet.PutBinFromHex("77617265686F757365000000000000000000000000000300000000000000ADC32200010000009096021500000000F9E7A30000000000909602150000000009000000000000");
+			packet.PutString(close, 33);
+			packet.PutString(msg, 32);
+			packet.PutInt(0); // argNum
 
 			character.Connection.Send(packet);
 		}
