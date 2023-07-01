@@ -4,7 +4,6 @@ using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;

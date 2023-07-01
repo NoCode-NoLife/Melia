@@ -5,7 +5,6 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
