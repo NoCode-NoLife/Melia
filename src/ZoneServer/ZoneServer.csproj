@@ -144,6 +144,7 @@
     <Compile Include="Skills\Combat\KnockBackInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitResult.cs" />
+    <Compile Include="Skills\Handlers\Archer\Leap.cs" />
     <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />

@@ -957,6 +957,29 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+			/// <summary>
+			/// Makes the entity jump to the target position.
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="targetPos"></param>
+			/// <param name="jumpHeight"></param>
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float jumpHeight = 20)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.LeapJump);
+
+				packet.PutInt(entity.Handle);
+				packet.PutPosition(targetPos);
+				packet.PutFloat(jumpHeight);
+				packet.PutFloat(0.1f); // jump speed?
+				packet.PutFloat(0.1f);
+				packet.PutFloat(1);
+				packet.PutFloat(0.2f);
+				packet.PutFloat(1);
+
+				entity.Map.Broadcast(packet, entity);
+			}
 		}
 	}
 }

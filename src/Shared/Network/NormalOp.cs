@@ -47,6 +47,7 @@
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknown_A1 = 0xA1;
+			public const int LeapJump = 0xC2;
 			public const int Unknown_DA = 0xDA;
 			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;

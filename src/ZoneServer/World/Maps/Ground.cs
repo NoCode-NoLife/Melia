@@ -2,6 +2,7 @@
 using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World;
+using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Maps
@@ -218,6 +219,35 @@ namespace Melia.Zone.World.Maps
 
 			pos = Position.Zero;
 			return false;
+		}
+
+		/// <summary>
+		/// Returns the last valid position on the path between origin and
+		/// destination. If there are no obstacles between the two positions,
+		/// the position returned is the destination.
+		/// </summary>
+		/// <param name="origin"></param>
+		/// <param name="destination"></param>
+		/// <returns></returns>
+		public Position GetLastValidPosition(Position origin, Position destination)
+		{
+			var dir = origin.GetDirection(destination);
+
+			var stepSize = 10;
+			var currentPos = origin;
+			var lastValidPos = currentPos;
+
+			while (currentPos.Get2DDistance(destination) > stepSize)
+			{
+				currentPos = currentPos.GetRelative(dir, stepSize);
+
+				if (!this.IsValidPosition(currentPos))
+					return lastValidPos;
+
+				lastValidPos = currentPos;
+			}
+
+			return destination;
 		}
 	}
 }
