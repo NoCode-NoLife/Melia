@@ -151,6 +151,7 @@
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\Handlers\Cleric\Fade.cs" />
+    <Compile Include="Skills\Handlers\Cleric\Cure.cs" />
     <Compile Include="Skills\Handlers\Cleric\Heal.cs" />
     <Compile Include="Skills\Handlers\Cleric\Smite.cs" />
     <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
