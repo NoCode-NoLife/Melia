@@ -93,10 +93,5 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				Send.ZC_HIT_INFO(caster, nearestTarget, skill, hit);
 			}
 		}
-
-		private static double GetDistance(Position initialPosition, Position mobPosition)
-		{
-			return Math.Sqrt(Math.Pow((mobPosition.X - initialPosition.X), 2) + Math.Pow((mobPosition.Y - initialPosition.Y), 2));
-		}
 	}
 }
