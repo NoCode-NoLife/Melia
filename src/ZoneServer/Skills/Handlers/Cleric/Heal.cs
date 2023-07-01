@@ -60,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			if (!Feature.IsEnabled("DirectClericHeal"))
 				this.TriggerHeal(caster, skill);
 			else
-				this.BuffHeal(target, skill);
+				this.BuffHeal(caster, target, skill);
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		private void BuffHeal(ICombatEntity target, Skill skill)
+		private void BuffHeal(ICombatEntity caster, ICombatEntity target, Skill skill)
 		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
@@ -78,7 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			var ratio2 = 150f + (skill.Level - 1) * 103f;
 			var healDuration = TimeSpan.FromSeconds(1);
 
-			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, skill.Character);
+			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			{
 				if (initiator is Character)
 				{
-					this.BuffHeal(initiator, skill);
+					this.BuffHeal(caster, initiator, skill);
 				}
 				else
 				{
