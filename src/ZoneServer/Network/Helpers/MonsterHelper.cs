@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Network.Helpers
@@ -19,11 +20,8 @@ namespace Melia.Zone.Network.Helpers
 			var appearanceSize = monster.GetByteCount();
 
 			packet.PutInt(monster.Handle);
-			packet.PutFloat(monster.Position.X);
-			packet.PutFloat(monster.Position.Y);
-			packet.PutFloat(monster.Position.Z);
-			packet.PutFloat(monster.Direction.Cos);
-			packet.PutFloat(monster.Direction.Sin);
+			packet.PutPosition(monster.Position);
+			packet.PutDirection(monster.Direction);
 			packet.PutByte((byte)monster.MonsterType); // 0~2,  0: friendly?, 1: monster, 2: NPC
 			packet.PutByte(monster.FromGround);
 			packet.PutInt(monster.Hp);
@@ -40,7 +38,7 @@ namespace Melia.Zone.Network.Helpers
 				packet.PutInt(0); // 0 | 1098907648
 			}
 
-			packet.PutFloat(16);
+			packet.PutFloat(monster.Properties.GetFloat(PropertyName.MSPD));
 
 			packet.AddMonsterApperanceBase(monster);
 
