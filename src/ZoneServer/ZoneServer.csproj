@@ -77,6 +77,7 @@
     <Compile Include="Buffs\Base\IBuffHandler.cs" />
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
+    <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
     <Compile Include="Skills\Handlers\Common\TargetSkill.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
+    <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />

@@ -153,6 +153,11 @@ public class CombatCalculationsScript : GeneralScript
 		var result = new SkillHitResult();
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, result);
 
+		// TODO: Find a better location to handle disabling buffs on attack?
+		var buffComponent = attacker.Components.Get<BuffComponent>();
+		if (buffComponent.Has(BuffId.Cloaking_Buff))
+			buffComponent.Remove(BuffId.Cloaking_Buff);
+
 		return result;
 	}
 
