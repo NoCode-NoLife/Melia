@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
 
@@ -30,6 +31,11 @@ namespace Melia.Zone.Skills.Combat
 			// keeps subtracting SDR from the skill's SR until it
 			// reaches 0. Once it does, no more targets can be hit
 			// and we return.
+			// The targets are ordered by their SDR, so the ones with
+			// the highest SDR are hit first and are able to potentially
+			// tank the hit before it can hit other targets.
+
+			targets = targets.OrderByDescending(a => a.Properties.GetFloat(PropertyName.SDR));
 
 			foreach (var target in targets)
 			{
