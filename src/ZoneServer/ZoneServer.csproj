@@ -139,6 +139,7 @@
     <Compile Include="Scripting\ShopBuilder.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="Skills\Ability.cs" />
+    <Compile Include="Skills\Combat\Extensions.cs" />
     <Compile Include="Skills\Combat\ForceId.cs" />
     <Compile Include="Skills\Combat\HitInfo.cs" />
     <Compile Include="Skills\Combat\KnockBackInfo.cs" />
