@@ -72,8 +72,8 @@ namespace Melia.Zone.Events
 		/// This event is raised right after the login was confirmed and
 		/// before any more packets are sent to the client or they are
 		/// added to the world. This makes it a good time to make 
-		/// odifications to the character, but packets sent to the
-		/// client might be handled as intended yet.
+		/// modifications to the character, but packets sent to the
+		/// client might not get handled as intended yet.
 		/// </remarks>
 		public event EventHandler<PlayerEventArgs> PlayerLoggedIn;
 		public void OnPlayerLoggedIn(Character character) => PlayerLoggedIn?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
