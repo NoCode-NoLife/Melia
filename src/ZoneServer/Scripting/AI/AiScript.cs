@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -448,6 +449,17 @@ namespace Melia.Zone.Scripting.AI
 		protected bool InRangeOf(ICombatEntity entity, float range)
 		{
 			return this.Entity.Position.InRange2D(entity.Position, (int)range);
+		}
+
+		/// <summary>
+		/// Sets whether the entity is running, which potentially affects
+		/// its movement speed.
+		/// </summary>
+		/// <param name="running"></param>
+		protected void SetRunning(bool running)
+		{
+			var moveSpeedType = running ? MoveSpeedType.Run : MoveSpeedType.Walk;
+			this.Entity.Components.Get<MovementComponent>().SetMoveSpeedType(moveSpeedType);
 		}
 	}
 }

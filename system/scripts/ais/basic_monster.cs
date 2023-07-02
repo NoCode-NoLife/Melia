@@ -23,6 +23,8 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Idle()
 	{
+		SetRunning(false);
+
 		yield return Wait(4000, 8000);
 
 		SwitchRandom();
@@ -38,6 +40,8 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Attack()
 	{
+		SetRunning(true);
+
 		yield return Wait(500);
 
 		while (!target.IsDead)

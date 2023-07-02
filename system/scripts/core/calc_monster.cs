@@ -7,6 +7,7 @@
 using System;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 
 public class MonsterCalculationsFunctionsScript : GeneralScript
@@ -237,9 +238,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var baseValue = monster.Properties.GetFloat(PropertyName.WlkMSPD);
-		//if (running)
-		//	baseValue = monster.Properties.GetFloat(PropertyName.RunMSPD);
+		var moveSpeedType = monster.Components.Get<MovementComponent>().MoveSpeedType;
+		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
+		var baseValue = monster.Properties.GetFloat(propertyName);
 
 		var byBuff = monster.Properties.GetFloat(PropertyName.MSPD_BM);
 
