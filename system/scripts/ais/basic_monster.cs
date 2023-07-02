@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -14,9 +13,7 @@ public class BasicMonsterAiScript : AiScript
 	protected override void Setup()
 	{
 		During("Idle", CheckEnemies);
-		During("Chase", CheckTarget);
 		During("Attack", CheckTarget);
-		During("Attack", CheckTargetDistance);
 	}
 
 	protected override void Root()
@@ -37,16 +34,6 @@ public class BasicMonsterAiScript : AiScript
 		{
 			yield return Animation("IDLE");
 		}
-	}
-
-	protected IEnumerable Chase()
-	{
-		while (!InRangeOf(target, MinAttackDistance))
-			yield return MoveTo(target.Position, wait: false);
-
-		yield return StopMove();
-
-		StartRoutine("Attack", Attack());
 	}
 
 	protected IEnumerable Attack()
@@ -80,13 +67,19 @@ public class BasicMonsterAiScript : AiScript
 		StartRoutine("Idle", Idle());
 	}
 
+	protected IEnumerable StopAndAttack()
+	{
+		yield return StopMove();
+		StartRoutine("Attack", Attack());
+	}
+
 	private void CheckEnemies()
 	{
 		var mostHated = GetMostHated();
 		if (mostHated != null)
 		{
 			target = mostHated;
-			StartRoutine("Chase", Chase());
+			StartRoutine("StopAndAttack", StopAndAttack());
 		}
 	}
 
@@ -98,17 +91,5 @@ public class BasicMonsterAiScript : AiScript
 			target = null;
 			StartRoutine("StopAndIdle", StopAndIdle());
 		}
-	}
-
-	private void CheckTargetDistance()
-	{
-		// Don't give chase while waiting or we might cancel skill and
-		// movement delays. Be patient, little monster.
-		if (IsWaiting)
-			return;
-
-		// Chase after target if it's too far away
-		if (!InRangeOf(target, MinAttackDistance))
-			StartRoutine("Chase", Chase());
 	}
 }
