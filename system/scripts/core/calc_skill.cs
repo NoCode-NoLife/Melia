@@ -218,4 +218,42 @@ public class SkillCalculationsScript : GeneralScript
 
 		return baseValue + byOwner;
 	}
+
+	/// <summary>
+	/// Returns the skill's delay time, which appears to be used as the
+	/// delay until a monster can use a skill again.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_GET_DELAY_TIME")]
+	public float SCR_GET_DELAY_TIME(Skill skill)
+	{
+		if (!(skill.Owner is IMonster monster))
+			return skill.Properties.GetFloat(PropertyName.DelayTime);
+
+		if (skill.Data.ClassType == SkillClassType.Missile || skill.Data.UseType == SkillUseType.Force || skill.Data.UseType == SkillUseType.ForceGround)
+		{
+			if (monster.Level < 75)
+				return 3000;
+			else if (monster.Level < 170)
+				return 2500;
+			else if (monster.Level < 220)
+				return 2000;
+			else
+				return 1500;
+		}
+		else
+		{
+			if (monster.Level < 40)
+				return 3000;
+			else if (monster.Level < 75)
+				return 2500;
+			else if (monster.Level < 170)
+				return 2000;
+			else if (monster.Level < 220)
+				return 1500;
+			else
+				return 1000;
+		}
+	}
 }

@@ -67,7 +67,7 @@ public class BasicMonsterAiScript : AiScript
 				yield return MoveTo(target.Position, wait: false);
 
 			yield return UseSkill(skill, target);
-			yield return Wait(4000);
+			yield return Wait(skill.Properties.Delay);
 		}
 
 		yield break;
