@@ -8,6 +8,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
@@ -117,7 +118,13 @@ namespace Melia.Zone.Network
 		public void CZ_GAME_READY(IZoneConnection conn, Packet packet)
 		{
 			var guildId = packet.GetShort();
+
 			var character = conn.SelectedCharacter;
+			var gameReadyArgs = new PlayerGameReadyEventArgs(character);
+
+			ZoneServer.Instance.ServerEvents.OnPlayerGameReady(gameReadyArgs);
+			if (gameReadyArgs.CancelHandling)
+				return;
 
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);

@@ -79,6 +79,23 @@ namespace Melia.Zone.Events
 		public void OnPlayerLoggedIn(Character character) => PlayerLoggedIn?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
 
 		/// <summary>
+		/// Raised after the player's client loaded the map and is ready
+		/// to start the game.
+		/// </summary>
+		/// <remarks>
+		/// This event is similar to PlayerReady and fires from the same
+		/// packet handler, but instead of waiting until the character
+		/// and all its data is fully initialized, it fires immediately,
+		/// which allows for redirects, such as rerouting the character
+		/// to a different map.
+		/// 
+		/// If the packet handling should be stopped after executing this
+		/// event, set CancelHandling on the arguments to true.
+		/// </remarks>
+		public event EventHandler<PlayerGameReadyEventArgs> PlayerGameReady;
+		public void OnPlayerGameReady(PlayerGameReadyEventArgs args) => PlayerGameReady?.Invoke(ZoneServer.Instance, args);
+
+		/// <summary>
 		/// Raised when a player logged in completely.
 		/// </summary>
 		/// <remarks>
