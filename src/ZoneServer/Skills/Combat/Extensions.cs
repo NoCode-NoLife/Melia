@@ -21,6 +21,11 @@ namespace Melia.Zone.Skills.Combat
 		{
 			var sr = skill.Properties.GetFloat(PropertyName.SkillSR);
 
+			// Crank up SR if SDR is disabled, so we can effectively
+			// hit all the targets
+			if (ZoneServer.Instance.Conf.World.DisableSDR)
+				sr = int.MaxValue;
+
 			// Executes and returns a target at least once and then
 			// keeps subtracting SDR from the skill's SR until it
 			// reaches 0. Once it does, no more targets can be hit
