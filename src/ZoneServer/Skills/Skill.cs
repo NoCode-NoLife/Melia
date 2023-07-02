@@ -6,8 +6,10 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -43,7 +45,7 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns reference to the skill's owner.
 		/// </summary>
-		public Character Character { get; }
+		public ICombatEntity Owner { get; }
 
 		/// <summary>
 		/// Returns the skill's class id.
@@ -107,17 +109,17 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns true if the skill is currently on cooldown.
 		/// </summary>
-		public bool IsOnCooldown => this.Character.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
+		public bool IsOnCooldown => this.Owner.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
 
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="owner"></param>
 		/// <param name="skillId"></param>
 		/// <param name="level"></param>
-		public Skill(Character character, SkillId skillId, int level)
+		public Skill(ICombatEntity owner, SkillId skillId, int level)
 		{
-			this.Character = character;
+			this.Owner = owner;
 			this.Id = skillId;
 			this.Level = level;
 
@@ -134,7 +136,8 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		public void IncreaseOverheat()
 		{
-			if (this.Character == null)
+			// No cooldowns for monsters
+			if (!(this.Owner is Character character))
 				return;
 
 			// Increase counter regardless of whether the skill can
@@ -149,12 +152,12 @@ namespace Melia.Zone.Skills
 				this.OverheatCounter = 0;
 				this.OverheatTimeRemaining = TimeSpan.Zero;
 
-				this.Character.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.Data.CooldownTime);
+				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.Data.CooldownTime);
 			}
 
 			// Update the overheat after the max was checked so we reset it
 			// to 0 if we went into cooldown
-			Send.ZC_OVERHEAT_CHANGED(this.Character, this);
+			Send.ZC_OVERHEAT_CHANGED(character, this);
 		}
 
 		/// <summary>
