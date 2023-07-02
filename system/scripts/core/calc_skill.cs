@@ -22,7 +22,10 @@ public class SkillCalculationsScript : GeneralScript
 	public float SCR_GET_SR_LV(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSR);
-		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SR);
+
+		var byOwner = 0f;
+		if (skill.Character != null)
+			byOwner += skill.Character.Properties.GetFloat(PropertyName.SR);
 
 		return Math.Max(1, baseValue + byOwner);
 	}
