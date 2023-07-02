@@ -8,7 +8,7 @@ public class BasicMonsterAiScript : AiScript
 {
 	ICombatEntity target;
 
-	protected int MaxChaseDistance = 200;
+	protected int MaxChaseDistance = 300;
 
 	protected override void Setup()
 	{
