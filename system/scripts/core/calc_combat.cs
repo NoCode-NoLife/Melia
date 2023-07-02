@@ -167,6 +167,9 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
 
