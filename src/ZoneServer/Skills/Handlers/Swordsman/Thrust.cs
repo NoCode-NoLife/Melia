@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman

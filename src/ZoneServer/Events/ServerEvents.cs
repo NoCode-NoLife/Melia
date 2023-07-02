@@ -1,4 +1,6 @@
 ﻿using System;
+using Melia.Zone.Skills;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Events
@@ -62,6 +64,7 @@ namespace Melia.Zone.Events
 
 		// Player Events
 		//-------------------------------------------------------------------
+
 		/// <summary>
 		/// Raised when a player logged in.
 		/// </summary>
@@ -98,5 +101,34 @@ namespace Melia.Zone.Events
 		/// </summary>
 		public event EventHandler<PlayerChatEventArgs> PlayerChat;
 		public void OnPlayerChat(Character character, string message) => PlayerChat?.Invoke(ZoneServer.Instance, new PlayerChatEventArgs(character, message));
+
+		/// <summary>
+		/// Raised the level of a player's skill changed.
+		/// </summary>
+		public event EventHandler<PlayerSkillLevelChangedEventArgs> PlayerSkillLevelChanged;
+		public void OnPlayerSkillLevelChanged(Character character, Skill skill) => PlayerSkillLevelChanged?.Invoke(ZoneServer.Instance, new PlayerSkillLevelChangedEventArgs(character, skill));
+
+		/// <summary>
+		/// Raised a player gains new items, such as by picking them up
+		/// or buying them.
+		/// </summary>
+		public event EventHandler<PlayerItemEventArgs> PlayerAddedItem;
+		public void OnPlayerAddedItem(Character character, int itemId, int amount) => PlayerAddedItem?.Invoke(ZoneServer.Instance, new PlayerItemEventArgs(character, itemId, amount));
+
+		/// <summary>
+		/// Raised a player gains loses items, such as by destroying or
+		/// selling them.
+		/// </summary>
+		public event EventHandler<PlayerItemEventArgs> PlayerRemovedItem;
+		public void OnPlayerRemovedItem(Character character, int itemId, int amount) => PlayerRemovedItem?.Invoke(ZoneServer.Instance, new PlayerItemEventArgs(character, itemId, amount));
+
+		// Combat Events
+		//-------------------------------------------------------------------
+
+		/// <summary>
+		/// Raised when one entity kills another.
+		/// </summary>
+		public event EventHandler<CombatEventArgs> EntityKilled;
+		public void OnEntityKilled(ICombatEntity target, ICombatEntity attacker) => EntityKilled?.Invoke(ZoneServer.Instance, new CombatEventArgs(target, attacker));
 	}
 }

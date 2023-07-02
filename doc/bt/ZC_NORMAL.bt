@@ -792,6 +792,18 @@ switch (type)
         float f5;
         break;
 
+    // Leap Jump
+    case 0xC2:
+        int handle;
+        position targetPos;
+        float jumpHeight;
+        float f2;
+        float f3;
+        float f4;
+        float f5;
+        float f6;
+        break;
+
     case 0xC6:
         int handle; // 231902
         byte b1; // 1
