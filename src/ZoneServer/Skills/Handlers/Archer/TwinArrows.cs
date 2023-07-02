@@ -62,7 +62,9 @@ namespace Melia.Zone.Skills.Handlers.Archer
 
 			var skillHit = new SkillHitInfo(caster, designatedTarget, skill, skillHitResult, damageDelay, skillHitDelay);
 
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_SKILL_FORCE_TARGET(caster, designatedTarget, skill, skillHit);
+			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
