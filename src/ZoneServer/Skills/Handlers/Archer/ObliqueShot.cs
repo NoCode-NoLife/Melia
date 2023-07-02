@@ -61,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			var secondHitTime = TimeSpan.FromMilliseconds(100);
 
 			var skillHitResult = SCR_SkillHit(caster, designatedTarget, skill);
-			designatedTarget.TakeDamage(skillHitResult.Damage / 2, caster);
+			designatedTarget.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, designatedTarget, skill, skillHitResult, damageDelay, skillHitDelay);
 			skillHit.ForceId = ForceId.GetNew();
@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			if (nearestTarget != null)
 			{
 				var skillHitResultPost = SCR_SkillHit(caster, nearestTarget, skill);
-				nearestTarget.TakeDamage(skillHitResultPost.Damage / 2, caster);
+				nearestTarget.TakeDamage(skillHitResultPost.Damage, caster);
 
 				var skillHitPost = new SkillHitInfo(caster, nearestTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
 				var hit = new HitInfo(caster, nearestTarget, skill, skillHitResult.Damage / 2, skillHitResult.Result);
