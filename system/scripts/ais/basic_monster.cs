@@ -10,7 +10,6 @@ public class BasicMonsterAiScript : AiScript
 	ICombatEntity target;
 
 	protected int MaxChaseDistance = 200;
-	protected int MinAttackDistance = 35;
 
 	protected override void Setup()
 	{
@@ -63,7 +62,7 @@ public class BasicMonsterAiScript : AiScript
 
 			}
 
-			while (!InRangeOf(target, skill.Data.MaxRange))
+			while (!InRangeOf(target, skill.GetAttackRange()))
 				yield return MoveTo(target.Position, wait: false);
 
 			yield return UseSkill(skill, target);

@@ -203,7 +203,7 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_SplRange")]
 	public float SCR_Get_SplRange(Skill skill)
 	{
-		var baseValue = skill.Data.SplashRange;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplRange);
 
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Fan)

@@ -58,6 +58,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.WaveLength, () => this.CalculateProperty("SCR_Get_WaveLength")));
 			this.Create(new RFloatProperty(PropertyName.SplAngle, () => this.CalculateProperty("SCR_SPLANGLE")));
 			this.Create(new RFloatProperty(PropertyName.SplRange, () => this.CalculateProperty("SCR_Get_SplRange")));
+			this.Create(new RFloatProperty(PropertyName.SklSplRange, () => this.Skill.Data.SplashRange));
 
 			// While a property named SR exists for skills, it doesn't seem
 			// to be used in the property calculations. Instead, there's

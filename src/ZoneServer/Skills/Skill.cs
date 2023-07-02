@@ -177,8 +177,12 @@ namespace Melia.Zone.Skills
 				default:
 				case SplashType.Square:
 				{
-					// These sizes are currently guessed and should
-					// probably also use calculation functions
+					// These sizes and which properties or what data to
+					// use is currently all guess-work. There must be a
+					// consistent way to calculate the splash area though,
+					// as I can't imagine that every single monster skill
+					// has that value defined manually.
+
 					var height = skill.Data.SplashHeight;
 					var width = skill.Data.SplashRange;
 
@@ -203,6 +207,18 @@ namespace Melia.Zone.Skills
 			}
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Returns the minimum range to the target within which the skill
+		/// can be used.
+		/// </summary>
+		/// <returns></returns>
+		public float GetAttackRange()
+		{
+			// Guessed, see GetSplashArea. Take a little off the top,
+			// so entities actually have to get into the splash area.
+			return this.Data.SplashHeight;
 		}
 
 		/// <summary>
