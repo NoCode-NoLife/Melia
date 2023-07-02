@@ -65,6 +65,8 @@ public class BasicMonsterAiScript : AiScript
 			while (!InRangeOf(target, skill.GetAttackRange()))
 				yield return MoveTo(target.Position, wait: false);
 
+			yield return StopMove();
+
 			yield return UseSkill(skill, target);
 			yield return Wait(skill.Properties.Delay);
 		}
