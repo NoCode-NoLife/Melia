@@ -172,7 +172,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate("BLK", new[] { "Lv", "CON", "BLK_BM", "BLK_RATE_BM" });
 			this.AutoUpdate("BLK_BREAK", new[] { "Lv", "DEX", "BLK_BREAK_BM", "BLK_BREAK_RATE_BM" });
 			this.AutoUpdate("SR", new[] { "SR_BM" });
-			this.AutoUpdate("SDR", new[] { "SDR_BM" });
+			this.AutoUpdate("SDR", new[] { "FixedMinSDR_BM", "SDR_BM" });
 			this.AutoUpdate("MaxSta", new[] { "CON", "MAXSTA_Bonus", "MaxSta_BM" });
 			this.AutoUpdate("Sta_Run", new[] { "DashRun" });
 			this.AutoUpdate("Sta_Recover", new[] { "REST_BM", "RSta_BM" });

@@ -285,4 +285,52 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 
 		return baseValue + byBuffs;
 	}
+
+	/// <summary>
+	/// Returns the monster's AoE Attack Ratio.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_SR(Mob monster)
+	{
+		int baseValue;
+		switch (monster.Data.Size)
+		{
+			case SizeType.S: baseValue = 8; break;
+			case SizeType.M: baseValue = 16; break;
+			case SizeType.L: baseValue = 24; break;
+			default: baseValue = 50; break;
+		}
+
+		var byBuffs = monster.Properties.GetFloat(PropertyName.SDR_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)Math.Max(1, value);
+	}
+
+	/// <summary>
+	/// Returns the monster's AoE Defense Ratio.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_SDR(Mob monster)
+	{
+		int baseValue;
+		switch (monster.Data.Size)
+		{
+			case SizeType.S: baseValue = 1; break;
+			case SizeType.M: baseValue = 2; break;
+			case SizeType.L: baseValue = 3; break;
+			default: baseValue = 5; break;
+		}
+
+		var byBuffs = monster.Properties.GetFloat(PropertyName.SDR_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)Math.Max(1, value);
+	}
 }

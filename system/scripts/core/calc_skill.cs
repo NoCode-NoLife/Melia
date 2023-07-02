@@ -14,7 +14,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 public class SkillCalculationsScript : GeneralScript
 {
 	/// <summary>
-	/// Returns skill's splash range.
+	/// Returns skill's AoE Attack Ratio?
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
@@ -24,7 +24,7 @@ public class SkillCalculationsScript : GeneralScript
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSR);
 		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SR);
 
-		return baseValue + byOwner;
+		return Math.Max(1, baseValue + byOwner);
 	}
 
 	/// <summary>

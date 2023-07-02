@@ -1249,7 +1249,7 @@ public class CharacterCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns the character's splash rate?
+	/// Returns the character's AoE Attack Ratio?
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
@@ -1265,33 +1265,35 @@ public class CharacterCalculationsScript : GeneralScript
 		else if (character.Jobs.Has(JobId.Archer, JobCircle.First))
 			baseValue = 0;
 
-		var byItem = 0f; // TODO
-
-		var value = baseValue + byItem;
-
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SR);
 		var byBuffs = character.Properties.GetFloat(PropertyName.SR_BM);
-		value += byBuffs;
+
+		var value = baseValue + byItem + byBuffs;
 
 		return (int)value;
 	}
 
 	/// <summary>
-	/// Returns skill defense ratio?
+	/// Returns character's AoE Defense Ratio.
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
 	[ScriptableFunction("SCR_Get_Character_SDR")]
 	public float SCR_Get_Character_SDR(Character character)
 	{
+		if (character.Properties.TryGetFloat(PropertyName.FixedMinSDR_BM, out var fixedSDR))
+		{
+			if (fixedSDR != 0)
+				return 1;
+		}
+
 		var baseValue = 1;
-		var byItem = 0f; // TODO
-
-		var value = baseValue + byItem;
-
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SDR);
 		var byBuffs = character.Properties.GetFloat(PropertyName.SDR_BM);
-		value += byBuffs;
 
-		return (int)value;
+		var value = baseValue + byItem + byBuffs;
+
+		return (int)Math.Max(1, value);
 	}
 
 	/// <summary>
