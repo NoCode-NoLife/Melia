@@ -77,6 +77,7 @@
     <Compile Include="Buffs\Base\IBuffHandler.cs" />
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
+    <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
     <Compile Include="Buffs\Handlers\Bear.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Database\AccountSettings.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Events\CombatEventArgs.cs" />
     <Compile Include="Events\PlayerEventArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Events\TimeEventArgs.cs" />
@@ -122,6 +124,8 @@
     <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
     <Compile Include="Scripting\ClientScript.cs" />
     <Compile Include="Scripting\DelegateCollection.cs" />
+    <Compile Include="Scripting\LuaTable.cs" />
+    <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptableFunctions.cs" />
     <Compile Include="Scripting\CustomCommandScripts.cs" />
     <Compile Include="Scripting\NormalTxScripts.cs" />
@@ -142,11 +146,15 @@
     <Compile Include="Skills\Combat\SkillHitResult.cs" />
     <Compile Include="Skills\Handlers\Archer\ObliqueShot.cs" />
     <Compile Include="Skills\Handlers\Archer\TwinArrows.cs" />
+    <Compile Include="Skills\Handlers\Archer\Leap.cs" />
     <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
+    <Compile Include="Skills\Handlers\Cleric\GuardianSaint.cs" />
+    <Compile Include="Skills\Handlers\Cleric\Fade.cs" />
+    <Compile Include="Skills\Handlers\Cleric\Cure.cs" />
     <Compile Include="Skills\Handlers\Cleric\Heal.cs" />
     <Compile Include="Skills\Handlers\Cleric\Smite.cs" />
     <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
@@ -177,6 +185,7 @@
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
+    <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
@@ -208,6 +217,24 @@
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
+    <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
+    <Compile Include="World\Quests\Objectives\KillObjective.cs" />
+    <Compile Include="World\Quests\Objectives\SkillLevelObjective.cs" />
+    <Compile Include="World\Quests\Objectives\ManualObjective.cs" />
+    <Compile Include="World\Quests\Prerequisites\CompletedPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\LevelPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\NotSkillPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\OrPrerequisite.cs" />
+    <Compile Include="World\Quests\Prerequisites\SkillPrerequisite.cs" />
+    <Compile Include="World\Quests\Quest.cs" />
+    <Compile Include="World\Quests\QuestData.cs" />
+    <Compile Include="World\Quests\QuestObjective.cs" />
+    <Compile Include="World\Quests\QuestPrerequisite.cs" />
+    <Compile Include="World\Quests\QuestProgress.cs" />
+    <Compile Include="World\Quests\QuestReward.cs" />
+    <Compile Include="World\Quests\Rewards\ExpReward.cs" />
+    <Compile Include="World\Quests\Rewards\SilverReward.cs" />
+    <Compile Include="World\Quests\Rewards\ItemReward.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>

@@ -42,4 +42,21 @@ namespace Melia.Zone.Scripting.AI
 			this.Damage = damage;
 		}
 	}
+
+	public class HateResetAlert : IAiEventAlert
+	{
+		/// <summary>
+		/// Returns the entity for which the hate was reset.
+		/// </summary>
+		public ICombatEntity Target { get; }
+
+		/// <summary>
+		/// Creates new event.
+		/// </summary>
+		/// <param name="target"></param>
+		public HateResetAlert(ICombatEntity target)
+		{
+			this.Target = target;
+		}
+	}
 }

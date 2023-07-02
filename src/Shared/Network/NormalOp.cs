@@ -41,11 +41,13 @@
 			public const int AccountUpdate = 0x4C;
 			public const int Skill_4E = 0x4E;
 			public const int Skill = 0x57;
+			public const int Skill_59 = 0x59;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknown_A1 = 0xA1;
+			public const int LeapJump = 0xC2;
 			public const int Unknown_DA = 0xDA;
 			public const int SkillParticleEffect = 0xE0;
 			public const int Unknown_E4 = 0xE4;

@@ -82,7 +82,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public bool IsOnCooldown(CooldownId cooldownId)
 		{
 			lock (_syncLock)
-				return _cooldowns.ContainsKey(cooldownId);
+			{
+				if (_cooldowns.TryGetValue(cooldownId, out var cooldown))
+					return DateTime.Now < cooldown.EndTime;
+
+				return false;
+			}
 		}
 
 		/// <summary>
