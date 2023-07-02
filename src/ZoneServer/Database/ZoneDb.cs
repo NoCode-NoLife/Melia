@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,6 +15,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
@@ -1187,6 +1189,59 @@ namespace Melia.Zone.Database
 						}
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Returns true if party name exists.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool PartyNameExists(string partyName)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT `partyId` FROM `party` WHERE `name` = @partyName", conn))
+			{
+				mc.Parameters.AddWithValue("@partyName", partyName);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					return reader.HasRows;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves the character's quests to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="InvalidOperationException"></exception>
+		public void CreateParty(Character character, string partyName)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
+				{
+					var partyDescription = "Let's Party!";
+
+					cmd.Set("name", partyName);
+					cmd.Set("description", partyDescription);
+
+					cmd.Execute();
+					
+					var patyId = cmd.LastId;
+
+					using (var cmdMember = new InsertCommand("INSERT INTO `party_member` {0}", conn, trans))
+					{
+						cmdMember.Set("partyId", patyId);
+						cmdMember.Set("characterId", character.DbId);
+
+						cmdMember.Execute();
+					}
+				}
+
+				trans.Commit();
 			}
 		}
 	}
