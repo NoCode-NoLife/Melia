@@ -1220,7 +1220,7 @@ namespace Melia.Zone.Commands
 				{
 					for (var i = currentLevel + 1; i <= newLevel; ++i)
 					{
-						func(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
+						func(sender, abilityData, i, maxLevel, out var addPrice, out time);
 						price += addPrice;
 					}
 				}
