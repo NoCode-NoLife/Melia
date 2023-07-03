@@ -14,7 +14,8 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Agility_Buff)]
 	public class Agility_Buff : BuffHandler
 	{
-		private const string VarName = "Melia.MovementSpeedBonus";
+		private const string VarNameMVSD = "Melia.MovementSpeedBonus";
+		private const string VarNameSTA = "Melia.StaminaRateBonus";
 
 		public override void OnStart(Buff buff)
 		{
@@ -45,12 +46,14 @@ namespace Melia.Zone.Buffs.Handlers
 					speedBonus += abilityBonus;
 				}
 
-				// TODO: Reduce the STAMINA consuption rate
+				var staminaRateBonus = -0.5f;
 
-				buff.Vars.SetFloat(VarName, (float)speedBonus);
-
+				buff.Vars.SetFloat(VarNameMVSD, (float)speedBonus);
+				buff.Vars.SetFloat(VarNameSTA, (float)staminaRateBonus);
+				
 				target.Properties.Modify(PropertyName.MSPD_BM, (float)speedBonus);
-
+				target.Properties.Modify(PropertyName.MOVESTA_RATE_BM, (float)staminaRateBonus);
+				
 				Send.ZC_MOVE_SPEED(target);				
 			}				
 		}
@@ -61,9 +64,14 @@ namespace Melia.Zone.Buffs.Handlers
 			{
 				var target = buff.Target as Character;
 
-				if (buff.Vars.TryGetFloat(VarName, out var bonus))
+				if (buff.Vars.TryGetFloat(VarNameMVSD, out var bonus))
 				{
 					buff.Target.Properties.Modify(PropertyName.MSPD_BM, -bonus);
+				}
+
+				if (buff.Vars.TryGetFloat(VarNameSTA, out var bonusStamina))
+				{
+					buff.Target.Properties.Modify(PropertyName.MOVESTA_RATE_BM, bonusStamina);
 				}
 
 				Send.ZC_MOVE_SPEED(character);
