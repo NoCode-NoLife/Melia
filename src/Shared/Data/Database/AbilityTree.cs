@@ -55,6 +55,19 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns abilities the given job can learn.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <returns></returns>
+		public IEnumerable<AbilityTreeData> Find(string category)
+		{
+			if (category.StartsWith("Ability_"))
+				category = category.Substring(8);
+
+			return this.Entries.Where(a => a.Category == category);
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>

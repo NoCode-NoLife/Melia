@@ -70,6 +70,23 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the level of the given ability. Returns 0 if the
+		/// character doesn't have the ability.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public int GetLevel(AbilityId abilityId)
+		{
+			lock (_abilities)
+			{
+				if (_abilities.TryGetValue(abilityId, out var ability))
+					return ability.Level;
+			}
+
+			return 0;
+		}
+
+		/// <summary>
 		/// Returns true if character has the ability at at least the
 		/// given level.
 		/// </summary>
@@ -106,6 +123,25 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_abilities)
 				return _abilities.Values.FirstOrDefault(a => a.Data.ClassName == abilityClassName);
+		}
+
+		/// <summary>
+		/// Adds the ability at the given level. If it already exists
+		/// its level is updated.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <param name="level"></param>
+		public void Learn(AbilityId abilityId, int level)
+		{
+			lock (_abilities)
+			{
+				if (_abilities.TryGetValue(abilityId, out var ability))
+					ability.Level = level;
+				else
+					_abilities[abilityId] = new Ability(abilityId, level);
+			}
+
+			Send.ZC_ABILITY_LIST(this.Character);
 		}
 
 		/// <summary>
