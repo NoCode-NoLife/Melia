@@ -743,27 +743,45 @@ namespace Melia.Zone.Network
 
 				// The ability properties are weird. Not only do they
 				// seem to use a count instead of a size now and include
-				// some byte, but they also don't appear until an ability
-				// is at least level 2? Without properties the ability is
-				// displayed as level 1.
+				// some byte, but they also don't appear unless one of
+				// them has a non-default value? Without properties the
+				// ability is displayed as level 1.
 
 				//if (propertiesSize > 0)
 				//	packet.AddProperties(propertyList);
 
-				if (ability.Level <= 1)
+				var sendProperties = ability.Level > 1 || !ability.Active;
+
+				if (!sendProperties)
 				{
 					packet.PutInt(0);
 				}
 				else
 				{
-					var propertyId = PropertyTable.GetId("Ability", PropertyName.Level);
-					var value = ability.Level;
+					var propertyList = ability.Properties.GetAll();
 
-					packet.PutInt(1); // property count?
+					packet.PutInt(propertyList.Count);
+					foreach (var property in propertyList)
+					{
+						var propertyId = PropertyTable.GetId("Ability", property.Ident);
 
-					packet.PutInt(propertyId);
-					packet.PutByte(0); // ???
-					packet.PutFloat(value);
+						packet.PutInt(propertyId);
+						packet.PutByte(0);
+
+						switch (property)
+						{
+							case FloatProperty floatProperty:
+								packet.PutFloat(floatProperty.Value);
+								break;
+
+							case StringProperty stringProperty:
+								packet.PutLpString(stringProperty.Value);
+								break;
+
+							default:
+								throw new ArgumentException($"Unknown property type: {property.GetType().Name}");
+						}
+					}
 				}
 			}
 

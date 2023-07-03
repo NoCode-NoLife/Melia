@@ -55,7 +55,7 @@ namespace Melia.Zone.Skills
 			this.Data = ZoneServer.Instance.Data.AbilityDb.Find(this.Id) ?? throw new ArgumentException($"No data found for ability '{this.Id}'.");
 
 			this.Properties.Create(new RFloatProperty(PropertyName.Level, () => this.Level));
-			//this.Properties.Create(new RFloatProperty(PropertyName.ActiveState, () => this.Active ? 1 : 0));
+			this.Properties.Create(new RFloatProperty(PropertyName.ActiveState, () => this.Active ? 1 : 0));
 		}
 	}
 }
