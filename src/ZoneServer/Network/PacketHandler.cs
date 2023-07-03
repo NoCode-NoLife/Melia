@@ -165,6 +165,11 @@ namespace Melia.Zone.Network
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
 
+			// The ability points are longer read from the properties for
+			// whatever reason. We have to use the "custom commander info"
+			// now. Yay.
+			Send.ZC_CUSTOM_COMMANDER_INFO(character, CommanderInfoType.AbilityPoints, character.Properties.AbilityPoints);
+
 			// It's currently unknown what exactly ZC_UPDATE_SKL_SPDRATE_LIST
 			// does, but the data is necessary for the client to display the
 			// overheat bubbles on the skill icons, so we'll send the skills

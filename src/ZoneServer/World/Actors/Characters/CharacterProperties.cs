@@ -35,6 +35,12 @@ namespace Melia.Zone.World.Actors.Characters
 		public int MaxStamina => (int)this.GetFloat(PropertyName.MaxSta);
 
 		/// <summary>
+		/// Returns the character's ability points based on the string
+		/// property "AbilityPoint".
+		/// </summary>
+		public int AbilityPoints => int.Parse(this.GetString(PropertyName.AbilityPoint, "0"));
+
+		/// <summary>
 		/// Creates new instance for the character.
 		/// </summary>
 		/// <param name="character"></param>
