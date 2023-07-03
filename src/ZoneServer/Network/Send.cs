@@ -2925,22 +2925,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_CUSTOM_COMMANDER_INFO to character (dummy).
+		/// Updates the given value on the character's client.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="type"></param>
-		/// <param name="amount"></param>
-		public static void ZC_CUSTOM_COMMANDER_INFO(IZoneConnection conn, int type = 3, int amount = 0)
+		/// <param name="value"></param>
+		public static void ZC_CUSTOM_COMMANDER_INFO(Character character, CommanderInfoType type, int value)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
 
 			packet.PutLong(0);
 			packet.PutInt(0);
-			packet.PutShort(type); // Attribute Points = 3
-			packet.PutInt(amount);
+			packet.PutShort((short)type);
+			packet.PutInt(value);
 			packet.PutInt(0);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
