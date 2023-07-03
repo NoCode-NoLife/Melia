@@ -740,11 +740,10 @@ namespace Melia.Zone.Network
 				packet.PutInt((int)ability.Id);
 				packet.PutShort(propertiesSize);
 				packet.PutShort(0);
+				packet.PutInt(0);
 
 				if (propertiesSize > 0)
 					packet.AddProperties(propertyList);
-				else
-					packet.PutInt(0);
 			}
 
 			character.Connection.Send(packet);
