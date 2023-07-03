@@ -252,7 +252,7 @@ internal class AbilityPriceTimeFunctionsScript : GeneralScript
 		var increaseFactorList = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 8.5, 9 };
 		var increaseFactor = 0.0;
 
-		var index = (int)Math.Ceiling(abilityLevel / 10.0);
+		var index = (int)Math.Ceiling(abilityLevel / 10.0) - 1;
 		if (index >= 0 && index < increaseFactorList.Length)
 			increaseFactor = increaseFactorList[index];
 
