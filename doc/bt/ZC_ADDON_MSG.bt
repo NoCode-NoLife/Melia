@@ -16,8 +16,7 @@
 ServerHeaderDynamic header;
 
 byte len;
-int duration; //  Might be a general int parameter. 7
+int argNum;
 byte notUsed;
-char functionName[len]; //ON_UI_TUTORIAL_NEXT_STEP
-char parameter[header.size-(len+sizeof(header)+sizeof(short)+sizeof(int))]; //UITUTO_EQUIPCACABINET1
-
+char functionName[len];
+char argStr[header.size-(len+sizeof(header)+sizeof(short)+sizeof(int))];

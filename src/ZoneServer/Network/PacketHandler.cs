@@ -1469,7 +1469,7 @@ namespace Melia.Zone.Network
 			// panel, to display the proper balance after confirming the
 			// transaction.
 			// 08-29-21 Update, Item Database is updated but equipment for the most part are still priced at 0
-			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY);
+			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY, 0, null);
 		}
 
 		/// <summary>
@@ -1578,7 +1578,7 @@ namespace Melia.Zone.Network
 					// packet in an infinite loop in i218535. The following
 					// seems to be correct for now.
 
-					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", "None");
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", 0, "None");
 					break;
 				default:
 					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
@@ -2284,7 +2284,7 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQUEST_DRAW_TOSHERO_EMBLEM)]
 		public void CZ_REQUEST_DRAW_TOSHERO_EMBLEM(IZoneConnection conn, Packet packet)
 		{
-			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
+			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER", 0, null);
 		}
 
 		/// <summary>

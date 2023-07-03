@@ -1767,20 +1767,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
-		{
-			ZC_ADDON_MSG(character, 0, msg, parameter);
-		}
-
-		/// <summary>
-		/// Executes Lua addon function.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="duration">Duration that messages are displayed in seconds?</param>
-		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
+		/// <param name="argNum"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg, int argNum, string argStr)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
@@ -1789,12 +1778,12 @@ namespace Melia.Zone.Network
 				throw new ArgumentException($"Message is too long with {msgByteLength} bytes. The maximum length is {byte.MaxValue}.");
 
 			packet.PutByte((byte)msgByteLength);
-			packet.PutInt(duration);
+			packet.PutInt(argNum);
 			packet.PutByte(0);
 			packet.PutRawString(msg);
 
-			if (parameter != null)
-				packet.PutRawString(parameter);
+			if (argStr != null)
+				packet.PutRawString(argStr);
 
 			character.Connection.Send(packet);
 		}

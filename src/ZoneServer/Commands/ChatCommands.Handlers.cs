@@ -1117,7 +1117,7 @@ namespace Melia.Zone.Commands
 			sender.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
 
-			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, 0, "BLANK");
 
 			return CommandResult.Okay;
 		}
@@ -1251,8 +1251,8 @@ namespace Melia.Zone.Commands
 			Send.ZC_OBJECT_PROPERTY(sender.Connection, ability);
 
 			sender.ModifyAbilityPoints(-price);
-			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
-			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_LEARN_ABILITY, abilityTreeData.Category);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, 0, "Ability_" + abilityTreeData.Category);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_LEARN_ABILITY, 0, abilityTreeData.Category);
 
 			return CommandResult.Okay;
 		}
