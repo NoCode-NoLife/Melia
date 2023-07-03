@@ -1,12 +1,12 @@
-﻿using Melia.Zone.Scripting;
-using Melia.Zone.World.Quests;
-using Melia.Zone.World.Quests.Objectives;
-//--- Melia Script ----------------------------------------------------------
+﻿//--- Melia Script ----------------------------------------------------------
 // Kepa Kill Quests
 //--- Description -----------------------------------------------------------
 // Automatically received test quests for killing Kepas.
 //---------------------------------------------------------------------------
 
+using Melia.Zone.Scripting;
+using Melia.Zone.World.Quests;
+using Melia.Zone.World.Quests.Objectives;
 using Melia.Zone.World.Quests.Prerequisites;
 using Melia.Zone.World.Quests.Rewards;
 

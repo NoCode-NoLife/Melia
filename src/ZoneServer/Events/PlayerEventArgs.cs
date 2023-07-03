@@ -112,4 +112,30 @@ namespace Melia.Zone.Events
 			this.Amount = amount;
 		}
 	}
+
+	/// <summary>
+	/// Arguments for the PlayerGameReady event.
+	/// </summary>
+	public class PlayerGameReadyEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns a reference to the character logging in.
+		/// </summary>
+		public Character Character { get; }
+
+		/// <summary>
+		/// Gets or sets whether to continue the login process after
+		/// the event.
+		/// </summary>
+		public bool CancelHandling { get; set; }
+
+		/// <summary>
+		/// Creates new event arguments.
+		/// </summary>
+		/// <param name="character"></param>
+		public PlayerGameReadyEventArgs(Character character)
+		{
+			this.Character = character;
+		}
+	}
 }

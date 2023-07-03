@@ -29,6 +29,11 @@ namespace Melia.Zone.World.Actors
 		MoveType MoveType { get; }
 
 		/// <summary>
+		/// Returns the entity's level.
+		/// </summary>
+		int Level { get; }
+
+		/// <summary>
 		/// Returns the entity's current HP.
 		/// </summary>
 		int Hp { get; }

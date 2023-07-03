@@ -80,6 +80,7 @@
     <Compile Include="Buffs\Handlers\Agility_Buff.cs" />
     <Compile Include="Buffs\Handlers\EnchantEarth_Buff.cs" />
     <Compile Include="Buffs\Handlers\Enchantglove_Buff.cs" />
+    <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Scripting\ShopBuilder.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="Skills\Ability.cs" />
+    <Compile Include="Skills\Combat\Extensions.cs" />
     <Compile Include="Skills\Combat\ForceId.cs" />
     <Compile Include="Skills\Combat\HitInfo.cs" />
     <Compile Include="Skills\Combat\KnockBackInfo.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Skills\Handlers\Enchanter\EnchantGlove.cs" />
     <Compile Include="Skills\Handlers\Enchanter\OverReinforce.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
+    <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />

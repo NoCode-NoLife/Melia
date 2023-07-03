@@ -26,6 +26,11 @@ namespace Melia.Zone.Skills
 		public TimeSpan HitDelay => TimeSpan.FromMilliseconds(this.GetFloat(PropertyName.HitDelay));
 
 		/// <summary>
+		/// Returns the skill's Skill_Delay property as a TimeSpan.
+		/// </summary>
+		public TimeSpan Delay => TimeSpan.FromMilliseconds(this.GetFloat(PropertyName.Skill_Delay));
+
+		/// <summary>
 		/// Creates new properties instance for the given skill.
 		/// </summary>
 		/// <param name="skill"></param>
@@ -53,6 +58,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.WaveLength, () => this.CalculateProperty("SCR_Get_WaveLength")));
 			this.Create(new RFloatProperty(PropertyName.SplAngle, () => this.CalculateProperty("SCR_SPLANGLE")));
 			this.Create(new RFloatProperty(PropertyName.SplRange, () => this.CalculateProperty("SCR_Get_SplRange")));
+			this.Create(new RFloatProperty(PropertyName.SklSplRange, () => this.Skill.Data.SplashRange));
 
 			// While a property named SR exists for skills, it doesn't seem
 			// to be used in the property calculations. Instead, there's
@@ -74,7 +80,7 @@ namespace Melia.Zone.Skills
 
 			this.Create(new RFloatProperty(PropertyName.MaxR, () => this.Skill.Data.MaxRange));
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => (int)this.Skill.Data.CooldownTime.TotalMilliseconds));
-			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (float)this.Skill.Data.DefaultHitDelay.TotalMilliseconds));
+			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (int)this.Skill.Data.DefaultHitDelay.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SklSpdRate, () => 1f)); // Constant
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));
@@ -83,7 +89,8 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => (int)this.Skill.Data.CooldownTime.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.SkillASPD, () => 1f));
 			this.Create(new RFloatProperty(PropertyName.BackHitRange, () => 0f));
-			this.Create(new RFloatProperty(PropertyName.Skill_Delay, () => 0f));
+			this.Create(new RFloatProperty(PropertyName.DelayTime, () => (int)this.Skill.Data.DelayTime.TotalMilliseconds));
+			this.Create(new RFloatProperty(PropertyName.Skill_Delay, () => this.CalculateProperty("SCR_GET_DELAY_TIME")));
 			this.Create(new RFloatProperty(PropertyName.ReinforceAtk, () => 0f));
 
 			// We previously had this as `Enable ? 1 : 0`, but it seems like

@@ -133,7 +133,7 @@ namespace Melia.Zone.Scripting.AI
 			// Should we give monsters a skill manager? We might not
 			// actually need it, though we should probably at least
 			// cache the skills if we create them on demand.
-			skill = new Skill(null, rndSkillId, 1);
+			skill = new Skill(this.Entity, rndSkillId, 1);
 
 			return true;
 		}

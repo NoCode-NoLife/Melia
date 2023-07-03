@@ -153,6 +153,11 @@ public class CombatCalculationsScript : GeneralScript
 		var result = new SkillHitResult();
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, result);
 
+		// TODO: Find a better location to handle disabling buffs on attack?
+		var buffComponent = attacker.Components.Get<BuffComponent>();
+		if (buffComponent.Has(BuffId.Cloaking_Buff))
+			buffComponent.Remove(BuffId.Cloaking_Buff);
+
 		return result;
 	}
 
@@ -167,16 +172,23 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
 
-		// Preliminary formula based on simple player tests, such as
-		// https://forum.treeofsavior.com/t/evasion-chance-in-tos/404534/11.
-		// With this, the DR needs to be about twice the HR to reach a
-		// chance of 50%+, and 90%, the presumed max, is reached at a
-		// little under thrice the HR.
+		// Preliminary formula based on player tests, such as the following.
+		// 
+		// https://forum.treeofsavior.com/t/evasion-chance-in-tos/404534/11
+		// https://github.com/vyne1/tos-mechanics/blob/master/ToS%20Mechanics.pdf
+		// 
+		// The first formula seemed to work on the surface, but gave rather
+		// strange results the bigger the DR/HR values got. The second one
+		// looked more promising, but seemed rather arbitrary. Our current
+		// approach is now a combination of the two.
 
-		var dodgeChance = Math2.Clamp(0, 90, (Math.Pow(dr / hr, 0.65f) - 1) * 100);
+		var dodgeChance = Math2.Clamp(0, 80, Math.Pow(Math.Max(0, dr - hr), 0.65f));
 
 		return (float)dodgeChance;
 	}
