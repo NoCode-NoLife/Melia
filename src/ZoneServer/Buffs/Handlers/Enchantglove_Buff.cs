@@ -1,7 +1,14 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using System.Collections.Generic;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
+using Melia.Zone.Skills;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Items;
+using MySqlX.XDevAPI.Relational;
+using static Mysqlx.Notice.Warning.Types;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -11,27 +18,48 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Enchantglove_Buff)]
 	public class Enchantglove_Buff : BuffHandler
 	{
-		private float hitRateBonus = 0;
+		private const string VarName = "Melia.HitRateBonus";
 
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target as Character;
-			var SCR_Get_Character_MAXPATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK");
 
 			// It is not applyed to characters without Gloves
-			if (target != null && target.Inventory.GetEquip(EquipSlot.Gloves) != null)
+			if (target != null && !(target.Inventory.GetEquip(EquipSlot.Gloves) is DummyEquipItem))
 			{
 				var caster = buff.Caster as Character;
 
 				// Apply penality when the CASTER Max Physical Attack is lower than the TARGET Max Physical Attack
 				// TODO: Find out the exacly value of the penality (We are applying 50%)
-				var penalityValue = SCR_Get_Character_MAXPATK(caster) < SCR_Get_Character_MAXPATK(target) ? 0.5f : 1f;
+				var casterMaxPAtk = caster.Properties.GetFloat(PropertyName.MAXPATK);
+				var targetMaxPAtk = target.Properties.GetFloat(PropertyName.MAXPATK);
+				var penalityValue = casterMaxPAtk < targetMaxPAtk ? 0.5f : 1f;
 
-				// Based on in game values (tooltip)
-				hitRateBonus = (6.3f + (1.2f * buff.Data.Level)) * penalityValue;
+				var skillLevel = buff.NumArg1;
 
-				// TODO: Apply "Enchant Gloves: Enchant" (passive adquire through attribute points)
-				
+				var data = ZoneServer.Instance.Data.SkillDb.Find("Enchanter_EnchantGlove");
+
+				var initialHitRateBonus = data.Factor + (skillLevel * data.FactorByLevel);
+				var hitRateBonus = initialHitRateBonus * penalityValue;
+
+				if (caster.Abilities.Has(AbilityId.Enchanter9))
+				{
+					var ability = caster.Abilities.Get(AbilityId.Enchanter9);
+					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
+					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
+					hitRateBonus += abilityBonus;
+				}
+
+				if (caster.Abilities.Has(AbilityId.Enchanter14))
+				{
+					var ability = caster.Abilities.Get(AbilityId.Enchanter14);
+					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
+					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
+					hitRateBonus += abilityBonus;
+				}
+
+				buff.Vars.SetFloat(VarName, hitRateBonus);
+
 				buff.Target.Properties.Modify(PropertyName.HR_BM, hitRateBonus);
 			}
 		}
@@ -42,7 +70,10 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (target != null)
 			{
-				buff.Target.Properties.Modify(PropertyName.HR_BM, -hitRateBonus);
+				if (buff.Vars.TryGetFloat(VarName, out var bonus))
+				{
+					buff.Target.Properties.Modify(PropertyName.HR_BM, -bonus);
+				}
 			}
 		}
 	}

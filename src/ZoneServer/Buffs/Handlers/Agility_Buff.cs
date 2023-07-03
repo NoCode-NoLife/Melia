@@ -1,7 +1,10 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -11,45 +14,44 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Agility_Buff)]
 	public class Agility_Buff : BuffHandler
 	{
-		private int speedBonus = 0;
+		private const string VarName = "Melia.MovementSpeedBonus";
 
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target as Character;
 
 			// It is not applyed to characters without Shoes
-			if (target != null && target.Inventory.GetEquip(EquipSlot.Shoes) != null)
+			if (target != null && !(target.Inventory.GetEquip(EquipSlot.Shoes) is DummyEquipItem))
 			{
-				// It is not applyed to characters without Gloves
+				var skillLevel = buff.NumArg1;
+				var caster = buff.Caster as Character;
 
-				if (target != null && target.Inventory.GetEquip(EquipSlot.Gloves) != null)
+				// Algorithm retrieved from client files.
+				var speedBonus = 1 + (skillLevel * 0.3);
+
+				if (caster.Abilities.Has(AbilityId.Enchanter8))
 				{
-					if (buff.Data.Level == 1 || buff.Data.Level == 2)
-					{
-						speedBonus = 2;
-					}
-					else if (buff.Data.Level == 3 || buff.Data.Level == 4)
-					{
-						speedBonus = 3;
-					}
-					else if (buff.Data.Level == 5 || buff.Data.Level == 6)
-					{
-						speedBonus = 4;
-					}
-					else if (buff.Data.Level == 7 || buff.Data.Level == 8)
-					{
-						speedBonus = 5;
-					} else {
-						speedBonus = 6;
-					}
-
-					// TODO: Apply "Agility: Enchant" (passive adquire through attribute points)
-					// TODO: Reduce the STAMINA consuption rate
-
-					target.Properties.Modify(PropertyName.MSPD_BM, speedBonus);
-
-					Send.ZC_MOVE_SPEED(target);
+					var ability = caster.Abilities.Get(AbilityId.Enchanter8);
+					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
+					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_Agility");
+					speedBonus += abilityBonus;
 				}
+
+				if (caster.Abilities.Has(AbilityId.Enchanter10))
+				{
+					var ability = caster.Abilities.Get(AbilityId.Enchanter10);
+					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
+					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_Agility");
+					speedBonus += abilityBonus;
+				}
+
+				// TODO: Reduce the STAMINA consuption rate
+
+				buff.Vars.SetFloat(VarName, (float)speedBonus);
+
+				target.Properties.Modify(PropertyName.MSPD_BM, (float)speedBonus);
+
+				Send.ZC_MOVE_SPEED(target);				
 			}				
 		}
 
@@ -59,7 +61,10 @@ namespace Melia.Zone.Buffs.Handlers
 			{
 				var target = buff.Target as Character;
 
-				target.Properties.Modify(PropertyName.MSPD_BM, -speedBonus);
+				if (buff.Vars.TryGetFloat(VarName, out var bonus))
+				{
+					buff.Target.Properties.Modify(PropertyName.MSPD_BM, -bonus);
+				}
 
 				Send.ZC_MOVE_SPEED(character);
 			}				

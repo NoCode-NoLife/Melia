@@ -11,12 +11,11 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.EnchantEarth_Buff)]
 	public class EnchantEarth_Buff : BuffHandler
 	{
-		private float blockPenetrationBonus = 0;
+		private const string VarName = "Melia.BlockPenetrationBonus";
 
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target as Character;
-			var SCR_Get_Character_MAXPATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK");
 
 			if (target != null)
 			{
@@ -24,12 +23,26 @@ namespace Melia.Zone.Buffs.Handlers
 
 				// Apply penality when the CASTER Max Physical Attack is lower than the TARGET Max Physical Attack
 				// TODO: Find out the exacly value of the penality (We are applying 50%)
-				var penalityValue = SCR_Get_Character_MAXPATK(caster) < SCR_Get_Character_MAXPATK(target) ? 0.5f : 1f;
+				var casterMaxPAtk = caster.Properties.GetFloat(PropertyName.MAXPATK);
+				var targetMaxPAtk = target.Properties.GetFloat(PropertyName.MAXPATK);
+				var penalityValue = casterMaxPAtk < targetMaxPAtk ? 0.5f : 1f;
 
-				// Based on in game values (tooltip)
-				blockPenetrationBonus = (8f + (1.6f * buff.Data.Level)) * penalityValue;
+				var skillLevel = buff.NumArg1;
 
-				// TODO: Apply "Enchant Earth: Enchant" (passive adquire through attribute points)
+				var data = ZoneServer.Instance.Data.SkillDb.Find("Enchanter_EnchantEarth");
+
+				var initialBlockPenBonus = data.Factor + (skillLevel * data.FactorByLevel);
+				var blockPenetrationBonus = initialBlockPenBonus * penalityValue;
+
+				if (caster.Abilities.Has(AbilityId.Enchanter12))
+				{
+					var ability = caster.Abilities.Get(AbilityId.Enchanter12);
+					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
+					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
+					blockPenetrationBonus += abilityBonus;
+				}
+
+				buff.Vars.SetFloat(VarName, blockPenetrationBonus);
 
 				buff.Target.Properties.Modify(PropertyName.BLK_BREAK_BM, blockPenetrationBonus);
 			}
@@ -41,7 +54,10 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (target != null)
 			{
-				buff.Target.Properties.Modify(PropertyName.BLK_BREAK_BM, -blockPenetrationBonus);
+				if (buff.Vars.TryGetFloat(VarName, out var bonus))
+				{
+					buff.Target.Properties.Modify(PropertyName.BLK_BREAK_BM, -bonus);
+				}
 			}
 		}
 	}
