@@ -2352,6 +2352,31 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Request to toggle an ability on or off.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TOGGLE_ABILITY)]
+		public void CZ_REQ_TOGGLE_ABILITY(IZoneConnection conn, Packet packet)
+		{
+			var abilityId = (AbilityId)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var ability = character.Abilities.Get(abilityId);
+
+			if (ability == null)
+			{
+				Log.Warning("CZ_REQ_TOGGLE_ABILITY: User '{0}' tried to toggle an ability they don't have ({1}).", character.Username, abilityId);
+				return;
+			}
+
+			ability.Active = !ability.Active;
+
+			Send.ZC_OBJECT_PROPERTY(conn, ability, PropertyName.ActiveState);
+			Send.ZC_ADDON_MSG(character, "RESET_ABILITY_ACTIVE", ability.Active ? 1 : 0, ability.Data.ClassName);
+		}
+
+		/// <summary>
 		/// ToS Hero Emblems?
 		/// </summary>
 		/// <param name="conn"></param>
