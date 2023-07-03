@@ -78,6 +78,7 @@ namespace Melia.Web
 
 			Log.Info("PHP not found. Downloading now...");
 
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
 			using (var wc = new WebClient())
 			{
 				var tempFileName = Path.GetTempFileName();
@@ -116,6 +117,7 @@ namespace Melia.Web
 					catch { }
 				}
 			}
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
 		}
 
 		/// <summary>
