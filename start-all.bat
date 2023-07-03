@@ -19,13 +19,13 @@ goto RUN
 rem Huh, maybe there's a build in bin\Release?
 :SUB_RELEASE
 IF NOT EXIST bin\Release\net7.0\%FILENAME%.exe GOTO SUB_DEBUG
-set PATH=bin\Release\
+set PATH=bin\Release\net7.0\
 goto RUN
 
 rem Mah... come here debug!
 :SUB_DEBUG
 IF NOT EXIST bin\Debug\net7.0\%FILENAME%.exe GOTO ERROR
-set PATH=bin\Debug\
+set PATH=bin\Debug\net7.0\
 
 rem Go, go, go!
 :RUN
