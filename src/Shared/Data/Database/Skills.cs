@@ -41,6 +41,8 @@ namespace Melia.Shared.Data.Database
 		public TimeSpan DefaultHitDelay { get; set; }
 		public TimeSpan DeadHitDelay { get; set; }
 		public TimeSpan ShootTime { get; set; }
+		public TimeSpan DelayTime { get; set; }
+		public TimeSpan CancelTime { get; set; }
 		public List<TimeSpan> HitTime { get; set; }
 		public List<TimeSpan> HoldTime { get; set; }
 
@@ -133,7 +135,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "hitTime", "holdTime", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -168,6 +170,8 @@ namespace Melia.Shared.Data.Database
 			data.DefaultHitDelay = entry.ReadTimeSpan("defaultHitDelay");
 			data.DeadHitDelay = entry.ReadTimeSpan("deadHitDelay");
 			data.ShootTime = entry.ReadTimeSpan("shootTime");
+			data.DelayTime = entry.ReadTimeSpan("delayTime");
+			data.CancelTime = entry.ReadTimeSpan("cancelTime");
 			data.HitTime = entry.ReadList<int>("hitTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 			data.HoldTime = entry.ReadList<int>("holdTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 

@@ -9,12 +9,14 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 
 public class SkillCalculationsScript : GeneralScript
 {
 	/// <summary>
-	/// Returns skill's splash range.
+	/// Returns skill's AoE Attack Ratio?
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
@@ -22,9 +24,12 @@ public class SkillCalculationsScript : GeneralScript
 	public float SCR_GET_SR_LV(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSR);
-		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SR);
 
-		return baseValue + byOwner;
+		var byOwner = 0f;
+		if (skill.Owner is Character character)
+			byOwner += character.Properties.GetFloat(PropertyName.SR);
+
+		return Math.Max(1, baseValue + byOwner);
 	}
 
 	/// <summary>
@@ -74,7 +79,7 @@ public class SkillCalculationsScript : GeneralScript
 		if (baseValue == 0)
 			return 0;
 
-		var ownerLevel = skill.Character.Level;
+		var ownerLevel = skill.Owner.Level;
 		var levelCorrection = ownerLevel - 300f;
 
 		// The value starts at ~18% at level 1 and keeps going up as the
@@ -106,7 +111,25 @@ public class SkillCalculationsScript : GeneralScript
 		// Not sure if this is correct in any shape or form
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Character.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		value += (value * 0.5f * overloadBuffCount);
+
+		return value;
+	}
+
+	/// <summary>
+	/// Returns the amount of SP spent when using the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Cure")]
+	public float SCR_Get_SpendSP_Cleric_Cure(Skill skill)
+	{
+		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
+
+		var value = SCR_Get_SpendSP(skill);
+
+		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Cure_Overload_Buff);
 		value += (value * 0.5f * overloadBuffCount);
 
 		return value;
@@ -146,8 +169,8 @@ public class SkillCalculationsScript : GeneralScript
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Square)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillRange);
-			byOwner += skill.Character.Properties.GetFloat(skill.Data.AttackType + "_Range");
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillRange);
+			byOwner += skill.Owner.Properties.GetFloat(skill.Data.AttackType + "_Range");
 		}
 
 		return baseValue + byOwner;
@@ -166,7 +189,7 @@ public class SkillCalculationsScript : GeneralScript
 			return skill.Data.SplashAngle;
 
 		var baseValue = skill.Data.SplashAngle;
-		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SkillAngle);
+		var byOwner = skill.Owner.Properties.GetFloat(PropertyName.SkillAngle);
 
 		return baseValue + byOwner;
 	}
@@ -180,19 +203,57 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_SplRange")]
 	public float SCR_Get_SplRange(Skill skill)
 	{
-		var baseValue = skill.Data.SplashRange;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplRange);
 
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Fan)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillRange);
-			byOwner += skill.Character.Properties.GetFloat(skill.Data.AttackType + "_Range");
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillRange);
+			byOwner += skill.Owner.Properties.GetFloat(skill.Data.AttackType + "_Range");
 		}
 		else if (skill.Data.SplashType == SplashType.Square)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillAngle);
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillAngle);
 		}
 
 		return baseValue + byOwner;
+	}
+
+	/// <summary>
+	/// Returns the skill's delay time, which appears to be used as the
+	/// delay until a monster can use a skill again.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_GET_DELAY_TIME")]
+	public float SCR_GET_DELAY_TIME(Skill skill)
+	{
+		if (!(skill.Owner is IMonster monster))
+			return skill.Properties.GetFloat(PropertyName.DelayTime);
+
+		if (skill.Data.ClassType == SkillClassType.Missile || skill.Data.UseType == SkillUseType.Force || skill.Data.UseType == SkillUseType.ForceGround)
+		{
+			if (monster.Level < 75)
+				return 3000;
+			else if (monster.Level < 170)
+				return 2500;
+			else if (monster.Level < 220)
+				return 2000;
+			else
+				return 1500;
+		}
+		else
+		{
+			if (monster.Level < 40)
+				return 3000;
+			else if (monster.Level < 75)
+				return 2500;
+			else if (monster.Level < 170)
+				return 2000;
+			else if (monster.Level < 220)
+				return 1500;
+			else
+				return 1000;
+		}
 	}
 }

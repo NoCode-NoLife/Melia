@@ -4,7 +4,6 @@ using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -61,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			if (!Feature.IsEnabled("DirectClericHeal"))
 				this.TriggerHeal(caster, skill);
 			else
-				this.BuffHeal(target, skill);
+				this.BuffHeal(caster, target, skill);
 		}
 
 		/// <summary>
@@ -70,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		private void BuffHeal(ICombatEntity target, Skill skill)
+		private void BuffHeal(ICombatEntity caster, ICombatEntity target, Skill skill)
 		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
@@ -79,7 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			var ratio2 = 150f + (skill.Level - 1) * 103f;
 			var healDuration = TimeSpan.FromSeconds(1);
 
-			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, skill.Character);
+			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
 		}
 
 		/// <summary>
@@ -143,7 +142,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 					if (level < minLevel)
 						continue;
 
-					var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
+					var pos = refPos.GetRelative(caster.Direction.Left, (xi - 2) * size);
 					pos = pos.GetRelative(caster.Direction, yi * size);
 
 					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
@@ -189,7 +188,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			{
 				if (initiator is Character)
 				{
-					this.BuffHeal(initiator, skill);
+					this.BuffHeal(caster, initiator, skill);
 				}
 				else
 				{

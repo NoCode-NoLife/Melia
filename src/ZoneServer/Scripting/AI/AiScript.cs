@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -100,7 +102,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void RemoveNonNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
+		private void RemoveNonNearbyHate(TimeSpan elapsed, IEnumerable<ICombatEntity> potentialEnemies)
 		{
 			_hateLevelsToRemove.Clear();
 
@@ -108,7 +110,7 @@ namespace Melia.Zone.Scripting.AI
 			{
 				var handle = entry.Key;
 
-				if (!potentialEnemies.Exists(a => a.Handle == handle))
+				if (!potentialEnemies.Any(a => a.Handle == handle))
 					_hateLevelsToRemove.Add(handle);
 			}
 
@@ -121,7 +123,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void IncreaseNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
+		private void IncreaseNearbyHate(TimeSpan elapsed, IEnumerable<ICombatEntity> potentialEnemies)
 		{
 			// Only increase hate for nearby enemies if the AI has
 			// aggressive tendencies
@@ -132,6 +134,9 @@ namespace Melia.Zone.Scripting.AI
 			foreach (var potentialEnemy in potentialEnemies)
 			{
 				if (!this.IsHostileTowards(potentialEnemy))
+					continue;
+
+				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.Cloaking_Buff))
 					continue;
 
 				var handle = potentialEnemy.Handle;
@@ -252,6 +257,20 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the hate towards the given entity is above
+		/// the aggro threshold.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool IsHating(ICombatEntity entity)
+		{
+			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
+				return false;
+
+			return (hate >= _minAggroHateLevel);
+		}
+
+		/// <summary>
 		/// Executed once during the AI's first tick.
 		/// </summary>
 		protected virtual void Setup()
@@ -276,7 +295,6 @@ namespace Melia.Zone.Scripting.AI
 		/// <summary>
 		/// Handles events that happened since the last tick.
 		/// </summary>
-		/// <exception cref="NotImplementedException"></exception>
 		private void HandleEventAlerts()
 		{
 			lock (_eventAlerts)
@@ -285,10 +303,21 @@ namespace Melia.Zone.Scripting.AI
 				{
 					var eventAlert = _eventAlerts.Dequeue();
 
-					if (eventAlert is HitEventAlert hitEventAlert)
+					switch (eventAlert)
 					{
-						if (hitEventAlert.Target.Handle == this.Entity.Handle)
-							this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+						case HitEventAlert hitEventAlert:
+						{
+							if (hitEventAlert.Target.Handle == this.Entity.Handle)
+								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+							break;
+						}
+
+						case HateResetAlert hateResetAlert:
+						{
+							var targetHandle = hateResetAlert.Target.Handle;
+							_hateLevels.Remove(targetHandle);
+							break;
+						}
 					}
 				}
 			}
@@ -424,6 +453,17 @@ namespace Melia.Zone.Scripting.AI
 		protected bool InRangeOf(ICombatEntity entity, float range)
 		{
 			return this.Entity.Position.InRange2D(entity.Position, (int)range);
+		}
+
+		/// <summary>
+		/// Sets whether the entity is running, which potentially affects
+		/// its movement speed.
+		/// </summary>
+		/// <param name="running"></param>
+		protected void SetRunning(bool running)
+		{
+			var moveSpeedType = running ? MoveSpeedType.Run : MoveSpeedType.Walk;
+			this.Entity.Components.Get<MovementComponent>().SetMoveSpeedType(moveSpeedType);
 		}
 	}
 }

@@ -15,7 +15,7 @@ using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Cleric
+namespace Melia.Zone.Skills.Handlers.Archer
 {
 	/// <summary>
 	/// Handler for the Archer skill Multishot.

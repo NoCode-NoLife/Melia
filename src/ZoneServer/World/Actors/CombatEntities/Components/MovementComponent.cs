@@ -32,6 +32,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public bool IsMoving { get; private set; }
 
 		/// <summary>
+		/// Returns the entity's current movement speed type.
+		/// </summary>
+		public MoveSpeedType MoveSpeedType { get; private set; }
+
+		/// <summary>
 		/// Creates new movement component.
 		/// </summary>
 		/// <param name="entity"></param>
@@ -143,6 +148,23 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Sets whether the entity is walking or running, scaling their
+		/// movement speed up and down accordingly. Not supported by
+		/// all entity types.
+		/// </summary>
+		/// <param name="type"></param>
+		public void SetMoveSpeedType(MoveSpeedType type)
+		{
+			if (this.Entity is Mob mob)
+			{
+				this.MoveSpeedType = type;
+				this.Entity.Properties.Invalidate(PropertyName.MSPD);
+
+				Send.ZC_MSPD(this.Entity);
+			}
+		}
+
+		/// <summary>
 		/// Updates the entity's position while it's moving.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -231,5 +253,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 			_triggerAreas = triggerAreas;
 		}
+	}
+
+	public enum MoveSpeedType
+	{
+		Walk,
+		Run,
 	}
 }

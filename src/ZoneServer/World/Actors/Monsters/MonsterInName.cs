@@ -5,7 +5,7 @@ using Melia.Shared.Tos.Const;
 namespace Melia.Zone.World.Actors.Monsters
 {
 	/// <summary>
-	/// Base class for monsters that are treates as monsters, but actually
+	/// Base class for monsters that are treated as monsters, but actually
 	/// have very little to do with them, such as warps and items.
 	/// </summary>
 	public abstract class MonsterInName : Actor, IMonster

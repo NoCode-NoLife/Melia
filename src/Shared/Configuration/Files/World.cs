@@ -18,6 +18,8 @@ namespace Melia.Shared.Configuration.Files
 		public float ExpRate { get; protected set; }
 		public float ClassExpRate { get; protected set; }
 
+		public bool DisableSDR { get; protected set; }
+
 		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
@@ -36,6 +38,8 @@ namespace Melia.Shared.Configuration.Files
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.ClassExpRate = this.GetFloat("class_exp_rate", 100);
+
+			this.DisableSDR = this.GetBool("disable_sdr", false);
 		}
 	}
 }

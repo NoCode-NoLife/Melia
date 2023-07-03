@@ -762,8 +762,9 @@ namespace Melia.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			var search = command.Substring(command.IndexOf(" ")).Trim();
+			var search = string.Join(" ", args.GetAll());
 			var items = ZoneServer.Instance.Data.ItemDb.FindAll(search);
+
 			if (items.Count == 0)
 			{
 				sender.ServerMessage("No items found for '{0}'.", search);
@@ -797,7 +798,7 @@ namespace Melia.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			var search = command.Substring(command.IndexOf(" ")).Trim();
+			var search = string.Join(" ", args.GetAll());
 			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAll(search);
 			if (monsters.Count == 0)
 			{

@@ -83,6 +83,7 @@ public class CharacterInitializationScript : GeneralScript
 		LearnSkill(character, SkillId.Normal_Attack_TH);
 		LearnSkill(character, SkillId.Warrior_Guard);
 		LearnSkill(character, SkillId.Pistol_Attack);
+		LearnSkill(character, SkillId.Common_DaggerAries);
 
 		LearnAbility(character, AbilityId.Sword);
 		LearnAbility(character, AbilityId.Staff);
