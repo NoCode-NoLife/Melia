@@ -1105,15 +1105,16 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var cost = (amount * 1000);
+			var costPerPoint = ZoneServer.Instance.Conf.World.AbilityPointCost;
+			var totalCost = (amount * costPerPoint);
 			var silver = sender.Inventory.CountItem(ItemId.Silver);
-			if (silver < cost)
+			if (silver < totalCost)
 			{
 				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
-			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
+			sender.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
 
 			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
