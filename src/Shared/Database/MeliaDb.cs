@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Melia.Shared.Tos.Properties;
 using Melia.Shared.ObjectProperties;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 

@@ -17,7 +17,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 

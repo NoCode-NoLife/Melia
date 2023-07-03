@@ -6,7 +6,7 @@ using System.Text;
 using Melia.Shared.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;
@@ -111,9 +111,9 @@ namespace Melia.Barracks.Database
 
 					var account = new Account();
 					account.Id = reader.GetInt64("accountId");
-					account.Name = reader.GetStringSafe("name");
-					account.TeamName = reader.GetStringSafe("teamName");
-					account.Password = reader.GetStringSafe("password");
+					account.Name = reader.GetString("name");
+					account.TeamName = reader.GetString("teamName");
+					account.Password = reader.GetString("password");
 					account.Medals = reader.GetInt32("medals");
 					account.GiftMedals = reader.GetInt32("giftMedals");
 					account.PremiumMedals = reader.GetInt32("premiumMedals");
@@ -122,7 +122,7 @@ namespace Melia.Barracks.Database
 					account.SelectedBarrack = reader.GetInt32("barracksThema");
 					account.SelectedCharacterSlot = reader.GetInt32("selectedSlot");
 
-					var themas = reader.GetStringSafe("themas");
+					var themas = reader.GetString("themas");
 					account.Themas.Clear();
 					account.Themas.UnionWith(themas.Split(' ').Select(int.Parse));
 
@@ -286,7 +286,7 @@ namespace Melia.Barracks.Database
 							var character = new Character();
 							character.Id = reader.GetInt64("characterId");
 							character.AccountId = accountId;
-							character.Name = reader.GetStringSafe("name");
+							character.Name = reader.GetString("name");
 							character.JobId = (JobId)reader.GetInt16("job");
 							character.Gender = (Gender)reader.GetByte("gender");
 							character.Hair = reader.GetInt32("hair");

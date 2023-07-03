@@ -68,7 +68,7 @@ namespace Melia.Shared
 			Directory.SetCurrentDirectory(appDirectory);
 
 			var folderNames = new[] { "lib", "user", "system" };
-			var tries = 3;
+			var tries = 4;
 
 			var cwd = Directory.GetCurrentDirectory();
 			for (var i = 0; i < tries; ++i)
