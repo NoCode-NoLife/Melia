@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -68,20 +67,12 @@ namespace Melia.Zone.Skills.Handlers.Scout
 		{
 			var hits = new List<SkillHitInfo>();
 
-			//HardCoded Values - @TODO: Make it dynamic
-			var AoeAttackRatio = 6;
-
 			var damageDelay = TimeSpan.Zero;
 			var secondHitTime = TimeSpan.FromMilliseconds(100);
 			var damageSecondDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			if (targets.Count > AoeAttackRatio)
-			{
-				targets = targets.GetRange(0, AoeAttackRatio);
-			}
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea).LimitBySDR(caster, skill);
 
 			foreach (var target in targets)
 			{
