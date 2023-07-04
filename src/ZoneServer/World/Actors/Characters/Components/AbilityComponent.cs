@@ -70,6 +70,23 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the level of the given ability. Returns 0 if the
+		/// character doesn't have the ability.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public int GetLevel(AbilityId abilityId)
+		{
+			lock (_abilities)
+			{
+				if (_abilities.TryGetValue(abilityId, out var ability))
+					return ability.Level;
+			}
+
+			return 0;
+		}
+
+		/// <summary>
 		/// Returns true if character has the ability at at least the
 		/// given level.
 		/// </summary>
@@ -80,6 +97,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			var ability = this.Get(abilityId);
 			return (ability != null && ability.Level >= level);
 		}
+
+		/// <summary>
+		/// Returns true if the character has the given ability and it's
+		/// toggled on. Abilities that aren't toggleable are considered
+		/// always-on.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public bool IsActive(AbilityId abilityId)
+			=> this.Get(abilityId)?.Active ?? false;
 
 		/// <summary>
 		/// Returns the ability with the given id, or null if it didn't
@@ -109,6 +136,25 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Adds the ability at the given level. If it already exists
+		/// its level is updated.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <param name="level"></param>
+		public void Learn(AbilityId abilityId, int level)
+		{
+			lock (_abilities)
+			{
+				if (_abilities.TryGetValue(abilityId, out var ability))
+					ability.Level = level;
+				else
+					_abilities[abilityId] = new Ability(abilityId, level);
+			}
+
+			Send.ZC_ABILITY_LIST(this.Character);
+		}
+
+		/// <summary>
 		/// Toggles ability with the given class name on or off.
 		/// Returns whether it was successfully toggled.
 		/// </summary>
@@ -127,7 +173,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			ability.Active = !ability.Active;
 
 			Send.ZC_OBJECT_PROPERTY(this.Character.Connection, ability);
-			Send.ZC_ADDON_MSG(this.Character, AddonMessage.RESET_ABILITY_ACTIVE, "Swordman28");
+			Send.ZC_ADDON_MSG(this.Character, AddonMessage.RESET_ABILITY_ACTIVE, 0, "Swordman28");
 
 			return true;
 		}

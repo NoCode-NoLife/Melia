@@ -733,18 +733,56 @@ namespace Melia.Zone.Network
 
 			foreach (var ability in abilities)
 			{
-				var propertyList = ability.Properties.GetAll();
-				var propertiesSize = propertyList.GetByteCount();
+				//var propertyList = ability.Properties.GetAll();
+				//var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutLong(ability.ObjectId);
 				packet.PutInt((int)ability.Id);
-				packet.PutShort(propertiesSize);
+				packet.PutShort(0); // propertiesSize
 				packet.PutShort(0);
 
-				if (propertiesSize > 0)
-					packet.AddProperties(propertyList);
-				else
+				// The ability properties are weird. Not only do they
+				// seem to use a count instead of a size now and include
+				// some byte, but they also don't appear unless one of
+				// them has a non-default value? Without properties the
+				// ability is displayed as level 1.
+
+				//if (propertiesSize > 0)
+				//	packet.AddProperties(propertyList);
+
+				var sendProperties = ability.Level > 1 || !ability.Active;
+
+				if (!sendProperties)
+				{
 					packet.PutInt(0);
+				}
+				else
+				{
+					var propertyList = ability.Properties.GetAll();
+
+					packet.PutInt(propertyList.Count);
+					foreach (var property in propertyList)
+					{
+						var propertyId = PropertyTable.GetId("Ability", property.Ident);
+
+						packet.PutInt(propertyId);
+						packet.PutByte(0);
+
+						switch (property)
+						{
+							case FloatProperty floatProperty:
+								packet.PutFloat(floatProperty.Value);
+								break;
+
+							case StringProperty stringProperty:
+								packet.PutLpString(stringProperty.Value);
+								break;
+
+							default:
+								throw new ArgumentException($"Unknown property type: {property.GetType().Name}");
+						}
+					}
+				}
 			}
 
 			character.Connection.Send(packet);
@@ -1767,20 +1805,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
-		{
-			ZC_ADDON_MSG(character, 0, msg, parameter);
-		}
-
-		/// <summary>
-		/// Executes Lua addon function.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="duration">Duration that messages are displayed in seconds?</param>
-		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
+		/// <param name="argNum"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg, int argNum, string argStr)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
@@ -1789,12 +1816,12 @@ namespace Melia.Zone.Network
 				throw new ArgumentException($"Message is too long with {msgByteLength} bytes. The maximum length is {byte.MaxValue}.");
 
 			packet.PutByte((byte)msgByteLength);
-			packet.PutInt(duration);
+			packet.PutInt(argNum);
 			packet.PutByte(0);
 			packet.PutRawString(msg);
 
-			if (parameter != null)
-				packet.PutRawString(parameter);
+			if (argStr != null)
+				packet.PutRawString(argStr);
 
 			character.Connection.Send(packet);
 		}
@@ -2925,22 +2952,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_CUSTOM_COMMANDER_INFO to character (dummy).
+		/// Updates the given value on the character's client.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="type"></param>
-		/// <param name="amount"></param>
-		public static void ZC_CUSTOM_COMMANDER_INFO(IZoneConnection conn, int type = 3, int amount = 0)
+		/// <param name="value"></param>
+		public static void ZC_CUSTOM_COMMANDER_INFO(Character character, CommanderInfoType type, int value)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
 
 			packet.PutLong(0);
 			packet.PutInt(0);
-			packet.PutShort(type); // Attribute Points = 3
-			packet.PutInt(amount);
+			packet.PutShort((short)type);
+			packet.PutInt(value);
 			packet.PutInt(0);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>

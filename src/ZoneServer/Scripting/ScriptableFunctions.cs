@@ -59,7 +59,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="obj"></param>
 		public static void Load(object obj)
 		{
-			foreach (var method in obj.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+			foreach (var method in obj.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
 			{
 				foreach (var attribute in method.GetCustomAttributes<ScriptableFunctionAttribute>(false))
 				{
@@ -171,16 +171,9 @@ namespace Melia.Zone.Scripting
 	/// <param name="abilityData"></param>
 	/// <param name="abilityTreeData"></param>
 	/// <param name="abilityLevel"></param>
+	/// <param name="maxLevel"></param>
 	/// <param name="price"></param>
 	/// <param name="time"></param>
 	/// <returns></returns>
-	public delegate void AbilityPriceFunc(Character character, AbilityData abilityData, AbilityTreeData abilityTreeData, int abilityLevel, out int price, out int time);
-
-	/// <summary>
-	/// A function body that helps with ability related functions.
-	/// </summary>
-	/// <param name="ability"></param>
-	/// <param name="SkillClassName"></param>
-	/// <returns></returns>
-	public delegate float AbilityFunc(Ability ability, string SkillClassName);
+	public delegate void AbilityPriceFunc(Character character, AbilityData abilityData, int abilityLevel, int maxLevel, out int price, out int time);
 }
