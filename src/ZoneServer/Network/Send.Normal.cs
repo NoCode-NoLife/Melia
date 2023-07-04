@@ -994,9 +994,6 @@ namespace Melia.Zone.Network
 
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(-1);
-				packet.PutInt(0);
-				packet.PutShort(packet.Length);
 				packet.PutInt(NormalOp.Zone.PartyCreate1);
 				packet.PutShort(0); // Party Type
 				packet.PutLong(character.Party.DbId);
@@ -1018,9 +1015,6 @@ namespace Melia.Zone.Network
 
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(-1);
-				packet.PutInt(0);
-				packet.PutShort(packet.Length);
 				packet.PutInt(NormalOp.Zone.PartyCreate2);
 				packet.PutInt(character.Handle);
 				packet.PutLong(character.Party.DbId);

@@ -2421,6 +2421,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Sent when attacking with sub-weapon.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_OUT)]
+		public void CZ_PARTY_OUT(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (character.Party == null)
+			{
+				return;
+			}
+
+			character.Parties.LeaveParty();
+		}
+		
+
+		/// <summary>
 		/// Sent upon login.
 		/// </summary>
 		/// <param name="conn"></param>

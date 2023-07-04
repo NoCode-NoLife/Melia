@@ -44,18 +44,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				Character.Party = party;
-
-				if (Character.Party.Members.Count <= maxMembers)
+				if ((Character.Party != null && Character.Party.Members.Count <= maxMembers) || Character.Party == null)
 				{
+					Character.Party = party;
+
 					Character.Party.Members.Add(Character);
-					// ZoneServer.Instance.Database.JoinParty(Character, Character);
-				}
 
-				if (!_parties.Contains(party))
-				{
-					_parties.Add(party);
-				}				
+					if (!_parties.Contains(party))
+					{
+						_parties.Add(party);
+					}
+				}		
 			}
 		}
 
@@ -103,7 +102,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				AddSilent(party);
 				Send.ZC_PARTY_INFO(Character);
 				Send.ZC_PARTY_LIST(Character);
+				
+				Send.ZC_ADDON_MSG(Character, "GAME_START", "None");
 				Send.ZC_ADDON_MSG(Character, "PARTY_JOIN", "None");
+				Send.ZC_ADDON_MSG(Character, "PARTY_UPDATE", "None");
 
 				Send.ZC_NORMAL.PartyCreatedNotify(Character);
 				Send.ZC_NORMAL.PartyCreatedNotify2(Character);
@@ -133,7 +135,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				return;
 			}
 
-			if (Character.DbId == Character.Party.LeaderId)
+			ZoneServer.Instance.Database.LeaveParty(Character);
+
+			foreach (var member in Character.Party.Members)
+			{
+				Send.ZC_PARTY_OUT(member, Character);
+				Send.ZC_ADDON_MSG(member, "PARTY_UPDATE", "None");
+			}
+
+			Send.ZC_ADDON_MSG(Character, "PARTY_OUT", "None");
+
+			if (Character.AccountId == Character.Party.LeaderId)
 			{
 				if (Character.Party.Members.Count >= 2)
 				{
@@ -146,24 +158,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 						Character.Party.SetNewLeader(Character.Party.Members[newLeader].DbId, Character.Party.Members[newLeader].TeamName);
 					}
 					
-					//TODO: Notify Client about the new leader
+					//TODO: Notify other Clients about the new leader
 
 					Character.Party = null;
 				}
 				else
 				{
 					var party = Character.Party;
-
-					//TODO: Notify Client about the character that left the party
-
+					DisbandParty();
 					party.Dispose();
 				}
 			}
 
-			ZoneServer.Instance.Database.LeaveParty(Character);
 			Character.Party = null;
-
-			//TODO: Notify Client about the character that left the party
 		}
 
 		/// <summary>
@@ -175,11 +182,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (Character.Party == null)
 			{
 				return;
-			}
-
-			foreach (var member in Character.Party.Members)
-			{
-				member.Parties.LeaveParty();
 			}
 
 			var party = Character.Party;
@@ -200,6 +202,29 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 		/// <summary>
 		/// Add a member to the party.
+		/// </summary>
+		/// <returns></returns>
+		public void RejoinParty(Character member, Party party)
+		{
+			if (Character.Party == null || member == null)
+			{
+				return;
+			}
+
+			if (!Character.Party.Members.Contains(member))
+			{
+				if (Character.Party.Members.Count <= maxMembers)
+				{
+					Character.Party.Members.Add(member);
+					member.Party = party;
+				}
+			}
+
+			// TODO: Notify Client about the member that has joined the party
+		}
+
+		/// <summary>
+		/// Add a member to the party that was not in it.
 		/// </summary>
 		/// <returns></returns>
 		public bool JoinParty(Character joiningCharacter)
@@ -229,7 +254,15 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		public void UpdateClient()
 		{
-			// TODO: implement this
+			Send.ZC_PARTY_INFO(Character);
+			Send.ZC_PARTY_LIST(Character);
+
+			Send.ZC_ADDON_MSG(Character, "GAME_START", "None");
+			Send.ZC_ADDON_MSG(Character, "PARTY_JOIN", "None");
+			Send.ZC_ADDON_MSG(Character, "PARTY_UPDATE", "None");
+
+			Send.ZC_NORMAL.PartyCreatedNotify(Character);
+			Send.ZC_NORMAL.PartyCreatedNotify2(Character);
 		}
 	}
 }

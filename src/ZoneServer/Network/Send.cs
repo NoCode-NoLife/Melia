@@ -3776,7 +3776,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PARTY_INFO to character, notices a party
+		/// Sends ZC_PARTY_INFO, notices a party
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_PARTY_INFO(Character character)
@@ -3787,11 +3787,6 @@ namespace Melia.Zone.Network
 			}
 
 			var packet = new Packet(Op.ZC_PARTY_INFO);
-
-			//Header
-			packet.PutInt(-1);
-			packet.PutInt(0);
-			packet.PutShort(packet.Length);
 
 			packet.PutShort(0); //Party Type
 			packet.PutDate(character.Party.CreationTime);
@@ -3806,13 +3801,11 @@ namespace Melia.Zone.Network
 			packet.PutShort(0);
 			packet.PutShort(0);
 
-			Log.Debug(packet.ToString());
-
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends ZC_PARTY_LIST to character, notices the party members
+		/// Sends ZC_PARTY_LIST, notices the party members
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_PARTY_LIST(Character character)
@@ -3825,11 +3818,6 @@ namespace Melia.Zone.Network
 			var members = character.Party.Members;
 
 			var packet = new Packet(Op.ZC_PARTY_LIST);
-
-			//Header
-			packet.PutInt(-1);
-			packet.PutInt(0);
-			packet.PutInt(packet.Length);
 
 			packet.PutLong(0);
 			packet.PutShort(0);  //Party Type
@@ -3896,9 +3884,28 @@ namespace Melia.Zone.Network
 				packet.PutShort(0);
 			}
 
-			Log.Debug(packet.ToString());
-
 			character.Connection.Send(packet);			
+		}
+
+		/// <summary>
+		/// Sends ZC_PARTY_OUT, notices a character that left the party
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_OUT(Character character, Character leftPartyCharacter)
+		{
+			if (character.Party == null)
+			{
+				return;
+			}
+
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte(0); //Party Type?
+			packet.PutLong(character.Party.DbId);
+			packet.PutLong(leftPartyCharacter.AccountId);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
 		}
 
 		public static void DUMMY(IZoneConnection conn)

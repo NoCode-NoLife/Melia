@@ -1254,6 +1254,7 @@ namespace Melia.Zone.Database
 		private void LoadParty(Character character)
 		{
 			var partyId = 0L;
+			Party party = null;
 
 			using (var conn = this.GetConnection())
 			{
@@ -1286,8 +1287,23 @@ namespace Melia.Zone.Database
 									var leaderTeamName = readerParty.GetStringSafe("leaderTeamName");
 									var creationTime = readerParty.GetDateTimeSafe("creationTime");
 
-									var party = new Party(name, description, leaderId, creationTime, leaderTeamName, dbId);
+									party = new Party(name, description, leaderId, creationTime, leaderTeamName, dbId);
 									character.Parties.AddSilent(party);
+								}
+							}
+
+							using (var cmdAccounts = new MySqlCommand("SELECT `teamName` FROM `accounts` WHERE `partyId` = @partyId", conn))
+							{
+								cmdAccounts.Parameters.AddWithValue("@partyId", partyId);
+
+								using (var readerAccounts = cmdAccounts.ExecuteReader())
+								{
+									while (readerAccounts.Read())
+									{
+										var teamName = readerAccounts.GetStringSafe("teamName");
+										var memberCharacter = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+										character.Parties.RejoinParty(memberCharacter, party);
+									}
 								}
 							}
 						}
