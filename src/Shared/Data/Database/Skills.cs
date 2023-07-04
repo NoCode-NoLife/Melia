@@ -49,6 +49,8 @@ namespace Melia.Shared.Data.Database
 		public bool EnableCastMove { get; set; }
 
 		public AbilityId ReinforceAbility { get; set; }
+		public AbilityId HiddenReinforceAbility { get; set; }
+		public float HiddenReinforceAbilityFactorByLevel { get; set; }
 
 		public CooldownId CooldownGroup { get; set; }
 		public TimeSpan CooldownTime { get; set; }
@@ -179,7 +181,9 @@ namespace Melia.Shared.Data.Database
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 
-			data.ReinforceAbility = entry.ReadEnum<AbilityId>("reinforceAbility");
+			data.ReinforceAbility = entry.ReadEnum<AbilityId>("reinforceAbility", 0);
+			data.HiddenReinforceAbility = entry.ReadEnum<AbilityId>("hiddenReinforceAbility", 0);
+			data.HiddenReinforceAbilityFactorByLevel = entry.ReadFloat("hiddenReinforceAbilityFactorByLevel", 0);
 
 			data.CooldownGroup = entry.ReadEnum<CooldownId>("cooldownGroup", CooldownId.Default);
 			data.CooldownTime = entry.ReadTimeSpan("cooldownTime", TimeSpan.Zero);
