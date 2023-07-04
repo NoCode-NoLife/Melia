@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -64,11 +65,14 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
 
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				// Ability "Earthquake: Remove Knockdown"
+				if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard13))
+				{
+					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 
-				Debug.ShowPosition(target.Map, target.Position);
+					target.Position = skillHit.KnockBackInfo.ToPosition;
+				}
 
 				skillHits.Add(skillHit);
 			}
