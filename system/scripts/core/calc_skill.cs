@@ -99,43 +99,6 @@ public class SkillCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Heal")]
-	public float SCR_Get_SpendSP_Cleric_Heal(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		// Not sure if this is correct in any shape or form
-		var value = SCR_Get_SpendSP(skill);
-
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
-
-		return value;
-	}
-
-	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Cure")]
-	public float SCR_Get_SpendSP_Cleric_Cure(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		var value = SCR_Get_SpendSP(skill);
-
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Cure_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
-
-		return value;
-	}
-
-	/// <summary>
 	/// Returns the amount of stamina spent when using the skill.
 	/// </summary>
 	/// <param name="skill"></param>
