@@ -238,7 +238,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var moveSpeedType = monster.Components.Get<MovementComponent>().MoveSpeedType;
+		var moveSpeedType = monster.Components.Get<MovementComponent>()?.MoveSpeedType ?? 0;
 		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
 		var baseValue = monster.Properties.GetFloat(propertyName);
 
