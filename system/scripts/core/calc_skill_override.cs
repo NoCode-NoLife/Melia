@@ -4,14 +4,10 @@
 // Functions that calculate skill-related values, such as properties.
 //---------------------------------------------------------------------------
 
-using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
 
 public class SkillOverrideCalculationsScript : GeneralScript
 {
