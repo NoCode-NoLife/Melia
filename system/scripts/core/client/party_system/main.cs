@@ -4,11 +4,13 @@
 // Adds client-side support for our custom party system.
 //---------------------------------------------------------------------------
 
+using System;
 using Melia.Shared.Scripting;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 using static Melia.Zone.Scripting.Shortcuts;
 
@@ -32,12 +34,11 @@ public class PartySystemClientScript : ClientScript
 	{
 		var partyName = args.Get(0);
 
-		Log.Debug("PartySystemClientScript: Unknown action '{0}' in message '{1}'.", partyName, message);
+		Log.Debug("PartySystemClientScript: Requested to create the party '{0}' in message '{1}'.", partyName, message);
 
-		if (args.Count < 1)
-		{
-			return CommandResult.Okay;
-		}
+		var rnd = RandomProvider.Get();
+		var randomNumber = rnd.Next(10000, 99999);
+		partyName = partyName + randomNumber.ToString();
 
 		if (!sender.Parties.PartyNameExists(partyName))
 		{

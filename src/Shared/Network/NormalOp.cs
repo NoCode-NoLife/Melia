@@ -64,6 +64,8 @@
 			public const int WigVisibilityUpdate = 0x1AC;
 			public const int Unknown_1B4 = 0x1B7;
 			public const int SubWeaponVisibilityUpdate = 0x1C5;
+			public const int PartyCreate1 = 0xF9;
+			public const int PartyCreate2 = 0x13C;
 		}
 	}
 }

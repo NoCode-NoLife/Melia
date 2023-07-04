@@ -980,6 +980,56 @@ namespace Melia.Zone.Network
 
 				entity.Map.Broadcast(packet, entity);
 			}
+
+			/// <summary>
+			/// Sends Party Creation Properties.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void PartyCreatedNotify(Character character)
+			{
+				if (character.Party == null)
+				{
+					return;
+				}
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(-1);
+				packet.PutInt(0);
+				packet.PutShort(packet.Length);
+				packet.PutInt(NormalOp.Zone.PartyCreate1);
+				packet.PutShort(0); // Party Type
+				packet.PutLong(character.Party.DbId);
+				packet.PutLong(character.AccountId); // Should This be the leader account id?
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Sends Party Creation Properties.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void PartyCreatedNotify2(Character character)
+			{
+				if (character.Party == null)
+				{
+					return;
+				}
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(-1);
+				packet.PutInt(0);
+				packet.PutShort(packet.Length);
+				packet.PutInt(NormalOp.Zone.PartyCreate2);
+				packet.PutInt(character.Handle);
+				packet.PutLong(character.Party.DbId);
+				packet.PutByte(1);
+				packet.PutLpString(character.Party.Name);
+				packet.PutByte(3);
+
+				character.Connection.Send(packet);
+			}
 		}
 	}
 }

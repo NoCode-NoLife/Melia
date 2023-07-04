@@ -46,6 +46,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			{
 				Character.Party = party;
 
+				if (Character.Party.Members.Count <= maxMembers)
+				{
+					Character.Party.Members.Add(Character);
+					// ZoneServer.Instance.Database.JoinParty(Character, Character);
+				}
+
 				if (!_parties.Contains(party))
 				{
 					_parties.Add(party);
@@ -98,6 +104,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				Send.ZC_PARTY_INFO(Character);
 				Send.ZC_PARTY_LIST(Character);
 				Send.ZC_ADDON_MSG(Character, "PARTY_JOIN", "None");
+
+				Send.ZC_NORMAL.PartyCreatedNotify(Character);
+				Send.ZC_NORMAL.PartyCreatedNotify2(Character);
 			}
 		}
 
@@ -193,7 +202,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Add a member to the party.
 		/// </summary>
 		/// <returns></returns>
-		private bool JoinParty(Character joiningCharacter)
+		public bool JoinParty(Character joiningCharacter)
 		{
 			if (!Character.Party.Members.Contains(joiningCharacter))
 			{

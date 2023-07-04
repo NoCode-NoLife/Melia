@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -23,6 +24,7 @@ using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Parties;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -3789,19 +3791,22 @@ namespace Melia.Zone.Network
 			//Header
 			packet.PutInt(-1);
 			packet.PutInt(0);
-			packet.PutInt(78);
+			packet.PutShort(packet.Length);
 
 			packet.PutShort(0); //Party Type
+			packet.PutDate(character.Party.CreationTime);
 			packet.PutLong(character.Party.DbId);
-			packet.PutString(character.Party.Name.ToString(), 16);
+			packet.PutLpString(character.Party.Name.ToString());
 			packet.PutLong(character.Party.LeaderId);
-			packet.PutString(character.Party.LeaderTeamName.ToString(), 32);
+			packet.PutLpString(character.Party.LeaderTeamName.ToString());
 			packet.PutInt(0);
 			packet.PutInt(1);
 			packet.PutShort(1);
 			packet.PutShort(256);
 			packet.PutShort(0);
 			packet.PutShort(0);
+
+			Log.Debug(packet.ToString());
 
 			character.Connection.Send(packet);
 		}
@@ -3824,7 +3829,7 @@ namespace Melia.Zone.Network
 			//Header
 			packet.PutInt(-1);
 			packet.PutInt(0);
-			packet.PutInt(360);
+			packet.PutInt(packet.Length);
 
 			packet.PutLong(0);
 			packet.PutShort(0);  //Party Type
@@ -3842,6 +3847,7 @@ namespace Melia.Zone.Network
 
 				packet.PutLong(member.AccountId);
 				packet.PutString(member.TeamName.ToString(), 32);
+				packet.PutLong(member.DbId);
 				packet.PutInt(0);
 				packet.PutInt(0);
 				packet.PutInt(0);
@@ -3855,10 +3861,9 @@ namespace Melia.Zone.Network
 				packet.PutShort(0);
 				packet.PutInt(member.Job.Level);
 				packet.PutShort(1);
-				packet.PutShort(45); //member.Job.MaxLevel?
+				packet.PutInt(45); //member.Job.MaxLevel?
 				packet.PutShort(1);
-				packet.PutInt(41);
-				packet.PutLong(0);
+				packet.PutInt(41); //member.Job.Level?
 				packet.PutLong(0);
 				packet.PutLong(0);
 				packet.PutLong(0);
@@ -3891,7 +3896,9 @@ namespace Melia.Zone.Network
 				packet.PutShort(0);
 			}
 
-			character.Connection.Send(packet);
+			Log.Debug(packet.ToString());
+
+			character.Connection.Send(packet);			
 		}
 
 		public static void DUMMY(IZoneConnection conn)
