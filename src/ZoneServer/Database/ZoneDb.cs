@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -21,6 +23,7 @@ using Melia.Zone.World.Maps;
 using Melia.Zone.World.Parties;
 using Melia.Zone.World.Quests;
 using MySql.Data.MySqlClient;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -163,6 +166,7 @@ namespace Melia.Zone.Database
 			this.LoadBuffs(character);
 			this.LoadCooldowns(character);
 			this.LoadQuests(character);
+			this.LoadParty(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
@@ -408,6 +412,7 @@ namespace Melia.Zone.Database
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
+			this.SaveParty(character);
 
 			return false;
 		}
@@ -1218,13 +1223,23 @@ namespace Melia.Zone.Database
 					using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
 					{
 						cmd.Set("leaderId", party.LeaderId);
+						cmd.Set("leaderTeamName", party.LeaderTeamName);
 						cmd.Set("name", party.Name);
 						cmd.Set("description", party.Description);
+						cmd.Set("creationTime", party.CreationTime);
 
 						cmd.Execute();
 
 						partyId = cmd.LastId;
 						party.DbId = partyId;
+
+						using (var cmdUpdate = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+						{
+							cmdUpdate.AddParameter("@accountId", character.AccountId);
+							cmdUpdate.Set("partyId", partyId);
+
+							cmdUpdate.Execute();
+						}
 					}
 				}
 
@@ -1238,17 +1253,24 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void LoadParty(Character character)
 		{
+			var partyId = 0L;
+
 			using (var conn = this.GetConnection())
-			using (var cmd = new MySqlCommand("SELECT `partyId` FROM `character` WHERE `characterId` = @characterId", conn))
 			{
-				cmd.Parameters.AddWithValue("@characterId", character.DbId);
-
-				using (var reader = cmd.ExecuteReader())
+				using (var cmd = new MySqlCommand("SELECT `partyId` FROM `accounts` WHERE `accountId` = @accountId", conn))
 				{
-					while (reader.Read())
-					{
-						var partyId = reader.GetInt32("partyId");
+					cmd.Parameters.AddWithValue("@accountId", character.AccountId);
 
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							partyId = reader.GetInt64("partyId");
+						}
+					}
+
+					if (partyId != 0)
+					{
 						using (var cmdParty = new MySqlCommand("SELECT * FROM `party` WHERE `partyId` = @partyId", conn))
 						{
 							cmdParty.Parameters.AddWithValue("@partyId", partyId);
@@ -1257,21 +1279,163 @@ namespace Melia.Zone.Database
 							{
 								while (readerParty.Read())
 								{
-									var dbId = reader.GetInt64("partyId");
-									var name = reader.GetStringSafe("name");
-									var description = reader.GetStringSafe("description");
-									var leaderId = reader.GetInt64("leaderId");
+									var dbId = readerParty.GetInt64("partyId");
+									var name = readerParty.GetStringSafe("name");
+									var description = readerParty.GetStringSafe("description");
+									var leaderId = readerParty.GetInt64("leaderId");
+									var leaderTeamName = readerParty.GetStringSafe("leaderTeamName");
+									var creationTime = readerParty.GetDateTimeSafe("creationTime");
 
-									var party = new Party(name, description, leaderId, dbId);
+									var party = new Party(name, description, leaderId, creationTime, leaderTeamName, dbId);
 									character.Parties.AddSilent(party);
 								}
 							}
 						}
-
 					}
+				}
+			}			
+		}
+
+		/// <summary>
+		/// Inserts a party into the database.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public Party CreateParty(string name, string description, Character leader)
+		{
+			Party party;
+
+			// Checking if the character is already on a party
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new MySqlCommand("SELECT `partyId` FROM `accounts` WHERE `accountId` = @accountId", conn))
+				{
+					cmd.Parameters.AddWithValue("@accountId", leader.AccountId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var partyId = reader.GetInt64("partyId");
+
+							if (partyId != 0)
+							{
+								return null;
+							}
+						}
+					}
+				}
+
+				using (var trans = conn.BeginTransaction())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
+					{
+						var creationTime = DateTime.Now;
+
+						cmd.Set("leaderId", leader.AccountId);
+						cmd.Set("leaderTeamName", leader.TeamName);
+						cmd.Set("name", name);
+						cmd.Set("description", description);
+						cmd.Set("creationTime", creationTime);
+
+						cmd.Execute();
+
+						var partyId = cmd.LastId;
+						party = new Party(name, description, leader.AccountId, creationTime, leader.TeamName, partyId);
+						leader.Parties.AddSilent(party);
+
+						using (var cmdUpdate = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+						{
+							cmdUpdate.AddParameter("@accountId", leader.AccountId);
+							cmdUpdate.Set("partyId", partyId);
+
+							if (cmdUpdate.Execute() == 0)
+							{
+								return null;
+							}
+						}
+					}
+
+					trans.Commit();
+				}
+			}
+
+			return party;
+		}
+
+		/// <summary>
+		/// Deletes party.
+		/// </summary>
+		/// <param name="partyId"></param>
+		/// <returns></returns>
+		public bool DeleteParty(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				// Checking if the party exists by the given Id
+				using (var cmd = new MySqlCommand("SELECT `leaderId` FROM `party` WHERE `partyId` = @partyId", conn))
+				{
+					cmd.Parameters.AddWithValue("@partyId", character.Party.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var leaderId = reader.GetInt64("leaderId");
+
+							if (leaderId == 0)
+							{
+								return false;
+							}
+						}
+					}
+				}
+
+				using (var mc = new MySqlCommand("DELETE FROM `party` WHERE `partyId` = @partyId", conn))
+				{
+					mc.Parameters.AddWithValue("@partyId", character.Party.DbId);
+					return mc.ExecuteNonQuery() > 0;
 				}
 			}
 		}
 
+		/// <summary>
+		/// Leaves the party.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool LeaveParty(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmdUpdate = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+				{
+					cmdUpdate.AddParameter("@accountId", character.AccountId);
+					cmdUpdate.Set("partyId", 0);
+
+					return cmdUpdate.Execute() > 0;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Joins the party.
+		/// </summary>
+		/// <param name="leader"></param>
+		/// <returns></returns>
+		public bool JoinParty(Character leader, Character joiningCharacter)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmdUpdate = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+				{
+					cmdUpdate.AddParameter("@accountId", joiningCharacter.AccountId);
+					cmdUpdate.Set("partyId", leader.Party.DbId);
+
+					return cmdUpdate.Execute() > 0;
+				}
+			}
+		}
 	}
 }

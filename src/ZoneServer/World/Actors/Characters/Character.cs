@@ -343,6 +343,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Parties = new PartyComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 

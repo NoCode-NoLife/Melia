@@ -38,24 +38,37 @@ namespace Melia.Zone.World.Parties
 		public long LeaderId { get; private set; }
 
 		/// <summary>
+		/// Party's leader team name
+		/// </summary>
+		public string LeaderTeamName { get; private set; }
+
+		/// <summary>
+		/// Returns the creation date of the party.
+		/// </summary>
+		public DateTime CreationTime { get; }
+
+		/// <summary>
 		/// Creates new quest.
 		/// </summary>
 		/// <param name="questData"></param>
-		public Party(string name, string description, long leaderId, long dbId)
+		public Party(string name, string description, long leaderId, DateTime creationTime, string leaderTeamName, long dbId)
 		{
-			this.Name = name;
-			this.Description = description;
-			this.LeaderId = leaderId;
-			this.DbId = dbId;
+			Name = name;
+			Description = description;
+			LeaderId = leaderId;
+			DbId = dbId;
+			CreationTime = creationTime;
+			LeaderTeamName = leaderTeamName;
 		}
 
 		/// <summary>
 		/// Sets the new leader Id.
 		/// </summary>
 		/// <param name="newLeaderId"></param>
-		public void SetNewLeader(long newLeaderId)
+		public void SetNewLeader(long newLeaderId, string newLeaderTeamName)
 		{
 			LeaderId = newLeaderId;
+			LeaderTeamName = newLeaderTeamName;
 		}
 
 		public void Dispose()

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
 using Melia.Zone.World.Parties;
 using Melia.Zone.World.Quests;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Characters.Components
@@ -18,7 +22,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromMinutes(1);
 		private const int maxMembers = 5;
 		private readonly object _syncLock = new object();
-		private readonly List<Party> _parties = new List<Party>();
+		private readonly static List<Party> _parties = new List<Party>();
 
 		/// <summary>
 		/// Creates new instance for character.
@@ -41,7 +45,11 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			lock (_syncLock)
 			{
 				Character.Party = party;
-				_parties.Add(party);
+
+				if (!_parties.Contains(party))
+				{
+					_parties.Add(party);
+				}				
 			}
 		}
 
@@ -59,6 +67,41 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns a list with all of the character's parties.
+		/// </summary>
+		/// <returns></returns>
+		public bool PartyNameExists(string newPartyName)
+		{
+			lock (_syncLock)
+			{
+				return _parties.Count <= 0 ? false : _parties.FirstOrDefault(a => a.Name == newPartyName) != null;
+			}
+		}
+
+		/// <summary>
+		/// Creates a new party within the given name
+		/// </summary>
+		/// <returns></returns>
+		public void CreateParty(string partyName)
+		{
+			// Party's Name should be unique
+			if (_parties.FirstOrDefault(a => a.Name == partyName) != null || Character.Party != null)
+			{
+				return;
+			}
+
+			var party = ZoneServer.Instance.Database.CreateParty(partyName, "Let's Party", Character);
+
+			if (party != null)
+			{
+				AddSilent(party);
+				Send.ZC_PARTY_INFO(Character);
+				Send.ZC_PARTY_LIST(Character);
+				Send.ZC_ADDON_MSG(Character, "PARTY_JOIN", "None");
+			}
+		}
+
+		/// <summary>
 		/// Returns a list with all of the character's party.
 		/// </summary>
 		/// <returns></returns>
@@ -68,15 +111,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			{
 				return Character.Party;
 			}
-		}
-
-		/// <summary>
-		/// Get the party members from the party.
-		/// </summary>
-		/// <returns></returns>
-		public List<Character> GetMembers()
-		{
-			return Character.Party.Members;
 		}
 
 		/// <summary>
@@ -100,7 +134,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 					if (Character.Party.Members[newLeader] != null)
 					{
-						Character.Party.SetNewLeader(Character.Party.Members[newLeader].DbId);
+						Character.Party.SetNewLeader(Character.Party.Members[newLeader].DbId, Character.Party.Members[newLeader].TeamName);
 					}
 					
 					//TODO: Notify Client about the new leader
@@ -117,7 +151,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				}
 			}
 
+			ZoneServer.Instance.Database.LeaveParty(Character);
 			Character.Party = null;
+
 			//TODO: Notify Client about the character that left the party
 		}
 
@@ -125,7 +161,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Disband the party
 		/// </summary>
 		/// <returns></returns>
-		public void DisbandParty()
+		private void DisbandParty()
 		{
 			if (Character.Party == null)
 			{
@@ -143,24 +179,28 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			{
 				_parties.Remove(party);
 			}
+						
+			if (ZoneServer.Instance.Database.DeleteParty(Character))
+			{
+				//TODO: Notify Client about the party that has been disposed
 
-			//TODO: Notify Client about the party that has been disposed
-
-			party.Dispose();
+				party.Dispose();
+				Character.Party = null;
+			}
 		}
 
 		/// <summary>
 		/// Add a member to the party.
 		/// </summary>
 		/// <returns></returns>
-		public bool AddMember(Character character)
+		private bool JoinParty(Character joiningCharacter)
 		{
-			if (!Character.Party.Members.Contains(character))
+			if (!Character.Party.Members.Contains(joiningCharacter))
 			{
 				if (Character.Party.Members.Count <= maxMembers)
 				{
-					Character.Party.Members.Add(character);
-					return true;
+					Character.Party.Members.Add(joiningCharacter);
+					return ZoneServer.Instance.Database.JoinParty(Character, joiningCharacter);
 				}
 				else
 				{

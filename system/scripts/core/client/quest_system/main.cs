@@ -5,13 +5,10 @@
 //---------------------------------------------------------------------------
 
 using System.Globalization;
-using System.Xml.Linq;
 using Melia.Shared.Scripting;
-using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 using static Melia.Zone.Scripting.Shortcuts;

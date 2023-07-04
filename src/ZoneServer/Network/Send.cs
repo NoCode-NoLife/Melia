@@ -21,6 +21,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Parties;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -3767,6 +3768,127 @@ namespace Melia.Zone.Network
 				packet.PutFloat(skill.Properties.GetFloat(PropertyName.SklSpdRate));
 				packet.PutFloat(skill.Properties.GetFloat(PropertyName.HitDelay));
 				packet.PutFloat(skill.Data.OverheatCount);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PARTY_INFO to character, notices a party
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_INFO(Character character)
+		{
+			if (character.Party == null)
+			{
+				return;
+			}
+
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+
+			//Header
+			packet.PutInt(-1);
+			packet.PutInt(0);
+			packet.PutInt(78);
+
+			packet.PutShort(0); //Party Type
+			packet.PutLong(character.Party.DbId);
+			packet.PutString(character.Party.Name.ToString(), 16);
+			packet.PutLong(character.Party.LeaderId);
+			packet.PutString(character.Party.LeaderTeamName.ToString(), 32);
+			packet.PutInt(0);
+			packet.PutInt(1);
+			packet.PutShort(1);
+			packet.PutShort(256);
+			packet.PutShort(0);
+			packet.PutShort(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ZC_PARTY_LIST to character, notices the party members
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_PARTY_LIST(Character character)
+		{
+			if (character.Party == null)
+			{
+				return;
+			}
+
+			var members = character.Party.Members;
+
+			var packet = new Packet(Op.ZC_PARTY_LIST);
+
+			//Header
+			packet.PutInt(-1);
+			packet.PutInt(0);
+			packet.PutInt(360);
+
+			packet.PutLong(0);
+			packet.PutShort(0);  //Party Type
+			packet.PutLong(character.Party.DbId);
+			packet.PutByte((byte)members.Count);  //Number of members?
+
+			foreach (var member in members)
+			{
+				var jobList = member.Jobs.GetList();
+
+				var job0 = jobList.Length >= 1 ? (int)jobList[0].Id : 0;
+				var job1 = jobList.Length >= 2 ? (int)jobList[1].Id : 0;
+				var job2 = jobList.Length >= 3 ? (int)jobList[2].Id : 0;
+				var job3 = jobList.Length >= 4 ? (int)jobList[3].Id : 0;
+
+				packet.PutLong(member.AccountId);
+				packet.PutString(member.TeamName.ToString(), 32);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(member.Handle);
+				packet.PutString(member.TeamName.ToString(), 32);
+				packet.PutString(member.Name.ToString(), 32);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutShort((short)member.Job.Id);
+				packet.PutShort((short)job0);
+				packet.PutShort(0);
+				packet.PutInt(member.Job.Level);
+				packet.PutShort(1);
+				packet.PutShort(45); //member.Job.MaxLevel?
+				packet.PutShort(1);
+				packet.PutInt(41);
+				packet.PutLong(0);
+				packet.PutLong(0);
+				packet.PutLong(0);
+				packet.PutLong(0);
+				packet.PutInt(member.MapId);
+				packet.PutInt(member.Level);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutInt(job0);
+				packet.PutInt(job1);
+				packet.PutInt(job2);
+				packet.PutInt(job3);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutShort(0);
+				packet.PutShort(0);
+				packet.PutInt(member.Level);
+				packet.PutFloat(member.Position.X);
+				packet.PutFloat(member.Position.Y);
+				packet.PutFloat(member.Position.Z);
+				packet.PutInt(member.Sp);
+				packet.PutInt(member.Hp);
+				packet.PutInt(member.MaxSp);
+				packet.PutInt(member.MaxHp);
+				packet.PutInt(0);
+				packet.PutInt(member.Level);
+				packet.PutShort(0);
 			}
 
 			character.Connection.Send(packet);
