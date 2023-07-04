@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
@@ -64,8 +65,8 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.ForceId = ForceId.GetNew();
 
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, 150);
-				skillHit.HitInfo.Type = HitType.KnockBack;
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 
 				skillHits.Add(skillHit);

@@ -48,6 +48,10 @@ namespace Melia.Shared.Data.Database
 
 		public bool EnableCastMove { get; set; }
 
+		public HitType KnockDownHitType { get; set; }
+		public int KnockDownVelocity { get; set; }
+		public int KnockDownVAngle { get; set; }
+
 		public AbilityId ReinforceAbility { get; set; }
 		public AbilityId HiddenReinforceAbility { get; set; }
 		public float HiddenReinforceAbilityFactorByLevel { get; set; }
@@ -180,6 +184,10 @@ namespace Melia.Shared.Data.Database
 			data.HoldTime = entry.ReadList<int>("holdTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
+
+			data.KnockDownHitType = entry.ReadEnum<HitType>("knockDownType", HitType.Normal);
+			data.KnockDownVelocity = entry.ReadInt("knockDownVelocity", 0);
+			data.KnockDownVAngle = entry.ReadInt("knockDownVAngle", 0);
 
 			data.ReinforceAbility = entry.ReadEnum<AbilityId>("reinforceAbility", 0);
 			data.HiddenReinforceAbility = entry.ReadEnum<AbilityId>("hiddenReinforceAbility", 0);
