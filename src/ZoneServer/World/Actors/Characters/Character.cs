@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -9,10 +8,10 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Parties;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -289,6 +288,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns the character's quests manager.
 		/// </summary>
 		public QuestComponent Quests { get; }
+
+		/// <summary>
+		/// Returns the character's party manager.
+		/// </summary>
+		public PartyComponent Parties { get; }
+
+		/// <summary>
+		/// Returns the character's party manager.
+		/// </summary>
+		public Party Party { get; set; }
 
 		/// <summary>
 		/// Character's properties.

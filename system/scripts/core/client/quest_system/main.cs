@@ -23,7 +23,6 @@ public class CustomQuestSystemClientScript : ClientScript
 		LoadAllScripts();
 
 		AddChatCommand("quest", "<complete|cancel>", "", 0, 99, HandleQuest);
-		AddChatCommand("partymake", "<party_name>", "creates a party", 0, 0, HandleCreateParty);
 	}
 
 	[On("PlayerReady")]
@@ -89,24 +88,6 @@ public class CustomQuestSystemClientScript : ClientScript
 		}
 
 		Log.Debug("CustomQuestSystemClientScript: Unknown action '{0}' in message '{1}'.", action, message);
-		return CommandResult.Okay;
-	}
-
-	private CommandResult HandleCreateParty(Character sender, Character target, string message, string commandName, Arguments args)
-	{
-		if (args.Count < 1)
-		{
-			return CommandResult.Okay;
-		}
-
-		var partyName = args.Get(0);
-
-		if (ZoneServer.Instance.Database.PartyNameExists(partyName))
-		{
-			ZoneServer.Instance.Database.CreateParty(sender, partyName);
-		}
-
-		Log.Debug("CustomQuestSystemClientScript: Unknown action '{0}' in message '{1}'.", partyName, message);
 		return CommandResult.Okay;
 	}
 }

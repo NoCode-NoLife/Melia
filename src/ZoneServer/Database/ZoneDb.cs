@@ -18,6 +18,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Parties;
 using Melia.Zone.World.Quests;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
@@ -1193,56 +1194,84 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Returns true if party name exists.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public bool PartyNameExists(string partyName)
-		{
-			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT `partyId` FROM `party` WHERE `name` = @partyName", conn))
-			{
-				mc.Parameters.AddWithValue("@partyName", partyName);
-
-				using (var reader = mc.ExecuteReader())
-				{
-					return reader.HasRows;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Saves the character's quests to the database.
+		/// Saves the character's party to the database.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <exception cref="InvalidOperationException"></exception>
-		public void CreateParty(Character character, string partyName)
+		private void SaveParty(Character character)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
+				var party = character.Parties.GetParty();
+
+				using (var cmd = new MySqlCommand("DELETE FROM `party` WHERE `leaderId` = @leaderId", conn, trans))
 				{
-					var partyDescription = "Let's Party!";
+					cmd.AddParameter("@leaderId", party.LeaderId);
+					cmd.ExecuteNonQuery();
+				}
 
-					cmd.Set("name", partyName);
-					cmd.Set("description", partyDescription);
+				if (party != null)
+				{
+					var partyId = 0L;
 
-					cmd.Execute();
-					
-					var patyId = cmd.LastId;
-
-					using (var cmdMember = new InsertCommand("INSERT INTO `party_member` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
 					{
-						cmdMember.Set("partyId", patyId);
-						cmdMember.Set("characterId", character.DbId);
+						cmd.Set("leaderId", party.LeaderId);
+						cmd.Set("name", party.Name);
+						cmd.Set("description", party.Description);
 
-						cmdMember.Execute();
+						cmd.Execute();
+
+						partyId = cmd.LastId;
+						party.DbId = partyId;
 					}
 				}
 
 				trans.Commit();
 			}
 		}
+
+		/// <summary>
+		/// Loads the party for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadParty(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT `partyId` FROM `character` WHERE `characterId` = @characterId", conn))
+			{
+				cmd.Parameters.AddWithValue("@characterId", character.DbId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var partyId = reader.GetInt32("partyId");
+
+						using (var cmdParty = new MySqlCommand("SELECT * FROM `party` WHERE `partyId` = @partyId", conn))
+						{
+							cmdParty.Parameters.AddWithValue("@partyId", partyId);
+
+							using (var readerParty = cmdParty.ExecuteReader())
+							{
+								while (readerParty.Read())
+								{
+									var dbId = reader.GetInt64("partyId");
+									var name = reader.GetStringSafe("name");
+									var description = reader.GetStringSafe("description");
+									var leaderId = reader.GetInt64("leaderId");
+
+									var party = new Party(name, description, leaderId, dbId);
+									character.Parties.AddSilent(party);
+								}
+							}
+						}
+
+					}
+				}
+			}
+		}
+
 	}
 }

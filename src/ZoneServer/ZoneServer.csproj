@@ -183,6 +183,7 @@
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
+    <Compile Include="World\Actors\Characters\Components\PartyComponent.cs" />
     <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatComponent.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
+    <Compile Include="World\Parties\Party.cs" />
     <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
     <Compile Include="World\Quests\Objectives\KillObjective.cs" />
     <Compile Include="World\Quests\Objectives\SkillLevelObjective.cs" />
