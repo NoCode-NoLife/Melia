@@ -99,6 +99,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns true if the character has the given ability and it's
+		/// toggled on. Abilities that aren't toggleable are considered
+		/// always-on.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public bool IsActive(AbilityId abilityId)
+			=> this.Get(abilityId)?.Active ?? false;
+
+		/// <summary>
 		/// Returns the ability with the given id, or null if it didn't
 		/// exist.
 		/// </summary>
