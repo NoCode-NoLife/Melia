@@ -30,6 +30,11 @@ namespace Melia.Zone.Skills.Combat
 		public Direction Direction { get; }
 
 		/// <summary>
+		/// Returns the hit type of the knock back.
+		/// </summary>
+		public HitType HitType { get; }
+
+		/// <summary>
 		/// Returns the velocity by which the target moves back.
 		/// </summary>
 		public int Velocity { get; }
@@ -55,6 +60,7 @@ namespace Melia.Zone.Skills.Combat
 		public KnockBackInfo(Position attackerPosition, Position targetPosition, Skill skill)
 		{
 			this.Direction = attackerPosition.GetDirection(targetPosition);
+			this.HitType = skill.Data.KnockDownHitType;
 			this.Velocity = skill.Data.KnockDownVelocity;
 			this.HAngle = (int)this.Direction.NormalDegreeAngle;
 			this.VAngle = skill.Data.KnockDownVAngle;
