@@ -52,6 +52,16 @@ namespace Melia.Zone.Skills.Combat
 		public int VAngle { get; }
 
 		/// <summary>
+		/// Duration of the knock back.
+		/// </summary>
+		/// <remarks>
+		/// Affects knock downs in particular, where the target bounces
+		/// off the ground a few times. If the time is not long enough,
+		/// the target stops in mid-air.
+		/// </remarks>
+		public TimeSpan Time { get; } = TimeSpan.FromMilliseconds(180);
+
+		/// <summary>
 		/// Creates new knock back info.
 		/// </summary>
 		/// <param name="attackerPosition"></param>

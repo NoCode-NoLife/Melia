@@ -48,7 +48,7 @@ namespace Melia.Zone.Network.Helpers
 				packet.PutInt(kb.HAngle);
 				packet.PutInt(kb.VAngle);
 				packet.PutInt(0);
-				packet.PutShort(180); // appears to affect distance
+				packet.PutShort((short)kb.Time.TotalMilliseconds);
 				packet.PutShort(0);
 				packet.PutFloat(1);
 				packet.PutFloat(1);

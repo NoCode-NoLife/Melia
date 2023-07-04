@@ -99,10 +99,10 @@ typedef struct
     position fromPos;
     position toPos;
     int velocity;
-    int directionAngle;
-    int i6;
+    int hAngle;
+    int vAngle;
     int i7;
-    short s1;
+    short time;
     short s2;
     float f1;
     float f2;
