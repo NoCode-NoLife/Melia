@@ -1,4 +1,6 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using System;
+using g3;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 
@@ -77,7 +79,20 @@ namespace Melia.Zone.Skills.Combat
 
 			this.AttackerPosition = attackerPosition;
 			this.FromPosition = targetPosition;
-			this.ToPosition = this.GetNewPosition();
+
+			// Hack for some knock down skills
+			if (this.Velocity == 400 && this.VAngle == 86)
+			{
+				var distance = 93.570992087511f;
+
+				this.Time = TimeSpan.FromMilliseconds(6747);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			// Experimental Formula
+			else
+			{
+				this.ToPosition = this.GetNewPosition();
+			}
 		}
 
 		/// <summary>
@@ -111,6 +126,13 @@ namespace Melia.Zone.Skills.Combat
 			// Velocity: 250, Expected: 52.128298346989, Formula:  50.0
 			// Velocity: 300, Expected: 70.325086038326, Formula:  72.0
 			// Velocity: 400, Expected: 106.24073509195, Formula: 128.0
+			// 
+			// Update: After some more research there appears to be another
+			// factor involved in the calculation. The VAngle determines
+			// how far the monsters flies up into the air, which affects
+			// the distance it travels. That means the formula is even
+			// more wrong than I initially thought, because it will
+			// basically only work on simple push backs.
 
 			var pos = this.FromPosition;
 			var dir = this.Direction;
@@ -127,7 +149,7 @@ namespace Melia.Zone.Skills.Combat
 
 			var distance = unitsPerSecond * seconds;
 
-			//Log.Debug("Velocity: {0}, Seconds: {1}, Distance: {2}", velocity, seconds, distance);
+			Log.Debug("Velocity: {0}, Seconds: {1}, Distance: {2}", velocity, seconds, distance);
 
 			return pos.GetRelative(dir, distance);
 		}

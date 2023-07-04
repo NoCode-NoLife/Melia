@@ -55,7 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(200);
 
-			var hits = new List<SkillHitInfo>();
+			var skillHits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -63,14 +63,21 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
-				hits.Add(skillHit);
+
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+				target.Position = skillHit.KnockBackInfo.ToPosition;
+
+				Debug.ShowPosition(target.Map, target.Position);
+
+				skillHits.Add(skillHit);
 			}
 
 			var targetHandle = targets.FirstOrDefault()?.Handle ?? 0;
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, targetHandle, originPos, originPos.GetDirection(farPos), Position.Zero);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, hits);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, skillHits);
 		}
 	}
 }
