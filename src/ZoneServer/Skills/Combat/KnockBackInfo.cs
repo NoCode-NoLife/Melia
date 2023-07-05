@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Combat
 		public int HAngle { get; }
 
 		/// <summary>
-		/// Returns an unknown angle used in the packets based on the skill
+		/// Returns the verticle angle used in the packets based on the skill
 		/// data.
 		/// </summary>
 		public int VAngle { get; }
@@ -61,7 +61,7 @@ namespace Melia.Zone.Skills.Combat
 		/// off the ground a few times. If the time is not long enough,
 		/// the target stops in mid-air.
 		/// </remarks>
-		public TimeSpan Time { get; } = TimeSpan.FromMilliseconds(180);
+		public TimeSpan Time { get; }
 
 		/// <summary>
 		/// Creates new knock back info.
@@ -70,17 +70,32 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="targetPosition"></param>
 		/// <param name="skill"></param>
 		public KnockBackInfo(Position attackerPosition, Position targetPosition, Skill skill)
+			: this(attackerPosition, targetPosition, skill.Data.KnockDownHitType, skill.Data.KnockDownVelocity, skill.Data.KnockDownVAngle)
+		{
+		}
+
+		/// <summary>
+		/// Creates new knock back info.
+		/// </summary>
+		/// <param name="attackerPosition"></param>
+		/// <param name="targetPosition"></param>
+		/// <param name="knockDownHitType"></param>
+		/// <param name="velocity"></param>
+		/// <param name="vAngle"></param>
+		public KnockBackInfo(Position attackerPosition, Position targetPosition, HitType knockDownHitType, int velocity, int vAngle)
 		{
 			this.Direction = attackerPosition.GetDirection(targetPosition);
-			this.HitType = skill.Data.KnockDownHitType;
-			this.Velocity = skill.Data.KnockDownVelocity;
+			this.HitType = knockDownHitType;
+			this.Velocity = velocity;
 			this.HAngle = (int)this.Direction.NormalDegreeAngle;
-			this.VAngle = skill.Data.KnockDownVAngle;
+			this.VAngle = vAngle;
 
 			this.AttackerPosition = attackerPosition;
 			this.FromPosition = targetPosition;
+			//this.ToPosition = this.GetNewPosition();
+			//this.Time = this.GetTime();
 
-			// Hack for some knock down skills
+			// Hacks until we have a working formula
 			if (this.Velocity == 400 && this.VAngle == 86)
 			{
 				var distance = 93.570992087511f;
@@ -88,10 +103,14 @@ namespace Melia.Zone.Skills.Combat
 				this.Time = TimeSpan.FromMilliseconds(6747);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
-			// Experimental Formula
 			else
 			{
-				this.ToPosition = this.GetNewPosition();
+				var distance = 17.700299992446f;
+
+				this.Velocity = 150;
+				this.VAngle = 10;
+				this.Time = TimeSpan.FromMilliseconds(180);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
 		}
 
