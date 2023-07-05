@@ -8,7 +8,7 @@ namespace Melia.Zone.Network.Helpers
 	{
 		public static void AddPartyMember(this Packet packet, PartyMember member)
 		{
-			packet.PutLong(member.AccountObjectId);
+			packet.PutLong(member.AccountId);
 			packet.PutString(member.TeamName, 64);
 			packet.PutLong(0);
 			packet.PutInt(0);
@@ -52,14 +52,14 @@ namespace Melia.Zone.Network.Helpers
 
 		public static void AddPartyInstantMemberInfo(this Packet packet, PartyMember member)
 		{
-			packet.PutLong(member.AccountObjectId);
+			packet.PutLong(member.AccountId);
 			packet.PutPosition(member.Position);
 			packet.PutInt(member.Sp);
 			packet.PutInt(member.Hp);
 			packet.PutInt(member.MaxSp);
 			packet.PutInt(member.MaxHp);
 			packet.PutInt(0);
-			packet.PutInt(3);
+			packet.PutInt(member.Level);
 		}
 	}
 }

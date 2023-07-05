@@ -203,7 +203,7 @@ namespace Melia.Zone.World
 		{
 			lock (_members)
 			{
-				if (_members.ContainsKey(member.ObjectId))
+				if (_members.ContainsKey(member.ObjectId) || _members.Count >= 5)
 					return false;
 				_members.Add(member.ObjectId, member);
 			}
@@ -238,6 +238,7 @@ namespace Melia.Zone.World
 				Send.ZC_PARTY_OUT(this, member);
 				character.AddonMessage(AddonMessage.SUCCESS_UPDATE_PARTY_INFO, "None", 0);
 				character.Connection.Party = null;
+				character.PartyId = 0;
 				this.RemoveMember(member);
 			}
 		}
@@ -251,11 +252,19 @@ namespace Melia.Zone.World
 			lock (_members)
 			{
 				_members.Remove(member.ObjectId);
-				foreach (var otherMemberId in _members.Keys)
+
+				var expeledMemberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+
+				Send.ZC_PARTY_INST_INFO(expeledMemberCharacter.Connection.Party);
+
+				foreach (var keyValuePair in _members)
 				{
-					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == otherMemberId);
+					Send.ZC_PARTY_OUT(expeledMemberCharacter, this);
+					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == keyValuePair.Key);
 					character?.AddonMessage(AddonMessage.SUCCESS_UPDATE_PARTY_INFO, "None");
 				}
+
+				expeledMemberCharacter.PartyId = 0;
 			}
 		}
 
@@ -410,7 +419,8 @@ namespace Melia.Zone.World
 				var member = _members.Values.FirstOrDefault(m => m.TeamName == teamName);
 				if (member != null)
 				{
-					this.RemoveMember(member);
+					var expeledMemberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+					this.RemoveMember(expeledMemberCharacter);
 				}
 			}
 		}

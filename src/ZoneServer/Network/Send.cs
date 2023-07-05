@@ -2210,6 +2210,24 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Updates creature's SP
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="currentSp"></param>
+		/// <param name="displayGain">
+		/// <param name="characterHandle">
+		/// </param>
+		public static void ZC_UPDATE_SP(Character character, float currentSp, bool displayGain, int characterHandle)
+		{
+			var packet = new Packet(Op.ZC_UPDATE_SP);
+			packet.PutInt(characterHandle);
+			packet.PutInt((int)currentSp);
+			packet.PutByte(displayGain);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates a characters HP for damage and healing.
 		/// </summary>
 		/// <param name="character"></param>
@@ -2230,6 +2248,35 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_ADD_HP);
 			packet.PutInt(character.Handle);
+			packet.PutInt((int)adjustedAmount);
+			packet.PutInt((int)currentHp);
+			packet.PutInt(priority);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates a characters HP for damage and healing.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="amount"></param>
+		/// <param name="currentHp"></param>
+		/// <param name="priority"></param>
+		/// /// <param name="characterHandle"></param>
+		public static void ZC_ADD_HP(Character character, float amount, float currentHp, int priority, int characterHandle)
+		{
+			// For some reason they send 1 for the amount if the expected
+			// amount was negative, such as in the case of damage?
+			// Or at least this appeared to be the case at some point in
+			// time. We should probably double-check it, but then again,
+			// the client doesn't really use that value. It simply
+			// takes the new HP to update its UI.
+
+			var isDamage = (amount < 0);
+			var adjustedAmount = (isDamage ? 1 : amount);
+
+			var packet = new Packet(Op.ZC_ADD_HP);
+			packet.PutInt(characterHandle);
 			packet.PutInt((int)adjustedAmount);
 			packet.PutInt((int)currentHp);
 			packet.PutInt(priority);
@@ -3815,7 +3862,7 @@ namespace Melia.Zone.Network
 			packet.PutDate(party.DateCreated);
 			packet.PutLong(party.ObjectId);
 			packet.PutLpString(party.Name);
-			packet.PutLong(party.Owner.AccountObjectId);
+			packet.PutLong(party.Owner.AccountId);
 			packet.PutLpString(party.Owner.TeamName);
 			packet.PutInt(0);
 			packet.PutInt(1);
@@ -3923,6 +3970,8 @@ namespace Melia.Zone.Network
 		/// <param name="party"></param>
 		public static void ZC_PARTY_INST_INFO(Party party)
 		{
+			if (party == null) return;
+
 			var members = party.GetMembers();
 
 			var packet = new Packet(Op.ZC_PARTY_INST_INFO);

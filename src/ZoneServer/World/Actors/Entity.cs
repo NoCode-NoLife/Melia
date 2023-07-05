@@ -128,6 +128,7 @@ namespace Melia.Zone.World.Actors
 		public static bool TrySpendSp(this ICombatEntity entity, Skill skill)
 		{
 			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
+
 			return entity.TrySpendSp(spendSp);
 		}
 
@@ -151,6 +152,21 @@ namespace Melia.Zone.World.Actors
 				return false;
 
 			character.ModifySp(-amount);
+
+			if (character.Connection.Party != null)
+			{
+				Send.ZC_PARTY_INST_INFO(character.Connection.Party);
+
+				foreach (var member in character.Connection.Party.GetMembers())
+				{
+					if (member.DbId != character.DbId && member.IsOnline)
+					{
+						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+						Send.ZC_UPDATE_SP(memberCharacter, sp, false, character.Handle);
+					}
+				}
+			}
+
 			return true;
 		}
 

@@ -1816,7 +1816,7 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var teamName = args.Get(0);
+			var teamName = args.Get(1);
 			var party = sender.Connection.Party;
 
 			party?.Expel(sender, teamName);

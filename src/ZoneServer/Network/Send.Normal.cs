@@ -997,7 +997,7 @@ namespace Melia.Zone.Network
 				packet.PutByte(member.IsOnline);
 				packet.PutByte((byte)party.Type);
 				packet.PutLong(party.ObjectId);
-				packet.PutLong(member.AccountObjectId);
+				packet.PutLong(member.AccountId);
 				packet.AddPartyMember(member);
 
 				party.Broadcast(packet);

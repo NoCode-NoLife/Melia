@@ -303,6 +303,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (killer is Character characterKiller)
 			{
 				this.DropItems(characterKiller);
+				this.DistributeExp(characterKiller, exp, classExp);
 				characterKiller?.GiveExp(exp, classExp, this);
 			}
 
@@ -310,6 +311,20 @@ namespace Melia.Zone.World.Actors.Monsters
 			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+
+		/// <summary>
+		/// Distributes experience
+		/// </summary>
+		private void DistributeExp(Character character, long exp, long classExp)
+		{
+			var party = character.Connection.Party;
+
+			if (party != null)
+				party.GiveExp(character, exp, classExp, this);
+			else
+				character.GiveExp(exp, classExp, this);
 		}
 
 		/// <summary>
@@ -353,7 +368,12 @@ namespace Melia.Zone.World.Actors.Monsters
 				}
 				else
 				{
-					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					var party = killer.Connection.Party;
+
+					if (party != null)
+						party.GiveItem(killer, dropItem, InventoryAddType.PickUp);
+					else
+						killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
 				}
 			}
 		}

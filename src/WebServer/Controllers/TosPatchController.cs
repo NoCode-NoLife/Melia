@@ -40,7 +40,7 @@ namespace Melia.Web.Controllers
 					xml.WriteAttributeString("GROUP_ID", "100");
 					xml.WriteAttributeString("TRAFFIC", "0");
 					xml.WriteAttributeString("ENTER_LIMIT", "100");
-					xml.WriteAttributeString("NAME", "Melia");
+					xml.WriteAttributeString("NAME", "Melia_"+serverData.Ip.ToString());
 					xml.WriteAttributeString("Server0_IP", serverData.Ip);
 					xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
 					xml.WriteEndElement();

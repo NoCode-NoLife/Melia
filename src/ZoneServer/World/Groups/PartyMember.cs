@@ -10,7 +10,6 @@ namespace Melia.Zone.World.Groups
 		public long DbId { get; set; }
 		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
 		public long AccountId { get; set; }
-		public long AccountObjectId => this.AccountId;
 		public string TeamName { get; set; }
 		public string Name { get; set; }
 		public bool IsOnline { get; set; } = false;

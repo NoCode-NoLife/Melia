@@ -1162,7 +1162,21 @@ namespace Melia.Zone.World.Actors.Characters
 				return true;
 
 			this.Components.Get<CombatComponent>().SetAttackState(true);
-			this.ModifyHpSafe(-damage, out _, out _);
+			this.ModifyHpSafe(-damage, out var newHp, out var priority);
+
+			if (this.Connection.Party != null)
+			{
+				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+
+				foreach (var member in this.Connection.Party.GetMembers())
+				{
+					if (member.DbId != this.DbId && member.IsOnline)
+					{
+						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+						Send.ZC_ADD_HP(memberCharacter, -damage, newHp, priority, this.Handle);
+					}
+				}
+			}
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)

@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS `party` (
   PRIMARY KEY (`partyId`),
   KEY `leaderId` (`leaderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-  
+
 ALTER TABLE `characters` ADD `partyId` BIGINT NOT NULL DEFAULT '0' AFTER `silver`;
 
 ALTER TABLE `party`
   ADD KEY `party_ibfk_1` (`leaderId`);
-  
+
 ALTER TABLE `party`
   ADD CONSTRAINT `party_ibfk_1` FOREIGN KEY (`leaderId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
