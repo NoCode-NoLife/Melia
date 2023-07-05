@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			var hits = new List<SkillHitInfo>();
 
-			foreach (var target in targets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);

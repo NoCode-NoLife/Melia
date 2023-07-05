@@ -104,6 +104,7 @@
     <Compile Include="Tos\Const\BuffId.cs" />
     <Compile Include="Tos\Const\AnimationId.cs" />
     <Compile Include="Tos\Const\Character.cs" />
+    <Compile Include="Tos\Const\CommanderInfoType.cs" />
     <Compile Include="Tos\Const\CooldownId.cs" />
     <Compile Include="Tos\Const\HitType.cs" />
     <Compile Include="Tos\Const\MapType.cs" />

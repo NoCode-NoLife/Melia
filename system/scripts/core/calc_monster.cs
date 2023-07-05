@@ -7,6 +7,7 @@
 using System;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 
 public class MonsterCalculationsFunctionsScript : GeneralScript
@@ -237,9 +238,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var baseValue = monster.Properties.GetFloat(PropertyName.WlkMSPD);
-		//if (running)
-		//	baseValue = monster.Properties.GetFloat(PropertyName.RunMSPD);
+		var moveSpeedType = monster.Components.Get<MovementComponent>().MoveSpeedType;
+		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
+		var baseValue = monster.Properties.GetFloat(propertyName);
 
 		var byBuff = monster.Properties.GetFloat(PropertyName.MSPD_BM);
 
@@ -284,5 +285,53 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var byBuffs = properties.GetFloat(PropertyName.HR_BM);
 
 		return baseValue + byBuffs;
+	}
+
+	/// <summary>
+	/// Returns the monster's AoE Attack Ratio.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_SR(Mob monster)
+	{
+		int baseValue;
+		switch (monster.Data.Size)
+		{
+			case SizeType.S: baseValue = 8; break;
+			case SizeType.M: baseValue = 16; break;
+			case SizeType.L: baseValue = 24; break;
+			default: baseValue = 50; break;
+		}
+
+		var byBuffs = monster.Properties.GetFloat(PropertyName.SDR_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)Math.Max(1, value);
+	}
+
+	/// <summary>
+	/// Returns the monster's AoE Defense Ratio.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_SDR(Mob monster)
+	{
+		int baseValue;
+		switch (monster.Data.Size)
+		{
+			case SizeType.S: baseValue = 1; break;
+			case SizeType.M: baseValue = 2; break;
+			case SizeType.L: baseValue = 3; break;
+			default: baseValue = 5; break;
+		}
+
+		var byBuffs = monster.Properties.GetFloat(PropertyName.SDR_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)Math.Max(1, value);
 	}
 }

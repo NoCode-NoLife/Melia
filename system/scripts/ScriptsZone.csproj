@@ -79,12 +79,14 @@
   <ItemGroup>
     <Compile Include="ais\basic_monster.cs" />
     <Compile Include="ais\test.cs" />
+    <Compile Include="content\test\other\char_start.cs" />
     <Compile Include="content\test\quests\kill_onions.cs" />
     <Compile Include="core\ability_price.cs" />
     <Compile Include="core\ability_unlock.cs" />
     <Compile Include="core\calc_monster.cs" />
     <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
+    <Compile Include="core\client\ability_point_cost\main.cs" />
     <Compile Include="core\client\api\main.cs" />
     <Compile Include="core\client\quest_system\main.cs" />
     <Compile Include="core\client\chat_history\main.cs" />

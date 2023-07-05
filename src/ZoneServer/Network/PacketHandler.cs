@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -8,6 +9,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
@@ -117,7 +119,13 @@ namespace Melia.Zone.Network
 		public void CZ_GAME_READY(IZoneConnection conn, Packet packet)
 		{
 			var guildId = packet.GetShort();
+
 			var character = conn.SelectedCharacter;
+			var gameReadyArgs = new PlayerGameReadyEventArgs(character);
+
+			ZoneServer.Instance.ServerEvents.OnPlayerGameReady(gameReadyArgs);
+			if (gameReadyArgs.CancelHandling)
+				return;
 
 			Send.ZC_IES_MODIFY_LIST(conn);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
@@ -157,6 +165,11 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			Send.ZC_DAYLIGHT_FIXED(character);
+
+			// The ability points are longer read from the properties for
+			// whatever reason. We have to use the "custom commander info"
+			// now. Yay.
+			Send.ZC_CUSTOM_COMMANDER_INFO(character, CommanderInfoType.AbilityPoints, character.Properties.AbilityPoints);
 
 			// It's currently unknown what exactly ZC_UPDATE_SKL_SPDRATE_LIST
 			// does, but the data is necessary for the client to display the
@@ -1566,7 +1579,7 @@ namespace Melia.Zone.Network
 					// packet in an infinite loop in i218535. The following
 					// seems to be correct for now.
 
-					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", 0, null);
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", 0, "None");
 					break;
 				default:
 					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
@@ -2238,13 +2251,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
 		public void CZ_REQ_LEARN_ABILITY(IZoneConnection conn, Packet packet)
 		{
-			// TODO: Is this new? It seems like abilities were learned
-			//   via command in the past, see HandleLearnPcAbil.
-
-			var abilities = new Dictionary<int, int>();
+			var abilityLevelAdds = new Dictionary<int, int>();
 
 			var size = packet.GetShort();
-			var type = packet.GetString(32);
+			var category = packet.GetString(32);
 			var count = packet.GetInt();
 
 			for (var i = 0; i < count; i++)
@@ -2252,16 +2262,118 @@ namespace Melia.Zone.Network
 				var abilityId = packet.GetInt();
 				var level = packet.GetInt();
 
-				abilities[abilityId] = level;
+				abilityLevelAdds[abilityId] = level;
 			}
 
 			var character = conn.SelectedCharacter;
 
-			Log.Debug("CZ_REQ_LEARN_ABILITY: {0}", type);
-			foreach (var ability in abilities)
+			var abilityTreeEntries = ZoneServer.Instance.Data.AbilityTreeDb.Find(category);
+			if (!abilityTreeEntries.Any())
 			{
-				Log.Debug("  Id: {0}, Levels: {1}", ability.Key, ability.Value);
+				Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn abilities from an unknown category ({1}).", character.Username, category);
+				return;
 			}
+
+			foreach (var kv in abilityLevelAdds)
+			{
+				var classId = kv.Key;
+				var addLevels = Math.Max(0, kv.Value);
+
+				var abilityTreeData = abilityTreeEntries.FirstOrDefault(a => a.ClassId == classId);
+				if (abilityTreeData == null)
+				{
+					Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn the unknown ability '{1}' from category '{2}'.", character.Username, classId, category);
+					return;
+				}
+
+				var abilityData = ZoneServer.Instance.Data.AbilityDb.Find(abilityTreeData.AbilityId);
+				if (abilityData == null)
+				{
+					Log.Warning("CZ_REQ_LEARN_ABILITY: Ability data '{0}' not found for ability '{1}' from category '{2}'.", abilityTreeData.AbilityId, classId, category);
+					return;
+				}
+
+				var currentLevel = character.Abilities.GetLevel(abilityData.Id);
+				var newLevel = currentLevel + addLevels;
+				var maxLevel = abilityTreeData.MaxLevel;
+
+				var totalPrice = 0;
+				var totalTime = 0;
+
+				if (abilityTreeData.HasUnlockScript)
+				{
+					if (!ScriptableFunctions.AbilityUnlock.TryGet(abilityTreeData.UnlockScriptName, out var unlockFunc))
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: Ability unlock function '{0}' not found.", abilityTreeData.UnlockScriptName);
+						return;
+					}
+
+					var canLearn = unlockFunc(character, abilityTreeData.UnlockScriptArgStr, abilityTreeData.UnlockScriptArgNum, abilityData);
+					if (!canLearn)
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn an ability they haven't unlocked yet (Ability: {1}, Unlock: {2}).", character.Username, abilityData.ClassName, abilityTreeData.UnlockScriptName);
+						return;
+					}
+				}
+
+				if (abilityTreeData.HasPriceTimeScript)
+				{
+					if (!ScriptableFunctions.AbilityPrice.TryGet(abilityTreeData.PriceTimeScript, out var priceTimeFunc))
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: Ability calculation function '{0}' not found.", abilityTreeData.PriceTimeScript);
+						return;
+					}
+
+					for (var i = currentLevel + 1; i <= newLevel; ++i)
+					{
+						priceTimeFunc(character, abilityData, i, maxLevel, out var price, out var time);
+						totalPrice += price;
+						totalTime += time;
+					}
+				}
+
+				if (character.Properties.AbilityPoints < totalPrice)
+				{
+					// Don't warn about this, as the client allows the
+					// player to send the request even if they don't
+					// have enough points.
+					//Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' didn't have enough ability points to learn all abilities.", character.Username);
+
+					character.MsgBox(Localization.Get("You don't have enough points."));
+					return;
+				}
+
+				character.Abilities.Learn(abilityData.Id, newLevel);
+				character.ModifyAbilityPoints(-totalPrice);
+
+				Send.ZC_ADDON_MSG(character, "SUCCESS_LEARN_ABILITY", newLevel, abilityData.ClassName);
+				Send.ZC_ADDON_MSG(character, "RESET_ABILITY_UP", 0, null);
+			}
+		}
+
+		/// <summary>
+		/// Request to toggle an ability on or off.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TOGGLE_ABILITY)]
+		public void CZ_REQ_TOGGLE_ABILITY(IZoneConnection conn, Packet packet)
+		{
+			var abilityId = (AbilityId)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var ability = character.Abilities.Get(abilityId);
+
+			if (ability == null)
+			{
+				Log.Warning("CZ_REQ_TOGGLE_ABILITY: User '{0}' tried to toggle an ability they don't have ({1}).", character.Username, abilityId);
+				return;
+			}
+
+			ability.Active = !ability.Active;
+
+			Send.ZC_OBJECT_PROPERTY(conn, ability, PropertyName.ActiveState);
+			Send.ZC_ADDON_MSG(character, "RESET_ABILITY_ACTIVE", ability.Active ? 1 : 0, ability.Data.ClassName);
 		}
 
 		/// <summary>

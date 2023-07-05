@@ -232,8 +232,10 @@ namespace Melia.Zone.Database
 						{
 							var abilityId = (AbilityId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
+							var active = reader.GetBoolean("active");
 
 							var ability = new Ability(abilityId, level);
+							ability.Active = active;
 
 							character.Abilities.AddSilent(ability);
 						}
@@ -468,6 +470,8 @@ namespace Melia.Zone.Database
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", ability.Id);
 						cmd.Set("level", ability.Level);
+						cmd.Set("active", ability.Active);
+
 						cmd.Execute();
 					}
 

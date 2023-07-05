@@ -784,7 +784,12 @@ namespace Melia.Zone.World.Actors.Characters
 			abilityPoints += amount;
 			this.Properties.SetString(PropertyName.AbilityPoint, abilityPoints.ToString());
 
-			Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
+			// For some reason the client no longer reads the ability
+			// point property when updating the amount. Instead there's
+			// the commander info now.
+
+			//Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
+			Send.ZC_CUSTOM_COMMANDER_INFO(this, CommanderInfoType.AbilityPoints, abilityPoints);
 		}
 
 		/// <summary>

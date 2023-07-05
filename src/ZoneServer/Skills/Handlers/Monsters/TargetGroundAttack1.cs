@@ -71,7 +71,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			foreach (var target in targets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);

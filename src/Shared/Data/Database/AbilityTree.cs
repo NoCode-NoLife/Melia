@@ -12,6 +12,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public string Category { get; set; }
 		public JobId JobId { get; set; }
+		public int ClassId { get; set; }
 		public AbilityId AbilityId { get; set; }
 		public string ClassName { get; set; }
 		public int MaxLevel { get; set; }
@@ -54,17 +55,31 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns abilities the given job can learn.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <returns></returns>
+		public IEnumerable<AbilityTreeData> Find(string category)
+		{
+			if (category.StartsWith("Ability_"))
+				category = category.Substring(8);
+
+			return this.Entries.Where(a => a.Category == category);
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("category", "jobId", "abilityId", "maxLevel");
+			entry.AssertNotMissing("category", "classId", "abilityId", "jobId", "maxLevel");
 
 			var data = new AbilityTreeData();
 
 			data.Category = entry.ReadString("category");
 			data.JobId = (JobId)entry.ReadInt("jobId");
+			data.ClassId = entry.ReadInt("classId");
 			data.AbilityId = (AbilityId)entry.ReadInt("abilityId");
 			data.ClassName = entry.ReadString("className");
 			data.MaxLevel = entry.ReadInt("maxLevel");

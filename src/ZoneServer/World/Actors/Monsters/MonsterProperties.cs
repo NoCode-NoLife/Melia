@@ -54,6 +54,8 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new CFloatProperty(PropertyName.MDEF, () => this.CalculateProperty("SCR_Get_MON_MDEF")));
 			this.Create(new CFloatProperty(PropertyName.DR, () => this.CalculateProperty("SCR_Get_MON_DR")));
 			this.Create(new CFloatProperty(PropertyName.HR, () => this.CalculateProperty("SCR_Get_MON_HR")));
+			this.Create(new CFloatProperty(PropertyName.SR, () => this.CalculateProperty("SCR_Get_MON_SR")));
+			this.Create(new CFloatProperty(PropertyName.SDR, () => this.CalculateProperty("SCR_Get_MON_SDR")));
 
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
@@ -74,6 +76,8 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.AutoUpdate(PropertyName.DEF, new[] { PropertyName.DEF_BM });
 			this.AutoUpdate(PropertyName.MDEF, new[] { PropertyName.MDEF_BM });
 			this.AutoUpdate(PropertyName.MSPD, new[] { PropertyName.FIXMSPD_BM, PropertyName.WlkMSPD, PropertyName.RunMSPD, PropertyName.MSPD_BM });
+			this.AutoUpdate(PropertyName.SR, new[] { PropertyName.SR_BM });
+			this.AutoUpdate(PropertyName.SDR, new[] { PropertyName.SDR_BM });
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);
