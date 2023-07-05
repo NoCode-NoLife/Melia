@@ -112,6 +112,7 @@ public class CombatCalculationsScript : GeneralScript
 			target.TrySpendSp(maxSp * spRate);
 		}
 
+		// TODO: Should this perhaps rather happen in the skill handlers?
 		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
 		{
 			var rate = 40;
@@ -127,7 +128,7 @@ public class CombatCalculationsScript : GeneralScript
 			damage *= 2;
 			skillHitResult.HitCount = 2;
 		}
-		else if (skill.Id == SkillId.Wizard_EnergyBolt)
+		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
 		{
 			damage *= 2;
 			skillHitResult.HitCount = 2;
