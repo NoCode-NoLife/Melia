@@ -1532,5 +1532,13 @@ namespace Melia.Shared.Tos.Const
 		RushSpear_OH = 4255,
 		FlyingSerpentFall_OH = 4256,
 		SwiftMove_OH = 4257,
+		FlameTurret = 4258,
+		FrozenTurret = 4259,
+		ArrowTurret = 4260,
+		recover = 4261,
+		LightningTurret = 4262,
+		BuffTurret = 4263,
+		KingMechaV = 4264,
+		RepairKit = 4265,
 	}
 }
