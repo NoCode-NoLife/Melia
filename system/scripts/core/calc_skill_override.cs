@@ -62,7 +62,7 @@ public class SkillOverrideCalculationsScript : GeneralScript
 		var value = SCR_Get_SpendSP(skill);
 
 		// Ability "Earthquake: Remove Knockdown"
-		if (skill.Owner.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard13))
+		if (skill.Owner.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard23))
 			value += value * 0.10f;
 
 		return value;
