@@ -34,8 +34,7 @@ namespace Melia.Zone.Buffs.Handlers
 				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
 				{
 					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
-					caster.Skills.TryGet(buff.SkillId, out var skill);
-					if (skill != null)
+					if (caster.Skills.TryGet(buff.SkillId, out var skill))
 					{
 						var abilityBonus = SCR_Get_SkillFactor(skill);
 						speedBonus += abilityBonus;
