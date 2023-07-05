@@ -19,6 +19,7 @@ using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
 using MySql.Data.MySqlClient;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -1235,6 +1236,44 @@ namespace Melia.Zone.Database
 				}
 
 				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Inserts party in database.
+		/// </summary>
+		/// <param name="party"></param>
+		/// <returns></returns>
+		public void LeaveParty(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+					cmd.Set("partyId", 0);
+
+					cmd.Execute();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Inserts party in database.
+		/// </summary>
+		/// <param name="party"></param>
+		/// <returns></returns>
+		public void UpdatePartyLeader(Party party, Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new UpdateCommand("UPDATE `party` SET {0} WHERE `partyId` = @partyId", conn))
+				{
+					cmd.AddParameter("@partyId", character.DbId);
+					cmd.Set("leaderId", character.DbId);
+
+					cmd.Execute();
+				}
 			}
 		}
 

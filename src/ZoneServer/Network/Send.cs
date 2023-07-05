@@ -3948,7 +3948,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Party member left/expelled from party
+		/// Broadcasts to other members once a member left/expelled from party
 		/// with broadcast.
 		/// </summary>
 		/// <param name="party"></param>

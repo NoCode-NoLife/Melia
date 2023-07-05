@@ -48,6 +48,27 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Updates the character partyId on the database.
+		/// </summary>
+		/// <param name="party"></param>
+		public void LeaveParty(Character character)
+		{
+			ZoneServer.Instance.Database.LeaveParty(character);
+		}
+
+		/// <summary>
+		/// Updates the party leader.
+		/// </summary>
+		/// <param name="party"></param>
+		public void UpdatePartyLeader(Party party, Character character)
+		{
+			ZoneServer.Instance.Database.UpdatePartyLeader(party, character);
+			party.LeaderDbId = character.DbId;
+			Send.ZC_PARTY_INFO(character, party);
+			Send.ZC_PARTY_LIST(party);
+		}
+
+		/// <summary>
 		/// Adds party to the manager.
 		/// </summary>
 		/// <param name="party"></param>

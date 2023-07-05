@@ -1250,7 +1250,13 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_ITEM_GET(this, itemMonster);
 
 			// Add the item to the inventory
-			this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
+
+			var party = this.Connection.Party;
+
+			if (party != null)
+				party.GiveItem(this, itemMonster.Item, InventoryAddType.PickUp);
+			else
+				this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
 
 			// Remove it from the map, so it can't be picked up again.
 			this.Map.RemoveMonster(itemMonster);

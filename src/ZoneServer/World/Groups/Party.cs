@@ -12,6 +12,7 @@ using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World
 {
@@ -170,7 +171,6 @@ namespace Melia.Zone.World
 			//this.Properties.Create(new FloatProperty(PropertyName.CreateTime, ))
 		}
 
-
 		/// <summary>
 		/// Add Member and Send to Party Packets Client
 		/// ZC_PARTY_INFO, ZC_PARTY_LIST, ZC_PARTY_ENTER, 
@@ -253,18 +253,35 @@ namespace Melia.Zone.World
 			{
 				_members.Remove(member.ObjectId);
 
-				var expeledMemberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+				if (member.AccountId == this.LeaderDbId)
+				{
+					if (_members.Count <= 0)
+					{
+						ZoneServer.Instance.World.Parties.Delete(this);
+					} else
+					{
+						var rnd = RandomProvider.Get();
+						var leaderRng = rnd.Next(0, _members.Count);
+						var nextLeader = _members[leaderRng];
+						var leaderCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == nextLeader.ObjectId);
+						ZoneServer.Instance.World.Parties.UpdatePartyLeader(this, leaderCharacter);
+					}
+				}
 
-				Send.ZC_PARTY_INST_INFO(expeledMemberCharacter.Connection.Party);
+				var leftCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+
+				Send.ZC_PARTY_INST_INFO(leftCharacter.Connection.Party);
 
 				foreach (var keyValuePair in _members)
 				{
-					Send.ZC_PARTY_OUT(expeledMemberCharacter, this);
+					Send.ZC_PARTY_OUT(leftCharacter, this);
 					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == keyValuePair.Key);
 					character?.AddonMessage(AddonMessage.SUCCESS_UPDATE_PARTY_INFO, "None");
 				}
 
-				expeledMemberCharacter.PartyId = 0;
+				ZoneServer.Instance.World.Parties.LeaveParty(leftCharacter);
+				leftCharacter.PartyId = 0;
+				leftCharacter.Connection.Party = null;
 			}
 		}
 
