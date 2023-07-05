@@ -273,6 +273,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns a character on this map that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Character GetCharacter(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns first character found by team name, or null if none exist.
 		/// </summary>
 		/// <param name="handle"></param>

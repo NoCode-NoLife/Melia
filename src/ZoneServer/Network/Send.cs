@@ -15,16 +15,16 @@ using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
-using Melia.Zone.World.Parties;
 using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -1770,20 +1770,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
-		{
-			ZC_ADDON_MSG(character, 0, msg, parameter);
-		}
-
-		/// <summary>
-		/// Executes Lua addon function.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="duration">Duration that messages are displayed in seconds?</param>
-		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
+		/// <param name="argNum"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg, int argNum, string argStr)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
@@ -1792,12 +1781,12 @@ namespace Melia.Zone.Network
 				throw new ArgumentException($"Message is too long with {msgByteLength} bytes. The maximum length is {byte.MaxValue}.");
 
 			packet.PutByte((byte)msgByteLength);
-			packet.PutInt(duration);
+			packet.PutInt(argNum);
 			packet.PutByte(0);
 			packet.PutRawString(msg);
 
-			if (parameter != null)
-				packet.PutRawString(parameter);
+			if (argStr != null)
+				packet.PutRawString(argStr);
 
 			character.Connection.Send(packet);
 		}
@@ -3776,134 +3765,186 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_PARTY_INFO, notices a party
+		/// Party Info usually sent when party is created
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_PARTY_INFO(Character character)
+		/// <param name="party"></param>
+		public static void ZC_PARTY_INFO(Character character, Party party)
 		{
-			if (character.Party == null)
-			{
-				return;
-			}
-
 			var packet = new Packet(Op.ZC_PARTY_INFO);
-
-			packet.PutShort(0); //Party Type
-			packet.PutDate(character.Party.CreationTime);
-			packet.PutLong(character.Party.DbId);
-			packet.PutLpString(character.Party.Name.ToString());
-			packet.PutLong(character.Party.LeaderId);
-			packet.PutLpString(character.Party.LeaderTeamName.ToString());
+			packet.PutByte((byte)party.Type);
+			packet.PutByte(0);
+			packet.PutDate(party.DateCreated);
+			packet.PutLong(party.ObjectId);
+			packet.PutLpString(party.Name);
+			packet.PutLong(party.Owner.AccountObjectId);
+			packet.PutLpString(party.Owner.TeamName);
 			packet.PutInt(0);
 			packet.PutInt(1);
 			packet.PutShort(1);
-			packet.PutShort(256);
-			packet.PutShort(0);
-			packet.PutShort(0);
+			if (party.Type == PartyType.Party)
+			{
+				packet.PutShort(256);
+				packet.PutInt(0);
+			}
+			else
+			{
+				packet.PutByte(0);
+				packet.PutLpString(party.Note);
+				packet.PutLong(0);
+				packet.PutByte(0);
+				packet.PutLong(0);
+				packet.PutEmptyBin(20004);
+				packet.PutInt(0);
+				packet.PutShort(2000);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutEmptyBin(68);
+				packet.PutFloat(0);
+				packet.PutShort(0);
+			}
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends ZC_PARTY_LIST, notices the party members
+		/// List of party members also sent when party is created and members join
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_PARTY_LIST(Character character)
+		/// <param name="party"></param>
+		public static void ZC_PARTY_LIST(Party party)
 		{
-			if (character.Party == null)
-			{
-				return;
-			}
-
-			var members = character.Party.Members;
+			var members = party.GetMembers();
 
 			var packet = new Packet(Op.ZC_PARTY_LIST);
-
 			packet.PutLong(0);
-			packet.PutShort(0);  //Party Type
-			packet.PutLong(character.Party.DbId);
-			packet.PutByte((byte)members.Count);  //Number of members?
-
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.PutByte((byte)members.Length);
 			foreach (var member in members)
-			{
-				var jobList = member.Jobs.GetList();
+				packet.AddPartyMember(member);
 
-				var job0 = jobList.Length >= 1 ? (int)jobList[0].Id : 0;
-				var job1 = jobList.Length >= 2 ? (int)jobList[1].Id : 0;
-				var job2 = jobList.Length >= 3 ? (int)jobList[2].Id : 0;
-				var job3 = jobList.Length >= 4 ? (int)jobList[3].Id : 0;
-
-				packet.PutLong(member.AccountId);
-				packet.PutString(member.TeamName.ToString(), 32);
-				packet.PutLong(member.DbId);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(member.Handle);
-				packet.PutString(member.TeamName.ToString(), 32);
-				packet.PutString(member.Name.ToString(), 32);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutShort((short)member.Job.Id);
-				packet.PutShort((short)job0);
-				packet.PutShort(0);
-				packet.PutInt(member.Job.Level);
-				packet.PutShort(1);
-				packet.PutInt(45); //member.Job.MaxLevel?
-				packet.PutShort(1);
-				packet.PutInt(41); //member.Job.Level?
-				packet.PutLong(0);
-				packet.PutLong(0);
-				packet.PutLong(0);
-				packet.PutInt(member.MapId);
-				packet.PutInt(member.Level);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutInt(job0);
-				packet.PutInt(job1);
-				packet.PutInt(job2);
-				packet.PutInt(job3);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutInt(member.Level);
-				packet.PutFloat(member.Position.X);
-				packet.PutFloat(member.Position.Y);
-				packet.PutFloat(member.Position.Z);
-				packet.PutInt(member.Sp);
-				packet.PutInt(member.Hp);
-				packet.PutInt(member.MaxSp);
-				packet.PutInt(member.MaxHp);
-				packet.PutInt(0);
-				packet.PutInt(member.Level);
-				packet.PutShort(0);
-			}
-
-			character.Connection.Send(packet);			
+			party.Broadcast(packet);
 		}
 
 		/// <summary>
-		/// Sends ZC_PARTY_OUT, notices a character that left the party
+		/// When a new character joins the party
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_PARTY_OUT(Character character, Character leftPartyCharacter)
+		/// <param name="party"></param>
+		public static void ZC_PARTY_ENTER(Character character, Party party)
 		{
-			if (character.Party == null)
-			{
-				return;
-			}
+			var packet = new Packet(Op.ZC_PARTY_ENTER);
 
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.AddPartyMember(PartyMember.ToMember(character));
+			packet.PutShort(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Party member left/expelled from party
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_OUT(Character character, Party party)
+		{
 			var packet = new Packet(Op.ZC_PARTY_OUT);
 
-			packet.PutByte(0); //Party Type?
-			packet.PutLong(character.Party.DbId);
-			packet.PutLong(leftPartyCharacter.AccountId);
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.PutLong(character.AccountId);
 			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Party member left/expelled from party
+		/// with broadcast.
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_OUT(Party party, PartyMember member)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.PutLong(member.AccountId);
+			packet.PutByte(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Party info updates
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_INST_INFO(Party party)
+		{
+			var members = party.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_INST_INFO);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutInt(members.Length);
+			foreach (var member in members)
+				packet.AddPartyInstantMemberInfo(member);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// ? sent after party is created related /memberInfoForAct?
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_TO_SOMEWHERE_CLIENT(Character character)
+		{
+			var party = character.Connection.Party;
+			var packet = new Packet(Op.ZC_TO_SOMEWHERE_CLIENT);
+			packet.PutLong(0);
+			packet.PutInt(1);
+			packet.PutInt(1);
+			packet.PutLpString(character.TeamName);
+
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutInt(0xDC2);
+				zpacket.PutShort(0);
+				zpacket.PutShort(0);
+				zpacket.PutLong(1000555709005824);
+				zpacket.PutString(character.TeamName, 65);
+				zpacket.PutLong(party?.ObjectId ?? 0);
+				zpacket.PutLong(character.Connection.Account.Id);
+				zpacket.PutString(character.TeamName, 64);
+				zpacket.PutString(character.Name, 64);
+				zpacket.PutShort(0);
+				zpacket.PutShort((short)character.JobId);
+				zpacket.PutInt((int)character.JobId);
+				zpacket.PutInt(3);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0xFF);
+				zpacket.PutEmptyBin(12);
+				zpacket.PutShort(0); // Properties Size
+				zpacket.PutShort(0); // ETC Properties Size
+				zpacket.PutShort(character.Jobs.Count);
+				zpacket.PutInt((int)character.JobId);
+				zpacket.PutInt(0);
+				zpacket.PutLong(404);
+				zpacket.PutLong(11632643);
+				zpacket.PutLong(0x0D);
+				zpacket.PutLong(0x27);
+			});
 
 			character.Connection.Send(packet);
 		}

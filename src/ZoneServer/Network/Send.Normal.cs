@@ -1,13 +1,16 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 
 namespace Melia.Zone.Network
 {
@@ -982,47 +985,181 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sends Party Creation Properties.
+			/// Broadcast party member data
 			/// </summary>
-			/// <param name="character"></param>
-			public static void PartyCreatedNotify(Character character)
+			/// <param name="party"></param>
+			/// <param name="member"></param>
+			public static void PartyMemberData(PartyMember member, Party party)
 			{
-				if (character.Party == null)
-				{
-					return;
-				}
-
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(NormalOp.Zone.PartyCreate1);
-				packet.PutShort(0); // Party Type
-				packet.PutLong(character.Party.DbId);
-				packet.PutLong(character.AccountId); // Should This be the leader account id?
+				packet.PutInt(NormalOp.Zone.PartyMemberData);
+				packet.PutByte(member.IsOnline);
+				packet.PutByte((byte)party.Type);
+				packet.PutLong(party.ObjectId);
+				packet.PutLong(member.AccountObjectId);
+				packet.AddPartyMember(member);
+
+				party.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Property Change
+			/// </summary>
+			/// <param name="party"></param>
+			/// <param name="type"></param>
+			/// <param name="value"></param>
+			public static void PartyNameChange(Party party)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PartyNameChange);
+				packet.PutByte((byte)party.Type);
+				packet.PutLong(party.ObjectId);
+				packet.PutInt(0);
+				packet.PutLong(party.Owner.ObjectId);
+				packet.PutLpString(party.Name);
+				packet.PutInt(1);
+				packet.PutByte(1);
+
+				party.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Sends Party Invite UI to player
+			/// </summary>
+			/// <param name="caster"></param>
+			/// <param name="sender"></param>
+			public static void PartyInvite(Character character, Character sender, PartyType partyType)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyInvite);
+				packet.PutByte((byte)partyType);
+				packet.PutLong(sender.AccountId);
+				packet.PutLpString(sender.TeamName);
 
 				character.Connection.Send(packet);
 			}
 
 			/// <summary>
-			/// Sends Party Creation Properties.
+			/// Server response on Party Property Change
 			/// </summary>
-			/// <param name="character"></param>
-			public static void PartyCreatedNotify2(Character character)
+			/// <param name="party"></param>
+			/// <param name="property"></param>
+			public static void PartyPropertyUpdate(Party party, PropertyList properties)
 			{
-				if (character.Party == null)
-				{
-					return;
-				}
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PartyPropertyChange);
+				packet.PutByte((byte)party.Type);
+				packet.PutLong(party.ObjectId);
+				packet.AddProperties(properties);
 
+				party.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Member Property Change
+			/// </summary>
+			/// <param name="party"></param>
+			/// <param name="property"></param>
+			public static void PartyMemberPropertyUpdate(Party party, Character entity, PropertyList properties)
+			{
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(NormalOp.Zone.PartyCreate2);
-				packet.PutInt(character.Handle);
-				packet.PutLong(character.Party.DbId);
-				packet.PutByte(1);
-				packet.PutLpString(character.Party.Name);
-				packet.PutByte(3);
+				packet.PutInt(NormalOp.Zone.PartyMemberPropertyChange);
+				packet.PutByte((byte)party.Type);
+				packet.PutLong(party.ObjectId);
+				packet.PutLong(entity.ObjectId);
+				packet.AddProperties(properties);
 
-				character.Connection.Send(packet);
+				party.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Displays guild name under player and party name?
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="character"></param>
+			public static void ShowParty(IZoneConnection conn, Character character)
+			{
+				var party = character.Connection.Party;
+				var guild = character.Connection.Guild;
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowParty);
+
+				packet.PutInt(character.Handle);
+				if (party != null && guild != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(0);
+					packet.PutLpString(guild.Name);
+				}
+				else if (party != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(3);
+				}
+				else if (guild != null)
+				{
+					packet.PutByte(3);
+					packet.PutLpString(guild.Name);
+				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Displays guild name under player and party name?
+			/// </summary>
+			/// <param name="character"></param>
+			public static void ShowParty(Character character)
+			{
+				var party = character.Connection.Party;
+				var guild = character.Connection.Guild;
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowParty);
+
+				packet.PutInt(character.Handle);
+				if (party != null && guild != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(0);
+					packet.PutLpString(guild.Name);
+				}
+				else if (party != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(3);
+				}
+				else if (guild != null)
+				{
+					packet.PutByte(3);
+					packet.PutLpString(guild.Name);
+				}
+
+				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Updates account's given properties.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="properties"></param>
+			public static void AccountPropertyUpdate(IZoneConnection conn, PropertyList properties)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AccountPropertyUpdate);
+
+				packet.PutLong(conn.Account.Id);
+				packet.PutShort(properties.GetByteCount());
+				packet.AddProperties(properties);
+
+				conn.Send(packet);
 			}
 		}
 	}

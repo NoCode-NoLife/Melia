@@ -1,0 +1,1 @@
+ALTER TABLE `characters` ADD `bx` FLOAT NOT NULL AFTER `level`, ADD `by` FLOAT NOT NULL AFTER `bx`, ADD `bz` FLOAT NOT NULL AFTER `by`;

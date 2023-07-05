@@ -1457,7 +1457,7 @@ namespace Melia.Zone.Network
 			// panel, to display the proper balance after confirming the
 			// transaction.
 			// 08-29-21 Update, Item Database is updated but equipment for the most part are still priced at 0
-			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY);
+			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY, 0, null);
 		}
 
 		/// <summary>
@@ -1566,7 +1566,7 @@ namespace Melia.Zone.Network
 					// packet in an infinite loop in i218535. The following
 					// seems to be correct for now.
 
-					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", "None");
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", 0, null);
 					break;
 				default:
 					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
@@ -2272,7 +2272,7 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQUEST_DRAW_TOSHERO_EMBLEM)]
 		public void CZ_REQUEST_DRAW_TOSHERO_EMBLEM(IZoneConnection conn, Packet packet)
 		{
-			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
+			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER", 0, null);
 		}
 
 		/// <summary>
@@ -2421,7 +2421,51 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when attacking with sub-weapon.
+		/// Accepting a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_ACCEPT)]
+		public void CZ_PARTY_INVITE_ACCEPT(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+			var character = conn.SelectedCharacter;
+			var sender = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (sender != null)
+			{
+				var party = sender.Connection.Party;
+				if (party == null)
+				{
+					party = ZoneServer.Instance.World.Parties.Create(sender);
+				}
+				party.AddMember(character);
+			}
+		}
+
+		/// <summary>
+		/// Rejecting a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_CANCEL)]
+		public void CZ_PARTY_INVITE_CANCEL(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var partyInviter = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (partyInviter != null)
+			{
+				Send.ZC_ADDON_MSG(partyInviter, AddonMessage.PARTY_INVITE_CANCEL, 0, character.TeamName);
+			}
+		}
+
+		/// <summary>
+		/// Leaving a party
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2429,15 +2473,39 @@ namespace Melia.Zone.Network
 		public void CZ_PARTY_OUT(IZoneConnection conn, Packet packet)
 		{
 			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
 
-			if (character.Party == null)
+			if (party != null)
 			{
-				return;
+				party.RemoveMember(character);
+				if (party.MemberCount == 0)
+					ZoneServer.Instance.World.Parties.Delete(party);
 			}
-
-			character.Parties.LeaveParty();
 		}
-		
+
+		/// <summary>
+		/// Changing Party Settings
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_PROP_CHANGE)]
+		public void CZ_PARTY_PROP_CHANGE(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var type = packet.GetInt();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
+			var s1 = packet.GetShort();
+			var value = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
+
+			if (party != null && party.LeaderDbId == character.DbId)
+			{
+				party.UpdateSetting(type, value);
+			}
+		}
 
 		/// <summary>
 		/// Sent upon login.

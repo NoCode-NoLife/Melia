@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Network.TCP;
 
@@ -25,6 +26,16 @@ namespace Melia.Zone.Network
 		/// Gets or sets the current dialog.
 		/// </summary>
 		Dialog CurrentDialog { get; set; }
+
+		/// <summary>
+		/// Gets or sets the current party.
+		/// </summary>
+		Party Party { get; set; }
+
+		/// <summary>
+		/// Gets or sets the current guild.
+		/// </summary>
+		Guild Guild { get; set; }
 	}
 
 	/// <summary>
@@ -46,6 +57,16 @@ namespace Melia.Zone.Network
 		/// Gets or sets the current dialog.
 		/// </summary>
 		public Dialog CurrentDialog { get; set; }
+
+		/// <summary>
+		/// Gets or sets the current party.
+		/// </summary>
+		public Party Party { get; set; }
+
+		/// <summary>
+		/// Gets or sets the current guild.
+		/// </summary>
+		public Guild Guild { get; set; }
 
 		/// <summary>
 		/// Handles the given packet for this connection.

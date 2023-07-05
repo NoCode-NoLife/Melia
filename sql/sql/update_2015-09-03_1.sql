@@ -1,0 +1,1 @@
+ALTER TABLE `accounts` ADD `settings` VARCHAR(512) NOT NULL DEFAULT '' ;

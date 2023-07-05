@@ -1,0 +1,2 @@
+ALTER TABLE `characters` ADD `bdir` FLOAT NOT NULL DEFAULT '0' AFTER `bz`;
+ALTER TABLE `characters` ADD `dir` FLOAT NOT NULL DEFAULT '0' AFTER `z`;

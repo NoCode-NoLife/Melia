@@ -108,6 +108,7 @@
     <Compile Include="Feature.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
+    <Compile Include="Network\Helpers\PartyHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
     <Compile Include="Network\Helpers\DialogTx.cs" />
     <Compile Include="Network\Helpers\SkillHitInfo.cs" />
@@ -183,7 +184,6 @@
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
-    <Compile Include="World\Actors\Characters\Components\PartyComponent.cs" />
     <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
     <Compile Include="World\Actors\CombatEntities\Components\CombatComponent.cs" />
@@ -207,6 +207,9 @@
     <Compile Include="World\Actors\Characters\SessionObjects.cs" />
     <Compile Include="World\Actors\Characters\Components\SkillComponent.cs" />
     <Compile Include="World\Actors\Entity.cs" />
+    <Compile Include="World\Groups\Guild.cs" />
+    <Compile Include="World\Groups\PartyMember.cs" />
+    <Compile Include="World\GuildManager.cs" />
     <Compile Include="World\Items\DummyEquipItem.cs" />
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
@@ -216,7 +219,8 @@
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
-    <Compile Include="World\Parties\Party.cs" />
+    <Compile Include="World\Groups\Party.cs" />
+    <Compile Include="World\PartyManager.cs" />
     <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
     <Compile Include="World\Quests\Objectives\KillObjective.cs" />
     <Compile Include="World\Quests\Objectives\SkillLevelObjective.cs" />

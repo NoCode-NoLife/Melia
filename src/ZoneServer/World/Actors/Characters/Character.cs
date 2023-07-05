@@ -11,7 +11,6 @@ using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Parties;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -290,14 +289,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
-		/// Returns the character's party manager.
+		/// Character's online status.
 		/// </summary>
-		public PartyComponent Parties { get; }
-
-		/// <summary>
-		/// Returns the character's party manager.
-		/// </summary>
-		public Party Party { get; set; }
+		public bool IsOnline { get; set; } = false;
 
 		/// <summary>
 		/// Character's properties.
@@ -329,6 +323,9 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public event Action<Character> SitStatusChanged;
 
+		public long PartyId { get; set; }
+		public long GuildId { get; set; }
+
 		/// <summary>
 		/// Creates new character.
 		/// </summary>
@@ -343,7 +340,6 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
-			this.Components.Add(this.Parties = new PartyComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 
@@ -671,7 +667,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", 3, "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
 		}
 
@@ -688,7 +684,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Heal();
 
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_joblevel_up", 3);
 		}
 
@@ -1269,6 +1265,17 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var stamina = (this.Properties.Stamina -= staminaUsage);
 			Send.ZC_STAMINA(this, stamina);
+		}
+
+		/// <summary>
+		/// Sends an addon message
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="stringParameter"></param>
+		/// <param name="intParameter"></param>
+		public void AddonMessage(string function, string stringParameter = null, int intParameter = 0)
+		{
+			Send.ZC_ADDON_MSG(this, function, intParameter, stringParameter);
 		}
 	}
 }
