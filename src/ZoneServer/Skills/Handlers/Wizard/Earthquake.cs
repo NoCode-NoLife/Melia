@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -55,7 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(200);
 
-			var hits = new List<SkillHitInfo>();
+			var skillHits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -63,14 +64,24 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
-				hits.Add(skillHit);
+
+				// Ability "Earthquake: Remove Knockdown"
+				if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard23))
+				{
+					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+
+					target.Position = skillHit.KnockBackInfo.ToPosition;
+				}
+
+				skillHits.Add(skillHit);
 			}
 
 			var targetHandle = targets.FirstOrDefault()?.Handle ?? 0;
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, targetHandle, originPos, originPos.GetDirection(farPos), Position.Zero);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, hits);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, skillHits);
 		}
 	}
 }

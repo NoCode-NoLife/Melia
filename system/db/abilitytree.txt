@@ -1079,6 +1079,32 @@
 { category: "Hwarang", classId: 201, abilityId: 321214, jobId: 3105, className: "Hwarang15", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_21", argNum: 45 } },
 { category: "Hwarang", classId: 202, abilityId: 321215, jobId: 3105, className: "Hwarang16", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_21", argNum: 45 } },
 
+// Engineer
+//---------------------------------------------------------------------------
+{ category: "Engineer", classId: 101, abilityId: 321216, jobId: 3106, className: "Engineer1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Engineer_FlameTurret", argNum: 1 } },
+{ category: "Engineer", classId: 103, abilityId: 321218, jobId: 3106, className: "Engineer3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Engineer_ArrowTurret", argNum: 1 } },
+{ category: "Engineer", classId: 104, abilityId: 321219, jobId: 3106, className: "Engineer4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Engineer_BuffTurret", argNum: 1 } },
+{ category: "Engineer", classId: 105, abilityId: 321220, jobId: 3106, className: "Engineer5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Engineer_LightningTurret", argNum: 1 } },
+{ category: "Engineer", classId: 106, abilityId: 321221, jobId: 3106, className: "Engineer6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Engineer_KingMechaV", argNum: 1 } },
+{ category: "Engineer", classId: 111, abilityId: 321222, jobId: 3106, className: "Engineer11", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Engineer1", argNum: 65 } },
+{ category: "Engineer", classId: 113, abilityId: 321224, jobId: 3106, className: "Engineer13", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Engineer3", argNum: 65 } },
+{ category: "Engineer", classId: 114, abilityId: 321225, jobId: 3106, className: "Engineer14", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Engineer4", argNum: 65 } },
+{ category: "Engineer", classId: 115, abilityId: 321226, jobId: 3106, className: "Engineer15", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Engineer5", argNum: 65 } },
+{ category: "Engineer", classId: 116, abilityId: 321227, jobId: 3106, className: "Engineer16", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Engineer6", argNum: 65 } },
+{ category: "Engineer", classId: 301, abilityId: 321228, jobId: 3106, className: "Engineer17", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_23", argNum: 45 } },
+{ category: "Engineer", classId: 302, abilityId: 321229, jobId: 3106, className: "Engineer18", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_23", argNum: 45 } },
+{ category: "Engineer", classId: 201, abilityId: 321230, jobId: 3106, className: "Engineer21", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_FlameTurret", argNum: 350 } },
+{ category: "Engineer", classId: 202, abilityId: 321231, jobId: 3106, className: "Engineer22", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_FlameTurret", argNum: 350 } },
+{ category: "Engineer", classId: 203, abilityId: 321232, jobId: 3106, className: "Engineer23", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_FrozenTurret", argNum: 350 } },
+{ category: "Engineer", classId: 204, abilityId: 321233, jobId: 3106, className: "Engineer24", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_ArrowTurret", argNum: 350 } },
+{ category: "Engineer", classId: 205, abilityId: 321234, jobId: 3106, className: "Engineer25", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_BuffTurret", argNum: 350 } },
+{ category: "Engineer", classId: 206, abilityId: 321235, jobId: 3106, className: "Engineer26", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_BuffTurret", argNum: 350 } },
+{ category: "Engineer", classId: 207, abilityId: 321236, jobId: 3106, className: "Engineer27", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_BuffTurret", argNum: 350 } },
+{ category: "Engineer", classId: 208, abilityId: 321237, jobId: 3106, className: "Engineer28", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_BuffTurret", argNum: 350 } },
+{ category: "Engineer", classId: 209, abilityId: 321238, jobId: 3106, className: "Engineer29", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_KingMechaV", argNum: 350 } },
+{ category: "Engineer", classId: 210, abilityId: 321239, jobId: 3106, className: "Engineer30", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_KingMechaV", argNum: 350 } },
+{ category: "Engineer", classId: 211, abilityId: 321240, jobId: 3106, className: "Engineer31", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_KingMechaV", argNum: 350 } },
+
 // Cleric
 //---------------------------------------------------------------------------
 { category: "Cleric", classId: 201, abilityId: 401001, jobId: 4001, className: "Cleric11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Cleric_Cure", argNum: 1 } },

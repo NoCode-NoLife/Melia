@@ -10,6 +10,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 
@@ -44,10 +45,51 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_SkillFactor")]
 	public float SCR_Get_SkillFactor(Skill skill)
 	{
+		var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
+
 		var sklFactor = skill.Properties.GetFloat(PropertyName.SklFactor);
 		var sklFactorByLevel = skill.Properties.GetFloat(PropertyName.SklFactorByLevel);
 
-		return sklFactor + (sklFactorByLevel * (skill.Level - 1));
+		var value = sklFactor + (sklFactorByLevel * (skill.Level - 1));
+
+		var byReinforceRate = SCR_Get_AbilityReinforceRate(skill);
+		value += value * byReinforceRate;
+
+		return value;
+	}
+
+	/// <summary>
+	/// Returns the reinforce ability rate for the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_AbilityReinforceRate(Skill skill)
+	{
+		if (skill.Data.ReinforceAbility == 0)
+			return 0;
+
+		if (!skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			return 0;
+
+		if (!abilities.TryGetActive(skill.Data.ReinforceAbility, out var reinforceAbility))
+			return 0;
+
+		var byAbility = reinforceAbility.Level * 0.005f;
+
+		if (reinforceAbility.Level == 100)
+			byAbility += 0.10f;
+
+		var byHidden = 0f;
+		if (skill.Data.HiddenReinforceAbility != 0 && abilities.TryGetActive(skill.Data.HiddenReinforceAbility, out var hiddenReinforceAbility))
+		{
+			var level = hiddenReinforceAbility.Level;
+			var factorByLevel = skill.Data.HiddenReinforceAbilityFactorByLevel;
+
+			byHidden = level * factorByLevel / 100f;
+		}
+
+		return byAbility + byHidden;
 	}
 
 	/// <summary>
@@ -96,43 +138,6 @@ public class SkillCalculationsScript : GeneralScript
 		value += value * (byAbilityRate / 100f);
 
 		return (int)Math.Max(0, value);
-	}
-
-	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Heal")]
-	public float SCR_Get_SpendSP_Cleric_Heal(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		// Not sure if this is correct in any shape or form
-		var value = SCR_Get_SpendSP(skill);
-
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
-
-		return value;
-	}
-
-	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Cure")]
-	public float SCR_Get_SpendSP_Cleric_Cure(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		var value = SCR_Get_SpendSP(skill);
-
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Cure_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
-
-		return value;
 	}
 
 	/// <summary>

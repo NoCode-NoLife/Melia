@@ -45,10 +45,10 @@ namespace Melia.Zone.Network.Helpers
 				packet.PutPosition(kb.FromPosition);
 				packet.PutPosition(kb.ToPosition);
 				packet.PutInt(kb.Velocity);
-				packet.PutInt((int)kb.Direction.NormalDegreeAngle);
-				packet.PutInt(10);
+				packet.PutInt(kb.HAngle);
+				packet.PutInt(kb.VAngle);
 				packet.PutInt(0);
-				packet.PutShort(180); // appears to affect distance
+				packet.PutShort((short)kb.Time.TotalMilliseconds);
 				packet.PutShort(0);
 				packet.PutFloat(1);
 				packet.PutFloat(1);
