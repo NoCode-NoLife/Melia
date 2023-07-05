@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
@@ -22,10 +22,9 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target as Character;
-
 			// Movement speed +3 per stack when stack is 3 or less
 			// Movement Speed -5% per stack when stack is 4 or more
+			var targetCharacter = buff.Target as Character;
 
 			if (buff.OverbuffCounter <= 3)
 			{
@@ -34,20 +33,28 @@ namespace Melia.Zone.Buffs.Handlers
 				var modifier = buff.Vars.GetFloat(VarName);
 				buff.Vars.SetFloat(VarName, modifier + bonus);
 
-				target.Properties.Modify(PropertyName.MSPD_BM, bonus);
+				if (targetCharacter != null)
+				{
+					targetCharacter.Properties.Modify(PropertyName.MSPD_BM, bonus);
+				}
 			}
 			else
 			{
-				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
-				var penalty = mspd * DebuffPenaltyRate;
+				if (targetCharacter != null)
+				{
+					var mspd = targetCharacter.Properties.GetFloat(PropertyName.MSPD);
+					var penalty = mspd * DebuffPenaltyRate;
+					var modifier = buff.Vars.GetFloat(VarName);
+					targetCharacter.Properties.Modify(PropertyName.MSPD_BM, penalty);
 
-				var modifier = buff.Vars.GetFloat(VarName);
-				buff.Vars.SetFloat(VarName, modifier + penalty);
-
-				target.Properties.Modify(PropertyName.MSPD_BM, penalty);
+					buff.Vars.SetFloat(VarName, modifier + penalty);
+				}
 			}
 
-			Send.ZC_MOVE_SPEED(target);
+			if (targetCharacter != null)
+			{
+				Send.ZC_MOVE_SPEED(targetCharacter);
+			}
 		}
 
 		/// <summary>
@@ -56,12 +63,18 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target as Character;
+			var targetCharacter = buff.Target as Character;
 
-			if (buff.Vars.TryGetFloat(VarName, out var modifier))
-				target.Properties.Modify(PropertyName.MSPD_BM, -modifier);
+			var mspd = buff.Target.Properties.GetFloat(PropertyName.MSPD);
+			buff.Target.Properties.SetFloat("MSPD_BM", mspd);
 
-			Send.ZC_MOVE_SPEED(target);
+			if (targetCharacter != null)
+			{
+				if (buff.Vars.TryGetFloat(VarName, out var modifier))
+					targetCharacter.Properties.Modify(PropertyName.MSPD_BM, -modifier);
+
+				Send.ZC_MOVE_SPEED(targetCharacter);
+			}
 		}
 	}
 }
