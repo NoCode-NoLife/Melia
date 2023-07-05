@@ -84,7 +84,10 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			await Task.Delay(hitDelay);
 
-			damageDelay = TimeSpan.FromMilliseconds(270);
+			// Based on the packets this delay is more like 270, but that
+			// just doesn't look right for unknown reasons, so we'll use
+			// 370 for now.
+			damageDelay = TimeSpan.FromMilliseconds(370);
 			hits.Clear();
 
 			foreach (var target in targets)
