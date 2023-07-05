@@ -51,8 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				return;
 			}
 
-			var buffDuration = TimeSpan.FromSeconds(10);
-			caster.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, buffDuration, caster);
+			caster.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
 			this.Attack(skill, caster, target);
 		}
@@ -74,7 +73,9 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			await Task.Delay(hitDelay);
 
-			// TODO: Apply debuff to target if buff stacks >= 4?
+			var applyDebuff = caster.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.ObliqueFire_Buff) > 3;
+			if (applyDebuff)
+				target.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -93,6 +94,9 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				var hit = new HitInfo(caster, bounceTarget, skill, skillHitResult.Damage, skillHitResult.Result);
 
 				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+
+				if (applyDebuff)
+					bounceTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 			}
 		}
 
