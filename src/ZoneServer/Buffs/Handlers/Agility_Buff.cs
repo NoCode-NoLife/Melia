@@ -4,6 +4,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Buffs.Handlers
@@ -30,20 +31,15 @@ namespace Melia.Zone.Buffs.Handlers
 				// Algorithm retrieved from client files.
 				var speedBonus = 1 + (skillLevel * 0.3);
 
-				if (caster.Abilities.Has(AbilityId.Enchanter8))
+				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
 				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter8);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_Agility");
-					speedBonus += abilityBonus;
-				}
-
-				if (caster.Abilities.Has(AbilityId.Enchanter10))
-				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter10);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_Agility");
-					speedBonus += abilityBonus;
+					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+					caster.Skills.TryGet(buff.SkillId, out var skill);
+					if (skill != null)
+					{
+						var abilityBonus = SCR_Get_SkillFactor(skill);
+						speedBonus += abilityBonus;
+					}
 				}
 
 				var staminaRateBonus = -0.5f;

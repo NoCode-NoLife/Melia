@@ -2,6 +2,7 @@
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -34,12 +35,15 @@ namespace Melia.Zone.Buffs.Handlers
 				var initialBlockPenBonus = data.Factor + (skillLevel * data.FactorByLevel);
 				var blockPenetrationBonus = initialBlockPenBonus * penalityValue;
 
-				if (caster.Abilities.Has(AbilityId.Enchanter12))
+				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
 				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter12);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
-					blockPenetrationBonus += abilityBonus;
+					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+					caster.Skills.TryGet(buff.SkillId, out var skill);
+					if (skill != null)
+					{
+						var abilityBonus = SCR_Get_SkillFactor(skill);
+						blockPenetrationBonus += abilityBonus;
+					}
 				}
 
 				buff.Vars.SetFloat(VarName, blockPenetrationBonus);

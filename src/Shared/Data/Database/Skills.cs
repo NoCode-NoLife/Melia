@@ -62,8 +62,6 @@ namespace Melia.Shared.Data.Database
 		public CooldownId OverheatGroup { get; set; }
 		public int OverheatCount { get; set; }
 		public TimeSpan OverHeatDelay { get; set; }
-
-		public string ReinforceAbility { get; set; }
 	}
 
 	public enum SplashType
@@ -201,8 +199,6 @@ namespace Melia.Shared.Data.Database
 			data.OverheatGroup = entry.ReadEnum<CooldownId>("overheatGroup", CooldownId.Default);
 			data.OverheatCount = entry.ReadInt("overheatCount", 0);
 			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay", TimeSpan.Zero);
-
-			data.ReinforceAbility = entry.ReadString("reinforceAbility");
 
 			this.AddOrReplace(data.Id, data);
 		}

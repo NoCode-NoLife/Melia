@@ -6,6 +6,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Items;
 using MySqlX.XDevAPI.Relational;
 using static Mysqlx.Notice.Warning.Types;
@@ -42,20 +43,26 @@ namespace Melia.Zone.Buffs.Handlers
 				var initialHitRateBonus = data.Factor + (skillLevel * data.FactorByLevel);
 				var hitRateBonus = initialHitRateBonus * penalityValue;
 
-				if (caster.Abilities.Has(AbilityId.Enchanter9))
+				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter9))
 				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter9);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
-					hitRateBonus += abilityBonus;
+					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+					caster.Skills.TryGet(buff.SkillId, out var skill);
+					if (skill != null)
+					{
+						var abilityBonus = SCR_Get_SkillFactor(skill);
+						hitRateBonus += abilityBonus;
+					}
 				}
 
-				if (caster.Abilities.Has(AbilityId.Enchanter14))
+				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter14))
 				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter14);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_EnchantGlove");
-					hitRateBonus += abilityBonus;
+					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+					caster.Skills.TryGet(buff.SkillId, out var skill);
+					if (skill != null)
+					{
+						var abilityBonus = SCR_Get_SkillFactor(skill);
+						hitRateBonus += abilityBonus;
+					}
 				}
 
 				buff.Vars.SetFloat(VarName, hitRateBonus);

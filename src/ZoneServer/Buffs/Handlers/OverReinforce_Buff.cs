@@ -4,6 +4,7 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -37,12 +38,15 @@ namespace Melia.Zone.Buffs.Handlers
 
 				attackBonus = (float)Math.Floor(attackBonus);
 
-				if (caster.Abilities.Has(AbilityId.Enchanter15))
+				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter15))
 				{
-					var ability = caster.Abilities.Get(AbilityId.Enchanter15);
-					var Src_ReinforceAbilityBonus = ScriptableFunctions.Ability.Get("Src_ReinforceAbilityBonus");
-					var abilityBonus = Src_ReinforceAbilityBonus(ability, "Enchanter_OverReinforce");
-					attackBonus += abilityBonus;
+					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+					caster.Skills.TryGet(buff.SkillId, out var skill);
+					if (skill != null)
+					{
+						var abilityBonus = SCR_Get_SkillFactor(skill);
+						attackBonus += abilityBonus;
+					}
 				}
 
 				buff.Vars.SetFloat(VarName, attackBonus);

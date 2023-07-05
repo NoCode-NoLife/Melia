@@ -39,7 +39,6 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new DelegateCollection<CustomCommandScriptFunc>();
 		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>();
 		public static readonly DelegateCollection<AbilityPriceFunc> AbilityPrice = new DelegateCollection<AbilityPriceFunc>();
-		public static readonly DelegateCollection<AbilityFunc> Ability = new DelegateCollection<AbilityFunc>();
 
 		/// <summary>
 		/// Sets up delegate collections.
