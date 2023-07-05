@@ -69,7 +69,8 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			var skillHitDelay = TimeSpan.Zero;
 			var hitDelay = TimeSpan.FromMilliseconds(120);
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, null);
+			var forceId = ForceId.GetNew();
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, forceId, null);
 
 			await Task.Delay(hitDelay);
 
@@ -79,7 +80,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-			skillHit.ForceId = ForceId.GetNew();
+			skillHit.ForceId = forceId;
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 
