@@ -1532,4 +1532,12 @@
 { id: 4255, className: "RushSpear_OH", isOverheat: true, overheatResetTime: 20000 },
 { id: 4256, className: "FlyingSerpentFall_OH", isOverheat: true, overheatResetTime: 30000 },
 { id: 4257, className: "SwiftMove_OH", isOverheat: true, overheatResetTime: 30000 },
+{ id: 4258, className: "FlameTurret", isOverheat: false, overheatResetTime: 25000 },
+{ id: 4259, className: "FrozenTurret", isOverheat: false, overheatResetTime: 25000 },
+{ id: 4260, className: "ArrowTurret", isOverheat: false, overheatResetTime: 25000 },
+{ id: 4261, className: "recover", isOverheat: false, overheatResetTime: 30000 },
+{ id: 4262, className: "LightningTurret", isOverheat: false, overheatResetTime: 25000 },
+{ id: 4263, className: "BuffTurret", isOverheat: false, overheatResetTime: 40000 },
+{ id: 4264, className: "KingMechaV", isOverheat: false, overheatResetTime: 60000 },
+{ id: 4265, className: "RepairKit", isOverheat: false, overheatResetTime: 30000 },
 ]
