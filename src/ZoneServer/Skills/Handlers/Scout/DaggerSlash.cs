@@ -40,17 +40,16 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			caster.TurnTowards(designatedTarget);
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
-			// Get splash area
 			var splashAreaHeight = 40;
 			var splashAreaWidth = 25;
 
-			// We'll ignore the data sent by the client and get the positions ourselves
 			originPos = caster.Position;
 			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
 
 			var splashArea = new Square(originPos, caster.Direction, splashAreaHeight, splashAreaWidth);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
+			var buffDuration = TimeSpan.FromSeconds(2);
+			caster.Components.Get<BuffComponent>().Start(BuffId.DaggerSlash_Buff, skill.Level, 0, buffDuration, caster);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 
@@ -65,21 +64,17 @@ namespace Melia.Zone.Skills.Handlers.Scout
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position farPos)
 		{
-			var hits = new List<SkillHitInfo>();
-
-			var damageDelay = TimeSpan.Zero;
-			var secondHitTime = TimeSpan.FromMilliseconds(100);
-			var damageSecondDelay = TimeSpan.FromMilliseconds(100);
+			var damageDelay = TimeSpan.FromMilliseconds(90);
 			var skillHitDelay = TimeSpan.Zero;
+			var hitDelay = TimeSpan.FromMilliseconds(100);
 
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea).LimitBySDR(caster, skill);
+			var hits = new List<SkillHitInfo>();
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			foreach (var target in targets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				var damage = skillHitResult.Damage / 2;
-
-				target.TakeDamage(damage, caster);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
@@ -87,21 +82,20 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, hits);
 
-			await Task.Delay(secondHitTime);
+			await Task.Delay(hitDelay);
 
+			damageDelay = TimeSpan.FromMilliseconds(270);
 			hits.Clear();
 
 			foreach (var target in targets)
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				var damage = skillHitResult.Damage / 2;
+				var damage = skillHitResult.Damage;
 
 				target.TakeDamage(damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageSecondDelay, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
-
-				target.Components.Get<BuffComponent>().Start(BuffId.DaggerSlash_Buff, skill.Level, 0, TimeSpan.FromSeconds(2), target);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

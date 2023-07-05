@@ -4,7 +4,7 @@ using Melia.Shared.Tos.Const;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handler for DaggerSlash_Buff, which affects the character attack.
+	/// Handler for Dagger Slash buff, which affects the target's attack.
 	/// </summary>
 	[BuffHandler(BuffId.DaggerSlash_Buff)]
 	public class DaggerSlash_Buff : BuffHandler
@@ -17,7 +17,8 @@ namespace Melia.Zone.Buffs.Handlers
 		{
 			var target = buff.Target;
 
-			// TODO: Something with the attack based on number of daggers equiped.
+			// TODO: Something with the attack based on number of daggers
+			// equipped.
 		}
 
 		/// <summary>
