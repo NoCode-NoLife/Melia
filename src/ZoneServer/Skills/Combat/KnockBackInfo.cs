@@ -110,7 +110,7 @@ namespace Melia.Zone.Skills.Combat
 			// it itself. The following formula for calculating
 			// the knockback distance is *not* correct, but it's close
 			// enough that we'll hopefully not notice the descrepancy
-			// for now.
+			// too much for now.
 			// 
 			// Here are some examples. The expected values were gathered
 			// by having the client calculate the distance of a knocked
@@ -132,7 +132,8 @@ namespace Melia.Zone.Skills.Combat
 			// how far the monsters flies up into the air, which affects
 			// the distance it travels. That means the formula is even
 			// more wrong than I initially thought, because it will
-			// basically only work on simple push backs.
+			// basically only work on simple push backs. The VAngle
+			// used for the above examples was 10.
 
 			var pos = this.FromPosition;
 			var dir = this.Direction;
@@ -143,8 +144,7 @@ namespace Melia.Zone.Skills.Combat
 			// formula is presumably based on that value somehow. During
 			// testing it seemed like a time of 0.12 seconds worked for
 			// a velocity of 150, and since 150 / 1000 * 0.8 = 0.12, we
-			// end up with this formula. And now we wait for the inevitable
-			// bug report that this doesn't work in some cases.
+			// end up with this formula.
 			var seconds = velocity / 1000f * 0.8f;
 
 			var distance = unitsPerSecond * seconds;
