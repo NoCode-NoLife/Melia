@@ -155,7 +155,7 @@ namespace Melia.Zone.World.Spawner
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
 			var spawnPoint = new MonsterSpawnPoint(map, area);
-			SpawnPoints.Add(spawnPoint);
+			this.SpawnPoints.Add(spawnPoint);
 
 			return spawnPoint;
 		}
@@ -174,8 +174,8 @@ namespace Melia.Zone.World.Spawner
 		public void Spawn(int amount)
 		{
 			// Gets random spawn point
-			var index = _rnd.Next(0, SpawnPoints.Count);
-			var spawnPoint = SpawnPoints[index];
+			var index = _rnd.Next(0, this.SpawnPoints.Count);
+			var spawnPoint = this.SpawnPoints[index];
 
 			for (var i = 0; i < amount; ++i)
 			{
