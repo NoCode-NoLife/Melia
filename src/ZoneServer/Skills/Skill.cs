@@ -256,5 +256,69 @@ namespace Melia.Zone.Skills
 					this.OverheatCounter = 0;
 			}
 		}
+
+		/// <summary>
+		/// Calculates positions and direction for use in splash areas.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		/// <param name="length"></param>
+		/// <param name="width"></param>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		public SplashParameters GetSplashParameters(ICombatEntity caster, Position originPos, Position farPos, float length, float width, float angle)
+		{
+			var result = new SplashParameters();
+
+			result.Length = length;
+			result.Width = width;
+			result.Angle = angle;
+
+			result.Direction = originPos.GetDirection(farPos);
+			result.OriginPos = caster.Position;
+			result.FarPos = result.OriginPos.GetRelative(result.Direction, length);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Holds parameters for splash areas.
+		/// </summary>
+		public struct SplashParameters
+		{
+			/// <summary>
+			/// The length of the splash area. Typically synonymous with
+			/// the distance between the caster and the farthest point
+			/// of the splash area.
+			/// </summary>
+			public float Length;
+
+			/// <summary>
+			/// The width of a rectangular splash area.
+			/// </summary>
+			public float Width;
+
+			/// <summary>
+			/// The angle of a fan-shaped splash area.
+			/// </summary>
+			public float Angle;
+
+			/// <summary>
+			/// The direction in which the splash area is facing from
+			/// the caster.
+			/// </summary>
+			public Direction Direction;
+
+			/// <summary>
+			/// The position of the caster.
+			/// </summary>
+			public Position OriginPos;
+
+			/// <summary>
+			/// The farthest position of the splash area.
+			/// </summary>
+			public Position FarPos;
+		}
 	}
 }
