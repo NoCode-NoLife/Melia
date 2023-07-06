@@ -1,6 +1,6 @@
-﻿using Melia.Shared.L10N;
-using Melia.Shared.ObjectProperties;
+﻿using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
@@ -166,5 +166,23 @@ namespace Melia.Zone.World.Actors
 			if (entity is Character character)
 				character.ServerMessage(format, args);
 		}
+
+		/// <summary>
+		/// Returns the direction from the actor to the other actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="otherActor"></param>
+		/// <returns></returns>
+		public static Direction GetDirection(this IActor actor, IActor otherActor)
+			=> actor.Position.GetDirection(otherActor.Position);
+
+		/// <summary>
+		/// Returns the direction from the actor to the given position.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="otherActor"></param>
+		/// <returns></returns>
+		public static Direction GetDirection(this IActor actor, Position pos)
+			=> actor.Position.GetDirection(pos);
 	}
 }
