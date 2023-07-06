@@ -980,6 +980,26 @@ namespace Melia.Zone.Network
 
 				entity.Map.Broadcast(packet, entity);
 			}
+
+			/// <summary>
+			/// It seems to display an animation effect on the target
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void AnimationEffect(Character character, ICombatEntity target, int animationId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowAnimationEffect);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt(target.Handle);
+				packet.PutInt(animationId);
+				packet.PutFloat(1065);
+				packet.PutShort(-1);
+				packet.PutLong(0);
+
+				character.Map.Broadcast(packet, character);
+			}
 		}
 	}
 }

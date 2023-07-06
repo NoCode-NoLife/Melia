@@ -82,6 +82,7 @@
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
     <Compile Include="Buffs\Handlers\Bear.cs" />
+    <Compile Include="Buffs\Handlers\LatentVenom_Debuff.cs" />
     <Compile Include="Buffs\Handlers\SwiftStep_Buff.cs" />
     <Compile Include="Buffs\Handlers\Lethargy_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Concentration_Buff.cs" />
@@ -95,6 +96,8 @@
     <Compile Include="Buffs\Handlers\Drug_HealHP_MHP.cs" />
     <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
+    <Compile Include="Buffs\Handlers\Virus_Debuff.cs" />
+    <Compile Include="Buffs\Handlers\Zhendu_Buff.cs" />
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.Manager.cs" />
     <Compile Include="Database\Account.cs" />
@@ -174,6 +177,9 @@
     <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicShield.cs" />
     <Compile Include="Skills\Handlers\Wizard\Teleportation.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\LatentVenom.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\WugongGu.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\Zhendu.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\Handlers\SkillHandlerAttribute.cs" />
     <Compile Include="Skills\Handlers\SkillHandlers.cs" />
