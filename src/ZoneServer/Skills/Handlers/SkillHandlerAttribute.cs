@@ -20,12 +20,19 @@ namespace Melia.Zone.Skills.Handlers
 		public SkillId[] SkillIds { get; }
 
 		/// <summary>
+		/// Returns the priority of the handler. Handlers with higher
+		/// priority are preferred over handlers with lower priority.
+		/// </summary>
+		public int Priority { get; }
+
+		/// <summary>
 		/// Creates new attribute for the skill ids.
 		/// </summary>
 		/// <param name="skillIds"></param>
 		public SkillHandlerAttribute(params SkillId[] skillIds)
 		{
 			this.SkillIds = skillIds ?? new SkillId[0];
+			this.Priority = 100;
 		}
 
 		/// <summary>
@@ -38,6 +45,7 @@ namespace Melia.Zone.Skills.Handlers
 			var matchingSkills = ZoneServer.Instance.Data.SkillDb.FindAll(a => a.UseType == type);
 
 			this.SkillIds = matchingSkills.Select(a => a.Id).ToArray();
+			this.Priority = 0;
 		}
 
 		/// <summary>
@@ -52,6 +60,7 @@ namespace Melia.Zone.Skills.Handlers
 			var matchingSkills = ZoneServer.Instance.Data.SkillDb.FindAll(a => a.UseType == type && regex.IsMatch(a.ClassName));
 
 			this.SkillIds = matchingSkills.Select(a => a.Id).ToArray();
+			this.Priority = 50;
 		}
 	}
 }
