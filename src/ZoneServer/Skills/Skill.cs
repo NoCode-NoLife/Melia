@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -283,6 +284,31 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
+		/// Returns a splash area based on the given type and parameters.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="param"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public ISplashArea GetSplashArea(SplashType type, SplashParameters param)
+		{
+			ISplashArea splashArea;
+
+			switch (type)
+			{
+				case SplashType.Fan: splashArea = new Fan(param.OriginPos, param.Direction, param.Length, param.Angle); break;
+				case SplashType.Square: splashArea = new Square(param.OriginPos, param.Direction, param.Length, param.Width); break;
+				case SplashType.Circle: splashArea = new Circle(param.FarPos, param.Width); break;
+
+				default: throw new ArgumentException($"Unsupported splash type: {type}");
+			}
+
+			//Debug.ShowShape(this.Owner.Map, splashArea);
+
+			return splashArea;
+		}
+
+		/// <summary>
 		/// Holds parameters for splash areas.
 		/// </summary>
 		public struct SplashParameters
@@ -295,7 +321,8 @@ namespace Melia.Zone.Skills
 			public float Length;
 
 			/// <summary>
-			/// The width of a rectangular splash area.
+			/// The width of a rectangular splash area or the radius of
+			/// a circular one.
 			/// </summary>
 			public float Width;
 

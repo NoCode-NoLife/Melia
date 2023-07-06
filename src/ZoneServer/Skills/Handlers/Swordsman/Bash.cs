@@ -40,7 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 0, angle: 60);
-			var splashArea = new Fan(originPos, splashParam.Direction, splashParam.Length, splashParam.Angle);
+			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
