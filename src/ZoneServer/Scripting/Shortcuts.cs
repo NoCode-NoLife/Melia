@@ -210,8 +210,8 @@ namespace Melia.Zone.Scripting
 		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string spawnerName = "", int minAmount = -1, TendencyType tendency = TendencyType.Peaceful, PropertyOverrides propertyOverrides = null)
 		{
 			var initialSpawnDelay = TimeSpan.FromSeconds(0);
-			var minRespawnDelay = Math2.Max(TimeSpan.Zero, respawn.Divide(2)); // Arbitrary value of 1/2 of respawn time
-			var maxRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn); // Arbitrary value equal to respawn time or constant
+			var minRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn);
+			var maxRespawnDelay = minRespawnDelay.Multiply(3);
 			var maxSpawnAmount = Math.Max(1, maxAmount);
 			var minSpawnAmount = Math.Max(1, minAmount);
 
