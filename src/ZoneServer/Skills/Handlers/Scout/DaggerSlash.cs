@@ -39,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(designatedTarget);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 55, width: 30, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);

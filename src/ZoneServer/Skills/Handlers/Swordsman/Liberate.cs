@@ -35,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			var target = caster;
 

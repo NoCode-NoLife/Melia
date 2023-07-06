@@ -37,7 +37,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 0, angle: 60);
 			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);

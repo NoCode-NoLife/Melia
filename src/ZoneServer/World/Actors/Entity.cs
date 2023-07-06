@@ -4,6 +4,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors
@@ -184,5 +185,12 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static Direction GetDirection(this IActor actor, Position pos)
 			=> actor.Position.GetDirection(pos);
+
+		/// <summary>
+		/// Sets the entity's attack state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
+			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
 	}
 }

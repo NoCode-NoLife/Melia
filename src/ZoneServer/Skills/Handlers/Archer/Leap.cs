@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(false);
+			caster.SetAttackState(false);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 

@@ -37,7 +37,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			caster.Components.Get<BuffComponent>().Start(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
 

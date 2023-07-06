@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				overheatMaxCount = 2;
 
 			skill.IncreaseOverheat(overheatMaxCount);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			caster.Components.Get<BuffComponent>().Start(BuffId.Teleportation_Buff, 0, 0, TimeSpan.FromSeconds(1), caster);
 			caster.Components.Get<BuffComponent>().Start(BuffId.Skill_NoDamage_Buff, 0, 0, TimeSpan.FromSeconds(1), caster);
