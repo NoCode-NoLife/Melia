@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.Skills.Handlers.Scout
 {
@@ -40,13 +41,8 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			caster.TurnTowards(designatedTarget);
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
-			var splashAreaHeight = 40;
-			var splashAreaWidth = 25;
-
-			originPos = caster.Position;
-			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
-
-			var splashArea = new Square(originPos, caster.Direction, splashAreaHeight, splashAreaWidth);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 55, width: 30, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			var buffDuration = TimeSpan.FromSeconds(2);
 			caster.Components.Get<BuffComponent>().Start(BuffId.DaggerSlash_Buff, skill.Level, 0, buffDuration, caster);
