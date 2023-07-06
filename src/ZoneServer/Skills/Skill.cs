@@ -276,7 +276,11 @@ namespace Melia.Zone.Skills
 			result.Width = width;
 			result.Angle = angle;
 
-			result.Direction = originPos.GetDirection(farPos);
+			if (originPos == farPos)
+				result.Direction = caster.Direction;
+			else
+				result.Direction = originPos.GetDirection(farPos);
+
 			result.OriginPos = caster.Position;
 			result.FarPos = result.OriginPos.GetRelative(result.Direction, length);
 
