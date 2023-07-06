@@ -136,6 +136,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.MovingShotable, "SCR_Get_Character_MovingShotable");
 			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
 
+			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
+
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?
 			this.Create(new FloatProperty(PropertyName.HPDrain, 2));
