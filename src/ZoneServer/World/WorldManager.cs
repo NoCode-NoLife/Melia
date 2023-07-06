@@ -5,6 +5,8 @@ using System.Threading;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Spawner;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -24,6 +26,7 @@ namespace Melia.Zone.World
 
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
+		private readonly Dictionary<string, MonsterSpawner> _spawnersName = new Dictionary<string, MonsterSpawner>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -150,6 +153,15 @@ namespace Melia.Zone.World
 				foreach (var map in _mapsId.Values)
 					map.RemoveScriptedEntities();
 			}
+			lock (_spawnersName)
+			{
+				foreach (var spawner in _spawnersName)
+				{
+					spawner.Value.InitializePopulation();
+					this.Heartbeat.Remove(spawner.Value);
+				}
+				_spawnersName.Clear();
+			}
 		}
 
 		/// <summary>
@@ -169,6 +181,47 @@ namespace Melia.Zone.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Adds a monster spawner object to the world
+		/// </summary>
+		public void AddSpawner(MonsterSpawner spawner)
+		{
+			// Assertive
+			if (this.TryGetSpawnerByName(spawner.Name, out var sp))
+			{
+				Log.Warning($"AddSpawner: Duplicated spawner name '{spawner.Name}' cannot be added.");
+				return;
+			}
+
+			lock (_spawnersName)
+			{
+				// Adds spawner to our dictionary
+				_spawnersName.Add(spawner.Name, spawner);
+
+				// Adds spawner to updater
+				this.Heartbeat.Add(spawner);
+			}
+		}
+
+		/// <summary>
+		/// Returns by out a spawner with a given name if it exists in the world.
+		/// Returns true if found, false otherwise.
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <param name="spawner"></param>
+		/// <returns></returns>
+		public bool TryGetSpawnerByName(string name, out MonsterSpawner spawner)
+		{
+			lock (_spawnersName)
+				return _spawnersName.TryGetValue(name, out spawner);
+		}
+
+		public MonsterSpawner[] GetSpawners()
+		{
+			lock (_spawnersName)
+				return _spawnersName.Values.ToArray();
 		}
 
 		/// <summary>
