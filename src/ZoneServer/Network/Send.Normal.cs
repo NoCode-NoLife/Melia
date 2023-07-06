@@ -982,14 +982,14 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// It seems to display an animation effect on the target
+			/// Unknow purpose, its related to animation
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void AnimationEffect(Character character, ICombatEntity target, int animationId)
+			public static void Skill_E3(Character character, ICombatEntity target, int animationId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.ShowAnimationEffect);
+				packet.PutInt(NormalOp.Zone.Skill_E3);
 
 				packet.PutInt(character.Handle);
 				packet.PutInt(target.Handle);
@@ -997,6 +997,27 @@ namespace Melia.Zone.Network
 				packet.PutFloat(1065);
 				packet.PutShort(-1);
 				packet.PutLong(0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Unknow purpose, its related to animation
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void Skill_06(Character character, int animationId, float duration, int animationId2, float duration2, Position position)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.Skill_06);
+				packet.PutInt(character.Handle);
+				packet.PutInt(animationId);
+				packet.PutFloat(duration);
+				packet.PutInt(animationId2);
+				packet.PutFloat(duration2);
+				packet.PutPosition(position);
+				packet.PutFloat(10);
 
 				character.Map.Broadcast(packet, character);
 			}

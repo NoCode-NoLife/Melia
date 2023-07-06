@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 			Send.ZC_SHOW_EMOTICON(target, 8345, TimeSpan.FromSeconds(100));
-			Send.ZC_NORMAL.AnimationEffect(characterCaster, target, 13400);
+			Send.ZC_NORMAL.Skill_E3(characterCaster, target, 13400);
 
 			target.Components.Get<BuffComponent>().Start(BuffId.LatentVenom_Debuff, skill.Level, 0, TimeSpan.FromSeconds(100), caster, skill);
 		}

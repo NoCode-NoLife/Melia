@@ -64,7 +64,8 @@
 			public const int WigVisibilityUpdate = 0x1AC;
 			public const int Unknown_1B4 = 0x1B7;
 			public const int SubWeaponVisibilityUpdate = 0x1C5;
-			public const int ShowAnimationEffect = 0xE3;
+			public const int Skill_E3 = 0xE3;
+			public const int Skill_06 = 0x06;
 		}
 	}
 }

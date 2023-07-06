@@ -29,7 +29,6 @@ namespace Melia.Zone.Buffs.Handlers
 			if (_tickDamage != null)
 			{
 				_cancellationTokenSource?.Cancel();
-				_tickDamage = null;
 			}
 		}
 
@@ -41,8 +40,6 @@ namespace Melia.Zone.Buffs.Handlers
 				{
 					break;
 				}
-
-				await Task.Delay(1000);
 
 				var casterCharacter = buff.Caster as Character;
 
@@ -58,6 +55,9 @@ namespace Melia.Zone.Buffs.Handlers
 
 					Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
 				}
+
+
+				await Task.Delay(1000);
 			}
 		}
 	}

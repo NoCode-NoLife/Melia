@@ -15,14 +15,20 @@ namespace Melia.Zone.Buffs.Handlers
 		{
 			var dmgIncreasePercentage = 100 + this.GetDamagePercentageIncrease(buff);
 			buff.Vars.SetFloat(VarName, dmgIncreasePercentage);
-			buff.Target.Properties.Modify(PropertyName.SkillFactor, dmgIncreasePercentage);
+			if (buff.Target.Properties.Has(PropertyName.SkillFactor))
+			{
+				buff.Target.Properties.Modify(PropertyName.SkillFactor, dmgIncreasePercentage);
+			}
 		}
 
 		public override void OnEnd(Buff buff)
 		{
 			if (buff.Vars.TryGetFloat(VarName, out var bonus))
 			{
-				buff.Target.Properties.Modify(PropertyName.SkillFactor, -bonus);
+				if (buff.Target.Properties.Has(PropertyName.SkillFactor))
+				{
+					buff.Target.Properties.Modify(PropertyName.SkillFactor, -bonus);
+				}
 			}				
 		}
 
