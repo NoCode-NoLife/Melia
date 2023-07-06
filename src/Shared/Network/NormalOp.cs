@@ -71,6 +71,7 @@
 			public const int PartyMemberPropertyChange = 0xFA;
 			public const int ShowParty = 0x13C;
 			public const int AccountPropertyUpdate = 0x4D;
+			public const int PartyLeaderChange = 0xF6;
 		}
 	}
 }

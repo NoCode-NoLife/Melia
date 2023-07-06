@@ -137,7 +137,7 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Create's a new instance of a Party.
+		/// Creates a new instance of a Party.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="note"></param>
@@ -203,9 +203,9 @@ namespace Melia.Zone.World
 		{
 			lock (_members)
 			{
-				if (_members.ContainsKey(member.ObjectId) || _members.Count >= 5)
+				if (_members.ContainsKey(member.CharacterObjectId) || _members.Count >= 5)
 					return false;
-				_members.Add(member.ObjectId, member);
+				_members.Add(member.CharacterObjectId, member);
 			}
 			return true;
 		}
@@ -220,7 +220,7 @@ namespace Melia.Zone.World
 			{
 				foreach (var member in _members.Values)
 				{
-					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 					character?.Connection.Send(packet);
 				}
 			}
@@ -251,9 +251,9 @@ namespace Melia.Zone.World
 		{
 			lock (_members)
 			{
-				_members.Remove(member.ObjectId);
+				_members.Remove(member.CharacterObjectId);
 
-				if (member.AccountId == this.LeaderDbId)
+				if (member.CharacterDbId == this.LeaderDbId)
 				{
 					if (_members.Count <= 0)
 					{
@@ -262,21 +262,23 @@ namespace Melia.Zone.World
 					{
 						var rnd = RandomProvider.Get();
 						var leaderRng = rnd.Next(0, _members.Count);
-						var nextLeader = _members[leaderRng];
-						var leaderCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == nextLeader.ObjectId);
+						var nextLeader = _members.ElementAt(leaderRng);
+						var leaderCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == nextLeader.Value.CharacterObjectId);
 						ZoneServer.Instance.World.Parties.UpdatePartyLeader(this, leaderCharacter);
 					}
 				}
 
-				var leftCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+				var leftCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 
 				Send.ZC_PARTY_INST_INFO(leftCharacter.Connection.Party);
-
+				
 				foreach (var keyValuePair in _members)
 				{
 					Send.ZC_PARTY_OUT(leftCharacter, this);
-					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == keyValuePair.Key);
-					character?.AddonMessage(AddonMessage.SUCCESS_UPDATE_PARTY_INFO, "None");
+					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == keyValuePair.Key);					
+					character?.AddonMessage(AddonMessage.PARTY_UPDATE, "None");
+					Send.ZC_CHANGE_RELATION(character, leftCharacter, 2);
+					Send.ZC_CHANGE_RELATION(leftCharacter, character, 2);
 				}
 
 				ZoneServer.Instance.World.Parties.LeaveParty(leftCharacter);
@@ -436,7 +438,7 @@ namespace Melia.Zone.World
 				var member = _members.Values.FirstOrDefault(m => m.TeamName == teamName);
 				if (member != null)
 				{
-					var expeledMemberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+					var expeledMemberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 					this.RemoveMember(expeledMemberCharacter);
 				}
 			}

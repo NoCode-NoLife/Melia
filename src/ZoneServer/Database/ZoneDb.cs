@@ -1228,7 +1228,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 					{
-						cmd.AddParameter("@characterId", member.DbId);
+						cmd.AddParameter("@characterId", member.CharacterDbId);
 						cmd.Set("partyId", party.DbId);
 
 						cmd.Execute();
@@ -1333,7 +1333,7 @@ namespace Melia.Zone.Database
 							{
 								var member = new PartyMember
 								{
-									DbId = reader.GetInt64("characterId"),
+									CharacterDbId = reader.GetInt64("characterId"),
 									AccountId = reader.GetInt64("accountId"),
 									Name = reader.GetStringSafe("name"),
 									TeamName = reader.GetStringSafe("teamName"),
@@ -1373,7 +1373,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn, trans))
 					{
-						cmd.AddParameter("@characterId", member.DbId);
+						cmd.AddParameter("@characterId", member.CharacterDbId);
 						cmd.Set("partyId", 0);
 						cmd.Execute();
 					}
@@ -1410,7 +1410,7 @@ namespace Melia.Zone.Database
 				{
 					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 					{
-						cmd.AddParameter("@characterId", member.DbId);
+						cmd.AddParameter("@characterId", member.CharacterDbId);
 						cmd.Set("guildId", guild.DbId);
 
 						cmd.Execute();

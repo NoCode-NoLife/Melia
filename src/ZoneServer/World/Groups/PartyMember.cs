@@ -7,8 +7,8 @@ namespace Melia.Zone.World.Groups
 {
 	public class PartyMember
 	{
-		public long DbId { get; set; }
-		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
+		public long CharacterDbId { get; set; }
+		public long CharacterObjectId => ObjectIdRanges.Characters + this.CharacterDbId;
 		public long AccountId { get; set; }
 		public string TeamName { get; set; }
 		public string Name { get; set; }
@@ -36,7 +36,7 @@ namespace Melia.Zone.World.Groups
 		{
 			var member = new PartyMember()
 			{
-				DbId = character.DbId,
+				CharacterDbId = character.DbId,
 				AccountId = character.AccountId,
 				Gender = character.Gender,
 				Hair = character.Hair,

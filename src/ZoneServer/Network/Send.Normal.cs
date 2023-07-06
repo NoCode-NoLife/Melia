@@ -1016,7 +1016,7 @@ namespace Melia.Zone.Network
 				packet.PutByte((byte)party.Type);
 				packet.PutLong(party.ObjectId);
 				packet.PutInt(0);
-				packet.PutLong(party.Owner.ObjectId);
+				packet.PutLong(party.Owner.CharacterObjectId);
 				packet.PutLpString(party.Name);
 				packet.PutInt(1);
 				packet.PutByte(1);
@@ -1160,6 +1160,23 @@ namespace Melia.Zone.Network
 				packet.AddProperties(properties);
 
 				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Displays guild name under player and party name?
+			/// </summary>
+			/// <param name="character"></param>
+			public static void PartyLeaderChange(Character character)
+			{
+				var party = character.Connection.Party;
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyLeaderChange);
+				packet.PutLong(party.DbId);
+				packet.PutLong(party.LeaderDbId);
+
+				party.Broadcast(packet);
 			}
 		}
 	}

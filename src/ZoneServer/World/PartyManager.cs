@@ -64,8 +64,8 @@ namespace Melia.Zone.World
 		{
 			ZoneServer.Instance.Database.UpdatePartyLeader(party, character);
 			party.LeaderDbId = character.DbId;
-			Send.ZC_PARTY_INFO(character, party);
 			Send.ZC_PARTY_LIST(party);
+			Send.ZC_NORMAL.PartyLeaderChange(character);
 		}
 
 		/// <summary>

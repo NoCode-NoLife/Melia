@@ -2590,8 +2590,6 @@ namespace Melia.Zone.Network
 			if (party != null)
 			{
 				party.RemoveMember(character);
-				if (party.MemberCount == 0)
-					ZoneServer.Instance.World.Parties.Delete(party);
 			}
 		}
 

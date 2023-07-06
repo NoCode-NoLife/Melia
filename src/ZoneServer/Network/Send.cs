@@ -3990,6 +3990,20 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Change the relation from a player (when we kick/leave a party)
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_CHANGE_RELATION(Character character, Character targetCharacter, int relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(targetCharacter.Handle);
+			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// ? sent after party is created related /memberInfoForAct?
 		/// </summary>
 		/// <param name="character"></param>

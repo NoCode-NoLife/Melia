@@ -159,9 +159,9 @@ namespace Melia.Zone.World.Actors
 
 				foreach (var member in character.Connection.Party.GetMembers())
 				{
-					if (member.DbId != character.DbId && member.IsOnline)
+					if (member.CharacterDbId != character.DbId && member.IsOnline)
 					{
-						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 						Send.ZC_UPDATE_SP(memberCharacter, sp, false, character.Handle);
 					}
 				}

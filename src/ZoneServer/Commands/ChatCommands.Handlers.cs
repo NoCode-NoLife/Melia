@@ -1704,7 +1704,7 @@ namespace Melia.Zone.Commands
 
 			var party = sender.Connection.Party;
 
-			if (party != null && party.Owner.ObjectId == sender.ObjectId)
+			if (party != null && party.Owner.CharacterObjectId == sender.ObjectId)
 			{
 				var partyName = message.Substring(message.IndexOf(args.Get(2)) + args.Get(2).Length + 1);
 				// Client has an internal limit, additional safety check

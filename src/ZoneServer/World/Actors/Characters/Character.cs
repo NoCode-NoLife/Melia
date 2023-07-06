@@ -1170,9 +1170,9 @@ namespace Melia.Zone.World.Actors.Characters
 
 				foreach (var member in this.Connection.Party.GetMembers())
 				{
-					if (member.DbId != this.DbId && member.IsOnline)
+					if (member.CharacterDbId != this.DbId && member.IsOnline)
 					{
-						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 						Send.ZC_ADD_HP(memberCharacter, -damage, newHp, priority, this.Handle);
 					}
 				}
