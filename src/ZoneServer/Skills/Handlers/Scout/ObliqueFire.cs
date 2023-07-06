@@ -51,7 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				return;
 			}
 
-			caster.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
+			caster.StartBuff(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
 			this.Attack(skill, caster, target);
 		}
@@ -66,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 		{
 			var damageDelay = TimeSpan.FromMilliseconds(270);
 			var skillHitDelay = TimeSpan.Zero;
-			var hitDelay = TimeSpan.FromMilliseconds(120);
+			var hitDelay = TimeSpan.FromMilliseconds(100);
 
 			var forceId = ForceId.GetNew();
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, forceId, null);
@@ -75,7 +75,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 
 			var applyDebuff = caster.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.ObliqueFire_Buff) > 3;
 			if (applyDebuff)
-				target.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
+				target.StartBuff(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -96,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
 
 				if (applyDebuff)
-					bounceTarget.Components.Get<BuffComponent>().Start(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
+					bounceTarget.StartBuff(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 			}
 		}
 

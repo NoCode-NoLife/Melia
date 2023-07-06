@@ -40,7 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.Components.Get<BuffComponent>().Start(BuffId.GungHo, skill.Level, 0, duration, caster);
+			target.StartBuff(BuffId.GungHo, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

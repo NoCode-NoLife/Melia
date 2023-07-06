@@ -39,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			caster.Components.Get<BuffComponent>().Start(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
+			caster.StartBuff(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 30, width: 40, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);

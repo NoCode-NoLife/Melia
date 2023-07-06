@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			var buffDuration = TimeSpan.FromSeconds(2);
-			caster.Components.Get<BuffComponent>().Start(BuffId.DaggerSlash_Buff, skill.Level, 0, buffDuration, caster);
+			caster.StartBuff(BuffId.DaggerSlash_Buff, skill.Level, 0, buffDuration, caster);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 

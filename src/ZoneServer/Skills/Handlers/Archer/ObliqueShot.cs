@@ -63,7 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			if (RandomProvider.Next(100) < 50)
 			{
 				var duration = TimeSpan.FromSeconds(7);
-				target.Components.Get<BuffComponent>().Start(BuffId.Common_Slow, skill.Level, 0, duration, caster);
+				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
 			// Bounce shot

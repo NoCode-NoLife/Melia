@@ -54,8 +54,8 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			foreach (var target in targets)
 			{
-				target.Components.Get<BuffComponent>().Start(BuffId.Lethargy_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
-				target.Components.Get<BuffComponent>().Start(BuffId.Lethargy_Atk_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
+				target.StartBuff(BuffId.Lethargy_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
+				target.StartBuff(BuffId.Lethargy_Atk_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
 			}
 		}
 	}

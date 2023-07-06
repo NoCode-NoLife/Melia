@@ -45,8 +45,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var mainDuration = TimeSpan.FromSeconds(30);
 			var immunityDuration = TimeSpan.FromSeconds(3);
 
-			target.Components.Get<BuffComponent>().Start(BuffId.PainBarrier_Buff, skill.Level, 0, mainDuration, caster);
-			target.Components.Get<BuffComponent>().Start(BuffId.PainBarrierImmune_Buff, skill.Level, 0, immunityDuration, caster);
+			target.StartBuff(BuffId.PainBarrier_Buff, skill.Level, 0, mainDuration, caster);
+			target.StartBuff(BuffId.PainBarrierImmune_Buff, skill.Level, 0, immunityDuration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}
