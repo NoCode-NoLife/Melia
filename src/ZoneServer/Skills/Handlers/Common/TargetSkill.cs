@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 		/// <param name="targetPosition"></param>
 		private void SpreadVirusDebuff(Skill skill, ICombatEntity caster, ICombatEntity initialTarget)
 		{
-			var splashArea = new Circle(initialTarget.Position, 40);
+			var splashArea = new Circle(initialTarget.Position, 50);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			var skillHits = new List<SkillHitInfo>();

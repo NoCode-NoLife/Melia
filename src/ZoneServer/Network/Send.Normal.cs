@@ -966,7 +966,7 @@ namespace Melia.Zone.Network
 			/// <param name="targetPos"></param>
 			/// <param name="targetDir"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_59(Character character, int casterHandle, string packetString, SkillId skillId, Position targetPos, Direction targetDir, bool startEffect)
+			public static void Skill_59(Character character, string packetString, SkillId skillId, Position targetPos, Direction targetDir, bool startEffect)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
@@ -976,7 +976,7 @@ namespace Melia.Zone.Network
 
 				var startOrEndEffect = startEffect ? 1 : 256;
 
-				packet.PutInt(casterHandle);
+				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skillId);
 				packet.PutInt(1);

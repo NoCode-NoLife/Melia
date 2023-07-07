@@ -83,6 +83,7 @@
     <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
     <Compile Include="Buffs\Handlers\Bear.cs" />
+    <Compile Include="Buffs\Handlers\JincanGu_Abil_Debuff.cs" />
     <Compile Include="Buffs\Handlers\LatentVenom_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Archer_VerminPot_Debuff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Debuff.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicShield.cs" />
     <Compile Include="Skills\Handlers\Wizard\Teleportation.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\GoldenFrog.cs" />
     <Compile Include="Skills\Handlers\Wugushi\LatentVenom.cs" />
     <Compile Include="Skills\Handlers\Wugushi\PoisonPot.cs" />
     <Compile Include="Skills\Handlers\Wugushi\WugongGu.cs" />

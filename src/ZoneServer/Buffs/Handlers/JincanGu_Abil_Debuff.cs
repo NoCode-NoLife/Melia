@@ -10,10 +10,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handle for the VerminPot Debuff, which ticks damage every second.
+	/// Handle for the Virus Debuff, which ticks damage every second.
 	/// </summary>
-	[BuffHandler(BuffId.Archer_VerminPot_Debuff)]
-	public class Archer_VerminPot_Debuff : BuffHandler
+	[BuffHandler(BuffId.JincanGu_Abil_Debuff)]
+	public class JincanGu_Abil_Debuff : BuffHandler
 	{
 		public override void WhileActive(Buff buff)
 		{

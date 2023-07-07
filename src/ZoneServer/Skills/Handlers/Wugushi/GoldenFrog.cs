@@ -17,10 +17,10 @@ using Melia.Zone.Buffs;
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
 	/// <summary>
-	/// Handler for the Wugushi skill Poison Pot.
+	/// Handler for the Wugushi skill Golden Frog.
 	/// </summary>
-	[SkillHandler(SkillId.Wugushi_ThrowGuPot)]
-	public class PoisonPot : IGroundSkillHandler
+	[SkillHandler(SkillId.Wugushi_JincanGu)]
+	public class GoldenFrog : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, creates an area of effect that damages the enemies inside
@@ -49,10 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_06(caster as Character, "shot_fail", 0.5f, "", 1, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Position.GetDirection(farPos), true);
-			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
 
 			// Start the task
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
@@ -60,6 +57,15 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
 		{
+			await Task.Delay(200);
+
+			Send.ZC_NORMAL.Skill_06(caster as Character, "I_smoke001_dark_3#Bip01 Pelvis", 0.4f, "", 1, position);
+			Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), true);
+
+			await Task.Delay(500);
+
+			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
+
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
 				cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(15));
@@ -67,9 +73,11 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				while (!cancellationTokenSource.IsCancellationRequested)
 				{
 					// Radius seems precise
-					var radius = 45;
+					var radius = 100;
 					var center = position.GetRelative(position, radius);
 					var splashArea = new Circle(center, radius);
+
+					Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 					// Attack targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -79,16 +87,16 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 					foreach (var target in targets.LimitBySDR(caster, skill))
 					{
-						if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
+						if (!target.Components.Get<BuffComponent>().Has(BuffId.JincanGu_Abil_Debuff))
 						{
-							target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, skill.Level, 0, TimeSpan.FromSeconds(15), caster, skill);
+							target.Components.Get<BuffComponent>().Start(BuffId.JincanGu_Abil_Debuff, skill.Level, 0, TimeSpan.FromSeconds(60), caster, skill);
 						}
 					}
 
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, position, caster.Position.GetDirection(position), false);
+				Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), false);
 			}
 		}
 	}

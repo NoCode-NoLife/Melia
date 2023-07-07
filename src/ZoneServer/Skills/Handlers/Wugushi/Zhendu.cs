@@ -27,7 +27,6 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="dir"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Direction dir)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -42,12 +41,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			var duration = TimeSpan.FromMinutes(30);
 			caster.Components.Get<BuffComponent>().Start(BuffId.Zhendu_Buff, skill.Level, 0, duration, caster, skill);
 
-			var character = caster as Character;
-
-			if (character != null)
-			{
-				Send.ZC_NORMAL.Skill_59(character, caster.Handle, "", skill.Id, caster.Position, caster.Position.GetDirection(caster.Position), true);
-			}
+			Send.ZC_NORMAL.Skill_59(caster as Character, "character_start", skill.Id, caster.Position, caster.Position.GetDirection(caster.Position), true);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 		}

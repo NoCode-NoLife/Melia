@@ -19,12 +19,11 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 	public class WugongGu : ITargetSkillHandler
 	{
 		/// <summary>
-		/// Handles skill, damaging targets.
+		/// Handles skill, damages targets.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="originPos"></param>
-		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
