@@ -93,6 +93,38 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Plays effect on actor.
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="caster"></param>
+			/// <param name="packetString"></param>
+			/// <param name="argNum"></param>
+			/// <param name="argStr"></param>
+			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum, string argStr)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PlayTextEffect);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt(caster.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(argNum);
+
+				if (argStr == null)
+					packet.PutShort(-1);
+				else
+					packet.PutLpString(argStr);
+
+				packet.PutInt(0);
+				packet.PutInt(0);
+
+				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
 			/// Plays an animation of an effect getting thrown from the
 			/// entity to the position, where a second effect is played
 			/// for the impact.
