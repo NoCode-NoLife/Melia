@@ -96,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 					hit.ForceId = ForceId.GetNew();
 					hits.Add(hit);
 
-					Send.ZC_NORMAL.Skill_16(hit.ForceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);
+					Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);
 				}
 			}
 

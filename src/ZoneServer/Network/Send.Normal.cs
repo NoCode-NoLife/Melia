@@ -165,7 +165,7 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Controls a skill's visual effects.
 			/// </summary>
-			/// <param name="unkForceId"></param>
+			/// <param name="forceId"></param>
 			/// <param name="caster"></param>
 			/// <param name="source"></param>
 			/// <param name="target"></param>
@@ -180,7 +180,7 @@ namespace Melia.Zone.Network
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void Skill_16(int unkForceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
@@ -198,9 +198,9 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_16);
+				packet.PutInt(NormalOp.Zone.PlayForceEffect);
 
-				packet.PutInt(unkForceId);
+				packet.PutInt(forceId);
 
 				packet.PutInt(caster.Handle);
 				packet.PutInt(source.Handle);
