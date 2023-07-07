@@ -5,12 +5,12 @@
 		None,
 		Melee,
 		Fire,
-		Earth,
 		Ice,
-		Lightning,
 		Poison,
+		Lightning,
+		Earth,
 		Soul,
-		Dark,
 		Holy,
+		Dark,
 	}
 }
