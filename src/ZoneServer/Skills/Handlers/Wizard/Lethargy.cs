@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPos, null);
 
@@ -54,8 +54,8 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			foreach (var target in targets)
 			{
-				target.StartBuff(BuffId.Lethargy_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
-				target.StartBuff(BuffId.Lethargy_Atk_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
+				target.Components.Get<BuffComponent>().Start(BuffId.Lethargy_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
+				target.Components.Get<BuffComponent>().Start(BuffId.Lethargy_Atk_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
 			}
 		}
 	}

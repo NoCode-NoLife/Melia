@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -37,12 +36,15 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
-			caster.StartBuff(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
+			caster.Components.Get<BuffComponent>().Start(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 30, width: 40, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+			var height = skill.Properties.GetFloat(PropertyName.WaveLength);
+			var width = height / 2;
+			originPos = caster.Position;
+			farPos = originPos.GetRelative(caster.Direction, height);
+			var splashArea = new Square(originPos, caster.Direction, height, width);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);

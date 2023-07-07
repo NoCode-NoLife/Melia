@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -38,10 +37,20 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 50, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+			// Recalculate origin and far based on the direction and the
+			// caster's position
+			var direction = caster.Position.GetDirection(farPos);
+			var diameter = skill.Properties.GetFloat(PropertyName.WaveLength);
+			var radius = diameter / 2f;
+
+			originPos = caster.Position;
+			farPos = caster.Position.GetRelative(direction, diameter);
+
+			// Get circular splash area
+			var center = caster.Position.GetRelative(direction, radius);
+			var splashArea = new Circle(center, radius);
 
 			// Attack targets
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);

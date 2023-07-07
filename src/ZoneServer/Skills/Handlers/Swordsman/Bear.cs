@@ -31,12 +31,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.Bear_Buff, skill.Level, 0, duration, caster);
+			target.Components.Get<BuffComponent>().Start(BuffId.Bear_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, null);
 		}

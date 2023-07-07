@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -37,10 +36,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 0, angle: 60);
-			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
+			var splashAreaSize = 50;
+			originPos = caster.Position;
+			farPos = originPos.GetRelative(caster.Direction, splashAreaSize);
+
+			var splashArea = new Square(originPos, caster.Direction, splashAreaSize, splashAreaSize / 2);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);

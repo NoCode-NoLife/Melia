@@ -39,11 +39,12 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			this.ExecuteHeal(caster, target, skill);
 
-			caster.StartBuff(BuffId.Heal_Overload_Buff, TimeSpan.FromSeconds(3));
+			var overloadDuration = TimeSpan.FromSeconds(3);
+			caster.Components.Get<BuffComponent>().Start(BuffId.Heal_Overload_Buff, overloadDuration);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
@@ -77,7 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			var ratio2 = 150f + (skill.Level - 1) * 103f;
 			var healDuration = TimeSpan.FromSeconds(1);
 
-			target.StartBuff(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
+			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
 		}
 
 		/// <summary>

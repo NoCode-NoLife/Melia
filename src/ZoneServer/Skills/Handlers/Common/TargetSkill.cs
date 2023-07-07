@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(target);
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			//Send.ZC_SKILL_READY(caster, skill, target.Position, Position.Zero);
 			//Send.ZC_NORMAL.Unkown_1c(caster, target.Handle, target.Position, caster.Position.GetDirection(target.Position), Position.Zero);

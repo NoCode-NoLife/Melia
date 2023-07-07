@@ -23,7 +23,6 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	[SkillHandler(SkillId.Archer_Multishot)]
 	public class Multishot : IGroundSkillHandler
 	{
-		private const float SplashRadius = 30;
 		private const int TotalHits = 10;
 		private readonly static TimeSpan DelayBetweenHits = TimeSpan.FromMilliseconds(120);
 
@@ -50,12 +49,12 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			var splashArea = new Circle(farPos, SplashRadius);
+			var splashArea = new Circle(farPos, 30);
 			this.Attack(skill, caster, splashArea);
 		}
 

@@ -32,12 +32,12 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
+			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.Concentration_Buff, skill.Level, 0, duration, caster);
+			target.Components.Get<BuffComponent>().Start(BuffId.Concentration_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
