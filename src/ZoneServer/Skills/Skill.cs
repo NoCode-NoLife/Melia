@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -255,6 +256,100 @@ namespace Melia.Zone.Skills
 				if (this.OverheatTimeRemaining == TimeSpan.Zero)
 					this.OverheatCounter = 0;
 			}
+		}
+
+		/// <summary>
+		/// Calculates positions and direction for use in splash areas.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		/// <param name="length"></param>
+		/// <param name="width"></param>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		public SplashParameters GetSplashParameters(ICombatEntity caster, Position originPos, Position farPos, float length, float width, float angle)
+		{
+			var result = new SplashParameters();
+
+			result.Length = length;
+			result.Width = width;
+			result.Angle = angle;
+
+			if (originPos == farPos)
+				result.Direction = caster.Direction;
+			else
+				result.Direction = originPos.GetDirection(farPos);
+
+			result.OriginPos = caster.Position;
+			result.FarPos = result.OriginPos.GetRelative(result.Direction, length);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a splash area based on the given type and parameters.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="param"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public ISplashArea GetSplashArea(SplashType type, SplashParameters param)
+		{
+			ISplashArea splashArea;
+
+			switch (type)
+			{
+				case SplashType.Fan: splashArea = new Fan(param.OriginPos, param.Direction, param.Length, param.Angle); break;
+				case SplashType.Square: splashArea = new Square(param.OriginPos, param.Direction, param.Length, param.Width); break;
+				case SplashType.Circle: splashArea = new Circle(param.FarPos, param.Width); break;
+
+				default: throw new ArgumentException($"Unsupported splash type: {type}");
+			}
+
+			//Debug.ShowShape(this.Owner.Map, splashArea);
+
+			return splashArea;
+		}
+
+		/// <summary>
+		/// Holds parameters for splash areas.
+		/// </summary>
+		public struct SplashParameters
+		{
+			/// <summary>
+			/// The length of the splash area. Typically synonymous with
+			/// the distance between the caster and the farthest point
+			/// of the splash area.
+			/// </summary>
+			public float Length;
+
+			/// <summary>
+			/// The width of a rectangular splash area or the radius of
+			/// a circular one.
+			/// </summary>
+			public float Width;
+
+			/// <summary>
+			/// The angle of a fan-shaped splash area.
+			/// </summary>
+			public float Angle;
+
+			/// <summary>
+			/// The direction in which the splash area is facing from
+			/// the caster.
+			/// </summary>
+			public Direction Direction;
+
+			/// <summary>
+			/// The position of the caster.
+			/// </summary>
+			public Position OriginPos;
+
+			/// <summary>
+			/// The farthest position of the splash area.
+			/// </summary>
+			public Position FarPos;
 		}
 	}
 }

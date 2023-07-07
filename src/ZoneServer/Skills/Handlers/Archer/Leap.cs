@@ -32,12 +32,12 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(false);
+			caster.SetAttackState(false);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 
 			var duration = TimeSpan.FromSeconds(1);
-			caster.Components.Get<BuffComponent>().Start(BuffId.Skill_NoDamage_Buff, 0, 0, duration, caster);
+			caster.StartBuff(BuffId.Skill_NoDamage_Buff, 0, 0, duration, caster);
 
 			var distance = this.GetJumpDistance(caster, skill);
 			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, distance);

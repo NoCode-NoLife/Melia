@@ -83,9 +83,11 @@
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
+    <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
     <Compile Include="Buffs\Handlers\DashRun.cs" />
     <Compile Include="Buffs\Handlers\Bear.cs" />
     <Compile Include="Buffs\Handlers\OverReinforce_Buff.cs" />
+    <Compile Include="Buffs\Handlers\ObliqueFire_Debuff.cs" />
     <Compile Include="Buffs\Handlers\SwiftStep_Buff.cs" />
     <Compile Include="Buffs\Handlers\Lethargy_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Concentration_Buff.cs" />
@@ -150,6 +152,8 @@
     <Compile Include="Skills\Combat\KnockBackInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitInfo.cs" />
     <Compile Include="Skills\Combat\SkillHitResult.cs" />
+    <Compile Include="Skills\Handlers\Archer\ObliqueShot.cs" />
+    <Compile Include="Skills\Handlers\Archer\TwinArrows.cs" />
     <Compile Include="Skills\Handlers\Archer\Leap.cs" />
     <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
@@ -168,10 +172,14 @@
     <Compile Include="Skills\Handlers\Enchanter\EnchantEarth.cs" />
     <Compile Include="Skills\Handlers\Enchanter\EnchantGlove.cs" />
     <Compile Include="Skills\Handlers\Enchanter\OverReinforce.cs" />
+    <Compile Include="Skills\Handlers\Base\SimpleMonsterAttackSkill.cs" />
+    <Compile Include="Skills\Handlers\Monsters\OnionAttack.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
+    <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
     <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
     <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
+    <Compile Include="Skills\Handlers\Scout\ObliqueFire.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Liberate.cs" />
     <Compile Include="Skills\Handlers\Swordsman\PainBarrier.cs" />

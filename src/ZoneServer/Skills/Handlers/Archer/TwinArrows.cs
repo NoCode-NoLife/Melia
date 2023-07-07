@@ -8,20 +8,17 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Common
+namespace Melia.Zone.Skills.Handlers.Archer
 {
 	/// <summary>
-	/// Handles ranged skills that target a single entity.
+	/// Handles the Archer skill Twin Arrow.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
-	public class TargetSkill : ITargetSkillHandler
+	[SkillHandler(SkillId.Archer_TwinArrows)]
+	public class TwinArrows : ITargetSkillHandler
 	{
 		/// <summary>
-		/// Handles usage of the skill.
+		/// Handles the skill, do two consecutive hits on the enemy.
 		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -34,17 +31,23 @@ namespace Melia.Zone.Skills.Handlers.Common
 			caster.TurnTowards(target);
 			caster.SetAttackState(true);
 
-			//Send.ZC_SKILL_READY(caster, skill, target.Position, Position.Zero);
-			//Send.ZC_NORMAL.Unkown_1c(caster, target.Handle, target.Position, caster.Position.GetDirection(target.Position), Position.Zero);
-
 			if (target == null)
 			{
 				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				return;
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(500);
-			var skillHitDelay = skill.Properties.HitDelay;
+			if (!caster.Position.InRange2D(target.Position, skill.Data.MaxRange))
+			{
+				caster.ServerMessage(Localization.Get("Too far away."));
+				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
+				return;
+			}
+
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Data.DefaultHitDelay;
+
+			// TODO: Add more 50% damage to enemies using cloth armor type
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
