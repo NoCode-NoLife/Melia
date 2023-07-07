@@ -78,6 +78,7 @@
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Agility_Buff.cs" />
+    <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
     <Compile Include="Buffs\Handlers\EnchantEarth_Buff.cs" />
     <Compile Include="Buffs\Handlers\Enchantglove_Buff.cs" />
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />

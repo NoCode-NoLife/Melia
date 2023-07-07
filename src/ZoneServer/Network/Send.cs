@@ -1846,18 +1846,21 @@ namespace Melia.Zone.Network
 		/// Shows emoticon for actor on nearby clients.
 		/// </summary>
 		/// <remarks>
-		/// For available emoticons, search the packet string data for
+		/// For some available emoticons, search the packet string data for
 		/// entries with "_emo_" in their names, such as "I_emo_fear".
 		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetStringId">Id of the string for the emoticon from the packet string data.</param>
+		/// <param name="packetString"></param>
 		/// <param name="duration">Time to show to the emoticon for.</param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, int packetStringId, TimeSpan duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, string packetString, TimeSpan duration)
 		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringId);
+			packet.PutInt(packetStringData.Id);
 			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
