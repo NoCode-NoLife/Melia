@@ -42,24 +42,24 @@ namespace Melia.Shared.Data.Database
 		public float AddMDef { get; set; }
 		public ArmorMaterialType Material { get; set; }
 
-		public float Aries { get; set; }
 		public float Slash { get; set; }
+		public float Aries { get; set; }
 		public float Strike { get; set; }
-		public float AriesDefense { get; set; }
 		public float SlashDefense { get; set; }
+		public float AriesDefense { get; set; }
 		public float StrikeDefense { get; set; }
-		public float AriesRange { get; set; }
 		public float SlashRange { get; set; }
+		public float AriesRange { get; set; }
 		public float StrikeRange { get; set; }
 
 		public float FireResistence { get; set; }
 		public float IceResistence { get; set; }
-		public float PoisonResistence { get; set; }
 		public float LightningResistence { get; set; }
 		public float EarthResistence { get; set; }
-		public float SoulResistence { get; set; }
+		public float PoisonResistence { get; set; }
 		public float HolyResistence { get; set; }
 		public float DarkResistence { get; set; }
+		public float SoulResistence { get; set; }
 
 		public ItemScriptData Script { get; set; }
 

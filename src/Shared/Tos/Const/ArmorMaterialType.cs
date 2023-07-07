@@ -5,9 +5,10 @@
 		None,
 		Cloth,
 		Leather,
-		Chain,
 		Iron,
+		Chain,
 		Ghost,
+
 		Shield,
 		Aries,
 	}

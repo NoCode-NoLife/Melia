@@ -87,14 +87,17 @@ namespace Melia.Shared.Data.Database
 	public enum SkillAttackType
 	{
 		None,
-		Melee,
-		Strike,
 		Slash,
 		Aries,
-		Arrow,
+		Strike,
 		Magic,
+		Arrow,
 		Gun,
 		Cannon,
+
+		// These values don't seem to be attack types, but they are found
+		// on skills in the client's data.
+		Melee,
 		Holy,
 		Pad,
 	}
@@ -102,16 +105,20 @@ namespace Melia.Shared.Data.Database
 	public enum SkillAttribute
 	{
 		None,
-		Melee,
-		Magic,
-		Lightning,
-		Holy,
-		Poison,
-		Dark,
 		Fire,
 		Ice,
+		Lightning,
 		Earth,
+		Poison,
+		Holy,
+		Dark,
 		Soul,
+
+		// Any attributes using Melee or Magic could be bugs, since those
+		// should be attack types, not attributes. But they are found on
+		// skills in the the client's data.
+		Melee,
+		Magic,
 	}
 
 	public enum SkillClassType
