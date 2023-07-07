@@ -11,8 +11,6 @@ using Melia.Shared.Tos.Const;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -1784,8 +1782,19 @@ namespace Melia.Zone.Commands
 			}
 
 			var character = ZoneServer.Instance.World.GetCharacterByTeamName(args.Get(0));
+
+
+			// Can't invite a player that already have a party
+			if (character.Connection.Party != null)
+			{
+				sender.MsgBox(Localization.Get("The character is already on a party."));
+				return CommandResult.Okay;
+			}
+
 			if (character != null)
+			{				
 				Send.ZC_NORMAL.PartyInvite(character, sender, PartyType.Party);
+			}
 
 			return CommandResult.Okay;
 		}

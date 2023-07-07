@@ -1112,14 +1112,16 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="character"></param>
-			public static void ShowParty(IZoneConnection conn, Character character)
+			public static void ShowParty(IZoneConnection conn, Character character, byte left = 1)
 			{
 				var party = character.Connection.Party;
 				var guild = character.Connection.Guild;
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.ShowParty);
 
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.ShowParty);
 				packet.PutInt(character.Handle);
+
 				if (party != null && guild != null)
 				{
 					packet.PutByte(1);
@@ -1129,7 +1131,7 @@ namespace Melia.Zone.Network
 				}
 				else if (party != null)
 				{
-					packet.PutByte(1);
+					packet.PutByte(left);
 					packet.PutLpString(party.Name);
 					packet.PutByte(3);
 				}
@@ -1201,6 +1203,8 @@ namespace Melia.Zone.Network
 			public static void PartyLeaderChange(Character character)
 			{
 				var party = character.Connection.Party;
+				if (party == null)
+					return;
 
 				var packet = new Packet(Op.ZC_NORMAL);
 

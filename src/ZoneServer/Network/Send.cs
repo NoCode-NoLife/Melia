@@ -3878,6 +3878,7 @@ namespace Melia.Zone.Network
 		public static void ZC_PARTY_INFO(Character character, Party party)
 		{
 			var packet = new Packet(Op.ZC_PARTY_INFO);
+
 			packet.PutByte((byte)party.Type);
 			packet.PutByte(0);
 			packet.PutDate(party.DateCreated);
@@ -3888,6 +3889,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(0);
 			packet.PutInt(1);
 			packet.PutShort(1);
+
 			if (party.Type == PartyType.Party)
 			{
 				packet.PutShort(256);
@@ -3925,10 +3927,12 @@ namespace Melia.Zone.Network
 			var members = party.GetMembers();
 
 			var packet = new Packet(Op.ZC_PARTY_LIST);
+
 			packet.PutLong(0);
 			packet.PutByte((byte)party.Type);
 			packet.PutLong(party.ObjectId);
 			packet.PutByte((byte)members.Length);
+
 			foreach (var member in members)
 				packet.AddPartyMember(member);
 
@@ -3950,22 +3954,6 @@ namespace Melia.Zone.Network
 			packet.PutShort(0);
 
 			party.Broadcast(packet);
-		}
-
-		/// <summary>
-		/// Party member left/expelled from party
-		/// </summary>
-		/// <param name="party"></param>
-		public static void ZC_PARTY_OUT(Character character, Party party)
-		{
-			var packet = new Packet(Op.ZC_PARTY_OUT);
-
-			packet.PutByte((byte)party.Type);
-			packet.PutLong(party.ObjectId);
-			packet.PutLong(character.AccountId);
-			packet.PutByte(0);
-
-			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -4014,14 +4002,14 @@ namespace Melia.Zone.Network
 		/// Change the relation from a player (when we kick/leave a party)
 		/// </summary>
 		/// <param name="party"></param>
-		public static void ZC_CHANGE_RELATION(Character character, Character targetCharacter, int relation)
+		public static void ZC_CHANGE_RELATION(Character character, Party party, int relation)
 		{
 			var packet = new Packet(Op.ZC_CHANGE_RELATION);
 
-			packet.PutInt(targetCharacter.Handle);
+			packet.PutInt(character.Handle);
 			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
 
-			character.Connection.Send(packet);
+			party.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -4031,6 +4019,10 @@ namespace Melia.Zone.Network
 		public static void ZC_TO_SOMEWHERE_CLIENT(Character character)
 		{
 			var party = character.Connection.Party;
+
+			if (party == null)
+				return;
+
 			var packet = new Packet(Op.ZC_TO_SOMEWHERE_CLIENT);
 			packet.PutLong(0);
 			packet.PutInt(1);
@@ -4039,9 +4031,9 @@ namespace Melia.Zone.Network
 
 			packet.Zlib(true, zpacket =>
 			{
-				zpacket.PutInt(0xDC2);
-				zpacket.PutShort(0);
-				zpacket.PutShort(0);
+				zpacket.PutLong(0);
+				zpacket.PutInt(1);
+				zpacket.PutInt(1);
 				zpacket.PutLong(1000555709005824);
 				zpacket.PutString(character.TeamName, 65);
 				zpacket.PutLong(party?.ObjectId ?? 0);

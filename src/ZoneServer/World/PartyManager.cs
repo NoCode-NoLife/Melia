@@ -4,6 +4,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Groups;
 
 namespace Melia.Zone.World
 {
@@ -26,14 +27,17 @@ namespace Melia.Zone.World
 			{
 				LeaderDbId = character.DbId,
 			};
-			party.AddMember(character, true);
 
+			party.AddMember(character, true);
 			ZoneServer.Instance.Database.CreateParty(party);
+
 			Send.ZC_PARTY_INFO(character, party);
-			Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");
 			Send.ZC_PARTY_LIST(party);
+			Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");;
 			Send.ZC_NORMAL.ShowParty(character);
+
 			this.Add(party);
+
 			return party;
 		}
 
@@ -60,12 +64,17 @@ namespace Melia.Zone.World
 		/// Updates the party leader.
 		/// </summary>
 		/// <param name="party"></param>
-		public void UpdatePartyLeader(Party party, Character character)
+		public void UpdatePartyLeader(Party party, Character character, PartyMember partyMember, PartyMember leftMember)
 		{
+			var leftMemberChar = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == leftMember.CharacterObjectId);
+
 			ZoneServer.Instance.Database.UpdatePartyLeader(party, character);
 			party.LeaderDbId = character.DbId;
-			Send.ZC_PARTY_LIST(party);
+			Send.ZC_PARTY_INST_INFO(party);
 			Send.ZC_NORMAL.PartyLeaderChange(character);
+			Send.ZC_NORMAL.ShowParty(character.Connection, character);
+			Send.ZC_NORMAL.ShowParty(character.Connection, leftMemberChar, 0);
+			Send.ZC_ADDON_MSG(character, AddonMessage.SUCCESS_UPDATE_PARTY_INFO, 0, "None");			
 		}
 
 		/// <summary>

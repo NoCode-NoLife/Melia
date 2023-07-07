@@ -2545,7 +2545,7 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 			var sender = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
 
-			if (sender != null)
+			if (character.Connection.Party == null && sender != null)
 			{
 				var party = sender.Connection.Party;
 				if (party == null)

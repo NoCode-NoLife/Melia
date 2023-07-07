@@ -1283,16 +1283,34 @@ namespace Melia.Zone.Database
 		/// <returns></returns>
 		public void LoadParty(Character character)
 		{
-			if (character.PartyId <= 0)
-				return;
-			var party = ZoneServer.Instance.World.GetParty(character.PartyId);
-			if (party == null)
+			using (var conn = this.GetConnection())
 			{
-				using (var conn = this.GetConnection())
+				var partyId = 0L;
+
+				using (var mc = new MySqlCommand("SELECT `partyId` FROM `characters` WHERE `characterId` = @characterId", conn))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							partyId = reader.GetInt64("partyId");
+						}
+
+					}
+				}
+
+				if (partyId == 0)
+					return;
+
+				var party = ZoneServer.Instance.World.GetParty(partyId);
+
+				if (party == null)
 				{
 					using (var mc = new MySqlCommand("SELECT * FROM `party` WHERE `partyId` = @partyId", conn))
 					{
-						mc.Parameters.AddWithValue("@partyId", character.PartyId);
+						mc.Parameters.AddWithValue("@partyId", partyId);
 
 						using (var reader = mc.ExecuteReader())
 						{
@@ -1302,19 +1320,20 @@ namespace Melia.Zone.Database
 									(PartyItemDistribution)reader.GetByte("itemDistribution"), (PartyExpDistribution)reader.GetByte("expDistribution"), (PartyQuestSharing)reader.GetByte("questSharing"));
 
 								this.LoadPartyMembers(character, party);
-
 								ZoneServer.Instance.World.Parties.Add(party);
 							}
 						}
 					}
 				}
-			}
-			else
-			{
-				var member = party.GetMember(character.ObjectId);
-				if (member != null)
-					member.IsOnline = true;
-			}
+				else
+				{
+					var member = party.GetMember(character.ObjectId);
+					if (member != null)
+					{
+						member.IsOnline = true;
+					}						
+				}
+			}			
 		}
 
 		private void LoadPartyMembers(Character loadCharacter, Party party)
@@ -1349,8 +1368,6 @@ namespace Melia.Zone.Database
 								member.IsOnline = false;
 								party.AddMember(member);
 							}
-							else
-								party.AddMember(character, true);
 						}
 					}
 				}
