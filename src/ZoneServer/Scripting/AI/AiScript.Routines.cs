@@ -98,10 +98,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <exception cref="ArgumentException"></exception>
 		protected IEnumerable Emoticon(string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var data))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-			Send.ZC_SHOW_EMOTICON(this.Entity, data.Id, TimeSpan.FromSeconds(2));
+			Send.ZC_SHOW_EMOTICON(this.Entity, packetString, TimeSpan.FromSeconds(2));
 			yield break;
 		}
 

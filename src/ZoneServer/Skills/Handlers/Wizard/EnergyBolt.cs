@@ -35,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(designatedTarget);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			if (designatedTarget == null)
 			{
@@ -52,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var damageDelay = TimeSpan.FromMilliseconds(550);
 			var skillHitDelay = TimeSpan.FromMilliseconds(100);
 
-			var splashArea = new Circle(designatedTarget.Position, skill.Data.SplashRange);
+			var splashArea = new Circle(designatedTarget.Position, skill.Properties.GetFloat(PropertyName.SplRange));
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			var skillHits = new List<SkillHitInfo>();

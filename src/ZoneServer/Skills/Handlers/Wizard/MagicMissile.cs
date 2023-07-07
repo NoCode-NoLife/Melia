@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -22,7 +23,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	public class MagicMissile : IGroundSkillHandler
 	{
 		private const int BulletsPerUse = 3;
-		private const float SplashAreaSize = 100;
 		private const float SubSplashAreaSize = 200;
 
 		/// <summary>
@@ -42,9 +42,11 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
-			var splashArea = new Square(originPos, caster.Direction, SplashAreaSize, SplashAreaSize / 2);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 130, width: 60, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = skill.Properties.HitDelay;
@@ -71,12 +73,10 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			{
 				var target = skillHit.Target;
 
-				// Not sure about this sub splash area, but... Well, I'm not
-				// sure about the main splash area either... Anyway, this is
-				// entirely guessed, but it feels alright. And while it
-				// seems rather large, you can actually observe ricochet
-				// bullets going pretty far, so it can't be off by too
-				// much.
+				// Not sure about this sub splash area, but it feels alright.
+				// And while it seems rather large, you can actually observe
+				// ricochet bullets going pretty far, so it can't be off by
+				// too much.
 				var subSplashArea = Square.Centered(target.Position, caster.Direction, SubSplashAreaSize, SubSplashAreaSize / 2);
 				var subTargets = caster.Map.GetAttackableEntitiesIn(caster, subSplashArea).Where(a => a != target);
 

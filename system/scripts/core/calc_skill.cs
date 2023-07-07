@@ -169,7 +169,7 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_Get_WaveLength")]
 	public float SCR_Get_WaveLength(Skill skill)
 	{
-		var baseValue = skill.Data.WaveLength;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklWaveLength);
 
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Square)
@@ -191,9 +191,9 @@ public class SkillCalculationsScript : GeneralScript
 	public float SCR_SPLANGLE(Skill skill)
 	{
 		if (skill.Data.SplashType != SplashType.Fan)
-			return skill.Data.SplashAngle;
+			return skill.Properties.GetFloat(PropertyName.SklSplAngle);
 
-		var baseValue = skill.Data.SplashAngle;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplAngle);
 		var byOwner = skill.Owner.Properties.GetFloat(PropertyName.SkillAngle);
 
 		return baseValue + byOwner;

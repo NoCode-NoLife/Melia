@@ -57,6 +57,9 @@
 		// stats automatically over time
 		{ name: "IncreasedStatRatio", enabled: true },
 	]},
+	
+	// Lowers ability costs
+	{ name: "AbilityCostRevamp", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet
