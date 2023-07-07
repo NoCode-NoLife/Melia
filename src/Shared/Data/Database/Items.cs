@@ -40,6 +40,7 @@ namespace Melia.Shared.Data.Database
 		public float MDef { get; set; }
 		public float AddDef { get; set; }
 		public float AddMDef { get; set; }
+		public ArmorMaterialType Material { get; set; }
 
 		public float Aries { get; set; }
 		public float Slash { get; set; }
@@ -153,6 +154,7 @@ namespace Melia.Shared.Data.Database
 			data.MDef = entry.ReadFloat("mDef", 0);
 			data.AddDef = entry.ReadFloat("addDef", 0);
 			data.AddMDef = entry.ReadFloat("addMDef", 0);
+			data.Material = entry.ReadEnum<ArmorMaterialType>("material", ArmorMaterialType.None);
 
 			data.Aries = entry.ReadFloat("aries", 0);
 			data.Slash = entry.ReadFloat("slash", 0);

@@ -8,5 +8,7 @@
 		Chain,
 		Iron,
 		Ghost,
+		Shield,
+		Aries,
 	}
 }
