@@ -8235,6 +8235,7 @@
 	{ namespace: "Account", name: "ep15unicorn_shield_cabinet", type: "Number", id: 114005 },
 	{ namespace: "Account", name: "ep15unicorn_bow_cabinet", type: "Number", id: 114006 },
 	{ namespace: "Account", name: "PAPAYA_BLESSED_GACHA_125284", type: "Number", id: 114007 },
+	{ namespace: "Account", name: "RidePet_19", type: "Number", id: 114011 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },

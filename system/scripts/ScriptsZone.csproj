@@ -84,6 +84,7 @@
     <Compile Include="core\ability_price.cs" />
     <Compile Include="core\ability_unlock.cs" />
     <Compile Include="core\calc_monster.cs" />
+    <Compile Include="core\calc_skill_override.cs" />
     <Compile Include="core\calc_skill.cs" />
     <Compile Include="core\calc_combat.cs" />
     <Compile Include="core\client\ability_point_cost\main.cs" />

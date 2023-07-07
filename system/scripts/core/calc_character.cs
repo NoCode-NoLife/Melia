@@ -13,6 +13,7 @@ using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -1375,5 +1376,21 @@ public class CharacterCalculationsScript : GeneralScript
 		var value = byJob + byBuff;
 
 		return Math.Min(5, value);
+	}
+
+	/// <summary>
+	/// Returns character's skill range, which adds potentially to the
+	/// skill's splash range.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_Get_SkillRange")]
+	public float SCR_Get_SkillRange(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SkillRange);
+		var byBuff = character.Properties.GetFloat(PropertyName.SkillRange_BM);
+
+		var value = byItem + byBuff;
+		return value;
 	}
 }

@@ -37,10 +37,10 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			var duration = TimeSpan.FromSeconds(20);
-			caster.Components.Get<BuffComponent>().Start(BuffId.Cloaking_Buff, skill.Level, 0, duration, caster);
+			caster.StartBuff(BuffId.Cloaking_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
 		}

@@ -1,9 +1,12 @@
-﻿using Melia.Shared.L10N;
+﻿using System;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors
@@ -182,5 +185,53 @@ namespace Melia.Zone.World.Actors
 			if (entity is Character character)
 				character.ServerMessage(format, args);
 		}
+
+		/// <summary>
+		/// Returns the direction from the actor to the other actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="otherActor"></param>
+		/// <returns></returns>
+		public static Direction GetDirection(this IActor actor, IActor otherActor)
+			=> actor.Position.GetDirection(otherActor.Position);
+
+		/// <summary>
+		/// Returns the direction from the actor to the given position.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="otherActor"></param>
+		/// <returns></returns>
+		public static Direction GetDirection(this IActor actor, Position pos)
+			=> actor.Position.GetDirection(pos);
+
+		/// <summary>
+		/// Sets the entity's attack state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
+			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, TimeSpan duration)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
+		/// <param name="duration"></param>
+		/// <param name="caster"></param>
+		/// <returns></returns>
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
 	}
 }

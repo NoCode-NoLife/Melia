@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i374810
+//   Version: i375064
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -28219,6 +28219,7 @@ string getPropertyName(int id)
         case 114008: return "PAPAYA_GUILDEVENT_TOTAL_CLEAR_COUNT_125346";
         case 114009: return "PAPAYA_GUILDEVENT_WEEKLY_CLEAR_COUNT_125346";
         case 114010: return "PAPAYA_GUILDEVENT_NEXT_RESET_125346";
+        case 114011: return "RidePet_19";
         default: return "Unknown";
     }
 }

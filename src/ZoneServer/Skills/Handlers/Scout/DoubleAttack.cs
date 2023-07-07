@@ -31,12 +31,12 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.Components.Get<BuffComponent>().Start(BuffId.DoubleAttack_Buff, skill.Level, 0, duration, caster);
+			target.StartBuff(BuffId.DoubleAttack_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, null);
 		}

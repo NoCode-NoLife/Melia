@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -36,25 +37,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
-			// Get splash area
-			// It's currently unknown where exactly these values are coming
-			// from. The width might be skill.SkillSR, but nothing matches
-			// the presumed height of 60. WaveLength is 40, and there's
-			// a client file that lists a length value of 50, but neither
-			// seems quite right, so we'll hardcode it for now, making it
-			// a bit higher than a normal attack a bit narrower.
-			var splashAreaHeight = 60;
-			var splashAreaWidth = 14;
-
-			// We'll ignore the data sent by the client and get the
-			// positions ourselves, because players are dirty cheaters
-			// who can't be trusted.
-			originPos = caster.Position;
-			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
-
-			var splashArea = new Square(originPos, caster.Direction, splashAreaHeight, splashAreaWidth);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 75, width: 20, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);

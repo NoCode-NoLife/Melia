@@ -32,12 +32,12 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			target = caster;
 
 			var duration = this.GetBuffDuration(skill);
-			target.Components.Get<BuffComponent>().Start(BuffId.Fade_Buff, skill.Level, 0, duration, caster);
+			target.StartBuff(BuffId.Fade_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
