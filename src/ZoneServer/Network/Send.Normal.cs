@@ -241,16 +241,35 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Adjusts the skill speed for a skill.
+			/// Packet with unknown purpose that's sent during dynamic
+			/// casting.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void UnkDynamicCastStart(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Packet with unknown purpose that's sent during dynamic
+			/// casting.
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
 			/// <param name="value"></param>
-			public static void Skill_4E(Character character, SkillId skillId, float value)
+			public static void UnkDynamicCastEnd(Character character, SkillId skillId, float value)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_4E);
+				packet.PutInt(NormalOp.Zone.UnkDynamicCastEnd);
 
+				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
 				packet.PutFloat(value);
 				packet.PutByte(0);

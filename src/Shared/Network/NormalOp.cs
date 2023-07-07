@@ -39,7 +39,8 @@
 			public const int AttackCancel = 0x41;
 			public const int Skill_45 = 0x45;
 			public const int AccountUpdate = 0x4C;
-			public const int Skill_4E = 0x4E;
+			public const int UnkDynamicCastStart = 0x4F;
+			public const int UnkDynamicCastEnd = 0x50;
 			public const int Skill_59 = 0x59;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
