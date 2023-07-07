@@ -8,7 +8,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
 using System.Threading;
@@ -48,9 +47,11 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, designatedTarget.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_06(caster as Character, 6818, 0.5f, 0, 1, farPos);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.Skill_06(caster as Character, "shot_fail", 0.5f, "", 1, farPos);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+			Send.ZC_NORMAL.Skill_59(caster as Character, caster.Handle, "shot_fail", skill.Id, farPos, caster.Position.GetDirection(caster.Position), true);
+			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
 
 			// Start the task
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
@@ -58,31 +59,36 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
 		{
-			while (true)
+			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
-				// HardCoded for the moment, seems precisa tho
-				var radius = 35;
-				var center = position.GetRelative(position, radius);
-				var splashArea = new Circle(center, radius);
+				cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(15));
 
-				Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
-				// Attack targets
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-				var damageDelay = TimeSpan.FromMilliseconds(150);
-
-				var hits = new List<SkillHitInfo>();
-
-				foreach (var target in targets.LimitBySDR(caster, skill))
+				while (!cancellationTokenSource.IsCancellationRequested)
 				{
-					if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
+					// Radius seems precise
+					var radius = 45;
+					var center = position.GetRelative(position, radius);
+					var splashArea = new Circle(center, radius);
+
+					// Attack targets
+					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+					var damageDelay = TimeSpan.FromMilliseconds(150);
+
+					var hits = new List<SkillHitInfo>();
+
+					foreach (var target in targets.LimitBySDR(caster, skill))
 					{
-						target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, skill.Level, 0, TimeSpan.FromSeconds(15), caster, skill);
+						if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
+						{
+							target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, skill.Level, 0, TimeSpan.FromSeconds(15), caster, skill);
+						}
 					}
+
+					// Delay for 1 seconds
+					await Task.Delay(200);
 				}
 
-				// Delay for 1 seconds
-				await Task.Delay(200);
+				Send.ZC_NORMAL.Skill_59(caster as Character, caster.Handle, "shot_fail", skill.Id, position, caster.Position.GetDirection(caster.Position), false);
 			}
 		}
 	}

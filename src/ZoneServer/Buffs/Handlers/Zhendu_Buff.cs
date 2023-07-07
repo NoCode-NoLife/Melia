@@ -9,12 +9,12 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Zhendu_Buff)]
 	public class Zhendu_Buff : BuffHandler
 	{
-		private const string VarName = "Melia.dmgIncreasePercentage";
+		private const string varName = "Melia.dmgIncreasePercentage";
 
 		public override void OnStart(Buff buff)
 		{
 			var dmgIncreasePercentage = 100 + this.GetDamagePercentageIncrease(buff);
-			buff.Vars.SetFloat(VarName, dmgIncreasePercentage);
+			buff.Vars.SetFloat(varName, dmgIncreasePercentage);
 			if (buff.Target.Properties.Has(PropertyName.SkillFactor))
 			{
 				buff.Target.Properties.Modify(PropertyName.SkillFactor, dmgIncreasePercentage);
@@ -23,7 +23,7 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var bonus))
+			if (buff.Vars.TryGetFloat(varName, out var bonus))
 			{
 				if (buff.Target.Properties.Has(PropertyName.SkillFactor))
 				{

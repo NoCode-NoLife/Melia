@@ -17,11 +17,13 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		private Task _tickDamage;
 		private CancellationTokenSource _cancellationTokenSource;
+		private const string varName = "Melia.SpreadTargets";
 
 		public override void OnStart(Buff buff)
 		{
 			_cancellationTokenSource = new CancellationTokenSource();
 			_tickDamage = Task.Run(() => TickDamage(_cancellationTokenSource.Token, buff));
+			buff.Vars.SetInt(varName, 0);
 		}
 
 		public override void OnEnd(Buff buff)

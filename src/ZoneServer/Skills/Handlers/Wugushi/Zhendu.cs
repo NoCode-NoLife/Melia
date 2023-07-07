@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 
 			if (character != null)
 			{
-				Send.ZC_NORMAL.Skill_59(character, caster.Handle, "", skill.Id, caster.Position, caster.Position.GetDirection(caster.Position));
+				Send.ZC_NORMAL.Skill_59(character, caster.Handle, "", skill.Id, caster.Position, caster.Position.GetDirection(caster.Position), true);
 			}
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
