@@ -705,6 +705,12 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
+			// 30% of healing reduced
+			if (Buffs.Has(BuffId.DecreaseHeal_Debuff))
+			{
+				hpAmount *= 0.7f;
+			}
+
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 

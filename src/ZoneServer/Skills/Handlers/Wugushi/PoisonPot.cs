@@ -49,10 +49,8 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_06(caster as Character, "shot_fail", 0.5f, "", 1, farPos);
+			Send.ZC_NORMAL.Skill_06(caster as Character, "M_GTOWER_STAGE_13", 0.5f, "", 1, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Position.GetDirection(farPos), true);
-			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
 
 			// Start the task
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
@@ -60,6 +58,11 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
 		{
+			await Task.Delay(600);
+
+			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, position, caster.Position.GetDirection(position), true);
+			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
+
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
 				cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(15));
@@ -73,15 +76,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 					// Attack targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-					var damageDelay = TimeSpan.FromMilliseconds(150);
 
 					var hits = new List<SkillHitInfo>();
 
-					foreach (var target in targets.LimitBySDR(caster, skill))
+					foreach (var target in targets.LimitRandom(6))
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
 						{
-							target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, skill.Level, 0, TimeSpan.FromSeconds(15), caster, skill);
+							target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, 0, 0, TimeSpan.FromSeconds(15), caster, skill);
 						}
 					}
 

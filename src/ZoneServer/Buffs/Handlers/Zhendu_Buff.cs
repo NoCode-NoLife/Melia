@@ -1,5 +1,7 @@
 ﻿using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.Scripting;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -11,10 +13,15 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		private const string varName = "Melia.dmgIncreasePercentage";
 
+		// TODO: Find a way to increase only Wugushi skills
 		public override void OnStart(Buff buff)
 		{
 			var dmgIncreasePercentage = 100 + this.GetDamagePercentageIncrease(buff);
+
+			var caster = buff.Caster as Character;
+
 			buff.Vars.SetFloat(varName, dmgIncreasePercentage);
+
 			if (buff.Target.Properties.Has(PropertyName.SkillFactor))
 			{
 				buff.Target.Properties.Modify(PropertyName.SkillFactor, dmgIncreasePercentage);

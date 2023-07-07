@@ -139,6 +139,9 @@ namespace Melia.Zone.Scripting.AI
 				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.Cloaking_Buff))
 					continue;
 
+				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.WideMiasma_Buff))
+					continue;
+
 				var handle = potentialEnemy.Handle;
 				var amount = (float)(_hatePerSecond * elapsed.TotalSeconds);
 

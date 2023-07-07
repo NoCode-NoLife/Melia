@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -46,6 +48,20 @@ namespace Melia.Zone.Skills.Combat
 				if (sr <= 0)
 					break;
 			}
+		}
+
+		/// <summary>
+		/// Iterates over targets and returns them until the skill's SR
+		/// limit is reached.
+		/// </summary>
+		/// <param name="targets"></param>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static IEnumerable<ICombatEntity> LimitRandom(this IEnumerable<ICombatEntity> targets, int maxTargets)
+		{
+			var random = RandomProvider.Get();
+			return targets.OrderBy(x => random.Next()).Take(maxTargets).ToList();
 		}
 	}
 }

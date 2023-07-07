@@ -78,6 +78,8 @@
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
+    <Compile Include="Buffs\Handlers\Crescendo_Bane_Buff.cs" />
+    <Compile Include="Buffs\Handlers\DecreaseHeal_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
     <Compile Include="Buffs\Handlers\Virus_Debuff.cs" />
+    <Compile Include="Buffs\Handlers\WideMiasma_Buff.cs" />
+    <Compile Include="Buffs\Handlers\WideMiasma_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Zhendu_Buff.cs" />
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.Manager.cs" />
@@ -187,9 +191,11 @@
     <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
     <Compile Include="Skills\Handlers\Wizard\MagicShield.cs" />
     <Compile Include="Skills\Handlers\Wizard\Teleportation.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\CrescendoBane.cs" />
     <Compile Include="Skills\Handlers\Wugushi\GoldenFrog.cs" />
     <Compile Include="Skills\Handlers\Wugushi\LatentVenom.cs" />
     <Compile Include="Skills\Handlers\Wugushi\PoisonPot.cs" />
+    <Compile Include="Skills\Handlers\Wugushi\WideMiasma.cs" />
     <Compile Include="Skills\Handlers\Wugushi\WugongGu.cs" />
     <Compile Include="Skills\Handlers\Wugushi\Zhendu.cs" />
     <Compile Include="Skills\Skill.cs" />

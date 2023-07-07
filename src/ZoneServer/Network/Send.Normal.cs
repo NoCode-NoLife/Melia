@@ -971,11 +971,11 @@ namespace Melia.Zone.Network
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
 
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_59);
-
 				var startOrEndEffect = startEffect ? 1 : 256;
 
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.Skill_59);
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skillId);
@@ -984,10 +984,10 @@ namespace Melia.Zone.Network
 				packet.PutDirection(targetDir);
 				packet.PutFloat(-0.78f);
 				packet.PutFloat(0);
-				packet.PutInt(0); //Skill Handle
+				packet.PutInt(0);
 				packet.PutInt(startOrEndEffect); 
 				packet.PutEmptyBin(13);
-				packet.PutFloat(50);
+				packet.PutFloat(100);
 				packet.PutEmptyBin(16);
 
 				character.Connection.Send(packet);

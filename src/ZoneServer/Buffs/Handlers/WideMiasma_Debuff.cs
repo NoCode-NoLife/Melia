@@ -8,18 +8,11 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handle for the Virus Debuff, which ticks damage every second.
+	/// Handle for the Wide Miasma Debuff, which ticks 4 times every second doing damage to the target.
 	/// </summary>
-	[BuffHandler(BuffId.Virus_Debuff)]
-	public class Virus_Debuff : BuffHandler
+	[BuffHandler(BuffId.WideMiasma_Debuff)]
+	public class WideMiasma_Debuff : BuffHandler
 	{
-		private const string varName = "Melia.SpreadTargets";
-
-		public override void OnStart(Buff buff)
-		{
-			buff.Vars.SetInt(varName, 0);
-		}
-
 		public override void WhileActive(Buff buff)
 		{
 			var casterCharacter = buff.Caster as Character;
@@ -32,8 +25,10 @@ namespace Melia.Zone.Buffs.Handlers
 				buff.Target.TakeDamage(skillHitResult.Damage, casterCharacter);
 
 				var hit = new HitInfo(casterCharacter, buff.Target, buff.Skill, skillHitResult.Damage, skillHitResult.Result);
-				hit.ForceId = ForceId.GetNew();
 
+				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
+				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
+				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
 				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
 			}
 		}

@@ -36,6 +36,13 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 			var characterCaster = caster as Character;
 
+			if (target == null)
+			{
+				Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
+				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
+				return;
+			}
+
 			if (characterCaster != null)
 			{
 				var direction = caster.Position.GetDirection(target.Position);
@@ -51,7 +58,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			skillHit.ForceId = ForceId.GetNew();
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(target.Position), Position.Zero);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 			Send.ZC_NORMAL.Skill_E3(characterCaster, target, "STAGE_1");
 

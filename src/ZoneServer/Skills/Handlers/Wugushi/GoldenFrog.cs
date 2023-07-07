@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			Send.ZC_NORMAL.Skill_06(caster as Character, "I_smoke001_dark_3#Bip01 Pelvis", 0.4f, "", 1, position);
 			Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), true);
 
-			await Task.Delay(500);
+			await Task.Delay(400);
 
 			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
 
@@ -81,15 +81,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 					// Attack targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-					var damageDelay = TimeSpan.FromMilliseconds(150);
 
 					var hits = new List<SkillHitInfo>();
 
-					foreach (var target in targets.LimitBySDR(caster, skill))
+					foreach (var target in targets.LimitRandom(10))
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.JincanGu_Abil_Debuff))
 						{
-							target.Components.Get<BuffComponent>().Start(BuffId.JincanGu_Abil_Debuff, skill.Level, 0, TimeSpan.FromSeconds(60), caster, skill);
+							target.Components.Get<BuffComponent>().Start(BuffId.JincanGu_Abil_Debuff, 0, 0, TimeSpan.FromSeconds(60), caster, skill);
 						}
 					}
 
