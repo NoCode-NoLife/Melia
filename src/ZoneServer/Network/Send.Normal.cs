@@ -401,52 +401,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Creates a skill in client
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="skill"></param>
-			/// <param name="position"></param>
-			/// <param name="direction"></param>
-			/// <param name="create"></param>
-			public static void Skill(Character character, Skill skill, Position position, Direction direction, bool create)
-			{
-				var actorId = 1234; // ActorId (entity unique id for this skill)
-				var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
-
-				var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
-				if (!create)
-					skillState = 1;
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill);
-				packet.PutInt(character.Handle);
-				//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
-				packet.PutInt(0);
-				packet.PutInt((int)skill.Id);
-				packet.PutInt(skill.Level); // Skill Level ?
-				packet.PutFloat(position.X);
-				packet.PutFloat(position.Y);
-				packet.PutFloat(position.Z);
-				packet.PutFloat(direction.Cos); // Direction (commented out for now)
-				packet.PutFloat(direction.Sin); // Direction (commented out for now)
-				packet.PutInt(0);
-				packet.PutFloat(distance);
-				packet.PutInt(actorId);
-				packet.PutByte(create);
-				packet.PutInt(skillState);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutFloat(10); // Count
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-
-				character.Map.Broadcast(packet, character);
-			}
-
-			/// <summary>
 			/// Creates a particle effect (or set desired animation)
 			/// </summary>
 			/// <param name="character"></param>
