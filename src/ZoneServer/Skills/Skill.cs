@@ -180,55 +180,6 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
-		/// Generates a splash area based on the given arguments and the
-		/// skill's data.
-		/// </summary>
-		/// <param name="originPos"></param>
-		/// <param name="dir"></param>
-		/// <returns></returns>
-		public ISplashArea GetSplashArea(Position originPos, Direction dir)
-		{
-			var skill = this;
-			ISplashArea splashArea;
-
-			switch (this.Data.SplashType)
-			{
-				default:
-				case SplashType.Square:
-				{
-					// These sizes and which properties or what data to
-					// use is currently all guess-work. There must be a
-					// consistent way to calculate the splash area though,
-					// as I can't imagine that every single monster skill
-					// has that value defined manually.
-
-					var height = skill.Data.SplashHeight;
-					var width = skill.Data.SplashRange;
-
-					splashArea = new Square(originPos, dir, height, width);
-					break;
-				}
-				case SplashType.Circle:
-				{
-					var radius = skill.Data.SplashHeight;
-
-					splashArea = new Circle(originPos, radius);
-					break;
-				}
-				case SplashType.Fan:
-				{
-					var height = skill.Data.SplashHeight;
-					var angle = skill.Data.SplashAngle;
-
-					splashArea = new Fan(originPos, dir, height, angle);
-					break;
-				}
-			}
-
-			return splashArea;
-		}
-
-		/// <summary>
 		/// Returns the minimum range to the target within which the skill
 		/// can be used.
 		/// </summary>
