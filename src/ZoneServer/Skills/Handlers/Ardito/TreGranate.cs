@@ -21,7 +21,7 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Ardito
 {
 	/// <summary>
-	/// Handler for the Ardito skill Granata.
+	/// Handler for the Ardito skill Tre Granata.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_TreGranata)]
 	public class TreGranate : IGroundSkillHandler
@@ -33,6 +33,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
+		/// <param name="designatedTarget"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity designatedTarget)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -47,8 +48,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				return;
 			}
 
-			// Ability "Granata: Aim"
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi20))
+			// Ability "Tre Granata: Aim"
+			// [Tre Granata] skill is changed to a branch target skill and can be thrown a little further
+			if (caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi21))
 			{
 				// TODO: Implement this
 			}

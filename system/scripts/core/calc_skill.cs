@@ -67,15 +67,15 @@ public class SkillCalculationsScript : GeneralScript
 	public float SCR_Get_AbilityReinforceRate(Skill skill)
 	{
 		if (skill.Data.ReinforceAbility == 0)
-			return 0;
+			return 1;
 
 		if (!skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
-			return 0;
+			return 1;
 
 		if (!abilities.TryGetActive(skill.Data.ReinforceAbility, out var reinforceAbility))
-			return 0;
+			return 1;
 
-		var byAbility = reinforceAbility.Level * 0.005f;
+		var byAbility = 1 + (reinforceAbility.Level * 0.005f);
 
 		if (reinforceAbility.Level == 100)
 			byAbility += 0.10f;

@@ -18,6 +18,11 @@ namespace Melia.Zone.Skills.Handlers.Base
 		void Handle(Skill skill, ICombatEntity caster, Direction dir);
 	}
 
+	public interface IDynamicCastingSkillHandler : ISkillHandler
+	{
+		void Handle(Skill skill, ICombatEntity caster, float maxCastTime);
+	}
+
 	public interface IGroundSkillHandler : ISkillHandler
 	{
 		void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target);

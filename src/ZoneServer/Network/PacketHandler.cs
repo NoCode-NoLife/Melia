@@ -1300,12 +1300,46 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
 		public void CZ_DYNAMIC_CASTING_START(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat();
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastType = packet.GetFloat();
+			var bin = packet.GetBin(18);
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
+			var s3 = packet.GetShort();
 
 			var character = conn.SelectedCharacter;
 
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			// Check skill
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
+				return;
+			}
+
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCastingSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_DYNAMIC_CASTING_START: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, maxCastType);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_DYNAMIC_CASTING_START: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
 		}
 
 		/// <summary>
@@ -1316,10 +1350,45 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
 		public void CZ_DYNAMIC_CASTING_END(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat(); // Max Cast Hold Time?
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastTime = packet.GetFloat();
+			var i1 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
 
 			var character = conn.SelectedCharacter;
+
+			// Check skill
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_END: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			// Check cooldown
+			if (skill.IsOnCooldown)
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_END: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
+				character.ServerMessage(Localization.Get("You may not use this yet."));
+				return;
+			}
+
+			// Try to use skill
+			try
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCastingSkillHandler>(skillId, out var handler))
+				{
+					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+					Log.Warning("CZ_DYNAMIC_CASTING_START: No handler for skill '{0}' found.", skillId);
+					return;
+				}
+
+				handler.Handle(skill, character, maxCastType);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Error("CZ_DYNAMIC_CASTING_START: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+			}
 		}
 
 		/// <summary>

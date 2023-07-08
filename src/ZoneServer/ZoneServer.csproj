@@ -79,6 +79,7 @@
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Agility_Buff.cs" />
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
+    <Compile Include="Buffs\Handlers\DecreaseHeal_Debuff.cs" />
     <Compile Include="Buffs\Handlers\EnchantAura_Buff.cs" />
     <Compile Include="Buffs\Handlers\EnchantEarth_Buff.cs" />
     <Compile Include="Buffs\Handlers\Enchantglove_Buff.cs" />
@@ -160,6 +161,10 @@
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Ardito\Granata.cs" />
+    <Compile Include="Skills\Handlers\Ardito\Invasione.cs" />
+    <Compile Include="Skills\Handlers\Ardito\Recupero.cs" />
+    <Compile Include="Skills\Handlers\Ardito\Ritirarsi.cs" />
+    <Compile Include="Skills\Handlers\Ardito\Taglio.cs" />
     <Compile Include="Skills\Handlers\Ardito\TreGranate.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
