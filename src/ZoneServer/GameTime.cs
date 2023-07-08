@@ -15,6 +15,11 @@ namespace Melia.Zone
 		public static GameTime Now => new GameTime(DateTime.Now);
 
 		/// <summary>
+		/// Returns how long one hour in the game world is in real time.
+		/// </summary>
+		public static TimeSpan OneHour => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour);
+
+		/// <summary>
 		/// The current hour in the game world.
 		/// </summary>
 		public readonly int Hour;

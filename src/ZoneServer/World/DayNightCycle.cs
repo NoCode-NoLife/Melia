@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Zone.Events;
 using Melia.Zone.Network;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -12,16 +13,16 @@ namespace Melia.Zone.World
 	/// </summary>
 	public class DayNightCycle : IUpdateable
 	{
-		private TimeOfDay _prevTimeOfDay;
-		private long _transitionId;
-
-		private readonly static TimeSpan TransitionTime = TimeSpan.FromSeconds(60);
-		private readonly static int TransitionFps = 4;
+		private readonly static int TransitionFps = 2;
 
 		public readonly static DaylightParameters DawnParameters = new DaylightParameters(289, 238, 238);
 		public readonly static DaylightParameters DayParameters = new DaylightParameters(255, 255, 255);
 		public readonly static DaylightParameters DuskParameters = new DaylightParameters(306, 221, 221);
 		public readonly static DaylightParameters NightParameters = new DaylightParameters(127, 127, 180, 1, 1.2f);
+
+		private readonly TimeSpan _transitionTime;
+		private long _transitionId;
+		private TimeOfDay _prevTimeOfDay;
 
 		/// <summary>
 		/// Returns the current daylight parameters.
@@ -33,6 +34,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		public DayNightCycle()
 		{
+			_transitionTime = GameTime.OneHour;
 			_prevTimeOfDay = GameTime.Now.TimeOfDay;
 
 			switch (_prevTimeOfDay)
@@ -85,7 +87,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		private async void TransitionToDawn()
 		{
-			await this.Transition(this.CurrentParameters, DawnParameters, TransitionTime);
+			await this.Transition(this.CurrentParameters, DawnParameters, _transitionTime);
 		}
 		/// <summary>
 		/// Transitions to day.
@@ -93,7 +95,7 @@ namespace Melia.Zone.World
 		private async void TransitionToDay()
 		{
 			this.PlayBellSound();
-			await this.Transition(this.CurrentParameters, DayParameters, TransitionTime);
+			await this.Transition(this.CurrentParameters, DayParameters, _transitionTime);
 		}
 
 		/// <summary>
@@ -101,7 +103,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		private async void TransitionToDusk()
 		{
-			await this.Transition(this.CurrentParameters, DuskParameters, TransitionTime);
+			await this.Transition(this.CurrentParameters, DuskParameters, _transitionTime);
 		}
 
 		/// <summary>
@@ -110,7 +112,7 @@ namespace Melia.Zone.World
 		private async void TransitionToNight()
 		{
 			this.PlayBellSound();
-			await this.Transition(this.CurrentParameters, NightParameters, TransitionTime);
+			await this.Transition(this.CurrentParameters, NightParameters, _transitionTime);
 		}
 
 		/// <summary>
