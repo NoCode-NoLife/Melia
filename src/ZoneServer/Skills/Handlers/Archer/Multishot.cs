@@ -21,11 +21,31 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handler for the Archer skill Multishot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_Multishot)]
-	public class Multishot : IGroundSkillHandler
+	public class Multishot : IGroundSkillHandler, IDynamicCasted
 	{
 		private const float SplashRadius = 30;
 		private const int TotalHits = 10;
 		private readonly static TimeSpan DelayBetweenHits = TimeSpan.FromMilliseconds(120);
+
+		/// <summary>
+		/// Called when the user starts casting the skill.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void StartDynamicCast(Skill skill, ICombatEntity caster)
+		{
+			Send.ZC_PLAY_SOUND(caster, "voice_archer_multishot_cast");
+		}
+
+		/// <summary>
+		/// Called when the user stops casting the skill.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void EndDynamicCast(Skill skill, ICombatEntity caster)
+		{
+			Send.ZC_STOP_SOUND(caster, "voice_archer_multishot_cast");
+		}
 
 		/// <summary>
 		/// Handles skill, damaging targets.

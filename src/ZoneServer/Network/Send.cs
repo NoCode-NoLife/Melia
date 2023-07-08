@@ -2866,6 +2866,45 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Plays sound for clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Stops the sound for all clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_STOP_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_STOP_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
 		/// Updates character's stamina.
 		/// </summary>
 		/// <param name="character"></param>
