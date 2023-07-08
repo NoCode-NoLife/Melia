@@ -42,6 +42,8 @@
 			public const int Skill_4E = 0x4E;
 			public const int Skill = 0x57;
 			public const int Skill_59 = 0x59;
+			public const int Skill_88 = 0x88;
+			public const int Skill_90 = 0x88;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;

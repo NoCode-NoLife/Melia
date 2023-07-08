@@ -511,7 +511,7 @@ namespace Melia.Zone.Network
 			//else
 			packet.PutInt(0);
 
-			packet.PutInt(target.Handle);
+			packet.PutInt(target != null ? target.Handle : 0);
 
 			packet.PutByte((byte)(hits?.Count() ?? 0));
 			if (hits != null)
@@ -3820,6 +3820,35 @@ namespace Melia.Zone.Network
 			character.Connection.Send(packet);
 		}
 
+				/// <summary>
+		/// Updates certain skill properties, such as speed rate, hit
+		/// delay, and max overheat count.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skills"></param>
+		public static void ZC_GROUND_EFFECT(Character caster, ICombatEntity target, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+			var packet = new Packet(Op.ZC_GROUND_EFFECT);
+
+			packet.PutInt(target.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutPosition(target.Position);
+			packet.PutFloat(1);
+			packet.PutFloat(1);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutShort(0);
+			packet.PutShort(-2960);
+			packet.PutFloat(0);
+			packet.PutByte(0);
+			packet.PutByte(0);
+
+			caster.Map.Broadcast(packet);
+		}
+		
 		public static void DUMMY(IZoneConnection conn)
 		{
 		}
