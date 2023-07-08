@@ -8,6 +8,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Base
@@ -48,14 +49,14 @@ namespace Melia.Zone.Skills.Handlers.Base
 			// target to move out of harms way before the skill hits,
 			// such as with the poison cloud in the Kepa attack skill.
 
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false, duration: damageDelay + TimeSpan.FromSeconds(3));
+
 			if (hitDelay > TimeSpan.Zero)
 				await Task.Delay(hitDelay);
 
 			// Check if attacker is still able to fight after the delay
 			if (!caster.CanFight())
 				return;
-
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
