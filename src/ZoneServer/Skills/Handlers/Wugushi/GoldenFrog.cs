@@ -59,12 +59,19 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		{
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.Skill_6(caster as Character, "I_smoke001_dark_3#Bip01 Pelvis", 0.4f, "", 1, position);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), true);
+			Send.ZC_NORMAL.Skill_6(caster as Character, "I_cleric_jincangu_force_mash#Dummy_effect_shoot", 0.4f, "", 1, position);
+			Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_JincanGu_Abil", skill.Id, position, caster.Position.GetDirection(position), true);
 
 			await Task.Delay(400);
 
 			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
+
+			// Radius seems precise
+			var radius = 100;
+			var center = position.GetRelative(position, radius);
+			var splashArea = new Circle(center, radius);
+
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
@@ -72,13 +79,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 				while (!cancellationTokenSource.IsCancellationRequested)
 				{
-					// Radius seems precise
-					var radius = 100;
-					var center = position.GetRelative(position, radius);
-					var splashArea = new Circle(center, radius);
-
-					Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 					// Attack targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -95,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), false);
+				Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_JincanGu_Abil", skill.Id, position, caster.Position.GetDirection(position), false);
 			}
 		}
 	}

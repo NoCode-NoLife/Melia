@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_6(caster as Character, "M_GTOWER_STAGE_13", 0.5f, "", 1, farPos);
+			Send.ZC_NORMAL.Skill_6(caster as Character, "I_archer_poison_pot_force#Bip01 R Hand", 0.5f, "", 1, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// Start the task
@@ -59,7 +59,12 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		{
 			await Task.Delay(600);
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Direction, true);
+			Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, caster.Position.GetDirection(farPos), true);
+
+			// Radius seems precise
+			var radius = 45;
+			var center = farPos.GetRelative(farPos, radius);
+			var splashArea = new Circle(center, radius);
 
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
@@ -67,11 +72,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 				while (!cancellationTokenSource.IsCancellationRequested)
 				{
-					// Radius seems precise
-					var radius = 45;
-					var center = farPos.GetRelative(farPos, radius);
-					var splashArea = new Circle(center, radius);
-
 					// Attack targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Direction, false);
+				Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, caster.Position.GetDirection(farPos), false);
 			}
 		}
 	}
