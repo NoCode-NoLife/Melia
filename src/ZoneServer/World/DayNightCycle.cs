@@ -20,7 +20,7 @@ namespace Melia.Zone.World
 
 		public readonly static DaylightParameters DawnParameters = new DaylightParameters(289, 238, 238);
 		public readonly static DaylightParameters DayParameters = new DaylightParameters(255, 255, 255);
-		public readonly static DaylightParameters DuskParameters = new DaylightParameters(323, 221, 221);
+		public readonly static DaylightParameters DuskParameters = new DaylightParameters(306, 221, 221);
 		public readonly static DaylightParameters NightParameters = new DaylightParameters(127, 127, 180, 1, 1.2f);
 
 		/// <summary>
