@@ -1794,6 +1794,13 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_LOAD_COMPLETE)]
 		public void CZ_LOAD_COMPLETE(IZoneConnection conn, Packet packet)
 		{
+			var party = ZoneServer.Instance.World.GetParty(conn.SelectedCharacter.PartyId);
+			if (party != null && conn.Party == null)
+			{
+				conn.Party = party;
+				party.NoticiateExistance(conn.SelectedCharacter);
+			}
+
 			Send.ZC_LOAD_COMPLETE(conn);
 		}
 

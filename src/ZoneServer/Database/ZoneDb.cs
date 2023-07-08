@@ -1240,9 +1240,9 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Inserts party in database.
+		/// Update the database values related to the player party
 		/// </summary>
-		/// <param name="party"></param>
+		/// <param name="character"></param>
 		/// <returns></returns>
 		public void LeaveParty(Character character)
 		{
@@ -1259,9 +1259,30 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Inserts party in database.
+		/// Update the database values related to the player party
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="party"></param>
+		/// <returns></returns>
+		public void JoinParty(Character character, Party party)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+					cmd.Set("partyId", party.DbId);
+
+					cmd.Execute();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates the party leader.
 		/// </summary>
 		/// <param name="party"></param>
+		/// <param name="character"></param>
 		/// <returns></returns>
 		public void UpdatePartyLeader(Party party, Character character)
 		{
@@ -1280,6 +1301,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Loads party from database.
 		/// </summary>
+		/// <param name="character"></param>
 		/// <returns></returns>
 		public void LoadParty(Character character)
 		{
@@ -1319,8 +1341,9 @@ namespace Melia.Zone.Database
 								party = new Party(reader.GetInt64("partyId"), reader.GetInt64("leaderId"), reader.GetString("name"), reader.GetDateTime("dateCreated"), reader.GetString("note"),
 									(PartyItemDistribution)reader.GetByte("itemDistribution"), (PartyExpDistribution)reader.GetByte("expDistribution"), (PartyQuestSharing)reader.GetByte("questSharing"));
 
-								this.LoadPartyMembers(character, party);
+								this.LoadPartyMembers(party);
 								ZoneServer.Instance.World.Parties.Add(party);
+								character.PartyId = party.DbId;
 							}
 						}
 					}
@@ -1330,13 +1353,19 @@ namespace Melia.Zone.Database
 					var member = party.GetMember(character.ObjectId);
 					if (member != null)
 					{
+						character.PartyId = party.DbId;
 						member.IsOnline = true;
-					}						
+					}
 				}
 			}			
 		}
 
-		private void LoadPartyMembers(Character loadCharacter, Party party)
+		/// <summary>
+		/// Loads party members from the database.
+		/// </summary>
+		/// <param name="party"></param>
+		/// <returns></returns>
+		private void LoadPartyMembers(Party party)
 		{
 			using (var conn = this.GetConnection())
 			{
@@ -1367,6 +1396,9 @@ namespace Melia.Zone.Database
 								member.Position = new Position(x, y, z);
 								member.IsOnline = false;
 								party.AddMember(member);
+							} else
+							{
+								character.PartyId = party.DbId;
 							}
 						}
 					}
@@ -1374,6 +1406,11 @@ namespace Melia.Zone.Database
 			}
 		}
 
+		/// <summary>
+		/// Delete the party from the database.
+		/// </summary>
+		/// <param name="party"></param>
+		/// <returns></returns>
 		public void DeleteParty(Party party)
 		{
 			using (var conn = this.GetConnection())
@@ -1439,7 +1476,7 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Loads party from database.
+		/// Loads Guild from database.
 		/// </summary>
 		/// <returns></returns>
 		public void LoadGuild(Character character)
@@ -1465,7 +1502,7 @@ namespace Melia.Zone.Database
 								guild.LeaderDbId = reader.GetInt64("leaderId");
 								guild.DateCreated = reader.GetDateTime("dateCreated");
 
-								this.LoadGuildMembers(character, guild);
+								this.LoadGuildMembers(guild);
 
 								ZoneServer.Instance.World.Guilds.Add(guild);
 							}
@@ -1478,12 +1515,19 @@ namespace Melia.Zone.Database
 			{
 				var member = guild.GetMember(character.ObjectId);
 				if (member != null)
-					member.IsOnline = true;
+				{
+					member.IsOnline = character.Connection.LoggedIn;
+				}
 			}
 
 		}
 
-		private void LoadGuildMembers(Character loadCharacter, Guild guild)
+		/// <summary>
+		/// Loads guild members from the database.
+		/// </summary>
+		/// <param name="guild"></param>
+		/// <returns></returns>
+		private void LoadGuildMembers(Guild guild)
 		{
 			using (var conn = this.GetConnection())
 			{
@@ -1511,12 +1555,12 @@ namespace Melia.Zone.Database
 								var y = reader.GetFloat("y");
 								var z = reader.GetFloat("z");
 								member.Position = new Position(x, y, z);
-								if (member.DbId == character.DbId)
-									member.IsOnline = true;
 								guild.AddMember(member);
 							}
 							else
+							{
 								guild.AddMember(character, true);
+							}								
 						}
 					}
 				}

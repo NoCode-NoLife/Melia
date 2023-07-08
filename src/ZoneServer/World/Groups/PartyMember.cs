@@ -52,7 +52,7 @@ namespace Melia.Zone.World.Groups
 				Name = character.Name,
 				Position = character.Position,
 				Stance = character.Stance,
-				IsOnline = true,
+				IsOnline = character.Connection.LoggedIn,
 			};
 			var i = 0;
 			foreach (var job in character.Jobs.GetList())

@@ -289,11 +289,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
-		/// Character's online status.
-		/// </summary>
-		public bool IsOnline { get; set; } = false;
-
-		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
