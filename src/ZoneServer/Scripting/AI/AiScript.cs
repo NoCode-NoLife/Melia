@@ -21,6 +21,7 @@ namespace Melia.Zone.Scripting.AI
 		private bool _initiated;
 
 		private TendencyType _tendency;
+		private float _visibleRange = 300;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private readonly float _hatePerHit = 100;
@@ -91,7 +92,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="elapsed"></param>
 		private void UpdateHate(TimeSpan elapsed)
 		{
-			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _hateRange);
+			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _visibleRange);
 
 			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
 			this.IncreaseNearbyHate(elapsed, potentialEnemies);
@@ -131,7 +132,9 @@ namespace Melia.Zone.Scripting.AI
 				return;
 
 			// Increase hate for enemies that the entity is hostile towards
-			foreach (var potentialEnemy in potentialEnemies)
+			var potentialEnemiesInRange = potentialEnemies.Where(a => a.Position.InRange2D(this.Entity.Position, _hateRange));
+
+			foreach (var potentialEnemy in potentialEnemiesInRange)
 			{
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
