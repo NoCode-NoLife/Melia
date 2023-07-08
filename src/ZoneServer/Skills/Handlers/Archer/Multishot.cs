@@ -62,8 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return;
 			}
 
-			var maxRange = skill.Properties.GetFloat(PropertyName.MaxR);
-			if (!caster.Position.InRange2D(farPos, maxRange))
+			if (!caster.InSkillUseRange(skill, farPos))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;
