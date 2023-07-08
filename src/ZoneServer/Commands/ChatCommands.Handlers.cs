@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -12,6 +14,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -48,6 +51,7 @@ namespace Melia.Zone.Commands
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
+			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
 
 			// VIP
@@ -123,6 +127,25 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
 				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Displays the current server and game time.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleTime(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var now = GameTime.Now;
+
+			target.ServerMessage(Localization.Get("Server Time: {0:yyyy-MM-dd HH:mm}"), now.DateTime);
+			target.ServerMessage(Localization.Get("Game Time: {0:y-M-dd HH:mm}"), now);
 
 			return CommandResult.Okay;
 		}
