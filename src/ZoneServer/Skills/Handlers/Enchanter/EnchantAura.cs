@@ -111,7 +111,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				var damageDelay = TimeSpan.FromMilliseconds(150);
 
-				foreach (var target in targets)
+				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
