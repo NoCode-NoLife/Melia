@@ -82,7 +82,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		/// <returns></returns>
 		protected virtual TimeSpan GetHitDelay(Skill skill)
 		{
-			return skill.Data.DefaultHitDelay;
+			return skill.Properties.HitDelay;
 		}
 
 		/// <summary>
@@ -93,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		protected virtual TimeSpan GetDamageDelay(Skill skill)
 		{
 			var hitTime = skill.Data.HitTime.First();
-			var skillHitDelay = skill.Data.DefaultHitDelay;
+			var skillHitDelay = skill.Properties.HitDelay;
 			var damageDelay = hitTime + skillHitDelay;
 
 			return damageDelay;
@@ -125,7 +125,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 				}
 				case SplashType.Circle:
 				{
-					var radius = skill.Data.SplashHeight;
+					var radius = skill.Properties.GetFloat(PropertyName.SplHeight);
 
 					splashArea = new Circle(originPos, radius);
 					break;

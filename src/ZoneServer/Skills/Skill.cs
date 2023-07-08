@@ -188,7 +188,7 @@ namespace Melia.Zone.Skills
 		{
 			// Guessed, see GetSplashArea. Take a little off the top,
 			// so entities actually have to get into the splash area.
-			return this.Data.SplashHeight;
+			return this.Properties.GetFloat(PropertyName.SplHeight);
 		}
 
 		/// <summary>

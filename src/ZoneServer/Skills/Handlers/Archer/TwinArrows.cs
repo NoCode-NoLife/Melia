@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			var damageDelay = TimeSpan.FromMilliseconds(45);
-			var skillHitDelay = skill.Data.DefaultHitDelay;
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			// TODO: Add more 50% damage to enemies using cloth armor type
 
