@@ -14,6 +14,7 @@ using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -2793,22 +2794,73 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_SET_DAYLIGHT_INFO to character (dummy).
+		/// Updates the daylight settings for the given character.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_DAYLIGHT_FIXED(Character character)
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(Character character, bool enabled, DaylightParameters parameters)
 		{
 			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
 
-			packet.PutInt(0);
+			packet.PutInt(enabled ? 1 : 0);
 			packet.PutByte(0);
-			for (var i = 0; i < 5; i++)
-				packet.PutFloat(1);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
 
 			// [i361296]
 			{
 				packet.PutByte(0);
 			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the daylight settings for all characters on all maps.
+		/// </summary>
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(bool enabled, DaylightParameters parameters)
+		{
+			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
+
+			packet.PutInt(enabled ? 1 : 0);
+			packet.PutByte(0);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
+
+			// [i361296]
+			{
+				packet.PutByte(0);
+			}
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays sound for character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(Character character, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
 
 			character.Connection.Send(packet);
 		}

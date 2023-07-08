@@ -219,6 +219,7 @@
     <Compile Include="World\Actors\Characters\SessionObjects.cs" />
     <Compile Include="World\Actors\Characters\Components\SkillComponent.cs" />
     <Compile Include="World\Actors\Entity.cs" />
+    <Compile Include="World\DayNightCycle.cs" />
     <Compile Include="World\Items\DummyEquipItem.cs" />
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />

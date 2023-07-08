@@ -39,6 +39,11 @@ namespace Melia.Zone.World
 		public Heartbeat Heartbeat { get; } = new Heartbeat(4);
 
 		/// <summary>
+		/// Returns the world's day/night cycle manager.
+		/// </summary>
+		public DayNightCycle DayNightCycle { get; private set; }
+
+		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
 		/// </summary>
 		/// <returns></returns>
@@ -84,8 +89,12 @@ namespace Melia.Zone.World
 				this.Heartbeat.Add(map);
 			}
 
-			// Set up time event raiser
+			// Set up updatables
 			this.Heartbeat.Add(new TimeEventRaiser());
+
+			this.DayNightCycle = new DayNightCycle();
+			if (ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				this.Heartbeat.Add(this.DayNightCycle);
 
 			// Start hearbeat loop and updates
 			this.Heartbeat.Start();

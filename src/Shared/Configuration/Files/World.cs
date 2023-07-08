@@ -26,6 +26,7 @@ namespace Melia.Shared.Configuration.Files
 		public int HoursPerDay { get; protected set; }
 		public int DaysPerMonth { get; protected set; }
 		public int MonthsPerYear { get; protected set; }
+		public bool EnableDayNightCycle { get; protected set; }
 
 		/// <summary>
 		/// Loads conf file and its options from the given path.
@@ -54,6 +55,7 @@ namespace Melia.Shared.Configuration.Files
 			this.HoursPerDay = this.GetInt("gt_hours_per_day", 24);
 			this.DaysPerMonth = this.GetInt("gt_days_per_month", 40);
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
+			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 		}
 	}
 }
