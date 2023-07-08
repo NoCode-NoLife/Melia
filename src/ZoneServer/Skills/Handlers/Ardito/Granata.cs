@@ -54,10 +54,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			caster.SetAttackState(true);
 
 			var character = caster as Character;
-			character.Rotate(originPos.GetDirection(farPos));
+
+			farPos = character.Position.GetRelative(character.Direction, 50);
+
+			character.Rotate(character.Position.GetDirection(farPos));
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, originPos.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, character.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			this.Attack(skill, caster, originPos, farPos);
@@ -67,14 +70,14 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		{
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.Skill_6(caster as Character, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
+
+			await Task.Delay(300);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 50, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -84,6 +87,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 				Send.ZC_HIT_INFO(caster, target, skill, hit);
+
+				var skillHitResult2 = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult2.Damage, caster);
+
+				var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
+
+				Send.ZC_HIT_INFO(caster, target, skill, hit2);
 			}
 		}
 	}

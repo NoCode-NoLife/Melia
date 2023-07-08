@@ -56,68 +56,72 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var character = caster as Character;
-			character.Rotate(originPos.GetDirection(farPos));
-
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, originPos.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			Task.Run(() => this.AreaEffect(skill, caster, originPos, farPos, caster.Position.GetDirection(farPos)));
+			Task.Run(() => this.AreaEffect(skill, caster, farPos, caster.Direction));
 		}
 
-		private async void AreaEffect(Skill skill, ICombatEntity caster, Position originPos, Position farPos, Direction direction)
+		private async void AreaEffect(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
 			await Task.Delay(100);
 
-			var position1 = farPos;
-			var position2 = this.CalculateNextPosition(position1, direction.Sin, direction.Cos, 0, 50f);
-			var position3 = this.CalculateNextPosition(position2, direction.Sin, direction.Cos, 0, 50f);
-			var position4 = this.CalculateNextPosition(position3, direction.Sin, direction.Cos, 0, 50f);
+			var pos2 = farPos.GetRelative(direction, 50);
+			var pos3 = pos2.GetRelative(direction, 50);
+			var pos4 = pos3.GetRelative(direction, 50);
 
-			Send.ZC_NORMAL.Skill_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, position1);
-			Send.ZC_NORMAL.Skill_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, position2);
-			Send.ZC_NORMAL.Skill_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, position3);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos4);
 
-			Send.ZC_NORMAL.Skill_6(caster as Character, "", 0.75f, "", 2.5f, position1);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "", 0.75f, "", 2.5f, pos2);
 
 			await Task.Delay(400);
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position1, true);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position2, true);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position3, true);
+			var effectId1 = ForceId.GetNew();
+			var effectId2 = ForceId.GetNew();
+			var effectId3 = ForceId.GetNew();
+			var effectId4 = ForceId.GetNew();
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, position1, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos2, effectId1, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos3, effectId2, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos4, effectId3, true);
 
-			this.Attack(skill, caster, originPos, position1, position2, position3, position4);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, true);
+
+			var cancelationTokenSource = new CancellationTokenSource();
+
+			this.Attack(skill, caster, cancelationTokenSource, pos2, pos3, pos4);
 
 			await Task.Delay(12000);
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position1, false);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position2, false);
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Arditi_TreGranata", skill.Id, position3, false);
+			cancelationTokenSource.Cancel();
+
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos2, effectId1, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos3, effectId2, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos4, effectId3, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, false);
 		}
 
-		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position position1, Position position2, Position position3, Position position4)
+		private async void Attack(Skill skill, ICombatEntity caster, CancellationTokenSource cancelationTokenSource, Position pos2, Position pos3, Position pos4)
 		{
-			var splashParam1 = skill.GetSplashParameters(caster, position1, position2, length: 50, width: 50, angle: 0);
-			var splashArea1 = skill.GetSplashArea(SplashType.Circle, splashParam1);
-
-			var circle = new Circle(position2, 50);
-			var circle2 = new Circle(position3, 50);
-			var circle3 = new Circle(position4, 50);
-
-			Debug.ShowShape(caster.Map, circle, edgePoints: false);
-			Debug.ShowShape(caster.Map, circle2, edgePoints: false);
-			Debug.ShowShape(caster.Map, circle3, edgePoints: false);
+			var circle = new Circle(pos2, 50);
+			var circle2 = new Circle(pos3, 50);
+			var circle3 = new Circle(pos4, 50);
 
 			while (true)
 			{
+				if (cancelationTokenSource.Token.IsCancellationRequested)
+				{
+					break;
+				}
+
 				await Task.Delay(1000);
 
-				var targets1 = caster.Map.GetAttackableEntitiesIn(caster, splashArea1);
-				var targets2 = caster.Map.GetAttackableEntitiesIn(caster, splashArea1);
-				var targets3 = caster.Map.GetAttackableEntitiesIn(caster, splashArea1);
+				var targets1 = caster.Map.GetAttackableEntitiesIn(caster, circle);
+				var targets2 = caster.Map.GetAttackableEntitiesIn(caster, circle2);
+				var targets3 = caster.Map.GetAttackableEntitiesIn(caster, circle3);
 
 				var targets = targets1.Concat(targets2).Concat(targets3).ToList();
 
@@ -129,29 +133,15 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 					var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 					Send.ZC_HIT_INFO(caster, target, skill, hit);
+
+					var skillHitResult2 = SCR_SkillHit(caster, target, skill);
+					target.TakeDamage(skillHitResult2.Damage, caster);
+
+					var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
+
+					Send.ZC_HIT_INFO(caster, target, skill, hit2);
 				}
 			}
-		}
-
-		public Position CalculateNextPosition(Position currentPosition, float directionSin, float directionCos, float angleInDegrees, float distance)
-		{
-			// Convert the angle from degrees to radians
-			float angleInRadians = angleInDegrees * (float)Math.PI / 180;
-
-			// Calculate the directional components scaled by the distance
-			float deltaX = directionCos * distance;
-			float deltaY = directionSin * distance;
-
-			// Rotate the directional components based on the angle
-			float rotatedX = deltaX * (float)Math.Cos(angleInRadians) - deltaY * (float)Math.Sin(angleInRadians);
-			float rotatedY = deltaX * (float)Math.Sin(angleInRadians) + deltaY * (float)Math.Cos(angleInRadians);
-
-			// Calculate the next position
-			float nextX = currentPosition.X + rotatedX;
-			float nextY = currentPosition.Y + rotatedY;
-			float nextZ = currentPosition.Z; // Assuming no change in the Z-axis
-
-			return new Position(nextX, nextY, nextZ);
 		}
 	}
 }

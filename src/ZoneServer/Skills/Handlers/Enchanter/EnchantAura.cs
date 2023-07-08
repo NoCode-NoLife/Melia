@@ -45,13 +45,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			Send.ZC_NORMAL.Skill_88(caster as Character, skill);
 			caster.SetAttackState(true);
 			var castedPos = caster.Position;
+			var effectId = ForceId.GetNew();
 
 			// Cancel the area of effect task
 			if (_areaOfEffect != null)
 			{
 				_cancellationTokenSource?.Cancel();
 				_areaOfEffect = null;
-				EndSkillAreaEffect(skill, caster, castedPos);
+				EndSkillAreaEffect(skill, caster, castedPos, effectId);
 				return;
 			}
 
@@ -63,15 +64,16 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			// Start the task
-			_areaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos));
+			_areaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos, effectId));
 		}
 
-		private async Task AreaOfEffect(CancellationToken cancellationToken, Skill skill, ICombatEntity caster, Position position)
+		private async Task AreaOfEffect(CancellationToken cancellationToken, Skill skill, ICombatEntity caster, Position position, int effectId)
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			var character = caster as Character;
-			Send.ZC_NORMAL.Skill_59(character, "Enchanter_EnchantAura", skill.Id, caster.Position, true);
+
+			Send.ZC_NORMAL.GroundEffect_59(character, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
 
 			// HardCoded for the moment, seems precisa tho
 			var radius = 80;
@@ -93,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				// Check if cancellation is requested
 				if (cancellationToken.IsCancellationRequested)
 				{
-					EndSkillAreaEffect(skill, caster, position);
+					EndSkillAreaEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -102,7 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				// Cancel if the caster has not enough SP
 				if (!caster.TrySpendSp(skill))
 				{
-					EndSkillAreaEffect(skill, caster, position);
+					EndSkillAreaEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -132,7 +134,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			}
 		}
 
-		private void EndSkillAreaEffect(Skill skill, ICombatEntity caster, Position position)
+		private void EndSkillAreaEffect(Skill skill, ICombatEntity caster, Position position, int effectId)
 		{
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 
@@ -143,7 +145,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				buff.End();
 			}
 
-			Send.ZC_NORMAL.Skill_59(character, "Enchanter_EnchantAura", skill.Id, position, false);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Enchanter_EnchantAura", skill.Id, position, effectId, false);
 		}
 	}
 }

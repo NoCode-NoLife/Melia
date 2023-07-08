@@ -5,9 +5,11 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
 {
@@ -956,16 +958,16 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Show or Hide skill effects.
+			/// Show/Hide ground skill effects.
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
 			/// <param name="skillId"></param>
 			/// <param name="targetPos"></param>
-			/// <param name="targetDir"></param>
+			/// <param name="identifier"></param>
 			/// <param name="startEffect"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_59(Character character, string packetString, SkillId skillId, Position targetPos, bool startEffect)
+			public static void GroundEffect_59(Character character, string packetString, SkillId skillId, Position targetPos, int identifier, bool startEffect)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
@@ -974,7 +976,7 @@ namespace Melia.Zone.Network
 
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(NormalOp.Zone.Skill_59);
+				packet.PutInt(NormalOp.Zone.GroundEffect);
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skillId);
@@ -983,11 +985,10 @@ namespace Melia.Zone.Network
 				packet.PutDirection(character.Direction);
 				packet.PutFloat(0);
 				packet.PutFloat(0);
-				packet.PutShort(0);
-				packet.PutShort(1);
+				packet.PutInt(identifier);
 				packet.PutInt(startOrEndEffect);
 				packet.PutEmptyBin(13);
-				packet.PutFloat(75);
+				packet.PutFloat(25);
 				packet.PutEmptyBin(16);
 
 				character.Map.Broadcast(packet);
@@ -1057,11 +1058,11 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unknow purpose, its related to skill effects
+			/// Show Ground Effects
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void Skill_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
+			public static void GroundEffect_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 				{
@@ -1081,7 +1082,8 @@ namespace Melia.Zone.Network
 				packet.PutPosition(position);
 				packet.PutFloat(10);
 				packet.PutFloat(0.6f);
-				packet.PutFloat(500);
+				packet.PutFloat(0f);
+				packet.PutFloat(600);
 				packet.PutFloat(1);
 				packet.PutLong(0);
 				packet.PutShort(0);
