@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -114,10 +115,18 @@ namespace Melia.Zone.World.Actors
 		/// <param name="otherEntity"></param>
 		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
 		{
-			if (otherEntity == null)
-				return;
+			if (otherEntity != null)
+				TurnTowards(entity, otherEntity.Position);
+		}
 
-			entity.Direction = entity.Position.GetDirection(otherEntity.Position);
+		/// <summary>
+		/// Makes the entity turn towards the position.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		public static void TurnTowards(this ICombatEntity entity, Position pos)
+		{
+			entity.Direction = entity.Position.GetDirection(pos);
 			Send.ZC_ROTATE(entity);
 		}
 
