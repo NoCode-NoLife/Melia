@@ -1055,6 +1055,41 @@ namespace Melia.Zone.Network
 
 				entity.Map.Broadcast(packet, entity);
 			}
+
+			/// <summary>
+			/// Unknow purpose, its related to skill effects
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void Skill_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				{
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+				}
+
+				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.Skill_6);
+				packet.PutInt(character.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(duration);
+				packet.PutInt(packetStringData2 != null ? packetStringData2.Id : 0);
+				packet.PutFloat(duration2);
+				packet.PutPosition(position);
+				packet.PutFloat(10);
+				packet.PutFloat(0.6f);
+				packet.PutFloat(500);
+				packet.PutFloat(1);
+				packet.PutLong(0);
+				packet.PutShort(0);
+				packet.PutString("None");
+				packet.PutByte(0);
+
+				character.Map.Broadcast(packet, character);
+			}
 		}
 	}
 }

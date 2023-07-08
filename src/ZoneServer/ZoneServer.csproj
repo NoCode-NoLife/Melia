@@ -159,6 +159,8 @@
     <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
     <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
+    <Compile Include="Skills\Handlers\Ardito\Granata.cs" />
+    <Compile Include="Skills\Handlers\Ardito\TreGranate.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
     <Compile Include="Skills\Handlers\Cleric\GuardianSaint.cs" />

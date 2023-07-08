@@ -97,7 +97,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					break;
 				}
 
-				// Delay for 3 seconds
 				await Task.Delay(2000);
 
 				// Cancel if the caster has not enough SP
