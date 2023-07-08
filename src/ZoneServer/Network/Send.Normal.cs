@@ -180,7 +180,7 @@ namespace Melia.Zone.Network
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void Skill_16(int unkForceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayEffects(int unkForceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
@@ -198,7 +198,7 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_16);
+				packet.PutInt(NormalOp.Zone.PlayEffect);
 
 				packet.PutInt(unkForceId);
 
@@ -225,46 +225,6 @@ namespace Melia.Zone.Network
 				packet.PutInt(0);
 
 				source.Map.Broadcast(packet, target);
-			}
-
-			/// <summary>
-			/// Controls a skill's visual effects.
-			/// </summary>
-			/// <param name="unkForceId"></param>
-			/// <param name="caster"></param>
-			/// <param name="source"></param>
-			/// <param name="target"></param>
-			/// <param name="effect1PacketString"></param>
-			/// <param name="effect1Scale"></param>
-			/// <param name="effect2PacketString"></param>
-			/// <param name="effect3PacketString"></param>
-			/// <param name="effect3Scale"></param>
-			/// <param name="effect4PacketString"></param>
-			/// <param name="effect5PacketString"></param>
-			/// <param name="speed"></param>
-			/// <exception cref="ArgumentException">
-			/// Thrown if any of the packet strings are not found.
-			/// </exception>
-			public static void Skill_16(IActor caster, string effect1PacketString, float effect1Scale)
-			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
-					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
-
-				var packet = new Packet(Op.ZC_NORMAL);
-
-				packet.PutInt(NormalOp.Zone.Skill_16);
-
-				packet.PutInt(caster.Handle);
-
-				packet.PutByte(0);
-				packet.PutInt(2);
-				packet.PutByte(0);
-
-				packet.PutFloat(effect1Scale);
-				packet.PutInt(packetStringData1.Id);
-				packet.PutInt(0);
-
-				caster.Map.Broadcast(packet, caster);
 			}
 
 			/// <summary>
