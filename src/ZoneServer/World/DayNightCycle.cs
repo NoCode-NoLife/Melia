@@ -139,7 +139,7 @@ namespace Melia.Zone.World
 			var steps = timeMs / (1000 / fps);
 			var delayPerStep = timeMs / steps;
 
-			for (var i = 0; i < steps; ++i)
+			for (var i = 0; i <= steps; ++i)
 			{
 				if (transitionId != _transitionId)
 					return;
