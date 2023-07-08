@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Shared.Network;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Maps;
@@ -200,6 +201,19 @@ namespace Melia.Zone.World
 		{
 			lock (_mapsLock)
 				return _mapsId.Values.SelectMany(a => a.GetCharacters(predicate)).ToArray();
+		}
+
+		/// <summary>
+		/// Broadcasts packet on all maps.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+					map.Broadcast(packet);
+			}
 		}
 	}
 }
