@@ -188,7 +188,13 @@ namespace Melia.Zone.Skills
 		{
 			// Guessed, see GetSplashArea. Take a little off the top,
 			// so entities actually have to get into the splash area.
-			return this.Properties.GetFloat(PropertyName.SplHeight);
+			//return this.Properties.GetFloat(PropertyName.SplHeight);
+
+			// After testing splash height, it seems unlikely that that's
+			// the way to get the min distance. It seems a little counter-
+			// intuitive, but let's try MaxR, which seems to have rather
+			// fitting values for this purpose.
+			return this.Properties.GetFloat(PropertyName.MaxR);
 		}
 
 		/// <summary>
