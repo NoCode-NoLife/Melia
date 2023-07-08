@@ -12,7 +12,6 @@ using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
 using System.Threading;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.Buffs;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -45,23 +44,22 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_06(caster as Character, "M_GTOWER_STAGE_13", 0.5f, "", 1, farPos);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+			Send.ZC_NORMAL.Skill_6(caster as Character, "M_GTOWER_STAGE_13", 0.5f, "", 1, farPos);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// Start the task
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
 		}
 
-		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
+		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await Task.Delay(600);
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, position, caster.Position.GetDirection(position), true);
-			Send.ZC_NORMAL.Skill_E3(caster as Character, null, "STAGE_1");
+			Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Direction, true);
 
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
@@ -71,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				{
 					// Radius seems precise
 					var radius = 45;
-					var center = position.GetRelative(position, radius);
+					var center = farPos.GetRelative(farPos, radius);
 					var splashArea = new Circle(center, radius);
 
 					// Attack targets
@@ -83,14 +81,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
 						{
-							target.Components.Get<BuffComponent>().Start(BuffId.Archer_VerminPot_Debuff, 0, 0, TimeSpan.FromSeconds(15), caster, skill);
+							target.StartBuff(BuffId.Archer_VerminPot_Debuff, TimeSpan.FromSeconds(15), caster, skill);
 						}
 					}
 
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, position, caster.Position.GetDirection(position), false);
+				Send.ZC_NORMAL.Skill_59(caster as Character, "shot_fail", skill.Id, farPos, caster.Direction, false);
 			}
 		}
 	}

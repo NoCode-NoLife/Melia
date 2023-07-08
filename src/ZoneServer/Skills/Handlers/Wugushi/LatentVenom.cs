@@ -34,7 +34,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 
 			if (target == null)
@@ -68,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_SHOW_EMOTICON(target, "F_archer_broadhead_cast_blooding", TimeSpan.FromSeconds(100));
 			Send.ZC_NORMAL.Skill_E3(characterCaster, target, "STAGE_1");
 
-			target.Components.Get<BuffComponent>().Start(BuffId.LatentVenom_Debuff, 0, 0, TimeSpan.FromSeconds(100), caster, skill);
+			target.StartBuff(BuffId.LatentVenom_Debuff, TimeSpan.FromSeconds(100), caster, skill);
 		}
 	}
 }

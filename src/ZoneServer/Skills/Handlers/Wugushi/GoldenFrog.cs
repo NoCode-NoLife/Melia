@@ -45,11 +45,11 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// Start the task
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
@@ -59,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		{
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.Skill_06(caster as Character, "I_smoke001_dark_3#Bip01 Pelvis", 0.4f, "", 1, position);
+			Send.ZC_NORMAL.Skill_6(caster as Character, "I_smoke001_dark_3#Bip01 Pelvis", 0.4f, "", 1, position);
 			Send.ZC_NORMAL.Skill_59(caster as Character, "F_warrior_fallenblossom001", skill.Id, position, caster.Position.GetDirection(position), true);
 
 			await Task.Delay(400);
@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.JincanGu_Abil_Debuff))
 						{
-							target.Components.Get<BuffComponent>().Start(BuffId.JincanGu_Abil_Debuff, 0, 0, TimeSpan.FromSeconds(60), caster, skill);
+							target.StartBuff(BuffId.JincanGu_Abil_Debuff, TimeSpan.FromSeconds(60), caster, skill);
 						}
 					}
 

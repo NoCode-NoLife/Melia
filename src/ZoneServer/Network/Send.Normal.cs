@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices.Expando;
 using System.Xml.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
@@ -9,6 +10,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
 {
@@ -965,15 +967,18 @@ namespace Melia.Zone.Network
 			/// <param name="skillId"></param>
 			/// <param name="targetPos"></param>
 			/// <param name="targetDir"></param>
+			/// <param name="showEffect"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_59(Character character, string packetString, SkillId skillId, Position targetPos, Direction targetDir, bool startEffect)
+			public static void Skill_59(Character character, string packetString, SkillId skillId, Position targetPos, Direction targetDir, bool showEffect)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
 
-				var startOrEndEffect = startEffect ? 1 : 256;
+				var showEffectInt = showEffect ? 1 : 0;
 
 				var packet = new Packet(Op.ZC_NORMAL);
+
+				var rnd = RandomProvider.Get();
 
 				packet.PutInt(NormalOp.Zone.Skill_59);
 				packet.PutInt(character.Handle);
@@ -982,15 +987,15 @@ namespace Melia.Zone.Network
 				packet.PutInt(1);
 				packet.PutPosition(targetPos);
 				packet.PutDirection(targetDir);
-				packet.PutFloat(-0.78f);
+				packet.PutFloat(0);
 				packet.PutFloat(0);
 				packet.PutInt(0);
-				packet.PutInt(startOrEndEffect); 
+				packet.PutInt(showEffectInt); 
 				packet.PutEmptyBin(13);
-				packet.PutFloat(100);
+				packet.PutFloat(rnd.Next(50, 10000));
 				packet.PutEmptyBin(16);
 
-				character.Connection.Send(packet);
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
@@ -1021,6 +1026,8 @@ namespace Melia.Zone.Network
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
+			/// <param name="target"></param>
+			/// <param name="packetString"></param>
 			public static void Skill_E3(Character character, ICombatEntity target, string packetString)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
@@ -1044,7 +1051,7 @@ namespace Melia.Zone.Network
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void Skill_06(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
+			public static void Skill_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 				{
@@ -1055,7 +1062,7 @@ namespace Melia.Zone.Network
 
 				var packet = new Packet(Op.ZC_NORMAL);
 
-				packet.PutInt(NormalOp.Zone.Skill_06);
+				packet.PutInt(NormalOp.Zone.Skill_6);
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutFloat(duration);
@@ -1066,7 +1073,7 @@ namespace Melia.Zone.Network
 				packet.PutFloat(0.6f);
 				packet.PutFloat(500);
 				packet.PutFloat(1);
-				packet.PutFloat(0);
+				packet.PutLong(0);
 
 				character.Map.Broadcast(packet, character);
 			}
