@@ -42,15 +42,12 @@ public class BasicMonsterAiScript : AiScript
 	{
 		SetRunning(true);
 
-		yield return Wait(500);
-
 		while (!target.IsDead)
 		{
 			if (!TryGetRandomSkill(out var skill))
 			{
 				yield return Wait(2000);
 				continue;
-
 			}
 
 			while (!InRangeOf(target, skill.GetAttackRange()))
