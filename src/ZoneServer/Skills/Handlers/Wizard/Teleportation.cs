@@ -6,8 +6,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Wizard
 {
@@ -28,7 +26,6 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
 		/// <param name="target"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -66,10 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			else
 			{
 				targetPos = caster.Position.GetRelative(caster.Direction, TeleportationDistance);
-				if (!caster.Map.Ground.TryGetHeightAt(targetPos, out var height))
-					return;
-
-				targetPos.Y = height;
+				targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 			}
 
 			skill.Vars.Set("Melia.LastPos", caster.Position);
