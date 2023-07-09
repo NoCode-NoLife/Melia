@@ -81,6 +81,16 @@ namespace Melia.Zone.Skills.Handlers.Common
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
+				// This is unofficial, as the damage delay is the same for
+				// multi hits in the logs, but if we don't do this, the
+				// animation isn't in sync with the weapon swing, which
+				// just doesn't look right. I honestly can't tell what
+				// the official behavior is, because it kind of looks
+				// correct there for me, but that might very well be
+				// the lag at play...
+				if (skillHitResult.HitCount > 1)
+					damageDelay = TimeSpan.FromMilliseconds(damageDelay.TotalMilliseconds / skillHitResult.HitCount);
+
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
 			}
