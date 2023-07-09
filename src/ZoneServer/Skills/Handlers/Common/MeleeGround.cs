@@ -62,6 +62,15 @@ namespace Melia.Zone.Skills.Handlers.Common
 			var damageDelay = TimeSpan.FromMilliseconds(skill.Id != SkillId.Common_DaggerAries ? 330 : 250);
 			var skillHitDelay = skill.Properties.HitDelay;
 
+			// This part is somewhat guessed. The damage delay does seem to
+			// decrease with the speed rate, but the hit delay doesn't. If
+			// we don't decrease the hit delay though, the client can't
+			// handle very high attack speeds. Granted, they need to be
+			// higher than the devs might have ever intended for this to
+			// happen, but I still kinda want them to work.
+			damageDelay = TimeSpan.FromMilliseconds(damageDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
+			skillHitDelay = TimeSpan.FromMilliseconds(skillHitDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
+
 			if (skillHitDelay > TimeSpan.Zero)
 				await Task.Delay(skillHitDelay);
 

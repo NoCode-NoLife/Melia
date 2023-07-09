@@ -981,8 +981,8 @@ namespace Melia.Zone.Network
 			var skillId = (SkillId)packet.GetInt();
 			var b1 = packet.GetByte();
 			var f3 = packet.GetFloat();
-			var f1 = packet.GetFloat();
-			var f2 = packet.GetFloat();
+			var speedRate = packet.GetFloat();
+			var hitDelay = packet.GetFloat();
 			var targetHandles = packet.GetList(targetHandleCount, packet.GetInt);
 
 			var character = conn.SelectedCharacter;

@@ -86,7 +86,6 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.CoolDown, () => (int)this.Skill.Data.CooldownTime.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.HitDelay, () => (int)this.Skill.Data.DefaultHitDelay.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.AbleShootRotate, () => 0f));
-			this.Create(new RFloatProperty(PropertyName.SklSpdRate, () => 1f)); // Constant
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.ReadyTime, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SkillAtkAdd, () => 0f));
@@ -96,6 +95,10 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.DelayTime, () => (int)this.Skill.Data.DelayTime.TotalMilliseconds));
 			this.Create(new RFloatProperty(PropertyName.Skill_Delay, () => this.CalculateProperty("SCR_GET_DELAY_TIME")));
 			this.Create(new RFloatProperty(PropertyName.ReinforceAtk, () => 0f));
+
+			this.Create(new RFloatProperty(PropertyName.SklSpdRateValue, () => this.Skill.Data.SpeedRate));
+			this.Create(new RFloatProperty(PropertyName.SklSpdRate, () => this.CalculateProperty("SCR_GET_SklSpdRate")));
+			this.Create(new RFloatProperty(PropertyName.ShootTime, () => this.CalculateProperty("SCR_GET_ShootTime")));
 
 			// We previously had this as `Enable ? 1 : 0`, but it seems like
 			// EnableShootMove actually needs to be 0 to allow movement while

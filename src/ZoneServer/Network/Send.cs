@@ -399,6 +399,9 @@ namespace Melia.Zone.Network
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -406,11 +409,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(550.7403f); // Delay until next attack?
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
+			packet.PutFloat(sklSpdRate);
+
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
 			packet.PutInt(0);
@@ -447,6 +451,9 @@ namespace Melia.Zone.Network
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -454,11 +461,11 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.083666f);
+			packet.PutFloat(sklSpdRate);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make
@@ -485,10 +492,12 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
-		/// <param name="targetPos"></param>
+		/// <param name="target"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_TARGET(ICombatEntity entity, Skill skill, ICombatEntity target, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
 			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
@@ -498,11 +507,11 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.083666f);
+			packet.PutFloat(sklSpdRate);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make

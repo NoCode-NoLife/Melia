@@ -261,4 +261,82 @@ public class SkillCalculationsScript : GeneralScript
 				return 1000;
 		}
 	}
+
+	/// <summary>
+	/// Calculates and returns the skill's speed rate.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_GET_SklSpdRate")]
+	public float SCR_GET_SklSpdRate(Skill skill)
+	{
+		// Formulas based on player accounts and experimentation. They're
+		// not 100% accurate, but the goal was to get them close to the
+		// values seen in the skill packets, and the result kinda works.
+		// And isn't that all that matters? Yes. Yes it is. ^__^
+		//
+		// https://forum.treeofsavior.com/t/attack-speed-formula/395989
+		// 
+		// We can see the skill speed rate in the skill packets, and we
+		// can see it change with the dex stat, so this is definitely a
+		// factor, and the formulas found by the community somewhat match
+		// the logged values.
+		// The bonuses from skills and buffs seem weird at first glance
+		// (for example, Hasisas adds "175 Attack Speed"), but given our
+		// formula this value actually makes sense, as Hasisas was logged
+		// to increase the speed rate by ~0.18, which is a close match
+		// for bonus/1000.
+		// 
+		// Theory on how attack speed works:
+		// Every skill, including normal attack skills, have a "shoot time",
+		// which seems to be the time until the skill can be used again.
+		// For example, if you have a skill speed rate of 1 and you use
+		// a skill with a shoot time of 1000, the client will use the
+		// skill every ~1000ms. If you then raise the skill speed rate,
+		// the client will use the skill every ~1000ms divided by the
+		// speed rate. This means you'd reach a hit rate of 2 hits per
+		// second if you get your speed rate to 2.
+		// For a skill with a much lower shoot time you attack faster
+		// out of the gate and higher speed rates will have a lower
+		// impact on your hits/second. For example, the default shoot
+		// time of the dagger attack skill is 400ms, which would be
+		// lowered to 200ms with a speed rate of 2.
+		// It's currently unknown whether there's a speed cap, though
+		// the hits get a little unrealiable at higher values, above a
+		// speed rate of 3. It's safe to assume that there is a limit
+		// somewhere in the 2~3 speed rate range. But for now we'll
+		// leave it like this for funsies.
+
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSpdRateValue);
+		var byDex = 0f;
+		var byBuff = 0f;
+
+		if (skill.Data.SpeedRateAffectedByDex)
+		{
+			var dex = skill.Owner.Properties.GetFloat(PropertyName.DEX);
+			byDex = (float)Math.Pow(dex / 500f, 0.46f);
+		}
+
+		if (skill.Data.SpeedRateAffectedByBuff)
+		{
+			var spdBm = skill.Owner.Properties.GetFloat(PropertyName.SPD_BM, 0);
+			byBuff = spdBm / 1000f;
+		}
+
+		return (float)(baseValue + byDex + byBuff);
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's speed rate.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction("SCR_GET_ShootTime")]
+	public float SCR_GET_ShootTime(Skill skill)
+	{
+		var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+		var defShootTime = skill.Data.ShootTime.TotalMilliseconds;
+
+		return (float)(defShootTime / sklSpdRate);
+	}
 }
