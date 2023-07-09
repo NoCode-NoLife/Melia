@@ -45,8 +45,16 @@
 			public const int Skill_50 = 0x50;
 			public const int Skill_E3 = 0xE3;
 			public const int GroundEffect = 0x59;
+			public const int Skill_5C = 0x5C;
+			public const int Skill_6D = 0x6D;
+			public const int Skill_7D = 0x7D;
 			public const int Skill_88 = 0x88;
-			public const int Skill_90 = 0x88;
+			public const int Skill_90 = 0x90;
+			public const int Skill_99 = 0x99;
+			public const int Skill_C8 = 0xC8;
+			public const int Skill_40 = 0x40;
+			public const int Skill_122 = 0x122;
+			public const int Skill_17A = 0x17A;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;

@@ -138,7 +138,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				buff.End();
 			}
 
-			Send.ZC_NORMAL.Skill_50(character, skill.Id);
+			Send.ZC_NORMAL.Skill_50(character, skill.Id, 2.1f);
 			Send.ZC_STOP_SOUND(character, "voice_war_atk_long_cast");
 			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, false);
 

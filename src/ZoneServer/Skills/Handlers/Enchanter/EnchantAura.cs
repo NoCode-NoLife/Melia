@@ -42,8 +42,10 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			}
 
 			skill.IncreaseOverheat();
-			Send.ZC_NORMAL.Skill_88(caster as Character, skill);
 			caster.SetAttackState(true);
+
+			Send.ZC_NORMAL.Skill_88(caster as Character, caster, skill);
+
 			var castedPos = caster.Position;
 			var effectId = ForceId.GetNew();
 

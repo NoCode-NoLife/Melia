@@ -281,6 +281,11 @@ switch (type)
         byte b6; // 1 | 1 | 0 -> 1 (Packet sent twice)
         break;
 
+	// Display Effect?
+    case 0x0122:
+        int packetString;
+        break;
+
 	// Skill CallLuaFunc
     case 0x26:
         int handle;
@@ -356,7 +361,7 @@ switch (type)
 	// Finestra
     case 0x40:
         int handle;
-        int i1; // 1
+        int skillId; // 1
         lpString str; // SKL_FINESTRA_ATK
         break;
 
@@ -659,6 +664,12 @@ switch (type)
         float f1; // 0
         break;
 
+    // Skill Spawn Object Related 
+    case 0x99:
+        int monsterHandle;
+        int i1; // 0
+        break;
+
     // Unknown, sent on login?
     case 0x9A:
         int i1; // 0, 2
@@ -821,6 +832,12 @@ switch (type)
         int i2; // 2
         int i3; // 0
         float f3; // 1
+        break;
+
+    // Related to skills that spawn objects/monsters
+    case 0xC8:
+        int entityHandle;
+        byte b1;
         break;
 
     // ?

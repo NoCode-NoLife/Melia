@@ -1676,6 +1676,21 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Makes actor appear dead on all clients in range of it.
+		/// </summary>
+		/// <param name="actor"></param>
+		public static void ZC_DEAD(IActor actor, Position position)
+		{
+			var packet = new Packet(Op.ZC_DEAD);
+			packet.PutInt(actor.Handle);
+			packet.PutInt(1);
+			packet.PutPosition(position);
+			packet.PutInt(0);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
 		/// Informs players about a hit that occured, and about the target's
 		/// new hp, after damage was applied.
 		/// </summary>
@@ -2061,7 +2076,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
 			packet.PutInt(entity.Handle);
-			packet.PutInt((int)skill.Id);
+			packet.PutInt(skill != null ? (int)skill.Id : 1);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(0);

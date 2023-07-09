@@ -1,0 +1,219 @@
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
+using Melia.Shared.L10N;
+using Melia.Shared.Tos.Const;
+using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
+using static Melia.Zone.Skills.SkillUseFunctions;
+
+namespace Melia.Zone.Skills.Handlers.Sapper
+{
+	/// <summary>
+	/// Handler for the Sapper skill Punji Stake.
+	/// </summary>
+	[SkillHandler(SkillId.Sapper_PunjiStake)]
+	public class PunjiStake : IDynamicCastingSkillHandler
+	{
+		private float maxCastingTime = 0;
+		private Stopwatch stopwatch;
+		private int effectId;
+
+		/// <summary>
+		/// Handles skill, start casting a skill dynamicly.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="maxCastingTime"></param>
+		public void HandleStartCasting(Skill skill, ICombatEntity caster, float maxCastingTime)
+		{
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
+
+			// Why are we trusting the client?
+			// TODO: Find a way to get the Cast Time of a skill
+			this.maxCastingTime = maxCastingTime;
+
+			// Taglio: Tenacity
+			// Duration changed to 5 seconds{ nl}
+			// *Movement speed increase effect removed{ nl}
+			// *Cooldown increased by 10 seconds
+			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
+			{
+				caster.Properties.Modify(PropertyName.MSPD_BM, 10);
+				Send.ZC_MSPD(caster);
+			}
+
+			stopwatch = new Stopwatch();
+			stopwatch.Start();
+
+			Send.ZC_NORMAL.Skill_4F(caster as Character, skill.Id);
+		}
+
+		/// <summary>
+		/// Handles skill, stops casting a skill dynamicly.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void HandleStopCasting(Skill skill, ICombatEntity caster)
+		{
+			var character = caster as Character;
+
+			// Ability - Poonji Stake: Instance
+			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
+			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
+			// and the damage received from the caster is increased by 30%
+			if (character.Abilities.IsActive(AbilityId.Sapper42))
+			{
+				this.PlaceTrap(caster, skill);
+				return;
+			}
+
+			if (stopwatch != null)
+			{
+				stopwatch.Stop();
+				var elapsed = stopwatch.Elapsed;
+
+				if (elapsed.TotalMilliseconds >= ((this.maxCastingTime * 1000) - 200))
+				{
+					this.PlaceTrap(caster, skill);
+				}
+			}
+		}
+
+		private async void PlaceTrap(ICombatEntity caster, Skill skill)
+		{
+			skill.IncreaseOverheat();
+			caster.SetAttackState(true);
+
+			var character = caster as Character;
+
+			await Task.Delay(150);
+
+			this.effectId = ForceId.GetNew();
+			var farPos = caster.Position.GetRelative(caster.Direction, 5);
+
+			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, farPos, this.effectId, true);
+
+			await Task.Delay(150);
+
+			var trapObject = new Mob(57194, MonsterType.NPC);
+
+			trapObject.Position = farPos;
+			trapObject.Direction = caster.Direction;
+
+			trapObject.Components.Add(new BuffComponent(trapObject));
+
+			caster.Map.AddMonster(trapObject);
+
+			Send.ZC_ENTER_MONSTER(trapObject);
+			Send.ZC_OWNER(character, trapObject);
+			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
+
+			character.SetAttackState(true);
+
+			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
+			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, this.effectId);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
+
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+
+			this.AlertRange(caster, skill, trapObject);
+		}
+
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap)
+		{
+			var splashParam = skill.GetSplashParameters(caster, trap.Position, trap.Position, length: 45, width: 45, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+
+			while (true)
+			{
+				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+
+				if (targets.Count > 0)
+				{
+					this.ExplodeTrap(caster, skill, trap);
+					break;
+				}
+
+				await Task.Delay(200);
+			}
+		}
+
+		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap)
+		{
+			var character = caster as Character;
+
+			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
+
+			Send.ZC_DEAD(trap, trap.Position);
+
+			await Task.Delay(150);
+
+			Send.ZC_NORMAL.Skill_6D(character, this.effectId);
+
+			Send.ZC_NORMAL.Skill_7D(character, skill.Id);
+
+			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, trap.Position, this.effectId, false);
+
+			var splashParam = skill.GetSplashParameters(caster, trap.Position, trap.Position, length: 70, width: 40, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+
+			Debug.ShowShape(character.Map, splashArea, edgePoints: false);
+
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+
+			foreach (var target in targets.LimitBySDR(caster, skill))
+			{
+				this.ExecuteAttack(caster, target, skill);
+			}
+		}
+
+		private async void ExecuteAttack(ICombatEntity caster, ICombatEntity target, Skill skill)
+		{
+			var character = caster as Character;
+
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+			// Ability - Poonji Stake: Instance
+			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
+			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
+			// and the damage received from the caster is increased by 30%
+			if (character.Abilities.IsActive(AbilityId.Sapper42))
+			{
+				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
+				skillHitResult.Damage *= 0.5f;
+				this.ApplySlow(target, mspd);
+				return;
+			}
+
+			target.TakeDamage(skillHitResult.Damage, caster);
+
+			var hit = new HitInfo(caster, target, skill, skillHitResult);
+
+			for (int i = 0; i < 4; i++)
+			{
+				Send.ZC_HIT_INFO(caster, target, skill, hit);
+				await Task.Delay(100);
+			}
+		}
+
+		private async void ApplySlow(ICombatEntity target, float oldValue)
+		{
+			target.Properties.SetFloat(PropertyName.MSPD, 10);
+			await Task.Delay(5000);
+			target.Properties.SetFloat(PropertyName.MSPD, oldValue);
+		}
+	}
+}

@@ -1002,20 +1002,110 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="skill"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_88(Character character, Skill skill)
+			public static void Skill_88(Character character, ICombatEntity target, Skill skill)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.Skill_88);
-				packet.PutInt(character.Handle);
-				packet.PutInt((int)skill.Id);
+
+				packet.PutInt(target.Handle);
+				packet.PutInt(skill != null ? (int)skill.Id : 0);
 
 				character.Connection.Send(packet);
 			}
 
+			/// <summary>
+			/// Unknow purposes, related to skills.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skill"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_17A(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_17A);
+
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+
+				character.Map.Broadcast(packet, character);
+			}
 
 			/// <summary>
-			/// SUnknow purposes, related to skills.
+			/// Something related to skill efffect?
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skill"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_122(Character character, string packetString)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_122);
+
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt(0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// SUnknow purposes, related to skills effects
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_5C(Character character, ICombatEntity target, SkillId skillId, int skillEffectId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_5C);
+
+				packet.PutInt(skillEffectId);
+				packet.PutInt(target.Handle);
+				packet.PutInt(0);
+				packet.PutByte(1);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Unknow purposes, related to skills animation effects. It seems to start an animation.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_6D(Character character, int skillEffectId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_6D);
+
+				packet.PutInt(skillEffectId);
+				packet.PutByte(1);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// SUnknow purposes, related to skills animation effects. It seems to start an animation.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_7D(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_7D);
+
+				packet.PutInt(character.Hair);
+				packet.PutInt((int)skillId);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// SUnknow purposes, related to skills
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
@@ -1026,14 +1116,66 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.Skill_90);
+
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt(1);
 				packet.PutByte(0);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Related to skills that spawn objects/monsters
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skill"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_99(Character character, IMonster monster)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_99);
+
+				packet.PutInt(monster.Handle);
+				packet.PutInt(0);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Related to skills that spawn objects/monsters
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skill"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_C8(Character character, IMonster monster)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_C8);
+
+				packet.PutInt(monster.Handle);
+				packet.PutByte(1);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Something related to skill efffect?
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skill"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_40(Character character, SkillId skillId, string skillString)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_C8);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+				packet.PutLpString(skillString);
+
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
@@ -1169,14 +1311,14 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
-			public static void Skill_50(Character character, SkillId skillId)
+			public static void Skill_50(Character character, SkillId skillId, float duration)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_50);
 
 				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
-				packet.PutFloat(2.1f);
+				packet.PutFloat(duration);
 				packet.PutByte(0);
 
 				character.Map.Broadcast(packet, character);
