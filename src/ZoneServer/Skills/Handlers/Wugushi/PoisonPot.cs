@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.Skill_6(caster as Character, "I_archer_poison_pot_force#Bip01 R Hand", 0.5f, "", 1, farPos);
+			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "I_archer_poison_pot_force#Bip01 R Hand", 0.5f, "", 1, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// Start the task
@@ -58,8 +58,9 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await Task.Delay(600);
+			var effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, caster.Position.GetDirection(farPos), true);
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, effectId, true);
 
 			// Radius seems precise
 			var radius = 45;
@@ -88,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.Skill_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, caster.Position.GetDirection(farPos), false);
+				Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Archer_VerminPot", skill.Id, farPos, effectId, false);
 			}
 		}
 	}

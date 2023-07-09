@@ -27,9 +27,6 @@ namespace Melia.Zone.Buffs.Handlers
 				var hit = new HitInfo(casterCharacter, buff.Target, buff.Skill, skillHitResult.Damage, skillHitResult.Result);
 
 				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
-				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
-				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
-				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
 			}
 		}
 	}

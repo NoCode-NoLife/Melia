@@ -74,7 +74,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			foreach (var target in targets.LimitRandom(10))
 			{
 				Send.ZC_SHOW_EMOTICON(target, "shootpad_spector", TimeSpan.FromMilliseconds(2000));
-				Send.ZC_NORMAL.Skill_E3(caster as Character, target, "STAGE_1");
 				target.StartBuff(BuffId.WideMiasma_Debuff, TimeSpan.FromSeconds(15), caster, skill);
 				target.StartBuff(BuffId.DecreaseHeal_Debuff, TimeSpan.FromSeconds(20), caster, skill);
 			}

@@ -1124,6 +1124,31 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Unknow purpose, its related to animation
+			/// on clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="target"></param>
+			/// <param name="packetString"></param>
+			public static void Skill_E3(Character character, ICombatEntity target, string packetString)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_E3);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt(target != null ? target.Handle : 0);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(192);
+				packet.PutShort(-1);
+				packet.PutLong(0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
 			/// Unknow purpose, related to skills
 			/// </summary>
 			/// <param name="character"></param>

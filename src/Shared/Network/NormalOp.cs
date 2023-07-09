@@ -43,6 +43,7 @@
 			public const int Skill_6 = 0x6;
 			public const int Skill_4F = 0x4F;
 			public const int Skill_50 = 0x50;
+			public const int Skill_E3 = 0xE3;
 			public const int GroundEffect = 0x59;
 			public const int Skill_88 = 0x88;
 			public const int Skill_90 = 0x88;
@@ -69,8 +70,6 @@
 			public const int WigVisibilityUpdate = 0x1AC;
 			public const int Unknown_1B4 = 0x1B7;
 			public const int SubWeaponVisibilityUpdate = 0x1C5;
-			public const int Skill_E3 = 0xE3;
-			public const int Skill_6 = 0x6;
 		}
 	}
 }

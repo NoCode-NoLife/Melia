@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -42,16 +36,19 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
 
 			var duration = TimeSpan.FromMinutes(30);
-			caster.Components.Get<BuffComponent>().Start(BuffId.Zhendu_Buff, skill.Level, 0, duration, caster, skill);
+			caster.StartBuff(BuffId.Zhendu_Buff, duration, caster, skill);
 
-			Send.ZC_NORMAL.Skill_59(caster as Character, "M_GTOWER_STAGE_15", skill.Id, caster.Position, caster.Position.GetDirection(caster.Position), true);
+			var effectId = ForceId.GetNew();
+
+			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "M_GTOWER_STAGE_15", skill.Id, caster.Position, effectId, true);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 
 			var casterCharacter = caster as Character;
 
 			// Reduces the Poison property resistance of enemies within 150 by 10% per attribute level when [Zhendu] is used
-			//if (casterCharacter != null && casterCharacter.Abilities.Has(AbilityId.Wugushi7))
+
+			//if (casterCharacter.Abilities.Has(AbilityId.Wugushi7))
 			//{
 			//	var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
 			//	var abilityReinforceRate = SCR_Get_AbilityReinforceRate(skill);
