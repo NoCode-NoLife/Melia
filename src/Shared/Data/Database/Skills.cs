@@ -46,6 +46,10 @@ namespace Melia.Shared.Data.Database
 		public List<TimeSpan> HitTime { get; set; }
 		public List<TimeSpan> HoldTime { get; set; }
 
+		public float SpeedRate { get; set; }
+		public bool SpeedRateAffectedByDex { get; set; }
+		public bool SpeedRateAffectedByBuff { get; set; }
+
 		public bool EnableCastMove { get; set; }
 
 		public HitType KnockDownHitType { get; set; }
@@ -150,7 +154,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -189,6 +193,10 @@ namespace Melia.Shared.Data.Database
 			data.CancelTime = entry.ReadTimeSpan("cancelTime");
 			data.HitTime = entry.ReadList<int>("hitTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 			data.HoldTime = entry.ReadList<int>("holdTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
+
+			data.SpeedRate = entry.ReadFloat("speedRate");
+			data.SpeedRateAffectedByDex = entry.ReadBool("speedRateAffectedByDex");
+			data.SpeedRateAffectedByBuff = entry.ReadBool("speedRateAffectedByBuff");
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 
