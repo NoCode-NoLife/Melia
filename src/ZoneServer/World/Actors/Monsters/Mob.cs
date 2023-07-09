@@ -415,6 +415,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
+			// 30% of healing reduced
+			if (Buffs.Has(BuffId.DecreaseHeal_Debuff))
+			{
+				hpAmount *= 0.7f;
+			}
+
 			this.Properties.Modify(PropertyName.HP, hpAmount);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 

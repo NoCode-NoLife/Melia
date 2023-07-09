@@ -156,8 +156,16 @@ public class CombatCalculationsScript : GeneralScript
 
 		// TODO: Find a better location to handle disabling buffs on attack?
 		var buffComponent = attacker.Components.Get<BuffComponent>();
+
 		if (buffComponent.Has(BuffId.Cloaking_Buff))
+		{
 			buffComponent.Remove(BuffId.Cloaking_Buff);
+		}
+
+		if (skill.Id != SkillId.Wugushi_WideMiasma && buffComponent.Has(BuffId.WideMiasma_Buff))
+		{
+			buffComponent.Remove(BuffId.WideMiasma_Buff);
+		}
 
 		return result;
 	}

@@ -455,9 +455,9 @@ namespace Melia.Zone.Network
 			packet.PutInt(1);
 			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
 			packet.PutFloat(1);
-			packet.PutInt(0);
+			packet.PutInt(1);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.083666f);
+			packet.PutFloat(1);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make

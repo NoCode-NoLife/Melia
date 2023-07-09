@@ -1209,6 +1209,7 @@ namespace Melia.Zone.Network
 
 			// Check target
 			ICombatEntity target = null;
+
 			if (targetHandle != 0)
 			{
 				if (!character.Map.TryGetActor(targetHandle, out var actor))

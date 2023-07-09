@@ -4,6 +4,7 @@ using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
+using Melia.Zone.Skills;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -305,6 +306,31 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (!this.TryGet(buffId, out var buff))
 			{
 				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity);
+				this.Add(buff);
+			}
+			else
+			{
+				this.Overbuff(buff);
+			}
+
+			return buff;
+		}
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
+		/// <param name="duration">Custom duration of the buff.</param>
+		/// <param name="caster">The entity that casted the buff.</param>
+		/// <returns></returns>
+		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, Skill skill)
+		{
+			if (!this.TryGet(buffId, out var buff))
+			{
+				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity, skill);
 				this.Add(buff);
 			}
 			else
