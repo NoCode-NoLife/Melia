@@ -41,6 +41,8 @@
 			public const int Skill_4E = 0x4E;
 			public const int Skill = 0x57;
 			public const int Skill_6 = 0x6;
+			public const int Skill_4F = 0x4F;
+			public const int Skill_50 = 0x50;
 			public const int GroundEffect = 0x59;
 			public const int Skill_88 = 0x88;
 			public const int Skill_90 = 0x88;

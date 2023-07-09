@@ -1334,7 +1334,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				handler.Handle(skill, character, maxCastType);
+				handler.HandleStartCasting(skill, character, maxCastType);
 			}
 			catch (ArgumentException ex)
 			{
@@ -1365,29 +1365,21 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// Check cooldown
-			if (skill.IsOnCooldown)
-			{
-				Log.Warning("CZ_DYNAMIC_CASTING_END: User '{0}' tried to use a skill that's on cooldown ({1}).", conn.Account.Name, skillId);
-				character.ServerMessage(Localization.Get("You may not use this yet."));
-				return;
-			}
-
 			// Try to use skill
 			try
 			{
 				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCastingSkillHandler>(skillId, out var handler))
 				{
 					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
-					Log.Warning("CZ_DYNAMIC_CASTING_START: No handler for skill '{0}' found.", skillId);
+					Log.Warning("CZ_DYNAMIC_CASTING_END: No handler for skill '{0}' found.", skillId);
 					return;
 				}
 
-				handler.Handle(skill, character, maxCastType);
+				handler.HandleStopCasting(skill, character);
 			}
 			catch (ArgumentException ex)
 			{
-				Log.Error("CZ_DYNAMIC_CASTING_START: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+				Log.Error("CZ_DYNAMIC_CASTING_END: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
 			}
 		}
 

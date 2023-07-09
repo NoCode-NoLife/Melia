@@ -1085,6 +1085,11 @@ namespace Melia.Zone.Network
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <param name="duration"></param>
+			/// <param name="packetString2"></param>
+			/// <param name="duration2"></param>
+			/// <param name="position"></param>
 			public static void GroundEffect_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
@@ -1095,8 +1100,8 @@ namespace Melia.Zone.Network
 				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
 
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.Skill_6);
+
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutFloat(duration);
@@ -1111,6 +1116,40 @@ namespace Melia.Zone.Network
 				packet.PutLong(0);
 				packet.PutShort(0);
 				packet.PutString("None");
+				packet.PutByte(0);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Unknow purpose, related to skills
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void Skill_4F(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_4F);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Unknow purpose, related to skills
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void Skill_50(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_50);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+				packet.PutFloat(2.1f);
 				packet.PutByte(0);
 
 				character.Map.Broadcast(packet, character);

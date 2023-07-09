@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		}
 
 		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Handles the Attack.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -63,17 +63,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				this.ExecuteAttack(skill, caster, target);
+				this.SendsHitInfo(skill, caster, target);
 			}
 		}
 
 		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Executes the actual attack.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="splashArea"></param>
-		private async void ExecuteAttack(Skill skill, ICombatEntity caster, ICombatEntity target)
+		/// <param name="target"></param>
+		private async void SendsHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			for (int i = 0; i < 4; i++)
 			{

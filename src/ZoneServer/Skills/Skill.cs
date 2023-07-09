@@ -114,11 +114,6 @@ namespace Melia.Zone.Skills
 		public bool IsOnCooldown => this.Owner.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
 
 		/// <summary>
-		/// Determinates if a skill is being dynamic casted.
-		/// </summary>
-		public bool DynamicCasting { get; private set; } = false;
-
-		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="owner"></param>
@@ -316,24 +311,6 @@ namespace Melia.Zone.Skills
 			//Debug.ShowShape(this.Owner.Map, splashArea);
 
 			return splashArea;
-		}
-
-		/// <summary>
-		/// Starts dynamic casting the skill
-		/// </summary>
-		public void StartDynamicCast(float maxCastTime)
-		{
-			DynamicCasting = true;
-			this.StopDynamicCasting(maxCastTime);
-		}
-
-		/// <summary>
-		/// Stops dynamic casting the skill
-		/// </summary>
-		private async void StopDynamicCasting(float maxCastTime)
-		{
-			await Task.Delay(TimeSpan.FromSeconds(maxCastTime));
-			DynamicCasting = false;
 		}
 
 		/// <summary>

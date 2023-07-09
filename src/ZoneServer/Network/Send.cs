@@ -3820,7 +3820,7 @@ namespace Melia.Zone.Network
 			character.Connection.Send(packet);
 		}
 
-				/// <summary>
+		/// <summary>
 		/// Updates certain skill properties, such as speed rate, hit
 		/// delay, and max overheat count.
 		/// </summary>
@@ -3848,7 +3848,48 @@ namespace Melia.Zone.Network
 
 			caster.Map.Broadcast(packet);
 		}
-		
+
+		/// <summary>
+		/// Plays a sound on all clients
+		/// delay, and max overheat count.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(Character caster, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(caster.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			caster.Map.Broadcast(packet, caster);
+		}
+
+		/// <summary>
+		/// Plays a sound on all clients
+		/// delay, and max overheat count.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_STOP_SOUND(Character caster, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+			var packet = new Packet(Op.ZC_STOP_SOUND);
+
+			packet.PutInt(caster.Handle);
+			packet.PutInt(packetStringData.Id);
+
+			caster.Map.Broadcast(packet, caster);
+		}
+
 		public static void DUMMY(IZoneConnection conn)
 		{
 		}
