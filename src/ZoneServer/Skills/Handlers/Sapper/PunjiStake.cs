@@ -7,6 +7,7 @@ using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -146,8 +147,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="trap"></param>
 		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap)
 		{
-			var splashParam = skill.GetSplashParameters(caster, trap.Position, trap.Position, length: 45, width: 45, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+			var splashArea = new Circle(trap.Position, 45);
+
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			while (true)
 			{

@@ -12,6 +12,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Shared.Data.Database;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Zone.Skills.SplashAreas;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -89,6 +90,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, effectid);
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
+			await Task.Delay(1000);
+
 			this.AlertRange(caster, skill, trapObject, effectid);
 		}
 
@@ -101,8 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="effectId"></param>
 		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, int effectId)
 		{
-			var splashParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 35, width: 35, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+			var splashArea = new Circle(trap.Position, 35);
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
@@ -113,8 +115,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					var splashTriggerParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 40, width: 40, angle: 0);
-					var splashTriggerArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+					var splashTriggerArea = new Circle(trap.Position, 45);
 
 					Debug.ShowShape(caster.Map, splashTriggerArea, edgePoints: false);
 

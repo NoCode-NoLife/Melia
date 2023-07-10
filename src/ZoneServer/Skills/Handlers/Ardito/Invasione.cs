@@ -26,6 +26,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -63,17 +64,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				this.SendsHitInfo(skill, caster, target);
+				this.ExecuteAttack(skill, caster, target);
 			}
 		}
 
 		/// <summary>
-		/// Executes the actual attack.
+		/// Execute the actual attack (Sends Hit Info)
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void SendsHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private async void ExecuteAttack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			for (int i = 0; i < 4; i++)
 			{

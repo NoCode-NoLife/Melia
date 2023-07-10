@@ -93,6 +93,7 @@
     <Compile Include="Buffs\Handlers\JincanGu_Abil_Debuff.cs" />
     <Compile Include="Buffs\Handlers\LatentVenom_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Archer_VerminPot_Debuff.cs" />
+    <Compile Include="Buffs\Handlers\LegHoldTrap_Debuff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Debuff.cs" />
     <Compile Include="Buffs\Handlers\OverReinforce_Buff.cs" />
     <Compile Include="Buffs\Handlers\SwiftStep_Buff.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Skills\Handlers\Monsters\OnionAttack.cs" />
     <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
     <Compile Include="Skills\Handlers\Sapper\Claymore.cs" />
+    <Compile Include="Skills\Handlers\Sapper\LegHoldTrap.cs" />
     <Compile Include="Skills\Handlers\Sapper\PunjiStake.cs" />
     <Compile Include="Skills\Handlers\Sapper\SpringTrap.cs" />
     <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />

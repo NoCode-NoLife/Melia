@@ -93,11 +93,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			while(!cancellationToken.IsCancellationRequested)
 			{
-				if (cancellationToken.IsCancellationRequested)
-				{
-					break;
-				}
-
 				var splashParam = skill.GetSplashParameters(caster, caster.Position, caster.Position, length: 80, width: 50, angle: 180);
 				var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
