@@ -27,7 +27,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private int effectId;
 
 		/// <summary>
-		/// Handles skill, start casting a skill dynamicly.
+		/// Handles the skill, places a trap on the floor that continues scan for targets
+		/// once triggered it deals damage to the them
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -61,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		}
 
 		/// <summary>
-		/// Handles skill, stops casting a skill dynamicly.
+		/// Handles the skill stop casting dynamicly.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -91,6 +92,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			}
 		}
 
+		/// <summary>
+		/// Places the trap object on the floor
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
 		private async void PlaceTrap(ICombatEntity caster, Skill skill)
 		{
 			skill.IncreaseOverheat();
@@ -132,6 +138,12 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			this.AlertRange(caster, skill, trapObject);
 		}
 
+		/// <summary>
+		/// Routine that scans for targets that may trigger the trap explosion
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="trap"></param>
 		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap)
 		{
 			var splashParam = skill.GetSplashParameters(caster, trap.Position, trap.Position, length: 45, width: 45, angle: 0);
@@ -140,17 +152,21 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			while (true)
 			{
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
 				if (targets.Count > 0)
 				{
 					this.ExplodeTrap(caster, skill, trap);
 					break;
 				}
-
 				await Task.Delay(200);
 			}
 		}
 
+		/// <summary>
+		/// Explodes the trap object and does its following effects
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="trap"></param>
 		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap)
 		{
 			var character = caster as Character;
@@ -176,11 +192,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				this.ExecuteAttack(caster, target, skill);
+				this.ExecuteAttack(caster, target, skill, trap);
 			}
 		}
 
-		private async void ExecuteAttack(ICombatEntity caster, ICombatEntity target, Skill skill)
+		/// <summary>
+		/// Execute the trap attack after the explosion
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="trap"></param>
+		private async void ExecuteAttack(ICombatEntity caster, ICombatEntity target, Skill skill, Mob trap)
 		{
 			var character = caster as Character;
 
@@ -198,6 +221,14 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				return;
 			}
 
+			var knockBackDistance = 110;
+			var knockBackPos = target.Position.GetRelative(trap.Direction, knockBackDistance);
+			var angle = target.GetDirection(knockBackPos).DegreeAngle;
+
+			Send.ZC_KNOCKDOWN_INFO(character, target, target.Position, knockBackPos, angle);
+
+			target.Position = knockBackPos;
+
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var hit = new HitInfo(caster, target, skill, skillHitResult);
@@ -209,6 +240,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			}
 		}
 
+		/// <summary>
+		/// Apply Slow to the targets and restore it after certain time
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="oldValue"></param>
 		private async void ApplySlow(ICombatEntity target, float oldValue)
 		{
 			target.Properties.SetFloat(PropertyName.MSPD, 10);
