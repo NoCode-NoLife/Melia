@@ -188,6 +188,7 @@
     <Compile Include="Skills\Handlers\SkillHandlers.cs" />
     <Compile Include="Skills\SkillProperties.cs" />
     <Compile Include="Skills\SkillUseFunctions.cs" />
+    <Compile Include="Skills\SplashAreas\BladedFan.cs" />
     <Compile Include="Skills\SplashAreas\Circle.cs" />
     <Compile Include="Skills\SplashAreas\Fan.cs" />
     <Compile Include="Skills\SplashAreas\SplashArea.cs" />
