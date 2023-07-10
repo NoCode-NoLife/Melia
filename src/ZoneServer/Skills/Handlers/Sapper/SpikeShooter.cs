@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.Skills.SplashAreas;
 using System.Threading;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -56,16 +57,23 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private async void PlaceObject(ICombatEntity caster, Skill skill)
 		{
 			var character = caster as Character;
-			var farPos = caster.Position.GetRelative(caster.Direction, 5);
+			var farPos = caster.Position.GetRelative(caster.Direction, 12);
 			var direction = caster.Direction;
 			var effectId = ForceId.GetNew();
+
+			var leftPos = farPos.GetRelative(caster.Direction.Left, 16);
+			var rightPos = farPos.GetRelative(caster.Direction.Right, 16);
+
+			leftPos = new Position(leftPos.X, leftPos.Y + 15, leftPos.Z);
+			rightPos = new Position(rightPos.X, rightPos.Y + 15, rightPos.Z);
 
 			Send.ZC_NORMAL.GroundEffect_59(character, "Archer_SpikeShooter", skill.Id, farPos, effectId, true);
 			Send.ZC_SKILL_READY(caster, skill, farPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Direction, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
+			Send.ZC_NORMAL.ChainEffect(character, "SpikeShooter", leftPos, rightPos, effectId, 57710);
 
-			await Task.Delay(200);
+			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			var cancelationTokenSource = new CancellationTokenSource();
 			this.Attack(caster, skill, farPos, direction, effectId, cancelationTokenSource.Token);
@@ -83,6 +91,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
 		/// <param name="effectId"></param>
+		/// <param name="cancellationToken"></param>
 		private async void Attack(ICombatEntity caster, Skill skill, Position farPos, Direction direction, int effectId, CancellationToken cancellationToken)
 		{
 			while(!cancellationToken.IsCancellationRequested)
@@ -93,48 +102,109 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				leftPos = new Position(leftPos.X, leftPos.Y + 9, leftPos.Z);
 				rightPos = new Position(rightPos.X, rightPos.Y + 9, rightPos.Z);
 
-				var leftMovPos = leftPos.GetRelative(direction, 180);
-				var rightMovPos = rightPos.GetRelative(direction, 180);
-
-				Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);
-				Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, rightMovPos);
-
-				await Task.Delay(TimeSpan.FromMilliseconds(500));
+				var leftMovPos = leftPos.GetRelative(direction, 160);
+				var rightMovPos = rightPos.GetRelative(direction, 160);
 
 				leftPos = leftPos.GetRelative(direction.Left, 1);
 				rightPos = rightPos.GetRelative(direction.Right, 1);
 
-				var squareLeft = new Square(leftPos, direction, 180, 5);
-				var squareRight = new Square(rightPos, direction, 180, 5);
+				var squareLeft = new Square(leftPos, direction, 160, 5);
+				var squareRight = new Square(rightPos, direction, 160, 5);
 
 				//Debug.ShowShape(caster.Map, squareLeft, edgePoints: false);
 				Debug.ShowShape(caster.Map, squareRight, edgePoints: false);
 
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, squareLeft);
-
-				foreach (var target in targets)
+				// Abillity - Spike Shooter: Penetration
+				// Fires an arrow that pierces enemies{nl}* Increases cooldown by 5 seconds
+				if (caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Sapper51))
 				{
-					var skillHitResult = SCR_SkillHit(caster, target, skill);
-					target.TakeDamage(skillHitResult.Damage, caster);
+					var targets = caster.Map.GetAttackableEntitiesIn(caster, squareLeft);
 
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
+					foreach (var target in targets)
+					{
+						var skillHitResult = SCR_SkillHit(caster, target, skill);
+						target.TakeDamage(skillHitResult.Damage, caster);
 
-					Send.ZC_HIT_INFO(caster, target, skill, hit);
+						var hit = new HitInfo(caster, target, skill, skillHitResult);
+
+						Send.ZC_HIT_INFO(caster, target, skill, hit);
+					}
+
+					targets = caster.Map.GetAttackableEntitiesIn(caster, squareRight);
+
+					foreach (var target in targets)
+					{
+						var skillHitResult = SCR_SkillHit(caster, target, skill);
+						target.TakeDamage(skillHitResult.Damage, caster);
+
+						var hit = new HitInfo(caster, target, skill, skillHitResult);
+
+						Send.ZC_HIT_INFO(caster, target, skill, hit);
+					}
+
+					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);
+					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, rightPos);
+				} else //Stops on the first hit
+				{
+					var targets = caster.Map.GetAttackableEntitiesIn(caster, squareLeft);
+
+					var lowestDistanceLeft = int.MaxValue;
+					var lowestPosLeft = leftMovPos;
+					ICombatEntity targetLeftHit = null;
+
+					foreach (var target in targets)
+					{
+						var distance = target.Position.Get2DDistance(leftPos);
+						if (distance < lowestDistanceLeft)
+						{
+							targetLeftHit = target;
+							lowestPosLeft = target.Position;
+							lowestDistanceLeft = Convert.ToInt32(distance);
+						}
+					}
+
+					targets = caster.Map.GetAttackableEntitiesIn(caster, squareRight);
+
+					var lowestDistanceRight = int.MaxValue;
+					var lowestPosRight = rightMovPos;
+					ICombatEntity targetRightHit = null;
+
+					foreach (var target in targets)
+					{
+						var distance = target.Position.Get2DDistance(rightPos);
+						if (distance < lowestDistanceRight)
+						{
+							targetRightHit = target;
+							lowestPosRight = target.Position;
+							lowestDistanceRight = Convert.ToInt32(distance);
+						}
+					}
+
+					if (targetLeftHit != null)
+					{
+						var skillHitResult = SCR_SkillHit(caster, targetLeftHit, skill);
+						targetLeftHit.TakeDamage(skillHitResult.Damage, caster);
+
+						var hit = new HitInfo(caster, targetLeftHit, skill, skillHitResult);
+
+						Send.ZC_HIT_INFO(caster, targetLeftHit, skill, hit);
+					}
+
+					if (targetRightHit != null)
+					{
+						var skillHitResult = SCR_SkillHit(caster, targetRightHit, skill);
+						targetRightHit.TakeDamage(skillHitResult.Damage, caster);
+
+						var hit = new HitInfo(caster, targetRightHit, skill, skillHitResult);
+
+						Send.ZC_HIT_INFO(caster, targetRightHit, skill, hit);
+					}
+
+					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, lowestPosLeft);
+					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, lowestPosRight);
 				}
 
-				targets = caster.Map.GetAttackableEntitiesIn(caster, squareRight);
-
-				foreach (var target in targets)
-				{
-					var skillHitResult = SCR_SkillHit(caster, target, skill);
-					target.TakeDamage(skillHitResult.Damage, caster);
-
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
-
-					Send.ZC_HIT_INFO(caster, target, skill, hit);
-				}
-
-				await Task.Delay(TimeSpan.FromMilliseconds(500));
+				await Task.Delay(TimeSpan.FromSeconds(1));
 			}
 		}
 	}

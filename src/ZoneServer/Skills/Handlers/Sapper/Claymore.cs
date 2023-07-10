@@ -47,25 +47,24 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				return;
 			}
 
-			var character = caster as Character;
-
 			if (trap != null)
 			{
-				this.ExplodeTrap(character, caster, skill);
+				this.ExplodeTrap(caster, skill);
 				return;
 			}
 
-			this.PlaceTrap(character, caster, skill, farPos);
+			this.PlaceTrap(caster, skill, farPos);
 		}
 
 		/// <summary>
 		/// Handles the trap triggering explosion effect
 		/// </summary>
-		/// <param name="character"></param>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
-		private async void ExplodeTrap(Character character, ICombatEntity caster, Skill skill)
+		private async void ExplodeTrap(ICombatEntity caster, Skill skill)
 		{
+			var character = caster as Character;
+
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
@@ -97,12 +96,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <summary>
 		/// Places the trap object (mob) on the floor
 		/// </summary>
-		/// <param name="character"></param>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
-		private async void PlaceTrap(Character character, ICombatEntity caster, Skill skill, Position farPos)
+		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
+			var character = caster as Character;
+
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_NORMAL.Skill_88(character, caster, skill);

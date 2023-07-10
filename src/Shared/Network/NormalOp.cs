@@ -47,6 +47,7 @@
 			public const int Skill_E3 = 0xE3;
 			public const int Skill_58 = 0x58;
 			public const int GroundEffect = 0x59;
+			public const int ChainEffect = 0x5A;
 			public const int Skill_5C = 0x5C;
 			public const int Skill_6D = 0x6D;
 			public const int Skill_7D = 0x7D;
@@ -56,6 +57,7 @@
 			public const int Skill_C8 = 0xC8;
 			public const int Skill_40 = 0x40;
 			public const int Skill_122 = 0x122;
+			public const int Skill_123 = 0x123;
 			public const int Skill_17A = 0x17A;
 			public const int UnkDynamicCastStart = 0x4F;
 			public const int UnkDynamicCastEnd = 0x50;

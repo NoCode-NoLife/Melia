@@ -1339,7 +1339,7 @@ namespace Melia.Zone.Network
 			}
 			catch (ArgumentException ex)
 			{
-				Log.Error("CZ_DYNAMIC_CASTING_START: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+				// Silence
 			}
 		}
 
@@ -1380,7 +1380,7 @@ namespace Melia.Zone.Network
 			}
 			catch (ArgumentException ex)
 			{
-				Log.Error("CZ_DYNAMIC_CASTING_END: Failed to execute the handler for '{0}'. Error: {1}", skillId, ex);
+				// Silence
 			}
 		}
 

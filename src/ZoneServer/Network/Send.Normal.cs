@@ -1366,6 +1366,67 @@ namespace Melia.Zone.Network
 
 				actor.Map.Broadcast(packet, actor);
 			}
+
+			/// <summary>
+			/// Show/Hide ground skill effects.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <param name="targetPos"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void GroundEffect_123(Character character, string packetString, Position targetPos)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_123);
+
+				packet.PutInt(832667);
+				packet.PutInt(character.Handle);
+				packet.PutInt(0);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(1f);
+				packet.PutPosition(targetPos);
+				packet.PutFloat(80f);
+				packet.PutFloat(0);
+				packet.PutInt(3);
+				packet.PutFloat(1f);
+				packet.PutFloat(5f);
+				packet.PutFloat(-2.356195f);
+				packet.PutFloat(3f);
+				packet.PutFloat(10f);
+
+				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Do something with a given effectId
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="packetString"></param>
+			/// <param name="fromPos"></param>
+			/// <param name="toPos"></param>
+			/// <param name="effectId"></param>
+			/// <param name="monsterId"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void ChainEffect(Character character, string packetString, Position fromPos, Position toPos, int effectId, int monsterId)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ChainEffect);
+
+				packet.PutInt(effectId);
+				packet.PutPosition(fromPos);
+				packet.PutPosition(toPos);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(1f);
+				packet.PutInt(monsterId);
+
+				character.Map.Broadcast(packet);
+			}
 		}
 	}
 }
