@@ -2566,5 +2566,102 @@ namespace Melia.Zone.Network
 			// the name it's probably related to jobs, but that's about
 			// all we got on it. Ignore for now.
 		}
+
+		/// <summary>
+		/// Request to start or stop playing the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_READY_FLUTING)]
+		public void CZ_REQ_READY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var enabled = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Send.ZC_READY_FLUTING(character, enabled);
+		}
+
+		/// <summary>
+		/// Request to play a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_PLAY_FLUTING)]
+		public void CZ_REQ_PLAY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Log.Debug("{0}, {1}, {2}", note, octave, semitone);
+
+			Send.ZC_PLAY_FLUTING(character, note, octave, semitone, true);
+		}
+
+		/// <summary>
+		/// Request to stop playing a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_STOP_FLUTING)]
+		public void CZ_REQ_STOP_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			// If the user starts playing a note, but doesn't stop
+			// playing it, or they send a different note to stop,
+			// the note will keep playing for a moment until stopping
+			// on its own. We could catch this by saving the notes on
+			// start, but since you can play multiple notes at once,
+			// that will require a bit more effort than simply setting
+			// a couple variables which we then get here. We'd need
+			// to keep track of all notes being played, stop specific
+			// ones, and stop all if anything goes wrong.
+
+			Send.ZC_STOP_FLUTING(character, note, octave, semitone);
+		}
 	}
 }

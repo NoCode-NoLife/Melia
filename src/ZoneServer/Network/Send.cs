@@ -3920,8 +3920,59 @@ namespace Melia.Zone.Network
 			character.Connection.Send(packet);
 		}
 
-		public static void DUMMY(IZoneConnection conn)
+		/// <summary>
+		/// Toggles character's fluting stance.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="enabled"></param>
+		public static void ZC_READY_FLUTING(Character character, bool enabled)
 		{
+			var packet = new Packet(Op.ZC_READY_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte(enabled);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Makes character play a note on their flute.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="note"></param>
+		/// <param name="octave"></param>
+		/// <param name="semitone"></param>
+		/// <param name="animate"></param>
+		public static void ZC_PLAY_FLUTING(Character character, int note, int octave, bool semitone, bool animate)
+		{
+			var packet = new Packet(Op.ZC_PLAY_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(note);
+			packet.PutInt(octave);
+			packet.PutByte(semitone);
+			packet.PutByte(animate);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Stops character playing the current note on their flute.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="note"></param>
+		/// <param name="octave"></param>
+		/// <param name="semitone"></param>
+		public static void ZC_STOP_FLUTING(Character character, int note, int octave, bool semitone)
+		{
+			var packet = new Packet(Op.ZC_STOP_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(note);
+			packet.PutInt(octave);
+			packet.PutByte(semitone);
+
+			character.Map.Broadcast(packet, character);
 		}
 	}
 }
