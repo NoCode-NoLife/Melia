@@ -84,7 +84,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.RemoveMonster(trap);
 
-			Send.ZC_NORMAL.Skill_17A(character);
 			Send.ZC_NORMAL.Skill_122(character, "SAPPER_TRAP_Sapper_Claymore");
 
 			var splashParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 200, width: 0, angle: 60);
@@ -104,7 +103,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="farPos"></param>
 		private async void PlaceTrap(Character character, ICombatEntity caster, Skill skill, Position farPos)
 		{
-			await Task.Delay(200);
+			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_NORMAL.Skill_88(character, caster, skill);
 			Send.ZC_NORMAL.Skill_122(character, "SAPPER_TRAP_Sapper_Claymore");
@@ -133,7 +132,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			trap.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
-			await Task.Delay(800);
+			await Task.Delay(TimeSpan.FromMilliseconds(800));
 
 			Send.ZC_NORMAL.Skill_17A(character);
 			Send.ZC_NORMAL.Skill_40(character, skill.Id, "SKL_CLAYMORE_SHOT");

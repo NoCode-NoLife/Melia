@@ -125,7 +125,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					await this.TriggerTrapAsync(caster, skill, trap, farPos);
+					await this.TriggerTrap(caster, skill, trap, farPos);
 					break;
 				}
 
@@ -138,8 +138,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
-		/// <param name="trap"></param>
-		private async Task TriggerTrapAsync(ICombatEntity caster, Skill skill, Mob trap, Position farPos)
+		/// <param name="trap"></param
+		/// <param name="farPos"></param>
+		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos)
 		{
 			var character = caster as Character;
 

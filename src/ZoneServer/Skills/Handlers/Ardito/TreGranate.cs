@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
@@ -124,14 +125,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var circle2 = new Circle(pos3, 50);
 			var circle3 = new Circle(pos4, 50);
 
-			while (true)
+			while (!cancelationTokenSource.Token.IsCancellationRequested)
 			{
-				if (cancelationTokenSource.Token.IsCancellationRequested)
-				{
-					break;
-				}
-
-				await Task.Delay(1000);
+				await Task.Delay(TimeSpan.FromSeconds(1));
 
 				var targets1 = caster.Map.GetAttackableEntitiesIn(caster, circle);
 				var targets2 = caster.Map.GetAttackableEntitiesIn(caster, circle2);

@@ -991,7 +991,6 @@ namespace Melia.Zone.Network
 			/// Unknow purposes, related to skills.
 			/// </summary>
 			/// <param name="character"></param>
-			/// <param name="skill"></param>
 			/// <exception cref="ArgumentException"></exception>
 			public static void Skill_17A(Character character)
 			{
