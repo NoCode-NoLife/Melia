@@ -978,8 +978,8 @@ namespace Melia.Zone.Network
 				var startOrEndEffect = startEffect ? 1 : 0;
 
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.GroundEffect);
+
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skillId);
@@ -991,7 +991,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(identifier);
 				packet.PutInt(startOrEndEffect);
 				packet.PutEmptyBin(13);
-				packet.PutFloat(25);
+				packet.PutFloat(0);
 				packet.PutEmptyBin(16);
 
 				character.Map.Broadcast(packet);
@@ -1338,7 +1338,7 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{packetString5}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.AttachEffect);
+				packet.PutInt(NormalOp.Zone.MoveEffects);
 
 				packet.PutInt(identifier);
 				packet.PutInt(actor.Handle);
@@ -1362,7 +1362,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(1);
 				packet.PutPosition(fromPos);
 				packet.PutPosition(ToPos);
-
+								
 				actor.Map.Broadcast(packet, actor);
 			}
 
