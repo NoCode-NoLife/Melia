@@ -1,6 +1,7 @@
-
-local history = {}
-local historyIndex = 0
+if not M_CHAT_HISTORY_LIST then
+	M_CHAT_HISTORY_LIST = {}
+	M_CHAT_HISTORY_LIST_IDX = 0
+end
 
 local chatFrame = ui.GetFrame('chat')
 local chatEditCtrl = GET_CHILD(chatFrame, "mainchat", "ui::CEditControl");
@@ -20,21 +21,21 @@ function M_CHAT_ON_TIMER(frame)
 end
 
 function M_CHAT_HISTORY_CYCLE(modifier)
-	if #history	== 0 then
+	if #M_CHAT_HISTORY_LIST	== 0 then
 		return
 	end
 
-	historyIndex = historyIndex + modifier
-	if historyIndex < 0 then
-		historyIndex = #history
-	elseif historyIndex > #history then
-		historyIndex = 0
+	M_CHAT_HISTORY_LIST_IDX = M_CHAT_HISTORY_LIST_IDX + modifier
+	if M_CHAT_HISTORY_LIST_IDX < 0 then
+		M_CHAT_HISTORY_LIST_IDX = #M_CHAT_HISTORY_LIST
+	elseif M_CHAT_HISTORY_LIST_IDX > #M_CHAT_HISTORY_LIST then
+		M_CHAT_HISTORY_LIST_IDX = 0
 	end
 	
-	if historyIndex == 0 then
+	if M_CHAT_HISTORY_LIST_IDX == 0 then
 		chatEditCtrl:SetText("")
 	else
-		chatEditCtrl:SetText(history[historyIndex])
+		chatEditCtrl:SetText(M_CHAT_HISTORY_LIST[M_CHAT_HISTORY_LIST_IDX])
 	end
 end
 
@@ -46,13 +47,13 @@ function M_CHAT_ENTERKEY(frame, control, argStr, argNum)
 		return
 	end
 
-	for i = 1, #history do
-		if history[i] == text then
-			table.remove(history, i)
+	for i = 1, #M_CHAT_HISTORY_LIST do
+		if M_CHAT_HISTORY_LIST[i] == text then
+			table.remove(M_CHAT_HISTORY_LIST, i)
 			break
 		end
 	end
 
-	table.insert(history, text)
-	historyIndex = 0
+	table.insert(M_CHAT_HISTORY_LIST, text)
+	M_CHAT_HISTORY_LIST_IDX = 0
 end

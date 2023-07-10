@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				return;
 			}
 
-			if (!caster.Position.InRange2D(targetPos, skill.Data.MaxRange))
+			if (!caster.InSkillUseRange(skill, targetPos))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;
@@ -49,7 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPos, null);
 
-			var splashArea = new Circle(targetPos, skill.Data.SplashRange);
+			var splashArea = new Circle(targetPos, skill.Properties.GetFloat(PropertyName.SklSplRange));
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets)

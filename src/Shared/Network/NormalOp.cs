@@ -32,7 +32,7 @@
 			public const int AttachEffect = 0x12;
 			public const int ClearEffects = 0x13;
 			public const int PlayEffect = 0x16;
-			public const int MoveEffects = 0x17;
+			public const int PlayForceEffect = 0x17;
 			public const int UpdateSkillEffect = 0x1F;
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
@@ -57,6 +57,8 @@
 			public const int Skill_40 = 0x40;
 			public const int Skill_122 = 0x122;
 			public const int Skill_17A = 0x17A;
+			public const int UnkDynamicCastStart = 0x4F;
+			public const int UnkDynamicCastEnd = 0x50;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;

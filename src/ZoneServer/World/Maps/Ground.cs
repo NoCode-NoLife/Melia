@@ -241,10 +241,11 @@ namespace Melia.Zone.World.Maps
 			{
 				currentPos = currentPos.GetRelative(dir, stepSize);
 
-				if (!this.IsValidPosition(currentPos))
+				if (!this.TryGetHeightAt(currentPos, out var height))
 					return lastValidPos;
 
 				lastValidPos = currentPos;
+				lastValidPos.Y = height;
 			}
 
 			return destination;

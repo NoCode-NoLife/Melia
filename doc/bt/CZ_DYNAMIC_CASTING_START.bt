@@ -16,7 +16,7 @@
 ClientHeaderFixed header;
 
 int skillId;
-float maxCastTime; // Max Cast Time?
+float maxCastTime;
 byte bin[18];
 short s1;
 short s2;

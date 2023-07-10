@@ -51,16 +51,25 @@ namespace Melia.Zone.Skills.Combat
 		}
 
 		/// <summary>
-		/// Iterates over targets and returns random ones by a limit
-		/// limit is reached.
+		/// Iterates over targets in a random order and returns them up
+		/// to the the max amount.
 		/// </summary>
 		/// <param name="targets"></param>
-		/// <param name="maxTargets"></param>
+		/// <param name="maxAmount"></param>
 		/// <returns></returns>
-		public static IEnumerable<ICombatEntity> LimitRandom(this IEnumerable<ICombatEntity> targets, int maxTargets)
+		public static IEnumerable<ICombatEntity> LimitRandom(this IEnumerable<ICombatEntity> targets, int maxAmount)
 		{
-			var random = RandomProvider.Get();
-			return targets.OrderBy(x => random.Next()).Take(maxTargets).ToList();
+			var rnd = RandomProvider.Get();
+			targets = targets.OrderBy(a => rnd.Next());
+
+			var i = 0;
+			foreach (var target in targets)
+			{
+				yield return target;
+
+				if (++i >= maxAmount)
+					break;
+			}
 		}
 	}
 }

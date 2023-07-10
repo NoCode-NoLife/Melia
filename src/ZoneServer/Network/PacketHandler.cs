@@ -164,7 +164,7 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
-			Send.ZC_DAYLIGHT_FIXED(character);
+			//Send.ZC_DAYLIGHT_FIXED(character);
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -981,8 +981,8 @@ namespace Melia.Zone.Network
 			var skillId = (SkillId)packet.GetInt();
 			var b1 = packet.GetByte();
 			var f3 = packet.GetFloat();
-			var f1 = packet.GetFloat();
-			var f2 = packet.GetFloat();
+			var speedRate = packet.GetFloat();
+			var hitDelay = packet.GetFloat();
 			var targetHandles = packet.GetList(targetHandleCount, packet.GetInt);
 
 			var character = conn.SelectedCharacter;

@@ -43,4 +43,10 @@ namespace Melia.Zone.Skills.Handlers.Base
 	{
 		void Handle(Skill skill, ICombatEntity caster, Position originPos, Direction dir);
 	}
+
+	public interface IDynamicCasted : ISkillHandler
+	{
+		void StartDynamicCast(Skill skill, ICombatEntity caster);
+		void EndDynamicCast(Skill skill, ICombatEntity caster);
+	}
 }

@@ -14,6 +14,7 @@ using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -398,6 +399,9 @@ namespace Melia.Zone.Network
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -405,11 +409,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(550.7403f); // Delay until next attack?
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
+			packet.PutFloat(sklSpdRate);
+
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
 			packet.PutInt(0);
@@ -446,6 +451,9 @@ namespace Melia.Zone.Network
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -453,11 +461,11 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(1);
 			packet.PutInt(forceId);
-			packet.PutFloat(1);
+			packet.PutFloat(sklSpdRate);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make
@@ -484,10 +492,12 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
-		/// <param name="targetPos"></param>
+		/// <param name="target"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_TARGET(ICombatEntity entity, Skill skill, ICombatEntity target, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
 			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
@@ -497,11 +507,11 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutInt(forceId);
-			packet.PutFloat(1.083666f);
+			packet.PutFloat(sklSpdRate);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make
@@ -2808,17 +2818,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_SET_DAYLIGHT_INFO to character (dummy).
+		/// Updates the daylight settings for the given character.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_DAYLIGHT_FIXED(Character character)
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(Character character, bool enabled, DaylightParameters parameters)
 		{
 			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
 
-			packet.PutInt(0);
+			packet.PutInt(enabled ? 1 : 0);
 			packet.PutByte(0);
-			for (var i = 0; i < 5; i++)
-				packet.PutFloat(1);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
 
 			// [i361296]
 			{
@@ -2826,6 +2841,91 @@ namespace Melia.Zone.Network
 			}
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the daylight settings for all characters on all maps.
+		/// </summary>
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(bool enabled, DaylightParameters parameters)
+		{
+			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
+
+			packet.PutInt(enabled ? 1 : 0);
+			packet.PutByte(0);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
+
+			// [i361296]
+			{
+				packet.PutByte(0);
+			}
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays sound for character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(Character character, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Plays sound for clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Stops the sound for all clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_STOP_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_STOP_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>

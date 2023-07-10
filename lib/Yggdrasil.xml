@@ -978,6 +978,24 @@
             <param name="pivot"></param>
             <param name="degrees"></param>
         </member>
+        <member name="T:Yggdrasil.Geometry.IRotatableF">
+            <summary>
+            A shape that can be rotated.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IRotatableF.Rotate(System.Single)">
+            <summary>
+            Rotates the shape by the given angle around its center.
+            </summary>
+            <param name="degreeAngle"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IRotatableF.RotateAround(Yggdrasil.Geometry.Vector2F,System.Single)">
+            <summary>
+            Rotates the shape by the given angle around the given pivot point.
+            </summary>
+            <param name="pivot"></param>
+            <param name="degreeAngle"></param>
+        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.CircleF">
             <summary>
             A round shape.
@@ -1040,6 +1058,19 @@
             <param name="rnd"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CircleF.Rotate(System.Single)">
+            <summary>
+            Does nothing, since a circle can't be rotated.
+            </summary>
+            <param name="degreeAngle"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CircleF.RotateAround(Yggdrasil.Geometry.Vector2F,System.Single)">
+            <summary>
+            Rotates the circle's position around the given pivot point.
+            </summary>
+            <param name="pivot"></param>
+            <param name="degreeAngle"></param>
+        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.Circle">
             <summary>
             A round shape.
@@ -1101,6 +1132,79 @@
             </summary>
             <param name="rnd"></param>
             <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.CompositeShapeF">
+            <summary>
+            A shape that combines multiple shapes.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShapeF.Shapes">
+            <summary>
+            Returns all shapes this composite shape contains.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShapeF.Center">
+            <summary>
+            Returns the average of the combined shapes.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.#ctor(Yggdrasil.Geometry.IShapeF[])">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.IShapeF})">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.UpdateCenter(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.IShapeF})">
+            <summary>
+            Updates the shape's center point.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.IsInside(Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the given position inside any of this composite
+            shape's shapes.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.GetEdgePoints">
+            <summary>
+            Returns a list of all edge points of all shapes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.GetOutlines">
+            <summary>
+            Returns the outlines for all sub-shapes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point within one of this shape's shapes.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.Rotate(System.Single)">
+            <summary>
+            Rotates the shapes around their center.
+            </summary>
+            <param name="degreeAngle"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShapeF.RotateAround(Yggdrasil.Geometry.Vector2F,System.Single)">
+            <summary>
+            Rotates the shapes around the given pivot point.
+            </summary>
+            <param name="pivot"></param>
+            <param name="degreeAngle"></param>
         </member>
         <member name="T:Yggdrasil.Geometry.Shapes.CompositeShape">
             <summary>
@@ -1336,6 +1440,14 @@
             </summary>
             <param name="points"></param>
         </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.PolygonF.#ctor(Yggdrasil.Geometry.Vector2F,System.Single,System.Single)">
+            <summary>
+            Creates a rectangular polygon, extending from the given point.
+            </summary>
+            <param name="corner"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
         <member name="M:Yggdrasil.Geometry.Shapes.PolygonF.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Vector2F})">
             <summary>
             Creates new instance.
@@ -1400,6 +1512,19 @@
             <param name="rnd"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.PolygonF.Rotate(System.Single)">
+            <summary>
+            Rotates the polygon around its center.
+            </summary>
+            <param name="degreeAngle"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.PolygonF.RotateAround(Yggdrasil.Geometry.Vector2F,System.Single)">
+            <summary>
+            Rotates the polygon around the given pivot point.
+            </summary>
+            <param name="pivot"></param>
+            <param name="degreeAngle"></param>
+        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.Polygon">
             <summary>
             A shape with an undefined number of edge points, but a minimum of 3,
@@ -1421,6 +1546,14 @@
             Creates new instance.
             </summary>
             <param name="points"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2,System.Int32,System.Int32)">
+            <summary>
+            Creates a rectangular polygon around the given vector.
+            </summary>
+            <param name="corner"></param>
+            <param name="width"></param>
+            <param name="height"></param>
         </member>
         <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Vector2})">
             <summary>
@@ -1499,11 +1632,6 @@
             Returns the rectangle's position.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Center">
-            <summary>
-            Returns the rectangle's center position.
-            </summary>
-        </member>
         <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Size">
             <summary>
             Returns the rectangle's size.
@@ -1524,32 +1652,6 @@
             <param name="size"></param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.IsInside(Yggdrasil.Geometry.Vector2F)">
-            <summary>
-            Returns true if the given position is within this rectangle.
-            </summary>
-            <param name="pos"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetEdgePoints">
-            <summary>
-            Returns the rectangle's four edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetOutlines">
-            <summary>
-            Returns the rectangle's outline based on its edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.GetRandomPoint(System.Random)">
-            <summary>
-            Returns random point inside the rectangle.
-            </summary>
-            <param name="rnd"></param>
-            <returns></returns>
-        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.Rectangle">
             <summary>
             A rectangle shape.
@@ -1561,11 +1663,6 @@
         <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Position">
             <summary>
             Returns the rectangle's position.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Center">
-            <summary>
-            Returns the rectangle's center position.
             </summary>
         </member>
         <member name="P:Yggdrasil.Geometry.Shapes.Rectangle.Size">
@@ -1586,32 +1683,6 @@
             </summary>
             <param name="center"></param>
             <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.IsInside(Yggdrasil.Geometry.Vector2)">
-            <summary>
-            Returns true if the given position is within this rectangle.
-            </summary>
-            <param name="pos"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetEdgePoints">
-            <summary>
-            Returns the rectangle's four edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetOutlines">
-            <summary>
-            Returns the rectangle's outline based on its edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Rectangle.GetRandomPoint(System.Random)">
-            <summary>
-            Returns random point inside the rectangle.
-            </summary>
-            <param name="rnd"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Geometry.IShapeF">

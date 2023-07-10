@@ -170,7 +170,7 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Controls a skill's visual effects.
 			/// </summary>
-			/// <param name="unkForceId"></param>
+			/// <param name="forceId"></param>
 			/// <param name="caster"></param>
 			/// <param name="source"></param>
 			/// <param name="target"></param>
@@ -185,7 +185,7 @@ namespace Melia.Zone.Network
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void PlayEffects(int unkForceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
@@ -203,10 +203,10 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.PlayEffect);
 
-				packet.PutInt(unkForceId);
-
+				packet.PutInt(NormalOp.Zone.PlayForceEffect);
+				packet.PutInt(forceId);
+        
 				packet.PutInt(caster.Handle);
 				packet.PutInt(source.Handle);
 				packet.PutInt(target.Handle);
@@ -246,16 +246,35 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Adjusts the skill speed for a skill.
+			/// Packet with unknown purpose that's sent during dynamic
+			/// casting.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void UnkDynamicCastStart(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Packet with unknown purpose that's sent during dynamic
+			/// casting.
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
 			/// <param name="value"></param>
-			public static void Skill_4E(Character character, SkillId skillId, float value)
+			public static void UnkDynamicCastEnd(Character character, SkillId skillId, float value)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_4E);
+				packet.PutInt(NormalOp.Zone.UnkDynamicCastEnd);
 
+				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
 				packet.PutFloat(value);
 				packet.PutByte(0);
@@ -401,52 +420,6 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(character.Handle);
 				packet.PutByte((character.VisibleEquip & VisibleEquip.SubWeapon) != 0);
-
-				character.Map.Broadcast(packet, character);
-			}
-
-			/// <summary>
-			/// Creates a skill in client
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="skill"></param>
-			/// <param name="position"></param>
-			/// <param name="direction"></param>
-			/// <param name="create"></param>
-			public static void Skill(Character character, Skill skill, Position position, Direction direction, bool create)
-			{
-				var actorId = 1234; // ActorId (entity unique id for this skill)
-				var distance = 20.0f; // Distance to caster? Not sure. Observed values (20, 40, 80)
-
-				var skillState = 0; // skillState seems to be an ENUM of animation states (0 = initial animation, 1 = touched animation)
-				if (!create)
-					skillState = 1;
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill);
-				packet.PutInt(character.Handle);
-				//packet.PutBinFromHex("11 18 27 00"); // Heal skill effect
-				packet.PutInt(0);
-				packet.PutInt((int)skill.Id);
-				packet.PutInt(skill.Level); // Skill Level ?
-				packet.PutFloat(position.X);
-				packet.PutFloat(position.Y);
-				packet.PutFloat(position.Z);
-				packet.PutFloat(direction.Cos); // Direction (commented out for now)
-				packet.PutFloat(direction.Sin); // Direction (commented out for now)
-				packet.PutInt(0);
-				packet.PutFloat(distance);
-				packet.PutInt(actorId);
-				packet.PutByte(create);
-				packet.PutInt(skillState);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutFloat(10); // Count
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
 
 				character.Map.Broadcast(packet, character);
 			}

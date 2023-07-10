@@ -18,8 +18,8 @@ typedef struct
 {
 	int damage;
 	int hp;
-	int i1;
-	short s1;
+	int hpPriority;
+	short hitType;
 
     byte b1;
     byte b2;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Shared.Network;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Maps;
@@ -36,6 +37,11 @@ namespace Melia.Zone.World
 		/// occurring events.
 		/// </summary>
 		public Heartbeat Heartbeat { get; } = new Heartbeat(4);
+
+		/// <summary>
+		/// Returns the world's day/night cycle manager.
+		/// </summary>
+		public DayNightCycle DayNightCycle { get; private set; }
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -83,8 +89,12 @@ namespace Melia.Zone.World
 				this.Heartbeat.Add(map);
 			}
 
-			// Set up time event raiser
+			// Set up updatables
 			this.Heartbeat.Add(new TimeEventRaiser());
+
+			this.DayNightCycle = new DayNightCycle();
+			if (ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				this.Heartbeat.Add(this.DayNightCycle);
 
 			// Start hearbeat loop and updates
 			this.Heartbeat.Start();
@@ -200,6 +210,19 @@ namespace Melia.Zone.World
 		{
 			lock (_mapsLock)
 				return _mapsId.Values.SelectMany(a => a.GetCharacters(predicate)).ToArray();
+		}
+
+		/// <summary>
+		/// Broadcasts packet on all maps.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+					map.Broadcast(packet);
+			}
 		}
 	}
 }

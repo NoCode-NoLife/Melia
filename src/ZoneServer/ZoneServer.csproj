@@ -125,6 +125,7 @@
     <Compile Include="Events\TimeEventArgs.cs" />
     <Compile Include="Events\TimeEventRaiser.cs" />
     <Compile Include="Feature.cs" />
+    <Compile Include="GameTime.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\SkillHelper.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Skills\Handlers\Ardito\TreGranate.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
+    <Compile Include="Skills\Handlers\Base\ParametersOnlySkill.cs" />
     <Compile Include="Skills\Handlers\Cleric\GuardianSaint.cs" />
     <Compile Include="Skills\Handlers\Cleric\Fade.cs" />
     <Compile Include="Skills\Handlers\Cleric\Cure.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Skills\Handlers\Sapper\PunjiStake.cs" />
     <Compile Include="Skills\Handlers\Sapper\SpikeShooter.cs" />
     <Compile Include="Skills\Handlers\Sapper\SpringTrap.cs" />
+    <Compile Include="Skills\Handlers\Monsters\BasicAttacks.cs" />
     <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
     <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
@@ -256,6 +259,7 @@
     <Compile Include="World\Actors\Characters\SessionObjects.cs" />
     <Compile Include="World\Actors\Characters\Components\SkillComponent.cs" />
     <Compile Include="World\Actors\Entity.cs" />
+    <Compile Include="World\DayNightCycle.cs" />
     <Compile Include="World\Items\DummyEquipItem.cs" />
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
