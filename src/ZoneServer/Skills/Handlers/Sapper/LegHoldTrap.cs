@@ -12,20 +12,18 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using Melia.Shared.Data.Database;
 using System.Threading;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
 	/// <summary>
-	/// Handler for the Sapper skill Claymore.
+	/// Handler for the Sapper skill Leg Hold Trap.
 	/// </summary>
 	[SkillHandler(SkillId.Sapper_LegHoldTrap)]
 	public class LegHoldTrap : IGroundSkillHandler
 	{
 		/// <summary>
-		/// Handles the skill, creates an trap object on the floor on the first usage
-		/// and explodes it on the second usage attempt
+		/// Handles the skill, creates a trap object that is triggered when an enemy approaches
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -61,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		}
 
 		/// <summary>
-		/// Places the trap object on the floor
+		/// Places the trap object (mob) on the floor
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="caster"></param>
@@ -105,6 +103,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				Send.ZC_DEAD(trapObject, trapObject.Position);
 				cancellationTokenSource.Cancel();
+				caster.Map.RemoveMonster(trapObject);
 			}
 		}
 
@@ -145,6 +144,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			var character = caster as Character;
 
 			Send.ZC_DEAD(trap, trap.Position);
+
+			caster.Map.RemoveMonster(trap);
 
 			var newEffectId = ForceId.GetNew();
 

@@ -177,6 +177,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_DEAD(trap, trap.Position);
 
+			caster.Map.RemoveMonster(trap);
+
 			await Task.Delay(150);
 
 			Send.ZC_NORMAL.Skill_6D(character, this.effectId);

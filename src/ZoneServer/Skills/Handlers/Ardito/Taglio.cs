@@ -164,10 +164,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			// TODO: Knowback not being appplyed for some reason, fix it
 			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi8))
 			{
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+				var knockBackDistance = 35;
+				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);
+				var angle = target.GetDirection(knockBackPos).DegreeAngle;
 
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				Send.ZC_KNOCKDOWN_INFO(caster as Character, target, target.Position, knockBackPos, angle);
+
+				target.Position = knockBackPos;
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);

@@ -25,8 +25,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private Mob trap;
 
 		/// <summary>
-		/// Handles the skill, creates an trap object on the floor on the first usage
-		/// and explodes it on the second usage attempt
+		/// Handles the skill, creates an trap object on the floor on
+		/// the first usage and explodes it on the second usage attempt
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -82,6 +82,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_DEAD(trap, trap.Position);
 
+			caster.Map.RemoveMonster(trap);
+
 			Send.ZC_NORMAL.Skill_17A(character);
 			Send.ZC_NORMAL.Skill_122(character, "SAPPER_TRAP_Sapper_Claymore");
 
@@ -94,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		}
 
 		/// <summary>
-		/// Places the trap object on the floor
+		/// Places the trap object (mob) on the floor
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="caster"></param>

@@ -131,6 +131,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						if (triggerCount >= 5)
 						{
 							Send.ZC_DEAD(trap, trap.Position);
+							caster.Map.RemoveMonster(trap);
 							break;
 						}
 

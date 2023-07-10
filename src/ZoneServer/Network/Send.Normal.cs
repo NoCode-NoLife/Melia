@@ -11,6 +11,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Mysqlx.Expr;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -1322,6 +1323,66 @@ namespace Melia.Zone.Network
 				packet.PutByte(0);
 
 				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Moves an effect over two positions
+			/// </summary>
+			/// <param name="actor"></param>
+			public static void MoveEffect(IActor actor, string packetString, int identifier, string packetString5, float speed, Position fromPos, Position ToPos, float scale = 1)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString5, out var packetStringData5))
+					throw new ArgumentException($"Packet string '{packetString5}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AttachEffect);
+
+				packet.PutInt(identifier);
+				packet.PutInt(actor.Handle);
+				packet.PutInt(actor.Handle);
+				packet.PutInt(0); //Handle 3?
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutFloat(0);
+				packet.PutInt(0);
+				packet.PutInt(packetStringData5.Id);
+				packet.PutFloat(speed);
+				packet.PutFloat(1);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutInt(0);
+				packet.PutFloat(20);
+				packet.PutFloat(5);
+				packet.PutFloat(0);
+				packet.PutInt(1);
+				packet.PutPosition(fromPos);
+				packet.PutPosition(ToPos);
+
+				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
+			/// Moves an effect over two positions
+			/// </summary>
+			/// <param name="actor"></param>
+			public static void Skill_58(IActor actor, string packetString)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_58);
+
+				packet.PutInt(2);
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt(11);
+
+				actor.Map.Broadcast(packet, actor);
 			}
 		}
 	}

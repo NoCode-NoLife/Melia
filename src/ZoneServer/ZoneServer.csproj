@@ -196,6 +196,7 @@
     <Compile Include="Skills\Handlers\Sapper\Claymore.cs" />
     <Compile Include="Skills\Handlers\Sapper\LegHoldTrap.cs" />
     <Compile Include="Skills\Handlers\Sapper\PunjiStake.cs" />
+    <Compile Include="Skills\Handlers\Sapper\SpikeShooter.cs" />
     <Compile Include="Skills\Handlers\Sapper\SpringTrap.cs" />
     <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
     <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />

@@ -32,6 +32,7 @@
 			public const int AttachEffect = 0x12;
 			public const int ClearEffects = 0x13;
 			public const int PlayEffect = 0x16;
+			public const int PlayEffect_17 = 0x17;
 			public const int UpdateSkillEffect = 0x1F;
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
@@ -44,6 +45,7 @@
 			public const int Skill_4F = 0x4F;
 			public const int Skill_50 = 0x50;
 			public const int Skill_E3 = 0xE3;
+			public const int Skill_58 = 0x58;
 			public const int GroundEffect = 0x59;
 			public const int Skill_5C = 0x5C;
 			public const int Skill_6D = 0x6D;
