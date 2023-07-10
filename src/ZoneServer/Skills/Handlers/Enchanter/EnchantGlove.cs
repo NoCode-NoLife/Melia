@@ -16,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 	public class EnchantGlove : IGroundSkillHandler
 	{
 		/// <summary>
-		/// Handles skill, applying a buff to the caster.
+		/// Handles skill, apply a buff to the caster.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>

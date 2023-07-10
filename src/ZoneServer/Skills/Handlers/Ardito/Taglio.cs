@@ -26,7 +26,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		private int EffectId;
 
 		/// <summary>
-		/// Handles skill, start casting a skill dynamicly.
+		/// Handles skill casting - Start
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -58,7 +58,38 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				Send.ZC_MSPD(caster);
 			}
 
-			this.AreaOfEffect(_cancellationTokenSource.Token, skill, caster);
+			this.AreaOfEffect(skill, caster, _cancellationTokenSource.Token);
+		}
+
+		/// <summary>
+		/// Handles skill casting - Stop
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void HandleStopCasting(Skill skill, ICombatEntity caster)
+		{
+			if (_cancellationTokenSource != null)
+			{
+				_cancellationTokenSource.Cancel();
+			}
+
+			var character = caster as Character;
+
+			if (character.Buffs.Has(BuffId.Taglio_Buff))
+			{
+				var buff = character.Buffs.Get(BuffId.Taglio_Buff);
+				buff.End();
+			}
+
+			Send.ZC_NORMAL.Skill_50(character, skill.Id, 2.1f);
+			Send.ZC_STOP_SOUND(character, "voice_war_atk_long_cast");
+			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, false);
+
+			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
+			{
+				caster.Properties.Modify(PropertyName.MSPD_BM, -10);
+				Send.ZC_MSPD(caster);
+			}
 		}
 
 		/// <summary>
@@ -66,7 +97,8 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		private async void AreaOfEffect(CancellationToken cancellationToken, Skill skill, ICombatEntity caster)
+		/// <param name="cancellationToken"></param>
+		private async void AreaOfEffect(Skill skill, ICombatEntity caster, CancellationToken cancellationToken)
 		{
 			await Task.Delay(150);
 
@@ -100,7 +132,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
-					this.SendHitInfo(skill, caster, target);
+					this.ExecuteHitInfo(skill, caster, target);
 				}
 
 				await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -114,43 +146,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		}
 
 		/// <summary>
-		/// Handles skill, start casting a skill dynamicly.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		public void HandleStopCasting(Skill skill, ICombatEntity caster)
-		{
-			if (_cancellationTokenSource != null)
-			{
-				_cancellationTokenSource.Cancel();
-			}
-
-			var character = caster as Character;
-
-			if (character.Buffs.Has(BuffId.Taglio_Buff))
-			{
-				var buff = character.Buffs.Get(BuffId.Taglio_Buff);
-				buff.End();
-			}
-
-			Send.ZC_NORMAL.Skill_50(character, skill.Id, 2.1f);
-			Send.ZC_STOP_SOUND(character, "voice_war_atk_long_cast");
-			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, false);
-
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
-			{
-				caster.Properties.Modify(PropertyName.MSPD_BM, -10);
-				Send.ZC_MSPD(caster);
-			}
-		}
-
-		/// <summary>
 		/// Sends the Hit Info.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void SendHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			var damageDelay = TimeSpan.Zero;
 			var skillHitDelay = TimeSpan.Zero;

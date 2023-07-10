@@ -55,6 +55,12 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			Task.Run(() => AreaOfEffect(skill, caster, farPos));
 		}
 
+		/// <summary>
+		/// Area of effect that ticks dealing damage on the enemies inside
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="farPos"></param>
 		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await Task.Delay(600);

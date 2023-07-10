@@ -18,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
     public class Recupero : IGroundSkillHandler
     {
         /// <summary>
-        /// Handles skill, applying buff to the caster.
+        /// Handles skill, heals the player and increases the max stamina
         /// </summary>
         /// <param name="skill"></param>
         /// <param name="caster"></param>
@@ -84,13 +84,18 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			character.ModifyStamina(Convert.ToInt32(recoverySta));
 		}
 
-		private float GetMaxHPRatio(Character chacater, Skill skill)
+		/// <summary>
+		/// Gets the MaxHP ratio
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skill"></param>
+		private float GetMaxHPRatio(Character character, Skill skill)
 		{
 			var addHP = skill.Level * 535f;
 			var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
 			addHP = addHP * SCR_Get_AbilityReinforceRate(skill);
 
-			var value = addHP - Math.Floor(chacater.MaxHp * 0.5);
+			var value = addHP - Math.Floor(character.MaxHp * 0.5);
 
 			if (value < 0)
 				value = 0;
@@ -98,6 +103,11 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			return (float)value;
 		}
 
+		/// <summary>
+		/// Gets the Stamina ratio
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skill"></param>
 		private float GetStaminaRatio(Character character, Skill skill)
 		{
 			var value = skill.Level + 5f;

@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		/// <param name="target"></param>
+		/// <param name="designatedTarget"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity designatedTarget)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -54,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			{
 				_cancellationTokenSource?.Cancel();
 				_areaOfEffect = null;
-				EndSkillAreaEffect(skill, caster, castedPos, effectId);
+				RemoveSkillEffect(skill, caster, castedPos, effectId);
 				return;
 			}
 
@@ -69,6 +69,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			_areaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos, effectId));
 		}
 
+		/// <summary>
+		/// Area of effect that ticks dealing damage on the enemies inside
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="position"></param>
+		/// <param name="effectId"></param>
 		private async Task AreaOfEffect(CancellationToken cancellationToken, Skill skill, ICombatEntity caster, Position position, int effectId)
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
@@ -97,7 +105,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				// Check if cancellation is requested
 				if (cancellationToken.IsCancellationRequested)
 				{
-					EndSkillAreaEffect(skill, caster, position, effectId);
+					RemoveSkillEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -106,7 +114,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				// Cancel if the caster has not enough SP
 				if (!caster.TrySpendSp(skill))
 				{
-					EndSkillAreaEffect(skill, caster, position, effectId);
+					RemoveSkillEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -136,7 +144,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			}
 		}
 
-		private void EndSkillAreaEffect(Skill skill, ICombatEntity caster, Position position, int effectId)
+		/// <summary>
+		/// Removes the skill effect on the floor.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="position"></param>
+		/// <param name="effectId"></param>
+		private void RemoveSkillEffect(Skill skill, ICombatEntity caster, Position position, int effectId)
 		{
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 

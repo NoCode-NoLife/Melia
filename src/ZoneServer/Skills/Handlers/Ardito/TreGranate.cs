@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
@@ -60,10 +57,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			Task.Run(() => this.AreaEffect(skill, caster, farPos, caster.Direction));
+			this.Attack(skill, caster, farPos, caster.Direction);
 		}
 
-		private async void AreaEffect(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
+		/// <summary>
+		/// Execute the skill, throw bombs
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="farPos"></param>
+		/// <param name="direction"></param>
+		private async void Attack(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
 			await Task.Delay(100);
 
@@ -92,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			var cancelationTokenSource = new CancellationTokenSource();
 
-			this.Attack(skill, caster, cancelationTokenSource, pos2, pos3, pos4);
+			this.AreaOfEffect(skill, caster, pos2, pos3, pos4, cancelationTokenSource);
 
 			await Task.Delay(12000);
 
@@ -101,10 +105,20 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos2, effectId1, false);
 			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos3, effectId2, false);
 			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos4, effectId3, false);
+
 			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, false);
 		}
 
-		private async void Attack(Skill skill, ICombatEntity caster, CancellationTokenSource cancelationTokenSource, Position pos2, Position pos3, Position pos4)
+		/// <summary>
+		/// Area of effect that ticks dealing damage on the enemies inside
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="pos2"></param>
+		/// <param name="pos3"></param>
+		/// <param name="pos4"></param>
+		/// <param name="cancelationTokenSource"></param>
+		private async void AreaOfEffect(Skill skill, ICombatEntity caster, Position pos2, Position pos3, Position pos4, CancellationTokenSource cancelationTokenSource)
 		{
 			var circle = new Circle(pos2, 50);
 			var circle2 = new Circle(pos3, 50);

@@ -38,8 +38,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 50, angle: 60);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 30, angle: 60);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
@@ -64,17 +66,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				this.ExecuteAttack(skill, caster, target);
+				this.ExecuteHitInfo(skill, caster, target);
 			}
 		}
 
 		/// <summary>
-		/// Execute the actual attack (Sends Hit Info)
+		/// Execute the calls for sending hit info
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void ExecuteAttack(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			for (int i = 0; i < 4; i++)
 			{

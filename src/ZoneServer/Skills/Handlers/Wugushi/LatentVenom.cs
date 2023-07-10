@@ -19,12 +19,11 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 	public class LatentVenom : ITargetSkillHandler
 	{
 		/// <summary>
-		/// Handles skill, damaging targets.
+		/// Handles skill, hits the target applying a debuff to it. 
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="originPos"></param>
-		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))

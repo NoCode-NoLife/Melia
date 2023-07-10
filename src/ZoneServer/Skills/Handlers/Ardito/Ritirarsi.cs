@@ -67,6 +67,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			this.Attack(skill, caster, originPos, farPos);
 		}
 
+		/// <summary>
+		/// Execute the attack, does a jump back and throws a bomb
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
 			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", 0.75f, "F_scout_Ritirarsi", 4f, farPos);

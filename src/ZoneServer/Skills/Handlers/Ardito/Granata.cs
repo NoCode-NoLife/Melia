@@ -68,6 +68,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			this.Attack(skill, caster, originPos, farPos);
 		}
 
+		/// <summary>
+		/// Execute the attack of the skill, throw a bomb
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
 			await Task.Delay(200);
