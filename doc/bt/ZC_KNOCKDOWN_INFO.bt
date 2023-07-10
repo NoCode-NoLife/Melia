@@ -19,13 +19,15 @@ int handle; // 196142
 position pos1; // X: -1773.621704, Y: 55.060207, Z: -154.571838
 position pos2; // X: -1703.572144, Y: 55.068844, Z: -110.800476
 int i1; // 180
-int i2; // 32
+int angle; // 32
 int i3; // 60
 int i4; // 3
-int i5; // -680590194 ?
-float f2; // 1
+short s1;
+short s2;
 float f3; // 1
+float f4; // 1
 //int i6; // 0
 //int i7; // 10739456, 1076297728
-double d1;
+float f5;
+float f6;
 byte b1; // 3

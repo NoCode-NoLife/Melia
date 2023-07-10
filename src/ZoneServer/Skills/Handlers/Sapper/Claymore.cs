@@ -25,7 +25,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private Mob trap;
 
 		/// <summary>
-		/// Handles the skill, creates an area of effect that damages the enemies inside
+		/// Handles the skill, creates an trap object on the floor on the first usage
+		/// and explodes it on the second usage attempt
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -57,6 +58,12 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			this.PlaceTrap(character, caster, skill, farPos);
 		}
 
+		/// <summary>
+		/// Handles the trap triggering explosion effect
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
 		private async void ExplodeTrap(Character character, ICombatEntity caster, Skill skill)
 		{
 			skill.IncreaseOverheat();
@@ -86,6 +93,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			trap = null;
 		}
 
+		/// <summary>
+		/// Places the trap object on the floor
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="farPos"></param>
 		private async void PlaceTrap(Character character, ICombatEntity caster, Skill skill, Position farPos)
 		{
 			await Task.Delay(200);

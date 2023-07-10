@@ -3905,6 +3905,36 @@ namespace Melia.Zone.Network
 			caster.Map.Broadcast(packet, caster);
 		}
 
+		/// <summary>
+		/// Notices a knowck down event to a specific target
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="initialPos"></param>
+		/// <param name="toPos"></param>
+		/// <param name="angle"></param>
+		public static void ZC_KNOCKDOWN_INFO(Character character, ICombatEntity target, Position initialPos, Position toPos, float angle)
+		{
+			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
+
+			packet.PutInt(target.Handle);
+			packet.PutPosition(toPos);
+			packet.PutPosition(initialPos);
+			packet.PutInt(250);
+			packet.PutInt((int)angle); // Angle
+			packet.PutInt(86);
+			packet.PutInt(3);
+			packet.PutInt(1800);
+			packet.PutFloat(1f);
+			packet.PutFloat(1f);
+			packet.PutFloat(0);
+			packet.PutFloat(2.609375f);
+			packet.PutByte(3);
+
+			character.Map.Broadcast(packet, character);
+		}
+		
+
 		public static void DUMMY(IZoneConnection conn)
 		{
 		}
