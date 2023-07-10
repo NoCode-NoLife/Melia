@@ -96,8 +96,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var leftMovPos = leftPos.GetRelative(direction, 180);
 				var rightMovPos = rightPos.GetRelative(direction, 180);
 
-				Send.ZC_NORMAL.MoveEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);
-				Send.ZC_NORMAL.MoveEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, rightMovPos);
+				Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);
+				Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, rightMovPos);
 
 				await Task.Delay(TimeSpan.FromMilliseconds(500));
 

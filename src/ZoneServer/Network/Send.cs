@@ -2869,27 +2869,6 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Plays sound for character.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="packetString"></param>
-		public static void ZC_PLAY_SOUND(Character character, string packetString)
-		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-			var packet = new Packet(Op.ZC_PLAY_SOUND);
-
-			packet.PutInt(character.Handle);
-			packet.PutInt(packetStringData.Id);
-			packet.PutByte(0);
-			packet.PutFloat(-1);
-			packet.PutByte(0);
-
-			character.Connection.Send(packet);
-		}
-
-		/// <summary>
 		/// Plays sound for clients in range of the actor.
 		/// </summary>
 		/// <param name="actor"></param>

@@ -1299,10 +1299,20 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Moves an effect over two positions
+			/// Controls a skill's visual effects.
 			/// </summary>
 			/// <param name="actor"></param>
-			public static void MoveEffect(IActor actor, string packetString, int identifier, string packetString5, float speed, Position fromPos, Position ToPos, float scale = 1)
+			/// <param name="packetString"></param>
+			/// <param name="identifier"></param>
+			/// <param name="packetString5"></param>
+			/// <param name="speed"></param>
+			/// <param name="fromPos"></param>
+			/// <param name="ToPos"></param>
+			/// <param name="scale"></param>
+			/// <exception cref="ArgumentException">
+			/// Thrown if any of the packet strings are not found.
+			/// </exception>
+			public static void PlayForceEffect(IActor actor, string packetString, int identifier, string packetString5, float speed, Position fromPos, Position ToPos, float scale = 1)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Packet string '{packetString}' not found.");
@@ -1311,7 +1321,7 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{packetString5}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.MoveEffects);
+				packet.PutInt(NormalOp.Zone.PlayForceEffect);
 
 				packet.PutInt(identifier);
 				packet.PutInt(actor.Handle);

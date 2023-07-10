@@ -250,6 +250,8 @@ switch (type)
         float f10;
         float f11;
         int i3;
+        position p1;
+        position p2;
         break;
 
     case 0x1B:
@@ -490,8 +492,8 @@ switch (type)
         direction targetDirection;
         float f1; // 0
         float f2; // duration? 0
-        int skillHandle; // 109539
-        int i4; // 1
+        int effectId; // 109539
+        int showOrHide; // 1
         byte bin1[13]; // 0s
         float f3; // 20 or 50
         byte bin2[16]; // 0s
@@ -500,7 +502,7 @@ switch (type)
     // Skill related? Seen when casting Shield Lob
 	// Set Actor's Height
     case 0x5C:
-        int skillHandle; // 33
+        int effectId; // 33
         int handle; // 3415
         float f1; // 2
         byte b1; // 1
@@ -530,6 +532,12 @@ switch (type)
     case 0x6B:
         int i1; // 185554
         byte b1; // 1
+        break;
+
+    // SKill Effect Related
+    case 0x6D:
+        int i1;
+        byte b1;
         break;
 
     // Cutscene UI/Character Control
@@ -1526,6 +1534,13 @@ switch (type)
         //int i1; // 1001, 2231454, 66537
         break;
     
+    case 0x17A:
+        short s1;
+        short s2;
+        short s3;
+        short s4;
+        break;
+
     // Related to FishRubbingStatue
     case 0x17B:
         if (!checkCompression())

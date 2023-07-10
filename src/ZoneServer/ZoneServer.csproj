@@ -193,8 +193,6 @@
     <Compile Include="Skills\Handlers\Enchanter\EnchantEarth.cs" />
     <Compile Include="Skills\Handlers\Enchanter\EnchantGlove.cs" />
     <Compile Include="Skills\Handlers\Enchanter\OverReinforce.cs" />
-    <Compile Include="Skills\Handlers\Monsters\OnionAttack.cs" />
-    <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
     <Compile Include="Skills\Handlers\Sapper\Claymore.cs" />
     <Compile Include="Skills\Handlers\Sapper\LegHoldTrap.cs" />
     <Compile Include="Skills\Handlers\Sapper\PunjiStake.cs" />
