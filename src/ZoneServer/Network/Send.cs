@@ -3512,7 +3512,7 @@ namespace Melia.Zone.Network
 			packet.PutLong(character.ObjectId);
 			packet.PutLong(character.AccountId);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutByte(1); // needs to be 1 for the character info to display?
 			packet.PutByte(0);
 			packet.PutInt(-1); // adventurerIndex
 			packet.PutInt(0); // adventurerRank
@@ -3564,7 +3564,7 @@ namespace Melia.Zone.Network
 				packet.PutLong(equipItem.ObjectId);
 				packet.PutInt((int)equipSlot);
 				packet.PutInt(0);
-				packet.PutShort(2);
+				packet.PutShort(0);
 
 				if (equipItemPropertiesSize > 0)
 				{

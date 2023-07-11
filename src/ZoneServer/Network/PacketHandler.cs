@@ -2417,7 +2417,7 @@ namespace Melia.Zone.Network
 		{
 			var handle = packet.GetInt();
 			var b1 = packet.GetByte();
-			var b2 = packet.GetByte();
+			var addLike = packet.GetByte();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2426,12 +2426,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// Since our current response to this request is crashing the
-			// client, we'll disable it for now. More research is needed
-			// to get the structure of ZC_PROPERTY_COMPARE right.
-
-			character.ServerMessage(Localization.Get("This feature is not yet implemented."));
-			//Send.ZC_PROPERTY_COMPARE(conn, character);
+			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
 
 		/// <summary>
