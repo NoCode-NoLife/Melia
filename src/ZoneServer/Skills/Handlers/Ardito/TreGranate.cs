@@ -76,11 +76,11 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var pos3 = pos2.GetRelative(direction, 50);
 			var pos4 = pos3.GetRelative(direction, 50);
 
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2);
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3);
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos4);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos4);
 
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "", 0.75f, "", 2.5f, pos2);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "", 0.75f, "", 2.5f, pos2);
 
 			await Task.Delay(400);
 

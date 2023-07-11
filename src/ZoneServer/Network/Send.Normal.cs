@@ -1,18 +1,12 @@
 using System;
-using System.Runtime.InteropServices.Expando;
-using System.Xml.Linq;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Skills;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using Mysqlx.Expr;
-using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
 {
@@ -1207,7 +1201,7 @@ namespace Melia.Zone.Network
 			/// <param name="packetString2"></param>
 			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void GroundEffect_6(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
+			public static void ExecuteAnimation(Character character, string packetString, float duration, string packetString2, float duration2, Position position)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 				{
@@ -1217,7 +1211,7 @@ namespace Melia.Zone.Network
 				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_6);
+				packet.PutInt(NormalOp.Zone.ExecuteAnimation);
 
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);

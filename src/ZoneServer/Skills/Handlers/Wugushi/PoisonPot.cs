@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "I_archer_poison_pot_force#Bip01 R Hand", 0.5f, "", 1, farPos);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "I_archer_poison_pot_force#Bip01 R Hand", 0.5f, "", 1, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// Start the task

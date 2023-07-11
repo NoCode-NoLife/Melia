@@ -79,7 +79,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		{
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.GroundEffect_6(caster as Character, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
+			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
 
 			await Task.Delay(300);
 

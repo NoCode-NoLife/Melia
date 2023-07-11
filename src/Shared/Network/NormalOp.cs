@@ -41,7 +41,7 @@
 			public const int AccountUpdate = 0x4C;
 			public const int Skill_4E = 0x4E;
 			public const int Skill = 0x57;
-			public const int Skill_6 = 0x6;
+			public const int ExecuteAnimation = 0x6;
 			public const int Skill_4F = 0x4F;
 			public const int Skill_50 = 0x50;
 			public const int Skill_E3 = 0xE3;

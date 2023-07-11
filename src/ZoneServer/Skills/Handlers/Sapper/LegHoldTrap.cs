@@ -65,18 +65,21 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
 			var character = caster as Character;
+			var effectId = ForceId.GetNew();
+
 			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.9375f);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Direction, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
-			Send.ZC_NORMAL.GroundEffect_6(character, "I_archer_shot_LegholdTrap_mash#Bip01 R Hand", 0.3f, "F_smoke008##1", 0.7f, farPos);
+			Send.ZC_NORMAL.ExecuteAnimation(character, "I_archer_shot_LegholdTrap_mash#Bip01 R Hand", 0.3f, "F_smoke008##1", 0.7f, farPos);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(500));
 
-			var effectId = ForceId.GetNew();
+			var effectId2 = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Mine", skill.Id, farPos, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Mine", skill.Id, farPos, effectId2, true);
 
 			var trapObject = new Mob(300010, MonsterType.NPC);
 
@@ -92,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
-			this.AlertRange(caster, skill, trapObject, farPos, cancellationTokenSource.Token);
+			this.AlertRange(caster, skill, trapObject, farPos, effectId, cancellationTokenSource.Token);
 
 			// The trap auto-explodes after 20 seconds
 			await Task.Delay(TimeSpan.FromSeconds(20));
@@ -111,8 +114,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
+		/// <param name="effectId"></param>
 		/// <param name="cancellationToken"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, Position farPos, CancellationToken cancellationToken)
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, Position farPos, int effectId, CancellationToken cancellationToken)
 		{
 			var splashArea = new Circle(farPos, 40);
 
@@ -123,7 +127,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					await this.TriggerTrap(caster, skill, trap, farPos);
+					await this.TriggerTrap(caster, skill, trap, farPos, effectId);
 					break;
 				}
 
@@ -138,11 +142,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		/// <param name="trap"></param
 		/// <param name="farPos"></param>
-		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos)
+		/// <param name="effectId></param>
+		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos, int effectId)
 		{
 			var character = caster as Character;
 
 			Send.ZC_DEAD(trap, trap.Position);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, false);
 
 			caster.Map.RemoveMonster(trap);
 
@@ -153,7 +159,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			var newEffectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, newEffectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_Vibora_Pad", skill.Id, farPos, newEffectId, true);
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
@@ -163,7 +169,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, newEffectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_Vibora_Pad", skill.Id, farPos, newEffectId, false);
 		}
 
 		/// <summary>
@@ -175,7 +181,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="cancellationToken"></param>
 		private async void AreaOfEffect(ICombatEntity caster, Position centerPosition, Skill skill, int effectId, CancellationToken cancellationToken)
 		{
-			var splashArea = new Circle(centerPosition, 80);
+			var splashArea = new Circle(centerPosition, 50);
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
