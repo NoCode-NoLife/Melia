@@ -3698,7 +3698,7 @@ namespace Melia.Zone.Network
 					packet.AddBuff(buff);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
