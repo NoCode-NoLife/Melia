@@ -4015,7 +4015,7 @@ namespace Melia.Zone.Network
 		
 
 		public static void DUMMY(IZoneConnection conn)
-    {
+		{
 		}
     
 		/// Toggles character's fluting stance.

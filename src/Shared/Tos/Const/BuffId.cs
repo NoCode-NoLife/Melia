@@ -4369,6 +4369,5 @@ namespace Melia.Shared.Tos.Const
 		TEST_DAMAGE_BUFF3 = 999904,
 		TEST_DAMAGE_BUFF4 = 999905,
 		TEST_DAMAGE_BUFF5 = 999906,
-		EnchantAura_Buff = 2418,
 	}
 }
