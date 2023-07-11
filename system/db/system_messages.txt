@@ -16828,6 +16828,7 @@
 { classId: 590008, className: "EP13_Point_Get_Success_Msg{Name}{Point}{TotalPoint}" },
 { classId: 590009, className: "CLASS_COSTUME_TOTAL_SHOP" },
 { classId: 590010, className: "Buy_ClassCostumeTotalShop" },
+{ classId: 590011, className: "CONTENTS_TOTAL_SHOP_PAPAYA" },
 { classId: 591000, className: "Rift_Dungeon_Select_Level" },
 { classId: 591001, className: "Rift_Dungeon_Wait" },
 { classId: 591002, className: "Rift_Dungeon_Clear" },
