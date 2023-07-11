@@ -2408,7 +2408,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ?
+		/// Request to view another character's information.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2426,7 +2426,12 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			Send.ZC_PROPERTY_COMPARE(conn, character);
+			// Since our current response to this request is crashing the
+			// client, we'll disable it for now. More research is needed
+			// to get the structure of ZC_PROPERTY_COMPARE right.
+
+			character.ServerMessage(Localization.Get("This feature is not yet implemented."));
+			//Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
 
 		/// <summary>
