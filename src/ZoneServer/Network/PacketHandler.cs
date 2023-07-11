@@ -2484,7 +2484,9 @@ namespace Melia.Zone.Network
 			// Check for monster validity
 			if (monster == null)
 			{
-				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
+				// Don't warn as it happens quite frequently when two
+				// players stand in range of a dropped item.
+				//Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
 				return;
 			}
 
