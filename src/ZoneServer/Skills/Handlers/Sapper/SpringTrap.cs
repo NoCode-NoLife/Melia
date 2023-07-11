@@ -13,6 +13,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Shared.Data.Database;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.Skills.SplashAreas;
+using System.Threading;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -49,20 +50,19 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var character = caster as Character;
-
-			this.PlaceTrap(character, caster, skill, farPos);
+			this.PlaceTrap(caster, skill, farPos);
 		}
 
 		/// <summary>
 		/// Places the trap object on the floor
 		/// </summary>
-		/// <param name="character"></param>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
-		private async void PlaceTrap(Character character, ICombatEntity caster, Skill skill, Position farPos)
+		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
+			var character = caster as Character;
+
 			await Task.Delay(100);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
@@ -71,7 +71,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(600);
 
-			farPos = caster.Position.GetRelative(caster.Direction, 12);
+			farPos = caster.Position.GetRelative(caster.Direction, 25);
 			var effectid = ForceId.GetNew();
 
 			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_SpringTrap", skill.Id, farPos, effectid, true);
@@ -92,7 +92,25 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(1000);
 
-			this.AlertRange(caster, skill, trapObject, effectid);
+			var cancellationTokenSource = new CancellationTokenSource();
+
+			this.AlertRange(caster, skill, trapObject, effectid, cancellationTokenSource);
+
+			character.PlacedTraps.Add(trapObject);
+
+			// The trap auto-disables after 25 seconds
+			await Task.Delay(TimeSpan.FromSeconds(25));
+
+			if (trapObject != null && !trapObject.IsDead)
+			{
+				Send.ZC_DEAD(trapObject, trapObject.Position);
+				cancellationTokenSource.Cancel();
+				caster.Map.RemoveMonster(trapObject);
+				if (character.PlacedTraps.Contains(trapObject))
+				{
+					character.PlacedTraps.Remove(trapObject);
+				}
+			}
 		}
 
 		/// <summary>
@@ -102,23 +120,23 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
 		/// <param name="effectId"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, int effectId)
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
 		{
-			var splashArea = new Circle(trap.Position, 35);
+			var splashArea = new Circle(trap.Position, 30);
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			var triggerCount = 0;
 
-			while (true)
+			var splashTriggerArea = new Circle(trap.Position, 35);
+
+			Debug.ShowShape(caster.Map, splashTriggerArea, edgePoints: false);
+
+			while (!cancellationTokenSource.IsCancellationRequested)
 			{
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					var splashTriggerArea = new Circle(trap.Position, 45);
-
-					Debug.ShowShape(caster.Map, splashTriggerArea, edgePoints: false);
-
 					var targetsInTrigerArea = caster.Map.GetAttackableEntitiesIn(caster, splashTriggerArea);
 
 					foreach (var target in targetsInTrigerArea.LimitBySDR(caster, skill))
@@ -135,7 +153,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 							break;
 						}
 
-						this.TriggerTrap(caster, skill, target, effectId, trap);
+						this.TriggerTrap(caster, skill, target, effectId, trap, cancellationTokenSource);
 						triggerCount++;
 					}
 				}
@@ -151,9 +169,12 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="target"></param>
 		/// <param name="effectId"></param>
 		/// <param name="trap"></param>
-		private void TriggerTrap(ICombatEntity caster, Skill skill, ICombatEntity target, int effectId, Mob trap)
+		private void TriggerTrap(ICombatEntity caster, Skill skill, ICombatEntity target, int effectId, Mob trap, CancellationTokenSource cancellationTokenSource)
 		{
 			var character = caster as Character;
+			var buff = target.Components.Get<BuffComponent>().Get(BuffId.Cover_Buff);
+			buff?.End();
+			cancellationTokenSource.Cancel();
 
 			Send.ZC_NORMAL.Skill_6D(character, effectId);
 			Send.ZC_NORMAL.Skill_E3(character, target, "SHOW_SKILL_ATTRIBUTE");

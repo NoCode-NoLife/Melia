@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
@@ -136,7 +137,20 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
-			this.AlertRange(caster, skill, trapObject);
+			var cancellationTokenSource = new CancellationTokenSource();
+
+			this.AlertRange(caster, skill, trapObject, cancellationTokenSource);
+
+			// The trap auto-triggers after 30 seconds
+			await Task.Delay(TimeSpan.FromSeconds(30));
+
+			if (trapObject != null && !trapObject.IsDead)
+			{
+				this.ExplodeTrap(caster, skill, trapObject, cancellationTokenSource);
+				Send.ZC_DEAD(trapObject, trapObject.Position);
+				cancellationTokenSource.Cancel();
+				caster.Map.RemoveMonster(trapObject);
+			}
 		}
 
 		/// <summary>
@@ -145,18 +159,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap)
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, CancellationTokenSource cancellationTokenSource)
 		{
 			var splashArea = new Circle(trap.Position, 45);
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
-			while (true)
+			while (!cancellationTokenSource.Token.IsCancellationRequested)
 			{
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					this.ExplodeTrap(caster, skill, trap);
+					this.ExplodeTrap(caster, skill, trap, cancellationTokenSource);
 					break;
 				}
 				await Task.Delay(200);
@@ -169,9 +183,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
-		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap)
+		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap, CancellationTokenSource cancellationTokenSource)
 		{
 			var character = caster as Character;
+
+			cancellationTokenSource.Cancel();
 
 			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
 

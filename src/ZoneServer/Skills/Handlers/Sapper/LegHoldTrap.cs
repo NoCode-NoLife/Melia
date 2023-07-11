@@ -53,20 +53,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var character = caster as Character;
-
-			this.PlaceTrap(character, caster, skill, targetPos);
+			this.PlaceTrap(caster, skill, targetPos);
 		}
 
 		/// <summary>
 		/// Places the trap object (mob) on the floor
 		/// </summary>
-		/// <param name="character"></param>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
-		private async void PlaceTrap(Character character, ICombatEntity caster, Skill skill, Position farPos)
+		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
+			var character = caster as Character;
 			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.9375f);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
@@ -96,9 +94,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			this.AlertRange(caster, skill, trapObject, farPos, cancellationTokenSource.Token);
 
-			await Task.Delay(TimeSpan.FromSeconds(30));
-
-			// The trap auto-explodes after 30 seconds
+			// The trap auto-explodes after 20 seconds
+			await Task.Delay(TimeSpan.FromSeconds(20));
+						
 			if (trapObject != null && !trapObject.IsDead)
 			{
 				Send.ZC_DEAD(trapObject, trapObject.Position);
@@ -147,6 +145,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_DEAD(trap, trap.Position);
 
 			caster.Map.RemoveMonster(trap);
+
+			if (character.PlacedTraps.Contains(trap))
+			{
+				character.PlacedTraps.Remove(trap);
+			}
 
 			var newEffectId = ForceId.GetNew();
 

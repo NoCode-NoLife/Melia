@@ -108,7 +108,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				{
 					fan.RotateAround(center, 14f);
 
-					// The Shape appears to be slightly behind the effect movement but it works perfectly.
+					// The Shape appears to be slightly behind the effect movement but it works nicely.
 					Debug.ShowShape(caster.Map, fan, delay, rangePreview: false);
 
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, fan);

@@ -195,6 +195,7 @@
     <Compile Include="Skills\Handlers\Enchanter\OverReinforce.cs" />
     <Compile Include="Skills\Handlers\Sapper\BroomTrap.cs" />
     <Compile Include="Skills\Handlers\Sapper\Claymore.cs" />
+    <Compile Include="Skills\Handlers\Sapper\DetonateTraps.cs" />
     <Compile Include="Skills\Handlers\Sapper\LegHoldTrap.cs" />
     <Compile Include="Skills\Handlers\Sapper\PunjiStake.cs" />
     <Compile Include="Skills\Handlers\Sapper\SpikeShooter.cs" />

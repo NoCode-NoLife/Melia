@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
@@ -259,6 +260,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns true if the character has run out of HP and died.
 		/// </summary>
 		public bool IsDead => (this.Hp == 0);
+
+		/// <summary>
+		/// Returns the character's list of placed traps
+		/// </summary>
+		public List<Mob> PlacedTraps { get; set; } = new List<Mob>();
 
 		/// <summary>
 		/// Returns the character's component collection.
