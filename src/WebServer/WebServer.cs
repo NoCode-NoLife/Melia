@@ -85,7 +85,7 @@ namespace Melia.Web
 
 				try
 				{
-					wc.Headers.Set(HttpRequestHeader.UserAgent, "Lela");
+					wc.Headers.Set(HttpRequestHeader.UserAgent, "Melia");
 					wc.DownloadProgressChanged += (s, e) => Console.Write("         Download Progress: {0,3:0}%\r", e.ProgressPercentage);
 
 					var task = wc.DownloadFileTaskAsync(downloadUrl, tempFileName);
@@ -106,10 +106,9 @@ namespace Melia.Web
 
 					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
-					Log.Error("Failed to download PHP: " + ex);
-					ConsoleUtil.Exit(1);
+					Log.Warning("Failed to download PHP from '{0}'. Please configure your PHP path manually or you won't be able to use all of the web server's features.", downloadUrl);
 				}
 				finally
 				{
