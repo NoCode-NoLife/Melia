@@ -3680,7 +3680,30 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Buff list, sent when a entity spawns?
+		/// Updates the entity's buffs on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="entity"></param>
+		public static void ZC_BUFF_LIST(IZoneConnection conn, ICombatEntity entity)
+		{
+			var buffs = entity.Components.Get<BuffComponent>();
+			var buffCount = buffs?.Count ?? 0;
+
+			var packet = new Packet(Op.ZC_BUFF_LIST);
+
+			packet.PutInt(entity.Handle);
+			packet.PutByte((byte)buffCount);
+			if (buffCount > 0)
+			{
+				foreach (var buff in buffs.GetList())
+					packet.AddBuff(buff);
+			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the entity's buffs on all clients in range.
 		/// </summary>
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_LIST(ICombatEntity entity)
