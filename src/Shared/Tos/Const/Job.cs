@@ -68,7 +68,7 @@ namespace Melia.Shared.Tos.Const
 		Arbalester = 3103,
 		Arquebusier = 3104,
 		Hwarang = 3105,
-		ETC_20230703_073857 = 3106,
+		Engineer = 3106,
 
 		// Cleric
 		Cleric = 4001,
