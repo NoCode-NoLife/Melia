@@ -2627,8 +2627,6 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			Log.Debug("{0}, {1}, {2}", note, octave, semitone);
-
 			Send.ZC_PLAY_FLUTING(character, note, octave, semitone, true);
 		}
 
