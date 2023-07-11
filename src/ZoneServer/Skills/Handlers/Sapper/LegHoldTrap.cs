@@ -73,13 +73,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Direction, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 			Send.ZC_NORMAL.ExecuteAnimation(character, "I_archer_shot_LegholdTrap_mash#Bip01 R Hand", 0.3f, "F_smoke008##1", 0.7f, farPos);
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(500));
-
-			var effectId2 = ForceId.GetNew();
-
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Mine", skill.Id, farPos, effectId2, true);
 
 			var trapObject = new Mob(300010, MonsterType.NPC);
 
@@ -95,7 +90,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
-			this.AlertRange(caster, skill, trapObject, farPos, effectId, cancellationTokenSource.Token);
+			this.AlertRange(caster, skill, trapObject, farPos, cancellationTokenSource.Token);
 
 			// The trap auto-explodes after 20 seconds
 			await Task.Delay(TimeSpan.FromSeconds(20));
@@ -114,9 +109,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
-		/// <param name="effectId"></param>
 		/// <param name="cancellationToken"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, Position farPos, int effectId, CancellationToken cancellationToken)
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, Position farPos, CancellationToken cancellationToken)
 		{
 			var splashArea = new Circle(farPos, 40);
 
@@ -127,7 +121,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					await this.TriggerTrap(caster, skill, trap, farPos, effectId);
+					await this.TriggerTrap(caster, skill, trap, farPos);
 					break;
 				}
 
@@ -142,13 +136,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		/// <param name="trap"></param
 		/// <param name="farPos"></param>
-		/// <param name="effectId></param>
-		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos, int effectId)
+		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos)
 		{
 			var character = caster as Character;
+			var effectId = ForceId.GetNew();
 
 			Send.ZC_DEAD(trap, trap.Position);
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
 
 			caster.Map.RemoveMonster(trap);
 
@@ -157,19 +151,15 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				character.PlacedTraps.Remove(trap);
 			}
 
-			var newEffectId = ForceId.GetNew();
-
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_Vibora_Pad", skill.Id, farPos, newEffectId, true);
-
 			var cancellationTokenSource = new CancellationTokenSource();
 
-			this.AreaOfEffect(caster, farPos, skill, newEffectId, cancellationTokenSource.Token);
+			this.AreaOfEffect(caster, farPos, skill, cancellationTokenSource.Token);
 
 			await Task.Delay(TimeSpan.FromSeconds(15));
 
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_Vibora_Pad", skill.Id, farPos, newEffectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, false);
 		}
 
 		/// <summary>
@@ -179,9 +169,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="centerPosition"></param>
 		/// <param name="skill"></param>
 		/// <param name="cancellationToken"></param>
-		private async void AreaOfEffect(ICombatEntity caster, Position centerPosition, Skill skill, int effectId, CancellationToken cancellationToken)
+		private async void AreaOfEffect(ICombatEntity caster, Position centerPosition, Skill skill, CancellationToken cancellationToken)
 		{
-			var splashArea = new Circle(centerPosition, 50);
+			var splashArea = new Circle(centerPosition, 80);
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
@@ -213,13 +203,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 					var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 					Send.ZC_HIT_INFO(caster, target, skill, hit);
-
-					var skillHitResult2 = SCR_SkillHit(caster, target, skill);
-					target.TakeDamage(skillHitResult2.Damage, caster);
-
-					var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
-
-					Send.ZC_HIT_INFO(caster, target, skill, hit2);
 				}
 
 				await Task.Delay(TimeSpan.FromSeconds(1));

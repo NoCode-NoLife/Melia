@@ -176,7 +176,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			buff?.End();
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.Skill_6D(character, effectId);
+			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(character, effectId);
 			Send.ZC_NORMAL.Skill_E3(character, target, "SHOW_SKILL_ATTRIBUTE");
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);

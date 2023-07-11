@@ -1043,12 +1043,12 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_6D(Character character, int skillEffectId)
+			public static void PlayAnimationOnEffect_6D(Character character, int effectId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_6D);
 
-				packet.PutInt(skillEffectId);
+				packet.PutInt(effectId);
 				packet.PutByte(1);
 
 				character.Connection.Send(packet);
@@ -1060,12 +1060,12 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_7D(Character character, SkillId skillId)
+			public static void PlayAnimationOnEffect_7D(Character character, SkillId skillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_7D);
 
-				packet.PutInt(character.Hair);
+				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
 
 				character.Connection.Send(packet);

@@ -490,7 +490,7 @@ switch (type)
         int i1; // count? 1
         position targetPosition;
         direction targetDirection;
-        float f1; // 0
+        float f1;
         float f2; // duration? 0
         int effectId; // 109539
         int showOrHide; // 1
@@ -499,6 +499,14 @@ switch (type)
         byte bin2[16]; // 0s
         break;
 
+    // Do something with an effect
+    case 0x5A:
+        int effectId;
+        position p1;
+        position p2;
+        int packetString;
+        int monsterId; //?   
+        break;
     // Skill related? Seen when casting Shield Lob
 	// Set Actor's Height
     case 0x5C:
@@ -536,7 +544,7 @@ switch (type)
 
     // SKill Effect Related
     case 0x6D:
-        int i1;
+        int effectId;
         byte b1;
         break;
 
@@ -1222,6 +1230,24 @@ switch (type)
         int i1; // 2
         int i2; // 0
         break;
+
+    // Rotate an effect?
+    case 0x123:
+        int i1;
+        int characterHandle;
+        int i2;
+        int packetString;
+        float f2;
+        position p1;
+        float f3;
+        float f4;
+        int i3;
+        float f6;
+        float f7;
+        float f8;
+        float f9;
+        float f10;
+    break;
 
     // Sent on Pyromancer's Skill Prominence
     case 0x124:

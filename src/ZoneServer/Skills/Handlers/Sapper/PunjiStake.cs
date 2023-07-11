@@ -26,7 +26,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 	{
 		private float maxCastingTime = 0;
 		private Stopwatch stopwatch;
-		private int effectId;
 
 		/// <summary>
 		/// Handles the skill, places a trap on the floor that continues scan for targets
@@ -108,10 +107,10 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(150);
 
-			this.effectId = ForceId.GetNew();
-			var farPos = caster.Position.GetRelative(caster.Direction, 5);
+			var effectId = ForceId.GetNew();
+			var farPos = caster.Position.GetRelative(caster.Direction, 25);
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, farPos, this.effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, farPos, effectId, true);
 
 			await Task.Delay(150);
 
@@ -132,21 +131,21 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
-			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, this.effectId);
+			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, effectId);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
 
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
-			this.AlertRange(caster, skill, trapObject, cancellationTokenSource);
+			this.AlertRange(caster, skill, trapObject, effectId, cancellationTokenSource);
 
-			// The trap auto-triggers after 30 seconds
 			await Task.Delay(TimeSpan.FromSeconds(30));
 
+			// The trap auto-triggers after 30 seconds
 			if (trapObject != null && !trapObject.IsDead)
 			{
-				this.ExplodeTrap(caster, skill, trapObject, cancellationTokenSource);
+				this.ExplodeTrap(caster, skill, trapObject, effectId, cancellationTokenSource);
 				Send.ZC_DEAD(trapObject, trapObject.Position);
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
@@ -159,7 +158,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, CancellationTokenSource cancellationTokenSource)
+		/// <param name="effectId"></param>
+		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
 		{
 			var splashArea = new Circle(trap.Position, 45);
 
@@ -170,7 +170,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					this.ExplodeTrap(caster, skill, trap, cancellationTokenSource);
+					this.ExplodeTrap(caster, skill, trap, effectId, cancellationTokenSource);
 					break;
 				}
 				await Task.Delay(200);
@@ -183,7 +183,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="trap"></param>
-		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap, CancellationTokenSource cancellationTokenSource)
+		/// <param name="effectId"></param>
+		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
 		{
 			var character = caster as Character;
 
@@ -191,20 +192,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
 
-			Send.ZC_DEAD(trap, trap.Position);
+			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			caster.Map.RemoveMonster(trap);
+			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(character, effectId);
 
-			await Task.Delay(150);
-
-			Send.ZC_NORMAL.Skill_6D(character, this.effectId);
-
-			Send.ZC_NORMAL.Skill_7D(character, skill.Id);
-
-			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, trap.Position, this.effectId, false);
-
-			var splashParam = skill.GetSplashParameters(caster, trap.Position, trap.Position, length: 70, width: 40, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashArea = new Square(trap.Position.GetRelative(trap.Direction, -50), trap.Direction, 90, 40);
 
 			Debug.ShowShape(character.Map, splashArea, edgePoints: false);
 
@@ -214,6 +206,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				this.ExecuteAttack(caster, target, skill, trap);
 			}
+
+			await Task.Delay(TimeSpan.FromMilliseconds(800));
+
+			Send.ZC_NORMAL.PlayAnimationOnEffect_7D(character, skill.Id);
+
+			await Task.Delay(TimeSpan.FromSeconds(2));
+
+			Send.ZC_DEAD(trap, trap.Position);
+			caster.Map.RemoveMonster(trap);
+
+			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, trap.Position, effectId, false);
+
 		}
 
 		/// <summary>
