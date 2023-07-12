@@ -124,9 +124,9 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleWhere(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.ClassName, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.ClassName, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
 
 			return CommandResult.Okay;
 		}

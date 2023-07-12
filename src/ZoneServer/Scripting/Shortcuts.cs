@@ -142,7 +142,7 @@ namespace Melia.Zone.Scripting
 				throw new ArgumentException($"Map '{to.MapId}' not found.");
 
 			// Get name, preferably a localization key
-			var targetLocationName = toMap.Name;
+			var targetLocationName = toMap.ClassName;
 			if (toMap.Data.LocalKey != "?")
 				targetLocationName = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
 
