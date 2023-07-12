@@ -14,7 +14,6 @@ namespace Melia.Shared.Data.Database
 
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public string LocalKey { get; set; }
 
 		public ItemType Type { get; set; }
 		public ItemGroup Group { get; set; }
@@ -122,7 +121,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("itemId", "className", "name", "localKey", "type", "group", "weight", "maxStack", "price", "sellPrice");
+			entry.AssertNotMissing("itemId", "className", "name", "type", "group", "weight", "maxStack", "price", "sellPrice");
 
 			var data = new ItemData();
 
@@ -130,7 +129,6 @@ namespace Melia.Shared.Data.Database
 
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
-			data.LocalKey = entry.ReadString("localKey");
 			data.Type = entry.ReadEnum<ItemType>("type");
 			data.Group = entry.ReadEnum<ItemGroup>("group");
 			data.Category = GetCategory(data);

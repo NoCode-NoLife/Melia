@@ -141,12 +141,8 @@ namespace Melia.Zone.Scripting
 			if (!ZoneServer.Instance.World.TryGetMap(to.MapId, out var toMap))
 				throw new ArgumentException($"Map '{to.MapId}' not found.");
 
-			// Get name, preferably a localization key
-			var targetLocationName = toMap.ClassName;
-			if (toMap.Data.LocalKey != "?")
-				targetLocationName = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
+			var targetLocationName = Localization.Get(toMap.Data.Name);
 
-			// Create a "warp monster"...
 			var monster = new WarpMonster(warpName, targetLocationName, from, to, new Direction(direction));
 			fromMap.AddMonster(monster);
 
