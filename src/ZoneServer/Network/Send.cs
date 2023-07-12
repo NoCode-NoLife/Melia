@@ -1679,8 +1679,29 @@ namespace Melia.Zone.Network
 		public static void ZC_DEAD(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
+
 			packet.PutInt(actor.Handle);
+			packet.PutByte(0);
+			packet.PutByte(0); // expInfoCount
+			packet.PutByte(false); // isOverkill
+			packet.PutByte(false); // specialDrop
+			packet.PutPosition(actor.Position);
 			packet.PutInt(0);
+
+			//for expInfoCount:
+			//{
+			//	packet.PutInt(handle);
+			//	packet.PutInt(0);
+			//	packet.PutLong(exp);
+			//	packet.PutLong(jobExp);
+			//	packet.PutLong(exp);
+			//}
+
+			// The overkill amount is the percentage displayed on the
+			// client. It needs to be at least 100 for the overkill
+			// effect to appear.
+			//if (isOverkill)
+			//	packet.PutByte((byte)overkillAmount);
 
 			actor.Map.Broadcast(packet, actor);
 		}
