@@ -283,7 +283,8 @@ namespace Melia.Zone.World
 						var leaderRng = rnd.Next(0, _members.Count);
 						var nextLeader = _members.ElementAt(leaderRng);
 						var leaderCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == nextLeader.Value.CharacterObjectId);
-						ZoneServer.Instance.World.Parties.UpdatePartyLeader(this, leaderCharacter, nextLeader.Value, member);
+						if (leaderCharacter != null)						
+							ZoneServer.Instance.World.Parties.UpdatePartyLeader(this, leaderCharacter, nextLeader.Value, member);						
 					}
 				}
 
@@ -295,7 +296,8 @@ namespace Melia.Zone.World
 				foreach (var partyMember in _members.Values)
 				{
 					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == partyMember.CharacterObjectId);
-					Send.ZC_CHANGE_RELATION(character, this, 2);
+					if (character != null)
+						Send.ZC_CHANGE_RELATION(character, this, 2);
 				}
 
 				ZoneServer.Instance.World.Parties.LeaveParty(leftCharacter);
