@@ -63,17 +63,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "rope_pad", skill.Id, farPos, effectId, true);
 
-			var trapObject = new Mob(57195, MonsterType.NPC);
+			var trapObject = new Mob(57195, MonsterType.Friendly);
 
 			trapObject.Position = farPos;
 			trapObject.Direction = caster.Direction;
+			trapObject.FromGround = true;
+			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			trapObject.Owner = caster;
 
 			caster.Map.AddMonster(trapObject);
 
-			Send.ZC_ENTER_MONSTER(trapObject);
 			Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
-
 			Send.ZC_NORMAL.GroundEffect_123(caster, "I_laser013", farPos);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -125,7 +126,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				}
 
 				Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "rope_pad", skill.Id, center, effectId, false);
-				Send.ZC_DEAD(trapObject, trapObject.Position);
+
 				caster.Map.RemoveMonster(trapObject);
 			}
 		}

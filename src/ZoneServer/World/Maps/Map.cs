@@ -385,10 +385,10 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Removes monster from map.
+		/// Removes monster from map with an option to not update the visibility.
 		/// </summary>
 		/// <param name="monster"></param>
-		public void RemoveMonster(IMonster monster)
+		public void RemoveMonster(IMonster monster, bool update = true)
 		{
 			lock (_monsters)
 				_monsters.Remove(monster.Handle);
@@ -400,7 +400,9 @@ namespace Melia.Zone.World.Maps
 				_triggerableAreas.Remove(monster.Handle);
 
 			monster.Map = null;
-			this.UpdateVisibility();
+
+			if (update)
+				this.UpdateVisibility();
 		}
 
 		/// <summary>

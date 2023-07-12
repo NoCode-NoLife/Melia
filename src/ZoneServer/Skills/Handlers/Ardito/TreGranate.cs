@@ -133,7 +133,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 				var targets = targets1.Concat(targets2).Concat(targets3).ToList();
 
-				foreach (var target in targets.LimitRandom(10))
+				foreach (var target in targets.Distinct().ToList().LimitRandom(10))
 				{
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
@@ -141,13 +141,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 					var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 					Send.ZC_HIT_INFO(caster, target, skill, hit);
-
-					var skillHitResult2 = SCR_SkillHit(caster, target, skill);
-					target.TakeDamage(skillHitResult2.Damage, caster);
-
-					var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
-
-					Send.ZC_HIT_INFO(caster, target, skill, hit2);
 				}
 			}
 		}

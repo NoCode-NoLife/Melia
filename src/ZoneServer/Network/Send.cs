@@ -463,7 +463,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(1);
 			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
-			packet.PutInt(0);
+			packet.PutInt(1); // seems to be 1 always
 			packet.PutInt(forceId);
 			packet.PutFloat(sklSpdRate);
 
@@ -2076,33 +2076,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
-			packet.PutInt(0);
-			packet.PutPosition(position1);
-			packet.PutPosition(position2);
-
-			// Temporary solution until our skill handling system is
-			// more streamlined
-			if (entity is Character character)
-				character.Connection.Send(packet);
-		}
-
-		/// <summary>
-		/// Notifies the client that the skill is ready. (Overload)
-		/// currently unknown.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="skill"></param>
-		/// <param name="position1"></param>
-		/// <param name="position2"></param>
-		public static void ZC_SKILL_READY(ICombatEntity entity, Position position1, Position position2)
-		{
-			var packet = new Packet(Op.ZC_SKILL_READY);
-
-			packet.PutInt(entity.Handle);
-			packet.PutInt(1);
-			packet.PutFloat(1);
-			packet.PutFloat(1);
-			packet.PutInt(0);
+			packet.PutInt(1); //seems to be 1 (always?)
 			packet.PutPosition(position1);
 			packet.PutPosition(position2);
 
@@ -2148,6 +2122,7 @@ namespace Melia.Zone.Network
 		public static void ZC_OWNER(ICombatEntity combatEntity, IActor actor)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
+
 			packet.PutInt(actor.Handle);
 			packet.PutInt(combatEntity.Handle);
 

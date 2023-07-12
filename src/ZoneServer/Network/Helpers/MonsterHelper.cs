@@ -2,6 +2,7 @@
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Network.Helpers
@@ -48,8 +49,8 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt(appearanceSize);
 			packet.PutShort(propertiesSize);
 
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(monster.Owner?.Handle ?? 0);
+			packet.PutInt(monster.Owner?.Handle ?? 0);
 
 			packet.PutShort(0);
 			packet.PutByte(0);

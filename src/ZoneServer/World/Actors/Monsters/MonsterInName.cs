@@ -104,6 +104,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public string LeaveName { get; set; }
 
 		/// <summary>
+		/// Returns the monster's owner/summoner.
+		/// </summary>
+		public ICombatEntity Owner { get; set; }
+
+		/// <summary>
 		/// Initializes the monster's properties.
 		/// </summary>
 		/// <param name="monsterClassId"></param>

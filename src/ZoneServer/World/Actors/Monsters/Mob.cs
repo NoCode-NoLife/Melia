@@ -215,6 +215,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public List<Mob> PlacedTraps { get; set; } = new List<Mob>();
 
 		/// <summary>
+		/// Returns the monster's owner/summoner.
+		/// </summary>
+		public ICombatEntity Owner { get; set; }
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Mob(int id, MonsterType type) : base()

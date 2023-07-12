@@ -109,16 +109,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			var trapObject = new Mob(57194, MonsterType.NPC);
+			var trapObject = new Mob(57194, MonsterType.Friendly);
 
 			trapObject.Position = farPos;
 			trapObject.Direction = caster.Direction;
+			trapObject.FromGround = true;
+			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			trapObject.Owner = caster;
 
 			trapObject.Components.Add(new BuffComponent(trapObject));
 
 			caster.Map.AddMonster(trapObject);
 
-			Send.ZC_ENTER_MONSTER(trapObject);
 			Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
@@ -141,7 +143,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			if (trapObject != null && !trapObject.IsDead && !cancellationTokenSource.Token.IsCancellationRequested)
 			{
 				this.ExplodeTrap(skill, caster, trapObject, effectId, cancellationTokenSource);
-				Send.ZC_DEAD(trapObject, trapObject.Position);
 				caster.Map.RemoveMonster(trapObject);
 				cancellationTokenSource.Cancel();
 			}
@@ -206,9 +207,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromSeconds(2));
 
-			Send.ZC_DEAD(trap, trap.Position);
 			caster.Map.RemoveMonster(trap);
-
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, trap.Position, effectId, false);
 		}
 

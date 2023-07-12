@@ -51,6 +51,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		int Hp { get; }
 
 		/// <summary>
+		/// Returns the monster's owner/summoner.
+		/// </summary>
+		ICombatEntity Owner { get; set; }
+
+		/// <summary>
 		/// Returns a reference to the monster's properties.
 		/// </summary>
 		Properties Properties { get; }

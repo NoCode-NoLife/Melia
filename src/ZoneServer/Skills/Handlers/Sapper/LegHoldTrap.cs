@@ -74,15 +74,17 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromMilliseconds(500));
 
-			var trapObject = new Mob(300010, MonsterType.NPC);
+			var trapObject = new Mob(300010, MonsterType.Friendly);
 
 			trapObject.Position = farPos;
 			trapObject.Direction = caster.Direction;
+			trapObject.FromGround = true;
+			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			trapObject.Owner = caster;
 
 			trapObject.Components.Add(new BuffComponent(trapObject));
 
 			caster.Map.AddMonster(trapObject);
-			Send.ZC_ENTER_MONSTER(trapObject);
 			Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
@@ -95,7 +97,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						
 			if (trapObject != null && !trapObject.IsDead)
 			{
-				Send.ZC_DEAD(trapObject, trapObject.Position);
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
 			}
@@ -138,7 +139,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		{
 			var effectId = ForceId.GetNew();
 
-			Send.ZC_DEAD(trap, trap.Position);
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
 
 			caster.Map.RemoveMonster(trap);

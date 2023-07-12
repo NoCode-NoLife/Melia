@@ -161,7 +161,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var abilityComponent = caster.Components.Get<AbilityComponent>();
 
 			// Ability - Taglio: Remove Knockback
-			if (abilityComponent != null && abilityComponent.IsActive(AbilityId.Arditi8))
+			if (abilityComponent != null && !abilityComponent.IsActive(AbilityId.Arditi8))
 			{
 				var knockBackDistance = 35;
 				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);

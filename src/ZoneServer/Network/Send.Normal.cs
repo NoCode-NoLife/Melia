@@ -450,13 +450,13 @@ namespace Melia.Zone.Network
 			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
 			/// <param name="farPos"></param>
-			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos, int secondaryAnimation = 0)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 
 				packet.PutInt(NormalOp.Zone.UpdateSkillEffect);
 				packet.PutInt(entity.Handle);
-				packet.PutInt(0);
+				packet.PutInt(secondaryAnimation);
 				packet.PutInt(0);
 				packet.PutInt(targetHandle);
 				packet.PutPosition(originPos);
@@ -967,6 +967,7 @@ namespace Melia.Zone.Network
 			/// Unknow purposes, related to skills.
 			/// </summary>
 			/// <param name="combatEntity"></param>
+			/// <param name="target"></param>
 			/// <param name="skill"></param>
 			/// <exception cref="ArgumentException"></exception>
 			public static void Skill_88(ICombatEntity combatEntity, ICombatEntity target, Skill skill)
@@ -975,7 +976,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(NormalOp.Zone.Skill_88);
 
 				packet.PutInt(target.Handle);
-				packet.PutInt(skill != null ? (int)skill.Id : 0);
+				packet.PutInt((int)(skill?.Id ?? 0));
 
 				combatEntity.Map.Broadcast(packet, combatEntity);
 			}
@@ -984,7 +985,8 @@ namespace Melia.Zone.Network
 			/// Something related to skill efffect?
 			/// </summary>
 			/// <param name="combatEntity"></param>
-			/// <param name="skill"></param>
+			/// <param name="packetString"></param>
+			/// <param name="monster"></param>
 			/// <exception cref="ArgumentException"></exception>
 			public static void Skill_122(ICombatEntity combatEntity, string packetString)
 			{
@@ -1079,7 +1081,7 @@ namespace Melia.Zone.Network
 			/// Related to skills that spawn objects/monsters
 			/// </summary>
 			/// <param name="actor"></param>
-			/// <param name="skill"></param>
+			/// <param name="monster"></param>
 			/// <exception cref="ArgumentException"></exception>
 			public static void Skill_99(IActor actor, IMonster monster)
 			{
@@ -1098,7 +1100,7 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			/// <param name="skill"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_C8(IActor actor, IMonster monster)
+			public static void Skill_C8(IActor actor, IMonster monster) 
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_C8);
@@ -1118,7 +1120,7 @@ namespace Melia.Zone.Network
 			public static void Skill_40(IActor actor, SkillId skillId, string skillString)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_C8);
+				packet.PutInt(NormalOp.Zone.Skill_40);
 
 				packet.PutInt(actor.Handle);
 				packet.PutInt((int)skillId);

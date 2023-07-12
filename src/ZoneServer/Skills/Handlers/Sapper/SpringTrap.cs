@@ -72,18 +72,22 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Sapper_SpringTrap", skill.Id, farPos, effectid, true);
 
-			var trapObject = new Mob(300009, MonsterType.NPC);
+			var trapObject = new Mob(300009, MonsterType.Friendly);
 
 			trapObject.Position = farPos;
 			trapObject.Direction = caster.Direction;
+			trapObject.FromGround = true;
+			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			trapObject.Owner = caster;
 
 			trapObject.Components.Add(new BuffComponent(trapObject));
 
 			caster.Map.AddMonster(trapObject);
-			Send.ZC_ENTER_MONSTER(trapObject);
+
 			Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 			Send.ZC_NORMAL.Skill_5C(caster, trapObject, skill.Id, effectid);
+
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
 			await Task.Delay(1000);
@@ -100,7 +104,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			if (trapObject != null && !trapObject.IsDead)
 			{
-				Send.ZC_DEAD(trapObject, trapObject.Position);
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
 				if (caster.PlacedTraps != null)
@@ -148,7 +151,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 						if (triggerCount >= 5)
 						{
-							Send.ZC_DEAD(trap, trap.Position);
 							caster.Map.RemoveMonster(trap);
 							break;
 						}

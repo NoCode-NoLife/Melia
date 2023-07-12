@@ -44,7 +44,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			foreach (var trap in caster.PlacedTraps)
 			{
-				Send.ZC_DEAD(trap, trap.Position);
 				caster.Map.RemoveMonster(trap);
 				removeList.Add(trap);
 				this.Explosion(caster, skill, trap.Position);

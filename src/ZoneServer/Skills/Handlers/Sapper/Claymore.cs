@@ -49,24 +49,66 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			if (_traps.ContainsKey(caster))
 			{
-				this.ExplodeTrap(caster, skill);
+				this.ExplodeTrap(skill, caster);
 				return;
 			}
 
-			this.PlaceTrap(caster, skill, farPos);
+			this.PlaceTrap(skill, caster, farPos);
+		}
+
+		/// <summary>
+		/// Places the trap object (mob) on the floor
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="farPos"></param>
+		private void PlaceTrap(Skill skill, ICombatEntity caster, Position farPos)
+		{
+			Send.ZC_NORMAL.Skill_88(caster, caster, skill);
+
+			farPos = farPos.GetRelative(caster.Direction, 12);
+
+			var trapObject = new Mob(57197, MonsterType.Friendly);
+
+			trapObject.Position = farPos;
+			trapObject.Direction = caster.Direction;
+			trapObject.FromGround = true;
+			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			trapObject.Owner = caster;
+
+			trapObject.Components.Add(new BuffComponent(trapObject));
+			
+			caster.Map.AddMonster(trapObject);
+
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
+			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
+			Send.ZC_NORMAL.Skill_99(caster, trapObject);
+			Send.ZC_NORMAL.Skill_C8(caster, trapObject);
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), Position.Zero);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
+
+			Send.ZC_NORMAL.Skill_40(caster, skill.Id, "SKL_CLAYMORE_SHOT");
+
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+
+			if (!_traps.ContainsKey(caster))
+				_traps.Add(caster, trapObject);
+
 		}
 
 		/// <summary>
 		/// Handles the trap triggering explosion effect
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
-		private async void ExplodeTrap(ICombatEntity caster, Skill skill)
+		/// <param name="caster"></param>
+		private async void ExplodeTrap(Skill skill, ICombatEntity caster)
 		{
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			await Task.Delay(200);
+			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_NORMAL.Skill_88(caster, caster, null);
 			Send.ZC_NORMAL.Skill_88(caster, caster, null);
@@ -79,72 +121,32 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			if (trap == null)
 				return;
 
-			Send.ZC_SKILL_READY(caster, caster.Position, caster.Position);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, caster.Position, trap.Direction, trap.Position);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trap.Position, ForceId.GetNew(), null);
-
-			await Task.Delay(350);
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, trap.Direction, Position.Zero, 1);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, ForceId.GetNew(), null);
 
 			Send.ZC_DEAD(trap, trap.Position);
-
-			caster.Map.RemoveMonster(trap);
-
-			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
+			Send.ZC_SKILL_CAST_CANCEL(trap);
+			
+			caster.Map.RemoveMonster(trap, false);
 
 			var splashParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 200, width: 0, angle: 60);
 			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			this.Attack(skill, caster, splashArea);
+			
+			await Task.Delay(TimeSpan.FromMilliseconds(300));
+
+			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
+
+			trap.Buffs.Remove(BuffId.Cover_Buff);
 
 			if (_traps.ContainsKey(caster))
 				_traps.Remove(caster);
 		}
 
 		/// <summary>
-		/// Places the trap object (mob) on the floor
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="skill"></param>
-		/// <param name="farPos"></param>
-		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
-		{
-			await Task.Delay(TimeSpan.FromMilliseconds(200));
-
-			Send.ZC_NORMAL.Skill_88(caster, caster, skill);
-			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
-
-			farPos = farPos.GetRelative(caster.Direction, 12);
-
-			var trapObject = new Mob(57197, MonsterType.NPC);
-
-			trapObject.Position = farPos;
-			trapObject.Direction = caster.Direction;
-
-			trapObject.Components.Add(new BuffComponent(trapObject));
-
-			caster.Map.AddMonster(trapObject);
-
-			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(caster, trapObject);
-			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
-			Send.ZC_NORMAL.Skill_99(caster, trapObject);
-			Send.ZC_NORMAL.Skill_C8(caster, trapObject);
-			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
-
-			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
-
-			if (!_traps.ContainsKey(caster))
-				_traps.Add(caster, trapObject);
-
-			await Task.Delay(TimeSpan.FromMilliseconds(800));
-
-			Send.ZC_NORMAL.Skill_40(caster, skill.Id, "SKL_CLAYMORE_SHOT");
-		}
-
-		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Executes the actual attack.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -155,13 +157,33 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
-
-				var hit = new HitInfo(caster, target, skill, skillHitResult);
-
-				Send.ZC_HIT_INFO(caster, target, skill, hit);
+				this.ExecuteHitInfo(skill, caster, target);
 			}
+		}
+
+		/// <summary>
+		/// Sends the actual Hit Info Packets.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
+		{
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			target.TakeDamage(skillHitResult.Damage, caster);
+
+			var hit = new HitInfo(caster, target, skill, skillHitResult);
+
+			Send.ZC_HIT_INFO(caster, target, skill, hit);
+
+			await Task.Delay(TimeSpan.FromMilliseconds(100));
+
+			var skillHitResult2 = SCR_SkillHit(caster, target, skill);
+			target.TakeDamage(skillHitResult2.Damage, caster);
+
+			var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
+
+			Send.ZC_HIT_INFO(caster, target, skill, hit2);
 		}
 	}
 }
