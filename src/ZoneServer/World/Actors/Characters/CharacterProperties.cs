@@ -204,6 +204,8 @@ namespace Melia.Zone.World.Actors.Characters
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
 			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+			// Update Rest Siting Buffs - Disable or Enable the buff
+			this.Character.SitStatusChanged += this.UpdateRestSitingBuffs;
 
 			// Subscribe to equipment changes, as any number of properties
 			// might make use of equipment stats
@@ -255,6 +257,34 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Invalidate(PropertyName.RHPTIME, PropertyName.RSPTIME);
 			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.RHPTIME, PropertyName.RSPTIME);
+		}
+
+		/// <summary>
+		/// Update Rest Siting Buffs
+		/// </summary>
+		/// <param name="character"></param>
+		private void UpdateRestSitingBuffs(Character character)
+		{
+			if (character.IsSitting)
+			{
+				if (!character.Buffs.Has(BuffId.Rest))
+				{
+					character.Buffs.StartTemporary(BuffId.Rest, 0, 0, TimeSpan.Zero, character);
+				}
+			} else
+			{
+				if (character.Buffs.Has(BuffId.Rest))
+				{
+					var buff = character.Buffs.Get(BuffId.Rest);
+					buff?.End();
+				}
+
+				if (character.Buffs.Has(BuffId.campfire_Buff))
+				{
+					var buff = character.Buffs.Get(BuffId.campfire_Buff);
+					buff?.End();
+				}
+			}
 		}
 
 		/// <summary>

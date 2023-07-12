@@ -462,6 +462,33 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns other characters in the given shape.
+		/// </summary>
+		/// <param name="fromCharacter"></param>
+		/// <param name="shape"></param>
+		/// <returns></returns>
+		public List<Character> GeCharactersIn(ICombatEntity fromCharacter, IShapeF shape)
+		{
+			var result = new List<Character>();
+
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character == fromCharacter)
+						continue;
+
+					if (!shape.IsInside(character.Position))
+						continue;
+
+					result.Add(character);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns monster by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
