@@ -29,7 +29,7 @@ int handle;
 byte b1;
 byte expInfoCount;
 byte isOverkill;
-byte b4;
+byte specialDrop;
 position pos;
 int i1;
 
