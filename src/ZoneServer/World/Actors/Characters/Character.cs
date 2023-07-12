@@ -1188,6 +1188,10 @@ namespace Melia.Zone.World.Actors.Characters
 			//this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+
+			// TODO: Get a list of the appropriate resurrection options
+			//   and save them, to sanity check the coming resurrection
+			//   request.
 			Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
 		}
 
@@ -1205,7 +1209,17 @@ namespace Melia.Zone.World.Actors.Characters
 				default:
 				case ResurrectOptions.NearestRevivalPoint:
 				{
-					// Warp...
+					var resurrectionPoints = ZoneServer.Instance.Data.ResurrectionPointDb.Find(this.Map.ClassName);
+					var nearestPoint = resurrectionPoints.OrderBy(p => p.Position.Get2DDistance(this.Position)).FirstOrDefault();
+
+					if (nearestPoint != null)
+					{
+						this.SetPosition(nearestPoint.Position);
+						Send.ZC_SET_POS(this, nearestPoint.Position);
+					}
+
+					// TODO: What happens if you die on a map without a
+					//   resurrection point?
 					break;
 				}
 			}
