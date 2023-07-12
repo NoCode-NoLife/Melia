@@ -92,7 +92,8 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 				if (!buffComponent.Has(BuffId.Virus_Debuff))
 				{
-					target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, 0, 0, TimeSpan.FromSeconds(10), caster, skill);
+					var skillHitResult = SCR_SkillHit(caster, target, skill);
+					target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
 
 					var VirusDebuff = buffComponent.Get(BuffId.Virus_Debuff);
 					if (VirusDebuff.Vars.TryGetInt("Melia.SpreadTargets", out var spreadTargetsCount))

@@ -56,8 +56,8 @@ namespace Melia.Zone.Buffs.Handlers
 
 		private float GetDamagePercentageIncrease(Buff buff)
 		{
-			var value = buff.Skill != null ? buff.Skill.Level : 0;
-			return 5 + value * 2;
+			var skillLevel = buff.NumArg1;
+			return 5 + skillLevel * 2;
 		}
 	}
 }

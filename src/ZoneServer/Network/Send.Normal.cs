@@ -1211,7 +1211,7 @@ namespace Melia.Zone.Network
 				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.ExecuteAnimation);
+				packet.PutInt(NormalOp.Zone.SkillProjectile);
 
 				packet.PutInt(character.Handle);
 				packet.PutInt(packetStringData.Id);
@@ -1253,22 +1253,6 @@ namespace Melia.Zone.Network
 				packet.PutFloat(192);
 				packet.PutShort(-1);
 				packet.PutLong(0);
-
-				character.Map.Broadcast(packet, character);
-			}
-
-			/// <summary>
-			/// Unknow purpose, related to skills
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="skillId"></param>
-			public static void Skill_4F(Character character, SkillId skillId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_4F);
-
-				packet.PutInt(character.Handle);
-				packet.PutInt((int)skillId);
 
 				character.Map.Broadcast(packet, character);
 			}

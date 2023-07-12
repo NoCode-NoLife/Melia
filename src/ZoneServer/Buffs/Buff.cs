@@ -2,9 +2,7 @@
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -36,11 +34,6 @@ namespace Melia.Zone.Buffs
 		/// Returns the buff's associated skill id.
 		/// </summary>
 		public SkillId SkillId { get; } = SkillId.Normal_Attack;
-
-		/// <summary>
-		/// Returns the buff's associated skill.
-		/// </summary>
-		public Skill Skill { get; }
 
 		/// <summary>
 		/// The reference to the buff's data.
@@ -156,49 +149,6 @@ namespace Melia.Zone.Buffs
 			this.Target = target;
 			this.Caster = caster;
 			this.SkillId = skillId;
-
-			this.Handle = ZoneServer.Instance.World.CreateBuffHandle();
-			this.Data = ZoneServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
-			this.Handler = ZoneServer.Instance.BuffHandlers.GetHandler(buffId);
-
-			// Getting messages about missing handlers could be useful,
-			// but since there are buffs that literally do nothing on
-			// their own, we'd have to add dummy buff handlers to get
-			// rid of the messages, so we'll ignore missing handlers
-			// for now.
-			//if (this.Handler == null)
-			//	Log.Debug("Buff: No handler found for '{0}'.", buffId);
-
-			if (this.Duration == TimeSpan.MinValue)
-				this.Duration = this.Data.Duration;
-
-			if (this.HasDuration)
-				this.RemovalTime = DateTime.Now.Add(this.Duration);
-
-			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
-		}
-
-		/// <summary>
-		/// Creates a new instance.
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="buffId"></param>
-		/// <param name="numArg1"></param>
-		/// <param name="numArg2"></param>
-		/// <param name="duration">Use MinValue to use the buff's default duration.</param>
-		/// <param name="target"></param>
-		/// <param name="caster"></param>
-		/// <param name="skill">Id of the skill associated with this buff.</param>
-		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity target, ICombatEntity caster, Skill skill)
-		{
-			this.Id = buffId;
-			this.NumArg1 = numArg1;
-			this.NumArg2 = numArg2;
-			this.Duration = duration;
-			this.Target = target;
-			this.Caster = caster;
-			this.Skill = skill;
 
 			this.Handle = ZoneServer.Instance.World.CreateBuffHandle();
 			this.Data = ZoneServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");

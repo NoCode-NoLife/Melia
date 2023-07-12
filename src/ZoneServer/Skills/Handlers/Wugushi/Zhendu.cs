@@ -5,9 +5,9 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Wugushi
 {
@@ -33,10 +33,9 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
-			var duration = TimeSpan.FromMinutes(30);
-			caster.StartBuff(BuffId.Zhendu_Buff, duration, caster, skill);
+			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster);
 
 			var effectId = ForceId.GetNew();
 
@@ -47,26 +46,20 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			var casterCharacter = caster as Character;
 
 			// Reduces the Poison property resistance of enemies within 150 by 10% per attribute level when [Zhendu] is used
+			if (casterCharacter.Abilities.Has(AbilityId.Wugushi7))
+			{
+				var radius = 150;
+				var center = caster.Position;
+				var splashArea = new Circle(center, radius);
 
-			//if (casterCharacter.Abilities.Has(AbilityId.Wugushi7))
-			//{
-			//	var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
-			//	var abilityReinforceRate = SCR_Get_AbilityReinforceRate(skill);
+				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			//	var radius = 150;
-			//	var center = caster.Position.GetRelative(caster.Position, radius);
-			//	var splashArea = new Circle(center, radius);
-
-			//	// Attack targets
-			//	var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			//	var hits = new List<SkillHitInfo>();
-
-			//	foreach (var target in targets)
-			//	{
-			//		// TODO: Reduces the poison resistance of the target by 10%
-			//	}
-			//}
+				foreach (var target in targets)
+				{
+					var positonRes = target.Properties.GetFloat(PropertyName.Poison_Def);
+					target.Properties.SetFloat(PropertyName.Poison_Def_BM, -(positonRes * 0.1f));
+				}
+			}
 		}
 	}
 }

@@ -1714,7 +1714,7 @@ namespace Melia.Zone.Network
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
-			packet.PutInt((int)skill.Id);
+			packet.PutInt(skill != null ? (int)skill.Id : 0);
 
 			packet.AddHitInfo(hitInfo);
 

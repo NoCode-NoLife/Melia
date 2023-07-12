@@ -7,7 +7,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Wugushi
@@ -59,15 +58,12 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
 			skillHit.ForceId = ForceId.GetNew();
 
-			// TODO: Show the poison smoke effect on the client. (how?)
-
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 			Send.ZC_SHOW_EMOTICON(target, "F_archer_broadhead_cast_blooding", TimeSpan.FromSeconds(100));
-			Send.ZC_NORMAL.Skill_E3(characterCaster, target, "STAGE_1");
 
-			target.StartBuff(BuffId.LatentVenom_Debuff, TimeSpan.FromSeconds(100), caster, skill);
+			target.StartBuff(BuffId.LatentVenom_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(100), caster);
 		}
 	}
 }

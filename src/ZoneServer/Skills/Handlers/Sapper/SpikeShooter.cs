@@ -144,7 +144,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);
 					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, rightPos, rightPos);
-				} else //Stops on the first hit
+				}
+				else //Stops on the first hit
 				{
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, squareLeft);
 

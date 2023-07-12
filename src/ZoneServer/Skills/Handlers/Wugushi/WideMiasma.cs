@@ -7,10 +7,9 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
-using Melia.Zone.World.Actors.Characters;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -38,8 +37,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
-
-			caster.StartBuff(BuffId.WideMiasma_Buff, TimeSpan.FromSeconds(10), caster, skill);
+			caster.StartBuff(BuffId.WideMiasma_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
@@ -73,9 +71,11 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			foreach (var target in targets.LimitRandom(10))
 			{
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+
 				Send.ZC_SHOW_EMOTICON(target, "shootpad_spector", TimeSpan.FromMilliseconds(2000));
-				target.StartBuff(BuffId.WideMiasma_Debuff, TimeSpan.FromSeconds(15), caster, skill);
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, TimeSpan.FromSeconds(20), caster, skill);
+				target.StartBuff(BuffId.WideMiasma_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(15), caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(20), caster);
 			}
 		}
 	}

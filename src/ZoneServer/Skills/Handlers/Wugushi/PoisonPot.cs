@@ -12,6 +12,7 @@ using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
 using System.Threading;
 using Melia.Zone.World.Actors.Characters;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -88,7 +89,8 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.Archer_VerminPot_Debuff))
 						{
-							target.StartBuff(BuffId.Archer_VerminPot_Debuff, TimeSpan.FromSeconds(15), caster, skill);
+							var skillHitResult = SCR_SkillHit(caster, target, skill);
+							target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(15), caster);
 						}
 					}
 

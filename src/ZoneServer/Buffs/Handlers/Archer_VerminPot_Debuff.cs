@@ -1,11 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Threading;
-using Melia.Shared.Tos.Const;
+﻿using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.Skills.Combat;
-using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -21,15 +18,14 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (casterCharacter != null)
 			{
-				// The damage amount is unknow, for now we are dealing the same amount as the original skill hit
-				// TODO: Update this and make it do poison type damage
-				var skillHitResult = SCR_SkillHit(casterCharacter, buff.Target, buff.Skill);
-				buff.Target.TakeDamage(skillHitResult.Damage, casterCharacter);
+				// The damage amount is unknow, for now we are dealing
+				// the same amount as the original skill hit Passed as NumberArg2
+				buff.Target.TakeDamage(buff.NumArg2, casterCharacter);
 
-				var hit = new HitInfo(casterCharacter, buff.Target, buff.Skill, skillHitResult.Damage, skillHitResult.Result);
+				var hit = new HitInfo(casterCharacter, buff.Target, null, buff.NumArg2, HitResultType.Hit);
 				hit.ForceId = ForceId.GetNew();
 
-				Send.ZC_HIT_INFO(casterCharacter, buff.Target, buff.Skill, hit);
+				Send.ZC_HIT_INFO(casterCharacter, buff.Target, null, hit);
 			}
 		}
 	}

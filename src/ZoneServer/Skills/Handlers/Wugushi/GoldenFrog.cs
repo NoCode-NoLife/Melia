@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 				while (!cancellationTokenSource.IsCancellationRequested)
 				{
-					// Attack targets
+					// Applies debuffs to the targets
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 					var hits = new List<SkillHitInfo>();
@@ -97,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.JincanGu_Abil_Debuff))
 						{
-							target.StartBuff(BuffId.JincanGu_Abil_Debuff, TimeSpan.FromSeconds(60), caster, skill);
+							target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, 0, TimeSpan.FromSeconds(60), caster);
 						}
 					}
 

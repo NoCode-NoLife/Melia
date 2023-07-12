@@ -112,7 +112,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			this.EffectId = ForceId.GetNew();
 
 			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, true);
-			Send.ZC_NORMAL.Skill_4F(character, skill.Id);
 
 			var hitDelay = TimeSpan.FromMilliseconds(500);
 

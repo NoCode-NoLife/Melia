@@ -33,7 +33,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			caster.SetAttackState(true);
 
 			var duration = TimeSpan.FromSeconds(15);
-			caster.StartBuff(BuffId.Crescendo_Bane_Buff, duration, caster, skill);
+			caster.StartBuff(BuffId.Crescendo_Bane_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);

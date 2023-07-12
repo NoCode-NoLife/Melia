@@ -58,8 +58,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			stopwatch = new Stopwatch();
 			stopwatch.Start();
-
-			Send.ZC_NORMAL.Skill_4F(caster as Character, skill.Id);
 		}
 
 		/// <summary>
@@ -239,9 +237,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			// and the damage received from the caster is increased by 30%
 			if (character.Abilities.IsActive(AbilityId.Sapper42))
 			{
-				var mspd = target.Properties.GetFloat(PropertyName.MSPD);
 				skillHitResult.Damage *= 0.5f;
-				this.ApplySlow(target, mspd);
+				this.ApplySlow(target);
 				return;
 			}
 
@@ -265,15 +262,15 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		}
 
 		/// <summary>
-		/// Apply Slow to the targets and restore it after certain time
+		/// Apply Slow to the targets settings its move speed to 30%
 		/// </summary>
 		/// <param name="target"></param>
-		/// <param name="oldValue"></param>
-		private async void ApplySlow(ICombatEntity target, float oldValue)
+		private async void ApplySlow(ICombatEntity target)
 		{
-			target.Properties.SetFloat(PropertyName.MSPD, 10);
+			var mspd = target.Properties.GetFloat(PropertyName.MSPD);
+			target.Properties.SetFloat(PropertyName.MSPD_BM, -(mspd * 0.7f));
 			await Task.Delay(5000);
-			target.Properties.SetFloat(PropertyName.MSPD, oldValue);
+			target.Properties.SetFloat(PropertyName.MSPD_BM, (mspd * 0.7f));
 		}
 	}
 }

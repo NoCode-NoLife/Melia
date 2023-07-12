@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 			Send.ZC_NORMAL.Skill_E3(characterCaster, target, "STAGE_1");
 
-			target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster, skill);
+			target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
 		}
 	}
 }
