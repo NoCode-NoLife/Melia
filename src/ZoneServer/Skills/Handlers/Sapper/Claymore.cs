@@ -140,7 +140,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromMilliseconds(800));
 
-			Send.ZC_NORMAL.Skill_17A(caster);
 			Send.ZC_NORMAL.Skill_40(caster, skill.Id, "SKL_CLAYMORE_SHOT");
 		}
 

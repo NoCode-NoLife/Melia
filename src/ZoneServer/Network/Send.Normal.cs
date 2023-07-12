@@ -179,7 +179,7 @@ namespace Melia.Zone.Network
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayForceEffect(IActor caster, IActor source, IActor target, int forceId, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
@@ -197,8 +197,8 @@ namespace Melia.Zone.Network
 					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.PlayForceEffect);
+
 				packet.PutInt(forceId);        
 				packet.PutInt(caster.Handle);
 				packet.PutInt(source.Handle);
@@ -957,7 +957,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(identifier);
 				packet.PutInt(startOrEndEffect);
 				packet.PutEmptyBin(13);
-				packet.PutFloat(0);
+				packet.PutFloat(150);
 				packet.PutEmptyBin(16);
 
 				actor.Map.Broadcast(packet);
@@ -976,23 +976,6 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(target.Handle);
 				packet.PutInt(skill != null ? (int)skill.Id : 0);
-
-				combatEntity.Map.Broadcast(packet, combatEntity);
-			}
-
-			/// <summary>
-			/// Unknow purposes, related to skills.
-			/// </summary>
-			/// <param name="combatEntity"></param>
-			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_17A(ICombatEntity combatEntity)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_17A);
-
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
 
 				combatEntity.Map.Broadcast(packet, combatEntity);
 			}
@@ -1037,10 +1020,10 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unknow purposes, related to skills animation effects. It seems to start an animation.
+			/// It seems to start an animation for a given effectId.
 			/// </summary>
 			/// <param name="actor"></param>
-			/// <param name="packetString"></param>
+			/// <param name="effectId"></param>
 			/// <exception cref="ArgumentException"></exception>
 			public static void PlayAnimationOnEffect_6D(IActor actor, int effectId)
 			{
@@ -1054,7 +1037,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unknow purposes, related to skills animation effects. It seems to start an animation.
+			/// It seems to start an animation for a given skill.
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
@@ -1215,7 +1198,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(actor.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutFloat(duration);
-				packet.PutInt(packetStringData2 != null ? packetStringData2.Id : 0);
+				packet.PutInt(packetStringData2?.Id ?? 0);
 				packet.PutFloat(duration2);
 				packet.PutPosition(position);
 				packet.PutFloat(10);
@@ -1323,25 +1306,6 @@ namespace Melia.Zone.Network
 				packet.PutPosition(fromPos);
 				packet.PutPosition(ToPos);
 								
-				actor.Map.Broadcast(packet, actor);
-			}
-
-			/// <summary>
-			/// Moves an effect over two positions
-			/// </summary>
-			/// <param name="actor"></param>
-			public static void Skill_58(IActor actor, string packetString)
-			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_58);
-
-				packet.PutInt(2);
-				packet.PutInt(packetStringData.Id);
-				packet.PutInt(11);
-
 				actor.Map.Broadcast(packet, actor);
 			}
 
