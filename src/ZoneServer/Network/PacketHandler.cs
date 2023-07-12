@@ -329,7 +329,11 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: Sanity checks.
+			if (character.IsDead)
+			{
+				//Log.Warning("CZ_KEYBOARD_MOVE: User '{0}' tried to move while dead.", conn.Account.Name);
+				return;
+			}
 
 			character.Move(position, direction, f1);
 		}
