@@ -462,30 +462,41 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns monsters in the given radius around position.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="shape"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetEntitiesIn(ICombatEntity attacker, IShapeF shape)
+		{
+			var result = new List<ICombatEntity>();
+
+			lock (_combatEntities)
+			{
+				foreach (var entity in _combatEntities.Values)
+				{
+					if (!shape.IsInside(entity.Position))
+						continue;
+
+					result.Add(entity);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns other characters in the given shape.
 		/// </summary>
 		/// <param name="fromCharacter"></param>
 		/// <param name="shape"></param>
 		/// <returns></returns>
-		public List<Character> GeCharactersIn(ICombatEntity fromCharacter, IShapeF shape)
+		public List<Character> GetCharactersIn(ICombatEntity fromCharacter, IShapeF shape)
 		{
-			var result = new List<Character>();
-
 			lock (_characters)
 			{
-				foreach (var character in _characters.Values)
-				{
-					if (character == fromCharacter)
-						continue;
-
-					if (!shape.IsInside(character.Position))
-						continue;
-
-					result.Add(character);
-				}
+				return _characters.Values.Where(a => a != fromCharacter && shape.IsInside(a.Position)).ToList();
 			}
-
-			return result;
 		}
 
 		/// <summary>
