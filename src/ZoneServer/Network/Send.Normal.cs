@@ -985,6 +985,23 @@ namespace Melia.Zone.Network
 
 				entity.Map.Broadcast(packet, entity);
 			}
+
+			/// <summary>
+			/// Purpose unknown. Added for testing purposes, but turned
+			/// out to not be necessary.
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="b1"></param>
+			public static void Unk13E(ICombatEntity entity, bool b1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Unk13E);
+
+				packet.PutInt(entity.Handle);
+				packet.PutByte(b1);
+
+				entity.Map.Broadcast(packet, entity);
+			}
 		}
 	}
 }
