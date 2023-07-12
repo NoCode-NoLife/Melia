@@ -1,1 +1,0 @@
-ALTER TABLE `accounts` ADD `type` TINYINT(4) NOT NULL DEFAULT '3' AFTER `teamName`;
