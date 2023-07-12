@@ -1192,6 +1192,29 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
+		/// Resurrects the character if its dead.
+		/// </summary>
+		/// <param name="option"></param>
+		public void Resurrect(ResurrectOptions option)
+		{
+			var startHp = this.Properties.GetFloat(PropertyName.MHP) * 0.50f;
+			this.Heal(startHp, 0);
+
+			switch (option)
+			{
+				default:
+				case ResurrectOptions.NearestRevivalPoint:
+				{
+					// Warp...
+					break;
+				}
+			}
+
+			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
+			Send.ZC_RESURRECT(this);
+		}
+
+		/// <summary>
 		/// Returns true if the character can attack others.
 		/// </summary>
 		/// <returns></returns>

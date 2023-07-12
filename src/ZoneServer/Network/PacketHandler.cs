@@ -2687,5 +2687,28 @@ namespace Melia.Zone.Network
 			// to be "CZ_InteractionCancel", though it doesn't appear in
 			// the op code list.
 		}
+
+		/// <summary>
+		/// Request from a player to revive their character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESURRECT)]
+		public void CZ_RESURRECT(IZoneConnection conn, Packet packet)
+		{
+			var optionIdx = packet.GetByte();
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+			var option = (ResurrectOptions)(1 << (int)optionIdx);
+
+			if (!character.IsDead)
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character while not dead.", conn.Account.Name);
+				return;
+			}
+
+			character.Resurrect(option);
+		}
 	}
 }

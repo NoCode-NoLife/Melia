@@ -1723,6 +1723,49 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_SAVE_POINT_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_SAVE_POINT_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_HERE_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_HERE_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Resurrects the character for all clients in range.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT(Character character)
+		{
+			var hp = character.Properties.GetFloat(PropertyName.HP);
+			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
+
+			var packet = new Packet(Op.ZC_RESURRECT);
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)hp);
+			packet.PutInt((int)maxHp);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Informs players about a hit that occured, and about the target's
 		/// new hp, after damage was applied.
 		/// </summary>
