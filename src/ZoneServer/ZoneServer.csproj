@@ -109,6 +109,7 @@
     <Compile Include="Events\TimeEventArgs.cs" />
     <Compile Include="Events\TimeEventRaiser.cs" />
     <Compile Include="Feature.cs" />
+    <Compile Include="GameTime.cs" />
     <Compile Include="Network\Helpers\BuffHelper.cs" />
     <Compile Include="Network\Helpers\MonsterHelper.cs" />
     <Compile Include="Network\Helpers\PartyHelper.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
     <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
     <Compile Include="Skills\DamageVisibilityModifier.cs" />
+    <Compile Include="Skills\Handlers\Base\ParametersOnlySkill.cs" />
     <Compile Include="Skills\Handlers\Cleric\GuardianSaint.cs" />
     <Compile Include="Skills\Handlers\Cleric\Fade.cs" />
     <Compile Include="Skills\Handlers\Cleric\Cure.cs" />
@@ -165,8 +167,7 @@
     <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
     <Compile Include="Skills\Handlers\Common\TargetSkill.cs" />
     <Compile Include="Skills\Handlers\Base\SimpleMonsterAttackSkill.cs" />
-    <Compile Include="Skills\Handlers\Monsters\OnionAttack.cs" />
-    <Compile Include="Skills\Handlers\Monsters\TargetGroundAttack1.cs" />
+    <Compile Include="Skills\Handlers\Monsters\BasicAttacks.cs" />
     <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
     <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
     <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Skills\Handlers\SkillHandlers.cs" />
     <Compile Include="Skills\SkillProperties.cs" />
     <Compile Include="Skills\SkillUseFunctions.cs" />
+    <Compile Include="Skills\SplashAreas\BladedFan.cs" />
     <Compile Include="Skills\SplashAreas\Circle.cs" />
     <Compile Include="Skills\SplashAreas\Fan.cs" />
     <Compile Include="Skills\SplashAreas\SplashArea.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="World\Groups\Guild.cs" />
     <Compile Include="World\Groups\PartyMember.cs" />
     <Compile Include="World\GuildManager.cs" />
+    <Compile Include="World\DayNightCycle.cs" />
     <Compile Include="World\Items\DummyEquipItem.cs" />
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />

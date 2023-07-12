@@ -41,7 +41,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return;
 			}
 
-			if (!caster.Position.InRange2D(target.Position, skill.Data.MaxRange))
+			if (!caster.InSkillUseRange(skill, target))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);

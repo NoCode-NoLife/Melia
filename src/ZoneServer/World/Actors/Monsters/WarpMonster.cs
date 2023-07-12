@@ -44,6 +44,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Direction = direction;
 			this.SourceLocation = sourceLocation;
 			this.WarpLocation = targetLocation;
+
+			// RO-esque Warp:
+			// Monster id 20050, Effect F_cleric_zemina_buff_blue
 		}
 	}
 }

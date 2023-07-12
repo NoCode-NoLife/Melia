@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				return;
 			}
 
-			if (!caster.Position.InRange2D(designatedTarget.Position, skill.Data.MaxRange))
+			if (!caster.InSkillUseRange(skill, designatedTarget))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;

@@ -62,6 +62,15 @@ namespace Melia.Zone.Skills.Handlers.Common
 			var damageDelay = TimeSpan.FromMilliseconds(skill.Id != SkillId.Common_DaggerAries ? 330 : 250);
 			var skillHitDelay = skill.Properties.HitDelay;
 
+			// This part is somewhat guessed. The damage delay does seem to
+			// decrease with the speed rate, but the hit delay doesn't. If
+			// we don't decrease the hit delay though, the client can't
+			// handle very high attack speeds. Granted, they need to be
+			// higher than the devs might have ever intended for this to
+			// happen, but I still kinda want them to work.
+			damageDelay = TimeSpan.FromMilliseconds(damageDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
+			skillHitDelay = TimeSpan.FromMilliseconds(skillHitDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
+
 			if (skillHitDelay > TimeSpan.Zero)
 				await Task.Delay(skillHitDelay);
 
@@ -71,6 +80,16 @@ namespace Melia.Zone.Skills.Handlers.Common
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
+
+				// This is unofficial, as the damage delay is the same for
+				// multi hits in the logs, but if we don't do this, the
+				// animation isn't in sync with the weapon swing, which
+				// just doesn't look right. I honestly can't tell what
+				// the official behavior is, because it kind of looks
+				// correct there for me, but that might very well be
+				// the lag at play...
+				if (skillHitResult.HitCount > 1)
+					damageDelay = TimeSpan.FromMilliseconds(damageDelay.TotalMilliseconds / skillHitResult.HitCount);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);

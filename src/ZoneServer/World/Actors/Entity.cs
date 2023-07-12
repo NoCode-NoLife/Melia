@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -114,10 +115,18 @@ namespace Melia.Zone.World.Actors
 		/// <param name="otherEntity"></param>
 		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
 		{
-			if (otherEntity == null)
-				return;
+			if (otherEntity != null)
+				TurnTowards(entity, otherEntity.Position);
+		}
 
-			entity.Direction = entity.Position.GetDirection(otherEntity.Position);
+		/// <summary>
+		/// Makes the entity turn towards the position.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		public static void TurnTowards(this ICombatEntity entity, Position pos)
+		{
+			entity.Direction = entity.Position.GetDirection(pos);
 			Send.ZC_ROTATE(entity);
 		}
 
@@ -233,5 +242,37 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
 			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
+
+		/// <summary>
+		/// Returns true if the distance between the caster and the target
+		/// doesn't exceed the skill's max range.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		public static bool InSkillUseRange(this ICombatEntity caster, Skill skill, ICombatEntity target)
+			=> InSkillUseRange(caster, skill, target.Position);
+
+		/// <summary>
+		/// Returns true if the distance between the caster and the position
+		/// doesn't exceed the skill's max range.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public static bool InSkillUseRange(this ICombatEntity caster, Skill skill, Position pos)
+		{
+			var maxRange = skill.Properties.GetFloat(PropertyName.MaxR);
+
+			// There are somewhat frequent situations where the client is
+			// convinced it's in range, but the server disagrees. It's good
+			// that we have these checks, but we also want the experience
+			// to be smooth, so we'll allow a little extra range.
+			maxRange *= 1.25f;
+
+			return caster.Position.InRange2D(pos, maxRange);
+		}
 	}
 }

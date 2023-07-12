@@ -164,7 +164,7 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
-			Send.ZC_DAYLIGHT_FIXED(character);
+			//Send.ZC_DAYLIGHT_FIXED(character);
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -981,8 +981,8 @@ namespace Melia.Zone.Network
 			var skillId = (SkillId)packet.GetInt();
 			var b1 = packet.GetByte();
 			var f3 = packet.GetFloat();
-			var f1 = packet.GetFloat();
-			var f2 = packet.GetFloat();
+			var speedRate = packet.GetFloat();
+			var hitDelay = packet.GetFloat();
 			var targetHandles = packet.GetList(targetHandleCount, packet.GetInt);
 
 			var character = conn.SelectedCharacter;
@@ -1300,12 +1300,21 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
 		public void CZ_DYNAMIC_CASTING_START(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat();
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastTime = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
 
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to cast a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
+				return;
+
+			handler.StartDynamicCast(skill, character);
 		}
 
 		/// <summary>
@@ -1316,10 +1325,21 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
 		public void CZ_DYNAMIC_CASTING_END(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat(); // Max Cast Hold Time?
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastTime = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_END: User '{0}' tried to cast a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
+				return;
+
+			handler.EndDynamicCast(skill, character);
 		}
 
 		/// <summary>
@@ -2395,7 +2415,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ?
+		/// Request to view another character's information.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2404,7 +2424,7 @@ namespace Melia.Zone.Network
 		{
 			var handle = packet.GetInt();
 			var b1 = packet.GetByte();
-			var b2 = packet.GetByte();
+			var addLike = packet.GetByte();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2471,7 +2491,9 @@ namespace Melia.Zone.Network
 			// Check for monster validity
 			if (monster == null)
 			{
-				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
+				// Don't warn as it happens quite frequently when two
+				// players stand in range of a dropped item.
+				//Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
 				return;
 			}
 
@@ -2637,6 +2659,101 @@ namespace Melia.Zone.Network
 			// The purpose of this packet is currently unknown. Based on
 			// the name it's probably related to jobs, but that's about
 			// all we got on it. Ignore for now.
+		}
+
+		/// <summary>
+		/// Request to start or stop playing the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_READY_FLUTING)]
+		public void CZ_REQ_READY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var enabled = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Send.ZC_READY_FLUTING(character, enabled);
+		}
+
+		/// <summary>
+		/// Request to play a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_PLAY_FLUTING)]
+		public void CZ_REQ_PLAY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Send.ZC_PLAY_FLUTING(character, note, octave, semitone, true);
+		}
+
+		/// <summary>
+		/// Request to stop playing a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_STOP_FLUTING)]
+		public void CZ_REQ_STOP_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			// If the user starts playing a note, but doesn't stop
+			// playing it, or they send a different note to stop,
+			// the note will keep playing for a moment until stopping
+			// on its own. We could catch this by saving the notes on
+			// start, but since you can play multiple notes at once,
+			// that will require a bit more effort than simply setting
+			// a couple variables which we then get here. We'd need
+			// to keep track of all notes being played, stop specific
+			// ones, and stop all if anything goes wrong.
+
+			Send.ZC_STOP_FLUTING(character, note, octave, semitone);
 		}
 	}
 }

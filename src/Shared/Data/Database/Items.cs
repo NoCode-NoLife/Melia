@@ -11,19 +11,24 @@ namespace Melia.Shared.Data.Database
 	public class ItemData
 	{
 		public int Id { get; set; }
+
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public string LocalKey { get; set; }
+
 		public ItemType Type { get; set; }
 		public ItemGroup Group { get; set; }
 		public InventoryCategory Category { get; set; }
+
 		public float Weight { get; set; }
 		public int MaxStack { get; set; }
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
+
 		public EquipType EquipType1 { get; set; }
 		public EquipType EquipType2 { get; set; }
 		public int MinLevel { get; set; }
+
 		public float MinAtk { get; set; }
 		public float MaxAtk { get; set; }
 		public float PAtk { get; set; }
@@ -35,6 +40,27 @@ namespace Melia.Shared.Data.Database
 		public float MDef { get; set; }
 		public float AddDef { get; set; }
 		public float AddMDef { get; set; }
+		public ArmorMaterialType Material { get; set; }
+
+		public float Slash { get; set; }
+		public float Aries { get; set; }
+		public float Strike { get; set; }
+		public float SlashDefense { get; set; }
+		public float AriesDefense { get; set; }
+		public float StrikeDefense { get; set; }
+		public float SlashRange { get; set; }
+		public float AriesRange { get; set; }
+		public float StrikeRange { get; set; }
+
+		public float FireResistence { get; set; }
+		public float IceResistence { get; set; }
+		public float LightningResistence { get; set; }
+		public float EarthResistence { get; set; }
+		public float PoisonResistence { get; set; }
+		public float HolyResistence { get; set; }
+		public float DarkResistence { get; set; }
+		public float SoulResistence { get; set; }
+
 		public ItemScriptData Script { get; set; }
 
 		public bool HasScript => this.Script != null;
@@ -101,12 +127,14 @@ namespace Melia.Shared.Data.Database
 			var data = new ItemData();
 
 			data.Id = entry.ReadInt("itemId");
+
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 			data.LocalKey = entry.ReadString("localKey");
 			data.Type = entry.ReadEnum<ItemType>("type");
 			data.Group = entry.ReadEnum<ItemGroup>("group");
 			data.Category = GetCategory(data);
+
 			data.Weight = entry.ReadFloat("weight", 0);
 			data.MaxStack = entry.ReadInt("maxStack", 1);
 			data.Price = entry.ReadInt("price", 0);
@@ -114,6 +142,7 @@ namespace Melia.Shared.Data.Database
 			data.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
 			data.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
 			data.MinLevel = entry.ReadInt("minLevel", 1);
+
 			data.MinAtk = entry.ReadFloat("minAtk", 0);
 			data.MaxAtk = entry.ReadFloat("maxAtk", 0);
 			data.PAtk = entry.ReadFloat("pAtk", 0);
@@ -125,6 +154,23 @@ namespace Melia.Shared.Data.Database
 			data.MDef = entry.ReadFloat("mDef", 0);
 			data.AddDef = entry.ReadFloat("addDef", 0);
 			data.AddMDef = entry.ReadFloat("addMDef", 0);
+			data.Material = entry.ReadEnum<ArmorMaterialType>("material", ArmorMaterialType.None);
+
+			data.Aries = entry.ReadFloat("aries", 0);
+			data.Slash = entry.ReadFloat("slash", 0);
+			data.Strike = entry.ReadFloat("strike", 0);
+			data.AriesDefense = entry.ReadFloat("ariesDef", 0);
+			data.SlashDefense = entry.ReadFloat("slashDef", 0);
+			data.StrikeDefense = entry.ReadFloat("strikeDef", 0);
+
+			data.FireResistence = entry.ReadFloat("fireRes", 0);
+			data.IceResistence = entry.ReadFloat("iceRes", 0);
+			data.PoisonResistence = entry.ReadFloat("poisonRes", 0);
+			data.LightningResistence = entry.ReadFloat("lightningRes", 0);
+			data.EarthResistence = entry.ReadFloat("earthRes", 0);
+			data.SoulResistence = entry.ReadFloat("soulRes", 0);
+			data.HolyResistence = entry.ReadFloat("holyRes", 0);
+			data.DarkResistence = entry.ReadFloat("darkRes", 0);
 
 			if (entry.TryGetObject("script", out var scriptEntry))
 			{

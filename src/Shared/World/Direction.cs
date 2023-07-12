@@ -66,9 +66,29 @@ namespace Melia.Shared.World
 		public static Direction North => new Direction(0, 1);
 
 		/// <summary>
+		/// Returns a direction that points west.
+		/// </summary>
+		public static Direction NorthWest => new Direction(-0.7071068f, 0.7071068f);
+
+		/// <summary>
+		/// Returns a direction that points east.
+		/// </summary>
+		public static Direction NorthEast => new Direction(0.7071068f, 0.7071068f);
+
+		/// <summary>
 		/// Returns a direction that points south.
 		/// </summary>
 		public static Direction South => new Direction(0, -1);
+
+		/// <summary>
+		/// Returns a direction that points south west.
+		/// </summary>
+		public static Direction SouthWest => new Direction(-0.7071068f, -0.7071068f);
+
+		/// <summary>
+		/// Returns a direction that points south east.
+		/// </summary>
+		public static Direction SouthEast => new Direction(0.7071068f, -0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points east.
