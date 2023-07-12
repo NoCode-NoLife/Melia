@@ -1,4 +1,5 @@
-﻿using Melia.Shared.L10N;
+﻿using System.Collections.Generic;
+using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -8,7 +9,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using System.Collections.Generic;
+
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -45,10 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				Send.ZC_DEAD(trap, trap.Position);
 				caster.Map.RemoveMonster(trap);
-				if (caster.PlacedTraps.Contains(trap))
-				{
-					removeList.Add(trap);
-				}
+				removeList.Add(trap);
 				this.Explosion(caster, skill, trap.Position);
 			}
 

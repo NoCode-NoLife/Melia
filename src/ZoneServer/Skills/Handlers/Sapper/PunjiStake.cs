@@ -55,7 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				Send.ZC_MSPD(caster);
 			}
 
-			stopwatch = new Stopwatch();
+			stopwatch = Stopwatch.StartNew();
 			stopwatch.Start();
 		}
 
@@ -100,14 +100,14 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			await Task.Delay(150);
+			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
 			var effectId = ForceId.GetNew();
 			var farPos = caster.Position.GetRelative(caster.Direction, 25);
 
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, farPos, effectId, true);
 
-			await Task.Delay(150);
+			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
 			var trapObject = new Mob(57194, MonsterType.NPC);
 
@@ -168,7 +168,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 					this.ExplodeTrap(skill, caster, trap, effectId, cancellationTokenSource);
 					break;
 				}
-				await Task.Delay(200);
+				await Task.Delay(TimeSpan.FromMilliseconds(200));
 			}
 		}
 
@@ -251,7 +251,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			for (int i = 0; i < 4; i++)
 			{
 				Send.ZC_HIT_INFO(caster, target, skill, hit);
-				await Task.Delay(100);
+				await Task.Delay(TimeSpan.FromMilliseconds(100));
 			}
 		}
 

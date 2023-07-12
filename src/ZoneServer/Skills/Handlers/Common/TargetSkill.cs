@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
-using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -57,12 +56,9 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
-			var buffComponent = target.Components.Get<BuffComponent>();
-
-			if (buffComponent.Has(BuffId.Virus_Debuff))
+			if (target.Components.Get<BuffComponent>().TryGet(BuffId.Virus_Debuff, out var virusDebuff))
 			{
-				var VirusDebuff = buffComponent.Get(BuffId.Virus_Debuff);
-				if (VirusDebuff.Vars.TryGetInt("Melia.SpreadTargets", out var spreadTargetsCount))
+				if (virusDebuff.Vars.TryGetInt("Melia.SpreadTargets", out var spreadTargetsCount))
 				{
 					if (spreadTargetsCount < 5)
 					{

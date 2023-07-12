@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
@@ -10,7 +11,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
-using System.Threading;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
@@ -180,15 +180,17 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
+					var buffComponent = target.Components.Get<BuffComponent>();
+
 					// Oficial server skills apply slow while the mob is inside the area
 					// But for now we gonna apply 10 seconds slow
-					if (!target.Components.Get<BuffComponent>().Has(BuffId.Common_Slow))
+					if (!buffComponent.Has(BuffId.Common_Slow))
 					{
 						var duration = TimeSpan.FromSeconds(10);
 						target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 					}
 
-					if (!target.Components.Get<BuffComponent>().Has(BuffId.LegHoldTrap_Debuff))
+					if (!buffComponent.Has(BuffId.LegHoldTrap_Debuff))
 					{
 						var duration = TimeSpan.FromSeconds(5);
 						target.StartBuff(BuffId.LegHoldTrap_Debuff, skill.Level, 0, duration, caster);

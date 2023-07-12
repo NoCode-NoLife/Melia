@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Threading;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -7,13 +9,9 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.Skills.Combat;
-using System.Threading;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Shared.Data.Database;
-using System.Collections.Generic;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -24,7 +22,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 	public class EnchantAura : IGroundSkillHandler
 	{
 		private Dictionary<ICombatEntity, Task> _areasOfEffect = new Dictionary<ICombatEntity, Task>();
-		private CancellationTokenSource _cancellationTokenSource;
+		private Dictionary<ICombatEntity, CancellationTokenSource> _cancellationTokensSource = new Dictionary<ICombatEntity, CancellationTokenSource>();
 
 		/// <summary>
 		/// Handles the skill, creates an area of effect that damages the enemies inside
@@ -60,8 +58,10 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				if (_areasOfEffect.ContainsKey(caster))
 					_areasOfEffect.Remove(caster);
 
-				_cancellationTokenSource?.Cancel();
-				RemoveSkillEffect(skill, caster, castedPos, effectId);
+				if (_cancellationTokensSource.ContainsKey(caster))
+					_cancellationTokensSource[caster].Cancel();
+
+				this.RemoveSkillEffect(skill, caster, castedPos, effectId);
 				return;
 			}
 
@@ -70,10 +70,13 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
 
 			// Create a new cancellation token source
-			_cancellationTokenSource = new CancellationTokenSource();
+			var cancellationTokenSource = new CancellationTokenSource();
+
+			if (!_cancellationTokensSource.ContainsKey(caster))
+				_cancellationTokensSource.Add(caster, cancellationTokenSource);
 
 			// Start the task
-			var newAreaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos, effectId));
+			var newAreaOfEffect = Task.Run(() => AreaOfEffect(cancellationTokenSource.Token, skill, caster, castedPos, effectId));
 
 			if (!_areasOfEffect.ContainsKey(caster))
 				_areasOfEffect.Add(caster, newAreaOfEffect);
@@ -95,7 +98,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_NORMAL.GroundEffect_59(character, character.Direction, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
 
-			// HardCoded for the moment, seems precisa tho
 			var radius = 80;
 			var center = position.GetRelative(position, radius);
 			var splashArea = new Circle(center, radius);
@@ -107,15 +109,17 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				character.StartBuff(BuffId.EnchantAura_Buff, TimeSpan.Zero);
 			}
 
-			// Delay for 3 seconds
-			await Task.Delay(1000);
+			await Task.Delay(TimeSpan.FromSeconds(1));
 
 			while (true)
 			{
 				// Check if cancellation is requested
 				if (cancellationToken.IsCancellationRequested)
 				{
-					RemoveSkillEffect(skill, caster, position, effectId);
+					if (_cancellationTokensSource.ContainsKey(caster))
+						_cancellationTokensSource.Remove(caster);
+
+					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -124,7 +128,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				// Cancel if the caster has not enough SP
 				if (!caster.TrySpendSp(skill))
 				{
-					RemoveSkillEffect(skill, caster, position, effectId);
+					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;
 				}
 
@@ -137,7 +141,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
 
-					var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result);
+					var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 					Send.ZC_HIT_INFO(caster, target, skill, hit);
 
@@ -146,7 +150,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 						var skillHitResult2 = SCR_SkillHit(caster, target, skill);
 						target.TakeDamage(skillHitResult2.Damage, caster);
 
-						var hit2 = new HitInfo(caster, target, skill, skillHitResult2.Damage, skillHitResult2.Result);
+						var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
 
 						Send.ZC_HIT_INFO(caster, target, skill, hit2);
 					}
