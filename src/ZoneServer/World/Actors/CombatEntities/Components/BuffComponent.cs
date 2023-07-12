@@ -316,36 +316,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Starts the buff with the given id. If the buff is already active,
-		/// it gets overbuffed. Returns the created or modified buff.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <param name="numArg1"></param>
-		/// <param name="numArg2"></param>
-		/// <param name="duration">Custom duration of the buff.</param>
-		/// <param name="caster">The entity that casted the buff.</param>
-		/// <returns></returns>
-		public Buff StartTemporary(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
-		{
-			if (!this.TryGet(buffId, out var buff))
-			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity);
-				buff.IncreaseOverbuff();
-				buff.Start();
-
-				Send.ZC_BUFF_ADD(this.Entity, buff);
-
-				this.BuffStarted?.Invoke(this.Entity, buff);
-			}
-			else
-			{
-				this.Overbuff(buff);
-			}
-
-			return buff;
-		}
-
-		/// <summary>
 		/// Check buffs and remove expired buffs
 		/// </summary>
 		public void Update(TimeSpan elapsed)

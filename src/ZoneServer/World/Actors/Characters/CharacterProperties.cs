@@ -269,20 +269,20 @@ namespace Melia.Zone.World.Actors.Characters
 			{
 				if (!character.Buffs.Has(BuffId.Rest))
 				{
-					character.Buffs.StartTemporary(BuffId.Rest, 0, 0, TimeSpan.Zero, character);
+					character.Buffs.Start(BuffId.Rest, 0, 0, TimeSpan.Zero, character);
 				}
 			} else
 			{
 				if (character.Buffs.Has(BuffId.Rest))
 				{
 					var buff = character.Buffs.Get(BuffId.Rest);
-					buff?.End();
+					character.Buffs.Remove(BuffId.Rest);
 				}
 
 				if (character.Buffs.Has(BuffId.campfire_Buff))
 				{
 					var buff = character.Buffs.Get(BuffId.campfire_Buff);
-					buff?.End();
+					character.Buffs.Remove(BuffId.campfire_Buff);
 				}
 			}
 		}

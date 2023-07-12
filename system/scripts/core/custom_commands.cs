@@ -221,13 +221,13 @@ public class CustomCommandFunctionsScript : GeneralScript
 			{
 				if (otherCharacter.IsSitting && !otherCharacter.Buffs.Has(BuffId.campfire_Buff))
 				{
-					otherCharacter.Buffs.StartTemporary(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, otherCharacter);
+					otherCharacter.Buffs.Start(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, otherCharacter);
 				}
 			}
 
 			if (character.IsSitting && !character.Buffs.Has(BuffId.campfire_Buff))
 			{
-				character.Buffs.StartTemporary(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, character);
+				character.Buffs.Start(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, character);
 			}
 
 			await Task.Delay(TimeSpan.FromSeconds(1));

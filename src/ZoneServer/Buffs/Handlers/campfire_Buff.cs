@@ -29,7 +29,7 @@ namespace Melia.Zone.Buffs.Handlers
 				buff.Target.Properties.Modify(PropertyName.RSta_BM, -bonus);
 		}
 
-		public override void WhileActive(Buff buff)
+		public override async void WhileActive(Buff buff)
 		{
 			var character = buff.Target as Character;
 
@@ -43,7 +43,7 @@ namespace Melia.Zone.Buffs.Handlers
 				character.ModifySp(Convert.ToInt32(character.MaxSp * 0.1f));
 			}
 
-			//await Task.Delay(TimeSpan.FromSeconds(10));
+			await Task.Delay(TimeSpan.FromSeconds(10));
 		}
 	}
 }
