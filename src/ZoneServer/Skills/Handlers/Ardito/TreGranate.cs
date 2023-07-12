@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -76,11 +75,11 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var pos3 = pos2.GetRelative(direction, 50);
 			var pos4 = pos3.GetRelative(direction, 50);
 
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2);
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3);
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos4);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos4);
 
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "", 0.75f, "", 2.5f, pos2);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "", 0.75f, "", 2.5f, pos2);
 
 			await Task.Delay(400);
 
@@ -89,11 +88,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var effectId3 = ForceId.GetNew();
 			var effectId4 = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos2, effectId1, true);
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos3, effectId2, true);
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos4, effectId3, true);
-
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos2, effectId1, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos3, effectId2, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos4, effectId3, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, true);
 
 			var cancelationTokenSource = new CancellationTokenSource();
 
@@ -103,11 +101,11 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			cancelationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos2, effectId1, false);
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos3, effectId2, false);
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata", skill.Id, pos4, effectId3, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos2, effectId1, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos3, effectId2, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos4, effectId3, false);
 
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, false);
 		}
 
 		/// <summary>

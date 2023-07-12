@@ -31,14 +31,10 @@ namespace Melia.Zone.Buffs.Handlers
 				// Algorithm retrieved from client files.
 				var speedBonus = 1 + (skillLevel * 0.3);
 
-				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
+				if (caster != null && caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
 				{
-					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
-					if (caster.Skills.TryGet(buff.SkillId, out var skill))
-					{
-						var abilityBonus = SCR_Get_SkillFactor(skill);
-						speedBonus += abilityBonus;
-					}
+					var abilityBonus = buff.NumArg2;
+					speedBonus += abilityBonus;
 				}
 
 				var staminaRateBonus = -0.5f;

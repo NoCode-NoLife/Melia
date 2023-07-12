@@ -6,7 +6,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -34,7 +33,6 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 
 			skill.IncreaseOverheat();
 			caster.Components.Get<CombatComponent>().SetAttackState(true);
-			var characterCaster = caster as Character;
 
 			if (target == null)
 			{
@@ -43,11 +41,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 				return;
 			}
 
-			if (characterCaster != null)
-			{
-				var direction = caster.Position.GetDirection(target.Position);
-				characterCaster.Rotate(direction);
-			}
+			caster.TurnTowards(target.Position);
 			
 			var damageDelay = TimeSpan.FromMilliseconds(200);
 
@@ -60,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(target.Position), Position.Zero);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
-			Send.ZC_NORMAL.Skill_E3(characterCaster, target, "STAGE_1");
+			Send.ZC_NORMAL.Skill_E3(caster, target, "STAGE_1");
 
 			target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
 		}

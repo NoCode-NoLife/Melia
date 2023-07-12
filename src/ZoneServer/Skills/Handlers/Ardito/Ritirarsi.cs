@@ -7,7 +7,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -54,14 +53,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var character = caster as Character;
+			farPos = caster.Position.GetRelative(caster.Direction, 25);
 
-			farPos = character.Position.GetRelative(character.Direction, 25);
-
-			character.Rotate(character.Position.GetDirection(farPos));
+			caster.TurnTowards(farPos);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, character.Position.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			this.Attack(skill, caster, originPos, farPos);
@@ -76,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="farPos"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", 0.75f, "F_scout_Ritirarsi", 4f, farPos);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", 0.75f, "F_scout_Ritirarsi", 4f, farPos);
 
 			await Task.Delay(600);
 

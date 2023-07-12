@@ -9,10 +9,9 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Threading;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -64,15 +63,14 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="farPos"></param>
 		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
-			var character = caster as Character;
 			var effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.9375f);
+			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.9375f);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Direction, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
-			Send.ZC_NORMAL.ExecuteAnimation(character, "I_archer_shot_LegholdTrap_mash#Bip01 R Hand", 0.3f, "F_smoke008##1", 0.7f, farPos);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "I_archer_shot_LegholdTrap_mash#Bip01 R Hand", 0.3f, "F_smoke008##1", 0.7f, farPos);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(500));
 
@@ -85,8 +83,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.AddMonster(trapObject);
 			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(character, trapObject);
-			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
@@ -138,17 +136,16 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="farPos"></param>
 		private async Task TriggerTrap(ICombatEntity caster, Skill skill, Mob trap, Position farPos)
 		{
-			var character = caster as Character;
 			var effectId = ForceId.GetNew();
 
 			Send.ZC_DEAD(trap, trap.Position);
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, true);
 
 			caster.Map.RemoveMonster(trap);
 
-			if (character.PlacedTraps.Contains(trap))
+			if (caster.PlacedTraps.Contains(trap))
 			{
-				character.PlacedTraps.Remove(trap);
+				caster.PlacedTraps.Remove(trap);
 			}
 
 			var cancellationTokenSource = new CancellationTokenSource();
@@ -159,7 +156,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Sapper_LegHoldTrap_Pad", skill.Id, farPos, effectId, false);
 		}
 
 		/// <summary>

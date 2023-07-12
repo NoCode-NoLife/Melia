@@ -10,8 +10,8 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.Skills.SplashAreas;
 using System.Threading;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Characters.Components;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -46,17 +46,16 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			this.PlaceObject(caster, skill);
+			this.PlaceObject(skill, caster);
 		}
 
 		/// <summary>
 		/// Places the trap object on the floor
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
-		private async void PlaceObject(ICombatEntity caster, Skill skill)
+		/// <param name="caster"></param>
+		private async void PlaceObject(Skill skill, ICombatEntity caster)
 		{
-			var character = caster as Character;
 			var farPos = caster.Position.GetRelative(caster.Direction, 12);
 			var direction = caster.Direction;
 			var effectId = ForceId.GetNew();
@@ -67,32 +66,32 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			leftPos = new Position(leftPos.X, leftPos.Y + 15, leftPos.Z);
 			rightPos = new Position(rightPos.X, rightPos.Y + 15, rightPos.Z);
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Archer_SpikeShooter", skill.Id, farPos, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Archer_SpikeShooter", skill.Id, farPos, effectId, true);
 			Send.ZC_SKILL_READY(caster, skill, farPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Direction, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
-			Send.ZC_NORMAL.ChainEffect(character, "SpikeShooter", leftPos, rightPos, effectId, 57710);
+			Send.ZC_NORMAL.ChainEffect(caster, "SpikeShooter", leftPos, rightPos, effectId, 57710);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
 			var cancelationTokenSource = new CancellationTokenSource();
-			this.Attack(caster, skill, farPos, direction, effectId, cancelationTokenSource.Token);
+			this.Attack(skill, caster, farPos, direction, effectId, cancelationTokenSource.Token);
 
 			await Task.Delay(TimeSpan.FromSeconds(20));
 
 			cancelationTokenSource.Cancel();
-			Send.ZC_NORMAL.GroundEffect_59(character, "Archer_SpikeShooter", skill.Id, farPos, effectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Archer_SpikeShooter", skill.Id, farPos, effectId, false);
 		}
 
 		/// <summary>
 		/// Executes the actual attack after a delay.
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
+		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
 		/// <param name="effectId"></param>
 		/// <param name="cancellationToken"></param>
-		private async void Attack(ICombatEntity caster, Skill skill, Position farPos, Direction direction, int effectId, CancellationToken cancellationToken)
+		private async void Attack( Skill skill, ICombatEntity caster, Position farPos, Direction direction, int effectId, CancellationToken cancellationToken)
 		{
 			while(!cancellationToken.IsCancellationRequested)
 			{
@@ -111,12 +110,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var squareLeft = new Square(leftPos, direction, 160, 5);
 				var squareRight = new Square(rightPos, direction, 160, 5);
 
-				//Debug.ShowShape(caster.Map, squareLeft, edgePoints: false);
 				Debug.ShowShape(caster.Map, squareRight, edgePoints: false);
+
+				var character = caster as Character;
 
 				// Abillity - Spike Shooter: Penetration
 				// Fires an arrow that pierces enemies{nl}* Increases cooldown by 5 seconds
-				if (caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Sapper51))
+				if (character != null && character.Abilities.IsActive(AbilityId.Sapper51))
 				{
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, squareLeft);
 
@@ -160,7 +160,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						{
 							targetLeftHit = target;
 							lowestPosLeft = target.Position;
-							lowestDistanceLeft = Convert.ToInt32(distance);
+							lowestDistanceLeft = (int)distance;
 						}
 					}
 
@@ -177,7 +177,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						{
 							targetRightHit = target;
 							lowestPosRight = target.Position;
-							lowestDistanceRight = Convert.ToInt32(distance);
+							lowestDistanceRight = (int)distance;
 						}
 					}
 

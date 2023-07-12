@@ -6,7 +6,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -44,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), caster.Position);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
-			Send.ZC_NORMAL.PlayEffect(caster as Character, "F_buff_Warrior_PhalanxFomation_Buff");
+			Send.ZC_NORMAL.PlayEffect(caster, "F_buff_Warrior_PhalanxFomation_Buff");
 		}
 	}
 }

@@ -13,6 +13,7 @@ using Melia.Zone.Skills.Combat;
 using System.Threading;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Shared.Data.Database;
+using System.Collections.Generic;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -22,7 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 	[SkillHandler(SkillId.Enchanter_EnchantAura)]
 	public class EnchantAura : IGroundSkillHandler
 	{
-		private Task _areaOfEffect;
+		private Dictionary<ICombatEntity, Task> _areasOfEffect = new Dictionary<ICombatEntity, Task>();
 		private CancellationTokenSource _cancellationTokenSource;
 
 		/// <summary>
@@ -48,12 +49,18 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			var castedPos = caster.Position;
 			var effectId = ForceId.GetNew();
+			Task areaOfEffect = null;
+
+			if (_areasOfEffect.ContainsKey(caster))
+				areaOfEffect = _areasOfEffect[caster];
 
 			// Cancel the area of effect task
-			if (_areaOfEffect != null)
+			if (areaOfEffect != null)
 			{
+				if (_areasOfEffect.ContainsKey(caster))
+					_areasOfEffect.Remove(caster);
+
 				_cancellationTokenSource?.Cancel();
-				_areaOfEffect = null;
 				RemoveSkillEffect(skill, caster, castedPos, effectId);
 				return;
 			}
@@ -66,7 +73,10 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			// Start the task
-			_areaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos, effectId));
+			var newAreaOfEffect = Task.Run(() => AreaOfEffect(_cancellationTokenSource.Token, skill, caster, castedPos, effectId));
+
+			if (!_areasOfEffect.ContainsKey(caster))
+				_areasOfEffect.Add(caster, newAreaOfEffect);
 		}
 
 		/// <summary>
@@ -83,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			var character = caster as Character;
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(character, character.Direction, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
 
 			// HardCoded for the moment, seems precisa tho
 			var radius = 80;
@@ -94,7 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			if (!character.Buffs.Has(BuffId.EnchantAura_Buff))
 			{
-				character.StartBuff(BuffId.EnchantAura_Buff, TimeSpan.FromMinutes(60));
+				character.StartBuff(BuffId.EnchantAura_Buff, TimeSpan.Zero);
 			}
 
 			// Delay for 3 seconds
@@ -158,11 +168,10 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			var character = caster as Character;
 			if (character.Buffs.Has(BuffId.EnchantAura_Buff))
 			{
-				var buff = character.Buffs.Get(BuffId.EnchantAura_Buff);
-				buff.End();
+				character.Buffs.Remove(BuffId.EnchantAura_Buff);
 			}
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Enchanter_EnchantAura", skill.Id, position, effectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(character, character.Direction, "Enchanter_EnchantAura", skill.Id, position, effectId, false);
 		}
 	}
 }

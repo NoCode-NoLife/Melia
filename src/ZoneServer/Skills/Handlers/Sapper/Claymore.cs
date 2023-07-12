@@ -13,6 +13,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Shared.Data.Database;
+using System.Collections.Generic;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -22,7 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 	[SkillHandler(SkillId.Sapper_Claymore)]
 	public class Claymore : IGroundSkillHandler
 	{
-		private Mob trap;
+		private Dictionary<ICombatEntity, Mob> _traps = new Dictionary<ICombatEntity, Mob>();
 
 		/// <summary>
 		/// Handles the skill, creates an trap object on the floor on
@@ -47,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				return;
 			}
 
-			if (trap != null)
+			if (_traps.ContainsKey(caster))
 			{
 				this.ExplodeTrap(caster, skill);
 				return;
@@ -63,17 +64,23 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		private async void ExplodeTrap(ICombatEntity caster, Skill skill)
 		{
-			var character = caster as Character;
-
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.Skill_88(character, character, null);
-			Send.ZC_NORMAL.Skill_88(character, caster, null);
+			Send.ZC_NORMAL.Skill_88(caster, caster, null);
+			Send.ZC_NORMAL.Skill_88(caster, caster, null);
 
-			Send.ZC_SKILL_READY(caster, null, caster.Position, caster.Position);
+			Mob trap = null;
+
+			if (_traps.ContainsKey(caster))
+				trap = _traps[caster];
+
+			if (trap == null)
+				return;
+
+			Send.ZC_SKILL_READY(caster, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, caster.Position, trap.Direction, trap.Position);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trap.Position, ForceId.GetNew(), null);
 
@@ -83,14 +90,15 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.RemoveMonster(trap);
 
-			Send.ZC_NORMAL.Skill_122(character, "SAPPER_TRAP_Sapper_Claymore");
+			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
 
 			var splashParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 200, width: 0, angle: 60);
 			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			this.Attack(skill, caster, splashArea);
 
-			trap = null;
+			if (_traps.ContainsKey(caster))
+				_traps.Remove(caster);
 		}
 
 		/// <summary>
@@ -101,12 +109,10 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="farPos"></param>
 		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
-			var character = caster as Character;
-
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-			Send.ZC_NORMAL.Skill_88(character, caster, skill);
-			Send.ZC_NORMAL.Skill_122(character, "SAPPER_TRAP_Sapper_Claymore");
+			Send.ZC_NORMAL.Skill_88(caster, caster, skill);
+			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
 
 			farPos = farPos.GetRelative(caster.Direction, 12);
 
@@ -118,24 +124,25 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			trapObject.Components.Add(new BuffComponent(trapObject));
 
 			caster.Map.AddMonster(trapObject);
+
 			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(character, trapObject);
-			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
-			Send.ZC_NORMAL.Skill_99(character, trapObject);
-			Send.ZC_NORMAL.Skill_C8(character, trapObject);
-
-			trap = trapObject;
-
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
+			Send.ZC_NORMAL.Skill_99(caster, trapObject);
+			Send.ZC_NORMAL.Skill_C8(caster, trapObject);
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
 
-			trap.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+
+			if (!_traps.ContainsKey(caster))
+				_traps.Add(caster, trapObject);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(800));
 
-			Send.ZC_NORMAL.Skill_17A(character);
-			Send.ZC_NORMAL.Skill_40(character, skill.Id, "SKL_CLAYMORE_SHOT");
+			Send.ZC_NORMAL.Skill_17A(caster);
+			Send.ZC_NORMAL.Skill_40(caster, skill.Id, "SKL_CLAYMORE_SHOT");
 		}
 
 		/// <summary>

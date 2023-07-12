@@ -18,42 +18,29 @@ namespace Melia.Zone.Buffs.Handlers
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target;
+			var movementComponent = target.Components.Get<MovementComponent>();
 
-			// We may need to add "CanMove" variable to this component.
-			if (!buff.Target.Components.TryGet<AiComponent>(out var component))
-			{
-				var movementComponent = target.Components.Get<MovementComponent>();
+			if (movementComponent != null)
+			{				
 				movementComponent?.Stop();
-				// movementComponent.MoveSpeedType = MoveSpeedType.Stop;
 			}
 
-			// Well I don't know a better way of doing this
-			// Lets just decrease the movespeed to zero?
-			if (target as Character != null)
-			{
-				var reduceMspd = target.Properties.GetFloat(PropertyName.MSPD);
-				buff.Vars.SetFloat("Melia.ReduceMspd", reduceMspd);
-
-				target.Properties.Modify(PropertyName.MSPD_BM, -reduceMspd);
-				Send.ZC_MSPD(target);
-			}			
+			target.Properties.Modify(PropertyName.FIXMSPD_BM, 0.00001f);
+			Send.ZC_MSPD(target);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			// Enable AI movement again?
-			// movementComponent.MoveSpeedType = MoveSpeedType.Walking;
-
 			var target = buff.Target;
+			var movementComponent = target.Components.Get<MovementComponent>();
 
-			if (target as Character != null)
+			if (movementComponent != null)
 			{
-				if (buff.Vars.TryGetFloat("Melia.ReduceMspd", out var reduceMspd))
-				{
-					target.Properties.Modify(PropertyName.MSPD_BM, reduceMspd);
-					Send.ZC_MSPD(target);
-				}
+				movementComponent?.Stop();
 			}
+
+			target.Properties.Modify(PropertyName.FIXMSPD_BM, 0);
+			Send.ZC_MSPD(target);
 		}
 	}
 }

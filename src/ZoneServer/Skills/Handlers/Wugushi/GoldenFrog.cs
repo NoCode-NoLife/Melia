@@ -11,8 +11,6 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
 using System.Threading;
-using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.Buffs;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -65,15 +63,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		{
 			await Task.Delay(200);
 
-			var character = caster as Character;
 			var effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.ExecuteAnimation(character, "I_cleric_jincangu_force_mash#Dummy_effect_shoot", 0.4f, "", 1, position);
-			Send.ZC_NORMAL.GroundEffect_59(character, "Archer_JincanGu_Abil", skill.Id, position, effectId, true);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "I_cleric_jincangu_force_mash#Dummy_effect_shoot", 0.4f, "", 1, position);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Archer_JincanGu_Abil", skill.Id, position, effectId, true);
 
 			await Task.Delay(400);
 
-			Send.ZC_NORMAL.Skill_E3(character, null, "STAGE_1");
+			Send.ZC_NORMAL.Skill_E3(caster, null, "STAGE_1");
 
 			// Radius seems precise
 			var radius = 100;
@@ -104,7 +101,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					await Task.Delay(200);
 				}
 
-				Send.ZC_NORMAL.GroundEffect_59(character, "Archer_JincanGu_Abil", skill.Id, position, effectId, false);
+				Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Archer_JincanGu_Abil", skill.Id, position, effectId, false);
 			}
 		}
 	}

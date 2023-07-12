@@ -1313,7 +1313,7 @@ namespace Melia.Zone.Network
 			// Check skill
 			if (!character.Skills.TryGet(skillId, out var skill))
 			{
-				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to use a skill they don't have ({1}).", conn.Account.Name, skillId);
+				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to cast a skill they don't have ({1}).", conn.Account.Name, skillId);
 				return;
 			}
 
@@ -1328,14 +1328,14 @@ namespace Melia.Zone.Network
 			// Try to use skill
 			try
 			{
-				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCastingSkillHandler>(skillId, out var handler))
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				{
 					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
 					Log.Warning("CZ_DYNAMIC_CASTING_START: No handler for skill '{0}' found.", skillId);
 					return;
 				}
 
-				handler.HandleStartCasting(skill, character, maxCastType);
+				handler.StartDynamicCast(skill, character, maxCastType);
 			}
 			catch (ArgumentException ex)
 			{
@@ -1369,14 +1369,14 @@ namespace Melia.Zone.Network
 			// Try to use skill
 			try
 			{
-				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCastingSkillHandler>(skillId, out var handler))
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				{
 					character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
 					Log.Warning("CZ_DYNAMIC_CASTING_END: No handler for skill '{0}' found.", skillId);
 					return;
 				}
 
-				handler.HandleStopCasting(skill, character);
+				handler.EndDynamicCast(skill, character);
 			}
 			catch (ArgumentException ex)
 			{

@@ -34,8 +34,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			originPos = caster.Position;
-
 			var duration = TimeSpan.FromMinutes(30);
 			caster.StartBuff(BuffId.Enchantglove_Buff, skill.Level, 0, duration, caster);
 

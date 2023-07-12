@@ -22,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers
 		public override void OnStart(Buff buff)
 		{
 			_cancellationTokenSource = new CancellationTokenSource();
-			_tickDamage = Task.Run(() => TickDamage(_cancellationTokenSource.Token, buff));
+			_tickDamage = Task.Run(() => WhileActive(_cancellationTokenSource.Token, buff));
 		}
 
 		public override void OnEnd(Buff buff)
@@ -33,7 +33,7 @@ namespace Melia.Zone.Buffs.Handlers
 			}
 		}
 
-		async Task TickDamage(CancellationToken cancellationToken, Buff buff)
+		async Task WhileActive(CancellationToken cancellationToken, Buff buff)
 		{
 			while (true)
 			{
@@ -42,19 +42,14 @@ namespace Melia.Zone.Buffs.Handlers
 					break;
 				}
 
-				var casterCharacter = buff.Caster as Character;
+				// The damage amount is unknow, for now we are dealing
+				// the same amount as the original skill hit is passed as NumberArg2
+				buff.Target.TakeDamage(buff.NumArg2, buff.Caster);
 
-				if (casterCharacter != null)
-				{
-					// The damage amount is unknow, for now we are dealing
-					// the same amount as the original skill hit is passed as NumberArg2
-					buff.Target.TakeDamage(buff.NumArg2, casterCharacter);
+				var hit = new HitInfo(buff.Caster, buff.Target, null, buff.NumArg2, HitResultType.Hit);
+				hit.ForceId = ForceId.GetNew();
 
-					var hit = new HitInfo(casterCharacter, buff.Target, null, buff.NumArg2, HitResultType.Hit);
-					hit.ForceId = ForceId.GetNew();
-
-					Send.ZC_HIT_INFO(casterCharacter, buff.Target, null, hit);
-				}
+				Send.ZC_HIT_INFO(buff.Caster, buff.Target, null, hit);
 
 				await Task.Delay(TimeSpan.FromSeconds(1));
 			}

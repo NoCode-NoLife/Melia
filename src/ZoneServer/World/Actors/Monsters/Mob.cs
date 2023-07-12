@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -209,6 +210,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
+		/// Returns the mob's list of placed traps
+		/// </summary>
+		public List<Mob> PlacedTraps { get; set; } = new List<Mob>();
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Mob(int id, MonsterType type) : base()
@@ -314,7 +320,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Died?.Invoke(this, killer);
 			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
-			Send.ZC_DEAD(this);
+			Send.ZC_DEAD(this, this.Position);
 		}
 
 		/// <summary>

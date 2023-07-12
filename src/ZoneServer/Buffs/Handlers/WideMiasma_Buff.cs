@@ -1,6 +1,11 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using System.Linq;
+using Melia.Shared.Tos.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.AI;
+using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors;
+using Melia.Zone.Skills.SplashAreas;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -13,11 +18,21 @@ namespace Melia.Zone.Buffs.Handlers
 		private const float MspdBuffRate = 0.1f;
 		private const string varName = "Melia.MiasmaBonusMspd";
 
-		// TODO: Make provoqued enemies lose interest.
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target;
 			var caster = buff.Caster;
+
+			// Decreased the enemies hate so they lose interest.
+			var monstersNearBy = target.Map.GetAttackableEntitiesIn(target, new Circle(target.Position, 800));
+
+			foreach (var monster in monstersNearBy.OfType<ICombatEntity>())
+			{
+				if (!monster.Components.TryGet<AiComponent>(out var component))
+					continue;
+
+				component.Script.QueueEventAlert(new HateResetAlert(target));
+			}
 
 			var bonusMspd = target.Properties.GetFloat(PropertyName.MSPD) * MspdBuffRate;
 			buff.Vars.SetFloat(varName, bonusMspd);

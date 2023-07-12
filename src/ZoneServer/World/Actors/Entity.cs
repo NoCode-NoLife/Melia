@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -8,6 +9,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors
@@ -52,6 +54,11 @@ namespace Melia.Zone.World.Actors
 		/// Returns true if the entity is dead.
 		/// </summary>
 		bool IsDead { get; }
+
+		/// <summary>
+		/// Returns the entity's list of placed traps
+		/// </summary>
+		List<Mob> PlacedTraps { get; set; }
 
 		/// <summary>
 		/// Returns the entity's component collection.

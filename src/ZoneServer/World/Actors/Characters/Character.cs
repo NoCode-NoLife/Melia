@@ -262,11 +262,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsDead => (this.Hp == 0);
 
 		/// <summary>
-		/// Returns the character's list of placed traps
-		/// </summary>
-		public List<Mob> PlacedTraps { get; set; } = new List<Mob>();
-
-		/// <summary>
 		/// Returns the character's component collection.
 		/// </summary>
 		public ComponentCollection Components { get; } = new ComponentCollection();
@@ -319,6 +314,12 @@ namespace Melia.Zone.World.Actors.Characters
 			get => _localizer ?? ZoneServer.Instance.MultiLocalization.GetDefault();
 			private set => _localizer = value;
 		}
+
+		/// <summary>
+		/// Returns the character's list of placed traps
+		/// </summary>
+		public List<Mob> PlacedTraps { get; set; } = new List<Mob>();
+
 		private Localizer _localizer;
 
 		/// <summary>
@@ -892,7 +893,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 					if (monster is ICombatEntity entity)
 					{
-						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
+						Send.ZC_FACTION(this, monster, entity.Faction);
 
 						if (entity.Components.Get<BuffComponent>()?.Count != 0)
 							Send.ZC_BUFF_LIST(this.Connection, entity);
@@ -1199,7 +1200,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			//this.Died?.Invoke(this, killer);
 
-			Send.ZC_DEAD(this);
+			Send.ZC_DEAD(this, this.Position);
 		}
 
 		/// <summary>

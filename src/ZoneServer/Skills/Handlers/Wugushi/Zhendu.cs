@@ -39,14 +39,14 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 
 			var effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(caster as Character, "M_GTOWER_STAGE_15", skill.Id, caster.Position, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "M_GTOWER_STAGE_15", skill.Id, caster.Position, effectId, true);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 
 			var casterCharacter = caster as Character;
 
 			// Reduces the Poison property resistance of enemies within 150 by 10% per attribute level when [Zhendu] is used
-			if (casterCharacter.Abilities.Has(AbilityId.Wugushi7))
+			if (casterCharacter != null && casterCharacter.Abilities.Has(AbilityId.Wugushi7))
 			{
 				var radius = 150;
 				var center = caster.Position;

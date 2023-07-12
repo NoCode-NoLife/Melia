@@ -2,9 +2,12 @@
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
@@ -37,7 +40,17 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			originPos = caster.Position;
 
 			var duration = TimeSpan.FromMinutes(30);
-			caster.StartBuff(BuffId.Agility_Buff, skill.Level, 0, duration, caster);
+			var buffArg2 = 0f;
+			var abilityComponent = caster.Components.Get<AbilityComponent>();
+
+			if (abilityComponent != null && abilityComponent.Has(AbilityId.Enchanter10))
+			{
+				var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
+				var abilityBonus = SCR_Get_SkillFactor(skill);
+				buffArg2 = abilityBonus;
+			}
+
+			caster.StartBuff(BuffId.Agility_Buff, skill.Level, buffArg2, duration, caster);
 
 			// TODO: Apply this buff on party members and pets as well
 

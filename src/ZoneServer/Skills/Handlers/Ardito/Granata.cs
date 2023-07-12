@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
@@ -13,7 +11,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using static Mysqlx.Crud.Order.Types;
 
 namespace Melia.Zone.Skills.Handlers.Ardito
 {
@@ -55,14 +52,11 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var character = caster as Character;
-
-			farPos = character.Position.GetRelative(character.Direction, 50);
-
-			character.Rotate(character.Position.GetDirection(farPos));
+			farPos = caster.Position.GetRelative(caster.Direction, 50);
+			caster.TurnTowards(farPos);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, character.Position.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			this.Attack(skill, caster, originPos, farPos);
@@ -77,11 +71,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="farPos"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
-			await Task.Delay(200);
+			Send.ZC_NORMAL.ExecuteAnimation(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
 
-			Send.ZC_NORMAL.ExecuteAnimation(caster as Character, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3f, farPos);
-
-			await Task.Delay(300);
+			await Task.Delay(TimeSpan.FromMilliseconds(300));
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 50, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);

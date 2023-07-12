@@ -463,7 +463,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(1);
 			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
-			packet.PutInt(1);
+			packet.PutInt(0);
 			packet.PutInt(forceId);
 			packet.PutFloat(sklSpdRate);
 
@@ -1676,19 +1676,6 @@ namespace Melia.Zone.Network
 		/// Makes actor appear dead on all clients in range of it.
 		/// </summary>
 		/// <param name="actor"></param>
-		public static void ZC_DEAD(IActor actor)
-		{
-			var packet = new Packet(Op.ZC_DEAD);
-			packet.PutInt(actor.Handle);
-			packet.PutInt(0);
-
-			actor.Map.Broadcast(packet, actor);
-		}
-
-		/// <summary>
-		/// Makes actor appear dead on all clients in range of it.
-		/// </summary>
-		/// <param name="actor"></param>
 		public static void ZC_DEAD(IActor actor, Position position)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
@@ -2086,7 +2073,33 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
 			packet.PutInt(entity.Handle);
-			packet.PutInt(skill != null ? (int)skill.Id : 1);
+			packet.PutInt((int)skill.Id);
+			packet.PutFloat(1);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutPosition(position1);
+			packet.PutPosition(position2);
+
+			// Temporary solution until our skill handling system is
+			// more streamlined
+			if (entity is Character character)
+				character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the client that the skill is ready. (Overload)
+		/// currently unknown.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="position1"></param>
+		/// <param name="position2"></param>
+		public static void ZC_SKILL_READY(ICombatEntity entity, Position position1, Position position2)
+		{
+			var packet = new Packet(Op.ZC_SKILL_READY);
+
+			packet.PutInt(entity.Handle);
+			packet.PutInt(1);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(0);
@@ -2130,15 +2143,15 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Makes the character the owner of actor.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="combatEntity"></param>
 		/// <param name="actor"></param>
-		public static void ZC_OWNER(Character character, IActor actor)
+		public static void ZC_OWNER(ICombatEntity combatEntity, IActor actor)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
 			packet.PutInt(actor.Handle);
-			packet.PutInt(character.Handle);
+			packet.PutInt(combatEntity.Handle);
 
-			character.Connection.Send(packet);
+			combatEntity.Map.Broadcast(packet, combatEntity);
 		}
 
 		/// <summary>
@@ -2346,14 +2359,14 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		/// <param name="actor"></param>
 		/// <param name="faction"></param>
-		public static void ZC_FACTION(IZoneConnection conn, IActor actor, FactionType faction)
+		public static void ZC_FACTION(ICombatEntity combatEntity, IActor actor, FactionType faction)
 		{
 			var packet = new Packet(Op.ZC_FACTION);
 
 			packet.PutInt(actor.Handle);
 			packet.PutInt((int)faction);
 
-			conn.Send(packet);
+			combatEntity.Map.Broadcast(packet, combatEntity);
 		}
 
 		/// <summary>
@@ -3969,55 +3982,51 @@ namespace Melia.Zone.Network
 		/// Plays a sound on all clients
 		/// delay, and max overheat count.
 		/// </summary>
-		/// <param name="caster"></param>
+		/// <param name="combatEntity"></param>
 		/// <param name="packetString"></param>
-		public static void ZC_STOP_SOUND(Character caster, string packetString)
+		public static void ZC_STOP_SOUND(ICombatEntity combatEntity, string packetString)
 		{
 			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 				throw new ArgumentException($"Unknown packet string '{packetString}'.");
 
 			var packet = new Packet(Op.ZC_STOP_SOUND);
 
-			packet.PutInt(caster.Handle);
+			packet.PutInt(combatEntity.Handle);
 			packet.PutInt(packetStringData.Id);
 
-			caster.Map.Broadcast(packet, caster);
+			combatEntity.Map.Broadcast(packet, combatEntity);
 		}
 
 		/// <summary>
 		/// Notices a knowck down event to a specific target
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="initialPos"></param>
 		/// <param name="toPos"></param>
 		/// <param name="angle"></param>
-		public static void ZC_KNOCKDOWN_INFO(Character character, ICombatEntity target, Position initialPos, Position toPos, float angle)
+		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knickBackInfo)
 		{
 			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
 
 			packet.PutInt(target.Handle);
-			packet.PutPosition(toPos);
-			packet.PutPosition(initialPos);
-			packet.PutInt(250);
-			packet.PutInt((int)angle); // Angle
-			packet.PutInt(86);
-			packet.PutInt(3);
-			packet.PutInt(1800);
-			packet.PutFloat(1f);
-			packet.PutFloat(1f);
-			packet.PutFloat(0);
-			packet.PutFloat(2.609375f);
-			packet.PutByte(3);
+			packet.PutPosition(knickBackInfo.FromPosition);
+			packet.PutPosition(knickBackInfo.ToPosition);
+			packet.PutInt(knickBackInfo.Velocity);
+			packet.PutInt(knickBackInfo.HAngle);
+			packet.PutInt(knickBackInfo.VAngle);
+			packet.PutInt(0);
+			packet.PutShort((short)knickBackInfo.Time.TotalMilliseconds);
+			packet.PutShort(0);
+			packet.PutFloat(1);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
-		
-
-		public static void DUMMY(IZoneConnection conn)
-		{
-		}
-    
+		    
 		/// Toggles character's fluting stance.
 		/// </summary>
 		/// <param name="character"></param>

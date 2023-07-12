@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
@@ -22,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 	/// Handler for the Sapper skill Punji Stake.
 	/// </summary>
 	[SkillHandler(SkillId.Sapper_PunjiStake)]
-	public class PunjiStake : IDynamicCastingSkillHandler
+	public class PunjiStake : IDynamicCasted
 	{
 		private float maxCastingTime = 0;
 		private Stopwatch stopwatch;
@@ -34,7 +33,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="maxCastingTime"></param>
-		public void HandleStartCasting(Skill skill, ICombatEntity caster, float maxCastingTime)
+		public void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastingTime)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -65,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		public void HandleStopCasting(Skill skill, ICombatEntity caster)
+		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
 			var character = caster as Character;
 
@@ -73,9 +72,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
 			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
 			// and the damage received from the caster is increased by 30%
-			if (character.Abilities.IsActive(AbilityId.Sapper42))
+			if (character != null && character.Abilities.IsActive(AbilityId.Sapper42))
 			{
-				this.PlaceTrap(caster, skill);
+				this.PlaceTrap(skill, caster);
 				return;
 			}
 
@@ -86,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 				if (elapsed.TotalMilliseconds >= ((this.maxCastingTime * 1000) - 200))
 				{
-					this.PlaceTrap(caster, skill);
+					this.PlaceTrap(skill, caster);
 				}
 			}
 		}
@@ -94,21 +93,19 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <summary>
 		/// Places the trap object on the floor
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
-		private async void PlaceTrap(ICombatEntity caster, Skill skill)
+		/// <param name="caster"></param>
+		private async void PlaceTrap(Skill skill, ICombatEntity caster)
 		{
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
-
-			var character = caster as Character;
 
 			await Task.Delay(150);
 
 			var effectId = ForceId.GetNew();
 			var farPos = caster.Position.GetRelative(caster.Direction, 25);
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, farPos, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, farPos, effectId, true);
 
 			await Task.Delay(150);
 
@@ -122,42 +119,42 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			caster.Map.AddMonster(trapObject);
 
 			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(character, trapObject);
-			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
-			character.SetAttackState(true);
+			caster.SetAttackState(true);
 
-			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
+			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
-			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, effectId);
+			Send.ZC_NORMAL.Skill_5C(caster, trapObject, skill.Id, effectId);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
 
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
 			var cancellationTokenSource = new CancellationTokenSource();
 
-			this.AlertRange(caster, skill, trapObject, effectId, cancellationTokenSource);
+			this.AlertRange(skill, caster, trapObject, effectId, cancellationTokenSource);
 
 			await Task.Delay(TimeSpan.FromSeconds(30));
 
 			// The trap auto-triggers after 30 seconds
-			if (trapObject != null && !trapObject.IsDead)
+			if (trapObject != null && !trapObject.IsDead && !cancellationTokenSource.Token.IsCancellationRequested)
 			{
-				this.ExplodeTrap(caster, skill, trapObject, effectId, cancellationTokenSource);
+				this.ExplodeTrap(skill, caster, trapObject, effectId, cancellationTokenSource);
 				Send.ZC_DEAD(trapObject, trapObject.Position);
-				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
+				cancellationTokenSource.Cancel();
 			}
 		}
 
 		/// <summary>
 		/// Routine that scans for targets that may trigger the trap explosion
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
+		/// <param name="caster"></param>
 		/// <param name="trap"></param>
 		/// <param name="effectId"></param>
-		private async void AlertRange(ICombatEntity caster, Skill skill, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
+		private async void AlertRange(Skill skill, ICombatEntity caster, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
 		{
 			var splashArea = new Circle(trap.Position, 45);
 
@@ -168,7 +165,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				if (targets.Count > 0)
 				{
-					this.ExplodeTrap(caster, skill, trap, effectId, cancellationTokenSource);
+					this.ExplodeTrap(skill, caster, trap, effectId, cancellationTokenSource);
 					break;
 				}
 				await Task.Delay(200);
@@ -178,25 +175,23 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <summary>
 		/// Explodes the trap object and does its following effects
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
+		/// <param name="caster"></param>
 		/// <param name="trap"></param>
 		/// <param name="effectId"></param>
-		private async void ExplodeTrap(ICombatEntity caster, Skill skill, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
+		private async void ExplodeTrap(Skill skill, ICombatEntity caster, Mob trap, int effectId, CancellationTokenSource cancellationTokenSource)
 		{
-			var character = caster as Character;
-
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.Skill_50(character, skill.Id, 1.5f);
+			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(character, effectId);
+			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(caster, effectId);
 
 			var splashArea = new Square(trap.Position.GetRelative(trap.Direction, -50), trap.Direction, 90, 40);
 
-			Debug.ShowShape(character.Map, splashArea, edgePoints: false);
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -207,15 +202,14 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromMilliseconds(800));
 
-			Send.ZC_NORMAL.PlayAnimationOnEffect_7D(character, skill.Id);
+			Send.ZC_NORMAL.PlayAnimationOnEffect_7D(caster, skill.Id);
 
 			await Task.Delay(TimeSpan.FromSeconds(2));
 
 			Send.ZC_DEAD(trap, trap.Position);
 			caster.Map.RemoveMonster(trap);
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "punji_stake", skill.Id, trap.Position, effectId, false);
-
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, trap.Position, effectId, false);
 		}
 
 		/// <summary>
@@ -228,14 +222,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private async void ExecuteAttack(ICombatEntity caster, ICombatEntity target, Skill skill, Mob trap)
 		{
 			var character = caster as Character;
-
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 			// Ability - Poonji Stake: Instance
 			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
 			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
 			// and the damage received from the caster is increased by 30%
-			if (character.Abilities.IsActive(AbilityId.Sapper42))
+			if (character != null && character.Abilities.IsActive(AbilityId.Sapper42))
 			{
 				skillHitResult.Damage *= 0.5f;
 				this.ApplySlow(target);
@@ -245,10 +238,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			var knockBackDistance = 110;
 			var knockBackPos = target.Position.GetRelative(trap.Direction, knockBackDistance);
 			var angle = target.GetDirection(knockBackPos).DegreeAngle;
+			var kb = new KnockBackInfo(trap.Position, knockBackPos, skill);
 
-			Send.ZC_KNOCKDOWN_INFO(character, target, target.Position, knockBackPos, angle);
+			Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 
-			target.Position = knockBackPos;
+			target.Position = kb.ToPosition;
 
 			target.TakeDamage(skillHitResult.Damage, caster);
 

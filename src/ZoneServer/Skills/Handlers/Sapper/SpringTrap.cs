@@ -61,8 +61,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="farPos"></param>
 		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
 		{
-			var character = caster as Character;
-
 			await Task.Delay(100);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
@@ -74,7 +72,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			farPos = caster.Position.GetRelative(caster.Direction, 25);
 			var effectid = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Sapper_SpringTrap", skill.Id, farPos, effectid, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Sapper_SpringTrap", skill.Id, farPos, effectid, true);
 
 			var trapObject = new Mob(300009, MonsterType.NPC);
 
@@ -85,9 +83,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.AddMonster(trapObject);
 			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(character, trapObject);
-			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
-			Send.ZC_NORMAL.Skill_5C(character, trapObject, skill.Id, effectid);
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
+			Send.ZC_NORMAL.Skill_5C(caster, trapObject, skill.Id, effectid);
 			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
 
 			await Task.Delay(1000);
@@ -96,7 +94,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			this.AlertRange(caster, skill, trapObject, effectid, cancellationTokenSource);
 
-			character.PlacedTraps.Add(trapObject);
+			if (caster.PlacedTraps != null)
+				caster.PlacedTraps.Add(trapObject);
 
 			// The trap auto-disables after 25 seconds
 			await Task.Delay(TimeSpan.FromSeconds(25));
@@ -106,10 +105,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				Send.ZC_DEAD(trapObject, trapObject.Position);
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
-				if (character.PlacedTraps.Contains(trapObject))
+				if (caster.PlacedTraps != null)
 				{
-					character.PlacedTraps.Remove(trapObject);
-				}
+					if (caster.PlacedTraps.Contains(trapObject))
+					{
+						caster.PlacedTraps.Remove(trapObject);
+					}
+				}				
 			}
 		}
 
@@ -171,13 +173,14 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="trap"></param>
 		private void TriggerTrap(ICombatEntity caster, Skill skill, ICombatEntity target, int effectId, Mob trap, CancellationTokenSource cancellationTokenSource)
 		{
-			var character = caster as Character;
-			var buff = target.Components.Get<BuffComponent>().Get(BuffId.Cover_Buff);
-			buff?.End();
+			var buffComponent = target.Components.Get<BuffComponent>();
+			var buff = buffComponent?.Get(BuffId.Cover_Buff);
+			buffComponent?.Remove(BuffId.Cover_Buff);
+
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(character, effectId);
-			Send.ZC_NORMAL.Skill_E3(character, target, "SHOW_SKILL_ATTRIBUTE");
+			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(caster, effectId);
+			Send.ZC_NORMAL.Skill_E3(caster, target, "SHOW_SKILL_ATTRIBUTE");
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -187,10 +190,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			var knockBackDistance = 35;
 			var knockBackPos = target.Position.GetRelative(trap.Direction.Backwards, knockBackDistance);
 			var angle = target.GetDirection(knockBackPos).DegreeAngle;
+			var kb = new KnockBackInfo(trap.Position, knockBackPos, skill);
 
-			Send.ZC_KNOCKDOWN_INFO(character, target, target.Position, knockBackPos, angle);
+			Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 
-			target.Position = knockBackPos;
+			target.Position = kb.ToPosition;
 
 			Send.ZC_HIT_INFO(caster, target, skill, hit);
 			target.StartBuff(BuffId.SpringTrap_Debuff, TimeSpan.FromSeconds(25));

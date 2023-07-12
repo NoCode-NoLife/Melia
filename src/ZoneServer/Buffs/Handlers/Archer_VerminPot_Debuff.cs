@@ -14,19 +14,14 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		public override void WhileActive(Buff buff)
 		{
-			var casterCharacter = buff.Caster as Character;
+			// The damage amount is unknow, for now we are dealing
+			// the same amount as the original skill hit Passed as NumberArg2
+			buff.Target.TakeDamage(buff.NumArg2, buff.Caster);
 
-			if (casterCharacter != null)
-			{
-				// The damage amount is unknow, for now we are dealing
-				// the same amount as the original skill hit Passed as NumberArg2
-				buff.Target.TakeDamage(buff.NumArg2, casterCharacter);
+			var hit = new HitInfo(buff.Caster, buff.Target, null, buff.NumArg2, HitResultType.Hit);
+			hit.ForceId = ForceId.GetNew();
 
-				var hit = new HitInfo(casterCharacter, buff.Target, null, buff.NumArg2, HitResultType.Hit);
-				hit.ForceId = ForceId.GetNew();
-
-				Send.ZC_HIT_INFO(casterCharacter, buff.Target, null, hit);
-			}
+			Send.ZC_HIT_INFO(buff.Caster, buff.Target, null, hit);
 		}
 	}
 }

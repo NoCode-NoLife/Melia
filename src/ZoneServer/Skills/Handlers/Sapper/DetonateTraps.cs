@@ -1,19 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
+﻿using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using Melia.Shared.Data.Database;
-using System.Threading;
 using System.Collections.Generic;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
@@ -45,14 +39,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Direction, caster.Position);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, ForceId.GetNew(), null);
 
-			var character = caster as Character;
 			var removeList = new List<Mob>();
 
-			foreach (var trap in character.PlacedTraps)
+			foreach (var trap in caster.PlacedTraps)
 			{
 				Send.ZC_DEAD(trap, trap.Position);
 				caster.Map.RemoveMonster(trap);
-				if (character.PlacedTraps.Contains(trap))
+				if (caster.PlacedTraps.Contains(trap))
 				{
 					removeList.Add(trap);
 				}
@@ -61,9 +54,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			foreach (var mob in removeList)
 			{
-				if (character.PlacedTraps.Contains(mob))
+				if (caster.PlacedTraps.Contains(mob))
 				{
-					character.PlacedTraps.Remove(mob);
+					caster.PlacedTraps.Remove(mob);
 				}				
 			}
 		}

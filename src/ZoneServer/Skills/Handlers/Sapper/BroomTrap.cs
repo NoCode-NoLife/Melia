@@ -8,7 +8,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Threading;
@@ -41,7 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			this.PlaceTrap(caster, skill, caster.Position);
+			this.PlaceTrap(skill, caster, caster.Position);
 		}
 
 		/// <summary>
@@ -50,9 +49,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
-		private async void PlaceTrap(ICombatEntity caster, Skill skill, Position farPos)
+		private async void PlaceTrap(Skill skill, ICombatEntity caster, Position farPos)
 		{
-			var character = caster as Character;
 			var effectId = ForceId.GetNew();
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -63,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromMilliseconds(50));
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "rope_pad", skill.Id, farPos, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "rope_pad", skill.Id, farPos, effectId, true);
 
 			var trapObject = new Mob(57195, MonsterType.NPC);
 
@@ -73,24 +71,24 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			caster.Map.AddMonster(trapObject);
 
 			Send.ZC_ENTER_MONSTER(trapObject);
-			Send.ZC_OWNER(character, trapObject);
-			Send.ZC_FACTION(character.Connection, trapObject, FactionType.Trap);
+			Send.ZC_OWNER(caster, trapObject);
+			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
-			Send.ZC_NORMAL.GroundEffect_123(character, "I_laser013", farPos);
+			Send.ZC_NORMAL.GroundEffect_123(caster, "I_laser013", farPos);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-			this.AreaOfEffect(caster, skill, trapObject, effectId);
+			this.AreaOfEffect(skill, caster, trapObject, effectId);
 		}
 
 		/// <summary>
 		/// Executes the actual attack after a delay.
 		/// </summary>
-		/// <param name="caster"></param>
 		/// <param name="skill"></param>
+		/// <param name="caster"></param>
 		/// <param name="trapObject"></param>
 		/// <param name="effectId"></param>
-		private async void AreaOfEffect(ICombatEntity caster, Skill skill, Mob trapObject, int effectId)
+		private async void AreaOfEffect(Skill skill, ICombatEntity caster, Mob trapObject, int effectId)
 		{
 			using (var cancellationTokenSource = new CancellationTokenSource())
 			{
@@ -126,8 +124,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 					await Task.Delay(delay);
 				}
 
-				Send.ZC_NORMAL.GroundEffect_59(caster as Character, "rope_pad", skill.Id, center, effectId, false);
-				Send.ZC_DEAD(trapObject);
+				Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "rope_pad", skill.Id, center, effectId, false);
+				Send.ZC_DEAD(trapObject, trapObject.Position);
 				caster.Map.RemoveMonster(trapObject);
 			}
 		}

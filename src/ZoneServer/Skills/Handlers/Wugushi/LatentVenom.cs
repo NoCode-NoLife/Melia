@@ -6,7 +6,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Wugushi
@@ -42,13 +41,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 				return;
 			}
 
-			var characterCaster = caster as Character;
-
-			if (characterCaster != null)
-			{
-				var direction = caster.Position.GetDirection(target.Position);
-				characterCaster.Rotate(direction);
-			}
+			caster.TurnTowards(target.Position);
 
 			var damageDelay = TimeSpan.FromMilliseconds(200);
 

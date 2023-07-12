@@ -79,12 +79,9 @@
     <Compile Include="Buffs\BuffHandlers.cs" />
     <Compile Include="Buffs\Handlers\Agility_Buff.cs" />
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
-    <Compile Include="Buffs\Handlers\DecreaseHeal_Debuff.cs" />
-    <Compile Include="Buffs\Handlers\EnchantAura_Buff.cs" />
     <Compile Include="Buffs\Handlers\EnchantEarth_Buff.cs" />
     <Compile Include="Buffs\Handlers\Enchantglove_Buff.cs" />
     <Compile Include="Buffs\Handlers\Crescendo_Bane_Buff.cs" />
-    <Compile Include="Buffs\Handlers\DecreaseHeal_Debuff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
     <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />

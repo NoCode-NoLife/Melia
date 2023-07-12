@@ -27,61 +27,37 @@ namespace Melia.Zone.Skills.Handlers.Ardito
         /// <param name="target"></param>
         public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
         {
-            if (!caster.TrySpendSp(skill))
-            {
-                caster.ServerMessage(Localization.Get("Not enough SP."));
-                return;
-            }
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
 
-            skill.IncreaseOverheat();
-            caster.SetAttackState(true);
+			skill.IncreaseOverheat();
+			caster.SetAttackState(true);
 
-            target = caster;
-			var character = target as Character;
+			target = caster;
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, character.Position.GetDirection(farPos), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			// RECOVERY HP
-
 			var maxHP = target.Properties.GetFloat(PropertyName.MHP);
-			var healAmount = maxHP * this.GetMaxHPRatio(target as Character, skill);
-
-			var addHp = healAmount - maxHP;
-			if (addHp < 0)
-				addHp = 0;
-
-			// Heal max of 50% of the players HP
-			if (addHp > maxHP * 0.5f)
-				addHp = maxHP * 0.5f;
-
-			character.Heal(addHp, 0);
+			var healAmount = maxHP * this.GetMaxHPRatio(caster, skill);
+			var addHp = Math.Min(Math.Max(0, maxHP * 0.5f), healAmount - maxHP);	
+			caster.Heal(addHp, 0);
 
 			// RECOVERY STAMINA
-
-			var maxSta = target.Properties.GetFloat(PropertyName.MaxSta);
-			var addStamina = maxSta * this.GetStaminaRatio(target as Character, skill);
-			var stamina = character.Properties.Stamina;
-
-			var addSta = addStamina - maxSta;
-
-			if (addSta < 0)
-				addSta = 0;
-
-			if (addSta > maxSta)
-				addSta = maxSta;
-
-			var addStaInt = Convert.ToInt32(addSta);
-
-			var recoverySta = stamina + addSta;
-
-			if (recoverySta > maxSta)
+			var character = caster as Character;
+			if (character != null)
 			{
-				recoverySta = maxSta;
+				var maxSta = target.Properties.GetFloat(PropertyName.MaxSta);
+				var addStamina = maxSta * this.GetStaminaRatio(skill);
+				var stamina = character.Properties.Stamina;
+				var addSta = Math.Min(Math.Max(0, maxSta), addStamina - maxSta);
+				character.ModifyStamina((int)addSta);
 			}
-
-			character.ModifyStamina(Convert.ToInt32(recoverySta));
 		}
 
 		/// <summary>
@@ -89,13 +65,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skill"></param>
-		private float GetMaxHPRatio(Character character, Skill skill)
+		private float GetMaxHPRatio(ICombatEntity caster, Skill skill)
 		{
 			var addHP = skill.Level * 535f;
 			var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
 			addHP = addHP * SCR_Get_AbilityReinforceRate(skill);
 
-			var value = addHP - Math.Floor(character.MaxHp * 0.5);
+			var value = addHP - Math.Floor(caster.Properties.GetFloat(PropertyName.MHP) * 0.5);
 
 			if (value < 0)
 				value = 0;
@@ -108,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="skill"></param>
-		private float GetStaminaRatio(Character character, Skill skill)
+		private float GetStaminaRatio(Skill skill)
 		{
 			var value = skill.Level + 5f;
 			var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");

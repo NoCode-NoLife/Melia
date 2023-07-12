@@ -19,11 +19,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 	/// Handler for the Ardito skill Taglio.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_Taglio)]
-	public class Taglio : IDynamicCastingSkillHandler
+	public class Taglio : IDynamicCasted
 	{
-		private float maxCastingTime = 0;
-		private CancellationTokenSource _cancellationTokenSource;
-		private int EffectId;
+		private int _effectId;
 
 		/// <summary>
 		/// Handles skill casting - Start
@@ -31,7 +29,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="maxCastingTime"></param>
-		public void HandleStartCasting(Skill skill, ICombatEntity caster, float maxCastingTime)
+		public void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastingTime)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -42,23 +40,23 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			// Why are we trusting the client?
-			// TODO: Find a way to get the Cast Time of a skill
-			this.maxCastingTime = maxCastingTime;
-
-			_cancellationTokenSource = new CancellationTokenSource();
+			var cancellationTokenSource = new CancellationTokenSource();
 
 			// Taglio: Tenacity
-			// Duration changed to 5 seconds{ nl}
-			// *Movement speed increase effect removed{ nl}
-			// *Cooldown increased by 10 seconds
+			// Duration changed to 5 seconds
+			// Movement speed increase effect removed
+			// Cooldown increased by 10 seconds
 			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
 			{
 				caster.Properties.Modify(PropertyName.MSPD_BM, 10);
 				Send.ZC_MSPD(caster);
 			}
 
-			this.AreaOfEffect(skill, caster, _cancellationTokenSource.Token);
+			// Why are we trusting the client?
+			// Find a way of getting the max Cast time for each skill...
+			cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(maxCastingTime));
+
+			this.AreaOfEffect(skill, caster, maxCastingTime, cancellationTokenSource.Token);
 		}
 
 		/// <summary>
@@ -66,25 +64,23 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		public void HandleStopCasting(Skill skill, ICombatEntity caster)
+		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			if (_cancellationTokenSource != null)
+			var buffComponent = caster.Components.Get<BuffComponent>();
+
+			if (buffComponent.Has(BuffId.Taglio_Buff))
 			{
-				_cancellationTokenSource.Cancel();
+				buffComponent.Remove(BuffId.Taglio_Buff);
 			}
 
-			var character = caster as Character;
+			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 2.1f);
+			Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_Taglio", skill.Id, caster.Position, this._effectId, false);
 
-			if (character.Buffs.Has(BuffId.Taglio_Buff))
-			{
-				var buff = character.Buffs.Get(BuffId.Taglio_Buff);
-				buff.End();
-			}
-
-			Send.ZC_NORMAL.Skill_50(character, skill.Id, 2.1f);
-			Send.ZC_STOP_SOUND(character, "voice_war_atk_long_cast");
-			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, false);
-
+			// Taglio: Tenacity
+			// Duration changed to 5 seconds
+			// Movement speed increase effect removed
+			// Cooldown increased by 10 seconds
 			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
 			{
 				caster.Properties.Modify(PropertyName.MSPD_BM, -10);
@@ -97,30 +93,39 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
+		/// <param name="maxCastingTime"></param>
 		/// <param name="cancellationToken"></param>
-		private async void AreaOfEffect(Skill skill, ICombatEntity caster, CancellationToken cancellationToken)
+		private async void AreaOfEffect(Skill skill, ICombatEntity caster, float maxCastingTime, CancellationToken cancellationToken)
 		{
 			await Task.Delay(150);
 
-			var character = caster as Character;
+			var buffComponent = caster.Components.Get<BuffComponent>();
 
-			if (!character.Buffs.Has(BuffId.Taglio_Buff))
+			if (buffComponent != null)
 			{
-				character.StartBuff(BuffId.Taglio_Buff, TimeSpan.FromSeconds(this.maxCastingTime));
+				if (!buffComponent.Has(BuffId.Taglio_Buff))
+				{
+					buffComponent.Start(BuffId.Taglio_Buff, TimeSpan.FromSeconds(maxCastingTime));
+				}
 			}
 
-			this.EffectId = ForceId.GetNew();
+			this._effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.GroundEffect_59(character, "Arditi_Taglio", skill.Id, caster.Position, this.EffectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_Taglio", skill.Id, caster.Position, this._effectId, true);
 
 			var hitDelay = TimeSpan.FromMilliseconds(500);
 
 			await Task.Delay(hitDelay);
 
-			if (character.Gender == Gender.Male)
-				Send.ZC_PLAY_SOUND(character, "voice_war_atk_long_cast");
-			else
-				Send.ZC_PLAY_SOUND(character, "voice_atk_long_cast_f");
+			var character = caster as Character;
+
+			if (character != null)
+			{
+				if (character.Gender == Gender.Male)
+					Send.ZC_PLAY_SOUND(character, "voice_war_atk_long_cast");
+				else
+					Send.ZC_PLAY_SOUND(character, "voice_atk_long_cast_f");
+			}
 
 			while(!cancellationToken.IsCancellationRequested)
 			{
@@ -136,12 +141,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 				await Task.Delay(TimeSpan.FromMilliseconds(100));
 			}
-
-			// We could've maybe cancel the skill withut rellying on the CZ_DYNAMIC_CASTING_END
-
-			//await Task.Delay(TimeSpan.FromSeconds(this.maxCastingTime));
-
-			//this.HandleStopCasting(skill, caster);
 		}
 
 		/// <summary>
@@ -159,18 +158,19 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			var abilityComponent = caster.Components.Get<AbilityComponent>();
 
 			// Ability - Taglio: Remove Knockback
-			// TODO: Knowback not being appplyed for some reason, fix it
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi8))
+			if (abilityComponent != null && abilityComponent.IsActive(AbilityId.Arditi8))
 			{
 				var knockBackDistance = 35;
 				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);
 				var angle = target.GetDirection(knockBackPos).DegreeAngle;
+				var kb = new KnockBackInfo(caster.Position, knockBackPos, skill);
 
-				Send.ZC_KNOCKDOWN_INFO(caster as Character, target, target.Position, knockBackPos, angle);
+				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 
-				target.Position = knockBackPos;
+				target.Position = kb.ToPosition;
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
