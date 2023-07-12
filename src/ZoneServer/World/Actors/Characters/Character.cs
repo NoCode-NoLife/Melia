@@ -1188,6 +1188,7 @@ namespace Melia.Zone.World.Actors.Characters
 			//this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+			Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
 		}
 
 		/// <summary>

@@ -125,6 +125,7 @@
     <Compile Include="Tos\Const\PropertyName.cs" />
     <Compile Include="Tos\Const\QuickSlotType.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
+    <Compile Include="Tos\Const\ResurrectOptions.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />
     <Compile Include="Tos\Const\SizeType.cs" />
     <Compile Include="Tos\Const\SkillId.cs" />

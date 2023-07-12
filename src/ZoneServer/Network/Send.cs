@@ -1707,6 +1707,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Opens resurrection dialog on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="options"></param>
+		public static void ZC_RESURRECT_DIALOG(Character character, ResurrectOptions options)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_DIALOG);
+
+			packet.PutInt((int)options);
+			packet.PutString("", 512);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Informs players about a hit that occured, and about the target's
 		/// new hp, after damage was applied.
 		/// </summary>
