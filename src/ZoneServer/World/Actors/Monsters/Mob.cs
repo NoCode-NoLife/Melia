@@ -320,47 +320,48 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Takes an item drop entry and returns the adjusted drop rate for that item based on the world config
-		/// This involves determining the type of item and applying the correct drop rate
+		/// Calculates the drop chance rate for the given item based
+		/// on its own property, the server's configuration, as well
+		/// as other factors.
 		/// </summary>
-		/// <param name="dropEntry">The DropData to get the adjusted drop rate for</param>
+		/// <param name="dropEntry">The drop data to get the adjusted drop rate for.</param>
 		/// <returns></returns>
 		public static float GetAdjustedDropRate(DropData dropEntry)
 		{
 			var itemData = ZoneServer.Instance.Data.ItemDb.Find(dropEntry.ItemId);
-			var dropChance = dropEntry.DropChance;
-			if (itemData != null)
-			{
-				if (itemData.Id == 900011 || itemData.Id == 900012)
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.SilverDropRate / 100f;
-				}
-				else if (itemData.Type == ItemType.Equip || itemData.Type == ItemType.PetArmor || itemData.Type == ItemType.PetWeapon)
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.EquipmentDropRate / 100f;
-				}
-				else if (itemData.ClassName.StartsWith("BlueOrb_"))
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.BlueOrbDropRate / 100f;
-				}
-				else if (itemData.ClassName.StartsWith("RedOrb_"))
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.RedOrbDropRate / 100f;
-				}
-				else if (itemData.Group == ItemGroup.Gem)
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.GemDropRate / 100f;
-				}
-				else
-				{
-					dropChance *= ZoneServer.Instance.Conf.World.EtcDropRate / 100f;
-				}
 
+			// Don't drop items that don't exist in the database
+			if (itemData == null)
+				return -1;
+
+			var worldConf = ZoneServer.Instance.Conf.World;
+			var dropChance = dropEntry.DropChance;
+
+			if (itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold)
+			{
+				dropChance *= worldConf.SilverDropRate / 100f;
+			}
+			else if (itemData.Type == ItemType.Equip || itemData.Type == ItemType.PetArmor || itemData.Type == ItemType.PetWeapon)
+			{
+				dropChance *= worldConf.EquipmentDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("BlueOrb_"))
+			{
+				dropChance *= worldConf.BlueOrbDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("RedOrb_"))
+			{
+				dropChance *= worldConf.RedOrbDropRate / 100f;
+			}
+			else if (itemData.Group == ItemGroup.Gem)
+			{
+				dropChance *= worldConf.GemDropRate / 100f;
 			}
 			else
 			{
-				dropChance = 0;  // any items not in the DB aren't allowed to drop.
+				dropChance *= worldConf.GeneralDropRate / 100f;
 			}
+
 			return dropChance;
 		}
 
@@ -394,7 +395,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				var minAmount = dropItemData.MinAmount;
 				var maxAmount = dropItemData.MaxAmount;
 
-				if (dropItemData.ItemId == 900011 || dropItemData.ItemId == 900012) 
+				if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
 				{
 					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
 					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
