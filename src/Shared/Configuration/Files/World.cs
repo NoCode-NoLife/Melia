@@ -7,7 +7,13 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class WorldConfFile : ConfFile
 	{
-		public float DropRate { get; protected set; }
+		public float SilverDropAmount { get; protected set; }
+		public float SilverDropRate { get; protected set; }
+		public float EquipmentDropRate { get; protected set; }
+		public float BlueOrbDropRate { get; protected set; }
+		public float RedOrbDropRate { get; protected set; }
+		public float GemDropRate { get; protected set; }
+		public float EtcDropRate { get; protected set; }
 		public int DropRadius { get; protected set; }
 		public int PickUpRadius { get; protected set; }
 		public int LootPrectionSeconds { get; protected set; }
@@ -36,7 +42,13 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
-			this.DropRate = this.GetFloat("drop_rate", 100);
+			this.SilverDropAmount = this.GetFloat("silver_drop_amount", 100);
+			this.SilverDropRate = this.GetFloat("silver_drop_rate", 100);
+			this.EquipmentDropRate = this.GetFloat("equipment_drop_rate", 100);
+			this.BlueOrbDropRate = this.GetFloat("blue_orb_drop_rate", 100);
+			this.RedOrbDropRate = this.GetFloat("red_orb_drop_rate", 100);
+			this.GemDropRate = this.GetFloat("gem_drop_rate", 100);
+			this.EtcDropRate = this.GetFloat("etc_drop_rate", 100);
 			this.DropRadius = this.GetInt("drop_radius", 25);
 			this.PickUpRadius = this.GetInt("pick_up_radius", 100);
 			this.LootPrectionSeconds = this.GetInt("loot_protection", 100);

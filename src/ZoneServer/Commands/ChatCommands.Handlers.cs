@@ -858,8 +858,7 @@ namespace Melia.Zone.Commands
 						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
 						if (itemData != null)
 						{
-							var dropChance = currentDrop.DropChance;
-							dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
+							var dropChance = Mob.GetAdjustedDropRate(currentDrop);
 							if (dropChance > 100f)
 							{
 								dropChance = 100f;
@@ -868,18 +867,27 @@ namespace Melia.Zone.Commands
 							// Display the amount dropped for Silver and Gold, and any other items that have their amounts set
 							if (currentDrop.ItemId == 900011 || currentDrop.ItemId == 900012 || currentDrop.MinAmount > 1 || currentDrop.MaxAmount > 1)
 							{
-								if (currentDrop.MinAmount == currentDrop.MaxAmount)
+								var minAmount = currentDrop.MinAmount;
+								var maxAmount = currentDrop.MaxAmount;
+
+								if (currentDrop.ItemId == 900011 || currentDrop.ItemId == 900012)
 								{
-									monsterEntry.AppendFormat("{{nl}}{0} {1} - {2}%", currentDrop.MinAmount, itemData.Name, dropChance);
+									minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+									maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+								}
+
+								if (minAmount == maxAmount)
+								{
+									monsterEntry.AppendFormat("{{nl}}{0} {1} - {2:0.####}%", minAmount, itemData.Name, dropChance);
 								}
 								else
 								{
-									monsterEntry.AppendFormat("{{nl}}{0}~{1} {2} - {3}%{{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}{0}~{1} {2} - {3:0.####}%{{nl}}", minAmount, maxAmount, itemData.Name, dropChance);
 								}
 							}
 							else
 							{
-								monsterEntry.AppendFormat("{{nl}}{0} - {1}%", itemData.Name, dropChance);
+								monsterEntry.AppendFormat("{{nl}}{0} - {1:0.####}%", itemData.Name, dropChance);
 							}
 						}
 					}
