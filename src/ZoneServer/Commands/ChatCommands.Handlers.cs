@@ -1061,7 +1061,9 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Removes all items from target's inventory.
+		/// Heals the target hp and optionally sp.
+		/// If no argument is given, heals fully.
+		/// Can also heal negative values.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
