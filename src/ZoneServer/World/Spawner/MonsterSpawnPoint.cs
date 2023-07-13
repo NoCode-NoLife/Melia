@@ -67,18 +67,18 @@ namespace Melia.Zone.World.Spawner
 			for (var i = 0; i < MaxValidPositionTries; ++i)
 			{
 				var rndVector = this.Area.GetRandomPoint(_rnd);
-				if (this.TryGetPositionFromPoint(this.Map, rndVector, out pos))
+				if (this.TryGetPositionFromPoint(rndVector, out pos))
 					return true;
 			}
 
 			// If all tries failed, try the area's center point
-			if (this.TryGetPositionFromPoint(this.Map, this.Area.Center, out pos))
+			if (this.TryGetPositionFromPoint(this.Area.Center, out pos))
 				return true;
 
 			// No dice? Okay... What about the edge points?
 			foreach (var edgePoint in this.Area.GetEdgePoints().OrderBy(_ => _rnd.Next()))
 			{
-				if (this.TryGetPositionFromPoint(this.Map, edgePoint, out pos))
+				if (this.TryGetPositionFromPoint(edgePoint, out pos))
 					return true;
 			}
 
@@ -96,14 +96,13 @@ namespace Melia.Zone.World.Spawner
 		/// Tries to turn point into a valid position and returns it via
 		/// out. Returns false if the point was not a valid position.
 		/// </summary>
-		/// <param name="map"></param>
 		/// <param name="point"></param>
 		/// <param name="pos"></param>
 		/// <returns></returns>
-		private bool TryGetPositionFromPoint(Map map, Vector2 point, out Position pos)
+		private bool TryGetPositionFromPoint(Vector2 point, out Position pos)
 		{
 			pos = new Position(point.X, 0, point.Y);
-			if (map.Ground.TryGetHeightAt(pos, out var height))
+			if (this.Map.Ground.TryGetHeightAt(pos, out var height))
 			{
 				pos.Y = height;
 				return true;
