@@ -1853,7 +1853,7 @@ namespace Melia.Zone.Commands
 			var teamName = args.Get(1);
 			var party = sender.Connection.Party;
 
-			party?.Expel(sender, teamName);
+			party?.Expel(teamName);
 
 			return CommandResult.Okay;
 		}

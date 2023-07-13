@@ -1,9 +1,7 @@
-﻿using System;
-using Melia.Shared.ObjectProperties;
+﻿using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Groups
 {

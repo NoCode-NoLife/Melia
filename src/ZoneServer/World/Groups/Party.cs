@@ -16,7 +16,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World
 {
-	public class Party : IPropertyObject, IUpdateable
+	public class Party : IPropertyObject
 	{
 		/// <summary>
 		/// List of party members
@@ -163,12 +163,10 @@ namespace Melia.Zone.World
 		/// </summary>
 		private void Load()
 		{
-			// These properties aren't used anywhere yet, but might be?
 			this.Properties.Create(new StringProperty(PropertyName.ItemRouting, ((int)this.ItemDistribution).ToString()));
 			this.Properties.Create(new StringProperty(PropertyName.Note, this.Note));
 			this.Properties.Create(new StringProperty(PropertyName.ExpGainType, ((int)this.ExpDistribution).ToString()));
 			this.Properties.Create(new StringProperty(PropertyName.IsQuestShare, ((int)this.QuestSharing).ToString()));
-			//this.Properties.Create(new FloatProperty(PropertyName.CreateTime, ))
 		}
 
 		/// <summary>
@@ -341,21 +339,6 @@ namespace Melia.Zone.World
 			Send.ZC_NORMAL.PartyNameChange(this);
 		}
 
-		public void Update(TimeSpan elapsed)
-		{
-			lock (_members)
-			{
-				if (_members.Count > 1)
-				{
-					foreach (var member in _members.Values)
-					{
-						Send.ZC_NORMAL.PartyMemberData(member, this);
-					}
-					// Send.ZC_PARTY_INST_INFO(this);
-				}
-			}
-		}
-
 		/// <summary>
 		/// Give Exp with Party Settings
 		/// </summary>
@@ -451,7 +434,11 @@ namespace Melia.Zone.World
 			Send.ZC_NORMAL.PartyPropertyUpdate(this, this.Properties.GetSelect(propertyName));
 		}
 
-		public void Expel(Character sender, string teamName)
+		/// <summary>
+		/// Expel a character from the party
+		/// </summary>
+		/// <param name="teamName"></param>
+		public void Expel(string teamName)
 		{
 			lock (_members)
 			{

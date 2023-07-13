@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Logging;
@@ -1820,11 +1822,17 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_LOAD_COMPLETE)]
 		public void CZ_LOAD_COMPLETE(IZoneConnection conn, Packet packet)
 		{
-			var party = ZoneServer.Instance.World.GetParty(conn.SelectedCharacter.PartyId);
+			var character = conn.SelectedCharacter;
+			var party = ZoneServer.Instance.World.GetParty(character.PartyId);
+			
 			if (party != null && conn.Party == null)
 			{
 				conn.Party = party;
-				party.NoticiateExistance(conn.SelectedCharacter);
+
+				if (party.Owner == null)				
+					ZoneServer.Instance.World.Parties.UpdatePartyLeader(party, character);
+				
+				party.NoticiateExistance(character);
 			}
 
 			Send.ZC_LOAD_COMPLETE(conn);
@@ -2649,6 +2657,33 @@ namespace Melia.Zone.Network
 			if (party != null && party.LeaderDbId == character.DbId)
 			{
 				party.UpdateSetting(type, value);
+			}
+		}
+
+		/// <summary>
+		/// Answer to a party join request by link
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_JOIN_BY_LINK)]
+		public void CZ_PARTY_JOIN_BY_LINK(IZoneConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+			var partyId = packet.GetShort();
+
+			var party = ZoneServer.Instance.World.Parties.GetParty(partyId);
+			var character = conn.SelectedCharacter;
+
+			if (character.PartyId != 0)
+				return;
+
+			if (party != null)
+			{
+				party.AddMember(character);
+				character.PartyId = partyId;
+			} else
+			{
+				character.ServerMessage(Localization.Get("Coud't not join the party."));
 			}
 		}
 

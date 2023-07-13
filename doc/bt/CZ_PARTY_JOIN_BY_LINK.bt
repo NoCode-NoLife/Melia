@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_ADD_HELP.bt
+//   Authors: celophi
+//   Version: i171140
+//   Purpose: Requests the server to add a help topic to the account.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+byte b1;
+short partyId;
+byte b4;
+int i2;
+int i3;
+short s3;
+short s4;
+short s5;

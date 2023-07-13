@@ -1299,7 +1299,7 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Loads party from database.
+		/// Loads party from database for character.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <returns></returns>
