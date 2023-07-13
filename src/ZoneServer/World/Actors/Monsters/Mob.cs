@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -426,6 +428,45 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.HpChangeCounter++;
 
 			Send.ZC_UPDATE_ALL_STATUS(this, this.HpChangeCounter);
+		}
+
+		/// <summary>
+		/// Overrides the monster's properties with the given values.
+		/// </summary>
+		/// <param name="overrides"></param>
+		public void ApplyOverrides(PropertyOverrides overrides)
+		{
+			foreach (var propertyOverride in overrides)
+			{
+				var propertyName = propertyOverride.Key;
+
+				// Since calculated properties can't be overridden directly,
+				// we swap to the override properties that the calculation
+				// functions use for each property as necessary.
+				var properties = this.Properties as Properties;
+				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+					properties = this.Properties.Overrides;
+
+				switch (propertyOverride.Value)
+				{
+					case int intValue:
+						properties.SetFloat(propertyName, intValue);
+						break;
+
+					case float floatValue:
+						properties.SetFloat(propertyName, floatValue);
+						break;
+
+					case string stringValue:
+						properties.SetString(propertyName, stringValue);
+						break;
+				}
+			}
+
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 	}
 }
