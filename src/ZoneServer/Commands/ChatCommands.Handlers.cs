@@ -73,6 +73,7 @@ namespace Melia.Zone.Commands
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
+			this.Add("heal", "<hp> [sp]", "Heals the character's hp and sp.", this.HandleHeal);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
@@ -1121,6 +1122,67 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
 				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
 			}
+		}
+
+		/// <summary>
+		/// Heals the target hp and optionally sp.
+		/// If no argument is given, heals fully.
+		/// Can also heal negative values.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleHeal(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Too many parameters
+			if (args.Count > 2)
+				return CommandResult.InvalidArgument;
+
+			// Zero parameters, heal fully
+			if (args.Count == 0)
+			{
+				target.ModifyHp(target.MaxHp - target.Hp);
+				target.ModifySp(target.MaxSp - target.Sp);
+				sender.ServerMessage("Healed full hp & sp.");
+				if (sender != target)
+					target.ServerMessage("You were healed full hp & sp by user {0}.", sender.TeamName);
+			}
+			else
+			{
+				// One parameter, heal only hp
+				if (args.Count == 1)
+				{
+					if (!int.TryParse(args.Get(0), out var hp))
+						return CommandResult.InvalidArgument;
+
+					target.ModifyHp(hp);
+
+					sender.ServerMessage("Healed {0} hp.", hp);
+					if (sender != target)
+						target.ServerMessage("You were healed {0} hp by user {1}.", hp, sender.TeamName);
+				}
+				// Two parameters, heal hp & sp
+				else if (args.Count == 2)
+				{
+					if (!int.TryParse(args.Get(0), out var hp))
+						return CommandResult.InvalidArgument;
+
+					if (!int.TryParse(args.Get(1), out var sp))
+						return CommandResult.InvalidArgument;
+
+					target.ModifyHp(hp);
+					target.ModifySp(sp);
+
+					sender.ServerMessage("Healed {0} hp & {1} sp.", hp, sp);
+					if (sender != target)
+						target.ServerMessage("You were healed {0} hp & {1} sp by user {2}.", hp, sp, sender.TeamName);
+				}
+			}
+
+			return CommandResult.Okay;
 		}
 
 		/// <summary>
