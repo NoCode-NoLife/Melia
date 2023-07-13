@@ -468,5 +468,25 @@ namespace Melia.Zone.Scripting.AI
 			var moveSpeedType = running ? MoveSpeedType.Run : MoveSpeedType.Walk;
 			this.Entity.Components.Get<MovementComponent>().SetMoveSpeedType(moveSpeedType);
 		}
+
+		/// <summary>
+		/// Sets the entity's movement speed to the given fixed value.
+		/// </summary>
+		/// <param name="mspd"></param>
+		protected void SetFixedMoveSpeed(float mspd)
+		{
+			this.Entity.Components.Get<MovementComponent>().SetFixedMoveSpeed(mspd);
+		}
+
+		/// <summary>
+		/// Resets any movement speed changes made.
+		/// </summary>
+		protected void ResetMoveSpeed()
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+
+			movement.SetMoveSpeedType(MoveSpeedType.Walk);
+			movement.SetFixedMoveSpeed(0);
+		}
 	}
 }

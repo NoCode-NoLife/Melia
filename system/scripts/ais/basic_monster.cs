@@ -23,7 +23,7 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Idle()
 	{
-		SetRunning(false);
+		ResetMoveSpeed();
 
 		yield return Wait(4000, 8000);
 
