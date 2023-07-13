@@ -181,6 +181,8 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var movement = this.Entity.Components.Get<MovementComponent>();
 			var targetWasInRange = false;
+			var targetWasMoving = false;
+			var keepFollowing = false;
 
 			var targetMspd = followTarget.Properties.GetFloat(PropertyName.MSPD);
 
@@ -194,10 +196,19 @@ namespace Melia.Zone.Scripting.AI
 
 			while (true)
 			{
+				var isTargetMoving = (followTarget is Character character2 && character2.IsMoving) || followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
+				var stoppedMoving = (!isTargetMoving && targetWasMoving);
+
 				var isTargetInRange = followTarget.Position.InRange2D(this.Entity.Position, minDistance);
 				var targetLeftRange = (targetWasInRange && !isTargetInRange);
 
-				var catchUp = targetLeftRange || !isTargetInRange;
+				if (targetLeftRange)
+					keepFollowing = true;
+
+				if (stoppedMoving)
+					keepFollowing = false;
+
+				var catchUp = !isTargetInRange || keepFollowing;
 
 				if (catchUp)
 				{
@@ -210,6 +221,7 @@ namespace Melia.Zone.Scripting.AI
 				}
 
 				targetWasInRange = isTargetInRange;
+				targetWasMoving = isTargetMoving;
 				yield return true;
 			}
 		}
