@@ -95,7 +95,7 @@ namespace Melia.Zone.World
 			{
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
-				_mapsName.Add(map.Name, map);
+				_mapsName.Add(map.ClassName, map);
 
 				// Add maps to heartbeat's update scheduling
 				this.Heartbeat.Add(map);

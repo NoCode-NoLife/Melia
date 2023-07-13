@@ -11,8 +11,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public int Id { get; set; }
 		public string ClassName { get; set; }
-		public string EngName { get; set; }
-		public string LocalKey { get; set; }
+		public string Name { get; set; }
 		public MapType Type { get; set; }
 	}
 
@@ -51,14 +50,13 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("mapId", "className", "engName", "localKey");
+			entry.AssertNotMissing("mapId", "className", "name");
 
 			var data = new MapData();
 
 			data.Id = entry.ReadInt("mapId");
 			data.ClassName = entry.ReadString("className");
-			data.EngName = entry.ReadString("engName");
-			data.LocalKey = entry.ReadString("localKey");
+			data.Name = entry.ReadString("name");
 			data.Type = entry.ReadEnum<MapType>("type");
 
 			_nameIndex[data.ClassName] = data;

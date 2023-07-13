@@ -31,6 +31,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (this.Entity.IsDead)
+				return;
+
 			_rhpTime -= elapsed;
 			_rspTime -= elapsed;
 			_staminaTime -= elapsed;

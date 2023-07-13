@@ -88,6 +88,7 @@
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Data\Database\DialogTx.cs" />
+    <Compile Include="Data\Database\ResurrectionPoints.cs" />
     <Compile Include="Data\Database\SystemMessages.cs" />
     <Compile Include="IES\IesModClass.cs" />
     <Compile Include="IES\IesModGroup.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Tos\Const\PropertyName.cs" />
     <Compile Include="Tos\Const\QuickSlotType.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
+    <Compile Include="Tos\Const\ResurrectOptions.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />
     <Compile Include="Tos\Const\SizeType.cs" />
     <Compile Include="Tos\Const\SkillId.cs" />
