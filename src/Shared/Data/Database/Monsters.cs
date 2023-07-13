@@ -78,7 +78,7 @@ namespace Melia.Shared.Data.Database
 		public MonsterData Find(string name)
 		{
 			name = name.ToLower();
-			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
+			return this.Entries.Values.FirstOrDefault(a => a.Name.ToLower() == name);
 		}
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public bool TryFind(string className, out MonsterData data)
 		{
-			data = this.Entries.FirstOrDefault(a => a.Value.ClassName == className).Value;
+			data = this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
 			return data != null;
 		}
 
@@ -103,7 +103,7 @@ namespace Melia.Shared.Data.Database
 		public List<MonsterData> FindAll(string searchString)
 		{
 			searchString = searchString.ToLower();
-			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(searchString)).Select(a => a.Value).ToList();
+			return this.Entries.Values.Where(a => a.Name.ToLower().Contains(searchString)).ToList();
 		}
 
 		/// <summary>
@@ -116,11 +116,11 @@ namespace Melia.Shared.Data.Database
 		{
 			searchString = searchString.ToLower();
 
-			var monsters = this.Entries.Where(a => a.Value.Name.ToLower() == searchString).Select(a => a.Value).ToList();
-			if (monsters.Count == 0)
-				monsters = this.FindAll(searchString);
+			var exactMatches = this.Entries.Values.Where(a => a.Name.ToLower() == searchString);
+			if (exactMatches.Any())
+				return exactMatches.ToList();
 
-			return monsters;
+			return this.FindAll(searchString);
 		}
 
 		/// <summary>
