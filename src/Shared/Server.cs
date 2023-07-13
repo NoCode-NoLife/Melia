@@ -91,6 +91,7 @@ namespace Melia.Shared
 			Log.Info("Loading configuration...");
 
 			this.Conf.Load();
+			Log.SetFilter(this.Conf.Log.Filter);
 
 			return this.Conf;
 		}
