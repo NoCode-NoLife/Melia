@@ -187,6 +187,9 @@ namespace Melia.Zone.Network
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
 
+			if (character.IsDead)
+				Send.ZC_RESURRECT_DIALOG(character, ResurrectOptions.NearestRevivalPoint);
+
 			character.OpenEyes();
 
 			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
@@ -329,7 +332,11 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: Sanity checks.
+			if (character.IsDead)
+			{
+				//Log.Warning("CZ_KEYBOARD_MOVE: User '{0}' tried to move while dead.", conn.Account.Name);
+				return;
+			}
 
 			character.Move(position, direction, f1);
 		}
@@ -2459,7 +2466,7 @@ namespace Melia.Zone.Network
 		{
 			var handle = packet.GetInt();
 			var b1 = packet.GetByte();
-			var b2 = packet.GetByte();
+			var addLike = packet.GetByte();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2468,12 +2475,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// Since our current response to this request is crashing the
-			// client, we'll disable it for now. More research is needed
-			// to get the structure of ZC_PROPERTY_COMPARE right.
-
-			character.ServerMessage(Localization.Get("This feature is not yet implemented."));
-			//Send.ZC_PROPERTY_COMPARE(conn, character);
+			Send.ZC_PROPERTY_COMPARE(conn, character);
 		}
 
 		/// <summary>
@@ -2709,6 +2711,46 @@ namespace Melia.Zone.Network
 			// ones, and stop all if anything goes wrong.
 
 			Send.ZC_STOP_FLUTING(character, note, octave, semitone);
+		}
+
+		/// <summary>
+		/// Packet with unknown purpose that is spammed by the client
+		/// while the player character is dead.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(0x520A)]
+		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
+		{
+			// The packet is spammed with a frequency of about 1-2 packets
+			// per millisecond. It's 64 bytes long, with the last 5 looking
+			// like random garbage data, though the packet doesn't seem to
+			// contain any useful information in general. Its name seems
+			// to be "CZ_InteractionCancel", though it doesn't appear in
+			// the op code list.
+		}
+
+		/// <summary>
+		/// Request from a player to revive their character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESURRECT)]
+		public void CZ_RESURRECT(IZoneConnection conn, Packet packet)
+		{
+			var optionIdx = packet.GetByte();
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+			var option = (ResurrectOptions)(1 << (int)optionIdx);
+
+			if (!character.IsDead)
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character while not dead.", conn.Account.Name);
+				return;
+			}
+
+			character.Resurrect(option);
 		}
 	}
 }

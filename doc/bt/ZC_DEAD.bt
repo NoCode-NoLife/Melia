@@ -3,7 +3,7 @@
 //
 //      File: ZC_DEAD.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i375236
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,20 +13,28 @@
 
 #include "inc/common.bt"
 
+typedef struct
+{
+    int handle;
+    int i1;
+    int64 exp1;
+    int64 jobExp;
+    int64 exp2;
+}
+ExpInfo;
+
 ServerHeaderDynamic header;
 
-//int handles[(header.size-sizeof(header)-sizeof(int)) / 4];
-int deadHandle;
-//byte b1;
-int i1;
+int handle;
+byte b1;
+byte expInfoCount;
+byte isOverkill;
+byte specialDrop;
 position pos;
-int i2;
-if (i1 > 64)
-{
-    int killerHandle;
-    int i3;
-    int64 i4;
-    int64 i6;
-    int64 i7;
-}
+int i1;
 
+if (expInfoCount > 0)
+    ExpInfo expInfo[expInfoCount];
+
+if (isOverkill)
+    byte overkillAmount;

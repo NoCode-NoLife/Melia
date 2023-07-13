@@ -203,7 +203,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
 			packet.AddMonster(monster);
 
-			monster.Map.Broadcast(packet);
+			monster.Map.Broadcast(packet, monster);
 		}
 
 		/// <summary>
@@ -428,7 +428,7 @@ namespace Melia.Zone.Network
 					packet.AddSkillHitInfo(hit);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -484,7 +484,7 @@ namespace Melia.Zone.Network
 					packet.AddSkillHitInfo(hit);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -530,7 +530,7 @@ namespace Melia.Zone.Network
 					packet.AddSkillHitInfo(hit);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -1643,7 +1643,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(actor.Handle);
 			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
 
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1679,12 +1679,92 @@ namespace Melia.Zone.Network
 		public static void ZC_DEAD(IActor actor, Position position)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
+
 			packet.PutInt(actor.Handle);
 			packet.PutInt(1);
 			packet.PutPosition(position);
+			packet.PutByte(0);
+			packet.PutByte(0); // expInfoCount
+			packet.PutByte(false); // isOverkill
+			packet.PutByte(false); // specialDrop
+			packet.PutPosition(actor.Position);
 			packet.PutInt(0);
 
+			//for expInfoCount:
+			//{
+			//	packet.PutInt(handle);
+			//	packet.PutInt(0);
+			//	packet.PutLong(exp);
+			//	packet.PutLong(jobExp);
+			//	packet.PutLong(exp);
+			//}
+
+			// The overkill amount is the percentage displayed on the
+			// client. It needs to be at least 100 for the overkill
+			// effect to appear.
+			//if (isOverkill)
+			//	packet.PutByte((byte)overkillAmount);
+
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Opens resurrection dialog on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="options"></param>
+		public static void ZC_RESURRECT_DIALOG(Character character, ResurrectOptions options)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_DIALOG);
+
+			packet.PutInt((int)options);
+			packet.PutString("", 512);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_SAVE_POINT_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_SAVE_POINT_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_HERE_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_HERE_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Resurrects the character for all clients in range.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT(Character character)
+		{
+			var hp = character.Properties.GetFloat(PropertyName.HP);
+			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
+
+			var packet = new Packet(Op.ZC_RESURRECT);
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)hp);
+			packet.PutInt((int)maxHp);
+
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1718,7 +1798,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutInt(0);
 
-			target.Map.Broadcast(packet);
+			target.Map.Broadcast(packet, target);
 		}
 
 		/// <summary>
@@ -1746,7 +1826,7 @@ namespace Melia.Zone.Network
 			foreach (var skillHit in hits)
 				packet.AddSkillHitInfo(skillHit);
 
-			attacker.Map.Broadcast(packet);
+			attacker.Map.Broadcast(packet, attacker);
 		}
 
 		/// <summary>
@@ -2217,7 +2297,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(entity.Handle);
 			packet.PutByte(inAttackState);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2312,7 +2392,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)type); // !0 = blue text
 			packet.PutInt(0);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2325,7 +2405,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(character.Stance);
 
-			character.Map.Broadcast(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -3051,7 +3131,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3137,7 +3217,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(actor.Handle);
 
 			// TODO: Does this actually need to be broadcasted?
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -3494,7 +3574,7 @@ namespace Melia.Zone.Network
 			packet.PutLong(character.ObjectId);
 			packet.PutLong(character.AccountId);
 			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutByte(1); // needs to be 1 for the character info to display?
 			packet.PutByte(0);
 			packet.PutInt(-1); // adventurerIndex
 			packet.PutInt(0); // adventurerRank
@@ -3546,7 +3626,7 @@ namespace Melia.Zone.Network
 				packet.PutLong(equipItem.ObjectId);
 				packet.PutInt((int)equipSlot);
 				packet.PutInt(0);
-				packet.PutShort(2);
+				packet.PutShort(0);
 
 				if (equipItemPropertiesSize > 0)
 				{
@@ -3604,7 +3684,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_BUFF_ADD);
 			packet.AddTargetedBuff(buff);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3617,7 +3697,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_BUFF_UPDATE);
 			packet.AddTargetedBuff(buff);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3635,7 +3715,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(buff.Handle);
 			packet.PutByte(0);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3695,7 +3775,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(entity.Handle);
 			packet.PutByte(1);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3730,7 +3810,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)buff.Id);
 			packet.PutInt(0); // Increasing Value?
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3746,7 +3826,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(itemMonster.Handle);
 			packet.PutInt(1);
 
-			character.Map.Broadcast(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -3777,7 +3857,7 @@ namespace Melia.Zone.Network
 			//packet.PutFloat(0);
 			packet.PutByte(0);
 
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>

@@ -154,7 +154,8 @@ namespace Melia.Zone.Scripting.AI
 
 			handler.Handle(skill, this.Entity, target);
 
-			yield return this.Wait(2000);
+			var useTime = skill.Properties.ShootTime;
+			yield return this.Wait(useTime);
 		}
 
 		/// <summary>
