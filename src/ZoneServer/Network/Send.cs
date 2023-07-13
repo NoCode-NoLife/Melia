@@ -3989,7 +3989,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="party"></param>
-		public static void ZC_PARTY_INFO(Character character, Party party)
+		public static void ZC_PARTY_INFO(Character character, Party party, bool broadCast = false)
 		{
 			var packet = new Packet(Op.ZC_PARTY_INFO);
 
@@ -4029,7 +4029,10 @@ namespace Melia.Zone.Network
 				packet.PutShort(0);
 			}
 
-			character.Connection.Send(packet);
+			if (broadCast)
+				party.Broadcast(packet);
+			else
+				character.Connection.Send(packet);
 		}
 
 		/// <summary>

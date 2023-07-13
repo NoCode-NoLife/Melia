@@ -601,6 +601,7 @@ namespace Melia.Zone.World.Actors.Characters
 			{
 				this.MapId = mapId;
 				_warping = true;
+				this.UpdatePartyInformation();
 
 				Send.ZC_MOVE_ZONE(this.Connection);
 			}
@@ -709,6 +710,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
+			this.UpdatePartyInformation();
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);
 		}
 
@@ -744,6 +746,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public void ModifyHp(int amount)
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
+			this.UpdatePartyInformation();
 			Send.ZC_ADD_HP(this, amount, hp, priority);
 		}
 
@@ -755,6 +758,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public void ModifySp(float amount)
 		{
 			var sp = this.Properties.Modify(PropertyName.SP, amount);
+			this.UpdatePartyInformation();
 			Send.ZC_UPDATE_SP(this, sp, true);
 		}
 
@@ -1169,19 +1173,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out var newHp, out var priority);
 
-			if (this.Connection.Party != null)
-			{
-				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
-
-				foreach (var member in this.Connection.Party.GetMembers())
-				{
-					if (member.CharacterDbId != this.DbId && member.IsOnline)
-					{
-						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
-						Send.ZC_ADD_HP(memberCharacter, -damage, newHp, priority, this.Handle);
-					}
-				}
-			}
+			this.UpdatePartyInformation();
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
@@ -1295,6 +1287,43 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var stamina = (this.Properties.Stamina -= staminaUsage);
 			Send.ZC_STAMINA(this, stamina);
+		}
+
+		/// <summary>
+		/// Updates the member property and sends the packet to update values
+		/// </summary>
+		public void UpdatePartyInformation()
+		{
+			if (this.Connection.Party != null)
+			{
+				var member = this.Connection.Party.GetMember(this.ObjectId);
+				if (member != null)
+				{
+					member.UpdateValues(this);
+					Send.ZC_PARTY_INFO(this, this.Connection.Party);
+				}
+
+				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+			}
+		}
+
+		/// <summary>
+		/// Updates the member property IsOnline
+		/// </summary>
+		public void PartyMemberIsOnline(bool value)
+		{
+			if (this.Connection.Party != null)
+			{
+				var member = this.Connection.Party.GetMember(this.ObjectId);
+				if (member != null)
+				{
+					member.UpdateIsOnline(value);
+					Send.ZC_PARTY_INFO(this, this.Connection.Party, true);
+				}
+
+				Send.ZC_PARTY_LIST(this.Connection.Party);
+				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+			}
 		}
 
 		/// <summary>

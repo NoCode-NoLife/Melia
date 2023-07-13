@@ -102,6 +102,7 @@ namespace Melia.Zone.Network
 
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
+			character.UpdatePartyInformation();
 
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
@@ -275,6 +276,10 @@ namespace Melia.Zone.Network
 
 			Send.ZC_SAVE_INFO(conn);
 			Send.ZC_MOVE_BARRACK(conn);
+
+			var character = conn.SelectedCharacter;
+			if (character != null)
+				character.PartyMemberIsOnline(false);
 		}
 
 		/// <summary>
@@ -1785,6 +1790,7 @@ namespace Melia.Zone.Network
 			character.Jobs.Remove(oldJobId);
 			character.Jobs.Add(newJob);
 			character.JobId = newJob.Id;
+			character.PartyMemberIsOnline(false);
 
 			// I'd prefer to let the player keep playing after the switch,
 			// but the intended behavior is apparently that you get DCed

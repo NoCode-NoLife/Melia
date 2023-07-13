@@ -219,13 +219,13 @@ namespace Melia.Zone.World
 
 		public void NoticiateExistance(Character character)
 		{
+			this.UpdateMember(character);
 			Send.ZC_PARTY_INFO(character, this);
 			Send.ZC_PARTY_LIST(this);
 			Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");
 			Send.ZC_PARTY_INST_INFO(character.Connection.Party);
 			Send.ZC_CHANGE_RELATION(character, this, 0);
-			Send.ZC_NORMAL.ShowParty(character);
-			this.UpdateMember(character);
+			Send.ZC_NORMAL.ShowParty(character);			
 		}
 
 		/// <summary>
@@ -351,7 +351,7 @@ namespace Melia.Zone.World
 					{
 						Send.ZC_NORMAL.PartyMemberData(member, this);
 					}
-					//Send.ZC_PARTY_INST_INFO(this);
+					// Send.ZC_PARTY_INST_INFO(this);
 				}
 			}
 		}
@@ -425,6 +425,7 @@ namespace Melia.Zone.World
 			{
 				member.Handle = character.Handle;
 				Send.ZC_NORMAL.PartyMemberData(member, this);
+				member.UpdateValues(character);
 			}
 		}
 

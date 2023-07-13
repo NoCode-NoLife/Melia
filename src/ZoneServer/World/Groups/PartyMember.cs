@@ -1,7 +1,9 @@
-﻿using Melia.Shared.ObjectProperties;
+﻿using System;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors.Characters;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Groups
 {
@@ -76,6 +78,40 @@ namespace Melia.Zone.World.Groups
 
 			}
 			return member;
+		}
+
+		/// <summary>
+		/// Updates the member information
+		/// </summary>
+		/// <param name="character"></param>
+		public void UpdateValues(Character character)
+		{
+			this.CharacterDbId = character.DbId;
+			this.AccountId = character.AccountId;
+			this.Gender = character.Gender;
+			this.Hair = character.Hair;
+			this.Handle = character.Handle;
+			this.Hp = character.Hp;
+			this.JobLevel = character.Job?.Level ?? 1001;
+			this.Sp = character.Sp;
+			this.Level = character.Level;
+			this.MapId = character.MapId;
+			this.TeamName = character.TeamName;
+			this.MaxHp = character.MaxHp;
+			this.MaxSp = character.MaxSp;
+			this.Name = character.Name;
+			this.Position = character.Position;
+			this.Stance = character.Stance;
+			this.IsOnline = character.Connection.LoggedIn;
+		}
+
+		/// <summary>
+		/// Updates the IsOnline
+		/// </summary>
+		/// <param name="character"></param>
+		public void UpdateIsOnline(bool value)
+		{
+			this.IsOnline = value;
 		}
 	}
 }

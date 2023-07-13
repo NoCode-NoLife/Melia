@@ -58,7 +58,6 @@ namespace Melia.Zone.World
 				Send.ZC_PARTY_INFO(character, this);
 				Send.ZC_PARTY_LIST(this);
 				Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, null);
-				Send.ZC_PARTY_LIST(this);
 				Send.ZC_NORMAL.ShowParty(character);
 				//Send.ZC_GUILD_COOLDOWN_LIST(character);
 			}

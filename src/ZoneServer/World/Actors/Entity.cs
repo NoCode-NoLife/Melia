@@ -165,20 +165,6 @@ namespace Melia.Zone.World.Actors
 
 			character.ModifySp(-amount);
 
-			if (character.Connection.Party != null)
-			{
-				Send.ZC_PARTY_INST_INFO(character.Connection.Party);
-
-				foreach (var member in character.Connection.Party.GetMembers())
-				{
-					if (member.CharacterDbId != character.DbId && member.IsOnline)
-					{
-						var memberCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
-						Send.ZC_UPDATE_SP(memberCharacter, sp, false, character.Handle);
-					}
-				}
-			}
-
 			return true;
 		}
 
