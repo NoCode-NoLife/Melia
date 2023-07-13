@@ -187,9 +187,6 @@ namespace Melia.Zone.Network
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
 
-			if (character.IsDead)
-				Send.ZC_RESURRECT_DIALOG(character, ResurrectOptions.NearestRevivalPoint);
-
 			character.OpenEyes();
 
 			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
