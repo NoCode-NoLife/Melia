@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace Melia.Zone.Commands
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
-			this.Add("heal", "[hp] [sp]", "Heals the character's HP and SP.", this.HandleHeal);
+			this.Add("heal", "[hp] [sp] [stamina]", "Heals the character's HP, SP, and Stamina.", this.HandleHeal);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
@@ -1122,8 +1123,13 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleHeal(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count > 2)
+			if (args.Count > 3)
 				return CommandResult.InvalidArgument;
+
+			// TODO: Maybe refactor to take indexed arguments, named
+			//   ones, or combinations, so you can, for example, heal
+			//   stamina without specifying HP and SP like so:
+			//   >heal sp:10
 
 			// Fully heal HP and SP if no arguments are given
 			if (args.Count == 0)
@@ -1148,7 +1154,7 @@ namespace Melia.Zone.Commands
 					target.ServerMessage("{0} healed your HP by {1} points.", sender.TeamName, hpAmount);
 			}
 			// Modify HP and SP if two arguments are given
-			else if (args.Count >= 2)
+			else if (args.Count == 2)
 			{
 				if (!int.TryParse(args.Get(0), out var hpAmount))
 					return CommandResult.InvalidArgument;
@@ -1162,6 +1168,31 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage("Healed HP by {0} and SP by {1} points.", hpAmount, spAmount);
 				if (sender != target)
 					target.ServerMessage("{0} healed your HP by {1} and your SP by {2} points.", sender.TeamName, hpAmount, spAmount);
+			}
+			// Modify HP, SP, and Stamina if three arguments are given
+			else if (args.Count >= 3)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(1), out var spAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(2), out var staminaAmount))
+					return CommandResult.InvalidArgument;
+
+				// Adjust Stamina to match the game's display value, since
+				// most users of this command wouldn't be aware of this
+				// property's value being 1000 times larger than displayed.
+				staminaAmount *= 1000;
+
+				target.ModifyHp(hpAmount);
+				target.ModifySp(spAmount);
+				target.ModifyStamina(staminaAmount);
+
+				sender.ServerMessage("Healed HP by {0}, SP by {1}, and Stamina by {2} points.", hpAmount, spAmount, staminaAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points.", sender.TeamName, hpAmount, spAmount, staminaAmount);
 			}
 
 			return CommandResult.Okay;
