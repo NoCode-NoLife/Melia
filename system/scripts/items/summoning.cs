@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Security.Policy;
 using Melia.Shared.L10N;
+using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone;
+using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -27,6 +30,9 @@ public class SummoningItemScripts : GeneralScript
 
 		character.Map.AddMonster(monster);
 
+		character.Variables.Perm.SetInt("Melia.OrbSummon.MonsterId", monsterData.Id);
+		character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
+
 		return ItemUseResult.Okay;
 	}
 
@@ -44,6 +50,30 @@ public class SummoningItemScripts : GeneralScript
 		character.Map.AddMonster(monster);
 
 		return ItemUseResult.Okay;
+	}
+
+	[On("PlayerReady")]
+	public void OnPlayerReady(object sender, PlayerEventArgs args)
+	{
+		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+			return;
+
+		var character = args.Character;
+
+		if (!character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out var disappearTime))
+			return;
+
+		if (DateTime.Now > disappearTime)
+			return;
+
+		if (!character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
+			return;
+
+		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
+		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
+		monster.DisappearTime = disappearTime;
+
+		character.Map.AddMonster(monster);
 	}
 
 	/// <summary>

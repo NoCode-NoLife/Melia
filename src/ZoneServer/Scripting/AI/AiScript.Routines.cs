@@ -205,16 +205,28 @@ namespace Melia.Zone.Scripting.AI
 
 			while (true)
 			{
-				// If the target is no longer on the same map blue orb
-				// monsters simply freeze, so we'll do the same and let
-				// them get stuck in a loop. This approach should be
-				// improved, especially if we want to make it configurable.
 				if (followTarget.Map.Id != this.Entity.Map.Id)
 				{
 					movement.Stop();
 
-					while (true)
-						yield return this.Wait(10000);
+					// If the target is no longer on the same map, blue orb
+					// monsters simply freeze, so we'll do the same and let
+					// them get stuck in a loop. Unless the follow warp option
+					// is set, in which case we'll remove the monster and
+					// recreate it on the other side, from the summoning
+					// script. All this could need a clean up.
+
+					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+					{
+						while (true)
+							yield return this.Wait(10000);
+					}
+					else
+					{
+						if (this.Entity is Mob mob)
+							this.Entity.Map.RemoveMonster(mob);
+						yield break;
+					}
 				}
 
 				var teleportDistance = minDistance * 4;

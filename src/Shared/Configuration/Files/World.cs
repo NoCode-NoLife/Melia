@@ -34,6 +34,8 @@ namespace Melia.Shared.Configuration.Files
 		public int MonthsPerYear { get; protected set; }
 		public bool EnableDayNightCycle { get; protected set; }
 
+		public bool BlueOrbFollowWarp { get; protected set; }
+
 		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
@@ -68,6 +70,8 @@ namespace Melia.Shared.Configuration.Files
 			this.DaysPerMonth = this.GetInt("gt_days_per_month", 40);
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
+
+			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
 		}
 	}
 }
