@@ -1240,17 +1240,8 @@ namespace Melia.Zone.World.Actors.Characters
 				default:
 				case ResurrectOptions.NearestRevivalPoint:
 				{
-					var resurrectionPoints = ZoneServer.Instance.Data.ResurrectionPointDb.Find(this.Map.ClassName);
-					var nearestPoint = resurrectionPoints.OrderBy(p => p.Position.Get2DDistance(this.Position)).FirstOrDefault();
-
-					if (nearestPoint != null)
-					{
-						this.SetPosition(nearestPoint.Position);
-						Send.ZC_SET_POS(this, nearestPoint.Position);
-					}
-
-					// TODO: What happens if you die on a map without a
-					//   resurrection point?
+					var safePos = this.Map.GetSafePositionNear(this.Position, true);
+					this.Warp(this.MapId, safePos);
 					break;
 				}
 			}

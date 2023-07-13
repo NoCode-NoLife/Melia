@@ -640,6 +640,28 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the closest safe position near the given one. If
+		/// resurrection points are favored and one exists, they will
+		/// always be returned first over the map's default position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="favorResurrectionPoints"></param>
+		/// <returns></returns>
+		public Position GetSafePositionNear(Position pos, bool favorResurrectionPoints)
+		{
+			var positions = ZoneServer.Instance.Data.ResurrectionPointDb.FindPositions(this.ClassName);
+
+			if (positions.Count == 0)
+				return this.Data.DefaultPosition;
+
+			if (!favorResurrectionPoints)
+				positions.Add(this.Data.DefaultPosition);
+
+			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
+			return closestPos;
+		}
+
+		/// <summary>
 		/// Broadcasts packet to all characters on map.
 		/// </summary>
 		/// <param name="packet"></param>
