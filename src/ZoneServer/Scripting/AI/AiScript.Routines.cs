@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -174,28 +175,59 @@ namespace Melia.Zone.Scripting.AI
 		/// <summary>
 		/// Makes entity keep following the given target.
 		/// </summary>
-		/// <param name="followTarget"></param>
-		/// <param name="minDistance"></param>
+		/// <param name="followTarget">The target to follow.</param>
+		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
+		/// <param name="matchSpeed">If true, the entity's speed will be changed to match the target's.</param>
 		/// <returns></returns>
-		protected IEnumerable Follow(ICombatEntity followTarget, float minDistance = 50)
+		protected IEnumerable Follow(ICombatEntity followTarget, float minDistance = 50, bool matchSpeed = false)
 		{
 			var movement = this.Entity.Components.Get<MovementComponent>();
 			var targetWasInRange = false;
 			var targetWasMoving = false;
 			var keepFollowing = false;
 
-			var targetMspd = followTarget.Properties.GetFloat(PropertyName.MSPD);
+			if (matchSpeed)
+			{
+				var targetMspd = followTarget.Properties.GetFloat(PropertyName.MSPD);
 
-			// It's currently unknown why, but for the monster speed to
-			// match a character's speed it needs to be multiplied by 2.4.
-			// Setting them to the exact same value does not work.
-			if (followTarget is Character character)
-				targetMspd *= 2.4f;
+				// It's currently unknown why, but for the monster speed to
+				// match a character's speed it needs to be multiplied by 2.4.
+				// Setting them to the exact same value does not work.
+				if (followTarget is Character character)
+					targetMspd *= 2.4f;
 
-			this.SetFixedMoveSpeed(targetMspd);
+				this.SetFixedMoveSpeed(targetMspd);
+			}
+			else
+			{
+				this.SetRunning(true);
+			}
 
 			while (true)
 			{
+				// If the target is no longer on the same map blue orb
+				// monsters simply freeze, so we'll do the same and let
+				// them get stuck in a loop. This approach should be
+				// improved, especially if we want to make it configurable.
+				if (followTarget.Map.Id != this.Entity.Map.Id)
+				{
+					movement.Stop();
+
+					while (true)
+						yield return this.Wait(10000);
+				}
+
+				var teleportDistance = minDistance * 4;
+				var distance = followTarget.Position.Get2DDistance(this.Entity.Position);
+
+				if (distance > teleportDistance)
+				{
+					movement.Stop();
+
+					this.Entity.Position = followTarget.Position;
+					Send.ZC_SET_POS(this.Entity);
+				}
+
 				var isTargetMoving = (followTarget is Character character2 && character2.IsMoving) || followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
 				var stoppedMoving = (!isTargetMoving && targetWasMoving);
 
