@@ -107,6 +107,23 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns a list of all monsters whose name contains the given
+		/// string. If there is an exact match, only that one is returned.
+		/// </summary>
+		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <returns></returns>
+		public List<MonsterData> FindAllPreferExact(string searchString)
+		{
+			searchString = searchString.ToLower();
+
+			var monsters = this.Entries.Where(a => a.Value.Name.ToLower() == searchString).Select(a => a.Value).ToList();
+			if (monsters.Count == 0)
+				monsters = this.FindAll(searchString);
+
+			return monsters;
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>
@@ -175,8 +192,8 @@ namespace Melia.Shared.Data.Database
 
 					dropData.ItemId = dropEntry.ReadInt("itemId");
 					dropData.DropChance = dropEntry.ReadFloat("chance");
-					dropData.MinAmount = dropEntry.ReadInt("minQuantity", 1);
-					dropData.MaxAmount = dropEntry.ReadInt("maxQuantity", 1);
+					dropData.MinAmount = dropEntry.ReadInt("minAmount", 1);
+					dropData.MaxAmount = dropEntry.ReadInt("maxAmount", 1);
 
 					if (dropData.MaxAmount < dropData.MinAmount)
 						dropData.MaxAmount = dropData.MinAmount;
