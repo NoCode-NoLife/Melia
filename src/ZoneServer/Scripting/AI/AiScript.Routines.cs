@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
@@ -167,6 +169,49 @@ namespace Melia.Zone.Scripting.AI
 		{
 			Send.ZC_PLAY_ANI(this.Entity, packetString);
 			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity keep following the given target.
+		/// </summary>
+		/// <param name="followTarget"></param>
+		/// <param name="minDistance"></param>
+		/// <returns></returns>
+		protected IEnumerable Follow(ICombatEntity followTarget, float minDistance = 50)
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+			var targetWasInRange = false;
+
+			var targetMspd = followTarget.Properties.GetFloat(PropertyName.MSPD);
+
+			// It's currently unknown why, but for the monster speed to
+			// match a character's speed it needs to be multiplied by 2.4.
+			// Setting them to the exact same value does not work.
+			if (followTarget is Character character)
+				targetMspd *= 2.4f;
+
+			this.SetFixedMoveSpeed(targetMspd);
+
+			while (true)
+			{
+				var isTargetInRange = followTarget.Position.InRange2D(this.Entity.Position, minDistance);
+				var targetLeftRange = (targetWasInRange && !isTargetInRange);
+
+				var catchUp = targetLeftRange || !isTargetInRange;
+
+				if (catchUp)
+				{
+					var closePos = this.Entity.Position.GetRelative(followTarget.Position, 50);
+					yield return this.MoveTo(closePos, false);
+				}
+				else if (movement.IsMoving)
+				{
+					yield return this.StopMove();
+				}
+
+				targetWasInRange = isTargetInRange;
+				yield return true;
+			}
 		}
 	}
 }
