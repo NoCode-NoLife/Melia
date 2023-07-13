@@ -25,16 +25,24 @@ public class BasicMonsterAiScript : AiScript
 	{
 		ResetMoveSpeed();
 
-		yield return Wait(4000, 8000);
-
-		SwitchRandom();
-		if (Case(80))
+		var master = GetMaster();
+		if (master == null)
 		{
-			yield return MoveRandom();
+			yield return Wait(4000, 8000);
+
+			SwitchRandom();
+			if (Case(80))
+			{
+				yield return MoveRandom();
+			}
+			else
+			{
+				yield return Animation("IDLE");
+			}
 		}
 		else
 		{
-			yield return Animation("IDLE");
+			yield return Follow(master);
 		}
 	}
 

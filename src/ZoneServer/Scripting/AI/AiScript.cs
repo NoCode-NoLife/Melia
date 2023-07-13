@@ -20,6 +20,8 @@ namespace Melia.Zone.Scripting.AI
 	{
 		private bool _initiated;
 
+		private int _masterHandle;
+
 		private TendencyType _tendency;
 		private float _visibleRange = 300;
 		private float _hateRange = 100;
@@ -66,6 +68,21 @@ namespace Melia.Zone.Scripting.AI
 			this.Setup();
 
 			_initiated = true;
+		}
+
+		/// <summary>
+		/// Switches the AI's faction and the associated hate.
+		/// </summary>
+		/// <param name="faction"></param>
+		protected void SwitchFaction(FactionType faction)
+		{
+			if (this.Entity is Mob mob)
+				mob.Faction = faction;
+
+			this.ClearHate();
+
+			if (ZoneServer.Instance.Data.FactionDb.TryFind(faction, out var factionData))
+				this.HatesFaction(factionData.Hostile);
 		}
 
 		/// <summary>
@@ -384,6 +401,28 @@ namespace Melia.Zone.Scripting.AI
 		protected void SetTendency(TendencyType tendency)
 		{
 			_tendency = tendency;
+		}
+
+		/// <summary>
+		/// Sets the entity the AI follows around and supports.
+		/// </summary>
+		/// <param name="masterEntity"></param>
+		public void SetMaster(ICombatEntity masterEntity)
+		{
+			_masterHandle = masterEntity.Handle;
+			this.SwitchFaction(masterEntity.Faction);
+		}
+
+		/// <summary>
+		/// Returns the AI's master, or null if it doesn't have one.
+		/// </summary>
+		/// <returns></returns>
+		public ICombatEntity GetMaster()
+		{
+			if (_masterHandle == 0)
+				return null;
+
+			return this.Entity.Map.GetCombatEntity(_masterHandle);
 		}
 
 		/// <summary>
