@@ -30,6 +30,22 @@ public class SummoningItemScripts : GeneralScript
 		return ItemUseResult.Okay;
 	}
 
+	[ScriptableFunction]
+	public ItemUseResult SCR_USE_SUMMONORB_ENEMY(Character character, Item item, string strArg, float numArg1, float numArg2)
+	{
+		var monsterClassName = strArg;
+		if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassName, out var monsterData))
+		{
+			character.ServerMessage(Localization.Get("Summoning the monster failed."));
+			return ItemUseResult.Fail;
+		}
+
+		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
+		character.Map.AddMonster(monster);
+
+		return ItemUseResult.Okay;
+	}
+
 	/// <summary>
 	/// Creates the monster with the given parameters but doesn't spawn it.
 	/// </summary>
