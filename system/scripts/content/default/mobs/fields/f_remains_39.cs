@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains39MobScript : GeneralScript
@@ -21,15 +22,15 @@ public class FRemains39MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hook, 10, TimeSpan.FromMilliseconds(0), "Spawner1.f_remains_39");
-		AddSpawner(MonsterId.Zolem, 10, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_39");
-		AddSpawner(MonsterId.Hook, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_39");
-		AddSpawner(MonsterId.Zolem, 8, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_39");
-		AddSpawner(MonsterId.Gravegolem, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_39");
-		AddSpawner(MonsterId.Flying_Flog, 13, TimeSpan.FromMilliseconds(0), "Spawner6.f_remains_39");
-		AddSpawner(MonsterId.Gravegolem, 25, TimeSpan.FromMilliseconds(0), "Spawner7.f_remains_39");
-		AddSpawner(MonsterId.Zolem, 25, TimeSpan.FromMilliseconds(0), "Spawner8.f_remains_39");
-		AddSpawner(MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(30000), "Spawner9.f_remains_39");
+		AddSpawner("Spawner1.f_remains_39", MonsterId.Hook, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_39", MonsterId.Zolem, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_remains_39", MonsterId.Hook, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_remains_39", MonsterId.Zolem, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_remains_39", MonsterId.Gravegolem, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_remains_39", MonsterId.Flying_Flog, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_remains_39", MonsterId.Gravegolem, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_remains_39", MonsterId.Zolem, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_remains_39", MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

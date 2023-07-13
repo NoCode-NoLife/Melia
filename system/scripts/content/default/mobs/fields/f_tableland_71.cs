@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FTableland71MobScript : GeneralScript
@@ -16,18 +17,18 @@ public class FTableland71MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hohen_Ritter_Purple, 30, TimeSpan.FromMilliseconds(25000), "Spawner1.f_tableland_71");
-		AddSpawner(MonsterId.Cronewt_Bow_Blue, 10, TimeSpan.FromMilliseconds(25000), "Spawner2.f_tableland_71");
-		AddSpawner(MonsterId.Hohen_Barkle_Blue, 10, TimeSpan.FromMilliseconds(25000), "Spawner3.f_tableland_71");
-		AddSpawner(MonsterId.Tiny_Blue, 10, TimeSpan.FromMilliseconds(25000), "Spawner4.f_tableland_71");
-		AddSpawner(MonsterId.Rootcrystal_03, 35, TimeSpan.FromMilliseconds(30000), "Spawner5.f_tableland_71");
-		AddSpawner(MonsterId.Hohen_Ritter_Purple, 3, TimeSpan.FromMilliseconds(25000), "Spawner6.f_tableland_71");
-		AddSpawner(MonsterId.Hohen_Barkle_Blue, 2, TimeSpan.FromMilliseconds(25000), "Spawner7.f_tableland_71");
-		AddSpawner(MonsterId.Tiny_Blue, 1, TimeSpan.FromMilliseconds(25000), "Spawner8.f_tableland_71");
-		AddSpawner(MonsterId.Cronewt_Bow_Blue, 1, TimeSpan.FromMilliseconds(25000), "Spawner9.f_tableland_71");
-		AddSpawner(MonsterId.Tiny_Blue, 100, TimeSpan.FromMilliseconds(25000), "Spawner10.f_tableland_71");
-		AddSpawner(MonsterId.Cronewt_Bow_Blue, 4, TimeSpan.FromMilliseconds(60000), "Spawner11.f_tableland_71");
-		AddSpawner(MonsterId.Hohen_Ritter_Purple, 10, TimeSpan.FromMilliseconds(30000), "Spawner12.f_tableland_71");
+		AddSpawner("Spawner1.f_tableland_71", MonsterId.Hohen_Ritter_Purple, 30, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_tableland_71", MonsterId.Cronewt_Bow_Blue, 10, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_tableland_71", MonsterId.Hohen_Barkle_Blue, 10, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_tableland_71", MonsterId.Tiny_Blue, 10, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_tableland_71", MonsterId.Rootcrystal_03, 35, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_tableland_71", MonsterId.Hohen_Ritter_Purple, 3, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_tableland_71", MonsterId.Hohen_Barkle_Blue, 2, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_tableland_71", MonsterId.Tiny_Blue, 1, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_tableland_71", MonsterId.Cronewt_Bow_Blue, 1, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_tableland_71", MonsterId.Tiny_Blue, 100, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_tableland_71", MonsterId.Cronewt_Bow_Blue, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner12.f_tableland_71", MonsterId.Hohen_Ritter_Purple, 10, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

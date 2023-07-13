@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn22MobScript : GeneralScript
@@ -16,15 +17,15 @@ public class DThorn22MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(15000), "Spawner1.d_thorn_22");
-		AddSpawner(MonsterId.Meleech, 20, TimeSpan.FromMilliseconds(15000), "Spawner2.d_thorn_22");
-		AddSpawner(MonsterId.RavineLerva, 15, TimeSpan.FromMilliseconds(15000), "Spawner3.d_thorn_22");
-		AddSpawner(MonsterId.Wood_Goblin, 30, TimeSpan.FromMilliseconds(15000), "Spawner4.d_thorn_22");
-		AddSpawner(MonsterId.Meleech, 15, TimeSpan.FromMilliseconds(20000), "Spawner5.d_thorn_22");
-		AddSpawner(MonsterId.RavineLerva, 14, TimeSpan.FromMilliseconds(20000), "Spawner6.d_thorn_22");
-		AddSpawner(MonsterId.TreeGool, 13, TimeSpan.FromMilliseconds(20000), "Spawner7.d_thorn_22");
-		AddSpawner(MonsterId.Wood_Goblin, 50, TimeSpan.FromMilliseconds(5000), "Spawner8.d_thorn_22");
-		AddSpawner(MonsterId.RavineLerva, 5, TimeSpan.FromMilliseconds(15000), "Spawner9.d_thorn_22");
+		AddSpawner("Spawner1.d_thorn_22", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_22", MonsterId.Meleech, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_22", MonsterId.RavineLerva, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_22", MonsterId.Wood_Goblin, 30, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_22", MonsterId.Meleech, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_thorn_22", MonsterId.RavineLerva, 14, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_thorn_22", MonsterId.TreeGool, 13, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_thorn_22", MonsterId.Wood_Goblin, 50, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_thorn_22", MonsterId.RavineLerva, 5, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

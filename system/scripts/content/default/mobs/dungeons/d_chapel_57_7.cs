@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DChapel577MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class DChapel577MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), "Spawner1.d_chapel_57_7");
-		AddSpawner(MonsterId.Spector_Gh, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_chapel_57_7");
-		AddSpawner(MonsterId.Egnome, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_chapel_57_7");
-		AddSpawner(MonsterId.Spector_Gh, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_chapel_57_7");
-		AddSpawner(MonsterId.Egnome, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_chapel_57_7");
-		AddSpawner(MonsterId.Colitile, 40, TimeSpan.FromMilliseconds(0), "Spawner6.d_chapel_57_7");
-		AddSpawner(MonsterId.Infroholder_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner7.d_chapel_57_7");
+		AddSpawner("Spawner1.d_chapel_57_7", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_chapel_57_7", MonsterId.Spector_Gh, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_chapel_57_7", MonsterId.Egnome, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_chapel_57_7", MonsterId.Spector_Gh, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_chapel_57_7", MonsterId.Egnome, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_chapel_57_7", MonsterId.Colitile, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_chapel_57_7", MonsterId.Infroholder_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

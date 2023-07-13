@@ -7,13 +7,14 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class MissionChaple01MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		AddSpawner(MonsterId.Rootcrystal_01, 1, TimeSpan.FromMilliseconds(15000), "Spawner1.mission_chaple_01");
+		AddSpawner("Spawner1.mission_chaple_01", MonsterId.Rootcrystal_01, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
 
 		// Rootcrystal_01 Spawn Points
 		AddSpawnPoint("mission_chaple_01", Spot(-148.58258, -891.9434, 100), "Spawner1.mission_chaple_01");

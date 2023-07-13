@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class TestZoneMobScript : GeneralScript
@@ -16,13 +17,13 @@ public class TestZoneMobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Boss_Spector_F, 1, TimeSpan.FromMilliseconds(60000), "Spawner1.test_zone");
-		AddSpawner(MonsterId.Boss_Golem, 1, TimeSpan.FromMilliseconds(60000), "Spawner2.test_zone");
-		AddSpawner(MonsterId.Boss_Mirtis, 1, TimeSpan.FromMilliseconds(60000), "Spawner3.test_zone");
-		AddSpawner(MonsterId.Barricade_Butterfly, 1, TimeSpan.FromMilliseconds(60000), "Spawner4.test_zone");
-		AddSpawner(MonsterId.Goblin_Spear, 2, TimeSpan.FromMilliseconds(60000), "Spawner5.test_zone");
-		AddSpawner(MonsterId.Bubbe_Mage_Normal, 2, TimeSpan.FromMilliseconds(60000), "Spawner6.test_zone");
-		AddSpawner(MonsterId.Goblin_Archer, 2, TimeSpan.FromMilliseconds(60000), "Spawner7.test_zone");
+		AddSpawner("Spawner1.test_zone", MonsterId.Boss_Spector_F, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.test_zone", MonsterId.Boss_Golem, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.test_zone", MonsterId.Boss_Mirtis, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.test_zone", MonsterId.Barricade_Butterfly, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.test_zone", MonsterId.Goblin_Spear, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.test_zone", MonsterId.Bubbe_Mage_Normal, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.test_zone", MonsterId.Goblin_Archer, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

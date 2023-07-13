@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FDcapital103MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class FDcapital103MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(5000), "Spawner1.f_dcapital_103");
-		AddSpawner(MonsterId.Goblin2_Hammer_Green, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_dcapital_103");
-		AddSpawner(MonsterId.Goblin2_Wand1_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_dcapital_103");
-		AddSpawner(MonsterId.Goblin2_Wand3_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_dcapital_103");
-		AddSpawner(MonsterId.Goblin2_Sword_Green, 30, TimeSpan.FromMilliseconds(0), "Spawner5.f_dcapital_103");
-		AddSpawner(MonsterId.Goblin2_Hammer_Green, 6, TimeSpan.FromMilliseconds(0), "Spawner6.f_dcapital_103");
+		AddSpawner("Spawner1.f_dcapital_103", MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_dcapital_103", MonsterId.Goblin2_Hammer_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.f_dcapital_103", MonsterId.Goblin2_Wand1_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_dcapital_103", MonsterId.Goblin2_Wand3_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_dcapital_103", MonsterId.Goblin2_Sword_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.f_dcapital_103", MonsterId.Goblin2_Hammer_Green, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

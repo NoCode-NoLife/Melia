@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DLimestonecave523MobScript : GeneralScript
@@ -22,14 +23,14 @@ public class DLimestonecave523MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Flamme_Priest_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Flamme_Mage_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Bavon_Green, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Rubblem_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Bavon_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Flamme_Priest_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner6.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), "Spawner7.d_limestonecave_52_3");
-		AddSpawner(MonsterId.Rocktanon, 30, TimeSpan.FromMilliseconds(0), "Spawner8.d_limestonecave_52_3");
+		AddSpawner("Spawner1.d_limestonecave_52_3", MonsterId.Flamme_Priest_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_limestonecave_52_3", MonsterId.Flamme_Mage_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_limestonecave_52_3", MonsterId.Bavon_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_limestonecave_52_3", MonsterId.Rubblem_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_limestonecave_52_3", MonsterId.Bavon_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_limestonecave_52_3", MonsterId.Flamme_Priest_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_limestonecave_52_3", MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_limestonecave_52_3", MonsterId.Rocktanon, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

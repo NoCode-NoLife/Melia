@@ -24,8 +24,6 @@ namespace Melia.Zone.World.Spawner
 	/// </summary>
 	public class MonsterSpawner :IUpdateable
 	{
-		private const int MaxValidPositionTries = 50;
-
 		private const float FlexIncreaseLimit = 100;
 		private const float FlexDecreaseLimit = -100;
 		private const float FlexMeterDefault = 0;
@@ -44,9 +42,10 @@ namespace Melia.Zone.World.Spawner
 
 		/// <summary>
 		/// List of spawn points this spawner can spawn monsters in.
-		/// This is a map and area (in that map) tuple.
+		/// The spawn point is chosen at random each time there are
+		/// monsters to be spawned.
 		/// </summary>
-		public List<MonsterSpawnPoint> SpawnPoints = new List<MonsterSpawnPoint>();
+		private List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
 
 		/// <summary>
 		/// Returns the unique id of this spawner.
@@ -155,9 +154,23 @@ namespace Melia.Zone.World.Spawner
 				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
 			var spawnPoint = new MonsterSpawnPoint(map, area);
-			this.SpawnPoints.Add(spawnPoint);
+			_spawnPoints.Add(spawnPoint);
 
 			return spawnPoint;
+		}
+
+		/// <summary>
+		/// Gets all spawn points of this spawner that are in a specific
+		/// map. Returns copy of list with matching spawn points, or null
+		/// if none are found.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <returns></returns>
+		public List<MonsterSpawnPoint> GetSpawnPointsInMap(Map map)
+		{
+			List<MonsterSpawnPoint> ls = null;
+			ls = _spawnPoints.FindAll(p => p.Map.Name.Equals(map.Name));
+			return ls;
 		}
 
 		/// <summary>
@@ -174,12 +187,12 @@ namespace Melia.Zone.World.Spawner
 		public void Spawn(int amount)
 		{
 			// Gets random spawn point
-			var index = _rnd.Next(0, this.SpawnPoints.Count);
-			var spawnPoint = this.SpawnPoints[index];
+			var index = _rnd.Next(0, _spawnPoints.Count);
+			var spawnPoint = _spawnPoints[index];
 
 			for (var i = 0; i < amount; ++i)
 			{
-				if (!this.TryGetRandomPosition(spawnPoint, out var pos))
+				if (!spawnPoint.TryGetRandomPosition(out var pos))
 				{
 					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.Name}'.");
 					continue;
@@ -358,69 +371,5 @@ namespace Melia.Zone.World.Spawner
 		/// <returns></returns>
 		private TimeSpan GetRandomRespawnDelay()
 			=> _rnd.Between(this.MinRespawnDelay, this.MaxRespawnDelay);
-
-		/// <summary>
-		/// Attempts to find a valid random position within the spawn
-		/// point and returns it via out. Returns false if no valid
-		/// position could be found within a reasonable amount of
-		/// tries.
-		/// </summary>
-		/// <returns></returns>
-		private bool TryGetRandomPosition(MonsterSpawnPoint spawnPoint, out Position pos)
-		{
-			// Since we have no way of knowing what kinds of spawn areas
-			// users will create, we have no other choice but to try a
-			// a couple of positions and see if we can find a valid one.
-			// If we can't, we have to fail the attempt because even the
-			// area's center or edge points might be invalid.
-
-			for (var i = 0; i < MaxValidPositionTries; ++i)
-			{
-				var rndVector = spawnPoint.Area.GetRandomPoint(_rnd);
-				if (this.TryGetPositionFromPoint(spawnPoint.Map, rndVector, out pos))
-					return true;
-			}
-
-			// If all tries failed, try the area's center point
-			if (this.TryGetPositionFromPoint(spawnPoint.Map, spawnPoint.Area.Center, out pos))
-				return true;
-
-			// No dice? Okay... What about the edge points?
-			foreach (var edgePoint in spawnPoint.Area.GetEdgePoints().OrderBy(_ => _rnd.Next()))
-			{
-				if (this.TryGetPositionFromPoint(spawnPoint.Map, edgePoint, out pos))
-					return true;
-			}
-
-			// TODO: The game has spawns that span entire maps, which makes
-			//   it difficult to find spawn positions randomly. We don't
-			//   *have* to support this, but I understand why someone
-			//   would want it, so we should find a way to handle them.
-
-			// Well, we gave our best. Kind of.
-			pos = Position.Zero;
-			return false;
-		}
-
-		/// <summary>
-		/// Tries to turn point into a valid position and returns it via
-		/// out. Returns false if the point was not a valid position.
-		/// </summary>
-		/// <param name="map"></param>
-		/// <param name="point"></param>
-		/// <param name="pos"></param>
-		/// <returns></returns>
-		private bool TryGetPositionFromPoint(Map map, Vector2 point, out Position pos)
-		{
-			pos = new Position(point.X, 0, point.Y);
-			if (map.Ground.TryGetHeightAt(pos, out var height))
-			{
-				pos.Y = height;
-				return true;
-			}
-
-			pos = Position.Zero;
-			return false;
-		}
 	}
 }

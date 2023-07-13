@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFantasylibrary483MobScript : GeneralScript
@@ -21,11 +22,11 @@ public class DFantasylibrary483MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), "Spawner1.d_fantasylibrary_48_3");
-		AddSpawner(MonsterId.Rotacion, 45, TimeSpan.FromMilliseconds(0), "Spawner2.d_fantasylibrary_48_3");
-		AddSpawner(MonsterId.Crobasia, 40, TimeSpan.FromMilliseconds(0), "Spawner3.d_fantasylibrary_48_3");
-		AddSpawner(MonsterId.Gear, 60, TimeSpan.FromMilliseconds(0), "Spawner4.d_fantasylibrary_48_3");
-		AddSpawner(MonsterId.Boogie_Box, 40, TimeSpan.FromMilliseconds(0), "Spawner5.d_fantasylibrary_48_3");
+		AddSpawner("Spawner1.d_fantasylibrary_48_3", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_fantasylibrary_48_3", MonsterId.Rotacion, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_fantasylibrary_48_3", MonsterId.Crobasia, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_fantasylibrary_48_3", MonsterId.Gear, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_fantasylibrary_48_3", MonsterId.Boogie_Box, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

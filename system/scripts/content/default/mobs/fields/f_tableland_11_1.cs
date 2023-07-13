@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FTableland111MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FTableland111MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Saltisdaughter_Red, 30, TimeSpan.FromMilliseconds(60000), "Spawner1.f_tableland_11_1");
-		AddSpawner(MonsterId.Saltisdaughter_Bow_Green, 20, TimeSpan.FromMilliseconds(60000), "Spawner2.f_tableland_11_1");
-		AddSpawner(MonsterId.Repusbunny_Mage_Green, 20, TimeSpan.FromMilliseconds(60000), "Spawner3.f_tableland_11_1");
-		AddSpawner(MonsterId.Groll_White, 25, TimeSpan.FromMilliseconds(60000), "Spawner4.f_tableland_11_1");
-		AddSpawner(MonsterId.Groll_White, 40, TimeSpan.FromMilliseconds(60000), "Spawner5.f_tableland_11_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), "Spawner6.f_tableland_11_1");
+		AddSpawner("Spawner1.f_tableland_11_1", MonsterId.Saltisdaughter_Red, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_tableland_11_1", MonsterId.Saltisdaughter_Bow_Green, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_tableland_11_1", MonsterId.Repusbunny_Mage_Green, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_tableland_11_1", MonsterId.Groll_White, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_tableland_11_1", MonsterId.Groll_White, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_tableland_11_1", MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

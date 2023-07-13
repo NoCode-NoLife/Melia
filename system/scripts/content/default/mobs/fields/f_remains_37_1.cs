@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains371MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FRemains371MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_04, 50, TimeSpan.FromMilliseconds(60000), "Spawner1.f_remains_37_1");
-		AddSpawner(MonsterId.Wendigo_Magician, 25, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_37_1");
-		AddSpawner(MonsterId.Wendigo_Archer, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_37_1");
-		AddSpawner(MonsterId.Templeslave_Sword, 50, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_37_1");
-		AddSpawner(MonsterId.Wendigo_Archer, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_37_1");
-		AddSpawner(MonsterId.Wendigo_Magician, 25, TimeSpan.FromMilliseconds(35000), "Spawner6.f_remains_37_1");
-		AddSpawner(MonsterId.Templeslave_Sword, 40, TimeSpan.FromMilliseconds(35000), "Spawner7.f_remains_37_1");
+		AddSpawner("Spawner1.f_remains_37_1", MonsterId.Rootcrystal_04, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_37_1", MonsterId.Wendigo_Magician, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.f_remains_37_1", MonsterId.Wendigo_Archer, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_remains_37_1", MonsterId.Templeslave_Sword, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_remains_37_1", MonsterId.Wendigo_Archer, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.f_remains_37_1", MonsterId.Wendigo_Magician, 25, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.f_remains_37_1", MonsterId.Templeslave_Sword, 40, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

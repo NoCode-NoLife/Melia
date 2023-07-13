@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFlash61MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FFlash61MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Moyabu, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_flash_61");
-		AddSpawner(MonsterId.Moyabu, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_flash_61");
-		AddSpawner(MonsterId.Goblin2_Sword, 100, TimeSpan.FromMilliseconds(0), "Spawner3.f_flash_61");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), "Spawner4.f_flash_61");
-		AddSpawner(MonsterId.Denden, 15, TimeSpan.FromMilliseconds(0), "Spawner5.f_flash_61");
-		AddSpawner(MonsterId.Denden, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_flash_61");
+		AddSpawner("Spawner1.f_flash_61", MonsterId.Moyabu, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_flash_61", MonsterId.Moyabu, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_flash_61", MonsterId.Goblin2_Sword, 100, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_flash_61", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_flash_61", MonsterId.Denden, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_flash_61", MonsterId.Denden, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

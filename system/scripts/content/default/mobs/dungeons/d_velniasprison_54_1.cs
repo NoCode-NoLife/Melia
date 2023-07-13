@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DVelniasprison541MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class DVelniasprison541MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Yognome, 35, TimeSpan.FromMilliseconds(0), "Spawner1.d_velniasprison_54_1");
-		AddSpawner(MonsterId.FD_Long_Arm, 23, TimeSpan.FromMilliseconds(0), "Spawner2.d_velniasprison_54_1");
-		AddSpawner(MonsterId.FD_Firent_Yellow, 1, TimeSpan.FromMilliseconds(0), "Spawner3.d_velniasprison_54_1");
-		AddSpawner(MonsterId.Treasure_Goblin, 0, TimeSpan.FromMilliseconds(0), "Spawner4.d_velniasprison_54_1");
-		AddSpawner(MonsterId.Rootcrystal_04, 15, TimeSpan.FromMilliseconds(60000), "Spawner5.d_velniasprison_54_1");
-		AddSpawner(MonsterId.FD_Infrogalas_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner6.d_velniasprison_54_1");
-		AddSpawner(MonsterId.FD_Yognome, 20, TimeSpan.FromMilliseconds(0), "Spawner7.d_velniasprison_54_1");
+		AddSpawner("Spawner1.d_velniasprison_54_1", MonsterId.FD_Yognome, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_velniasprison_54_1", MonsterId.FD_Long_Arm, 23, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_velniasprison_54_1", MonsterId.FD_Firent_Yellow, 1, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_velniasprison_54_1", MonsterId.Treasure_Goblin, 0, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_velniasprison_54_1", MonsterId.Rootcrystal_04, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_velniasprison_54_1", MonsterId.FD_Infrogalas_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_velniasprison_54_1", MonsterId.FD_Yognome, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

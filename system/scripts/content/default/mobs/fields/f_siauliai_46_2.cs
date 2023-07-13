@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai462MobScript : GeneralScript
@@ -21,11 +22,11 @@ public class FSiauliai462MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Zigri_Red, 40, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_46_2");
-		AddSpawner(MonsterId.Mushroom_Ent_Black, 4, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_46_2");
-		AddSpawner(MonsterId.Siaumire, 40, TimeSpan.FromMilliseconds(0), "Spawner3.f_siauliai_46_2");
-		AddSpawner(MonsterId.Big_Siaulamb, 3, TimeSpan.FromMilliseconds(0), "Spawner4.f_siauliai_46_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), "Spawner5.f_siauliai_46_2");
+		AddSpawner("Spawner1.f_siauliai_46_2", MonsterId.Zigri_Red, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_siauliai_46_2", MonsterId.Mushroom_Ent_Black, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_46_2", MonsterId.Siaumire, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_46_2", MonsterId.Big_Siaulamb, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_siauliai_46_2", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

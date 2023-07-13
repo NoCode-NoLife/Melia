@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn392MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class DThorn392MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 9, TimeSpan.FromMilliseconds(5000), "Spawner1.d_thorn_39_2");
-		AddSpawner(MonsterId.Tombstone_Turtle, 60, TimeSpan.FromMilliseconds(0), "Spawner2.d_thorn_39_2");
-		AddSpawner(MonsterId.Velwriggler_Mage_Green, 25, TimeSpan.FromMilliseconds(0), "Spawner3.d_thorn_39_2");
-		AddSpawner(MonsterId.Big_Cockatries_Green, 12, TimeSpan.FromMilliseconds(0), "Spawner4.d_thorn_39_2");
-		AddSpawner(MonsterId.Velwriggler_Mage_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_thorn_39_2");
+		AddSpawner("Spawner1.d_thorn_39_2", MonsterId.Rootcrystal_01, 9, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_39_2", MonsterId.Tombstone_Turtle, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_39_2", MonsterId.Velwriggler_Mage_Green, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_39_2", MonsterId.Big_Cockatries_Green, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_39_2", MonsterId.Velwriggler_Mage_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

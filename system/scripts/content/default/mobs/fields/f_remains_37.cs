@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains37MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class FRemains37MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Stub_Tree, 10, TimeSpan.FromMilliseconds(0), "Spawner1.f_remains_37");
-		AddSpawner(MonsterId.Stub_Tree, 40, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_37");
-		AddSpawner(MonsterId.TreeAmbulo, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_37");
-		AddSpawner(MonsterId.TreeAmbulo, 25, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_37");
-		AddSpawner(MonsterId.Tama, 40, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_37");
-		AddSpawner(MonsterId.Tama, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_remains_37");
-		AddSpawner(MonsterId.TreeAmbulo, 40, TimeSpan.FromMilliseconds(0), "Spawner7.f_remains_37");
-		AddSpawner(MonsterId.Rootcrystal_01, 5, TimeSpan.FromMilliseconds(60000), "Spawner8.f_remains_37");
+		AddSpawner("Spawner1.f_remains_37", MonsterId.Stub_Tree, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_37", MonsterId.Stub_Tree, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_remains_37", MonsterId.TreeAmbulo, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_remains_37", MonsterId.TreeAmbulo, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_remains_37", MonsterId.Tama, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_remains_37", MonsterId.Tama, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_remains_37", MonsterId.TreeAmbulo, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_remains_37", MonsterId.Rootcrystal_01, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

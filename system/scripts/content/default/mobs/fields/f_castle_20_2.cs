@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle202MobScript : GeneralScript
@@ -21,11 +22,11 @@ public class FCastle202MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(60000), "Spawner1.f_castle_20_2");
-		AddSpawner(MonsterId.Aklascenser, 35, TimeSpan.FromMilliseconds(0), "Spawner2.f_castle_20_2");
-		AddSpawner(MonsterId.Aklasbishop, 25, TimeSpan.FromMilliseconds(0), "Spawner3.f_castle_20_2");
-		AddSpawner(MonsterId.Aklashump, 35, TimeSpan.FromMilliseconds(0), "Spawner4.f_castle_20_2");
-		AddSpawner(MonsterId.Siaria, 1, TimeSpan.FromMilliseconds(1800000), "Spawner5.f_castle_20_2");
+		AddSpawner("Spawner1.f_castle_20_2", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_20_2", MonsterId.Aklascenser, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.f_castle_20_2", MonsterId.Aklasbishop, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_castle_20_2", MonsterId.Aklashump, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_castle_20_2", MonsterId.Siaria, 1, TimeSpan.FromMilliseconds(1800000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

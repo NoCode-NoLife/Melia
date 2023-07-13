@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRokas26MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FRokas26MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Wendigo, 25, TimeSpan.FromMilliseconds(0), "Spawner1.f_rokas_26");
-		AddSpawner(MonsterId.Dumaro, 65, TimeSpan.FromMilliseconds(0), "Spawner2.f_rokas_26");
-		AddSpawner(MonsterId.Dumaro, 12, TimeSpan.FromMilliseconds(0), "Spawner3.f_rokas_26");
-		AddSpawner(MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), "Spawner4.f_rokas_26");
-		AddSpawner(MonsterId.Wendigo_Bow, 15, TimeSpan.FromMilliseconds(0), "Spawner5.f_rokas_26");
-		AddSpawner(MonsterId.Wendigo_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner6.f_rokas_26");
-		AddSpawner(MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), "Spawner7.f_rokas_26");
+		AddSpawner("Spawner1.f_rokas_26", MonsterId.Wendigo, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_rokas_26", MonsterId.Dumaro, 65, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_rokas_26", MonsterId.Dumaro, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_rokas_26", MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_rokas_26", MonsterId.Wendigo_Bow, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_rokas_26", MonsterId.Wendigo_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_rokas_26", MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

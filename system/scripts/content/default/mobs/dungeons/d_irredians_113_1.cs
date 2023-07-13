@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DIrredians1131MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class DIrredians1131MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(20000), "Spawner1.d_irredians_113_1");
-		AddSpawner(MonsterId.Gazer, 85, TimeSpan.FromMilliseconds(0), "Spawner2.d_irredians_113_1");
-		AddSpawner(MonsterId.Maskexecutor, 85, TimeSpan.FromMilliseconds(0), "Spawner3.d_irredians_113_1");
-		AddSpawner(MonsterId.Greedyprisoner, 40, TimeSpan.FromMilliseconds(0), "Spawner4.d_irredians_113_1");
-		AddSpawner(MonsterId.PuppetM, 73, TimeSpan.FromMilliseconds(0), "Spawner5.d_irredians_113_1");
+		AddSpawner("Spawner1.d_irredians_113_1", MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_irredians_113_1", MonsterId.Gazer, 85, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_irredians_113_1", MonsterId.Maskexecutor, 85, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_irredians_113_1", MonsterId.Greedyprisoner, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_irredians_113_1", MonsterId.PuppetM, 73, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

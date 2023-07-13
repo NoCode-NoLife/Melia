@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep13FSiauliai1MobScript : GeneralScript
@@ -21,54 +22,54 @@ public class Ep13FSiauliai1MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 20, TimeSpan.FromMilliseconds(20000), "Spawner1.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Destroyer, 40, TimeSpan.FromMilliseconds(60000), "Spawner2.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Chaser, 80, TimeSpan.FromMilliseconds(60000), "Spawner3.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Invader, 80, TimeSpan.FromMilliseconds(60000), "Spawner4.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner5.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner6.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner7.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner8.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner9.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner10.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner11.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner12.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner13.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner14.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner15.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner16.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner17.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner18.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner19.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner20.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner21.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner22.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner23.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner24.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner25.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner26.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner27.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner28.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner29.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner30.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner31.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner32.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner33.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner34.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner35.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner36.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner37.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner38.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner39.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner40.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner41.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner42.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner43.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner44.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Invader, 20, TimeSpan.FromMilliseconds(60000), "Spawner45.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner46.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner47.ep13_f_siauliai_1");
-		AddSpawner(MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), "Spawner48.ep13_f_siauliai_1");
+		AddSpawner("Spawner1.ep13_f_siauliai_1", MonsterId.Rootcrystal_01, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep13_f_siauliai_1", MonsterId.Liepsna_Destroyer, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep13_f_siauliai_1", MonsterId.Liepsna_Chaser, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep13_f_siauliai_1", MonsterId.Liepsna_Invader, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner11.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner12.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner13.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner14.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner15.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner16.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner17.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner18.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner19.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner20.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner21.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner22.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner23.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner24.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner25.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner26.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner27.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner28.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner29.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner30.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner31.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner32.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner33.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner34.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner35.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner36.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner37.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner38.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner39.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner40.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner41.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner42.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner43.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner44.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner45.ep13_f_siauliai_1", MonsterId.Liepsna_Invader, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner46.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner47.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner48.ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

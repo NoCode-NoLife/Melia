@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress593MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class DUnderfortress593MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Fortress_Rock, 1, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_59_3");
-		AddSpawner(MonsterId.FD_Shredded, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_59_3");
-		AddSpawner(MonsterId.FD_Deadbornscab, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_59_3");
-		AddSpawner(MonsterId.FD_Hallowventor, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_59_3");
-		AddSpawner(MonsterId.Fortress_Rock, 1, TimeSpan.FromMilliseconds(0), "Spawner5.d_underfortress_59_3");
-		AddSpawner(MonsterId.Rootcrystal_03, 18, TimeSpan.FromMilliseconds(30000), "Spawner6.d_underfortress_59_3");
-		AddSpawner(MonsterId.FD_Shredded, 15, TimeSpan.FromMilliseconds(0), "Spawner7.d_underfortress_59_3");
-		AddSpawner(MonsterId.FD_Deadbornscab, 15, TimeSpan.FromMilliseconds(0), "Spawner8.d_underfortress_59_3");
+		AddSpawner("Spawner1.d_underfortress_59_3", MonsterId.Fortress_Rock, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_underfortress_59_3", MonsterId.FD_Shredded, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_59_3", MonsterId.FD_Deadbornscab, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_59_3", MonsterId.FD_Hallowventor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underfortress_59_3", MonsterId.Fortress_Rock, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_59_3", MonsterId.Rootcrystal_03, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_underfortress_59_3", MonsterId.FD_Shredded, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_underfortress_59_3", MonsterId.FD_Deadbornscab, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

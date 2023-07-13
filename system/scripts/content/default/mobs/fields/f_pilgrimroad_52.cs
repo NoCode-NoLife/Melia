@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad52MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class FPilgrimroad52MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hook_Old, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_pilgrimroad_52");
-		AddSpawner(MonsterId.TreeAmbulo_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner2.f_pilgrimroad_52");
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(5000), "Spawner3.f_pilgrimroad_52");
-		AddSpawner(MonsterId.TreeAmbulo_Red, 80, TimeSpan.FromMilliseconds(0), "Spawner4.f_pilgrimroad_52");
-		AddSpawner(MonsterId.Hook_Old, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_pilgrimroad_52");
-		AddSpawner(MonsterId.Lichenclops_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner6.f_pilgrimroad_52");
+		AddSpawner("Spawner1.f_pilgrimroad_52", MonsterId.Hook_Old, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_52", MonsterId.TreeAmbulo_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_52", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_52", MonsterId.TreeAmbulo_Red, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_pilgrimroad_52", MonsterId.Hook_Old, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_pilgrimroad_52", MonsterId.Lichenclops_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

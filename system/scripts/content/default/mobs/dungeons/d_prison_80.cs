@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DPrison80MobScript : GeneralScript
@@ -20,13 +21,13 @@ public class DPrison80MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Defender_Spider_Blue, 40, TimeSpan.FromMilliseconds(0), "Spawner1.d_prison_80");
-		AddSpawner(MonsterId.Socket_Mage_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner2.d_prison_80");
-		AddSpawner(MonsterId.NightMaiden_Bow_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner3.d_prison_80");
-		AddSpawner(MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(60000), "Spawner4.d_prison_80");
-		AddSpawner(MonsterId.Socket_Mage_Red, 8, TimeSpan.FromMilliseconds(0), "Spawner5.d_prison_80");
-		AddSpawner(MonsterId.NightMaiden_Bow_Red, 10, TimeSpan.FromMilliseconds(0), "Spawner6.d_prison_80");
-		AddSpawner(MonsterId.Defender_Spider_Blue, 8, TimeSpan.FromMilliseconds(0), "Spawner7.d_prison_80");
+		AddSpawner("Spawner1.d_prison_80", MonsterId.Defender_Spider_Blue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_prison_80", MonsterId.Socket_Mage_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_prison_80", MonsterId.NightMaiden_Bow_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_prison_80", MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_prison_80", MonsterId.Socket_Mage_Red, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_prison_80", MonsterId.NightMaiden_Bow_Red, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_prison_80", MonsterId.Defender_Spider_Blue, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

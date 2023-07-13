@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn72MobScript : GeneralScript
@@ -16,17 +17,17 @@ public class FKatyn72MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_02, 20, TimeSpan.FromMilliseconds(5000), "Spawner1.f_katyn_7_2");
-		AddSpawner(MonsterId.Ellomago, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_katyn_7_2");
-		AddSpawner(MonsterId.Ridimed, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_katyn_7_2");
-		AddSpawner(MonsterId.Jellyfish_Red, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_katyn_7_2");
-		AddSpawner(MonsterId.Sakmoli, 6, TimeSpan.FromMilliseconds(0), "Spawner5.f_katyn_7_2");
-		AddSpawner(MonsterId.Ridimed, 8, TimeSpan.FromMilliseconds(0), "Spawner6.f_katyn_7_2");
-		AddSpawner(MonsterId.Sakmoli, 8, TimeSpan.FromMilliseconds(0), "Spawner7.f_katyn_7_2");
-		AddSpawner(MonsterId.Ellomago, 8, TimeSpan.FromMilliseconds(0), "Spawner8.f_katyn_7_2");
-		AddSpawner(MonsterId.Ridimed, 15, TimeSpan.FromMilliseconds(0), "Spawner9.f_katyn_7_2");
-		AddSpawner(MonsterId.Sakmoli, 10, TimeSpan.FromMilliseconds(0), "Spawner10.f_katyn_7_2");
-		AddSpawner(MonsterId.Jellyfish_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner11.f_katyn_7_2");
+		AddSpawner("Spawner1.f_katyn_7_2", MonsterId.Rootcrystal_02, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_7_2", MonsterId.Ellomago, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_7_2", MonsterId.Ridimed, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_7_2", MonsterId.Jellyfish_Red, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_7_2", MonsterId.Sakmoli, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_katyn_7_2", MonsterId.Ridimed, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_katyn_7_2", MonsterId.Sakmoli, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_katyn_7_2", MonsterId.Ellomago, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_katyn_7_2", MonsterId.Ridimed, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_katyn_7_2", MonsterId.Sakmoli, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_katyn_7_2", MonsterId.Jellyfish_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

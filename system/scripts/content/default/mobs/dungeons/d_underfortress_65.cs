@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress65MobScript : GeneralScript
@@ -22,16 +23,16 @@ public class DUnderfortress65MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Silvertransporter_Qm, 4, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_65");
-		AddSpawner(MonsterId.Ticen_Bow_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_65");
-		AddSpawner(MonsterId.Socket_Red, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_65");
-		AddSpawner(MonsterId.Ticen_Blue, 40, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_65");
-		AddSpawner(MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), "Spawner5.d_underfortress_65");
-		AddSpawner(MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), "Spawner6.d_underfortress_65");
-		AddSpawner(MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), "Spawner7.d_underfortress_65");
-		AddSpawner(MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), "Spawner8.d_underfortress_65");
-		AddSpawner(MonsterId.Socket_Bow_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner9.d_underfortress_65");
-		AddSpawner(MonsterId.Rootcrystal_05, 14, TimeSpan.FromMilliseconds(20000), "Spawner10.d_underfortress_65");
+		AddSpawner("Spawner1.d_underfortress_65", MonsterId.Silvertransporter_Qm, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_underfortress_65", MonsterId.Ticen_Bow_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_65", MonsterId.Socket_Red, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_65", MonsterId.Ticen_Blue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_underfortress_65", MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_65", MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_underfortress_65", MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_underfortress_65", MonsterId.Silvertransporter_Qm, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_underfortress_65", MonsterId.Socket_Bow_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_underfortress_65", MonsterId.Rootcrystal_05, 14, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

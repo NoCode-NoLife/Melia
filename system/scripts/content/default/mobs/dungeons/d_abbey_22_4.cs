@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DAbbey224MobScript : GeneralScript
@@ -16,15 +17,15 @@ public class DAbbey224MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(60000), "Spawner1.d_abbey_22_4");
-		AddSpawner(MonsterId.Hohen_Mage_Black, 95, TimeSpan.FromMilliseconds(0), "Spawner2.d_abbey_22_4");
-		AddSpawner(MonsterId.Nook, 24, TimeSpan.FromMilliseconds(0), "Spawner3.d_abbey_22_4");
-		AddSpawner(MonsterId.Boor, 26, TimeSpan.FromMilliseconds(0), "Spawner4.d_abbey_22_4");
-		AddSpawner(MonsterId.Mangosting, 34, TimeSpan.FromMilliseconds(0), "Spawner5.d_abbey_22_4");
-		AddSpawner(MonsterId.Half_Mangosting, 46, TimeSpan.FromMilliseconds(0), "Spawner6.d_abbey_22_4");
-		AddSpawner(MonsterId.Hohen_Mage_Black, 5, TimeSpan.FromMilliseconds(40000), "Spawner7.d_abbey_22_4");
-		AddSpawner(MonsterId.Hohen_Mage_Black, 5, TimeSpan.FromMilliseconds(60000), "Spawner8.d_abbey_22_4");
-		AddSpawner(MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(60000), "Spawner9.d_abbey_22_4");
+		AddSpawner("Spawner1.d_abbey_22_4", MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_abbey_22_4", MonsterId.Hohen_Mage_Black, 95, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_abbey_22_4", MonsterId.Nook, 24, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_abbey_22_4", MonsterId.Boor, 26, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_abbey_22_4", MonsterId.Mangosting, 34, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_abbey_22_4", MonsterId.Half_Mangosting, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_abbey_22_4", MonsterId.Hohen_Mage_Black, 5, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_abbey_22_4", MonsterId.Hohen_Mage_Black, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_abbey_22_4", MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

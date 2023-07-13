@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FMaple241MobScript : GeneralScript
@@ -21,14 +22,14 @@ public class FMaple241MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Grievous_Wheel_Red, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_maple_24_1");
-		AddSpawner(MonsterId.Rudas_Elavine, 80, TimeSpan.FromMilliseconds(0), "Spawner2.f_maple_24_1");
-		AddSpawner(MonsterId.Delione, 40, TimeSpan.FromMilliseconds(0), "Spawner3.f_maple_24_1");
-		AddSpawner(MonsterId.Cloverin, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_maple_24_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), "Spawner5.f_maple_24_1");
-		AddSpawner(MonsterId.Cloverin, 20, TimeSpan.FromMilliseconds(40000), "Spawner6.f_maple_24_1");
-		AddSpawner(MonsterId.Delione, 15, TimeSpan.FromMilliseconds(40000), "Spawner7.f_maple_24_1");
-		AddSpawner(MonsterId.Rudas_Elavine, 12, TimeSpan.FromMilliseconds(40000), "Spawner8.f_maple_24_1");
+		AddSpawner("Spawner1.f_maple_24_1", MonsterId.Grievous_Wheel_Red, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_maple_24_1", MonsterId.Rudas_Elavine, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_maple_24_1", MonsterId.Delione, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_maple_24_1", MonsterId.Cloverin, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_maple_24_1", MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_maple_24_1", MonsterId.Cloverin, 20, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_maple_24_1", MonsterId.Delione, 15, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_maple_24_1", MonsterId.Rudas_Elavine, 12, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

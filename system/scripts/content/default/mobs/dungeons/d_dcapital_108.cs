@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DDcapital108MobScript : GeneralScript
@@ -20,14 +21,14 @@ public class DDcapital108MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Raganosis_Ram, 8, TimeSpan.FromMilliseconds(0), "Spawner1.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Guardian, 40, TimeSpan.FromMilliseconds(0), "Spawner2.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Seeker, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Ram, 2, TimeSpan.FromMilliseconds(0), "Spawner4.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Ram, 9, TimeSpan.FromMilliseconds(60000), "Spawner5.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Guardian, 24, TimeSpan.FromMilliseconds(60000), "Spawner6.d_dcapital_108");
-		AddSpawner(MonsterId.Raganosis_Seeker, 26, TimeSpan.FromMilliseconds(60000), "Spawner7.d_dcapital_108");
-		AddSpawner(MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(20000), "Spawner8.d_dcapital_108");
+		AddSpawner("Spawner1.d_dcapital_108", MonsterId.Raganosis_Ram, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_dcapital_108", MonsterId.Raganosis_Guardian, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_dcapital_108", MonsterId.Raganosis_Seeker, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_dcapital_108", MonsterId.Raganosis_Ram, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_dcapital_108", MonsterId.Raganosis_Ram, 9, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_dcapital_108", MonsterId.Raganosis_Guardian, 24, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_dcapital_108", MonsterId.Raganosis_Seeker, 26, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_dcapital_108", MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

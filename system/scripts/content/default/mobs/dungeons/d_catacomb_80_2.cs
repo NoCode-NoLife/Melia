@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCatacomb802MobScript : GeneralScript
@@ -16,19 +17,19 @@ public class DCatacomb802MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Yognome_Yellow, 12, TimeSpan.FromMilliseconds(0), "Spawner1.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Moya, 18, TimeSpan.FromMilliseconds(0), "Spawner2.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Mushroom_Boy_Green, 18, TimeSpan.FromMilliseconds(0), "Spawner3.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Mirtislampa, 40, TimeSpan.FromMilliseconds(0), "Spawner4.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Infroholder_Mage_Green, 16, TimeSpan.FromMilliseconds(0), "Spawner5.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_NightMaiden_Bow_Red, 16, TimeSpan.FromMilliseconds(0), "Spawner6.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Gazing_Golem_Yellow, 12, TimeSpan.FromMilliseconds(0), "Spawner7.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Egnome_Yellow, 5, TimeSpan.FromMilliseconds(0), "Spawner8.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Wendigo_Archer_Blue, 20, TimeSpan.FromMilliseconds(0), "Spawner9.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Wendigo_Magician_Blue, 20, TimeSpan.FromMilliseconds(0), "Spawner10.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Kepari_Mage, 16, TimeSpan.FromMilliseconds(0), "Spawner11.d_catacomb_80_2");
-		AddSpawner(MonsterId.ERD_Mushroom_Ent_Green, 5, TimeSpan.FromMilliseconds(0), "Spawner12.d_catacomb_80_2");
-		AddSpawner(MonsterId.Rootcrystal_05, 20, TimeSpan.FromMilliseconds(20000), "Spawner13.d_catacomb_80_2");
+		AddSpawner("Spawner1.d_catacomb_80_2", MonsterId.ERD_Yognome_Yellow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_catacomb_80_2", MonsterId.ERD_Moya, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_catacomb_80_2", MonsterId.ERD_Mushroom_Boy_Green, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_catacomb_80_2", MonsterId.ERD_Mirtislampa, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_catacomb_80_2", MonsterId.ERD_Infroholder_Mage_Green, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_catacomb_80_2", MonsterId.ERD_NightMaiden_Bow_Red, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_catacomb_80_2", MonsterId.ERD_Gazing_Golem_Yellow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_catacomb_80_2", MonsterId.ERD_Egnome_Yellow, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_catacomb_80_2", MonsterId.ERD_Wendigo_Archer_Blue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_catacomb_80_2", MonsterId.ERD_Wendigo_Magician_Blue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_catacomb_80_2", MonsterId.ERD_Kepari_Mage, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner12.d_catacomb_80_2", MonsterId.ERD_Mushroom_Ent_Green, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner13.d_catacomb_80_2", MonsterId.Rootcrystal_05, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

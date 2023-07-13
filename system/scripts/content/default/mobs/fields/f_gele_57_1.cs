@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FGele571MobScript : GeneralScript
@@ -21,16 +22,16 @@ public class FGele571MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Npanto_Baby, 14, TimeSpan.FromMilliseconds(0), "Spawner1.f_gele_57_1");
-		AddSpawner(MonsterId.Zignuts, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_gele_57_1");
-		AddSpawner(MonsterId.Zignuts, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_gele_57_1");
-		AddSpawner(MonsterId.Npanto_Baby, 10, TimeSpan.FromMilliseconds(0), "Spawner4.f_gele_57_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), "Spawner5.f_gele_57_1");
-		AddSpawner(MonsterId.Grummer, 5, TimeSpan.FromMilliseconds(0), "Spawner6.f_gele_57_1");
-		AddSpawner(MonsterId.Npanto_Baby, 25, TimeSpan.FromMilliseconds(0), "Spawner7.f_gele_57_1");
-		AddSpawner(MonsterId.Npanto_Baby, 10, TimeSpan.FromMilliseconds(0), "Spawner8.f_gele_57_1");
-		AddSpawner(MonsterId.Grummer, 15, TimeSpan.FromMilliseconds(0), "Spawner9.f_gele_57_1");
-		AddSpawner(MonsterId.Panto_Javelin_Gele, 1, TimeSpan.FromMilliseconds(1800000), "Spawner10.f_gele_57_1");
+		AddSpawner("Spawner1.f_gele_57_1", MonsterId.Npanto_Baby, 14, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_gele_57_1", MonsterId.Zignuts, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_gele_57_1", MonsterId.Zignuts, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_gele_57_1", MonsterId.Npanto_Baby, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_gele_57_1", MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_gele_57_1", MonsterId.Grummer, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_gele_57_1", MonsterId.Npanto_Baby, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_gele_57_1", MonsterId.Npanto_Baby, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_gele_57_1", MonsterId.Grummer, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_gele_57_1", MonsterId.Panto_Javelin_Gele, 1, TimeSpan.FromMilliseconds(1800000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

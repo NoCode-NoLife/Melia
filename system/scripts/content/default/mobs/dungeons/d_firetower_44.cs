@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFiretower44MobScript : GeneralScript
@@ -22,12 +23,12 @@ public class DFiretower44MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.New_Desmodus_Black, 25, TimeSpan.FromMilliseconds(0), "Spawner1.d_firetower_44");
-		AddSpawner(MonsterId.Flask, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_firetower_44");
-		AddSpawner(MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), "Spawner3.d_firetower_44");
-		AddSpawner(MonsterId.Minivern, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_firetower_44");
-		AddSpawner(MonsterId.Wizards_Marmotte, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_firetower_44");
-		AddSpawner(MonsterId.Minivern_Elite, 3, TimeSpan.FromMilliseconds(0), "Spawner6.d_firetower_44");
+		AddSpawner("Spawner1.d_firetower_44", MonsterId.New_Desmodus_Black, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_firetower_44", MonsterId.Flask, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_firetower_44", MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_firetower_44", MonsterId.Minivern, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_firetower_44", MonsterId.Wizards_Marmotte, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_firetower_44", MonsterId.Minivern_Elite, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

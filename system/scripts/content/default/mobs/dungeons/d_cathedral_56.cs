@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCathedral56MobScript : GeneralScript
@@ -20,13 +21,13 @@ public class DCathedral56MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Pawnd_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner1.d_cathedral_56");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(60000), "Spawner2.d_cathedral_56");
-		AddSpawner(MonsterId.Pawnd_Purple, 8, TimeSpan.FromMilliseconds(0), "Spawner3.d_cathedral_56");
-		AddSpawner(MonsterId.Pawndel_Blue, 50, TimeSpan.FromMilliseconds(0), "Spawner4.d_cathedral_56");
-		AddSpawner(MonsterId.NightMaiden_Bow, 8, TimeSpan.FromMilliseconds(0), "Spawner5.d_cathedral_56");
-		AddSpawner(MonsterId.HiddenTrigger_CantGen300, 1, TimeSpan.FromMilliseconds(0), "Spawner6.d_cathedral_56");
-		AddSpawner(MonsterId.HiddenTrigger_CantGen250, 1, TimeSpan.FromMilliseconds(0), "Spawner7.d_cathedral_56");
+		AddSpawner("Spawner1.d_cathedral_56", MonsterId.Pawnd_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_cathedral_56", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_cathedral_56", MonsterId.Pawnd_Purple, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_cathedral_56", MonsterId.Pawndel_Blue, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_cathedral_56", MonsterId.NightMaiden_Bow, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_cathedral_56", MonsterId.HiddenTrigger_CantGen300, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_cathedral_56", MonsterId.HiddenTrigger_CantGen250, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

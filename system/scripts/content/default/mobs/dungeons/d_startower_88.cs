@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower88MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class DStartower88MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.NightPanto_Stellar, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_88");
-		AddSpawner(MonsterId.NightPanto_Archer, 22, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_88");
-		AddSpawner(MonsterId.NightPanto_Mage, 11, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_88");
-		AddSpawner(MonsterId.NightPanto_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_88");
-		AddSpawner(MonsterId.Mushuta, 39, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_88");
-		AddSpawner(MonsterId.Rootcrystal_02, 16, TimeSpan.FromMilliseconds(10000), "Spawner6.d_startower_88");
-		AddSpawner(MonsterId.Mushuta, 40, TimeSpan.FromMilliseconds(25000), "Spawner7.d_startower_88");
+		AddSpawner("Spawner1.d_startower_88", MonsterId.NightPanto_Stellar, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_startower_88", MonsterId.NightPanto_Archer, 22, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_startower_88", MonsterId.NightPanto_Mage, 11, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_startower_88", MonsterId.NightPanto_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_88", MonsterId.Mushuta, 39, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_startower_88", MonsterId.Rootcrystal_02, 16, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_startower_88", MonsterId.Mushuta, 40, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

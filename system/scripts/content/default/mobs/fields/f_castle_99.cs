@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle99MobScript : GeneralScript
@@ -22,12 +23,12 @@ public class FCastle99MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Nuo_Twinsword, 50, TimeSpan.FromMilliseconds(60000), "Spawner1.f_castle_99");
-		AddSpawner(MonsterId.Living_Armor, 40, TimeSpan.FromMilliseconds(60000), "Spawner2.f_castle_99");
-		AddSpawner(MonsterId.Nuka_Shield, 55, TimeSpan.FromMilliseconds(60000), "Spawner3.f_castle_99");
-		AddSpawner(MonsterId.Aklaspetal_Sword, 45, TimeSpan.FromMilliseconds(60000), "Spawner4.f_castle_99");
-		AddSpawner(MonsterId.Castle_Troll, 15, TimeSpan.FromMilliseconds(60000), "Spawner5.f_castle_99");
-		AddSpawner(MonsterId.Rootcrystal_02, 45, TimeSpan.FromMilliseconds(20000), "Spawner6.f_castle_99");
+		AddSpawner("Spawner1.f_castle_99", MonsterId.Nuo_Twinsword, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_99", MonsterId.Living_Armor, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_99", MonsterId.Nuka_Shield, 55, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_99", MonsterId.Aklaspetal_Sword, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_99", MonsterId.Castle_Troll, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_castle_99", MonsterId.Rootcrystal_02, 45, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

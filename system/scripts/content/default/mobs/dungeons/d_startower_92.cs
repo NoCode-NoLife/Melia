@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower92MobScript : GeneralScript
@@ -21,11 +22,11 @@ public class DStartower92MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Pipi, 60, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_92");
-		AddSpawner(MonsterId.Piang, 55, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_92");
-		AddSpawner(MonsterId.Vespera, 29, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_92");
-		AddSpawner(MonsterId.Vesperia, 7, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_92");
-		AddSpawner(MonsterId.Rootcrystal_02, 22, TimeSpan.FromMilliseconds(10000), "Spawner5.d_startower_92");
+		AddSpawner("Spawner1.d_startower_92", MonsterId.Pipi, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_startower_92", MonsterId.Piang, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_startower_92", MonsterId.Vespera, 29, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_startower_92", MonsterId.Vesperia, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_92", MonsterId.Rootcrystal_02, 22, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

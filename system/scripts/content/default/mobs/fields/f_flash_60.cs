@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFlash60MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FFlash60MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Moya, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_flash_60");
-		AddSpawner(MonsterId.Bavon, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_flash_60");
-		AddSpawner(MonsterId.Moya, 40, TimeSpan.FromMilliseconds(0), "Spawner3.f_flash_60");
-		AddSpawner(MonsterId.Bavon, 35, TimeSpan.FromMilliseconds(0), "Spawner4.f_flash_60");
-		AddSpawner(MonsterId.Saltisdaughter_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_flash_60");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), "Spawner6.f_flash_60");
-		AddSpawner(MonsterId.Saltisdaughter_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner7.f_flash_60");
+		AddSpawner("Spawner1.f_flash_60", MonsterId.Moya, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_flash_60", MonsterId.Bavon, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_flash_60", MonsterId.Moya, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_flash_60", MonsterId.Bavon, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_flash_60", MonsterId.Saltisdaughter_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_flash_60", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_flash_60", MonsterId.Saltisdaughter_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

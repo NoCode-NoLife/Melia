@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn451MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FKatyn451MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Stoulet_Bow_Blue, 50, TimeSpan.FromMilliseconds(0), "Spawner1.f_katyn_45_1");
-		AddSpawner(MonsterId.Socket_Green, 12, TimeSpan.FromMilliseconds(0), "Spawner2.f_katyn_45_1");
-		AddSpawner(MonsterId.Socket_Mage_Green, 12, TimeSpan.FromMilliseconds(0), "Spawner3.f_katyn_45_1");
-		AddSpawner(MonsterId.Socket_Green, 10, TimeSpan.FromMilliseconds(0), "Spawner4.f_katyn_45_1");
-		AddSpawner(MonsterId.Rootcrystal_04, 19, TimeSpan.FromMilliseconds(30000), "Spawner5.f_katyn_45_1");
-		AddSpawner(MonsterId.Stoulet_Gray, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_katyn_45_1");
-		AddSpawner(MonsterId.Stoulet_Bow_Blue, 40, TimeSpan.FromMilliseconds(0), "Spawner7.f_katyn_45_1");
+		AddSpawner("Spawner1.f_katyn_45_1", MonsterId.Stoulet_Bow_Blue, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_45_1", MonsterId.Socket_Green, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_45_1", MonsterId.Socket_Mage_Green, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_katyn_45_1", MonsterId.Socket_Green, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_45_1", MonsterId.Rootcrystal_04, 19, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_katyn_45_1", MonsterId.Stoulet_Gray, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_katyn_45_1", MonsterId.Stoulet_Bow_Blue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

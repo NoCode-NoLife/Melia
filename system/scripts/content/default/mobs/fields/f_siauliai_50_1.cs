@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai501MobScript : GeneralScript
@@ -21,16 +22,16 @@ public class FSiauliai501MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Chupaluka_Pink, 12, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_50_1");
-		AddSpawner(MonsterId.Sakmoli_Orange, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_50_1");
-		AddSpawner(MonsterId.Chupaluka_Pink, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_siauliai_50_1");
-		AddSpawner(MonsterId.Sakmoli_Orange, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_siauliai_50_1");
-		AddSpawner(MonsterId.Ridimed_Purple, 65, TimeSpan.FromMilliseconds(0), "Spawner5.f_siauliai_50_1");
-		AddSpawner(MonsterId.RootCrystal_A, 14, TimeSpan.FromMilliseconds(60000), "Spawner6.f_siauliai_50_1");
-		AddSpawner(MonsterId.Repusbunny_Bow, 10, TimeSpan.FromMilliseconds(0), "Spawner7.f_siauliai_50_1");
-		AddSpawner(MonsterId.Ridimed_Purple, 8, TimeSpan.FromMilliseconds(0), "Spawner8.f_siauliai_50_1");
-		AddSpawner(MonsterId.Ridimed_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner9.f_siauliai_50_1");
-		AddSpawner(MonsterId.Sakmoli_Orange, 10, TimeSpan.FromMilliseconds(0), "Spawner10.f_siauliai_50_1");
+		AddSpawner("Spawner1.f_siauliai_50_1", MonsterId.Chupaluka_Pink, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.f_siauliai_50_1", MonsterId.Sakmoli_Orange, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_50_1", MonsterId.Chupaluka_Pink, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_50_1", MonsterId.Sakmoli_Orange, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_siauliai_50_1", MonsterId.Ridimed_Purple, 65, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_siauliai_50_1", MonsterId.RootCrystal_A, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_siauliai_50_1", MonsterId.Repusbunny_Bow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_siauliai_50_1", MonsterId.Ridimed_Purple, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_siauliai_50_1", MonsterId.Ridimed_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_siauliai_50_1", MonsterId.Sakmoli_Orange, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

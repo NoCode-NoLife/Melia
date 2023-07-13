@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FBracken431MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FBracken431MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rakon, 30, TimeSpan.FromMilliseconds(0), "Spawner1.f_bracken_43_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), "Spawner2.f_bracken_43_1");
-		AddSpawner(MonsterId.Toothrikon, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_bracken_43_1");
-		AddSpawner(MonsterId.Horn_Golem, 10, TimeSpan.FromMilliseconds(0), "Spawner4.f_bracken_43_1");
-		AddSpawner(MonsterId.Rakon, 30, TimeSpan.FromMilliseconds(0), "Spawner5.f_bracken_43_1");
-		AddSpawner(MonsterId.Rakon, 12, TimeSpan.FromMilliseconds(40000), "Spawner6.f_bracken_43_1");
+		AddSpawner("Spawner1.f_bracken_43_1", MonsterId.Rakon, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_bracken_43_1", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_bracken_43_1", MonsterId.Toothrikon, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_bracken_43_1", MonsterId.Horn_Golem, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_bracken_43_1", MonsterId.Rakon, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_bracken_43_1", MonsterId.Rakon, 12, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

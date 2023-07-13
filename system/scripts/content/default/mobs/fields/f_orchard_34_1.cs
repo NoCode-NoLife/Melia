@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FOrchard341MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FOrchard341MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Eldigo_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_orchard_34_1");
-		AddSpawner(MonsterId.Eldigo_Green, 60, TimeSpan.FromMilliseconds(0), "Spawner2.f_orchard_34_1");
-		AddSpawner(MonsterId.Truffle_Red, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_orchard_34_1");
-		AddSpawner(MonsterId.Corpse_Flower_Green, 30, TimeSpan.FromMilliseconds(0), "Spawner4.f_orchard_34_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(60000), "Spawner5.f_orchard_34_1");
+		AddSpawner("Spawner1.f_orchard_34_1", MonsterId.Eldigo_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_orchard_34_1", MonsterId.Eldigo_Green, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_orchard_34_1", MonsterId.Truffle_Red, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_orchard_34_1", MonsterId.Corpse_Flower_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_orchard_34_1", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

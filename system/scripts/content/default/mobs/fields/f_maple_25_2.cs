@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FMaple252MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class FMaple252MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Elder_Rode, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_maple_25_2");
-		AddSpawner(MonsterId.Roderiot, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_maple_25_2");
-		AddSpawner(MonsterId.Rodedoe, 25, TimeSpan.FromMilliseconds(0), "Spawner3.f_maple_25_2");
-		AddSpawner(MonsterId.Elder_Rode, 25, TimeSpan.FromMilliseconds(0), "Spawner4.f_maple_25_2");
-		AddSpawner(MonsterId.Roderiot, 40, TimeSpan.FromMilliseconds(0), "Spawner5.f_maple_25_2");
-		AddSpawner(MonsterId.Rootcrystal_05, 35, TimeSpan.FromMilliseconds(30000), "Spawner6.f_maple_25_2");
+		AddSpawner("Spawner1.f_maple_25_2", MonsterId.Elder_Rode, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_maple_25_2", MonsterId.Roderiot, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_maple_25_2", MonsterId.Rodedoe, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_maple_25_2", MonsterId.Elder_Rode, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_maple_25_2", MonsterId.Roderiot, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_maple_25_2", MonsterId.Rootcrystal_05, 35, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

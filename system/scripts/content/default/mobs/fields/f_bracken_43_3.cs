@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FBracken433MobScript : GeneralScript
@@ -16,15 +17,15 @@ public class FBracken433MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), "Spawner1.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Soldier, 29, TimeSpan.FromMilliseconds(0), "Spawner2.f_bracken_43_3");
-		AddSpawner(MonsterId.Rompelnuka, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Archer, 22, TimeSpan.FromMilliseconds(0), "Spawner4.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Archer, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Soldier, 20, TimeSpan.FromMilliseconds(0), "Spawner6.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Soldier, 3, TimeSpan.FromMilliseconds(60000), "Spawner7.f_bracken_43_3");
-		AddSpawner(MonsterId.Vilkas_Archer, 2, TimeSpan.FromMilliseconds(60000), "Spawner8.f_bracken_43_3");
-		AddSpawner(MonsterId.Rompelnuka, 10, TimeSpan.FromMilliseconds(60000), "Spawner9.f_bracken_43_3");
+		AddSpawner("Spawner1.f_bracken_43_3", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_bracken_43_3", MonsterId.Vilkas_Soldier, 29, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_bracken_43_3", MonsterId.Rompelnuka, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_bracken_43_3", MonsterId.Vilkas_Archer, 22, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_bracken_43_3", MonsterId.Vilkas_Archer, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_bracken_43_3", MonsterId.Vilkas_Soldier, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_bracken_43_3", MonsterId.Vilkas_Soldier, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_bracken_43_3", MonsterId.Vilkas_Archer, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_bracken_43_3", MonsterId.Rompelnuka, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

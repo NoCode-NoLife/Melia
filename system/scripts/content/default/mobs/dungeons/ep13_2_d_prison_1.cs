@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep132DPrison1MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class Ep132DPrison1MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Episode13_2_Goblin_Brandingiron, 96, TimeSpan.FromMilliseconds(25000), "Spawner1.ep13_2_d_prison_1");
-		AddSpawner(MonsterId.Episode13_2_Banshee, 68, TimeSpan.FromMilliseconds(25000), "Spawner2.ep13_2_d_prison_1");
-		AddSpawner(MonsterId.Episode13_2_Goblin_Sweeper, 123, TimeSpan.FromMilliseconds(25000), "Spawner3.ep13_2_d_prison_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 22, TimeSpan.FromMilliseconds(20000), "Spawner4.ep13_2_d_prison_1");
+		AddSpawner("Spawner1.ep13_2_d_prison_1", MonsterId.Episode13_2_Goblin_Brandingiron, 96, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep13_2_d_prison_1", MonsterId.Episode13_2_Banshee, 68, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep13_2_d_prison_1", MonsterId.Episode13_2_Goblin_Sweeper, 123, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep13_2_d_prison_1", MonsterId.Rootcrystal_01, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class IdUnknownsanctuary2MobScript : GeneralScript
@@ -28,19 +29,19 @@ public class IdUnknownsanctuary2MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Boss_Velcoffer, 1, TimeSpan.FromMilliseconds(15000), "Spawner1.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Kucarry_Balzermancer, 1, TimeSpan.FromMilliseconds(15000), "Spawner2.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Wastrel, 1, TimeSpan.FromMilliseconds(15000), "Spawner3.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Ignas, 1, TimeSpan.FromMilliseconds(15000), "Spawner4.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Asiomage, 1, TimeSpan.FromMilliseconds(15000), "Spawner5.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), "Spawner6.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Moringponia, 1, TimeSpan.FromMilliseconds(15000), "Spawner7.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Tantaliser, 1, TimeSpan.FromMilliseconds(15000), "Spawner8.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Pbeta, 1, TimeSpan.FromMilliseconds(15000), "Spawner9.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Glacier, 1, TimeSpan.FromMilliseconds(15000), "Spawner10.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Froster_Lord, 1, TimeSpan.FromMilliseconds(15000), "Spawner11.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), "Spawner12.id_Unknownsanctuary_2");
-		AddSpawner(MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), "Spawner13.id_Unknownsanctuary_2");
+		AddSpawner("Spawner1.id_Unknownsanctuary_2", MonsterId.FD_Boss_Velcoffer, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner2.id_Unknownsanctuary_2", MonsterId.FD_Boss_Kucarry_Balzermancer, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner3.id_Unknownsanctuary_2", MonsterId.FD_Boss_Wastrel, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner4.id_Unknownsanctuary_2", MonsterId.FD_Boss_Ignas, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner5.id_Unknownsanctuary_2", MonsterId.FD_Boss_Asiomage, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner6.id_Unknownsanctuary_2", MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.id_Unknownsanctuary_2", MonsterId.FD_Boss_Moringponia, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner8.id_Unknownsanctuary_2", MonsterId.FD_Boss_Tantaliser, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner9.id_Unknownsanctuary_2", MonsterId.FD_Boss_Pbeta, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner10.id_Unknownsanctuary_2", MonsterId.FD_Boss_Glacier, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner11.id_Unknownsanctuary_2", MonsterId.FD_Boss_Froster_Lord, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner12.id_Unknownsanctuary_2", MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
+		AddSpawner("Spawner13.id_Unknownsanctuary_2", MonsterId.FD_Boss_Skiaclipse, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

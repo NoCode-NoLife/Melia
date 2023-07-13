@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliaiOutMobScript : GeneralScript
@@ -21,18 +22,18 @@ public class FSiauliaiOutMobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Onion_Red, 6, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_out");
-		AddSpawner(MonsterId.Jukopus, 6, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_out");
-		AddSpawner(MonsterId.Goblin_Spear, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_siauliai_out");
-		AddSpawner(MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), "Spawner4.f_siauliai_out");
-		AddSpawner(MonsterId.Goblin_Spear, 8, TimeSpan.FromMilliseconds(0), "Spawner5.f_siauliai_out");
-		AddSpawner(MonsterId.Onion_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_siauliai_out");
-		AddSpawner(MonsterId.Onion_Red, 18, TimeSpan.FromMilliseconds(0), "Spawner7.f_siauliai_out");
-		AddSpawner(MonsterId.Jukopus, 15, TimeSpan.FromMilliseconds(0), "Spawner8.f_siauliai_out");
-		AddSpawner(MonsterId.Onion_Red, 8, TimeSpan.FromMilliseconds(0), "Spawner9.f_siauliai_out");
-		AddSpawner(MonsterId.Jukopus, 6, TimeSpan.FromMilliseconds(0), "Spawner10.f_siauliai_out");
-		AddSpawner(MonsterId.Onion_Red_Elite, 2, TimeSpan.FromMilliseconds(0), "Spawner11.f_siauliai_out");
-		AddSpawner(MonsterId.Jukopus, 15, TimeSpan.FromMilliseconds(0), "Spawner12.f_siauliai_out");
+		AddSpawner("Spawner1.f_siauliai_out", MonsterId.Onion_Red, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_siauliai_out", MonsterId.Jukopus, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_out", MonsterId.Goblin_Spear, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_out", MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_siauliai_out", MonsterId.Goblin_Spear, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_siauliai_out", MonsterId.Onion_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_siauliai_out", MonsterId.Onion_Red, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_siauliai_out", MonsterId.Jukopus, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_siauliai_out", MonsterId.Onion_Red, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_siauliai_out", MonsterId.Jukopus, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_siauliai_out", MonsterId.Onion_Red_Elite, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.f_siauliai_out", MonsterId.Jukopus, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

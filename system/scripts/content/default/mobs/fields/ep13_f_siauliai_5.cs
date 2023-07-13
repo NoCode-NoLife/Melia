@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep13FSiauliai5MobScript : GeneralScript
@@ -21,28 +22,28 @@ public class Ep13FSiauliai5MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), "Spawner1.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner2.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner3.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner4.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner5.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner6.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), "Spawner7.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Malkos, 10, TimeSpan.FromMilliseconds(60000), "Spawner8.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Malkos, 10, TimeSpan.FromMilliseconds(60000), "Spawner9.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Malkos, 5, TimeSpan.FromMilliseconds(60000), "Spawner10.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Malkos, 20, TimeSpan.FromMilliseconds(60000), "Spawner11.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Collecter, 50, TimeSpan.FromMilliseconds(60000), "Spawner12.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 7, TimeSpan.FromMilliseconds(60000), "Spawner13.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), "Spawner14.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), "Spawner15.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), "Spawner16.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 4, TimeSpan.FromMilliseconds(60000), "Spawner17.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), "Spawner18.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), "Spawner19.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), "Spawner20.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Elgesys_Malkos, 4, TimeSpan.FromMilliseconds(60000), "Spawner21.ep13_f_siauliai_5");
-		AddSpawner(MonsterId.Hidden_Monster4, 1, TimeSpan.FromMilliseconds(60000), "Spawner22.ep13_f_siauliai_5");
+		AddSpawner("Spawner1.ep13_f_siauliai_5", MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.ep13_f_siauliai_5", MonsterId.Elgesys_Guard, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.ep13_f_siauliai_5", MonsterId.Elgesys_Malkos, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.ep13_f_siauliai_5", MonsterId.Elgesys_Malkos, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.ep13_f_siauliai_5", MonsterId.Elgesys_Malkos, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner11.ep13_f_siauliai_5", MonsterId.Elgesys_Malkos, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner12.ep13_f_siauliai_5", MonsterId.Elgesys_Collecter, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner13.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 7, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner14.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner15.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner16.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner17.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner18.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner19.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner20.ep13_f_siauliai_5", MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner21.ep13_f_siauliai_5", MonsterId.Elgesys_Malkos, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner22.ep13_f_siauliai_5", MonsterId.Hidden_Monster4, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

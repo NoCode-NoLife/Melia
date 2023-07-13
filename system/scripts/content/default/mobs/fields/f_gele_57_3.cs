@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FGele573MobScript : GeneralScript
@@ -23,15 +24,15 @@ public class FGele573MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Banshee, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_gele_57_3");
-		AddSpawner(MonsterId.Firent, 3, TimeSpan.FromMilliseconds(0), "Spawner2.f_gele_57_3");
-		AddSpawner(MonsterId.Zigri_Brown, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_gele_57_3");
-		AddSpawner(MonsterId.Puragi_Green, 13, TimeSpan.FromMilliseconds(0), "Spawner4.f_gele_57_3");
-		AddSpawner(MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), "Spawner5.f_gele_57_3");
-		AddSpawner(MonsterId.Banshee, 10, TimeSpan.FromMilliseconds(0), "Spawner6.f_gele_57_3");
-		AddSpawner(MonsterId.Humming_Bud, 10, TimeSpan.FromMilliseconds(0), "Spawner7.f_gele_57_3");
-		AddSpawner(MonsterId.Deadbornscab_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner8.f_gele_57_3");
-		AddSpawner(MonsterId.Puragi_Green, 10, TimeSpan.FromMilliseconds(0), "Spawner9.f_gele_57_3");
+		AddSpawner("Spawner1.f_gele_57_3", MonsterId.Banshee, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_gele_57_3", MonsterId.Firent, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_gele_57_3", MonsterId.Zigri_Brown, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_gele_57_3", MonsterId.Puragi_Green, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_gele_57_3", MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_gele_57_3", MonsterId.Banshee, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_gele_57_3", MonsterId.Humming_Bud, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_gele_57_3", MonsterId.Deadbornscab_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_gele_57_3", MonsterId.Puragi_Green, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -218,6 +218,11 @@ namespace Melia.Zone.World
 				return _spawnersName.TryGetValue(name, out spawner);
 		}
 
+		/// <summary>
+		/// Gets all spawners that currently exist in the world.
+		/// Returns it as an array.
+		/// </summary>
+		/// <returns></returns>
 		public MonsterSpawner[] GetSpawners()
 		{
 			lock (_spawnersName)

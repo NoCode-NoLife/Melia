@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFiretower611MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class DFiretower611MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Raider_Bow, 10, TimeSpan.FromMilliseconds(0), "Spawner1.d_firetower_61_1");
-		AddSpawner(MonsterId.Socket_Bow_Brown, 50, TimeSpan.FromMilliseconds(0), "Spawner2.d_firetower_61_1");
-		AddSpawner(MonsterId.Anchor, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_firetower_61_1");
-		AddSpawner(MonsterId.Socket_Bow_Brown, 25, TimeSpan.FromMilliseconds(0), "Spawner4.d_firetower_61_1");
-		AddSpawner(MonsterId.Boss_Marionette, 0, TimeSpan.FromMilliseconds(7200000), "Spawner5.d_firetower_61_1");
-		AddSpawner(MonsterId.Rootcrystal_04, 20, TimeSpan.FromMilliseconds(30000), "Spawner6.d_firetower_61_1");
+		AddSpawner("Spawner1.d_firetower_61_1", MonsterId.Raider_Bow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_firetower_61_1", MonsterId.Socket_Bow_Brown, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_firetower_61_1", MonsterId.Anchor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_firetower_61_1", MonsterId.Socket_Bow_Brown, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_firetower_61_1", MonsterId.Boss_Marionette, 0, TimeSpan.FromMilliseconds(7200000), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_firetower_61_1", MonsterId.Rootcrystal_04, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

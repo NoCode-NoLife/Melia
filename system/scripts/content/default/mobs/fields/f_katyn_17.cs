@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn17MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FKatyn17MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Jellyfish, 20, TimeSpan.FromMilliseconds(15000), "Spawner1.f_katyn_17");
-		AddSpawner(MonsterId.TerraNymph, 15, TimeSpan.FromMilliseconds(15000), "Spawner2.f_katyn_17");
-		AddSpawner(MonsterId.Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(15000), "Spawner3.f_katyn_17");
-		AddSpawner(MonsterId.TerraNymph, 20, TimeSpan.FromMilliseconds(5000), "Spawner4.f_katyn_17");
-		AddSpawner(MonsterId.Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(5000), "Spawner5.f_katyn_17");
+		AddSpawner("Spawner1.f_katyn_17", MonsterId.Jellyfish, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_17", MonsterId.TerraNymph, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_17", MonsterId.Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_17", MonsterId.TerraNymph, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_17", MonsterId.Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

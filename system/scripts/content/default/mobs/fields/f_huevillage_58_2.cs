@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FHuevillage582MobScript : GeneralScript
@@ -20,15 +21,15 @@ public class FHuevillage582MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Ultanun, 10, TimeSpan.FromMilliseconds(0), "Spawner1.f_huevillage_58_2");
-		AddSpawner(MonsterId.Zibu_Maize, 8, TimeSpan.FromMilliseconds(0), "Spawner2.f_huevillage_58_2");
-		AddSpawner(MonsterId.Zibu_Maize, 8, TimeSpan.FromMilliseconds(0), "Spawner3.f_huevillage_58_2");
-		AddSpawner(MonsterId.Ultanun, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_huevillage_58_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), "Spawner5.f_huevillage_58_2");
-		AddSpawner(MonsterId.Ultanun, 80, TimeSpan.FromMilliseconds(0), "Spawner6.f_huevillage_58_2");
-		AddSpawner(MonsterId.Zibu_Maize, 6, TimeSpan.FromMilliseconds(0), "Spawner7.f_huevillage_58_2");
-		AddSpawner(MonsterId.Rudas_Loxodon, 3, TimeSpan.FromMilliseconds(0), "Spawner8.f_huevillage_58_2");
-		AddSpawner(MonsterId.Zibu_Maize, 10, TimeSpan.FromMilliseconds(0), "Spawner9.f_huevillage_58_2");
+		AddSpawner("Spawner1.f_huevillage_58_2", MonsterId.Ultanun, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_huevillage_58_2", MonsterId.Zibu_Maize, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_huevillage_58_2", MonsterId.Zibu_Maize, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_huevillage_58_2", MonsterId.Ultanun, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_huevillage_58_2", MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_huevillage_58_2", MonsterId.Ultanun, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_huevillage_58_2", MonsterId.Zibu_Maize, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_huevillage_58_2", MonsterId.Rudas_Loxodon, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_huevillage_58_2", MonsterId.Zibu_Maize, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

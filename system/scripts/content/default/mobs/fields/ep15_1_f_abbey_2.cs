@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep151FAbbey2MobScript : GeneralScript
@@ -20,9 +21,9 @@ public class Ep151FAbbey2MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Ep15_1_Goblin_Rider, 60, TimeSpan.FromMilliseconds(15000), "Spawner1.ep15_1_f_abbey_2");
-		AddSpawner(MonsterId.Ep15_1_Goblin_Fighter, 60, TimeSpan.FromMilliseconds(15000), "Spawner2.ep15_1_f_abbey_2");
-		AddSpawner(MonsterId.Ep15_1_Goblin_Saman, 60, TimeSpan.FromMilliseconds(15000), "Spawner3.ep15_1_f_abbey_2");
+		AddSpawner("Spawner1.ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Rider, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Fighter, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Saman, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

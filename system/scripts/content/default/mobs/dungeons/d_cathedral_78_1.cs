@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCathedral781MobScript : GeneralScript
@@ -16,24 +17,24 @@ public class DCathedral781MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Pawndel, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Pawnd, 25, TimeSpan.FromMilliseconds(0), "Spawner2.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Zombiegirl2, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Elet, 18, TimeSpan.FromMilliseconds(0), "Spawner4.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Candlespider, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Shredded, 18, TimeSpan.FromMilliseconds(0), "Spawner6.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Fire_Dragon_Purple, 15, TimeSpan.FromMilliseconds(0), "Spawner7.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Nuo, 12, TimeSpan.FromMilliseconds(0), "Spawner8.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_InfroRocktor, 20, TimeSpan.FromMilliseconds(0), "Spawner9.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Egnome, 4, TimeSpan.FromMilliseconds(0), "Spawner10.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Shtayim, 10, TimeSpan.FromMilliseconds(0), "Spawner11.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Nuo, 8, TimeSpan.FromMilliseconds(0), "Spawner12.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Elet, 8, TimeSpan.FromMilliseconds(0), "Spawner13.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Glizardon, 3, TimeSpan.FromMilliseconds(1200000), "Spawner14.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Galok, 3, TimeSpan.FromMilliseconds(1200000), "Spawner15.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Malstatue, 40, TimeSpan.FromMilliseconds(0), "Spawner16.d_cathedral_78_1");
-		AddSpawner(MonsterId.ERD_Malstatue, 14, TimeSpan.FromMilliseconds(0), "Spawner17.d_cathedral_78_1");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(20000), "Spawner18.d_cathedral_78_1");
+		AddSpawner("Spawner1.d_cathedral_78_1", MonsterId.ERD_Pawndel, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_cathedral_78_1", MonsterId.ERD_Pawnd, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_cathedral_78_1", MonsterId.ERD_Zombiegirl2, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_cathedral_78_1", MonsterId.ERD_Elet, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_cathedral_78_1", MonsterId.ERD_Candlespider, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_cathedral_78_1", MonsterId.ERD_Shredded, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_cathedral_78_1", MonsterId.ERD_Fire_Dragon_Purple, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_cathedral_78_1", MonsterId.ERD_Nuo, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_cathedral_78_1", MonsterId.ERD_InfroRocktor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_cathedral_78_1", MonsterId.ERD_Egnome, 4, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_cathedral_78_1", MonsterId.ERD_Shtayim, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner12.d_cathedral_78_1", MonsterId.ERD_Nuo, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner13.d_cathedral_78_1", MonsterId.ERD_Elet, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner14.d_cathedral_78_1", MonsterId.ERD_Glizardon, 3, TimeSpan.FromMilliseconds(1200000), TendencyType.Aggressive);
+		AddSpawner("Spawner15.d_cathedral_78_1", MonsterId.ERD_Galok, 3, TimeSpan.FromMilliseconds(1200000), TendencyType.Aggressive);
+		AddSpawner("Spawner16.d_cathedral_78_1", MonsterId.ERD_Malstatue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner17.d_cathedral_78_1", MonsterId.ERD_Malstatue, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner18.d_cathedral_78_1", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

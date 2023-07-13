@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DVelniasprison771MobScript : GeneralScript
@@ -16,19 +17,19 @@ public class DVelniasprison771MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_NightMaiden, 20, TimeSpan.FromMilliseconds(0), "Spawner1.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_NightMaiden_Mage, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_NightMaiden_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Wizards_Marmotte, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Charog, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Charcoal_Walker, 30, TimeSpan.FromMilliseconds(0), "Spawner6.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Harugal, 10, TimeSpan.FromMilliseconds(0), "Spawner7.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Tower_Of_Firepuppet_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner8.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Hallowventor, 20, TimeSpan.FromMilliseconds(0), "Spawner9.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Geppetto, 20, TimeSpan.FromMilliseconds(0), "Spawner10.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_Shardstatue, 30, TimeSpan.FromMilliseconds(0), "Spawner11.d_velniasprison_77_1");
-		AddSpawner(MonsterId.ERD_GoblinWarrior_Red, 10, TimeSpan.FromMilliseconds(0), "Spawner12.d_velniasprison_77_1");
-		AddSpawner(MonsterId.Rootcrystal_05, 25, TimeSpan.FromMilliseconds(25000), "Spawner13.d_velniasprison_77_1");
+		AddSpawner("Spawner1.d_velniasprison_77_1", MonsterId.ERD_NightMaiden, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_velniasprison_77_1", MonsterId.ERD_NightMaiden_Mage, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_velniasprison_77_1", MonsterId.ERD_NightMaiden_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_velniasprison_77_1", MonsterId.ERD_Wizards_Marmotte, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_velniasprison_77_1", MonsterId.ERD_Charog, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_velniasprison_77_1", MonsterId.ERD_Charcoal_Walker, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_velniasprison_77_1", MonsterId.ERD_Harugal, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_velniasprison_77_1", MonsterId.ERD_Tower_Of_Firepuppet_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_velniasprison_77_1", MonsterId.ERD_Hallowventor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_velniasprison_77_1", MonsterId.ERD_Geppetto, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_velniasprison_77_1", MonsterId.ERD_Shardstatue, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner12.d_velniasprison_77_1", MonsterId.ERD_GoblinWarrior_Red, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner13.d_velniasprison_77_1", MonsterId.Rootcrystal_05, 25, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

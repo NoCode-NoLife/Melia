@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai2MobScript : GeneralScript
@@ -21,16 +22,16 @@ public class FSiauliai2MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Chupacabra_Blue, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_2");
-		AddSpawner(MonsterId.Pokubu, 8, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(30000), "Spawner3.f_siauliai_2");
-		AddSpawner(MonsterId.Weaver, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_siauliai_2");
-		AddSpawner(MonsterId.Popolion_Blue, 60, TimeSpan.FromMilliseconds(0), "Spawner5.f_siauliai_2");
-		AddSpawner(MonsterId.Popolion_Blue, 10, TimeSpan.FromMilliseconds(0), "Spawner6.f_siauliai_2");
-		AddSpawner(MonsterId.Chupacabra_Blue, 6, TimeSpan.FromMilliseconds(0), "Spawner7.f_siauliai_2");
-		AddSpawner(MonsterId.Chupacabra_Blue, 30, TimeSpan.FromMilliseconds(0), "Spawner8.f_siauliai_2");
-		AddSpawner(MonsterId.Popolion_Blue, 30, TimeSpan.FromMilliseconds(0), "Spawner9.f_siauliai_2");
-		AddSpawner(MonsterId.Popolion_Blue, 10, TimeSpan.FromMilliseconds(0), "Spawner10.f_siauliai_2");
+		AddSpawner("Spawner1.f_siauliai_2", MonsterId.Chupacabra_Blue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_siauliai_2", MonsterId.Pokubu, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_2", MonsterId.Rootcrystal_01, 17, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_2", MonsterId.Weaver, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_siauliai_2", MonsterId.Popolion_Blue, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_siauliai_2", MonsterId.Popolion_Blue, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_siauliai_2", MonsterId.Chupacabra_Blue, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_siauliai_2", MonsterId.Chupacabra_Blue, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_siauliai_2", MonsterId.Popolion_Blue, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_siauliai_2", MonsterId.Popolion_Blue, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

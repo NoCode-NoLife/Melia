@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress592MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class DUnderfortress592MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Spectra, 45, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Spector_Gh_Purple, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Whip_Vine_Purple, 25, TimeSpan.FromMilliseconds(120000), "Spawner3.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Boss_Canceril, 0, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_59_2");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(30000), "Spawner5.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Spectra, 8, TimeSpan.FromMilliseconds(0), "Spawner6.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Spectra, 20, TimeSpan.FromMilliseconds(0), "Spawner7.d_underfortress_59_2");
-		AddSpawner(MonsterId.FD_Colimen_Mage, 25, TimeSpan.FromMilliseconds(0), "Spawner8.d_underfortress_59_2");
+		AddSpawner("Spawner1.d_underfortress_59_2", MonsterId.FD_Spectra, 45, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_59_2", MonsterId.FD_Spector_Gh_Purple, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_59_2", MonsterId.FD_Whip_Vine_Purple, 25, TimeSpan.FromMilliseconds(120000), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_59_2", MonsterId.FD_Boss_Canceril, 0, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underfortress_59_2", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_59_2", MonsterId.FD_Spectra, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_underfortress_59_2", MonsterId.FD_Spectra, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_underfortress_59_2", MonsterId.FD_Colimen_Mage, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

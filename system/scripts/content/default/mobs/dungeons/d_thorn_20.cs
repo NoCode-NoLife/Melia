@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn20MobScript : GeneralScript
@@ -22,14 +23,14 @@ public class DThorn20MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), "Spawner1.d_thorn_20");
-		AddSpawner(MonsterId.Flower_Blue, 12, TimeSpan.FromMilliseconds(0), "Spawner2.d_thorn_20");
-		AddSpawner(MonsterId.Groll, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_thorn_20");
-		AddSpawner(MonsterId.Merog_Wizzard, 15, TimeSpan.FromMilliseconds(0), "Spawner4.d_thorn_20");
-		AddSpawner(MonsterId.Bagworm, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_thorn_20");
-		AddSpawner(MonsterId.Flower_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner6.d_thorn_20");
-		AddSpawner(MonsterId.Merog_Wogu, 10, TimeSpan.FromMilliseconds(0), "Spawner7.d_thorn_20");
-		AddSpawner(MonsterId.Groll, 75, TimeSpan.FromMilliseconds(0), "Spawner8.d_thorn_20");
+		AddSpawner("Spawner1.d_thorn_20", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_20", MonsterId.Flower_Blue, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_20", MonsterId.Groll, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_20", MonsterId.Merog_Wizzard, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_20", MonsterId.Bagworm, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_thorn_20", MonsterId.Flower_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_thorn_20", MonsterId.Merog_Wogu, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_thorn_20", MonsterId.Groll, 75, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

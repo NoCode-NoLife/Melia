@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRokas25MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FRokas25MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 13, TimeSpan.FromMilliseconds(5000), "Spawner1.f_rokas_25");
-		AddSpawner(MonsterId.Chupacabra_Desert, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_rokas_25");
-		AddSpawner(MonsterId.Chupacabra_Desert, 25, TimeSpan.FromMilliseconds(0), "Spawner3.f_rokas_25");
-		AddSpawner(MonsterId.Zinute, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_rokas_25");
-		AddSpawner(MonsterId.Zinute, 20, TimeSpan.FromMilliseconds(0), "Spawner5.f_rokas_25");
-		AddSpawner(MonsterId.Chupacabra_Desert, 40, TimeSpan.FromMilliseconds(0), "Spawner6.f_rokas_25");
-		AddSpawner(MonsterId.Lichenclops, 40, TimeSpan.FromMilliseconds(0), "Spawner7.f_rokas_25");
+		AddSpawner("Spawner1.f_rokas_25", MonsterId.Rootcrystal_05, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_rokas_25", MonsterId.Chupacabra_Desert, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_rokas_25", MonsterId.Chupacabra_Desert, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_rokas_25", MonsterId.Zinute, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_rokas_25", MonsterId.Zinute, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_rokas_25", MonsterId.Chupacabra_Desert, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_rokas_25", MonsterId.Lichenclops, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

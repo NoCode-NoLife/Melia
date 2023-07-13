@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn453MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FKatyn453MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Mushroom_Boy_Yellow, 45, TimeSpan.FromMilliseconds(0), "Spawner1.f_katyn_45_3");
-		AddSpawner(MonsterId.Sakmoli_Purple, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_katyn_45_3");
-		AddSpawner(MonsterId.Jellyfish_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_katyn_45_3");
-		AddSpawner(MonsterId.Fisherman_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_katyn_45_3");
-		AddSpawner(MonsterId.Rootcrystal_04, 22, TimeSpan.FromMilliseconds(30000), "Spawner5.f_katyn_45_3");
-		AddSpawner(MonsterId.Mushroom_Boy_Yellow, 35, TimeSpan.FromMilliseconds(0), "Spawner6.f_katyn_45_3");
-		AddSpawner(MonsterId.Mushroom_Boy_Yellow, 40, TimeSpan.FromMilliseconds(0), "Spawner7.f_katyn_45_3");
+		AddSpawner("Spawner1.f_katyn_45_3", MonsterId.Mushroom_Boy_Yellow, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_45_3", MonsterId.Sakmoli_Purple, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_45_3", MonsterId.Jellyfish_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_45_3", MonsterId.Fisherman_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_45_3", MonsterId.Rootcrystal_04, 22, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_katyn_45_3", MonsterId.Mushroom_Boy_Yellow, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_katyn_45_3", MonsterId.Mushroom_Boy_Yellow, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

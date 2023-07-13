@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCmine01MobScript : GeneralScript
@@ -22,18 +23,18 @@ public class DCmine01MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(80000), "Spawner1.d_cmine_01");
-		AddSpawner(MonsterId.Goblin_Miners, 27, TimeSpan.FromMilliseconds(0), "Spawner2.d_cmine_01");
-		AddSpawner(MonsterId.Goblin_Miners, 7, TimeSpan.FromMilliseconds(0), "Spawner3.d_cmine_01");
-		AddSpawner(MonsterId.Bat, 8, TimeSpan.FromMilliseconds(0), "Spawner4.d_cmine_01");
-		AddSpawner(MonsterId.StonOrca, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_cmine_01");
-		AddSpawner(MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), "Spawner6.d_cmine_01");
-		AddSpawner(MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), "Spawner7.d_cmine_01");
-		AddSpawner(MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), "Spawner8.d_cmine_01");
-		AddSpawner(MonsterId.StonOrca, 3, TimeSpan.FromMilliseconds(0), "Spawner9.d_cmine_01");
-		AddSpawner(MonsterId.Goblin_Miners, 10, TimeSpan.FromMilliseconds(0), "Spawner10.d_cmine_01");
-		AddSpawner(MonsterId.Bat, 40, TimeSpan.FromMilliseconds(0), "Spawner11.d_cmine_01");
-		AddSpawner(MonsterId.Goblin_Miners_Q1, 2, TimeSpan.FromMilliseconds(0), "Spawner12.d_cmine_01");
+		AddSpawner("Spawner1.d_cmine_01", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(80000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_cmine_01", MonsterId.Goblin_Miners, 27, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_cmine_01", MonsterId.Goblin_Miners, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_cmine_01", MonsterId.Bat, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_cmine_01", MonsterId.StonOrca, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_cmine_01", MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_cmine_01", MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_cmine_01", MonsterId.Whip_Vine_Ra, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_cmine_01", MonsterId.StonOrca, 3, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_cmine_01", MonsterId.Goblin_Miners, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_cmine_01", MonsterId.Bat, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.d_cmine_01", MonsterId.Goblin_Miners_Q1, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

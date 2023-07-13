@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower762MobScript : GeneralScript
@@ -16,21 +17,21 @@ public class DStartower762MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Tiny, 30, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Hook_Remain, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Operor, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Rafflesia_Green, 30, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_TerraNymph, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Hohen_Orben_Green, 5, TimeSpan.FromMilliseconds(0), "Spawner6.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Ragged_Bird, 30, TimeSpan.FromMilliseconds(0), "Spawner7.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Truffle, 30, TimeSpan.FromMilliseconds(0), "Spawner8.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Hohen_Orben_Red, 5, TimeSpan.FromMilliseconds(0), "Spawner9.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Big_Cockatries_Red, 5, TimeSpan.FromMilliseconds(0), "Spawner10.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Nuo_Purple, 20, TimeSpan.FromMilliseconds(0), "Spawner11.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Quartz_Weaver, 20, TimeSpan.FromMilliseconds(0), "Spawner12.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Jukotail, 80, TimeSpan.FromMilliseconds(0), "Spawner13.d_startower_76_2");
-		AddSpawner(MonsterId.ERD_Jukotail, 3, TimeSpan.FromMilliseconds(30000), "Spawner14.d_startower_76_2");
-		AddSpawner(MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), "Spawner15.d_startower_76_2");
+		AddSpawner("Spawner1.d_startower_76_2", MonsterId.ERD_Tiny, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_startower_76_2", MonsterId.ERD_Hook_Remain, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_startower_76_2", MonsterId.ERD_Operor, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_startower_76_2", MonsterId.ERD_Rafflesia_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_startower_76_2", MonsterId.ERD_TerraNymph, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_startower_76_2", MonsterId.ERD_Hohen_Orben_Green, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_startower_76_2", MonsterId.ERD_Ragged_Bird, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_startower_76_2", MonsterId.ERD_Truffle, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_startower_76_2", MonsterId.ERD_Hohen_Orben_Red, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_startower_76_2", MonsterId.ERD_Big_Cockatries_Red, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_startower_76_2", MonsterId.ERD_Nuo_Purple, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner12.d_startower_76_2", MonsterId.ERD_Quartz_Weaver, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner13.d_startower_76_2", MonsterId.ERD_Jukotail, 80, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner14.d_startower_76_2", MonsterId.ERD_Jukotail, 3, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
+		AddSpawner("Spawner15.d_startower_76_2", MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

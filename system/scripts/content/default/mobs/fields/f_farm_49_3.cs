@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFarm493MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FFarm493MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Melatanun, 50, TimeSpan.FromMilliseconds(20000), "Spawner1.f_farm_49_3");
-		AddSpawner(MonsterId.Tree_Root_Mole_Pink, 15, TimeSpan.FromMilliseconds(30000), "Spawner2.f_farm_49_3");
-		AddSpawner(MonsterId.Melatanun, 25, TimeSpan.FromMilliseconds(30000), "Spawner3.f_farm_49_3");
-		AddSpawner(MonsterId.Carcashu_Green, 50, TimeSpan.FromMilliseconds(20000), "Spawner4.f_farm_49_3");
-		AddSpawner(MonsterId.Tree_Root_Mole_Pink, 15, TimeSpan.FromMilliseconds(35000), "Spawner5.f_farm_49_3");
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(5000), "Spawner6.f_farm_49_3");
+		AddSpawner("Spawner1.f_farm_49_3", MonsterId.Melatanun, 50, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
+		AddSpawner("Spawner2.f_farm_49_3", MonsterId.Tree_Root_Mole_Pink, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
+		AddSpawner("Spawner3.f_farm_49_3", MonsterId.Melatanun, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_farm_49_3", MonsterId.Carcashu_Green, 50, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_farm_49_3", MonsterId.Tree_Root_Mole_Pink, 15, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
+		AddSpawner("Spawner6.f_farm_49_3", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

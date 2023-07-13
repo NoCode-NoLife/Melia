@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress302MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class DUnderfortress302MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Saltisdaughter_Green, 50, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_30_2");
-		AddSpawner(MonsterId.Colifly_Mage_Black, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_30_2");
-		AddSpawner(MonsterId.Colifly_Bow_Black, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_30_2");
-		AddSpawner(MonsterId.Rootcrystal_05, 14, TimeSpan.FromMilliseconds(60000), "Spawner4.d_underfortress_30_2");
+		AddSpawner("Spawner1.d_underfortress_30_2", MonsterId.Saltisdaughter_Green, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_30_2", MonsterId.Colifly_Mage_Black, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_30_2", MonsterId.Colifly_Bow_Black, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_30_2", MonsterId.Rootcrystal_05, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

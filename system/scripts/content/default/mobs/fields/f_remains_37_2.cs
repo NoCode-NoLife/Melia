@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains372MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FRemains372MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_04, 40, TimeSpan.FromMilliseconds(60000), "Spawner1.f_remains_37_2");
-		AddSpawner(MonsterId.Lizardman_Mage, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_37_2");
-		AddSpawner(MonsterId.Minos, 90, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_37_2");
-		AddSpawner(MonsterId.Minos_Bow, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_37_2");
-		AddSpawner(MonsterId.Minos, 20, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_37_2");
+		AddSpawner("Spawner1.f_remains_37_2", MonsterId.Rootcrystal_04, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_37_2", MonsterId.Lizardman_Mage, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.f_remains_37_2", MonsterId.Minos, 90, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_remains_37_2", MonsterId.Minos_Bow, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_remains_37_2", MonsterId.Minos, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

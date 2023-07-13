@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains40MobScript : GeneralScript
@@ -20,15 +21,15 @@ public class FRemains40MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Big_Cockatries, 4, TimeSpan.FromMilliseconds(0), "Spawner1.f_remains_40");
-		AddSpawner(MonsterId.Cockatries, 25, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_40");
-		AddSpawner(MonsterId.Cockatries, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_40");
-		AddSpawner(MonsterId.Hallowventor, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_40");
-		AddSpawner(MonsterId.Hallowventor, 25, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_40");
-		AddSpawner(MonsterId.Cockatries, 25, TimeSpan.FromMilliseconds(0), "Spawner6.f_remains_40");
-		AddSpawner(MonsterId.Hallowventor, 16, TimeSpan.FromMilliseconds(0), "Spawner7.f_remains_40");
-		AddSpawner(MonsterId.Rootcrystal_01, 23, TimeSpan.FromMilliseconds(60000), "Spawner8.f_remains_40");
-		AddSpawner(MonsterId.Big_Cockatries, 1, TimeSpan.FromMilliseconds(0), "Spawner9.f_remains_40");
+		AddSpawner("Spawner1.f_remains_40", MonsterId.Big_Cockatries, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_40", MonsterId.Cockatries, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_remains_40", MonsterId.Cockatries, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_remains_40", MonsterId.Hallowventor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_remains_40", MonsterId.Hallowventor, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_remains_40", MonsterId.Cockatries, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_remains_40", MonsterId.Hallowventor, 16, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_remains_40", MonsterId.Rootcrystal_01, 23, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_remains_40", MonsterId.Big_Cockatries, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

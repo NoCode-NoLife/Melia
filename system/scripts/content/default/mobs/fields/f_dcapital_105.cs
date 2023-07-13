@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FDcapital105MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class FDcapital105MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 35, TimeSpan.FromMilliseconds(25000), "Spawner1.f_dcapital_105");
-		AddSpawner(MonsterId.Beetle_Green, 35, TimeSpan.FromMilliseconds(0), "Spawner2.f_dcapital_105");
-		AddSpawner(MonsterId.Bumble_Green, 26, TimeSpan.FromMilliseconds(0), "Spawner3.f_dcapital_105");
-		AddSpawner(MonsterId.Moltooth, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_dcapital_105");
-		AddSpawner(MonsterId.Bishopstar, 32, TimeSpan.FromMilliseconds(0), "Spawner5.f_dcapital_105");
-		AddSpawner(MonsterId.Bishopstar, 7, TimeSpan.FromMilliseconds(20000), "Spawner6.f_dcapital_105");
-		AddSpawner(MonsterId.Bishopstar, 3, TimeSpan.FromMilliseconds(20000), "Spawner7.f_dcapital_105");
+		AddSpawner("Spawner1.f_dcapital_105", MonsterId.Rootcrystal_01, 35, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_dcapital_105", MonsterId.Beetle_Green, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_dcapital_105", MonsterId.Bumble_Green, 26, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_dcapital_105", MonsterId.Moltooth, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_dcapital_105", MonsterId.Bishopstar, 32, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_dcapital_105", MonsterId.Bishopstar, 7, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_dcapital_105", MonsterId.Bishopstar, 3, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

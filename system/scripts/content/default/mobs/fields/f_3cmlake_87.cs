@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class F3Cmlake87MobScript : GeneralScript
@@ -22,12 +23,12 @@ public class F3Cmlake87MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Humming_Duke, 40, TimeSpan.FromMilliseconds(0), "Spawner1.f_3cmlake_87");
-		AddSpawner(MonsterId.Mutt, 17, TimeSpan.FromMilliseconds(0), "Spawner2.f_3cmlake_87");
-		AddSpawner(MonsterId.Beissen, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_3cmlake_87");
-		AddSpawner(MonsterId.KindronShooter, 23, TimeSpan.FromMilliseconds(0), "Spawner4.f_3cmlake_87");
-		AddSpawner(MonsterId.KindronBoor, 25, TimeSpan.FromMilliseconds(60000), "Spawner5.f_3cmlake_87");
-		AddSpawner(MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), "Spawner6.f_3cmlake_87");
+		AddSpawner("Spawner1.f_3cmlake_87", MonsterId.Humming_Duke, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_3cmlake_87", MonsterId.Mutt, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_3cmlake_87", MonsterId.Beissen, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_3cmlake_87", MonsterId.KindronShooter, 23, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_3cmlake_87", MonsterId.KindronBoor, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_3cmlake_87", MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

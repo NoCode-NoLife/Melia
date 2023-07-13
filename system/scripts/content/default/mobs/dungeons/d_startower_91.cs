@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower91MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class DStartower91MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Nastudeu, 55, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_91");
-		AddSpawner(MonsterId.Punter, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_91");
-		AddSpawner(MonsterId.Waglog, 57, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_91");
-		AddSpawner(MonsterId.Glovegolem, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_91");
-		AddSpawner(MonsterId.Waglog, 5, TimeSpan.FromMilliseconds(60000), "Spawner5.d_startower_91");
-		AddSpawner(MonsterId.Glovegolem, 2, TimeSpan.FromMilliseconds(60000), "Spawner6.d_startower_91");
-		AddSpawner(MonsterId.Rootcrystal_03, 33, TimeSpan.FromMilliseconds(10000), "Spawner7.d_startower_91");
+		AddSpawner("Spawner1.d_startower_91", MonsterId.Nastudeu, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_startower_91", MonsterId.Punter, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_startower_91", MonsterId.Waglog, 57, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_startower_91", MonsterId.Glovegolem, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_91", MonsterId.Waglog, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_startower_91", MonsterId.Glovegolem, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_startower_91", MonsterId.Rootcrystal_03, 33, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

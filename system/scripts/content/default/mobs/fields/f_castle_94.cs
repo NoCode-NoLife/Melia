@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle94MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class FCastle94MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Gland, 53, TimeSpan.FromMilliseconds(0), "Spawner1.f_castle_94");
-		AddSpawner(MonsterId.Grievous_Wheel, 42, TimeSpan.FromMilliseconds(0), "Spawner2.f_castle_94");
-		AddSpawner(MonsterId.Ghosnatus, 35, TimeSpan.FromMilliseconds(0), "Spawner3.f_castle_94");
-		AddSpawner(MonsterId.Gland, 25, TimeSpan.FromMilliseconds(40000), "Spawner4.f_castle_94");
-		AddSpawner(MonsterId.Grievous_Wheel, 20, TimeSpan.FromMilliseconds(40000), "Spawner5.f_castle_94");
-		AddSpawner(MonsterId.Ghosnatus, 15, TimeSpan.FromMilliseconds(40000), "Spawner6.f_castle_94");
+		AddSpawner("Spawner1.f_castle_94", MonsterId.Gland, 53, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_94", MonsterId.Grievous_Wheel, 42, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_94", MonsterId.Ghosnatus, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_94", MonsterId.Gland, 25, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_94", MonsterId.Grievous_Wheel, 20, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_castle_94", MonsterId.Ghosnatus, 15, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

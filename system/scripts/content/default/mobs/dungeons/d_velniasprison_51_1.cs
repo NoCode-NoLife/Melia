@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DVelniasprison511MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class DVelniasprison511MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Yognome_Yellow, 30, TimeSpan.FromMilliseconds(0), "Spawner1.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Gazing_Golem_Yellow, 7, TimeSpan.FromMilliseconds(0), "Spawner2.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Moya_Yellow, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Egnome_Yellow, 8, TimeSpan.FromMilliseconds(0), "Spawner4.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Moya_Yellow, 16, TimeSpan.FromMilliseconds(0), "Spawner5.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Yognome_Yellow, 10, TimeSpan.FromMilliseconds(0), "Spawner6.d_velniasprison_51_1");
-		AddSpawner(MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(30000), "Spawner7.d_velniasprison_51_1");
+		AddSpawner("Spawner1.d_velniasprison_51_1", MonsterId.Yognome_Yellow, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_velniasprison_51_1", MonsterId.Gazing_Golem_Yellow, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_velniasprison_51_1", MonsterId.Moya_Yellow, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_velniasprison_51_1", MonsterId.Egnome_Yellow, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_velniasprison_51_1", MonsterId.Moya_Yellow, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_velniasprison_51_1", MonsterId.Yognome_Yellow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_velniasprison_51_1", MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

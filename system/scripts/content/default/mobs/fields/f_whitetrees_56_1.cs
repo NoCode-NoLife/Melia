@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FWhitetrees561MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FWhitetrees561MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), "Spawner1.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Floron, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Florabbi, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Budny, 30, TimeSpan.FromMilliseconds(0), "Spawner4.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Bloom, 40, TimeSpan.FromMilliseconds(0), "Spawner5.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Castle_Gardner, 1, TimeSpan.FromMilliseconds(1800000), "Spawner6.f_whitetrees_56_1");
-		AddSpawner(MonsterId.Florabbi, 9, TimeSpan.FromMilliseconds(30000), "Spawner7.f_whitetrees_56_1");
+		AddSpawner("Spawner1.f_whitetrees_56_1", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_whitetrees_56_1", MonsterId.Floron, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_whitetrees_56_1", MonsterId.Florabbi, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_whitetrees_56_1", MonsterId.Budny, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_whitetrees_56_1", MonsterId.Bloom, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_whitetrees_56_1", MonsterId.Castle_Gardner, 1, TimeSpan.FromMilliseconds(1800000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_whitetrees_56_1", MonsterId.Florabbi, 9, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

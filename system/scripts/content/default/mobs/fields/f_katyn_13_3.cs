@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn133MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FKatyn133MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.New_Desmodus, 20, TimeSpan.FromMilliseconds(15000), "Spawner1.f_katyn_13_3");
-		AddSpawner(MonsterId.Ellom_Green, 10, TimeSpan.FromMilliseconds(15000), "Spawner2.f_katyn_13_3");
-		AddSpawner(MonsterId.InfroRocktor_Red, 15, TimeSpan.FromMilliseconds(15000), "Spawner3.f_katyn_13_3");
-		AddSpawner(MonsterId.InfroRocktor_Red, 20, TimeSpan.FromMilliseconds(5000), "Spawner4.f_katyn_13_3");
-		AddSpawner(MonsterId.New_Desmodus, 20, TimeSpan.FromMilliseconds(5000), "Spawner5.f_katyn_13_3");
+		AddSpawner("Spawner1.f_katyn_13_3", MonsterId.New_Desmodus, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_13_3", MonsterId.Ellom_Green, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_13_3", MonsterId.InfroRocktor_Red, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_13_3", MonsterId.InfroRocktor_Red, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_13_3", MonsterId.New_Desmodus, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle97MobScript : GeneralScript
@@ -21,14 +22,14 @@ public class FCastle97MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Pawnta, 55, TimeSpan.FromMilliseconds(60000), "Spawner1.f_castle_97");
-		AddSpawner(MonsterId.Poevita, 55, TimeSpan.FromMilliseconds(60000), "Spawner2.f_castle_97");
-		AddSpawner(MonsterId.Poevita, 35, TimeSpan.FromMilliseconds(60000), "Spawner3.f_castle_97");
-		AddSpawner(MonsterId.Pawnta, 30, TimeSpan.FromMilliseconds(60000), "Spawner4.f_castle_97");
-		AddSpawner(MonsterId.Poana, 30, TimeSpan.FromMilliseconds(60000), "Spawner5.f_castle_97");
-		AddSpawner(MonsterId.Poana, 25, TimeSpan.FromMilliseconds(60000), "Spawner6.f_castle_97");
-		AddSpawner(MonsterId.Castle_Beetle, 15, TimeSpan.FromMilliseconds(60000), "Spawner7.f_castle_97");
-		AddSpawner(MonsterId.Rootcrystal_02, 35, TimeSpan.FromMilliseconds(20000), "Spawner8.f_castle_97");
+		AddSpawner("Spawner1.f_castle_97", MonsterId.Pawnta, 55, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_97", MonsterId.Poevita, 55, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_97", MonsterId.Poevita, 35, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_97", MonsterId.Pawnta, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_97", MonsterId.Poana, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_castle_97", MonsterId.Poana, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_castle_97", MonsterId.Castle_Beetle, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_castle_97", MonsterId.Rootcrystal_02, 35, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

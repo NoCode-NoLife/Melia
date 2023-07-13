@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep142DCastle1MobScript : GeneralScript
@@ -21,11 +22,11 @@ public class Ep142DCastle1MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_04, 19, TimeSpan.FromMilliseconds(20000), "Spawner1.ep14_2_d_castle_1");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Shielder, 30, TimeSpan.FromMilliseconds(15000), "Spawner2.ep14_2_d_castle_1");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Swordman, 100, TimeSpan.FromMilliseconds(10000), "Spawner3.ep14_2_d_castle_1");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Spear, 60, TimeSpan.FromMilliseconds(10000), "Spawner4.ep14_2_d_castle_1");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Gladiator, 80, TimeSpan.FromMilliseconds(10000), "Spawner5.ep14_2_d_castle_1");
+		AddSpawner("Spawner1.ep14_2_d_castle_1", MonsterId.Rootcrystal_04, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep14_2_d_castle_1", MonsterId.Episode14_2_Bleakferret_Shielder, 30, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep14_2_d_castle_1", MonsterId.Episode14_2_Bleakferret_Swordman, 100, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep14_2_d_castle_1", MonsterId.Episode14_2_Bleakferret_Spear, 60, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.ep14_2_d_castle_1", MonsterId.Episode14_2_Bleakferret_Gladiator, 80, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

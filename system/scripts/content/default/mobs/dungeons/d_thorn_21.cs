@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn21MobScript : GeneralScript
@@ -20,15 +21,15 @@ public class DThorn21MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Matsum, 20, TimeSpan.FromMilliseconds(0), "Spawner1.d_thorn_21");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), "Spawner2.d_thorn_21");
-		AddSpawner(MonsterId.Matsum, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_thorn_21");
-		AddSpawner(MonsterId.Chafperor, 25, TimeSpan.FromMilliseconds(0), "Spawner4.d_thorn_21");
-		AddSpawner(MonsterId.Chafperor, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_thorn_21");
-		AddSpawner(MonsterId.Ammon, 15, TimeSpan.FromMilliseconds(0), "Spawner6.d_thorn_21");
-		AddSpawner(MonsterId.Matsum, 50, TimeSpan.FromMilliseconds(0), "Spawner7.d_thorn_21");
-		AddSpawner(MonsterId.Infroholder_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner8.d_thorn_21");
-		AddSpawner(MonsterId.Infroholder_Mage, 7, TimeSpan.FromMilliseconds(0), "Spawner9.d_thorn_21");
+		AddSpawner("Spawner1.d_thorn_21", MonsterId.Matsum, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_21", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_21", MonsterId.Matsum, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_21", MonsterId.Chafperor, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_21", MonsterId.Chafperor, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_thorn_21", MonsterId.Ammon, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_thorn_21", MonsterId.Matsum, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_thorn_21", MonsterId.Infroholder_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_thorn_21", MonsterId.Infroholder_Mage, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

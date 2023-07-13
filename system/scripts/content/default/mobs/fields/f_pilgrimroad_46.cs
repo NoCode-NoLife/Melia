@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad46MobScript : GeneralScript
@@ -21,16 +22,16 @@ public class FPilgrimroad46MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), "Spawner1.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepari, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepo_Seed, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepari, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepo_Seed, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepari, 7, TimeSpan.FromMilliseconds(0), "Spawner6.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepo, 30, TimeSpan.FromMilliseconds(0), "Spawner7.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepo, 25, TimeSpan.FromMilliseconds(0), "Spawner8.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Kepo, 8, TimeSpan.FromMilliseconds(0), "Spawner9.f_pilgrimroad_46");
-		AddSpawner(MonsterId.Wood_Goblin_Red, 50, TimeSpan.FromMilliseconds(0), "Spawner10.f_pilgrimroad_46");
+		AddSpawner("Spawner1.f_pilgrimroad_46", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_46", MonsterId.Kepari, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_46", MonsterId.Kepo_Seed, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_46", MonsterId.Kepari, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_pilgrimroad_46", MonsterId.Kepo_Seed, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_pilgrimroad_46", MonsterId.Kepari, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_pilgrimroad_46", MonsterId.Kepo, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_pilgrimroad_46", MonsterId.Kepo, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_pilgrimroad_46", MonsterId.Kepo, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_pilgrimroad_46", MonsterId.Wood_Goblin_Red, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

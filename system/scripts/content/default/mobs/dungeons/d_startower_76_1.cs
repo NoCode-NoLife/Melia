@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower761MobScript : GeneralScript
@@ -16,18 +17,18 @@ public class DStartower761MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Slime_Dark_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Flask_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Defender_Spider_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Belegg, 15, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Tombsinker, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Bavon, 15, TimeSpan.FromMilliseconds(0), "Spawner6.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Bubbe_Mage_Ice, 15, TimeSpan.FromMilliseconds(0), "Spawner7.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Bagworm, 40, TimeSpan.FromMilliseconds(0), "Spawner8.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Hogma_Warrior, 15, TimeSpan.FromMilliseconds(0), "Spawner9.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Hogma_Warrior, 15, TimeSpan.FromMilliseconds(0), "Spawner10.d_startower_76_1");
-		AddSpawner(MonsterId.ERD_Zinutekas, 15, TimeSpan.FromMilliseconds(0), "Spawner11.d_startower_76_1");
-		AddSpawner(MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(25000), "Spawner12.d_startower_76_1");
+		AddSpawner("Spawner1.d_startower_76_1", MonsterId.ERD_Slime_Dark_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_startower_76_1", MonsterId.ERD_Flask_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_startower_76_1", MonsterId.ERD_Defender_Spider_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_startower_76_1", MonsterId.ERD_Belegg, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_startower_76_1", MonsterId.ERD_Tombsinker, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_startower_76_1", MonsterId.ERD_Bavon, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_startower_76_1", MonsterId.ERD_Bubbe_Mage_Ice, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_startower_76_1", MonsterId.ERD_Bagworm, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_startower_76_1", MonsterId.ERD_Hogma_Warrior, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_startower_76_1", MonsterId.ERD_Hogma_Warrior, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_startower_76_1", MonsterId.ERD_Zinutekas, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner12.d_startower_76_1", MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

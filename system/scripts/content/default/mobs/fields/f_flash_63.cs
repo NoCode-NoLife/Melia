@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFlash63MobScript : GeneralScript
@@ -20,14 +21,14 @@ public class FFlash63MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Lemur, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_flash_63");
-		AddSpawner(MonsterId.Lemur, 70, TimeSpan.FromMilliseconds(0), "Spawner2.f_flash_63");
-		AddSpawner(MonsterId.Goblin2_Hammer, 25, TimeSpan.FromMilliseconds(0), "Spawner3.f_flash_63");
-		AddSpawner(MonsterId.Goblin2_Wand3, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_flash_63");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), "Spawner5.f_flash_63");
-		AddSpawner(MonsterId.Lemur, 12, TimeSpan.FromMilliseconds(0), "Spawner6.f_flash_63");
-		AddSpawner(MonsterId.Goblin2_Wand3, 20, TimeSpan.FromMilliseconds(0), "Spawner7.f_flash_63");
-		AddSpawner(MonsterId.Lemur, 7, TimeSpan.FromMilliseconds(0), "Spawner8.f_flash_63");
+		AddSpawner("Spawner1.f_flash_63", MonsterId.Lemur, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_flash_63", MonsterId.Lemur, 70, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_flash_63", MonsterId.Goblin2_Hammer, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_flash_63", MonsterId.Goblin2_Wand3, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_flash_63", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_flash_63", MonsterId.Lemur, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_flash_63", MonsterId.Goblin2_Wand3, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_flash_63", MonsterId.Lemur, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

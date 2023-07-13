@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep132DPrison3MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class Ep132DPrison3MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Episode13_2_Wendigo_Dump, 133, TimeSpan.FromMilliseconds(0), "Spawner1.ep13_2_d_prison_3");
-		AddSpawner(MonsterId.Episode13_2_Wendigo, 21, TimeSpan.FromMilliseconds(0), "Spawner2.ep13_2_d_prison_3");
-		AddSpawner(MonsterId.Episode13_2_Dumaro, 16, TimeSpan.FromMilliseconds(0), "Spawner3.ep13_2_d_prison_3");
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(20000), "Spawner4.ep13_2_d_prison_3");
+		AddSpawner("Spawner1.ep13_2_d_prison_3", MonsterId.Episode13_2_Wendigo_Dump, 133, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep13_2_d_prison_3", MonsterId.Episode13_2_Wendigo, 21, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep13_2_d_prison_3", MonsterId.Episode13_2_Dumaro, 16, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep13_2_d_prison_3", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

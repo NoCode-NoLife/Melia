@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FWhitetrees231MobScript : GeneralScript
@@ -20,16 +21,16 @@ public class FWhitetrees231MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 14, TimeSpan.FromMilliseconds(5000), "Spawner1.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Somy, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Somy, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Tot, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Lioni, 8, TimeSpan.FromMilliseconds(0), "Spawner5.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Lioni, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Somy, 8, TimeSpan.FromMilliseconds(0), "Spawner7.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Tot, 30, TimeSpan.FromMilliseconds(0), "Spawner8.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Lioni, 13, TimeSpan.FromMilliseconds(0), "Spawner9.f_whitetrees_23_1");
-		AddSpawner(MonsterId.Kucarry_Somy, 12, TimeSpan.FromMilliseconds(0), "Spawner10.f_whitetrees_23_1");
+		AddSpawner("Spawner1.f_whitetrees_23_1", MonsterId.Rootcrystal_03, 14, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_whitetrees_23_1", MonsterId.Kucarry_Somy, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_whitetrees_23_1", MonsterId.Kucarry_Somy, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_whitetrees_23_1", MonsterId.Kucarry_Tot, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_whitetrees_23_1", MonsterId.Kucarry_Lioni, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_whitetrees_23_1", MonsterId.Kucarry_Lioni, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_whitetrees_23_1", MonsterId.Kucarry_Somy, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_whitetrees_23_1", MonsterId.Kucarry_Tot, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_whitetrees_23_1", MonsterId.Kucarry_Lioni, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_whitetrees_23_1", MonsterId.Kucarry_Somy, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

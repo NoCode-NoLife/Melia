@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DZachariel32MobScript : GeneralScript
@@ -22,15 +23,15 @@ public class DZachariel32MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), "Spawner1.d_zachariel_32");
-		AddSpawner(MonsterId.Zinutekas, 8, TimeSpan.FromMilliseconds(0), "Spawner2.d_zachariel_32");
-		AddSpawner(MonsterId.Zinutekas, 10, TimeSpan.FromMilliseconds(0), "Spawner3.d_zachariel_32");
-		AddSpawner(MonsterId.Varv, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_zachariel_32");
-		AddSpawner(MonsterId.Moving_Trap, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_zachariel_32");
-		AddSpawner(MonsterId.Moving_Trap, 6, TimeSpan.FromMilliseconds(0), "Spawner6.d_zachariel_32");
-		AddSpawner(MonsterId.Varv, 15, TimeSpan.FromMilliseconds(0), "Spawner7.d_zachariel_32");
-		AddSpawner(MonsterId.Karas, 10, TimeSpan.FromMilliseconds(0), "Spawner8.d_zachariel_32");
-		AddSpawner(MonsterId.Zinutekas_Elite, 4, TimeSpan.FromMilliseconds(0), "Spawner9.d_zachariel_32");
+		AddSpawner("Spawner1.d_zachariel_32", MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_zachariel_32", MonsterId.Zinutekas, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_zachariel_32", MonsterId.Zinutekas, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_zachariel_32", MonsterId.Varv, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_zachariel_32", MonsterId.Moving_Trap, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_zachariel_32", MonsterId.Moving_Trap, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_zachariel_32", MonsterId.Varv, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_zachariel_32", MonsterId.Karas, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_zachariel_32", MonsterId.Zinutekas_Elite, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

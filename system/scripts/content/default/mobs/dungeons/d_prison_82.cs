@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DPrison82MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class DPrison82MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Templeslave_Sword_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_prison_82");
-		AddSpawner(MonsterId.Wendigo_Bow_White, 40, TimeSpan.FromMilliseconds(0), "Spawner2.d_prison_82");
-		AddSpawner(MonsterId.Templeslave_Mage_Blue, 13, TimeSpan.FromMilliseconds(0), "Spawner3.d_prison_82");
-		AddSpawner(MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(60000), "Spawner4.d_prison_82");
-		AddSpawner(MonsterId.Wendigo_Bow_White, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_prison_82");
+		AddSpawner("Spawner1.d_prison_82", MonsterId.Templeslave_Sword_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_prison_82", MonsterId.Wendigo_Bow_White, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_prison_82", MonsterId.Templeslave_Mage_Blue, 13, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_prison_82", MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_prison_82", MonsterId.Wendigo_Bow_White, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

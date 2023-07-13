@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFarm472MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class FFarm472MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Dandel_Orange, 40, TimeSpan.FromMilliseconds(0), "Spawner1.f_farm_47_2");
-		AddSpawner(MonsterId.Cronewt_Mage, 12, TimeSpan.FromMilliseconds(0), "Spawner2.f_farm_47_2");
-		AddSpawner(MonsterId.Dandel_Orange, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_farm_47_2");
-		AddSpawner(MonsterId.Ashrong, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_farm_47_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(60000), "Spawner5.f_farm_47_2");
-		AddSpawner(MonsterId.Kepari_Mage, 18, TimeSpan.FromMilliseconds(0), "Spawner6.f_farm_47_2");
-		AddSpawner(MonsterId.Ashrong, 80, TimeSpan.FromMilliseconds(0), "Spawner7.f_farm_47_2");
+		AddSpawner("Spawner1.f_farm_47_2", MonsterId.Dandel_Orange, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_farm_47_2", MonsterId.Cronewt_Mage, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_farm_47_2", MonsterId.Dandel_Orange, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_farm_47_2", MonsterId.Ashrong, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_farm_47_2", MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_farm_47_2", MonsterId.Kepari_Mage, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_farm_47_2", MonsterId.Ashrong, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

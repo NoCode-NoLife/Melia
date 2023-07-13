@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai464MobScript : GeneralScript
@@ -23,18 +24,18 @@ public class FSiauliai464MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Lantern_Mushroom_Orange, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_46_4");
-		AddSpawner(MonsterId.Siaulamb, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_46_4");
-		AddSpawner(MonsterId.Siaulogre, 4, TimeSpan.FromMilliseconds(0), "Spawner3.f_siauliai_46_4");
-		AddSpawner(MonsterId.Rabbee, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_siauliai_46_4");
-		AddSpawner(MonsterId.Lantern_Mushroom_Orange, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_siauliai_46_4");
-		AddSpawner(MonsterId.Rabbee, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_siauliai_46_4");
-		AddSpawner(MonsterId.Honeybean, 20, TimeSpan.FromMilliseconds(0), "Spawner7.f_siauliai_46_4");
-		AddSpawner(MonsterId.Rootcrystal_01, 16, TimeSpan.FromMilliseconds(30000), "Spawner8.f_siauliai_46_4");
-		AddSpawner(MonsterId.Pendinmire, 1, TimeSpan.FromMilliseconds(3600000), "Spawner9.f_siauliai_46_4");
-		AddSpawner(MonsterId.Siaulamb, 15, TimeSpan.FromMilliseconds(0), "Spawner10.f_siauliai_46_4");
-		AddSpawner(MonsterId.Rabbee, 20, TimeSpan.FromMilliseconds(0), "Spawner11.f_siauliai_46_4");
-		AddSpawner(MonsterId.Honeybean, 20, TimeSpan.FromMilliseconds(0), "Spawner12.f_siauliai_46_4");
+		AddSpawner("Spawner1.f_siauliai_46_4", MonsterId.Lantern_Mushroom_Orange, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_siauliai_46_4", MonsterId.Siaulamb, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_46_4", MonsterId.Siaulogre, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_46_4", MonsterId.Rabbee, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_siauliai_46_4", MonsterId.Lantern_Mushroom_Orange, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_siauliai_46_4", MonsterId.Rabbee, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_siauliai_46_4", MonsterId.Honeybean, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_siauliai_46_4", MonsterId.Rootcrystal_01, 16, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_siauliai_46_4", MonsterId.Pendinmire, 1, TimeSpan.FromMilliseconds(3600000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_siauliai_46_4", MonsterId.Siaulamb, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_siauliai_46_4", MonsterId.Rabbee, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.f_siauliai_46_4", MonsterId.Honeybean, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

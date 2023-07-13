@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DLimestonecave524MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class DLimestonecave524MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Zolem_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner1.d_limestonecave_52_4");
-		AddSpawner(MonsterId.Flamag_Green, 25, TimeSpan.FromMilliseconds(0), "Spawner2.d_limestonecave_52_4");
-		AddSpawner(MonsterId.Flamme_Archer_Green, 25, TimeSpan.FromMilliseconds(0), "Spawner3.d_limestonecave_52_4");
-		AddSpawner(MonsterId.Zolem_Green, 25, TimeSpan.FromMilliseconds(0), "Spawner4.d_limestonecave_52_4");
-		AddSpawner(MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), "Spawner5.d_limestonecave_52_4");
+		AddSpawner("Spawner1.d_limestonecave_52_4", MonsterId.Zolem_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_limestonecave_52_4", MonsterId.Flamag_Green, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_limestonecave_52_4", MonsterId.Flamme_Archer_Green, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_limestonecave_52_4", MonsterId.Zolem_Green, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_limestonecave_52_4", MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

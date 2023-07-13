@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class IdCatacomb01MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class IdCatacomb01MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Mushcarfung, 20, TimeSpan.FromMilliseconds(25000), "Spawner1.id_catacomb_01");
-		AddSpawner(MonsterId.FD_Candlespider, 20, TimeSpan.FromMilliseconds(30000), "Spawner2.id_catacomb_01");
-		AddSpawner(MonsterId.Rootcrystal_01, 28, TimeSpan.FromMilliseconds(5000), "Spawner3.id_catacomb_01");
-		AddSpawner(MonsterId.FD_Maggot, 15, TimeSpan.FromMilliseconds(10000), "Spawner4.id_catacomb_01");
-		AddSpawner(MonsterId.FD_Leaf_Diving_Purple, 20, TimeSpan.FromMilliseconds(10000), "Spawner5.id_catacomb_01");
-		AddSpawner(MonsterId.Cronewt_Bow_Brown, 12, TimeSpan.FromMilliseconds(25000), "Spawner6.id_catacomb_01");
-		AddSpawner(MonsterId.Colifly_Bow_Purple, 15, TimeSpan.FromMilliseconds(20000), "Spawner7.id_catacomb_01");
-		AddSpawner(MonsterId.HiddenTrigger6, 1, TimeSpan.FromMilliseconds(60000), "Spawner8.id_catacomb_01");
+		AddSpawner("Spawner1.id_catacomb_01", MonsterId.FD_Mushcarfung, 20, TimeSpan.FromMilliseconds(25000), TendencyType.Aggressive);
+		AddSpawner("Spawner2.id_catacomb_01", MonsterId.FD_Candlespider, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
+		AddSpawner("Spawner3.id_catacomb_01", MonsterId.Rootcrystal_01, 28, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.id_catacomb_01", MonsterId.FD_Maggot, 15, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner5.id_catacomb_01", MonsterId.FD_Leaf_Diving_Purple, 20, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner6.id_catacomb_01", MonsterId.Cronewt_Bow_Brown, 12, TimeSpan.FromMilliseconds(25000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.id_catacomb_01", MonsterId.Colifly_Bow_Purple, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
+		AddSpawner("Spawner8.id_catacomb_01", MonsterId.HiddenTrigger6, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

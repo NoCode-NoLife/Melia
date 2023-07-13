@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFantasylibrary485MobScript : GeneralScript
@@ -23,13 +24,13 @@ public class DFantasylibrary485MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), "Spawner1.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Wis, 75, TimeSpan.FromMilliseconds(0), "Spawner2.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Llapindal_Ribbon, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Lapindion, 30, TimeSpan.FromMilliseconds(0), "Spawner4.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Creto, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Cretobiang, 5, TimeSpan.FromMilliseconds(0), "Spawner6.d_fantasylibrary_48_5");
-		AddSpawner(MonsterId.Flamel, 5, TimeSpan.FromMilliseconds(0), "Spawner7.d_fantasylibrary_48_5");
+		AddSpawner("Spawner1.d_fantasylibrary_48_5", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_fantasylibrary_48_5", MonsterId.Wis, 75, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_fantasylibrary_48_5", MonsterId.Llapindal_Ribbon, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_fantasylibrary_48_5", MonsterId.Lapindion, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_fantasylibrary_48_5", MonsterId.Creto, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_fantasylibrary_48_5", MonsterId.Cretobiang, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_fantasylibrary_48_5", MonsterId.Flamel, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

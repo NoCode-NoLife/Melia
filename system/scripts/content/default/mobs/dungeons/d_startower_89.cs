@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower89MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class DStartower89MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Naste, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_89");
-		AddSpawner(MonsterId.Gleamlens, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_89");
-		AddSpawner(MonsterId.Wryer, 27, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_89");
-		AddSpawner(MonsterId.Rabbler, 47, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_89");
-		AddSpawner(MonsterId.Naste, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_89");
-		AddSpawner(MonsterId.Rootcrystal_02, 15, TimeSpan.FromMilliseconds(10000), "Spawner6.d_startower_89");
+		AddSpawner("Spawner1.d_startower_89", MonsterId.Naste, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_startower_89", MonsterId.Gleamlens, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_startower_89", MonsterId.Wryer, 27, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_startower_89", MonsterId.Rabbler, 47, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_89", MonsterId.Naste, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_startower_89", MonsterId.Rootcrystal_02, 15, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

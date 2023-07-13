@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FHuevillage581MobScript : GeneralScript
@@ -22,14 +23,14 @@ public class FHuevillage581MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Tanu, 10, TimeSpan.FromMilliseconds(0), "Spawner1.f_huevillage_58_1");
-		AddSpawner(MonsterId.Tipio, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_huevillage_58_1");
-		AddSpawner(MonsterId.Beetow, 12, TimeSpan.FromMilliseconds(0), "Spawner3.f_huevillage_58_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), "Spawner4.f_huevillage_58_1");
-		AddSpawner(MonsterId.Tipio, 85, TimeSpan.FromMilliseconds(0), "Spawner5.f_huevillage_58_1");
-		AddSpawner(MonsterId.Doyor, 12, TimeSpan.FromMilliseconds(0), "Spawner6.f_huevillage_58_1");
-		AddSpawner(MonsterId.Tipio, 5, TimeSpan.FromMilliseconds(0), "Spawner7.f_huevillage_58_1");
-		AddSpawner(MonsterId.Siaulav_Bow, 10, TimeSpan.FromMilliseconds(0), "Spawner8.f_huevillage_58_1");
+		AddSpawner("Spawner1.f_huevillage_58_1", MonsterId.Tanu, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_huevillage_58_1", MonsterId.Tipio, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_huevillage_58_1", MonsterId.Beetow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_huevillage_58_1", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_huevillage_58_1", MonsterId.Tipio, 85, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_huevillage_58_1", MonsterId.Doyor, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_huevillage_58_1", MonsterId.Tipio, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_huevillage_58_1", MonsterId.Siaulav_Bow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

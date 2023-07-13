@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FMaple232MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class FMaple232MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 13, TimeSpan.FromMilliseconds(5000), "Spawner1.f_maple_23_2");
-		AddSpawner(MonsterId.Leafnut_Yellow, 25, TimeSpan.FromMilliseconds(0), "Spawner2.f_maple_23_2");
-		AddSpawner(MonsterId.Grummer_Orange, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_maple_23_2");
-		AddSpawner(MonsterId.Colimen_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner4.f_maple_23_2");
-		AddSpawner(MonsterId.Caro_Yellow, 40, TimeSpan.FromMilliseconds(0), "Spawner5.f_maple_23_2");
-		AddSpawner(MonsterId.Caro_Yellow, 12, TimeSpan.FromMilliseconds(0), "Spawner6.f_maple_23_2");
+		AddSpawner("Spawner1.f_maple_23_2", MonsterId.Rootcrystal_05, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_maple_23_2", MonsterId.Leafnut_Yellow, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_maple_23_2", MonsterId.Grummer_Orange, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_maple_23_2", MonsterId.Colimen_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_maple_23_2", MonsterId.Caro_Yellow, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_maple_23_2", MonsterId.Caro_Yellow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DZachariel35MobScript : GeneralScript
@@ -21,15 +22,15 @@ public class DZachariel35MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 8, TimeSpan.FromMilliseconds(5000), "Spawner1.d_zachariel_35");
-		AddSpawner(MonsterId.Dog_Of_King, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_zachariel_35");
-		AddSpawner(MonsterId.Schlesien_Guard, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_zachariel_35");
-		AddSpawner(MonsterId.Dog_Of_King, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_zachariel_35");
-		AddSpawner(MonsterId.Schlesien_Guard, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_zachariel_35");
-		AddSpawner(MonsterId.Schlesien_Guard, 8, TimeSpan.FromMilliseconds(0), "Spawner6.d_zachariel_35");
-		AddSpawner(MonsterId.Dog_Of_King, 10, TimeSpan.FromMilliseconds(0), "Spawner7.d_zachariel_35");
-		AddSpawner(MonsterId.Wolf_Statue_Bow, 10, TimeSpan.FromMilliseconds(0), "Spawner8.d_zachariel_35");
-		AddSpawner(MonsterId.Karas_Mage, 5, TimeSpan.FromMilliseconds(0), "Spawner9.d_zachariel_35");
+		AddSpawner("Spawner1.d_zachariel_35", MonsterId.Rootcrystal_05, 8, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_zachariel_35", MonsterId.Dog_Of_King, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_zachariel_35", MonsterId.Schlesien_Guard, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_zachariel_35", MonsterId.Dog_Of_King, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_zachariel_35", MonsterId.Schlesien_Guard, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_zachariel_35", MonsterId.Schlesien_Guard, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_zachariel_35", MonsterId.Dog_Of_King, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_zachariel_35", MonsterId.Wolf_Statue_Bow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_zachariel_35", MonsterId.Karas_Mage, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

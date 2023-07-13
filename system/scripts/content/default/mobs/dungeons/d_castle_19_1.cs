@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCastle191MobScript : GeneralScript
@@ -22,13 +23,13 @@ public class DCastle191MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Vilktis, 45, TimeSpan.FromMilliseconds(60000), "Spawner1.d_castle_19_1");
-		AddSpawner(MonsterId.Trampled, 40, TimeSpan.FromMilliseconds(60000), "Spawner2.d_castle_19_1");
-		AddSpawner(MonsterId.Tarnaite, 25, TimeSpan.FromMilliseconds(60000), "Spawner3.d_castle_19_1");
-		AddSpawner(MonsterId.Sodininkas, 35, TimeSpan.FromMilliseconds(60000), "Spawner4.d_castle_19_1");
-		AddSpawner(MonsterId.Viskal, 15, TimeSpan.FromMilliseconds(60000), "Spawner5.d_castle_19_1");
-		AddSpawner(MonsterId.Tarnaite, 15, TimeSpan.FromMilliseconds(60000), "Spawner6.d_castle_19_1");
-		AddSpawner(MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(20000), "Spawner7.d_castle_19_1");
+		AddSpawner("Spawner1.d_castle_19_1", MonsterId.Vilktis, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_castle_19_1", MonsterId.Trampled, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_castle_19_1", MonsterId.Tarnaite, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_castle_19_1", MonsterId.Sodininkas, 35, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_castle_19_1", MonsterId.Viskal, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_castle_19_1", MonsterId.Tarnaite, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_castle_19_1", MonsterId.Rootcrystal_02, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

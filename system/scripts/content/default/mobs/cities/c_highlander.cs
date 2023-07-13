@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class CHighlanderMobScript : GeneralScript
@@ -16,10 +17,10 @@ public class CHighlanderMobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Wood_Carving_Fire, 1, TimeSpan.FromMilliseconds(60000), "Spawner1.c_highlander");
-		AddSpawner(MonsterId.Wood_Carving_Poison, 1, TimeSpan.FromMilliseconds(60000), "Spawner2.c_highlander");
-		AddSpawner(MonsterId.Wood_Carving_Lightning, 1, TimeSpan.FromMilliseconds(60000), "Spawner3.c_highlander");
-		AddSpawner(MonsterId.Wood_Carving_Earth, 1, TimeSpan.FromMilliseconds(60000), "Spawner4.c_highlander");
+		AddSpawner("Spawner1.c_highlander", MonsterId.Wood_Carving_Fire, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.c_highlander", MonsterId.Wood_Carving_Poison, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.c_highlander", MonsterId.Wood_Carving_Lightning, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.c_highlander", MonsterId.Wood_Carving_Earth, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

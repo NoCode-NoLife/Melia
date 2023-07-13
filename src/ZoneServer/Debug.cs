@@ -150,12 +150,18 @@ namespace Melia.Zone
 					var brush = new SolidBrush(Color.FromArgb(128, 255, 0, 0));
 					var pen = new Pen(Color.FromArgb(255, 255, 0, 0));
 
-					var spawners = ZoneServer.Instance.World.GetSpawners();
-					for (var i = 0; i < spawners.Length; i++)
-					{
-						var spawner = spawners[i];
+					// Gets all spawners in the world
+					var allSpawners = ZoneServer.Instance.World.GetSpawners();
 
-						foreach(var spawnPoint in spawner.SpawnPoints)
+					// Gets all spawners that have at least one spawn point in our map
+					var spawnersInMap = allSpawners.Where(spawner => spawner.GetSpawnPointsInMap(map).Any()).ToList();
+
+					// For each spawner in our map
+					foreach (var spawner in spawnersInMap)
+					{
+						// Iterate over each spawn point and draw its area
+						var spawnPoints = spawner.GetSpawnPointsInMap(map);
+						foreach (var spawnPoint in spawnPoints)
 						{
 							var points = spawnPoint.Area.GetEdgePoints().Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
 							gfx.FillPolygon(brush, points);

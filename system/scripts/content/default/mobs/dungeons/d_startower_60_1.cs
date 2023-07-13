@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower601MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class DStartower601MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Raffly_Blue, 30, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_60_1");
-		AddSpawner(MonsterId.FD_NightMaiden, 35, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_60_1");
-		AddSpawner(MonsterId.FD_TerraNymph, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_60_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), "Spawner4.d_startower_60_1");
-		AddSpawner(MonsterId.FD_TerraNymph, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_60_1");
-		AddSpawner(MonsterId.FD_Raffly_Blue, 40, TimeSpan.FromMilliseconds(0), "Spawner6.d_startower_60_1");
-		AddSpawner(MonsterId.FD_TerraNymph_Bow, 25, TimeSpan.FromMilliseconds(0), "Spawner7.d_startower_60_1");
+		AddSpawner("Spawner1.d_startower_60_1", MonsterId.FD_Raffly_Blue, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_startower_60_1", MonsterId.FD_NightMaiden, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_startower_60_1", MonsterId.FD_TerraNymph, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_startower_60_1", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_60_1", MonsterId.FD_TerraNymph, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_startower_60_1", MonsterId.FD_Raffly_Blue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_startower_60_1", MonsterId.FD_TerraNymph_Bow, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

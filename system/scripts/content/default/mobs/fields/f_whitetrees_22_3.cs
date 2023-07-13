@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FWhitetrees223MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FWhitetrees223MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(60000), "Spawner1.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Yakmambo, 10, TimeSpan.FromMilliseconds(0), "Spawner2.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Yakmab, 48, TimeSpan.FromMilliseconds(0), "Spawner3.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Bush_Beetle, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Hohen_Gulak_Black, 11, TimeSpan.FromMilliseconds(0), "Spawner5.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Hohen_Mane_Black, 47, TimeSpan.FromMilliseconds(0), "Spawner6.f_whitetrees_22_3");
-		AddSpawner(MonsterId.Blossom_Beetle, 25, TimeSpan.FromMilliseconds(0), "Spawner7.f_whitetrees_22_3");
+		AddSpawner("Spawner1.f_whitetrees_22_3", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_whitetrees_22_3", MonsterId.Yakmambo, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_whitetrees_22_3", MonsterId.Yakmab, 48, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_whitetrees_22_3", MonsterId.Bush_Beetle, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_whitetrees_22_3", MonsterId.Hohen_Gulak_Black, 11, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.f_whitetrees_22_3", MonsterId.Hohen_Mane_Black, 47, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.f_whitetrees_22_3", MonsterId.Blossom_Beetle, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

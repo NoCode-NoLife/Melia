@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn391MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class DThorn391MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(60000), "Spawner1.d_thorn_39_1");
-		AddSpawner(MonsterId.Chafperor_Mage, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_thorn_39_1");
-		AddSpawner(MonsterId.Wood_Lwa, 30, TimeSpan.FromMilliseconds(0), "Spawner3.d_thorn_39_1");
-		AddSpawner(MonsterId.Infrogalas_Mage, 12, TimeSpan.FromMilliseconds(0), "Spawner4.d_thorn_39_1");
-		AddSpawner(MonsterId.Pandroceum, 40, TimeSpan.FromMilliseconds(0), "Spawner5.d_thorn_39_1");
+		AddSpawner("Spawner1.d_thorn_39_1", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_39_1", MonsterId.Chafperor_Mage, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_39_1", MonsterId.Wood_Lwa, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_39_1", MonsterId.Infrogalas_Mage, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_39_1", MonsterId.Pandroceum, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

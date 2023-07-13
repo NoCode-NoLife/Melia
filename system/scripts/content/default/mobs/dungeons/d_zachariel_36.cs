@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DZachariel36MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class DZachariel36MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 10, TimeSpan.FromMilliseconds(15000), "Spawner1.d_zachariel_36");
-		AddSpawner(MonsterId.Schlesien_Darkmage, 6, TimeSpan.FromMilliseconds(0), "Spawner2.d_zachariel_36");
-		AddSpawner(MonsterId.Schlesien_Heavycavarly, 3, TimeSpan.FromMilliseconds(0), "Spawner3.d_zachariel_36");
-		AddSpawner(MonsterId.Schlesien_Claw, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_zachariel_36");
-		AddSpawner(MonsterId.Schlesien_Darkmage, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_zachariel_36");
-		AddSpawner(MonsterId.Schlesien_Darkmage, 5, TimeSpan.FromMilliseconds(0), "Spawner6.d_zachariel_36");
+		AddSpawner("Spawner1.d_zachariel_36", MonsterId.Rootcrystal_05, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_zachariel_36", MonsterId.Schlesien_Darkmage, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_zachariel_36", MonsterId.Schlesien_Heavycavarly, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_zachariel_36", MonsterId.Schlesien_Claw, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_zachariel_36", MonsterId.Schlesien_Darkmage, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_zachariel_36", MonsterId.Schlesien_Darkmage, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

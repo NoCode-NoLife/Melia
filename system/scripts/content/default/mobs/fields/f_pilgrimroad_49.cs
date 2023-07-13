@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad49MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class FPilgrimroad49MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(5000), "Spawner1.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Beetle, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Dandel_Orange, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Kepari_Mage, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Dandel_Orange, 30, TimeSpan.FromMilliseconds(0), "Spawner5.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Beetle, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Beetle, 20, TimeSpan.FromMilliseconds(0), "Spawner7.f_pilgrimroad_49");
-		AddSpawner(MonsterId.Sec_Kepari_Mage, 25, TimeSpan.FromMilliseconds(0), "Spawner8.f_pilgrimroad_49");
+		AddSpawner("Spawner1.f_pilgrimroad_49", MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_49", MonsterId.Sec_Beetle, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_49", MonsterId.Sec_Dandel_Orange, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_49", MonsterId.Sec_Kepari_Mage, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_pilgrimroad_49", MonsterId.Sec_Dandel_Orange, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_pilgrimroad_49", MonsterId.Sec_Beetle, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_pilgrimroad_49", MonsterId.Sec_Beetle, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_pilgrimroad_49", MonsterId.Sec_Kepari_Mage, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DZachariel33MobScript : GeneralScript
@@ -21,16 +22,16 @@ public class DZachariel33MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Vesper, 7, TimeSpan.FromMilliseconds(0), "Spawner1.d_zachariel_33");
-		AddSpawner(MonsterId.Rootcrystal_05, 24, TimeSpan.FromMilliseconds(15000), "Spawner2.d_zachariel_33");
-		AddSpawner(MonsterId.Wolf_Statue, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_zachariel_33");
-		AddSpawner(MonsterId.Beetle, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_zachariel_33");
-		AddSpawner(MonsterId.Vesper, 20, TimeSpan.FromMilliseconds(0), "Spawner5.d_zachariel_33");
-		AddSpawner(MonsterId.Wolf_Statue, 6, TimeSpan.FromMilliseconds(0), "Spawner6.d_zachariel_33");
-		AddSpawner(MonsterId.Beetle, 5, TimeSpan.FromMilliseconds(0), "Spawner7.d_zachariel_33");
-		AddSpawner(MonsterId.Tombsinker, 15, TimeSpan.FromMilliseconds(0), "Spawner8.d_zachariel_33");
-		AddSpawner(MonsterId.Beetle_Elite, 3, TimeSpan.FromMilliseconds(0), "Spawner9.d_zachariel_33");
-		AddSpawner(MonsterId.Wolf_Statue, 5, TimeSpan.FromMilliseconds(0), "Spawner10.d_zachariel_33");
+		AddSpawner("Spawner1.d_zachariel_33", MonsterId.Vesper, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_zachariel_33", MonsterId.Rootcrystal_05, 24, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_zachariel_33", MonsterId.Wolf_Statue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_zachariel_33", MonsterId.Beetle, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_zachariel_33", MonsterId.Vesper, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_zachariel_33", MonsterId.Wolf_Statue, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_zachariel_33", MonsterId.Beetle, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_zachariel_33", MonsterId.Tombsinker, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_zachariel_33", MonsterId.Beetle_Elite, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_zachariel_33", MonsterId.Wolf_Statue, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

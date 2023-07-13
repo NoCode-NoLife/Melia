@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFiretower43MobScript : GeneralScript
@@ -21,15 +22,15 @@ public class DFiretower43MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.InfroRocktor_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_firetower_43");
-		AddSpawner(MonsterId.Arma, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_firetower_43");
-		AddSpawner(MonsterId.InfroRocktor_Red, 10, TimeSpan.FromMilliseconds(0), "Spawner3.d_firetower_43");
-		AddSpawner(MonsterId.Arma, 15, TimeSpan.FromMilliseconds(0), "Spawner4.d_firetower_43");
-		AddSpawner(MonsterId.Flask_Mage, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_firetower_43");
-		AddSpawner(MonsterId.Flask_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner6.d_firetower_43");
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(30000), "Spawner7.d_firetower_43");
-		AddSpawner(MonsterId.TerraNymph_Mage, 12, TimeSpan.FromMilliseconds(0), "Spawner8.d_firetower_43");
-		AddSpawner(MonsterId.Pyran, 15, TimeSpan.FromMilliseconds(0), "Spawner9.d_firetower_43");
+		AddSpawner("Spawner1.d_firetower_43", MonsterId.InfroRocktor_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_firetower_43", MonsterId.Arma, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_firetower_43", MonsterId.InfroRocktor_Red, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_firetower_43", MonsterId.Arma, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_firetower_43", MonsterId.Flask_Mage, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_firetower_43", MonsterId.Flask_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_firetower_43", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_firetower_43", MonsterId.TerraNymph_Mage, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_firetower_43", MonsterId.Pyran, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

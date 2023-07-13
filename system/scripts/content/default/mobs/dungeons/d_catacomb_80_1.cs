@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCatacomb801MobScript : GeneralScript
@@ -16,17 +17,17 @@ public class DCatacomb801MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Triffid, 18, TimeSpan.FromMilliseconds(0), "Spawner1.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Goblin2_Hammer, 18, TimeSpan.FromMilliseconds(0), "Spawner2.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Kowak, 18, TimeSpan.FromMilliseconds(0), "Spawner3.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Kowak_Orange, 18, TimeSpan.FromMilliseconds(0), "Spawner4.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Fisherman_Red, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Panto_Rspear, 18, TimeSpan.FromMilliseconds(0), "Spawner6.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Tree_Root_Mole_Pink, 18, TimeSpan.FromMilliseconds(0), "Spawner7.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Melatanun, 40, TimeSpan.FromMilliseconds(0), "Spawner8.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_Rudas_Loxodon, 5, TimeSpan.FromMilliseconds(0), "Spawner9.d_catacomb_80_1");
-		AddSpawner(MonsterId.ERD_GoblinWarrior_Blue, 5, TimeSpan.FromMilliseconds(0), "Spawner10.d_catacomb_80_1");
-		AddSpawner(MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(20000), "Spawner11.d_catacomb_80_1");
+		AddSpawner("Spawner1.d_catacomb_80_1", MonsterId.ERD_Triffid, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_catacomb_80_1", MonsterId.ERD_Goblin2_Hammer, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_catacomb_80_1", MonsterId.ERD_Kowak, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_catacomb_80_1", MonsterId.ERD_Kowak_Orange, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_catacomb_80_1", MonsterId.ERD_Fisherman_Red, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_catacomb_80_1", MonsterId.ERD_Panto_Rspear, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_catacomb_80_1", MonsterId.ERD_Tree_Root_Mole_Pink, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_catacomb_80_1", MonsterId.ERD_Melatanun, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_catacomb_80_1", MonsterId.ERD_Rudas_Loxodon, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner10.d_catacomb_80_1", MonsterId.ERD_GoblinWarrior_Blue, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner11.d_catacomb_80_1", MonsterId.Rootcrystal_05, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

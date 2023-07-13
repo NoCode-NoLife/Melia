@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn13MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class FKatyn13MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_02, 20, TimeSpan.FromMilliseconds(5000), "Spawner1.f_katyn_13");
-		AddSpawner(MonsterId.HighBube_Spear, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_katyn_13");
-		AddSpawner(MonsterId.HighBube_Archer, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_katyn_13");
-		AddSpawner(MonsterId.Arburn_Pokubu_Green, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_katyn_13");
-		AddSpawner(MonsterId.HighBube_Archer, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_katyn_13");
-		AddSpawner(MonsterId.Arburn_Pokubu_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner6.f_katyn_13");
-		AddSpawner(MonsterId.HighBube_Spear, 20, TimeSpan.FromMilliseconds(0), "Spawner7.f_katyn_13");
+		AddSpawner("Spawner1.f_katyn_13", MonsterId.Rootcrystal_02, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_13", MonsterId.HighBube_Spear, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_13", MonsterId.HighBube_Archer, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_13", MonsterId.Arburn_Pokubu_Green, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_13", MonsterId.HighBube_Archer, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_katyn_13", MonsterId.Arburn_Pokubu_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_katyn_13", MonsterId.HighBube_Spear, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

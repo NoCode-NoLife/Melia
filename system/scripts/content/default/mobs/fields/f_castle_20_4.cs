@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle204MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FCastle204MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), "Spawner1.f_castle_20_4");
-		AddSpawner(MonsterId.Shardstatue_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner2.f_castle_20_4");
-		AddSpawner(MonsterId.Templeslave_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_castle_20_4");
-		AddSpawner(MonsterId.Templeslave_Sword_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner4.f_castle_20_4");
-		AddSpawner(MonsterId.Templeslave_Sword_Black, 25, TimeSpan.FromMilliseconds(0), "Spawner5.f_castle_20_4");
+		AddSpawner("Spawner1.f_castle_20_4", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_20_4", MonsterId.Shardstatue_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_20_4", MonsterId.Templeslave_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_20_4", MonsterId.Templeslave_Sword_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_20_4", MonsterId.Templeslave_Sword_Black, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress591MobScript : GeneralScript
@@ -16,15 +17,15 @@ public class DUnderfortress591MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.FD_Woodgoblin_Black, 25, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Bushspider_Purple, 25, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Pappus_Kepa_Purple, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Boss_Templeshooter, 0, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_59_1");
-		AddSpawner(MonsterId.Rootcrystal_03, 18, TimeSpan.FromMilliseconds(30000), "Spawner5.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(0), "Spawner6.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Bushspider_Purple, 30, TimeSpan.FromMilliseconds(0), "Spawner7.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Pappus_Kepa_Purple, 30, TimeSpan.FromMilliseconds(0), "Spawner8.d_underfortress_59_1");
-		AddSpawner(MonsterId.FD_Colimen, 25, TimeSpan.FromMilliseconds(0), "Spawner9.d_underfortress_59_1");
+		AddSpawner("Spawner1.d_underfortress_59_1", MonsterId.FD_Woodgoblin_Black, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_59_1", MonsterId.FD_Bushspider_Purple, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_59_1", MonsterId.FD_Pappus_Kepa_Purple, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_59_1", MonsterId.FD_Boss_Templeshooter, 0, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underfortress_59_1", MonsterId.Rootcrystal_03, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_59_1", MonsterId.FD_Woodgoblin_Black, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_underfortress_59_1", MonsterId.FD_Bushspider_Purple, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_underfortress_59_1", MonsterId.FD_Pappus_Kepa_Purple, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_underfortress_59_1", MonsterId.FD_Colimen, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

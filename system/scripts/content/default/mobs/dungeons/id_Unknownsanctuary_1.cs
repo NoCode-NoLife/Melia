@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class IdUnknownsanctuary1MobScript : GeneralScript
@@ -16,18 +17,18 @@ public class IdUnknownsanctuary1MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.HiddenTrigger_CantGen150, 1, TimeSpan.FromMilliseconds(0), "Spawner1.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Durahan, 1, TimeSpan.FromMilliseconds(10000), "Spawner2.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_NetherBovine, 1, TimeSpan.FromMilliseconds(10000), "Spawner3.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Riteris, 1, TimeSpan.FromMilliseconds(10000), "Spawner4.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Marionette, 1, TimeSpan.FromMilliseconds(10000), "Spawner5.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Succubus, 1, TimeSpan.FromMilliseconds(10000), "Spawner6.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Deathweaver, 1, TimeSpan.FromMilliseconds(10000), "Spawner7.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_SwordBallista, 1, TimeSpan.FromMilliseconds(10000), "Spawner8.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.Boss_FD_Ginklas, 1, TimeSpan.FromMilliseconds(10000), "Spawner9.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.FD_Poncer, 76, TimeSpan.FromMilliseconds(5000), "Spawner10.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.FD_Yishoneer, 56, TimeSpan.FromMilliseconds(5000), "Spawner11.id_Unknownsanctuary_1");
-		AddSpawner(MonsterId.FD_Yishontorcher, 29, TimeSpan.FromMilliseconds(5000), "Spawner12.id_Unknownsanctuary_1");
+		AddSpawner("Spawner1.id_Unknownsanctuary_1", MonsterId.HiddenTrigger_CantGen150, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.id_Unknownsanctuary_1", MonsterId.Boss_FD_Durahan, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner3.id_Unknownsanctuary_1", MonsterId.Boss_FD_NetherBovine, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner4.id_Unknownsanctuary_1", MonsterId.Boss_FD_Riteris, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner5.id_Unknownsanctuary_1", MonsterId.Boss_FD_Marionette, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner6.id_Unknownsanctuary_1", MonsterId.Boss_FD_Succubus, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.id_Unknownsanctuary_1", MonsterId.Boss_FD_Deathweaver, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner8.id_Unknownsanctuary_1", MonsterId.Boss_FD_SwordBallista, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner9.id_Unknownsanctuary_1", MonsterId.Boss_FD_Ginklas, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
+		AddSpawner("Spawner10.id_Unknownsanctuary_1", MonsterId.FD_Poncer, 76, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
+		AddSpawner("Spawner11.id_Unknownsanctuary_1", MonsterId.FD_Yishoneer, 56, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
+		AddSpawner("Spawner12.id_Unknownsanctuary_1", MonsterId.FD_Yishontorcher, 29, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

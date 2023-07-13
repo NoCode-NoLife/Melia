@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DPrison751MobScript : GeneralScript
@@ -16,19 +17,19 @@ public class DPrison751MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ERD_Stoulet_Bow, 13, TimeSpan.FromMilliseconds(0), "Spawner1.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Escape_Wendigo, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Stoulet, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Colifly_Black, 30, TimeSpan.FromMilliseconds(0), "Spawner4.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Socket, 15, TimeSpan.FromMilliseconds(0), "Spawner5.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Chromadog, 12, TimeSpan.FromMilliseconds(0), "Spawner6.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Socket_Bow, 12, TimeSpan.FromMilliseconds(0), "Spawner7.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Stoulet_Mage, 12, TimeSpan.FromMilliseconds(0), "Spawner8.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_InfroRocktor_Red, 12, TimeSpan.FromMilliseconds(0), "Spawner9.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_New_Desmodus_Black, 12, TimeSpan.FromMilliseconds(0), "Spawner10.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Zigri, 12, TimeSpan.FromMilliseconds(0), "Spawner11.d_prison_75_1");
-		AddSpawner(MonsterId.ERD_Hook, 12, TimeSpan.FromMilliseconds(0), "Spawner12.d_prison_75_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(25000), "Spawner13.d_prison_75_1");
+		AddSpawner("Spawner1.d_prison_75_1", MonsterId.ERD_Stoulet_Bow, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_prison_75_1", MonsterId.ERD_Escape_Wendigo, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_prison_75_1", MonsterId.ERD_Stoulet, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_prison_75_1", MonsterId.ERD_Colifly_Black, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_prison_75_1", MonsterId.ERD_Socket, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_prison_75_1", MonsterId.ERD_Chromadog, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_prison_75_1", MonsterId.ERD_Socket_Bow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_prison_75_1", MonsterId.ERD_Stoulet_Mage, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_prison_75_1", MonsterId.ERD_InfroRocktor_Red, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_prison_75_1", MonsterId.ERD_New_Desmodus_Black, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.d_prison_75_1", MonsterId.ERD_Zigri, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.d_prison_75_1", MonsterId.ERD_Hook, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner13.d_prison_75_1", MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

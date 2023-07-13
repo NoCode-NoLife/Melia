@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFlash291MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class FFlash291MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_03, 20, TimeSpan.FromMilliseconds(60000), "Spawner1.f_flash_29_1");
-		AddSpawner(MonsterId.Minos_Orange, 75, TimeSpan.FromMilliseconds(0), "Spawner2.f_flash_29_1");
-		AddSpawner(MonsterId.Infroholder_Bow_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_flash_29_1");
-		AddSpawner(MonsterId.Minos_Mage_Green, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_flash_29_1");
+		AddSpawner("Spawner1.f_flash_29_1", MonsterId.Rootcrystal_03, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_flash_29_1", MonsterId.Minos_Orange, 75, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_flash_29_1", MonsterId.Infroholder_Bow_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_flash_29_1", MonsterId.Minos_Mage_Green, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

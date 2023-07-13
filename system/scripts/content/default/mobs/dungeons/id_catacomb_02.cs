@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class IdCatacomb02MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class IdCatacomb02MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Deadbornscab_Bow_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner1.id_catacomb_02");
-		AddSpawner(MonsterId.Deadbornscab_Green, 6, TimeSpan.FromMilliseconds(0), "Spawner2.id_catacomb_02");
-		AddSpawner(MonsterId.Pyran_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner3.id_catacomb_02");
-		AddSpawner(MonsterId.Pyran_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner4.id_catacomb_02");
-		AddSpawner(MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(30000), "Spawner5.id_catacomb_02");
+		AddSpawner("Spawner1.id_catacomb_02", MonsterId.Deadbornscab_Bow_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.id_catacomb_02", MonsterId.Deadbornscab_Green, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.id_catacomb_02", MonsterId.Pyran_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.id_catacomb_02", MonsterId.Pyran_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.id_catacomb_02", MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

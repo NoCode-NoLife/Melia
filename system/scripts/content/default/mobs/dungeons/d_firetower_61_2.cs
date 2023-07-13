@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFiretower612MobScript : GeneralScript
@@ -16,17 +17,17 @@ public class DFiretower612MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Velffigy, 10, TimeSpan.FromMilliseconds(0), "Spawner1.d_firetower_61_2");
-		AddSpawner(MonsterId.Glyquare, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_firetower_61_2");
-		AddSpawner(MonsterId.Colifly_Black, 50, TimeSpan.FromMilliseconds(0), "Spawner3.d_firetower_61_2");
-		AddSpawner(MonsterId.Glyquare, 7, TimeSpan.FromMilliseconds(0), "Spawner4.d_firetower_61_2");
-		AddSpawner(MonsterId.Altarcrystal_R1, 1, TimeSpan.FromMilliseconds(120000), "Spawner5.d_firetower_61_2");
-		AddSpawner(MonsterId.Altarcrystal_R1, 2, TimeSpan.FromMilliseconds(120000), "Spawner6.d_firetower_61_2");
-		AddSpawner(MonsterId.Altarcrystal_R1, 2, TimeSpan.FromMilliseconds(180000), "Spawner7.d_firetower_61_2");
-		AddSpawner(MonsterId.Altarcrystal_R1, 0, TimeSpan.FromMilliseconds(120000), "Spawner8.d_firetower_61_2");
-		AddSpawner(MonsterId.Altarcrystal_R1, 0, TimeSpan.FromMilliseconds(120000), "Spawner9.d_firetower_61_2");
-		AddSpawner(MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), "Spawner10.d_firetower_61_2");
-		AddSpawner(MonsterId.Colifly_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner11.d_firetower_61_2");
+		AddSpawner("Spawner1.d_firetower_61_2", MonsterId.Velffigy, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_firetower_61_2", MonsterId.Glyquare, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_firetower_61_2", MonsterId.Colifly_Black, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_firetower_61_2", MonsterId.Glyquare, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_firetower_61_2", MonsterId.Altarcrystal_R1, 1, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_firetower_61_2", MonsterId.Altarcrystal_R1, 2, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_firetower_61_2", MonsterId.Altarcrystal_R1, 2, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_firetower_61_2", MonsterId.Altarcrystal_R1, 0, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_firetower_61_2", MonsterId.Altarcrystal_R1, 0, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_firetower_61_2", MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner11.d_firetower_61_2", MonsterId.Colifly_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

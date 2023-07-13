@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DVelniasprison514MobScript : GeneralScript
@@ -21,13 +22,13 @@ public class DVelniasprison514MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Elma, 40, TimeSpan.FromMilliseconds(0), "Spawner1.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Elma, 40, TimeSpan.FromMilliseconds(0), "Spawner2.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Nuo, 40, TimeSpan.FromMilliseconds(0), "Spawner3.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Nuo, 40, TimeSpan.FromMilliseconds(0), "Spawner4.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Socket, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(30000), "Spawner6.d_velniasprison_51_4");
-		AddSpawner(MonsterId.Mushroom_Ent_Green, 5, TimeSpan.FromMilliseconds(0), "Spawner7.d_velniasprison_51_4");
+		AddSpawner("Spawner1.d_velniasprison_51_4", MonsterId.Elma, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_velniasprison_51_4", MonsterId.Elma, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_velniasprison_51_4", MonsterId.Nuo, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_velniasprison_51_4", MonsterId.Nuo, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_velniasprison_51_4", MonsterId.Socket, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_velniasprison_51_4", MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_velniasprison_51_4", MonsterId.Mushroom_Ent_Green, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

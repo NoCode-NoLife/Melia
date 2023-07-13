@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress69MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class DUnderfortress69MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Kepari_Green, 80, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_69");
-		AddSpawner(MonsterId.Templeslave_Blue, 16, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_69");
-		AddSpawner(MonsterId.Flask_Blue, 85, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_69");
-		AddSpawner(MonsterId.Kepari_Mage_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_69");
-		AddSpawner(MonsterId.Rootcrystal_05, 26, TimeSpan.FromMilliseconds(20000), "Spawner5.d_underfortress_69");
-		AddSpawner(MonsterId.Templeslave_Blue, 5, TimeSpan.FromMilliseconds(30000), "Spawner6.d_underfortress_69");
+		AddSpawner("Spawner1.d_underfortress_69", MonsterId.Kepari_Green, 80, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_69", MonsterId.Templeslave_Blue, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_69", MonsterId.Flask_Blue, 85, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_69", MonsterId.Kepari_Mage_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underfortress_69", MonsterId.Rootcrystal_05, 26, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_69", MonsterId.Templeslave_Blue, 5, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

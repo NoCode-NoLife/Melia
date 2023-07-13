@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FMaple242MobScript : GeneralScript
@@ -20,10 +21,10 @@ public class FMaple242MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Banterer_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner1.f_maple_24_2");
-		AddSpawner(MonsterId.Fragolin, 63, TimeSpan.FromMilliseconds(0), "Spawner2.f_maple_24_2");
-		AddSpawner(MonsterId.Rafflet, 61, TimeSpan.FromMilliseconds(0), "Spawner3.f_maple_24_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), "Spawner4.f_maple_24_2");
+		AddSpawner("Spawner1.f_maple_24_2", MonsterId.Banterer_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_maple_24_2", MonsterId.Fragolin, 63, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_maple_24_2", MonsterId.Rafflet, 61, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_maple_24_2", MonsterId.Rootcrystal_01, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

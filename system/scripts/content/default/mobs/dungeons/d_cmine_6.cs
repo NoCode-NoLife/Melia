@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCmine6MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class DCmine6MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), "Spawner1.d_cmine_6");
-		AddSpawner(MonsterId.Quartz_Weaver, 10, TimeSpan.FromMilliseconds(0), "Spawner2.d_cmine_6");
-		AddSpawner(MonsterId.GoblinWarrior, 3, TimeSpan.FromMilliseconds(0), "Spawner3.d_cmine_6");
-		AddSpawner(MonsterId.Bubbe_Mage_Priest, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_cmine_6");
-		AddSpawner(MonsterId.Quartz_Weaver, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_cmine_6");
-		AddSpawner(MonsterId.Bubbe_Mage_Priest, 10, TimeSpan.FromMilliseconds(0), "Spawner6.d_cmine_6");
+		AddSpawner("Spawner1.d_cmine_6", MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_cmine_6", MonsterId.Quartz_Weaver, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_cmine_6", MonsterId.GoblinWarrior, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_cmine_6", MonsterId.Bubbe_Mage_Priest, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_cmine_6", MonsterId.Quartz_Weaver, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_cmine_6", MonsterId.Bubbe_Mage_Priest, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

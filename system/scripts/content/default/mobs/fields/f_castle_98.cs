@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle98MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class FCastle98MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Kisylion, 80, TimeSpan.FromMilliseconds(0), "Spawner1.f_castle_98");
-		AddSpawner(MonsterId.Ghosbebe, 50, TimeSpan.FromMilliseconds(0), "Spawner2.f_castle_98");
-		AddSpawner(MonsterId.Scare_Crow_White, 40, TimeSpan.FromMilliseconds(0), "Spawner3.f_castle_98");
-		AddSpawner(MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(20000), "Spawner4.f_castle_98");
+		AddSpawner("Spawner1.f_castle_98", MonsterId.Kisylion, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_98", MonsterId.Ghosbebe, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_98", MonsterId.Scare_Crow_White, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_98", MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

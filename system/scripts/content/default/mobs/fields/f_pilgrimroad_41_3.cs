@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad413MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FPilgrimroad413MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(5000), "Spawner1.f_pilgrimroad_41_3");
-		AddSpawner(MonsterId.Minos_Green, 70, TimeSpan.FromMilliseconds(0), "Spawner2.f_pilgrimroad_41_3");
-		AddSpawner(MonsterId.Minos_Bow_Green, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_pilgrimroad_41_3");
-		AddSpawner(MonsterId.Lapasape_Mage_Brown, 30, TimeSpan.FromMilliseconds(0), "Spawner4.f_pilgrimroad_41_3");
-		AddSpawner(MonsterId.Lapasape_Mage_Brown, 30, TimeSpan.FromMilliseconds(0), "Spawner5.f_pilgrimroad_41_3");
+		AddSpawner("Spawner1.f_pilgrimroad_41_3", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_41_3", MonsterId.Minos_Green, 70, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_41_3", MonsterId.Minos_Bow_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_41_3", MonsterId.Lapasape_Mage_Brown, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_pilgrimroad_41_3", MonsterId.Lapasape_Mage_Brown, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

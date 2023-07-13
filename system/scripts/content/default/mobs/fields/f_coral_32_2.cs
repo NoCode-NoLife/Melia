@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCoral322MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FCoral322MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Colimen_Blue, 25, TimeSpan.FromMilliseconds(0), "Spawner1.f_coral_32_2");
-		AddSpawner(MonsterId.Repusbunny_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner2.f_coral_32_2");
-		AddSpawner(MonsterId.Repusbunny_Bow_Red, 5, TimeSpan.FromMilliseconds(0), "Spawner3.f_coral_32_2");
-		AddSpawner(MonsterId.Colimen_Blue, 40, TimeSpan.FromMilliseconds(0), "Spawner4.f_coral_32_2");
-		AddSpawner(MonsterId.Repusbunny_Red, 30, TimeSpan.FromMilliseconds(0), "Spawner5.f_coral_32_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 20, TimeSpan.FromMilliseconds(20000), "Spawner6.f_coral_32_2");
+		AddSpawner("Spawner1.f_coral_32_2", MonsterId.Colimen_Blue, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_coral_32_2", MonsterId.Repusbunny_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_coral_32_2", MonsterId.Repusbunny_Bow_Red, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_coral_32_2", MonsterId.Colimen_Blue, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_coral_32_2", MonsterId.Repusbunny_Red, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_coral_32_2", MonsterId.Rootcrystal_01, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

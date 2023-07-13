@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep132DPrison2MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class Ep132DPrison2MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Mokslas_Researcher, 90, TimeSpan.FromMilliseconds(25000), "Spawner1.ep13_2_d_prison_2");
-		AddSpawner(MonsterId.Mokslas_Fumigation, 29, TimeSpan.FromMilliseconds(25000), "Spawner2.ep13_2_d_prison_2");
-		AddSpawner(MonsterId.Mokslas_Doctor, 120, TimeSpan.FromMilliseconds(25000), "Spawner3.ep13_2_d_prison_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 22, TimeSpan.FromMilliseconds(20000), "Spawner4.ep13_2_d_prison_2");
+		AddSpawner("Spawner1.ep13_2_d_prison_2", MonsterId.Mokslas_Researcher, 90, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep13_2_d_prison_2", MonsterId.Mokslas_Fumigation, 29, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep13_2_d_prison_2", MonsterId.Mokslas_Doctor, 120, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep13_2_d_prison_2", MonsterId.Rootcrystal_01, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DStartower90MobScript : GeneralScript
@@ -21,14 +22,14 @@ public class DStartower90MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hafter, 53, TimeSpan.FromMilliseconds(0), "Spawner1.d_startower_90");
-		AddSpawner(MonsterId.Nasleia, 26, TimeSpan.FromMilliseconds(0), "Spawner2.d_startower_90");
-		AddSpawner(MonsterId.Madlens, 31, TimeSpan.FromMilliseconds(0), "Spawner3.d_startower_90");
-		AddSpawner(MonsterId.Grob, 34, TimeSpan.FromMilliseconds(0), "Spawner4.d_startower_90");
-		AddSpawner(MonsterId.Nasleia, 0, TimeSpan.FromMilliseconds(0), "Spawner5.d_startower_90");
-		AddSpawner(MonsterId.Madlens, 0, TimeSpan.FromMilliseconds(0), "Spawner6.d_startower_90");
-		AddSpawner(MonsterId.Grob, 0, TimeSpan.FromMilliseconds(0), "Spawner7.d_startower_90");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(10000), "Spawner8.d_startower_90");
+		AddSpawner("Spawner1.d_startower_90", MonsterId.Hafter, 53, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_startower_90", MonsterId.Nasleia, 26, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_startower_90", MonsterId.Madlens, 31, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_startower_90", MonsterId.Grob, 34, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_startower_90", MonsterId.Nasleia, 0, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_startower_90", MonsterId.Madlens, 0, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_startower_90", MonsterId.Grob, 0, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_startower_90", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress67MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class DUnderfortress67MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rambear_Brown, 20, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_67");
-		AddSpawner(MonsterId.Dandel_White, 75, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_67");
-		AddSpawner(MonsterId.Rambear_Bow_Brown, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_67");
-		AddSpawner(MonsterId.Rambear_Mage_Brown, 12, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_67");
-		AddSpawner(MonsterId.Rootcrystal_03, 23, TimeSpan.FromMilliseconds(20000), "Spawner5.d_underfortress_67");
-		AddSpawner(MonsterId.Dandel_White, 8, TimeSpan.FromMilliseconds(60000), "Spawner6.d_underfortress_67");
+		AddSpawner("Spawner1.d_underfortress_67", MonsterId.Rambear_Brown, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_67", MonsterId.Dandel_White, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_67", MonsterId.Rambear_Bow_Brown, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_67", MonsterId.Rambear_Mage_Brown, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underfortress_67", MonsterId.Rootcrystal_03, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_underfortress_67", MonsterId.Dandel_White, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

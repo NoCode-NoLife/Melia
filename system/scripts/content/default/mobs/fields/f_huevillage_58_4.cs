@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FHuevillage584MobScript : GeneralScript
@@ -21,14 +22,14 @@ public class FHuevillage584MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Beeteros, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_huevillage_58_4");
-		AddSpawner(MonsterId.Mentiwood, 3, TimeSpan.FromMilliseconds(0), "Spawner2.f_huevillage_58_4");
-		AddSpawner(MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), "Spawner3.f_huevillage_58_4");
-		AddSpawner(MonsterId.Carcashu, 10, TimeSpan.FromMilliseconds(0), "Spawner4.f_huevillage_58_4");
-		AddSpawner(MonsterId.Carcashu, 40, TimeSpan.FromMilliseconds(0), "Spawner5.f_huevillage_58_4");
-		AddSpawner(MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner6.f_huevillage_58_4");
-		AddSpawner(MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), "Spawner7.f_huevillage_58_4");
-		AddSpawner(MonsterId.Beeteros, 5, TimeSpan.FromMilliseconds(0), "Spawner8.f_huevillage_58_4");
+		AddSpawner("Spawner1.f_huevillage_58_4", MonsterId.Beeteros, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_huevillage_58_4", MonsterId.Mentiwood, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_huevillage_58_4", MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_huevillage_58_4", MonsterId.Carcashu, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_huevillage_58_4", MonsterId.Carcashu, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_huevillage_58_4", MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_huevillage_58_4", MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_huevillage_58_4", MonsterId.Beeteros, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

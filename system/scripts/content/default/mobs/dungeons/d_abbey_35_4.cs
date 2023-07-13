@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DAbbey354MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class DAbbey354MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hohen_Mane_Brown, 35, TimeSpan.FromMilliseconds(0), "Spawner1.d_abbey_35_4");
-		AddSpawner(MonsterId.Hohen_Orben_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_abbey_35_4");
-		AddSpawner(MonsterId.Harugal_Brown, 10, TimeSpan.FromMilliseconds(0), "Spawner3.d_abbey_35_4");
-		AddSpawner(MonsterId.Hohen_Mane_Brown, 25, TimeSpan.FromMilliseconds(0), "Spawner4.d_abbey_35_4");
-		AddSpawner(MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), "Spawner5.d_abbey_35_4");
+		AddSpawner("Spawner1.d_abbey_35_4", MonsterId.Hohen_Mane_Brown, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_abbey_35_4", MonsterId.Hohen_Orben_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_abbey_35_4", MonsterId.Harugal_Brown, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_abbey_35_4", MonsterId.Hohen_Mane_Brown, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_abbey_35_4", MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

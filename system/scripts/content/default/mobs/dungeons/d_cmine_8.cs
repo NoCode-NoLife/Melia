@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCmine8MobScript : GeneralScript
@@ -16,17 +17,17 @@ public class DCmine8MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(20000), "Spawner1.d_cmine_8");
-		AddSpawner(MonsterId.FD_Bubbe_Chaser, 35, TimeSpan.FromMilliseconds(0), "Spawner2.d_cmine_8");
-		AddSpawner(MonsterId.FD_Bubbe_Mage_Fire, 10, TimeSpan.FromMilliseconds(0), "Spawner3.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner4.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner5.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner6.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner7.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner8.d_cmine_8");
-		AddSpawner(MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), "Spawner9.d_cmine_8");
-		AddSpawner(MonsterId.FD_Minos_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner10.d_cmine_8");
-		AddSpawner(MonsterId.FD_Goblin_Archer_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner11.d_cmine_8");
+		AddSpawner("Spawner1.d_cmine_8", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_cmine_8", MonsterId.FD_Bubbe_Chaser, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_cmine_8", MonsterId.FD_Bubbe_Mage_Fire, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_cmine_8", MonsterId.Crystal_Lump, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_cmine_8", MonsterId.FD_Minos_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.d_cmine_8", MonsterId.FD_Goblin_Archer_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

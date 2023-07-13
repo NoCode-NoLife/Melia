@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle96MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class FCastle96MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.ArchGargoyle, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_castle_96");
-		AddSpawner(MonsterId.Ghoscat, 50, TimeSpan.FromMilliseconds(0), "Spawner2.f_castle_96");
-		AddSpawner(MonsterId.Gigglecat, 90, TimeSpan.FromMilliseconds(0), "Spawner3.f_castle_96");
-		AddSpawner(MonsterId.Ghoscat, 21, TimeSpan.FromMilliseconds(40000), "Spawner4.f_castle_96");
-		AddSpawner(MonsterId.Rootcrystal_04, 30, TimeSpan.FromMilliseconds(20000), "Spawner5.f_castle_96");
+		AddSpawner("Spawner1.f_castle_96", MonsterId.ArchGargoyle, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_96", MonsterId.Ghoscat, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_96", MonsterId.Gigglecat, 90, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_96", MonsterId.Ghoscat, 21, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_96", MonsterId.Rootcrystal_04, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

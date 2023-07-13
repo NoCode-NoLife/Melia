@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DAbbey225MobScript : GeneralScript
@@ -16,16 +17,16 @@ public class DAbbey225MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 21, TimeSpan.FromMilliseconds(60000), "Spawner1.d_abbey_22_5");
-		AddSpawner(MonsterId.Hohen_Orben_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_abbey_22_5");
-		AddSpawner(MonsterId.Harugal_Black, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_abbey_22_5");
-		AddSpawner(MonsterId.Drooper, 20, TimeSpan.FromMilliseconds(0), "Spawner4.d_abbey_22_5");
-		AddSpawner(MonsterId.StonOrca_Red, 170, TimeSpan.FromMilliseconds(0), "Spawner5.d_abbey_22_5");
-		AddSpawner(MonsterId.Hohen_Orben_Black, 6, TimeSpan.FromMilliseconds(40000), "Spawner6.d_abbey_22_5");
-		AddSpawner(MonsterId.Drooper, 2, TimeSpan.FromMilliseconds(40000), "Spawner7.d_abbey_22_5");
-		AddSpawner(MonsterId.Harugal_Black, 4, TimeSpan.FromMilliseconds(40000), "Spawner8.d_abbey_22_5");
-		AddSpawner(MonsterId.Harugal_Black, 3, TimeSpan.FromMilliseconds(20000), "Spawner9.d_abbey_22_5");
-		AddSpawner(MonsterId.Drooper, 1, TimeSpan.FromMilliseconds(60000), "Spawner10.d_abbey_22_5");
+		AddSpawner("Spawner1.d_abbey_22_5", MonsterId.Rootcrystal_01, 21, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_abbey_22_5", MonsterId.Hohen_Orben_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_abbey_22_5", MonsterId.Harugal_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_abbey_22_5", MonsterId.Drooper, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_abbey_22_5", MonsterId.StonOrca_Red, 170, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_abbey_22_5", MonsterId.Hohen_Orben_Black, 6, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_abbey_22_5", MonsterId.Drooper, 2, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_abbey_22_5", MonsterId.Harugal_Black, 4, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_abbey_22_5", MonsterId.Harugal_Black, 3, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_abbey_22_5", MonsterId.Drooper, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

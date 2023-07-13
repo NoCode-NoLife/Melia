@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai351MobScript : GeneralScript
@@ -20,10 +21,10 @@ public class FSiauliai351MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Spion_Mage_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_siauliai_35_1");
-		AddSpawner(MonsterId.Spion_Blue, 110, TimeSpan.FromMilliseconds(0), "Spawner2.f_siauliai_35_1");
-		AddSpawner(MonsterId.Spion_Bow_Blue, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_siauliai_35_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), "Spawner4.f_siauliai_35_1");
+		AddSpawner("Spawner1.f_siauliai_35_1", MonsterId.Spion_Mage_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_siauliai_35_1", MonsterId.Spion_Blue, 110, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_siauliai_35_1", MonsterId.Spion_Bow_Blue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_siauliai_35_1", MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

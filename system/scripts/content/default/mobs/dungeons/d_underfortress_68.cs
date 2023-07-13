@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderfortress68MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class DUnderfortress68MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Deadbornscab_Red, 25, TimeSpan.FromMilliseconds(0), "Spawner1.d_underfortress_68");
-		AddSpawner(MonsterId.Infroholder_Green, 65, TimeSpan.FromMilliseconds(0), "Spawner2.d_underfortress_68");
-		AddSpawner(MonsterId.Deadbornscab_Mage_Red, 15, TimeSpan.FromMilliseconds(0), "Spawner3.d_underfortress_68");
-		AddSpawner(MonsterId.Deadbornscab_Red, 7, TimeSpan.FromMilliseconds(0), "Spawner4.d_underfortress_68");
-		AddSpawner(MonsterId.Rootcrystal_05, 23, TimeSpan.FromMilliseconds(20000), "Spawner5.d_underfortress_68");
+		AddSpawner("Spawner1.d_underfortress_68", MonsterId.Deadbornscab_Red, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underfortress_68", MonsterId.Infroholder_Green, 65, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underfortress_68", MonsterId.Deadbornscab_Mage_Red, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underfortress_68", MonsterId.Deadbornscab_Red, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_underfortress_68", MonsterId.Rootcrystal_05, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

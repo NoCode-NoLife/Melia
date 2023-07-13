@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FGele574MobScript : GeneralScript
@@ -23,22 +24,22 @@ public class FGele574MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Seedmia, 25, TimeSpan.FromMilliseconds(3000000), "Spawner1.f_gele_57_4");
-		AddSpawner(MonsterId.Npanto_Archer, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_gele_57_4");
-		AddSpawner(MonsterId.Colifly_Bow, 15, TimeSpan.FromMilliseconds(0), "Spawner3.f_gele_57_4");
-		AddSpawner(MonsterId.Seedmia, 20, TimeSpan.FromMilliseconds(15000), "Spawner4.f_gele_57_4");
-		AddSpawner(MonsterId.Mallardu, 15, TimeSpan.FromMilliseconds(0), "Spawner5.f_gele_57_4");
-		AddSpawner(MonsterId.Seedmia, 15, TimeSpan.FromMilliseconds(180000), "Spawner6.f_gele_57_4");
-		AddSpawner(MonsterId.Mallardu, 20, TimeSpan.FromMilliseconds(0), "Spawner7.f_gele_57_4");
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), "Spawner8.f_gele_57_4");
-		AddSpawner(MonsterId.Npanto_Archer, 25, TimeSpan.FromMilliseconds(0), "Spawner9.f_gele_57_4");
-		AddSpawner(MonsterId.Zombiegirl2_Brown, 15, TimeSpan.FromMilliseconds(0), "Spawner10.f_gele_57_4");
-		AddSpawner(MonsterId.Panto_Javelin_Elite, 1, TimeSpan.FromMilliseconds(1200000), "Spawner11.f_gele_57_4");
-		AddSpawner(MonsterId.Mallardu, 20, TimeSpan.FromMilliseconds(20000), "Spawner12.f_gele_57_4");
-		AddSpawner(MonsterId.Npanto_Archer, 15, TimeSpan.FromMilliseconds(20000), "Spawner13.f_gele_57_4");
-		AddSpawner(MonsterId.Seedmia, 10, TimeSpan.FromMilliseconds(180000), "Spawner14.f_gele_57_4");
-		AddSpawner(MonsterId.Seedmia, 15, TimeSpan.FromMilliseconds(180000), "Spawner15.f_gele_57_4");
-		AddSpawner(MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), "Spawner16.f_gele_57_4");
+		AddSpawner("Spawner1.f_gele_57_4", MonsterId.Seedmia, 25, TimeSpan.FromMilliseconds(3000000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_gele_57_4", MonsterId.Npanto_Archer, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_gele_57_4", MonsterId.Colifly_Bow, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_gele_57_4", MonsterId.Seedmia, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_gele_57_4", MonsterId.Mallardu, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_gele_57_4", MonsterId.Seedmia, 15, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_gele_57_4", MonsterId.Mallardu, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_gele_57_4", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_gele_57_4", MonsterId.Npanto_Archer, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_gele_57_4", MonsterId.Zombiegirl2_Brown, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_gele_57_4", MonsterId.Panto_Javelin_Elite, 1, TimeSpan.FromMilliseconds(1200000), TendencyType.Peaceful);
+		AddSpawner("Spawner12.f_gele_57_4", MonsterId.Mallardu, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner13.f_gele_57_4", MonsterId.Npanto_Archer, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner14.f_gele_57_4", MonsterId.Seedmia, 10, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
+		AddSpawner("Spawner15.f_gele_57_4", MonsterId.Seedmia, 15, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
+		AddSpawner("Spawner16.f_gele_57_4", MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DUnderaqueductMobScript : GeneralScript
@@ -16,14 +17,14 @@ public class DUnderaqueductMobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Chesha_Papa, 60, TimeSpan.FromMilliseconds(0), "Spawner1.d_underaqueduct");
-		AddSpawner(MonsterId.Chesha_Venom, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_underaqueduct");
-		AddSpawner(MonsterId.Chesha_Torso, 50, TimeSpan.FromMilliseconds(0), "Spawner3.d_underaqueduct");
-		AddSpawner(MonsterId.Chesha_Riel, 40, TimeSpan.FromMilliseconds(0), "Spawner4.d_underaqueduct");
-		AddSpawner(MonsterId.Chesha_Needle, 40, TimeSpan.FromMilliseconds(0), "Spawner5.d_underaqueduct");
-		AddSpawner(MonsterId.Chesha_Papa, 60, TimeSpan.FromMilliseconds(1000), "Spawner6.d_underaqueduct");
-		AddSpawner(MonsterId.Gimmick_Mon_Chesha_Venom, 1, TimeSpan.FromMilliseconds(3000), "Spawner7.d_underaqueduct");
-		AddSpawner(MonsterId.Rootcrystal_04, 23, TimeSpan.FromMilliseconds(20000), "Spawner8.d_underaqueduct");
+		AddSpawner("Spawner1.d_underaqueduct", MonsterId.Chesha_Papa, 60, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_underaqueduct", MonsterId.Chesha_Venom, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_underaqueduct", MonsterId.Chesha_Torso, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_underaqueduct", MonsterId.Chesha_Riel, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_underaqueduct", MonsterId.Chesha_Needle, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_underaqueduct", MonsterId.Chesha_Papa, 60, TimeSpan.FromMilliseconds(1000), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_underaqueduct", MonsterId.Gimmick_Mon_Chesha_Venom, 1, TimeSpan.FromMilliseconds(3000), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_underaqueduct", MonsterId.Rootcrystal_04, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

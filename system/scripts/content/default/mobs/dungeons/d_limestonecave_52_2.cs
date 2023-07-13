@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DLimestonecave522MobScript : GeneralScript
@@ -20,10 +21,10 @@ public class DLimestonecave522MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Tala_Combat, 30, TimeSpan.FromMilliseconds(0), "Spawner1.d_limestonecave_52_2");
-		AddSpawner(MonsterId.Flamme_Priest_Green, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_limestonecave_52_2");
-		AddSpawner(MonsterId.Warleader_Tala, 8, TimeSpan.FromMilliseconds(0), "Spawner3.d_limestonecave_52_2");
-		AddSpawner(MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), "Spawner4.d_limestonecave_52_2");
+		AddSpawner("Spawner1.d_limestonecave_52_2", MonsterId.Tala_Combat, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_limestonecave_52_2", MonsterId.Flamme_Priest_Green, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_limestonecave_52_2", MonsterId.Warleader_Tala, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_limestonecave_52_2", MonsterId.Rootcrystal_04, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep142DCastle2MobScript : GeneralScript
@@ -22,12 +23,12 @@ public class Ep142DCastle2MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 19, TimeSpan.FromMilliseconds(20000), "Spawner1.ep14_2_d_castle_2");
-		AddSpawner(MonsterId.Episode14_2_GresmeCrow, 25, TimeSpan.FromMilliseconds(10000), "Spawner2.ep14_2_d_castle_2");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Lancer, 30, TimeSpan.FromMilliseconds(10000), "Spawner3.ep14_2_d_castle_2");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Strange, 15, TimeSpan.FromMilliseconds(15000), "Spawner4.ep14_2_d_castle_2");
-		AddSpawner(MonsterId.Episode14_2_Bleakferret_Scout, 30, TimeSpan.FromMilliseconds(10000), "Spawner5.ep14_2_d_castle_2");
-		AddSpawner(MonsterId.Episode14_2_GresmeBird, 25, TimeSpan.FromMilliseconds(10000), "Spawner6.ep14_2_d_castle_2");
+		AddSpawner("Spawner1.ep14_2_d_castle_2", MonsterId.Rootcrystal_05, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.ep14_2_d_castle_2", MonsterId.Episode14_2_GresmeCrow, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Lancer, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Strange, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Scout, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.ep14_2_d_castle_2", MonsterId.Episode14_2_GresmeBird, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

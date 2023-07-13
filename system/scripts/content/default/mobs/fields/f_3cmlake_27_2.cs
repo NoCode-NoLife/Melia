@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class F3Cmlake272MobScript : GeneralScript
@@ -20,10 +21,10 @@ public class F3Cmlake272MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Velpod, 65, TimeSpan.FromMilliseconds(0), "Spawner1.f_3cmlake_27_2");
-		AddSpawner(MonsterId.Tooter, 14, TimeSpan.FromMilliseconds(0), "Spawner2.f_3cmlake_27_2");
-		AddSpawner(MonsterId.Rootcrystal_02, 21, TimeSpan.FromMilliseconds(20000), "Spawner3.f_3cmlake_27_2");
-		AddSpawner(MonsterId.Monitor_Lizard, 80, TimeSpan.FromMilliseconds(0), "Spawner4.f_3cmlake_27_2");
+		AddSpawner("Spawner1.f_3cmlake_27_2", MonsterId.Velpod, 65, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_3cmlake_27_2", MonsterId.Tooter, 14, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_3cmlake_27_2", MonsterId.Rootcrystal_02, 21, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_3cmlake_27_2", MonsterId.Monitor_Lizard, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

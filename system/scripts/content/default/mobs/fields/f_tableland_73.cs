@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FTableland73MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class FTableland73MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Wendigo_Archer_Gray, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_tableland_73");
-		AddSpawner(MonsterId.Tiny_Bow_Blue, 60, TimeSpan.FromMilliseconds(0), "Spawner2.f_tableland_73");
-		AddSpawner(MonsterId.Hohen_Gulak_Blue, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_tableland_73");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(60000), "Spawner4.f_tableland_73");
-		AddSpawner(MonsterId.Tiny_Bow_Blue, 5, TimeSpan.FromMilliseconds(40000), "Spawner5.f_tableland_73");
+		AddSpawner("Spawner1.f_tableland_73", MonsterId.Wendigo_Archer_Gray, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_tableland_73", MonsterId.Tiny_Bow_Blue, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_tableland_73", MonsterId.Hohen_Gulak_Blue, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_tableland_73", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_tableland_73", MonsterId.Tiny_Bow_Blue, 5, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

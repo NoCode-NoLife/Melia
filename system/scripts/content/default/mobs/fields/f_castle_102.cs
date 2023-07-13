@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle102MobScript : GeneralScript
@@ -22,12 +23,12 @@ public class FCastle102MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Castle_Goblin_Archer, 60, TimeSpan.FromMilliseconds(60000), "Spawner1.f_castle_102");
-		AddSpawner(MonsterId.Wolf, 50, TimeSpan.FromMilliseconds(60000), "Spawner2.f_castle_102");
-		AddSpawner(MonsterId.Wolf_Leader, 8, TimeSpan.FromMilliseconds(60000), "Spawner3.f_castle_102");
-		AddSpawner(MonsterId.Neckko, 30, TimeSpan.FromMilliseconds(60000), "Spawner4.f_castle_102");
-		AddSpawner(MonsterId.Goblin_Sword_Rider, 40, TimeSpan.FromMilliseconds(60000), "Spawner5.f_castle_102");
-		AddSpawner(MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), "Spawner6.f_castle_102");
+		AddSpawner("Spawner1.f_castle_102", MonsterId.Castle_Goblin_Archer, 60, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_castle_102", MonsterId.Wolf, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_castle_102", MonsterId.Wolf_Leader, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_castle_102", MonsterId.Neckko, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_castle_102", MonsterId.Goblin_Sword_Rider, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_castle_102", MonsterId.Rootcrystal_02, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class F3Cmlake86MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class F3Cmlake86MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Spinacho, 28, TimeSpan.FromMilliseconds(0), "Spawner1.f_3cmlake_86");
-		AddSpawner(MonsterId.Rubeta, 18, TimeSpan.FromMilliseconds(0), "Spawner2.f_3cmlake_86");
-		AddSpawner(MonsterId.Lilymaid, 21, TimeSpan.FromMilliseconds(0), "Spawner3.f_3cmlake_86");
-		AddSpawner(MonsterId.Nolimaid, 17, TimeSpan.FromMilliseconds(0), "Spawner4.f_3cmlake_86");
-		AddSpawner(MonsterId.Little_Rubeta, 51, TimeSpan.FromMilliseconds(0), "Spawner5.f_3cmlake_86");
-		AddSpawner(MonsterId.Rootcrystal_02, 1, TimeSpan.FromMilliseconds(20000), "Spawner6.f_3cmlake_86");
+		AddSpawner("Spawner1.f_3cmlake_86", MonsterId.Spinacho, 28, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_3cmlake_86", MonsterId.Rubeta, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_3cmlake_86", MonsterId.Lilymaid, 21, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_3cmlake_86", MonsterId.Nolimaid, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_3cmlake_86", MonsterId.Little_Rubeta, 51, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_3cmlake_86", MonsterId.Rootcrystal_02, 1, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

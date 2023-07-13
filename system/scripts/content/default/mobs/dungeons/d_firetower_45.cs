@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DFiretower45MobScript : GeneralScript
@@ -20,15 +21,15 @@ public class DFiretower45MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Dimmer, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_firetower_45");
-		AddSpawner(MonsterId.Tower_Of_Firepuppet_Black, 30, TimeSpan.FromMilliseconds(0), "Spawner2.d_firetower_45");
-		AddSpawner(MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner3.d_firetower_45");
-		AddSpawner(MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_firetower_45");
-		AddSpawner(MonsterId.Dimmer, 7, TimeSpan.FromMilliseconds(0), "Spawner5.d_firetower_45");
-		AddSpawner(MonsterId.Tower_Of_Firepuppet_Black, 7, TimeSpan.FromMilliseconds(0), "Spawner6.d_firetower_45");
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), "Spawner7.d_firetower_45");
-		AddSpawner(MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), "Spawner8.d_firetower_45");
-		AddSpawner(MonsterId.Dimmer, 10, TimeSpan.FromMilliseconds(0), "Spawner9.d_firetower_45");
+		AddSpawner("Spawner1.d_firetower_45", MonsterId.Dimmer, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_firetower_45", MonsterId.Tower_Of_Firepuppet_Black, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_firetower_45", MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_firetower_45", MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_firetower_45", MonsterId.Dimmer, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_firetower_45", MonsterId.Tower_Of_Firepuppet_Black, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_firetower_45", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_firetower_45", MonsterId.Fire_Dragon_Purple, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_firetower_45", MonsterId.Dimmer, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

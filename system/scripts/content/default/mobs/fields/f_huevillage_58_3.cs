@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FHuevillage583MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class FHuevillage583MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Caro, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_huevillage_58_3");
-		AddSpawner(MonsterId.Upent, 2, TimeSpan.FromMilliseconds(0), "Spawner2.f_huevillage_58_3");
-		AddSpawner(MonsterId.Caro, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_huevillage_58_3");
-		AddSpawner(MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), "Spawner4.f_huevillage_58_3");
-		AddSpawner(MonsterId.Caro, 60, TimeSpan.FromMilliseconds(0), "Spawner5.f_huevillage_58_3");
-		AddSpawner(MonsterId.Tiny_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner6.f_huevillage_58_3");
+		AddSpawner("Spawner1.f_huevillage_58_3", MonsterId.Caro, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_huevillage_58_3", MonsterId.Upent, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_huevillage_58_3", MonsterId.Caro, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_huevillage_58_3", MonsterId.Rootcrystal_01, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_huevillage_58_3", MonsterId.Caro, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_huevillage_58_3", MonsterId.Tiny_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

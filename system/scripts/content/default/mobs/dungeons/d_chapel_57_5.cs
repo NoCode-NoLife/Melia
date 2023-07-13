@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DChapel575MobScript : GeneralScript
@@ -21,14 +22,14 @@ public class DChapel575MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), "Spawner1.d_chapel_57_5");
-		AddSpawner(MonsterId.Yognome, 20, TimeSpan.FromMilliseconds(0), "Spawner2.d_chapel_57_5");
-		AddSpawner(MonsterId.Zombiegirl2_Chpel, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_chapel_57_5");
-		AddSpawner(MonsterId.Zombiegirl2_Chpel, 30, TimeSpan.FromMilliseconds(0), "Spawner4.d_chapel_57_5");
-		AddSpawner(MonsterId.Yognome, 35, TimeSpan.FromMilliseconds(0), "Spawner5.d_chapel_57_5");
-		AddSpawner(MonsterId.Glizardon, 3, TimeSpan.FromMilliseconds(0), "Spawner6.d_chapel_57_5");
-		AddSpawner(MonsterId.New_Desmodus, 35, TimeSpan.FromMilliseconds(0), "Spawner7.d_chapel_57_5");
-		AddSpawner(MonsterId.Glizardon, 3, TimeSpan.FromMilliseconds(0), "Spawner8.d_chapel_57_5");
+		AddSpawner("Spawner1.d_chapel_57_5", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_chapel_57_5", MonsterId.Yognome, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_chapel_57_5", MonsterId.Zombiegirl2_Chpel, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_chapel_57_5", MonsterId.Zombiegirl2_Chpel, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_chapel_57_5", MonsterId.Yognome, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_chapel_57_5", MonsterId.Glizardon, 3, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner7.d_chapel_57_5", MonsterId.New_Desmodus, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner8.d_chapel_57_5", MonsterId.Glizardon, 3, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

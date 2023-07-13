@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad51MobScript : GeneralScript
@@ -20,16 +21,16 @@ public class FPilgrimroad51MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Prisonfighter, 20, TimeSpan.FromMilliseconds(15000), "Spawner1.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Kowak, 25, TimeSpan.FromMilliseconds(20000), "Spawner2.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Prisonfighter, 12, TimeSpan.FromMilliseconds(15000), "Spawner3.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Kowak, 10, TimeSpan.FromMilliseconds(15000), "Spawner4.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), "Spawner5.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Stoulet_Bow, 12, TimeSpan.FromMilliseconds(0), "Spawner6.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Stoulet_Bow, 5, TimeSpan.FromMilliseconds(0), "Spawner7.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Stoulet_Bow, 7, TimeSpan.FromMilliseconds(0), "Spawner8.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Kowak, 6, TimeSpan.FromMilliseconds(0), "Spawner9.f_pilgrimroad_51");
-		AddSpawner(MonsterId.Prisonfighter, 6, TimeSpan.FromMilliseconds(0), "Spawner10.f_pilgrimroad_51");
+		AddSpawner("Spawner1.f_pilgrimroad_51", MonsterId.Prisonfighter, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_51", MonsterId.Kowak, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_51", MonsterId.Prisonfighter, 12, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_51", MonsterId.Kowak, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_pilgrimroad_51", MonsterId.Rootcrystal_01, 14, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_pilgrimroad_51", MonsterId.Stoulet_Bow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_pilgrimroad_51", MonsterId.Stoulet_Bow, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_pilgrimroad_51", MonsterId.Stoulet_Bow, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_pilgrimroad_51", MonsterId.Kowak, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_pilgrimroad_51", MonsterId.Prisonfighter, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

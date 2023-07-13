@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FNicopolis811MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FNicopolis811MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Cresent_Moya, 50, TimeSpan.FromMilliseconds(0), "Spawner1.f_nicopolis_81_1");
-		AddSpawner(MonsterId.Mimorat_Purple, 31, TimeSpan.FromMilliseconds(0), "Spawner2.f_nicopolis_81_1");
-		AddSpawner(MonsterId.Mimorat_Green, 31, TimeSpan.FromMilliseconds(0), "Spawner3.f_nicopolis_81_1");
-		AddSpawner(MonsterId.Haunted_House, 8, TimeSpan.FromMilliseconds(0), "Spawner4.f_nicopolis_81_1");
-		AddSpawner(MonsterId.Rootcrystal_02, 17, TimeSpan.FromMilliseconds(30000), "Spawner5.f_nicopolis_81_1");
+		AddSpawner("Spawner1.f_nicopolis_81_1", MonsterId.Cresent_Moya, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_nicopolis_81_1", MonsterId.Mimorat_Purple, 31, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_nicopolis_81_1", MonsterId.Mimorat_Green, 31, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_nicopolis_81_1", MonsterId.Haunted_House, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_nicopolis_81_1", MonsterId.Rootcrystal_02, 17, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

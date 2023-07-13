@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FGele572MobScript : GeneralScript
@@ -24,19 +25,19 @@ public class FGele572MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Leafly, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_gele_57_2");
-		AddSpawner(MonsterId.Npanto_Hand, 15, TimeSpan.FromMilliseconds(0), "Spawner2.f_gele_57_2");
-		AddSpawner(MonsterId.Mally, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_gele_57_2");
-		AddSpawner(MonsterId.Npanto_Staff, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_gele_57_2");
-		AddSpawner(MonsterId.Npanto_Sword, 15, TimeSpan.FromMilliseconds(25000), "Spawner5.f_gele_57_2");
-		AddSpawner(MonsterId.Npanto_Hand, 3, TimeSpan.FromMilliseconds(0), "Spawner6.f_gele_57_2");
-		AddSpawner(MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), "Spawner7.f_gele_57_2");
-		AddSpawner(MonsterId.Mon_Goat_Totem_Q, 10, TimeSpan.FromMilliseconds(15000), "Spawner8.f_gele_57_2");
-		AddSpawner(MonsterId.Mally, 7, TimeSpan.FromMilliseconds(25000), "Spawner9.f_gele_57_2");
-		AddSpawner(MonsterId.Spion_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner10.f_gele_57_2");
-		AddSpawner(MonsterId.Npanto_Sword, 10, TimeSpan.FromMilliseconds(0), "Spawner11.f_gele_57_2");
-		AddSpawner(MonsterId.Spion_Bow, 10, TimeSpan.FromMilliseconds(0), "Spawner12.f_gele_57_2");
-		AddSpawner(MonsterId.Leafly, 10, TimeSpan.FromMilliseconds(0), "Spawner13.f_gele_57_2");
+		AddSpawner("Spawner1.f_gele_57_2", MonsterId.Leafly, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_gele_57_2", MonsterId.Npanto_Hand, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_gele_57_2", MonsterId.Mally, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_gele_57_2", MonsterId.Npanto_Staff, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_gele_57_2", MonsterId.Npanto_Sword, 15, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_gele_57_2", MonsterId.Npanto_Hand, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_gele_57_2", MonsterId.Rootcrystal_01, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_gele_57_2", MonsterId.Mon_Goat_Totem_Q, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_gele_57_2", MonsterId.Mally, 7, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("Spawner10.f_gele_57_2", MonsterId.Spion_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.f_gele_57_2", MonsterId.Npanto_Sword, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.f_gele_57_2", MonsterId.Spion_Bow, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner13.f_gele_57_2", MonsterId.Leafly, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

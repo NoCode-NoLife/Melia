@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FDcapital104MobScript : GeneralScript
@@ -20,10 +21,10 @@ public class FDcapital104MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Orc_Cannon, 50, TimeSpan.FromMilliseconds(60000), "Spawner1.f_dcapital_104");
-		AddSpawner(MonsterId.Orc_Flag, 70, TimeSpan.FromMilliseconds(60000), "Spawner2.f_dcapital_104");
-		AddSpawner(MonsterId.Orc_Glaive, 10, TimeSpan.FromMilliseconds(60000), "Spawner3.f_dcapital_104");
-		AddSpawner(MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), "Spawner4.f_dcapital_104");
+		AddSpawner("Spawner1.f_dcapital_104", MonsterId.Orc_Cannon, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_dcapital_104", MonsterId.Orc_Flag, 70, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_dcapital_104", MonsterId.Orc_Glaive, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_dcapital_104", MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

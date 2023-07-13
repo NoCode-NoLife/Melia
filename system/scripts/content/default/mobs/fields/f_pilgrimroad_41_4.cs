@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FPilgrimroad414MobScript : GeneralScript
@@ -16,10 +17,10 @@ public class FPilgrimroad414MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), "Spawner1.f_pilgrimroad_41_4");
-		AddSpawner(MonsterId.Dumaro_Yellow, 12, TimeSpan.FromMilliseconds(0), "Spawner2.f_pilgrimroad_41_4");
-		AddSpawner(MonsterId.Repusbunny_Purple, 80, TimeSpan.FromMilliseconds(0), "Spawner3.f_pilgrimroad_41_4");
-		AddSpawner(MonsterId.Repusbunny_Bow_Purple, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_pilgrimroad_41_4");
+		AddSpawner("Spawner1.f_pilgrimroad_41_4", MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_pilgrimroad_41_4", MonsterId.Dumaro_Yellow, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_pilgrimroad_41_4", MonsterId.Repusbunny_Purple, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_pilgrimroad_41_4", MonsterId.Repusbunny_Bow_Purple, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

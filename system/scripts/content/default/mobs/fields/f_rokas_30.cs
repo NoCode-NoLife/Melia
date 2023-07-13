@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRokas30MobScript : GeneralScript
@@ -20,12 +21,12 @@ public class FRokas30MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Hogma_Sorcerer, 15, TimeSpan.FromMilliseconds(0), "Spawner1.f_rokas_30");
-		AddSpawner(MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(5000), "Spawner2.f_rokas_30");
-		AddSpawner(MonsterId.Hogma_Guard, 35, TimeSpan.FromMilliseconds(30000), "Spawner3.f_rokas_30");
-		AddSpawner(MonsterId.Hogma_Sorcerer, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_rokas_30");
-		AddSpawner(MonsterId.Hogma_Guard, 15, TimeSpan.FromMilliseconds(0), "Spawner5.f_rokas_30");
-		AddSpawner(MonsterId.Deadbornscab_Bow, 8, TimeSpan.FromMilliseconds(0), "Spawner6.f_rokas_30");
+		AddSpawner("Spawner1.f_rokas_30", MonsterId.Hogma_Sorcerer, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_rokas_30", MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_rokas_30", MonsterId.Hogma_Guard, 35, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_rokas_30", MonsterId.Hogma_Sorcerer, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_rokas_30", MonsterId.Hogma_Guard, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_rokas_30", MonsterId.Deadbornscab_Bow, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

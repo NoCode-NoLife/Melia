@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains38MobScript : GeneralScript
@@ -16,15 +17,15 @@ public class FRemains38MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Lizardman, 10, TimeSpan.FromMilliseconds(0), "Spawner1.f_remains_38");
-		AddSpawner(MonsterId.InfroBurk, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_remains_38");
-		AddSpawner(MonsterId.Lizardman, 10, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_38");
-		AddSpawner(MonsterId.InfroBurk, 12, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_38");
-		AddSpawner(MonsterId.Long_Arm, 10, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_38");
-		AddSpawner(MonsterId.Lizardman, 20, TimeSpan.FromMilliseconds(0), "Spawner6.f_remains_38");
-		AddSpawner(MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), "Spawner7.f_remains_38");
-		AddSpawner(MonsterId.Stub_Tree_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner8.f_remains_38");
-		AddSpawner(MonsterId.Long_Arm, 30, TimeSpan.FromMilliseconds(0), "Spawner9.f_remains_38");
+		AddSpawner("Spawner1.f_remains_38", MonsterId.Lizardman, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_38", MonsterId.InfroBurk, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_remains_38", MonsterId.Lizardman, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_remains_38", MonsterId.InfroBurk, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_remains_38", MonsterId.Long_Arm, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_remains_38", MonsterId.Lizardman, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_remains_38", MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_remains_38", MonsterId.Stub_Tree_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.f_remains_38", MonsterId.Long_Arm, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DPrison81MobScript : GeneralScript
@@ -20,11 +21,11 @@ public class DPrison81MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Nuka_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner1.d_prison_81");
-		AddSpawner(MonsterId.Elma_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner2.d_prison_81");
-		AddSpawner(MonsterId.TerraNymph_Bow_Brown, 20, TimeSpan.FromMilliseconds(0), "Spawner3.d_prison_81");
-		AddSpawner(MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(60000), "Spawner4.d_prison_81");
-		AddSpawner(MonsterId.TerraNymph_Bow_Brown, 30, TimeSpan.FromMilliseconds(0), "Spawner5.d_prison_81");
+		AddSpawner("Spawner1.d_prison_81", MonsterId.Nuka_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_prison_81", MonsterId.Elma_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_prison_81", MonsterId.TerraNymph_Bow_Brown, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_prison_81", MonsterId.Rootcrystal_05, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_prison_81", MonsterId.TerraNymph_Bow_Brown, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

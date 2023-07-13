@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FKatyn132MobScript : GeneralScript
@@ -16,14 +17,14 @@ public class FKatyn132MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Swordmaster, 1, TimeSpan.FromMilliseconds(60000), "Spawner1.f_katyn_13_2");
-		AddSpawner(MonsterId.Archermaster, 1, TimeSpan.FromMilliseconds(60000), "Spawner2.f_katyn_13_2");
-		AddSpawner(MonsterId.Wizardmaster, 1, TimeSpan.FromMilliseconds(60000), "Spawner3.f_katyn_13_2");
-		AddSpawner(MonsterId.Npc_Healer, 1, TimeSpan.FromMilliseconds(60000), "Spawner4.f_katyn_13_2");
-		AddSpawner(MonsterId.Mushroom_Boy_Red, 40, TimeSpan.FromMilliseconds(15000), "Spawner5.f_katyn_13_2");
-		AddSpawner(MonsterId.Mushroom_Ent, 20, TimeSpan.FromMilliseconds(15000), "Spawner6.f_katyn_13_2");
-		AddSpawner(MonsterId.Mushroom_Boy_Red, 3, TimeSpan.FromMilliseconds(20000), "Spawner7.f_katyn_13_2");
-		AddSpawner(MonsterId.Mushroom_Boy_Red, 25, TimeSpan.FromMilliseconds(5000), "Spawner8.f_katyn_13_2");
+		AddSpawner("Spawner1.f_katyn_13_2", MonsterId.Swordmaster, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_katyn_13_2", MonsterId.Archermaster, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_katyn_13_2", MonsterId.Wizardmaster, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_katyn_13_2", MonsterId.Npc_Healer, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_katyn_13_2", MonsterId.Mushroom_Boy_Red, 40, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_katyn_13_2", MonsterId.Mushroom_Ent, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("Spawner7.f_katyn_13_2", MonsterId.Mushroom_Boy_Red, 3, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("Spawner8.f_katyn_13_2", MonsterId.Mushroom_Boy_Red, 25, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

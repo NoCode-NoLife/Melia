@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FDesolatedCapital531MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class FDesolatedCapital531MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Orc_Double_Axe, 45, TimeSpan.FromMilliseconds(60000), "Spawner1.f_desolated_capital_53_1");
-		AddSpawner(MonsterId.Orc_Shield, 45, TimeSpan.FromMilliseconds(60000), "Spawner2.f_desolated_capital_53_1");
-		AddSpawner(MonsterId.Orc_Wand, 35, TimeSpan.FromMilliseconds(60000), "Spawner3.f_desolated_capital_53_1");
-		AddSpawner(MonsterId.Orc_Leader, 8, TimeSpan.FromMilliseconds(60000), "Spawner4.f_desolated_capital_53_1");
-		AddSpawner(MonsterId.Orc_Double_Axe, 10, TimeSpan.FromMilliseconds(60000), "Spawner5.f_desolated_capital_53_1");
-		AddSpawner(MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), "Spawner6.f_desolated_capital_53_1");
+		AddSpawner("Spawner1.f_desolated_capital_53_1", MonsterId.Orc_Double_Axe, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_desolated_capital_53_1", MonsterId.Orc_Shield, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_desolated_capital_53_1", MonsterId.Orc_Wand, 35, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_desolated_capital_53_1", MonsterId.Orc_Leader, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_desolated_capital_53_1", MonsterId.Orc_Double_Axe, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_desolated_capital_53_1", MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

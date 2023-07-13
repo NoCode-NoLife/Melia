@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCathedral53MobScript : GeneralScript
@@ -20,15 +21,15 @@ public class DCathedral53MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Loftlem_Blue, 20, TimeSpan.FromMilliseconds(0), "Spawner1.d_cathedral_53");
-		AddSpawner(MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(5000), "Spawner2.d_cathedral_53");
-		AddSpawner(MonsterId.Npc_Saule_Female_2, 1, TimeSpan.FromMilliseconds(0), "Spawner3.d_cathedral_53");
-		AddSpawner(MonsterId.Npc_Saule_Female_2, 1, TimeSpan.FromMilliseconds(0), "Spawner4.d_cathedral_53");
-		AddSpawner(MonsterId.Loftlem_Blue, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_cathedral_53");
-		AddSpawner(MonsterId.Colifly, 45, TimeSpan.FromMilliseconds(0), "Spawner6.d_cathedral_53");
-		AddSpawner(MonsterId.Loftlem_Blue, 6, TimeSpan.FromMilliseconds(0), "Spawner7.d_cathedral_53");
-		AddSpawner(MonsterId.Anchor_Mage, 7, TimeSpan.FromMilliseconds(0), "Spawner8.d_cathedral_53");
-		AddSpawner(MonsterId.Anchor_Mage, 20, TimeSpan.FromMilliseconds(0), "Spawner9.d_cathedral_53");
+		AddSpawner("Spawner1.d_cathedral_53", MonsterId.Loftlem_Blue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.d_cathedral_53", MonsterId.Rootcrystal_03, 25, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_cathedral_53", MonsterId.Npc_Saule_Female_2, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_cathedral_53", MonsterId.Npc_Saule_Female_2, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_cathedral_53", MonsterId.Loftlem_Blue, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.d_cathedral_53", MonsterId.Colifly, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_cathedral_53", MonsterId.Loftlem_Blue, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_cathedral_53", MonsterId.Anchor_Mage, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner9.d_cathedral_53", MonsterId.Anchor_Mage, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

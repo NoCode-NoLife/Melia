@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FRemains373MobScript : GeneralScript
@@ -16,12 +17,12 @@ public class FRemains373MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_04, 40, TimeSpan.FromMilliseconds(60000), "Spawner1.f_remains_37_3");
-		AddSpawner(MonsterId.Pagoda_04, 1, TimeSpan.FromMilliseconds(3600000), "Spawner2.f_remains_37_3");
-		AddSpawner(MonsterId.Hallowventor_Bow, 18, TimeSpan.FromMilliseconds(0), "Spawner3.f_remains_37_3");
-		AddSpawner(MonsterId.Hallowventor_Mage, 23, TimeSpan.FromMilliseconds(0), "Spawner4.f_remains_37_3");
-		AddSpawner(MonsterId.Gravegolem_Blue, 15, TimeSpan.FromMilliseconds(0), "Spawner5.f_remains_37_3");
-		AddSpawner(MonsterId.Gravegolem_Blue, 100, TimeSpan.FromMilliseconds(0), "Spawner6.f_remains_37_3");
+		AddSpawner("Spawner1.f_remains_37_3", MonsterId.Rootcrystal_04, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_remains_37_3", MonsterId.Pagoda_04, 1, TimeSpan.FromMilliseconds(3600000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_remains_37_3", MonsterId.Hallowventor_Bow, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_remains_37_3", MonsterId.Hallowventor_Mage, 23, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.f_remains_37_3", MonsterId.Gravegolem_Blue, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner6.f_remains_37_3", MonsterId.Gravegolem_Blue, 100, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

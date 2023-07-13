@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DCmine9MobScript : GeneralScript
@@ -16,13 +17,13 @@ public class DCmine9MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 2, TimeSpan.FromMilliseconds(5000), "Spawner1.d_cmine_9");
-		AddSpawner(MonsterId.FD_Bubbe_Fighter, 25, TimeSpan.FromMilliseconds(0), "Spawner2.d_cmine_9");
-		AddSpawner(MonsterId.FD_Bubbe_Mage_Ice, 5, TimeSpan.FromMilliseconds(0), "Spawner3.d_cmine_9");
-		AddSpawner(MonsterId.FD_Bubbe_Fighter, 10, TimeSpan.FromMilliseconds(0), "Spawner4.d_cmine_9");
-		AddSpawner(MonsterId.FD_Stoulet_Mage, 10, TimeSpan.FromMilliseconds(0), "Spawner5.d_cmine_9");
-		AddSpawner(MonsterId.FD_Bubbe_Mage_Ice, 7, TimeSpan.FromMilliseconds(0), "Spawner6.d_cmine_9");
-		AddSpawner(MonsterId.FD_Bat_Big, 7, TimeSpan.FromMilliseconds(0), "Spawner7.d_cmine_9");
+		AddSpawner("Spawner1.d_cmine_9", MonsterId.Rootcrystal_01, 2, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_cmine_9", MonsterId.FD_Bubbe_Fighter, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner3.d_cmine_9", MonsterId.FD_Bubbe_Mage_Ice, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.d_cmine_9", MonsterId.FD_Bubbe_Fighter, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner5.d_cmine_9", MonsterId.FD_Stoulet_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_cmine_9", MonsterId.FD_Bubbe_Mage_Ice, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_cmine_9", MonsterId.FD_Bat_Big, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

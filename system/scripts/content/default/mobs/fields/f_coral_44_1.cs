@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCoral441MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FCoral441MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Gob, 75, TimeSpan.FromMilliseconds(0), "Spawner1.f_coral_44_1");
-		AddSpawner(MonsterId.VarleFloater, 46, TimeSpan.FromMilliseconds(0), "Spawner2.f_coral_44_1");
-		AddSpawner(MonsterId.Afisher, 8, TimeSpan.FromMilliseconds(0), "Spawner3.f_coral_44_1");
-		AddSpawner(MonsterId.NimrahDamsel, 46, TimeSpan.FromMilliseconds(0), "Spawner4.f_coral_44_1");
-		AddSpawner(MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(30000), "Spawner5.f_coral_44_1");
+		AddSpawner("Spawner1.f_coral_44_1", MonsterId.Gob, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner2.f_coral_44_1", MonsterId.VarleFloater, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_coral_44_1", MonsterId.Afisher, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("Spawner4.f_coral_44_1", MonsterId.NimrahDamsel, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_coral_44_1", MonsterId.Rootcrystal_03, 30, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

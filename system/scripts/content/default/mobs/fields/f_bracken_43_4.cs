@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FBracken434MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FBracken434MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Vilkas_Warrior, 40, TimeSpan.FromMilliseconds(0), "Spawner1.f_bracken_43_4");
-		AddSpawner(MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), "Spawner2.f_bracken_43_4");
-		AddSpawner(MonsterId.Vilkas_Spearman, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_bracken_43_4");
-		AddSpawner(MonsterId.Vilkas_Fighter, 1, TimeSpan.FromMilliseconds(0), "Spawner4.f_bracken_43_4");
-		AddSpawner(MonsterId.Vilkas_Mage, 25, TimeSpan.FromMilliseconds(0), "Spawner5.f_bracken_43_4");
+		AddSpawner("Spawner1.f_bracken_43_4", MonsterId.Vilkas_Warrior, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_bracken_43_4", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_bracken_43_4", MonsterId.Vilkas_Spearman, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_bracken_43_4", MonsterId.Vilkas_Fighter, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_bracken_43_4", MonsterId.Vilkas_Mage, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

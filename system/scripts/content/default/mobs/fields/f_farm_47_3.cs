@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FFarm473MobScript : GeneralScript
@@ -21,12 +22,12 @@ public class FFarm473MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Kepo_Seed_Violet, 20, TimeSpan.FromMilliseconds(0), "Spawner1.f_farm_47_3");
-		AddSpawner(MonsterId.Ellom_Violet, 80, TimeSpan.FromMilliseconds(0), "Spawner2.f_farm_47_3");
-		AddSpawner(MonsterId.Kepo_Seed_Violet, 20, TimeSpan.FromMilliseconds(0), "Spawner3.f_farm_47_3");
-		AddSpawner(MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(60000), "Spawner4.f_farm_47_3");
-		AddSpawner(MonsterId.Cronewt_Bow, 20, TimeSpan.FromMilliseconds(0), "Spawner5.f_farm_47_3");
-		AddSpawner(MonsterId.Operor_White, 25, TimeSpan.FromMilliseconds(0), "Spawner6.f_farm_47_3");
+		AddSpawner("Spawner1.f_farm_47_3", MonsterId.Kepo_Seed_Violet, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_farm_47_3", MonsterId.Ellom_Violet, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_farm_47_3", MonsterId.Kepo_Seed_Violet, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_farm_47_3", MonsterId.Rootcrystal_01, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_farm_47_3", MonsterId.Cronewt_Bow, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.f_farm_47_3", MonsterId.Operor_White, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

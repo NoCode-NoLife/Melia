@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FDcapital205MobScript : GeneralScript
@@ -16,11 +17,11 @@ public class FDcapital205MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Pumpkin_Dog, 30, TimeSpan.FromMilliseconds(0), "Spawner1.f_dcapital_20_5");
-		AddSpawner(MonsterId.Scare_Crow, 30, TimeSpan.FromMilliseconds(0), "Spawner2.f_dcapital_20_5");
-		AddSpawner(MonsterId.Straw_Walker, 30, TimeSpan.FromMilliseconds(0), "Spawner3.f_dcapital_20_5");
-		AddSpawner(MonsterId.Straw_Walker, 35, TimeSpan.FromMilliseconds(0), "Spawner4.f_dcapital_20_5");
-		AddSpawner(MonsterId.Rootcrystal_04, 20, TimeSpan.FromMilliseconds(30000), "Spawner5.f_dcapital_20_5");
+		AddSpawner("Spawner1.f_dcapital_20_5", MonsterId.Pumpkin_Dog, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner2.f_dcapital_20_5", MonsterId.Scare_Crow, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.f_dcapital_20_5", MonsterId.Straw_Walker, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.f_dcapital_20_5", MonsterId.Straw_Walker, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.f_dcapital_20_5", MonsterId.Rootcrystal_04, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

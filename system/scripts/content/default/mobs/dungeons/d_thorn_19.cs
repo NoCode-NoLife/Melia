@@ -7,6 +7,7 @@
 
 using System;
 using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class DThorn19MobScript : GeneralScript
@@ -22,23 +23,23 @@ public class DThorn19MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner(MonsterId.Rootcrystal_01, 23, TimeSpan.FromMilliseconds(30000), "Spawner1.d_thorn_19");
-		AddSpawner(MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), "Spawner2.d_thorn_19");
-		AddSpawner(MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), "Spawner3.d_thorn_19");
-		AddSpawner(MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), "Spawner4.d_thorn_19");
-		AddSpawner(MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), "Spawner5.d_thorn_19");
-		AddSpawner(MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), "Spawner6.d_thorn_19");
-		AddSpawner(MonsterId.Thornball, 22, TimeSpan.FromMilliseconds(0), "Spawner7.d_thorn_19");
-		AddSpawner(MonsterId.Whip_Vine, 10, TimeSpan.FromMilliseconds(0), "Spawner8.d_thorn_19");
-		AddSpawner(MonsterId.Operor, 15, TimeSpan.FromMilliseconds(0), "Spawner9.d_thorn_19");
-		AddSpawner(MonsterId.Operor, 10, TimeSpan.FromMilliseconds(0), "Spawner10.d_thorn_19");
-		AddSpawner(MonsterId.Whip_Vine, 15, TimeSpan.FromMilliseconds(0), "Spawner11.d_thorn_19");
-		AddSpawner(MonsterId.Truffle, 55, TimeSpan.FromMilliseconds(0), "Spawner12.d_thorn_19");
-		AddSpawner(MonsterId.Velwriggler, 12, TimeSpan.FromMilliseconds(0), "Spawner13.d_thorn_19");
-		AddSpawner(MonsterId.Operor, 10, TimeSpan.FromMilliseconds(0), "Spawner14.d_thorn_19");
-		AddSpawner(MonsterId.Velwriggler, 12, TimeSpan.FromMilliseconds(0), "Spawner15.d_thorn_19");
-		AddSpawner(MonsterId.Thornball, 10, TimeSpan.FromMilliseconds(0), "Spawner16.d_thorn_19");
-		AddSpawner(MonsterId.Whip_Vine, 12, TimeSpan.FromMilliseconds(0), "Spawner17.d_thorn_19");
+		AddSpawner("Spawner1.d_thorn_19", MonsterId.Rootcrystal_01, 23, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("Spawner2.d_thorn_19", MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner3.d_thorn_19", MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner4.d_thorn_19", MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner5.d_thorn_19", MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner6.d_thorn_19", MonsterId.HiddenWall_40_50_100, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner7.d_thorn_19", MonsterId.Thornball, 22, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner8.d_thorn_19", MonsterId.Whip_Vine, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner9.d_thorn_19", MonsterId.Operor, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner10.d_thorn_19", MonsterId.Operor, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner11.d_thorn_19", MonsterId.Whip_Vine, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner12.d_thorn_19", MonsterId.Truffle, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner13.d_thorn_19", MonsterId.Velwriggler, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner14.d_thorn_19", MonsterId.Operor, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner15.d_thorn_19", MonsterId.Velwriggler, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner16.d_thorn_19", MonsterId.Thornball, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("Spawner17.d_thorn_19", MonsterId.Whip_Vine, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
