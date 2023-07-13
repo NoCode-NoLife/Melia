@@ -1003,7 +1003,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// SUnknow purposes, related to skills effects
+			/// Unknow purposes, related to skills effects
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="packetString"></param>
@@ -1056,7 +1056,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// SUnknow purposes, related to skills
+			/// Unknow purposes, related to skills
 			/// </summary>
 			/// <param name="actor"></param>
 			/// <param name="packetString"></param>
@@ -1372,7 +1372,7 @@ namespace Melia.Zone.Network
 				entity.Map.Broadcast(packet);
 			}
   
-      /// <summary>
+			/// <summary>
 			/// Purpose unknown. Added for testing purposes, but turned
 			/// out to not be necessary.
 			/// </summary>
