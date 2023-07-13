@@ -1098,7 +1098,7 @@ namespace Melia.Zone.Commands
 
 					sender.ServerMessage("Healed {0} hp.", hp);
 					if (sender != target)
-						target.ServerMessage("You were healed {0} hp by user {0}.", hp, sender.TeamName);
+						target.ServerMessage("You were healed {0} hp by user {1}.", hp, sender.TeamName);
 				}
 				// Two parameters, heal hp & sp
 				else if (args.Count == 2)
@@ -1114,7 +1114,7 @@ namespace Melia.Zone.Commands
 
 					sender.ServerMessage("Healed {0} hp & {1} sp.", hp, sp);
 					if (sender != target)
-						target.ServerMessage("You were healed {0} hp & {1} sp by user {0}.", hp, sp, sender.TeamName);
+						target.ServerMessage("You were healed {0} hp & {1} sp by user {2}.", hp, sp, sender.TeamName);
 				}
 			}
 
