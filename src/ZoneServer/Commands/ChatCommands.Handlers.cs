@@ -854,29 +854,37 @@ namespace Melia.Zone.Commands
 				if (monsterData.Drops.Count != 0)
 				{
 					monsterEntry.Append("Drops:");
+
 					foreach (var currentDrop in monsterData.Drops)
 					{
 						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
 						if (itemData != null)
 						{
-							var dropChance = currentDrop.DropChance;
-							var confDropRate = ZoneServer.Instance.Conf.World.DropRate / 100f;
-							dropChance = Math.Min(100, dropChance * confDropRate);
-
+							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
 							var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
-							var hasAmount = (currentDrop.MinAmount > 1 || currentDrop.MaxAmount > 1);
+
+							var minAmount = currentDrop.MinAmount;
+							var maxAmount = currentDrop.MaxAmount;
+							var hasAmount = (minAmount > 1 || maxAmount > 1);
+
+							if (isMoney)
+							{
+								minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+								maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+							}
+
 							var displayAmount = isMoney || hasAmount;
 
 							if (displayAmount)
 							{
-								if (currentDrop.MinAmount == currentDrop.MaxAmount)
-									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2}%)", currentDrop.MinAmount, itemData.Name, dropChance);
+								if (minAmount == maxAmount)
+									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2.####}%)", currentDrop.MinAmount, itemData.Name, dropChance);
 								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3}%){{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3.####}%){{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
 							}
 							else
 							{
-								monsterEntry.AppendFormat("{{nl}}- {0} ({1}%)", itemData.Name, dropChance);
+								monsterEntry.AppendFormat("{{nl}}- {0} ({1.####}%)", itemData.Name, dropChance);
 							}
 						}
 					}
