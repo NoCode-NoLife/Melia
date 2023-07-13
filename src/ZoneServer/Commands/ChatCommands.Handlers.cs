@@ -817,26 +817,82 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleMonsterInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
+			string[] monsterRaces = { "Unknown", "Insect", "Mutant", "Plant", "Demon", "Beast", "Item" };
+			string[] monsterElements = { "None", "Fire", "Ice", "Poison", "Earth", "Melee", "Psychokinesis", "Lightning", "Holy", "Dark" };
+			string[] monsterArmors = { "None", "Cloth", "Leather", "Iron", "Chain", "Ghost", "Shield", "Aries" };
+			string[] monsterSizes = { "None", "Hidden", "S", "M", "L", "XL", "XXL" };
+
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var search = string.Join(" ", args.GetAll());
-			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAll(search);
+
+			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAllPreferExact(search);
 			if (monsters.Count == 0)
 			{
 				sender.ServerMessage("No monsters found for '{0}'.", search);
 				return CommandResult.Okay;
-			}
+			}			
 
 			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
 			var max = 20;
+
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+
 			for (var i = 0; entries.MoveNext() && i < max; ++i)
 			{
 				var current = entries.Current;
-				sender.ServerMessage("{0}: {1}", current.Id, current.Name);
-			}
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+				var monsterEntry = new StringBuilder();
+
+				monsterEntry.AppendFormat("{{nl}}-----{0} ({1})-----{{nl}}", current.Name, current.Id);
+				monsterEntry.AppendFormat("{0} / {1} / {2} / {3}{{nl}}", monsterRaces[(int)current.Race], monsterElements[(int)current.Element], monsterArmors[(int)current.ArmorMaterial], monsterSizes[(int)current.Size]);
+				monsterEntry.AppendFormat("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}", current.Hp, current.Sp, (int)(current.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(current.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}", current.PhysicalAttackMin, current.PhysicalAttackMax, current.MagicalAttackMin, current.MagicalAttackMax, current.PhysicalDefense, current.MagicalDefense);
+
+				if (current.Drops.Count != 0)
+				{
+					monsterEntry.Append("Drops:");
+					foreach (var currentDrop in current.Drops)
+					{
+						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
+						if (itemData != null)
+						{
+							var dropChance = currentDrop.DropChance;
+							dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
+							if (dropChance > 100f)
+							{
+								dropChance = 100f;
+							}
+
+							// Display the amount dropped for Silver and Gold, and any other items that have their amounts set
+							if (currentDrop.ItemId == 900011 || currentDrop.ItemId == 900012 || currentDrop.MinAmount > 1 || currentDrop.MaxAmount > 1)
+							{
+								if (currentDrop.MinAmount == currentDrop.MaxAmount)
+								{
+									monsterEntry.AppendFormat("{{nl}}{0} {1} - {2}%", currentDrop.MinAmount, itemData.Name, dropChance);
+								}
+								else
+								{
+									monsterEntry.AppendFormat("{{nl}}{0}~{1} {2} - {3}%{{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
+								}
+							}
+							else
+							{
+								monsterEntry.AppendFormat("{{nl}}{0} - {1}%", itemData.Name, dropChance);
+							}
+						}
+					}
+				}
+				else
+				{
+					monsterEntry.Append("This monster has no drops");
+				}
+
+
+			  sender.ServerMessage(monsterEntry.ToString());
+
+			}			
 
 			return CommandResult.Okay;
 		}
