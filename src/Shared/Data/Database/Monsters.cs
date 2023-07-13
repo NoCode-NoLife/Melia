@@ -82,6 +82,19 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns the monster with the given class name via out. Returns
+		/// false if no match was found.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public bool TryFind(string className, out MonsterData data)
+		{
+			data = this.Entries.FirstOrDefault(a => a.Value.ClassName == className).Value;
+			return data != null;
+		}
+
+		/// <summary>
 		/// Returns a list of all monsters whichs' name contains the given
 		/// string.
 		/// </summary>
