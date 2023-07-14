@@ -1994,7 +1994,7 @@ namespace Melia.Zone.Network
 			var strArgCount = packet.GetShort();
 			var dialogTxItems = packet.GetList(itemCount, packet.GetDialogTxItem);
 			var numArgs = packet.GetList(numArgCount, packet.GetInt);
-			var strArgs = packet.GetList(strArgCount, packet.GetString);
+			var strArgs = packet.GetList(strArgCount, packet.GetLpString);
 
 			var character = conn.SelectedCharacter;
 
