@@ -928,7 +928,7 @@ namespace Melia.Zone.Commands
 			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemResultCount);
 
 			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
-			foreach (var currentItem in itemEntries)
+			foreach (var currentItem in itemEntries.Take(maxItemResultCount))
 			{
 				var whoDropsEntry = new StringBuilder();
 
