@@ -879,13 +879,13 @@ namespace Melia.Zone.Commands
 							if (displayAmount)
 							{
 								if (minAmount == maxAmount)
-									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2.####}%)", currentDrop.MinAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", currentDrop.MinAmount, itemData.Name, dropChance);
 								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3.####}%){{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
 							}
 							else
 							{
-								monsterEntry.AppendFormat("{{nl}}- {0} ({1.####}%)", itemData.Name, dropChance);
+								monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
 							}
 						}
 					}
@@ -934,14 +934,13 @@ namespace Melia.Zone.Commands
 				var currentItem = itemEntries.Current;
 				var whoDropsEntry = new StringBuilder();
 
-				if (currentItem.Id == 900011)
+				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
+
+				if (currentItem.Id == ItemId.Silver)
 				{
-					// We don't allow searching for Silver since almost every enemy in the game drops it.
-					whoDropsEntry.Append("{nl}-----Silver-----{nl}");
+					// We don't allow searching for Silver since almost every enemy in the game drops it.					
 					whoDropsEntry.Append("Too many enemies drop this.");
 				} else {
-					whoDropsEntry.AppendFormat("{{nl}}-----{0}-----{{nl}}", currentItem.Name);
-
 					var monstersWhoDropThis = ZoneServer.Instance.Data.MonsterDb.FindDroppers(currentItem.Id);
 					if (monstersWhoDropThis.Count != 0)
 					{
@@ -954,11 +953,7 @@ namespace Melia.Zone.Commands
 							{
 								if (drop.ItemId == currentItem.Id)
 								{
-									var dropChance = Mob.GetAdjustedDropRate(drop);
-									if (dropChance > 100f)
-									{
-										dropChance = 100f;
-									}
+									var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(drop));
 									bestDroppers.Add(new KeyValuePair<MonsterData, float>(monster, dropChance));
 								}
 							}
@@ -970,7 +965,7 @@ namespace Melia.Zone.Commands
 						whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDroppers);
 						for (var j = 0; dropEntries.MoveNext() && i < maxDroppers; ++j)
 						{
-							whoDropsEntry.AppendFormat("{{nl}}{0} ({1}) - {2:0.####}%", dropEntries.Current.Key.Name, dropEntries.Current.Key.Id, dropEntries.Current.Value);
+							whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropEntries.Current.Key.Name, dropEntries.Current.Key.Id, dropEntries.Current.Key.ClassName, dropEntries.Current.Value);
 						}
 					}
 					else

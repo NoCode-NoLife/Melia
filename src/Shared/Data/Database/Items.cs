@@ -103,6 +103,24 @@ namespace Melia.Shared.Data.Database
 			return this.Entries.FirstOrDefault(a => a.Value.ClassName.ToLower() == name).Value;
 		}
 
+
+		/// <summary>
+		/// Returns a list of all items whose name contains the given string
+		/// If there is an exact match, return only those ones
+		/// </summary>
+		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <returns></returns>
+		public List<ItemData> FindAllPreferExact(string searchString)
+		{
+			searchString = searchString.ToLower();
+
+			var exactMatches = this.Entries.Values.Where(a => a.Name.ToLower() == searchString);
+			if (exactMatches.Any())
+				return exactMatches.ToList();
+
+			return this.FindAll(searchString);
+		}
+
 		/// <summary>
 		/// Returns a list of all items whichs' names contain the given
 		/// string.
