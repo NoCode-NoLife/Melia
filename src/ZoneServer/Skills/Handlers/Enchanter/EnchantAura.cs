@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -11,6 +9,7 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
@@ -21,9 +20,6 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 	[SkillHandler(SkillId.Enchanter_EnchantAura)]
 	public class EnchantAura : IGroundSkillHandler
 	{
-		private Dictionary<ICombatEntity, Task> _areasOfEffect = new Dictionary<ICombatEntity, Task>();
-		private Dictionary<ICombatEntity, CancellationTokenSource> _cancellationTokensSource = new Dictionary<ICombatEntity, CancellationTokenSource>();
-
 		/// <summary>
 		/// Handles the skill, creates an area of effect that damages the enemies inside
 		/// </summary>
@@ -43,60 +39,54 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			Send.ZC_NORMAL.Skill_88(caster as Character, caster, skill);
+			Send.ZC_NORMAL.Skill_88(caster, caster, skill);
+
+
+			var buffComponent = caster.Components.Get<BuffComponent>();
+
+			if (buffComponent != null && buffComponent.Has(BuffId.EnchantAura_Buff))
+			{
+				var x = skill.Vars.GetFloat("Melia.EchantAura.X");
+				var y = skill.Vars.GetFloat("Melia.EchantAura.Y");
+				var z = skill.Vars.GetFloat("Melia.EchantAura.Z");
+				var id = skill.Vars.GetInt("Melia.EchantAura.EffectId");
+
+				this.RemoveSkillEffect(skill, caster, new Position(x, y, z), id);
+				return;
+			}
 
 			var castedPos = caster.Position;
 			var effectId = ForceId.GetNew();
-			Task areaOfEffect = null;
 
-			if (_areasOfEffect.ContainsKey(caster))
-				areaOfEffect = _areasOfEffect[caster];
-
-			// Cancel the area of effect task
-			if (areaOfEffect != null)
-			{
-				if (_areasOfEffect.ContainsKey(caster))
-					_areasOfEffect.Remove(caster);
-
-				if (_cancellationTokensSource.ContainsKey(caster))
-					_cancellationTokensSource[caster].Cancel();
-
-				this.RemoveSkillEffect(skill, caster, castedPos, effectId);
-				return;
-			}
+			skill.Vars.SetFloat("Melia.EchantAura.X", castedPos.X);
+			skill.Vars.SetFloat("Melia.EchantAura.Y", castedPos.Y);
+			skill.Vars.SetFloat("Melia.EchantAura.Z", castedPos.Z);
+			skill.Vars.SetInt("Melia.EchantAura.EffectId", effectId);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);			
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
 
-			// Create a new cancellation token source
-			var cancellationTokenSource = new CancellationTokenSource();
-
-			if (!_cancellationTokensSource.ContainsKey(caster))
-				_cancellationTokensSource.Add(caster, cancellationTokenSource);
-
-			// Start the task
-			var newAreaOfEffect = Task.Run(() => AreaOfEffect(cancellationTokenSource.Token, skill, caster, castedPos, effectId));
-
-			if (!_areasOfEffect.ContainsKey(caster))
-				_areasOfEffect.Add(caster, newAreaOfEffect);
+			this.AreaOfEffect(skill, caster, castedPos, effectId);
 		}
 
 		/// <summary>
 		/// Area of effect that ticks dealing damage on the enemies inside
 		/// </summary>
-		/// <param name="cancellationToken"></param>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="position"></param>
 		/// <param name="effectId"></param>
-		private async Task AreaOfEffect(CancellationToken cancellationToken, Skill skill, ICombatEntity caster, Position position, int effectId)
+		private async void AreaOfEffect(Skill skill, ICombatEntity caster, Position position, int effectId)
 		{
+			var buffComponent = caster.Components.Get<BuffComponent>();
+
+			if (buffComponent == null)
+				return;
+
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-			var character = caster as Character;
-
-			Send.ZC_NORMAL.GroundEffect_59(character, character.Direction, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Enchanter_EnchantAura", skill.Id, caster.Position, effectId, true);
 
 			var radius = 80;
 			var center = position.GetRelative(position, radius);
@@ -104,31 +94,28 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
-			if (!character.Buffs.Has(BuffId.EnchantAura_Buff))
+			if (buffComponent != null && !buffComponent.Has(BuffId.EnchantAura_Buff))
 			{
-				character.StartBuff(BuffId.EnchantAura_Buff, TimeSpan.Zero);
+				caster.StartBuff(BuffId.EnchantAura_Buff, TimeSpan.Zero);
 			}
 
 			await Task.Delay(TimeSpan.FromSeconds(1));
 
-			while (true)
+			while (buffComponent.Has(BuffId.EnchantAura_Buff))
 			{
-				// Check if cancellation is requested
-				if (cancellationToken.IsCancellationRequested)
-				{
-					if (_cancellationTokensSource.ContainsKey(caster))
-						_cancellationTokensSource.Remove(caster);
-
-					this.RemoveSkillEffect(skill, caster, position, effectId);
-					break;
-				}
-
 				await Task.Delay(2000);
 
 				// Cancel if the caster has not enough SP
 				if (!caster.TrySpendSp(skill))
 				{
 					this.RemoveSkillEffect(skill, caster, position, effectId);
+					break;
+				}
+
+				var character = caster as Character;
+
+				if ((character != null && !character.Connection.LoggedIn) || caster.IsDead)
+				{
 					break;
 				}
 
@@ -169,13 +156,14 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		{
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 
-			var character = caster as Character;
-			if (character.Buffs.Has(BuffId.EnchantAura_Buff))
+			var buffComponent = caster.Components.Get<BuffComponent>();
+
+			if (buffComponent != null && buffComponent.Has(BuffId.EnchantAura_Buff))
 			{
-				character.Buffs.Remove(BuffId.EnchantAura_Buff);
+				buffComponent.Remove(BuffId.EnchantAura_Buff);
 			}
 
-			Send.ZC_NORMAL.GroundEffect_59(character, character.Direction, "Enchanter_EnchantAura", skill.Id, position, effectId, false);
+			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Enchanter_EnchantAura", skill.Id, position, effectId, false);
 		}
 	}
 }

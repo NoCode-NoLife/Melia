@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using System.Collections.Generic;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -76,6 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 			Send.ZC_NORMAL.GroundEffect_123(caster, "I_laser013", farPos);
+			caster.PlacedTraps.Add(trapObject);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
@@ -102,24 +104,34 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				await Task.Delay(TimeSpan.FromMilliseconds(350));
 
 				fan.RotateAround(center, 60);
+				var damagedTargets = new List<ICombatEntity>();
+
+				// The skill doesn't take damage every 100ms
+				// instead it seems to damage every second
+				this.ResetTargetList(damagedTargets, cancellationTokenSource.Token);
 
 				while (!cancellationTokenSource.IsCancellationRequested)
 				{
 					fan.RotateAround(center, 14f);
 
-					// The Shape appears to be slightly behind the effect movement but it works nicely.
+					// The Shape appears to be slightly behind the effect movement and it becomes out of sync
 					Debug.ShowShape(caster.Map, fan, delay, rangePreview: false);
 
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, fan);
 
 					foreach (var target in targets.LimitRandom(15))
 					{
+						if (damagedTargets.Contains(target))
+							continue;
+
 						var skillHitResult = SCR_SkillHit(caster, target, skill);
 						target.TakeDamage(skillHitResult.Damage, caster);
 
 						var hit = new HitInfo(caster, target, skill, skillHitResult);
 
 						Send.ZC_HIT_INFO(caster, target, skill, hit);
+
+						damagedTargets.Add(target);
 					}
 
 					await Task.Delay(delay);
@@ -127,7 +139,24 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 				Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "rope_pad", skill.Id, center, effectId, false);
 
+				if (caster.PlacedTraps.Contains(trapObject))
+					caster.PlacedTraps.Remove(trapObject);
+
 				caster.Map.RemoveMonster(trapObject);
+			}
+		}
+
+		/// <summary>
+		/// Executes the actual attack after a delay.
+		/// </summary>
+		/// <param name="damagedTargets"></param>
+		/// <param name="cancellationToken"></param>
+		private async void ResetTargetList(List<ICombatEntity> damagedTargets, CancellationToken cancellationToken)
+		{
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				damagedTargets.Clear();
+				await Task.Delay(TimeSpan.FromSeconds(1));
 			}
 		}
 	}

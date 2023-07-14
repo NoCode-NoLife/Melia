@@ -9,7 +9,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
-
+using System.Linq;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -42,7 +42,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			var removeList = new List<Mob>();
 
-			foreach (var trap in caster.PlacedTraps)
+			foreach (var trap in caster.PlacedTraps.FindAll(mob => mob.Id == 300010).ToList())
 			{
 				caster.Map.RemoveMonster(trap);
 				removeList.Add(trap);
@@ -51,19 +51,17 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			foreach (var mob in removeList)
 			{
-				if (caster.PlacedTraps.Contains(mob))
-				{
-					caster.PlacedTraps.Remove(mob);
-				}				
+				if (caster.PlacedTraps.Contains(mob))				
+					caster.PlacedTraps.Remove(mob);							
 			}
 		}
 
 		private void Explosion(ICombatEntity caster, Skill skill, Position position)
 		{
-			var splashArea = new Circle(position, 25);
+			var splashArea = new Circle(position, 45);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			Debug.ShowShape(caster.Map, splashArea);
+			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
 
 			foreach (var target in targets.LimitRandom(5))
 			{

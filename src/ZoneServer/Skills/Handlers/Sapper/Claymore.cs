@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -22,8 +21,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 	[SkillHandler(SkillId.Sapper_Claymore)]
 	public class Claymore : IGroundSkillHandler
 	{
-		private Dictionary<ICombatEntity, Mob> _traps = new Dictionary<ICombatEntity, Mob>();
-
 		/// <summary>
 		/// Handles the skill, creates an trap object on the floor on
 		/// the first usage and explodes it on the second usage attempt
@@ -47,7 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				return;
 			}
 
-			if (_traps.ContainsKey(caster))
+			if (caster.PlacedTraps.Exists(mob => mob.Id == 57197))
 			{
 				this.ExplodeTrap(skill, caster);
 				return;
@@ -91,11 +88,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_NORMAL.Skill_40(caster, skill.Id, "SKL_CLAYMORE_SHOT");
 
-			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.Zero);
 
-			if (!_traps.ContainsKey(caster))
-				_traps.Add(caster, trapObject);
-
+			caster.PlacedTraps.Add(trapObject);
 		}
 
 		/// <summary>
@@ -113,13 +108,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.Skill_88(caster, caster, null);
 			Send.ZC_NORMAL.Skill_88(caster, caster, null);
 
-			Mob trap = null;
-
-			if (_traps.ContainsKey(caster))
-				trap = _traps[caster];
-
-			if (trap == null)
-				return;
+			var trap = caster.PlacedTraps.Find(x => x.Id == 57197);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, trap.Direction, Position.Zero, 1);
@@ -127,7 +116,10 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_DEAD(trap, trap.Position);
 			Send.ZC_SKILL_CAST_CANCEL(trap);
-			
+
+			if (caster.PlacedTraps.Contains(trap))
+				caster.PlacedTraps.Remove(trap);
+
 			caster.Map.RemoveMonster(trap, false);
 
 			var splashParam = skill.GetSplashParameters(trap, trap.Position, trap.Position, length: 200, width: 0, angle: 60);
@@ -140,9 +132,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.Skill_122(caster, "SAPPER_TRAP_Sapper_Claymore");
 
 			trap.Buffs.Remove(BuffId.Cover_Buff);
-
-			if (_traps.ContainsKey(caster))
-				_traps.Remove(caster);
 		}
 
 		/// <summary>

@@ -640,6 +640,7 @@ namespace Melia.Zone.World.Actors.Characters
 				this.MapId = mapId;
 				_warping = true;
 
+				this.CleanPlacedTraps();
 				Send.ZC_MOVE_ZONE(this.Connection);
 			}
 		}
@@ -678,6 +679,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
+
+			this.CleanPlacedTraps();
 
 			Send.ZC_MOVE_ZONE_OK(this, channelId, serverInfo.Ip, serverInfo.Port, this.MapId);
 		}
@@ -1231,6 +1234,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			//this.Died?.Invoke(this, killer);
+			this.CleanPlacedTraps();
 
 			Send.ZC_DEAD(this, this.Position);
 
@@ -1345,6 +1349,16 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var stamina = (this.Properties.Stamina -= staminaUsage);
 			Send.ZC_STAMINA(this, stamina);
+		}
+
+		private void CleanPlacedTraps()
+		{
+			foreach(var trap in this.PlacedTraps)
+			{
+				this.Map.RemoveMonster(trap);
+			}
+
+			this.PlacedTraps.Clear();
 		}
 	}
 }

@@ -92,6 +92,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			this.AlertRange(caster, skill, trapObject, farPos, cancellationTokenSource.Token);
 
+			caster.PlacedTraps.Add(trapObject);
+
 			// The trap auto-explodes after 20 seconds
 			await Task.Delay(TimeSpan.FromSeconds(20));
 						
@@ -99,6 +101,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
+				if (caster.PlacedTraps.Contains(trapObject))
+					caster.PlacedTraps.Remove(trapObject);
 			}
 		}
 
@@ -143,10 +147,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.RemoveMonster(trap);
 
-			if (caster.PlacedTraps.Contains(trap))
-			{
+			if (caster.PlacedTraps.Contains(trap))			
 				caster.PlacedTraps.Remove(trap);
-			}
 
 			var cancellationTokenSource = new CancellationTokenSource();
 

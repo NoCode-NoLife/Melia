@@ -304,6 +304,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
+			this.CleanPlacedTraps();
 
 			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
 			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
@@ -538,6 +539,16 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
 			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
+		}
+
+		private void CleanPlacedTraps()
+		{
+			foreach (var trap in this.PlacedTraps)
+			{
+				this.Map.RemoveMonster(trap);
+			}
+
+			this.PlacedTraps.Clear();
 		}
 	}
 }

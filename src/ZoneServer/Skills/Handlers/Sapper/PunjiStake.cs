@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -44,16 +43,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			// Why are we trusting the client?
 			// TODO: Find a way to get the Cast Time of a skill
 			this.maxCastingTime = maxCastingTime;
-
-			// Taglio: Tenacity
-			// Duration changed to 5 seconds{ nl}
-			// *Movement speed increase effect removed{ nl}
-			// *Cooldown increased by 10 seconds
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
-			{
-				caster.Properties.Modify(PropertyName.MSPD_BM, 10);
-				Send.ZC_MSPD(caster);
-			}
 
 			stopwatch = Stopwatch.StartNew();
 			stopwatch.Start();
@@ -100,20 +89,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(150));
+			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
 
 			var effectId = ForceId.GetNew();
 			var farPos = caster.Position.GetRelative(caster.Direction, 25);
 
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, farPos, effectId, true);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(150));
-
 			var trapObject = new Mob(57194, MonsterType.Friendly);
 
 			trapObject.Position = farPos;
 			trapObject.Direction = caster.Direction;
-			trapObject.FromGround = true;
+			//trapObject.FromGround = true;
 			trapObject.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
 			trapObject.Owner = caster;
 
@@ -121,20 +108,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			caster.Map.AddMonster(trapObject);
 
-			Send.ZC_OWNER(caster, trapObject);
+			//Send.ZC_OWNER(caster, trapObject);
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 
-			caster.SetAttackState(true);
-
-			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(trapObject.Position), trapObject.Position);
 			Send.ZC_NORMAL.Skill_5C(caster, trapObject, skill.Id, effectId);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, trapObject.Position, ForceId.GetNew(), null);
 
-			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.Zero);
+			caster.PlacedTraps.Add(trapObject);
 
 			var cancellationTokenSource = new CancellationTokenSource();
-
+			
 			this.AlertRange(skill, caster, trapObject, effectId, cancellationTokenSource);
 
 			await Task.Delay(TimeSpan.FromSeconds(30));
@@ -145,6 +130,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				this.ExplodeTrap(skill, caster, trapObject, effectId, cancellationTokenSource);
 				caster.Map.RemoveMonster(trapObject);
 				cancellationTokenSource.Cancel();
+				if (caster.PlacedTraps.Contains(trapObject))
+					caster.PlacedTraps.Remove(trapObject);
 			}
 		}
 
@@ -207,6 +194,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			await Task.Delay(TimeSpan.FromSeconds(2));
 
+			if (caster.PlacedTraps.Contains(trap))
+				caster.PlacedTraps.Remove(trap);
+
 			caster.Map.RemoveMonster(trap);
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "punji_stake", skill.Id, trap.Position, effectId, false);
 		}
@@ -234,7 +224,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				return;
 			}
 
-			var knockBackDistance = 110;
+			var knockBackDistance = 100;
 			var knockBackPos = target.Position.GetRelative(trap.Direction, knockBackDistance);
 			var angle = target.GetDirection(knockBackPos).DegreeAngle;
 			var kb = new KnockBackInfo(trap.Position, knockBackPos, skill);

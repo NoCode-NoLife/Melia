@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_FACTION(caster, trapObject, FactionType.Trap);
 			Send.ZC_NORMAL.Skill_5C(caster, trapObject, skill.Id, effectid);
 
-			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.FromMinutes(60));
+			trapObject.StartBuff(BuffId.Cover_Buff, TimeSpan.Zero);
 
 			await Task.Delay(1000);
 
@@ -106,13 +106,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				cancellationTokenSource.Cancel();
 				caster.Map.RemoveMonster(trapObject);
-				if (caster.PlacedTraps != null)
-				{
-					if (caster.PlacedTraps.Contains(trapObject))
-					{
-						caster.PlacedTraps.Remove(trapObject);
-					}
-				}				
+				if (caster.PlacedTraps.Contains(trapObject))
+					caster.PlacedTraps.Remove(trapObject);
 			}
 		}
 
@@ -174,7 +169,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private void TriggerTrap(ICombatEntity caster, Skill skill, ICombatEntity target, int effectId, Mob trap, CancellationTokenSource cancellationTokenSource)
 		{
 			var buffComponent = target.Components.Get<BuffComponent>();
-			var buff = buffComponent?.Get(BuffId.Cover_Buff);
 			buffComponent?.Remove(BuffId.Cover_Buff);
 
 			cancellationTokenSource.Cancel();
@@ -198,6 +192,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			Send.ZC_HIT_INFO(caster, target, skill, hit);
 			target.StartBuff(BuffId.SpringTrap_Debuff, TimeSpan.FromSeconds(25));
+
+			if (caster.PlacedTraps.Contains(trap))
+				caster.PlacedTraps.Remove(trap);
 		}
 	}
 }
