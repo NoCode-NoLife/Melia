@@ -78,27 +78,20 @@ namespace Melia.Shared.Data.Database
 		public MonsterData Find(string name)
 		{
 			name = name.ToLower();
-			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
+			return this.Entries.Values.FirstOrDefault(a => a.Name.ToLower() == name);
 		}
 
 		/// <summary>
-		/// Returns a list of all monsters whose name contains the given string
-		/// If there is an exact match, return only those ones
+		/// Returns the monster with the given class name via out. Returns
+		/// false if no match was found.
 		/// </summary>
-		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <param name="className"></param>
+		/// <param name="data"></param>
 		/// <returns></returns>
-		public List<MonsterData> FindAllPreferExact(string searchString)
+		public bool TryFind(string className, out MonsterData data)
 		{
-			searchString = searchString.ToLower();
-			var monsters = this.Entries.Where(a => a.Value.Name.ToLower() == searchString).Select(a => a.Value).ToList();
-			if (monsters.Count != 0)
-			{
-				return monsters;
-			}
-			else
-			{
-				return FindAll(searchString);
-			}
+			data = this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
+			return data != null;
 		}
 
 		/// <summary>
@@ -110,7 +103,34 @@ namespace Melia.Shared.Data.Database
 		public List<MonsterData> FindAll(string searchString)
 		{
 			searchString = searchString.ToLower();
-			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(searchString)).Select(a => a.Value).ToList();
+			return this.Entries.Values.Where(a => a.Name.ToLower().Contains(searchString)).ToList();
+		}
+
+		/// <summary>
+		/// Returns a list of all monsters whose name contains the given
+		/// string. If there is an exact match, only that one is returned.
+		/// </summary>
+		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <returns></returns>
+		public List<MonsterData> FindAllPreferExact(string searchString)
+		{
+			searchString = searchString.ToLower();
+
+			var exactMatches = this.Entries.Values.Where(a => a.Name.ToLower() == searchString);
+			if (exactMatches.Any())
+				return exactMatches.ToList();
+
+			return this.FindAll(searchString);
+		}
+
+		/// <summary>
+		/// Returns a list of all monsters which drop a certain item
+		/// </summary>
+		/// <param name="itemId">The id of the item to look for</param>
+		/// <returns></returns>
+		public List<MonsterData> FindDroppers(int itemId)
+		{
+			return this.Entries.Values.Where(a => a.Drops.Any(b => b.ItemId == itemId)).ToList();
 		}
 
 		/// <summary>

@@ -18,6 +18,11 @@ namespace Melia.Shared.Configuration
 		public DatabaseConfFile Database { get; } = new DatabaseConfFile();
 
 		/// <summary>
+		/// log.conf
+		/// </summary>
+		public LogConfFile Log { get; } = new LogConfFile();
+
+		/// <summary>
 		/// localization.conf
 		/// </summary>
 		public LocalizationConf Localization { get; } = new LocalizationConf();
@@ -46,6 +51,7 @@ namespace Melia.Shared.Configuration
 
 			this.Commands.Load("system/conf/commands.conf");
 			this.Database.Load("system/conf/database.conf");
+			this.Log.Load("system/conf/log.conf");
 			this.Localization.Load("system/conf/localization.conf");
 			this.Web.Load("system/conf/web.conf");
 			this.World.Load("system/conf/world.conf");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
@@ -27,6 +28,14 @@ namespace Melia.Shared.Data.Database
 			=> this.Entries.Where(x => x.MapClassName == mapClassName).ToArray();
 
 		/// <summary>
+		/// Returns all resurrection locations for the given map.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <returns></returns>
+		public List<Position> FindPositions(string mapClassName)
+			=> this.Entries.Where(x => x.MapClassName == mapClassName).Select(x => x.Position).ToList();
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>
@@ -37,6 +46,7 @@ namespace Melia.Shared.Data.Database
 			var data = new ResurrectionPointData();
 
 			data.MapClassName = entry.ReadString("map");
+
 			var x = entry.ReadFloat("x");
 			var y = entry.ReadFloat("y");
 			var z = entry.ReadFloat("z");
