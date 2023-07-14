@@ -796,15 +796,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var eItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
-			for (var i = 0; eItems.MoveNext() && i < max; ++i)
-			{
-				var item = eItems.Current;
-				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
-			}
+			var maxItemCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemCount);
+
+			var matchingItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var item in matchingItems.Take(maxItemCount))
+				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 
 			return CommandResult.Okay;
 		}
@@ -837,14 +835,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
+			var maxMonsterCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, maxMonsterCount);
 
-			for (var i = 0; entries.MoveNext() && i < max; ++i)
+			var monsterEntries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var monsterData in monsterEntries.Take(maxMonsterCount))
 			{
-				var monsterData = entries.Current;
 				var monsterEntry = new StringBuilder();
 
 				monsterEntry.AppendFormat("{{nl}}----- {0} ({1}, {2}) -----{{nl}}", monsterData.Name, monsterData.Id, monsterData.ClassName);
@@ -859,34 +856,34 @@ namespace Melia.Zone.Commands
 					foreach (var currentDrop in monsterData.Drops)
 					{
 						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
-						if (itemData != null)
+						if (itemData == null)
+							continue;
+
+						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+
+						var minAmount = currentDrop.MinAmount;
+						var maxAmount = currentDrop.MaxAmount;
+						var hasAmount = (minAmount > 1 || maxAmount > 1);
+
+						if (isMoney)
 						{
-							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
-							var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+							minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+							maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						}
 
-							var minAmount = currentDrop.MinAmount;
-							var maxAmount = currentDrop.MaxAmount;
-							var hasAmount = (minAmount > 1 || maxAmount > 1);
+						var displayAmount = isMoney || hasAmount;
 
-							if (isMoney)
-							{
-								minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-								maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-							}
-
-							var displayAmount = isMoney || hasAmount;
-
-							if (displayAmount)
-							{
-								if (minAmount == maxAmount)
-									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", currentDrop.MinAmount, itemData.Name, dropChance);
-								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
-							}
+						if (displayAmount)
+						{
+							if (minAmount == maxAmount)
+								monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
 							else
-							{
-								monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
-							}
+								monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
+						}
+						else
+						{
+							monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
 						}
 					}
 				}
@@ -924,55 +921,56 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var maxItems = 5;
+			var maxItemResultCount = 5;
+			var maxDropperCount = 100;
+			var maxDropResultCount = 10;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItems);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemResultCount);
 
-			for (var i = 0; itemEntries.MoveNext() && i < maxItems; ++i)
+			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var currentItem in itemEntries.Take(maxItemResultCount))
 			{
-				var currentItem = itemEntries.Current;
 				var whoDropsEntry = new StringBuilder();
 
 				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
 
-				if (currentItem.Id == ItemId.Silver)
+				MonsterData[] droppers;
+
+				if (currentItem.Id == ItemId.Silver || (droppers = ZoneServer.Instance.Data.MonsterDb.FindAll(a => a.Drops.Any(b => b.ItemId == currentItem.Id))).Length > maxDropperCount)
 				{
-					// We don't allow searching for Silver since almost every enemy in the game drops it.					
 					whoDropsEntry.Append("Too many enemies drop this.");
-				} else {
-					var monstersWhoDropThis = ZoneServer.Instance.Data.MonsterDb.FindDroppers(currentItem.Id);
-					if (monstersWhoDropThis.Count != 0)
+				}
+				else if (droppers.Length == 0)
+				{
+					whoDropsEntry.Append("This item is not dropped by any monsters");
+				}
+				else
+				{
+					var bestDroppers = new List<KeyValuePair<MonsterData, float>>();
+
+					foreach (var monsterData in droppers)
 					{
-						List<KeyValuePair<MonsterData, float>> bestDroppers = new List<KeyValuePair<MonsterData, float>>();
+						var dropDatas = monsterData.Drops.Where(a => a.ItemId == currentItem.Id);
 
-						// get the list of droprates by monster and store them for sorting
-						foreach (MonsterData monster in monstersWhoDropThis)
+						foreach (var dropData in dropDatas)
 						{
-							foreach (DropData drop in monster.Drops)
-							{
-								if (drop.ItemId == currentItem.Id)
-								{
-									var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(drop));
-									bestDroppers.Add(new KeyValuePair<MonsterData, float>(monster, dropChance));
-								}
-							}
-						}
-
-						var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Id).GetEnumerator();
-						var maxDroppers = 10;
-
-						whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDroppers);
-						for (var j = 0; dropEntries.MoveNext() && i < maxDroppers; ++j)
-						{
-							whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropEntries.Current.Key.Name, dropEntries.Current.Key.Id, dropEntries.Current.Key.ClassName, dropEntries.Current.Value);
+							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(dropData));
+							bestDroppers.Add(new KeyValuePair<MonsterData, float>(monsterData, dropChance));
 						}
 					}
-					else
+
+					whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDropResultCount);
+
+					var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Level);
+					foreach (var dropDataKV in dropEntries.Take(maxDropResultCount))
 					{
-						whoDropsEntry.Append("This item is not dropped by any monsters");
+						var dropData = dropDataKV.Key;
+						var dropChance = dropDataKV.Value;
+
+						whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropData.Name, dropData.Id, dropData.ClassName, dropChance);
 					}
 				}
+
 				sender.ServerMessage(whoDropsEntry.ToString());
 			}
 

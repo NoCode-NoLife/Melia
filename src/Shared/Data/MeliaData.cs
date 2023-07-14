@@ -32,6 +32,7 @@ namespace Melia.Shared.Data
 		public NormalTxDb NormalTxDb = new NormalTxDb();
 		public PacketStringDb PacketStringDb = new PacketStringDb();
 		public PropertiesDb PropertiesDb = new PropertiesDb();
+		public RecipeDb RecipeDb = new RecipeDb();
 		public ResurrectionPointDb ResurrectionPointDb = new ResurrectionPointDb();
 		public ServerDb ServerDb;
 		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
