@@ -109,6 +109,10 @@ public class CampfireActionScript : GeneralScript
 			await Task.Delay(BuffApplyCheckDelay);
 		}
 
+		// We logged the server sending a death packet before removing
+		// the campfire, which presumably means that they're killing
+		// it. The death packet doesn't appear to do anything visually
+		// though, so it would just be more packets than we need.
 		creator.Map.RemoveMonster(campfire);
 
 		characters = creator.Map.GetActorsIn<Character>(area);
