@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
@@ -83,11 +84,12 @@ public class CampfireActionScript : GeneralScript
 		campfire.Direction = creator.Direction;
 
 		creator.Map.AddMonster(campfire);
+		Send.ZC_NORMAL.AttachEffect(campfire, "F_bg_fire003");
 
 		ApplyBuff(creator, campfire);
 	}
 
-	private static async void ApplyBuff(Character creator, Mob bonfire)
+	private static async void ApplyBuff(Character creator, Mob campfire)
 	{
 		var area = new Circle(creator.Position, AreaOfEffectSize);
 		var endTime = DateTime.Now + CampfireDuration;
@@ -105,6 +107,6 @@ public class CampfireActionScript : GeneralScript
 			await Task.Delay(BuffApplyCheckDelay);
 		}
 
-		creator.Map.RemoveMonster(bonfire);
+		creator.Map.RemoveMonster(campfire);
 	}
 }
