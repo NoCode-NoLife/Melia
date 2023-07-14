@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
@@ -813,6 +814,12 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
+					if (monster.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in monster.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
+					}
+
 					if (monster is ICombatEntity entity)
 					{
 						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
@@ -829,6 +836,12 @@ namespace Melia.Zone.World.Actors.Characters
 				foreach (var character in appearCharacters)
 				{
 					Send.ZC_ENTER_PC(this.Connection, character);
+
+					if (character.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in character.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
+					}
 
 					if (character.Components.Get<BuffComponent>()?.Count != 0)
 						Send.ZC_BUFF_LIST(this.Connection, character);

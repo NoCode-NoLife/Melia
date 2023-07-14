@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using Melia.Shared.World;
+using Melia.Zone.Network;
 using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.World.Actors
@@ -33,6 +34,11 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction the actor is facing.
 		/// </summary>
 		Direction Direction { get; set; }
+
+		/// <summary>
+		/// Returns a list of effects that are attached to the actor.
+		/// </summary>
+		ConcurrentBag<AttachableEffect> AttachableEffects { get; }
 	}
 
 	/// <summary>
@@ -40,6 +46,11 @@ namespace Melia.Zone.World.Actors
 	/// </summary>
 	public abstract class Actor : IActor
 	{
+		/// <summary>
+		/// Returns a list of effects that are attached to the actor.
+		/// </summary>
+		public ConcurrentBag<AttachableEffect> AttachableEffects { get; } = new ConcurrentBag<AttachableEffect>();
+
 		/// <summary>
 		/// Returns the actor's unique handle.
 		/// </summary>
@@ -69,5 +80,46 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction the actor is facing.
 		/// </summary>
 		public Direction Direction { get; set; }
+
+		/// <summary>
+		/// Attaches an effect to the actor that is displayed alongside it.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <param name="scale"></param>
+		public void AttachEffect(string packetString, float scale = 1)
+		{
+			var effect = new AttachableEffect(packetString, scale);
+			this.AttachableEffects.Add(effect);
+
+			if (this.Map != Map.Limbo)
+				Send.ZC_NORMAL.AttachEffect(this, effect.PacketString, effect.Scale);
+		}
+	}
+
+	/// <summary>
+	/// An effect that can be attached to an actor.
+	/// </summary>
+	public class AttachableEffect
+	{
+		/// <summary>
+		/// Returns the name of the effect in form of a packet string.
+		/// </summary>
+		public string PacketString { get; }
+
+		/// <summary>
+		/// Returns the effect's size multiplier.
+		/// </summary>
+		public float Scale { get; }
+
+		/// <summary>
+		/// Creates a new attachable effect.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <param name="scale"></param>
+		public AttachableEffect(string packetString, float scale)
+		{
+			this.PacketString = packetString;
+			this.Scale = scale;
+		}
 	}
 }

@@ -30,7 +30,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Attaches effect to actor.
+			/// Attaches effect to actor on clients in range.
 			/// </summary>
 			/// <param name="actor"></param>
 			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
@@ -51,6 +51,33 @@ namespace Melia.Zone.Network
 				packet.PutFloat(0);
 
 				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
+			/// Attaches effect to actor on client.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="actor"></param>
+			/// <param name="packetString"></param>
+			/// <param name="scale"></param>
+			public static void AttachEffect(IZoneConnection conn, IActor actor, string packetString, float scale = 1)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AttachEffect);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutInt(3);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+
+				conn.Send(packet);
 			}
 
 			/// <summary>

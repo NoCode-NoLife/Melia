@@ -50,13 +50,13 @@ public class CampfireActionScript : GeneralScript
 
 		if (AnyCampfiresNearby(character.Map, campfirePos))
 		{
-			character.ServerMessage(Localization.Get("There is already another bonfire nearby."));
+			character.ServerMessage(Localization.Get("There is already a bonfire nearby."));
 			return CustomCommandResult.Okay;
 		}
 
 		if (!character.Inventory.HasItem(FirewoodItemId))
 		{
-			character.ServerMessage(Localization.Get("You need a Firewood to build a bonfire."));
+			character.ServerMessage(Localization.Get("You need Firewood to build a bonfire."));
 			return CustomCommandResult.Okay;
 		}
 
@@ -82,9 +82,9 @@ public class CampfireActionScript : GeneralScript
 		campfire.Faction = FactionType.Neutral;
 		campfire.Position = pos;
 		campfire.Direction = creator.Direction;
+		campfire.AttachEffect("F_bg_fire003");
 
 		creator.Map.AddMonster(campfire);
-		Send.ZC_NORMAL.AttachEffect(campfire, "F_bg_fire003");
 
 		ApplyBuff(creator, campfire);
 	}
