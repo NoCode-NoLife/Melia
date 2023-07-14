@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Melia.Barracks.Database;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -72,9 +73,22 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			// Check login state
+			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
+			{
+				// The official message, DuplicationLoginByOtherWorld,
+				// aka DoubleLogin, is so badly translated that we'll
+				// send a custom message for now.
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account is already logged in."));
+				conn.Close(100);
+				return;
+			}
+
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+
+			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 

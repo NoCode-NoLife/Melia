@@ -55,6 +55,7 @@
 			public const int Unknown_EF = 0xF0;
 			public const int ChannelTraffic = 0x12D;
 			public const int SetGreetingMessage = 0x136;
+			public const int Unk13E = 0x13E;
 			public const int SetSessionKey = 0x14F;
 			public const int ItemDrop = 0x152;
 			public const int NGSCallback = 0x170;

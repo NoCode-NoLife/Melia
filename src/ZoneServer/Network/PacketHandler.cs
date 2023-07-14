@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -102,6 +103,8 @@ namespace Melia.Zone.Network
 
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
+
+			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
@@ -310,7 +313,7 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.Jump(position, direction, unkFloat, unkByte2);
+			character.Movement.NotifyJump(position, direction, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -329,9 +332,13 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: Sanity checks.
+			if (character.IsDead)
+			{
+				//Log.Warning("CZ_KEYBOARD_MOVE: User '{0}' tried to move while dead.", conn.Account.Name);
+				return;
+			}
 
-			character.Move(position, direction, f1);
+			character.Movement.NotifyMove(position, direction, f1);
 		}
 
 		/// <summary>
@@ -351,33 +358,7 @@ namespace Melia.Zone.Network
 
 			// TODO: Sanity checks.
 
-			character.StopMove(position, direction);
-
-			// In the packets I don't see any indication for a client-side trigger,
-			// so I guess the server has to check for warps and initiate it all
-			// on its own. Seems a little weird... but oh well.
-			// If this is a thing, we probably should have some kind of "trigger"
-			// system. -- exec
-			var warpNpc = character.Map.GetNearbyWarp(character.Position);
-			if (warpNpc != null)
-			{
-				// Wait 1s to see if the character actually wants to warp
-				// (indicated by him not moving). Official behavior unknown,
-				// as I have never played the game =<
-				var pos = character.Position;
-				Task.Delay(1000).ContinueWith(t =>
-				{
-					// Cancel if character moved in that time
-					if (character.Position != pos)
-						return;
-
-					//Log.Debug("warp to " + warp.WarpLocation);
-					character.Warp(warpNpc.WarpLocation);
-				});
-			}
-
-			// Could ZC_ENTER_HOOK be a notification to the client that it's
-			// in a "trigger area" now?
+			character.Movement.NotifyStopMove(position, direction);
 		}
 
 		/// <summary>
@@ -390,7 +371,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = false;
+			conn.SelectedCharacter.Movement.NotifyGrounded(false);
 		}
 
 		/// <summary>
@@ -403,7 +384,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = true;
+			conn.SelectedCharacter.Movement.NotifyGrounded(true);
 		}
 
 		/// <summary>
@@ -418,10 +399,9 @@ namespace Melia.Zone.Network
 			var position = packet.GetPosition();
 
 			// TODO: Sanity checks.
+			// TODO: Is there a broadcast for this?
 
 			conn.SelectedCharacter.SetPosition(position);
-
-			// Is there a broadcast for this?
 		}
 
 		/// <summary>
@@ -2014,7 +1994,7 @@ namespace Melia.Zone.Network
 			var strArgCount = packet.GetShort();
 			var dialogTxItems = packet.GetList(itemCount, packet.GetDialogTxItem);
 			var numArgs = packet.GetList(numArgCount, packet.GetInt);
-			var strArgs = packet.GetList(strArgCount, packet.GetString);
+			var strArgs = packet.GetList(strArgCount, packet.GetLpString);
 
 			var character = conn.SelectedCharacter;
 
@@ -2662,6 +2642,46 @@ namespace Melia.Zone.Network
 			// ones, and stop all if anything goes wrong.
 
 			Send.ZC_STOP_FLUTING(character, note, octave, semitone);
+		}
+
+		/// <summary>
+		/// Packet with unknown purpose that is spammed by the client
+		/// while the player character is dead.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(0x520A)]
+		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
+		{
+			// The packet is spammed with a frequency of about 1-2 packets
+			// per millisecond. It's 64 bytes long, with the last 5 looking
+			// like random garbage data, though the packet doesn't seem to
+			// contain any useful information in general. Its name seems
+			// to be "CZ_InteractionCancel", though it doesn't appear in
+			// the op code list.
+		}
+
+		/// <summary>
+		/// Request from a player to revive their character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESURRECT)]
+		public void CZ_RESURRECT(IZoneConnection conn, Packet packet)
+		{
+			var optionIdx = packet.GetByte();
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+			var option = (ResurrectOptions)(1 << (int)optionIdx);
+
+			if (!character.IsDead)
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character while not dead.", conn.Account.Name);
+				return;
+			}
+
+			character.Resurrect(option);
 		}
 	}
 }

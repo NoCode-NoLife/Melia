@@ -6,9 +6,9 @@ using Melia.Zone.World.Actors;
 [Ai("BasicMonster")]
 public class BasicMonsterAiScript : AiScript
 {
-	ICombatEntity target;
+	private const int MaxChaseDistance = 300;
 
-	protected int MaxChaseDistance = 300;
+	ICombatEntity target;
 
 	protected override void Setup()
 	{
@@ -23,7 +23,14 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Idle()
 	{
-		SetRunning(false);
+		ResetMoveSpeed();
+
+		var master = GetMaster();
+		if (master != null)
+		{
+			yield return Follow(master);
+			yield break;
+		}
 
 		yield return Wait(4000, 8000);
 

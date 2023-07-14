@@ -2,8 +2,8 @@
 //--- 010 Editor v12.0.1 Binary Template
 //
 //      File: ZC_RESURRECT_DIALOG.bt
-//   Authors: Salman T. Khan
-//   Version: i346841
+//   Authors: Salman T. Khan, exec
+//   Version: i375263
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,4 +14,7 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int i1; // 20
+
+int optionFlags;
+char str1[512]; // called as a Lua function/event?
+byte b1; // b1 ? "RESTART_CONTENTS_HERE" : "RESTART_HERE"

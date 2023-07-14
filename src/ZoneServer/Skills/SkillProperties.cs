@@ -31,6 +31,11 @@ namespace Melia.Zone.Skills
 		public TimeSpan Delay => TimeSpan.FromMilliseconds(this.GetFloat(PropertyName.Skill_Delay));
 
 		/// <summary>
+		/// Returns the skill's ShootTime property as a TimeSpan.
+		/// </summary>
+		public TimeSpan ShootTime => TimeSpan.FromMilliseconds(this.GetFloat(PropertyName.ShootTime));
+
+		/// <summary>
 		/// Creates new properties instance for the given skill.
 		/// </summary>
 		/// <param name="skill"></param>

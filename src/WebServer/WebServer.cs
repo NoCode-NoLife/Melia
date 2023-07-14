@@ -128,7 +128,7 @@ namespace Melia.Web
 				var url = string.Format("http://*:{0}/", this.Conf.Web.Port);
 
 				Swan.Logging.Logger.NoLogging();
-				Swan.Logging.Logger.RegisterLogger<YggdrasilLogger>();
+				Swan.Logging.Logger.RegisterLogger(new YggdrasilLogger(this.Conf.Log.Filter));
 
 				EndPointManager.UseIpv6 = false;
 

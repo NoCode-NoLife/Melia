@@ -31,6 +31,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (this.Entity.IsDead)
+				return;
+
 			_rhpTime -= elapsed;
 			_rspTime -= elapsed;
 			_staminaTime -= elapsed;
@@ -97,7 +100,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			var prev = stamina;
 
 			// Drain stamina during movement, recover otherwise
-			if (character.IsMoving)
+			if (character.Movement.IsMoving)
 			{
 				var runDrain = (int)character.Properties.GetFloat(PropertyName.Sta_Run, 0);
 				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);

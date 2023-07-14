@@ -1679,10 +1679,90 @@ namespace Melia.Zone.Network
 		public static void ZC_DEAD(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
+
 			packet.PutInt(actor.Handle);
+			packet.PutByte(0);
+			packet.PutByte(0); // expInfoCount
+			packet.PutByte(false); // isOverkill
+			packet.PutByte(false); // specialDrop
+			packet.PutPosition(actor.Position);
 			packet.PutInt(0);
 
+			//for expInfoCount:
+			//{
+			//	packet.PutInt(handle);
+			//	packet.PutInt(0);
+			//	packet.PutLong(exp);
+			//	packet.PutLong(jobExp);
+			//	packet.PutLong(exp);
+			//}
+
+			// The overkill amount is the percentage displayed on the
+			// client. It needs to be at least 100 for the overkill
+			// effect to appear.
+			//if (isOverkill)
+			//	packet.PutByte((byte)overkillAmount);
+
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Opens resurrection dialog on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="options"></param>
+		public static void ZC_RESURRECT_DIALOG(Character character, ResurrectOptions options)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_DIALOG);
+
+			packet.PutInt((int)options);
+			packet.PutString("", 512);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_SAVE_POINT_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_SAVE_POINT_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_HERE_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_HERE_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Resurrects the character for all clients in range.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT(Character character)
+		{
+			var hp = character.Properties.GetFloat(PropertyName.HP);
+			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
+
+			var packet = new Packet(Op.ZC_RESURRECT);
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)hp);
+			packet.PutInt((int)maxHp);
+
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1981,36 +2061,35 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
-		/// characters about the movement.
+		/// Makes entity move in the given direction for clients in range.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, Position pos, Direction dir, float unkFloat)
+		public static void ZC_MOVE_DIR(ICombatEntity entity, Position pos, Direction dir, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutPosition(pos);
 			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(24);
 			packet.PutInt(6);
 			packet.PutInt(0);
 			packet.PutByte(1);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
 		/// Broadcasts ZC_MOVE_STOP in range of character, informing other
 		/// characters about the movement stop.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		public static void ZC_MOVE_STOP(ICombatEntity entity, Position pos)
 		{
@@ -2024,24 +2103,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_PC_MOVE_STOP in range of character, informing other
-		/// characters about the movement stop.
+		/// Makes player character stop moving on clients in range of it.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
-		public static void ZC_PC_MOVE_STOP(Character character, Position pos, Direction dir)
+		public static void ZC_PC_MOVE_STOP(ICombatEntity entity, Position pos, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutPosition(pos);
 			packet.PutByte(1);
 			packet.PutDirection(dir);
 			packet.PutFloat(228787.3f); // timestamp
 			packet.PutEmptyBin(24);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
