@@ -1325,15 +1325,5 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
 		}
-
-		/// <summary>
-		/// Reduces character's stamina and updates the client.
-		/// </summary>
-		/// <param name="staminaUsage"></param>
-		private void UseStamina(int staminaUsage)
-		{
-			var stamina = (this.Properties.Stamina -= staminaUsage);
-			Send.ZC_STAMINA(this, stamina);
-		}
 	}
 }
