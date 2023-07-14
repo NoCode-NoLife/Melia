@@ -466,41 +466,40 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns monsters in the given radius around position.
+		/// Returns all actors with the given type in the area.
 		/// </summary>
-		/// <param name="attacker"></param>
-		/// <param name="shape"></param>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetEntitiesIn(ICombatEntity attacker, IShapeF shape)
+		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
 		{
-			var result = new List<ICombatEntity>();
+			// Searching through both characters and monsters isn't the
+			// most efficient way to get actors of a specific type in an
+			// area, but it is simple and convenient, and it doesn't require
+			// us to create dozens of getters for various actor types.
+			// We can optimize this later if necessary.
 
-			lock (_combatEntities)
+			var result = new List<TActor>();
+
+			lock (_monsters)
 			{
-				foreach (var entity in _combatEntities.Values)
+				foreach (var monster in _monsters.Values)
 				{
-					if (!shape.IsInside(entity.Position))
-						continue;
+					if (monster is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
 
-					result.Add(entity);
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
 				}
 			}
 
 			return result;
-		}
-
-		/// <summary>
-		/// Returns other characters in the given shape.
-		/// </summary>
-		/// <param name="fromCharacter"></param>
-		/// <param name="shape"></param>
-		/// <returns></returns>
-		public List<Character> GetCharactersIn(ICombatEntity fromCharacter, IShapeF shape)
-		{
-			lock (_characters)
-			{
-				return _characters.Values.Where(a => a != fromCharacter && shape.IsInside(a.Position)).ToList();
-			}
 		}
 
 		/// <summary>

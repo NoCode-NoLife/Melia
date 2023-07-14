@@ -600,9 +600,7 @@ public class CharacterCalculationsScript : GeneralScript
 		var value = (byDefault + byItems + byBuffs);
 
 		if (character.Buffs.Has(BuffId.Rest))
-		{
-			value = value * 2;
-		}
+			value *= 2;
 
 		return (float)Math.Max(0, value);
 	}

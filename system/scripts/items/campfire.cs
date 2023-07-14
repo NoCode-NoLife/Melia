@@ -5,11 +5,10 @@
 //---------------------------------------------------------------------------
 
 using System;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
-using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
@@ -17,71 +16,72 @@ using Melia.Zone.World.Actors.Monsters;
 
 public class CampfireActionScript : GeneralScript
 {
+	private const int CampfireMonsterId = 46011;
+	private const int FirewoodItemId = 645337;
+	private const int AreaOfEffectSize = 150;
+	private const int MinDistanceToFires = 1;
+	private const int DistanceToCreator = 35;
+	private readonly static TimeSpan CampfireDuration = TimeSpan.FromMinutes(5);
+	private readonly static TimeSpan BuffApplyCheckDelay = TimeSpan.FromSeconds(1);
+
 	[ScriptableFunction("SCR_PUT_CAMPFIRE")]
 	public CustomCommandResult SCR_PUT_CAMPFIRE(Character character, int numArg1, int numArg2, int numArg3)
 	{
-		var area = new Circle(character.Position, 350);
-		var entities = character.Map.GetEntitiesIn(character, area);
+		var area = new Circle(character.Position, MinDistanceToFires);
+		var monsters = character.Map.GetActorsIn<Mob>(area);
 
-		foreach (var entity in entities)
+		var anyCampfires = monsters.Any(a => a.Id == CampfireMonsterId);
+		if (anyCampfires)
 		{
-			var mob = entity as Mob;
-			if (mob != null && mob.Id == 46011)
-			{
-				character.ServerMessage(Localization.Get("There is already a Bonfire placed near by."));
-				return CustomCommandResult.Okay;
-			}
-		}
-
-		if (!character.Inventory.HasItem(645337))
-		{
-			character.ServerMessage(Localization.Get("You need a Bonfire Kit to start a Bonfire it."));
+			character.ServerMessage(Localization.Get("There is already a bonfire placed nearby."));
 			return CustomCommandResult.Okay;
 		}
 
-		var item = character.Inventory.Remove(645337, 1, InventoryItemRemoveMsg.Used);
-		this.BonFireSpawn(character);
+		if (!character.Inventory.HasItem(FirewoodItemId))
+		{
+			character.ServerMessage(Localization.Get("You need a Firewood to build a bonfire."));
+			return CustomCommandResult.Okay;
+		}
+
+		this.CreateCampfire(character);
+
+		character.Inventory.Remove(FirewoodItemId, 1, InventoryItemRemoveMsg.Used);
+
 		return CustomCommandResult.Okay;
 	}
 
-	private void BonFireSpawn(Character character)
+	private void CreateCampfire(Character character)
 	{
-		var bonFire = new Mob(46011, MonsterType.NPC);
-		var position = character.Position.GetRelative(character.Direction, 35);
-		bonFire.Position = position;
-		bonFire.Direction = character.Direction;
+		var position = character.Position.GetRelative(character.Direction, DistanceToCreator);
 
-		character.Map.AddMonster(bonFire);
-		Send.ZC_FACTION(character.Connection, bonFire, FactionType.Neutral);
+		var campfire = new Mob(CampfireMonsterId, MonsterType.NPC);
+		campfire.Faction = FactionType.Neutral;
+		campfire.Position = position;
+		campfire.Direction = character.Direction;
 
-		var cancellationTokenSource = new CancellationTokenSource();
-		this.AddBuffToNearByPlayers(character, bonFire, cancellationTokenSource.Token);
-		cancellationTokenSource.CancelAfter(TimeSpan.FromMinutes(5));
+		character.Map.AddMonster(campfire);
+
+		this.ApplyBuff(character, campfire);
 	}
 
-	private async void AddBuffToNearByPlayers(Character character, Mob bonFire, CancellationToken cancellationToken)
+	private async void ApplyBuff(Character creator, Mob bonfire)
 	{
-		while (!cancellationToken.IsCancellationRequested)
+		var area = new Circle(creator.Position, AreaOfEffectSize);
+		var endTime = DateTime.Now + CampfireDuration;
+
+		while (DateTime.Now < endTime)
 		{
-			var area = new Circle(character.Position, 350);
-			var characters = character.Map.GetCharactersIn(character, area);
+			var characters = creator.Map.GetActorsIn<Character>(area);
 
-			foreach (var otherCharacter in characters)
+			foreach (var character in characters)
 			{
-				if (otherCharacter.IsSitting && !otherCharacter.Buffs.Has(BuffId.campfire_Buff))
-				{
-					otherCharacter.Buffs.Start(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, otherCharacter);
-				}
+				if (character.IsSitting && !character.Buffs.Has(BuffId.campfire_Buff))
+					character.Buffs.Start(BuffId.campfire_Buff, TimeSpan.Zero);
 			}
 
-			if (character.IsSitting && !character.Buffs.Has(BuffId.campfire_Buff))
-			{
-				character.Buffs.Start(BuffId.campfire_Buff, 0, 0, TimeSpan.Zero, character);
-			}
-
-			await Task.Delay(TimeSpan.FromSeconds(1));
+			await Task.Delay(BuffApplyCheckDelay);
 		}
 
-		character.Map.RemoveMonster(bonFire);
+		creator.Map.RemoveMonster(bonfire);
 	}
 }
