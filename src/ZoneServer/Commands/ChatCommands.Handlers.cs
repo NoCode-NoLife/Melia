@@ -69,6 +69,7 @@ namespace Melia.Zone.Commands
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
+			this.Add("whodrops", "<name>", "Finds monsters that drop a given item", this.HandleWhoDrops);
 			this.Add("go", "<destination>", "Warps to certain pre-defined destinations.", this.HandleGo);
 			this.Add("goto", "<team name>", "Warps to another character.", this.HandleGoTo);
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
@@ -880,7 +881,7 @@ namespace Melia.Zone.Commands
 								if (minAmount == maxAmount)
 									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
 								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%){{nl}}", minAmount, maxAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
 							}
 							else
 							{
@@ -895,6 +896,86 @@ namespace Melia.Zone.Commands
 				}
 
 				sender.ServerMessage(monsterEntry.ToString());
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Searches monster database to find out who drops a given item, and returns a list of the best sources of that item
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleWhoDrops(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var search = string.Join(" ", args.GetAll());
+
+			var items = ZoneServer.Instance.Data.ItemDb.FindAllPreferExact(search);
+			if (items.Count == 0)
+			{
+				sender.ServerMessage("No items found for '{0}'.", search);
+				return CommandResult.Okay;
+			}
+
+			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
+			var maxItems = 5;
+
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItems);
+
+			for (var i = 0; itemEntries.MoveNext() && i < maxItems; ++i)
+			{
+				var currentItem = itemEntries.Current;
+				var whoDropsEntry = new StringBuilder();
+
+				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
+
+				if (currentItem.Id == ItemId.Silver)
+				{
+					// We don't allow searching for Silver since almost every enemy in the game drops it.					
+					whoDropsEntry.Append("Too many enemies drop this.");
+				}
+				else
+				{
+					var monstersWhoDropThis = ZoneServer.Instance.Data.MonsterDb.FindDroppers(currentItem.Id);
+					if (monstersWhoDropThis.Count != 0)
+					{
+						List<KeyValuePair<MonsterData, float>> bestDroppers = new List<KeyValuePair<MonsterData, float>>();
+
+						// get the list of droprates by monster and store them for sorting
+						foreach (MonsterData monster in monstersWhoDropThis)
+						{
+							foreach (DropData drop in monster.Drops)
+							{
+								if (drop.ItemId == currentItem.Id)
+								{
+									var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(drop));
+									bestDroppers.Add(new KeyValuePair<MonsterData, float>(monster, dropChance));
+								}
+							}
+						}
+
+						var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Id).GetEnumerator();
+						var maxDroppers = 10;
+
+						whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDroppers);
+						for (var j = 0; dropEntries.MoveNext() && i < maxDroppers; ++j)
+						{
+							whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropEntries.Current.Key.Name, dropEntries.Current.Key.Id, dropEntries.Current.Key.ClassName, dropEntries.Current.Value);
+						}
+					}
+					else
+					{
+						whoDropsEntry.Append("This item is not dropped by any monsters");
+					}
+				}
+				sender.ServerMessage(whoDropsEntry.ToString());
 			}
 
 			return CommandResult.Okay;

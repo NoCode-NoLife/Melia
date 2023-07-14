@@ -124,6 +124,16 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns a list of all monsters which drop a certain item
+		/// </summary>
+		/// <param name="itemId">The id of the item to look for</param>
+		/// <returns></returns>
+		public List<MonsterData> FindDroppers(int itemId)
+		{
+			return this.Entries.Values.Where(a => a.Drops.Any(b => b.ItemId == itemId)).ToList();
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>
