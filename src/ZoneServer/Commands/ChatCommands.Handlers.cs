@@ -796,15 +796,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var eItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
-			for (var i = 0; eItems.MoveNext() && i < max; ++i)
-			{
-				var item = eItems.Current;
-				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
-			}
+			var maxItemCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemCount);
+
+			var matchingItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var item in matchingItems.Take(maxItemCount))
+				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 
 			return CommandResult.Okay;
 		}
