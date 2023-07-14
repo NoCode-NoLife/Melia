@@ -34,7 +34,7 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (target.Hp < maxHp)
 			{
-				target.Heal(maxHp * 0.05f, 0);
+				target.Heal(maxHp * 0.1f, 0);
 			}
 
 			var character = target as Character;
@@ -43,7 +43,7 @@ namespace Melia.Zone.Buffs.Handlers
 			{
 				if (character.Sp < character.MaxSp)
 				{
-					character.ModifySp(character.MaxSp * 0.05f);
+					character.ModifySp(character.MaxSp * 0.1f);
 				}
 			} 		
 		}
