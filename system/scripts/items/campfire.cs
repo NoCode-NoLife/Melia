@@ -9,31 +9,47 @@ using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Maps;
 
 public class CampfireActionScript : GeneralScript
 {
 	private const int CampfireMonsterId = 46011;
 	private const int FirewoodItemId = 645337;
 	private const int AreaOfEffectSize = 150;
-	private const int MinDistanceToFires = 1;
-	private const int DistanceToCreator = 35;
+	private const int MinDistanceToFires = 150;
+	private const int MaxDistanceToCreator = 50;
 	private readonly static TimeSpan CampfireDuration = TimeSpan.FromMinutes(5);
 	private readonly static TimeSpan BuffApplyCheckDelay = TimeSpan.FromSeconds(1);
 
 	[ScriptableFunction("SCR_PUT_CAMPFIRE")]
 	public CustomCommandResult SCR_PUT_CAMPFIRE(Character character, int numArg1, int numArg2, int numArg3)
 	{
-		var area = new Circle(character.Position, MinDistanceToFires);
-		var monsters = character.Map.GetActorsIn<Mob>(area);
+		var campfirePos = new Position(numArg1, 0, numArg2);
 
-		var anyCampfires = monsters.Any(a => a.Id == CampfireMonsterId);
-		if (anyCampfires)
+		if (!character.Map.Ground.TryGetHeightAt(campfirePos, out var height))
 		{
-			character.ServerMessage(Localization.Get("There is already a bonfire placed nearby."));
+			character.ServerMessage(Localization.Get("You can't build a bonfire in this location."));
+			return CustomCommandResult.Okay;
+		}
+		else
+		{
+			campfirePos.Y = height;
+		}
+
+		if (!character.Position.InRange2D(campfirePos, MaxDistanceToCreator))
+		{
+			character.ServerMessage(Localization.Get("This location is too far away."));
+			return CustomCommandResult.Okay;
+		}
+
+		if (AnyCampfiresNearby(character.Map, campfirePos))
+		{
+			character.ServerMessage(Localization.Get("There is already another bonfire nearby."));
 			return CustomCommandResult.Okay;
 		}
 
@@ -43,28 +59,35 @@ public class CampfireActionScript : GeneralScript
 			return CustomCommandResult.Okay;
 		}
 
-		this.CreateCampfire(character);
+		CreateCampfire(character, campfirePos);
 
 		character.Inventory.Remove(FirewoodItemId, 1, InventoryItemRemoveMsg.Used);
 
 		return CustomCommandResult.Okay;
 	}
 
-	private void CreateCampfire(Character character)
+	private static bool AnyCampfiresNearby(Map map, Position pos)
 	{
-		var position = character.Position.GetRelative(character.Direction, DistanceToCreator);
+		var area = new Circle(pos, MinDistanceToFires);
+		var monsters = map.GetActorsIn<Mob>(area);
 
-		var campfire = new Mob(CampfireMonsterId, MonsterType.NPC);
-		campfire.Faction = FactionType.Neutral;
-		campfire.Position = position;
-		campfire.Direction = character.Direction;
-
-		character.Map.AddMonster(campfire);
-
-		this.ApplyBuff(character, campfire);
+		var anyCampfires = monsters.Any(a => a.Id == CampfireMonsterId);
+		return anyCampfires;
 	}
 
-	private async void ApplyBuff(Character creator, Mob bonfire)
+	private static void CreateCampfire(Character creator, Position pos)
+	{
+		var campfire = new Mob(CampfireMonsterId, MonsterType.NPC);
+		campfire.Faction = FactionType.Neutral;
+		campfire.Position = pos;
+		campfire.Direction = creator.Direction;
+
+		creator.Map.AddMonster(campfire);
+
+		ApplyBuff(creator, campfire);
+	}
+
+	private static async void ApplyBuff(Character creator, Mob bonfire)
 	{
 		var area = new Circle(creator.Position, AreaOfEffectSize);
 		var endTime = DateTime.Now + CampfireDuration;
