@@ -5,12 +5,12 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
@@ -94,9 +94,11 @@ public class CampfireActionScript : GeneralScript
 		var area = new Circle(creator.Position, AreaOfEffectSize);
 		var endTime = DateTime.Now + CampfireDuration;
 
+		IList<Character> characters;
+
 		while (DateTime.Now < endTime)
 		{
-			var characters = creator.Map.GetActorsIn<Character>(area);
+			characters = creator.Map.GetActorsIn<Character>(area);
 
 			foreach (var character in characters)
 			{
@@ -108,5 +110,9 @@ public class CampfireActionScript : GeneralScript
 		}
 
 		creator.Map.RemoveMonster(campfire);
+
+		characters = creator.Map.GetActorsIn<Character>(area);
+		foreach (var character in characters)
+			character.Buffs.Stop(BuffId.campfire_Buff);
 	}
 }
