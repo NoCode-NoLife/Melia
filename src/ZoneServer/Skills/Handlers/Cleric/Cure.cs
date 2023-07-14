@@ -43,12 +43,11 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			this.RemoveDebuffs(caster, target, skill);
 
-			var overloadDuration = TimeSpan.FromSeconds(5);
-			caster.Components.Get<BuffComponent>().Start(BuffId.Cure_Overload_Buff, overloadDuration);
+			caster.StartBuff(BuffId.Cure_Overload_Buff, TimeSpan.FromSeconds(5));
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}

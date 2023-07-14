@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
-using Melia.Shared.IES;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Network;
+using Melia.Shared.IES;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -60,6 +58,7 @@ namespace Melia.Barracks
 			this.LoadServerList(this.Data.ServerDb);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
+			this.ClearLoginStates();
 
 			// Get server data
 			var serverId = this.GetServerId(args);
@@ -109,6 +108,21 @@ namespace Melia.Barracks
 			Log.Info("Update '{0}' found, executing...", updateFile);
 
 			BarracksServer.Instance.Database.RunUpdate(updateFile);
+		}
+
+		/// <summary>
+		/// Clears the login states of all accounts in the database.
+		/// </summary>
+		private void ClearLoginStates()
+		{
+			// Clearing the login states on barracks start means we'll
+			// have a clean slate whenever we restart the server, though
+			// it also leaves somewhat of a potential bypass, where the
+			// login states may get reset because you restarted barracks,
+			// even though people might still be logged in on a zone.
+			// This should be pretty rare though, and we can improve
+			// it once the servers talk to each other. TODO.
+			this.Database.ClearLoginStates();
 		}
 	}
 }

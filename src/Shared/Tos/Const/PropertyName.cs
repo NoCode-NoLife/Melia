@@ -8238,6 +8238,7 @@
 		public const string ep15unicorn_shield_cabinet = "ep15unicorn_shield_cabinet";
 		public const string ep15unicorn_bow_cabinet = "ep15unicorn_bow_cabinet";
 		public const string PAPAYA_BLESSED_GACHA_125284 = "PAPAYA_BLESSED_GACHA_125284";
+		public const string RidePet_19 = "RidePet_19";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

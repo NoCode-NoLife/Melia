@@ -35,6 +35,12 @@ namespace Melia.Zone.World.Actors.Characters
 		public int MaxStamina => (int)this.GetFloat(PropertyName.MaxSta);
 
 		/// <summary>
+		/// Returns the character's ability points based on the string
+		/// property "AbilityPoint".
+		/// </summary>
+		public int AbilityPoints => int.Parse(this.GetString(PropertyName.AbilityPoint, "0"));
+
+		/// <summary>
 		/// Creates new instance for the character.
 		/// </summary>
 		/// <param name="character"></param>
@@ -129,6 +135,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(PropertyName.MovingShotable, "SCR_Get_Character_MovingShotable");
 			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
+
+			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
 
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?

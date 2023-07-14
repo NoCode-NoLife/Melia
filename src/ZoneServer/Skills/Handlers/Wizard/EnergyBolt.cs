@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
@@ -34,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(designatedTarget);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			if (designatedTarget == null)
 			{
@@ -42,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				return;
 			}
 
-			if (!caster.Position.InRange2D(designatedTarget.Position, skill.Data.MaxRange))
+			if (!caster.InSkillUseRange(skill, designatedTarget))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;
@@ -51,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			var damageDelay = TimeSpan.FromMilliseconds(550);
 			var skillHitDelay = TimeSpan.FromMilliseconds(100);
 
-			var splashArea = new Circle(designatedTarget.Position, skill.Data.SplashRange);
+			var splashArea = new Circle(designatedTarget.Position, skill.Properties.GetFloat(PropertyName.SplRange));
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			var skillHits = new List<SkillHitInfo>();
@@ -64,8 +65,8 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.ForceId = ForceId.GetNew();
 
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, 150);
-				skillHit.HitInfo.Type = HitType.KnockBack;
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 
 				skillHits.Add(skillHit);

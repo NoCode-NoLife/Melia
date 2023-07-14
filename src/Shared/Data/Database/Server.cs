@@ -93,8 +93,7 @@ namespace Melia.Shared.Data.Database
 				data.MapIds = new int[0];
 			}
 
-			if (this.Entries.Any(a => a.Type == data.Type && a.Id == data.Id))
-				throw new DatabaseErrorException($"Duplicate: {data.Type}, {data.Id}");
+			this.Entries.RemoveAll(a => a.Type == data.Type && a.Id == data.Id);
 
 			this.Add(data);
 		}

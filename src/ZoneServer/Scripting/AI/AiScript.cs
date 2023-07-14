@@ -20,7 +20,10 @@ namespace Melia.Zone.Scripting.AI
 	{
 		private bool _initiated;
 
+		private int _masterHandle;
+
 		private TendencyType _tendency;
+		private float _visibleRange = 300;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private readonly float _hatePerHit = 100;
@@ -68,6 +71,21 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Switches the AI's faction and the associated hate.
+		/// </summary>
+		/// <param name="faction"></param>
+		protected void SwitchFaction(FactionType faction)
+		{
+			if (this.Entity is Mob mob)
+				mob.Faction = faction;
+
+			this.ClearHate();
+
+			if (ZoneServer.Instance.Data.FactionDb.TryFind(faction, out var factionData))
+				this.HatesFaction(factionData.Hostile);
+		}
+
+		/// <summary>
 		/// Executes the AI, furthering the current routine.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -91,7 +109,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="elapsed"></param>
 		private void UpdateHate(TimeSpan elapsed)
 		{
-			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _hateRange);
+			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _visibleRange);
 
 			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
 			this.IncreaseNearbyHate(elapsed, potentialEnemies);
@@ -131,7 +149,9 @@ namespace Melia.Zone.Scripting.AI
 				return;
 
 			// Increase hate for enemies that the entity is hostile towards
-			foreach (var potentialEnemy in potentialEnemies)
+			var potentialEnemiesInRange = potentialEnemies.Where(a => a.Position.InRange2D(this.Entity.Position, _hateRange));
+
+			foreach (var potentialEnemy in potentialEnemiesInRange)
 			{
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
@@ -384,6 +404,28 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Sets the entity the AI follows around and supports.
+		/// </summary>
+		/// <param name="masterEntity"></param>
+		public void SetMaster(ICombatEntity masterEntity)
+		{
+			_masterHandle = masterEntity.Handle;
+			this.SwitchFaction(masterEntity.Faction);
+		}
+
+		/// <summary>
+		/// Returns the AI's master, or null if it doesn't have one.
+		/// </summary>
+		/// <returns></returns>
+		public ICombatEntity GetMaster()
+		{
+			if (_masterHandle == 0)
+				return null;
+
+			return this.Entity.Map.GetCombatEntity(_masterHandle);
+		}
+
+		/// <summary>
 		/// Executes the actions set up to occur while a specific routine
 		/// is running.
 		/// </summary>
@@ -464,6 +506,26 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var moveSpeedType = running ? MoveSpeedType.Run : MoveSpeedType.Walk;
 			this.Entity.Components.Get<MovementComponent>().SetMoveSpeedType(moveSpeedType);
+		}
+
+		/// <summary>
+		/// Sets the entity's movement speed to the given fixed value.
+		/// </summary>
+		/// <param name="mspd"></param>
+		protected void SetFixedMoveSpeed(float mspd)
+		{
+			this.Entity.Components.Get<MovementComponent>().SetFixedMoveSpeed(mspd);
+		}
+
+		/// <summary>
+		/// Resets any movement speed changes made.
+		/// </summary>
+		protected void ResetMoveSpeed()
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+
+			movement.SetMoveSpeedType(MoveSpeedType.Walk);
+			movement.SetFixedMoveSpeed(0);
 		}
 	}
 }

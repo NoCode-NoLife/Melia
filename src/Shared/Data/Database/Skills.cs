@@ -46,7 +46,19 @@ namespace Melia.Shared.Data.Database
 		public List<TimeSpan> HitTime { get; set; }
 		public List<TimeSpan> HoldTime { get; set; }
 
+		public float SpeedRate { get; set; }
+		public bool SpeedRateAffectedByDex { get; set; }
+		public bool SpeedRateAffectedByBuff { get; set; }
+
 		public bool EnableCastMove { get; set; }
+
+		public HitType KnockDownHitType { get; set; }
+		public int KnockDownVelocity { get; set; }
+		public int KnockDownVAngle { get; set; }
+
+		public AbilityId ReinforceAbility { get; set; }
+		public AbilityId HiddenReinforceAbility { get; set; }
+		public float HiddenReinforceAbilityFactorByLevel { get; set; }
 
 		public CooldownId CooldownGroup { get; set; }
 		public TimeSpan CooldownTime { get; set; }
@@ -79,14 +91,17 @@ namespace Melia.Shared.Data.Database
 	public enum SkillAttackType
 	{
 		None,
-		Melee,
-		Strike,
 		Slash,
 		Aries,
-		Arrow,
+		Strike,
 		Magic,
+		Arrow,
 		Gun,
 		Cannon,
+
+		// These values don't seem to be attack types, but they are found
+		// on skills in the client's data.
+		Melee,
 		Holy,
 		Pad,
 	}
@@ -94,16 +109,20 @@ namespace Melia.Shared.Data.Database
 	public enum SkillAttribute
 	{
 		None,
-		Melee,
-		Magic,
-		Lightning,
-		Holy,
-		Poison,
-		Dark,
 		Fire,
 		Ice,
+		Lightning,
 		Earth,
+		Poison,
+		Holy,
+		Dark,
 		Soul,
+
+		// Any attributes using Melee or Magic could be bugs, since those
+		// should be attack types, not attributes. But they are found on
+		// skills in the the client's data.
+		Melee,
+		Magic,
 	}
 
 	public enum SkillClassType
@@ -135,7 +154,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -175,7 +194,19 @@ namespace Melia.Shared.Data.Database
 			data.HitTime = entry.ReadList<int>("hitTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 			data.HoldTime = entry.ReadList<int>("holdTime").Select(a => TimeSpan.FromMilliseconds(a)).ToList();
 
+			data.SpeedRate = entry.ReadFloat("speedRate");
+			data.SpeedRateAffectedByDex = entry.ReadBool("speedRateAffectedByDex");
+			data.SpeedRateAffectedByBuff = entry.ReadBool("speedRateAffectedByBuff");
+
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
+
+			data.KnockDownHitType = entry.ReadEnum<HitType>("knockDownType", HitType.Normal);
+			data.KnockDownVelocity = entry.ReadInt("knockDownVelocity", 0);
+			data.KnockDownVAngle = entry.ReadInt("knockDownVAngle", 0);
+
+			data.ReinforceAbility = entry.ReadEnum<AbilityId>("reinforceAbility", 0);
+			data.HiddenReinforceAbility = entry.ReadEnum<AbilityId>("hiddenReinforceAbility", 0);
+			data.HiddenReinforceAbilityFactorByLevel = entry.ReadFloat("hiddenReinforceAbilityFactorByLevel", 0);
 
 			data.CooldownGroup = entry.ReadEnum<CooldownId>("cooldownGroup", CooldownId.Default);
 			data.CooldownTime = entry.ReadTimeSpan("cooldownTime", TimeSpan.Zero);

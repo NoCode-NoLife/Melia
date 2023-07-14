@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -132,13 +133,27 @@ namespace Melia.Zone.Skills
 
 		/// <summary>
 		/// Increases skill's overheat counter by 1 if the skill can
-		/// overheat and updates the client.
+		/// overheat and updates the client. Activates cooldown once
+		/// the max overheat is reached. Returns whether the skill
+		/// overheated or not.
 		/// </summary>
-		public void IncreaseOverheat()
+		/// <returns
+		public bool IncreaseOverheat()
+			=> this.IncreaseOverheat(this.Data.OverheatCount);
+
+		/// <summary>
+		/// Increases skill's overheat counter by 1 if the skill can
+		/// overheat and updates the client. Activates cooldown once
+		/// the max overheat is reached. Returns whether the skill
+		/// overheated or not.
+		/// </summary>
+		/// <param name="overheatMaxCount"></param>
+		/// <returns
+		public bool IncreaseOverheat(int overheatMaxCount)
 		{
 			// No cooldowns for monsters
 			if (!(this.Owner is Character character))
-				return;
+				return false;
 
 			// Increase counter regardless of whether the skill can
 			// overheat. In both cases we will eventually get over
@@ -147,10 +162,12 @@ namespace Melia.Zone.Skills
 			this.OverheatCounter++;
 			this.OverheatTimeRemaining = this.OverheatData.OverheatResetTime;
 
-			if (this.OverheatCounter >= this.Data.OverheatCount)
+			var overheated = false;
+			if (this.OverheatCounter >= overheatMaxCount)
 			{
 				this.OverheatCounter = 0;
 				this.OverheatTimeRemaining = TimeSpan.Zero;
+				overheated = false;
 
 				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.Data.CooldownTime);
 			}
@@ -158,55 +175,8 @@ namespace Melia.Zone.Skills
 			// Update the overheat after the max was checked so we reset it
 			// to 0 if we went into cooldown
 			Send.ZC_OVERHEAT_CHANGED(character, this);
-		}
 
-		/// <summary>
-		/// Generates a splash area based on the given arguments and the
-		/// skill's data.
-		/// </summary>
-		/// <param name="originPos"></param>
-		/// <param name="dir"></param>
-		/// <returns></returns>
-		public ISplashArea GetSplashArea(Position originPos, Direction dir)
-		{
-			var skill = this;
-			ISplashArea splashArea;
-
-			switch (this.Data.SplashType)
-			{
-				default:
-				case SplashType.Square:
-				{
-					// These sizes and which properties or what data to
-					// use is currently all guess-work. There must be a
-					// consistent way to calculate the splash area though,
-					// as I can't imagine that every single monster skill
-					// has that value defined manually.
-
-					var height = skill.Data.SplashHeight;
-					var width = skill.Data.SplashRange;
-
-					splashArea = new Square(originPos, dir, height, width);
-					break;
-				}
-				case SplashType.Circle:
-				{
-					var radius = skill.Data.SplashHeight;
-
-					splashArea = new Circle(originPos, radius);
-					break;
-				}
-				case SplashType.Fan:
-				{
-					var height = skill.Data.SplashHeight;
-					var angle = skill.Data.SplashAngle;
-
-					splashArea = new Fan(originPos, dir, height, angle);
-					break;
-				}
-			}
-
-			return splashArea;
+			return overheated;
 		}
 
 		/// <summary>
@@ -218,7 +188,13 @@ namespace Melia.Zone.Skills
 		{
 			// Guessed, see GetSplashArea. Take a little off the top,
 			// so entities actually have to get into the splash area.
-			return this.Data.SplashHeight;
+			//return this.Properties.GetFloat(PropertyName.SplHeight);
+
+			// After testing splash height, it seems unlikely that that's
+			// the way to get the min distance. It seems a little counter-
+			// intuitive, but let's try MaxR, which seems to have rather
+			// fitting values for this purpose.
+			return this.Properties.GetFloat(PropertyName.MaxR);
 		}
 
 		/// <summary>
@@ -237,6 +213,100 @@ namespace Melia.Zone.Skills
 				if (this.OverheatTimeRemaining == TimeSpan.Zero)
 					this.OverheatCounter = 0;
 			}
+		}
+
+		/// <summary>
+		/// Calculates positions and direction for use in splash areas.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		/// <param name="length"></param>
+		/// <param name="width"></param>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		public SplashParameters GetSplashParameters(ICombatEntity caster, Position originPos, Position farPos, float length, float width, float angle)
+		{
+			var result = new SplashParameters();
+
+			result.Length = length;
+			result.Width = width;
+			result.Angle = angle;
+
+			if (originPos == farPos)
+				result.Direction = caster.Direction;
+			else
+				result.Direction = originPos.GetDirection(farPos);
+
+			result.OriginPos = caster.Position;
+			result.FarPos = result.OriginPos.GetRelative(result.Direction, length);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a splash area based on the given type and parameters.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="param"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public ISplashArea GetSplashArea(SplashType type, SplashParameters param)
+		{
+			ISplashArea splashArea;
+
+			switch (type)
+			{
+				case SplashType.Fan: splashArea = new Fan(param.OriginPos, param.Direction, param.Length, param.Angle); break;
+				case SplashType.Square: splashArea = new Square(param.OriginPos, param.Direction, param.Length, param.Width); break;
+				case SplashType.Circle: splashArea = new Circle(param.FarPos, param.Width); break;
+
+				default: throw new ArgumentException($"Unsupported splash type: {type}");
+			}
+
+			//Debug.ShowShape(this.Owner.Map, splashArea);
+
+			return splashArea;
+		}
+
+		/// <summary>
+		/// Holds parameters for splash areas.
+		/// </summary>
+		public struct SplashParameters
+		{
+			/// <summary>
+			/// The length of the splash area. Typically synonymous with
+			/// the distance between the caster and the farthest point
+			/// of the splash area.
+			/// </summary>
+			public float Length;
+
+			/// <summary>
+			/// The width of a rectangular splash area or the radius of
+			/// a circular one.
+			/// </summary>
+			public float Width;
+
+			/// <summary>
+			/// The angle of a fan-shaped splash area.
+			/// </summary>
+			public float Angle;
+
+			/// <summary>
+			/// The direction in which the splash area is facing from
+			/// the caster.
+			/// </summary>
+			public Direction Direction;
+
+			/// <summary>
+			/// The position of the caster.
+			/// </summary>
+			public Position OriginPos;
+
+			/// <summary>
+			/// The farthest position of the splash area.
+			/// </summary>
+			public Position FarPos;
 		}
 	}
 }

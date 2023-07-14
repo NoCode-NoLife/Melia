@@ -2,6 +2,7 @@
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -44,6 +45,28 @@ namespace Melia.Zone.Skills.Combat
 
 				sr -= sdr;
 				if (sr <= 0)
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Iterates over targets in a random order and returns them up
+		/// to the the max amount.
+		/// </summary>
+		/// <param name="targets"></param>
+		/// <param name="maxAmount"></param>
+		/// <returns></returns>
+		public static IEnumerable<ICombatEntity> LimitRandom(this IEnumerable<ICombatEntity> targets, int maxAmount)
+		{
+			var rnd = RandomProvider.Get();
+			targets = targets.OrderBy(a => rnd.Next());
+
+			var i = 0;
+			foreach (var target in targets)
+			{
+				yield return target;
+
+				if (++i >= maxAmount)
 					break;
 			}
 		}

@@ -480,14 +480,14 @@ public class AbilityUnlockedFunctionsScript : GeneralScript
 	/// Unlocks if the character's current job is at the given min level.
 	/// </summary>
 	/// <param name="character"></param>
-	/// <param name="argStr"></param>
+	/// <param name="jobClassName"></param>
 	/// <param name="minLevel"></param>
 	/// <param name="data"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public static bool UNLOCK_ABIL_JOB_LEVEL(Character character, string argStr, int minLevel, AbilityData data)
+	public static bool UNLOCK_ABIL_JOB_LEVEL(Character character, string jobClassName, int minLevel, AbilityData data)
 	{
-		var job = character.Job;
+		var job = character.Jobs.Get(jobClassName);
 
 		return (job?.Level >= minLevel);
 	}

@@ -169,7 +169,7 @@ namespace Melia.Zone.World.Spawner
 		public List<MonsterSpawnPoint> GetSpawnPointsInMap(Map map)
 		{
 			List<MonsterSpawnPoint> ls = null;
-			ls = _spawnPoints.FindAll(p => p.Map.Name.Equals(map.Name));
+			ls = _spawnPoints.FindAll(p => p.Map.ClassName.Equals(map.ClassName));
 			return ls;
 		}
 
@@ -194,7 +194,7 @@ namespace Melia.Zone.World.Spawner
 			{
 				if (!spawnPoint.TryGetRandomPosition(out var pos))
 				{
-					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.Name}'.");
+					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.ClassName}'.");
 					continue;
 				}
 
@@ -238,37 +238,7 @@ namespace Melia.Zone.World.Spawner
 					return;
 			}
 
-			foreach (var propertyOverride in propertyOverrides)
-			{
-				var propertyName = propertyOverride.Key;
-				var properties = monster.Properties as Properties;
-
-				// Calculated properties can't be overridden directly,
-				// instead we swap to the override properties that the
-				// calculation functions use.
-				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
-					properties = monster.Properties.Overrides;
-
-				switch (propertyOverride.Value)
-				{
-					case int intValue:
-						properties.SetFloat(propertyName, intValue);
-						break;
-
-					case float floatValue:
-						properties.SetFloat(propertyName, floatValue);
-						break;
-
-					case string stringValue:
-						properties.SetString(propertyName, stringValue);
-						break;
-				}
-			}
-
-			monster.Properties.InvalidateAll();
-
-			monster.Properties.SetFloat(PropertyName.HP, monster.Properties.GetFloat(PropertyName.MHP));
-			monster.Properties.SetFloat(PropertyName.SP, monster.Properties.GetFloat(PropertyName.MSP));
+			monster.ApplyOverrides(propertyOverrides);
 		}
 
 		/// <summary>

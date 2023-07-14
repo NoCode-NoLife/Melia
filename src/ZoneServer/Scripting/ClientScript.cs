@@ -66,6 +66,19 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Sends a raw Lua script to the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="script"></param>
+		protected void SendRawLuaScript(Character character, string script)
+		{
+			if (script.Length > ScriptMaxLength)
+				Log.Warning("ClientScript: Script '{0}', sent by '{1}', exceeds the recommended maximum length of {2} characters. (Length: {3}).", script, this.GetType().Name, ScriptMaxLength, script.Length);
+
+			Send.ZC_EXEC_CLIENT_SCP(character.Connection, script);
+		}
+
+		/// <summary>
 		/// Loads a Lua script from the same directory as the script.
 		/// </summary>
 		/// <param name="sourceFilePath">Please ignore. Used to determine the path to the script file.</param>

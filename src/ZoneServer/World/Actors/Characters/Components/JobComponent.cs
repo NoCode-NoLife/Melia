@@ -99,6 +99,18 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the job with the given class name, or null if it didn't
+		/// exist.
+		/// </summary>
+		/// <param name="jobClassName"></param>
+		/// <returns></returns>
+		public Job Get(string jobClassName)
+		{
+			lock (_jobs)
+				return _jobs.Values.FirstOrDefault(job => job.Data.ClassName == jobClassName);
+		}
+
+		/// <summary>
 		/// Returns job with the given id via out. Returns false if it
 		/// wasn't found.
 		/// </summary>

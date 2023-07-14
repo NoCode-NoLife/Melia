@@ -84,7 +84,7 @@ public class NormalTxFunctionsScript : GeneralScript
 			}
 		}
 
-		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP);
+		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP, 0, null);
 
 		// Official doesn't update UsedStat with this packet,
 		// but presumably the PROP_UPDATE below. Why send more
@@ -179,7 +179,7 @@ public class NormalTxFunctionsScript : GeneralScript
 			ZoneServer.Instance.ServerEvents.OnPlayerSkillLevelChanged(character, skill);
 		}
 
-		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
+		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP, 0, null);
 		Send.ZC_JOB_PTS(character, job);
 		//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -102,6 +104,8 @@ namespace Melia.Zone.Network
 			map.AddCharacter(character);
 			conn.LoggedIn = true;
 
+			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
+
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
 			Send.ZC_NORMAL.AdventureBook(conn);
@@ -163,7 +167,12 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
-			Send.ZC_DAYLIGHT_FIXED(character);
+			//Send.ZC_DAYLIGHT_FIXED(character);
+
+			// The ability points are longer read from the properties for
+			// whatever reason. We have to use the "custom commander info"
+			// now. Yay.
+			Send.ZC_CUSTOM_COMMANDER_INFO(character, CommanderInfoType.AbilityPoints, character.Properties.AbilityPoints);
 
 			// It's currently unknown what exactly ZC_UPDATE_SKL_SPDRATE_LIST
 			// does, but the data is necessary for the client to display the
@@ -323,7 +332,11 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// TODO: Sanity checks.
+			if (character.IsDead)
+			{
+				//Log.Warning("CZ_KEYBOARD_MOVE: User '{0}' tried to move while dead.", conn.Account.Name);
+				return;
+			}
 
 			character.Move(position, direction, f1);
 		}
@@ -975,8 +988,8 @@ namespace Melia.Zone.Network
 			var skillId = (SkillId)packet.GetInt();
 			var b1 = packet.GetByte();
 			var f3 = packet.GetFloat();
-			var f1 = packet.GetFloat();
-			var f2 = packet.GetFloat();
+			var speedRate = packet.GetFloat();
+			var hitDelay = packet.GetFloat();
 			var targetHandles = packet.GetList(targetHandleCount, packet.GetInt);
 
 			var character = conn.SelectedCharacter;
@@ -1294,12 +1307,21 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_START)]
 		public void CZ_DYNAMIC_CASTING_START(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat();
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastTime = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
 
-			//character.ServerMessage("Skill attacks haven't been implemented yet.");
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_START: User '{0}' tried to cast a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
+				return;
+
+			handler.StartDynamicCast(skill, character);
 		}
 
 		/// <summary>
@@ -1310,10 +1332,21 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DYNAMIC_CASTING_END)]
 		public void CZ_DYNAMIC_CASTING_END(IZoneConnection conn, Packet packet)
 		{
-			var skillId = packet.GetInt();
-			var f1 = packet.GetFloat(); // Max Cast Hold Time?
+			var skillId = (SkillId)packet.GetInt();
+			var maxCastTime = packet.GetFloat();
 
 			var character = conn.SelectedCharacter;
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_DYNAMIC_CASTING_END: User '{0}' tried to cast a skill they don't have ({1}).", conn.Account.Name, skillId);
+				return;
+			}
+
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
+				return;
+
+			handler.EndDynamicCast(skill, character);
 		}
 
 		/// <summary>
@@ -1464,7 +1497,7 @@ namespace Melia.Zone.Network
 			// panel, to display the proper balance after confirming the
 			// transaction.
 			// 08-29-21 Update, Item Database is updated but equipment for the most part are still priced at 0
-			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY);
+			Send.ZC_ADDON_MSG(character, AddonMessage.FAIL_SHOP_BUY, 0, null);
 		}
 
 		/// <summary>
@@ -1573,7 +1606,7 @@ namespace Melia.Zone.Network
 					// packet in an infinite loop in i218535. The following
 					// seems to be correct for now.
 
-					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", "None");
+					Send.ZC_ADDON_MSG(conn.SelectedCharacter, "GAMEEXIT_TIMER_END", 0, "None");
 					break;
 				default:
 					Log.Warning("CZ_RUN_GAMEEXIT_TIMER: User '{0}' tried to transfer to '{1}' which is an unknown state.", conn.Account.Name, destination);
@@ -2245,13 +2278,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQ_LEARN_ABILITY)]
 		public void CZ_REQ_LEARN_ABILITY(IZoneConnection conn, Packet packet)
 		{
-			// TODO: Is this new? It seems like abilities were learned
-			//   via command in the past, see HandleLearnPcAbil.
-
-			var abilities = new Dictionary<int, int>();
+			var abilityLevelAdds = new Dictionary<int, int>();
 
 			var size = packet.GetShort();
-			var type = packet.GetString(32);
+			var category = packet.GetString(32);
 			var count = packet.GetInt();
 
 			for (var i = 0; i < count; i++)
@@ -2259,16 +2289,118 @@ namespace Melia.Zone.Network
 				var abilityId = packet.GetInt();
 				var level = packet.GetInt();
 
-				abilities[abilityId] = level;
+				abilityLevelAdds[abilityId] = level;
 			}
 
 			var character = conn.SelectedCharacter;
 
-			Log.Debug("CZ_REQ_LEARN_ABILITY: {0}", type);
-			foreach (var ability in abilities)
+			var abilityTreeEntries = ZoneServer.Instance.Data.AbilityTreeDb.Find(category);
+			if (!abilityTreeEntries.Any())
 			{
-				Log.Debug("  Id: {0}, Levels: {1}", ability.Key, ability.Value);
+				Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn abilities from an unknown category ({1}).", character.Username, category);
+				return;
 			}
+
+			foreach (var kv in abilityLevelAdds)
+			{
+				var classId = kv.Key;
+				var addLevels = Math.Max(0, kv.Value);
+
+				var abilityTreeData = abilityTreeEntries.FirstOrDefault(a => a.ClassId == classId);
+				if (abilityTreeData == null)
+				{
+					Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn the unknown ability '{1}' from category '{2}'.", character.Username, classId, category);
+					return;
+				}
+
+				var abilityData = ZoneServer.Instance.Data.AbilityDb.Find(abilityTreeData.AbilityId);
+				if (abilityData == null)
+				{
+					Log.Warning("CZ_REQ_LEARN_ABILITY: Ability data '{0}' not found for ability '{1}' from category '{2}'.", abilityTreeData.AbilityId, classId, category);
+					return;
+				}
+
+				var currentLevel = character.Abilities.GetLevel(abilityData.Id);
+				var newLevel = currentLevel + addLevels;
+				var maxLevel = abilityTreeData.MaxLevel;
+
+				var totalPrice = 0;
+				var totalTime = 0;
+
+				if (abilityTreeData.HasUnlockScript)
+				{
+					if (!ScriptableFunctions.AbilityUnlock.TryGet(abilityTreeData.UnlockScriptName, out var unlockFunc))
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: Ability unlock function '{0}' not found.", abilityTreeData.UnlockScriptName);
+						return;
+					}
+
+					var canLearn = unlockFunc(character, abilityTreeData.UnlockScriptArgStr, abilityTreeData.UnlockScriptArgNum, abilityData);
+					if (!canLearn)
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn an ability they haven't unlocked yet (Ability: {1}, Unlock: {2}).", character.Username, abilityData.ClassName, abilityTreeData.UnlockScriptName);
+						return;
+					}
+				}
+
+				if (abilityTreeData.HasPriceTimeScript)
+				{
+					if (!ScriptableFunctions.AbilityPrice.TryGet(abilityTreeData.PriceTimeScript, out var priceTimeFunc))
+					{
+						Log.Warning("CZ_REQ_LEARN_ABILITY: Ability calculation function '{0}' not found.", abilityTreeData.PriceTimeScript);
+						return;
+					}
+
+					for (var i = currentLevel + 1; i <= newLevel; ++i)
+					{
+						priceTimeFunc(character, abilityData, i, maxLevel, out var price, out var time);
+						totalPrice += price;
+						totalTime += time;
+					}
+				}
+
+				if (character.Properties.AbilityPoints < totalPrice)
+				{
+					// Don't warn about this, as the client allows the
+					// player to send the request even if they don't
+					// have enough points.
+					//Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' didn't have enough ability points to learn all abilities.", character.Username);
+
+					character.MsgBox(Localization.Get("You don't have enough points."));
+					return;
+				}
+
+				character.Abilities.Learn(abilityData.Id, newLevel);
+				character.ModifyAbilityPoints(-totalPrice);
+
+				Send.ZC_ADDON_MSG(character, "SUCCESS_LEARN_ABILITY", newLevel, abilityData.ClassName);
+				Send.ZC_ADDON_MSG(character, "RESET_ABILITY_UP", 0, null);
+			}
+		}
+
+		/// <summary>
+		/// Request to toggle an ability on or off.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TOGGLE_ABILITY)]
+		public void CZ_REQ_TOGGLE_ABILITY(IZoneConnection conn, Packet packet)
+		{
+			var abilityId = (AbilityId)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var ability = character.Abilities.Get(abilityId);
+
+			if (ability == null)
+			{
+				Log.Warning("CZ_REQ_TOGGLE_ABILITY: User '{0}' tried to toggle an ability they don't have ({1}).", character.Username, abilityId);
+				return;
+			}
+
+			ability.Active = !ability.Active;
+
+			Send.ZC_OBJECT_PROPERTY(conn, ability, PropertyName.ActiveState);
+			Send.ZC_ADDON_MSG(character, "RESET_ABILITY_ACTIVE", ability.Active ? 1 : 0, ability.Data.ClassName);
 		}
 
 		/// <summary>
@@ -2279,11 +2411,11 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_REQUEST_DRAW_TOSHERO_EMBLEM)]
 		public void CZ_REQUEST_DRAW_TOSHERO_EMBLEM(IZoneConnection conn, Packet packet)
 		{
-			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER");
+			Send.ZC_ADDON_MSG(conn.SelectedCharacter, "TOSHERO_ZONE_ENTER", 0, null);
 		}
 
 		/// <summary>
-		/// ?
+		/// Request to view another character's information.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2292,7 +2424,7 @@ namespace Melia.Zone.Network
 		{
 			var handle = packet.GetInt();
 			var b1 = packet.GetByte();
-			var b2 = packet.GetByte();
+			var addLike = packet.GetByte();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2359,7 +2491,9 @@ namespace Melia.Zone.Network
 			// Check for monster validity
 			if (monster == null)
 			{
-				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
+				// Don't warn as it happens quite frequently when two
+				// players stand in range of a dropped item.
+				//Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up an item that doesn't exist.", conn.Account.Name);
 				return;
 			}
 
@@ -2440,6 +2574,141 @@ namespace Melia.Zone.Network
 			// The purpose of this packet is currently unknown. Based on
 			// the name it's probably related to jobs, but that's about
 			// all we got on it. Ignore for now.
+		}
+
+		/// <summary>
+		/// Request to start or stop playing the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_READY_FLUTING)]
+		public void CZ_REQ_READY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var enabled = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Send.ZC_READY_FLUTING(character, enabled);
+		}
+
+		/// <summary>
+		/// Request to play a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_PLAY_FLUTING)]
+		public void CZ_REQ_PLAY_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			Send.ZC_PLAY_FLUTING(character, note, octave, semitone, true);
+		}
+
+		/// <summary>
+		/// Request to stop playing a note on the flute while resting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_STOP_FLUTING)]
+		public void CZ_REQ_STOP_FLUTING(IZoneConnection conn, Packet packet)
+		{
+			var note = packet.GetInt();
+			var octave = packet.GetInt();
+			var semitone = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.Jobs.Has(JobId.PiedPiper))
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute without being a Pied Piper.", conn.Account.Name);
+				return;
+			}
+
+			if (!character.IsSitting)
+			{
+				Log.Warning("CZ_REQ_READY_FLUTING: User '{0}' tried to play the flute while not sitting.", conn.Account.Name);
+				return;
+			}
+
+			// If the user starts playing a note, but doesn't stop
+			// playing it, or they send a different note to stop,
+			// the note will keep playing for a moment until stopping
+			// on its own. We could catch this by saving the notes on
+			// start, but since you can play multiple notes at once,
+			// that will require a bit more effort than simply setting
+			// a couple variables which we then get here. We'd need
+			// to keep track of all notes being played, stop specific
+			// ones, and stop all if anything goes wrong.
+
+			Send.ZC_STOP_FLUTING(character, note, octave, semitone);
+		}
+
+		/// <summary>
+		/// Packet with unknown purpose that is spammed by the client
+		/// while the player character is dead.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(0x520A)]
+		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
+		{
+			// The packet is spammed with a frequency of about 1-2 packets
+			// per millisecond. It's 64 bytes long, with the last 5 looking
+			// like random garbage data, though the packet doesn't seem to
+			// contain any useful information in general. Its name seems
+			// to be "CZ_InteractionCancel", though it doesn't appear in
+			// the op code list.
+		}
+
+		/// <summary>
+		/// Request from a player to revive their character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESURRECT)]
+		public void CZ_RESURRECT(IZoneConnection conn, Packet packet)
+		{
+			var optionIdx = packet.GetByte();
+			var l1 = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+			var option = (ResurrectOptions)(1 << (int)optionIdx);
+
+			if (!character.IsDead)
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character while not dead.", conn.Account.Name);
+				return;
+			}
+
+			character.Resurrect(option);
 		}
 	}
 }

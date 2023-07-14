@@ -155,13 +155,32 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="type"></param>
 		public void SetMoveSpeedType(MoveSpeedType type)
 		{
-			if (this.Entity is Mob mob)
+			if (this.Entity is Mob mob && this.MoveSpeedType != type)
 			{
 				this.MoveSpeedType = type;
 				this.Entity.Properties.Invalidate(PropertyName.MSPD);
 
 				Send.ZC_MSPD(this.Entity);
 			}
+		}
+
+		/// <summary>
+		/// Fixes the entity's movement speed at the given value.
+		/// </summary>
+		/// <param name="mspd"></param>
+		public void SetFixedMoveSpeed(float mspd)
+		{
+			this.Entity.Properties.SetFloat(PropertyName.FIXMSPD_BM, mspd);
+			Send.ZC_MSPD(this.Entity);
+		}
+
+		/// <summary>
+		/// Resets the entity's movement speed to its default value.
+		/// </summary>
+		public void ResetFixedMoveSpeed()
+		{
+			this.Entity.Properties.SetFloat(PropertyName.FIXMSPD_BM, 0);
+			Send.ZC_MSPD(this.Entity);
 		}
 
 		/// <summary>

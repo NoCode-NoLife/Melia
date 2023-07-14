@@ -58,7 +58,7 @@ namespace Melia.Zone.World.Actors
 			get => _map;
 			set => _map = value ?? Map.Limbo;
 		}
-		private Map _map;
+		private Map _map = Map.Limbo;
 
 		/// <summary>
 		/// Returns the actor's position on its current map.

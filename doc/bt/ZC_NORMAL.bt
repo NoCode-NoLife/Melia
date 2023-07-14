@@ -878,13 +878,15 @@ switch (type)
         break;
 
     case 0xE3:
-        int characterHandle;
         int targetHandle;
-        int animationId; // 2562693 : SHOW_BUFF_TEXT
-        float f1; // 160008
-        short s1; // -1
-        int64 l1;
-        byte b1;
+        int characterHandle;
+        int packetStringId;
+        float argNum;
+        short argStrLen; // -1
+        if (argStrLen > -1)
+            char argStr[argStrLen]; // defaults to "None"
+        int i1;
+        int i2;
         break;
     
     // ?

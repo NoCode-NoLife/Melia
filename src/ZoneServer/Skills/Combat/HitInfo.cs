@@ -60,6 +60,18 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
+		/// <param name="skillHitResult"></param>
+		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+			: this(attacker, target, skill, skillHitResult.Damage, skillHitResult.Result)
+		{
+		}
+
+		/// <summary>
+		/// Creates new hit.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
 		/// <param name="damage"></param>
 		/// <param name="resultType"></param>
 		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, HitResultType resultType)

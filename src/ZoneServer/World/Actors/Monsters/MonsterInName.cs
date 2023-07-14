@@ -21,6 +21,15 @@ namespace Melia.Zone.World.Actors.Monsters
 		public MonsterType MonsterType => MonsterType.NPC;
 
 		/// <summary>
+		/// Returns the monster's race.
+		/// </summary>
+		public RaceType Race => RaceType.None;
+
+		/// <summary>
+		/// Returns the monster's element.
+		/// </summary>
+		public ElementType Element => ElementType.None;
+
 		/// Returns the monster's current HP.
 		/// </summary>
 		public int Hp => 100;
