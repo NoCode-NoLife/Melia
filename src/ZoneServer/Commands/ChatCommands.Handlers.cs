@@ -878,9 +878,9 @@ namespace Melia.Zone.Commands
 							if (displayAmount)
 							{
 								if (minAmount == maxAmount)
-									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", currentDrop.MinAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
 								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%){{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
+									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%){{nl}}", minAmount, maxAmount, itemData.Name, dropChance);
 							}
 							else
 							{
