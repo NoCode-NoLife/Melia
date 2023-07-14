@@ -837,14 +837,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
+			var maxMonsterCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, maxMonsterCount);
 
-			for (var i = 0; entries.MoveNext() && i < max; ++i)
+			var monsterEntries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var monsterData in monsterEntries.Take(maxMonsterCount))
 			{
-				var monsterData = entries.Current;
 				var monsterEntry = new StringBuilder();
 
 				monsterEntry.AppendFormat("{{nl}}----- {0} ({1}, {2}) -----{{nl}}", monsterData.Name, monsterData.Id, monsterData.ClassName);
@@ -859,34 +858,34 @@ namespace Melia.Zone.Commands
 					foreach (var currentDrop in monsterData.Drops)
 					{
 						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
-						if (itemData != null)
+						if (itemData == null)
+							continue;
+
+						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+
+						var minAmount = currentDrop.MinAmount;
+						var maxAmount = currentDrop.MaxAmount;
+						var hasAmount = (minAmount > 1 || maxAmount > 1);
+
+						if (isMoney)
 						{
-							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
-							var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+							minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+							maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						}
 
-							var minAmount = currentDrop.MinAmount;
-							var maxAmount = currentDrop.MaxAmount;
-							var hasAmount = (minAmount > 1 || maxAmount > 1);
+						var displayAmount = isMoney || hasAmount;
 
-							if (isMoney)
-							{
-								minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-								maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-							}
-
-							var displayAmount = isMoney || hasAmount;
-
-							if (displayAmount)
-							{
-								if (minAmount == maxAmount)
-									monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
-								else
-									monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
-							}
+						if (displayAmount)
+						{
+							if (minAmount == maxAmount)
+								monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
 							else
-							{
-								monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
-							}
+								monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
+						}
+						else
+						{
+							monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
 						}
 					}
 				}
@@ -926,14 +925,13 @@ namespace Melia.Zone.Commands
 
 			var maxItemResultCount = 5;
 			var maxDropperCount = 100;
-			var maxDroppeResultCount = 10;
+			var maxDropResultCount = 10;
 
 			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemResultCount);
 
-			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			for (var i = 0; itemEntries.MoveNext() && i < maxItemResultCount; ++i)
+			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var currentItem in itemEntries)
 			{
-				var currentItem = itemEntries.Current;
 				var whoDropsEntry = new StringBuilder();
 
 				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
@@ -963,11 +961,16 @@ namespace Melia.Zone.Commands
 						}
 					}
 
-					var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Id).GetEnumerator();
+					whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDropResultCount);
 
-					whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDroppeResultCount);
-					for (var j = 0; dropEntries.MoveNext() && i < maxDroppeResultCount; ++j)
-						whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropEntries.Current.Key.Name, dropEntries.Current.Key.Id, dropEntries.Current.Key.ClassName, dropEntries.Current.Value);
+					var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Level);
+					foreach (var dropDataKV in dropEntries.Take(maxDropResultCount))
+					{
+						var dropData = dropDataKV.Key;
+						var dropChance = dropDataKV.Value;
+
+						whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropData.Name, dropData.Id, dropData.ClassName, dropChance);
+					}
 				}
 
 				sender.ServerMessage(whoDropsEntry.ToString());
