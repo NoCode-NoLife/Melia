@@ -34,21 +34,48 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (this.Entity.IsDead)
 				return;
 
+			this.UpdateHp(elapsed);
+			this.UpdateSp(elapsed);
+			this.UpdateStamina(elapsed);
+		}
+
+		/// <summary>
+		/// Updates the entity's HP.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateHp(TimeSpan elapsed)
+		{
 			_rhpTime -= elapsed;
-			_rspTime -= elapsed;
-			_staminaTime -= elapsed;
 
 			if (_rhpTime <= TimeSpan.Zero)
 			{
 				this.RecoverHp();
 				_rhpTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.RHPTIME));
 			}
+		}
+
+		/// <summary>
+		/// Updates the entity's SP.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateSp(TimeSpan elapsed)
+		{
+			_rspTime -= elapsed;
 
 			if (_rspTime <= TimeSpan.Zero)
 			{
 				this.RecoverSp();
 				_rspTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.RSPTIME));
 			}
+		}
+
+		/// <summary>
+		/// Updates the entity's stamina.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateStamina(TimeSpan elapsed)
+		{
+			_staminaTime -= elapsed;
 
 			if (_staminaTime <= TimeSpan.Zero)
 			{
