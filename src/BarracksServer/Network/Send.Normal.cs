@@ -98,7 +98,7 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Sends zone traffic list.
+			/// Updates server list on client.
 			/// </summary>
 			/// <param name="conn"></param>
 			public static void ZoneTraffic(IBarracksConnection conn)
@@ -162,6 +162,21 @@ namespace Melia.Barracks.Network
 				});
 
 				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates server list on all logged in clients.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void ZoneTraffic()
+			{
+				var connections = BarracksServer.Instance.GetAllConnections();
+
+				foreach (var conn in connections)
+				{
+					if (conn.LoggedIn)
+						ZoneTraffic(conn);
+				}
 			}
 
 			/// <summary>

@@ -151,6 +151,8 @@ namespace Melia.Barracks
 
 				this.ServerList.Update(serverUpdateMessage);
 				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+
+				Send.BC_NORMAL.ZoneTraffic();
 			}
 		}
 
@@ -202,6 +204,28 @@ namespace Melia.Barracks
 			// This should be pretty rare though, and we can improve
 			// it once the servers talk to each other. TODO.
 			this.Database.ClearLoginStates();
+		}
+
+		/// <summary>
+		/// Returns a list of all active connections.
+		/// </summary>
+		/// <returns></returns>
+		public BarracksConnection[] GetAllConnections()
+			=> _acceptor.GetAllConnections();
+
+		/// <summary>
+		/// Broadcasts the packet to all logged in connections.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			var connections = this.GetAllConnections();
+
+			foreach (var conn in connections)
+			{
+				if (conn.LoggedIn)
+					conn.Send(packet);
+			}
 		}
 	}
 }
