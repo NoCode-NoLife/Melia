@@ -1,3 +1,3 @@
 @echo off
 
-start-all BarracksServer
+start-all BarracksServer 1001 1
