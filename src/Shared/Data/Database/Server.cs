@@ -22,6 +22,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string Ip { get; set; }
 		public int Port { get; set; }
+		public int InterPort { get; set; }
 		public int[] MapIds { get; set; }
 
 		public bool ServesAllMaps => this.MapIds.Length == 1 && this.MapIds[0] == -1;
@@ -67,6 +68,7 @@ namespace Melia.Shared.Data.Database
 				serverData.Id = serverEntry.ReadInt("id");
 				serverData.Ip = serverEntry.ReadString("ip");
 				serverData.Port = serverEntry.ReadInt("port");
+				serverData.InterPort = serverEntry.ReadInt("interPort", 0);
 
 				if (serverData.Type == ServerType.Zone)
 				{

@@ -105,10 +105,14 @@ namespace Melia.Shared.Network
 		public string Ip { get; }
 
 		/// <summary>
-		/// Returns the server's port.
+		/// Returns the port the server is listening on publically.
 		/// </summary>
 		public int Port { get; }
 
+		/// <summary>
+		/// Returns the port the server is listening on internally.
+		/// </summary>
+		public int InterPort { get; }
 		/// <summary>
 		/// Returns the number of players currently connected to the server.
 		/// </summary>
@@ -135,6 +139,7 @@ namespace Melia.Shared.Network
 			this.Id = data.Id;
 			this.Ip = data.Ip;
 			this.Port = data.Port;
+			this.InterPort = data.InterPort;
 			this.MapIds = data.MapIds;
 		}
 	}
