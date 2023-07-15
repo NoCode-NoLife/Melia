@@ -28,7 +28,7 @@ namespace Melia.Zone.World
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
 		private readonly Dictionary<int, MonsterSpawner> _spawnersId = new Dictionary<int, MonsterSpawner>();
-		private readonly Dictionary<string, MonsterSpawnPointCollection> _spawnPointCollectionsName = new Dictionary<string, MonsterSpawnPointCollection>();
+		private readonly Dictionary<string, MonsterSpawnPointCollection> _spawnPointCollectionsIdentifier = new Dictionary<string, MonsterSpawnPointCollection>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -212,36 +212,36 @@ namespace Melia.Zone.World
 
 		/// <summary>
 		/// Adds a spawn point collection object to the world.
-		/// Note that the name string must be unique.
+		/// Note that the identifier string must be unique.
 		/// </summary>
 		/// <param name="spawnPointCollection"></param>
 		public void AddSpawnPointCollection(MonsterSpawnPointCollection spawnPointCollection)
 		{
 			// Assertive
-			if (this.TryGetSpawnPointCollectionByName(spawnPointCollection.Name, out var spc))
+			if (this.TryGetSpawnPointCollectionByIdentifier(spawnPointCollection.Identifier, out var spc))
 			{
-				Log.Warning($"WorldManager.AddSpawnPointCollection: Duplicated spawn point collection name '{spawnPointCollection.Name}' cannot be added.");
+				Log.Warning($"WorldManager.AddSpawnPointCollection: Duplicated spawn point collection identifier '{spawnPointCollection.Identifier}' cannot be added.");
 				return;
 			}
 
-			lock (_spawnPointCollectionsName)
+			lock (_spawnPointCollectionsIdentifier)
 			{
 				// Adds collection to our dictionary
-				_spawnPointCollectionsName.Add(spawnPointCollection.Name, spawnPointCollection);
+				_spawnPointCollectionsIdentifier.Add(spawnPointCollection.Identifier, spawnPointCollection);
 			}
 		}
 
 		/// <summary>
-		/// Returns by out a spawn point collection with a given name
+		/// Returns by out a spawn point collection with a given identifier
 		/// if it exists in the world. Returns true if found, false otherwise.
 		/// </summary>
 		/// <param name="identifier"></param>
 		/// <param name="spawner"></param>
 		/// <returns></returns>
-		public bool TryGetSpawnPointCollectionByName(string name, out MonsterSpawnPointCollection spawnPointCollection)
+		public bool TryGetSpawnPointCollectionByIdentifier(string identifier, out MonsterSpawnPointCollection spawnPointCollection)
 		{
-			lock (_spawnPointCollectionsName)
-				return _spawnPointCollectionsName.TryGetValue(name, out spawnPointCollection);
+			lock (_spawnPointCollectionsIdentifier)
+				return _spawnPointCollectionsIdentifier.TryGetValue(identifier, out spawnPointCollection);
 		}
 
 		/// <summary>
@@ -263,7 +263,7 @@ namespace Melia.Zone.World
 		public MonsterSpawnPointCollection[] GetSpawnPointCollections()
 		{
 			lock (_spawnersId)
-				return _spawnPointCollectionsName.Values.ToArray();
+				return _spawnPointCollectionsIdentifier.Values.ToArray();
 		}
 
 		/// <summary>

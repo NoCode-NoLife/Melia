@@ -37,22 +37,22 @@ namespace Melia.Zone.World.Spawner
 		/// <summary>
 		/// Returns the name identifier for this spawn point collection.
 		/// </summary>
-		public string Name { get; set; }
+		public string Identifier { get; set; }
 
 		/// <summary>
-		/// Creates an empty spawn point collection. Note that the name
+		/// Creates an empty spawn point collection. Note that the identifier
 		/// must be unique in the world.
 		/// </summary>
-		/// <param name="name"></param>
-		public MonsterSpawnPointCollection(string name)
+		/// <param name="identifier"></param>
+		public MonsterSpawnPointCollection(string identifier)
 		{
 			// If no name is given
-			if (String.IsNullOrWhiteSpace(name))
+			if (String.IsNullOrWhiteSpace(identifier))
 			{
 				throw new ArgumentException($"MonsterSpawnPointCollection: Invalid name.");
 			}
 
-			this.Name = name;
+			this.Identifier = identifier;
 
 			this.Id = Interlocked.Increment(ref Ids);
 		}

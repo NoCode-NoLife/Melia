@@ -62,7 +62,7 @@ namespace Melia.Zone.World.Spawner
 		/// The name of the spawn point collection this spawner will use
 		/// to spawn monsters.
 		/// </summary>
-		public string SpawnPointCollectionName { get; }
+		public string SpawnPointCollectionIdentifier { get; }
 
 		/// <summary>
 		/// Returns the unique id of this spawner.
@@ -119,8 +119,9 @@ namespace Melia.Zone.World.Spawner
 		public PropertyOverrides PropertyOverrides { get; }
 
 		/// <summary>
-		/// Creates new instance.
+		/// Creates new instance associated to a spawn point collection by name.
 		/// </summary>
+		/// <param name="spawnPointCollectionIdentifier"></param>
 		/// <param name="monsterClassId"></param>
 		/// <param name="minAmount"></param>
 		/// <param name="maxAmount"></param>
@@ -129,7 +130,8 @@ namespace Melia.Zone.World.Spawner
 		/// <param name="maxRespawnDelay"></param>
 		/// <param name="tendency"></param>
 		/// <param name="propertyOverrides"></param>
-		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string spawnPointCollectionName, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		/// <exception cref="ArgumentException"></exception>
+		public MonsterSpawner(string spawnPointCollectionIdentifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"MonsterSpawner: No monster data found for '{monsterClassId}'.");
@@ -142,7 +144,7 @@ namespace Melia.Zone.World.Spawner
 			this.Id = Interlocked.Increment(ref Ids);
 			this.MinAmount = minAmount;
 			this.MaxAmount = maxAmount;
-			this.SpawnPointCollectionName = spawnPointCollectionName;
+			this.SpawnPointCollectionIdentifier = spawnPointCollectionIdentifier;
 			this.FlexAmount = this.MinAmount;
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
@@ -243,14 +245,14 @@ namespace Melia.Zone.World.Spawner
 		{
 			// Attempts to get the spawn point collection object reference
 			// at runtime. If the reference is not found after N heartbeats,
-			// we start showing an error.
+			// we start showing a warning.
 			if (_spawnPointCollection == null)
 			{
-				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByName(this.SpawnPointCollectionName, out _spawnPointCollection))
+				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointCollectionIdentifier, out _spawnPointCollection))
 				{
 					if (_spawnPointCollectionReferenceFailureCounter > SpawnPointCollectionReferenceMaxAttempts)
 					{
-						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointCollectionName}' found for spawner '{this.Id}'.");
+						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointCollectionIdentifier}' found for spawner '{this.Id}'.");
 					}
 					_spawnPointCollectionReferenceFailureCounter++;
 					return;
