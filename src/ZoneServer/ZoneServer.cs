@@ -74,13 +74,15 @@ namespace Melia.Zone
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Zone", ConsoleColor.DarkGreen, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Zone ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkGreen, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
 			// Set up zone server specific logging or we might run into
 			// issues with multiple servers trying to write files at the
 			// same time.
-			this.GetServerId(args, out var groupId, out var serverId);
 			Log.Init("ZoneServer" + serverId);
 
 			this.NavigateToRoot();

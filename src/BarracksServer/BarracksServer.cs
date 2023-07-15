@@ -46,10 +46,12 @@ namespace Melia.Barracks
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Barracks", ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Barracks ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
-			this.GetServerId(args, out var groupId, out var serverId);
 			Log.Init("BarracksServer" + serverId);
 
 			this.NavigateToRoot();
