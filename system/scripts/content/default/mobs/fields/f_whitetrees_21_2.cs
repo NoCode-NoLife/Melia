@@ -29,7 +29,6 @@ public class FWhitetrees212MobScript : GeneralScript
 		AddSpawner("f_whitetrees_21_2.Id6", MonsterId.Kucarry_Symbani, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 		AddSpawner("f_whitetrees_21_2.Id7", MonsterId.Kucarry_Zeffi, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 		AddSpawner("f_whitetrees_21_2.Id8", MonsterId.Rootcrystal_01, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_21_2.Id9", MonsterId.HiddenTrigger_CantGen300, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -150,10 +149,6 @@ public class FWhitetrees212MobScript : GeneralScript
 		AddSpawnPoint( "f_whitetrees_21_2.Id8", "f_whitetrees_21_2", Spot(445.04, -1126.3, 100));
 		AddSpawnPoint( "f_whitetrees_21_2.Id8", "f_whitetrees_21_2", Spot(-103.03, -957.56, 100));
 		AddSpawnPoint( "f_whitetrees_21_2.Id8", "f_whitetrees_21_2", Spot(-601.47, -577.89, 100));
-
-		// HiddenTrigger_CantGen300 Spawn Points
-		AddSpawnPoint( "f_whitetrees_21_2.Id9", "f_whitetrees_21_2", Spot(-922.77014, -699.96606, 20));
-		AddSpawnPoint( "f_whitetrees_21_2.Id9", "f_whitetrees_21_2", Spot(-680.64923, -474.72495, 20));
 
 	}
 }

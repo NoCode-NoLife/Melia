@@ -43,7 +43,6 @@ public class Ep13FSiauliai5MobScript : GeneralScript
 		AddSpawner("ep13_f_siauliai_5.Id19", MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 		AddSpawner("ep13_f_siauliai_5.Id20", MonsterId.Darbas_Smuggler, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 		AddSpawner("ep13_f_siauliai_5.Id21", MonsterId.Elgesys_Malkos, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_5.Id22", MonsterId.Hidden_Monster4, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -196,9 +195,6 @@ public class Ep13FSiauliai5MobScript : GeneralScript
 		AddSpawnPoint( "ep13_f_siauliai_5.Id21", "ep13_f_siauliai_5", Spot(882.71295, -401.06393, 20));
 		AddSpawnPoint( "ep13_f_siauliai_5.Id21", "ep13_f_siauliai_5", Spot(519.52515, -687.57275, 20));
 		AddSpawnPoint( "ep13_f_siauliai_5.Id21", "ep13_f_siauliai_5", Spot(840.2, -521.0216, 20));
-
-		// Hidden_Monster4 Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_5.Id22", "ep13_f_siauliai_5", Spot(898.52216, 37.36215, 20));
 
 	}
 }

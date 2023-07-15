@@ -39,7 +39,6 @@ public class FGele574MobScript : GeneralScript
 		AddSpawner("f_gele_57_4.Id13", MonsterId.Npanto_Archer, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 		AddSpawner("f_gele_57_4.Id14", MonsterId.Seedmia, 10, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
 		AddSpawner("f_gele_57_4.Id15", MonsterId.Seedmia, 15, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_4.Id16", MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -263,9 +262,6 @@ public class FGele574MobScript : GeneralScript
 		AddSpawnPoint( "f_gele_57_4.Id15", "f_gele_57_4", Spot(-276.5957, -781.216, 10));
 		AddSpawnPoint( "f_gele_57_4.Id15", "f_gele_57_4", Spot(-235.78566, -835.19116, 10));
 		AddSpawnPoint( "f_gele_57_4.Id15", "f_gele_57_4", Spot(-164.3016, -874.4988, 10));
-
-		// Id_Gate_Npc Spawn Points
-		AddSpawnPoint( "f_gele_57_4.Id16", "f_gele_57_4", Spot(-1581.812, -964.21204, 20));
 
 	}
 }

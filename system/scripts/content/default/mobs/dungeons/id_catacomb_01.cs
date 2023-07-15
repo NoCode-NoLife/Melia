@@ -24,7 +24,6 @@ public class IdCatacomb01MobScript : GeneralScript
 		AddSpawner("id_catacomb_01.Id5", MonsterId.FD_Leaf_Diving_Purple, 20, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
 		AddSpawner("id_catacomb_01.Id6", MonsterId.Cronewt_Bow_Brown, 12, TimeSpan.FromMilliseconds(25000), TendencyType.Aggressive);
 		AddSpawner("id_catacomb_01.Id7", MonsterId.Colifly_Bow_Purple, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id8", MonsterId.HiddenTrigger6, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -98,9 +97,6 @@ public class IdCatacomb01MobScript : GeneralScript
 		AddSpawnPoint( "id_catacomb_01.Id7", "id_catacomb_01", Spot(635.2765, 2443.142, 35));
 		AddSpawnPoint( "id_catacomb_01.Id7", "id_catacomb_01", Spot(396.5722, 2730.326, 35));
 		AddSpawnPoint( "id_catacomb_01.Id7", "id_catacomb_01", Spot(428.67487, 1964.5251, 35));
-
-		// HiddenTrigger6 Spawn Points
-		AddSpawnPoint( "id_catacomb_01.Id8", "id_catacomb_01", Spot(-231.58388, -1110.4863, 20));
 
 	}
 }

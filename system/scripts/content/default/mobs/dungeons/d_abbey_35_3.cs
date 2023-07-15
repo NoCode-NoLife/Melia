@@ -26,7 +26,6 @@ public class DAbbey353MobScript : GeneralScript
 		AddSpawner("d_abbey_35_3.Id3", MonsterId.Hohen_Barkle_Green, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 		AddSpawner("d_abbey_35_3.Id4", MonsterId.Rootcrystal_01, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 		AddSpawner("d_abbey_35_3.Id5", MonsterId.Hohen_Ritter_Green, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_35_3.Id6", MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -197,9 +196,6 @@ public class DAbbey353MobScript : GeneralScript
 
 		// Hohen_Ritter_Green Spawn Points
 		AddSpawnPoint( "d_abbey_35_3.Id5", "d_abbey_35_3", Spot(8.835764, -24.208357, 9999));
-
-		// Id_Gate_Npc Spawn Points
-		AddSpawnPoint( "d_abbey_35_3.Id6", "d_abbey_35_3", Spot(-2090.9382, 321.813, 20));
 
 	}
 }

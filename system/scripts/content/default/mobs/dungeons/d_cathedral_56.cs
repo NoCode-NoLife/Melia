@@ -26,8 +26,6 @@ public class DCathedral56MobScript : GeneralScript
 		AddSpawner("d_cathedral_56.Id3", MonsterId.Pawnd_Purple, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 		AddSpawner("d_cathedral_56.Id4", MonsterId.Pawndel_Blue, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 		AddSpawner("d_cathedral_56.Id5", MonsterId.NightMaiden_Bow, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cathedral_56.Id6", MonsterId.HiddenTrigger_CantGen300, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_cathedral_56.Id7", MonsterId.HiddenTrigger_CantGen250, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -266,12 +264,6 @@ public class DCathedral56MobScript : GeneralScript
 		AddSpawnPoint( "d_cathedral_56.Id5", "d_cathedral_56", Spot(820.31323, 912.0209, 30));
 		AddSpawnPoint( "d_cathedral_56.Id5", "d_cathedral_56", Spot(1874.2401, 248.55678, 30));
 		AddSpawnPoint( "d_cathedral_56.Id5", "d_cathedral_56", Spot(2138.2886, 95.751396, 30));
-
-		// HiddenTrigger_CantGen300 Spawn Points
-		AddSpawnPoint( "d_cathedral_56.Id6", "d_cathedral_56", Spot(-1526.0432, 185.67126, 20));
-
-		// HiddenTrigger_CantGen250 Spawn Points
-		AddSpawnPoint( "d_cathedral_56.Id7", "d_cathedral_56", Spot(-2240.2375, 420.37057, 20));
 
 	}
 }

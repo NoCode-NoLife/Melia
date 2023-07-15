@@ -23,7 +23,6 @@ public class FRokas26MobScript : GeneralScript
 		AddSpawner("f_rokas_26.Id4", MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
 		AddSpawner("f_rokas_26.Id5", MonsterId.Wendigo_Bow, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 		AddSpawner("f_rokas_26.Id6", MonsterId.Wendigo_Mage, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id7", MonsterId.Id_Gate_Npc, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -180,9 +179,6 @@ public class FRokas26MobScript : GeneralScript
 		AddSpawnPoint( "f_rokas_26.Id6", "f_rokas_26", Spot(1203.6719, -1768.0676, 30));
 		AddSpawnPoint( "f_rokas_26.Id6", "f_rokas_26", Spot(1092.4457, -1873.9415, 30));
 		AddSpawnPoint( "f_rokas_26.Id6", "f_rokas_26", Spot(-70.56787, 1573.1927, 30));
-
-		// Id_Gate_Npc Spawn Points
-		AddSpawnPoint( "f_rokas_26.Id7", "f_rokas_26", Spot(77.20404, 1689.6802, 20));
 
 	}
 }
