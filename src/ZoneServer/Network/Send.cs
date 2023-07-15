@@ -4053,7 +4053,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="enabled"></param>
 		public static void ZC_READY_FLUTING(Character character, bool enabled)
-        {
+		{
 			var packet = new Packet(Op.ZC_READY_FLUTING);
 
 			packet.PutInt(character.Handle);
