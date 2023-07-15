@@ -1,3 +1,3 @@
 @echo off
 
-start-all ZoneServer 2
+start-all ZoneServer 1001 2

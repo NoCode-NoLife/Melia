@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
 
@@ -12,12 +13,23 @@ namespace Melia.Shared.Network
 		private readonly List<ServerInfo> _servers = new List<ServerInfo>();
 
 		/// <summary>
-		/// Loads servers from database.
+		/// Returns the data of the this server group.
+		/// </summary>
+		public ServerGroupData GroupData { get; private set; }
+
+		/// <summary>
+		/// Loads servers for given group from database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		public void Load(ServerDb serverDb)
+		/// <param name="groupId"></param>
+		public void Load(ServerDb serverDb, int groupId)
 		{
-			foreach (var serverData in serverDb.Entries)
+			if (!serverDb.TryFind(groupId, out var groupData))
+				throw new ArgumentException($"No server group with id {groupId} found.");
+
+			this.GroupData = groupData;
+
+			foreach (var serverData in groupData.Servers)
 			{
 				var serverInfo = new ServerInfo(serverData);
 				_servers.Add(serverInfo);
@@ -29,12 +41,12 @@ namespace Melia.Shared.Network
 		/// Returns false if no matching server was found.
 		/// </summary>
 		/// <param name="type"></param>
-		/// <param name="id"></param>
+		/// <param name="serverId"></param>
 		/// <param name="server"></param>
 		/// <returns></returns>
-		public bool TryGet(ServerType type, int id, out ServerInfo server)
+		public bool TryGet(ServerType type, int serverId, out ServerInfo server)
 		{
-			server = _servers.FirstOrDefault(a => a.Type == type && a.Id == id);
+			server = _servers.FirstOrDefault(a => a.Type == type && a.Id == serverId);
 			return server != null;
 		}
 

@@ -23,7 +23,7 @@ namespace Melia.Web.Controllers
 		[Route(HttpVerbs.Get, "/serverlist.xml")]
 		public void GetServerList()
 		{
-			var loginServersData = WebServer.Instance.Data.ServerDb.FindAll(ServerType.Barracks);
+			var serverGroupDataList = WebServer.Instance.Data.ServerDb.Entries.Values.OrderBy(a => a.Id);
 
 			using (var str = new Utf8StringWriter())
 			using (var xml = new XmlTextWriter(str))
@@ -33,16 +33,24 @@ namespace Melia.Web.Controllers
 				xml.WriteStartElement("serverlist");
 				xml.WriteWhitespace("\n");
 
-				foreach (var serverData in loginServersData)
+				foreach (var groupData in serverGroupDataList)
 				{
 					xml.WriteWhitespace("\t");
 					xml.WriteStartElement("server");
-					xml.WriteAttributeString("GROUP_ID", "100");
+					xml.WriteAttributeString("GROUP_ID", groupData.Id.ToString());
 					xml.WriteAttributeString("TRAFFIC", "0");
 					xml.WriteAttributeString("ENTER_LIMIT", "100");
-					xml.WriteAttributeString("NAME", "Melia");
-					xml.WriteAttributeString("Server0_IP", serverData.Ip);
-					xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
+					xml.WriteAttributeString("NAME", groupData.Name);
+
+					var barracksServersData = groupData.Servers.Where(a => a.Type == ServerType.Barracks).ToArray();
+					for (var i = 0; i < barracksServersData.Length; ++i)
+					{
+						var serverData = barracksServersData[i];
+
+						xml.WriteAttributeString("Server0_IP", serverData.Ip);
+						xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
+					}
+
 					xml.WriteEndElement();
 					xml.WriteWhitespace("\n");
 				}

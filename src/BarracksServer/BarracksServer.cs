@@ -49,30 +49,35 @@ namespace Melia.Barracks
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Barracks", ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
+			this.GetServerId(args, out var groupId, out var serverId);
+			Log.Init("BarracksServer" + serverId);
+
 			this.NavigateToRoot();
 
-			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.LoadData(ServerType.Barracks);
-			this.LoadServerList(this.Data.ServerDb);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Barracks, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
 
-			// Get server data
-			var serverId = this.GetServerId(args);
-			var serverInfo = this.GetServerInfo(ServerType.Barracks, serverId);
+			this.StartAcceptor();
 
-			// Start listener
-			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Port);
+			ConsoleUtil.RunningTitle();
+			new BarracksConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Starts accepting connections.
+		/// </summary>
+		private void StartAcceptor()
+		{
+			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(this.ServerInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
-
-			ConsoleUtil.RunningTitle();
-			new BarracksConsoleCommands().Wait();
 		}
 
 		/// <summary>

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
+using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Zone.Buffs;
 using Melia.Zone.Commands;
 using Melia.Zone.Database;
@@ -77,35 +80,37 @@ namespace Melia.Zone
 			// Set up zone server specific logging or we might run into
 			// issues with multiple servers trying to write files at the
 			// same time.
-			var serverId = this.GetServerId(args);
+			this.GetServerId(args, out var groupId, out var serverId);
 			Log.Init("ZoneServer" + serverId);
 
-			// Change working directory to the server's root directory
 			this.NavigateToRoot();
 
-			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.LoadData(ServerType.Zone);
-			this.LoadServerList(this.Data.ServerDb);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Zone, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.InitSkills();
 			this.InitWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt");
 			this.LoadIesMods();
 
-			// Get server data
-			var serverInfo = this.GetServerInfo(ServerType.Zone, serverId);
+			this.StartAcceptor();
 
-			// Start listener
-			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(serverInfo.Port);
+			ConsoleUtil.RunningTitle();
+			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Starts accepting connections.
+		/// </summary>
+		private void StartAcceptor()
+		{
+			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.ServerInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
-
-			ConsoleUtil.RunningTitle();
-			new ConsoleCommands().Wait();
 		}
 
 		/// <summary>
