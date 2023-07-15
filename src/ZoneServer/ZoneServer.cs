@@ -150,8 +150,8 @@ namespace Melia.Zone
 			{
 				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
-				//this.Communicator.Subscribe("Coordinator", "ServerUpdates");
-				//this.Communicator.Send("Coordinator", new ServerUpdateMessage(ServerType.Zone, this.ServerInfo.Id, 0, ServerStatus.Online));
+				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+				this.UpdateServerInfo();
 
 				Log.Info("Successfully connected to coordinator.");
 			}
@@ -184,6 +184,25 @@ namespace Melia.Zone
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			if (message is ServerUpdateMessage serverUpdateMessage)
+			{
+				this.ServerList.Update(serverUpdateMessage);
+			}
+		}
+
+		/// <summary>
+		/// Sends an update about the server's status to the coordinator.
+		/// </summary>
+		internal void UpdateServerInfo()
+		{
+			var zoneServer = this;
+
+			var serverId = zoneServer.ServerInfo.Id;
+			var playerCount = zoneServer.World.GetCharacterCount();
+
+			var message = new ServerUpdateMessage(ServerType.Zone, serverId, playerCount, ServerStatus.Online);
+			zoneServer.Communicator.Send("Coordinator", message);
 		}
 
 		/// <summary>

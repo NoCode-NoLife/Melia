@@ -204,6 +204,16 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Returns the total number of player characters across all maps.
+		/// </summary>
+		/// <returns></returns>
+		public int GetCharacterCount()
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.Sum(a => a.CharacterCount);
+		}
+
+		/// <summary>
 		/// Returns all online characters that match the given predicate.
 		/// </summary>
 		public Character[] GetCharacters(Func<Character, bool> predicate)

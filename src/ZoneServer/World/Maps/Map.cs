@@ -242,6 +242,8 @@ namespace Melia.Zone.World.Maps
 				lock (_combatEntities)
 					_combatEntities[character.Handle] = character;
 			}
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -257,6 +259,8 @@ namespace Melia.Zone.World.Maps
 				_combatEntities.Remove(character.Handle);
 
 			character.Map = null;
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>

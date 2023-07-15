@@ -3283,6 +3283,11 @@
             Raised when a connection was successfully accepted.
             </summary>
         </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.ConnectionClosed">
+            <summary>
+            Raised when a connection was closed or lost.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor(System.Net.IPEndPoint)">
             <summary>
             Creates new instance of TcpConnectionAcceptor, that will listen
@@ -3343,6 +3348,25 @@
             Called when a client connected.
             </summary>
             <param name="ar"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.OnAccepted(`0)">
+            <summary>
+            Called when a connection was accepted.
+            </summary>
+            <param name="conn"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.OnClosed(Yggdrasil.Network.TCP.TcpConnection,Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when a connection was closed.
+            </summary>
+            <param name="conn"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.GetAllConnections">
+            <summary>
+            Returns a list of all active connections.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Parameters.INumericParameter">
             <summary>

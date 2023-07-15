@@ -28,6 +28,7 @@ namespace Melia.Barracks
 		public readonly static BarracksServer Instance = new BarracksServer();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
+		private readonly Dictionary<string, int> _zoneServerNames = new Dictionary<string, int>();
 
 		/// <summary>
 		/// Returns the server's inter-server communicator.
@@ -142,6 +143,15 @@ namespace Melia.Barracks
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			if (message is ServerUpdateMessage serverUpdateMessage)
+			{
+				if (serverUpdateMessage.ServerType == ServerType.Zone)
+					_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+
+				this.ServerList.Update(serverUpdateMessage);
+				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+			}
 		}
 
 		/// <summary>
