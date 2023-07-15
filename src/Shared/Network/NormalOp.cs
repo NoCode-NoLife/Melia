@@ -28,6 +28,8 @@
 		/// </summary>
 		public static class Zone
 		{
+			public const int TimeActionStart = 0x00;
+			public const int TimeActionEnd = 0x01;
 			public const int SkillProjectile = 0x06;
 			public const int AttachEffect = 0x12;
 			public const int ClearEffects = 0x13;

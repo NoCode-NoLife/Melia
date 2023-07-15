@@ -9,6 +9,7 @@ using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 
@@ -404,6 +405,32 @@ namespace Melia.Zone.Scripting.Dialogues
 
 			var response = await this.GetClientResponse();
 			return response;
+		}
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string animationName, TimeSpan duration)
+			=> await this.TimeAction(displayText, "None", animationName, duration);
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="buttonText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string buttonText, string animationName, TimeSpan duration)
+		{
+			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
+			return await this.Player.Components.Get<TimeActionComponent>().StartAsync(displayText, buttonText, animationName, duration);
 		}
 
 		/// <summary>
