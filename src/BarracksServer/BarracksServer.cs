@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
@@ -7,7 +8,10 @@ using Melia.Barracks.Util;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
+using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 
@@ -24,6 +28,11 @@ namespace Melia.Barracks
 		public readonly static BarracksServer Instance = new BarracksServer();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
+
+		/// <summary>
+		/// Returns the server's inter-server communicator.
+		/// </summary>
+		public Communicator Communicator { get; private set; }
 
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
@@ -64,6 +73,7 @@ namespace Melia.Barracks
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
 
+			this.StartCommunicator();
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
@@ -80,6 +90,58 @@ namespace Melia.Barracks
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
+		}
+
+		/// <summary>
+		/// Starts the communicator and waits for connections from other
+		/// servers.
+		/// </summary>
+		private void StartCommunicator()
+		{
+			var commName = "" + this.ServerInfo.Type + this.ServerInfo.Id;
+
+			this.Communicator = new Communicator(commName);
+			this.Communicator.ClientConnected += this.Communicator_OnClientConnected;
+			this.Communicator.ClientDisconnected += this.Communicator_OnClientDisconnected;
+			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
+
+			this.Communicator.Listen(this.ServerInfo.InterPort);
+		}
+
+		/// <summary>
+		/// Called when a server connected via the communicator.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnClientConnected(string commName)
+		{
+			Log.Info("Accepted connection from server {0}.", commName);
+		}
+
+		/// <summary>
+		/// Called when a server disconnected from the communicator.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnClientDisconnected(string commName)
+		{
+			Log.Info("Lost connection from server {0}.", commName);
+
+			if (_zoneServerNames.TryGetValue(commName, out var serverId))
+			{
+				var serverUpdateMessage = new ServerUpdateMessage(ServerType.Zone, serverId, 0, ServerStatus.Offline);
+
+				this.ServerList.Update(serverUpdateMessage);
+				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+			}
+		}
+
+		/// <summary>
+		/// Called when a message is received from a server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
+		{
+			//Log.Debug("Message received from '{0}': {1}", sender, message);
 		}
 
 		/// <summary>

@@ -2662,6 +2662,12 @@
             <param name="tcpConn"></param>
             <param name="type"></param>
         </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.RemoveConnection(System.String)">
+            <summary>
+            Removes connection from all internal lists.
+            </summary>
+            <param name="name"></param>
+        </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.Connect(System.String,System.String,System.Int32)">
             <summary>
             Connects to a communicator at the given address and saves
@@ -2701,20 +2707,33 @@
             <param name="client"></param>
             <param name="buffer"></param>
         </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Subscribe(System.String,System.String)">
+            <summary>
+            Subscribes to messages broadcasted on the given channel.
+            </summary>
+            <param name="receiverName"></param>
+            <param name="channelName"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Broadcast(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Broadcasts object to all subscribers of the given channel.
+            </summary>
+            <param name="channelName"></param>
+            <param name="message"></param>
+        </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,Yggdrasil.Network.Communication.ICommMessage)">
             <summary>
-            Sends object to the receiver.
+            Sends message to the receiver.
             </summary>
             <param name="receiverName"></param>
             <param name="message"></param>
         </member>
-        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,System.String,Yggdrasil.Network.Communication.ICommMessage)">
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,System.Byte[])">
             <summary>
-            Sends message to the receiver on the given channel.
+            Sends buffer to the receiver.
             </summary>
             <param name="receiverName"></param>
-            <param name="channel"></param>
-            <param name="message"></param>
+            <param name="buffer"></param>
         </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.SerializeMessage(Yggdrasil.Network.Communication.ICommMessage)">
             <summary>
@@ -2781,8 +2800,30 @@
         </member>
         <member name="P:Yggdrasil.Network.Communication.Messages.HelloMessage.Name">
             <summary>
-            Gets or sets the name of the communicator sending the message.
+            Returns the name of the communicator sending the message.
             </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.HelloMessage.#ctor(System.String)">
+            <summary>
+            Creates new message.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage">
+            <summary>
+            Subscribes sender to message broadcasted on a channel.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage.ChannelName">
+            <summary>
+            Channel to subscribe to.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage.#ctor(System.String)">
+            <summary>
+            Creates new message.
+            </summary>
+            <param name="channelName"></param>
         </member>
         <member name="T:Yggdrasil.Network.Framing.DoubleNewLineFramer">
             <summary>
