@@ -240,7 +240,7 @@ namespace Melia.Zone.Scripting.AI
 					Send.ZC_SET_POS(this.Entity);
 				}
 
-				var isTargetMoving = (followTarget is Character character2 && character2.IsMoving) || followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
+				var isTargetMoving = followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
 				var stoppedMoving = (!isTargetMoving && targetWasMoving);
 
 				var isTargetInRange = followTarget.Position.InRange2D(this.Entity.Position, minDistance);

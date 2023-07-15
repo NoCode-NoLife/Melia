@@ -228,6 +228,23 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
 
 		/// <summary>
+		/// Stops the buff with the given id.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		public static void StopBuff(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Stop(buffId);
+
+		/// <summary>
+		/// Returns true if the buff with the given id is active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static bool IsBuffActive(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>

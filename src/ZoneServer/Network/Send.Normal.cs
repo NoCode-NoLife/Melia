@@ -1,10 +1,8 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -30,7 +28,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Attaches effect to actor.
+			/// Attaches effect to actor on clients in range.
 			/// </summary>
 			/// <param name="actor"></param>
 			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
@@ -51,6 +49,33 @@ namespace Melia.Zone.Network
 				packet.PutFloat(0);
 
 				actor.Map.Broadcast(packet, actor);
+			}
+
+			/// <summary>
+			/// Attaches effect to actor on client.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="actor"></param>
+			/// <param name="packetString"></param>
+			/// <param name="scale"></param>
+			public static void AttachEffect(IZoneConnection conn, IActor actor, string packetString, float scale = 1)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AttachEffect);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutInt(3);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+				packet.PutFloat(0);
+
+				conn.Send(packet);
 			}
 
 			/// <summary>
@@ -526,13 +551,14 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sends account properties.
+			/// Sets the character's greeting message.
 			/// </summary>
 			/// <param name="character"></param>
 			public static void SetGreetingMessage(Character character)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.AccountUpdate);
+				packet.PutInt(NormalOp.Zone.SetGreetingMessage);
+
 				packet.PutLong(character.ObjectId);
 				packet.PutInt(0);
 				packet.PutLpString(character.GreetingMessage);
@@ -554,15 +580,21 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sends account properties.
+			/// Sends account properties to character's client.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void AccountUpdate(Character character)
+			public static void AccountProperties(Character character)
 			{
+				var account = character.Connection.Account;
+				var properties = account.Properties.GetAll();
+				var propertySize = properties.GetByteCount();
+
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.AccountUpdate);
-				packet.PutLong(character.AccountId);
-				packet.AddAccountProperties(character.Connection.Account);
+				packet.PutInt(NormalOp.Zone.AccountProperties);
+
+				packet.PutLong(account.Id);
+				packet.PutShort(propertySize);
+				packet.AddProperties(properties);
 
 				character.Connection.Send(packet);
 			}

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Scheduling;
 
@@ -30,6 +32,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// Returns whether the entity is currently moving.
 		/// </summary>
 		public bool IsMoving { get; private set; }
+
+		/// <summary>
+		/// Gets or sets where the entity is moving to.
+		/// </summary>
+		private MoveTargetType MoveTarget { get; set; }
+
+		/// <summary>
+		/// Returns whether the entity is currently on the ground or
+		/// in the air.
+		/// </summary>
+		public bool IsGrounded { get; private set; }
 
 		/// <summary>
 		/// Returns the entity's current movement speed type.
@@ -110,8 +123,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 				if (executeMove)
 				{
-					this.Destination = destination;
 					this.IsMoving = true;
+					this.Destination = destination;
+					this.MoveTarget = MoveTargetType.Position;
 
 					// Set direction relative to current position
 					this.Entity.Direction = position.GetDirection(destination);
@@ -145,6 +159,150 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			}
 
 			return pos;
+		}
+
+		/// <summary>
+		/// Makes entity jump.
+		/// </summary>
+		/// <remarks>
+		/// This method is primarily used by the server to forward
+		/// character movement information. It should only be used
+		/// by the packet handlers for the moment.
+		/// </remarks>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
+		/// <param name="unkByte"></param>
+		internal void NotifyJump(Position pos, Direction dir, float unkFloat, byte unkByte)
+		{
+			this.Entity.Position = pos;
+			this.Entity.Direction = dir;
+
+			this.IsMoving = true;
+			this.MoveTarget = MoveTargetType.Direction;
+
+			if (this.Entity is Character character)
+			{
+				var staminaUsage = (int)character.Properties.GetFloat(PropertyName.Sta_Jump);
+				character.ModifyStamina(-staminaUsage);
+
+				Send.ZC_JUMP(character, pos, dir, unkFloat, unkByte);
+			}
+		}
+
+		/// <summary>
+		/// Sets whether the entity is currently on the ground.
+		/// </summary>
+		/// <remarks>
+		/// This method is primarily used by the server to forward
+		/// character movement information. It should only be used
+		/// by the packet handlers for the moment.
+		/// </remarks>
+		/// <param name="grounded"></param>
+		internal void NotifyGrounded(bool grounded)
+		{
+			this.IsGrounded = grounded;
+		}
+
+		/// <summary>
+		/// Updates current position and direction of the entity.
+		/// </summary>
+		/// <remarks>
+		/// This method is primarily used by the server to forward
+		/// character movement information. It should only be used
+		/// by the packet handlers for the moment.
+		/// </remarks>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		/// <param name="unkFloat"></param>
+		internal void NotifyMove(Position pos, Direction dir, float unkFloat)
+		{
+			this.Entity.Position = pos;
+			this.Entity.Direction = dir;
+
+			this.IsMoving = true;
+			this.MoveTarget = MoveTargetType.Direction;
+
+			Send.ZC_MOVE_DIR(this.Entity, pos, dir, unkFloat);
+		}
+
+		/// <summary>
+		/// Stops movement and returns the new position.
+		/// </summary>
+		/// <remarks>
+		/// This method is primarily used by the server to forward
+		/// character movement information. It should only be used
+		/// by the packet handlers for the moment.
+		/// </remarks>
+		/// <param name="pos"></param>
+		/// <param name="dir"></param>
+		internal Position NotifyStopMove(Position pos, Direction dir)
+		{
+			this.Entity.Position = pos;
+			this.Entity.Direction = dir;
+
+			this.IsMoving = false;
+			this.Destination = pos;
+			this.MoveTarget = MoveTargetType.Direction;
+
+			if (this.Entity is Character character)
+			{
+				// Sending ZC_MOVE_STOP works as well, but it doesn't have
+				// a direction, so the character stops and looks north
+				// on others' screens.
+				Send.ZC_PC_MOVE_STOP(character, character.Position, character.Direction);
+			}
+			else
+			{
+				Send.ZC_MOVE_STOP(this.Entity, pos);
+			}
+
+			this.Entity.Components.Get<BuffComponent>().Remove(BuffId.DashRun);
+			this.CheckWarp();
+
+			return pos;
+		}
+
+		/// <summary>
+		/// Checks for a warp at the entity's current position and executes
+		/// it if they don't move for a moment.
+		/// </summary>
+		private void CheckWarp()
+		{
+			if (!(this.Entity is Character character))
+				return;
+
+			var prevPos = character.Position;
+
+			// In the packets I don't see any indication for a client-side
+			// trigger, so I guess the server has to check for warps and
+			// initiate it all on its own. Seems a little weird... but
+			// oh well. If this is a thing, we probably should have some
+			// kind of "trigger" system. -- exec
+			// 
+			// Update: By now we know that this is in fact how it works,
+			// but we also know that warps aren't triggered on a delay
+			// as we initially assumed (see below). The official behavior
+			// is to either warp on contact (classic) or after confirming
+			// the warp in a dialog (newer versions). But since I'm not
+			// a fan of either option we'll keep our own implementation.
+			// Eventually we'll make it configurable. -- exec
+
+			var warpNpc = this.Entity.Map.GetNearbyWarp(prevPos);
+			if (warpNpc == null)
+				return;
+
+			// Wait 1s to see if the character actually wants to warp
+			// (indicated by him not moving). Official behavior unknown,
+			// as I have never played the game =<
+			Task.Delay(1000).ContinueWith(_ =>
+			{
+				// Cancel if character moved in that time
+				if (character.Position != prevPos)
+					return;
+
+				character.Warp(warpNpc.WarpLocation);
+			});
 		}
 
 		/// <summary>
@@ -203,6 +361,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				// No need to update the position if the character isn't moving.
 				if (!this.IsMoving)
+					return;
+
+				// Don't update the position this way for directional
+				// movement for now. That will require a bit more
+				// research to get right.
+				if (this.MoveTarget != MoveTargetType.Position)
 					return;
 
 				// If the move time reached 0, set position to destination
@@ -271,6 +435,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			}
 
 			_triggerAreas = triggerAreas;
+		}
+
+		private enum MoveTargetType
+		{
+			Position,
+			Direction,
 		}
 	}
 

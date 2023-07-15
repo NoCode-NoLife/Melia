@@ -15,7 +15,7 @@ using Yggdrasil.Logging;
 
 public class NormalTxFunctionsScript : GeneralScript
 {
-	[ScriptableFunction("SCR_TX_PROPERTY_ACTIVE_TOGGLE")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_PROPERTY_ACTIVE_TOGGLE(Character character, string strArg)
 	{
 		var className = strArg;
@@ -26,7 +26,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[ScriptableFunction("GUIDE_QUEST_OPEN_UI")]
+	[ScriptableFunction]
 	public NormalTxResult GUIDE_QUEST_OPEN_UI(Character character, string strArg)
 	{
 		switch (strArg)
@@ -49,7 +49,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Fail;
 	}
 
-	[ScriptableFunction("SCR_TX_STAT_UP")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_STAT_UP(Character character, int[] numArgs)
 	{
 		// Check amount of parameters
@@ -104,7 +104,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_TX_SKILL_UP")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_SKILL_UP(Character character, int[] numArgs)
 	{
 		var jobId = (JobId)numArgs[0];

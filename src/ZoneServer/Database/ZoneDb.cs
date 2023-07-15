@@ -46,6 +46,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveVariables(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.SaveProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.SaveChatMacros(account);
 			this.SaveRevealedMaps(account);
 
@@ -84,8 +85,10 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadVars(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.LoadProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.LoadChatMacros(account);
 			this.LoadRevealedMaps(account);
+
 			return account;
 		}
 

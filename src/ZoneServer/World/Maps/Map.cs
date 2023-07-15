@@ -418,6 +418,43 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns all actors with the given type in the area.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
+		{
+			// Searching through both characters and monsters isn't the
+			// most efficient way to get actors of a specific type in an
+			// area, but it is simple and convenient, and it doesn't require
+			// us to create dozens of getters for various actor types.
+			// We can optimize this later if necessary.
+
+			var result = new List<TActor>();
+
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (monster is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
+
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns monster by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>

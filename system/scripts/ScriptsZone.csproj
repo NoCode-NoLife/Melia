@@ -597,6 +597,7 @@
     <Compile Include="core\custom_commands.cs" />
     <Compile Include="core\normal_tx.cs" />
     <Compile Include="custom\test.cs" />
+    <Compile Include="items\campfire.cs" />
     <Compile Include="items\summoning.cs" />
     <Compile Include="items\trade_select_item.cs" />
     <Compile Include="items\dot_buff.cs" />

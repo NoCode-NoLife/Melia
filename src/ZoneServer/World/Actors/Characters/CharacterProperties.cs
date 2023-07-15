@@ -203,7 +203,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
-			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+			this.Character.SitStatusChanged += this.SitStatusChanged;
 
 			// Subscribe to equipment changes, as any number of properties
 			// might make use of equipment stats
@@ -251,10 +251,20 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Recalculates and updates HP and SP recovery time properties.
 		/// </summary>
 		/// <param name="character"></param>
-		private void UpdateRecoveryTimes(Character character)
+		private void SitStatusChanged(Character character)
 		{
 			this.Invalidate(PropertyName.RHPTIME, PropertyName.RSPTIME);
 			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.RHPTIME, PropertyName.RSPTIME);
+
+			if (character.IsSitting)
+			{
+				character.Buffs.Start(BuffId.Rest, TimeSpan.Zero);
+			}
+			else
+			{
+				character.Buffs.Stop(BuffId.Rest);
+				character.Buffs.Stop(BuffId.campfire_Buff);
+			}
 		}
 
 		/// <summary>

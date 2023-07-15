@@ -77,6 +77,7 @@
     <Compile Include="Buffs\Base\IBuffHandler.cs" />
     <Compile Include="Buffs\BuffHandlerAttribute.cs" />
     <Compile Include="Buffs\BuffHandlers.cs" />
+    <Compile Include="Buffs\Handlers\Campfire_Buff.cs" />
     <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
     <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
     <Compile Include="Buffs\Handlers\Common_Slow.cs" />
