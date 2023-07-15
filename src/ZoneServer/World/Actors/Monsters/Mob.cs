@@ -118,12 +118,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Gets or sets the mob's level.
 		/// </summary>
-		public int Level { get; set; } = 1;
+		public int Level => (int)this.Properties.GetFloat(PropertyName.Level);
 
 		/// <summary>
 		/// Gets or sets the mob's AoE Defense Ratio.
 		/// </summary>
-		public float SDR { get; set; } = 1;
+		public float SDR => this.Properties.GetFloat(PropertyName.SDR);
 
 		/// <summary>
 		/// Returns the mob's current HP.
