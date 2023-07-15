@@ -41,6 +41,18 @@ namespace Melia.Zone.World.Spawner
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
+		/// How many times we can attempt to get the spawn point collection
+		/// before we start showing errors.
+		/// </summary>
+		private const int SpawnPointCollectionReferenceMaxAttempts = 12;
+
+		/// <summary>
+		/// Increments everytime we attempt to get the spawn point collection
+		/// object reference from its name but fail.
+		/// </summary>
+		private int _spawnPointCollectionReferenceFailureCounter = 0;
+
+		/// <summary>
 		/// The spawn point collection this spawner uses to respawn mobs.
 		/// This is updated on runtime according to the spawnPointCollectionIdentifier.
 		/// </summary>
@@ -229,16 +241,23 @@ namespace Melia.Zone.World.Spawner
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			// Updates spawn point collection reference at runtime
+			// Attempts to get the spawn point collection object reference
+			// at runtime. If the reference is not found after N heartbeats,
+			// we start showing an error.
 			if (_spawnPointCollection == null)
 			{
 				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByName(this.SpawnPointCollectionName, out _spawnPointCollection))
 				{
-					Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{0}' found for spawner '{1}'.", this.SpawnPointCollectionName, this.Id);
+					if (_spawnPointCollectionReferenceFailureCounter > SpawnPointCollectionReferenceMaxAttempts)
+					{
+						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointCollectionName}' found for spawner '{this.Id}'.");
+					}
+					_spawnPointCollectionReferenceFailureCounter++;
 					return;
 				}
 			}
 
+			_spawnPointCollectionReferenceFailureCounter = 0;
 			this.RespawnMonsters(elapsed);
 			this.FlexSpawnMonsters(elapsed);
 			this.BalanceSpawnAmounts(elapsed);
