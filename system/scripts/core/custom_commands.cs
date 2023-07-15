@@ -14,7 +14,7 @@ using Yggdrasil.Logging;
 
 public class CustomCommandFunctionsScript : GeneralScript
 {
-	[ScriptableFunction("SCR_LAST_INFOSET_OPEN")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_LAST_INFOSET_OPEN(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		// Example: SCR_LAST_INFOSET_OPEN(2, 0, 0)
@@ -28,7 +28,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_GUILD_PROMOTE_NOTICE_COUNT")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_GUILD_PROMOTE_NOTICE_COUNT(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		// Example: SCR_GUILD_PROMOTE_NOTICE_COUNT(0, 0, 0)
@@ -41,7 +41,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_HAT_VISIBLE_STATE")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_HAT_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var headgearIndex = numArg1;
@@ -59,7 +59,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_HAIR_WIG_VISIBLE_STATE")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_HAIR_WIG_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		character.VisibleEquip ^= VisibleEquip.Wig;
@@ -70,7 +70,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_SUBWEAPON_VISIBLE_STATE")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_SUBWEAPON_VISIBLE_STATE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		character.VisibleEquip ^= VisibleEquip.SubWeapon;
@@ -81,7 +81,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		return CustomCommandResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_CLICK_CHANGEJOB_BUTTON")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_CLICK_CHANGEJOB_BUTTON(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var jobId = (JobId)numArg1;
@@ -138,7 +138,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 	// and set a session object to remember not to show the tooltip again.
 	// This command was removed at some point though. We'll leave this here
 	// for reference for the time being.
-	//[ScriptableFunction("JANSORI_COUNT")]
+	//[ScriptableFunction]
 	//public CustomCommandResult JANSORI_COUNT(Character character, int numArg1, int numArg2, int numArg3)
 	//{
 	//	var classId = numArg1;

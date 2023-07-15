@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -69,12 +70,13 @@ namespace Melia.Zone.Commands
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
+			this.Add("whodrops", "<name>", "Finds monsters that drop a given item", this.HandleWhoDrops);
 			this.Add("go", "<destination>", "Warps to certain pre-defined destinations.", this.HandleGo);
 			this.Add("goto", "<team name>", "Warps to another character.", this.HandleGoTo);
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
-			this.Add("heal", "<hp> [sp]", "Heals the character's hp and sp.", this.HandleHeal);
+			this.Add("heal", "[hp] [sp] [stamina]", "Heals the character's HP, SP, and Stamina.", this.HandleHeal);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
@@ -802,15 +804,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var eItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
-			for (var i = 0; eItems.MoveNext() && i < max; ++i)
-			{
-				var item = eItems.Current;
-				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
-			}
+			var maxItemCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemCount);
+
+			var matchingItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var item in matchingItems.Take(maxItemCount))
+				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 
 			return CommandResult.Okay;
 		}
@@ -826,10 +826,10 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleMonsterInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			string[] monsterRaces = { "Unknown", "Insect", "Mutant", "Plant", "Demon", "Beast", "Item" };
-			string[] monsterElements = { "None", "Fire", "Ice", "Poison", "Earth", "Melee", "Psychokinesis", "Lightning", "Holy", "Dark" };
-			string[] monsterArmors = { "None", "Cloth", "Leather", "Iron", "Chain", "Ghost", "Shield", "Aries" };
-			string[] monsterSizes = { "None", "Hidden", "S", "M", "L", "XL", "XXL" };
+			var monsterRaces = new[] { "Unknown", "Insect", "Mutant", "Plant", "Demon", "Beast", "Item" };
+			var monsterElements = new[] { "None", "Fire", "Ice", "Poison", "Earth", "Melee", "Psychokinesis", "Lightning", "Holy", "Dark" };
+			var monsterArmors = new[] { "None", "Cloth", "Leather", "Iron", "Chain", "Ghost", "Shield", "Aries" };
+			var monsterSizes = new[] { "None", "Hidden", "S", "M", "L", "XL", "XXL" };
 
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
@@ -841,67 +841,146 @@ namespace Melia.Zone.Commands
 			{
 				sender.ServerMessage("No monsters found for '{0}'.", search);
 				return CommandResult.Okay;
-			}			
+			}
 
-			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
+			var maxMonsterCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, maxMonsterCount);
 
-			for (var i = 0; entries.MoveNext() && i < max; ++i)
+			var monsterEntries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var monsterData in monsterEntries.Take(maxMonsterCount))
 			{
-				var current = entries.Current;
-
 				var monsterEntry = new StringBuilder();
 
-				monsterEntry.AppendFormat("{{nl}}-----{0} ({1})-----{{nl}}", current.Name, current.Id);
-				monsterEntry.AppendFormat("{0} / {1} / {2} / {3}{{nl}}", monsterRaces[(int)current.Race], monsterElements[(int)current.Element], monsterArmors[(int)current.ArmorMaterial], monsterSizes[(int)current.Size]);
-				monsterEntry.AppendFormat("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}", current.Hp, current.Sp, (int)(current.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(current.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
-				monsterEntry.AppendFormat("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}", current.PhysicalAttackMin, current.PhysicalAttackMax, current.MagicalAttackMin, current.MagicalAttackMax, current.PhysicalDefense, current.MagicalDefense);
+				monsterEntry.AppendFormat("{{nl}}----- {0} ({1}, {2}) -----{{nl}}", monsterData.Name, monsterData.Id, monsterData.ClassName);
+				monsterEntry.AppendFormat("{0} / {1} / {2} / {3}{{nl}}", monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Element], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
+				monsterEntry.AppendFormat("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}", monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}", monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
-				if (current.Drops.Count != 0)
+				if (monsterData.Drops.Count != 0)
 				{
 					monsterEntry.Append("Drops:");
-					foreach (var currentDrop in current.Drops)
+
+					foreach (var currentDrop in monsterData.Drops)
 					{
 						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
-						if (itemData != null)
-						{
-							var dropChance = currentDrop.DropChance;
-							dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
-							if (dropChance > 100f)
-							{
-								dropChance = 100f;
-							}
+						if (itemData == null)
+							continue;
 
-							// Display the amount dropped for Silver and Gold, and any other items that have their amounts set
-							if (currentDrop.ItemId == 900011 || currentDrop.ItemId == 900012 || currentDrop.MinAmount > 1 || currentDrop.MaxAmount > 1)
-							{
-								if (currentDrop.MinAmount == currentDrop.MaxAmount)
-								{
-									monsterEntry.AppendFormat("{{nl}}{0} {1} - {2}%", currentDrop.MinAmount, itemData.Name, dropChance);
-								}
-								else
-								{
-									monsterEntry.AppendFormat("{{nl}}{0}~{1} {2} - {3}%{{nl}}", currentDrop.MinAmount, currentDrop.MaxAmount, itemData.Name, dropChance);
-								}
-							}
+						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+
+						var minAmount = currentDrop.MinAmount;
+						var maxAmount = currentDrop.MaxAmount;
+						var hasAmount = (minAmount > 1 || maxAmount > 1);
+
+						if (isMoney)
+						{
+							minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+							maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						}
+
+						var displayAmount = isMoney || hasAmount;
+
+						if (displayAmount)
+						{
+							if (minAmount == maxAmount)
+								monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
 							else
-							{
-								monsterEntry.AppendFormat("{{nl}}{0} - {1}%", itemData.Name, dropChance);
-							}
+								monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
+						}
+						else
+						{
+							monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
 						}
 					}
 				}
 				else
 				{
-					monsterEntry.Append("This monster has no drops");
+					monsterEntry.Append("This monster has no drops.");
 				}
 
+				sender.ServerMessage(monsterEntry.ToString());
+			}
 
-			  sender.ServerMessage(monsterEntry.ToString());
+			return CommandResult.Okay;
+		}
 
-			}			
+		/// <summary>
+		/// Searches monster database to find out who drops a given item, and returns a list of the best sources of that item
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleWhoDrops(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var search = string.Join(" ", args.GetAll());
+
+			var items = ZoneServer.Instance.Data.ItemDb.FindAllPreferExact(search);
+			if (items.Count == 0)
+			{
+				sender.ServerMessage("No items found for '{0}'.", search);
+				return CommandResult.Okay;
+			}
+
+			var maxItemResultCount = 5;
+			var maxDropperCount = 100;
+			var maxDropResultCount = 10;
+
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemResultCount);
+
+			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var currentItem in itemEntries.Take(maxItemResultCount))
+			{
+				var whoDropsEntry = new StringBuilder();
+
+				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
+
+				MonsterData[] droppers;
+
+				if (currentItem.Id == ItemId.Silver || (droppers = ZoneServer.Instance.Data.MonsterDb.FindAll(a => a.Drops.Any(b => b.ItemId == currentItem.Id))).Length > maxDropperCount)
+				{
+					whoDropsEntry.Append("Too many enemies drop this.");
+				}
+				else if (droppers.Length == 0)
+				{
+					whoDropsEntry.Append("This item is not dropped by any monsters");
+				}
+				else
+				{
+					var bestDroppers = new List<KeyValuePair<MonsterData, float>>();
+
+					foreach (var monsterData in droppers)
+					{
+						var dropDatas = monsterData.Drops.Where(a => a.ItemId == currentItem.Id);
+
+						foreach (var dropData in dropDatas)
+						{
+							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(dropData));
+							bestDroppers.Add(new KeyValuePair<MonsterData, float>(monsterData, dropChance));
+						}
+					}
+
+					whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDropResultCount);
+
+					var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Level);
+					foreach (var dropDataKV in dropEntries.Take(maxDropResultCount))
+					{
+						var dropData = dropDataKV.Key;
+						var dropChance = dropDataKV.Value;
+
+						whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropData.Name, dropData.Id, dropData.ClassName, dropChance);
+					}
+				}
+
+				sender.ServerMessage(whoDropsEntry.ToString());
+			}
 
 			return CommandResult.Okay;
 		}
@@ -1137,49 +1216,76 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleHeal(Character sender, Character target, string message, string command, Arguments args)
 		{
-			// Too many parameters
-			if (args.Count > 2)
+			if (args.Count > 3)
 				return CommandResult.InvalidArgument;
 
-			// Zero parameters, heal fully
+			// TODO: Maybe refactor to take indexed arguments, named
+			//   ones, or combinations, so you can, for example, heal
+			//   stamina without specifying HP and SP like so:
+			//   >heal sp:10
+
+			// Fully heal HP and SP if no arguments are given
 			if (args.Count == 0)
 			{
-				target.ModifyHp(target.MaxHp - target.Hp);
-				target.ModifySp(target.MaxSp - target.Sp);
-				sender.ServerMessage("Healed full hp & sp.");
+				target.ModifyHp(target.MaxHp);
+				target.ModifySp(target.MaxSp);
+
+				sender.ServerMessage("Healed HP and SP.");
 				if (sender != target)
-					target.ServerMessage("You were healed full hp & sp by user {0}.", sender.TeamName);
+					target.ServerMessage("Your HP and SP were healed by {0}.", sender.TeamName);
 			}
-			else
+			// Modify only HP if one argument is given
+			else if (args.Count == 1)
 			{
-				// One parameter, heal only hp
-				if (args.Count == 1)
-				{
-					if (!int.TryParse(args.Get(0), out var hp))
-						return CommandResult.InvalidArgument;
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
 
-					target.ModifyHp(hp);
+				target.ModifyHp(hpAmount);
 
-					sender.ServerMessage("Healed {0} hp.", hp);
-					if (sender != target)
-						target.ServerMessage("You were healed {0} hp by user {1}.", hp, sender.TeamName);
-				}
-				// Two parameters, heal hp & sp
-				else if (args.Count == 2)
-				{
-					if (!int.TryParse(args.Get(0), out var hp))
-						return CommandResult.InvalidArgument;
+				sender.ServerMessage("Healed HP by {0} points.", hpAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1} points.", sender.TeamName, hpAmount);
+			}
+			// Modify HP and SP if two arguments are given
+			else if (args.Count == 2)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
 
-					if (!int.TryParse(args.Get(1), out var sp))
-						return CommandResult.InvalidArgument;
+				if (!int.TryParse(args.Get(1), out var spAmount))
+					return CommandResult.InvalidArgument;
 
-					target.ModifyHp(hp);
-					target.ModifySp(sp);
+				target.ModifyHp(hpAmount);
+				target.ModifySp(spAmount);
 
-					sender.ServerMessage("Healed {0} hp & {1} sp.", hp, sp);
-					if (sender != target)
-						target.ServerMessage("You were healed {0} hp & {1} sp by user {2}.", hp, sp, sender.TeamName);
-				}
+				sender.ServerMessage("Healed HP by {0} and SP by {1} points.", hpAmount, spAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1} and your SP by {2} points.", sender.TeamName, hpAmount, spAmount);
+			}
+			// Modify HP, SP, and Stamina if three arguments are given
+			else if (args.Count >= 3)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(1), out var spAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(2), out var staminaAmount))
+					return CommandResult.InvalidArgument;
+
+				// Adjust Stamina to match the game's display value, since
+				// most users of this command wouldn't be aware of this
+				// property's value being 1000 times larger than displayed.
+				staminaAmount *= 1000;
+
+				target.ModifyHp(hpAmount);
+				target.ModifySp(spAmount);
+				target.ModifyStamina(staminaAmount);
+
+				sender.ServerMessage("Healed HP by {0}, SP by {1}, and Stamina by {2} points.", hpAmount, spAmount, staminaAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points.", sender.TeamName, hpAmount, spAmount, staminaAmount);
 			}
 
 			return CommandResult.Okay;

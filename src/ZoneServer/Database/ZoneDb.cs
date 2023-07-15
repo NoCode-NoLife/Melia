@@ -48,6 +48,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveVariables(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.SaveProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.SaveChatMacros(account);
 			this.SaveRevealedMaps(account);
 
@@ -86,8 +87,10 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadVars(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.LoadProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.LoadChatMacros(account);
 			this.LoadRevealedMaps(account);
+
 			return account;
 		}
 
@@ -691,6 +694,8 @@ namespace Melia.Zone.Database
 				else if (var.Value is double) type = "d";
 				else if (var.Value is bool) type = "b";
 				else if (var.Value is string) type = "s";
+				else if (var.Value is DateTime) type = "dt";
+				else if (var.Value is TimeSpan) type = "ts";
 				else
 				{
 					Log.Warning("SaveVars: Skipping variable '{0}', unsupported type '{1}'.", var.Key, var.Value.GetType().Name);
@@ -703,6 +708,8 @@ namespace Melia.Zone.Database
 				{
 					case "f": val = ((float)var.Value).ToString(CultureInfo.InvariantCulture); break;
 					case "d": val = ((double)var.Value).ToString(CultureInfo.InvariantCulture); break;
+					case "dt": val = ((DateTime)var.Value).Ticks.ToString(); break;
+					case "ts": val = ((TimeSpan)var.Value).Ticks.ToString(); break;
 					default: val = var.Value.ToString(); break;
 				}
 
@@ -789,6 +796,8 @@ namespace Melia.Zone.Database
 								case "d": vars.Set(name, double.Parse(val, CultureInfo.InvariantCulture)); break;
 								case "b": vars.Set(name, bool.Parse(val)); break;
 								case "s": vars.Set(name, val); break;
+								case "dt": vars.Set(name, new DateTime(long.Parse(val))); break;
+								case "ts": vars.Set(name, new TimeSpan(long.Parse(val))); break;
 
 								default:
 									Log.Warning("LoadVars: Unknown variable type '{0}'.", type);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -106,6 +107,8 @@ namespace Melia.Zone.Network
 			conn.LoggedIn = true;
 			character.UpdatePartyInformation();
 
+			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
+
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);
 			Send.ZC_NORMAL.AdventureBook(conn);
@@ -168,6 +171,7 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -189,9 +193,6 @@ namespace Melia.Zone.Network
 			// Send updates for the cooldowns loaded from db, so the client
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
-
-			if (character.IsDead)
-				Send.ZC_RESURRECT_DIALOG(character, ResurrectOptions.NearestRevivalPoint);
 
 			character.OpenEyes();
 
@@ -320,7 +321,7 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.Jump(position, direction, unkFloat, unkByte2);
+			character.Movement.NotifyJump(position, direction, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -345,7 +346,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			character.Move(position, direction, f1);
+			character.Movement.NotifyMove(position, direction, f1);
 		}
 
 		/// <summary>
@@ -365,33 +366,7 @@ namespace Melia.Zone.Network
 
 			// TODO: Sanity checks.
 
-			character.StopMove(position, direction);
-
-			// In the packets I don't see any indication for a client-side trigger,
-			// so I guess the server has to check for warps and initiate it all
-			// on its own. Seems a little weird... but oh well.
-			// If this is a thing, we probably should have some kind of "trigger"
-			// system. -- exec
-			var warpNpc = character.Map.GetNearbyWarp(character.Position);
-			if (warpNpc != null)
-			{
-				// Wait 1s to see if the character actually wants to warp
-				// (indicated by him not moving). Official behavior unknown,
-				// as I have never played the game =<
-				var pos = character.Position;
-				Task.Delay(1000).ContinueWith(t =>
-				{
-					// Cancel if character moved in that time
-					if (character.Position != pos)
-						return;
-
-					//Log.Debug("warp to " + warp.WarpLocation);
-					character.Warp(warpNpc.WarpLocation);
-				});
-			}
-
-			// Could ZC_ENTER_HOOK be a notification to the client that it's
-			// in a "trigger area" now?
+			character.Movement.NotifyStopMove(position, direction);
 		}
 
 		/// <summary>
@@ -404,7 +379,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = false;
+			conn.SelectedCharacter.Movement.NotifyGrounded(false);
 		}
 
 		/// <summary>
@@ -417,7 +392,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = true;
+			conn.SelectedCharacter.Movement.NotifyGrounded(true);
 		}
 
 		/// <summary>
@@ -432,10 +407,9 @@ namespace Melia.Zone.Network
 			var position = packet.GetPosition();
 
 			// TODO: Sanity checks.
+			// TODO: Is there a broadcast for this?
 
 			conn.SelectedCharacter.SetPosition(position);
-
-			// Is there a broadcast for this?
 		}
 
 		/// <summary>
@@ -2042,7 +2016,7 @@ namespace Melia.Zone.Network
 			var strArgCount = packet.GetShort();
 			var dialogTxItems = packet.GetList(itemCount, packet.GetDialogTxItem);
 			var numArgs = packet.GetList(numArgCount, packet.GetInt);
-			var strArgs = packet.GetList(strArgCount, packet.GetString);
+			var strArgs = packet.GetList(strArgCount, packet.GetLpString);
 
 			var character = conn.SelectedCharacter;
 

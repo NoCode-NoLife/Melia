@@ -21,7 +21,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_GET_SR_LV")]
+	[ScriptableFunction]
 	public float SCR_GET_SR_LV(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSR);
@@ -42,7 +42,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </example>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SkillFactor")]
+	[ScriptableFunction]
 	public float SCR_Get_SkillFactor(Skill skill)
 	{
 		var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
@@ -100,7 +100,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </example>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SkillAtkAdd")]
+	[ScriptableFunction]
 	public float SCR_Get_SkillAtkAdd(Skill skill)
 	{
 		var sklAtkAdd = skill.Properties.GetFloat(PropertyName.SklAtkAdd);
@@ -114,7 +114,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP")]
+	[ScriptableFunction]
 	public float SCR_Get_SpendSP(Skill skill)
 	{
 		var baseValue = skill.Data.BasicSp;
@@ -145,7 +145,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Skill_STA")]
+	[ScriptableFunction]
 	public float SCR_Skill_STA(Skill skill)
 	{
 		var baseValue = skill.Data.BasicStamina;
@@ -166,7 +166,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_WaveLength")]
+	[ScriptableFunction]
 	public float SCR_Get_WaveLength(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklWaveLength);
@@ -187,7 +187,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_SPLANGLE")]
+	[ScriptableFunction]
 	public float SCR_SPLANGLE(Skill skill)
 	{
 		if (skill.Data.SplashType != SplashType.Fan)
@@ -205,7 +205,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SplRange")]
+	[ScriptableFunction]
 	public float SCR_Get_SplRange(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplRange);
@@ -230,7 +230,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_GET_DELAY_TIME")]
+	[ScriptableFunction]
 	public float SCR_GET_DELAY_TIME(Skill skill)
 	{
 		if (!(skill.Owner is IMonster monster))
@@ -267,7 +267,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_GET_SklSpdRate")]
+	[ScriptableFunction]
 	public float SCR_GET_SklSpdRate(Skill skill)
 	{
 		// Formulas based on player accounts and experimentation. They're
@@ -331,7 +331,7 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_GET_ShootTime")]
+	[ScriptableFunction]
 	public float SCR_GET_ShootTime(Skill skill)
 	{
 		var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);

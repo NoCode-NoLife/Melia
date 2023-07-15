@@ -91,6 +91,7 @@ namespace Melia.Shared
 			Log.Info("Loading configuration...");
 
 			this.Conf.Load();
+			Log.SetFilter(this.Conf.Log.Filter);
 
 			return this.Conf;
 		}
@@ -235,6 +236,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.NormalTxDb, "db/normal_tx_scripts.txt");
 					this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.RecipeDb, "db/recipes.txt");
 					this.LoadDb(this.Data.ResurrectionPointDb, "db/resurrection_points.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Melia.Shared.Tos.Const;
+using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -13,6 +14,7 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public MapType Type { get; set; }
+		public Position DefaultPosition { get; set; }
 	}
 
 	/// <summary>
@@ -50,7 +52,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("mapId", "className", "name");
+			entry.AssertNotMissing("mapId", "className", "name", "defaultPosition");
 
 			var data = new MapData();
 
@@ -58,6 +60,9 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 			data.Type = entry.ReadEnum<MapType>("type");
+
+			var defaultPosEntry = (JObject)entry["defaultPosition"];
+			data.DefaultPosition = new Position(defaultPosEntry.ReadFloat("x"), defaultPosEntry.ReadFloat("y"), defaultPosEntry.ReadFloat("z"));
 
 			_nameIndex[data.ClassName] = data;
 
