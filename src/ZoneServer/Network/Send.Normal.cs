@@ -581,15 +581,21 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sends account properties.
+			/// Sends account properties to character's client.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void AccountUpdate(Character character)
+			public static void AccountProperties(Character character)
 			{
+				var account = character.Connection.Account;
+				var properties = account.Properties.GetAll();
+				var propertySize = properties.GetByteCount();
+
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.AccountUpdate);
-				packet.PutLong(character.AccountId);
-				packet.AddAccountProperties(character.Connection.Account);
+				packet.PutInt(NormalOp.Zone.AccountProperties);
+
+				packet.PutLong(account.Id);
+				packet.PutShort(propertySize);
+				packet.AddProperties(properties);
 
 				character.Connection.Send(packet);
 			}

@@ -38,7 +38,7 @@
 			public const int BarrackSlotCount = 0x3C;
 			public const int AttackCancel = 0x41;
 			public const int Skill_45 = 0x45;
-			public const int AccountUpdate = 0x4C;
+			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
 			public const int UnkDynamicCastEnd = 0x50;
 			public const int Skill_59 = 0x59;

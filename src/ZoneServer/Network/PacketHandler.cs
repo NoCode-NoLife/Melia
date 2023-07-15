@@ -168,6 +168,7 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
