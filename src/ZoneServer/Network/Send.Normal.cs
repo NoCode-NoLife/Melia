@@ -1,10 +1,8 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -553,13 +551,14 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sends account properties.
+			/// Sets the character's greeting message.
 			/// </summary>
 			/// <param name="character"></param>
 			public static void SetGreetingMessage(Character character)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.AccountUpdate);
+				packet.PutInt(NormalOp.Zone.SetGreetingMessage);
+
 				packet.PutLong(character.ObjectId);
 				packet.PutInt(0);
 				packet.PutLpString(character.GreetingMessage);
